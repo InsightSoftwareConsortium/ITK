@@ -32,6 +32,7 @@ void RegisterTests()
 {
   REGISTER_TEST(SpatialObjectToImage1);
   REGISTER_TEST(SpatialObjectToImage2);
+  REGISTER_TEST(SpatialObjectToImage3);
 }
 
 #undef main
@@ -41,4 +42,8 @@ void RegisterTests()
 #undef main
 #define main SpatialObjectToImage2
 #include "SpatialObjectToImage2.cxx"
+
+#undef main
+#define main SpatialObjectToImage3
+#include "SpatialObjectToImage3.cxx"
 

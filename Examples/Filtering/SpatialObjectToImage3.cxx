@@ -1,0 +1,217 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    SpatialObjectToImage3.cxx
+  Language:  C++
+  Date:      $Date$
+  Version:   $Revision$
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even 
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
+
+#ifdef __BORLANDC__
+#define ITK_LEAN_AND_MEAN
+#endif
+
+//  Software Guide : BeginLatex
+//
+//  This example illustrates the use of the
+//  \doxygen{PolygonSpatialObject} for generating a binary image through the
+//  \doxygen{SpatialObjectToImageFilter}.
+//
+//  \index{itk::PolygonSpatialObject|textbf}
+//  \index{itk::SpatialObjectToImageFilter|textbf}
+//
+//  We start by including the header of the PolygonSpatialObject that we will
+//  use as elementary shape, and the header for the SpatialObjectToImageFilter
+//  that we will use to rasterize the SpatialObject.
+//
+//  \index{itk::PolygonSpatialObject!header}
+//  \index{itk::SpatialObjectToImageFilter!header}
+//
+//  Software Guide : EndLatex 
+
+
+// Software Guide : BeginCodeSnippet
+#include "itkPolygonSpatialObject.h"
+#include "itkSpatialObjectToImageFilter.h"
+// Software Guide : EndCodeSnippet
+
+
+#include "itkImageFileWriter.h"
+
+
+int main( int argc, char *argv[] )
+{
+  if( argc != 2 )
+    {
+    std::cerr << "Usage: " << argv[0] << " outputimagefile " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We declare the pixel type and dimension of the image to be produced as
+  //  output.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef unsigned char PixelType;
+  const unsigned int    Dimension = 3;
+
+  typedef itk::Image< PixelType, Dimension >       ImageType;
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Using the same dimension, we instantiate the types of the elementary
+  //  SpatialObjects that we plan to rasterize.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::PolygonSpatialObject< Dimension >  PolygonType;
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We instantiate the SpatialObjectToImageFilter type by using as template
+  //  arguments the input SpatialObject and the output image types.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::SpatialObjectToImageFilter< 
+    PolygonType, ImageType >   SpatialObjectToImageFilterType;
+
+  SpatialObjectToImageFilterType::Pointer imageFilter =
+    SpatialObjectToImageFilterType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  The SpatialObjectToImageFilter requires that the user defines the grid
+  //  parameters of the output image. This includes the number of pixels along
+  //  each dimension, the pixel spacing, image direction and 
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  ImageType::SizeType size;
+  size[ 0 ] =  100;
+  size[ 1 ] =  100;
+  size[ 2 ] =    1;
+
+  imageFilter->SetSize( size );
+  // Software Guide : EndCodeSnippet
+
+  // Software Guide : BeginCodeSnippet
+  ImageType::SpacingType spacing;
+  spacing[0] =  100.0 / size[0];
+  spacing[1] =  100.0 / size[1];
+  spacing[2] =    1.0;
+
+  imageFilter->SetSpacing( spacing );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We create the polygon object.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  PolygonType::Pointer polygon = PolygonType::New();
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We populate the points of the polygon by computing the edges of a
+  //  hexagon centered in the image.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  const unsigned int numberOfPoints = 6;
+  PolygonType::PointType point;
+  PolygonType::PointType::VectorType radial;
+  radial[0] = 0.0;
+  radial[1] = 0.0;
+  radial[2] = 0.0;
+
+  PolygonType::PointType center;
+  center[0] = 50.0;
+  center[1] = 50.0;
+  center[2] =  0.0;
+
+  const double radius = 40.0;
+
+  for( unsigned int i=0; i < numberOfPoints; i++ )
+    {
+    const double angle = 2.0 * vnl_math::pi * i / numberOfPoints;
+    radial[0] = radius * vcl_cos( angle );
+    radial[1] = radius * vcl_sin( angle );
+    point = center + radial;
+std::cout << i << " : " << point << std::endl;
+    polygon->AddPoint( point ); 
+    }
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  We connect the polygon as the input to the SpatialObjectToImageFilter.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  imageFilter->SetInput(  polygon  );
+  // Software Guide : EndCodeSnippet
+
+
+  //  Software Guide : BeginLatex
+  //
+  //  Finally we are ready to run the filter. We use the typical invocation of
+  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter} in
+  //  order to save the generated image into a file.
+  //
+  //  Software Guide : EndLatex
+
+  // Software Guide : BeginCodeSnippet
+  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+  writer->SetInput( imageFilter->GetOutput() );
+
+  try
+    {
+    imageFilter->Update();
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+  // Software Guide : EndCodeSnippet
+
+
+  return EXIT_SUCCESS;
+}

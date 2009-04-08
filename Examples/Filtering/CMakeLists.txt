@@ -129,6 +129,8 @@ ADD_EXECUTABLE(SpatialObjectToImage1 SpatialObjectToImage1.cxx )
 TARGET_LINK_LIBRARIES(SpatialObjectToImage1  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(SpatialObjectToImage2 SpatialObjectToImage2.cxx )
 TARGET_LINK_LIBRARIES(SpatialObjectToImage2  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(SpatialObjectToImage3 SpatialObjectToImage3.cxx )
+TARGET_LINK_LIBRARIES(SpatialObjectToImage3  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx )
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
@@ -796,6 +798,10 @@ ADD_TEST( SpatialObjectToImage1 ${FILTERING_EXAMPLES9}
 ADD_TEST( SpatialObjectToImage2 ${FILTERING_EXAMPLES9}
   SpatialObjectToImage2
         ${TEMP}/SpatialObjectToImage2.mha
+)
+ADD_TEST( SpatialObjectToImage3 ${FILTERING_EXAMPLES9}
+  SpatialObjectToImage3
+        ${TEMP}/SpatialObjectToImage3.mha
 )
 # The test tests 3 filters. 
 #   DiffusionTensor3DReconstructionImageFilter
