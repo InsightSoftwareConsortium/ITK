@@ -115,8 +115,7 @@ public:
   
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  typedef Transform< TScalarType, NOutputDimensions,
-      NInputDimensions >                             InverseTransformBaseType;
+  typedef TransformBase                              InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
   
   /**  Method to transform a point. */
