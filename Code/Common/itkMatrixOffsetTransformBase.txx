@@ -291,6 +291,18 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   return true;
 }
 
+// Return an inverse of this transform
+template<class TScalarType, unsigned int NInputDimensions,
+                            unsigned int NOutputDimensions>
+typename MatrixOffsetTransformBase<TScalarType, NInputDimensions,
+                                   NOutputDimensions>::InverseTransformBasePointer
+MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 
 // Get fixed parameters
 template<class TScalarType, unsigned int NInputDimensions,

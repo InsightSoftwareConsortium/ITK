@@ -308,6 +308,25 @@ AffineTransform<TScalarType, NDimensions>
   return;
 }
 
+/** Get an inverse of this transform. */
+template<class TScalarType, unsigned int NDimensions>
+bool
+AffineTransform<TScalarType, NDimensions>
+::GetInverse(Self* inverse) const
+{
+  return this->Superclass::GetInverse(inverse);
+}
+
+/** Return an inverse of this transform. */
+template<class TScalarType, unsigned int NDimensions>
+typename AffineTransform<TScalarType, NDimensions>::InverseTransformBasePointer
+AffineTransform<TScalarType, NDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 
 /** Compute a distance between two affine transforms */
 template<class TScalarType, unsigned int NDimensions>

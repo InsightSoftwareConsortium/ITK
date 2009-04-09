@@ -113,6 +113,12 @@ public:
   typedef Point<TScalarType, NInputDimensions>  InputPointType;
   typedef Point<TScalarType, NOutputDimensions> OutputPointType;
   
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef Transform< TScalarType, NOutputDimensions,
+      NInputDimensions >                             InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
+  
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  & ) const
     { return OutputPointType(); } 
@@ -220,6 +226,14 @@ public:
    * 
    */
   bool GetInverse(Self * inverseTransform) const {return false;}
+
+  /** Return an inverse of this transform. If the inverse has not been
+   *  implemented, return NULL. The type of the inverse transform
+   *  does not necessarily need to match the type of the forward
+   *  transform. This allows one to return a numeric inverse transform
+   *  instead.
+   */
+  virtual InverseTransformBasePointer GetInverseTransform() const { return NULL; }
 
   /** Generate a platform independant name */
   virtual std::string GetTransformTypeAsString() const;

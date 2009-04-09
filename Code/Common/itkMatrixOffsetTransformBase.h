@@ -156,6 +156,11 @@ public:
 
   typedef OutputVectorType                          TranslationType;
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
@@ -340,6 +345,8 @@ public:
    */
   bool GetInverse(Self * inverse) const;
 
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** \deprecated Use GetInverse instead.
    *

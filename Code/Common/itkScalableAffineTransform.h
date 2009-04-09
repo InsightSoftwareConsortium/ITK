@@ -78,6 +78,11 @@ public:
   typedef typename Superclass::CenterType                CenterType;
   typedef typename Superclass::OffsetType                OffsetType;
   typedef typename Superclass::TranslationType           TranslationType;
+
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
     
   /** Set the transformation to an Identity
    *
@@ -123,6 +128,12 @@ public:
    * \deprecated use GetTranslation instead. */
   const OffsetType & GetOffsetComponent(void) const 
     { return this->GetTranslation(); }
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
 
 protected:

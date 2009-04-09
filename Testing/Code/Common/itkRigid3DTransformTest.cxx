@@ -160,6 +160,15 @@ int itkRigid3DTransformTest(int ,char * [] )
     std::cout << "translation: " << translation;
     std::cout << "translationInverse: " << translationInverse;
 
+    translationInverse = dynamic_cast<TransformType*>(translation->GetInverseTransform().GetPointer());
+    if(!translationInverse)
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "translation: " << translation;
+    std::cout << "translationInverse: " << translationInverse;
+
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
@@ -322,6 +331,15 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     TransformType::Pointer rotationInverse = TransformType::New();
     if(!rotation->GetInverse(rotationInverse))
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "rotation: " << rotation;
+    std::cout << "rotationInverse: " << rotationInverse;
+
+    rotationInverse = dynamic_cast<TransformType*>(rotation->GetInverseTransform().GetPointer());
+    if(!rotationInverse)
       {
       std::cout << "Cannot compute inverse" << std::endl;
       return EXIT_FAILURE;

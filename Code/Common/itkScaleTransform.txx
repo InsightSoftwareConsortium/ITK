@@ -199,6 +199,16 @@ GetInverse(Self* inverse) const
   return true;
 }
 
+// Return an inverse of this transform
+template<class ScalarType, unsigned int NDimensions>
+typename ScaleTransform<ScalarType, NDimensions>::InverseTransformBasePointer
+ScaleTransform<ScalarType, NDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector 

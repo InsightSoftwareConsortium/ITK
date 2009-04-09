@@ -202,6 +202,25 @@ GetJacobian( const InputPointType & p ) const
   return this->m_Jacobian;
 }
 
+// Get an inverse of this transform
+template<class TScalarType>
+bool
+CenteredEuler3DTransform<TScalarType>
+::GetInverse(Self* inverse) const
+{
+  return this->Superclass::GetInverse(inverse);
+}
+   
+// Return an inverse of this transform
+template<class TScalarType>
+typename CenteredEuler3DTransform<TScalarType>::InverseTransformBasePointer
+CenteredEuler3DTransform<TScalarType>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 
 // Print self
 template<class TScalarType>

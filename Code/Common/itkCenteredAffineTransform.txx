@@ -184,6 +184,25 @@ GetJacobian( const InputPointType & p ) const
 
 }
 
+// Get an inverse of this transform
+template<class TScalarType, unsigned int NDimensions>
+bool 
+CenteredAffineTransform<TScalarType, NDimensions>
+::GetInverse(Self* inverse) const
+{
+  return this->Superclass::GetInverse(inverse);
+}
+
+// Return an inverse of this transform
+template<class TScalarType, unsigned int NDimensions>
+typename CenteredAffineTransform<TScalarType, NDimensions>::InverseTransformBasePointer
+CenteredAffineTransform<TScalarType, NDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 } // namespace
 
 #endif

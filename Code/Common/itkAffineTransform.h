@@ -151,6 +151,11 @@ public:
   typedef typename Superclass::OffsetType             OffsetType;
   typedef typename Superclass::TranslationType        TranslationType;
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
   /** Compose affine transformation with a translation
    *
    * This method modifies self to include a translation of the
@@ -232,6 +237,12 @@ public:
    *
    * Note that the shear is applied centered at the origin. */
   void Shear(int axis1, int axis2, TScalarType coef, bool pre=0);
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** Back transform by an affine transformation
    *

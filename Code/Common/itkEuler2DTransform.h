@@ -84,12 +84,23 @@ public:
   typedef typename Superclass::InputVnlVectorType   InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType  OutputVnlVectorType;
   typedef typename Superclass::MatrixType           MatrixType;
+
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
   
   /**
    * This method creates and returns a new Euler2DTransform object
    * which is the inverse of self.
    */
   void CloneInverseTo( Pointer & newinverse ) const;
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /**
    * This method creates and returns a new Euler2DTransform object

@@ -178,6 +178,16 @@ GetInverse( Self* inverse) const
   return true;
 }
 
+// Return an inverse of this transform
+template<class TScalarType, unsigned int NDimensions>
+typename TranslationTransform<TScalarType, NDimensions>::InverseTransformBasePointer
+TranslationTransform<TScalarType, NDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return GetInverse(inv) ? inv.GetPointer() : NULL;
+}
+
 // Compute the Jacobian in one position 
 template<class TScalarType, unsigned int NDimensions>
 const typename TranslationTransform<TScalarType, NDimensions>::JacobianType & 

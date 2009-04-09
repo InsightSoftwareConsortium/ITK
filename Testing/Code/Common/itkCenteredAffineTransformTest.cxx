@@ -231,6 +231,16 @@ int itkCenteredAffineTransformTest(int, char *[])
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
 
+    Affine3DType::Pointer inv4 =
+       dynamic_cast<Affine3DType*>(aff3->GetInverseTransform().GetPointer());
+    if(!inv4)
+      {
+      std::cout << "Cannot compute inverse transformation" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "Create an inverse transformation:" << std::endl;
+    inv4->Print( std::cout );
+
 
     /* Create an image for testing index<->physical transforms */
     std::cout << "Creating image for testing index<->physical transforms"

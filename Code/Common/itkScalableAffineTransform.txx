@@ -144,6 +144,25 @@ ScalableAffineTransform<TScalarType, NDimensions>
   this->Modified();
 }
 
+// Get an inverse of this transform
+template<class TScalarType, unsigned int NDimensions>
+bool
+ScalableAffineTransform<TScalarType, NDimensions>
+::GetInverse(Self* inverse) const
+{
+  return this->Superclass::GetInverse(inverse);
+}
+
+// Return an inverse of this transform
+template<class TScalarType, unsigned int NDimensions>
+typename ScalableAffineTransform<TScalarType, NDimensions>
+::InverseTransformBasePointer
+ScalableAffineTransform<TScalarType, NDimensions>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+}
 
 /** Set the scale of the transformation */
 template<class TScalarType, unsigned int NDimensions>

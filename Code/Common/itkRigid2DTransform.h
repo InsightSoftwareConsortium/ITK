@@ -107,6 +107,11 @@ public:
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
   /**
    * Set the rotation Matrix of a Rigid2D Transform
    *
@@ -202,6 +207,12 @@ public:
    * which is the inverse of self.
    */
   void CloneInverseTo( Pointer & newinverse ) const;
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /**
    * This method creates and returns a new Rigid2DTransform object

@@ -194,7 +194,40 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
     {
       std::cout << " [ PASSED ] " << std::endl;
     }
-    
+
+    // Get inverse transform and transform point p2 to obtain point p3
+    CenteredRigidTransformType::Pointer inversebis
+       = dynamic_cast<CenteredRigidTransformType*>(transform2->GetInverseTransform().GetPointer());
+
+    if(!inversebis)
+      {
+      std::cout << "Cannot compute inverse transformation" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    p3 = inversebis->TransformPoint( p2 );
+
+    // Check that point p3 is the same as point p1
+    Ok = true;
+    for ( unsigned int i = 0; i < N; i++ )
+      {
+      if ( vcl_fabs( p1[i] - p3[i] ) > epsilon )
+        {
+        Ok = false;
+        break;
+        }
+      }
+    if( !Ok )
+    { 
+      std::cerr << "Error in inverse computation" << std::endl;
+      std::cerr << "Result should be       : " << p1 << std::endl;
+      std::cerr << "Reported Result is     : " << p3 << std::endl;
+      return EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << " [ PASSED ] " << std::endl;
+    }
   }
 
    {
@@ -238,7 +271,21 @@ int itkCenteredRigid2DTransformTest(int argc,char *argv[] )
       TransformType::InputPointType p3dash;
       p3dash = t2dash->TransformPoint( p2 );
 
-      std::cout << "Test GetInverse(): ";
+      std::cout << "Test GetInverseTransform(): ";
+      if( !CheckEqual( p1, p3dash ) )
+        {
+        return EXIT_FAILURE;
+        }
+
+      t2dash = dynamic_cast<TransformType*>(t1->GetInverseTransform().GetPointer());
+      if (!t2dash)
+        {
+        std::cout << "Cannot compute inverse transformation" << std::endl;
+        return EXIT_FAILURE;
+        }
+      p3dash = t2dash->TransformPoint( p2 );
+
+      std::cout << "Test GetInverseTransform(): ";
       if( !CheckEqual( p1, p3dash ) )
         {
         return EXIT_FAILURE;

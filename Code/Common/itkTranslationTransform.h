@@ -81,6 +81,11 @@ public:
   /** Standard coordinate point type for this class. */
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
   
   /** This method returns the value of the offset of the
    * TranslationTransform. */
@@ -133,6 +138,9 @@ public:
    * which is the inverse of self.  If self is not invertible,
    * false is returned.  */
   bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point ) const;

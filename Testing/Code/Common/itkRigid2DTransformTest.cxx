@@ -107,6 +107,15 @@ int itkRigid2DTransformTest(int ,char * [] )
     std::cout << "translation: " << translation;
     std::cout << "translationInverse: " << translationInverse;
 
+    translationInverse = dynamic_cast<TransformType*>(translation->GetInverseTransform().GetPointer());
+    if(!translationInverse)
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "translation: " << translation;
+    std::cout << "translationInverse: " << translationInverse;
+
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
@@ -270,6 +279,15 @@ int itkRigid2DTransformTest(int ,char * [] )
     if(!rotation->GetInverse(rotationInverse))
       {
       std::cout << "Cannot create transform" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "rotation: " << rotation;
+    std::cout << "rotationInverse: " << rotationInverse;
+
+    rotationInverse = dynamic_cast<TransformType*>(rotation->GetInverseTransform().GetPointer());
+    if(!rotationInverse)
+      {
+      std::cout << "Cannot compute inverse" << std::endl;
       return EXIT_FAILURE;
       }
     std::cout << "rotation: " << rotation;
@@ -496,6 +514,20 @@ int itkRigid2DTransformTest(int ,char * [] )
       p3dash = t2dash->TransformPoint( p2 );
 
       std::cout << "Test GetInverse(): ";
+      if( !CheckEqual( p1, p3dash ) )
+        {
+        return EXIT_FAILURE;
+        }
+
+      t2dash = dynamic_cast<TransformType*>(t1->GetInverseTransform().GetPointer());
+      if (!t2dash)
+        {
+        std::cout << "Cannot compute inverse transformation" << std::endl;
+        return EXIT_FAILURE;
+        }
+      p3dash = t2dash->TransformPoint( p2 );
+
+      std::cout << "Test GetInverseTransform(): ";
       if( !CheckEqual( p1, p3dash ) )
         {
         return EXIT_FAILURE;

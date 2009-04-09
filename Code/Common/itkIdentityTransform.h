@@ -104,6 +104,11 @@ public:
                 itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
   typedef Point<TScalarType,
                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  &point ) const
@@ -166,6 +171,12 @@ public:
     return this->m_Jacobian;
     }
 
+  /** Return an inverse of the identity transform - another identity transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const
+    {
+    return this->New().GetPointer();
+    }
+  
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *

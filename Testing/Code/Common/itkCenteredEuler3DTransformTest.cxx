@@ -345,6 +345,13 @@ int itkCenteredEuler3DTransformTest(int,char *[] )
   EulerTransformType::Pointer t3 = EulerTransformType::New();
   t2->GetInverse( t3 );
 
+  t3 = dynamic_cast<EulerTransformType*>(t2->GetInverseTransform().GetPointer());
+  if (!t3)
+    {
+    std::cout << "Cannot compute inverse transformation" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 
 }

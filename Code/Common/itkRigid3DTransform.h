@@ -88,6 +88,11 @@ public:
   typedef typename Superclass::TranslationType            TranslationType;
   typedef typename Superclass::OffsetType                 OffsetType;
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 12 parameters. The first 9 represents the rotation
@@ -139,6 +144,12 @@ public:
    * true, and postcomposed otherwise.
    */
   void Translate(const OffsetType & offset, bool pre=false);
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /**
    * Back transform by an affine transformation

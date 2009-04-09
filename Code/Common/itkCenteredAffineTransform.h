@@ -75,6 +75,11 @@ public:
   typedef typename Superclass::MatrixType                   MatrixType;
   typedef typename Superclass::OffsetType                   OffsetType;
 
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+
 
   
   /** Set/Get the transformation from a container of parameters.
@@ -95,6 +100,12 @@ public:
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
   const JacobianType & GetJacobian(const InputPointType  &point ) const;
+
+  /** Get an inverse of this transform. */
+  bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
 protected:
   /** Construct an CenteredAffineTransform object */

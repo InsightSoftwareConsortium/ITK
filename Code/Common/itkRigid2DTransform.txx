@@ -139,9 +139,35 @@ Rigid2DTransform<TScalarType>::
 CloneInverseTo( Pointer & result ) const
 {
   result = New();
-  result->SetCenter( this->GetCenter() );  // inverse have the same center
-  result->SetAngle( -this->GetAngle() );
-  result->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+  this->GetInverse(result.GetPointer());
+}
+
+// return an inverse transformation
+template<class TScalarType>
+bool
+Rigid2DTransform<TScalarType>::
+GetInverse( Self* inverse) const
+{
+  if(!inverse)
+    {
+    return false;
+    }
+
+  inverse->SetCenter( this->GetCenter() );  // inverse have the same center
+  inverse->SetAngle( -this->GetAngle() );
+  inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
+
+  return true;
+}
+
+// Return an inverse of this transform
+template<class TScalarType>
+typename Rigid2DTransform<TScalarType>::InverseTransformBasePointer
+Rigid2DTransform<TScalarType>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return GetInverse(inv) ? inv.GetPointer() : NULL;
 }
 
 // Create and return a clone of the transformation

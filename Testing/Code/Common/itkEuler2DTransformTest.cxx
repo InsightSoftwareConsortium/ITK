@@ -250,6 +250,20 @@ int itkEuler2DTransformTest(int argc,char *argv[] )
         return EXIT_FAILURE;
         }
 
+      t2dash = dynamic_cast<TransformType*>(t1->GetInverseTransform().GetPointer());
+      if (!t2dash)
+        {
+        std::cout << "Cannot compute inverse transformation" << std::endl;
+        return EXIT_FAILURE;
+        }
+      p3dash = t2dash->TransformPoint( p2 );
+
+      std::cout << "Test GetInverseTransform(): ";
+      if( !CheckEqual( p1, p3dash ) )
+        {
+        return EXIT_FAILURE;
+        }
+
       // Test clone
       TransformType::Pointer t3;
       t1->CloneTo( t3 );

@@ -86,6 +86,11 @@ public:
   /** Standard coordinate point type for this class. */
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
   typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+
+  /** Base inverse transform type. This type should not be changed to the
+   * concrete inverse transform type or inheritance would be lost.*/
+  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
+  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
   
   /** Set parameters.  This method sets the parameters for the transform value
    *  specified by the user. The parameters are organized as scale[i] =
@@ -146,6 +151,9 @@ public:
    * which is the inverse of self.  If self is not invertible,
    * false is returned. */
   bool GetInverse(Self* inverse) const;
+
+  /** Return an inverse of this transform. */
+  virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** Set the transformation to an Identity
    *

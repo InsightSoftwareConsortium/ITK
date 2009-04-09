@@ -74,7 +74,17 @@ int itkTranslationTransformTest(int ,char *[] )
   TransformType::Pointer inverse2 = TransformType::New();
   if(!aff2->GetInverse(inverse2))
       {
-      std::cout << "Cannot create transform" << std::endl;
+      std::cout << "Cannot create inverse transform" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  std::cout << "Inverse of the given transform:"
+            << std::endl << inverse2;
+
+  inverse2 = dynamic_cast<TransformType*>(aff2->GetInverseTransform().GetPointer());
+  if(!inverse2)
+      {
+      std::cout << "Cannot create inverse transform" << std::endl;
       return EXIT_FAILURE;
       }
 

@@ -237,6 +237,16 @@ int itkAffineTransformTest(int, char *[])
       }
     std::cout << "Create an inverse transformation:" << std::endl;
     inv3->Print( std::cout );
+
+    Affine3DType::Pointer inv4 =
+       dynamic_cast<Affine3DType*>(aff3->GetInverseTransform().GetPointer());
+    if(!inv4)
+      {
+      std::cout << "Cannot compute inverse transformation" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::cout << "Create an inverse transformation:" << std::endl;
+    inv4->Print( std::cout );
   
     /* Test output of GetJacobian */
     Affine3DType::Pointer jaff = Affine3DType::New();
@@ -344,13 +354,18 @@ int itkAffineTransformTest(int, char *[])
     TransformType::Pointer other = TransformType::New();
     transform->GetInverse( other );
 
+    TransformType::Pointer otherbis = 
+       dynamic_cast<TransformType*>(transform->GetInverseTransform().GetPointer());
+
     parameters2 = other->GetParameters();
+    TransformType::ParametersType parameters2bis = otherbis->GetParameters();
 
     expectedParameters.Fill( 0.0 );
     expectedParameters[0] = 0.5;
     expectedParameters[3] = 0.5;
     
     other->Print( std::cout );
+    otherbis->Print( std::cout );
 
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
@@ -358,6 +373,18 @@ int itkAffineTransformTest(int, char *[])
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters2 << std::endl;
+        std::cout << "Expected=" << expectedParameters << std::endl;
+        any = true;
+        break;
+        }
+      }
+
+    for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
+      {
+      if( vcl_fabs( parameters2bis[k] - expectedParameters[k] ) > epsilon )
+        {
+        std::cout << "Test failed:" << std::endl;
+        std::cout << "Results=" << parameters2bis << std::endl;
         std::cout << "Expected=" << expectedParameters << std::endl;
         any = true;
         break;
@@ -379,6 +406,17 @@ int itkAffineTransformTest(int, char *[])
       return EXIT_FAILURE;
       }
 
+    TransformType::Pointer singularTransformInverse2 =
+       dynamic_cast<TransformType*>(singularTransform->GetInverseTransform().GetPointer());
+    if (!singularTransformInverse2)
+      {
+      std::cout << "Detected an attempt to invert a singular transform as expected" << std::endl;
+      }
+    else
+      {
+      std::cout << "Failed to detect an attempt to invert a singular transform!" << std::endl;
+      return EXIT_FAILURE;
+      }
 }
 
     return any;

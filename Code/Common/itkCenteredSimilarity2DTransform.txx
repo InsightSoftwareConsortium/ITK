@@ -194,11 +194,36 @@ CenteredSimilarity2DTransform<TScalarType>::
 CloneInverseTo( Pointer & result ) const
 {
   result = New();
-  result->SetCenter( this->GetCenter() );  // inverse have the same center
-  result->SetScale( 1.0 / this->GetScale() );
-  result->SetAngle( -this->GetAngle() );
-  result->SetTranslation( -( this->GetInverseMatrix() 
+  this->GetInverse(result.GetPointer());
+}
+
+// return an inverse transformation
+template<class TScalarType>
+bool
+CenteredSimilarity2DTransform<TScalarType>::
+GetInverse( Self* inverse) const
+{
+  if(!inverse)
+    {
+    return false;
+    }
+
+  inverse->SetCenter( this->GetCenter() );  // inverse have the same center
+  inverse->SetScale( 1.0 / this->GetScale() );
+  inverse->SetAngle( -this->GetAngle() );
+  inverse->SetTranslation( -( this->GetInverseMatrix() 
                                                   * this->GetTranslation() ) );
+  return true;
+}
+
+// Return an inverse of this transform
+template<class TScalarType>
+typename CenteredSimilarity2DTransform<TScalarType>::InverseTransformBasePointer
+CenteredSimilarity2DTransform<TScalarType>
+::GetInverseTransform() const
+{
+  Pointer inv = New();
+  return GetInverse(inv) ? inv.GetPointer() : NULL;
 }
 
 // Create and return a clone of the transformation
