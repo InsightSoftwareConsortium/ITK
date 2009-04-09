@@ -89,9 +89,11 @@ void MetaImageIO::ReadImageInformation()
 { 
   if(!m_MetaImage.Read(m_FileName.c_str(), false))
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
-    throw exception;
+    itkExceptionMacro("File cannot be read: "
+                      << this->GetFileName() << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   if(m_MetaImage.BinaryData())
@@ -874,19 +876,23 @@ void MetaImageIO::Read(void* buffer)
       {
       delete [] indexMin;
       delete [] indexMax;
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File ROI cannot be read");
-      throw exception;
+      itkExceptionMacro("File cannot be read: "
+                        << this->GetFileName() << " for reading."
+                        << std::endl
+                        << "Reason: "
+                        << itksys::SystemTools::GetLastSystemError());
       }
- 
+    
     delete [] indexMin;
     delete [] indexMax;
     }
   else if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription("File cannot be read");
-    throw exception;
+    itkExceptionMacro("File cannot be read: "
+                      << this->GetFileName() << " for reading."
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   m_MetaImage.ElementByteOrderFix();
