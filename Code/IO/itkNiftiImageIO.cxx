@@ -780,7 +780,19 @@ NiftiImageIO
     }
   else
     { //Simple Scalar Image
-    this->SetNumberOfDimensions(this->m_NiftiImage->dim[0]);
+    //
+    //    this->SetNumberOfDimensions(this->m_NiftiImage->dim[0]);
+    // HACK ALERT KW
+    // Apparently some straight-from-the-scanner files report as 4D
+    // with T = 1; this causes ImageFileReader to erroneously ignore the reported
+    // direction cosines.
+    unsigned realdim;
+    for(realdim = this->m_NiftiImage->dim[0]; 
+        this->m_NiftiImage->dim[realdim] == 1 && realdim > 3;
+        realdim--)
+      {
+      }
+    this->SetNumberOfDimensions(realdim);
     this->SetNumberOfComponents(1);
     }
 
