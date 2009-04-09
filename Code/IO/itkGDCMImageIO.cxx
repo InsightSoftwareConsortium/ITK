@@ -601,7 +601,10 @@ void GDCMImageIO::Read(void* buffer)
   gdcm::File *header = this->m_DICOMHeader->m_Header;
   if( !header->IsReadable() )
     {
-    itkExceptionMacro( "Cannot read the file");
+    itkExceptionMacro(<< "Could not read file: "
+                      << m_FileName << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
   gdcm::FileHelper gfile(header);
 
@@ -766,7 +769,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   //read header
   if ( ! this->OpenGDCMFileForReading(file, m_FileName.c_str()) )
     {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro(<< "Could not read file: "
+                      << m_FileName << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   gdcm::File *header = new gdcm::File;
@@ -779,11 +785,17 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
   bool headerLoaded = header->Load();
   if ( !headerLoaded )
     {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro(<< "Could not load header from file: "
+                      << m_FileName << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
   if( !header->IsReadable() )
     {
-    itkExceptionMacro(<< "Cannot read requested file");
+    itkExceptionMacro(<< "Could not read header from file: "
+                      << m_FileName << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
     }
 
   // We don't need to positionate the Endian related stuff (by using
