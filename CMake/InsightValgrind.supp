@@ -1,10 +1,11 @@
 {
-   Nrrd fflush
+   Nrrd fflush 2.3
    Memcheck:Param
    write(buf)
    fun:__write_nocancel
-   fun:_IO_do_write@@GLIBC_2.1
-   fun:_IO_file_sync@@GLIBC_2.1
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
    fun:fflush
    fun:itk__nrrdEncodingRaw_write
    fun:itk__nrrdFormatNRRD_write
@@ -23,7 +24,6 @@
    Memcheck:Param
    write(buf)
    fun:__write_nocancel
-   fun:_IO_file_write@@GLIBC_2.2.5
    fun:_IO_file_write@@GLIBC_2.2.5
    fun:_IO_do_write@@GLIBC_2.2.5
    fun:_IO_file_sync@@GLIBC_2.2.5
