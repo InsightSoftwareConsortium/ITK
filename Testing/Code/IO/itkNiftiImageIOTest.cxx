@@ -783,8 +783,8 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     }
   int success(0);
   success |= TestImageOfVectors<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
-  success |= TestImageOfVectors<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
 #ifndef __BORLANDC__
+  success |= TestImageOfVectors<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
   success |= TestImageOfVectors<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
   success |= TestImageOfVectors<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
   success |= TestImageOfVectors<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
@@ -1508,8 +1508,8 @@ int RGBTest(int ac, char *av[])
   typename RGBImageType::Pointer im2;
   try
     {
-    WriteImage<RGBImageType>(im,"RGBImage.nii.gz");
-    im2 = ReadImage<RGBImageType>("RGBImage.nii.gz");
+    WriteImage<RGBImageType>(im,std::string("RGBImage.nii.gz"));
+    im2 = ReadImage<RGBImageType>(std::string("RGBImage.nii.gz"));
     }
   catch(itk::ExceptionObject &err)
     {
@@ -1540,7 +1540,12 @@ int itkNiftiImageIOTest9(int ac, char *av[])
 {
   return RGBTest<itk::RGBPixel<unsigned char> >(ac,av);
 }
+
 int itkNiftiImageIOTest10(int ac, char *av[])
 {
+#ifndef __BORLANDC__
   return RGBTest<itk::RGBAPixel<unsigned char> >(ac,av);
+#else
+  return EXIT_SUCCESS;
+#endif
 }
