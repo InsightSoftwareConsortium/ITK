@@ -176,8 +176,12 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     // determine the index and physical location of the output pixel
     outputIndex = outIt.GetIndex();
 
-    // an optimized version of 
-    inputIndex = outputIndex * factorSize + offsetIndex;
+    // an optimized version  has a segfault bug
+    //inputIndex = outputIndex * factorSize + offsetIndex;
+
+    // determine the input pixel index associated with this output pixel 
+    outputPtr->TransformIndexToPhysicalPoint(outputIndex, outputPoint);
+    inputPtr->TransformPhysicalPointToIndex(outputPoint, inputIndex);
 
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
