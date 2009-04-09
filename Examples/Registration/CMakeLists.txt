@@ -268,7 +268,7 @@ ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
 
 ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration6Test.png
-            ${TEMP}/ImageRegistration6<oTest.png
+            ${TEMP}/ImageRegistration6oTest.png
   ImageRegistration6oTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
