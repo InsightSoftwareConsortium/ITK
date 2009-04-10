@@ -38,6 +38,7 @@ template <class TInputImage, class TOutputImage>
 RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 ::RecursiveMultiResolutionPyramidImageFilter()
 {
+  this->Superclass::m_UseShrinkImageFilter = true;
 }
 
 /**
