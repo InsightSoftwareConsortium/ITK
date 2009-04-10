@@ -115,8 +115,13 @@ public:
   
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef TransformBase                              InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
+#if defined(_MSC_VER)
+  typedef TransformBase                                InverseTransformBaseType;
+#else
+  typedef Transform< 
+    TScalarType, NOutputDimensions, NInputDimensions > InverseTransformBaseType;
+#endif
+  typedef typename InverseTransformBaseType::Pointer   InverseTransformBasePointer;
   
   /**  Method to transform a point. */
   virtual OutputPointType TransformPoint(const InputPointType  & ) const
