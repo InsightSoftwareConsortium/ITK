@@ -436,6 +436,7 @@ ADD_TEST(itkConnectedThresholdImageFilterTest ${BASIC_FILTERS_TESTS}
             165 165 0 150 )
 
 # Exercise the fully connected feature in the connected threshold filter
+IF(ITK_USE_REVIEW)
 ADD_TEST(itkConnectedThresholdImageFilterTest2 ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest2.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
@@ -443,6 +444,7 @@ ADD_TEST(itkConnectedThresholdImageFilterTest2 ${BASIC_FILTERS_TESTS}
             ${ITK_DATA_ROOT}/Input/8ConnectedImage.bmp
             ${ITK_TEST_OUTPUT_DIR}/ConnectedThresholdImageFilterTest2.png
             29 47 200 255 1)
+ENDIF(ITK_USE_REVIEW)
 
 ADD_TEST(itkDoubleThresholdImageFilterTest ${BASIC_FILTERS_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png 
