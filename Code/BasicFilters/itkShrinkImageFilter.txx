@@ -161,13 +161,14 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize 
   // is equivalent up to a fixed offset which we now compute
+  typename OutputOffsetType::OffsetValueType zeroOffset = 0;
   for ( i=0; i < TInputImage::ImageDimension; i++ )
     {
     offsetIndex[i] = inputIndex[i] - outputIndex[i]*m_ShrinkFactors[i];
     // it is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
-    offsetIndex[i] = vnl_math_max( typename OutputOffsetType::OffsetValueType(0), offsetIndex[i] );
+    offsetIndex[i] = vnl_math_max( zeroOffset, offsetIndex[i] );
     }
 
     
@@ -256,13 +257,14 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize 
   // is equivalent up to a fixed offset which we now compute
+  typename OutputOffsetType::OffsetValueType zeroOffset = 0;
   for ( i=0; i < TInputImage::ImageDimension; i++ )
     {
     offsetIndex[i] = inputIndex[i] - outputIndex[i]*m_ShrinkFactors[i];
     // it is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
-    offsetIndex[i] = vnl_math_max( typename OutputOffsetType::OffsetValueType(0), offsetIndex[i] );
+    offsetIndex[i] = vnl_math_max( zeroOffset, offsetIndex[i] );
     }
 
   inputRequestedRegionIndex = outputRequestedRegionStartIndex*factorSize + offsetIndex;
