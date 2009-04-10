@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkMultiResolutionPyramidImageFilter.h"
+#include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
@@ -117,6 +118,15 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
       }
     std::cout << std::endl;
     }
+  bool TestRecursive(false);
+  if(argc > 2)
+    {
+    std::string s(argv[2]);
+    if(s == "TestRecursive")
+      {
+      TestRecursive = true;
+      }
+    }
   //At best center of mass can be preserved very closely only when
   //shrink factors divisible into the original image size
   //are used, so only test that option.
@@ -192,7 +202,21 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
   typedef itk::MultiResolutionPyramidImageFilter<InputImageType,OutputImageType>
     PyramidType;
   typedef PyramidType::ScheduleType ScheduleType;
-  PyramidType::Pointer pyramid = PyramidType::New();
+  /**
+   * This is kind of cheating but it exploits the fact that Recursive... is derived
+   * from Multi... so it just swaps classes based on a command line flag. hey presto!
+   * new test!
+   */
+  PyramidType::Pointer pyramid;
+  if(!TestRecursive)
+    {
+    pyramid = PyramidType::New();
+    }
+  else
+    {
+    pyramid = 
+      itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType,OutputImageType>::New();
+    }
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid->SetInput( imgTarget );
 
