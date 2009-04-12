@@ -21,6 +21,7 @@ ADD_LIBRARY( itkNetlibSlatec
   d_int.c
   d_mod.c  
  )
+TARGET_LINK_LIBRARIES( itkNetlibSlatec itkv3p_netlib )
 
 IF (BORLAND)
   SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
