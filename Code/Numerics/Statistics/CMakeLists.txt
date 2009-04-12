@@ -8,31 +8,9 @@ ADD_LIBRARY(ITKStatistics
   itkGaussianDistribution.cxx
   itkTDistribution.cxx
   itkChiSquareDistribution.cxx
+  )
 
-  # from SLATEC/FNLIB
-  d1mach.c
-  d9lgmc.c
-  d9gmit.c
-  d9lgic.c
-  d9lgit.c
-  dbetai.c
-  dcsevl.c
-  dgami.c
-  dgamit.c
-  dgamlm.c
-  dgamma.c
-  dgamr.c
-  dlbeta.c
-  dlgams.c
-  dlngam.c
-  dlnrel.c
-  initds.c
-  xermsg.c
-  d_int.c
-  d_mod.c
- )
-
-TARGET_LINK_LIBRARIES(ITKStatistics ITKCommon)
+TARGET_LINK_LIBRARIES(ITKStatistics ITKCommon itkNetlibSlatec)
 
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(ITKStatistics PROPERTIES ${ITK_LIBRARY_PROPERTIES})

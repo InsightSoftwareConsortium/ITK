@@ -105,6 +105,7 @@ ADD_SUBDIRECTORY(expat)
 ADD_SUBDIRECTORY(nifti)
 ADD_SUBDIRECTORY(itkExtHdrs)
 ADD_SUBDIRECTORY(KWStyle)
+ADD_SUBDIRECTORY(netlib)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
