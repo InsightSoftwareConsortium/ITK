@@ -94,6 +94,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   ComponentType m_Component;
+  bool          m_Initialized;
 };
 
 } // end namespace itk
