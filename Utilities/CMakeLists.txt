@@ -123,6 +123,8 @@ IF(NOT ITK_USE_SYSTEM_VXL)
   ADD_SUBDIRECTORY(vxl)
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
+#------------------------------------------------------------------------------
+# This directory depends on VXL V3p
 ADD_SUBDIRECTORY(netlib)
 
 #------------------------------------------------------------------------------
