@@ -105,7 +105,6 @@ ADD_SUBDIRECTORY(expat)
 ADD_SUBDIRECTORY(nifti)
 ADD_SUBDIRECTORY(itkExtHdrs)
 ADD_SUBDIRECTORY(KWStyle)
-ADD_SUBDIRECTORY(netlib)
 
 #------------------------------------------------------------------------------
 # Create the DICOMParse library for ITK
@@ -123,6 +122,8 @@ ENDIF(ITK_DISABLE_CXX_TESTING)
 IF(NOT ITK_USE_SYSTEM_VXL)
   ADD_SUBDIRECTORY(vxl)
 ENDIF(NOT ITK_USE_SYSTEM_VXL)
+
+ADD_SUBDIRECTORY(netlib)
 
 #------------------------------------------------------------------------------
 # Build testing as needed
