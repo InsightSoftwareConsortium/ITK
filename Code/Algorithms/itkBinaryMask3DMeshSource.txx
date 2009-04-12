@@ -1025,11 +1025,14 @@ void
 BinaryMask3DMeshSource<TInputImage,TOutputMesh>
 ::CreateMesh()
 {
-  if (this->GetNumberOfInputs() < 1)
-    {
-    std::cout << "BinaryMask3DMeshSource : Binary image mask not set" << std::endl;
-    return;
-    }
+  // NOTE ALEX: this is checked by the new pipeline
+  // through SetNumberOfRequiredInput
+  // if (this->GetNumberOfInputs() < 1)
+  //  {
+  //  std::cout << "BinaryMask3DMeshSource : Binary image mask not set";
+  //  std::cout << std::endl;
+  //  return;
+  //  }
 
   // Initialize variables
   m_NumberOfCells = 0;
