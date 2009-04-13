@@ -358,7 +358,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  
+  meshSource->Print(std::cout);  
   return EXIT_SUCCESS;
 
 }
