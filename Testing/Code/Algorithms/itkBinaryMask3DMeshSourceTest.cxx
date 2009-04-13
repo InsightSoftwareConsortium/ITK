@@ -91,11 +91,7 @@ int itkBinaryMask3DMeshSourceTest(int, char *[])
   image->FillBuffer( backgroundValue );
 
   unsigned int i,j,k,l;
-  i = 0;
-  j = 0;
-  k = 0;
-  l = 0;
- 
+
   for( unsigned char counter = 0; counter < 18; counter++ )
     {
     i = ( counter / 1 ) % 2; // 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1.
