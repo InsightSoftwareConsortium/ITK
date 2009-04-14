@@ -122,56 +122,6 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-//The WriteTestFiles function writes binary data to disk to ensure that both big and little endian files are available.
-//This allows all the data necessary to create the images to be stored in source files rather than have separate reference images.
-static int WriteTestFiles(void)
-{
-#include "LittleEndian_hdr.h"
-    struct nifti_1_header NiftiLittleEndian;
-    memcpy(&NiftiLittleEndian,LittleEndian_hdr,sizeof(NiftiLittleEndian));
-    NiftiLittleEndian.qform_code=NIFTI_XFORM_UNKNOWN;
-    NiftiLittleEndian.sform_code=NIFTI_XFORM_UNKNOWN;
-    strncpy(NiftiLittleEndian.magic,"ni1\0",4);
-#include "LittleEndian_img.h"
-#include "BigEndian_hdr.h"
-    struct nifti_1_header NiftiBigEndian;
-    memcpy(&NiftiBigEndian,BigEndian_hdr,sizeof(NiftiBigEndian));
-    NiftiBigEndian.qform_code=NIFTI_XFORM_UNKNOWN;
-    NiftiBigEndian.sform_code=NIFTI_XFORM_UNKNOWN;
-    strncpy(NiftiBigEndian.magic,"ni1\0",4);
-#include "BigEndian_img.h"
-    //Force to be Nifti-compliant
-  std::ofstream little_hdr("NiftiLittleEndian.hdr", std::ios::binary | std::ios::out);
-  if(!little_hdr.is_open())
-    return EXIT_FAILURE;
-  std::cout << "NiftiLittleEndian written" << std::endl;
-  little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
-  little_hdr.close();
-  std::ofstream little_img("NiftiLittleEndian.img", std::ios::binary | std::ios::out);
-  if(!little_img.is_open())
-    return EXIT_FAILURE;
-  little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
-  little_img.close();
-  std::ofstream big_hdr("NiftiBigEndian.hdr", std::ios::binary | std::ios::out);
-  if(!big_hdr.is_open())
-    return EXIT_FAILURE;
-  big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
-  big_hdr.close();
-  std::ofstream big_img("NiftiBigEndian.img", std::ios::binary | std::ios::out);
-  if(!big_img.is_open())
-    return EXIT_FAILURE;
-  big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
-  big_img.close();
-  return EXIT_SUCCESS;
-}
-
-static void RemoveByteSwapTestFiles(void)
-{
-  Remove("NiftiLittleEndian.hdr");
-  Remove("NiftiLittleEndian.img");
-  Remove("NiftiBigEndian.hdr");
-  Remove("NiftiBigEndian.img");
-}
 
 #define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
 { \
