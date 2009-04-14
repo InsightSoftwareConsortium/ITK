@@ -42,6 +42,7 @@ SET(IOTest_SRCS
 itkAnalyzeImageIOTest.cxx
 itkAnalyzeImageIODirectionsTest.cxx
 itkNiftiImageIOTest.cxx
+itkNiftiImageIOTest2.cxx
 itkArchetypeSeriesFileNamesTest.cxx
 itkBMPImageIOTest.cxx
 itkBMPImageIOTest2.cxx
