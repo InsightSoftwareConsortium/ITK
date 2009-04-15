@@ -289,7 +289,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
 
   //Address possibility that direction is degenerate due to
   //out-of-order axes. 
-  if (vnl_determinant(direction.GetVnlMatrix()) == 0.0)
+  if ( vnl_determinant( direction.GetVnlMatrix() ) == 0.0 )
     {
     direction.SetIdentity();   
     }
