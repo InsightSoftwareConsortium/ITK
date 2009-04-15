@@ -27,7 +27,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
-
+#include "vnl/algo/vnl_determinant.h"
 #include <stdio.h>
 namespace itk
 {
@@ -286,6 +286,14 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       direction[j][i] = inputImage->GetDirection()[j][i];
       }
     }
+
+  //Address possibility that direction is degenerate due to
+  //out-of-order axes. 
+  if (vnl_determinant(direction.GetVnlMatrix()) == 0.0)
+    {
+    direction.SetIdentity();   
+    }
+     
   outputImage->SetOrigin( origin );
   outputImage->SetSpacing( spacing );
   outputImage->SetDirection( direction );
