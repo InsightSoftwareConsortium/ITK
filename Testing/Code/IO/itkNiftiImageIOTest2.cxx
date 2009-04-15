@@ -99,13 +99,5 @@ int itkNiftiImageIOTest9(int ac, char *av[])
 
 int itkNiftiImageIOTest10(int ac, char *av[])
 {
-#ifndef __BORLANDC__
   return RGBTest<itk::RGBAPixel<unsigned char> >(ac,av);
-#else
-  if (ac == 2)
-    {
-    std::cout <<"Dummy test for Borland platforms: " << av[0] << " " << av[1] << std::endl;
-    }
-  return EXIT_SUCCESS;
-#endif
 }
