@@ -233,6 +233,8 @@ GaussianMixtureModelComponent< TSample >
     }
 
   Superclass::SetParameters(parameters);
+  //update covariance and its inverse of Gaussian mixture
+  m_GaussianDensityFunction->SetCovariance( &m_Covariance ); 
 }
     
 } // end of namespace Statistics 
