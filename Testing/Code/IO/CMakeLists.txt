@@ -1063,6 +1063,27 @@ ADD_TEST(itkImageIODirection3DTest06 ${IO_TESTS} itkImageIODirection3DTest
   -0.5          0.8660254   0.0 
    0.0          0.0         1.0)
 
+ADD_TEST(itkImageIODirection3DTest07 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection001.mhd
+   1.0    0.0   0.0 
+   0.0   -1.0   0.0 
+   0.0    0.0   1.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
+
+ADD_TEST(itkImageIODirection3DTest08 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd
+   1.0    0.0   0.0 
+   0.0    0.0  -1.0 
+   0.0    1.0   0.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
+
+ADD_TEST(itkImageIODirection3DTest09 ${IO_TESTS} itkImageIODirection3DTest
+   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
+   0.0    0.0   1.0 
+  -1.0    0.0   0.0 
+   0.0    1.0   0.0
+   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
+
 
 ENDIF(ITK_DATA_ROOT)
 
