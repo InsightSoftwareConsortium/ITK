@@ -691,6 +691,23 @@ ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolume)
 
 
+#
+# Testing reading and writing of DICOM series with non-trivial directions.
+#
+# /Input/HeadMRVolumeWithDirection001.mhd is not suitable for DICOM because
+# it has a left-handed coordinate system.
+#
+ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection002Test ${IO_TESTS} 
+  itkImageReadDICOMSeriesWriteTest
+  ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd
+  ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
+
+ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS} 
+  itkImageReadDICOMSeriesWriteTest
+  ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd
+  ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
+
+
 ##Analyze Test Suite
   ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}
     itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR})
