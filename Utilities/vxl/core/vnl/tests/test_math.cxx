@@ -133,7 +133,7 @@ void test_math()
   for (int i=1; i*sizeof(unsigned char)<sizeof(p); ++i) \
     vcl_cout<<vcl_setfill('0')<<vcl_setw(sizeof(unsigned char))<<(reinterpret_cast<unsigned char*>(&p))[i]; \
   vcl_cout<<vcl_dec
-
+#if 0
   vcl_cout << "pinf_f = " << pinf_f << " = " << print_hex(pinf_f) << vcl_endl
            << "ninf_f = " << ninf_f << " = " << print_hex(ninf_f) << vcl_endl
            << "pinf_d = " << pinf_d << " = " << print_hex(pinf_d) << vcl_endl
@@ -144,6 +144,8 @@ void test_math()
            << "qnan_d = " << qnan_d << " = " << print_hex(qnan_d) << vcl_endl
            << "qnan_q = " << qnan_q << " = " << print_hex(qnan_q) << vcl_endl
            << vcl_endl;
+#endif
+
 #undef print_hex
 
 #ifndef __alpha__ // on alpha, infinity() == max()
