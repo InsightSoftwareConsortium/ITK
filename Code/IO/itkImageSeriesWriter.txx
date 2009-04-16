@@ -287,8 +287,13 @@ ImageSeriesWriter<TInputImage,TOutputImage>
       }
     }
 
-  //Address possibility that direction is degenerate due to
-  //out-of-order axes. 
+  //
+  // Address the fact that when taking a 2x2 sub-matrix from 
+  // the direction matrix we may obtain a singular matrix.
+  // A 2x2 orientation can't represent a 3x3 orientation and
+  // therefore, replacing the orientation with an identity
+  // is as arbitrary as any other choice.
+  //
   if ( vnl_determinant( direction.GetVnlMatrix() ) == 0.0 )
     {
     direction.SetIdentity();   
