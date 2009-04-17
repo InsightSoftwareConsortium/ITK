@@ -181,8 +181,8 @@ void SegmentTreeGenerator<TScalarType>
     }
   
   // Heapsort the list
-  typename SegmentTreeType::merge_comp comp;
-  std::make_heap(mergeList->Begin(), mergeList->End(), comp);
+  typedef typename SegmentTreeType::merge_comp MergeComparison;
+  std::make_heap(mergeList->Begin(), mergeList->End(), MergeComparison() );
 }
 
 template <class TScalarType>
@@ -198,7 +198,7 @@ void SegmentTreeGenerator<TScalarType>
   ScalarType threshold = static_cast<ScalarType>(m_FloodLevel * segments->GetMaximumDepth());
 
   unsigned  counter;
-  typename SegmentTreeType::merge_comp comp;
+  typedef typename SegmentTreeType::merge_comp MergeComparison;
   typename SegmentTableType::DataType  *toSeg;
   typename SegmentTreeType::ValueType  tempMerge;
   unsigned long  toSegLabel, fromSegLabel;
@@ -229,7 +229,7 @@ void SegmentTreeGenerator<TScalarType>
                                   initHeapSize));
       }
       
-    std::pop_heap(heap->Begin(), heap->End(), comp);
+    std::pop_heap(heap->Begin(), heap->End(), MergeComparison() );
     heap->PopBack();  // Popping the heap moves the top element to the end
     // of the container structure, so we delete that here.
 
@@ -274,7 +274,7 @@ void SegmentTreeGenerator<TScalarType>
           (toSeg->edge_list.front().height) - toSeg->min;
               
         heap->PushBack(tempMerge);
-        std::push_heap(heap->Begin(), heap->End(), comp);
+        std::push_heap(heap->Begin(), heap->End(), MergeComparison() );
         }
       }
     if( ! heap->Empty() )
