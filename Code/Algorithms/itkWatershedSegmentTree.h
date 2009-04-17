@@ -76,6 +76,7 @@ public:
   struct merge_comp : public std::binary_function<bool, const merge_t&,
                       const merge_t& >
     {
+    merge_comp() {}
     bool operator()(const merge_t &a, const merge_t &b)
       {
       return b.saliency < a.saliency;
