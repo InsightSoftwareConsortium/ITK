@@ -5,13 +5,14 @@
 //:
 // \file
 // \author fsm
-
+#include <vxl_config.h>
 #include "vnl_matlab_read.h"
 #include <vcl_ios.h> // for vcl_ios_cur
 #include <vcl_iostream.h>
 #include <vcl_cstring.h> // memset()
 #include <vcl_complex.h>
 #include <vnl/vnl_c_vector.h>
+
 
 // FIXME: Currently ignores the byte ordering of the MAT file header, effectively
 // assuming the MAT file was written with the native byte ordering.
@@ -52,7 +53,7 @@ implement_read_complex_data(double)
 
 //--------------------------------------------------------------------------------
 
-vnl_matlab_readhdr::vnl_matlab_readhdr(vcl_istream &s_) : s(s_), varname(0), data_read(false)
+vnl_matlab_readhdr::vnl_matlab_readhdr(vcl_istream &s_) : s(s_), varname(0), data_read(false), need_swap(false)
 {
   read_hdr();
 }
@@ -95,6 +96,45 @@ void vnl_matlab_readhdr::read_hdr()
 {
   vcl_memset(&hdr, 0, sizeof hdr);
   ::vnl_read_bytes(s, &hdr, sizeof(hdr));
+  //
+  // determine if data needs swapping when read
+  // Everything else depends on this; if the header needs swapping
+  // and is not, nothing good will happen.
+  switch(hdr.type)
+    {
+    case 0:
+      // 0 means double-precision values, column-major, little-endian,
+      // so you need to swap if the system is big-endian
+#if VXL_BIG_ENDIAN
+      need_swap = true;
+#endif      
+      break;
+    case 10:
+      // Regardless of endian-ness, these flag values are 
+      // what the writer puts in the header in the native format,
+      // therefore if you see any of them, the file is the same-endian
+      // as the system you're reading on.
+    case 100:
+    case 110:
+    case 1000:
+    case 1100:
+    case 1110:
+      need_swap = false;
+      break;
+    default:
+      // any other values are either gibberish, or need to be byte-swapped
+      // we hope that it means the file needs byte-swapping, and not that
+      // the file is corrupt.
+      need_swap = true;
+    }
+  if(need_swap)
+    {
+    byteswap::swap32(&hdr.type);
+    byteswap::swap32(&hdr.rows);
+    byteswap::swap32(&hdr.cols);
+    byteswap::swap32(&hdr.imag);
+    byteswap::swap32(&hdr.namlen);
+    }
   if (varname)
     delete [] varname;
   varname = new char[hdr.namlen+1];
@@ -107,7 +147,6 @@ void vnl_matlab_readhdr::read_hdr()
 #endif
   ::vnl_read_bytes(s, varname, hdr.namlen);
   varname[hdr.namlen] = '\0';
-
   data_read = false;
 }
 
@@ -140,12 +179,23 @@ bool vnl_matlab_readhdr::read_data(T &v) { \
   if (!type_chck(v)) { vcl_cerr << "type_check\n"; return false; }\
   if (rows()!=1 || cols()!=1) { vcl_cerr << "size0\n"; return false; } \
   vnl_matlab_read_data(s, &v, 1); \
+  if(need_swap)                                   \
+    {                                                   \
+    if(sizeof(v) == 4) byteswap::swap32(&v); else byteswap::swap64(&v);     \
+    }                                                   \
   data_read = true; return *this; \
 } \
 bool vnl_matlab_readhdr::read_data(T *p) { \
   if (!type_chck(p[0])) { vcl_cerr << "type_check\n"; return false; } \
   if (rows()!=1 && cols()!=1) { vcl_cerr << "size1\n"; return false; } \
   vnl_matlab_read_data(s, p, rows()*cols()); \
+  if(need_swap)                              \
+    {                                        \
+    for(unsigned i = 0; i < rows()*cols(); i++) \
+      {                                         \
+      if(sizeof(*p) == 4) byteswap::swap32(&(p[i])); else byteswap::swap64(&(p[i]));        \
+      } \
+    }                                        \
   data_read = true; return *this; \
 } \
 bool vnl_matlab_readhdr::read_data(T * const *m) { \
@@ -153,6 +203,13 @@ bool vnl_matlab_readhdr::read_data(T * const *m) { \
   T *tmp = vnl_c_vector<T >::allocate_T(rows()*cols()); \
   /*vnl_c_vector<T >::fill(tmp, rows()*cols(), 3.14159);*/ \
   vnl_matlab_read_data(s, tmp, rows()*cols()); \
+  if(need_swap)                                                         \
+    {                                                                   \
+    for(unsigned i = 0; i < rows()*cols(); i++)                         \
+      {                                                                 \
+      if(sizeof(T) == 4) byteswap::swap32(&(tmp[i])); else byteswap::swap64(&(tmp[i]));     \
+      } \
+    } \
   int a, b; \
   if (is_rowwise()) { \
     a = cols(); \
