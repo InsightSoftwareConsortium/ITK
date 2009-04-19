@@ -21,7 +21,6 @@ ADD_LIBRARY( itkNetlibSlatec
   d_int.c
   d_mod.c  
  )
-TARGET_LINK_LIBRARIES( itkNetlibSlatec itkv3p_netlib )
 
 IF(ITK_USE_SYSTEM_VXL)
   TARGET_LINK_LIBRARIES( itkNetlibSlatec netlib )
