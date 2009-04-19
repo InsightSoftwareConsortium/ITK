@@ -728,7 +728,23 @@ IF(ITK_USE_SYSTEM_GDCM)
     IF( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
       SET(ITK_GDCM_LIBRARIES gdcm)
     ELSE( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
-      SET(ITK_GDCM_LIBRARIES gdcmMSFF)
+      IF(ITK_USE_SYSTEM_TIFF)
+        # Long story short. ITKIO is NOT linked to itkjpeg8 explicitely. itkjpeg8 dep is being
+        # pulled from linking to itktiff. However in case of ITK_SYSTEM_TIFF the FindTIFF module
+        # do not explicitely link to the system jpeg. One can check however that on most GNU/Linux system
+        #  $ ldd /usr/lib/libtiff.so
+        #    linux-vdso.so.1 =>  (0x00007fff67fff000)
+        #    libjpeg.so.62 => /usr/lib/libjpeg.so.62 (0x00007f635f9f2000)
+        # As a side note, ITK_SYSTEM_TIFF is somewhat robust as itkjpeg8 dep can also be pulled from
+        # linking to the default gdcm libraries since they use the itkjpeg libraries.
+        # I do not know the correct fix:
+        # 1. Have FindTIFF link to jpeg8 (which would be the right thing to do for static system libtiff)
+        # 2. Have ITKIO explicitely link to itkjpeg8
+        # For the time being let's explicitely pull the dep to itkjpeg8 ourselves.
+        SET(ITK_GDCM_LIBRARIES gdcmMSFF itkjpeg8)
+      ELSE(ITK_USE_SYSTEM_TIFF)
+        SET(ITK_GDCM_LIBRARIES gdcmMSFF)
+      ENDIF(ITK_USE_SYSTEM_TIFF)
     ENDIF( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
   ELSE(GDCM_FOUND)
     MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
