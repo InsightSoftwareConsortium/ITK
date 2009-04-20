@@ -32,6 +32,7 @@ CollidingFrontsImageFilter<TInputImage,TOutputImage>
 {
   m_SeedPoints1 = NULL;
   m_SeedPoints2 = NULL;
+  m_StopOnTargets = false;
   m_ApplyConnectivity = true;
   m_NegativeEpsilon = -1E-6;
 }
@@ -50,6 +51,14 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
   fastMarchingFilter1->SetOutputSpacing(this->GetInput()->GetSpacing());
   fastMarchingFilter1->SetOutputDirection(this->GetInput()->GetDirection());
   fastMarchingFilter1->GenerateGradientImageOn();
+  if (m_StopOnTargets)
+    {
+    fastMarchingFilter1->SetTargetReachedModeToAllTargets();
+    }
+  else
+    {
+    fastMarchingFilter1->SetTargetReachedModeToNoTargets();
+    }
   fastMarchingFilter1->Update();
 
   typename FastMarchingUpwindGradientImageFilterType::Pointer fastMarchingFilter2 = FastMarchingUpwindGradientImageFilterType::New();
@@ -61,6 +70,14 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
   fastMarchingFilter2->SetOutputSpacing(this->GetInput()->GetSpacing());
   fastMarchingFilter2->SetOutputDirection(this->GetInput()->GetDirection());
   fastMarchingFilter2->GenerateGradientImageOn();
+  if (m_StopOnTargets)
+    {
+    fastMarchingFilter2->SetTargetReachedModeToAllTargets();
+    }
+  else
+    {
+    fastMarchingFilter2->SetTargetReachedModeToNoTargets();
+    }
   fastMarchingFilter2->Update();
 
   typedef itk::MultiplyImageFilter<GradientImageType,GradientImageType,OutputImageType> MultiplyFilterType;
@@ -139,6 +156,8 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>
   os << indent << "ApplyConnectivity = " << m_ApplyConnectivity << std::endl;
   os << indent << "SeedPoints1: " << m_SeedPoints1.GetPointer() << std::endl;
   os << indent << "SeedPoints2: " << m_SeedPoints2.GetPointer() << std::endl;
+  os << indent << "NegativeEpsilon: " << m_NegativeEpsilon << std::endl;
+  os << indent << "StopOnTargets: " << m_StopOnTargets << std::endl;
 }
 
 } // end namespace itk
