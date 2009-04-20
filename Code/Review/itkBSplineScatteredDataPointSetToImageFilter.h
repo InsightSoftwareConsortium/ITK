@@ -18,6 +18,7 @@
 #define __itkBSplineScatteredDataPointSetToImageFilter_h
 
 #include "itkPointSetToImageFilter.h"
+#include "itkBSplineKernelFunction.h"
 #include "itkCoxDeBoorBSplineKernelFunction.h"
 #include "itkFixedArray.h"
 #include "itkVariableSizeMatrix.h"
@@ -116,6 +117,10 @@ public:
    * Interpolation kernel type (default spline order = 3)
    */
   typedef CoxDeBoorBSplineKernelFunction<3>          KernelType;
+  typedef BSplineKernelFunction<0>                   KernelOrder0Type;
+  typedef BSplineKernelFunction<1>                   KernelOrder1Type;
+  typedef BSplineKernelFunction<2>                   KernelOrder2Type;
+  typedef BSplineKernelFunction<3>                   KernelOrder3Type;
 
   /** Helper functions */
 
@@ -211,11 +216,16 @@ private:
   ArrayType                                      m_SplineOrder;
   ArrayType                                      m_NumberOfLevels;
   typename WeightsContainerType::Pointer         m_PointWeights;
-  typename KernelType::Pointer                   m_Kernel[ImageDimension];
   typename PointDataImageType::Pointer           m_PhiLattice;
   typename PointDataImageType::Pointer           m_PsiLattice;
   typename PointDataContainerType::Pointer       m_InputPointData;
   typename PointDataContainerType::Pointer       m_OutputPointData;
+
+  typename KernelType::Pointer                   m_Kernel[ImageDimension];
+  typename KernelOrder0Type::Pointer             m_KernelOrder0;
+  typename KernelOrder1Type::Pointer             m_KernelOrder1;
+  typename KernelOrder2Type::Pointer             m_KernelOrder2;
+  typename KernelOrder3Type::Pointer             m_KernelOrder3;
 
   RealType                                       m_BSplineEpsilon;
 

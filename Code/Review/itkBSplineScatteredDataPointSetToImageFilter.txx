@@ -52,6 +52,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     this->m_Kernel[i] = KernelType::New();
     this->m_Kernel[i]->SetSplineOrder( this->m_SplineOrder[i] );
     }
+  this->m_KernelOrder0 = KernelOrder0Type::New();
+  this->m_KernelOrder1 = KernelOrder1Type::New();
+  this->m_KernelOrder2 = KernelOrder2Type::New();
+  this->m_KernelOrder3 = KernelOrder3Type::New();
 
   this->m_CloseDimension.Fill( 0 );
   this->m_DoMultilevel = false;
@@ -637,10 +641,37 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       typename RealImageType::IndexType idx = Itw.GetIndex();
       for( unsigned int i = 0; i < ImageDimension; i++ )
         {
-         RealType u = static_cast<RealType>( p[i] -
+        RealType u = static_cast<RealType>( p[i] -
            static_cast<unsigned>( p[i] ) - idx[i] )
            + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
-        B *= this->m_Kernel[i]->Evaluate( u );
+        switch( this->m_SplineOrder[i] )
+          {
+          case 0:
+            {
+            B *= this->m_KernelOrder0->Evaluate( u );
+            break;
+            }
+          case 1:
+            {
+            B *= this->m_KernelOrder1->Evaluate( u );
+            break;
+            }
+          case 2:
+            {
+            B *= this->m_KernelOrder2->Evaluate( u );
+            break;
+            }
+          case 3:
+            {
+            B *= this->m_KernelOrder3->Evaluate( u );
+            break;
+            }
+          default:
+            {
+            B *= this->m_Kernel[i]->Evaluate( u );
+            break;
+            }
+          }
         }
       Itw.Set( B );
       w2_sum += B*B;
@@ -906,8 +937,37 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     for( unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; i++ )
       {
       idx[dimension] = static_cast<unsigned int>( u ) + i;
-      RealType B = this->m_Kernel[dimension]->Evaluate( u - idx[dimension]
-        + 0.5*static_cast<RealType>( this->m_SplineOrder[dimension] - 1 ) );
+      RealType v = u - idx[dimension]
+        + 0.5*static_cast<RealType>( this->m_SplineOrder[dimension] - 1 );
+      RealType B = 0.0;
+      switch( this->m_SplineOrder[dimension] )
+        {
+        case 0:
+          {
+          B = this->m_KernelOrder0->Evaluate( v );
+          break;
+          }
+        case 1:
+          {
+          B = this->m_KernelOrder1->Evaluate( v );
+          break;
+          }
+        case 2:
+          {
+          B = this->m_KernelOrder2->Evaluate( v );
+          break;
+          }
+        case 3:
+          {
+          B = this->m_KernelOrder3->Evaluate( v );
+          break;
+          }
+        default:
+          {
+          B = this->m_Kernel[dimension]->Evaluate( v );
+          break;
+          }
+        }
       if( this->m_CloseDimension[dimension] )
         {
         idx[dimension] %=
@@ -928,7 +988,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     {
     point[i] -= this->m_Origin[i];
     point[i] /=
-      ( static_cast<RealType>( this->m_Size[i]-1 ) * this->m_Spacing[i] );
+      ( static_cast<RealType>( this->m_Size[i] - 1 ) * this->m_Spacing[i] );
     }
   this->Evaluate( point, data );
 }
@@ -999,7 +1059,34 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       {
       RealType u = p[i] - static_cast<RealType>( static_cast<unsigned>( p[i] )
         + idx[i] ) + 0.5*static_cast<RealType>( this->m_SplineOrder[i] - 1 );
-      B *= this->m_Kernel[i]->Evaluate( u );
+      switch( this->m_SplineOrder[i] )
+        {
+        case 0:
+          {
+          B *= this->m_KernelOrder0->Evaluate( u );
+          break;
+          }
+        case 1:
+          {
+          B *= this->m_KernelOrder1->Evaluate( u );
+          break;
+          }
+        case 2:
+          {
+          B *= this->m_KernelOrder2->Evaluate( u );
+          break;
+          }
+        case 3:
+          {
+          B *= this->m_KernelOrder3->Evaluate( u );
+          break;
+          }
+        default:
+          {
+          B *= this->m_Kernel[i]->Evaluate( u );
+          break;
+          }
+        }
       }
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
