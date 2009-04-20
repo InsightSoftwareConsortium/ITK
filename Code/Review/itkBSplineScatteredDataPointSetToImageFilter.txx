@@ -939,7 +939,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       idx[dimension] = static_cast<unsigned int>( u ) + i;
       RealType v = u - idx[dimension]
         + 0.5*static_cast<RealType>( this->m_SplineOrder[dimension] - 1 );
-      RealType B = 0.0;
+      RealType B;
       switch( this->m_SplineOrder[dimension] )
         {
         case 0:
