@@ -76,14 +76,20 @@ public:
   typedef typename TInputImage::PixelType                InputPixelType;
   typedef typename TOutputImage::PixelType               OutputPixelType;
   typedef typename TOutputImage::RegionType              OutputRegionType;
-
+ 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension<InputImageType>::ImageDimension);
- 
+
+  /** Types for Scales image */
+  typedef float                                          ScalesPixelType;
+  typedef Image<ScalesPixelType, itkGetStaticConstMacro(ImageDimension)>  ScalesImageType;
+
   /** Hessian computation filter. */
   typedef HessianRecursiveGaussianImageFilter< InputImageType, HessianImageType> HessianFilterType;
  
-  /** Update image buffer that holds the best objectness response */ 
+  /** Update image buffer that holds the best objectness response. This is not redundant from
+   the output image because the latter may not be of float type, which is required for the comparisons 
+   between responses at different scales. */ 
   typedef Image< double, itkGetStaticConstMacro(ImageDimension) > UpdateBufferType;
   typedef typename UpdateBufferType::ValueType                    BufferValueType;
     
@@ -110,6 +116,16 @@ public:
   itkSetObjectMacro( HessianToMeasureFilter, HessianToMeasureFilterType); 
   itkGetObjectMacro( HessianToMeasureFilter, HessianToMeasureFilterType); 
 
+  /** Methods to turn on/off flag to inform the filter that the Hessian-based measure
+   is non-negative (classical measures like Sato's and Frangi's are), hence it has a minimum
+   at zero. In this case, the update buffer is initialized at zero, and the output scale and Hessian 
+   are zero in case the Hessian-based measure returns zero for all scales. Otherwise, the minimum 
+   output scale and Hessian are the ones obtained at scale SigmaMinimum. On by default. 
+   */
+  itkSetMacro(NonNegativeHessianBasedMeasure,bool);
+  itkGetMacro(NonNegativeHessianBasedMeasure,bool);
+  itkBooleanMacro(NonNegativeHessianBasedMeasure);
+
   typedef enum { EquispacedSigmaSteps = 0,
                  LogarithmicSigmaSteps = 1 } SigmaStepMethodType;
 
@@ -130,7 +146,7 @@ public:
  
   /** Get the image containing the scales at which each pixel gave the
    * best response */
-  const OutputImageType* GetScalesOutput() const;
+  const ScalesImageType* GetScalesOutput() const;
   
   void EnlargeOutputRequestedRegion (DataObject *);
 
@@ -146,6 +162,8 @@ public:
   itkGetMacro(GenerateHessianOutput,bool);
   itkBooleanMacro(GenerateHessianOutput);
 
+  /** This is overloaded to create the Scales and Hessian output images */
+  virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
@@ -164,6 +182,8 @@ private:
   //purposely not implemented
   MultiScaleHessianBasedMeasureImageFilter(const Self&); 
   void operator=(const Self&); //purposely not implemented
+
+  bool                        m_NonNegativeHessianBasedMeasure;
 
   double                      m_SigmaMinimum;
   double                      m_SigmaMaximum;
