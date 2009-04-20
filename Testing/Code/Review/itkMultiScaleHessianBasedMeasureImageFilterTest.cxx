@@ -33,7 +33,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
               << argv[0]
               << " InputImage"
               << " EnhancedOutputImage ScalesOutputImage "
-              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2]" << std::endl;
+              << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2 ScalesOutputImage3]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -238,6 +238,38 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
       std::cerr << e << std::endl;
       }
     }
+
+  if ( argc > 10 )
+    {
+    //Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
+    multiScaleEnhancementFilter->NonNegativeHessianBasedMeasureOff(); 
+  
+    multiScaleEnhancementFilter->Print( std::cout );
+
+    try
+      {
+      multiScaleEnhancementFilter->Update();
+      }
+    catch (itk::ExceptionObject &e)
+      {
+      std::cerr << e << std::endl;
+      }
+
+    FileWriterType::Pointer writer3 = FileWriterType::New();
+    writer3->SetFileName(argv[10]);
+    writer3->UseCompressionOn();
+    writer3->SetInput( multiScaleEnhancementFilter->GetScalesOutput() );
+
+    try
+      {
+      writer3->Update();
+      }
+    catch (itk::ExceptionObject &e)
+      {
+      std::cerr << e << std::endl;
+      }
+    }
+
 
   return EXIT_SUCCESS;
 }
