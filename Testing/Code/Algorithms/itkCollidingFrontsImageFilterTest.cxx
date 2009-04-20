@@ -176,6 +176,16 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  collidingFronts->StopOnTargetsOn();
+  try
+    {
+    collidingFronts->Update();
+    }
+  catch ( itk::ExceptionObject& err )
+    {
+    std::cout << err << std::endl;
+    }
+
   std::cout << "Colliding Fronts test passed. " << std::endl;
   return EXIT_SUCCESS;
 
