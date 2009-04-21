@@ -79,7 +79,7 @@ public:
   
   /** Get the contained object */
   virtual T& Get() { return m_Component; }
-  virtual T Get() const { return m_Component; }
+  virtual const T& Get() const { return m_Component; }
 
   
 protected:
