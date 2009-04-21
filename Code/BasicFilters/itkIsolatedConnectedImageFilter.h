@@ -108,47 +108,23 @@ public:
   /** Set seed point 1. This seed will be isolated from Seed2 (if possible).
    *  All pixels connected to this seed will be replaced with ReplaceValue.
    *  This method is deprecated, please use AddSeed() */
-  void SetSeed1(const IndexType & seed)
-    {
-    this->ClearSeeds1();
-    this->AddSeed1( seed );
-    }
-
+  void SetSeed1(const IndexType & seed);
   
   /** Clear all the seeds1. */
-  void ClearSeeds1()
-    {
-    m_Seeds1.clear();
-    }
-
+  void ClearSeeds1();
 
   /** Add seed point 1. */
-  void AddSeed1(const IndexType & seed)
-    {
-    m_Seeds1.push_back( seed );
-    this->Modified();
-    }
+  void AddSeed1(const IndexType & seed);
 
   /** Set seed point 2. This seed will be isolated from Seed1 (if possible).
    *  This method is deprecated, please use AddSeed() */
-  void SetSeed2(const IndexType & seed)
-    {
-    this->ClearSeeds2();
-    this->AddSeed2( seed );
-    }
-  
+  void SetSeed2(const IndexType & seed);
+ 
   /** Clear all the seeds2. */
-  void ClearSeeds2()
-    {
-    m_Seeds2.clear();
-    }
+  void ClearSeeds2();
 
   /** Add seed point 2. */
-  void AddSeed2(const IndexType & seed)
-    {
-    m_Seeds2.push_back( seed );
-    this->Modified();
-    }
+  void AddSeed2(const IndexType & seed);
 
   /** Set/Get the limit on the lower threshold value. The default is
    * the NonpositiveMin() for the InputPixelType. */

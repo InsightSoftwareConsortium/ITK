@@ -64,23 +64,13 @@ public:
   void PrintSelf ( std::ostream& os, Indent indent ) const;
 
   /** Clear the seeds */
-  void ClearSeeds()
-    {
-    m_Seeds.clear();
-    this->Modified();
-    }
+  void ClearSeeds();
+
   /** Set seed point. */
-  void SetSeed(const IndexType & seed)
-    {
-    this->ClearSeeds();
-    this->AddSeed ( seed );
-    }
+  void SetSeed(const IndexType & seed);
+
   /** Add a seed point */
-  void AddSeed ( const IndexType & seed )
-    {
-    m_Seeds.push_back ( seed );
-    this->Modified();
-    }
+  void AddSeed ( const IndexType & seed );
 
   /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);

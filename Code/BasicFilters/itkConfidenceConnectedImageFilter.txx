@@ -47,6 +47,36 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   m_Variance = NumericTraits< InputRealType >::Zero;
 }
 
+template <class TInputImage, class TOutputImage>
+void
+ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+::SetSeed(const IndexType & seed)
+{
+  this->m_Seeds.clear();
+  this->AddSeed( seed );
+}
+  
+template <class TInputImage, class TOutputImage>
+void
+ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+::ClearSeeds()
+{
+  if( this->m_Seeds.size() > 0 )
+    {
+    this->m_Seeds.clear();
+    this->Modified();
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+::AddSeed(const IndexType & seed)
+{
+  this->m_Seeds.push_back( seed );
+  this->Modified();
+}
+
 /**
  * Standard PrintSelf method.
  */

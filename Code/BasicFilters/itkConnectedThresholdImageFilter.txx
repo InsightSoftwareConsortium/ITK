@@ -50,6 +50,36 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>
   this->ProcessObject::SetNthInput( 2, upper );
 }
 
+template <class TInputImage, class TOutputImage>
+void
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::SetSeed ( const IndexType & seed )
+{
+  this->ClearSeeds();
+  this->AddSeed ( seed );
+}
+
+template <class TInputImage, class TOutputImage>
+void
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::AddSeed(const IndexType & seed)
+{
+  this->m_SeedList.push_back ( seed );
+  this->Modified();
+}
+
+template <class TInputImage, class TOutputImage>
+void
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>
+::ClearSeeds ()
+{
+  if( m_SeedList.size() > 0 )
+    {
+    this->m_SeedList.clear();
+    this->Modified();
+    }
+}
+
 /**
  * Standard PrintSelf method.
  */

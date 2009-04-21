@@ -67,27 +67,11 @@ public:
 
   
   /** Set seed point. */
-  void SetSeed ( const IndexType & seed )
-    {
-    this->ClearSeeds();
-    this->AddSeed ( seed );
-    }
-  void AddSeed(const IndexType & seed)
-    {
-    m_SeedList.push_back ( seed );
-    this->Modified();
-    }
+  void SetSeed ( const IndexType & seed );
+  void AddSeed(const IndexType & seed);
 
   /** Clear the seed list. */
-  void ClearSeeds ()
-    {
-    if (m_SeedList.size() > 0)
-      {
-      m_SeedList.clear();
-      this->Modified();
-      }
-    }
-
+  void ClearSeeds ();
   
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this

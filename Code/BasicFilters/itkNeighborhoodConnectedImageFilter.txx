@@ -38,6 +38,36 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
   m_Radius.Fill(1);
 }
 
+template <class TInputImage, class TOutputImage>
+void
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
+::ClearSeeds()
+{
+  if( this->m_Seeds.size() > 0 )
+    {
+    this->m_Seeds.clear();
+    this->Modified();
+    }
+}
+
+template <class TInputImage, class TOutputImage>
+void
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
+::SetSeed(const IndexType & seed)
+{
+  this->ClearSeeds();
+  this->AddSeed ( seed );
+}
+
+template <class TInputImage, class TOutputImage>
+void
+NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>
+::AddSeed ( const IndexType & seed )
+{
+  this->m_Seeds.push_back ( seed );
+  this->Modified();
+}
+
 /**
  * Standard PrintSelf method.
  */
