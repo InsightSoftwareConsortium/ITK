@@ -84,7 +84,13 @@ public:
   
   void SetVectorLength( VectorLengthType length ) {}
   VectorLengthType SetVectorLength() { return 0; }
+
+  /** Constructor */
+  NeighborhoodAccessorFunctor() {}
   
+  /** Destructor */
+  virtual ~NeighborhoodAccessorFunctor() {}
+
 };
 
 } // end namespace itk
