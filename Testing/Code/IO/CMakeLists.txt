@@ -734,6 +734,8 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
                                   ${ITK_TEST_OUTPUT_DIR})
   ADD_TEST(itkAnalyzeImageIOBadHeader ${IO_TESTS} itkAnalyzeImageIOBadHeader                                  
                                   ${ITK_TEST_OUTPUT_DIR})
+  ADD_TEST(itkAnalyzeImageIORGBImageTest ${IO_TESTS} itkAnalyzeImageIORGBImageTest
+                                         ${ITK_TEST_OUTPUT_DIR})
 ##Nifti Test Suite
  ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
    itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})

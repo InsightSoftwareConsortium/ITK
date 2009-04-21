@@ -122,10 +122,18 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
+template <class ImageType>
+void SetIdentityDirection(typename ImageType::Pointer &im)
+{
+  typename ImageType::DirectionType dir;
+  dir.SetIdentity();
+  im->SetDirection(dir);
+}
 
 #define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
 { \
   rval = ImageType::New(); \
+  SetIdentityDirection<ImageType>(rval);       \
   rval->SetSpacing(spacing); \
   rval->SetRegions(region); \
   rval->Allocate(); \

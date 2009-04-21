@@ -37,6 +37,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itk_zlib.h"
+#include "itkNiftiImageIOTest.h"
+#include "itkRGBPixel.h"
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
 #include <stdlib.h>
@@ -44,15 +46,7 @@ PURPOSE.  See the above copyright notices for more information.
 #else
 #include <unistd.h>
 #endif
-static inline int Remove(const char *fname)
-{
-  return unlink(fname);
-}
 
-const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
-const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
-const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
-const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
 static int WriteTestFiles(const std::string AugmentName)
 {
@@ -201,6 +195,27 @@ static int TestByteSwap(const std::string & AugmentName)
   return rval;
 }
 
+template <class ImageType>
+typename ImageType::DirectionType
+CORDirCosines()
+{
+  typename itk::SpatialOrientationAdapter::DirectionType CORdir=
+    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  typename ImageType::DirectionType dir;
+  for(unsigned i = 0; i < ImageType::ImageDimension; i++)
+    {
+    for(unsigned j = 0; j < ImageType::ImageDimension; j++)
+      {
+      dir[i][j] = CORdir[i][j];
+      }
+    }
+  if(ImageType::ImageDimension == 2)
+    {
+    dir[1][1] = 1.0;
+    }
+  return dir;
+}
+
 template <typename T, unsigned Dimension> 
 int 
 MakeImage(const std::string & AugmentName)
@@ -231,22 +246,8 @@ MakeImage(const std::string & AugmentName)
   img->SetBufferedRegion( region );
   img->SetRequestedRegion( region );
 
-  typename itk::SpatialOrientationAdapter::DirectionType CORdir=
-    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  typename ImageType::DirectionType dir = CORDirCosines<ImageType>();
 
-  typename ImageType::DirectionType dir;
-
-  for(unsigned i = 0; i < Dimension; i++)
-    {
-    for(unsigned j = 0; j < Dimension; j++)
-      {
-      dir[i][j] = CORdir[i][j];
-      }
-    }
-  if(Dimension)
-    {
-    dir[1][1] = 1.0;
-    }
   img->SetDirection(dir);
   img->Allocate();
 
@@ -583,43 +584,6 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
     }
 }
 
-template <typename TImage>
-typename TImage::Pointer ReadImage( const std::string &fileName,
-                                    const bool zeroOrigin = false )
-{
-  typedef itk::ImageFileReader<TImage> ReaderType;
-
-  typename ReaderType::Pointer reader = ReaderType::New();
-  {
-  reader->SetFileName( fileName.c_str() );
-  try
-    {
-    reader->Update();
-    }
-  catch( itk::ExceptionObject & err )
-    {
-    std::cout << "Caught an exception: " << std::endl;
-    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
-    throw err;
-    }
-  catch(...)
-    {
-    std::cout << "Error while reading in image for patient " << fileName << std::endl;
-    throw;
-    }
-  }
-  typename TImage::Pointer image = reader->GetOutput();
-  if(zeroOrigin)
-    {
-    double origin[TImage::ImageDimension];
-    for(unsigned int i =0 ; i< TImage::ImageDimension ; i++)
-      {
-      origin[i]=0;
-      }
-    image->SetOrigin(origin);
-    }
-  return image;
-}
 
 int
 TestDegenerateHeaderFiles()
@@ -680,4 +644,109 @@ int itkAnalyzeImageIOBadHeader(int ac, char* av[])
   result2 = TestDegenerateHeaderFiles();
 #endif
   return !(result1 == 0 && result2 == 0);
+}
+
+template <class ImageType>
+typename ImageType::Pointer NewRGBImage()
+{
+  typename ImageType::IndexType index;
+  typename ImageType::SizeType size;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::RegionType region;
+  typename ImageType::Pointer rval;
+  for(unsigned i = 0; i < ImageType::ImageDimension; i++)
+    {
+    spacing[i] = 1.0;
+    size[i] = 4;
+    index[i] = 0;
+    }
+  region.SetSize(size);
+  region.SetIndex(index);
+  AllocateImageFromRegionAndSpacing(ImageType, rval, region, spacing);
+  return rval;
+}
+
+int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
+{
+  //
+  // first argument is passing in the writable directory to do all testing
+  if(ac > 1)
+    {
+    char *testdir = *++av;
+    --ac;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  const unsigned int Dimension = 3;
+  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
+  RGBImageType::Pointer im(NewRGBImage<RGBImageType>());
+  itk::ImageRegionIterator<RGBImageType> it(im,im->GetLargestPossibleRegion());
+  RGBImageType::DirectionType dir(CORDirCosines<RGBImageType>());
+  im->SetDirection(dir);
+  vnl_random randgen(8775070);
+  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+    RGBPixelType pixel;
+    pixel[0] = randgen.drand32(0,255);
+    pixel[1] = randgen.drand32(0,255);
+    pixel[2] = randgen.drand32(0,255);
+    it.Set(pixel);
+    }
+  int status(EXIT_SUCCESS);
+  const std::string filename("RGBImageTest.hdr");
+  try
+    {
+    WriteImage<RGBImageType>(im,filename);
+    }
+  catch ( itk::ExceptionObject & ex )
+    {
+      std::string message;
+      message = "Problem found while writing ";
+      message += filename;
+      message += "\n";
+      message += ex.GetLocation();
+      message += "\n";
+      message += ex.GetDescription();
+      std::cerr << message << std::endl;
+      status = EXIT_FAILURE;
+    }
+  if(status == EXIT_SUCCESS)
+    {
+    RGBImageType::Pointer im2;
+    try
+      {
+      im2 = ReadImage<RGBImageType>(filename);
+      }
+    catch ( itk::ExceptionObject & ex )
+      {
+      std::string message;
+      message = "Problem found while reading ";
+      message += filename;
+      message += "\n";
+      message += ex.GetLocation();
+      message += "\n";
+      message += ex.GetDescription();
+      std::cerr << message << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if(status == EXIT_SUCCESS)
+      {
+      itk::ImageRegionIterator<RGBImageType> it2(im2,im2->GetLargestPossibleRegion());
+      for(it.GoToBegin(),it2.GoToBegin(); 
+          !it.IsAtEnd() && !it2.IsAtEnd(); 
+          ++it,++it2)
+        {
+        if(it.Value() != it2.Value())
+          {
+          std::cout << "Pixel "
+                    << it2.Value() << " (from disk) != "
+                    << it.Value() << " (original image)"
+                    << std::endl;
+          status = EXIT_FAILURE;
+          }
+        }
+      }
+    }
+  Remove(filename.c_str());
+  return status;
 }
