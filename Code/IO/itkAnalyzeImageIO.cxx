@@ -598,10 +598,10 @@ void  AnalyzeImageIO::DefineHeaderObjectDataType()
       if(this->GetPixelType() == RGB)
         {
         eNewType = ANALYZE_DT_INDEX_RGB;
+        this->SetNumberOfComponents(3);
         }  
       else
         {
-        this->SetNumberOfComponents(3);
         eNewType=ANALYZE_DT_INDEX_UNSIGNED_CHAR;
         }
       break;
