@@ -87,7 +87,7 @@ protected:
   QuadEdgeMeshToQuadEdgeMeshFilter( );
   virtual ~QuadEdgeMeshToQuadEdgeMeshFilter( ) { }
 
-  virtual void GenerateData( );
+  virtual void CopyInputMeshToOutputMesh( );
 
 private:
   QuadEdgeMeshToQuadEdgeMeshFilter( const Self& ); // Not impl.

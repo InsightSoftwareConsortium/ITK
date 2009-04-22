@@ -165,7 +165,7 @@ void
 QuadEdgeMeshParam< TInputMesh, TOutputMesh, TSolverTraits >
 ::GenerateData( )
 {
-  Superclass::GenerateData( );
+  this->CopyInputMeshToOutputMesh( );
 
   InputMeshPointer input = this->GetInput( );
   OutputMeshType* output = this->GetOutput( );
@@ -178,9 +178,10 @@ QuadEdgeMeshParam< TInputMesh, TOutputMesh, TSolverTraits >
     }
 
   assert( ( m_BoundaryPtMap.size( ) > 2 ) && ( m_Border.size( ) > 2 ) );
-  CopyToOutputBorder( );
 
-  ComputeListOfInteriorVertices( );
+  this->CopyToOutputBorder( );
+
+  this->ComputeListOfInteriorVertices( );
 
   size_t NbOfInteriorPts = m_InternalPtMap.size( );
 

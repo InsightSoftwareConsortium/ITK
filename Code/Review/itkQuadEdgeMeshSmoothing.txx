@@ -21,18 +21,22 @@
 namespace itk
 {
 template< class TInputMesh, class TOutputMesh >
-QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::QuadEdgeMeshSmoothing() :
-  Superclass(), m_CoefficientsMethod( 0 ),
-  m_DelaunayConforming( false ), m_NumberOfIterations( 1 ),
-  m_RelaxationFactor( static_cast< OutputCoordType >( 1. ) )
+QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >
+::QuadEdgeMeshSmoothing()
 {
-  m_InputDelaunayFilter = InputOutputDelaunayConformingType::New();
-  m_OutputDelaunayFilter = OutputDelaunayConformingType::New();
+  this->m_CoefficientsMethod = 0;
+  this->m_DelaunayConforming = false;
+  this->m_NumberOfIterations = 1;
+  this->m_RelaxationFactor = static_cast< OutputCoordType >( 1.0 );
+
+  this->m_InputDelaunayFilter = InputOutputDelaunayConformingType::New();
+  this->m_OutputDelaunayFilter = OutputDelaunayConformingType::New();
 }
 
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::~QuadEdgeMeshSmoothing()
-{}
+{
+}
 
 template< class TInputMesh, class TOutputMesh >
 void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::
@@ -45,13 +49,20 @@ GenerateData()
 
   OutputPointsContainerPointer points;
   OutputPointsContainerIterator it;
-  OutputPointType p, q, r;
-  OutputVectorType v;
-  OutputCoordType coeff, sum_coeff, den;
-  OutputQEType* qe;
-  OutputQEType* qe_it;
 
-  if( m_DelaunayConforming )
+  OutputPointType p;
+  OutputPointType q;
+  OutputPointType r;
+  OutputVectorType v;
+
+  OutputCoordType coeff;
+  OutputCoordType sum_coeff;
+  OutputCoordType den;
+
+  OutputQEType * qe;
+  OutputQEType * qe_it;
+
+  if( this->m_DelaunayConforming )
     {
     m_InputDelaunayFilter->SetInput( this->GetInput() );
     if( m_NumberOfIterations == 0 )
@@ -69,9 +80,13 @@ GenerateData()
   else
     {
     if( m_NumberOfIterations == 0 )
-      Superclass::GenerateData();
+      {
+      this->CopyInputMeshToOutputMesh();
+      }
     else
+      {
       mesh = this->GetInput();
+      }
     }
 
   for( unsigned int iter = 0; iter < m_NumberOfIterations; ++iter )
@@ -85,7 +100,7 @@ GenerateData()
       if( qe != 0 )
         {
         r = p;
-        v.Fill( 0. );
+        v.Fill( 0.0 );
         qe_it = qe;
         sum_coeff = 0.;
         do
@@ -99,7 +114,7 @@ GenerateData()
           qe_it = qe_it->GetOnext();
           } while( qe_it != qe );
 
-        den = 1. / static_cast< OutputCoordType >( sum_coeff );
+        den = 1.0 / static_cast< OutputCoordType >( sum_coeff );
         v *= den;
 
         r += m_RelaxationFactor * v;
@@ -114,7 +129,7 @@ GenerateData()
 
     mesh->SetPoints( temp );
 
-    if( m_DelaunayConforming )
+    if( this->m_DelaunayConforming )
       {
       mesh->DisconnectPipeline();
       m_OutputDelaunayFilter->SetInput( mesh );

@@ -85,8 +85,13 @@ public:
     { m_CoefficientsMethod = iMethod; }
 
   itkSetMacro( NumberOfIterations, unsigned int );
+  itkGetMacro( NumberOfIterations, unsigned int );
+
   itkSetMacro( DelaunayConforming, bool );
+  itkGetMacro( DelaunayConforming, bool );
+
   itkSetMacro( RelaxationFactor, OutputCoordType );
+  itkGetMacro( RelaxationFactor, OutputCoordType );
 
 protected:
   QuadEdgeMeshSmoothing();

@@ -25,11 +25,12 @@ namespace itk
 
 // ---------------------------------------------------------------------
 template< typename TInputMesh, typename TOutputMesh >
-QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
-  QuadEdgeMeshDelaunayConformingFilter( ) : Superclass( ), m_NumberOfEdgeFlips( 0 )
+QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >
+::QuadEdgeMeshDelaunayConformingFilter() 
 {
-  m_FlipEdge = FlipEdgeFunctionType::New( );
-  m_PriorityQueue = PriorityQueueType::New( );
+  this->m_NumberOfEdgeFlips = 0;
+  this->m_FlipEdge = FlipEdgeFunctionType::New( );
+  this->m_PriorityQueue = PriorityQueueType::New( );
 }
 
 // ---------------------------------------------------------------------
@@ -143,7 +144,7 @@ Process( )
     qe = m_FlipEdge->Evaluate( qe );
     if( qe != 0 )
       {
-      ++m_NumberOfEdgeFlips;
+      ++this->m_NumberOfEdgeFlips;
       list_qe[4] = qe;
 
       for( it = list_qe.begin( ); it != list_qe.end( ); ++it )
@@ -186,13 +187,13 @@ template< typename TInputMesh, typename TOutputMesh >
 void QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::
 GenerateData( )
 {
-  Superclass::GenerateData( );
+  this->CopyInputMeshToOutputMesh( );
 
   // initialize all required instances
-  m_NumberOfEdgeFlips = 0;
+  this->m_NumberOfEdgeFlips = 0;
 
-  InitializePriorityQueue();
-  Process();
+  this->InitializePriorityQueue();
+  this->Process();
 }
 
 } // end namespace itk

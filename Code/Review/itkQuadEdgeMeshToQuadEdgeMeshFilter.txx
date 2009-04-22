@@ -37,7 +37,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 template< class TInputMesh, class TOutputMesh >
 void 
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::GenerateData()
+::CopyInputMeshToOutputMesh()
 {
   InputMeshConstPointer in = this->GetInput();
   OutputMeshPointer out = this->GetOutput();

@@ -77,7 +77,9 @@ protected:
     OutputPointType p[3];
 
     for( int i = 0; i < 3; i++ )
+      {
       p[i] = output->GetPoint( id[i] );
+      }
 
     if( !TriangleType::IsObtuse( p[0], p[1], p[2] ) )
       {
@@ -101,15 +103,20 @@ protected:
         static_cast< OutputCurvatureType >(
           TriangleType::ComputeArea( p[0], p[1], p[2] ) );
       if( ( p[1] - p[0] ) * ( p[2] - p[0] ) < 0. )
+        {
         return 0.5 * area;
+        }
       else
+        {
         return 0.25 * area;
+        }
       }
     }
 
   virtual void GenerateData()
     {
-    Superclass::GenerateData();
+    this->CopyInputMeshToOutputMesh();
+
     OutputMeshPointer output = this->GetOutput();
 
     OutputPointsContainerPointer points = output->GetPoints();
@@ -125,6 +132,7 @@ protected:
 private:
   QuadEdgeMeshDiscreteCurvatureEstimator( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
+
 };
 
 } // end namespace itk

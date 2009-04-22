@@ -66,30 +66,21 @@ protected:
 
   void GenerateData()
     {
-    Superclass::GenerateData();
+    this->CopyInputMeshToOutputMesh();
 
     Initialize();
     FillPriorityQueue();
     m_Iteration = 0;
-//     bool topological_change = this->m_Criterion->GetTopologicalChange();
 
     do
       {
-//       std::cout <<m_Iteration <<std::endl;
-      Extract();
-//       if ( topological_change )
-//         {
-//         std::cout <<"ProcessWithoutAnyTopologicalGuarantee" <<std::endl;
-//         ProcessWithoutAnyTopologicalGuarantee();
-//         }
-//       else
-//         {
-        if ( ProcessWithTopologicalGuarantee() )
-          {
-//           std::cout <<"ProcessWithTopologicalGuarantee" <<std::endl;
-          return;
-          }
-//         }
+      this->Extract();
+
+      if ( ProcessWithTopologicalGuarantee() )
+        {
+        return;
+        }
+
       ++m_Iteration;
       } while ( !IsCriterionSatisfied() );
 

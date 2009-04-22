@@ -26,9 +26,10 @@ namespace itk
 // ----------------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
-::QuadEdgeMeshBorderTransform( ) :  m_TransformType( SQUARE_BORDER_TRANSFORM ),
-m_Radius( 0. )
+::QuadEdgeMeshBorderTransform() 
 {
+  this->m_TransformType = SQUARE_BORDER_TRANSFORM;
+  this->m_Radius = 0.0;
 }
 
 // ----------------------------------------------------------------------------
@@ -37,7 +38,7 @@ typename QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::MapPointIdentif
 QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 ::GetBoundaryPtMap( )
 {
-  return m_BoundaryPtMap;
+  return this->m_BoundaryPtMap;
 }
 
 // ----------------------------------------------------------------------------
@@ -46,7 +47,7 @@ typename QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::InputVectorPoin
 QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 ::GetBorder( )
 {
-  return m_Border;
+  return this->m_Border;
 }
 
 
@@ -70,10 +71,10 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
         it != bdryEdge->EndGeomLnext( );
         ++it, i++ )
     {
-    m_BoundaryPtMap[it.Value( )->GetOrigin( )] = i;
+    this->m_BoundaryPtMap[it.Value( )->GetOrigin( )] = i;
     }
 
-  m_Border.resize( i );
+  this->m_Border.resize( i );
 }
 
 
@@ -82,7 +83,7 @@ template< class TInputMesh, class TOutputMesh >
 void QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::
 GenerateData( )
 {
-  ComputeTransform();
+  this->ComputeTransform();
 }
 
 
@@ -100,7 +101,7 @@ ComputeLongestBorder( )
 
   InputEdgeListPointerType list = boundaryRepresentativeEdges->Evaluate( *input );
 
-  InputCoordRepType max_length( 0. ), length( 0. );
+  InputCoordRepType max_length( 0.0 ), length( 0.0 );
   InputEdgeListIterator oborder_it = list->begin( );
 
   for( InputEdgeListIterator b_it = list->begin( );
@@ -176,14 +177,14 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 {
   InputMeshPointer input = this->GetInput( );
 
-  size_t NbBoundaryPt = m_BoundaryPtMap.size( );
+  size_t NbBoundaryPt = this->m_BoundaryPtMap.size( );
 
   InputCoordRepType r = RadiusMaxSquare( );
 
-  InputCoordRepType two_r = 2. * r;
-  InputCoordRepType inv_two_r = 1. / two_r;
+  InputCoordRepType two_r = 2.0 * r;
+  InputCoordRepType inv_two_r = 1.0 / two_r;
 
-  InputPointIdentifier id = m_BoundaryPtMap.begin( )->first;
+  InputPointIdentifier id = this->m_BoundaryPtMap.begin( )->first;
   InputPointType pt1 = input->GetPoint( id );
   
   id = ( --m_BoundaryPtMap.end( ) )->first;
@@ -191,17 +192,17 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   InputCoordRepType dist = pt1.SquaredEuclideanDistanceTo( pt2 );
 
-  std::vector< InputCoordRepType > tetas( NbBoundaryPt, 0. );
+  std::vector< InputCoordRepType > tetas( NbBoundaryPt, 0.0 );
   tetas[0] = static_cast< InputCoordRepType >(
           vcl_acos( ( two_r - dist ) * inv_two_r ) );
 
-  MapPointIdentifierIterator BoundaryPtIterator = m_BoundaryPtMap.begin( );
+  MapPointIdentifierIterator BoundaryPtIterator = this->m_BoundaryPtMap.begin( );
 
   ++BoundaryPtIterator;
 
   OutputPointIdentifier j = 1;
 
-  while( BoundaryPtIterator !=  m_BoundaryPtMap.end() )
+  while( BoundaryPtIterator !=  this->m_BoundaryPtMap.end() )
     {
     pt1 = pt2;
 
@@ -216,26 +217,26 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     ++BoundaryPtIterator;
     }
 
-  InputCoordRepType a = ( 2. * vnl_math::pi ) / tetas[NbBoundaryPt-1];
+  InputCoordRepType a = ( 2.0 * vnl_math::pi ) / tetas[NbBoundaryPt-1];
 
-  if( m_Radius == 0. )
-    m_Radius = vcl_pow( vcl_sqrt( r ), a );
+  if( this->m_Radius == 0.0 )
+    {
+    this->m_Radius = vcl_pow( vcl_sqrt( r ), a );
+    }
 
   for( MapPointIdentifierIterator
-        BoundaryPtMapIterator = m_BoundaryPtMap.begin( );
-       BoundaryPtMapIterator != m_BoundaryPtMap.end( );
+        BoundaryPtMapIterator = this->m_BoundaryPtMap.begin( );
+       BoundaryPtMapIterator != this->m_BoundaryPtMap.end( );
        ++BoundaryPtMapIterator )
     {
     id = BoundaryPtMapIterator->first;
     j = BoundaryPtMapIterator->second;
 
-    pt1[0] =  m_Radius *
-      static_cast< InputCoordRepType >( vcl_cos( a * tetas[j] ) );
-    pt1[1] =  m_Radius *
-      static_cast< InputCoordRepType >( vcl_sin( a * tetas[j] ) );
-    pt1[2] = 0.;
+    pt1[0] =  this->m_Radius * static_cast< InputCoordRepType >( vcl_cos( a * tetas[j] ) );
+    pt1[1] =  this->m_Radius * static_cast< InputCoordRepType >( vcl_sin( a * tetas[j] ) );
+    pt1[2] =  0.0;
 
-    m_Border[j] = pt1;
+    this->m_Border[j] = pt1;
     }
 
 }
@@ -254,12 +255,10 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
   InputCoordRepType oRmax( 0.), r;
 
   for( MapPointIdentifierIterator
-        BoundaryPtIterator = m_BoundaryPtMap.begin( );
-       BoundaryPtIterator != m_BoundaryPtMap.end( );
+        BoundaryPtIterator = this->m_BoundaryPtMap.begin( );
+       BoundaryPtIterator != this->m_BoundaryPtMap.end( );
        ++BoundaryPtIterator )
     {
-//    InputPointIdentifier pid = BoundaryPtIterator->first;
-
     r = static_cast< InputCoordRepType >(
         center.SquaredEuclideanDistanceTo(
           input->GetPoint( BoundaryPtIterator->first ) ) );
@@ -286,7 +285,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
   InputMeshPointer input = this->GetInput( );
 
   InputPointType oCenter;
-  oCenter.Fill( 0. );
+  oCenter.Fill( 0.0 );
 
   InputPointsContainer* points = input->GetPoints( );
 
@@ -305,7 +304,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
       }
     }
 
-  InputCoordRepType invNbOfPoints = 1. /
+  InputCoordRepType invNbOfPoints = 1.0 /
           static_cast< InputCoordRepType >( input->GetNumberOfPoints( ) );
 
   for( i = 0; i < PointDimension; ++i )
@@ -324,7 +323,7 @@ void QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 {
   this->ComputeBoundary( );
 
-  switch( m_TransformType )
+  switch( this->m_TransformType )
     {
     default:
     case SQUARE_BORDER_TRANSFORM:
@@ -352,10 +351,10 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   InputQEType* bdryEdge = ( *list->begin( ) );
 
-  size_t NbBoundaryPt = m_BoundaryPtMap.size( );
-  std::vector< InputCoordRepType > Length( NbBoundaryPt + 1, 0. );
+  size_t NbBoundaryPt = this->m_BoundaryPtMap.size( );
+  std::vector< InputCoordRepType > Length( NbBoundaryPt + 1, 0.0 );
 
-  InputCoordRepType TotalLength( 0. ), distance;
+  InputCoordRepType TotalLength( 0.0 ), distance;
 
   InputPointIdentifier i(0), org(0), dest(0);
   InputPointType PtOrg, PtDest;
@@ -375,11 +374,13 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     Length[i] = TotalLength;
     }
 
-  if( m_Radius == 0. )
-    m_Radius = 1000.;
+  if( this->m_Radius == 0.0 )
+    {
+    this->m_Radius = 1000.;
+    }
 
-  InputCoordRepType EdgeLength = 2. * m_Radius;
-  InputCoordRepType ratio = 4. * EdgeLength / TotalLength;
+  InputCoordRepType EdgeLength = 2.0 * this->m_Radius;
+  InputCoordRepType ratio = 4.0 * EdgeLength / TotalLength;
 
   for( i = 0; i < NbBoundaryPt + 1; ++i )
     {
@@ -387,47 +388,47 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     }
 
   InputPointType pt;
-  pt[0] = -m_Radius;
-  pt[1] = m_Radius;
-  pt[2] = 0.;
+  pt[0] = - this->m_Radius;
+  pt[1] =   this->m_Radius;
+  pt[2] =   0.0;
 
-  m_Border[0] = pt;
+  this->m_Border[0] = pt;
 
   i = 1;
   while( Length[i] < EdgeLength )
     {
-    pt[0] = -m_Radius + Length[i];
-    m_Border[ i++ ] = pt;
+    pt[0] = - this->m_Radius + Length[i];
+    this->m_Border[ i++ ] = pt;
     }
 
-  pt[0] = m_Radius;
-  pt[1] = m_Radius;
-  m_Border[ i++ ] = pt;
+  pt[0] =  this->m_Radius;
+  pt[1] =  this->m_Radius;
+  this->m_Border[ i++ ] = pt;
 
-  while( Length[i] < ( 2. * EdgeLength ) )
+  while( Length[i] < ( 2.0 * EdgeLength ) )
     {
-    pt[1] = m_Radius - ( Length[i] - EdgeLength );
-    m_Border[ i++ ] = pt;
+    pt[1] =  this->m_Radius - ( Length[i] - EdgeLength );
+    this->m_Border[ i++ ] = pt;
     }
 
-  pt[0] = m_Radius;
-  pt[1] = - m_Radius;
-  m_Border[ i++ ] = pt;
+  pt[0] =  this->m_Radius;
+  pt[1] = -  this->m_Radius;
+  this->m_Border[ i++ ] = pt;
 
-  while( Length[i] < ( 3. * EdgeLength ) )
+  while( Length[i] < ( 3.0 * EdgeLength ) )
     {
-    pt[0] = m_Radius - ( Length[i] - 2. * EdgeLength );
-    m_Border[ i++ ] = pt;
+    pt[0] =  this->m_Radius - ( Length[i] - 2.0 * EdgeLength );
+    this->m_Border[ i++ ] = pt;
     }
 
-  pt[0] = - m_Radius;
-  pt[1] = - m_Radius;
-  m_Border[ i++ ] = pt;
+  pt[0] = -  this->m_Radius;
+  pt[1] = -  this->m_Radius;
+  this->m_Border[ i++ ] = pt;
 
   while( i < NbBoundaryPt )
     {
-    pt[1] = -m_Radius + ( Length[i] - 3. * EdgeLength );
-    m_Border[ i++ ] = pt;
+    pt[1] = - this->m_Radius + ( Length[i] - 3.0 * EdgeLength );
+    this->m_Border[ i++ ] = pt;
     }
 }
 
