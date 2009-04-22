@@ -687,9 +687,9 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
     RGBPixelType pixel;
-    pixel[0] = randgen.drand32(0,255);
-    pixel[1] = randgen.drand32(0,255);
-    pixel[2] = randgen.drand32(0,255);
+    pixel[0] = static_cast<RGBPixelType::ValueType>(randgen.lrand32(0,255));
+    pixel[1] = static_cast<RGBPixelType::ValueType>(randgen.lrand32(0,255));
+    pixel[2] = static_cast<RGBPixelType::ValueType>(randgen.lrand32(0,255));
     it.Set(pixel);
     }
   int status(EXIT_SUCCESS);
