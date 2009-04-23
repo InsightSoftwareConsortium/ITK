@@ -25,6 +25,8 @@
 #include "gdcmDictSet.h"
 #include "gdcmDicomDirElement.h"
 
+#include <stdlib.h> // srand
+
 namespace gdcm 
 {
 //-----------------------------------------------------------------------------
