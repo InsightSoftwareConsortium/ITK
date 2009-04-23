@@ -12,6 +12,7 @@ The following command was used to obtain the symbol list:
 
 nm libitkitk_jpeg8.a | grep " [R|T] " | colrm 1 11 | sort
 */
+#define itk_secret_symbol_mangled_jpeg8
 
 
 #define jcopy_block_row itk_jpeg8_jcopy_block_row

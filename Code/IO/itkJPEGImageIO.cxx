@@ -33,6 +33,10 @@ extern "C"
   #include <setjmp.h>
 }
 
+#ifndef itk_secret_symbol_mangled_jpeg8
+#error Sorry something went wrong with your configuration, you are using a system jpeglib.h instead of the special mangled one
+#endif
+
 
 // create an error handler for jpeg that
 // can longjmp out of the jpeg library 
