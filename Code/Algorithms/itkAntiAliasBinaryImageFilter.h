@@ -128,8 +128,8 @@ public:
   itkTypeMacro(AntiAliasBinaryImageFilter, SparseFieldLevelSetImageFilter);
 
   /** Get the upper and lower binary values in the input image. */
-  itkGetMacro(UpperBinaryValue, BinaryValueType);
-  itkGetMacro(LowerBinaryValue, BinaryValueType);
+  itkGetConstMacro(UpperBinaryValue, BinaryValueType);
+  itkGetConstMacro(LowerBinaryValue, BinaryValueType);
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */

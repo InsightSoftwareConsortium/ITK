@@ -137,7 +137,7 @@ public:
 
   /** Set the output image. */
   itkSetMacro(ImageOutput, ImagePointer);
-  itkGetMacro(ImageOutput, ImagePointer);
+  itkGetConstMacro(ImageOutput, ImagePointer);
   itkSetMacro(Gradient, GradientImagePointer);
 
   /** Set/Get information for the algorithm. */
@@ -146,14 +146,14 @@ public:
   itkSetMacro(GradientBegin, int);
   itkSetMacro(Resolution, int);
   itkSetMacro(Center, IndexType);
-  itkGetMacro(Normals, InputMeshPointer);
+  itkGetConstMacro(Normals, InputMeshPointer);
   itkSetMacro(DistanceForGradient, float);
   itkSetMacro(DistanceToStop, float);
   itkSetMacro(Potential, ImagePointer);
-  itkGetMacro(Locations, InputMeshPointer);
-  itkGetMacro(Displacements, InputMeshPointer);
-  itkGetMacro(Derives, InputMeshPointer);
-  itkGetMacro(Forces, InputMeshPointer);
+  itkGetConstMacro(Locations, InputMeshPointer);
+  itkGetConstMacro(Displacements, InputMeshPointer);
+  itkGetConstMacro(Derives, InputMeshPointer);
+  itkGetConstMacro(Forces, InputMeshPointer);
 
 protected:
   BalloonForceFilter();

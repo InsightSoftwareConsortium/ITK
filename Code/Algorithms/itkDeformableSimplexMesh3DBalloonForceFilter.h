@@ -79,7 +79,7 @@ public:
   typedef typename GradientIntensityImageType::Pointer          GradientIntensityImagePointer;
 
   itkSetMacro(Kappa, double);
-  itkGetMacro(Kappa, double);
+  itkGetConstMacro(Kappa, double);
 
 
 protected:

@@ -75,7 +75,7 @@ public:
    * Voronoi region is below this threshold, then the region is
    * considered homogeneous. */
   itkSetMacro(SigmaThreshold, double);
-  itkGetMacro(SigmaThreshold, double);
+  itkGetConstMacro(SigmaThreshold, double);
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,

@@ -154,7 +154,7 @@ public:
 
   /** Set get the binary ON value of the input image. */
   itkSetMacro(ForegroundValue, InputPixelType);
-  itkGetMacro(ForegroundValue, InputPixelType);
+  itkGetConstMacro(ForegroundValue, InputPixelType);
 
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
@@ -198,7 +198,7 @@ public:
    *  will be considered to have converged.  In general this SHOULD NOT be set and
    *  the algorithm should be allowed to converge on its own. */
   itkSetMacro(MaximumIterations, unsigned int);
-  itkGetMacro(MaximumIterations, unsigned int);
+  itkGetConstMacro(MaximumIterations, unsigned int);
 
   /** Scales the estimated prior probability that a pixel will be inside the
    *  targeted object of segmentation.  The default prior probability g_t is
@@ -208,10 +208,10 @@ public:
    *  ConfidenceWeight.  In general, ConfidenceWeight should be left to the
    *  default of 1.0. */
   itkSetMacro(ConfidenceWeight, double);
-  itkGetMacro(ConfidenceWeight, double);
+  itkGetConstMacro(ConfidenceWeight, double);
 
   /** Get the number of elapsed iterations of the iterative E-M algorithm. */
-  itkGetMacro(ElapsedIterations, unsigned int);
+  itkGetConstMacro(ElapsedIterations, unsigned int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

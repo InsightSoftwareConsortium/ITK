@@ -97,7 +97,7 @@ public:
 
   /** Set/Get the iteration value */
   itkSetMacro(Iteration, unsigned int);
-  itkGetMacro(Iteration, unsigned int);
+  itkGetConstMacro(Iteration, unsigned int);
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,

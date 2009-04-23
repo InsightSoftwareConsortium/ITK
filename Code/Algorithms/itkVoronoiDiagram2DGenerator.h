@@ -77,7 +77,7 @@ public:
   typedef typename VDMesh::VoronoiEdge   VoronoiEdge;
 
   /** Get the number of seed points. */
-  itkGetMacro(NumberOfSeeds,unsigned int);
+  itkGetConstMacro(NumberOfSeeds,unsigned int);
   
   /** Input the seeds information, will overwrite if seeds already
    * exists. */

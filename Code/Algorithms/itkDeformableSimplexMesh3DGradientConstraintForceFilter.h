@@ -127,7 +127,7 @@ public:
   typedef typename OriginalImageType::Pointer             OriginalImagePointer;
   /** control the range of search for Bresenham at normal line */
   itkSetMacro(Range, int);
-  itkGetMacro(Range, int);
+  itkGetConstMacro(Range, int);
   
   // full segment or half segment direction
   enum SIDE

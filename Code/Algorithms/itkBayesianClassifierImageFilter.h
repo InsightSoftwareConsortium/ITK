@@ -168,11 +168,11 @@ public:
   /** Set/ Get macros for the smoothing filter that may optionally be applied
    * to the posterior image */
   void SetSmoothingFilter( SmoothingFilterType * );
-  itkGetMacro( SmoothingFilter, SmoothingFilterPointer );
+  itkGetConstMacro( SmoothingFilter, SmoothingFilterPointer );
 
   /** Number of iterations to apply the smoothing filter */
   itkSetMacro( NumberOfSmoothingIterations, unsigned int );
-  itkGetMacro( NumberOfSmoothingIterations, unsigned int );
+  itkGetConstMacro( NumberOfSmoothingIterations, unsigned int );
 
   /** This is overloaded to create the Posteriors output image */
   virtual DataObjectPointer MakeOutput(unsigned int idx);

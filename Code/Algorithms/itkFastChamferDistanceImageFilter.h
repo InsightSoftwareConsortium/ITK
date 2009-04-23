@@ -111,7 +111,7 @@ public:
   
   /** Maximal computed distance */
   itkSetMacro( MaximumDistance, float);
-  itkGetMacro( MaximumDistance, float);
+  itkGetConstMacro( MaximumDistance, float);
 
   /** */
   void SetRegionToProcess( const RegionType &r)

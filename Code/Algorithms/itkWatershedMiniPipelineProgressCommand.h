@@ -51,12 +51,12 @@ public:
 
   /** Set/Get the base count for stepping through filter progress values */
   itkSetMacro(Count, double);
-  itkGetMacro(Count, double);
+  itkGetConstMacro(Count, double);
 
   /** Set/Get the number of filters that this command will expect to be
    * observing */
   itkSetMacro(NumberOfFilters, double);
-  itkGetMacro(NumberOfFilters, double);
+  itkGetConstMacro(NumberOfFilters, double);
   
 protected:
   WatershedMiniPipelineProgressCommand() : m_Count(0.0), m_Filter(0),

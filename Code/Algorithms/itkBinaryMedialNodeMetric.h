@@ -77,7 +77,7 @@ public:
   /** Function to return the result of the metric calculations */
   double GetResult(){return m_Result;}
   //itkSetMacro(Result, double);
-  //itkGetMacro(Result, double);
+  //itkGetConstMacro(Result, double);
   
 
 protected:

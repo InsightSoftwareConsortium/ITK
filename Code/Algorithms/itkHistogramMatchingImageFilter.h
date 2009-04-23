@@ -110,11 +110,11 @@ public:
 
   /** Set/Get the number of histogram levels used. */
   itkSetMacro( NumberOfHistogramLevels, unsigned long );
-  itkGetMacro( NumberOfHistogramLevels, unsigned long );
+  itkGetConstMacro( NumberOfHistogramLevels, unsigned long );
 
   /** Set/Get the number of match points used. */
   itkSetMacro( NumberOfMatchPoints, unsigned long );
-  itkGetMacro( NumberOfMatchPoints, unsigned long );
+  itkGetConstMacro( NumberOfMatchPoints, unsigned long );
 
   /** Set/Get the threshold at mean intensity flag.
    * If true, only source (reference) pixels which are greater
@@ -122,7 +122,7 @@ public:
    * the histogram matching. If false, all pixels are
    * used. */
   itkSetMacro( ThresholdAtMeanIntensity, bool );
-  itkGetMacro( ThresholdAtMeanIntensity, bool );
+  itkGetConstMacro( ThresholdAtMeanIntensity, bool );
   itkBooleanMacro( ThresholdAtMeanIntensity );
 
   /** This filter requires all of the input to be in the buffer. */

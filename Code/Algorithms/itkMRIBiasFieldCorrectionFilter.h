@@ -360,7 +360,7 @@ public:
 
   /** Set/Get the degree of the bias field estimate. */
   itkSetMacro( BiasFieldDegree, int );
-  itkGetMacro( BiasFieldDegree, int );
+  itkGetConstMacro( BiasFieldDegree, int );
 
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
@@ -384,9 +384,9 @@ public:
 
   /** Set/Get the maximum iteration termination condition parameter. */
   itkSetMacro( VolumeCorrectionMaximumIteration, int );
-  itkGetMacro( VolumeCorrectionMaximumIteration, int );
+  itkGetConstMacro( VolumeCorrectionMaximumIteration, int );
   itkSetMacro( InterSliceCorrectionMaximumIteration, int );
-  itkGetMacro( InterSliceCorrectionMaximumIteration, int );
+  itkGetConstMacro( InterSliceCorrectionMaximumIteration, int );
 
   /** Set/Get the initial search radius. */
   void SetOptimizerInitialRadius(double initRadius) 
@@ -396,12 +396,12 @@ public:
 
   /** Set/Get the search radius grow factor. */
   itkSetMacro( OptimizerGrowthFactor, double );
-  itkGetMacro( OptimizerGrowthFactor, double );
+  itkGetConstMacro( OptimizerGrowthFactor, double );
 
   /** Set/Get the search radius shrink factor. */
   
   itkSetMacro( OptimizerShrinkFactor, double );
-  itkGetMacro( OptimizerShrinkFactor, double );
+  itkGetConstMacro( OptimizerShrinkFactor, double );
 
 
   /** Set the number of multi-resolution levels. The matrix containing the
@@ -413,7 +413,7 @@ public:
   void SetNumberOfLevels(unsigned int num);
 
   /** Get the number of multi-resolution levels. */
-  itkGetMacro(NumberOfLevels, unsigned int);
+  itkGetConstMacro(NumberOfLevels, unsigned int);
 
   /** Set a multi-resolution schedule.  The input schedule must have only
    * ImageDimension number of columns and NumberOfLevels number of rows.  For

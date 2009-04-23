@@ -148,7 +148,7 @@ public:
    * deformation field is smoothed with a Gaussian whose standard
    * deviations are specified with SetStandardDeviations() */
   itkSetMacro( SmoothDeformationField, bool );
-  itkGetMacro( SmoothDeformationField, bool );
+  itkGetConstMacro( SmoothDeformationField, bool );
   itkBooleanMacro( SmoothDeformationField );
   
   /** Set the Gaussian smoothing standard deviations for the
@@ -168,7 +168,7 @@ public:
    * update field is smoothed with a Gaussian whose standard
    * deviations are specified with SetUpdateFieldStandardDeviations() */
   itkSetMacro( SmoothUpdateField, bool );
-  itkGetMacro( SmoothUpdateField, bool );
+  itkGetConstMacro( SmoothUpdateField, bool );
   itkBooleanMacro( SmoothUpdateField );
   
   /** Set the Gaussian smoothing standard deviations for the update
@@ -190,12 +190,12 @@ public:
   /** Set/Get the desired maximum error of the Guassian kernel approximate. 
    * \sa GaussianOperator. */
   itkSetMacro( MaximumError, double );
-  itkGetMacro( MaximumError, double );
+  itkGetConstMacro( MaximumError, double );
 
   /** Set/Get the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
   itkSetMacro( MaximumKernelWidth, unsigned int );
-  itkGetMacro( MaximumKernelWidth, unsigned int );
+  itkGetConstMacro( MaximumKernelWidth, unsigned int );
   
 
 protected:

@@ -132,16 +132,16 @@ public:
 
   /** Set/Get routines. */
   itkSetMacro(Gradient, GradientImagePointer);
-  itkGetMacro(Gradient, GradientImagePointer);
+  itkGetConstMacro(Gradient, GradientImagePointer);
 
   itkSetMacro(StepThreshold, int);
-  itkGetMacro(StepThreshold, int);
+  itkGetConstMacro(StepThreshold, int);
 
   itkSetMacro(Stiffness, double2DVector);
-  itkGetMacro(Stiffness, double2DVector);
+  itkGetConstMacro(Stiffness, double2DVector);
 
   itkSetMacro(TimeStep, double);
-  itkGetMacro(TimeStep, double);
+  itkGetConstMacro(TimeStep, double);
 
   itkSetMacro(Scale, double3DVector);
 
@@ -150,7 +150,7 @@ public:
   itkSetMacro(PotentialOn, unsigned short);
   itkSetMacro(ObjectLabel, unsigned char);
 
-  itkGetMacro(Normals, InputMeshPointer);
+  itkGetConstMacro(Normals, InputMeshPointer);
 
 protected:
   DeformableMesh3DFilter();

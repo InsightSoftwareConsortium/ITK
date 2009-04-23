@@ -95,7 +95,7 @@ public:
 
   /**  Set/Get the lambda distance. (controls the capture radius of the metric).  */
   itkSetMacro( Lambda, double );
-  itkGetMacro( Lambda, double );
+  itkGetConstMacro( Lambda, double );
  
 
 protected:

@@ -173,7 +173,7 @@ public:
   itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
   /** True if a region has been defined for the fixed image to which
    the ImageMetric will limit its computation */
-  itkGetMacro( FixedImageRegionDefined, bool );
+  itkGetConstMacro( FixedImageRegionDefined, bool );
   /** Turn on/off the use of a fixed image region to which
    the ImageMetric will limit its computation.
    \warning The region must have been previously defined using the

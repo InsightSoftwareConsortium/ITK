@@ -110,7 +110,7 @@ public:
 
   /** Set/Get the stencil radius. */
   itkSetMacro( StencilRadius, RadiusValueType );
-  itkGetMacro( StencilRadius, RadiusValueType );
+  itkGetConstMacro( StencilRadius, RadiusValueType );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

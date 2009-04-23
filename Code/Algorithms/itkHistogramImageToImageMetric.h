@@ -93,7 +93,7 @@ public:
   /** Factor to increase the upper bound for the samples in the histogram.
       Default value is 0.001 */
   itkSetMacro( UpperBoundIncreaseFactor, double );
-  itkGetMacro( UpperBoundIncreaseFactor, double );
+  itkGetConstMacro( UpperBoundIncreaseFactor, double );
 
   /** The padding value. */
   itkSetMacro( PaddingValue, FixedImagePixelType );
@@ -110,13 +110,13 @@ public:
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
   itkSetMacro( UsePaddingValue, bool );
-  itkGetMacro( UsePaddingValue, bool );
+  itkGetConstMacro( UsePaddingValue, bool );
 
   /** Sets the step length used to calculate the derivative. */
   itkSetMacro( DerivativeStepLength, double );
 
   /** Returns the step length used to calculate the derivative. */
-  itkGetMacro( DerivativeStepLength, double );
+  itkGetConstMacro( DerivativeStepLength, double );
 
   /** The scales type. */
   typedef Array<double> ScalesType;

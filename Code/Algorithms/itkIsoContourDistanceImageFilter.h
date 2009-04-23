@@ -100,18 +100,18 @@ public:
  /** Set/Get the value of the level set to be located. The default value is
    *  0. */
   itkSetMacro( LevelSetValue, InputPixelType );
-  itkGetMacro( LevelSetValue, InputPixelType );
+  itkGetConstMacro( LevelSetValue, InputPixelType );
   
    /** Set/Get the value of the level set to be located. The default value is
    *  0. */
   itkSetMacro( FarValue, PixelType );
-  itkGetMacro( FarValue, PixelType );
+  itkGetConstMacro( FarValue, PixelType );
 
 
   /** Set/Get the narrowbanding flag. By default, narrowbanding is switched
    * off. */
   itkSetMacro( NarrowBanding, bool );
-  itkGetMacro( NarrowBanding, bool );
+  itkGetConstMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
 

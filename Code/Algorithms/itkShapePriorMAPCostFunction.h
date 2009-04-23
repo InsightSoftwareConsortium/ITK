@@ -94,11 +94,11 @@ public:
 
   /** Set/Get the array of shape parameters mean. */
   itkSetMacro( ShapeParameterMeans, ArrayType );
-  itkGetMacro( ShapeParameterMeans, ArrayType );
+  itkGetConstMacro( ShapeParameterMeans, ArrayType );
 
   /** Set/Get the array of shape parameters standard deviation. */
   itkSetMacro( ShapeParameterStandardDeviations, ArrayType );
-  itkGetMacro( ShapeParameterStandardDeviations, ArrayType );
+  itkGetConstMacro( ShapeParameterStandardDeviations, ArrayType );
 
   /** Set/Get the weights for each term. Default is a vector of all ones. 
    * The weights are applied to terms in the following order:

@@ -107,7 +107,7 @@ public:
   /** The radius type for the neighborhoods. */
   typedef typename FunctionType::RadiusType RadiusType;
 
-  itkGetMacro(MaxFilterIteration,unsigned int);
+  itkGetConstMacro(MaxFilterIteration,unsigned int);
   itkSetMacro(MaxFilterIteration,unsigned int);
   
 protected:

@@ -222,7 +222,7 @@ public:
       factor. This allows the use of images with
       integer pixel types to represent the speed. */
   itkSetMacro( NormalizationFactor, double );
-  itkGetMacro( NormalizationFactor, double );
+  itkGetConstMacro( NormalizationFactor, double );
 
   /** Set the Fast Marching algorithm Stopping Value. The Fast Marching
    * algorithm is terminated when the value of the smallest trial point

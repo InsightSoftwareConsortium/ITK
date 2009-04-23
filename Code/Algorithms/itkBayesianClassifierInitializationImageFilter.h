@@ -139,7 +139,7 @@ public:
 
   /** Set/Get methods for the number of classes. The user must supply this. */
   itkSetMacro( NumberOfClasses, unsigned int );
-  itkGetMacro( NumberOfClasses, unsigned int );
+  itkGetConstMacro( NumberOfClasses, unsigned int );
 
   virtual void GenerateOutputInformation(); 
 

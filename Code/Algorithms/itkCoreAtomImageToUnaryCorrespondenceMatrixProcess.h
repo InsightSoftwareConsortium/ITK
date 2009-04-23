@@ -62,8 +62,8 @@ public:
   itkTypeMacro(CoreAtomImageToUnaryCorrespondenceMatrixProcess, ProcessObject);
 
   /** GetMacros for number of rows and columns in the unary correspondence matrix. */
-  itkGetMacro(Rows, int);
-  itkGetMacro(Columns, int);
+  itkGetConstMacro(Rows, int);
+  itkGetConstMacro(Columns, int);
 
   /** Typedef for core atom image. */
   typedef TSourceImage                             CoreAtomImageType;

@@ -99,7 +99,7 @@ public:
   /**  Set/Get the face of the boundary object that we are going to
    *  resolve. */
   itkSetMacro(Face, unsigned short);
-  itkGetMacro(Face, unsigned short);
+  itkGetConstMacro(Face, unsigned short);
   
   /** This method sets/gets the equivalency table used to store equivalencies
    *  among segments that are generated from the boundary resolution

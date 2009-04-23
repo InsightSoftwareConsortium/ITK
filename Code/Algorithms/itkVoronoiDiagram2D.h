@@ -140,7 +140,7 @@ public:
   typedef typename std::vector<PointType>::iterator VertexIterator;
 
   /** Get the number of Voronoi seeds. */
-  itkGetMacro(NumberOfSeeds,unsigned int);
+  itkGetConstMacro(NumberOfSeeds,unsigned int);
   
   /** Input the seeds information, will overwrite if seeds already
    * exists. */

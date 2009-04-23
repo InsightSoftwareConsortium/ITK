@@ -90,12 +90,12 @@ public:
 
   /** Set/Get Lambda value. This factor regulates the capture radius of 
       this metric */
-  itkGetMacro( Lambda, double );
+  itkGetConstMacro( Lambda, double );
   itkSetMacro( Lambda, double );
 
   /** Set/Get Delta value. This value is used as the differential in the
    * computation of the metric derivative using the finite differences method. */
-  itkGetMacro( Delta, double );
+  itkGetConstMacro( Delta, double );
   itkSetMacro( Delta, double );
 
 

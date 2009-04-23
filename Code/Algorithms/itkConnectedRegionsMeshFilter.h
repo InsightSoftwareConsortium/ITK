@@ -117,7 +117,7 @@ public:
    * a point be defined.
    */
   itkSetMacro( ExtractionMode, int );
-  itkGetMacro( ExtractionMode, int );
+  itkGetConstMacro( ExtractionMode, int );
 
   void SetExtractionModeToPointSeededRegions( void )
     {

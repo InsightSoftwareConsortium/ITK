@@ -129,7 +129,7 @@ public:
    * (MeasureMatchesOn). */
   itkSetMacro(MeasureMatches, bool);
   itkBooleanMacro(MeasureMatches);
-  itkGetMacro(MeasureMatches, bool);
+  itkGetConstMacro(MeasureMatches, bool);
   
   /** Get/Set the number of threads to create when executing. */
   itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );

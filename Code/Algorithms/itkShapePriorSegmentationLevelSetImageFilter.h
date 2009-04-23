@@ -137,7 +137,7 @@ public:
   * the particular type of ShapeSignedDistanceFunction used to determine
   * the meaning of the parameters. */
  itkSetMacro( InitialParameters, ParametersType );
- itkGetMacro( InitialParameters, ParametersType );
+ itkGetConstMacro( InitialParameters, ParametersType );
 
   /** Set/Get the scaling of the shape prior term. */
   void SetShapePriorScaling( ValueType v )

@@ -216,12 +216,12 @@ public:
   /** Set/Get the input thresholding parameter.  Units are a percentage of
    * the maximum depth in the image. */
   void SetThreshold(double);
-  itkGetMacro(Threshold, double);
+  itkGetConstMacro(Threshold, double);
   
   /** Set/Get the flood level for generating the merge tree from the initial
    * segmentation   */
   void SetLevel(double);
-  itkGetMacro(Level, double);
+  itkGetConstMacro(Level, double);
 
   /** Get the basic segmentation from the Segmenter member filter. */
   typename watershed::Segmenter<InputImageType>::OutputImageType *

@@ -95,13 +95,13 @@ public:
   itkSetMacro(LaplacianFilter, LaplacianFilterPointer);
 
   itkSetMacro(TimeStep, double);
-  itkGetMacro(TimeStep, double);
+  itkGetConstMacro(TimeStep, double);
 
   itkSetMacro(NoiseLevel, double);
-  itkGetMacro(NoiseLevel, double);
+  itkGetConstMacro(NoiseLevel, double);
 
   itkSetMacro(IterationNum, int);
-  itkGetMacro(IterationNum, int);
+  itkGetConstMacro(IterationNum, int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

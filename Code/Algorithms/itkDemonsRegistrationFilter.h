@@ -112,7 +112,7 @@ public:
   /** Switch between using the fixed image and moving image gradient
    * for computing the deformation field updates. */
   itkSetMacro( UseMovingImageGradient, bool );
-  itkGetMacro( UseMovingImageGradient, bool );
+  itkGetConstMacro( UseMovingImageGradient, bool );
   itkBooleanMacro( UseMovingImageGradient );
 
   /** Set/Get the threshold below which the absolute difference of

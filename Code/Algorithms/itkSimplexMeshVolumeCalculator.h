@@ -170,10 +170,10 @@ public:
   void Compute(void);
     
   /** Return the computed volume. */
-  itkGetMacro(Volume, double);
+  itkGetConstMacro(Volume, double);
 
   /** Return the computed area. */
-  itkGetMacro(Area, double);
+  itkGetConstMacro(Area, double);
 
 protected:
   SimplexMeshVolumeCalculator();

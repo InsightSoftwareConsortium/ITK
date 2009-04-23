@@ -199,7 +199,7 @@ public:
   /** Gets/Sets the initial label (unsigned long integer value) used
    * by the labeling algorithm.  Only necessary for streaming applications. */
   itkSetMacro(CurrentLabel, unsigned long);
-  itkGetMacro(CurrentLabel, unsigned long);
+  itkGetConstMacro(CurrentLabel, unsigned long);
 
   /** Gets/Sets the input threshold. Threshold is specified as a percentage
    * (0.0 - 1.0) of the maximum height of the image. This filter thresholds the
@@ -212,19 +212,19 @@ public:
    * regions that this thresholding eliminates are generally not of
    * interest. */ 
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
-  itkGetMacro(Threshold, double);
+  itkGetConstMacro(Threshold, double);
 
   /** Turns on special labeling of the boundaries for streaming applications.
    * The default value is FALSE, meaning that boundary analysis is turned
    * off.   */
   itkSetMacro(DoBoundaryAnalysis, bool);
-  itkGetMacro(DoBoundaryAnalysis, bool);
+  itkGetConstMacro(DoBoundaryAnalysis, bool);
 
   /** Determines whether the algorithm will sort the adjacencies in its
    * SegmentTable before returning.  Default is true.  This is an option only
    * useful for streaming applications where the sorting only needs to be done
    * after all iterations have taken place. */
-  itkGetMacro(SortEdgeLists, bool);
+  itkGetConstMacro(SortEdgeLists, bool);
   itkSetMacro(SortEdgeLists, bool);
 
 protected:

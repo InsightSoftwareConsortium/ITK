@@ -119,7 +119,7 @@ public:
   itkSetMacro(TrainingImage,TrainingImagePointer);
 
   /** Get the training image. */
-  itkGetMacro(TrainingImage,TrainingImagePointer);
+  itkGetConstMacro(TrainingImage,TrainingImagePointer);
 
 protected: 
   ImageGaussianModelEstimator();

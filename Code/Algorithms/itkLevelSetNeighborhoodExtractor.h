@@ -96,20 +96,20 @@ public:
   itkSetMacro( LevelSetValue, double );
 
   /** Get the value of the level set to be located. */
-  itkGetMacro( LevelSetValue, double );
+  itkGetConstMacro( LevelSetValue, double );
 
   /** Set the narrow band width. Default is 12. */
   itkSetClampMacro( NarrowBandwidth, double, 0.0, 
                     NumericTraits<double>::max());
 
   /** Get the narrow band width. */
-  itkGetMacro( NarrowBandwidth, double );
+  itkGetConstMacro( NarrowBandwidth, double );
 
   /** Set the narrowbanding flag. */
   itkSetMacro( NarrowBanding, bool );
 
   /** Get the narrowbanding flag. */
-  itkGetMacro( NarrowBanding, bool );
+  itkGetConstMacro( NarrowBanding, bool );
   itkBooleanMacro( NarrowBanding );
 
   /** Set/Get the input narrowband. A narrowband is represented as

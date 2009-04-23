@@ -141,12 +141,12 @@ public:
   /** Connect the Interpolator. */
   itkSetMacro( FocalPoint, InputPointType );
   /** Get a pointer to the Interpolator.  */
-  itkGetMacro( FocalPoint, InputPointType );
+  itkGetConstMacro( FocalPoint, InputPointType );
 
   /** Connect the Transform. */
   itkSetMacro( Threshold, double );
   /** Get a pointer to the Transform.  */
-  itkGetMacro( Threshold, double );
+  itkGetConstMacro( Threshold, double );
  
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of

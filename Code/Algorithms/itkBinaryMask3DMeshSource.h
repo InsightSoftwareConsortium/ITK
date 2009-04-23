@@ -127,8 +127,8 @@ public:
   
   itkSetMacro(ObjectValue, InputPixelType);
 
-  itkGetMacro(NumberOfNodes, unsigned long);
-  itkGetMacro(NumberOfCells, unsigned long);
+  itkGetConstMacro(NumberOfNodes, unsigned long);
+  itkGetConstMacro(NumberOfCells, unsigned long);
 
   /** accept the input image */
   virtual void SetInput( const InputImageType * inputImage );

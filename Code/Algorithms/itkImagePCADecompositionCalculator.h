@@ -124,7 +124,7 @@ public:
   void Compute(void);
 
   /** Return the projection of the image. */
-  itkGetMacro(Projection,BasisVectorType);
+  itkGetConstMacro(Projection,BasisVectorType);
   
 
 protected:

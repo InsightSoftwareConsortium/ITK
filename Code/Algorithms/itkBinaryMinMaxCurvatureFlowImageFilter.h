@@ -104,7 +104,7 @@ public:
 
   /** Set/Get the threshold value. */
   itkSetMacro( Threshold, double );
-  itkGetMacro( Threshold, double );
+  itkGetConstMacro( Threshold, double );
   
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

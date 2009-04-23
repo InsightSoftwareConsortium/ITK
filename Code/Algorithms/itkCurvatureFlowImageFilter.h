@@ -133,7 +133,7 @@ public:
   itkSetMacro(TimeStep, TimeStepType);
 
   /** Get the timestep parameter. */
-  itkGetMacro(TimeStep, TimeStepType);
+  itkGetConstMacro(TimeStep, TimeStepType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

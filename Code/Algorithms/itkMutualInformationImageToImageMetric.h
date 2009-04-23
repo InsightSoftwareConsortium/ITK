@@ -165,7 +165,7 @@ public:
    * Value is clamped to be always greater than zero. */
   itkSetClampMacro( FixedImageStandardDeviation, double,
                     NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
-  itkGetMacro( FixedImageStandardDeviation, double );
+  itkGetConstMacro( FixedImageStandardDeviation, double );
 
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */

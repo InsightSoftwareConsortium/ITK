@@ -149,7 +149,7 @@ public:
   void SetNumberOfLevels(unsigned int num);
 
   /** Get the number of multi-resolution levels. */
-  itkGetMacro(NumberOfLevels, unsigned int);
+  itkGetConstMacro(NumberOfLevels, unsigned int);
 
   /** Set a multi-resolution schedule.  The input schedule must have only
    * ImageDimension number of columns and NumberOfLevels number of rows.  For
@@ -203,7 +203,7 @@ public:
   itkGetConstReferenceMacro(MaximumError,double);
 
   itkSetMacro(UseShrinkImageFilter,bool);
-  itkGetMacro(UseShrinkImageFilter,bool);
+  itkGetConstMacro(UseShrinkImageFilter,bool);
   itkBooleanMacro(UseShrinkImageFilter);
   
 

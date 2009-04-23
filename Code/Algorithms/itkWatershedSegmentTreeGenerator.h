@@ -144,7 +144,7 @@ public:
     useful for streaming  applications and is turned off by default.  (TRUE ==
     merge, FALSE == do not merge).       */
   itkSetMacro(Merge, bool);
-  itkGetMacro(Merge, bool);
+  itkGetConstMacro(Merge, bool);
 
   /** Get/Set FloodLevel.  FloodLevel is specified as a percentage (0.0 - 1.0)
    of the maximum possible saliency value in the initial image from which the
@@ -152,13 +152,13 @@ public:
    1.0 calculates all of the potential merges that can occur as the FloodLevel
    is increased to the  maximum saliency value.    */
   void SetFloodLevel(double);
-  itkGetMacro(FloodLevel, double);
+  itkGetConstMacro(FloodLevel, double);
 
   /** Get/Set HighestCalculatedFloodLevel.  HighestCalculatedFloodLevel keeps
    * track of the highest level this filter has computed.  It is
    * used to prevent unneccessary re-execution of the filter. */
   itkSetMacro(HighestCalculatedFloodLevel, double);
-  itkGetMacro(HighestCalculatedFloodLevel, double);
+  itkGetConstMacro(HighestCalculatedFloodLevel, double);
 
   /** Get/Set a flag that prevents the filter from copying its input
    * segment table before executing.  This can be enabled to conserve
@@ -166,7 +166,7 @@ public:
    * concern. If enabled, the input to this filter must always be
    * re-executed on updates. Default is false. */
   itkSetMacro(ConsumeInput, bool);
-  itkGetMacro(ConsumeInput, bool);
+  itkGetConstMacro(ConsumeInput, bool);
 
   /** Performs a merge of two segments in a SegmentTable according
    * to criteria specific to this algorithm.   */

@@ -122,14 +122,14 @@ public:
    * one outputs. Output index 0 represents the mean image and the
    * remaining outputs the requested principal components. */
   virtual void SetNumberOfPrincipalComponentsRequired( unsigned int n );
-  itkGetMacro( NumberOfPrincipalComponentsRequired, unsigned int );
+  itkGetConstMacro( NumberOfPrincipalComponentsRequired, unsigned int );
 
   /** Set/Get the number of training images in the input. */
   virtual void SetNumberOfTrainingImages( unsigned int n );
-  itkGetMacro(NumberOfTrainingImages, unsigned int);
+  itkGetConstMacro(NumberOfTrainingImages, unsigned int);
 
   /** Get the eigen values */
-  itkGetMacro(EigenValues, VectorOfDoubleType);  
+  itkGetConstMacro(EigenValues, VectorOfDoubleType);  
 
 protected: 
   ImagePCAShapeModelEstimator();

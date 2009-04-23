@@ -542,7 +542,7 @@ protected :
 
   /** Set the solver's current load. */
 //  itkSetMacro( Load, ImageMetricLoadType* );
-  itkGetMacro( Load, ImageMetricLoadType* );
+  itkGetConstMacro( Load, ImageMetricLoadType* );
 
 
   void PrintSelf(std::ostream& os, Indent indent) const;

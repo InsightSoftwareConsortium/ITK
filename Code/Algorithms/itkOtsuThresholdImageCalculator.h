@@ -77,12 +77,12 @@ public:
   void Compute(void);
 
   /** Return the Otsu's threshold value. */
-  itkGetMacro(Threshold,PixelType);
+  itkGetConstMacro(Threshold,PixelType);
   
   /** Set/Get the number of histogram bins. Default is 128. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long, 1, 
                     NumericTraits<unsigned long>::max() );
-  itkGetMacro( NumberOfHistogramBins, unsigned long );
+  itkGetConstMacro( NumberOfHistogramBins, unsigned long );
 
   /** Set the region over which the values will be computed */
   void SetRegion( const RegionType & region );

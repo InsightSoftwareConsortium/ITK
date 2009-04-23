@@ -119,7 +119,7 @@ public:
   itkSetMacro(ClassifiedImage,ClassifiedImagePointer);
 
   /** Get the classified image. */
-  itkGetMacro(ClassifiedImage,ClassifiedImagePointer); 
+  itkGetConstMacro(ClassifiedImage,ClassifiedImagePointer); 
 
   /** Type definition for the vector associated with
     * input image pixel type. */

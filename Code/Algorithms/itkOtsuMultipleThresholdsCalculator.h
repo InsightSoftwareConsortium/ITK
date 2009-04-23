@@ -71,7 +71,7 @@ public:
 
   /** Set/Get the number of thresholds. */
   itkSetClampMacro(NumberOfThresholds, unsigned long, 1, NumericTraits<unsigned long>::max() );
-  itkGetMacro(NumberOfThresholds,unsigned long);
+  itkGetConstMacro(NumberOfThresholds,unsigned long);
                                              
 protected:
   OtsuMultipleThresholdsCalculator();

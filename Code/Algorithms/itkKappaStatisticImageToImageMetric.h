@@ -107,7 +107,7 @@ public:
   /** This method allows the user to set the foreground value.  The default 
    *  value is 255. */
   itkSetMacro(ForegroundValue, RealType); 
-  itkGetMacro(ForegroundValue, RealType);
+  itkGetConstMacro(ForegroundValue, RealType);
 
 
   /** Set/Get whether this metric returns 2*|A&B|/(|A|+|B|) 
@@ -116,7 +116,7 @@ public:
    * metric values use ComplementOn().  */
   itkSetMacro(Complement, bool);
   itkBooleanMacro(Complement);
-  itkGetMacro(Complement, bool);
+  itkGetConstMacro(Complement, bool);
   
 
 protected:

@@ -172,7 +172,7 @@ public:
   void SetCodebook(CodebookMatrixOfDoubleType InCodebook);
 
   /** Get the cluster centers. */
-  itkGetMacro(Codebook,CodebookMatrixOfDoubleType);
+  itkGetConstMacro(Codebook,CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
   CodebookMatrixOfDoubleType GetOutCodebook()
@@ -182,25 +182,25 @@ public:
   itkSetMacro(Threshold,double);
 
   /** Get the threshold parameter. */
-  itkGetMacro(Threshold,double);
+  itkGetConstMacro(Threshold,double);
 
   /** Set the offset add parameter. */
   itkSetMacro(OffsetAdd,double);
 
   /** Get the offset add parameter. */
-  itkGetMacro(OffsetAdd,double);
+  itkGetConstMacro(OffsetAdd,double);
 
   /** Set the offset multiplication parameter. */
   itkSetMacro(OffsetMultiply,double);
 
   /** Get the offset multiplication parameter. */
-  itkGetMacro(OffsetMultiply,double);
+  itkGetConstMacro(OffsetMultiply,double);
 
   /** Set the maximum number of attempts to split a codeword. */
   itkSetMacro(MaxSplitAttempts,int);
 
   /** Get the manimum number of attempts to split a codeword. */
-  itkGetMacro(MaxSplitAttempts,int);
+  itkGetConstMacro(MaxSplitAttempts,int);
 
   /** Return the codebook/cluster centers. */
   CodebookMatrixOfDoubleType GetKmeansResults(void)

@@ -150,54 +150,54 @@ public:
   /** 
    *  Getter for gradient image
    */
-  itkGetMacro(Gradient, GradientImagePointer);
+  itkGetConstMacro(Gradient, GradientImagePointer);
 
   /** 
    * Set number of iterations for deformation process  
    */
   itkSetMacro(Iterations, int);
-  itkGetMacro(Iterations, int);
+  itkGetConstMacro(Iterations, int);
 
   /** Set scalar factor for internal force */
   itkSetMacro(Alpha, double);
 
   /** Get internal force scaling factor */
-  itkGetMacro(Alpha, double);
+  itkGetConstMacro(Alpha, double);
 
   /** Set external force scaling factor */
   itkSetMacro(Beta, double);
 
   /** Get external force scaling factor */
-  itkGetMacro(Beta, double);
+  itkGetConstMacro(Beta, double);
 
   /** Set reference metrics update scaling factor */
   itkSetMacro(Gamma, double);
     
   /** Get reference metrics update scaling factor */
-  itkGetMacro(Gamma, double);
+  itkGetConstMacro(Gamma, double);
     
   /** Set reference metrics update scaling factor */
   itkSetMacro(Damping, double);
     
   /** Get reference metrics update scaling factor */
-  itkGetMacro(Damping, double);
+  itkGetConstMacro(Damping, double);
     
   /** control smoothness of the mesh */
   itkSetMacro(Rigidity, unsigned int);
 
   /** control smoothness of the mesh */
-  itkGetMacro(Rigidity, unsigned int);
+  itkGetConstMacro(Rigidity, unsigned int);
 
   itkSetObjectMacro(Data, GeometryMapType );
   itkGetObjectMacro(Data, GeometryMapType );
      
   /** Width, height and depth of image */
-  itkGetMacro(ImageWidth,int);
-  itkGetMacro(ImageHeight,int);
-  itkGetMacro(ImageDepth,int);
+  itkGetConstMacro(ImageWidth,int);
+  itkGetConstMacro(ImageHeight,int);
+  itkGetConstMacro(ImageDepth,int);
     
   /** current iteration number */
-  itkGetMacro(Step, int);
+  itkGetConstMacro(Step, int);
 
 protected:
   DeformableSimplexMesh3DFilter();

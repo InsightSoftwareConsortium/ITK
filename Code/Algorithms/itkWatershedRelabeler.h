@@ -125,7 +125,7 @@ public:
   /** Set/Get the percentage of the maximum saliency level
    * to merge to. */
   itkSetClampMacro(FloodLevel, double, 0.0, 1.0);
-  itkGetMacro(FloodLevel, double);
+  itkGetConstMacro(FloodLevel, double);
 
   /** Standard ProcessObject method used in implementing mini-pipelines */
   void GraftOutput(ImageType *graft);

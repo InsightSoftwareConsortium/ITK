@@ -135,14 +135,14 @@ public:
     { return m_SeedPoints2; }
   
   itkSetMacro(NegativeEpsilon, double);
-  itkGetMacro(NegativeEpsilon, double);
+  itkGetConstMacro(NegativeEpsilon, double);
 
   itkSetMacro(ApplyConnectivity, bool);
-  itkGetMacro(ApplyConnectivity, bool);
+  itkGetConstMacro(ApplyConnectivity, bool);
   itkBooleanMacro(ApplyConnectivity);
 
   itkSetMacro(StopOnTargets, bool);
-  itkGetMacro(StopOnTargets, bool);
+  itkGetConstMacro(StopOnTargets, bool);
   itkBooleanMacro(StopOnTargets);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
