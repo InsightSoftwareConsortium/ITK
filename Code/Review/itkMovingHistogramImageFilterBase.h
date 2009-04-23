@@ -136,7 +136,7 @@ public:
   /** Set kernel (structuring element). */
   void SetKernel( const KernelType& kernel );
 
-  itkGetMacro(PixelsPerTranslation, unsigned long);
+  itkGetConstMacro(PixelsPerTranslation, unsigned long);
   
 protected:
   MovingHistogramImageFilterBase();

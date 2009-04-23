@@ -89,33 +89,33 @@ public:
    * (the ratio of the smallest eigenvalue that has to be large to the larger ones). 
    * Smaller values lead to increased sensitivity to the object dimensionality. */
   itkSetMacro(Alpha,double);
-  itkGetMacro(Alpha,double);
+  itkGetConstMacro(Alpha,double);
 
   /** Set/Get Beta, the weight corresponding to R_B 
    * (the ratio of the largest eigenvalue that has to be small to the larger ones). 
    * Smaller values lead to increased sensitivity to the object dimensionality. */
   itkSetMacro(Beta,double);
-  itkGetMacro(Beta,double);
+  itkGetConstMacro(Beta,double);
 
   /** Set/Get Gamma, the weight corresponding to S 
    * (the Frobenius norm of the Hessian matrix, or second-order structureness) */
   itkSetMacro(Gamma,double);
-  itkGetMacro(Gamma,double);
+  itkGetConstMacro(Gamma,double);
 
   /** Toggle scaling the objectness measure with the magnitude of the largest absolute eigenvalue */ 
   itkSetMacro(ScaleObjectnessMeasure,bool);
-  itkGetMacro(ScaleObjectnessMeasure,bool);
+  itkGetConstMacro(ScaleObjectnessMeasure,bool);
   itkBooleanMacro(ScaleObjectnessMeasure);
 
   /** Set/Get the dimensionality of the object (0: points (blobs), 
    * 1: lines (vessels), 2: planes (plate-like structures), 3: hyper-planes.
    * ObjectDimension must be smaller than ImageDimension. */
   itkSetMacro(ObjectDimension,unsigned int);
-  itkGetMacro(ObjectDimension,unsigned int);
+  itkGetConstMacro(ObjectDimension,unsigned int);
 
   /** Enhance bright structures on a dark background if true, the opposite if false. */
   itkSetMacro(BrightObject,bool);
-  itkGetMacro(BrightObject,bool);
+  itkGetConstMacro(BrightObject,bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

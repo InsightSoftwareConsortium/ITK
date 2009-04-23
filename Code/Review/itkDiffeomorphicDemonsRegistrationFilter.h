@@ -137,7 +137,7 @@ public:
    *  This amounts to using an update rule of the type
    *  s <- s o (Id + u) instead of s <- s o exp(u) */
   itkSetMacro( UseFirstOrderExp, bool );
-  itkGetMacro( UseFirstOrderExp, bool );
+  itkGetConstMacro( UseFirstOrderExp, bool );
   itkBooleanMacro( UseFirstOrderExp );
 
   /** Set/Get the threshold below which the absolute difference of

@@ -90,7 +90,7 @@ public:
    * By selecting INVERSE, this filter will perform an inverse Fourier Transform,
    */
   itkSetMacro( TransformDirection, TransformDirectionType );
-  itkGetMacro( TransformDirection, TransformDirectionType );
+  itkGetConstMacro( TransformDirection, TransformDirectionType );
 
 protected:
   FFTComplexToComplexImageFilter() {}

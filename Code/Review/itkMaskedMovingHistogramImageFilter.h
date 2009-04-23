@@ -117,16 +117,16 @@ public:
   DataObject::Pointer MakeOutput(unsigned int idx);
 
   itkSetMacro(FillValue, OutputPixelType);
-  itkGetMacro(FillValue, OutputPixelType);
+  itkGetConstMacro(FillValue, OutputPixelType);
 
   itkSetMacro(MaskValue, MaskPixelType);
-  itkGetMacro(MaskValue, MaskPixelType);
+  itkGetConstMacro(MaskValue, MaskPixelType);
 
   itkSetMacro(BackgroundMaskValue, MaskPixelType);
-  itkGetMacro(BackgroundMaskValue, MaskPixelType);
+  itkGetConstMacro(BackgroundMaskValue, MaskPixelType);
 
   void SetGenerateOutputMask( bool );
-  itkGetMacro(GenerateOutputMask, bool);
+  itkGetConstMacro(GenerateOutputMask, bool);
 //   itkBooleanMacro(GenerateOutputMask);
 
 protected:

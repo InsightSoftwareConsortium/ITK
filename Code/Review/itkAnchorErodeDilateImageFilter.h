@@ -79,7 +79,7 @@ public:
 
   /** Set/Get the boundary value. */
   void SetBoundary( const InputImagePixelType value );
-  itkGetMacro(Boundary, InputImagePixelType);
+  itkGetConstMacro(Boundary, InputImagePixelType);
 
 protected:
   AnchorErodeDilateImageFilter();

@@ -87,19 +87,19 @@ public:
    * histogram equalization (provided beta=0).  Alpha=1 produces an
    * unsharp mask. Default is 0.3. */
   itkSetMacro(Alpha, float);
-  itkGetMacro(Alpha, float);
+  itkGetConstMacro(Alpha, float);
 
   /** Set/Get the value of beta.  If beta=1 (and alpha=1),
    * then the output image matches the input image.  As beta
    * approaches 0, the filter behaves as an unsharp mask. Default is
    * 0.3. */
   itkSetMacro(Beta, float);
-  itkGetMacro(Beta, float);
+  itkGetConstMacro(Beta, float);
 
   /** Set/Get whether an optimized lookup table for the intensity
    * mapping function is used.  Default is off. */
   itkSetMacro(UseLookupTable, bool);
-  itkGetMacro(UseLookupTable, bool);
+  itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
 
 protected:

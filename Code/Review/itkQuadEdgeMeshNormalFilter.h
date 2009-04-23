@@ -99,7 +99,7 @@ public:
     };
 
   itkSetMacro ( Weight, WeightType );
-  itkGetMacro ( Weight, WeightType );
+  itkGetConstMacro ( Weight, WeightType );
 
 protected:
   QuadEdgeMeshNormalFilter( );

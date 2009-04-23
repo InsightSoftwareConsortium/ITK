@@ -100,15 +100,15 @@ public:
   
   /** Set/Get macros for SigmaMin */
   itkSetMacro(SigmaMinimum, double);
-  itkGetMacro(SigmaMinimum, double);
+  itkGetConstMacro(SigmaMinimum, double);
   
   /** Set/Get macros for SigmaMax */
   itkSetMacro(SigmaMaximum, double);
-  itkGetMacro(SigmaMaximum, double);
+  itkGetConstMacro(SigmaMaximum, double);
 
   /** Set/Get macros for Number of Scales */
   itkSetMacro(NumberOfSigmaSteps, unsigned int);
-  itkGetMacro(NumberOfSigmaSteps, unsigned int);
+  itkGetConstMacro(NumberOfSigmaSteps, unsigned int);
 
   /** Set/Get HessianToMeasureFilter. This will be a filter that takes 
    Hessian input image and produces enhanced output scalar image. The filter must derive from 
@@ -123,7 +123,7 @@ public:
    output scale and Hessian are the ones obtained at scale SigmaMinimum. On by default. 
    */
   itkSetMacro(NonNegativeHessianBasedMeasure,bool);
-  itkGetMacro(NonNegativeHessianBasedMeasure,bool);
+  itkGetConstMacro(NonNegativeHessianBasedMeasure,bool);
   itkBooleanMacro(NonNegativeHessianBasedMeasure);
 
   typedef enum { EquispacedSigmaSteps = 0,
@@ -132,7 +132,7 @@ public:
   /** Set/Get the method used to generate scale sequence (Equispaced
    * or Logarithmic) */
   itkSetMacro(SigmaStepMethod, SigmaStepMethodType);
-  itkGetMacro(SigmaStepMethod, SigmaStepMethodType);
+  itkGetConstMacro(SigmaStepMethod, SigmaStepMethodType);
 
   /**Set equispaced sigma step method */
   void SetSigmaStepMethodToEquispaced();
@@ -153,13 +153,13 @@ public:
   /** Methods to turn on/off flag to generate an image with scale values at
    *  each pixel for the best vesselness response */
   itkSetMacro(GenerateScalesOutput,bool);
-  itkGetMacro(GenerateScalesOutput,bool);
+  itkGetConstMacro(GenerateScalesOutput,bool);
   itkBooleanMacro(GenerateScalesOutput);
 
   /** Methods to turn on/off flag to generate an image with hessian values at 
    *  each pixel for the best vesselness response */
   itkSetMacro(GenerateHessianOutput,bool);
-  itkGetMacro(GenerateHessianOutput,bool);
+  itkGetConstMacro(GenerateHessianOutput,bool);
   itkBooleanMacro(GenerateHessianOutput);
 
   /** This is overloaded to create the Scales and Hessian output images */

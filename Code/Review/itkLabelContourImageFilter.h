@@ -135,7 +135,7 @@ public:
    * pixels not on the border of the objects.
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
-  itkGetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 protected:
   LabelContourImageFilter() 

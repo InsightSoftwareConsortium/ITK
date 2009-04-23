@@ -134,14 +134,14 @@ public:
    * objects.
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
-  itkGetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
   /**
    * Set/Get the foreground value used to identify the objects in the input and
    * output images.
    */
   itkSetMacro(ForegroundValue, InputImagePixelType);
-  itkGetMacro(ForegroundValue, InputImagePixelType);
+  itkGetConstMacro(ForegroundValue, InputImagePixelType);
 
 protected:
   BinaryContourImageFilter() 

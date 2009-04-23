@@ -123,7 +123,7 @@ public:
    * (MeasureMatchesOn). */
   itkSetMacro(MeasureMatches, bool);
   itkBooleanMacro(MeasureMatches);
-  itkGetMacro(MeasureMatches, bool);
+  itkGetConstMacro(MeasureMatches, bool);
   
   /** Return the multithreader used by this class. */
   MultiThreader * GetMultiThreader()

@@ -123,7 +123,7 @@ public:
    * If UseImageSpacing is true, the units are the physical units of your image.
    * If UseImageSpacing is false then the units are pixels */
   itkSetMacro(Variance, VarianceArrayType);
-  itkGetMacro(Variance, const VarianceArrayType);
+  itkGetConstMacro(Variance, const VarianceArrayType);
   itkSetVectorMacro( Variance, double, VarianceArrayType::Length );
 
   /** Convenience method for setting the variance for all dimensions */
@@ -145,18 +145,18 @@ public:
    * Gaussian operator size. The value is clamped between 0.00001 and
    * 0.99999. */
   itkSetClampMacro( MaximumError, double, 0.00001, 0.99999 );
-  itkGetMacro( MaximumError, double );
+  itkGetConstMacro( MaximumError, double );
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
     * Normalized derivatives are obtained multiplying by the scale
     * parameter t. */
   itkSetMacro( NormalizeAcrossScale, bool );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
   itkBooleanMacro( NormalizeAcrossScale );
 
   /** Set/Get the flag for using image spacing when calculating derivatives. */
   itkSetMacro( UseImageSpacing, bool );
-  itkGetMacro( UseImageSpacing, bool );
+  itkGetConstMacro( UseImageSpacing, bool );
   itkBooleanMacro( UseImageSpacing );
 
   /** Set/Get a limit for growth of the kernel. Small maximum error values with
@@ -164,11 +164,11 @@ public:
    *  used to truncate a kernel in such instances. A warning will be given on
    *  truncation of the kernel. */
   itkSetMacro( MaximumKernelWidth, unsigned int );
-  itkGetMacro( MaximumKernelWidth, unsigned int );
+  itkGetConstMacro( MaximumKernelWidth, unsigned int );
 
   /** Set/Get the interpolation mode. */
   itkSetMacro( InterpolationMode, InterpolationModeType );
-  itkGetMacro( InterpolationMode, InterpolationModeType );
+  itkGetConstMacro( InterpolationMode, InterpolationModeType );
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

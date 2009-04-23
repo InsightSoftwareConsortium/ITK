@@ -70,7 +70,7 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( QEType* h );
 
-  // itkGetMacro( EdgeStatus, EdgeStatusType );
+  // itkGetConstMacro( EdgeStatus, EdgeStatusType );
 
 protected:
   QuadEdgeMeshEulerOperatorFlipEdgeFunction();

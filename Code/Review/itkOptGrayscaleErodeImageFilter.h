@@ -104,11 +104,11 @@ public:
 
   /** Set/Get the boundary value. */
   void SetBoundary( const PixelType value );
-  itkGetMacro(Boundary, PixelType);
+  itkGetConstMacro(Boundary, PixelType);
   
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo );
-  itkGetMacro(Algorithm, int);
+  itkGetConstMacro(Algorithm, int);
   
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
   virtual void Modified() const;

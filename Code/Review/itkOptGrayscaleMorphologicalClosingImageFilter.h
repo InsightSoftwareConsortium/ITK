@@ -106,7 +106,7 @@ public:
   
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo );
-  itkGetMacro(Algorithm, int);
+  itkGetConstMacro(Algorithm, int);
   
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters as modified */
   virtual void Modified() const;

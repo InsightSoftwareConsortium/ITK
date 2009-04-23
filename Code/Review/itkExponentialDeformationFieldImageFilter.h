@@ -91,14 +91,14 @@ public:
 
   /** Specify the maximum number of iteration. */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
-  itkGetMacro(MaximumNumberOfIterations, unsigned int);
+  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
 
   /** If AutomaticNumberOfIterations is off, the number of iterations is
    * given by MaximumNumberOfIterations. If it is on, we try to get
    * the lowest good number (which may not be larger than
    * MaximumNumberOfIterations ) */
   itkSetMacro( AutomaticNumberOfIterations, bool );
-  itkGetMacro( AutomaticNumberOfIterations, bool );
+  itkGetConstMacro( AutomaticNumberOfIterations, bool );
   itkBooleanMacro(AutomaticNumberOfIterations);
 
   /** If ComputeInverse is on, the filter will compute the exponential
@@ -107,7 +107,7 @@ public:
    * therefore represent spatial transformations that are inverses of
    * each other. */
   itkSetMacro( ComputeInverse, bool );
-  itkGetMacro( ComputeInverse, bool );
+  itkGetConstMacro( ComputeInverse, bool );
   itkBooleanMacro(ComputeInverse);
 
   /** Image dimension. */

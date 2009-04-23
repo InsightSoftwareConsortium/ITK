@@ -130,7 +130,7 @@ public:
     }
   
   /** Get the current boundary condition. */
-  itkGetMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
+  itkGetConstMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
   
 protected:
   MorphologyImageFilter();

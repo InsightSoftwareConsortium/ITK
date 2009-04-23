@@ -61,7 +61,7 @@ public:
     this->m_MeasureBound = bound;
     }
 
-  itkGetMacro( TopologicalChange, bool );
+  itkGetConstMacro( TopologicalChange, bool );
   itkSetMacro( TopologicalChange, bool );
   
   virtual bool is_satisfied( MeshType* iMesh,

@@ -272,7 +272,7 @@ public:
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, PixelType);
-  itkGetMacro(Boundary, PixelType);
+  itkGetConstMacro(Boundary, PixelType);
 
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */

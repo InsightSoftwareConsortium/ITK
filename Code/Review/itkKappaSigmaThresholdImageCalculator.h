@@ -75,13 +75,13 @@ public:
   itkSetConstObjectMacro( Mask, MaskImageType );
 
   itkSetMacro(MaskValue, MaskPixelType);
-  itkGetMacro(MaskValue, MaskPixelType);
+  itkGetConstMacro(MaskValue, MaskPixelType);
 
   itkSetMacro(SigmaFactor, double);
-  itkGetMacro(SigmaFactor, double);
+  itkGetConstMacro(SigmaFactor, double);
 
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
+  itkGetConstMacro(NumberOfIterations, unsigned int);
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a

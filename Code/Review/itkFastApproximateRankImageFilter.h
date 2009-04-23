@@ -82,7 +82,7 @@ public:
       this->Modified();
       }
     }
-  itkGetMacro(Rank, float);
+  itkGetConstMacro(Rank, float);
 
 protected:
   FastApproximateRankImageFilter()

@@ -79,7 +79,7 @@ public:
  
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of InputPixelType. */
-  itkGetMacro(ForegroundValue, InputPixelType);
+  itkGetConstMacro(ForegroundValue, InputPixelType);
  
   
   /** A safe border is added to input image to avoid borders effects

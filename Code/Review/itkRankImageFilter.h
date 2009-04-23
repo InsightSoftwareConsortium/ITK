@@ -98,7 +98,7 @@ public:
   typedef typename KernelType::SizeType              RadiusType;
 
   itkSetMacro(Rank, float)
-  itkGetMacro(Rank, float)
+  itkGetConstMacro(Rank, float)
 
 protected:
   RankImageFilter();

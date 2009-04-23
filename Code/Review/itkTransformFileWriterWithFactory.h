@@ -67,7 +67,7 @@ public:
 
   /** Set/Get the precision of the writing */
   itkSetMacro(Precision,unsigned int);
-  itkGetMacro(Precision,unsigned int);
+  itkGetConstMacro(Precision,unsigned int);
 
   /** Write out the transform */
   void Update();

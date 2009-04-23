@@ -89,7 +89,7 @@ public:
   itkNewMacro( Self );
   itkTypeMacro( QuadEdgeMeshDelaunayConformingFilter, QuadEdgeMeshToQuadEdgeMeshFilter );
 
-  itkGetMacro( NumberOfEdgeFlips, unsigned long );
+  itkGetConstMacro( NumberOfEdgeFlips, unsigned long );
 
 public:
   typedef std::list< OutputEdgeCellType* >               OutputEdgeCellListType;

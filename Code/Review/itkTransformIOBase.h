@@ -81,7 +81,7 @@ public:
 
   /** Set the writer to append to the specified file */
   itkSetMacro( AppendMode, bool );
-  itkGetMacro( AppendMode, bool );
+  itkGetConstMacro( AppendMode, bool );
   itkBooleanMacro( AppendMode );
 
 protected:

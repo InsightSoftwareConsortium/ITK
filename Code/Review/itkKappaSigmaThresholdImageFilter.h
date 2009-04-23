@@ -83,26 +83,26 @@ public:
   itkSetMacro(OutsideValue,OutputPixelType);
 
   /** Get the "outside" pixel value. */
-  itkGetMacro(OutsideValue,OutputPixelType);
+  itkGetConstMacro(OutsideValue,OutputPixelType);
 
   /** Set the "inside" pixel value. The default value
    * NumericTraits<OutputPixelType>::max() */
   itkSetMacro(InsideValue,OutputPixelType);
 
   /** Get the "inside" pixel value. */
-  itkGetMacro(InsideValue,OutputPixelType);
+  itkGetConstMacro(InsideValue,OutputPixelType);
 
   /** Get the computed threshold. */
-  itkGetMacro(Threshold,InputPixelType);
+  itkGetConstMacro(Threshold,InputPixelType);
 
   itkSetMacro(MaskValue, MaskPixelType);
-  itkGetMacro(MaskValue, MaskPixelType);
+  itkGetConstMacro(MaskValue, MaskPixelType);
 
   itkSetMacro(SigmaFactor, double);
-  itkGetMacro(SigmaFactor, double);
+  itkGetConstMacro(SigmaFactor, double);
 
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
+  itkGetConstMacro(NumberOfIterations, unsigned int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

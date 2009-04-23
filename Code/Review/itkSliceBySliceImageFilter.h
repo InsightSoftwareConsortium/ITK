@@ -128,7 +128,7 @@ public:
                       InternalInputImageType::ImageDimension);
 
   itkSetMacro(Dimension, unsigned int);
-  itkGetMacro(Dimension, unsigned int);
+  itkGetConstMacro(Dimension, unsigned int);
 
   void SetFilter(InputFilterType * filter);
   InputFilterType * GetFilter()
@@ -151,7 +151,7 @@ public:
    * used with the IterationEvent sent before the processing of each object. It contains
    * a relevant value only during the filter update.
    */
-  itkGetMacro(SliceIndex, long);
+  itkGetConstMacro(SliceIndex, long);
 
 protected:
   SliceBySliceImageFilter();

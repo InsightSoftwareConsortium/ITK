@@ -82,7 +82,7 @@ public:
     }
 
   itkSetMacro(Pow, double);
-  itkGetMacro(Pow, double);
+  itkGetConstMacro(Pow, double);
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a

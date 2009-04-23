@@ -91,7 +91,7 @@ public:
 
   /** Set/Get the backend filter class. */
   itkSetMacro(Algorithm, int);
-  itkGetMacro(Algorithm, int);
+  itkGetConstMacro(Algorithm, int);
   
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);

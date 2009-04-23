@@ -78,13 +78,13 @@ public:
  
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. */
-  itkGetMacro(ForegroundValue, PixelType);
+  itkGetConstMacro(ForegroundValue, PixelType);
  
   /** Set the value in eroded part of the image. Defaults to zero */
   itkSetMacro(BackgroundValue, PixelType);
  
   /** Set the value in eroded part of the image. Defaults to zero */
-  itkGetMacro(BackgroundValue, PixelType);
+  itkGetConstMacro(BackgroundValue, PixelType);
  
 protected:
   BinaryMorphologicalOpeningImageFilter();

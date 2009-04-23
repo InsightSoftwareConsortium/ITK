@@ -129,7 +129,7 @@ public:
   /**
    * Get whether the image is flat or not.
    */
-  itkGetMacro(Flat, bool);
+  itkGetConstMacro(Flat, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

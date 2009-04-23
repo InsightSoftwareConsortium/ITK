@@ -103,10 +103,10 @@ public:
     };
 
   itkSetMacro( TransformType, BorderTransformType );
-  itkGetMacro( TransformType, BorderTransformType );
+  itkGetConstMacro( TransformType, BorderTransformType );
 
   itkSetMacro( Radius, InputCoordRepType );
-  itkGetMacro( Radius, InputCoordRepType );
+  itkGetConstMacro( Radius, InputCoordRepType );
 
   void ComputeTransform( );
   MapPointIdentifier GetBoundaryPtMap( );

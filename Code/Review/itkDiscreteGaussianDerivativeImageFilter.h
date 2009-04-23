@@ -99,7 +99,7 @@ public:
    * independently for each dimension, but see also
    * SetOrder(const unsigned int v). The default is 1 in each dimension. */
   itkSetMacro(Order, OrderArrayType);
-  itkGetMacro(Order, const OrderArrayType);
+  itkGetConstMacro(Order, const OrderArrayType);
 
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but
@@ -108,17 +108,17 @@ public:
    * of your image.  If UseImageSpacing is false then the units are
    * pixels. */
   itkSetMacro(Variance, ArrayType);
-  itkGetMacro(Variance, const ArrayType);
+  itkGetConstMacro(Variance, const ArrayType);
 
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
    * MaximumError. The default is 0.01 in each dimension. */
   itkSetMacro(MaximumError, ArrayType);
-  itkGetMacro(MaximumError, const ArrayType);
+  itkGetConstMacro(MaximumError, const ArrayType);
 
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
-  itkGetMacro(MaximumKernelWidth, int);
+  itkGetConstMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
 
   /** Convenience Set methods for setting all dimensional parameters
@@ -200,7 +200,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the

@@ -127,7 +127,7 @@ public:
    * are removed. Lambda defaults to 0.
    */
   itkSetMacro(Lambda, AttributeType);
-  itkGetMacro(Lambda, AttributeType);
+  itkGetConstMacro(Lambda, AttributeType);
 
 protected:
   AttributeMorphologyBaseImageFilter() 

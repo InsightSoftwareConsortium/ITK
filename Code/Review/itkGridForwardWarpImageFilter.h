@@ -97,13 +97,13 @@ public:
   itkSetMacro( BackgroundValue, PixelType );
 
   /** Get the background value */
-  itkGetMacro( BackgroundValue, PixelType );
+  itkGetConstMacro( BackgroundValue, PixelType );
 
   /** Set the foreground value */
   itkSetMacro( ForegroundValue, PixelType );
 
   /** Get the foreground value */
-  itkGetMacro( ForegroundValue, PixelType );
+  itkGetConstMacro( ForegroundValue, PixelType );
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING

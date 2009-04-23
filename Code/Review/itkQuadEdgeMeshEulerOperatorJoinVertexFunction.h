@@ -94,8 +94,8 @@ public:
     EDGE_JOINING_DIFFERENT_BORDERS //10
     };
 
-  itkGetMacro( OldPointID, PointIdentifier );
-  itkGetMacro( EdgeStatus, EdgeStatusType );
+  itkGetConstMacro( OldPointID, PointIdentifier );
+  itkGetConstMacro( EdgeStatus, EdgeStatusType );
 
 protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();

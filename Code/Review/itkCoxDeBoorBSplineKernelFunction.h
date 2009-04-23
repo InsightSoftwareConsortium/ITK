@@ -77,7 +77,7 @@ public:
 
   /** Get/Sets the Spline Order */
   void SetSplineOrder( unsigned int );
-  itkGetMacro( SplineOrder, unsigned int );
+  itkGetConstMacro( SplineOrder, unsigned int );
 
   /** Evaluate the function. */
   inline RealType Evaluate( const RealType & u ) const

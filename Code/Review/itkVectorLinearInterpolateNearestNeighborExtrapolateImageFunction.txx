@@ -69,9 +69,9 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
   unsigned int dim;  // index over dimension
 
   /**
-  * Compute base index = closest index below point
-  * Compute distance from point to base index
-  */
+   * Compute base index = closest index below point
+   * Compute distance from point to base index
+   */
   signed long baseIndex[ImageDimension];
   IndexType neighIndex;
   double distance[ImageDimension];

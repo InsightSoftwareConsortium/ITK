@@ -108,7 +108,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
    *  image in its calculations */
   void SetUseImageSpacing(bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
    *  Note that calling UseImageSpacingOn will clobber these values. */
@@ -122,7 +122,7 @@ public:
   void Compute(void);
 
   /** Return the smoothness value. */
-  itkGetMacro(HarmonicEnergy,double);
+  itkGetConstMacro(HarmonicEnergy,double);
 
   /** Set the region over which the values will be computed */
   void SetRegion( const RegionType & region );
