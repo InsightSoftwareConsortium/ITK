@@ -12,6 +12,10 @@ SET(CMAKE_MODULE_PATH ${GDCM_SOURCE_DIR}/CMake)
 FIND_PACKAGE(UUID)
 IF(UUID_FOUND)
   SET(GDCM_SYSTEM_UUID_FOUND 1)
+ELSE(UUID_FOUND)
+  IF(NOT WIN32)
+    MESSAGE("Could not find the UUID dev library files on your system (uuid/uuid.h missing). Using the default internal implementation (it is known to be weak)")
+  ENDIF(NOT WIN32)
 ENDIF(UUID_FOUND)
 
 #-----------------------------------------------------------------------------

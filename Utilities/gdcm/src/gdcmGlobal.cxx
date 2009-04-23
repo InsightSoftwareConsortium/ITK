@@ -72,6 +72,7 @@ Global::Global()
    TranSyn   = new TS();
    GroupName = new DictGroupName();
    ddElem    = new DicomDirElement();
+   srand( time(0) ); // rand() is used in the internal implementation of CreateUniqueUID
 }
 
 /**

@@ -23,6 +23,7 @@
 #include <stdarg.h> // for va_list
 
 // For GetCurrentDate, GetCurrentTime
+#include <math.h> // pow
 #include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -981,11 +982,19 @@ std::string Util::CreateUniqueUID(const std::string &root)
      }
    append += Util::GetCurrentDateTime();
 
-   //Also add a mini random number just in case:
-   char tmp[10];
-   int r = (int) (100.0*rand()/RAND_MAX);
+   // Also add a mini random number since machine are now so fast that within the same
+   // millisecond you could generate the same UID...
+   // Using all remaining bytes should avoid issues most of the time.
+   int diff = 64 - (prefix + append).size() - 1;
+   if( diff <= 0 )
+      {
+      gdcmErrorMacro( "Size of UID is too long." );
+      }
+   const double mult = pow(10., diff);
+   char tmp[64];
+   int r = (int) (mult*rand()/(RAND_MAX+1.0)); // output will be in [0, mult - 1]
    // Don't use Util::Format to accelerate the execution
-   sprintf(tmp,"%02d", r);
+   sprintf(tmp,".%d", r);
    append += tmp;
 
    // If append is too long we need to rehash it

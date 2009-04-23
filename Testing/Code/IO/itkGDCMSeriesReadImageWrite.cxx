@@ -135,7 +135,7 @@ int main( int argc, char* argv[] )
 
 
 #else
-  // Writting image afer downscaling to 8bits (unsigned char)
+  // Writing image afer downscaling to 8bits (unsigned char)
   
   typedef itk::Image< unsigned short, 3>            Image3DType;
   typedef itk::Image< unsigned char,  3>            RescaleImageType;
