@@ -98,6 +98,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>
   for (i = 0; i < ImageDimension; i++)
     {
     dx[i]  =  (it.GetPixel(m_Center + m_Stride[i])-it.GetPixel(m_Center - m_Stride[i]))/2.0f;
+    dx[i] *= this->m_ScaleCoefficients[i];
     }
 
   for (i = 0; i < ImageDimension; i++)
@@ -105,8 +106,10 @@ GradientNDAnisotropicDiffusionFunction<TImage>
     // ``Half'' directional derivatives
     dx_forward = it.GetPixel(m_Center + m_Stride[i])
       - it.GetPixel(m_Center);
+    dx_forward *= this->m_ScaleCoefficients[i];
     dx_backward =  it.GetPixel(m_Center)
       - it.GetPixel(m_Center - m_Stride[i]);
+    dx_backward *= this->m_ScaleCoefficients[i];
 
     // Calculate the conductance terms.  Conductance varies with each
     // dimension because the gradient magnitude approximation is different
@@ -119,8 +122,10 @@ GradientNDAnisotropicDiffusionFunction<TImage>
         {
         dx_aug = (it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]) -
                   it.GetPixel(m_Center + m_Stride[i] - m_Stride[j]) ) / 2.0f;
+        dx_aug *= this->m_ScaleCoefficients[j];
         dx_dim = (it.GetPixel(m_Center - m_Stride[i] + m_Stride[j]) -
                   it.GetPixel(m_Center - m_Stride[i] - m_Stride[j]) ) /2.0f;
+        dx_dim *= this->m_ScaleCoefficients[j];
         accum += 0.25f * vnl_math_sqr( dx[j] + dx_aug );
         accum_d += 0.25f * vnl_math_sqr( dx[j] + dx_dim );
         }

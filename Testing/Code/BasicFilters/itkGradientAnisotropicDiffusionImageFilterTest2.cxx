@@ -23,6 +23,43 @@
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkChangeInformationImageFilter.h"
+#include "itkDifferenceImageFilter.h"
+
+typedef float PixelType;
+typedef itk::Image<PixelType, 2> myFloatImage;
+typedef itk::Image<PixelType, 2> ImageType;
+typedef ImageType::Pointer ImagePointer;
+
+namespace {
+
+// compare two images with an intensity tolerance
+bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
+{
+  PixelType intensityTolerance = 1; 
+  int radiusTolerance = 0;
+  unsigned long numberOfPixelTolerance = 0;
+    
+  typedef itk::DifferenceImageFilter<ImageType,ImageType> DiffType;
+  DiffType::Pointer diff = DiffType::New();
+  diff->SetValidInput(baselineImage);
+  diff->SetTestInput(testImage);
+  diff->SetDifferenceThreshold( intensityTolerance );
+  diff->SetToleranceRadius( radiusTolerance );
+  diff->UpdateLargestPossibleRegion();
+
+  unsigned long status = diff->GetNumberOfPixelsWithDifferences();
+
+
+  if (status > numberOfPixelTolerance)
+    {
+    std::cout << "Number of Different Pixels: " << status << std::endl;
+    return false;
+    }
+
+  return true;
+}
+}
 
 
 int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
@@ -33,8 +70,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
     return -1;
     }
 
-  typedef float PixelType;
-  typedef itk::Image<PixelType, 2> myFloatImage;
+ 
   itk::ImageFileReader<myFloatImage>::Pointer input 
     = itk::ImageFileReader<myFloatImage>::New();
   input->SetFileName(av[1]);
@@ -67,11 +103,49 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 
   // Generate test image
   itk::ImageFileWriter<myUCharImage>::Pointer writer;
-    writer = itk::ImageFileWriter<myUCharImage>::New();
-    writer->SetInput( caster->GetOutput() );
-    std::cout << "Writing " << av[2] << std::endl;
-    writer->SetFileName( av[2] );
-    writer->Update();
+  writer = itk::ImageFileWriter<myUCharImage>::New();
+  writer->SetInput( caster->GetOutput() );
+  std::cout << "Writing " << av[2] << std::endl;
+  writer->SetFileName( av[2] );
+  writer->Update();
+
+  myFloatImage::Pointer normalImage = filter->GetOutput();
+  normalImage->DisconnectPipeline();
+
+  // We now set up testing when the image spacing is not trivial 1 and
+  // perform diffusion with spacing on
+  typedef itk::ChangeInformationImageFilter<myFloatImage> ChangeInformationType;
+  ChangeInformationType::Pointer changeInfo = ChangeInformationType::New();
+  changeInfo->SetInput( input->GetOutput() );
+  myFloatImage::SpacingType spacing;
+  spacing[0] = input->GetOutput()->GetSpacing()[0]*100.0;
+  spacing[1] = input->GetOutput()->GetSpacing()[1]*100.0;
+  changeInfo->SetOutputSpacing( spacing );
+  changeInfo->ChangeSpacingOn();
+  
+  
+  filter->SetInput( changeInfo->GetOutput() );
+  filter->UseImageSpacingOn();
+  // need to adjust the time step to the number of iterations equates
+  // to the same operation
+  filter->SetTimeStep( 100.0 * filter->GetTimeStep() );
+
+  try
+    {
+    filter->Update();
+    }
+  catch (itk::ExceptionObject& e)
+    {
+    std::cerr << "Exception detected: "  << e.GetDescription();
+    return EXIT_FAILURE;
+    }
+  
+  // the results with spacing should be about the same as without spacing
+  if ( !SameImage( filter->GetOutput(), normalImage ) ) 
+    {
+    std::cout << "Results varied with spacing enabled!" << std::endl;
+    return EXIT_FAILURE; 
+    }
 
   return EXIT_SUCCESS;
 }
