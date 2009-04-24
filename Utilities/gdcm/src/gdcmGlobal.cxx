@@ -26,6 +26,7 @@
 #include "gdcmDicomDirElement.h"
 
 #include <stdlib.h> // srand
+#include <time.h>   // time
 
 namespace gdcm 
 {
