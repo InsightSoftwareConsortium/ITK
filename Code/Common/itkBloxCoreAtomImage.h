@@ -93,13 +93,13 @@ public:
   typedef CovariantVector<double, NDimension> GradientType;
 
   /** get macro for m_MedialNodeCount. */
-  itkGetMacro(MedialNodeCount, int);
+  itkGetConstMacro(MedialNodeCount, int);
 
   typedef std::vector<PixelType*>   NodePointerListType;
   typedef std::vector<PixelType*> * NodePointerListPointer;
 
   /** get macro for m_NodePointerList. */
-  itkGetMacro(NodePointerList, NodePointerListPointer);
+  itkGetConstMacro(NodePointerList, NodePointerListPointer);
 
   /** Convenient typedefs obtained from Superclass.
    * Note: Unlike "normal" images BloxCoreAtomImages support neither Scalar nor

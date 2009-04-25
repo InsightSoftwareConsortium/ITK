@@ -181,7 +181,7 @@ public:
    * Biology Society. 1996.
    */
   itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
-  itkGetMacro(Stiffness, double);
+  itkGetConstMacro(Stiffness, double);
 
 
 protected:

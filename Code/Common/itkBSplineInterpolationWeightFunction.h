@@ -97,10 +97,10 @@ public:
     WeightsType & weights, IndexType & startIndex ) const;
 
   /** Get support region size. */
-  itkGetMacro( SupportSize, SizeType );
+  itkGetConstMacro( SupportSize, SizeType );
 
   /** Get number of weights. */
-  itkGetMacro( NumberOfWeights, unsigned long );
+  itkGetConstMacro( NumberOfWeights, unsigned long );
   
 protected:
   BSplineInterpolationWeightFunction();

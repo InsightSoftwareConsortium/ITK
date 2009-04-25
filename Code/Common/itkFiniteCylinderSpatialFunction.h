@@ -57,20 +57,20 @@ public:
   typedef typename Superclass::OutputType OutputType;
    
   /** Set/Get and set the center of the cylinder. */
-  itkGetMacro(Center, InputType);
+  itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
   
   /** Get and set the medial axis length of the cylinder. */
-  itkGetMacro(AxisLength, double);
+  itkGetConstMacro(AxisLength, double);
   itkSetMacro(AxisLength, double);
 
   /** Get and set the radius length of the cylinder. */
-  itkGetMacro(Radius, double);
+  itkGetConstMacro(Radius, double);
   itkSetMacro(Radius, double);
   
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
-  itkGetMacro(Orientation, InputType);
+  itkGetConstMacro(Orientation, InputType);
   itkSetMacro(Orientation, InputType);
 
   /** Evaluates the function at a given position. */

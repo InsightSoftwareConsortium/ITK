@@ -59,7 +59,7 @@ public:
   
   /** Set/Get the buffer flushing mode */
   itkSetMacro(Flush,bool);
-  itkGetMacro(Flush,bool);
+  itkGetConstMacro(Flush,bool);
   itkBooleanMacro(Flush);
   
   /** Setting append will cause the log file to be 
@@ -67,7 +67,7 @@ public:
    * it will be overwritten each time the FileOutputWindow 
    * is created. */
   itkSetMacro(Append, bool);
-  itkGetMacro(Append, bool);
+  itkGetConstMacro(Append, bool);
   itkBooleanMacro(Append);
   
 protected:

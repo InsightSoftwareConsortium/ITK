@@ -81,7 +81,7 @@ public:
 
   itkSetMacro(Logger, LoggerType);
 
-  itkGetMacro(Logger, LoggerType);
+  itkGetConstMacro(Logger, LoggerType);
 
   virtual void OverrideITKWindow() 
     {

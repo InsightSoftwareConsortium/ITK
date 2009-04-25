@@ -57,7 +57,7 @@ public:
   itkTypeMacro(CoreAtomImageToDistanceMatrixProcess, ProcessObject);
 
   //Get macro for m_NumNodes
-  itkGetMacro(NumberOfNodes, int);
+  itkGetConstMacro(NumberOfNodes, int);
 
   /** Typedef for core atom image */
   typedef TSourceImage                             CoreAtomImageType;

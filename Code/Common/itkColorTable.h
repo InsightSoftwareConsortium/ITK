@@ -61,7 +61,7 @@ public:
   void    useGray(unsigned int n=256){UseGrayColors(n);}
   void    useHeat(unsigned int n=256){UseHeatColors(n);}
 
-  itkGetMacro(NumberOfColors, unsigned int);
+  itkGetConstMacro(NumberOfColors, unsigned int);
   unsigned int     size(void);
 
   RGBPixel<TPixel>*          GetColor(unsigned int colorId);

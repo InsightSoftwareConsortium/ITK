@@ -138,7 +138,7 @@ public:
    *  used in the Gaussian kernel
    */
   itkSetMacro( MaximumKernelWidth, int );
-  itkGetMacro( MaximumKernelWidth, int );
+  itkGetConstMacro( MaximumKernelWidth, int );
 
   /** Set/GetUseImageSpacing() This flag is used by the underling
    *  GaussianOperator to decide if the image spacing should be used
@@ -146,7 +146,7 @@ public:
    *  and UseImageSpacingOff() provide a similar functionality.
    */
   itkSetMacro( UseImageSpacing, bool );
-  itkGetMacro( UseImageSpacing, bool );
+  itkGetConstMacro( UseImageSpacing, bool );
   itkBooleanMacro( UseImageSpacing );
 
 

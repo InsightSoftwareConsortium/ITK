@@ -218,11 +218,11 @@ public:
 
   /** Set/Get the Requested region */
   virtual void SetRequestedRegion( const RegionType & region );
-  itkGetMacro( RequestedRegion, RegionType );
+  itkGetConstMacro( RequestedRegion, RegionType );
 
   /** Set/Get the Buffered region */
   virtual void SetBufferedRegion( const RegionType & region );
-  itkGetMacro( BufferedRegion, RegionType );
+  itkGetConstMacro( BufferedRegion, RegionType );
 
 
 protected:

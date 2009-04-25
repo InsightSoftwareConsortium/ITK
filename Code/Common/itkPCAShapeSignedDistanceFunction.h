@@ -132,7 +132,7 @@ public:
   /** Set/Get the number of principal components 
    * SetNumberOfPrincipalComponents must be called before SetParameters */
   void SetNumberOfPrincipalComponents(unsigned int n);
-  itkGetMacro(NumberOfPrincipalComponents, unsigned int);
+  itkGetConstMacro(NumberOfPrincipalComponents, unsigned int);
 
   /** Set/Get the mean image. */
   itkSetObjectMacro(MeanImage, ImageType);
@@ -147,7 +147,7 @@ public:
   /** Set/Get the principal component standard deviations. These values corresponds
    * to the square root of the eigenvalues of the principal components. */
   itkSetMacro(PrincipalComponentStandardDeviations, ParametersType);
-  itkGetMacro(PrincipalComponentStandardDeviations, ParametersType);
+  itkGetConstMacro(PrincipalComponentStandardDeviations, ParametersType);
 
   /** Set/Get transform. */
   itkSetObjectMacro(Transform, TransformType);

@@ -69,23 +69,23 @@ public:
   /** Set/Get the maximum distance away to look for a matching pixel.
       Default is 0. */
   itkSetMacro(ToleranceRadius, int);
-  itkGetMacro(ToleranceRadius, int);
+  itkGetConstMacro(ToleranceRadius, int);
   
   /** Set/Get the minimum threshold for pixels to be different.
       Default is 0. */
   itkSetMacro(DifferenceThreshold, OutputPixelType);
-  itkGetMacro(DifferenceThreshold, OutputPixelType);
+  itkGetConstMacro(DifferenceThreshold, OutputPixelType);
   
   /** Set/Get ignore boundary pixels.  Useful when resampling may have
    *    introduced difference pixel values along the image edge 
    *    Default = false */
   itkSetMacro(IgnoreBoundaryPixels, bool);
-  itkGetMacro(IgnoreBoundaryPixels, bool);
+  itkGetConstMacro(IgnoreBoundaryPixels, bool);
   
   /** Get parameters of the difference image after execution.  */
-  itkGetMacro(MeanDifference, RealType);
-  itkGetMacro(TotalDifference, AccumulateType);
-  itkGetMacro(NumberOfPixelsWithDifferences, unsigned long);
+  itkGetConstMacro(MeanDifference, RealType);
+  itkGetConstMacro(TotalDifference, AccumulateType);
+  itkGetConstMacro(NumberOfPixelsWithDifferences, unsigned long);
   
 protected:
   DifferenceImageFilter();

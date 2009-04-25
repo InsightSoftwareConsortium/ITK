@@ -85,7 +85,7 @@ public:
    * is displayed, the user is asked if they want to keep getting
    * messages. */
   itkSetMacro(PromptUser,bool);
-  itkGetMacro(PromptUser,bool);
+  itkGetConstMacro(PromptUser,bool);
   itkBooleanMacro(PromptUser);
   
 protected:

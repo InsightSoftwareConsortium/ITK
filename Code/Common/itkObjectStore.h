@@ -91,7 +91,7 @@ public:
 
   /** Returns the size of the container.  This is not the number of objects
    *  available, but the total number of objects allocated. */
-  itkGetMacro(Size, ::size_t);
+  itkGetConstMacro(Size, ::size_t);
 
   /** Ensures that there are at least n elements allocated in the storage
    *  container.  Will not shrink the container, but may enlarge the
@@ -107,11 +107,11 @@ public:
 
   /** Set/Get the linear growth size */
   itkSetMacro(LinearGrowthSize, ::size_t);
-  itkGetMacro(LinearGrowthSize, ::size_t);
+  itkGetConstMacro(LinearGrowthSize, ::size_t);
 
   /** Set/Get the growth strategy. */
   itkSetMacro(GrowthStrategy, GrowthStrategyType);
-  itkGetMacro(GrowthStrategy, GrowthStrategyType);
+  itkGetConstMacro(GrowthStrategy, GrowthStrategyType);
 
   /** Set growth strategy to exponential */
   void SetGrowthStrategyToExponential()

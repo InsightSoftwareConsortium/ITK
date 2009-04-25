@@ -131,7 +131,7 @@ public:
   itkSetMacro(LastCellId, unsigned long);
 
   /** Set the id value valid for new cells */
-  itkGetMacro(LastCellId, unsigned long);
+  itkGetConstMacro(LastCellId, unsigned long);
 
   /**
    * copy all necessary information from passed object

@@ -94,7 +94,7 @@ public:
   /** Specify the average number of points in each bucket. */
   itkSetClampMacro(NumberOfPointsPerBucket,
                    unsigned long,1,NumericTraits<unsigned long>::max());
-  itkGetMacro(NumberOfPointsPerBucket,unsigned long);
+  itkGetConstMacro(NumberOfPointsPerBucket,unsigned long);
   
   /** Insert all the points contained in the PointsContainer newPts
    * into the locator. Also supply a bounding box in which the points lie.

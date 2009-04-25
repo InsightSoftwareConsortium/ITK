@@ -56,7 +56,7 @@ public:
   itkTypeMacro(ProgressAccumulator,Object);
   
   /** Get the total progress accumulated by this object */
-  itkGetMacro(AccumulatedProgress,float);
+  itkGetConstMacro(AccumulatedProgress,float);
 
   /** Set the mini-pipeline filter */
   itkSetObjectMacro(MiniPipelineFilter,ProcessObject);

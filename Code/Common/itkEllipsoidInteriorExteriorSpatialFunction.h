@@ -62,11 +62,11 @@ public:
   typedef vnl_matrix_fixed<double, VDimension, VDimension> OrientationType;
    
   /** Set/Get and set the center of the ellipsoid. */
-  itkGetMacro(Center, InputType);
+  itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
   
   /** Get and set the axes lengths of the ellipsoid. */
-  itkGetMacro(Axes, InputType);
+  itkGetConstMacro(Axes, InputType);
   itkSetMacro(Axes, InputType);
   
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.

@@ -57,11 +57,11 @@ public:
   OutputType Evaluate(const InputType& position) const;
 
   /** Get and set the center of the sphere. */
-  itkGetMacro( Center, InputType);
+  itkGetConstMacro( Center, InputType);
   itkSetMacro( Center, InputType);
   
   /** Get and set the radius of the sphere */
-  itkGetMacro( Radius, double);
+  itkGetConstMacro( Radius, double);
   itkSetMacro( Radius, double);
        
 protected:

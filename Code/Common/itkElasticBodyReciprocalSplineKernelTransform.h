@@ -73,7 +73,7 @@ public:
   itkSetMacro( Alpha, TScalarType );
   
   /** Get alpha */
-  itkGetMacro( Alpha, TScalarType );
+  itkGetConstMacro( Alpha, TScalarType );
   
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */

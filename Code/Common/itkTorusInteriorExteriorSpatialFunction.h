@@ -63,15 +63,15 @@ public:
 
   /** Set/Get the origin of the torus (the point from which the major
    * radius is measured). */
-  itkGetMacro( Origin, InputType);
+  itkGetConstMacro( Origin, InputType);
   itkSetMacro( Origin, InputType);
   
   /** Set/Get the major radius of the torus. */
-  itkGetMacro( MajorRadius, double);
+  itkGetConstMacro( MajorRadius, double);
   itkSetMacro( MajorRadius, double);
   
   /** Set/Get the major radius of the torus. */
-  itkGetMacro( MinorRadius, double);
+  itkGetConstMacro( MinorRadius, double);
   itkSetMacro( MinorRadius, double);
        
 protected:

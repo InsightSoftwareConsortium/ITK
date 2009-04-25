@@ -63,7 +63,7 @@ public:
   OutputType Evaluate(const InputType& position) const;
 
   /** Get and set the center of the ellipsoid. */
-  itkGetMacro(Center, InputType);
+  itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
   
   /** Set the orientation vector of the ellipsoid's unique axis and axes lengths.

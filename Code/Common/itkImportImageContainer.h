@@ -130,7 +130,7 @@ public:
    *  flag. This may override your setting if you call this methods prematurely.
    *  \warning Improper use of these methods will result in memory leaks */
   itkSetMacro(ContainerManageMemory,bool);
-  itkGetMacro(ContainerManageMemory,bool);
+  itkGetConstMacro(ContainerManageMemory,bool);
   itkBooleanMacro(ContainerManageMemory);
 
 

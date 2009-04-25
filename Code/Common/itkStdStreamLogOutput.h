@@ -59,7 +59,7 @@ public:
   
   itkNewMacro(StdStreamLogOutput);
 
-  itkGetMacro(Stream, StreamPointerType);
+  itkGetConstMacro(Stream, StreamPointerType);
 
   /** Set a standard stream pointer */
   void SetStream(StreamType &Stream);

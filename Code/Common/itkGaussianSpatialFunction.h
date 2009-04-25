@@ -70,13 +70,13 @@ public:
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
-  itkGetMacro(Scale, double);
+  itkGetConstMacro(Scale, double);
   itkSetMacro(Normalized, bool);
-  itkGetMacro(Normalized, bool);
+  itkGetConstMacro(Normalized, bool);
   itkSetMacro(Sigma, ArrayType);
-  itkGetMacro(Sigma, ArrayType);
+  itkGetConstMacro(Sigma, ArrayType);
   itkSetMacro(Mean, ArrayType);
-  itkGetMacro(Mean, ArrayType);
+  itkGetConstMacro(Mean, ArrayType);
 
 protected:
   GaussianSpatialFunction();

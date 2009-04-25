@@ -86,7 +86,7 @@ public:
   OutputType Evaluate(const InputType& position) const;
 
   /** Set/Get the origin of the function. */
-  itkGetMacro( Origin, InputType);
+  itkGetConstMacro( Origin, InputType);
   itkSetMacro( Origin, InputType);
   
   /** Set/Get the gradient at the origin of the function. */
@@ -94,19 +94,19 @@ public:
   void SetOriginGradient(GradientType grad);
   
   /** Set/Get the minimum search distance. */
-  itkGetMacro( DistanceMin, double);
+  itkGetConstMacro( DistanceMin, double);
   itkSetMacro( DistanceMin, double);
   
   /** Set/Get the maximum search distance. */
-  itkGetMacro( DistanceMax, double);
+  itkGetConstMacro( DistanceMax, double);
   itkSetMacro( DistanceMax, double);
   
   /** Set/Get the tolerance of the in/out comparison. */
-  itkGetMacro( Epsilon, double);
+  itkGetConstMacro( Epsilon, double);
   itkSetMacro( Epsilon, double);
   
   /** Set/Get direction along the gradient to search. */
-  itkGetMacro( Polarity, bool);
+  itkGetConstMacro( Polarity, bool);
   itkSetMacro( Polarity, bool);
        
 protected:

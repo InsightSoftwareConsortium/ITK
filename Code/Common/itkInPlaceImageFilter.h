@@ -94,7 +94,7 @@ public:
   /** In place operation can be turned on and off. This only has an
    * effect when the input and output image type match. */
   itkSetMacro(InPlace, bool);
-  itkGetMacro(InPlace, bool);
+  itkGetConstMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
 
   /** Can the filter run in place? To do so, the filter's first input

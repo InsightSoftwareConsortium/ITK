@@ -152,7 +152,7 @@ public:
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
   void SetNumberOfThreads( int numberOfThreads );
-  itkGetMacro( NumberOfThreads, int );
+  itkGetConstMacro( NumberOfThreads, int );
     
   /** Set/Get the maximum number of threads to use when multithreading.  It
    * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays

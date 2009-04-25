@@ -78,15 +78,15 @@ public:
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
-  itkGetMacro(Scale, double);
+  itkGetConstMacro(Scale, double);
   itkSetMacro(Normalized, bool);
-  itkGetMacro(Normalized, bool);
+  itkGetConstMacro(Normalized, bool);
   itkSetMacro(Sigma, ArrayType);
-  itkGetMacro(Sigma, ArrayType);
+  itkGetConstMacro(Sigma, ArrayType);
   itkSetMacro(Mean, ArrayType);
-  itkGetMacro(Mean, ArrayType);
+  itkGetConstMacro(Mean, ArrayType);
   itkSetMacro(Direction, unsigned int);
-  itkGetMacro(Direction, unsigned int);
+  itkGetConstMacro(Direction, unsigned int);
 
 protected:
   GaussianDerivativeSpatialFunction();

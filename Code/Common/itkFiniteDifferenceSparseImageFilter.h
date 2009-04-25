@@ -107,7 +107,7 @@ public:
   void SetSparseFunction( SparseFunctionType *sf );
 
   itkSetMacro(PrecomputeFlag, bool);
-  itkGetMacro(PrecomputeFlag, bool);
+  itkGetConstMacro(PrecomputeFlag, bool);
 
 protected:
   FiniteDifferenceSparseImageFilter();
