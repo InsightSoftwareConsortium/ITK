@@ -102,7 +102,7 @@ public:
     * specified by the Mayo Clinic BIR laboratory.  By default this is set to false.
     */
   itkSetMacro(LegacyAnalyze75Mode,bool);
-  itkGetMacro(LegacyAnalyze75Mode,bool);
+  itkGetConstMacro(LegacyAnalyze75Mode,bool);
 
 protected:
   NiftiImageIO();

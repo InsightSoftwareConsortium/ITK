@@ -147,7 +147,7 @@ public:
    *  we want a coarse version of the image/
    * \Warning this is only used when streaming is on. */
   itkSetMacro(SubSamplingFactor,unsigned int);
-  itkGetMacro(SubSamplingFactor,unsigned int);
+  itkGetConstMacro(SubSamplingFactor,unsigned int);
 
 protected:
   MetaImageIO();

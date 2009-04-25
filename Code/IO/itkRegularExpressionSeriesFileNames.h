@@ -95,13 +95,13 @@ public:
   /** The index of the submatch that will be used to sort the
    * matches. */
   itkSetMacro(SubMatch, unsigned int);
-  itkGetMacro(SubMatch, unsigned int);
+  itkGetConstMacro(SubMatch, unsigned int);
 
   /** NumericSortOn changes the sort of the submatch field to a
    * numeric sort. NumericSortOff is the default, and sorts the
    * submatch alphabetically. */
   itkSetMacro(NumericSort,bool);
-  itkGetMacro(NumericSort,bool);
+  itkGetConstMacro(NumericSort,bool);
   itkBooleanMacro(NumericSort);
 
   /** Returns a vector containing the series' file names. The file

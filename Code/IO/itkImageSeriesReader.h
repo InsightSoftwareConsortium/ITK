@@ -113,7 +113,7 @@ public:
   /** ReverseOrderOn changes the order of travesal of the file names
    * from last to first */
   itkSetMacro(ReverseOrder,bool);
-  itkGetMacro(ReverseOrder,bool);
+  itkGetConstMacro(ReverseOrder,bool);
   itkBooleanMacro(ReverseOrder);
 
   /** Set/Get the ImageIO helper class. By default, the

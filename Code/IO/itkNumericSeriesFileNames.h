@@ -62,16 +62,16 @@ public:
   /** Use this method to set the starting index of the numeric series.
    * The default value is 1. */
   itkSetMacro(StartIndex,unsigned long);
-  itkGetMacro(StartIndex,unsigned long);
+  itkGetConstMacro(StartIndex,unsigned long);
 
   /** Set the end index of the numeric series. The default is 1. */
   itkSetMacro(EndIndex,unsigned long);
-  itkGetMacro(EndIndex,unsigned long);
+  itkGetConstMacro(EndIndex,unsigned long);
 
   /** Set the increment of the index of the numeric series. The
    * default value is 1.  */
   itkSetMacro(IncrementIndex,unsigned long);
-  itkGetMacro(IncrementIndex,unsigned long);
+  itkGetConstMacro(IncrementIndex,unsigned long);
 
   /** The format string used to generate the series. Different subclasses
    * require different characteristics of this string. For example, the

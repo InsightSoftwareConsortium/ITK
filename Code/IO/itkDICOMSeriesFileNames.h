@@ -97,7 +97,7 @@ public:
   /** The sorting order can be ascending or descending. The default
    * sort order is ascending. */
   itkSetMacro(Ascending, bool);
-  itkGetMacro(Ascending, bool);
+  itkGetConstMacro(Ascending, bool);
   itkBooleanMacro(Ascending);
 
   /** Returns a vector containing the UIDs for each series in the

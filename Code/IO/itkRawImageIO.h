@@ -80,7 +80,7 @@ public:
    * each file contains one "slice". If three, each file will contain one
    * "volume". */
   itkSetMacro(FileDimensionality, unsigned long);
-  itkGetMacro(FileDimensionality, unsigned long);
+  itkGetConstMacro(FileDimensionality, unsigned long);
   
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D

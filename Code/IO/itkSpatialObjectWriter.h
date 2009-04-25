@@ -70,14 +70,14 @@ public:
   void SetInput(SceneType * input){m_Scene=input;}
 
   itkSetMacro(BinaryPoints,bool);
-  itkGetMacro(BinaryPoints,bool);
+  itkGetConstMacro(BinaryPoints,bool);
 
   void SetTransformPrecision(unsigned int precision);
   unsigned int GetTransformPrecision();
 
   /** Set/Get if the images should be written in a different file */
   itkSetMacro(WriteImagesInSeparateFile,bool);
-  itkGetMacro(WriteImagesInSeparateFile,bool);
+  itkGetConstMacro(WriteImagesInSeparateFile,bool);
 
 
 protected:

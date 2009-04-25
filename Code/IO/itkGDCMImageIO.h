@@ -108,8 +108,8 @@ public:
   /** Macro to access Rescale Slope and Rescale Intercept. Which are
    * needed to rescale properly image when needed. User then need to 
    * Always check those value when access value from the DICOM header */
-  itkGetMacro(RescaleSlope, double);
-  itkGetMacro(RescaleIntercept, double);
+  itkGetConstMacro(RescaleSlope, double);
+  itkGetConstMacro(RescaleIntercept, double);
 
   /** Macro to access the DICOM UID prefix. By default this is the ITK
    *  root id. This default can be overriden if the exam is for example
@@ -126,7 +126,7 @@ public:
   /** Preserve the original DICOM UID of the input files
    */
   itkSetMacro(KeepOriginalUID,bool);
-  itkGetMacro(KeepOriginalUID,bool);
+  itkGetConstMacro(KeepOriginalUID,bool);
   itkBooleanMacro(KeepOriginalUID);
 
   /** Convenience methods to query patient information and scanner
@@ -181,7 +181,7 @@ public:
    *  sequences are not needed.
    */
   itkSetMacro(LoadSequences, bool);
-  itkGetMacro(LoadSequences, bool);
+  itkGetConstMacro(LoadSequences, bool);
   itkBooleanMacro(LoadSequences);
 
   /** Parse any private tags in the DICOM file. Defaults to the value
@@ -189,7 +189,7 @@ public:
    * private tags are not needed.
    */
   itkSetMacro(LoadPrivateTags, bool);
-  itkGetMacro(LoadPrivateTags, bool);
+  itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);  
 
   /** Global method to define the default value for

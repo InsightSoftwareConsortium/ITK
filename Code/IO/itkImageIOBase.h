@@ -172,17 +172,17 @@ public:
 
   /** Set/Get a boolean to use the compression or not. */
   itkSetMacro(UseCompression,bool);
-  itkGetMacro(UseCompression,bool);
+  itkGetConstMacro(UseCompression,bool);
   itkBooleanMacro(UseCompression);
 
   /** Set/Get a boolean to use streaming while reading or not. */
   itkSetMacro(UseStreamedReading,bool);
-  itkGetMacro(UseStreamedReading,bool);
+  itkGetConstMacro(UseStreamedReading,bool);
   itkBooleanMacro(UseStreamedReading);
 
   /** Set/Get a boolean to use streaming while writing or not. */
   itkSetMacro(UseStreamedWriting,bool);
-  itkGetMacro(UseStreamedWriting,bool);
+  itkGetConstMacro(UseStreamedWriting,bool);
   itkBooleanMacro(UseStreamedWriting);
 
 

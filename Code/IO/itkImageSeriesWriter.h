@@ -136,12 +136,12 @@ public:
   /** Use this method to set the starting index of the series.
    * The default value is 1. */
   itkSetMacro(StartIndex,unsigned long);
-  itkGetMacro(StartIndex,unsigned long);
+  itkGetConstMacro(StartIndex,unsigned long);
 
   /** Set the increment of the index of the series. The
    * default value is 1.  */
   itkSetMacro(IncrementIndex,unsigned long);
-  itkGetMacro(IncrementIndex,unsigned long);
+  itkGetConstMacro(IncrementIndex,unsigned long);
 
   /** The format string used to generate each filename in the
    * series. The filename is built with sprintf(filename, SeriesFormat,

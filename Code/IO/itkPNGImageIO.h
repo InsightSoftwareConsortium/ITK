@@ -50,7 +50,7 @@ public:
   /** Set/Get the level of compression for the output images.
    *  0-9; 0 = none, 9 = maximum. */
   itkSetMacro(CompressionLevel, int);
-  itkGetMacro(CompressionLevel, int);
+  itkGetConstMacro(CompressionLevel, int);
 
   /*-------- This part of the interface deals with reading data. ------ */
 

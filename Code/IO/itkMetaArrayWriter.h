@@ -63,7 +63,7 @@ public:
   itkSetMacro(Binary, bool);
   /** Returns true if the file to be produced will store the data in binary
    *    (instead of ascii) format */
-  itkGetMacro(Binary, bool);
+  itkGetConstMacro(Binary, bool);
 
   /** Set the input itk Array to write */
   template <typename TValueType>
@@ -148,7 +148,7 @@ public:
 
   /** Set/Get the precision of the writing */
   itkSetMacro(Precision, unsigned int);
-  itkGetMacro(Precision, unsigned int);
+  itkGetConstMacro(Precision, unsigned int);
 
   /** Set the data type written to the file */
   void ConvertTo(MET_ValueEnumType _metaElementType);

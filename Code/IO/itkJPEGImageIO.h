@@ -49,11 +49,11 @@ public:
 
   /** Set/Get the level of quality for the output images. */
   itkSetMacro(Quality, int);
-  itkGetMacro(Quality, int);
+  itkGetConstMacro(Quality, int);
 
   /**  */
   itkSetMacro(Progressive, bool);
-  itkGetMacro(Progressive, bool);
+  itkGetConstMacro(Progressive, bool);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
