@@ -148,7 +148,7 @@ public:
   /**
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
-  itkGetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 protected:
   ConnectedComponentImageFilter() 

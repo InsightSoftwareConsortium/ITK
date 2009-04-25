@@ -97,7 +97,7 @@ public:
    * the filter will compute a value that will acoomodate all of the
    * images. */
   itkSetMacro(Layout,LayoutArrayType);
-  itkGetMacro(Layout,LayoutArrayType);
+  itkGetConstMacro(Layout,LayoutArrayType);
 
   /** Set the pixel value for locations that are not covered by an
    * input image. The default default pixel value is Zero. */
@@ -105,7 +105,7 @@ public:
 
   /** Get the pixel value for locations that are not covered by an
    * input image. */
-  itkGetMacro(DefaultPixelValue,OutputPixelType);
+  itkGetConstMacro(DefaultPixelValue,OutputPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

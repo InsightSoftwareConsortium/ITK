@@ -85,7 +85,7 @@ public:
                    NumericTraits<OutputImagePixelType>::max());
   
   /** Get the minimum possible pixel value. */
-  itkGetMacro(Min, OutputImagePixelType);
+  itkGetConstMacro(Min, OutputImagePixelType);
 
   /** Set the maximum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::max(). */
@@ -94,7 +94,7 @@ public:
                    NumericTraits<OutputImagePixelType>::max());
   
   /** Get the maximum possible pixel value. */
-  itkGetMacro(Max, OutputImagePixelType);
+  itkGetConstMacro(Max, OutputImagePixelType);
 
 protected:
   RandomImageSource();

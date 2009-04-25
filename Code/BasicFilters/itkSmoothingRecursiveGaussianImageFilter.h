@@ -112,11 +112,11 @@ public:
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma( ScalarRealType sigma );
-  itkGetMacro(Sigma, ScalarRealType);
+  itkGetConstMacro(Sigma, ScalarRealType);
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
 
   void SetNumberOfThreads( int nb );
 

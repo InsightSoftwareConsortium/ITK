@@ -210,7 +210,7 @@ public:
    * "off".
    */
   itkBooleanMacro(UseImageDirection);
-  itkGetMacro(UseImageDirection, bool);
+  itkGetConstMacro(UseImageDirection, bool);
   itkSetMacro(UseImageDirection, bool);
 
   /** Get axes permute order. */

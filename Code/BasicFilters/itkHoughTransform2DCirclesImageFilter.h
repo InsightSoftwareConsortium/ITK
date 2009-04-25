@@ -114,7 +114,7 @@ public:
   itkSetMacro(Threshold,double);
 
   /** Get the threshold value */
-  itkGetMacro(Threshold,double);
+  itkGetConstMacro(Threshold,double);
 
   /** Get the radius image */
   itkGetObjectMacro(RadiusImage,OutputImageType);
@@ -123,27 +123,27 @@ public:
   itkSetMacro(SigmaGradient,double);
 
   /** Get the scale value */
-  itkGetMacro(SigmaGradient,double);
+  itkGetConstMacro(SigmaGradient,double);
 
    /** Get the list of circles. This recomputes the circles */
   CirclesListType & GetCircles(unsigned int n=0);
 
   /** Set/Get the number of circles to extract */
   itkSetMacro(NumberOfCircles,unsigned int);
-  itkGetMacro(NumberOfCircles,unsigned int);
+  itkGetConstMacro(NumberOfCircles,unsigned int);
 
   /** Set/Get the radius of the disc to remove from the accumulator
    *  for each circle found */
   itkSetMacro(DiscRadiusRatio,float);
-  itkGetMacro(DiscRadiusRatio,float);
+  itkGetConstMacro(DiscRadiusRatio,float);
 
   /** Set the variance of the gaussian bluring for the accumulator */
   itkSetMacro(Variance,float);
-  itkGetMacro(Variance,float);
+  itkGetConstMacro(Variance,float);
   
   /** Set the sweep angle */
   itkSetMacro(SweepAngle,float);
-  itkGetMacro(SweepAngle,float);
+  itkGetConstMacro(SweepAngle,float);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

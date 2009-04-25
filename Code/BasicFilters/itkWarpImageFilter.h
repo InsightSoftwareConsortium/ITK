@@ -191,7 +191,7 @@ public:
   itkSetMacro( EdgePaddingValue, PixelType );
 
   /** Get the edge padding value */
-  itkGetMacro( EdgePaddingValue, PixelType );
+  itkGetConstMacro( EdgePaddingValue, PixelType );
 
   /** WarpImageFilter produces an image which is a different
    * size than its input image. As such, it needs to provide an

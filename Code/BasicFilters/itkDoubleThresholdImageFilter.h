@@ -80,14 +80,14 @@ public:
   itkSetMacro(OutsideValue,OutputPixelType);
   
   /** Get the "outside" pixel value. */
-  itkGetMacro(OutsideValue,OutputPixelType);
+  itkGetConstMacro(OutsideValue,OutputPixelType);
 
   /** Set the "inside" pixel value. The default value 
    * NumericTraits<OutputPixelType>::max() */
   itkSetMacro(InsideValue,OutputPixelType);
   
   /** Get the "inside" pixel value. */
-  itkGetMacro(InsideValue,OutputPixelType);
+  itkGetConstMacro(InsideValue,OutputPixelType);
 
   /** Set the thresholds. Four thresholds should be specified.  The
    * two lower thresholds default to
@@ -100,10 +100,10 @@ public:
   itkSetMacro( Threshold4, InputPixelType );
                  
   /** Get the threshold values. */
-  itkGetMacro( Threshold1, InputPixelType );
-  itkGetMacro( Threshold2, InputPixelType );
-  itkGetMacro( Threshold3, InputPixelType );
-  itkGetMacro( Threshold4, InputPixelType );
+  itkGetConstMacro( Threshold1, InputPixelType );
+  itkGetConstMacro( Threshold2, InputPixelType );
+  itkGetConstMacro( Threshold3, InputPixelType );
+  itkGetConstMacro( Threshold4, InputPixelType );
 
   /** \deprecated
    * Get the number of iterations used by the geodesic dilation to

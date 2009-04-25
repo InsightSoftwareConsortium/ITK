@@ -147,7 +147,7 @@ public:
    * precise computation of the inverse field at the price of large memory
    * consumption and long computational time. */
   itkSetMacro( SubsamplingFactor, unsigned int );
-  itkGetMacro( SubsamplingFactor, unsigned int );
+  itkGetConstMacro( SubsamplingFactor, unsigned int );
 
   /** InverseDeformationFieldImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation

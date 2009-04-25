@@ -81,14 +81,14 @@ public:
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. */
   itkSetMacro( FlipAxes, FlipAxesArrayType );
-  itkGetMacro( FlipAxes, FlipAxesArrayType );
+  itkGetConstMacro( FlipAxes, FlipAxesArrayType );
 
 /** Controls how the output origin is computed. If FlipAboutOrigin is
  * "on", the flip will occur about the origin of the axis, otherwise,
  * the flip will occur about the center of the axis.
  */
   itkBooleanMacro(FlipAboutOrigin);
-  itkGetMacro(FlipAboutOrigin, bool);
+  itkGetConstMacro(FlipAboutOrigin, bool);
   itkSetMacro(FlipAboutOrigin, bool);
 
   /** FlipImageFilter produces an image with different origin and

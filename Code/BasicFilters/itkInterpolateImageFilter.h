@@ -89,7 +89,7 @@ public:
   /** Set/Get the distance from the first image from which to generate
    * interpolated image. The default value is 0.5 */
   itkSetClampMacro( Distance, double, 0.0, 1.0 );
-  itkGetMacro( Distance, double );
+  itkGetConstMacro( Distance, double );
 
   /** Set the interpolator function */
   itkSetObjectMacro( Interpolator, InterpolatorType ) 

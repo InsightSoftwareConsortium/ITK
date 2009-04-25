@@ -100,22 +100,22 @@ public:
 
   /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);
-  itkGetMacro(TimeStep, TimeStepType);
+  itkGetConstMacro(TimeStep, TimeStepType);
 
   /** Set/Get the conductance parameter governing sensitivity of the
       conductance equation. */
   itkSetMacro(ConductanceParameter, double);
-  itkGetMacro(ConductanceParameter, double);
+  itkGetConstMacro(ConductanceParameter, double);
 
   /** Set/Get the interval at which a new scaling for the conductance term is
       calculated.  */
   itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
-  itkGetMacro(ConductanceScalingUpdateInterval, unsigned int);
+  itkGetConstMacro(ConductanceScalingUpdateInterval, unsigned int);
 
   /** The following parameters are not used at this time.  Setting them will
       have no effect on the output */
   itkSetMacro(ConductanceScalingParameter, double);
-  itkGetMacro(ConductanceScalingParameter, double);
+  itkGetConstMacro(ConductanceScalingParameter, double);
 
   /** Supplies a fixed value for the average gradient magnitude of the image to 
       the AnisotropicDiffusionFunction at each iteration.  The average gradient 
@@ -130,7 +130,7 @@ public:
     this->Modified();
     m_GradientMagnitudeIsFixed = true;
     }
-  itkGetMacro(FixedAverageGradientMagnitude, double);
+  itkGetConstMacro(FixedAverageGradientMagnitude, double);
   
 protected:
   AnisotropicDiffusionImageFilter();

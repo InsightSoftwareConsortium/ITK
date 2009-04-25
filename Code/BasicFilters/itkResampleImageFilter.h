@@ -220,7 +220,7 @@ public:
 
   itkSetMacro( UseReferenceImage, bool );
   itkBooleanMacro( UseReferenceImage );
-  itkGetMacro( UseReferenceImage, bool );
+  itkGetConstMacro( UseReferenceImage, bool );
 
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation

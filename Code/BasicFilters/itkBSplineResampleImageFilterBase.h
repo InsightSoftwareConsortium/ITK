@@ -122,7 +122,7 @@ public:
   void SetSplineOrder(int SplineOrder);
 
   /** Get the spline order */
-  itkGetMacro(SplineOrder, int);
+  itkGetConstMacro(SplineOrder, int);
 
 
 protected:

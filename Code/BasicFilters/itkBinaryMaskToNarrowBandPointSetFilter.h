@@ -134,7 +134,7 @@ public:
       the points in the narrow band. The full width of 
       the full narrow band will be double of this value. */
   itkSetMacro( BandWidth, float );
-  itkGetMacro( BandWidth, float );
+  itkGetConstMacro( BandWidth, float );
 
 protected:
   BinaryMaskToNarrowBandPointSetFilter();

@@ -93,7 +93,7 @@ public:
    * processing. Local maxima below this value are replaced with an
    * estimate of the local background. */
   itkSetMacro(Height, InputImagePixelType);
-  itkGetMacro(Height, InputImagePixelType);
+  itkGetConstMacro(Height, InputImagePixelType);
   
   /** \deprecated
    * Get the number of iterations used to produce the current

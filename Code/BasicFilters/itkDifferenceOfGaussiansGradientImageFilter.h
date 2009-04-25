@@ -73,7 +73,7 @@ public:
   typedef typename TInputImage::RegionType OutputImageRegionType;
 
   /** Set/Get the member variables. */
-  itkGetMacro(Width, unsigned int);
+  itkGetConstMacro(Width, unsigned int);
   itkSetMacro(Width, unsigned int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

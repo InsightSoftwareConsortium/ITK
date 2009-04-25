@@ -95,13 +95,13 @@ public:
   typedef typename FieldInterpolatorType::OutputType               FieldInterpolatorOutputType;
 
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
+  itkGetConstMacro(NumberOfIterations, unsigned int);
   
   // If the error (in mm) between forward and backward mapping is smaller than the StopValue,
   // the algorithm stops.
   // This value can be used to speed up the calculation.
   itkSetMacro(StopValue, double);
-  itkGetMacro(StopValue, double);
+  itkGetConstMacro(StopValue, double);
 
   char* GetReport() {return this->m_Report;}
 

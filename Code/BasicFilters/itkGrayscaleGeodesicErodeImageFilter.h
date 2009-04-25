@@ -119,12 +119,12 @@ public:
    * convergence. When run to convergence, this filter is equivalent
    * to "reconstruction by erosion". Default is off. */
   itkSetMacro(RunOneIteration, bool);
-  itkGetMacro(RunOneIteration, bool);
+  itkGetConstMacro(RunOneIteration, bool);
   itkBooleanMacro(RunOneIteration);
 
   /** Get the number of iterations used to produce the current
    * output. */
-  itkGetMacro(NumberOfIterationsUsed, unsigned long);
+  itkGetConstMacro(NumberOfIterationsUsed, unsigned long);
 
   /**
    * Set/Get whether the connected components are defined strictly by

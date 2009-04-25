@@ -145,9 +145,9 @@ public:
 
   /** Standard get/set macros for filter parameters. */
   itkSetMacro(Variance, ArrayType);
-  itkGetMacro(Variance, const ArrayType);
+  itkGetConstMacro(Variance, const ArrayType);
   itkSetMacro(MaximumError, ArrayType);
-  itkGetMacro(MaximumError, const ArrayType);
+  itkGetConstMacro(MaximumError, const ArrayType);
   
   /** Set/Get the Variance parameter used by the Gaussian smoothing
       filter in this algorithm */
@@ -196,14 +196,14 @@ public:
 
   ///* Set the Threshold value for detected edges. */
   itkSetMacro(UpperThreshold, OutputImagePixelType );
-  itkGetMacro(UpperThreshold, OutputImagePixelType);
+  itkGetConstMacro(UpperThreshold, OutputImagePixelType);
 
   itkSetMacro(LowerThreshold, OutputImagePixelType );
-  itkGetMacro(LowerThreshold, OutputImagePixelType);
+  itkGetConstMacro(LowerThreshold, OutputImagePixelType);
 
   /* Set the Thresholdvalue for detected edges. */
   itkSetMacro(OutsideValue, OutputImagePixelType);
-  itkGetMacro(OutsideValue, OutputImagePixelType);
+  itkGetConstMacro(OutsideValue, OutputImagePixelType);
   
   OutputImageType * GetNonMaximumSuppressionImage()
     {

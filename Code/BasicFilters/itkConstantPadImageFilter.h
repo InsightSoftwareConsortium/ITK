@@ -74,7 +74,7 @@ public:
 
   /** Set/Get the pad value.  Default is Zero. */
   itkSetMacro(Constant, OutputImagePixelType);
-  itkGetMacro(Constant, OutputImagePixelType);
+  itkGetConstMacro(Constant, OutputImagePixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

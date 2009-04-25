@@ -109,10 +109,10 @@ public:
 
   /** Set/Get IsoSurfaceValue to use in the input image */
   itkSetMacro( IsoSurfaceValue, ValueType);
-  itkGetMacro( IsoSurfaceValue, ValueType);
+  itkGetConstMacro( IsoSurfaceValue, ValueType);
 
   /** Root Mean Square Change between successive iterations */
-  //  itkGetMacro( RMSChange, ValueType);
+  //  itkGetConstMacro( RMSChange, ValueType);
   
   /** This function is used to insert a pixel index into the narrow band  The
    *   entire narrow band can be constructed using this method.  Usually,

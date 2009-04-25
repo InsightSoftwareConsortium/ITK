@@ -133,7 +133,7 @@ public:
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
 
   /** HessianRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, HessianRecursiveGaussianImageFilter needs to provide

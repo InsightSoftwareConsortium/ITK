@@ -141,7 +141,7 @@ public:
   itkSetMacro(DefaultPixelValue,PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
-  itkGetMacro(DefaultPixelValue,PixelType);
+  itkGetConstMacro(DefaultPixelValue,PixelType);
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);

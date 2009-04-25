@@ -78,10 +78,10 @@ public:
   void Compute(void);
 
   /** Return the minimum intensity value. */
-  itkGetMacro(Minimum,PixelType);
+  itkGetConstMacro(Minimum,PixelType);
   
   /** Return the maximum intensity value. */
-  itkGetMacro(Maximum,PixelType);
+  itkGetConstMacro(Maximum,PixelType);
 
   /** Return the index of the minimum intensity value. */
   itkGetConstReferenceMacro(IndexOfMinimum,IndexType);

@@ -107,14 +107,14 @@ public:
 
   /** Standard get/set macros for Gaussian filter parameters.  */
   itkSetMacro(Variance, ArrayType);
-  itkGetMacro(Variance, const ArrayType);
+  itkGetConstMacro(Variance, const ArrayType);
   itkSetMacro(MaximumError, ArrayType);
-  itkGetMacro(MaximumError, const ArrayType);
+  itkGetConstMacro(MaximumError, const ArrayType);
 
   /** Get/Set the label values for the ZeroCrossingImageFilter */
-  itkGetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
   itkSetMacro(BackgroundValue, OutputImagePixelType);
-  itkGetMacro(ForegroundValue, OutputImagePixelType);
+  itkGetConstMacro(ForegroundValue, OutputImagePixelType);
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   
   /** Set the variance parameter needed by the embedded gaussian filter  */ 

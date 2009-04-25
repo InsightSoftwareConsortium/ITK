@@ -109,7 +109,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -133,7 +133,7 @@ public:
    * and  OFF by default when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is
    * OFF). */
   itkSetMacro( UseImageDirection, bool );
-  itkGetMacro( UseImageDirection, bool );
+  itkGetConstMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );
 
 protected:

@@ -118,7 +118,7 @@ public:
   const InputImage2Type * GetInput2(void);
   
   /** Return the computed directed Mean distance. */
-  itkGetMacro(ContourDirectedMeanDistance,RealType);
+  itkGetConstMacro(ContourDirectedMeanDistance,RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

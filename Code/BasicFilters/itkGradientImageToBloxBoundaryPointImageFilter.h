@@ -78,7 +78,7 @@ public:
 
   /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Threshold, double);
-  itkGetMacro(Threshold, double);
+  itkGetConstMacro(Threshold, double);
 
   /** Get and set the resolution of the blox
    *  This is the number of input pixels "contained" within

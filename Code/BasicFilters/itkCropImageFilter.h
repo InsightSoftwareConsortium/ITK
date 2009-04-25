@@ -74,9 +74,9 @@ public:
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
   itkSetMacro(UpperBoundaryCropSize, SizeType);
-  itkGetMacro(UpperBoundaryCropSize, SizeType); 
+  itkGetConstMacro(UpperBoundaryCropSize, SizeType); 
   itkSetMacro(LowerBoundaryCropSize, SizeType);
-  itkGetMacro(LowerBoundaryCropSize, SizeType);
+  itkGetConstMacro(LowerBoundaryCropSize, SizeType);
 
   void SetBoundaryCropSize(const SizeType & s)
     {

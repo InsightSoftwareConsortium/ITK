@@ -100,11 +100,11 @@ public:
 
   /** Set/Get the label value for zero-crossing pixels. */
   itkSetMacro(ForegroundValue, OutputImagePixelType);
-  itkGetMacro(ForegroundValue, OutputImagePixelType);
+  itkGetConstMacro(ForegroundValue, OutputImagePixelType);
   
   /** Set/Get the label value for non-zero-crossing pixels. */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
-  itkGetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

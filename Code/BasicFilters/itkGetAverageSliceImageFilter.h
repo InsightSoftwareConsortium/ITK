@@ -60,7 +60,7 @@ public:
   itkTypeMacro(GetAverageSliceImageFilter, AccumulateImageFilter);
 
   /** Set the direction in which to reflect the data. */
-  itkGetMacro( AveragedOutDimension, unsigned int );
+  itkGetConstMacro( AveragedOutDimension, unsigned int );
   itkSetMacro( AveragedOutDimension, unsigned int );
   
 protected:

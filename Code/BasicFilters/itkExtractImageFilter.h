@@ -110,7 +110,7 @@ public:
    *  'c' dimensions less than the input image, where c = # of 
    *  ExtractionRegion.Size = 0. */
   void SetExtractionRegion(InputImageRegionType extractRegion);
-  itkGetMacro(ExtractionRegion, InputImageRegionType);
+  itkGetConstMacro(ExtractionRegion, InputImageRegionType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

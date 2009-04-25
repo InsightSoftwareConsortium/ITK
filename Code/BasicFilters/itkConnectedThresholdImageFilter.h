@@ -77,7 +77,7 @@ public:
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
-  itkGetMacro(ReplaceValue, OutputImagePixelType);
+  itkGetConstMacro(ReplaceValue, OutputImagePixelType);
 
   /** Type of DataObjects to use for scalar inputs */
   typedef SimpleDataObjectDecorator<InputImagePixelType> InputPixelObjectType;
@@ -130,7 +130,7 @@ public:
   /** Type of connectivity to use (fully connected OR 4(2D), 6(3D), 
    * 2*N(ND) connectivity) */
   itkSetMacro( Connectivity, ConnectivityEnumType );
-  itkGetMacro( Connectivity, ConnectivityEnumType );
+  itkGetConstMacro( Connectivity, ConnectivityEnumType );
 #endif
 
 protected:

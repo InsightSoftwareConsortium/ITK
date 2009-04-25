@@ -188,7 +188,7 @@ public:
 
   /** Set the offset which labels have to start from. */
   itkSetClampMacro(LabelOffset,OutputPixelType, NumericTraits<OutputPixelType>::Zero,NumericTraits<OutputPixelType>::max() );
-  itkGetMacro(LabelOffset,OutputPixelType);
+  itkGetConstMacro(LabelOffset,OutputPixelType);
 
 protected:
   ThresholdLabelerImageFilter();

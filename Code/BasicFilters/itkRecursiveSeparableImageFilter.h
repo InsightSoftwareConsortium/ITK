@@ -81,7 +81,7 @@ public:
   typedef TOutputImage      OutputImageType;
 
   /** Get the direction in which the filter is to be applied. */   
-  itkGetMacro(Direction, unsigned int);
+  itkGetConstMacro(Direction, unsigned int);
 
   /** Set the direction in which the filter is to be applied. */   
   itkSetMacro(Direction, unsigned int);

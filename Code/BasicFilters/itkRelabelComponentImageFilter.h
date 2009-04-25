@@ -126,14 +126,14 @@ public:
 
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
-  itkGetMacro(NumberOfObjects, unsigned long);
+  itkGetConstMacro(NumberOfObjects, unsigned long);
   
   /** Get the original number of objects in the image before small
    * objects were discarded. This information is only valid after
    * the filter has executed. If the caller has not specified a
    * minimum object size, OriginalNumberOfObjects is the same as
    * NumberOfObjects. */
-  itkGetMacro(OriginalNumberOfObjects, unsigned long);
+  itkGetConstMacro(OriginalNumberOfObjects, unsigned long);
 
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
@@ -153,7 +153,7 @@ public:
    * which is to be interpreted as meaning that no minimum exists,
    * and all objects in the original label map will be passed
    * through to the output. */
-  itkGetMacro(MinimumObjectSize, unsigned long);
+  itkGetConstMacro(MinimumObjectSize, unsigned long);
    
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is

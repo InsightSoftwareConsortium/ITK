@@ -74,18 +74,18 @@ public:
 
   /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);
-  itkGetMacro(Lower, InputImagePixelType);
+  itkGetConstMacro(Lower, InputImagePixelType);
 
   /** Set/Get the upper threshold. The default is the largest possible
    *  value for the InputPixelType. */
   itkSetMacro(Upper, InputImagePixelType);
-  itkGetMacro(Upper, InputImagePixelType);
+  itkGetConstMacro(Upper, InputImagePixelType);
   
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
-  itkGetMacro(ReplaceValue, OutputImagePixelType);
+  itkGetConstMacro(ReplaceValue, OutputImagePixelType);
 
   /** Set the radius of the neighborhood used for a mask. */
   itkSetMacro(Radius, InputImageSizeType);

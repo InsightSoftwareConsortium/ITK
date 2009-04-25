@@ -125,7 +125,7 @@ public:
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
   
   void SetNumberOfThreads( int nb );
 

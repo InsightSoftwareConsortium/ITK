@@ -126,7 +126,7 @@ public:
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
 
   /** GradientRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, GradientRecursiveGaussianImageFilter needs to provide
@@ -148,7 +148,7 @@ public:
    * and  OFF by default when ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE is
    * OFF). */
   itkSetMacro( UseImageDirection, bool );
-  itkGetMacro( UseImageDirection, bool );
+  itkGetConstMacro( UseImageDirection, bool );
   itkBooleanMacro( UseImageDirection );
 
 #ifdef ITK_USE_CONCEPT_CHECKING

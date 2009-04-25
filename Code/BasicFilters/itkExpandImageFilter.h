@@ -126,7 +126,7 @@ public:
   itkSetMacro( EdgePaddingValue, OutputPixelType );
 
   /** Get the edge padding value */
-  itkGetMacro( EdgePaddingValue, OutputPixelType );
+  itkGetConstMacro( EdgePaddingValue, OutputPixelType );
 
   /** ExpandImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,

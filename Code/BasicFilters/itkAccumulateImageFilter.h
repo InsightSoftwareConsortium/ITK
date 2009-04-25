@@ -97,7 +97,7 @@ public:
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
    * dimension. */
-  itkGetMacro( AccumulateDimension, unsigned int );
+  itkGetConstMacro( AccumulateDimension, unsigned int );
   itkSetMacro( AccumulateDimension, unsigned int );
 
   /** Perform a division by the size of the accumulated dimension
@@ -106,7 +106,7 @@ public:
    * sum of the pixels along the selected direction.  The default
    * value is false. */
   itkSetMacro( Average, bool );
-  itkGetMacro( Average, bool );
+  itkGetConstMacro( Average, bool );
   itkBooleanMacro(Average);
 
   

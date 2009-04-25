@@ -78,11 +78,11 @@ public:
 
   /** Set/Get spacing of the new dimension */
   itkSetMacro(Spacing, double);
-  itkGetMacro(Spacing, double);
+  itkGetConstMacro(Spacing, double);
 
   /** Set/Get origin of the new dimension */
   itkSetMacro(Origin, double);
-  itkGetMacro(Origin, double);
+  itkGetConstMacro(Origin, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

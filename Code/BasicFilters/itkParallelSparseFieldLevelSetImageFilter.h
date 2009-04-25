@@ -308,11 +308,11 @@ public:
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers + 1 */
   itkSetMacro(NumberOfLayers, StatusType);
-  itkGetMacro(NumberOfLayers, StatusType);
+  itkGetConstMacro(NumberOfLayers, StatusType);
 
   /** Set/Get the value of the isosurface to use in the input image. */
   itkSetMacro(IsoSurfaceValue, ValueType);
-  itkGetMacro(IsoSurfaceValue, ValueType);
+  itkGetConstMacro(IsoSurfaceValue, ValueType);
   
   LayerPointerType GetActiveListForIndex (const IndexType index)
     {

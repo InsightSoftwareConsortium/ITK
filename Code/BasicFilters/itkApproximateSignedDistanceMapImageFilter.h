@@ -106,11 +106,11 @@ public:
   
   /** Set/Get intensity value representing the interior of objects in the mask */
   itkSetMacro(InsideValue, InputPixelType);
-  itkGetMacro(InsideValue, InputPixelType);
+  itkGetConstMacro(InsideValue, InputPixelType);
  
   /** Set/Get intensity value representing non-objects in the mask */
   itkSetMacro(OutsideValue, InputPixelType);
-  itkGetMacro(OutsideValue, InputPixelType);
+  itkGetConstMacro(OutsideValue, InputPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

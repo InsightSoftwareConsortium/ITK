@@ -112,8 +112,8 @@ public:
   const InputImage2Type * GetInput2(void);
   
   /** Return the computed directed Hausdorff distance. */
-  itkGetMacro(DirectedHausdorffDistance,RealType);
-  itkGetMacro(AverageHausdorffDistance,RealType);
+  itkGetConstMacro(DirectedHausdorffDistance,RealType);
+  itkGetConstMacro(AverageHausdorffDistance,RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

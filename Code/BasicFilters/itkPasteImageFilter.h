@@ -92,12 +92,12 @@ public:
   /** Set/Get the destination index (where in the first input the second
    * input will be pasted. */
   itkSetMacro(DestinationIndex, InputImageIndexType);
-  itkGetMacro(DestinationIndex, InputImageIndexType);
+  itkGetConstMacro(DestinationIndex, InputImageIndexType);
 
   /** Set/Get the source region (what part of the second input will be
    * pasted. */
   itkSetMacro(SourceRegion, SourceImageRegionType);
-  itkGetMacro(SourceRegion, SourceImageRegionType);
+  itkGetConstMacro(SourceRegion, SourceImageRegionType);
 
   /** Set/Get the "destination" image.  This is the image that will be
    * obscured by the paste operation. */

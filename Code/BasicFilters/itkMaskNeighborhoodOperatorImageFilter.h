@@ -112,7 +112,7 @@ public:
 
   /** Get the output value for the pixels that are not under the
    * mask. */
-  itkGetMacro( DefaultValue, OutputPixelType );
+  itkGetConstMacro( DefaultValue, OutputPixelType );
   
   /** Set the UseDefaultValue flag. If true, the pixels outside the
    *  mask will e set to m_DefaultValue. Otherwise, they will be set

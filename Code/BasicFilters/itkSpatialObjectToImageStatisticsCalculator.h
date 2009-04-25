@@ -86,7 +86,7 @@ public:
 
   /** Set/Get the direction of the sample */
   itkSetMacro(SampleDirection,unsigned int);
-  itkGetMacro(SampleDirection,unsigned int);
+  itkGetConstMacro(SampleDirection,unsigned int);
 
   /** Set the input image. */
   itkSetConstObjectMacro(Image,ImageType);

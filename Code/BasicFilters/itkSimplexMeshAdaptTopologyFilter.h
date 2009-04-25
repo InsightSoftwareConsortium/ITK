@@ -236,12 +236,12 @@ public:
 
 
     itkSetMacro(Threshold, double);
-    itkGetMacro(Threshold, double);
+    itkGetConstMacro(Threshold, double);
 
     itkSetMacro(SelectionMethod, int);
-    itkGetMacro(SelectionMethod, int);
+    itkGetConstMacro(SelectionMethod, int);
 
-    itkGetMacro(ModifiedCount, int);
+    itkGetConstMacro(ModifiedCount, int);
 
 
 protected:

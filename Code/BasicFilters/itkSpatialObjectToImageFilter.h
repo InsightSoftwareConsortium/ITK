@@ -98,7 +98,7 @@ public:
   * the output produced by this filter will be a mask with inside/outside values 
   * specified by the user. */
   itkSetMacro( InsideValue, ValueType );
-  itkGetMacro( InsideValue, ValueType );
+  itkGetConstMacro( InsideValue, ValueType );
 
   /** Set/Get the value for pixels outside the spatial object.
   * By default, this filter will return an image
@@ -107,7 +107,7 @@ public:
   * the output produced by this filter will be a mask with inside/outside values
   * specified by the user. */
   itkSetMacro( OutsideValue, ValueType );
-  itkGetMacro( OutsideValue, ValueType );
+  itkGetConstMacro( OutsideValue, ValueType );
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
@@ -123,16 +123,16 @@ public:
    * image?  A ChildrenDepth of 0 means to only include the object
    * itself. */
   itkSetMacro( ChildrenDepth, unsigned int );
-  itkGetMacro( ChildrenDepth, unsigned int );
+  itkGetConstMacro( ChildrenDepth, unsigned int );
 
   /** Set/Get Size */
   itkSetMacro( Size, SizeType );
-  itkGetMacro( Size, SizeType );
+  itkGetConstMacro( Size, SizeType );
 
   /** If UseObjectValue is set to true, then the filter uses
    *  the ValueAt() function instead of IsInside() */
   itkSetMacro( UseObjectValue, bool );
-  itkGetMacro( UseObjectValue, bool );
+  itkGetConstMacro( UseObjectValue, bool );
 
 protected:
   SpatialObjectToImageFilter();

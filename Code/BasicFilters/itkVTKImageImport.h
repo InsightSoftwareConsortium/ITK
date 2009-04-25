@@ -99,59 +99,59 @@ public:
   
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
-  itkGetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
+  itkGetConstMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   
   /** What to do when receiving PipelineModified(). */
   itkSetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
-  itkGetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
+  itkGetConstMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   
   /** What to do when receiving SetWholeExtent(). */
   itkSetMacro(WholeExtentCallback, WholeExtentCallbackType);
-  itkGetMacro(WholeExtentCallback, WholeExtentCallbackType);
+  itkGetConstMacro(WholeExtentCallback, WholeExtentCallbackType);
   
   /** What to do when receiving SetSpacing(). */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
-  itkGetMacro(SpacingCallback, SpacingCallbackType);
+  itkGetConstMacro(SpacingCallback, SpacingCallbackType);
   itkSetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
-  itkGetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
+  itkGetConstMacro(FloatSpacingCallback, FloatSpacingCallbackType);
   void SetSpacingCallback(FloatSpacingCallbackType f)
     { this->SetFloatSpacingCallback(f); }
   
   /** What to do when receiving SetOrigin(). */
   itkSetMacro(OriginCallback, OriginCallbackType);
-  itkGetMacro(OriginCallback, OriginCallbackType);
+  itkGetConstMacro(OriginCallback, OriginCallbackType);
   itkSetMacro(FloatOriginCallback, FloatOriginCallbackType);
-  itkGetMacro(FloatOriginCallback, FloatOriginCallbackType);
+  itkGetConstMacro(FloatOriginCallback, FloatOriginCallbackType);
   void SetOriginCallback(FloatOriginCallbackType f)
     { this->SetFloatOriginCallback(f); }
   
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
-  itkGetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
+  itkGetConstMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   
   /** What to do when receiving SetNumberOfComponents(). */
   itkSetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
-  itkGetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
+  itkGetConstMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   
   /** What to do when receiving PropagateUpdateExtent(). */
   itkSetMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
-  itkGetMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
+  itkGetConstMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
   
   /** What to do when receiving UpdateData(). */
   itkSetMacro(UpdateDataCallback, UpdateDataCallbackType);
-  itkGetMacro(UpdateDataCallback, UpdateDataCallbackType);
+  itkGetConstMacro(UpdateDataCallback, UpdateDataCallbackType);
 
   /** What to do when receiving DataExtent(). */
   itkSetMacro(DataExtentCallback, DataExtentCallbackType);
-  itkGetMacro(DataExtentCallback, DataExtentCallbackType);
+  itkGetConstMacro(DataExtentCallback, DataExtentCallbackType);
   
   /** What to do when receiving BufferPointer(). */
   itkSetMacro(BufferPointerCallback, BufferPointerCallbackType);
-  itkGetMacro(BufferPointerCallback, BufferPointerCallbackType);
+  itkGetConstMacro(BufferPointerCallback, BufferPointerCallbackType);
 
   /** Specify callback data. */
   itkSetMacro2(CallbackUserData, void*);
-  itkGetMacro(CallbackUserData, void*);
+  itkGetConstMacro(CallbackUserData, void*);
   
 protected:
   VTKImageImport();

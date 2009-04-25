@@ -128,7 +128,7 @@ public:
   itkSetMacro(DefaultPixelValue,PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
-  itkGetMacro(DefaultPixelValue,PixelType);
+  itkGetConstMacro(DefaultPixelValue,PixelType);
 
   /** Returns a pointer to the  interpolator. */
   InterpolatorPointer GetInterpolator()

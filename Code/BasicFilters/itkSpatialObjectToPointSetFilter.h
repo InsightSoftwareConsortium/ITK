@@ -76,13 +76,13 @@ public:
    * PointSet?  A ChildrenDepth of 0 means to only include the object
    * itself. */
   itkSetMacro(ChildrenDepth, unsigned int);
-  itkGetMacro(ChildrenDepth, unsigned int);
+  itkGetConstMacro(ChildrenDepth, unsigned int);
 
 
   /* Set the sampling factor of the object. The resulting pointset will have a size
    * inversely proportional to the sampling factor.*/
   itkSetMacro(SamplingFactor, unsigned int);
-  itkGetMacro(SamplingFactor, unsigned int);
+  itkGetConstMacro(SamplingFactor, unsigned int);
 
 protected:
   SpatialObjectToPointSetFilter();

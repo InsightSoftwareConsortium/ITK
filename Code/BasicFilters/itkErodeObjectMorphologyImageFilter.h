@@ -90,7 +90,7 @@ public:
   itkSetMacro(BackgroundValue, PixelType);
 
   /** Get the value to be assigned to eroded pixels */
-  itkGetMacro(BackgroundValue, PixelType);
+  itkGetConstMacro(BackgroundValue, PixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

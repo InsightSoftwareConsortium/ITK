@@ -189,7 +189,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   void SetUseImageSpacing(bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */

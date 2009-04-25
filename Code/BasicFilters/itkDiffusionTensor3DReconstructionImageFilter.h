@@ -223,7 +223,7 @@ public:
    * tensor for pixels in the reference image that have a value less than this
    * threshold. */
   itkSetMacro( Threshold, ReferencePixelType );
-  itkGetMacro( Threshold, ReferencePixelType );
+  itkGetConstMacro( Threshold, ReferencePixelType );
 
   
   /** 

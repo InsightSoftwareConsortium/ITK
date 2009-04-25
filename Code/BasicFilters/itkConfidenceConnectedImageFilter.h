@@ -103,15 +103,15 @@ public:
   /** Set/Get the multiplier to define the confidence interval.  Multiplier
    * can be anything greater than zero. A typical value is 2.5 */
   itkSetMacro(Multiplier, double);
-  itkGetMacro(Multiplier, double);
+  itkGetConstMacro(Multiplier, double);
 
   /** Set/Get the number of iterations */
   itkSetMacro(NumberOfIterations, unsigned int);
-  itkGetMacro(NumberOfIterations, unsigned int);
+  itkGetConstMacro(NumberOfIterations, unsigned int);
 
   /** Set/Get value to replace thresholded pixels */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
-  itkGetMacro(ReplaceValue, OutputImagePixelType);
+  itkGetConstMacro(ReplaceValue, OutputImagePixelType);
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */

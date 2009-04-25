@@ -117,7 +117,7 @@ public:
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
-  itkGetMacro( NormalizeAcrossScale, bool );
+  itkGetConstMacro( NormalizeAcrossScale, bool );
 
   /** LaplacianRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, LaplacianRecursiveGaussianImageFilter needs to provide

@@ -284,16 +284,16 @@ public:
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers +1 */
   itkSetMacro(NumberOfLayers, unsigned int);
-  itkGetMacro(NumberOfLayers, unsigned int);
+  itkGetConstMacro(NumberOfLayers, unsigned int);
 
   /** Set/Get the value of the isosurface to use in the input image. */
   itkSetMacro(IsoSurfaceValue, ValueType);
-  itkGetMacro(IsoSurfaceValue, ValueType);
+  itkGetConstMacro(IsoSurfaceValue, ValueType);
 
   /** Get the RMS change calculated in the PREVIOUS iteration.  This value is
    *  the square root of the average square of the change value of all pixels
    *  updated during the previous iteration. */
-  //  itkGetMacro(RMSChange, ValueType);
+  //  itkGetConstMacro(RMSChange, ValueType);
 
   /** Get/Set the value of the InterpolateSurfaceLocation flag.  This flag
       tells the solver whether or not to interpolate for the surface location
@@ -301,7 +301,7 @@ public:
       applications may not use this value and can safely turn the flag
       off. */
   itkSetMacro(InterpolateSurfaceLocation, bool);
-  itkGetMacro(InterpolateSurfaceLocation, bool);
+  itkGetConstMacro(InterpolateSurfaceLocation, bool);
 
   /** See Get/SetInterpolateSurfaceLocation */
   void InterpolateSurfaceLocationOn()

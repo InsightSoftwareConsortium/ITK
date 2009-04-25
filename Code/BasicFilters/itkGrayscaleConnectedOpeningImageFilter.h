@@ -80,7 +80,7 @@ public:
 
   /** Set/Get the seed pixel for the segmentation */
   itkSetMacro(Seed, InputImageIndexType);
-  itkGetMacro(Seed, InputImageIndexType);
+  itkGetConstMacro(Seed, InputImageIndexType);
   
   /** \deprecated
    * Get the number of iterations used to produce the current

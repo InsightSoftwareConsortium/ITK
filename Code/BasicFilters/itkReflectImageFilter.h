@@ -58,7 +58,7 @@ public:
   typedef typename     OutputImageType::PixelType  OutputImagePixelType;
 
   /** Set the direction in which to reflect the data. */
-  itkGetMacro( Direction, unsigned int );
+  itkGetConstMacro( Direction, unsigned int );
   itkSetMacro( Direction, unsigned int );
 
   /** ImageDimension constants */

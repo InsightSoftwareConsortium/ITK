@@ -223,7 +223,7 @@ public:
 
   // macros for Histogram enables
   itkSetMacro(UseHistograms, bool);
-  itkGetMacro(UseHistograms, bool);
+  itkGetConstMacro(UseHistograms, bool);
   itkBooleanMacro(UseHistograms);
   
   /** Set the label image */

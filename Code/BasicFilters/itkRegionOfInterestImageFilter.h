@@ -73,7 +73,7 @@ public:
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);
-  itkGetMacro(RegionOfInterest, RegionType);
+  itkGetConstMacro(RegionOfInterest, RegionType);
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(ImageDimension, unsigned int,

@@ -108,7 +108,7 @@ public:
   const InputImage2Type * GetInput2(void);
   
   /** Return the computed similarity index. */
-  itkGetMacro(SimilarityIndex,RealType);
+  itkGetConstMacro(SimilarityIndex,RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

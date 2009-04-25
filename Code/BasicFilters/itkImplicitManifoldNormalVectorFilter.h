@@ -116,17 +116,17 @@ public:
   void SetNormalFunction( NormalFunctionType *nf );  
   
   itkSetMacro(MaxIteration, unsigned int);
-  itkGetMacro(MaxIteration, unsigned int);
+  itkGetConstMacro(MaxIteration, unsigned int);
   itkSetMacro(IsoLevelLow,  NodeValueType);
-  itkGetMacro(IsoLevelLow,  NodeValueType);
+  itkGetConstMacro(IsoLevelLow,  NodeValueType);
   itkSetMacro(IsoLevelHigh, NodeValueType);
-  itkGetMacro(IsoLevelHigh, NodeValueType);
+  itkGetConstMacro(IsoLevelHigh, NodeValueType);
   itkSetMacro(MinVectorNorm, NodeValueType);
-  itkGetMacro(MinVectorNorm, NodeValueType);
+  itkGetConstMacro(MinVectorNorm, NodeValueType);
   itkSetMacro(UnsharpMaskingFlag, bool);
-  itkGetMacro(UnsharpMaskingFlag, bool);
+  itkGetConstMacro(UnsharpMaskingFlag, bool);
   itkSetMacro(UnsharpMaskingWeight, NodeValueType);
-  itkGetMacro(UnsharpMaskingWeight, NodeValueType);
+  itkGetConstMacro(UnsharpMaskingWeight, NodeValueType);
  
 protected:   
   ImplicitManifoldNormalVectorFilter();  

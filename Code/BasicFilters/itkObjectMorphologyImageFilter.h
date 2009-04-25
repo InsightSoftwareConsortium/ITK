@@ -130,7 +130,7 @@ public:
   itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Get the pixel value being used to identify the object of interest */
-  itkGetMacro(ObjectValue, PixelType);
+  itkGetConstMacro(ObjectValue, PixelType);
 
   /** Set the pixel value being used to identify the object of interest */
   itkSetMacro(ObjectValue, PixelType);
@@ -156,7 +156,7 @@ public:
     { m_BoundaryCondition = &m_DefaultBoundaryCondition; }
   
   /** Get the current boundary condition. */
-  itkGetMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
+  itkGetConstMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
 
   /** Enable/disable the use of boundary condition.  Defaults to false.
    * if false, a neighborhood operator extends outside an image, it does
@@ -168,7 +168,7 @@ public:
    * if false, a neighborhood operator extends outside an image, it does
    * not consider that outside extent when determining if a pixel is on
    * an object's boundary. */
-  itkGetMacro(UseBoundaryCondition, bool);
+  itkGetConstMacro(UseBoundaryCondition, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

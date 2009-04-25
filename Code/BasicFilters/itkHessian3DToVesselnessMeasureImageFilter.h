@@ -110,12 +110,12 @@ public:
   /** Set/Get macros for alpha_1. Please refer to
    * http://www.spl.harvard.edu/pages/spl-pre2007/pages/papers/yoshi */
   itkSetMacro(Alpha1, double);
-  itkGetMacro(Alpha1, double);
+  itkGetConstMacro(Alpha1, double);
   
   /** Set/Get macros for alpha_2. Please refer to
    * http://www.spl.harvard.edu/pages/spl-pre2007/pages/papers/yoshi */
   itkSetMacro(Alpha2, double);
-  itkGetMacro(Alpha2, double);
+  itkGetConstMacro(Alpha2, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

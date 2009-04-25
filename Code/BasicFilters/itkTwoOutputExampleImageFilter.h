@@ -64,7 +64,7 @@ public:
   itkSetMacro(OutsideValue,PixelType);
   
   /** Get the "outside" pixel value. */
-  itkGetMacro(OutsideValue,PixelType);
+  itkGetConstMacro(OutsideValue,PixelType);
                  
   /** The values greater than or equal to the value are set to OutsideValue. */
   void ThresholdAbove(PixelType &thresh);

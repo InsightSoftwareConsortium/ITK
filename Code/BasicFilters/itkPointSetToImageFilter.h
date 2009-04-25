@@ -115,7 +115,7 @@ public:
   * the output produced by this filter will be a mask with inside/outside values 
   * specified by the user. */
   itkSetMacro(InsideValue, ValueType);
-  itkGetMacro(InsideValue, ValueType);
+  itkGetConstMacro(InsideValue, ValueType);
 
   /** Set/Get the value for pixels outside the point-set.
   * By default, this filter will return an image
@@ -124,11 +124,11 @@ public:
   * the output produced by this filter will be a mask with inside/outside values
   * specified by the user. */
   itkSetMacro(OutsideValue, ValueType);
-  itkGetMacro(OutsideValue, ValueType);
+  itkGetConstMacro(OutsideValue, ValueType);
 
   /** Set/Get Size */
   itkSetMacro(Size,SizeType);
-  itkGetMacro(Size,SizeType);
+  itkGetConstMacro(Size,SizeType);
 
 protected:
   PointSetToImageFilter();

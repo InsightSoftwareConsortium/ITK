@@ -83,9 +83,9 @@ public:
 
   /** Standard get/set macros for filter parameters. */
   itkSetMacro(Order, unsigned int);
-  itkGetMacro(Order, unsigned int);
+  itkGetConstMacro(Order, unsigned int);
   itkSetMacro(Direction, unsigned int);
-  itkGetMacro(Direction, unsigned int);
+  itkGetConstMacro(Direction, unsigned int);
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -100,7 +100,7 @@ public:
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
   
   /** DerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the

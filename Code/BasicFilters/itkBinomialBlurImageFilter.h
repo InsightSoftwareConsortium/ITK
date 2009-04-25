@@ -76,7 +76,7 @@ public:
 
   /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Repetitions, unsigned int);
-  itkGetMacro(Repetitions, unsigned int);
+  itkGetConstMacro(Repetitions, unsigned int);
 
   /** This filter needs to request a larger input than its requested output.
    * If this filter runs "Repetitions" iterations, then it needs an input
