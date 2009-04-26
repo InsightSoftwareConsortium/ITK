@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,30 +29,30 @@ bool CheckFileNameParsing(const std::string fileName,
                           const std::string correctPath)
 {
 #if !defined(ITK_LEGACY_REMOVE)
-  // the old, depricated way...
-  std::cout << "(itk, depricated) Extracting...file name..."; std::flush(std::cout);  
+  // the old, deprecated way...
+  std::cout << "(itk, deprecated) Extracting...file name...";
   char* nameOnly  = itk::IOCommon::ExtractFileName(fileName.c_str());
-  std::cout << "extension..."; std::flush(std::cout);  
+  std::cout << "extension...";
   char* extension = itk::IOCommon::ExtractFileExtension(fileName.c_str());
-  std::cout << "path..."; std::flush(std::cout);  
+  std::cout << "path...";
   char* path      = itk::IOCommon::ExtractFilePath(fileName.c_str());
   std::cout << "DONE" << std::endl;
 #else
   // the current kwsys way...
-  std::cout << "(kwsys) Extracting...file name..."; std::flush(std::cout);  
-  std::string fileNameString = 
+  std::cout << "(kwsys) Extracting...file name...";
+  std::string fileNameString =
     itksys::SystemTools::GetFilenameWithoutLastExtension
     (itksys::SystemTools::GetFilenameName(fileName));
   char* nameOnly = new char[fileNameString.size() + 1];
   strcpy(nameOnly, fileNameString.c_str());
-  std::cout << "extension..."; std::flush(std::cout);  
+  std::cout << "extension...";
   std::string extensionString =
     itksys::SystemTools::GetFilenameLastExtension(fileName);
   // NB: remove the period (kwsys leaves it on, ITK precedent was to
-  // remove it)            
+  // remove it)
   char* extension = new char[extensionString.size()];
   strcpy(extension, extensionString.c_str() + 1);
-  std::cout << "path..."; std::flush(std::cout);  
+  std::cout << "path...";
   std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
 #ifdef _WIN32
   for (size_t i = 0; i < pathString.size(); i++)
@@ -64,7 +64,7 @@ bool CheckFileNameParsing(const std::string fileName,
     }
 #endif
   // NB: add trailing slash iff the result is non-empty (kwsys always
-  // removes it, ITK precedent was to keep it) 
+  // removes it, ITK precedent was to keep it)
   if (pathString.size() > 1)
   {
 #if defined(_WIN32)
@@ -78,7 +78,7 @@ bool CheckFileNameParsing(const std::string fileName,
   std::cout << "DONE" << std::endl;
 #endif
 
-  std::cout << "Comparing...file name..."; std::flush(std::cout);  
+  std::cout << "Comparing...file name...";
   bool nameMatches;
   if (nameOnly == NULL)
     {
@@ -89,7 +89,7 @@ bool CheckFileNameParsing(const std::string fileName,
     nameMatches = correctNameOnly.compare(nameOnly) == 0;
     }
 
-  std::cout << "extension..."; std::flush(std::cout);  
+  std::cout << "extension...";
   bool extensionMatches;
   if (extension == NULL)
     {
@@ -100,7 +100,7 @@ bool CheckFileNameParsing(const std::string fileName,
     extensionMatches = correctExtension.compare(extension) == 0;
     }
 
-  std::cout << "path..."; std::flush(std::cout);  
+  std::cout << "path...";
   bool pathMatches;
   if (path == NULL)
     {
@@ -113,21 +113,21 @@ bool CheckFileNameParsing(const std::string fileName,
   std::cout << "DONE" << std::endl;
 
   std::cout << "FullFileName: \"" << fileName << "\"" << std::endl;
-  std::cout << "FileName: (expected) \"" << correctNameOnly 
-            << "\" (actual) \"" << (nameOnly != NULL ? nameOnly : "(null)") 
-            << "\"" 
+  std::cout << "FileName: (expected) \"" << correctNameOnly
+            << "\" (actual) \"" << (nameOnly != NULL ? nameOnly : "(null)")
+            << "\""
             << " (correct) " << nameMatches << std::endl;
-  std::cout << "Extension: (expected) \"" << correctExtension 
-            << "\" (actual) \"" << (extension != NULL ? extension : "(null)") 
-            << "\"" 
+  std::cout << "Extension: (expected) \"" << correctExtension
+            << "\" (actual) \"" << (extension != NULL ? extension : "(null)")
+            << "\""
             << " (correct) " << extensionMatches << std::endl;
-  std::cout << "Path: (expected) \"" << correctPath 
-            << "\" (actual) \"" << (path != NULL ? path : "(null)") 
-            << "\"" 
-            << " (correct) " << pathMatches << std::endl;            
+  std::cout << "Path: (expected) \"" << correctPath
+            << "\" (actual) \"" << (path != NULL ? path : "(null)")
+            << "\""
+            << " (correct) " << pathMatches << std::endl;
 
   bool correctParse = nameMatches && extensionMatches && pathMatches;
-  std::cout << "Parsing is " << (correctParse ? "correct" : "incorrect") 
+  std::cout << "Parsing is " << (correctParse ? "correct" : "incorrect")
             << std::endl;
 
   // clean up
@@ -158,18 +158,18 @@ int itkIOCommonTest(int , char* [])
   //
 
 #if defined(_WIN32)
-  success = success && 
+  success = success &&
     CheckFileNameParsing("c:\\dir1\\dir2\\myfile.tar.gz",
                          "myfile.tar",
                          "gz",
                          "c:\\dir1\\dir2\\");
-  success = success && 
+  success = success &&
     CheckFileNameParsing("\\\\sambaserver\\dir1\\dir2\\myfile.tar.gz",
                          "myfile.tar",
                          "gz",
                          "\\\\sambaserver\\dir1\\dir2\\");
 #else
-  success = success && 
+  success = success &&
     CheckFileNameParsing("/dir1/dir2/myfile.tar.gz",
                          "myfile.tar",
                          "gz",
@@ -179,41 +179,41 @@ int itkIOCommonTest(int , char* [])
   //
   // less reasonable cases
   //
-  success = success && 
+  success = success &&
     CheckFileNameParsing(".", "", "", "");
 
 #if defined(_WIN32)
-  success = success && 
+  success = success &&
     CheckFileNameParsing("\\", "", "", "\\");
-  success = success && 
+  success = success &&
     CheckFileNameParsing("\\.tar.gz", ".tar", "gz", "\\");
 #else
-  success = success && 
+  success = success &&
     CheckFileNameParsing("/", "", "", "/");
-  success = success && 
+  success = success &&
     CheckFileNameParsing("/.tar.gz", ".tar", "gz", "/");
 #endif
 
 #if defined(_WIN32)
-  success = success && 
+  success = success &&
     CheckFileNameParsing("\\.tar.gz", ".tar", "gz", "\\");
 #endif
 
-  success = success && 
+  success = success &&
     CheckFileNameParsing(".tar.gz", ".tar", "gz", "");
 
-  success = success && 
+  success = success &&
     CheckFileNameParsing("myfile", "myfile", "", "");
 
 #if defined(_WIN32)
-  success = success && 
+  success = success &&
     CheckFileNameParsing("\\myfile", "myfile", "", "\\");
 #else
-  success = success && 
+  success = success &&
     CheckFileNameParsing("/myfile", "myfile", "", "/");
 #endif
 
-  success = success && 
+  success = success &&
     CheckFileNameParsing("", "", "", "");
 
   return success ? EXIT_SUCCESS : EXIT_FAILURE;
