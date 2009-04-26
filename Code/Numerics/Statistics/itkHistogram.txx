@@ -294,16 +294,18 @@ Histogram<TMeasurement, VMeasurementVectorSize, TFrequencyContainer>
     return m_Min[dimension][this->m_Size[dimension]-1];
     }
 
+  unsigned int binMinFromValue = 0;
+
   for ( unsigned int i=0; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
       {
-      return this->m_Min[dimension][i];
+      binMinFromValue = i;
       }
     }
     
-  return this->m_Min[dimension][0];
+  return this->m_Min[dimension][binMinFromValue];
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize, 
@@ -327,16 +329,18 @@ Histogram< TMeasurement, VMeasurementVectorSize, TFrequencyContainer >
     return m_Max[dimension][this->m_Size[dimension]-1];
     }
 
+  unsigned int binMaxFromValue = 0;
+
   for ( unsigned int i = 0; i < this->m_Size[dimension]; i++ )
     {
     if (  (value >= this->m_Min[dimension][i])
           && (value <  this->m_Max[dimension][i])  )
       {
-      return this->m_Max[dimension][i];
+      binMaxFromValue = i;
       }
     }
   
-  return this->m_Max[dimension][0];
+  return this->m_Max[dimension][binMaxFromValue];
 }
 
 template< class TMeasurement, unsigned int VMeasurementVectorSize,
