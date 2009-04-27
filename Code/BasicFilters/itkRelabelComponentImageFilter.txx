@@ -54,7 +54,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   
   // Use a map to keep track of the size of each object.  Object
   // number -> ObjectType (which has Object number and the two sizes)
-  typedef itk::hash_map<unsigned long, RelabelComponentObjectType> MapType;
+  typedef itk::hash_map<LabelType, RelabelComponentObjectType> MapType;
   MapType sizeMap;
   typename MapType::iterator mapIt;
   typedef typename MapType::value_type MapValueType;
@@ -88,18 +88,16 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   //
 
   // walk the input
-  InputPixelType inputValue;
-  ImageRegionConstIterator<InputImageType> it;
-  it = ImageRegionConstIterator<InputImageType>(input,
-                                                input->GetRequestedRegion());
+  ImageRegionConstIterator<InputImageType> it(input, input->GetRequestedRegion());
   it.GoToBegin();
+
   while (!it.IsAtEnd())
     {
     // Get the input pixel value
-    inputValue = it.Get();
+    const LabelType inputValue = static_cast< LabelType>( it.Get() );
 
     // if the input pixel is not the background
-    if (inputValue != NumericTraits<InputPixelType>::Zero)
+    if (inputValue != NumericTraits<LabelType>::Zero)
       {
       // Does this label already exist
       mapIt = sizeMap.find( inputValue );
@@ -130,7 +128,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   VectorType sizeVector;
   typename VectorType::iterator vit;
 
-  typedef std::map<unsigned long, unsigned long> RelabelMapType;
+  typedef std::map< LabelType, LabelType > RelabelMapType;
   RelabelMapType relabelMap;
 
   // copy the original object map to a vector so we can sort it
@@ -203,10 +201,9 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   oit.GoToBegin();
   while ( !oit.IsAtEnd() )
     {
-    inputValue = it.Get();
-    // std::cerr << std::endl << "inputValue: " << inputValue << " m_SizeOfObjectsInPixels[inputValue]: " <<
-    //  m_SizeOfObjectsInPixels[inputValue] << std::endl;
-    if (inputValue != NumericTraits<InputPixelType>::Zero)
+    const LabelType inputValue = static_cast< LabelType>( it.Get() );
+    
+    if (inputValue != NumericTraits<LabelType>::Zero)
       {
 
       // lookup the mapped label
@@ -239,12 +236,12 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
      << m_NumberOfObjectsToPrint << std::endl;
   os << indent << "MinimumObjectSizez: " << m_MinimumObjectSize << std::endl;
 
-  std::vector<unsigned long>::const_iterator it;
+  std::vector<ObjectSizeType>::const_iterator it;
   std::vector<float>::const_iterator fit;
-  unsigned long i;
+  LabelType i;
 
   // limit the number of objects to print
-  unsigned long numPrint = m_NumberOfObjectsToPrint;
+  LabelType numPrint = m_NumberOfObjectsToPrint;
   if (numPrint > m_SizeOfObjectsInPixels.size())
     {
     numPrint = m_SizeOfObjectsInPixels.size();

@@ -597,7 +597,11 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 ::CreateConsecutive()
 {
   m_Consecutive = UnionFindType(m_UnionFind.size());
-  m_Consecutive[m_BackgroundValue] = m_BackgroundValue;
+
+  const LabelType background = static_cast<LabelType>( this->m_BackgroundValue );
+
+  m_Consecutive[background] = background;
+
   unsigned long int CLab = 0;
   unsigned long int count = 0;
   for (unsigned long int I = 1; I < m_UnionFind.size(); I++)
@@ -620,7 +624,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 template< class TInputImage, class TOutputImage, class TMaskImage >
 unsigned long int
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
-::LookupSet(const unsigned long int label)
+::LookupSet(const LabelType label)
 {
   // recursively set the equivalence if necessary
   if (label != m_UnionFind[label])
@@ -633,7 +637,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
 template< class TInputImage, class TOutputImage, class TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage>
-::LinkLabels(const unsigned long int lab1, const unsigned long int lab2)
+::LinkLabels(const LabelType lab1, const LabelType lab2)
 {
   unsigned long E1 = this->LookupSet(lab1);
   unsigned long E2 = this->LookupSet(lab2);

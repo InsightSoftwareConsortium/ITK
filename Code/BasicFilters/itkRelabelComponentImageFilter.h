@@ -124,21 +124,27 @@ public:
    */
   itkNewMacro(Self);
 
+  /** Type used as identifier for the different component lables. */
+  typedef unsigned long int    LabelType;
+
+  /** Type used to count number of pixels in objects. */
+  typedef unsigned long int    ObjectSizeType;
+
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
-  itkGetConstMacro(NumberOfObjects, unsigned long);
+  itkGetConstMacro(NumberOfObjects, LabelType);
   
   /** Get the original number of objects in the image before small
    * objects were discarded. This information is only valid after
    * the filter has executed. If the caller has not specified a
    * minimum object size, OriginalNumberOfObjects is the same as
    * NumberOfObjects. */
-  itkGetConstMacro(OriginalNumberOfObjects, unsigned long);
+  itkGetConstMacro(OriginalNumberOfObjects, LabelType);
 
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
-  itkSetMacro(NumberOfObjectsToPrint, unsigned long);
-  itkGetConstReferenceMacro(NumberOfObjectsToPrint, unsigned long);
+  itkSetMacro(NumberOfObjectsToPrint, LabelType);
+  itkGetConstReferenceMacro(NumberOfObjectsToPrint, LabelType);
 
   /** Set the minimum size in pixels for an object. All objects
    * smaller than this size will be discarded and will not appear
@@ -146,21 +152,21 @@ public:
    * objects whose pixel counts are greater than or equal to the
    * minimum size. Call GetOriginalNumberOfObjects to find out how
    * many objects were present in the original label map. */
-  itkSetMacro(MinimumObjectSize, unsigned long);
+  itkSetMacro(MinimumObjectSize, ObjectSizeType);
 
   /** Get the caller-defined minimum size of an object in pixels.
    * If the caller has not set the minimum, 0 will be returned,
    * which is to be interpreted as meaning that no minimum exists,
    * and all objects in the original label map will be passed
    * through to the output. */
-  itkGetConstMacro(MinimumObjectSize, unsigned long);
+  itkGetConstMacro(MinimumObjectSize, ObjectSizeType);
    
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is
    * GetSizeOfObjectsInPixels()[0]. Size of object #2 is
    * GetSizeOfObjectsInPixels()[1]. Etc. */
-  const std::vector<unsigned long>& GetSizeOfObjectsInPixels() const
+  const std::vector<ObjectSizeType>& GetSizeOfObjectsInPixels() const
     { return m_SizeOfObjectsInPixels; }
 
   /** Get the size of each object in physical space (in units of pixel
@@ -174,7 +180,7 @@ public:
   /** Get the size of a particular object in pixels. This information is only
    * valid after the filter has executed.  Size of the background
    * (object #0) is not calculated.  */
-  unsigned long GetSizeOfObjectInPixels(unsigned long obj) const
+  ObjectSizeType GetSizeOfObjectInPixels( LabelType obj ) const
     {
     if (obj > 0 && obj <= m_NumberOfObjects)
       {
@@ -189,7 +195,7 @@ public:
   /** Get the size of a particular object in physical space (in units of pixel
    * size). This information is only valid after the filter has
    * executed. Size of the background (object #0) is not calculated.  */
-  float GetSizeOfObjectInPhysicalUnits(unsigned long obj) const
+  float GetSizeOfObjectInPhysicalUnits( LabelType obj ) const
     { 
     if (obj > 0 && obj <= m_NumberOfObjects)
       {
@@ -206,9 +212,9 @@ public:
   itkConceptMacro(InputEqualityComparableCheck,
     (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(UnsignedLongConvertibleToInputCheck,
-    (Concept::Convertible<unsigned long, InputPixelType>));
+    (Concept::Convertible<LabelType, InputPixelType>));
   itkConceptMacro(OutputLongConvertibleToUnsignedLongCheck,
-    (Concept::Convertible<OutputPixelType, unsigned long>));
+    (Concept::Convertible<OutputPixelType, LabelType>));
   itkConceptMacro(InputConvertibleToOutputCheck,
     (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(SameDimensionCheck,
@@ -240,9 +246,9 @@ protected:
 
   struct RelabelComponentObjectType
     {
-    unsigned long m_ObjectNumber;
-    unsigned long m_SizeInPixels;
-    float m_SizeInPhysicalUnits;
+    LabelType       m_ObjectNumber;
+    ObjectSizeType  m_SizeInPixels;
+    float           m_SizeInPhysicalUnits;
     };
 
   // put the function objects here for sorting in descending order
@@ -276,13 +282,13 @@ protected:
 
 private:
 
-  unsigned long m_NumberOfObjects;
-  unsigned long m_NumberOfObjectsToPrint;
-  unsigned long m_OriginalNumberOfObjects;
-  unsigned long m_MinimumObjectSize;
+  LabelType       m_NumberOfObjects;
+  LabelType       m_NumberOfObjectsToPrint;
+  LabelType       m_OriginalNumberOfObjects;
+  ObjectSizeType  m_MinimumObjectSize;
 
-  std::vector<unsigned long> m_SizeOfObjectsInPixels;
-  std::vector<float>         m_SizeOfObjectsInPhysicalUnits;
+  std::vector<ObjectSizeType> m_SizeOfObjectsInPixels;
+  std::vector<float>          m_SizeOfObjectsInPhysicalUnits;
 
 };
   

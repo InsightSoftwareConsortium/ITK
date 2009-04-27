@@ -126,8 +126,12 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
   
+
+  /** Type used as identifier of the different component labels. */
+  typedef unsigned long int LabelType;
+
   // only set after completion
-  itkGetConstReferenceMacro(ObjectCount, unsigned long);
+  itkGetConstReferenceMacro(ObjectCount, LabelType);
 
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro(SameDimension,
@@ -182,7 +186,7 @@ protected:
   bool m_FullyConnected;
   
 private:
-  unsigned long        m_ObjectCount;
+  LabelType            m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;
 
   // some additional types
@@ -193,9 +197,9 @@ private:
     {
     public:
     // run length information - may be a more type safe way of doing this
-    long int length;
-    typename InputImageType::IndexType where; // Index of the start of the run
-    unsigned long int label; // the initial label of the run
+    long int                             length;
+    typename InputImageType::IndexType   where; // Index of the start of the run
+    LabelType                            label; // the initial label of the run
     };
 
   typedef std::vector<runLength> lineEncoding;
@@ -206,17 +210,18 @@ private:
   typedef std::vector<long> OffsetVec;
 
   // the types to support union-find operations
-  typedef std::vector<unsigned long int> UnionFindType;
+  typedef std::vector<LabelType> UnionFindType;
   UnionFindType m_UnionFind;
   UnionFindType m_Consecutive;
+
   // functions to support union-find operations
   void InitUnion(const unsigned long int size) 
     {
     m_UnionFind = UnionFindType(size + 1);
     }
   void InsertSet(const unsigned long int label);
-  unsigned long int LookupSet(const unsigned long int label);
-  void LinkLabels(const unsigned long int lab1, const unsigned long int lab2);
+  unsigned long int LookupSet(const LabelType label);
+  void LinkLabels(const LabelType lab1, const LabelType lab2);
   unsigned long int CreateConsecutive();
   //////////////////
   bool CheckNeighbors(const OutputIndexType &A, 
