@@ -42,18 +42,18 @@ GrayscaleFunctionErodeImageFilter<TInputImage, TOutputImage, TKernel>
   
   KernelIteratorType kernel_it;
 
-  for (i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i)
+  for( i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i )
     {
     // if structuring element is positive, use the pixel under that element
     // in the image minus the structuring element value
-    if (*kernel_it > 0)
+    if( *kernel_it > NumericTraits< KernelPixelType >::Zero )
       {
       // subtract the structuring element value to the pixel value,
       // note we use GetPixel() on SmartNeighborhoodIterator to respect
       // boundary condition
       temp = nit.GetPixel(i) - (PixelType) *kernel_it;
 
-      if (temp < min)
+      if( temp < min )
         {
         min = temp;
         }

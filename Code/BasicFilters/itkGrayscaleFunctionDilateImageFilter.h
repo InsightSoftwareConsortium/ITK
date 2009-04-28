@@ -86,6 +86,9 @@ public:
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
 
+  /** Type of the pixels in the Kernel. */
+  typedef typename TKernel::PixelType            KernelPixelType;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck1,
@@ -95,13 +98,13 @@ public:
   itkConceptMacro(InputConvertibleToOutputCheck,
     (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(KernelConvertibleToInputCheck,
-    (Concept::Convertible<typename TKernel::PixelType, PixelType>));
+    (Concept::Convertible<KernelPixelType, PixelType>));
   itkConceptMacro(InputAdditiveOperatorsCheck,
     (Concept::AdditiveOperators<PixelType>));
   itkConceptMacro(InputGreaterThanComparableCheck,
     (Concept::GreaterThanComparable<PixelType>));
-  itkConceptMacro(KernelGreaterThanIntCheck,
-    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  itkConceptMacro(KernelGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<KernelPixelType>));
   /** End concept checking */
 #endif
 

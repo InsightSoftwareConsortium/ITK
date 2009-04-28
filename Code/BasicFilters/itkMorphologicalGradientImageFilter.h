@@ -102,6 +102,9 @@ public:
   /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
 
+  /** Type of the pixels in the Kernel. */
+  typedef typename TKernel::PixelType            KernelPixelType;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(SameDimensionCheck1,
@@ -116,8 +119,8 @@ public:
     (Concept::AdditiveOperators<InputImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck,
     (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(KernelGreaterThanIntCheck,
-    (Concept::GreaterThanComparable<typename TKernel::PixelType, int>));
+  itkConceptMacro(KernelGreaterThanComparableCheck,
+    (Concept::GreaterThanComparable<KernelPixelType>));
   /** End concept checking */
 #endif
 

@@ -42,9 +42,9 @@ DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   const KernelIteratorType kernelEnd = kernel.End();
 
   bool valid = true;
-  for (i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i)
+  for( i=0, kernel_it=kernel.Begin(); kernel_it<kernelEnd; ++kernel_it, ++i )
     {
-    if(*kernel_it>0)
+    if( *kernel_it > NumericTraits< KernelPixelType >::Zero )
       {
       nit.SetPixel(i, this->GetObjectValue(), valid);
       }

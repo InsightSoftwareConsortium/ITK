@@ -42,11 +42,11 @@ BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>
 
   KernelIteratorType kernel_it;
 
-  for (i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i)
+  for( i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i )
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if (*kernel_it)
+    if( *kernel_it > NumericTraits< KernelPixelType >::Zero )
       {
       // note we use GetPixel() on the SmartNeighborhoodIterator to
       // respect boundary conditions
