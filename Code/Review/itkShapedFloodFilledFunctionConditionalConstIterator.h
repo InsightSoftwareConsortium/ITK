@@ -34,6 +34,9 @@ namespace itk
  * \class ShapedFloodFilledFunctionConditionalConstIterator
  * \brief Iterates over a flood-filled spatial function. 
  *
+ * Contributed as a paper to the Insight Journal:
+ *  http://hdl.handle.net/1926/1320
+ *
  * \ingroup ImageIterators
  *
  */
