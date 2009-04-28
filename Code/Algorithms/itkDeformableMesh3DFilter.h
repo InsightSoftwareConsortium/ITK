@@ -38,6 +38,11 @@ namespace itk
  * The potential force is derived from the gradient information in the 
  * medical image and it will make the model deform to fit to the boundary
  * features.
+ *
+ * Computations are handled with points assumed to lie in index space,
+ * not physical space. Reverting to physical space compromises backward
+ * compatibility.
+ *
  * Inputs are:
  *  (1) A deformable triangular model (Mesh). Import using the SetInput method.
  *  (2) A gradient map that make the model deform to fit to the estimated boundary.
