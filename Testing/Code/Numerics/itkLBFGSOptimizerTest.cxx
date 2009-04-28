@@ -39,11 +39,11 @@
  *   the solution is the vector | 2 -2 |
  *
  */ 
-class LBFCostFunction : public itk::SingleValuedCostFunction 
+class LBFGSCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef LBFCostFunction                    Self;
+  typedef LBFGSCostFunction                 Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
@@ -60,7 +60,7 @@ public:
 
   typedef double MeasureType ;
 
-  LBFCostFunction()
+  LBFGSCostFunction()
   {
   }
 
@@ -129,7 +129,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
 
 
   // Declaration of the CostFunction adaptor
-  LBFCostFunction::Pointer costFunction = LBFCostFunction::New();
+  LBFGSCostFunction::Pointer costFunction = LBFGSCostFunction::New();
 
 
   // Set some optimizer parameters

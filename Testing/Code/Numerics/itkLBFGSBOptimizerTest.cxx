@@ -39,16 +39,16 @@
  *   the solution is the vector | 4/3 -1 |
  *
  */ 
-class LBFCostFunction : public itk::SingleValuedCostFunction 
+class LBFGSBCostFunction : public itk::SingleValuedCostFunction 
 {
 public:
 
-  typedef LBFCostFunction                    Self;
+  typedef LBFGSBCostFunction                    Self;
   typedef itk::SingleValuedCostFunction     Superclass;
   typedef itk::SmartPointer<Self>           Pointer;
   typedef itk::SmartPointer<const Self>     ConstPointer;
   itkNewMacro( Self );
-  itkTypeMacro( LBFCostFunction, SingleValuedCostFunction );
+  itkTypeMacro( LBFGSBCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
@@ -60,7 +60,7 @@ public:
 
   typedef double MeasureType ;
 
-  LBFCostFunction()
+  LBFGSBCostFunction()
   {
   }
 
@@ -130,7 +130,7 @@ int itkLBFGSBOptimizerTest(int, char *[])
 
 
   // Declaration of the CostFunction adaptor
-  LBFCostFunction::Pointer costFunction = LBFCostFunction::New();
+  LBFGSBCostFunction::Pointer costFunction = LBFGSBCostFunction::New();
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
