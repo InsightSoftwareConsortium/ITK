@@ -22,6 +22,8 @@
 #include "itkVector.h"
 #include "itkExponentialDeformationFieldImageFilter.h"
 
+#include "vnl/vnl_random.h"
+
 
 int itkExponentialDeformationFieldImageFilterTest(int, char* [] ) 
 {
@@ -140,7 +142,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   ImageType::Pointer outputImage2 = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  IteratorType ot2(outputImage, outputImage->GetRequestedRegion());
+  IteratorType ot2(outputImage2, outputImage2->GetRequestedRegion());
   
   //  Check the content of the result image
   std::cout << "Verification of the inverse output " << std::endl;
@@ -172,7 +174,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   ImageType::Pointer outputImage3 = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  IteratorType ot3(outputImage, outputImage->GetRequestedRegion());
+  IteratorType ot3(outputImage3, outputImage3->GetRequestedRegion());
   
   //  Check the content of the result image
   std::cout << "Verification of the output with 0 iterations " << std::endl;
@@ -204,7 +206,7 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
   ImageType::Pointer outputImage4 = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  IteratorType ot4(outputImage, outputImage->GetRequestedRegion());
+  IteratorType ot4(outputImage4, outputImage4->GetRequestedRegion());
   
   //  Check the content of the result image
   std::cout << "Verification of the inverse output with 0 iterations " << std::endl;
@@ -223,9 +225,74 @@ int itkExponentialDeformationFieldImageFilterTest(int, char* [] )
     ++ot4;
     ++it;
     }
+
+
+  // See if the output is consistent when the spacing is changed
+  // (in an isotropic manner)
+  const double isospacing = 10;
+  typedef ImageType::SpacingType SpacingType;
+  SpacingType spacing;
+  for (unsigned int d=0; d<ImageDimension; ++d)
+    {
+    spacing[d] = isospacing;
+    }
   
+  filter->SetInput( inputImage );
+  filter->SetMaximumNumberOfIterations( 20 );
+  filter->ComputeInverseOff();
 
-  if (!testpassed) return EXIT_FAILURE;
+  // Random number generator
+  vnl_random rng;
+  const double power = 5.0;
+  
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
+    {
+    for (unsigned int d=0; d<ImageDimension; ++d)
+      {
+      it.Value()[d] = power * rng.normal();
+      }
+    ++it;
+    }
 
+  filter->Update();
+  ImageType::Pointer outputImage5 = filter->GetOutput();
+  outputImage5->DisconnectPipeline();
+
+  // Change the spacing
+  inputImage->SetSpacing(spacing);
+  it.GoToBegin();
+  while( !it.IsAtEnd() )
+    {
+    it.Value() *= isospacing;
+    ++it;
+    }
+
+  filter->Update();
+  ImageType::Pointer outputImage6 = filter->GetOutput();
+
+  IteratorType ot5(outputImage5, outputImage5->GetRequestedRegion());
+  IteratorType ot6(outputImage6, outputImage6->GetRequestedRegion());
+
+  std::cout << "Verification of the consistency when spacing is changed " << std::endl;
+
+  ot5.GoToBegin();
+  ot6.GoToBegin();
+  while( !ot5.IsAtEnd() )
+    {
+    testpassed &= ( (ot5.Value()-(ot6.Value()/isospacing)).GetNorm() < epsilon );
+    std::cout << ot5.Value() << " => ";
+    std::cout << ot6.Value()/isospacing << std::endl;
+    ++ot5;
+    ++ot6;
+    }
+
+  if (!testpassed)
+    {
+    std::cout<<"Test failed"<<std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::cout<<"Test passed"<<std::endl;
   return EXIT_SUCCESS;
 }

@@ -115,7 +115,7 @@ ExponentialDeformationFieldImageFilter<TInputImage,TOutputImage>
       }
 
     // Divide the norm by the minimum pixel spacing
-    maxnorm2 /= minpixelspacing;
+    maxnorm2 /= vnl_math_sqr(minpixelspacing);
 
     InputPixelRealValueType numiterfloat = 2.0 +
        0.5 * vcl_log(maxnorm2)/vnl_math::ln2;
