@@ -40,61 +40,61 @@
 namespace itk
 {
 
-static const char *const PAR_Version = "PAR_Version";
-static const char *const PAR_SliceOrientation = "PAR_SliceOrientation";
-static const char *const PAR_ExaminationName = "PAR_ExaminationName";
-static const char *const PAR_ProtocolName = "PAR_ProtocolName";
-static const char *const PAR_SeriesType = "PAR_SeriesType";
-static const char *const PAR_AcquisitionNr = "PAR_AcquisitionNr";
-static const char *const PAR_ReconstructionNr = "PAR_ReconstructionNr";
-static const char *const PAR_ScanDuration = "PAR_ScanDuration";
-static const char *const PAR_MaxNumberOfCardiacPhases = "PAR_MaxNumberOfCardiacPhases";
-static const char *const PAR_TriggerTimes = "PAR_TriggerTimes";
-static const char *const PAR_MaxNumberOfEchoes = "PAR_MaxNumberOfEchoes";
-static const char *const PAR_EchoTimes = "PAR_EchoTimes";
-static const char *const PAR_MaxNumberOfDynamics = "PAR_MaxNumberOfDynamics";
-static const char *const PAR_MaxNumberOfMixes = "PAR_MaxNumberOfMixes";
-static const char *const PAR_PatientPosition = "PAR_PatientPosition";
-static const char *const PAR_PreparationDirection = "PAR_PreparationDirection";
-static const char *const PAR_Technique = "PAR_Technique";
-static const char *const PAR_ScanMode = "PAR_ScanMode";
-static const char *const PAR_NumberOfAverages = "PAR_NumberOfAverages";
-static const char *const PAR_ScanResolution = "PAR_ScanResolution";
-static const char *const PAR_RepetitionTimes = "PAR_RepetitionTimes";
-static const char *const PAR_ScanPercentage = "PAR_ScanPercentage";
-static const char *const PAR_FOV = "PAR_FOV";
-static const char *const PAR_WaterFatShiftPixels = "PAR_WaterFatShiftPixels";
-static const char *const PAR_AngulationMidSlice = "PAR_AngulationMidSlice";
-static const char *const PAR_OffCentreMidSlice = "PAR_OffCentreMidSlice";
-static const char *const PAR_FlowCompensation = "PAR_FlowCompensation";
-static const char *const PAR_Presaturation = "PAR_Presaturation";
-static const char *const PAR_CardiacFrequency = "PAR_CardiacFrequency";
-static const char *const PAR_MinRRInterval = "PAR_MinRRInterval";
-static const char *const PAR_MaxRRInterval = "PAR_MaxRRInterval";
-static const char *const PAR_PhaseEncodingVelocity = "PAR_PhaseEncodingVelocity";
-static const char *const PAR_MTC = "PAR_MTC";
-static const char *const PAR_SPIR = "PAR_SPIR";
-static const char *const PAR_EPIFactor = "PAR_EPIFactor";
-static const char *const PAR_TurboFactor = "PAR_TurboFactor";
-static const char *const PAR_DynamicScan = "PAR_DynamicScan";
-static const char *const PAR_Diffusion = "PAR_Diffusion";
-static const char *const PAR_DiffusionEchoTime = "PAR_DiffusionEchoTime";
-static const char *const PAR_MaxNumberOfDiffusionValues = 
+const char *const PAR_Version = "PAR_Version";
+const char *const PAR_SliceOrientation = "PAR_SliceOrientation";
+const char *const PAR_ExaminationName = "PAR_ExaminationName";
+const char *const PAR_ProtocolName = "PAR_ProtocolName";
+const char *const PAR_SeriesType = "PAR_SeriesType";
+const char *const PAR_AcquisitionNr = "PAR_AcquisitionNr";
+const char *const PAR_ReconstructionNr = "PAR_ReconstructionNr";
+const char *const PAR_ScanDuration = "PAR_ScanDuration";
+const char *const PAR_MaxNumberOfCardiacPhases = "PAR_MaxNumberOfCardiacPhases";
+const char *const PAR_TriggerTimes = "PAR_TriggerTimes";
+const char *const PAR_MaxNumberOfEchoes = "PAR_MaxNumberOfEchoes";
+const char *const PAR_EchoTimes = "PAR_EchoTimes";
+const char *const PAR_MaxNumberOfDynamics = "PAR_MaxNumberOfDynamics";
+const char *const PAR_MaxNumberOfMixes = "PAR_MaxNumberOfMixes";
+const char *const PAR_PatientPosition = "PAR_PatientPosition";
+const char *const PAR_PreparationDirection = "PAR_PreparationDirection";
+const char *const PAR_Technique = "PAR_Technique";
+const char *const PAR_ScanMode = "PAR_ScanMode";
+const char *const PAR_NumberOfAverages = "PAR_NumberOfAverages";
+const char *const PAR_ScanResolution = "PAR_ScanResolution";
+const char *const PAR_RepetitionTimes = "PAR_RepetitionTimes";
+const char *const PAR_ScanPercentage = "PAR_ScanPercentage";
+const char *const PAR_FOV = "PAR_FOV";
+const char *const PAR_WaterFatShiftPixels = "PAR_WaterFatShiftPixels";
+const char *const PAR_AngulationMidSlice = "PAR_AngulationMidSlice";
+const char *const PAR_OffCentreMidSlice = "PAR_OffCentreMidSlice";
+const char *const PAR_FlowCompensation = "PAR_FlowCompensation";
+const char *const PAR_Presaturation = "PAR_Presaturation";
+const char *const PAR_CardiacFrequency = "PAR_CardiacFrequency";
+const char *const PAR_MinRRInterval = "PAR_MinRRInterval";
+const char *const PAR_MaxRRInterval = "PAR_MaxRRInterval";
+const char *const PAR_PhaseEncodingVelocity = "PAR_PhaseEncodingVelocity";
+const char *const PAR_MTC = "PAR_MTC";
+const char *const PAR_SPIR = "PAR_SPIR";
+const char *const PAR_EPIFactor = "PAR_EPIFactor";
+const char *const PAR_TurboFactor = "PAR_TurboFactor";
+const char *const PAR_DynamicScan = "PAR_DynamicScan";
+const char *const PAR_Diffusion = "PAR_Diffusion";
+const char *const PAR_DiffusionEchoTime = "PAR_DiffusionEchoTime";
+const char *const PAR_MaxNumberOfDiffusionValues = 
   "PAR_MaxNumberOfDiffusionValues";
-static const char *const PAR_GradientBValues = "PAR_GradientBValues";
-static const char *const PAR_MaxNumberOfGradientOrients = 
+const char *const PAR_GradientBValues = "PAR_GradientBValues";
+const char *const PAR_MaxNumberOfGradientOrients = 
   "PAR_MaxNumberOfGradientOrients";
-static const char *const PAR_GradientDirectionValues = "PAR_GradientDirectionValues";
-static const char *const PAR_InversionDelay = "PAR_InversionDelay";
-static const char *const PAR_NumberOfImageTypes = "PAR_NumberOfImageTypes";
-static const char *const PAR_ImageTypes = "PAR_ImageTypes";
-static const char *const PAR_NumberOfScanningSequences = 
+const char *const PAR_GradientDirectionValues = "PAR_GradientDirectionValues";
+const char *const PAR_InversionDelay = "PAR_InversionDelay";
+const char *const PAR_NumberOfImageTypes = "PAR_NumberOfImageTypes";
+const char *const PAR_ImageTypes = "PAR_ImageTypes";
+const char *const PAR_NumberOfScanningSequences = 
   "PAR_NumberOfScanningSequences";
-static const char *const PAR_ScanningSequences = "PAR_ScanningSequences";
-static const char *const PAR_ScanningSequenceImageTypeRescaleValues = 
+const char *const PAR_ScanningSequences = "PAR_ScanningSequences";
+const char *const PAR_ScanningSequenceImageTypeRescaleValues = 
   "PAR_ScanningSequenceImageTypeRescaleValues";
-static const char *const PAR_NumberOfASLLabelTypes = "PAR_NumberOfASLLabelTypes";
-static const char *const PAR_ASLLabelTypes = "PAR_ASLLabelTypes";
+const char *const PAR_NumberOfASLLabelTypes = "PAR_NumberOfASLLabelTypes";
+const char *const PAR_ASLLabelTypes = "PAR_ASLLabelTypes";
 
 static std::string
 GetExtension( const std::string& filename )
@@ -193,8 +193,8 @@ static std::string GetImageFileName( const std::string& filename )
 // scanning sequence (randomly ordered in the REC).
 int PhilipsRECImageIOGetImageTypeOffset(int imageType, int scanSequence, 
   int volumeIndex, int slice, int numSlices, struct par_parameter parParam, 
-  PARSliceIndexImageTypeVector sliceImageTypesIndex,
-  PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
+  PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndex,
+  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
 {
   int index = volumeIndex*parParam.num_slice_repetitions*numSlices + 
     slice*parParam.num_slice_repetitions;
@@ -215,9 +215,9 @@ int PhilipsRECImageIOGetImageTypeOffset(int imageType, int scanSequence,
 void PhilipsRECImageIOSetupSliceIndex(
   PhilipsRECImageIO::SliceIndexType *indexMatrix, int sortBlock,
   struct par_parameter parParam, 
-  PARImageTypeScanSequenceVector imageTypesScanSequenceIndex,
-  PARSliceIndexImageTypeVector sliceImageTypesIndex,
-  PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
+  PhilipsPAR::PARImageTypeScanSequenceVector imageTypesScanSequenceIndex,
+  PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndex,
+  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequenceIndex)
 {
   int index = 0;
   int actualSlices = parParam.slice;
@@ -549,12 +549,10 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
   // Zero out par_parameter.
   memset(&par,0, sizeof(struct par_parameter));
 
-  if( !ReadPAR(HeaderFileName, &par) )
+  PhilipsPAR::Pointer philipsPAR = PhilipsPAR::New();
+  try
     {
-    return false;
-    }
-  else
-    {
+    philipsPAR->ReadPAR(HeaderFileName, &par);
     // Check to see if there were any problems reading
     // the par file.
     if( par.problemreading )
@@ -562,7 +560,11 @@ bool PhilipsRECImageIO::CanReadFile( const char* FileNameToRead )
       return false;
       }
     }
-  
+  catch(ExceptionObject &)
+    {
+    return false;
+    }
+
   return true;
 }
 
@@ -570,16 +572,21 @@ void PhilipsRECImageIO::ReadImageInformation()
 {
   const std::string HeaderFileName = GetHeaderFileName( this->m_FileName );
   struct par_parameter par;
+
   // Zero out par_parameter.
   memset(&par,0, sizeof(struct par_parameter));
-  if( !ReadPAR( HeaderFileName, &par) )
+
+  // Read PAR file.
+  PhilipsPAR::Pointer philipsPAR = PhilipsPAR::New();
+  try
     {
-    ExceptionObject exception(__FILE__, __LINE__,
-                              "Problem reading PAR file",
-                              ITK_LOCATION);
-    throw exception;
+   philipsPAR->ReadPAR( HeaderFileName, &par);
     }
-  else if( par.problemreading )
+  catch(itk::ExceptionObject &err)
+    {
+    throw err;
+    }
+  if( par.problemreading )
     {
     ExceptionObject exception(__FILE__, __LINE__,
                               "Problem reading PAR file",
@@ -592,7 +599,7 @@ void PhilipsRECImageIO::ReadImageInformation()
     = GradientBvalueContainerType::New();
   GradientDirectionContainerType::Pointer diffusionGradientOrientationVector 
     = GradientDirectionContainerType::New();
-  if( !GetDiffusionGradientOrientationAndBValues(HeaderFileName,
+  if( !philipsPAR->GetDiffusionGradientOrientationAndBValues(HeaderFileName,
     diffusionGradientOrientationVector, diffusionBvalueVector) )
     {
     ExceptionObject exception(__FILE__, __LINE__,
@@ -604,7 +611,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   // Get ASL label types.
   LabelTypesASLContainerType::Pointer labelTypesASLVector = 
     LabelTypesASLContainerType::New();
-  if( !GetLabelTypesASL(HeaderFileName, labelTypesASLVector) )
+  if( !philipsPAR->GetLabelTypesASL(HeaderFileName, labelTypesASLVector) )
     {
     ExceptionObject exception(__FILE__, __LINE__,
       "Problem reading ASL label types from PAR file",
@@ -623,7 +630,7 @@ void PhilipsRECImageIO::ReadImageInformation()
     {
     ImageTypeRescaleValuesContainerType::Pointer imageTypeRescaleValuesVector = 
       ImageTypeRescaleValuesContainerType::New();
-    if( !GetRECRescaleValues(HeaderFileName,imageTypeRescaleValuesVector,
+    if( !philipsPAR->GetRECRescaleValues(HeaderFileName,imageTypeRescaleValuesVector,
       par.scanning_sequences[scanIndex]) )
       {
       ExceptionObject exception(__FILE__, __LINE__,
@@ -638,12 +645,12 @@ void PhilipsRECImageIO::ReadImageInformation()
   // Setup the slice index matrix.
   this->m_SliceIndex->clear();
   this->m_SliceIndex->resize(par.dim[2]);
-  PARSliceIndexImageTypeVector sliceImageTypesIndexes = 
-    GetRECSliceIndexImageTypes(HeaderFileName);
-  PARSliceIndexScanSequenceVector sliceScanSequencesIndexes = 
-    GetRECSliceIndexScanningSequence(HeaderFileName);
-  PARImageTypeScanSequenceVector imageTypesScanSequencesIndexes = 
-    GetImageTypesScanningSequence(HeaderFileName);
+  PhilipsPAR::PARSliceIndexImageTypeVector sliceImageTypesIndexes = 
+    philipsPAR->GetRECSliceIndexImageTypes(HeaderFileName);
+  PhilipsPAR::PARSliceIndexScanSequenceVector sliceScanSequencesIndexes = 
+    philipsPAR->GetRECSliceIndexScanningSequence(HeaderFileName);
+  PhilipsPAR::PARImageTypeScanSequenceVector imageTypesScanSequencesIndexes = 
+    philipsPAR->GetImageTypesScanningSequence(HeaderFileName);
   PhilipsRECImageIOSetupSliceIndex(this->m_SliceIndex,1,par,
     imageTypesScanSequencesIndexes,sliceImageTypesIndexes,
     sliceScanSequencesIndexes);
