@@ -36,7 +36,7 @@ namespace {
 // compare two images with an intensity tolerance
 bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  PixelType intensityTolerance = 1; 
+  PixelType intensityTolerance = .001; 
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
     
