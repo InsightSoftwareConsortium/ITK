@@ -78,26 +78,28 @@ void RegisterTests()
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest01 );
   REGISTER_TEST( itkFFTComplexToComplexImageFilterTest02 );
 
-  REGISTER_TEST( itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
+  REGISTER_TEST(
+    itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest );
   REGISTER_TEST( itkVectorCentralDifferenceImageFunctionTest );
   REGISTER_TEST( itkExponentialDeformationFieldImageFilterTest );
   REGISTER_TEST( itkFastSymmetricForcesDemonsRegistrationFilterTest );
   REGISTER_TEST( itkGridForwardWarpImageFilterTest );
   REGISTER_TEST( itkWarpHarmonicEnergyCalculatorTest );
-  
+
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest );
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest2 );
   REGISTER_TEST( itkBSplineScatteredDataPointSetToImageFilterTest3 );
 
   REGISTER_TEST( itkCoxDeBoorBSplineKernelFunctionTest );
   REGISTER_TEST( itkCoxDeBoorBSplineKernelFunctionTest2 );
- 
+
   REGISTER_TEST( itkKappaSigmaThresholdImageCalculatorTest );
   REGISTER_TEST( itkKappaSigmaThresholdImageFilterTest );
 
   REGISTER_TEST( itkComposeRGBAImageFilterTest );
 
   REGISTER_TEST( itkTransformToDeformationFieldSourceTest );
+  REGISTER_TEST( itkTransformToDeformationFieldSourceTest1 );
 
   REGISTER_TEST( itkDiscreteGaussianDerivativeImageFunctionTest );
   REGISTER_TEST( itkDiscreteGradientMagnitudeGaussianImageFunctionTest );
@@ -149,5 +151,4 @@ void RegisterTests()
 
   REGISTER_TEST( itkHessianToObjectnessMeasureImageFilterTest );
   REGISTER_TEST( itkMultiScaleHessianBasedMeasureImageFilterTest );
-
 }

@@ -104,6 +104,7 @@ SET(ReviewTest_SRCS
   itkComposeRGBAImageFilterTest.cxx
 
   itkTransformToDeformationFieldSourceTest.cxx
+  itkTransformToDeformationFieldSourceTest1.cxx
   
   itkBoxMeanImageFilterTest.cxx
   itkBoxSigmaImageFilterTest.cxx
@@ -907,6 +908,14 @@ ADD_TEST(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestField02.mha
     ${INPUTDATA}/parametersBSpline.txt
     ${ITK_TEST_OUTPUT_DIR}/itkTransformToDeformationFieldSourceTestImage02.mha
+)
+
+ADD_TEST(itkTransformToDeformationFieldSourceTest03 ${REVIEW_TESTS}
+   --compare ${TEMP}/transformedImage.nii.gz
+             ${TEMP}/warpedImage.nii.gz 
+   itkTransformToDeformationFieldSourceTest1
+     ${TEMP}/transformedImage.nii.gz
+     ${TEMP}/warpedImage.nii.gz 
 )
 
 ADD_TEST(itkBoxMeanImageFilterTest3 ${REVIEW_TESTS}
