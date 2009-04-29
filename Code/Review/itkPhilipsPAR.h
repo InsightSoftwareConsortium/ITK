@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include "itkLightProcessObject.h"
 #include "itkVectorContainer.h"
 #include "vnl/vnl_vector_fixed.h"
 
@@ -140,64 +141,112 @@ struct par_parameter  //par_parameter
 
 };
 
-// Reads the PAR file parameters in "parFile" and stores the PAR parameters in 
-// pPar.
-// Returns false if an error is encountered during reading, otherwise true is 
-// returned.
-ITK_EXPORT bool ReadPAR(std::string parFile, struct par_parameter* pPar);
+/** \class PhilipsPAR
+ * \brief Class for reading parameters from a Philips PAR file.
+ *
+ * \sa PhilipsRECImageIO
+ *
+ * \ingroup IOFilters
+ *
+ */
+class ITK_EXPORT PhilipsPAR : public LightProcessObject
+{
+public:
+  /** Standard class typedefs. */
+  typedef PhilipsPAR         Self;
+  typedef LightProcessObject Superclass;
+  typedef SmartPointer<Self> Pointer;
 
-// Returns a vector of paired values, the first contains the slice index and the 
-// second is the image type for the PAR file "parFile".
-typedef std::pair< int, int >                 PARSliceIndexImageType;
-typedef std::vector< PARSliceIndexImageType > PARSliceIndexImageTypeVector;
-ITK_EXPORT PARSliceIndexImageTypeVector GetRECSliceIndexImageTypes(
-  std::string parFile);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-// Returns a vector of paired values, the first contains the slice index and the 
-// second is the scan sequence for the PAR file "parFile".
-typedef std::pair< int, int >                    PARSliceIndexScanSequence;
-typedef std::vector< PARSliceIndexScanSequence > PARSliceIndexScanSequenceVector;
-ITK_EXPORT PARSliceIndexScanSequenceVector GetRECSliceIndexScanningSequence(
-  std::string parFile);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(PhilipsPAR, Superclass);
 
-// Returns a vector of paired values, the first contains the image type and the 
-// second is the scan sequence for that image type for the PAR file "parFile".
-typedef std::pair< int, int >                   PARImageTypeScanSequence;
-typedef std::vector< PARImageTypeScanSequence > PARImageTypeScanSequenceVector;
-ITK_EXPORT PARImageTypeScanSequenceVector GetImageTypesScanningSequence(
-  std::string parFile);
+  // Reads the PAR file parameters in "parFile" and stores the PAR parameters in 
+  // pPar.
+  // Returns false if an error is encountered during reading, otherwise true is 
+  // returned.
+  void ReadPAR(std::string parFile, struct par_parameter* pPar);
 
-// Stores rescale values in the VectorContainer "rescaleValues" for each image 
-// type of the specified scan sequence number "scan_sequence" (from 
-// scanning_sequences) for the PAR file "parFile".
-// Returns false if an error is encountered during reading, otherwise true is 
-// returned.
-typedef vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > 
-PARRescaleValues;
-typedef VectorContainer< unsigned int, PARRescaleValues > 
-PARRescaleValuesContainer;
-ITK_EXPORT bool GetRECRescaleValues(std::string parFile,
-  PARRescaleValuesContainer *rescaleValues, int scan_sequence);
+  // Returns a vector of paired values, the first contains the slice index and the 
+  // second is the image type for the PAR file "parFile".
+  typedef std::pair< int, int >                 PARSliceIndexImageType;
+  typedef std::vector< PARSliceIndexImageType > PARSliceIndexImageTypeVector;
+  PARSliceIndexImageTypeVector GetRECSliceIndexImageTypes(
+    std::string parFile);
 
-// Stores the diffusion gradient values in the VectorContainer "gradientValues" 
-// and the diffusion b values in the VectorContainer "bValues" for each gradient 
-// direction in the PAR file "parFile".  This function is applicable only for PAR
-// versions > 4.1
-// Returns false if an error is encountered during reading, otherwise true is 
-// returned.
-typedef vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > 
-PARDiffusionValues;
-typedef VectorContainer< unsigned int, PARDiffusionValues >
-PARDiffusionValuesContainer;
-typedef VectorContainer< unsigned int, double > 
-PARBValuesContainer;
-ITK_EXPORT bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
-  PARDiffusionValuesContainer *gradientValues, PARBValuesContainer *bValues);
+  // Returns a vector of paired values, the first contains the slice index and the 
+  // second is the scan sequence for the PAR file "parFile".
+  typedef std::pair< int, int >                    PARSliceIndexScanSequence;
+  typedef std::vector< PARSliceIndexScanSequence > PARSliceIndexScanSequenceVector;
+  PARSliceIndexScanSequenceVector GetRECSliceIndexScanningSequence(
+    std::string parFile);
 
-// Returns a vector of ALS label types for the PAR file "parFile".
-typedef VectorContainer< unsigned int, int > PARLabelTypesASLContainer;
-ITK_EXPORT bool GetLabelTypesASL(std::string parFile,
-  PARLabelTypesASLContainer *labelTypes);
+  // Returns a vector of paired values, the first contains the image type and the 
+  // second is the scan sequence for that image type for the PAR file "parFile".
+  typedef std::pair< int, int >                   PARImageTypeScanSequence;
+  typedef std::vector< PARImageTypeScanSequence > PARImageTypeScanSequenceVector;
+  PARImageTypeScanSequenceVector GetImageTypesScanningSequence(
+    std::string parFile);
+
+  // Stores rescale values in the VectorContainer "rescaleValues" for each image 
+  // type of the specified scan sequence number "scan_sequence" (from 
+  // scanning_sequences) for the PAR file "parFile".
+  // Returns false if an error is encountered during reading, otherwise true is 
+  // returned.
+  typedef vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE > 
+  PARRescaleValues;
+  typedef VectorContainer< unsigned int, PARRescaleValues > 
+  PARRescaleValuesContainer;
+  bool GetRECRescaleValues(std::string parFile,
+    PARRescaleValuesContainer *rescaleValues, int scan_sequence);
+
+  // Stores the diffusion gradient values in the VectorContainer "gradientValues" 
+  // and the diffusion b values in the VectorContainer "bValues" for each gradient 
+  // direction in the PAR file "parFile".  This function is applicable only for PAR
+  // versions > 4.1
+  // Returns false if an error is encountered during reading, otherwise true is 
+  // returned.
+  typedef vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE > 
+  PARDiffusionValues;
+  typedef VectorContainer< unsigned int, PARDiffusionValues >
+  PARDiffusionValuesContainer;
+  typedef VectorContainer< unsigned int, double > 
+  PARBValuesContainer;
+  bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
+    PARDiffusionValuesContainer *gradientValues, PARBValuesContainer *bValues);
+
+  // Returns a vector of ASL label types for the PAR file "parFile".
+  typedef VectorContainer< unsigned int, int > PARLabelTypesASLContainer;
+  bool GetLabelTypesASL(std::string parFile,
+    PARLabelTypesASLContainer *labelTypes);
+
+  // Read a line number within the PAR file.
+  std::string GetLineNumber(std::string file, int lineNum);
+
+protected:
+  PhilipsPAR();
+  ~PhilipsPAR();
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
+private:
+  PhilipsPAR(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  /** Function used internally to get PAR version. */
+  int GetPARVersion(std::string parFile);
+
+  /** Function used internally to get info string at top of PAR. */
+  std::string GetGeneralInfoString(std::string file, int lineNum);
+
+  /** Filename to read. */
+  std::string m_FileName;
+
+  /** Vector of strings for storing each line of PAR file. */
+  std::vector<std::string> m_PARFileLines;
+
+};
 
 } // end namespace itk
 
