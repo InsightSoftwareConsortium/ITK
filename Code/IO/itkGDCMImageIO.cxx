@@ -1596,8 +1596,20 @@ void GDCMImageIO::Write(const void* buffer)
           break;
 
           //Disabling INT and UINT for now...
-          //case ImageIOBase::INT:
-          //case ImageIOBase::UINT:
+        case ImageIOBase::INT:
+          bitsAllocated = "32"; // Bits Allocated
+          bitsStored    = "32"; // Bits Stored
+          highBit       = "31"; // High Bit
+          pixelRep      = "1";  // Pixel Representation
+          break;
+
+        case ImageIOBase::UINT:
+          bitsAllocated = "32"; // Bits Allocated
+          bitsStored    = "32"; // Bits Stored
+          highBit       = "31"; // High Bit
+          pixelRep      = "0";  // Pixel Representation
+          break;
+
         case ImageIOBase::FLOAT:
         case ImageIOBase::DOUBLE:
           // Disable that mode for now as we would need to compute on the fly the min/max of the image to
@@ -1665,6 +1677,14 @@ void GDCMImageIO::Write(const void* buffer)
   else if( type == "16S")
     {
     m_InternalComponentType = SHORT;
+    }
+  else if( type == "32U")
+    {
+    m_InternalComponentType = UINT;
+    }
+  else if( type == "32S")
+    {
+    m_InternalComponentType = INT;
     }
   else
     {
@@ -1846,11 +1866,32 @@ void GDCMImageIO::Write(const void* buffer)
     if ( b /*tag != gdcm::Tag(0xffff,0xffff)*/ /*dictEntry*/)
       {
       const gdcm::DictEntry &dictEntry = pubdict.GetDictEntry(tag);
+      gdcm::VR::VRType vrtype = dictEntry.GetVR();
       if ( dictEntry.GetVR() == gdcm::VR::SQ )
         {
         // How did we reach here ?
         }
-      else if ( dictEntry.GetVR() & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW /*| gdcm::VR::SQ*/ | gdcm::VR::UN) )
+      else if ( vrtype & (gdcm::VR::OB | gdcm::VR::OF | gdcm::VR::OW /*| gdcm::VR::SQ*/ | gdcm::VR::UN) )
+        {
+        // Custom VR::VRBINARY
+        // convert value from Base64
+        uint8_t *bin = new uint8_t[value.size()];
+        unsigned int decodedLengthActual = static_cast<unsigned int>(
+          itksysBase64_Decode(
+          (const unsigned char *) value.c_str(),
+          static_cast<unsigned long>( 0 ),
+          (unsigned char *) bin,
+          static_cast<unsigned long>( value.size())));
+        if( /*tag.GetGroup() != 0 ||*/ tag.GetElement() != 0) // ?
+          {
+          gdcm::DataElement de( tag );
+          de.SetByteValue( (char*)bin, decodedLengthActual );
+          de.SetVR( dictEntry.GetVR() );
+          header.Insert( de );
+          }
+        delete []bin;
+        }
+      else // VRASCII
         {
         // TODO, should we keep:
         // (0028,0106) US/SS 0                                        #   2, 1 SmallestImagePixelValue
@@ -1862,25 +1903,6 @@ void GDCMImageIO::Write(const void* buffer)
           de.SetVR( dictEntry.GetVR() );
           header.Insert( de ); //value, tag.GetGroup(), tag.GetElement());
           }
-        }
-      else
-        {
-        // convert value from Base64
-        uint8_t *bin = new uint8_t[value.size()];
-        unsigned int decodedLengthActual = static_cast<unsigned int>(
-          itksysBase64_Decode(
-          (const unsigned char *) value.c_str(),
-          static_cast<unsigned long>( 0 ),
-          (unsigned char *) bin,
-          static_cast<unsigned long>( value.size())));
-        if(tag.GetGroup() != 0 || tag.GetElement() != 0) // ?
-          {
-          gdcm::DataElement de( tag );
-          de.SetByteValue( (char*)bin, decodedLengthActual );
-          de.SetVR( dictEntry.GetVR() );
-          header.Insert( de );
-          }
-        delete []bin;
         }
       }
     else
@@ -1957,9 +1979,13 @@ void GDCMImageIO::Write(const void* buffer)
   case ImageIOBase::USHORT:
     pixeltype = gdcm::PixelFormat::UINT16;
     break;
-    //Disabling INT and UINT for now...
-    //case ImageIOBase::INT:
-    //case ImageIOBase::UINT:
+  case ImageIOBase::INT:
+    pixeltype = gdcm::PixelFormat::INT32;
+    break;
+  case ImageIOBase::UINT:
+    pixeltype = gdcm::PixelFormat::UINT32;
+    break;
+    //Disabling FLOAT and DOUBLE for now...
     //case ImageIOBase::FLOAT:
     //case ImageIOBase::DOUBLE:
   default:
@@ -1986,18 +2012,12 @@ void GDCMImageIO::Write(const void* buffer)
   image.SetPixelFormat( pixeltype );
   unsigned long len = image.GetBufferLength();
 
-  gdcm::ByteValue *bv = new gdcm::ByteValue(); // (char*)data->GetScalarPointer(), len );
-  bv->SetLength( len ); // allocate !
-
   size_t numberOfBytes = this->GetImageSizeInBytes();
   assert( len == numberOfBytes );
 
-  // only do a straight copy:
-  char *pointer = (char*)bv->GetPointer();
-  memcpy(pointer, buffer, numberOfBytes);
-
   gdcm::DataElement pixeldata( gdcm::Tag(0x7fe0,0x0010) );
-  pixeldata.SetValue( *bv );
+  // only do a straight copy:
+  pixeldata.SetByteValue( (char*)buffer, numberOfBytes );
   image.SetDataElement( pixeldata );
 
   if( !m_KeepOriginalUID )
