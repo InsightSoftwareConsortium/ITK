@@ -525,6 +525,22 @@ bool File::GetSpacing(float &xspacing, float &yspacing, float &zspacing)
        }
      return true;
      }
+   else if( sopclassuid_used == "RT Dose Storage" )
+     {
+     // (3004,000c) DS [0.0\-2.5\-5.0\-7.5\-10.0\-12.5... # 132,23 GridFrameOffsetVector
+     DocEntry *p3 = GetDocEntry(0x0018,0x0050);
+     if( !p3 ) return false;
+     ContentEntry *entry2 = dynamic_cast<ContentEntry *>(p3);
+     std::string gridframeoffset = entry2->GetValue();
+     float z1, z2;
+     if ( sscanf( gridframeoffset.c_str(), "%f\\%f", &z1, &z2) != 2 )
+       {
+       zspacing = 1.;
+       return false;
+       }
+     zspacing = z2 - z1; // can be negative ...
+     return true;
+     }
 
   return false;
 }
