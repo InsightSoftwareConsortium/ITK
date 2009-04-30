@@ -140,6 +140,7 @@ SET(ReviewTest_SRCS
 )
 
 SET(ReviewTest2_SRCS
+  itkDirectFourierReconstructionImageToImageFilterTest.cxx
   itkQuadEdgem_NoPointTest.cxx
   itkQuadEdgeTest1.cxx
   itkGeometricalQuadEdgeTest1.cxx
@@ -233,6 +234,30 @@ ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
 
 ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
   itkFlatStructuringElementTest
+  )
+
+ADD_TEST(itkDirectFourierReconstructionImageToImageFilterTest 
+  ${REVIEW_TESTS2} 
+  --compare ${BASELINE}/reconstruct.hdr
+            ${TEMP}/reconstruct.hdr
+  itkDirectFourierReconstructionImageToImageFilterTest
+  ${INPUTDATA}/sinogram.hdr 
+  ${TEMP}/reconstruct.hdr 
+  1 
+  2 
+  0 
+  2 
+  2 
+  0.25 
+  3 
+  180 
+  0 
+  0 
+  0 
+  512 
+  512 
+  2 
+  0
   )
 
 ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS2} itkQuadEdgem_NoPointTest)

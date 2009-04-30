@@ -25,6 +25,7 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
 
+  REGISTER_TEST(itkDirectFourierReconstructionImageToImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshCleanFilterTest);
   REGISTER_TEST(itkQuadEdgem_NoPointTest);
   REGISTER_TEST(itkQuadEdgeTest1);
