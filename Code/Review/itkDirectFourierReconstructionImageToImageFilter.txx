@@ -56,6 +56,7 @@ template< class TInputPixelType, class TOutputPixelType >
 
   os << indent << "Zero Padding Factor: " << m_ZeroPadding << std::endl;
   os << indent << "Fourier Oversampling Factor: " << m_OverSampling << std::endl;
+  os << indent << "Radial Spline Order: " << m_RadialSplineOrder << std::endl;
   os << indent << "Fourier Radial Cutoff Frequency: " << m_Cutoff << std::endl;
   os << indent << "Alpha Range: " << m_AlphaRange << std::endl;
   os << indent << "z-Axis Direction: " << m_ZDirection << std::endl;
@@ -305,7 +306,7 @@ template< class TInputPixelType, class TOutputPixelType >
     double u, v;
     double theta, r;
     double alpha;
-    int a_lo;
+    unsigned int a_lo;
       
     // Resample the cartesian FFT Slice from polar lines
     for ( FFTSliceIt.GoToBegin(); !FFTSliceIt.IsAtEnd(); ++FFTSliceIt )
@@ -346,7 +347,7 @@ template< class TInputPixelType, class TOutputPixelType >
       FFTLineType::PixelType out;
     
       // radial BSpline / linear angle interpolation
-      a_lo = static_cast< int >( floor( alpha ) );
+      a_lo = static_cast< unsigned int >( floor( alpha ) );
     
       if ( a_lo < alpha_size - 1 ) // no date-line crossing
         {
