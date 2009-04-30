@@ -70,4 +70,5 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshNormalFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
   REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
+  REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
 }

@@ -185,6 +185,7 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshNormalFilterTest.cxx
   itkQuadEdgeMeshSmoothingTest.cxx
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
+  itkStochasticFractalDimensionImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -399,7 +400,27 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS2}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
 
+ADD_TEST(itkStochasticFractalDimensionImageFilterTest1 ${REVIEW_TESTS2}
+  --compare ${BASELINE}/itkStochasticFractalDimensionImageFilterTest1.mha
+            ${TEMP}/itkStochasticFractalDimensionImageFilterTest1.mha
+  itkStochasticFractalDimensionImageFilterTest
+  2                                                         # image dimension
+  ${INPUTDATA}/TreeBarkTexture.png                          # input image
+  ${TEMP}/itkStochasticFractalDimensionImageFilterTest1.mha # output image
+  2                                                         # radius
+  )
 
+ADD_TEST(itkStochasticFractalDimensionImageFilterTest2 ${REVIEW_TESTS2}
+  --compare ${BASELINE}/itkStochasticFractalDimensionImageFilterTest2.mha
+            ${TEMP}/itkStochasticFractalDimensionImageFilterTest2.mha
+  itkStochasticFractalDimensionImageFilterTest
+  2                                                         # image dimension
+  ${INPUTDATA}/TreeBarkTexture.png                          # input image
+  ${TEMP}/itkStochasticFractalDimensionImageFilterTest2.mha # output image
+  2                                                         # radius
+  ${INPUTDATA}/circle100.png                                # mask image
+  255                                                       # mask label value
+  )
 
 
 ADD_TEST(itkNeuralNetworkIOTest ${REVIEW_TESTS}
