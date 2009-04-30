@@ -251,4 +251,26 @@ template <typename T> int MakeNiftiImage(void)
   return EXIT_SUCCESS;
 }
 
+template <class ImageType>
+typename ImageType::DirectionType
+CORDirCosines()
+{
+  typename itk::SpatialOrientationAdapter::DirectionType CORdir=
+    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  typename ImageType::DirectionType dir;
+  for(unsigned i = 0; i < ImageType::ImageDimension; i++)
+    {
+    for(unsigned j = 0; j < ImageType::ImageDimension; j++)
+      {
+      dir[i][j] = CORdir[i][j];
+      }
+    }
+  if(ImageType::ImageDimension == 2)
+    {
+    dir[1][1] = 1.0;
+    }
+  return dir;
+}
+
+
 #endif

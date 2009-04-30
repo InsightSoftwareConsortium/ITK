@@ -142,6 +142,8 @@ int itkNiftiImageIOTest11(int ac, char *av[])
   imageRegion.SetIndex(index);
   ImageType::Pointer im;
   AllocateImageFromRegionAndSpacing(ImageType,im,imageRegion,spacing);
+  ImageType::DirectionType dir(CORDirCosines<ImageType>());
+  im->SetDirection(dir);
   try
     {
     WriteImage<ImageType>(im,testfilename);
