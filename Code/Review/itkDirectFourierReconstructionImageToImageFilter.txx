@@ -328,7 +328,14 @@ template< class TInputPixelType, class TOutputPixelType >
     
     
       // Get polar angle - and map into [0 PI]
-      theta = atan2( v, u );
+      if (u == 0.0 && v == 0.0)
+        {
+        theta = 0.0;
+        }
+      else
+        {
+        theta = vcl_atan2( v, u );
+        }
       if ( theta < 0 ) 
         {
         theta += m_PI;
