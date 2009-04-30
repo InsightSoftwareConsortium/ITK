@@ -934,6 +934,7 @@ ADD_TEST(itkTransformToDeformationFieldSourceTest02 ${REVIEW_TESTS}
 ADD_TEST(itkTransformToDeformationFieldSourceTest03 ${REVIEW_TESTS}
    --compare ${TEMP}/transformedImage.nii.gz
              ${TEMP}/warpedImage.nii.gz 
+  --compareNumberOfPixelsTolerance 20
    itkTransformToDeformationFieldSourceTest1
      ${TEMP}/transformedImage.nii.gz
      ${TEMP}/warpedImage.nii.gz 
