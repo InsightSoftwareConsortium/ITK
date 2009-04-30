@@ -1164,10 +1164,14 @@ AnalyzeImageIO
       itkExceptionMacro(<< "Only unsigned char RGB files supported");
       }
     }
-  else if(this->GetNumberOfComponents() > 1)
+  else 
     {
-    itkExceptionMacro(<< "More than one component per pixel not supported");
+    if(this->GetNumberOfComponents() > 1)
+      {
+      itkExceptionMacro(<< "More than one component per pixel not supported");
+      }
     }
+
   const std::string HeaderFileName = GetHeaderFileName( m_FileName );
   std::ofstream   local_OutputStream;
   local_OutputStream.open( HeaderFileName.c_str(),
@@ -1327,11 +1331,27 @@ AnalyzeImageIO
   itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MAX,this->m_Hdr.hist.smax);
   itk::ExposeMetaData<int>(thisDic,ANALYZE_S_MIN,this->m_Hdr.hist.smin);
 
+  // Check for image dimensions to be smaller enough to fit in
+  // a short int. First generate the number that is the maximum allowable.
+  typedef itk::Size<3>::SizeValueType   SizeValueType;
+  const SizeValueType maximumNumberOfPixelsAllowedInOneDimension =
+    itk::NumericTraits<unsigned short>::max() - 1;
+
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
     {
+    const SizeValueType numberOfPixelsAlongThisDimension = m_Dimensions[ dim ];
+    
+    if( numberOfPixelsAlongThisDimension >= maximumNumberOfPixelsAllowedInOneDimension )
+      {
+      itkExceptionMacro("Number of pixels along dimension " << dim 
+         << " is " << numberOfPixelsAlongThisDimension << 
+         " which exceeds maximum allowable dimension of " << 
+         maximumNumberOfPixelsAllowedInOneDimension );
+      }
+
     //NOTE: Analyze dim[0] are the number of dims, and dim[1..7] are
     // the actual dims.
-    this->m_Hdr.dime.dim[dim+1]  = m_Dimensions[ dim ];
+    this->m_Hdr.dime.dim[dim+1]  = numberOfPixelsAlongThisDimension;
     }
 
   //DEBUG--HACK It seems that analyze 7.5 requires 4 dimensions.
