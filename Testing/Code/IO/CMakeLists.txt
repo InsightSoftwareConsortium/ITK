@@ -736,6 +736,8 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
                                   ${ITK_TEST_OUTPUT_DIR})
   ADD_TEST(itkAnalyzeImageIORGBImageTest ${IO_TESTS} itkAnalyzeImageIORGBImageTest
                                          ${ITK_TEST_OUTPUT_DIR})
+  ADD_TEST(itkAnalyzeDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11
+  ${ITK_TEST_OUTPUT_DIR} SizeFailure.img.gz )
 ##Nifti Test Suite
  ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
    itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})
@@ -766,6 +768,9 @@ ADD_TEST(itkNiftiDiffusionTensor3dImageTest ${IO_TESTS} itkNiftiImageIOTest7 ${I
 ADD_TEST(itkNiftiSymmetricSecondRankTensorImageTest ${IO_TESTS} itkNiftiImageIOTest8 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiRGBImageTest ${IO_TESTS} itkNiftiImageIOTest9 ${ITK_TEST_OUTPUT_DIR})
 ADD_TEST(itkNiftiRGBAImageTest ${IO_TESTS} itkNiftiImageIOTest10 ${ITK_TEST_OUTPUT_DIR})
+ADD_TEST(itkNiftiDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} 
+SizeFailure.nii.gz )
+
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha
             ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha

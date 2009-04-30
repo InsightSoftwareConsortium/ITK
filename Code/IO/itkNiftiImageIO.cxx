@@ -21,6 +21,7 @@
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
+#include "itkNumericTraits.h"
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
 #include "itk_zlib.h"
@@ -1147,6 +1148,21 @@ NiftiImageIO
 {
   //  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
   //
+  //
+  // First of all we need to not go any further if there's
+  // a dimension of the image that won't fit in a 16 bit short.
+  for(unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
+    {
+    unsigned int curdim(this->GetDimensions(i));
+    if(curdim > static_cast<unsigned int>(NumericTraits<short>::max()))
+      {
+      itkExceptionMacro( << "Dimension(" << i << ") = " << curdim 
+                         << " is greater than maximum possible dimension " 
+                         << NumericTraits<short>::max() );
+
+      }
+    }
+
   // fill out the image header.
   if(this->m_NiftiImage == 0)
     {

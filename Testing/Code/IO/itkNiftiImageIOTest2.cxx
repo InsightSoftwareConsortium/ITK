@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include "itkNiftiImageIOTest.h"
-
+#include "itkNumericTraits.h"
 
 template <class RGBPixelType>
 int RGBTest(int ac, char *av[])
@@ -100,4 +100,58 @@ int itkNiftiImageIOTest9(int ac, char *av[])
 int itkNiftiImageIOTest10(int ac, char *av[])
 {
   return RGBTest<itk::RGBAPixel<unsigned char> >(ac,av);
+}
+
+int itkNiftiImageIOTest11(int ac, char *av[])
+{
+  std::string testfilename;
+  if(ac > 1) 
+    {
+    char *testdir = *++av;
+    itksys::SystemTools::ChangeDirectory(testdir);
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  if(ac > 2)
+    {
+    testfilename = *++av;
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
+  typedef  itk::Image<char,2> ImageType;
+  ImageType::RegionType imageRegion;
+  ImageType::SizeType size;
+  ImageType::IndexType index;
+  ImageType::SpacingType spacing;
+  ImageType::PointType origin;
+  ImageType::DirectionType myDirection;
+  size[0] = 
+    static_cast<long int>(itk::NumericTraits<short>::max()) * 2;
+  size[1] = 1;
+  for(unsigned i = 0; i < 2; i++)
+    {
+    index[i] = 0;
+    spacing[i] = 1.0;
+    origin[i] = 0;
+    }
+  imageRegion.SetSize(size);
+  imageRegion.SetIndex(index);
+  ImageType::Pointer im;
+  AllocateImageFromRegionAndSpacing(ImageType,im,imageRegion,spacing);
+  try
+    {
+    WriteImage<ImageType>(im,testfilename);
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "EXPECTED exception in file writer " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    std::cerr << e.GetLocation() << std::endl;
+    return EXIT_SUCCESS;
+    }
+  return EXIT_FAILURE;
 }
