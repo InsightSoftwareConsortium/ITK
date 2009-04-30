@@ -28,6 +28,20 @@
 #include <stdlib.h>
 
 #define WITHOFFSETTABLE 1
+/*
+ * Note: WITHOFFSETTABLE rely on a proper implementation of std::stringstream.
+ * It requires that you can seekp the stream but do not truncate it. In
+ * kwsys/stringstream implementation based out of strstream this requirement
+ * is not respected. This typically happen on old SunOS compiler. 
+ * 
+ *   stringstream strstr;
+ *   strstr.write( (char*)array, narray );
+ *   strstr.seekp( narray / 2 ); // set position of put pointer in mid string
+ *   assert(strstr.str().size() == narray );
+ * 
+ * However there is a special flag '-stlport4' which seems to provide a better
+ * support for std::stringstream, this flag is the default now on ITK dashboard.
+ */
 
 namespace gdcm
 {
