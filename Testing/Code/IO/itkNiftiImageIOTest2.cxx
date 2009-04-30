@@ -122,38 +122,42 @@ int itkNiftiImageIOTest11(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
-  typedef  itk::Image<char,2> ImageType;
+  typedef  itk::Image<char,3> ImageType;
   ImageType::RegionType imageRegion;
   ImageType::SizeType size;
   ImageType::IndexType index;
   ImageType::SpacingType spacing;
   ImageType::PointType origin;
   ImageType::DirectionType myDirection;
-  size[0] = 
-    static_cast<long int>(itk::NumericTraits<short>::max()) * 2;
+
+  size[0] = static_cast<long int>(itk::NumericTraits<short>::max()) * 2;
   size[1] = 1;
-  for(unsigned i = 0; i < 2; i++)
-    {
-    index[i] = 0;
-    spacing[i] = 1.0;
-    origin[i] = 0;
-    }
+  size[2] = 1;
+
+  index.Fill(0.0);
+  spacing.Fill(1.0);
+  origin.Fill(0.0);
+
   imageRegion.SetSize(size);
   imageRegion.SetIndex(index);
   ImageType::Pointer im;
   AllocateImageFromRegionAndSpacing(ImageType,im,imageRegion,spacing);
   ImageType::DirectionType dir(CORDirCosines<ImageType>());
+  std::cout << "itkNiftiImageIOTest11" << std::endl;
+  std::cout << "Direction = " << dir << std::endl;
   im->SetDirection(dir);
   try
     {
     WriteImage<ImageType>(im,testfilename);
+    std::cerr << "FAILED to catch expected exception" << std::endl;
+    return EXIT_FAILURE;
     }
   catch (itk::ExceptionObject & e)
     {
-    std::cerr << "EXPECTED exception in file writer " << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
-    return EXIT_SUCCESS;
+    std::cout << "EXPECTED exception in file writer " << std::endl;
+    std::cout << e.GetDescription() << std::endl;
+    std::cout << e.GetLocation() << std::endl;
     }
-  return EXIT_FAILURE;
+
+  return EXIT_SUCCESS;
 }
