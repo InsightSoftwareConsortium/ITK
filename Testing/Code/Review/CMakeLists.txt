@@ -238,24 +238,24 @@ ADD_TEST(itkFlatStructuringElementTest ${REVIEW_TESTS}
 
 ADD_TEST(itkDirectFourierReconstructionImageToImageFilterTest 
   ${REVIEW_TESTS2} 
-  --compare ${BASELINE}/reconstruct.hdr
-            ${TEMP}/reconstruct.hdr
+  --compare ${BASELINE}/reconstruct.mha
+            ${TEMP}/reconstruct.mha
   itkDirectFourierReconstructionImageToImageFilterTest
-  ${INPUTDATA}/sinogram.hdr 
-  ${TEMP}/reconstruct.hdr 
+  ${INPUTDATA}/sinogram-small.mha 
+  ${TEMP}/reconstruct.mha 
   1 
   2 
   0 
   2 
   2 
-  0.25 
+  1
   3 
   180 
   0 
   0 
   0 
-  512 
-  512 
+  64
+  64 
   2 
   0
   )
