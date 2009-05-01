@@ -62,7 +62,7 @@ template< class TInputPixelType, class TOutputPixelType >
   os << indent << "z-Axis Direction: " << m_ZDirection << std::endl;
   os << indent << "Alpha Direction: " << m_AlphaDirection << std::endl;
   os << indent << "Radial Direction: " << m_RDirection << std::endl;
-  os << indent << "Input Requested Region: " << m_inputRequestedRegion << std::endl;
+  os << indent << "Input Requested Region: " << m_InputRequestedRegion << std::endl;
 }
  
  /**
@@ -147,11 +147,11 @@ template< class TInputPixelType, class TOutputPixelType >
   inputSize[m_ZDirection] = outputImage->GetRequestedRegion().GetSize()[2];
   inputStart[m_ZDirection] = outputImage->GetRequestedRegion().GetIndex()[2];
     
-  m_inputRequestedRegion.SetSize( inputSize );
-  m_inputRequestedRegion.SetIndex( inputStart );
+  m_InputRequestedRegion.SetSize( inputSize );
+  m_InputRequestedRegion.SetIndex( inputStart );
     
-  m_inputRequestedRegion.Crop( inputImage->GetLargestPossibleRegion() );
-  inputImage->SetRequestedRegion( m_inputRequestedRegion );
+  m_InputRequestedRegion.Crop( inputImage->GetLargestPossibleRegion() );
+  inputImage->SetRequestedRegion( m_InputRequestedRegion );
 }
  
  
@@ -174,7 +174,7 @@ template< class TInputPixelType, class TOutputPixelType >
   outputImage->Allocate();
   
   // Crop angular input image size to 180 degrees
-  typename InputImageType::RegionType inputROI = m_inputRequestedRegion;
+  typename InputImageType::RegionType inputROI = m_InputRequestedRegion;
   typename InputImageType::SizeType inputROISize = inputROI.GetSize();
   typename InputImageType::IndexType inputROIStart = inputROI.GetIndex();
   

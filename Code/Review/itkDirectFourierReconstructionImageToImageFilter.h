@@ -147,19 +147,19 @@ private:
   typedef ImageRegionIteratorWithIndex< OutputSliceType > OutputSliceIteratorType;
  
  
-  unsigned short int m_ZeroPadding; ///< n-fold zero-padding
-  unsigned short int m_OverSampling; ///< n-fold oversampling
-  double m_Cutoff; ///< Radial lowpass cut-off frequency
-  double m_AlphaRange; ///< Covered angular range
+  unsigned short int m_ZeroPadding;       ///< n-fold zero-padding
+  unsigned short int m_OverSampling;      ///< n-fold oversampling
+  double             m_Cutoff;            ///< Radial lowpass cut-off frequency
+  double             m_AlphaRange;        ///< Covered angular range
   
-  unsigned short int m_ZDirection; ///< Axial index in the input image
-  unsigned short int m_AlphaDirection; ///< Angular index in the input image
-  unsigned short int m_RDirection; ///< Radial index in the input image
+  unsigned short int m_ZDirection;        ///< Axial index in the input image
+  unsigned short int m_AlphaDirection;    ///< Angular index in the input image
+  unsigned short int m_RDirection;        ///< Radial index in the input image
   unsigned short int m_RadialSplineOrder; ///< Spline order for the radial BSpline interpolation
   
   double m_PI; ///< The constant pi....
   
-  RegionType m_inputRequestedRegion; ///< The region requested from the input image 
+  RegionType m_InputRequestedRegion; ///< The region requested from the input image 
  
   DirectFourierReconstructionImageToImageFilter(const Self&); ///< purposely not implemented
   void operator=(const Self&); ///< purposely not implemented
