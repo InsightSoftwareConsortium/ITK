@@ -134,7 +134,7 @@ int itkNiftiImageIOTest11(int ac, char *av[])
   size[1] = 1;
   size[2] = 1;
 
-  index.Fill(0.0);
+  index.Fill(0);
   spacing.Fill(1.0);
   origin.Fill(0.0);
 
