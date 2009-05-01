@@ -113,6 +113,7 @@ int itkTransformToDeformationFieldSourceTest1( int argc, char *argv[] )
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
   image->SetDirection(inputDirection);
+  image->FillBuffer( itk::NumericTraits< ScalarPixelType >::Zero );
 
   float     incrValue = 100.0;
   IndexType pixelIndex;
