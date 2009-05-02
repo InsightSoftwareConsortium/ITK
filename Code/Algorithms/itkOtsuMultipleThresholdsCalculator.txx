@@ -147,7 +147,11 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
 
   // TODO: as an improvement, the class could accept multi-dimensional histograms
   // and the user could specify the dimension to apply the algorithm to.
+#ifdef ITK_USE_REVIEW_STATISTICS
+  if (histogram->GetSize().Size() != 1)
+#else
   if (histogram->GetSize().GetSizeDimension() != 1)
+#endif
     {
     itkExceptionMacro(<<"Histogram must be 1-dimensional.");
     }

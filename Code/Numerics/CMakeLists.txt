@@ -1,4 +1,9 @@
-SUBDIRS(Statistics FEM NeuralNetworks)
+# Conditionally compile either the new or the old statistics framework.
+IF (NOT ITK_USE_REVIEW_STATISTICS)
+  SUBDIRS (Statistics)
+ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
+
+SUBDIRS(FEM NeuralNetworks)
 
 ADD_LIBRARY(ITKNumerics
   itkAmoebaOptimizer.cxx

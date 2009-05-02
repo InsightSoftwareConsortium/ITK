@@ -350,7 +350,12 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 
   while (sourceIt != sourceEnd && targetIt != targetEnd)
     {
-    typename HistogramType::FrequencyType freq = sourceIt.GetFrequency();
+#ifdef ITK_USE_REVIEW_STATISTICS
+    typename HistogramType::AbsoluteFrequencyType 
+#else
+    typename HistogramType::FrequencyType 
+#endif
+      freq = sourceIt.GetFrequency();
       
     if (freq > 0)
       {

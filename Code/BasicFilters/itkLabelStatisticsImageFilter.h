@@ -100,7 +100,12 @@ public:
   typedef std::vector<typename IndexType::IndexValueType> BoundingBoxType;
 
   /** Histogram-related typedefs */
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::Histogram<RealType> HistogramType;
+#else
   typedef itk::Statistics::Histogram<RealType,1> HistogramType;
+#endif
+
   typedef typename HistogramType::Pointer        HistogramPointer;
 
   /** \class LabelStatistics
@@ -165,11 +170,16 @@ public:
 
        // Histogram
         m_Histogram = HistogramType::New();
-        typename HistogramType::SizeType hsize;
-        hsize[0] = size;
+        typename HistogramType::SizeType              hsize;
         typename HistogramType::MeasurementVectorType lb;
-        lb[0] = lowerBound;
         typename HistogramType::MeasurementVectorType ub;
+#ifdef ITK_USE_REVIEW_STATISTICS
+        hsize.SetSize(1);
+        lb.SetSize(1);
+        ub.SetSize(1);
+#endif
+        hsize[0] = size;
+        lb[0] = lowerBound;
         ub[0] = upperBound;
         m_Histogram->Initialize(hsize, lb, ub);
         }

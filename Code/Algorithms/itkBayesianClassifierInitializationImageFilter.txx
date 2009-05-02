@@ -22,7 +22,12 @@
 
 #include "itkBayesianClassifierInitializationImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkGaussianMembershipFunction.h"
+#else
 #include "itkGaussianDensityFunction.h"
+#endif
 
 namespace itk
 {
@@ -84,7 +89,12 @@ BayesianClassifierInitializationImageFilter<TInputImage,
                   KMeansOutputImageType >                ConstKMeansIteratorType;
   typedef Array< double >                                CovarianceArrayType;
   typedef Array< double >                                ClassCountArrayType;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef Statistics::GaussianMembershipFunction< 
+#else
   typedef Statistics::GaussianDensityFunction< 
+#endif
           MeasurementVectorType >                        GaussianMembershipFunctionType;
   typedef VectorContainer< unsigned short, ITK_TYPENAME 
     GaussianMembershipFunctionType::MeanType* >          MeanEstimatorsContainerType;
@@ -197,8 +207,14 @@ BayesianClassifierInitializationImageFilter<TInputImage,
     covarianceEstimators->Fill( estimatedCovariances[i] );
     typename GaussianMembershipFunctionType::Pointer gaussianDensityFunction
                                        = GaussianMembershipFunctionType::New();
+#ifdef ITK_USE_REVIEW_STATISTICS
+    gaussianDensityFunction->SetMean( *(meanEstimatorsContainer->GetElement( i )) );
+    gaussianDensityFunction->SetCovariance( *(covarianceEstimatorsContainer->GetElement( i )) );
+#else
     gaussianDensityFunction->SetMean( meanEstimatorsContainer->GetElement( i ) );
     gaussianDensityFunction->SetCovariance( covarianceEstimatorsContainer->GetElement( i ) );
+#endif
+
  
     m_MembershipFunctionContainer->InsertElement(i, 
             dynamic_cast< MembershipFunctionType * >( gaussianDensityFunction.GetPointer() ) );

@@ -62,7 +62,13 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   typedef itk::LabelStatisticsImageFilter< InternalImageType, LabelImageType> StatisticsFilterType;
 
   typedef itk::NumericTraits<InternalPixelType>::RealType RealType;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::Histogram<RealType> HistogramType;
+#else
   typedef itk::Statistics::Histogram<RealType,1> HistogramType;
+#endif
+
   typedef HistogramType::IndexType HIndexType;
   int NumBins = 13;
   RealType LowerBound = 51.0;

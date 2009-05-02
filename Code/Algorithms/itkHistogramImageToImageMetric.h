@@ -71,7 +71,12 @@ public:
   /** Typedefs for histogram. This should have been defined as
       Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
       error with such declaration. */
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef Statistics::Histogram<double>                  HistogramType;
+#else
   typedef Statistics::Histogram<double, 2>               HistogramType;
+#endif
+
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
   typedef typename HistogramType::Pointer                HistogramPointer;

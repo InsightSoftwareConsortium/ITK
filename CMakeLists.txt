@@ -209,6 +209,23 @@ MESSAGE("${msg}")
 ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
 
 #-----------------------------------------------------------------------------
+# ITK use the new statistics framework
+OPTION( ITK_USE_REVIEW_STATISTICS "Use the experimental statistics framework." OFF)
+MARK_AS_ADVANCED( ITK_USE_REVIEW_STATISTICS )
+IF(ITK_USE_REVIEW_STATISTICS)
+  IF(NOT ITK_USE_REVIEW)
+    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental statistics framework.")
+  ENDIF(NOT ITK_USE_REVIEW)
+
+  # Warn the user about the implications of using the new statistics framework.
+  SET(msg "Attention: You have chosen to use the new statistics framework instead of the existing framework.")
+  SET(msg "${msg} The statistics classes have been re-designed/refactored and in several")
+  SET(msg "${msg} cases do not conform to the API of the older framework. You may need to")
+  SET(msg "${msg} change your code to use the new API.")
+  MESSAGE("${msg}")
+ENDIF(ITK_USE_REVIEW_STATISTICS)
+
+#-----------------------------------------------------------------------------
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_CONSOLIDATED_MORPHOLOGY "Turn on the experimental consolidated morphology." OFF)
 MARK_AS_ADVANCED(ITK_USE_CONSOLIDATED_MORPHOLOGY)

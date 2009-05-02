@@ -274,8 +274,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   for (unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++)
     {
     membershipFunction = TMembershipFunction::New();
-    membershipFunction->SetNumberOfSamples( 0 );
+#ifdef ITK_USE_REVIEW_STATISTICS
+    typename TMembershipFunction::CentroidType centroid;
+    centroid = m_Centroid.get_row( classIndex);
+    membershipFunction->SetCentroid( centroid );
+#else
     membershipFunction->SetCentroid(m_Centroid.get_row( classIndex) );
+#endif
     this->AddMembershipFunction( membershipFunction ); 
     }  
 

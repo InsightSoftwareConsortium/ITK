@@ -95,7 +95,11 @@ public:
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Histogram related typedefs. */
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef Statistics::Histogram<THistogramMeasurement >   HistogramType;
+#else
   typedef Statistics::Histogram<THistogramMeasurement, 1> HistogramType;
+#endif
   typedef typename HistogramType::Pointer                 HistogramPointer;
 
   /** Set/Get the source image. */

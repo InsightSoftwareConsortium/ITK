@@ -30,7 +30,11 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkTanHTransferFunction.h"
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkEuclideanDistanceMetric.h"
+#else
 #include "itkEuclideanDistance.h"
+#endif
 #include "itkRBFLayer.h"
 
 namespace itk
@@ -65,7 +69,11 @@ public:
   
   // Specializations for RBF Networks
   typedef Array<ValueType>                            ArrayType;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef EuclideanDistanceMetric<ArrayType>                DistanceMetricType;
+#else
   typedef EuclideanDistance<ArrayType>                DistanceMetricType;
+#endif
   typedef RadialBasisFunctionBase<ValueType>          RBFTransferFunctionType;
   typedef RBFLayer<TMeasurementVector, TTargetVector> HiddenLayerType;
 

@@ -26,7 +26,11 @@ PURPOSE.  See the above copyright notices for more information.
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
   typedef float MeasurementType ;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::Histogram< MeasurementType > HistogramType ;
+#else
   typedef itk::Statistics::Histogram< MeasurementType, 1 > HistogramType ;
+#endif
   HistogramType::Pointer histogram = HistogramType::New() ;
 
   // initialize histogram

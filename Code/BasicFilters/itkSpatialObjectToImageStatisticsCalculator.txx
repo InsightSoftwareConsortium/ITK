@@ -19,8 +19,15 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkMeanSampleFilter.h"
+#include "itkCovarianceSampleFilter.h"
+#else
 #include "itkMeanCalculator.h"
 #include "itkCovarianceCalculator.h"
+#endif
+
 #include "itkImageMaskSpatialObject.h"
 
 namespace itk
@@ -50,32 +57,59 @@ bool
 SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSampleDimension>
 ::ComputeStatistics()
 {
-  typedef itk::Statistics::MeanCalculator< SampleType >
-    MeanAlgorithmType;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
+#else
+  typedef itk::Statistics::MeanCalculator< SampleType > MeanAlgorithmType;
+#endif
   
   typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  meanAlgorithm->SetInput( m_Sample );
+#else
   meanAlgorithm->SetInputSample( m_Sample );
+#endif
+
   meanAlgorithm->Update();
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typename MeanAlgorithmType::MeasurementVectorType mean = meanAlgorithm->GetMean();
+#else
   typename MeanAlgorithmType::OutputType mean = 
                                 *(meanAlgorithm->GetOutput());
+#endif
+
   for( unsigned int i=0; i< SampleDimension; i++ )
     {
     m_Mean[i] = mean[i];
     }
 
-  typedef itk::Statistics::CovarianceCalculator< SampleType >
-    CovarianceAlgorithmType;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::CovarianceSampleFilter< SampleType > CovarianceAlgorithmType;
+#else
+  typedef itk::Statistics::CovarianceCalculator< SampleType >   CovarianceAlgorithmType;
+#endif
   
   typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
     CovarianceAlgorithmType::New();
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  covarianceAlgorithm->SetInput( m_Sample );
+#else
   covarianceAlgorithm->SetInputSample( m_Sample );
   covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );
+#endif
+
   covarianceAlgorithm->Update();
   
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typename CovarianceAlgorithmType::MatrixType covarianceMatrix = covarianceAlgorithm->GetCovarianceMatrix();
+#else
   typename CovarianceAlgorithmType::OutputType covarianceMatrix
       = *(covarianceAlgorithm->GetOutput());
+#endif
+
   for( unsigned int i=0; i< covarianceMatrix.Rows(); i++ )
     {
     for( unsigned int j=0; j< covarianceMatrix.Rows(); j++ )

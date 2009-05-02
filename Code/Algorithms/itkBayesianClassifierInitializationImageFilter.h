@@ -22,7 +22,11 @@
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkMembershipFunctionBase.h"
+#else
 #include "itkDensityFunction.h"
+#endif
 
 namespace itk
 {
@@ -118,8 +122,13 @@ public:
   typedef Vector< InputPixelType, 1 >                     MeasurementVectorType;
 
   /** Type of the density functions */
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef Statistics::MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
+#else
   typedef Statistics::DensityFunction< MeasurementVectorType >
                                                         MembershipFunctionType;
+#endif
+
   typedef typename MembershipFunctionType::Pointer      MembershipFunctionPointer;
 
   /** Membership function container */

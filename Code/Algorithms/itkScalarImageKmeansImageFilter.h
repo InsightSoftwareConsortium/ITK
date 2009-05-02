@@ -25,11 +25,18 @@
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkEuclideanDistanceMetric.h"
+#include "itkSampleClassifierFilter.h"
+#include "itkImageToListSampleAdaptor.h"
+#include "itkMinimumDecisionRule2.h"
+#else
 #include "itkMinimumDecisionRule.h"
 #include "itkEuclideanDistance.h"
 #include "itkSampleClassifier.h"
-
 #include "itkScalarImageToListAdaptor.h"
+#endif
+
 #include "itkImageRegion.h"
 #include "itkRegionOfInterestImageFilter.h"
 
@@ -93,12 +100,41 @@ public:
   typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
   
   /** Create a List from the scalar image */
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::ImageToListSampleAdaptor< InputImageType > AdaptorType;
+#else
   typedef itk::Statistics::ScalarImageToListAdaptor< 
                                    InputImageType > AdaptorType;
- 
+#endif  
+
   /** Define the Measurement vector type from the AdaptorType */
   typedef typename AdaptorType::MeasurementVectorType  MeasurementVectorType;
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
+  typedef itk::Statistics::SampleClassifierFilter< AdaptorType > ClassifierType;
+  typedef itk::Statistics::MinimumDecisionRule2                  DecisionRuleType;
+#else
+  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > MembershipFunctionType;
+  typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
+  typedef itk::MinimumDecisionRule                         DecisionRuleType;
+#endif
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename ClassifierType::ClassLabelVectorType ClassLabelVectorType;
+#else
+  typedef std::vector< unsigned int > ClassLabelVectorType;
+#endif
+  
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename ClassifierType::MembershipFunctionVectorType MembershipFunctionVectorType;
+  typedef typename MembershipFunctionType::CentroidType  MembershipFunctionOriginType;
+#else
+  typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
+#endif
+  
+  typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
+  
   /** Create the K-d tree structure */
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
                                                       AdaptorType > 

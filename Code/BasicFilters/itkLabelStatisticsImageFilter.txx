@@ -40,6 +40,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 {
   this->SetNumberOfRequiredInputs(2);
   m_UseHistograms = false;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  m_NumBins.SetSize(1);
+#endif
   m_NumBins[0] = 20;
   m_LowerBound = static_cast<RealType>( NumericTraits<PixelType>::NonpositiveMin() );
   m_UpperBound = static_cast<RealType>( NumericTraits<PixelType>::max() );
@@ -514,7 +517,13 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     }
   else
     {
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+    typename HistogramType::SizeValueType bin = 0;
+#else
     typename HistogramType::SizeType::SizeValueType  bin = 0;
+#endif
+
     typename HistogramType::IndexType index;
     RealType total = 0;
 

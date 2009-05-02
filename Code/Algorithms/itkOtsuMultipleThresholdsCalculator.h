@@ -48,7 +48,12 @@ public:
   typedef SmartPointer<const Self>                ConstPointer;
 
   typedef typename TInputHistogram::MeasurementType MeasurementType;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename TInputHistogram::AbsoluteFrequencyType   FrequencyType;
+#else
   typedef typename TInputHistogram::FrequencyType   FrequencyType;
+#endif
 
   typedef typename NumericTraits<MeasurementType>::RealType MeanType;
   typedef typename NumericTraits<MeasurementType>::RealType VarianceType;

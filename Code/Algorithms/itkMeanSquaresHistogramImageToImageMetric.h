@@ -66,7 +66,11 @@ public:
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
 
   typedef typename Superclass::HistogramType            HistogramType;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename HistogramType::AbsoluteFrequencyType         HistogramFrequencyType;
+#else
   typedef typename HistogramType::FrequencyType         HistogramFrequencyType;
+#endif
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
 

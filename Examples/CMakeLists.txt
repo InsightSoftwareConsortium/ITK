@@ -7,8 +7,11 @@ SUBDIRS(
   Registration
   Segmentation
   SpatialObjects
-  Statistics
 )
+
+IF( NOT ITK_USE_REVIEW_STATISTICS )
+  SUBDIRS( Statistics )
+ENDIF( NOT ITK_USE_REVIEW_STATISTICS )
 
 IF( ITK_USE_PATENTED )
   SUBDIRS( Patented )

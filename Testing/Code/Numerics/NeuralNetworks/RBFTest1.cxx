@@ -30,13 +30,17 @@ PURPOSE.  See the above copyright notices for more information.
 #include <vector>
 #include <fstream>
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkSampleClassifierFilter.h"
+#include "itkEuclideanDistanceMetric.h"
+#else
+#include "itkSampleClassifier.h"
 #include "itkEuclideanDistance.h"
+#endif
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkMinimumDecisionRule.h"
-#include "itkEuclideanDistance.h"
-#include "itkSampleClassifier.h"
 #include "itkRBFBackPropagationLearningFunction.h"
 
 #define ROUND(x) (floor(x+0.5))
@@ -59,7 +63,12 @@ RBFTest1(int argc, char* argv[])
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
 
-  typedef itk::Statistics::EuclideanDistance<MeasurementVectorType> DistanceMetricType; 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType> 
+#else
+  typedef itk::Statistics::EuclideanDistance<MeasurementVectorType> 
+#endif
+    DistanceMetricType; 
 
   int num_train=1000;
   int num_test=200;

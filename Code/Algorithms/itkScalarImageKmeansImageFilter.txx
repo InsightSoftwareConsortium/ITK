@@ -16,8 +16,13 @@
   =========================================================================*/
 #ifndef __itkScalarImageKmeansImageFilter_txx
 #define __itkScalarImageKmeansImageFilter_txx
+
 #include "itkScalarImageKmeansImageFilter.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+#include "itkDistanceToCentroidMembershipFunction.h"
+#endif
 
 #include "itkProgressReporter.h"
 
@@ -97,21 +102,21 @@ ScalarImageKmeansImageFilter< TInputImage >
 
   // Now classify the samples
   //
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
-    MembershipFunctionType;
 
-  typedef itk::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
-    
-  typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
   typename ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( decisionRule.GetPointer() );
+#ifdef ITK_USE_REVIEW_STATISTICS
+  classifier->SetInput( adaptor );
+#else
   classifier->SetSample( adaptor );
+#endif
 
   classifier->SetNumberOfClasses( numberOfClasses  );
 
-  std::vector< unsigned int > classLabels;
+
+  ClassLabelVectorType classLabels;
   classLabels.resize( numberOfClasses );
 
   // Spread the labels over the intensity range 
@@ -123,8 +128,10 @@ ScalarImageKmeansImageFilter< TInputImage >
 
   unsigned int label = 0;
 
-  typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
-  typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  MembershipFunctionVectorType membershipFunctions;
+#endif
 
   for(unsigned int k=0; k<numberOfClasses; k++)
     {
@@ -133,11 +140,29 @@ ScalarImageKmeansImageFilter< TInputImage >
     MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
     MembershipFunctionOriginType origin( adaptor->GetMeasurementVectorSize() );
     origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
+#ifdef ITK_USE_REVIEW_STATISTICS
+    membershipFunction->SetCentroid( origin );
+    const MembershipFunctionType *constMembershipFunction = membershipFunction;
+    membershipFunctions.push_back( constMembershipFunction );
+#else
     membershipFunction->SetOrigin( origin );
     classifier->AddMembershipFunction( membershipFunction.GetPointer() );
+#endif
     }
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typename ClassifierType::MembershipFunctionVectorObjectPointer membershipFunctionsObject =
+    ClassifierType::MembershipFunctionVectorObjectType::New();
+  membershipFunctionsObject->Set(membershipFunctions); 
+  classifier->SetMembershipFunctions(membershipFunctionsObject);
+
+  typedef typename ClassifierType::ClassLabelVectorObjectType ClassLabelVectorObjectType;
+  typename ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  classLabelsObject->Set(classLabels);
+  classifier->SetClassLabels( classLabelsObject );
+#else
   classifier->SetMembershipFunctionClassLabels( classLabels );
+#endif
 
   // Execute the actual classification
 
@@ -163,9 +188,13 @@ ScalarImageKmeansImageFilter< TInputImage >
   ImageIterator pixel( outputPtr, region );
   pixel.GoToBegin();
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename ClassifierType::MembershipSampleType ClassifierOutputType;
+#else
   typedef typename ClassifierType::OutputType  ClassifierOutputType;
+#endif
       
-  ClassifierOutputType  * membershipSample = classifier->GetOutput();
+  const ClassifierOutputType  * membershipSample = classifier->GetOutput();
 
   typedef typename ClassifierOutputType::ConstIterator LabelIterator;
     
