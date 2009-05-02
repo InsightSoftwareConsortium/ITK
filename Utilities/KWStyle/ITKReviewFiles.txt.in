@@ -1,6 +1,9 @@
 @ITK_SOURCE_DIR@/Code/Review/itk*.h
 @ITK_SOURCE_DIR@/Code/Review/itk*.txx
 @ITK_SOURCE_DIR@/Code/Review/itk*.cxx
+@ITK_SOURCE_DIR@/Code/Review/Statistics/itk*.h
+@ITK_SOURCE_DIR@/Code/Review/Statistics/itk*.txx
+@ITK_SOURCE_DIR@/Code/Review/Statistics/itk*.cxx
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.h
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.txx
 @ITK_SOURCE_DIR@/Testing/Code/Review/*.cxx
