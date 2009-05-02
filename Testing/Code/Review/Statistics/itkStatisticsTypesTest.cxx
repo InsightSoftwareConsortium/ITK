@@ -20,10 +20,10 @@
 
 #include "itkMeasurementVectorTraits.h" 
 
-#define declareType( x ) \
-  typedef itk::Statistics::MeasurementVectorTraits::x X; \
-  std::cout << #X << " = " << sizeof( X ) << " bytes "; \
-  if( itk::NumericTraits< X >::is_integer ) \
+#define declareType( _x ) \
+  typedef itk::Statistics::MeasurementVectorTraits::_x _x; \
+  std::cout << #_x << " = " << sizeof( _x ) << " bytes "; \
+  if( itk::NumericTraits< _x >::is_integer ) \
     { \
     std::cout << " Integer type " << std::endl; \
     } \

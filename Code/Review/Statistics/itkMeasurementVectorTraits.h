@@ -40,42 +40,35 @@
  */
 #ifdef _WIN64
 
+namespace itk { 
 
 /** \class NumericTraits<unsigned long>
  * \brief Define traits for type unsigned long.
  * \ingroup DataRepresentation 
  */
-  
-/*
- * TODO FIXME KWStyle cannot swallow this class.. won't let me commit.
- *
-namespace itk 
-  { 
-  template <>
-  class NumericTraits< std::vector<int>::size_type > : public vcl_numeric_limits< std::vector<int>::size_type > 
-    {
-  public:
-    typedef std::vector<int>::size_type       SelfType; 
-    typedef SelfType                          ValueType;
-    typedef SelfType                          PrintType;
-    typedef SelfType                          AbsType;
-    typedef SelfType                          AccumulateType;
-    typedef long double                       RealType;
-    typedef RealType                          ScalarRealType;
-    typedef long double                       FloatType;
-    
-    static const SelfType ITKCommon_EXPORT    Zero;
-    static const SelfType ITKCommon_EXPORT    One;
+template <>
+class NumericTraits< std::vector<int>::size_type > : public vcl_numeric_limits< std::vector<int>::size_type > {
+public:
+  typedef std::vector<int>::size_type SelfType; 
+  typedef SelfType                    ValueType;
+  typedef SelfType                    PrintType;
+  typedef SelfType                    AbsType;
+  typedef SelfType                    AccumulateType;
+  typedef long double                 RealType;
+  typedef RealType                    ScalarRealType;
+  typedef long double                 FloatType;
 
-    static SelfType NonpositiveMin() { return min(); }
-    static bool IsPositive(SelfType val) { return val != Zero; }
-    static bool IsNonpositive(SelfType val) { return val == Zero; }
-    static bool IsNegative(SelfType) { return false; }
-    static bool IsNonnegative(SelfType) {return true; }
-    static SelfType ZeroValue() { return Zero; }
-    };
-  }
-*/
+  static const SelfType ITKCommon_EXPORT Zero;
+  static const SelfType ITKCommon_EXPORT One;
+
+  static SelfType NonpositiveMin() { return min(); }
+  static bool IsPositive(SelfType val) { return val != Zero; }
+  static bool IsNonpositive(SelfType val) { return val == Zero; }
+  static bool IsNegative(SelfType) { return false; }
+  static bool IsNonnegative(SelfType) {return true; }
+  static SelfType ZeroValue() { return Zero; }
+};
+}
 
 #endif
 

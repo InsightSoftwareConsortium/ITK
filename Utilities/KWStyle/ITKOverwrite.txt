@@ -101,3 +101,4 @@ itkVectorContainer.h Typedefs Disable
 itkXMLFileOutputWindow.cxx Indent Disable
 itkKdTreeGenerator.h InternalVariables Disable
 itkNormalVariateGenerator.h InternalVariables Disable
+itkStatisticsTypesTest.cxx Typedefs Disable
