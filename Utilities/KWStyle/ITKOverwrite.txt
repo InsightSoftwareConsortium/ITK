@@ -28,6 +28,7 @@ itkQuadEdgeMeshMacro.h Indent Disable
 itkExceptionObject.h Indent Disable
 itkBinaryThresholdImageFilter.h Indent Disable
 VNLIterativeSparseSolverTraits.h Namespace Disable
+itkMeasurementVectorTraits.h InternalVariables Disable
 itk.*\Test.*\.cxx Namespace Disable
 itk.*\Test.*\.h Namespace Disable
 itkBilateralImageFilter.txx Namespace Disable
