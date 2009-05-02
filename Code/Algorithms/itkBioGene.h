@@ -46,7 +46,12 @@ public:
   typedef   double                                AffinityType;
   typedef   std::map< DomainType, AffinityType >  ProteinDomainsType;
 
-  typedef   struct { DomainType domain; bool type; } ControlDomainType;
+  typedef   struct 
+    { 
+    DomainType m_Domain; 
+    bool       m_Type;
+    }                                             ControlDomainType;
+
   typedef   std::vector< ControlDomainType >         GeneControlDomainsType;
 
 public:

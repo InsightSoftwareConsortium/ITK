@@ -115,8 +115,8 @@ Gene
 ::AddGeneControlDomain( const DomainType & domain, bool type )
 {
   ControlDomainType controlDomain;
-  controlDomain.domain = domain;
-  controlDomain.type   = type;
+  controlDomain.m_Domain = domain;
+  controlDomain.m_Type   = type;
   m_ControlDomains.push_back( controlDomain );
 }
  
