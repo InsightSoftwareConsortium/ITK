@@ -407,15 +407,15 @@ inline typename Histogram<TMeasurement, TFrequencyContainer >::InstanceIdentifie
 Histogram<TMeasurement, TFrequencyContainer >
 ::GetInstanceIdentifier(const IndexType &index) const
 {
-  InstanceIdentifier id = 0;
+  InstanceIdentifier instanceId = 0;
   for (int i= this->GetMeasurementVectorSize() - 1; i > 0; i-- )
     {
-    id += index[i] * this->m_OffsetTable[i];
+    instanceId += index[i] * this->m_OffsetTable[i];
     }
   
-  id += index[0];
+  instanceId += index[0];
   
-  return id;
+  return instanceId;
 }
 
 

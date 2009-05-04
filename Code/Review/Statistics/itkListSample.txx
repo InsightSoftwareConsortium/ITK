@@ -80,46 +80,46 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 const typename ListSample< TMeasurementVector >::MeasurementVectorType &
 ListSample< TMeasurementVector >
-::GetMeasurementVector(InstanceIdentifier id) const 
+::GetMeasurementVector(InstanceIdentifier instanceId) const 
 {
-  if ( id < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    return m_InternalContainer[id];
+    return m_InternalContainer[instanceId];
     }
-  itkExceptionMacro("MeasurementVector " << id << " does not exist");
+  itkExceptionMacro("MeasurementVector " << instanceId << " does not exist");
 }
 
 template< class TMeasurementVector >
 void 
 ListSample< TMeasurementVector >
-::SetMeasurement( InstanceIdentifier id, 
+::SetMeasurement( InstanceIdentifier instanceId, 
                   unsigned int dim,
                   const MeasurementType &value)
 {
-  if ( id < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    m_InternalContainer[id][dim] = value;
+    m_InternalContainer[instanceId][dim] = value;
     }
 }
 
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::SetMeasurementVector( InstanceIdentifier id, 
+::SetMeasurementVector( InstanceIdentifier instanceId, 
                         const MeasurementVectorType &mv)
 {
-  if ( id < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    m_InternalContainer[id] = mv;
+    m_InternalContainer[instanceId] = mv;
     }
 }
 
 template< class TMeasurementVector >
 typename ListSample< TMeasurementVector >::AbsoluteFrequencyType 
 ListSample< TMeasurementVector >
-::GetFrequency( InstanceIdentifier id ) const
+::GetFrequency( InstanceIdentifier instanceId ) const
 {
-  if ( id < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
     return 1;
     }
