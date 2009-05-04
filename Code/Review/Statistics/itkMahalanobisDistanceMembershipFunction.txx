@@ -39,7 +39,7 @@ MahalanobisDistanceMembershipFunction< TVector >
 template< class TVector >
 void 
 MahalanobisDistanceMembershipFunction< TVector >
-::SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+::SetMeasurementVectorSize( MeasurementVectorSizeType s )
 {
   if( s == this->m_MeasurementVectorSize )
     {

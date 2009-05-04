@@ -68,7 +68,7 @@ public:
   typedef vnl_matrix<double>  CovarianceMatrixType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
+  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
   
   /** Method to set mean */
   void SetMean(const MeanVectorType &mean);
