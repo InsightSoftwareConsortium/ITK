@@ -40,7 +40,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
     }
 
   // Check if we are doing in-place filtering
-  if ( this->GetInPlace() && (typeid(TInputImage) == typeid(TOutputImage)) )
+  if ( this->GetInPlace() && this->CanRunInPlace() )
     {
     typename TInputImage::Pointer tempPtr = 
       dynamic_cast<TInputImage *>( output.GetPointer() );

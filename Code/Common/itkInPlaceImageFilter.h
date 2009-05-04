@@ -91,8 +91,11 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** In place operation can be turned on and off. This only has an
-   * effect when the input and output image type match. */
+  /** In place operation can be turned on and off. Asking for
+   * in-place operation, i.e. calling SetInplace(true) or InplaceOn(),
+   * will be effective only if CanRunInPlace also returns true.
+   * By default CanRunInPlace checks whether the input and output
+   * image type match. */
   itkSetMacro(InPlace, bool);
   itkGetConstMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
@@ -102,8 +105,10 @@ public:
    * method can be used in conjunction with the InPlace ivar to
    * determine whether a particular use of the filter is really
    * running in place. Some filters may be able to optimize their
-   * operation if the InPlace is true and CanRunInPlace is true. */
-  bool CanRunInPlace() const
+   * operation if the InPlace is true and CanRunInPlace is true.
+   * CanRunInPlace may also be overridded by InPlaceImageFilter
+   * subclasses to fine tune its behavior. */
+  virtual bool CanRunInPlace() const
     {
     return (typeid(TInputImage) == typeid(TOutputImage));
     }

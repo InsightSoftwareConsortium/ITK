@@ -69,7 +69,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>
 ::AllocateOutputs()
 {
   // if told to run in place and the types support it, 
-  if (m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)))
+  if (this->GetInPlace() && this->CanRunInPlace())
     {
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
@@ -113,7 +113,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>
 ::ReleaseInputs()
 {
   // if told to run in place and the types support it, 
-  if (m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)))
+  if (this->GetInPlace() && this->CanRunInPlace())
     {
     // Release any input where the ReleaseData flag has been set
     ProcessObject::ReleaseInputs();
