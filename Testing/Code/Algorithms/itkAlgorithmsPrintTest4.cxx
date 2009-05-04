@@ -93,8 +93,8 @@ int main(int , char* [])
     itk::HistogramMatchingImageFilter<InputType,OutputType>::New();
   std:: cout << "-------------HistogramMatchingImageFilter " << HistogramMatchingImageFilterObj;
 
-  itk::ImageClassifierBase<InputType,OutputType>::Pointer ImageClassifierBaseObj =
-    itk::ImageClassifierBase<InputType,OutputType>::New();
+  itk::ImageClassifierBase<VectorImageType,OutputType>::Pointer ImageClassifierBaseObj =
+    itk::ImageClassifierBase<VectorImageType,OutputType>::New();
   std:: cout << "-------------ImageClassifierBase " << ImageClassifierBaseObj;
 
   itk::ImageGaussianModelEstimator<VectorImageType,GaussianMemFuncType,UShortImageType>::Pointer ImageGaussianModelEstimatorObj =
@@ -141,7 +141,6 @@ int main(int , char* [])
   itk::MeanReciprocalSquareDifferencePointSetToImageMetric<PointSetType,InputType>::Pointer MeanReciprocalSquareDifferencePointSetToImageMetricObj =
     itk::MeanReciprocalSquareDifferencePointSetToImageMetric<PointSetType,InputType>::New();
   std:: cout << "-------------MeanReciprocalSquareDifferencePointSetToImageMetric " << MeanReciprocalSquareDifferencePointSetToImageMetricObj;
-  
-  return EXIT_SUCCESS;
 
+  return EXIT_SUCCESS;
 }
