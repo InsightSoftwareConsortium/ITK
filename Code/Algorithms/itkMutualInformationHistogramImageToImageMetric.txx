@@ -30,11 +30,16 @@ MutualInformationHistogramImageToImageMetric<TFixedImage,TMovingImage>
   MeasureType entropyX = NumericTraits<MeasureType>::Zero;
   MeasureType entropyY = NumericTraits<MeasureType>::Zero;
   MeasureType jointEntropy = NumericTraits<MeasureType>::Zero;
-  HistogramFrequencyType totalFreq = histogram.GetTotalFrequency();
+
+  typedef NumericTraits< HistogramFrequencyType >::RealType  HistogramFrequencyRealType;
+
+  HistogramFrequencyRealType totalFreq = 
+    static_cast< HistogramFrequencyRealType >( histogram.GetTotalFrequency() );
 
   for (unsigned int i = 0; i < this->GetHistogramSize()[0]; i++)
     {
-    HistogramFrequencyType freq = histogram.GetFrequency(i, 0);
+    HistogramFrequencyRealType freq = 
+      static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 0) );
     if (freq > 0)
       {
       entropyX += freq*vcl_log(freq);
@@ -45,7 +50,8 @@ MutualInformationHistogramImageToImageMetric<TFixedImage,TMovingImage>
 
   for (unsigned int i = 0; i < this->GetHistogramSize()[1]; i++)
     {
-    HistogramFrequencyType freq = histogram.GetFrequency(i, 1);
+    HistogramFrequencyRealType freq =
+      static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 1) );
     if (freq > 0) 
       {
       entropyY += freq*vcl_log(freq);
@@ -58,7 +64,8 @@ MutualInformationHistogramImageToImageMetric<TFixedImage,TMovingImage>
   HistogramIteratorType end = histogram.End();
   while (it != end) 
     {
-    HistogramFrequencyType freq = it.GetFrequency();
+    HistogramFrequencyRealType freq = 
+      static_cast< HistogramFrequencyRealType >( it.GetFrequency() );
     if (freq > 0)
       {
       jointEntropy += freq*vcl_log(freq);
