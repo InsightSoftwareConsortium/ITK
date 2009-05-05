@@ -142,6 +142,10 @@ int main( int argc, char *argv[] )
 
   HistogramSizeType  histogramSize;
 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  histogramSize.SetSize(2);
+#endif
+  
   histogramSize[0] = 256;
   histogramSize[1] = 256;
 
