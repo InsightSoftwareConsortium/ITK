@@ -159,7 +159,7 @@ ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest
 
 ADD_TEST(itkImageClassifierFilterTest 
          ${STATISTICS_TESTS} 
-        --compare ${ITK_DATA_ROOT}/Testing/Data/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
+        --compare ${ITK_DATA_ROOT}/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png
          itkImageClassifierFilterTest
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png)
