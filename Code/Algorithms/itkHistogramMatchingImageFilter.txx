@@ -426,10 +426,18 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     {
     // allocate memory for the histogram
     typename HistogramType::SizeType size;
-    size[0] = m_NumberOfHistogramLevels;
     typename HistogramType::MeasurementVectorType lowerBound;
-    lowerBound.Fill(minValue);
     typename HistogramType::MeasurementVectorType upperBound;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+    size.SetSize(1);
+    lowerBound.SetSize(1);
+    upperBound.SetSize(1);
+    histogram->SetMeasurementVectorSize(1);
+#endif
+
+    size[0] = m_NumberOfHistogramLevels;
+    lowerBound.Fill(minValue);
     upperBound.Fill(maxValue);
 
     //Initialize with equally spaced bins.
@@ -438,6 +446,11 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     }
 
   typename HistogramType::MeasurementVectorType measurement;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  measurement.SetSize(1);
+#endif
+  
   typedef typename HistogramType::MeasurementType MeasurementType;
   measurement[0] = NumericTraits<MeasurementType>::Zero;
 
