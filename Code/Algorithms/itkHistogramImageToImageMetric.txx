@@ -38,6 +38,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
   m_UpperBoundIncreaseFactor = 0.001;
   m_PaddingValue = NumericTraits<FixedImagePixelType>::Zero;
   m_Histogram = HistogramType::New(); 
+#ifdef ITK_USE_REVIEW_STATISTICS
+  m_Histogram->SetMeasurementVectorSize(2);
+#endif
   m_LowerBoundSetByUser = false;
   m_UpperBoundSetByUser = false;
 }
@@ -132,12 +135,18 @@ void HistogramImageToImageMetric<TFixedImage, TMovingImage>
     // Initialize the upper and lower bounds of the histogram.
     if( !m_LowerBoundSetByUser )
       {
+#ifdef ITK_USE_REVIEW_STATISTICS
+      m_LowerBound.SetSize(2);
+#endif
       m_LowerBound[0] = minFixed;
       m_LowerBound[1] = minMoving;
       }
 
     if( !m_UpperBoundSetByUser )
       {
+#ifdef ITK_USE_REVIEW_STATISTICS
+      m_UpperBound.SetSize(2);
+#endif
       m_UpperBound[0] =
         maxFixed + (maxFixed - minFixed ) * m_UpperBoundIncreaseFactor;
       m_UpperBound[1] =
@@ -304,6 +313,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
         this->m_NumberOfPixelsCounted++;
           
         typename HistogramType::MeasurementVectorType sample;
+#ifdef ITK_USE_REVIEW_STATISTICS
+        sample.SetSize(2);
+#endif
         sample[0] = fixedValue;
         sample[1] = movingValue;
         histogram.IncreaseFrequency(sample, 1);

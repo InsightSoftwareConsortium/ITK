@@ -152,7 +152,13 @@ int main( int argc, char *argv[] )
     numberOfHistogramBins = atoi( argv[4] );
     std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
     }
+
   MetricType::HistogramType::SizeType histogramSize;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  histogramSize.SetSize(2);
+#endif
+
   histogramSize[0] = numberOfHistogramBins;
   histogramSize[1] = numberOfHistogramBins;
   metric->SetHistogramSize( histogramSize );
