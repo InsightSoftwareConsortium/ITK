@@ -35,11 +35,17 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 
   // initialize histogram
   HistogramType::SizeType size;
-  size.Fill(64) ;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
-  lowerBound[0] = 0.0 ;
-  upperBound[0] = 64.0 ;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  lowerBound.SetSize(1);
+  upperBound.SetSize(1);
+  histogram->SetMeasurementVectorSize(1);
+  size.SetSize(1);
+#endif
+  lowerBound[0] = 0.0;
+  upperBound[0] = 64.0;
+  size.Fill(64);
 
   histogram->Initialize(size, lowerBound, upperBound ) ;
   
