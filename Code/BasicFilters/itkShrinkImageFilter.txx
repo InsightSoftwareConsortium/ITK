@@ -333,7 +333,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
       outputSize[i] = 1;
       }
 
-    // because of the later orgin shift this starting index is not
+    // because of the later origin shift this starting index is not
     // critical
     outputStartIndex[i] = (long)
       vcl_ceil((double) inputStartIndex[i] / (double) m_ShrinkFactors[i] );
