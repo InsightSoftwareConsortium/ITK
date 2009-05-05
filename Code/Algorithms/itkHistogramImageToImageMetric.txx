@@ -209,11 +209,17 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
                   DerivativeType::ValueType>::Zero);
 
   typename HistogramType::Pointer pHistogram = HistogramType::New();
+#ifdef ITK_USE_REVIEW_STATISTICS
+  pHistogram->SetMeasurementVectorSize(2);
+#endif
   this->ComputeHistogram(parameters, *pHistogram);
 
   for (unsigned int i = 0; i < ParametersDimension; i++)
     {
     typename HistogramType::Pointer pHistogram2 = HistogramType::New();
+#ifdef ITK_USE_REVIEW_STATISTICS
+    pHistogram2->SetMeasurementVectorSize(2);
+#endif
     this->CopyHistogram(*pHistogram2, *pHistogram);
       
     TransformParametersType newParameters = parameters;
@@ -224,6 +230,9 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
     MeasureType e0 = EvaluateMeasure(*pHistogram2);
       
     pHistogram2 = HistogramType::New();
+#ifdef ITK_USE_REVIEW_STATISTICS
+    pHistogram2->SetMeasurementVectorSize(2);
+#endif
     this->CopyHistogram(*pHistogram2, *pHistogram);
 
     newParameters = parameters;
@@ -340,6 +349,12 @@ HistogramImageToImageMetric<TFixedImage,TMovingImage>
 {
   // Initialize the target.
   typename HistogramType::MeasurementVectorType min, max;
+
+#ifdef ITK_USE_REVIEW_STATISTICS
+  min.SetSize(2);
+  max.SetSize(2);
+#endif
+
   typename HistogramType::SizeType size = source.GetSize();
 
   for (unsigned int i = 0; i < min.Size(); i++)
