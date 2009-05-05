@@ -124,6 +124,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>
     for (unsigned int i = 0; i < this->m_HistogramSize[0]; i++)
       {
       typename HistogramType::IndexType index;
+#ifdef ITK_USE_REVIEW_STATISTICS
+      index.SetSize(2);
+#endif
       index[0] = i;
       index[1] = j;
 
