@@ -90,6 +90,9 @@ int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
     
     unsigned int nBins = 256;
     MetricType::HistogramType::SizeType histSize;
+#ifdef ITK_USE_REVIEW_STATISTICS
+    histSize.SetSize(2);
+#endif
     histSize[0] = nBins;
     histSize[1] = nBins;
     metric->SetHistogramSize(histSize);
