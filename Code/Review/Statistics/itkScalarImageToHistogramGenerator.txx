@@ -68,10 +68,12 @@ ScalarImageToHistogramGenerator< TImage >
 ::SetNumberOfBins( unsigned int numberOfBins ) 
 {
   typename HistogramType::SizeType size;
-  size.Fill( numberOfBins );
 #ifdef ITK_USE_REVIEW_STATISTICS
+  size.SetSize(1);
+  size.Fill( numberOfBins );
   m_HistogramGenerator->SetHistogramSize( size );
 #else
+  size.Fill( numberOfBins );
   m_HistogramGenerator->SetNumberOfBins( size );
 #endif
 }
