@@ -168,7 +168,7 @@ public:
           m_BoundingBox[i+1] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::NonpositiveMin();
           }
 
-       // Histogram
+        // Histogram
         m_Histogram = HistogramType::New();
         typename HistogramType::SizeType              hsize;
         typename HistogramType::MeasurementVectorType lb;
@@ -177,6 +177,7 @@ public:
         hsize.SetSize(1);
         lb.SetSize(1);
         ub.SetSize(1);
+        m_Histogram->SetMeasurementVectorSize(1);
 #endif
         hsize[0] = size;
         lb[0] = lowerBound;

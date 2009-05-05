@@ -195,6 +195,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       if (m_UseHistograms)
         {
         typename HistogramType::IndexType index;
+#ifdef ITK_USE_REVIEW_STATISTICS
+        index.SetSize(1);
+#endif
         for (unsigned int bin=0; bin<m_NumBins[0]; bin++)
           {
           index[0] = bin;
@@ -311,6 +314,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     if (m_UseHistograms)
       {
       typename HistogramType::MeasurementVectorType meas;
+#ifdef ITK_USE_REVIEW_STATISTICS
+      meas.SetSize(1);
+#endif
       meas[0] = value;
       (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1.0F);
       }
@@ -525,6 +531,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 #endif
 
     typename HistogramType::IndexType index;
+#ifdef ITK_USE_REVIEW_STATISTICS
+    index.SetSize(1);
+#endif
     RealType total = 0;
 
     // count bins until just over half the distribution is counted

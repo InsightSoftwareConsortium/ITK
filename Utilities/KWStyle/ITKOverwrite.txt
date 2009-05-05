@@ -102,3 +102,4 @@ itkXMLFileOutputWindow.cxx Indent Disable
 itkKdTreeGenerator.h InternalVariables Disable
 itkNormalVariateGenerator.h InternalVariables Disable
 itkStatisticsTypesTest.cxx Typedefs Disable
+itkLabelStatisticsImageFilter.h Indent Disable
