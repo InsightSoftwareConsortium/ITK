@@ -8,9 +8,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
              ${StatisticsRefactoring_SOURCE_DIR}/Source)
   ENDIF(TCL_TCLSH)
 
-SET(ITK_DATA_ROOT ${StatisticsRefactoring_SOURCE_DIR}/Testing/Data)
-SET(BASELINE ${StatisticsRefactoring_SOURCE_DIR}/Testing/Data/Baseline)
-SET(TEMP ${StatisticsRefactoring_BINARY_DIR}/Testing/Temporary)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 SET(STATISTICS_TESTS ${EXECUTABLE_OUTPUT_PATH}/itkStatisticsTests)
 SET(STATISTICS_HEADER_TESTS ${EXECUTABLE_OUTPUT_PATH}/itkStatisticsHeaderTest)
@@ -161,7 +159,7 @@ ADD_TEST(itkExpectationMaximizationMixtureModelEstimatorTest
 
 ADD_TEST(itkImageClassifierFilterTest 
          ${STATISTICS_TESTS} 
-        --compare ${BASELINE}/ImageClassifierFilterTestClassifiedImageTest.png
+        --compare ${ITK_DATA_ROOT}/Testing/Data/Baseline/Statistics/ImageClassifierFilterTestClassifiedImageTest.png
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png
          itkImageClassifierFilterTest
          ${TEMP}/ImageClassifierFilterTestClassifiedImage.png)
