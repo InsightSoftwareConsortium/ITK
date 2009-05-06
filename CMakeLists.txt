@@ -257,6 +257,13 @@ ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 OPTION(ITK_USE_ORIENTED_IMAGE_DIRECTION "Turn on correct use of oriented images direction in gradient computation and image registration." ON)
 MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
+
+#-----------------------------------------------------------------------------
+# ITK turn on the correct usage of centered-pixel coordinates.
+OPTION(ITK_USE_REGION_VALIDATION_IN_ITERATORS "Turn on region validation in Iterator constructors." OFF)
+MARK_AS_ADVANCED(ITK_USE_REGION_VALIDATION_IN_ITERATORS)
+
+
 #-----------------------------------------------------------------------------
 # ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
 OPTION(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." ON)
