@@ -54,15 +54,24 @@ template< class TInputPixelType, class TOutputPixelType >
   // call the superclass' implementation of this method
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Zero Padding Factor: " << m_ZeroPadding << std::endl;
-  os << indent << "Fourier Oversampling Factor: " << m_OverSampling << std::endl;
-  os << indent << "Radial Spline Order: " << m_RadialSplineOrder << std::endl;
-  os << indent << "Fourier Radial Cutoff Frequency: " << m_Cutoff << std::endl;
-  os << indent << "Alpha Range: " << m_AlphaRange << std::endl;
-  os << indent << "z-Axis Direction: " << m_ZDirection << std::endl;
-  os << indent << "Alpha Direction: " << m_AlphaDirection << std::endl;
-  os << indent << "Radial Direction: " << m_RDirection << std::endl;
-  os << indent << "Input Requested Region: " << m_InputRequestedRegion << std::endl;
+  os << indent << "Zero Padding Factor: "
+     << this->GetZeroPadding() << std::endl;
+  os << indent << "Fourier Oversampling Factor: "
+     << this->GetOverSampling() << std::endl;
+  os << indent << "Radial Spline Order: "
+     << this->GetRadialSplineOrder() << std::endl;
+  os << indent << "Fourier Radial Cutoff Frequency: "
+     << this->GetCutoff() << std::endl;
+  os << indent << "Alpha Range: "
+     << this->GetAlphaRange() << std::endl;
+  os << indent << "Z Direction: "
+     << this->GetZDirection() << std::endl;
+  os << indent << "Alpha Direction: "
+     << this->GetAlphaDirection() << std::endl;
+  os << indent << "Radial Direction: "
+     << this->GetRDirection() << std::endl;
+  os << indent << "Input Requested Region: "
+     << m_InputRequestedRegion << std::endl;
 }
  
  /**

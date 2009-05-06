@@ -88,21 +88,21 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
   
   itkSetMacro( ZeroPadding, unsigned short int );
-  itkGetMacro( ZeroPadding, unsigned short int );
+  itkGetConstMacro( ZeroPadding, unsigned short int );
   itkSetMacro( OverSampling, unsigned short int );
-  itkGetMacro( OverSampling, unsigned short int );
+  itkGetConstMacro( OverSampling, unsigned short int );
   itkSetMacro( Cutoff, double );
-  itkGetMacro( Cutoff, double );
+  itkGetConstMacro( Cutoff, double );
   itkSetMacro( AlphaRange, double );
-  itkGetMacro( AlphaRange, double );
+  itkGetConstMacro( AlphaRange, double );
   itkSetMacro( AlphaDirection, unsigned short int );
-  itkGetMacro( AlphaDirection, unsigned short int );
+  itkGetConstMacro( AlphaDirection, unsigned short int );
   itkSetMacro( ZDirection, unsigned short int );
-  itkGetMacro( ZDirection, unsigned short int );
+  itkGetConstMacro( ZDirection, unsigned short int );
   itkSetMacro( RDirection, unsigned short int );
-  itkGetMacro( RDirection, unsigned short int );
+  itkGetConstMacro( RDirection, unsigned short int );
   itkSetMacro( RadialSplineOrder, unsigned short int );
-  itkGetMacro( RadialSplineOrder, unsigned short int ); 
+  itkGetConstMacro( RadialSplineOrder, unsigned short int ); 
   
 protected:
   /// Constructor
