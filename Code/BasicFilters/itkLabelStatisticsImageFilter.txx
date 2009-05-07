@@ -318,7 +318,11 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       meas.SetSize(1);
 #endif
       meas[0] = value;
+#ifdef ITK_USE_REVIEW_STATISTICS
       (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1.0F);
+#else
+      (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1);
+#endif
       }
 
     ++it;

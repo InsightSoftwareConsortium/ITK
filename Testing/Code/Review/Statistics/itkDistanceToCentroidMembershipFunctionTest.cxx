@@ -36,7 +36,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
   typedef itk::Statistics::MembershipFunctionBase< MeasurementVectorType > BaseType;
 
   MembershipFunctionType::Pointer function = MembershipFunctionType::New();
-  BaseType * base = function.GetPointer();
+  
   std::cout << function->GetNameOfClass() << std::endl;
 
 
