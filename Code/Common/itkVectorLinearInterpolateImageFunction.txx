@@ -74,22 +74,39 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
    */
   signed long baseIndex[ImageDimension];
   double distance[ImageDimension];
+  long tIndex;
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = (long) vcl_floor(index[dim] );
+    // The following "if" block is equivalent to the following line without
+    // having to call floor.
+    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
+    if (index[dim] >= 0.0)
+      {
+      baseIndex[dim] = (long) index[dim];
+      }
+    else
+      {
+      tIndex = (long) index[dim];
+      if (double(tIndex) != index[dim])
+        {
+        tIndex--;
+        }
+      baseIndex[dim] = tIndex;
+      }
     distance[dim] = index[dim] - double( baseIndex[dim] );
     }
   
   /**
-   * Interpolated value is the weight some of each of the surrounding
-   * neighbors. The weight for each neighbour is the fraction overlap
+   * Interpolated value is the weighted sum of each of the surrounding
+   * neighbors. The weight for each neighbor is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   OutputType output;
   output.Fill( 0.0 );
 
-  RealType totalOverlap = 0.0;
+  typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
+  ScalarRealType totalOverlap = NumericTraits<ScalarRealType>::Zero;
 
   for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
@@ -105,11 +122,27 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
       if ( upper & 1 )
         {
         neighIndex[dim] = baseIndex[dim] + 1;
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer upper boundary of the image grid.
+        if( neighIndex[dim] > this->m_EndIndex[dim] )
+          {
+          neighIndex[dim] = this->m_EndIndex[dim];
+          }
+#endif
         overlap *= distance[dim];
         }
       else
         {
         neighIndex[dim] = baseIndex[dim];
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer lower boundary of the image grid.
+        if( neighIndex[dim] < this->m_StartIndex[dim] )
+          {
+          neighIndex[dim] = this->m_StartIndex[dim];
+          }
+#endif
         overlap *= 1.0 - distance[dim];
         }
 

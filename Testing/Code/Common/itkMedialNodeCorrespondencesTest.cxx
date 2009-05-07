@@ -180,9 +180,13 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     // Set filter parameters
     binfilter->SetInput(sourceImage);
     if(i == 0)
+      {
       binfilter->SetRepetitions(4);
+      }
     else
+      {
       binfilter->SetRepetitions(3);
+      }
 
     // Set up the output of the filter
     ImageType::Pointer blurredImage = binfilter->GetOutput();
@@ -216,10 +220,15 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     caFilter->SetInput(bloxBoundaryPointImage);
     caFilter->SetDistanceMin(8.0);
     caFilter->SetDistanceMax(12.0);
+
     if(i == 0)
+      {
       caFilter->SetEpsilon(0.05);
+      }
     else
+      {
       caFilter->SetEpsilon(0.05);
+      }
 
     caFilter->SetPolarity(0);
 
@@ -244,9 +253,13 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
     bloxCoreAtomImage->DoCoreAtomVoting();
 
     if(i == 0)
-      {bloxCoreAtomImage1 = bloxCoreAtomImage;}
+      {
+      bloxCoreAtomImage1 = bloxCoreAtomImage;
+      }
     else
-      {bloxCoreAtomImage2 = bloxCoreAtomImage;}
+      {
+      bloxCoreAtomImage2 = bloxCoreAtomImage;
+      }
     }
 
   int numberNodes1 = bloxCoreAtomImage1->GetMedialNodeCount();

@@ -100,6 +100,7 @@ REGISTER_TEST(itkVectorTest );
 REGISTER_TEST(itkVectorInterpolateImageFunctionTest );
 REGISTER_TEST(itkVectorToRGBImageAdaptorTest );
 REGISTER_TEST(itkVNLRoundProfileTest1 );
+REGISTER_TEST(itkMathRoundProfileTest1 );
 REGISTER_TEST(itkWindowedSincInterpolateImageFunctionTest );
 REGISTER_TEST(itkEllipsoidInteriorExteriorSpatialFunctionTest );
 REGISTER_TEST(itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest );

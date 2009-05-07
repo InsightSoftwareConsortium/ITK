@@ -878,9 +878,9 @@ BMPImageIO
   // here we force it to be an unsigned integer to avoid
   // dealing with directions in a subterraneous way.
   const unsigned int horizontalResolution = 
-    static_cast<unsigned int>( vnl_math_rnd( 1000.0 / m_Spacing[0] ) );
+    static_cast<unsigned int>( Math::Round( 1000.0 / m_Spacing[0] ) );
   const unsigned int verticalResolution =
-    static_cast<unsigned int>( vnl_math_rnd( 1000.0 / m_Spacing[1] ) );
+    static_cast<unsigned int>( Math::Round( 1000.0 / m_Spacing[1] ) );
 
   this->Write32BitsInteger( horizontalResolution );
   this->Write32BitsInteger( verticalResolution );

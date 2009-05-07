@@ -260,6 +260,23 @@ MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
 #-----------------------------------------------------------------------------
 # ITK turn on the correct usage of centered-pixel coordinates.
+OPTION(ITK_USE_PORTABLE_ROUND "Turn on round implementation that works in multiple-platforms." OFF)
+MARK_AS_ADVANCED(ITK_USE_PORTABLE_ROUND)
+
+
+#-----------------------------------------------------------------------------
+# ITK turn on the correct usage of centered-pixel coordinates.
+OPTION(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY "Turn on correct usage of centered-pixel coordinates." OFF)
+MARK_AS_ADVANCED(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+  IF(NOT ITK_USE_PORTABLE_ROUND)
+    MESSAGE(FATAL_ERROR "ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is currently ON but ITK_USE_PORTABLE_ROUND is OFF, you should enable the portable round")
+  ENDIF(NOT ITK_USE_PORTABLE_ROUND)
+ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+
+
+#-----------------------------------------------------------------------------
+# ITK turn on the correct usage of centered-pixel coordinates.
 OPTION(ITK_USE_REGION_VALIDATION_IN_ITERATORS "Turn on region validation in Iterator constructors." OFF)
 MARK_AS_ADVANCED(ITK_USE_REGION_VALIDATION_IN_ITERATORS)
 

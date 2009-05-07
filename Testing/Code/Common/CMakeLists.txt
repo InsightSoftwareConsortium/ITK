@@ -243,6 +243,7 @@ ADD_TEST(itkOrientedImageProfileTest2 ${COMMON_TESTS2} itkOrientedImageProfileTe
 ADD_TEST(itkOrientedImageProfileTest3 ${COMMON_TESTS2} itkOrientedImageProfileTest3)
 
 ADD_TEST(itkVNLRoundProfileTest1 ${COMMON_TESTS2} itkVNLRoundProfileTest1)
+ADD_TEST(itkMathRoundProfileTest1 ${COMMON_TESTS2} itkMathRoundProfileTest1)
 
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
 ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
@@ -496,6 +497,7 @@ itkOrientedImageProfileTest1.cxx
 itkOrientedImageProfileTest2.cxx
 itkOrientedImageProfileTest3.cxx
 itkVNLRoundProfileTest1.cxx
+itkMathRoundProfileTest1.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx

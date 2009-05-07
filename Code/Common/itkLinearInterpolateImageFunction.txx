@@ -132,11 +132,27 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
       if ( upper & 1 )
         {
         neighIndex[dim] = baseIndex[dim] + 1;
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer upper boundary of the image grid.
+        if( neighIndex[dim] > this->m_EndIndex[dim] )
+          {
+          neighIndex[dim] = this->m_EndIndex[dim];
+          }
+#endif
         overlap *= distance[dim];
         }
       else
         {
         neighIndex[dim] = baseIndex[dim];
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer lower boundary of the image grid.
+        if( neighIndex[dim] < this->m_StartIndex[dim] )
+          {
+          neighIndex[dim] = this->m_StartIndex[dim];
+          }
+#endif
         overlap *= 1.0 - distance[dim];
         }
 

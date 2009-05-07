@@ -114,7 +114,7 @@ int itkFlipImageFilterTest(int, char* [] )
         {
         double temp = - 1 * ( static_cast<double>( inputIndex[j] ) * 
            inputSpacing[j] + inputOrigin[j]);
-        outputIndex[j] = static_cast<IndexValueType>( vnl_math_rnd(( temp - outputOrigin[j] ) / 
+        outputIndex[j] = static_cast<IndexValueType>( itk::Math::Round(( temp - outputOrigin[j] ) / 
            outputSpacing[j] ) );
         }
       else

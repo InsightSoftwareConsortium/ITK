@@ -25,6 +25,7 @@
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkContinuousIndex.h"
+#include "vnl/vnl_math.h"
 
 namespace itk
 {
@@ -176,7 +177,7 @@ public:
         {
         return false;
         }
-      if( index[i] >= m_Index[i] + static_cast<long>(m_Size[i]) )
+      if( index[i] >= (m_Index[i] + static_cast<long>(m_Size[i])) )
         {
         return false;
         }
@@ -184,20 +185,33 @@ public:
     return true;
     }
 
-  /** Test if an index is inside */
+  /** Test if a continuous index is inside the region.
+   * If ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on,
+   * we take into account the fact that each voxel has its
+   * center at the integer coordinate and extends half way
+   * to the next integer coordinate. */
   template <typename TCoordRepType>
   bool
   IsInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
     {
     for(unsigned int i=0; i<ImageDimension; i++)
       {
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+      if( itk::Math::RoundHalfIntegerUp(index[i]) < static_cast<int>( m_Index[i] ) )
+#else
       if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) )
+#endif
         {
         return false;
         }
       // bound is the last valid pixel location
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       const TCoordRepType bound = static_cast<TCoordRepType>(
-                            m_Index[i] + static_cast<long>(m_Size[i]) - 1);
+         m_Index[i] + m_Size[i] - 0.5);
+#else
+      const TCoordRepType bound = static_cast<TCoordRepType>(
+         m_Index[i] + static_cast<long>(m_Size[i]) - 1);
+#endif
 
       if( index[i] > bound )
         {
@@ -207,8 +221,32 @@ public:
     return true;
     }
 
+  /** Test if a continuous index is strictly inside the region.
+   * This means that no half-pixel border around the image is
+   * allowed as tolerance. */
+  template <typename TCoordRepType>
+  bool
+  IsStrictlyInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
+    {
+    for(unsigned int i=0; i<ImageDimension; i++)
+      {
+      if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) )
+        {
+        return false;
+        }
+      // bound is the last valid pixel location
+      const TCoordRepType bound = static_cast<TCoordRepType>(
+         m_Index[i] + static_cast<long>(m_Size[i]) - 1);
 
-  /** Test if a region (the argument) is completly inside of this region */
+      if( index[i] > bound )
+        {
+        return false;
+        }
+      }
+    return true;
+    }
+
+  /** Test if a region (the argument) is completely inside of this region */
   bool
   IsInside(const Self &region) const
     {

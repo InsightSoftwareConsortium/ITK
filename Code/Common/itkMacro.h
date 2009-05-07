@@ -36,6 +36,10 @@
 #include <string>
 #include <cstdlib>
 
+#ifndef ITK_USE_PORTABLE_ROUND
+#include "vnl/vnl_math.h"
+#endif
+
 // Determine type of string stream to use.
 #if !defined(CMAKE_NO_ANSI_STRING_STREAM)
 #  include <sstream>
@@ -965,6 +969,200 @@ private:
 #endif
 
 
+namespace itk
+{
+
+namespace Math
+{
+
+#ifdef ITK_USE_PORTABLE_ROUND
+// RoundHalfIntegerUp  -- round towards nearest integer
+//         halfway cases are rounded upward, e.g.
+//         RoundHalfIntegerUp( 1.5) ==  2
+//         RoundHalfIntegerUp(-1.5) == -1
+//         RoundHalfIntegerUp( 2.5) ==  3
+//
+// Be careful: argument absolute value must be less than INT_MAX/2
+// for RoundHalfIntegerUp to be guaranteed to work.
+// We also assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
+
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
+
+inline int RoundHalfIntegerUp(float  x) { return RoundHalfIntegerToEven(2*x+0.5f)>>1; }
+inline int RoundHalfIntegerUp(double  x) { return RoundHalfIntegerToEven(2*x+0.5)>>1; }
+
+#else // Vanilla implementation
+
+inline int RoundHalfIntegerUp(float  x)
+{
+  x += 0.5f;
+  return static_cast<int>(x>=0.f?x:(x==static_cast<int>(x)?x:x-1.f));
+}
+inline int RoundHalfIntegerUp(double x)
+{
+  x += 0.5;
+  return static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
+}
+
+#endif
+
+
+// Round  -- round towards nearest integer
+//         halfway cases such as 0.5 may be rounded either up or down
+//         so as to maximize the efficiency, e.g.
+//         RoundHalfIntegerToEven( 1.5) ==  1 or  2
+//         RoundHalfIntegerToEven(-1.5) == -2 or -1
+//         RoundHalfIntegerToEven( 2.5) ==  2 or  3
+//         RoundHalfIntegerToEven( 3.5) ==  3 or  4
+//
+// We assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
+
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
+
+inline int Round(float  x) { return RoundHalfIntegerToEven(x); }
+inline int Round(double  x) { return RoundHalfIntegerToEven(x); }
+
+#else // Vanilla implementation
+
+inline int Round(float  x) { return x>=0.f?static_cast<int>(x+.5f):static_cast<int>(x-.5f); }
+inline int Round(double x) { return x>=0.0?static_cast<int>(x+0.5):static_cast<int>(x-0.5); }
+
+
+#endif
+
+
+// RoundHalfIntegerToEven  -- round towards nearest integer
+//         halfway cases are rounded towards the nearest even integer, e.g.
+//         RoundHalfIntegerToEven( 1.5) ==  2
+//         RoundHalfIntegerToEven(-1.5) == -2
+//         RoundHalfIntegerToEven( 2.5) ==  2
+//         RoundHalfIntegerToEven( 3.5) ==  4
+//
+// We assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
+
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING // Fast sse2 implementation
+
+inline int RoundHalfIntegerToEven(float  x)
+{
+# if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(__GNUC__)
+  assert( fegetround() == FE_TONEAREST );
+# endif
+  return _mm_cvtss_si32(_mm_set_ss(x));
+}
+inline int RoundHalfIntegerToEven(double  x)
+{
+# if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(__GNUC__)
+  assert( fegetround() == FE_TONEAREST );
+# endif
+  return _mm_cvtsd_si32(_mm_set_sd(x));
+}
+ 
+#elif GCC_USE_FAST_IMPL // Fast gcc asm implementation
+ 
+inline int RoundHalfIntegerToEven(float  x)
+ {
+# ifdef VNL_CHECK_FPU_ROUNDING_MODE
+   assert( fegetround() == FE_TONEAREST );
+# endif
+   int r;
+   __asm__ __volatile__ ("fistpl %0" : "=m"(r) : "t"(x) : "st");
+   return r;
+ }
+
+inline int RoundHalfIntegerToEven(double  x)
+ {
+# ifdef VNL_CHECK_FPU_ROUNDING_MODE
+   assert( fegetround() == FE_TONEAREST );
+# endif
+   int r;
+   __asm__ __volatile__ ("fistpl %0" : "=m"(r) : "t"(x) : "st");
+   return r;
+ }
+
+#elif VC_USE_FAST_IMPL // Fast msvc asm implementation
+
+inline int RoundHalfIntegerToEven(float  x)
+ {
+   int r;
+   __asm {
+@@ -218,10 +228,7 @@
+   }
+   return r;
+ }
+
+inline int RoundHalfIntegerToEven(double  x)
+ {
+   int r;
+   __asm {
+@@ -230,59 +237,156 @@
+   }
+   return r;
+ }
+
+#else // Vanilla implementation
+
+inline int RoundHalfIntegerToEven(float  x)
+{
+  if (x>=0.f)
+    {
+    x += 0.5f;
+    const int r = static_cast<int>(x);
+    if ( x != static_cast<float>(r) ) 
+      {
+      return r;
+      }
+    return 2*(r/2);
+    }
+  else
+    {
+    x -= 0.5f;
+    const int r = static_cast<int>(x);
+    if ( x != static_cast<float>(r) ) 
+      {
+      return r;
+      }
+    return 2*(r/2);
+  }
+}
+
+inline int RoundHalfIntegerToEven(double x)
+{
+  if (x >= 0.0)
+    {
+    x += 0.5;
+    const int r = static_cast<int>(x);
+    if ( x != static_cast<double>(r) ) 
+      {
+      return r;
+      }
+    return 2*(r/2);
+    }
+  else
+    {
+    x -= 0.5;
+    const int r = static_cast<int>(x);
+    if ( x != static_cast<double>(r) ) 
+      {
+      return r;
+      }
+    return 2*(r/2);
+    }
+}
+
+#endif
+ 
+#else
+  // Resort to the previous vnl_math_rnd()
+  inline int Round(float  x) { return vnl_math_rnd(x); }
+  inline int Round(double  x) { return vnl_math_rnd(x); }
+#endif
+} // end namespace Math
+} // end namespace itk
+
+
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops unrolling
@@ -991,11 +1189,19 @@ private:
 // perfomed as part of the assignment, by using the DestinationElementType as
 // the casting type. 
 // Source and destination array types must have defined opearator[] in their API.
+#ifdef ITK_USE_PORTABLE_ROUND
+#define itkFoorLoopRoundingAndAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
+    for(unsigned int i=0;i < NumberOfIterations; ++i) \
+      { \
+      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::RoundHalfIntegerUp( SourceArray[i] ) ); \
+      }
+#else
 #define itkFoorLoopRoundingAndAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
     for(unsigned int i=0;i < NumberOfIterations; ++i) \
       { \
       DestinationArray[i] = static_cast< DestinationElementType >( vnl_math_rnd( SourceArray[i] ) ); \
       }
+#endif
 
 #endif
 // end of Template Meta Programming helper macros

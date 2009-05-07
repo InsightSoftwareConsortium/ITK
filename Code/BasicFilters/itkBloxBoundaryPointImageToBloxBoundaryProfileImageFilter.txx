@@ -26,11 +26,6 @@
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkCumulativeGaussianCostFunction.h"
 
-typedef vnl_matrix<double> MatrixType;
-typedef vnl_vector<double> VectorType;
-
-const double INV_SQRT_TWO_PI         = 0.398942280401; // 1/vcl_sqrt(2*pi)
-const double SQUARE_ROOT_OF_TWO      = 1.41421356237;  // vcl_sqrt(2)
 
 namespace itk
 {
@@ -89,10 +84,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     {
     m_Accumulator[binNumber] += weight * sourcePixelValue;
     m_Normalizer[binNumber] += weight;
-    return(1);
+    return 1;
     }
-  else
-    return(0);
+
+  return 0;
 }
 
 template< typename TSourceImage >
@@ -109,7 +104,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     for(unsigned int j = 0; j < m_NumberOfBins; ++j)
       {
       if(temp >= maximum)
+        {
         maximum = temp;
+        }
       }
     }
   return maximum;
@@ -128,7 +125,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     for(unsigned int j = 0; j < m_NumberOfBins; ++j)
       {
       if(temp <= minimum)
+        {
         minimum = temp;
+        }
       }
     }
   return minimum;
@@ -231,8 +230,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
     = dynamic_cast<SourceImageType*>(ProcessObject::GetInput(1));
   OutputImagePointer outputPtr = this->GetOutput(0);
 
+  typedef typename TSourceImage::RegionType  RegionType;
+
+  const RegionType bufferedRegion = outputPtr->GetRequestedRegion();
+
   // Allocate the output
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  outputPtr->SetBufferedRegion( bufferedRegion );
   outputPtr->Allocate();
 
   // Create an iterator to walk the boundary point image
@@ -243,10 +246,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
   // Count number of iterated boundary points
   unsigned int bpCount = 0;
 
-////////////////////////////////////////////////
-//////////OPTIMIZER INITIALIZATION//////////////
-////////////////////////////////////////////////
-
+  ////////////////////////////////////////////////
+  //////////OPTIMIZER INITIALIZATION//////////////
+  ////////////////////////////////////////////////
 
   // Iterate through the bp image (all pixels) and look for boundary profiles
   for ( bpIt.GoToBegin(); !bpIt.IsAtEnd(); ++bpIt)
@@ -351,10 +353,10 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
         int binNumber = (int) (vectorRatio * m_NumberOfBins);
         double binJitter = (vectorRatio * m_NumberOfBins) - binNumber;
 
-        typename TSourceImage::PixelType sourcePixelValue;
+        typedef typename TSourceImage::PixelType   SourcePixelType;
 
         // Get the value of the pixel
-        sourcePixelValue = sourcePtr->GetPixel(sfi.GetIndex());
+        const SourcePixelType sourcePixelValue = sfi.Get();
 
         // Gaussian Splat - Project Gaussian weighted pixel intensities along major axis of ellipsoid (sampling region)
         if(m_SplatMethod == 0)
@@ -416,7 +418,9 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
 
           PositionType optimalBoundaryLocation;
           for(unsigned int i = 0; i < NDimensions; i++)
+            {
             optimalBoundaryLocation[i] = boundaryProfile->GetOptimalBoundaryLocation()[i];
+            }
   
           // Figure out the data space coordinates of the optimal boundary location
           IndexType boundaryProfilePosition;
@@ -424,10 +428,20 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           // Transform optimal boundary location to an index
           outputPtr->TransformPhysicalPointToIndex(optimalBoundaryLocation, boundaryProfilePosition);
 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY 
+          if( bufferedRegion.IsInside( boundaryProfilePosition ) )
+            {
+            // Store the new boundary profile in the correct spot in output image
+            outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
+            m_NumBoundaryProfiles++;
+            }
+#else
           // Store the new boundary profile in the correct spot in output image
           outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
 
           m_NumBoundaryProfiles++;
+#endif
+
           }
         bpCount++;
         }

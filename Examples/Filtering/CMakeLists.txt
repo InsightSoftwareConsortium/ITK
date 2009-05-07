@@ -458,6 +458,16 @@ ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test5.png
         3
 )
+IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
+ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
+  --compare ${BASELINE}/ResampleImageFilter3Test1Extrapolation.png
+            ${TEMP}/ResampleImageFilter3Test1Extrapolation.png
+  ResampleImageFilter3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+        ${TEMP}/ResampleImageFilter3Test1Extrapolation.png
+        0
+)
+ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter3Test1.png
             ${TEMP}/ResampleImageFilter3Test1.png
@@ -466,6 +476,8 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter3Test1.png
         0
 )
+ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
+
 ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter4Test.png
             ${TEMP}/ResampleImageFilter4Test.png

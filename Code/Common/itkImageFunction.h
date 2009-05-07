@@ -127,6 +127,10 @@ public:
     const ContinuousIndexType & index ) const = 0;
 
   /** Check if an index is inside the image buffer.
+   * If ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on,
+   * we take into account the fact that each voxel has its
+   * center at the integer coordinate and extends half way
+   * to the next integer coordinate.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
   virtual bool IsInsideBuffer( const IndexType & index ) const
@@ -234,7 +238,8 @@ private:
 
 };
 
-} // end namespace itk
+}// end namespace itk
+
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_ImageFunction(_, EXPORT, x, y) namespace itk { \

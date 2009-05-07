@@ -129,7 +129,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
           inside = false;
           break;
           }
-        refIndex[j] = vnl_math_rnd(contindex[j]);
+        refIndex[j] = Math::Round(contindex[j]);
         }
 
       if( inside )
@@ -156,7 +156,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
                 targetIn = false;
                 break;
                 }
-              targetIndex[j] = vnl_math_rnd(contindex[j]);
+              targetIndex[j] = Math::Round(contindex[j]);
               }
 
             if( targetIn ) 

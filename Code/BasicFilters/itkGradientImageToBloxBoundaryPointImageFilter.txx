@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -55,7 +55,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     for( j = 0; j < Superclass::ImageDimension; j++ )
       {
       m_BloxResolution[j] = bloxResolution[j];
-      if( m_BloxResolution[j] < 1 ) 
+      if( m_BloxResolution[j] < 1 )
         {
         m_BloxResolution[j] = 1;
         }
@@ -80,7 +80,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     for( j = 0; j < NDimensions; j++ )
       {
       m_BloxResolution[j] = bloxResolution;
-      if( m_BloxResolution[j] < 1 ) 
+      if( m_BloxResolution[j] < 1 )
         {
         m_BloxResolution[j] = 1;
         }
@@ -94,32 +94,32 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
 {
   itkDebugMacro(<< "GradientImageToBloxBoundaryPointImageFilter::GenerateInputRequestedRegion() called");
-  
+
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  InputImagePointer  inputPtr =
     const_cast< TInputImage * >( this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
-  
+
   if ( !inputPtr || !outputPtr )
     {
     return;
     }
-  
+
   // we need to compute the input requested region (size and start index)
   const typename TOutputImage::SizeType& outputRequestedRegionSize
     = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType& outputRequestedRegionStartIndex
     = outputPtr->GetRequestedRegion().GetIndex();
-  
+
   typedef typename SizeType::SizeValueType    SizeValueType;
   typedef typename IndexType::IndexValueType  IndexValueType;
 
   SizeType  inputRequestedRegionSize;
   IndexType inputRequestedRegionStartIndex;
-  
+
   for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
     {
     inputRequestedRegionSize[i] =  static_cast<SizeValueType>(
@@ -127,11 +127,11 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     inputRequestedRegionStartIndex[i] =  static_cast<IndexValueType>(
       outputRequestedRegionStartIndex[i] * m_BloxResolution[i] );
     }
-  
+
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetSize( inputRequestedRegionSize );
   inputRequestedRegion.SetIndex( inputRequestedRegionStartIndex );
-  
+
   inputPtr->SetRequestedRegion( inputRequestedRegion );
 }
 
@@ -142,7 +142,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
-  
+
   // get pointers to the input and output
   InputImageConstPointer  inputPtr  = this->GetInput();
   OutputImagePointer      outputPtr = this->GetOutput();
@@ -151,15 +151,12 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     {
     return;
     }
-  
+
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  const typename TInputImage::SpacingType&
-    inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType&   inputSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType&  inputStartIndex
-    = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
+  const typename TInputImage::SizeType&   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType&  inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   typename TOutputImage::SpacingType outputSpacing;
   typedef typename SizeType::SizeValueType    SizeValueType;
@@ -167,29 +164,50 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 
   SizeType  outputSize;
   IndexType outputStartIndex;
-  
+
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
-    
     outputSpacing[i] = inputSpacing[i] * m_BloxResolution[i];
 
     outputSize[i] = static_cast<SizeValueType>(
       vcl_floor(static_cast<float>( inputSize[i] )/ m_BloxResolution[i]));
+
     if( outputSize[i] < 1 )
       {
       outputSize[i] = 1;
       }
-    
+
     outputStartIndex[i] = static_cast<IndexValueType>(
       vcl_ceil(static_cast<float>( inputStartIndex[i] ) / m_BloxResolution[i] ));
     }
-  
+
   outputPtr->SetSpacing( outputSpacing );
-  
+
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  // compute origin offset
+  // The physical center's of the input and output should be the same
+  ContinuousIndex<double, TOutputImage::ImageDimension> inputCenterIndex;
+  ContinuousIndex<double, TOutputImage::ImageDimension> outputCenterIndex;
+  for( unsigned int j = 0; j < TOutputImage::ImageDimension; j++ )
+    {
+    inputCenterIndex[j] = inputStartIndex[j] + (inputSize[j] - 1) / 2.0;
+    outputCenterIndex[j] = outputStartIndex[j] + (outputSize[j] - 1) / 2.0;
+    }
+
+  typename TOutputImage::PointType inputCenterPoint;
+  typename TOutputImage::PointType outputCenterPoint;
+  inputPtr->TransformContinuousIndexToPhysicalPoint(inputCenterIndex, inputCenterPoint);
+  outputPtr->TransformContinuousIndexToPhysicalPoint(outputCenterIndex, outputCenterPoint);
+
+  typename TOutputImage::PointType outputOrigin = outputPtr->GetOrigin();
+  outputOrigin = outputOrigin + (inputCenterPoint - outputCenterPoint);
+  outputPtr->SetOrigin(outputOrigin);
+#endif
+
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
-  
+
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
@@ -205,11 +223,14 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   OutputImagePointer      outputPtr = this->GetOutput(0);
 
   // Allocate the output
-  outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
+  typename TOutputImage::RegionType outputRequestedRegion = outputPtr->GetRequestedRegion();
+  outputPtr->SetBufferedRegion( outputRequestedRegion );
   outputPtr->Allocate();
 
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
+
   // Create a progress reporter
-  ProgressReporter progress(this, 0, inputPtr->GetRequestedRegion().GetNumberOfPixels());
+  ProgressReporter progress(this, 0, inputRequestedRegion.GetNumberOfPixels());
 
   // Position to figure out pixel location
   TPositionType inputPosition;
@@ -217,17 +238,15 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   // Create an iterator to walk the input image
   typedef ImageRegionConstIterator<TInputImage> TInputIterator;
 
-  TInputIterator inputIt = TInputIterator(inputPtr,
-                                          inputPtr->GetRequestedRegion() );
+  TInputIterator inputIt = TInputIterator(inputPtr, inputRequestedRegion );
 
   // Keep track of how many boundary points we found (for debugging)
   unsigned long int numBP = 0;
   unsigned long int numBPadded = 0;
 
   // Get the index of the pixel
-  typename TInputImage::IndexType inputIndex;
   IndexType bloxIndex;
-  
+
   for ( inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
     // Figure out the magnitude of the gradient
@@ -235,7 +254,8 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 
     for(unsigned int i = 0; i < NDimensions; i++)
       {
-      mag += inputIt.Get()[i] * inputIt.Get()[i];
+      const double component = inputIt.Get()[i];
+      mag += component * component;
       }
 
     mag = vcl_sqrt(mag);
@@ -246,7 +266,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       numBP++;
 
       // Get the index of the boundary pixel
-      inputIndex = inputIt.GetIndex();
+      const typename TInputImage::IndexType & inputIndex = inputIt.GetIndex();
 
       // Convert the index of the input pixel to the physical location of the
       // boundary point in the input image
@@ -255,12 +275,26 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       // Transform the physical location to a blox index
       outputPtr->TransformPhysicalPointToIndex(inputPosition, bloxIndex);
 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+      // check if it is inside of the output image.
+      if( outputRequestedRegion.IsInside( bloxIndex )  )
+        {
+        // Create a new boundary point item and set its parameters
+        BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
+        pItem->SetPhysicalPosition(inputPosition);
+        pItem->SetGradient( inputIt.Get() );
+
+        outputPtr->GetPixel(bloxIndex).push_back(pItem);
+        }
+#else
       // Create a new boundary point item and set its parameters
       BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
       pItem->SetPhysicalPosition(inputPosition);
       pItem->SetGradient( inputIt.Get() );
 
       outputPtr->GetPixel(bloxIndex).push_back(pItem);
+#endif
+
       numBPadded++;
       }
 
@@ -268,7 +302,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
     }
 
   outputPtr->SetNumBoundaryPoints(numBP);
- 
+
   itkDebugMacro(<< "Finished looking for boundary points\n"
                 << "I found " << numBP << " points\n"
                 << "I added " << numBPadded << " points\n");
@@ -280,7 +314,7 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  
+
   os << indent << "Threshold level: " << m_Threshold << std::endl;
 }
 
