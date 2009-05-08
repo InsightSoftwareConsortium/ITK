@@ -146,7 +146,7 @@ public:
    * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
    * subsequent levels.  The number of levels is clamped to a minimum value
    * of 1.  All shrink factors are also clamped to a minimum value of 1. */
-  void SetNumberOfLevels(unsigned int num);
+  virtual void SetNumberOfLevels(unsigned int num);
 
   /** Get the number of multi-resolution levels. */
   itkGetConstMacro(NumberOfLevels, unsigned int);
@@ -157,7 +157,7 @@ public:
    * subsequent levels. This function will clamp shrink factors to satisify
    * this condition.  All shrink factors less than one will also be clamped
    * to the value of 1. */
-  void SetSchedule( const ScheduleType& schedule );
+  virtual void SetSchedule( const ScheduleType& schedule );
 
   /** Get the multi-resolution schedule. */
   itkGetConstReferenceMacro(Schedule, ScheduleType);
@@ -166,8 +166,8 @@ public:
    * level. The schedule is then populated with defaults values obtained by
    * halving the factors at the previous level.  All shrink factors are
    * clamped to a minimum value of 1. */
-  void SetStartingShrinkFactors( unsigned int factor );
-  void SetStartingShrinkFactors( unsigned int* factors );
+  virtual void SetStartingShrinkFactors( unsigned int factor );
+  virtual void SetStartingShrinkFactors( unsigned int* factors );
 
   /** Get the starting shrink factors */
   const unsigned int * GetStartingShrinkFactors() const;
