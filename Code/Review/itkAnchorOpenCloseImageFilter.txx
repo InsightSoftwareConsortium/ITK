@@ -194,16 +194,25 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
              const InputImageRegionType face)
 {
   // iterate over the face
-  typedef ImageRegionConstIteratorWithIndex<InputImageType> ItType;
-  ItType it(input, face);
-  it.GoToBegin();
+  
+  // we can't use an iterator with a region outside the image. All we need here is to
+  // iterate over all the indexes of the face, without accessing the content of the image.
+  // I can't find any cleaner way, so we use a dumb image, not even allocated, to iterate
+  // over all the indexes inside the region.
+  //
+  // typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
+  // ItType it(input, face);
+
+  typename TImage::Pointer dumbImg = TImage::New();
+  dumbImg->SetRegions( face );
+
   KernelLType NormLine = line;
   NormLine.Normalize();
   // set a generous tolerance
   float tol = 1.0/LineOffsets.size();
-  while (!it.IsAtEnd()) 
+  for( unsigned int it=0; it<face.GetNumberOfPixels(); it++ ) 
     {
-    typename TImage::IndexType Ind = it.GetIndex();
+    typename TImage::IndexType Ind = dumbImg->ComputeIndex( it );
     unsigned start, end, len;
     if (FillLineBuffer<TImage, BresType, KernelLType>(input,
                                                       Ind,
@@ -223,7 +232,6 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
       AnchorLineOpen.DoLine(outbuffer,len+2);  // compat
       CopyLineToImage<TImage, BresType>(output, Ind, LineOffsets, outbuffer, start, end);
       }
-    ++it;
     }
 }
 

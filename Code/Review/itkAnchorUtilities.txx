@@ -98,16 +98,25 @@ void DoAnchorFace(const TImage * input,
             const typename TImage::RegionType face)
 {
   // iterate over the face
-  typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
-  ItType it(input, face);
-  it.GoToBegin();
+  
+  // we can't use an iterator with a region outside the image. All we need here is to
+  // iterate over all the indexes of the face, without accessing the content of the image.
+  // I can't find any cleaner way, so we use a dumb image, not even allocated, to iterate
+  // over all the indexes inside the region.
+  //
+  // typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
+  // ItType it(input, face);
+
+  typename TImage::Pointer dumbImg = TImage::New();
+  dumbImg->SetRegions( face );
+
   TLine NormLine = line;
   NormLine.Normalize();
   // set a generous tolerance
   float tol = 1.0/LineOffsets.size();
-  while (!it.IsAtEnd()) 
+  for( unsigned int it=0; it<face.GetNumberOfPixels(); it++ ) 
     {
-    typename TImage::IndexType Ind = it.GetIndex();
+    typename TImage::IndexType Ind = dumbImg->ComputeIndex( it );
     unsigned start, end, len;
     if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, 
                                              AllImage, inbuffer, start, end))
@@ -125,7 +134,6 @@ void DoAnchorFace(const TImage * input,
       CopyLineToImage<TImage, TBres>(output, Ind, LineOffsets, inbuffer, start, end);
 #endif
       }
-    ++it;
     }
 
 }
