@@ -36,7 +36,7 @@ HistogramToTextureFeaturesFilter( void )
   // just decorators real types
   for (int i=0; i < 8; ++i)
     {
-    this->ProcessObject::SetNthOutput( i, this->MakeOutput() );
+    this->ProcessObject::SetNthOutput( i, this->MakeOutput(i) );
     }
 }
 
@@ -69,7 +69,7 @@ template<class THistogram>
 typename
 HistogramToTextureFeaturesFilter<THistogram>::DataObjectPointer
 HistogramToTextureFeaturesFilter<THistogram>
-::MakeOutput( void )
+::MakeOutput( unsigned int itkNotUsed( idx ) )
 {
   return static_cast<DataObject*>(MeasurementObjectType::New().GetPointer());
 }

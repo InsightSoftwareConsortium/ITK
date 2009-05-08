@@ -164,7 +164,7 @@ public:
   InstanceIdentifier Size() const;
 
   /** Get frequency */
-  AbsoluteFrequencyType GetFrequency(const InstanceIdentifier &id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
 
   /** Get total frequency */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
@@ -188,7 +188,7 @@ public:
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
-  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const; 
+  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier id) const; 
 
   /** Method to set UsePixelContainer flag */
   itkSetMacro( UsePixelContainer, bool );

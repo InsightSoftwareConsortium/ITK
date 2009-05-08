@@ -94,10 +94,10 @@ public:
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
+  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier id ) const;
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  AbsoluteFrequencyType GetFrequency(const InstanceIdentifier &id) const;
+  AbsoluteFrequencyType GetFrequency( InstanceIdentifier id ) const;
 
   /** returns the size of this container */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;

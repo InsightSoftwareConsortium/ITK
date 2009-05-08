@@ -33,7 +33,7 @@ ScalarImageToTextureFeaturesFilter()
 
   for (int i=0; i < 2; ++i)
     {
-    this->ProcessObject::SetNthOutput( i, this->MakeOutput() );
+    this->ProcessObject::SetNthOutput( i, this->MakeOutput( i ) );
     }
 
   m_GLCMGenerator = CooccurrenceMatrixFilterType::New();
@@ -79,7 +79,7 @@ template< class TImage, class THistogramFrequencyContainer >
 typename
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer > ::DataObjectPointer
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >
-::MakeOutput( void )
+::MakeOutput( unsigned int itkNotUsed( idx ) )
 {
   return static_cast<DataObject*>(FeatureValueVectorDataObjectType::New().GetPointer());
 }

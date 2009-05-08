@@ -208,7 +208,7 @@ protected:
   virtual void GenerateData();
 
   /** Make a DataObject to be used for output output. */
-  virtual DataObjectPointer MakeOutput();
+  virtual DataObjectPointer MakeOutput( unsigned int );
      
 private:
   typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator;

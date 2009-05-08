@@ -88,7 +88,7 @@ PointSetToListSampleAdaptor< TPointSet >
 template < class TPointSet >
 inline const typename PointSetToListSampleAdaptor< TPointSet >::MeasurementVectorType & 
 PointSetToListSampleAdaptor< TPointSet >
-::GetMeasurementVector(const InstanceIdentifier &id) const
+::GetMeasurementVector( InstanceIdentifier id ) const
 {
   if( m_PointSet.IsNull() )
     {
@@ -102,7 +102,7 @@ PointSetToListSampleAdaptor< TPointSet >
 template < class TPointSet >
 inline typename PointSetToListSampleAdaptor< TPointSet >::AbsoluteFrequencyType
 PointSetToListSampleAdaptor< TPointSet >
-::GetFrequency(const InstanceIdentifier &) const 
+::GetFrequency( InstanceIdentifier ) const 
 {
   if( m_PointSet.IsNull() )
     {

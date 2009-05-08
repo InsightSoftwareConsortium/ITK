@@ -194,7 +194,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Make a DataObject to be used for output output. */
-  virtual DataObjectPointer MakeOutput();
+  virtual DataObjectPointer MakeOutput( unsigned int );
 
 
   void GenerateData();

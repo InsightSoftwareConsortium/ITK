@@ -48,7 +48,7 @@ JointDomainImageToListSampleAdaptor< TImage>
 template < class TImage>
 inline typename JointDomainImageToListSampleAdaptor< TImage>::AbsoluteFrequencyType
 JointDomainImageToListSampleAdaptor< TImage>
-::GetFrequency(const InstanceIdentifier &) const 
+::GetFrequency( InstanceIdentifier ) const 
 {
   if( m_Image.IsNull() )
     {
@@ -131,7 +131,7 @@ JointDomainImageToListSampleAdaptor< TImage >
 template < class TImage >
 const typename JointDomainImageToListSampleAdaptor< TImage >::MeasurementVectorType &
 JointDomainImageToListSampleAdaptor< TImage >
-::GetMeasurementVector(const InstanceIdentifier &id) const
+::GetMeasurementVector(InstanceIdentifier id) const
 {
   m_TempIndex = this->GetImage()->ComputeIndex( id );
   

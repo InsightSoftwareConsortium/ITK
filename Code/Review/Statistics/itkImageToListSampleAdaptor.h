@@ -102,10 +102,10 @@ public:
   InstanceIdentifier Size() const;
 
   /** method to return measurement vector for a specified id */
-  virtual const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier &id) const;
+  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
 
   /** method to return frequency for a specified id */
-  AbsoluteFrequencyType GetFrequency(const InstanceIdentifier &id) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier  id) const;
 
   /** method to return the total frequency */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;

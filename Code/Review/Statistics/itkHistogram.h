@@ -471,6 +471,10 @@ private:
   FrequencyContainerPointer                   m_FrequencyContainer;
   unsigned int                                m_NumberOfInstances;
 
+  // This method is provided here just to avoid a "hidden" warning 
+  // related to the virtual method available in DataObject.
+  virtual void Initialize() {};
+
   // lower bound of each bin
   std::vector< std::vector<MeasurementType> > m_Min;
 

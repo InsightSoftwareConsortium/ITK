@@ -17,6 +17,8 @@
 #ifndef __itkImageToListSampleAdaptor_txx
 #define __itkImageToListSampleAdaptor_txx
 
+#include "itkImageToListSampleAdaptor.h"
+
 namespace itk { 
 namespace Statistics {
 
@@ -31,7 +33,7 @@ ImageToListSampleAdaptor< TImage>
 template < class TImage>
 const typename ImageToListSampleAdaptor< TImage >::MeasurementVectorType&
 ImageToListSampleAdaptor< TImage>
-::GetMeasurementVector(const InstanceIdentifier &id) const 
+::GetMeasurementVector(InstanceIdentifier id) const 
 {
   if( m_Image.IsNull() )
     {
@@ -69,7 +71,7 @@ ImageToListSampleAdaptor< TImage>
 template < class TImage>
 inline typename ImageToListSampleAdaptor< TImage>::AbsoluteFrequencyType
 ImageToListSampleAdaptor< TImage>
-::GetFrequency(const InstanceIdentifier &) const 
+::GetFrequency( InstanceIdentifier ) const 
 {
   if( m_Image.IsNull() )
     {
