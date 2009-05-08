@@ -28,7 +28,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 
 //Test if the SampleClassifier filter labels observations correctly
-int itkSampleClassifierFilterTest2(int argc, char *argv[] )
+int itkSampleClassifierFilterTest2( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 1;

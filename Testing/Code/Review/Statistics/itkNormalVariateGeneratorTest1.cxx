@@ -22,7 +22,7 @@
 #include "itkFixedArray.h"
 #include "itkNormalVariateGenerator.h"
 
-int itkNormalVariateGeneratorTest1(int argc, char* argv[] ) 
+int itkNormalVariateGeneratorTest1( int, char * [] ) 
 {
   typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
 

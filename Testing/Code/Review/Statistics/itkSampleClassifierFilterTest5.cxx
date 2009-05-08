@@ -30,7 +30,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 
 //run sample classifer using itk::VariableLengthVector type measurment vector
-int itkSampleClassifierFilterTest5(int argc, char *argv[] )
+int itkSampleClassifierFilterTest5( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 1;

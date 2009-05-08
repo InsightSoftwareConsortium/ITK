@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkListSample.h"
 #include "itkStatisticsAlgorithm.h"
 
-int itkStatisticsAlgorithmTest(int argc, char *argv[] ) 
+int itkStatisticsAlgorithmTest( int, char * [] ) 
 {
   std::cout << "StatisticsAlgorithm Test \n \n"; 
 

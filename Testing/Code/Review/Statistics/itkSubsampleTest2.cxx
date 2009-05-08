@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkListSample.h"
 #include "itkSubsample.h"
 
-int itkSubsampleTest2(int argc, char *argv[] ) 
+int itkSubsampleTest2( int, char * [] ) 
 {
   std::cout << "Subsample Test \n \n"; 
     

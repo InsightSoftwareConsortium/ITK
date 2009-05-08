@@ -84,7 +84,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType& input ) const 
+  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const 
     {
     MeasurementVectorType measurements;
     // set the weight factor of the measurment 

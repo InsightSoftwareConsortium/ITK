@@ -42,14 +42,14 @@ public:
   itkNewMacro(Self);
  
   /** Evaluate membership score */
-  double Evaluate(const TMeasurementVector &x) const
+  double Evaluate(const TMeasurementVector & ) const
     {
     double score;
     score = 1;
     return score;
     } 
 
-  double Evaluate(const TMeasurementVector &x, const TMeasurementVector &y) const
+  double Evaluate(const TMeasurementVector &, const TMeasurementVector & ) const
     {
     double score;
     score = 1;

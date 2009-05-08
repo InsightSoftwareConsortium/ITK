@@ -33,7 +33,7 @@ PURPOSE.  See the above copyright notices for more information.
 // ADD MinimumDecisionRule
 // Run that classification.  
 
-int itkSampleClassifierFilterTest1(int argc, char *argv[] )
+int itkSampleClassifierFilterTest1( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 3;

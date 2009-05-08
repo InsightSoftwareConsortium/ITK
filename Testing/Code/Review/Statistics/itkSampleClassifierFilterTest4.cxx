@@ -30,7 +30,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 
 //run sample classifer using itk::FixedArray type measurment vector
-int itkSampleClassifierFilterTest4(int argc, char *argv[] )
+int itkSampleClassifierFilterTest4( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 1;

@@ -27,7 +27,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkVector.h"
 #include "itkPointSetToListSampleAdaptor.h"
 
-int itkPointSetToListSampleAdaptorTest(int argc, char* argv[] )
+int itkPointSetToListSampleAdaptorTest( int, char * [] )
 {
   typedef itk::PointSet< double, 3 >                                   PointSetType;
   typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType > PointSetToListSampleAdaptorType;

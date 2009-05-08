@@ -23,7 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
 
-int itkSampleToHistogramFilterTest2(int argc, char *argv[] )
+int itkSampleToHistogramFilterTest2( int , char * [] )
 {
 
   const unsigned int numberOfComponents = 3;
