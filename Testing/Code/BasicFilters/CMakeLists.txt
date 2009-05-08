@@ -387,6 +387,9 @@ ADD_TEST(itkConfidenceConnectedImageFilterTest ${BASIC_FILTERS_TESTS}
              ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
              165 165)
 
+ADD_TEST(itkConnectedComponentImageFilterTooManyObjectsTest ${BASIC_FILTERS_TESTS}
+  itkConnectedComponentImageFilterTooManyObjectsTest)
+
 ADD_TEST(itkConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png
             ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
@@ -1025,6 +1028,7 @@ itkCompose2DVectorImageFilterTest.cxx
 itkCompose3DVectorImageFilterTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
 itkConnectedComponentImageFilterTest.cxx
+itkConnectedComponentImageFilterTooManyObjectsTest.cxx
 itkConnectedComponentImageFilterTestRGB.cxx
 itkConnectedThresholdImageFilterTest.cxx
 itkConstantPadImageTest.cxx
