@@ -265,15 +265,12 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       {
       numBP++;
 
-      // Get the index of the boundary pixel
-      const typename TInputImage::IndexType & inputIndex = inputIt.GetIndex();
-
       // Convert the index of the input pixel to the physical location of the
       // boundary point in the input image
-      inputPtr->TransformIndexToPhysicalPoint(inputIndex, inputPosition);
+      inputPtr->TransformIndexToPhysicalPoint( inputIt.GetIndex(), inputPosition );
 
       // Transform the physical location to a blox index
-      outputPtr->TransformPhysicalPointToIndex(inputPosition, bloxIndex);
+      outputPtr->TransformPhysicalPointToIndex( inputPosition, bloxIndex );
 
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       // check if it is inside of the output image.
