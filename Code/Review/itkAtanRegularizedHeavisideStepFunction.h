@@ -77,7 +77,7 @@ public:
   virtual OutputType EvaluateDerivative( const InputType& input ) const
     {
     const RealType t = ( input * this->GetOneOverEpsilon() );
-    return static_cast< OutputType>( vnl_math::one_over_pi * (1.0 + t * t ) );
+    return static_cast< OutputType>( vnl_math::one_over_pi / (1.0 + t * t ) );
     }
 
 protected:
