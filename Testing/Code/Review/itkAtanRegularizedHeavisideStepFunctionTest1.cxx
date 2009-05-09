@@ -38,6 +38,9 @@ int itkAtanRegularizedHeavisideStepFunctionTest1( int, char* [] )
   functionBase0->SetEpsilon( epsilon1 );
   TEST_SET_GET_VALUE( epsilon1, functionBase0->GetEpsilon() );
   
+  const double epsilon2 = 0.5;
+  functionBase0->SetEpsilon( epsilon2 );
+
   const signed int minValue = -20;
   const signed int maxValue =  20;
 
