@@ -83,23 +83,15 @@ ImageConstIteratorWithIndex<TImage>
   m_Region            = region;
 
 #ifdef ITK_USE_REGION_VALIDATION_IN_ITERATORS
-  const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
+  if( region.GetNumberOfPixels() > 0 ) // If region is non-empty
+    {
+    const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
 
-  //Don't want to generate an exception if the region is null. 
-  bool nullRegion = false; 
-  for ( int i=0; i<ImageDimension; i++)
-    {
-    if ( m_Region.GetSize()[i] == 0 )
+    if( !bufferedRegion.IsInside( m_Region ) )
       {
-      nullRegion= true;
-      break; 
+      itkGenericExceptionMacro("Region " << m_Region 
+        << " is outside of buffered region " << bufferedRegion );
       }
-    }
-    
-  if( ( ! nullRegion ) && ( ! bufferedRegion.IsInside( m_Region ) ) )
-    {
-    itkGenericExceptionMacro("Region " << m_Region 
-      << " is outside of buffered region " << bufferedRegion );
     }
 #endif
 
