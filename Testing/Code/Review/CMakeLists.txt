@@ -22,6 +22,8 @@ SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 INCLUDE_DIRECTORIES(
   # This directory is needed to find the itkFilterWatcher.h
   ${ITK_SOURCE_DIR}/Testing/Code/Algorithms
+  # This directory is needed to find the itkTestingMacros.h
+  ${ITK_SOURCE_DIR}/Testing/Code/Review
   )
 
 #
