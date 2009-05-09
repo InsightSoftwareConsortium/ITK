@@ -26,6 +26,7 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
 
   REGISTER_TEST(itkDirectFourierReconstructionImageToImageFilterTest);
+  REGISTER_TEST(itkHeavisideStepFunctionTest1);
   REGISTER_TEST(itkQuadEdgeMeshCleanFilterTest);
   REGISTER_TEST(itkQuadEdgem_NoPointTest);
   REGISTER_TEST(itkQuadEdgeTest1);
@@ -71,5 +72,7 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshNormalFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
   REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
+  REGISTER_TEST(itkAtanRegularizedHeavisideStepFunctionTest1);
   REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
+  REGISTER_TEST(itkSinRegularizedHeavisideStepFunctionTest1);
 }

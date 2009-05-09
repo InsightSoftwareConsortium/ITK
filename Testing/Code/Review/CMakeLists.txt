@@ -143,6 +143,7 @@ SET(ReviewTest_SRCS
 
 SET(ReviewTest2_SRCS
   itkDirectFourierReconstructionImageToImageFilterTest.cxx
+  itkHeavisideStepFunctionTest1.cxx
   itkQuadEdgem_NoPointTest.cxx
   itkQuadEdgeTest1.cxx
   itkGeometricalQuadEdgeTest1.cxx
@@ -188,7 +189,9 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshNormalFilterTest.cxx
   itkQuadEdgeMeshSmoothingTest.cxx
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
+  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
+  itkSinRegularizedHeavisideStepFunctionTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -426,6 +429,18 @@ ADD_TEST(itkLabelToRGBImageFilterTest ${REVIEW_TESTS}
 ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS2}
                                   itkContourExtractor2DImageFilterTest
                                   ${INPUTDATA}/ContourExtractor2DTest.tif  )
+
+ADD_TEST(itkHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+  itkHeavisideStepFunctionTest1
+  )
+
+ADD_TEST(itkAtanRegularizedHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+  itkAtanRegularizedHeavisideStepFunctionTest1
+  )
+
+ADD_TEST(itkSinRegularizedHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
+  itkSinRegularizedHeavisideStepFunctionTest1
+  )
 
 ADD_TEST(itkStochasticFractalDimensionImageFilterTest1 ${REVIEW_TESTS2}
   --compare ${BASELINE}/itkStochasticFractalDimensionImageFilterTest1.mha
