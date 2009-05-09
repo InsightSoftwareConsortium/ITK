@@ -82,8 +82,9 @@ public:
         }
       else
         {
-        RealType t = input * this->GetOneOverEpsilon();
-        return 0.5 + ( t + vcl_sin( vnl_math::pi * input ) * vnl_math::one_over_pi );
+        const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
+        const RealType angle = input * angleFactor;
+        return 0.5 * ( 1.0 + vcl_sin( angle ) );
         }
       }
     }
@@ -97,8 +98,9 @@ public:
       }
     else
       {
-      const RealType angle = vnl_math::pi * input * this->GetOneOverEpsilon();
-      return 0.5 * this->GetOneOverEpsilon() * ( 1.0 + vcl_cos( angle  ) );
+      const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
+      const RealType angle = input * angleFactor;
+      return 0.5 * angleFactor * vcl_cos( angle );
       }
     }
 
