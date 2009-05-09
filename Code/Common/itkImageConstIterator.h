@@ -21,6 +21,7 @@
 #include "itkIndex.h"
 #include "itkSize.h"
 #include "itkOffset.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -176,7 +177,18 @@ public:
 #ifdef ITK_USE_REGION_VALIDATION_IN_ITERATORS
     const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
 
-    if( ! bufferedRegion.IsInside( m_Region ) )
+    //Don't want to generate an exception if the region is null. 
+    bool nullRegion = false; 
+    for ( int i=0; i<ImageIteratorDimension; i++)
+      {
+      if ( m_Region.GetSize()[i] == 0 )
+        {
+        nullRegion= true;
+        break; 
+        }
+      }
+    
+    if( ( ! nullRegion ) && ( ! bufferedRegion.IsInside( m_Region ) ) )
       {
       itkGenericExceptionMacro("Region " << m_Region 
         << " is outside of buffered region " << bufferedRegion );
