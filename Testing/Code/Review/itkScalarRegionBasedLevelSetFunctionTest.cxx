@@ -51,20 +51,20 @@ public:
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
   
 
-  virtual ScalarValueType computeInternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& fId ) 
+  virtual ScalarValueType computeInternalTerm(const FeaturePixelType &,
+    const FeatureIndexType &, const unsigned int & ) 
     {
     return ScalarValueType( 0 );
     }
 
-  virtual ScalarValueType computeExternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& pr ) 
+  virtual ScalarValueType computeExternalTerm(const FeaturePixelType &,
+    const FeatureIndexType &, const unsigned int & ) 
     {
     return ScalarValueType( 0 );
     }
 
-  virtual void computeOverlapParameters( const FeatureIndexType featIndex,
-    unsigned int& s, unsigned int& pr ) {}
+  virtual void computeOverlapParameters( const FeatureIndexType,
+    unsigned int &, unsigned int & ) {}
 
   virtual void ComputeParameters() {}
 
@@ -97,7 +97,7 @@ public:
   
   typedef Index< NDimension >                 IndexType;
 
-  IndexType GetFeatureIndex( unsigned int functionId, const IndexType & indx )
+  IndexType GetFeatureIndex( unsigned int itkNotUsed(functionId), const IndexType & indx )
     {
     return indx;
     }
@@ -108,7 +108,7 @@ public:
 
   typename ImageType::Pointer   m_LImage;
 
-  IndexType GetIndex( unsigned int id, const IndexType & globalIndex )
+  IndexType GetIndex( unsigned int itkNotUsed( functionId ), const IndexType & globalIndex )
     {
     return globalIndex;
     }
