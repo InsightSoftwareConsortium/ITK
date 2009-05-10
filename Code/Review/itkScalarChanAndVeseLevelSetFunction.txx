@@ -44,7 +44,7 @@ computeInternalTerm( const FeaturePixelType& iValue,
 {
   const ScalarValueType cVals = this->m_SharedData->m_CVals[fId];
   const ScalarValueType t = ( iValue - cVals );
-  return this->m_Lambda1 * t * t;
+  return t * t;
 }
 
 
