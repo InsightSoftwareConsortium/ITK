@@ -144,6 +144,8 @@ SET(ReviewTest_SRCS
 SET(ReviewTest2_SRCS
   itkDirectFourierReconstructionImageToImageFilterTest.cxx
   itkHeavisideStepFunctionTest1.cxx
+  itkMultiphaseFiniteDifferenceImageFilterTest.cxx 
+  itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
   itkQuadEdgem_NoPointTest.cxx
   itkQuadEdgeTest1.cxx
   itkGeometricalQuadEdgeTest1.cxx
@@ -444,6 +446,10 @@ ADD_TEST(itkContourExtractor2DImageFilterTest ${REVIEW_TESTS2}
 
 ADD_TEST(itkHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
   itkHeavisideStepFunctionTest1
+  )
+
+ADD_TEST(itkMultiphaseFiniteDifferenceImageFilterTest ${REVIEW_TESTS2}
+  itkMultiphaseFiniteDifferenceImageFilterTest
   )
 
 ADD_TEST(itkAtanRegularizedHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
