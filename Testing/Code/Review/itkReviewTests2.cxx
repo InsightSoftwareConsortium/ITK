@@ -73,6 +73,8 @@ void RegisterTests()
   REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
   REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
   REGISTER_TEST(itkAtanRegularizedHeavisideStepFunctionTest1);
+  REGISTER_TEST(itkRegionBasedLevelSetFunctionTest);
+  REGISTER_TEST(itkScalarRegionBasedLevelSetFunctionTest);
   REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
   REGISTER_TEST(itkSinRegularizedHeavisideStepFunctionTest1);
 }

@@ -190,6 +190,8 @@ SET(ReviewTest2_SRCS
   itkQuadEdgeMeshSmoothingTest.cxx
   itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
+  itkRegionBasedLevelSetFunctionTest.cxx
+  itkScalarRegionBasedLevelSetFunctionTest.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
 )
@@ -318,6 +320,10 @@ ADD_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
 ADD_TEST(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
   itkRegularSphereQuadEdgeMeshSourceTest
   ${TEMP}/itkRegularSphereQuadEdgeMeshSourceTest.vtk)
+ADD_TEST(itkRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
+  itkRegionBasedLevelSetFunctionTest)
+ADD_TEST(itkScalarRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
+  itkScalarRegionBasedLevelSetFunctionTest)
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
 ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
