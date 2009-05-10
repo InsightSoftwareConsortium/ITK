@@ -67,7 +67,10 @@ ChiSquareDistribution
 {
   if (m_Parameters.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return static_cast<long>(m_Parameters[0]);
 }
@@ -96,7 +99,10 @@ ChiSquareDistribution
 {
   if (p.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::PDF(x, static_cast<long>(p[0]));
 }
@@ -126,7 +132,10 @@ ChiSquareDistribution
 {
   if (p.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::CDF(x, (long) p[0]);
 }
@@ -204,7 +213,10 @@ ChiSquareDistribution
 {
   if( params.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::InverseCDF(p, static_cast<long>(params[0]));
 }
@@ -215,7 +227,10 @@ ChiSquareDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::PDF(x, static_cast<long>(m_Parameters[0]));
 }
@@ -226,7 +241,10 @@ ChiSquareDistribution
 {
   if( p.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::PDF(x, static_cast<long>(p[0]));
 }
@@ -245,7 +263,10 @@ ChiSquareDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::CDF(x, static_cast<long>(m_Parameters[0]));
 }
@@ -256,7 +277,10 @@ ChiSquareDistribution
 {
   if( p.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::CDF(x, static_cast<long>(p[0]));
 }
@@ -275,7 +299,10 @@ ChiSquareDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::InverseCDF(p, static_cast<long>(m_Parameters[0]));
 }
@@ -286,7 +313,10 @@ ChiSquareDistribution
 {
   if( params.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
   return ChiSquareDistribution::InverseCDF(p, static_cast<long>(params[0]));
 }
@@ -305,7 +335,10 @@ ChiSquareDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return m_Parameters[0];
 }
@@ -316,7 +349,10 @@ ChiSquareDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return 2.0 * m_Parameters[0];
 }

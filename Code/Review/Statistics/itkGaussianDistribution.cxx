@@ -38,7 +38,10 @@ GaussianDistribution
 {
   if (m_Parameters.GetSize() != 2)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return m_Parameters[0];
 }
@@ -99,7 +102,10 @@ GaussianDistribution
 {
   if (m_Parameters.GetSize() != 2)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return m_Parameters[1];
 }
@@ -187,7 +193,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
 }
 
@@ -216,7 +225,10 @@ GaussianDistribution
 {
   if (p.GetSize() != 2)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
   return GaussianDistribution::CDF(x, p[0], p[1]);
 }
@@ -306,7 +318,10 @@ GaussianDistribution
 
   if (params.GetSize() != 2)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << params.size()
+      << " parameters.");
     }
   return GaussianDistribution::InverseCDF(p, params[0], params[1]);
 }
@@ -326,7 +341,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -345,7 +363,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
 }
 
@@ -377,7 +398,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -396,8 +420,11 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
-    }
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
+   }
 }
 
 double
@@ -428,7 +455,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -447,7 +477,10 @@ GaussianDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << params.size()
+      << " parameters.");
     }
 }
 

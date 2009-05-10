@@ -67,7 +67,10 @@ TDistribution
 {
   if (m_Parameters.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return static_cast<long>(m_Parameters[0]);
 }
@@ -93,7 +96,10 @@ TDistribution
 {
   if( p.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return TDistribution::PDF(x, static_cast<long>(p[0]));
 }
@@ -152,7 +158,10 @@ TDistribution
 {
   if (p.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return TDistribution::CDF(x, static_cast<long>(p[0]));
 }
@@ -239,7 +248,10 @@ TDistribution
 {
   if( params.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
   return TDistribution::InverseCDF(p, static_cast<long>(params[0]));
 }
@@ -251,7 +263,10 @@ TDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return TDistribution::PDF(x, static_cast<long>(m_Parameters[0]));
 }
@@ -262,7 +277,10 @@ TDistribution
 {
   if (p.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return TDistribution::PDF(x, static_cast<long>(p[0]));
 }
@@ -281,7 +299,10 @@ TDistribution
 {
   if( m_Parameters.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return TDistribution::CDF(x, static_cast<long>(m_Parameters[0]));
 }
@@ -292,7 +313,10 @@ TDistribution
 {
   if( p.GetSize() != 1 )
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
   return TDistribution::CDF(x, static_cast<long>(p[0]));
 }
@@ -311,7 +335,10 @@ TDistribution
 {
   if (m_Parameters.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   return TDistribution::InverseCDF(p, static_cast<long>(m_Parameters[0]));
 }
@@ -322,7 +349,10 @@ TDistribution
 {
   if (params.GetSize() != 1)
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
   return TDistribution::InverseCDF(p, static_cast<long>(params[0]));
 }
@@ -347,7 +377,10 @@ TDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 
   return false;
@@ -379,7 +412,10 @@ TDistribution
     }
   else
     {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution.");
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
   
   return NumericTraits<double>::quiet_NaN();
