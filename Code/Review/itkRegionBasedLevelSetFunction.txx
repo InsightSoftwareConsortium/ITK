@@ -377,9 +377,11 @@ const InputIndexType& inputIndex )
     computeOverlapParameters( featIndex, s, pr );
     }
 
-  ScalarValueType inTerm = s->m_Lambda1 * this->computeInternalTerm( featureVal, featIndex, fId );
+  ScalarValueType inTerm = this->m_Lambda1 * this->computeInternalTerm( featureVal, featIndex, fId );
   ScalarValueType outTerm = this->m_Lambda2 * this->computeExternalTerm( featureVal, featIndex, pr );
+
   overlapTerm = this->computeOverlapTerm( s );
+
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
     ( this->m_SharedData->m_CDens[fId] - this->m_Volume );
 
