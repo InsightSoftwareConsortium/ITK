@@ -99,7 +99,7 @@ public:
   itkSetMacro( NumberOfSamples, double );
 
   /** Method to get the number of samples */
-  itkGetMacro( NumberOfSamples, double );
+  itkGetConstMacro( NumberOfSamples, double );
 
   /**
    * Method to get probability of an instance. The return value is the
