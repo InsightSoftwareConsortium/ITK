@@ -45,7 +45,7 @@ RegionBasedLevelSetFunction< TInput,
   m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
 }
 
-/* Computes the Heaviside function and stores it in hVals */
+/* Computes the Heaviside function and stores it in m_HeavisideFunctionOfLevelSetImage */
 template < class TInput,
   class TFeature,
   class TSharedData >
@@ -54,7 +54,7 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
   // The phi function
   InputImageConstPointer contourImage = this->m_InitialImage;
-  InputImagePointer hBuffer = this->m_SharedData->hVals[this->m_FunctionId];
+  InputImagePointer hBuffer = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[this->m_FunctionId];
 
   // Iterator for the phi function
   typedef ImageRegionConstIteratorWithIndex< InputImageType > ConstImageIteratorType;
@@ -68,7 +68,7 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   while(  !constIt.IsAtEnd() )
     {
-    ScalarValueType hVal = m_DomainFunction->Heaviside( - constIt.Get() );
+    ScalarValueType hVal = m_DomainFunction->Evaluate( - constIt.Get() );
     It.Set( hVal );
     ++It;
     ++constIt;
