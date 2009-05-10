@@ -161,7 +161,7 @@ GaussianDistribution
 {
   static const double oneonsqrttwopi = 1.0 / sqrt( 2.0 * vnl_math::pi );
 
-  return oneonsqrttwopi * exp(-0.5*x*x);
+  return oneonsqrttwopi * vcl_exp(-0.5*x*x);
 }
 
 double
@@ -173,7 +173,7 @@ GaussianDistribution
   double xminusmean = x - mean;
   
   return (oneonsqrttwopi / sqrt(variance))
-    * exp(-0.5*xminusmean*xminusmean / variance);
+    * vcl_exp(-0.5*xminusmean*xminusmean / variance);
 }
 
 double
@@ -260,7 +260,7 @@ GaussianDistribution
   for( newt=0; newt < 3; newt++ )
     {
     dq  = 0.5e+0 * vnl_erfc( dx / 1.414213562373095e+0 ) - dp;
-    ddq = exp( -0.5e+0 * dx * dx ) / 2.506628274631000e+0;
+    ddq = vcl_exp( -0.5e+0 * dx * dx ) / 2.506628274631000e+0;
     dx  = dx + dq / ddq;
     }
 
@@ -282,11 +282,21 @@ GaussianDistribution
 {
   double x = GaussianDistribution::InverseCDF(p);
 
-  // apply the mean and variance to provide the value for the
-  // prescribed Gaussian
-  x = x*sqrt(variance) + mean;
-  
-  return x;
+  if (x == itk::NumericTraits<double>::NonpositiveMin())
+    {
+    return x;
+    }
+  else if (x == itk::NumericTraits<double>::max())
+    {
+    return x;
+    }
+  else
+    {
+    // apply the mean and variance to provide the value for the
+    // prescribed Gaussian
+    x = x*sqrt(variance) + mean;
+    return x;
+    }
 }
 
 double
