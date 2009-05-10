@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarRegionBasedLevelSetFunctionBase.h
+  Module:    itkScalarRegionBasedLevelSetFunction.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,8 +15,8 @@
 
 =========================================================================*/
 
-#ifndef __itkScalarRegionBasedLevelSetFunctionBase_h
-#define __itkScalarRegionBasedLevelSetFunctionBase_h
+#ifndef __itkScalarRegionBasedLevelSetFunction_h
+#define __itkScalarRegionBasedLevelSetFunction_h
 
 #include "itkRegionBasedLevelSetFunction.h"
 #include "itkNeighborhoodIterator.h"
@@ -61,20 +61,20 @@ namespace itk {
  *
  */
 template < class TInputImage, class TFeatureImage, class TSharedData >
-class ITK_EXPORT ScalarRegionBasedLevelSetFunctionBase
+class ITK_EXPORT ScalarRegionBasedLevelSetFunction
 : public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
-  typedef ScalarRegionBasedLevelSetFunctionBase         Self;
+  typedef ScalarRegionBasedLevelSetFunction         Self;
   typedef RegionBasedLevelSetFunction< 
-    TInputImage, TFeatureImage, TSharedData >           Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+    TInputImage, TFeatureImage, TSharedData >       Superclass;
+  typedef SmartPointer<Self>                        Pointer;
+  typedef SmartPointer<const Self>                  ConstPointer;
 
   // itkNewMacro() is purposely not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarRegionBasedLevelSetFunctionBase, RegionBasedLevelSetFunction );
+  itkTypeMacro( ScalarRegionBasedLevelSetFunction, RegionBasedLevelSetFunction );
 
   itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
 
@@ -123,8 +123,8 @@ public:
     bool &status );
 
 protected:
-  ScalarRegionBasedLevelSetFunctionBase() : Superclass(){}
-  ~ScalarRegionBasedLevelSetFunctionBase(){}
+  ScalarRegionBasedLevelSetFunction() : Superclass(){}
+  ~ScalarRegionBasedLevelSetFunction(){}
 
   void computeOverlapParameters( const FeatureIndexType featIndex,
     unsigned int& s, unsigned int& pr );
@@ -132,14 +132,14 @@ protected:
   void ComputeParameters();
 
 private:
-  ScalarRegionBasedLevelSetFunctionBase(const Self&); //purposely not implemented
+  ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
 
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkScalarRegionBasedLevelSetFunctionBase.txx"
+#include "itkScalarRegionBasedLevelSetFunction.txx"
 #endif
 
 #endif

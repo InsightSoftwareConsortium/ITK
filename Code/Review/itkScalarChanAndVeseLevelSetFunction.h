@@ -18,7 +18,7 @@
 #ifndef __itkScalarChanAndVeseLevelSetFunction_h
 #define __itkScalarChanAndVeseLevelSetFunction_h
 
-#include "itkScalarRegionBasedLevelSetFunctionBase.h"
+#include "itkScalarRegionBasedLevelSetFunction.h"
 #include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
 
 namespace itk {
@@ -62,11 +62,11 @@ template < class TInputImage,
 class TFeatureImage,
 class TSharedData = ScalarChanAndVeseLevelSetFunctionSharedData< TInputImage, TFeatureImage > >
 class ITK_EXPORT ScalarChanAndVeseLevelSetFunction
-: public ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
+: public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
   typedef ScalarChanAndVeseLevelSetFunction           Self;
-  typedef ScalarRegionBasedLevelSetFunctionBase< 
+  typedef ScalarRegionBasedLevelSetFunction< 
     TInputImage, TFeatureImage, TSharedData >         Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunctionBase );
+  itkTypeMacro( ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunction );
 
   itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
 

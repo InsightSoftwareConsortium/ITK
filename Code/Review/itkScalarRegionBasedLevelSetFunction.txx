@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarRegionBasedLevelSetFunctionBase.txx
+  Module:    itkScalarRegionBasedLevelSetFunction.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -15,10 +15,10 @@
 
 =========================================================================*/
 
-#ifndef __itkScalarRegionBasedLevelSetFunctionBase_txx
-#define __itkScalarRegionBasedLevelSetFunctionBase_txx
+#ifndef __itkScalarRegionBasedLevelSetFunction_txx
+#define __itkScalarRegionBasedLevelSetFunction_txx
 
-#include "itkScalarRegionBasedLevelSetFunctionBase.h"
+#include "itkScalarRegionBasedLevelSetFunction.h"
 
 namespace itk {
 
@@ -28,7 +28,7 @@ m_CNums and m_CDens are updated during the evolution without iterating through t
 entire image. */
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
-ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
+ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ComputeParameters()
 {
   unsigned int fId = this->m_FunctionId;
@@ -95,7 +95,7 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
 
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
-ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
+ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::computeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& s, unsigned int& pr )
 {
 // This conditional statement computes the amount of overlap s
@@ -130,7 +130,7 @@ data which contains information from the other level sets). Using the
 new H values, the previous c_i are updated. */
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
-ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
+ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdatePixel( const unsigned int& idx, NeighborhoodIterator< TInputImage >
 &iterator, InputPixelType &newValue, bool &status )
 {

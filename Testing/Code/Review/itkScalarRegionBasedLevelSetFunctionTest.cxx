@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkScalarRegionBasedLevelSetFunctionBase.h"
+#include "itkScalarRegionBasedLevelSetFunction.h"
 #include "itkVector.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"
@@ -30,21 +30,21 @@ template < class TInput, // LevelSetImageType
   class TFeature, // FeatureImageType
   class TSharedData >
 class ScalarRegionBasedLevelSetFunctionTestHelper : 
- public ScalarRegionBasedLevelSetFunctionBase< TInput, TFeature, TSharedData >
+ public ScalarRegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
   /** Standard class typedefs. */
   typedef ScalarRegionBasedLevelSetFunctionTestHelper                       Self;
-  typedef ScalarRegionBasedLevelSetFunctionBase<TInput,TFeature,TSharedData>    Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  typedef ScalarRegionBasedLevelSetFunction<TInput,TFeature,TSharedData>    Superclass;
+  typedef SmartPointer<Self>                                                Pointer;
+  typedef SmartPointer<const Self>                                          ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunctionBase );
+  itkTypeMacro( ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction );
 
   typedef typename Superclass::ScalarValueType     ScalarValueType;
   typedef typename Superclass::FeaturePixelType    FeaturePixelType;
