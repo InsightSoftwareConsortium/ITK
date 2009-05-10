@@ -102,7 +102,7 @@ public:
     return indx;
     }
 
-  unsigned int m_CDens[19];
+  unsigned int m_NumberOfPixelsInsideLevelSet[19];
 };
 
 }

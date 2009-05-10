@@ -118,12 +118,13 @@ public:
 
   typename InputImageType::Pointer m_HVals[19];
 
-  int m_CDens[19];
-  int m_CNums[19];
-  int m_CVals[19];
-  int m_CBDen[19];
-  int m_CBNum[19];
-  int m_CB[19];
+  int m_NumberOfPixelsInsideLevelSet[19];
+  int m_SumOfPixelValuesInsideLevelSet[19];
+  int m_ForegroundConstantValues[19];
+
+  int m_NumberOfPixelsOutsideLevelSet[19];
+  int m_SumOfPixelValuesOutsideLevelSet[19];
+  int m_BackgroundConstantValues[19];
 
 };
 

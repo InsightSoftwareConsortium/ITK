@@ -108,22 +108,26 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   unsigned int fId = this->m_FunctionId;
 
-  if ( this->m_SharedData->cDens[fId] == 0 )
+  if ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] == 0 )
     {
-    this->m_SharedData->cVals[fId] = 0;
+    this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
     }
   else
     {
-    this->m_SharedData->cVals[fId] = this->m_SharedData->cNums[fId] / this->m_SharedData->cDens[fId];
+    this->m_SharedData->m_ForegroundConstantValues[fId] = 
+      this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] /
+      this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId];
     }
 
-  if ( this->m_SharedData->cBDen[fId] == 0 )
+  if ( this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] == 0 )
     {
-    this->m_SharedData->cB[fId] = 0;
+    this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
     }
   else
     {
-    this->m_SharedData->cB[fId] = this->m_SharedData->cBNum[fId] / this->m_SharedData->cBDen[fId];
+    this->m_SharedData->m_BackgroundConstantValues[fId] = 
+      this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] /
+      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
     }
 }
 
@@ -383,7 +387,7 @@ const InputIndexType& inputIndex )
   overlapTerm = this->computeOverlapTerm( s );
 
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
-    ( this->m_SharedData->m_CDens[fId] - this->m_Volume );
+    ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] - this->m_Volume );
 
   //regularizationTerm -= this->m_Nu;
   //NOTE: regularizationTerm here MUST take into account the curvature term!!!

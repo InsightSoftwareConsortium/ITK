@@ -130,13 +130,13 @@ public:
     {
     this->m_FunctionCount = n;
 
-    this->m_CVals.resize( n, 0.0 );
-    this->m_CDens.resize( n, 0.0 );
-    this->m_CNums.resize( n, 0.0 );
+    this->m_ForegroundConstantValues.resize( n, 0.0 );
+    this->m_NumberOfPixelsInsideLevelSet.resize( n, 0.0 );
+    this->m_SumOfPixelValuesInsideLevelSet.resize( n, 0.0 );
 
-    this->m_CB.resize( n, 0.0 );
-    this->m_CBDen.resize( n, 0.0 );
-    this->m_CBNum.resize( n, 0.0 );
+    this->m_BackgroundConstantValues.resize( n, 0.0 );
+    this->m_NumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
+    this->m_SumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
 
     this->m_HVals.resize( n, 0 );
     this->m_Start.resize( n );
@@ -262,12 +262,12 @@ public:
       }
     }
 
-  std::vector< double >             m_CB;
-  std::vector< double >             m_CVals;
-  std::vector< double >             m_CNums;
-  std::vector< double >             m_CDens;
-  std::vector< double >             m_CBNum;
-  std::vector< double >             m_CBDen;
+  std::vector< double >             m_BackgroundConstantValues;
+  std::vector< double >             m_ForegroundConstantValues;
+  std::vector< double >             m_SumOfPixelValuesInsideLevelSet;
+  std::vector< double >             m_NumberOfPixelsInsideLevelSet;
+  std::vector< double >             m_SumOfPixelValuesOutsideLevelSet;
+  std::vector< double >             m_NumberOfPixelsOutsideLevelSet;
 
   unsigned int                      m_FunctionCount;
   std::vector< InputImagePointer >  m_HVals;
