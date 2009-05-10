@@ -204,13 +204,12 @@ public:
     }
 
 
-  void AllocateListImage( FeatureRegionType region, FeatureSpacingType spacing )
+  void AllocateListImage( const FeatureImageType * featureImage )
     {
-    // FIXME: Are we missing Origin and Orientation ?
     this->m_NearestNeighborListImage = ListImageType::New();
-    this->m_NearestNeighborListImage->SetRegions( region );
+    this->m_NearestNeighborListImage->CopyInformation( featureImage );
+    this->m_NearestNeighborListImage->SetRegions( featureImage->GetLargestPossibleRegion() );
     this->m_NearestNeighborListImage->Allocate();
-    this->m_NearestNeighborListImage->SetSpacing( spacing );
     }
 
   void PopulateListImage()
