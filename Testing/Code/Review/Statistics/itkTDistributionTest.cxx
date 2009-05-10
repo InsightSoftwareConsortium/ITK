@@ -419,9 +419,10 @@ int itkTDistributionTest(int, char* [] )
         
 
   DistributionType::ParametersType parameters( distributionFunction->GetNumberOfParameters() );
-  parameters[0] = 1.0;
+  parameters[0] = 5.0;
+  distributionFunction->SetParameters(parameters);
 
-  long dof = 2;
+  long dof = 5;
 
   std::cout << "Variance() = " <<  distributionFunction->GetVariance() << std::endl;
   std::cout << "PDF(x,p) = " <<  distributionFunction->PDF( x, parameters ) << std::endl;
