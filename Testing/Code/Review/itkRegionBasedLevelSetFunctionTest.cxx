@@ -102,7 +102,7 @@ public:
     return indx;
     }
 
-  unsigned int cDens[19];
+  unsigned int m_CDens[19];
 };
 
 }

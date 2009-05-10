@@ -118,12 +118,12 @@ public:
 
   typename InputImageType::Pointer m_HVals[19];
 
-  int cDens[19];
-  int cNums[19];
-  int cVals[19];
-  int cBDen[19];
-  int cBNum[19];
-  int cB[19];
+  int m_CDens[19];
+  int m_CNums[19];
+  int m_CVals[19];
+  int m_CBDen[19];
+  int m_CBNum[19];
+  int m_CB[19];
 
 };
 

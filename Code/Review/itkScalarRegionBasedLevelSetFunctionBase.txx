@@ -24,7 +24,7 @@ namespace itk {
 
 /* Calculates the numerator and denominator for c_i for each region. As part of
 the optimization, it is called once at the beginning of the code, and then the
-cNum and cDen are updated during the evolution without iterating through the
+m_CNums and m_CDens are updated during the evolution without iterating through the
 entire image. */
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
@@ -33,12 +33,12 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
 {
   unsigned int fId = this->m_FunctionId;
 
-  this->m_SharedData->cDens[fId] = 0;
-  this->m_SharedData->cNums[fId] = 0;
-  this->m_SharedData->cVals[fId] = 0;
-  this->m_SharedData->cBDen[fId] = 0;
-  this->m_SharedData->cBNum[fId] = 0;
-  this->m_SharedData->cB[fId] = 0;
+  this->m_SharedData->m_CDens[fId] = 0;
+  this->m_SharedData->m_CNums[fId] = 0;
+  this->m_SharedData->m_CVals[fId] = 0;
+  this->m_SharedData->m_CBDen[fId] = 0;
+  this->m_SharedData->m_CBNum[fId] = 0;
+  this->m_SharedData->m_CB[fId] = 0;
 
   FeatureImageConstPointer featureImage = this->m_FeatureImage;
 
@@ -77,8 +77,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
 
         if (*it == fId)
           {
-          this->m_SharedData->cNums[fId] += featureVal;
-          this->m_SharedData->cDens[fId] += 1.;
+          this->m_SharedData->m_CNums[fId] += featureVal;
+          this->m_SharedData->m_CDens[fId] += 1.;
           }
         }
       }
@@ -86,8 +86,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
     // if the pixel belongs to the background
     if ( inBgrnd )
       {
-      this->m_SharedData->cBNum[fId] += featureVal;
-      this->m_SharedData->cBDen[fId] += 1.;
+      this->m_SharedData->m_CBNum[fId] += featureVal;
+      this->m_SharedData->m_CBDen[fId] += 1.;
       }
     }
 }
@@ -167,8 +167,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
   // if pixel belonged to current foreground but not anymore so
   if ( ( oldH > 0.5 ) && ( newH <= 0.5 ) )
     {
-    this->m_SharedData->cDens[fId]--;
-    this->m_SharedData->cNums[fId] -= featureVal;
+    this->m_SharedData->m_CDens[fId]--;
+    this->m_SharedData->m_CNums[fId] -= featureVal;
 
     // have to update level-set backgrounds overlapping
     // at the current pixel
@@ -176,8 +176,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        this->m_SharedData->cBNum[*it] += featureVal;
-        this->m_SharedData->cBDen[*it]++;
+        this->m_SharedData->m_CBNum[*it] += featureVal;
+        this->m_SharedData->m_CBDen[*it]++;
         }
       }
     }
@@ -185,8 +185,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
   // if pixel entered the foreground
   if ( ( oldH <= 0.5 ) & ( newH > 0.5 ) )
     {
-    this->m_SharedData->cDens[fId]++;
-    this->m_SharedData->cNums[fId] += featureVal;
+    this->m_SharedData->m_CDens[fId]++;
+    this->m_SharedData->m_CNums[fId] += featureVal;
 
     // have to update level-set backgrounds overlapping
     // at the current pixel
@@ -194,8 +194,8 @@ ScalarRegionBasedLevelSetFunctionBase< TInputImage, TFeatureImage, TSharedData >
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        this->m_SharedData->cBNum[*it] -= featureVal;
-        this->m_SharedData->cBDen[*it]--;
+        this->m_SharedData->m_CBNum[*it] -= featureVal;
+        this->m_SharedData->m_CBDen[*it]--;
         }
       }
     }

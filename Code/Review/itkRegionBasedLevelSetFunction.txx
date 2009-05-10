@@ -353,7 +353,7 @@ typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ScalarValueType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::computeGlobalTerm(
-const ScalarValueType& inputPixel,
+const ScalarValueType& itkNotUsed( inputPixel ),
 const InputIndexType& inputIndex )
 {
   unsigned int fId = this->m_FunctionId;
@@ -381,7 +381,7 @@ const InputIndexType& inputIndex )
   ScalarValueType outTerm = this->m_Lambda2 * this->computeExternalTerm( featureVal, featIndex, pr );
   overlapTerm = this->computeOverlapTerm( s );
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
-    ( this->m_SharedData->cDens[fId] - this->m_Volume );
+    ( this->m_SharedData->m_CDens[fId] - this->m_Volume );
 
   //regularizationTerm -= this->m_Nu;
   //NOTE: regularizationTerm here MUST take into account the curvature term!!!

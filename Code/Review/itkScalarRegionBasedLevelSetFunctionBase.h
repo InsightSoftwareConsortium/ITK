@@ -132,6 +132,8 @@ protected:
   void ComputeParameters();
 
 private:
+  ScalarRegionBasedLevelSetFunctionBase(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 }
