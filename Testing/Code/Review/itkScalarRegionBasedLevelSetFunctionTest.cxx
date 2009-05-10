@@ -106,7 +106,7 @@ public:
 
   typedef Image< ListPixelType, NDimension > ImageType;
 
-  typename ImageType::Pointer   m_LImage;
+  typename ImageType::Pointer   m_NearestNeighborListImage;
 
   IndexType GetIndex( unsigned int itkNotUsed( functionId ), const IndexType & globalIndex )
     {
@@ -116,7 +116,7 @@ public:
   typedef double                              PixelType;
   typedef Image< PixelType, NDimension >      InputImageType;
 
-  typename InputImageType::Pointer m_HVals[19];
+  typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage[19];
 
   int m_NumberOfPixelsInsideLevelSet[19];
   int m_SumOfPixelValuesInsideLevelSet[19];

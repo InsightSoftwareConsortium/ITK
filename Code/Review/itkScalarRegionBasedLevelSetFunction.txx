@@ -42,8 +42,8 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   FeatureImageConstPointer featureImage = this->m_FeatureImage;
 
-  ImageIteratorType It( this->m_SharedData->m_HVals[fId],
-    this->m_SharedData->m_HVals[fId]->GetLargestPossibleRegion() );
+  ImageIteratorType It( this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId],
+    this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetLargestPossibleRegion() );
   ConstFeatureIteratorType fIt( this->m_FeatureImage,
     this->m_FeatureImage->GetLargestPossibleRegion() );
 
@@ -62,13 +62,13 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
     globalIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
 
-    L = this->m_SharedData->m_LImage->GetPixel( globalIndex );
+    L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
 
     bool inBgrnd = true; // assume the pixel is in background
     for( ListPixelConstIterator it = L.begin(); it != L.end(); ++it )
       {
       itInputIndex = this->m_SharedData->GetIndex( *it, globalIndex );
-      hVal = this->m_SharedData->m_HVals[*it]->GetPixel( itInputIndex );
+      hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[*it]->GetPixel( itInputIndex );
 
       if ( hVal > 0.5 )
         {
@@ -103,7 +103,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   unsigned int fId = this->m_FunctionId;
 
   ListPixelType L;
-  L = this->m_SharedData->m_LImage->GetPixel( globalIndex );
+  L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
 
   InputPixelType hVal;
   InputIndexType otherIndex;
@@ -114,7 +114,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     if ( id != fId )
       {
       otherIndex = this->m_SharedData->GetIndex( id, globalIndex );
-      hVal = this->m_SharedData->m_HVals[id]->GetPixel( otherIndex );
+      hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[id]->GetPixel( otherIndex );
       if ( hVal > 0.5 )
         {
         s ++;
@@ -138,17 +138,15 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   // For each affected h val: h val = new hval (this will dirty some cvals)
   InputIndexType inputIndex = iterator.GetIndex( idx );
-  FeatureIndexType globalIndex =
-    this->m_SharedData->GetFeatureIndex( fId, inputIndex );
+  FeatureIndexType globalIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
 
-  FeaturePixelType featureVal =
-    this->m_FeatureImage->GetPixel( inputIndex );
+  FeaturePixelType featureVal = this->m_FeatureImage->GetPixel( inputIndex );
 
-  ScalarValueType oldH = this->m_SharedData->m_HVals[fId]->GetPixel( inputIndex );
+  ScalarValueType oldH = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetPixel( inputIndex );
   ScalarValueType newH = this->m_DomainFunction->Heaviside( - newValue );
 
   // Check if it is in other foreground
-  ListPixelType L = this->m_SharedData->lImage->GetPixel( globalIndex );
+  ListPixelType L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
   InputIndexType itInputIndex;
   ScalarValueType hVal;
 
@@ -156,7 +154,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
     {
     itInputIndex = this->m_SharedData->GetIndex( *it, globalIndex );
-    hVal = this->m_SharedData->m_HVals[*it]->GetPixel( itInputIndex );
+    hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[*it]->GetPixel( itInputIndex );
 
     if ( ( hVal > 0.5 ) && ( *it != fId ) )
       {
@@ -200,7 +198,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       }
     }
 
-  this->m_SharedData->m_HVals[fId]->SetPixel( inputIndex, newH );
+  this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->SetPixel( inputIndex, newH );
 }
 
 

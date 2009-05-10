@@ -137,22 +137,22 @@ public:
     this->m_NumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
     this->m_SumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
 
-    this->m_HVals.resize( n, 0 );
+    this->m_HeavisideFunctionOfLevelSetImage.resize( n, 0 );
     this->m_Start.resize( n );
     this->m_End.resize( n );
     }
 
-  void CreateHVals( const unsigned int& j,
+  void CreateHeavisideFunctionOfLevelSetImage( const unsigned int& j,
     const InputSpacingType& spacing,
     const InputPointType& origin,
     const InputRegionType& region )
     {
-    this->m_HVals[j] = InputImageType::New();
-    this->m_HVals[j]->SetRegions( region );
-    this->m_HVals[j]->Allocate();
-    this->m_HVals[j]->SetOrigin( origin );
-    this->m_HVals[j]->SetSpacing( spacing );
-    this->m_HVals[j]->FillBuffer( 0 );
+    this->m_HeavisideFunctionOfLevelSetImage[j] = InputImageType::New();
+    this->m_HeavisideFunctionOfLevelSetImage[j]->SetRegions( region );
+    this->m_HeavisideFunctionOfLevelSetImage[j]->Allocate();
+    this->m_HeavisideFunctionOfLevelSetImage[j]->SetOrigin( origin );
+    this->m_HeavisideFunctionOfLevelSetImage[j]->SetSpacing( spacing );
+    this->m_HeavisideFunctionOfLevelSetImage[j]->FillBuffer( 0 );
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
@@ -207,16 +207,19 @@ public:
   void AllocateListImage( FeatureRegionType region, FeatureSpacingType spacing )
     {
     // FIXME: Are we missing Origin and Orientation ?
-    this->m_LImage = ListImageType::New();
-    this->m_LImage->SetRegions( region );
-    this->m_LImage->Allocate();
-    this->m_LImage->SetSpacing( spacing );
+    this->m_NearestNeighborListImage = ListImageType::New();
+    this->m_NearestNeighborListImage->SetRegions( region );
+    this->m_NearestNeighborListImage->Allocate();
+    this->m_NearestNeighborListImage->SetSpacing( spacing );
     }
 
   void PopulateListImage()
     {
-    ListSpacingType spacing = this->m_LImage->GetSpacing();
-    ListIteratorType lIt( this->m_LImage, this->m_LImage->GetLargestPossibleRegion() );
+    ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
+
+    ListRegionType region = this->m_NearestNeighborListImage->GetLargestPossibleRegion();
+    
+    ListIteratorType lIt( this->m_NearestNeighborListImage, region );
 
     if ( m_KdTree )
       {
@@ -269,10 +272,10 @@ public:
   std::vector< double >             m_NumberOfPixelsOutsideLevelSet;
 
   unsigned int                      m_FunctionCount;
-  std::vector< InputImagePointer >  m_HVals;
+  std::vector< InputImagePointer >  m_HeavisideFunctionOfLevelSetImage;
   std::vector< InputIndexType >     m_Start;
   std::vector< InputIndexType >     m_End;
-  ListImagePointer                  m_LImage;
+  ListImagePointer                  m_NearestNeighborListImage;
   KdTreePointer                     m_KdTree;
 
 protected:
