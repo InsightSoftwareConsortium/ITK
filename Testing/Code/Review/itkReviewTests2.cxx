@@ -75,6 +75,8 @@ void RegisterTests()
   REGISTER_TEST(itkAtanRegularizedHeavisideStepFunctionTest1);
   REGISTER_TEST(itkRegionBasedLevelSetFunctionTest);
   REGISTER_TEST(itkScalarRegionBasedLevelSetFunctionTest);
+  REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest1);
+  REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest2);
   REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
   REGISTER_TEST(itkSinRegularizedHeavisideStepFunctionTest1);
 }

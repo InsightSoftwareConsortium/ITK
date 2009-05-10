@@ -192,6 +192,8 @@ SET(ReviewTest2_SRCS
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkRegionBasedLevelSetFunctionTest.cxx
   itkScalarRegionBasedLevelSetFunctionTest.cxx
+  itkScalarChanAndVeseLevelSetFunctionTest1.cxx
+  itkScalarChanAndVeseLevelSetFunctionTest2.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
 )
@@ -324,6 +326,10 @@ ADD_TEST(itkRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkRegionBasedLevelSetFunctionTest)
 ADD_TEST(itkScalarRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkScalarRegionBasedLevelSetFunctionTest)
+ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest1 ${REVIEW_TESTS2}
+  itkScalarChanAndVeseLevelSetFunctionTest1)
+ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest2 ${REVIEW_TESTS2}
+  itkScalarChanAndVeseLevelSetFunctionTest2)
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
 ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
