@@ -142,21 +142,23 @@ public:
     this->m_End.resize( n );
     }
 
-  void CreateHeavisideFunctionOfLevelSetImage( const unsigned int& j,
-    const InputSpacingType& spacing,
-    const InputPointType& origin,
-    const InputRegionType& region )
+  void CreateHeavisideFunctionOfLevelSetImage( const unsigned int& j, const InputImageType * image )
     {
+    const InputRegionType region = image->GetLargestPossibleRegion();
     this->m_HeavisideFunctionOfLevelSetImage[j] = InputImageType::New();
+    this->m_HeavisideFunctionOfLevelSetImage[j]->CopyInformation( image );
     this->m_HeavisideFunctionOfLevelSetImage[j]->SetRegions( region );
     this->m_HeavisideFunctionOfLevelSetImage[j]->Allocate();
-    this->m_HeavisideFunctionOfLevelSetImage[j]->SetOrigin( origin );
-    this->m_HeavisideFunctionOfLevelSetImage[j]->SetSpacing( spacing );
     this->m_HeavisideFunctionOfLevelSetImage[j]->FillBuffer( 0 );
+
+    const InputPointType origin = image->GetOrigin();
+    const InputSpacingType spacing = image->GetSpacing();
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      this->m_Start[j][i] = static_cast< InputIndexValueType >( origin[i]/spacing[i] );
+      // FIXME : This computation of Start index is suspicious.
+      //         See similar computation in the Shrink image filter.
+      this->m_Start[j][i] = static_cast< InputIndexValueType >( origin[i] / spacing[i] );
       this->m_End[j][i] = this->m_Start[j][i] + static_cast< InputIndexValueType >( region.GetSize()[i] ) - 1;
       }
     }

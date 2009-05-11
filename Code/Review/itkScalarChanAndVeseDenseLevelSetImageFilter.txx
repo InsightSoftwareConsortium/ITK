@@ -81,10 +81,7 @@ Initialize()
     {
     this->m_DifferenceFunctions[i]->SetFunctionId( i );
 
-    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage (  // FIXME : just pass the level set
-      i, this->m_LevelSet[i]->GetSpacing(),
-      this->m_LevelSet[i]->GetOrigin(),
-      this->m_LevelSet[i]->GetLargestPossibleRegion() );
+    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage ( i, this->m_LevelSet[i] );
 
     // Share the this->m_SharedData structure
     this->m_DifferenceFunctions[i]->SetSharedData( this->m_SharedData );

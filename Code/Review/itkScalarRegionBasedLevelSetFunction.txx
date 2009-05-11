@@ -143,7 +143,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   FeaturePixelType featureVal = this->m_FeatureImage->GetPixel( inputIndex );
 
   ScalarValueType oldH = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetPixel( inputIndex );
-  ScalarValueType newH = this->m_DomainFunction->Heaviside( - newValue );
+  ScalarValueType newH = this->m_DomainFunction->Evaluate( - newValue );
 
   // Check if it is in other foreground
   ListPixelType L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );

@@ -76,8 +76,6 @@ public:
   itkTypeMacro( ScalarChanAndVeseDenseLevelSetImageFilter,
     MultiphaseDenseFiniteDifferenceImageFilter );
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
-
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
   /** Inherited typedef from the superclass. */
@@ -139,6 +137,8 @@ protected:
     this->m_SharedData = SharedDataType::New();
     }
   ~ScalarChanAndVeseDenseLevelSetImageFilter(){}
+
+  void PrintSelf( std::ostream& os, Indent indent ) const;
 
   SharedDataPointer   m_SharedData;
 

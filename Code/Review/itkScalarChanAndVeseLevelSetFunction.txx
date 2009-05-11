@@ -72,7 +72,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdatePixel( const unsigned int& idx, NeighborhoodIterator< TInputImage >
 &iterator, ScalarValueType &newValue, bool &status )
 {
-  Superclass::UpdatePixel(idx,iterator,newValue,status);
+  this->Superclass::UpdatePixel(idx,iterator,newValue,status);
 }
 
 
