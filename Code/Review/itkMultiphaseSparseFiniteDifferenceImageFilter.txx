@@ -1323,7 +1323,7 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
 ::PrintSelf ( std::ostream& os, Indent indent ) const
 {
-  Superclass::PrintSelf ( os, indent );
+  Superclass::PrintSelf(os,indent);
 
   os << indent << "m_IsoSurfaceValue: " << this->m_IsoSurfaceValue << std::endl;
   os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
@@ -1346,6 +1346,13 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
       static_cast<unsigned long> ( sparsePtr->m_UpdateBuffer.capacity() ) <<
       std::endl;
     }
+
+  os << indent << "Interpolate Surface Location " <<  m_InterpolateSurfaceLocation << std::endl;
+  os << indent << "Number of Layers " << m_NumberOfLayers << std::endl;
+  os << indent << "Value Zero " <<
+    static_cast< typename NumericTraits<ValueType>::PrintType >( m_ValueZero ) << std::endl;
+  os << indent << "Value One  " <<
+    static_cast< typename NumericTraits<ValueType>::PrintType >( m_ValueOne ) << std::endl;
 }
 
 } // end namespace itk
