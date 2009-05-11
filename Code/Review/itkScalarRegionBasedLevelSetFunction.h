@@ -115,7 +115,8 @@ public:
   typedef std::list< unsigned int >                 ListPixelType;
   typedef typename ListPixelType::const_iterator    ListPixelConstIterator;
   typedef typename ListPixelType::iterator          ListPixelIterator;
-  typedef Image< ListPixelType, ImageDimension >    ListImageType;
+  typedef Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >
+                                                    ListImageType;
 
   void UpdatePixel( const unsigned int& idx,
     NeighborhoodIterator<TInputImage> &iterator,

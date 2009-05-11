@@ -88,7 +88,8 @@ public:
   typedef typename Superclass::NeighborhoodType           NeighborhoodType;
   typedef typename Superclass::NeighborhoodScalesType     NeighborhoodScalesType;
   typedef typename Superclass::FloatOffsetType            FloatOffsetType;
-  typedef FixedArray< ScalarValueType, ImageDimension >   VectorType;
+  typedef FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >
+                                                          VectorType;
 
   struct GlobalDataStruct
     {

@@ -206,7 +206,8 @@ public:
   typedef typename FiniteDifferenceFunctionType::TimeStepType   TimeStepType;
   typedef typename std::vector< TimeStepType >                  TimeStepVectorType;
 
-  typedef Vector< float, ImageDimension >                       CentroidVectorType;
+  typedef Vector< float, itkGetStaticConstMacro(ImageDimension) >
+                                                                CentroidVectorType;
   typedef Statistics::ListSample< CentroidVectorType >          SampleType;
   typedef Statistics::KdTreeGenerator< SampleType >             KdTreeGeneratorType;
   typedef typename KdTreeGeneratorType::Pointer                 KdTreeGeneratorPointer;

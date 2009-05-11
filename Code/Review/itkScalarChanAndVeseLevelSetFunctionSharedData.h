@@ -106,7 +106,8 @@ public:
   typedef typename FeatureImageType::PointType          FeaturePointType;
 
   typedef std::list< unsigned int >                     ListPixelType;
-  typedef Image< ListPixelType, ImageDimension >        ListImageType;
+  typedef Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >
+                                                        ListImageType;
   typedef typename ListImageType::Pointer               ListImagePointer;
   typedef typename ListImageType::ConstPointer          ListImageConstPointer;
   typedef typename ListImageType::RegionType            ListRegionType;
@@ -118,7 +119,8 @@ public:
   typedef typename ListImageType::PointType             ListPointType;
   typedef ImageRegionIteratorWithIndex< ListImageType > ListIteratorType;
 
-  typedef Vector< float, ImageDimension >                     CentroidVectorType;
+  typedef Vector< float, itkGetStaticConstMacro(ImageDimension) >
+                                                        CentroidVectorType;
   typedef itk::Statistics::ListSample< CentroidVectorType >   SampleType;
   typedef itk::Statistics::KdTreeGenerator< SampleType >      TreeGeneratorType;
   typedef typename TreeGeneratorType::Pointer                 TreePointer;

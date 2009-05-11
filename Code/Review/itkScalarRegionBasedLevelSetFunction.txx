@@ -50,13 +50,12 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
   InputIndexType itInputIndex, inputIndex;
-  InputPixelType hVal, inputVal;
+  InputPixelType hVal;
   ListPixelType L;
 
   for( It.GoToBegin(), fIt.GoToBegin(); !It.IsAtEnd();
     ++It, ++fIt )
     {
-    inputVal = It.Get();
     featureVal = fIt.Get();
     inputIndex = It.GetIndex();
 

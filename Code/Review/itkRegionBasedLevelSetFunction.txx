@@ -370,9 +370,9 @@ const InputIndexType& inputIndex )
   const FeaturePixelType featureVal =
     this->m_FeatureImage->GetPixel ( inputIndex );
 
-  ScalarValueType globalTerm = 0;
+  ScalarValueType globalTerm;
 
-  ScalarValueType overlapTerm = 0.;
+  ScalarValueType overlapTerm;
   // This conditional statement computes the amount of overlap s
   // and the presence of background pr
   if ( this->m_SharedData->m_FunctionCount > 1 )
