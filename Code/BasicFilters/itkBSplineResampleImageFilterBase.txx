@@ -348,7 +348,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   SizeType currentSize;
   // Does not support streaming
   typename Superclass::InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
-  startSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  startSize = inputPtr->GetBufferedRegion().GetSize();
   
   // Initilize scratchImage space and allocate memory
   InitializeScratch(startSize);
@@ -364,13 +364,13 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   //       images?  i.e. is the rounding handled correctly?
   currentSize[0] = currentSize[0]/2;  
   scratchRegion.SetSize( currentSize );
-  scratchImage->SetBufferedRegion( scratchRegion );
+  scratchImage->SetRegions( scratchRegion );
   scratchImage->Allocate();  
   
  
   currentSize = startSize;
   validRegion.SetSize( currentSize );
-  validRegion.SetIndex ( inputPtr->GetLargestPossibleRegion().GetIndex() );
+  validRegion.SetIndex ( inputPtr->GetBufferedRegion().GetIndex() );
 
   /** The data is handled in this routine to minimize data copying.
    * Alternative methods could be used which may permit the use of
@@ -385,16 +385,15 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   // The first time through the loop our input image is inputPtr
   typename TInputImage::ConstPointer workingImage;
   workingImage = inputPtr;
-//  ConstInputImageIterator inIterator1;
-//  ConstOutputImageIterator inIterator2;
 
   unsigned int count = scratchRegion.GetNumberOfPixels() * ImageDimension;
   ProgressReporter progress(this,0,count,10);
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
-    ConstInputImageIterator inIterator1( workingImage, validRegion);
-    ConstOutputImageIterator inIterator2( scratchImage, validRegion);
+    ConstInputImageIterator inIterator1( workingImage, validRegion );
+    ConstOutputImageIterator inIterator2( scratchImage, scratchRegion );
+
     if (n==0)
       {
       // First time through the loop we use the InputImage
@@ -469,7 +468,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 
   // Does not support streaming
   typename Superclass::InputImagePointer  inputPtr = const_cast< TInputImage * > ( this->GetInput() );
-  startSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  startSize = inputPtr->GetBufferedRegion().GetSize();
   
 
   // Initilize scratchImage space and allocate memory
@@ -494,7 +493,7 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
  
   currentSize = startSize;
   validRegion.SetSize( currentSize );
-  validRegion.SetIndex ( inputPtr->GetLargestPossibleRegion().GetIndex() );
+  validRegion.SetIndex ( inputPtr->GetBufferedRegion().GetIndex() );
 
   /** The data is handled in this routine to minimize data copying.  Alternative
       methods could be used which may permit the use of streaming. On the first 
@@ -510,12 +509,14 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
   typename TInputImage::ConstPointer workingImage;
   workingImage = inputPtr;
 
+  RegionType workingRegion = validRegion;
+
   unsigned int count = scratchRegion.GetNumberOfPixels() * ImageDimension;
   ProgressReporter progress(this,0,count,10);
   for (unsigned int n=0; n < ImageDimension; n++)
     {
     // Setup iterators for input image.
-    ConstInputImageIterator inIterator1( workingImage, validRegion);
+    ConstInputImageIterator inIterator1( workingImage, workingRegion);
     ConstOutputImageIterator inIterator2( scratchImage, validRegion);
     if (n==0)
       {
@@ -556,7 +557,6 @@ void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
         this->Expand1DImage(  m_Scratch, outIterator,  startSize[n], progress );
         inIterator1.NextLine();
         outIterator.NextLine();
-
         }
       }
     else
@@ -581,7 +581,6 @@ template <class TInputImage, class TOutputImage>
 void BSplineResampleImageFilterBase<TInputImage, TOutputImage>
 ::InitializeScratch(SizeType DataLength)
 {
-//  typename TInputImage::SizeType DataLength = ptr->GetLargestPossibleRegion().GetSize();
   unsigned int maxLength = 0;
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
