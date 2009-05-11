@@ -131,106 +131,45 @@ void
 ImageSeriesWriter<TInputImage,TOutputImage>
 ::GenerateNumericFileNamesAndWrite(void)
 {
+  itkWarningMacro("This functionality has been DEPRECATED. Use NumericSeriesFileName for generating the filenames");
+  this->GenerateNumericFileNames();
+  this->WriteFiles();
+}
 
-  itkWarningMacro("This functionality has been DEPRECATED. NumericSeriesFileName for generating the filenames");
-
+//---------------------------------------------------------
+template <class TInputImage,class TOutputImage>
+void 
+ImageSeriesWriter<TInputImage,TOutputImage>
+::GenerateNumericFileNames(void)
+{
   const InputImageType * inputImage = this->GetInput();
 
   if( !inputImage )
     {
     itkExceptionMacro(<<"Input image is NULL");
     }
+  
+  m_FileNames.clear();
 
   // We need two regions. One for the input, one for the output.
   ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
-  ImageRegion<TOutputImage::ImageDimension> outRegion;
 
-  typename OutputImageType::Pointer outputImage = OutputImageType::New();
-
-  // Set the origin, spacing and direction of the output
-  double spacing[TOutputImage::ImageDimension];
-  double origin[TOutputImage::ImageDimension];
-  typename TOutputImage::DirectionType direction;
-  for ( unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
-    {
-    origin[i] = inputImage->GetOrigin()[i];
-    spacing[i] = inputImage->GetSpacing()[i];
-    outRegion.SetSize(i,inputImage->GetRequestedRegion().GetSize()[i]);
-    for ( unsigned int j=0; j < TOutputImage::ImageDimension; j++ )
-      {
-      direction[j][i] = inputImage->GetDirection()[j][i];
-      }
-    }
-  outputImage->SetOrigin(origin);
-  outputImage->SetSpacing(spacing);
-  outputImage->SetDirection(direction);
-
-  // Allocate an image for output and create an iterator for it
-  outputImage->SetRegions(outRegion);
-  outputImage->Allocate();
-  ImageRegionIterator<OutputImageType> ot (outputImage, outRegion );
-
-  unsigned long fileNumber = m_StartIndex;
+  unsigned long fileNumber = this->m_StartIndex;
   char fileName[IOCommon::ITK_MAXPATHLEN+1];
-  Index<TInputImage::ImageDimension> inIndex;
-  unsigned long pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
 
   // Compute the number of files to be generated
   unsigned int numberOfFiles = 1;
-  for (unsigned int n = TOutputImage::ImageDimension;
-       n < TInputImage::ImageDimension;
-       n++)
+  for (unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; n++)
     {
     numberOfFiles *= inRegion.GetSize(n);
     }
 
-  itkDebugMacro( <<"Number of files to write = " << numberOfFiles );
-
-  ProgressReporter progress(this, 0, 
-                            numberOfFiles,
-                            numberOfFiles);
-
-  // For each "slice" in the input, copy the region to the output,
-  // build a filename and write the file.
-
-  typename InputImageType::OffsetValueType offset = 0;
   for (unsigned int slice=0; slice < numberOfFiles; slice++)
     {
-    // Select a "slice" of the image. 
-    inIndex = inputImage->ComputeIndex(offset);
-    inRegion.SetIndex(inIndex);
-    ImageRegionConstIterator<InputImageType> it (inputImage,
-                                                 inRegion);
-
-    // Copy the selected "slice" into the output image.
-    ot.GoToBegin();
-    while (!ot.IsAtEnd())
-      {
-      ot.Set(it.Get());
-      ++it;
-      ++ot;
-      }
-
-    // Mark the image as 'Modified'
-    outputImage->Modified();
-
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetInput(outputImage);
-    if (m_ImageIO)
-      {
-      writer->SetImageIO(m_ImageIO);
-      }
     sprintf (fileName, m_SeriesFormat.c_str(), fileNumber);
-
-    writer->SetUseCompression(m_UseCompression);
-    writer->SetFileName(fileName);
-    writer->Update();
-
-    progress.CompletedPixel();
-    fileNumber += m_IncrementIndex;
-    offset += pixelsPerFile;
+    m_FileNames.push_back( fileName );
+    fileNumber += this->m_IncrementIndex;
     }
-
 }
 
 //---------------------------------------------------------
@@ -248,6 +187,15 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     return;
     }
 
+  this->WriteFiles();
+}
+
+//---------------------------------------------------------
+template <class TInputImage,class TOutputImage>
+void 
+ImageSeriesWriter<TInputImage,TOutputImage>
+::WriteFiles()
+{
   const InputImageType * inputImage = this->GetInput();
 
   if( !inputImage )
@@ -315,9 +263,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     }
 
   unsigned int expectedNumberOfFiles = 1;
-  for( unsigned int n = TOutputImage::ImageDimension;
-       n < TInputImage::ImageDimension;
-       n++ )
+  for( unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; n++ )
     {
     expectedNumberOfFiles *= inRegion.GetSize(n);
     }
@@ -346,8 +292,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
     inRegion.SetIndex( inIndex );
     inRegion.SetSize( inSize );
 
-    ImageRegionConstIterator<InputImageType> it (inputImage,
-                                                 inRegion);
+    ImageRegionConstIterator<InputImageType> it (inputImage, inRegion);
 
     // Copy the selected "slice" into the output image.
     it.GoToBegin();

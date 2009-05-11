@@ -227,6 +227,12 @@ private:
 
   /** Array of MetaDataDictionary used for passing information to each slice */
   DictionaryArrayRawPointer  m_MetaDataDictionaryArray;
+
+  // These two methods provide now a common implementation for the
+  // GenerateNumericFileNamesAndWrite() and avoid the duplication of code that
+  // was leaving one of the code branches out of date.
+  void GenerateNumericFileNames(void);
+  void WriteFiles();
 };
 
   

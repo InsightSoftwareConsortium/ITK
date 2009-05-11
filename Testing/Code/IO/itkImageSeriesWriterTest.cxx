@@ -90,8 +90,6 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   sprintf (format, "%s/series.%%d.%s", av[2], av[3]); 
   writer->SetSeriesFormat(format);
 
-  writer->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
-
   try
     {
     writer->Update();
@@ -102,6 +100,21 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Verify that attempting to use a MetaDataDictionary without setting the ImageIO
+  // should throw an exception.
+  writer->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
+  try
+    {
+    writer->Update();
+    std::cerr << "Failed to throw expected exception of using MetaDataDictionary without ImageIO" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & )
+    {
+    std::cout << "Exercised expected exception" << std::endl;
+    }
+
   std::cout << "Old API PASSED !" << std::endl;
   }
  
@@ -149,6 +162,21 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Verify that attempting to use a MetaDataDictionary without setting the ImageIO
+  // should throw an exception.
+  writer->SetMetaDataDictionaryArray( reader->GetMetaDataDictionaryArray() );
+  try
+    {
+    writer->Update();
+    std::cerr << "Failed to throw expected exception of using MetaDataDictionary without ImageIO" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & )
+    {
+    std::cout << "Exercised expected exception" << std::endl;
+    }
+
   std::cout << "Test with NumericSeriesFileNames PASSED !" << std::endl;
   }
   
