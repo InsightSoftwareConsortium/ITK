@@ -178,12 +178,8 @@ public:
     if( region.GetNumberOfPixels() > 0 ) // If region is non-empty
       {
       const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
-
-      if( !bufferedRegion.IsInside( m_Region ) )
-        {
-        itkGenericExceptionMacro("Region " << m_Region 
-          << " is outside of buffered region " << bufferedRegion );
-        }
+      itkAssertOrThrowMacro( (bufferedRegion.IsInside( m_Region )),
+        "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
       }
 #endif
 

@@ -35,6 +35,9 @@
 
 #include <string>
 #include <cstdlib>
+#ifndef NDEBUG 
+#include <cassert>
+#endif
 
 #ifndef ITK_USE_PORTABLE_ROUND
 #include "vnl/vnl_math.h"
@@ -1206,5 +1209,25 @@ inline int RoundHalfIntegerToEven(double x)
 #endif
 // end of Template Meta Programming helper macros
 
+
+#ifndef NDEBUG 
+
+#ifdef _POSIX_SOURCE
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) __assert_fail (msg.c_str(), __FILE__, __LINE__, __ASSERT_FUNCTION); 
+#else
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) 
+#endif
+
+#else 
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) itkGenericExceptionMacro(msg);
+#endif
+
+#define itkAssertOrThrowMacro(test, message) \
+   if( !(test) ) \
+     { \
+     std::stringstream msg;    \
+     msg << message;      \
+     itkAssertInDebugOrThrowInReleaseMacro(msg.str());      \
+     }
 
 #endif //end of itkMacro.h
