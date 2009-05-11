@@ -156,7 +156,7 @@ InterpolateImageFilter<TInputImage,TOutputImage>
 
 
   intermediateRegion.SetIndex( ImageDimension, 1 );
-  intermediateRegion.SetSize( ImageDimension, 2 );
+  intermediateRegion.SetSize( ImageDimension, 1 );
 
   inIter = ImageRegionConstIteratorWithIndex<TInputImage>( this->GetInput2(), outputRegion );
   outIter = ImageRegionIteratorWithIndex<IntermediateImageType>( m_IntermediateImage,
