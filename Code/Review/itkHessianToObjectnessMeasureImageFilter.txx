@@ -174,13 +174,12 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage>
         }
       }
 
-    double frobeniusNorm = 0.0;
+    double frobeniusNormSquared = 0.0;
     for (unsigned int i=0; i<ImageDimension; i++)
       {
-      frobeniusNorm += vnl_math_sqr(sortedAbsEigenValues[i]);
+      frobeniusNormSquared += vnl_math_sqr(sortedAbsEigenValues[i]);
       }
-    frobeniusNorm = vcl_sqrt(frobeniusNorm);
-    objectnessMeasure *= 1.0 - vcl_exp(- 0.5 * vnl_math_sqr(frobeniusNorm) / vnl_math_sqr(m_Gamma));
+    objectnessMeasure *= 1.0 - vcl_exp(- 0.5 * frobeniusNormSquared / vnl_math_sqr(m_Gamma));
 
     // in case, scale by largest absolute eigenvalue
     if (m_ScaleObjectnessMeasure)
