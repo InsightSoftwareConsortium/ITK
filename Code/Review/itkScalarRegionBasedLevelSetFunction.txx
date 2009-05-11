@@ -132,7 +132,7 @@ template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdatePixel( const unsigned int& idx, NeighborhoodIterator< TInputImage >
-&iterator, InputPixelType &newValue, bool &status )
+&iterator, InputPixelType &newValue, bool & itkNotUsed(status) )
 {
   unsigned int fId = this->m_FunctionId;
 
