@@ -75,6 +75,8 @@ public:
 
   /** Get the list of transforms resulting from a file read */
   TransformListType &GetTransformList() { return m_ReadTransformList; }
+  TransformListType &GetReadTransformList() { return m_ReadTransformList; }
+  ConstTransformListType &GetWriteTransformList() { return m_WriteTransformList; }
 
   /** Set the list of transforms before writing */
   void SetTransformList(ConstTransformListType &transformList);
@@ -92,6 +94,7 @@ protected:
   void OpenStream(std::ofstream &out, bool binary);
   void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
 
+private:
   std::string             m_FileName;
   TransformListType       m_ReadTransformList;
   ConstTransformListType  m_WriteTransformList;

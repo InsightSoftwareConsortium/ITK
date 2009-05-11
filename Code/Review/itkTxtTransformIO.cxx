@@ -81,12 +81,12 @@ Read()
 {  
   TransformPointer transform;
   std::ifstream in;
-  in.open ( m_FileName.c_str(), std::ios::in | std::ios::binary );
+  in.open ( this->GetFileName(), std::ios::in | std::ios::binary );
   if( in.fail() )
     {
     in.close();
     itkExceptionMacro ( "The file could not be opened for read access "
-                        << std::endl << "Filename: \"" << m_FileName << "\"" );
+                        << std::endl << "Filename: \"" << this->GetFileName() << "\"" );
     }
 
   OStringStream InData;
@@ -158,7 +158,7 @@ Read()
     if ( Name == "Transform" )
       {
       this->CreateTransform(transform,Value);
-      m_ReadTransformList.push_back ( transform );
+      this->GetReadTransformList().push_back ( transform );
       }
     else if ( Name == "Parameters" || Name == "FixedParameters" )
       {
@@ -220,14 +220,14 @@ void
 TxtTransformIO::
 Write()
 {
-  ConstTransformListType::iterator it = m_WriteTransformList.begin();
+  ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
   vnl_vector<double> TempArray;
   std::ofstream out;
   this->OpenStream(out,false);
 
   out << "#Insight Transform File V1.0" << std::endl;
   int count = 0;
-  while(it != m_WriteTransformList.end())
+  while(it != this->GetWriteTransformList().end())
     {
     out << "# Transform " << count << std::endl;
     out << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;

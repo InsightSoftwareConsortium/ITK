@@ -73,13 +73,13 @@ void
 MatlabTransformIO::
 Read()
 {
-  std::ifstream matfile(this->m_FileName.c_str(),
+  std::ifstream matfile(this->GetFileName(),
                         std::ios::in|std::ios::binary);
   if(matfile.fail())
     {
     matfile.close();
     itkExceptionMacro("The file could not be opened for read access "
-                      << std::endl << "Filename: \"" << m_FileName << "\"");
+                      << std::endl << "Filename: \"" << this->GetFileName() << "\"");
     }
   while(!matfile.eof())
     {
@@ -100,7 +100,7 @@ Read()
     // create transform based on name of first vector
     TransformPointer transform;
     this->CreateTransform(transform,classname);
-    this->m_ReadTransformList.push_back(transform);
+    this->GetReadTransformList().push_back(transform);
     vnl_matlab_readhdr mathdr2(matfile);
     if(mathdr2.cols() != 1)
       {
@@ -120,11 +120,11 @@ void
 MatlabTransformIO::
 Write()
 {
-  ConstTransformListType::iterator it = m_WriteTransformList.begin();
+  ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
   vnl_vector<double> TempArray;
   std::ofstream out;
   this->OpenStream(out,true);
-  while(it != m_WriteTransformList.end())
+  while(it != this->GetWriteTransformList().end())
     {
     std::string xfrmType((*it)->GetTransformTypeAsString());
     TempArray = (*it)->GetParameters();
