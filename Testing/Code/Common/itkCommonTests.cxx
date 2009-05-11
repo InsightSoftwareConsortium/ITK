@@ -61,6 +61,7 @@ REGISTER_TEST(itkFloodFilledSpatialFunctionTest );
 REGISTER_TEST(itkFourierSeriesPathTest );
 REGISTER_TEST(itkGaussianBlurImageFunctionTest);
 REGISTER_TEST(itkGaussianDerivativeImageFunctionTest);
+REGISTER_TEST(itkGaussianSpatialFunctionTest);
 REGISTER_TEST(itkHashTableTest );
 REGISTER_TEST(itkIdentityTransformTest );
 REGISTER_TEST(itkImageAdaptorTest );

@@ -81,6 +81,7 @@ ADD_TEST(itkFloodFilledSpatialFunctionTest ${COMMON_TESTS} itkFloodFilledSpatial
 ADD_TEST(itkFourierSeriesPathTest ${COMMON_TESTS} itkFourierSeriesPathTest)
 ADD_TEST(itkGaussianBlurImageFunctionTest ${COMMON_TESTS} itkGaussianBlurImageFunctionTest)
 ADD_TEST(itkGaussianDerivativeImageFunctionTest ${COMMON_TESTS} itkGaussianDerivativeImageFunctionTest)
+ADD_TEST(itkGaussianSpatialFunctionTest ${COMMON_TESTS} itkGaussianSpatialFunctionTest)
 ADD_TEST(itkCommonHeaderTest ${COMMON_HEADER_TEST})
 ADD_TEST(itkHashTableTest ${COMMON_TESTS} itkHashTableTest)
 ADD_TEST(itkIdentityTransformTest ${COMMON_TESTS} itkIdentityTransformTest)
@@ -428,6 +429,7 @@ itkFloodFilledSpatialFunctionTest.cxx
 itkFourierSeriesPathTest.cxx
 itkGaussianBlurImageFunctionTest.cxx
 itkGaussianDerivativeImageFunctionTest.cxx
+itkGaussianSpatialFunctionTest.cxx
 itkHashTableTest.cxx
 itkIdentityTransformTest.cxx
 itkImageAdaptorTest.cxx
