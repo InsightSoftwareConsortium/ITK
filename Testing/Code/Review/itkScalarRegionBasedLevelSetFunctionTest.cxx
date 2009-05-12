@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,7 @@ namespace itk
 template < class TInput, // LevelSetImageType
   class TFeature, // FeatureImageType
   class TSharedData >
-class ScalarRegionBasedLevelSetFunctionTestHelper : 
+class ScalarRegionBasedLevelSetFunctionTestHelper :
  public ScalarRegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
@@ -42,23 +42,23 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods) */
   itkTypeMacro( ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction );
 
   typedef typename Superclass::ScalarValueType     ScalarValueType;
   typedef typename Superclass::FeaturePixelType    FeaturePixelType;
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
-  
+
 
   virtual ScalarValueType computeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & ) 
+    const FeatureIndexType &, const unsigned int & )
     {
     return ScalarValueType( 0 );
     }
 
   virtual ScalarValueType computeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & ) 
+    const FeatureIndexType &, const unsigned int & )
     {
     return ScalarValueType( 0 );
     }
@@ -67,6 +67,8 @@ public:
     unsigned int &, unsigned int & ) {}
 
   virtual void ComputeParameters() {}
+
+  virtual void UpdateSharedDataParameters() {}
 
 
 protected:
@@ -89,12 +91,12 @@ public:
   typedef SmartPointer<const Self>                            ConstPointer;
 
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods) */
   itkTypeMacro( ScalarRegionBasedLevelSetFunctionSharedDataHelper, DataObject );
 
   unsigned long       m_FunctionCount;
-  
+
   typedef Index< NDimension >                 IndexType;
 
   IndexType GetFeatureIndex( unsigned int itkNotUsed(functionId), const IndexType & indx )
@@ -141,10 +143,10 @@ int itkScalarRegionBasedLevelSetFunctionTest( int, char* [] )
   typedef itk::ScalarRegionBasedLevelSetFunctionSharedDataHelper<Dimension>      DataHelperType;
 
 
-  typedef itk::ScalarRegionBasedLevelSetFunctionTestHelper< 
+  typedef itk::ScalarRegionBasedLevelSetFunctionTestHelper<
     ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
- 
+
   return EXIT_SUCCESS;
 }
