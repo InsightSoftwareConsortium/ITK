@@ -58,7 +58,7 @@ namespace itk
  *
  */
 template <typename TInputImage, typename TOutputImage>
-class CollidingFrontsImageFilter :
+class ITK_EXPORT CollidingFrontsImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

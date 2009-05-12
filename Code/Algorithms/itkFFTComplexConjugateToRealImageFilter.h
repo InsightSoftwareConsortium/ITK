@@ -31,7 +31,7 @@ namespace itk
  */
 
 template < class TPixel,unsigned int VDimension = 3 >
-class FFTComplexConjugateToRealImageFilter :
+class ITK_EXPORT FFTComplexConjugateToRealImageFilter :
     public ImageToImageFilter< Image< std::complex< TPixel > , VDimension >,
                                Image< TPixel,VDimension > >
 

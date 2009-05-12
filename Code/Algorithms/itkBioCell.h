@@ -34,7 +34,7 @@ namespace bio {
  */
 
 template<unsigned int NSpaceDimension=3>
-class Cell : public CellBase 
+class ITK_EXPORT Cell : public CellBase 
 {
 public:
   typedef   CellBase                     Superclass;

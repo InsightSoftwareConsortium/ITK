@@ -28,7 +28,7 @@ namespace itk
 {
 
 template <typename TPixel,unsigned int VDimension>
-class FFTWComplexConjugateToRealImageFilter :
+class ITK_EXPORT FFTWComplexConjugateToRealImageFilter :
     public FFTComplexConjugateToRealImageFilter<TPixel,VDimension>
 {
 public:

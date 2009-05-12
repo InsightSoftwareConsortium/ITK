@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< class TInputHistogram >
-class OtsuMultipleThresholdsCalculator :
+class ITK_EXPORT OtsuMultipleThresholdsCalculator :
       public HistogramAlgorithmBase< TInputHistogram >
 {
 public:

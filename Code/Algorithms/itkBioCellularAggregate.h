@@ -38,7 +38,7 @@ namespace bio {
  * including bacterial colonies and pluricellular organisms 
  */
 template<unsigned int NSpaceDimension=3>
-class CellularAggregate : public CellularAggregateBase
+class ITK_EXPORT CellularAggregate : public CellularAggregateBase
 {
 public:
   /** Standard class typedefs. */

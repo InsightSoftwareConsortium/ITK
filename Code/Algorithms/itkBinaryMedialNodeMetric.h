@@ -32,7 +32,7 @@ namespace itk
  */
 
 template <int VDimensions>
-class BinaryMedialNodeMetric : public LightObject
+class ITK_EXPORT BinaryMedialNodeMetric : public LightObject
 {
 public:
 

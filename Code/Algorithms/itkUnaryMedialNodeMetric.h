@@ -45,7 +45,7 @@ namespace itk
  */
 
 template<int VDimensions = 3>
-class UnaryMedialNodeMetric : public LightObject 
+class ITK_EXPORT UnaryMedialNodeMetric : public LightObject 
 {
 public:
 

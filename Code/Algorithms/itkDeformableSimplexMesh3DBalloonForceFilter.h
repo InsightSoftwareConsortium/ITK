@@ -43,7 +43,7 @@ namespace itk
   * 
   */
   template <class TInputMesh, class TOutputMesh>
-class DeformableSimplexMesh3DBalloonForceFilter : public DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
+class ITK_EXPORT DeformableSimplexMesh3DBalloonForceFilter : public DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 {
 public:
   /** Standard "Self" typedef. */

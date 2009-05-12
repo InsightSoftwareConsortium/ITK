@@ -42,7 +42,7 @@ namespace itk
  * \ingroup 
  */
 template< typename TSourceImage >
-class MedialNodeTripletCorrespondenceProcess : public ProcessObject
+class ITK_EXPORT MedialNodeTripletCorrespondenceProcess : public ProcessObject
 {
 public:
  

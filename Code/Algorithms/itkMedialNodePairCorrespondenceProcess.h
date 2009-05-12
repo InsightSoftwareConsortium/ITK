@@ -43,7 +43,7 @@ namespace itk
  * \ingroup 
  */
 template< typename TSourceImage >
-class MedialNodePairCorrespondenceProcess : public ProcessObject
+class ITK_EXPORT MedialNodePairCorrespondenceProcess : public ProcessObject
 {
 public:
   /** Number of dimensions */

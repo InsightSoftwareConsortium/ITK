@@ -40,7 +40,7 @@ namespace itk
  * \ingroup 
  */
 template< typename TSourceImage >
-class CoreAtomImageToUnaryCorrespondenceMatrixProcess : public ProcessObject
+class ITK_EXPORT CoreAtomImageToUnaryCorrespondenceMatrixProcess : public ProcessObject
 {
 public:
   /** Number of dimensions. */

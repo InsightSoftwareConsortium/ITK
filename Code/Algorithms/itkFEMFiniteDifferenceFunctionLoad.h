@@ -61,7 +61,7 @@ namespace fem
  * and more functionality will be available (such as scale selection).
  */ 
 template<class TMoving,class TFixed> 
-class FiniteDifferenceFunctionLoad : public LoadElement
+class ITK_EXPORT FiniteDifferenceFunctionLoad : public LoadElement
 {
   FEM_CLASS(FiniteDifferenceFunctionLoad,LoadElement)
 public:
