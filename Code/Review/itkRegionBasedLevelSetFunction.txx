@@ -182,7 +182,6 @@ ComputeCurvatureTerm(
   ScalarValueType curvature_term = NumericTraits<ScalarValueType>::Zero;
   unsigned int i, j;
 
-
   for (i = 0; i < ImageDimension; i++)
     {
     for(j = 0; j < ImageDimension; j++)
@@ -260,7 +259,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
 
-  ScalarValueType laplacian, laplacian_term, curvature_term, globalTerm;
+  ScalarValueType laplacian_term = 0.;
+  ScalarValueType curvature_term = 0.;
+  ScalarValueType globalTerm = 0.;
 
   // Access the global data structure
   GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
@@ -284,16 +285,12 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     gd->m_MaxCurvatureChange =
       vnl_math_max( gd->m_MaxCurvatureChange, vnl_math_abs( curvature_term ) );
     }
-  else
-    {
-    curvature_term = NumericTraits<ScalarValueType>::Zero;
-    }
 
   // Computing the laplacian term
   // Used in maintaining squared distance function
   if( this->m_LaplacianSmoothingWeight != NumericTraits<ScalarValueType>::Zero)
     {
-    laplacian = NumericTraits<ScalarValueType>::Zero;
+    ScalarValueType laplacian = NumericTraits<ScalarValueType>::Zero;
 
     // Compute the laplacian using the existing second derivative values
     for(unsigned int i = 0; i < ImageDimension; i++)
@@ -309,10 +306,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       0.1*( this->m_LaplacianSmoothingWeight *
       LaplacianSmoothingSpeed(it,offset, gd) * laplacian - curvature_term);
     }
-  else
-    {
-    laplacian_term = NumericTraits<ScalarValueType>::Zero;
-    }
 
   // Update value from curvature length and laplacian term
   PixelType updateVal =
@@ -322,10 +315,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   if ( dh != 0. )
     {
     globalTerm = dh * this->ComputeGlobalTerm( inputValue, it.GetIndex() );
-    }
-  else
-    {
-    globalTerm = 0;
     }
 
   /* Final update value is the local terms of curvature lengths and laplacian
@@ -340,6 +329,15 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 
   return updateVal;
+}
+
+template < class TInput, class TFeature, class TSharedData >
+typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ScalarValueType
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ComputeVolumeRegularizationTerm( )
+{
+  return 2 * ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[this->m_FunctionId] - this->m_Volume );
 }
 
 /* Computes the fidelity term (eg: (intensity - mean)2 ).
@@ -378,8 +376,8 @@ const InputIndexType& inputIndex )
   ScalarValueType inTerm = this->m_Lambda1 * this->ComputeInternalTerm( featureVal, featIndex );
   ScalarValueType outTerm = this->m_Lambda2 * product * this->ComputeExternalTerm( featureVal, featIndex );
 
-  ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
-    ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] - this->m_Volume );
+  ScalarValueType regularizationTerm = this->m_VolumeMatchingWeight *
+    ComputeVolumeRegularizationTerm();
 
   //regularizationTerm -= this->m_Nu;
   //NOTE: regularizationTerm here MUST take into account the curvature term!!!

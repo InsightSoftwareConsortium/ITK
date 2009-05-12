@@ -334,6 +334,8 @@ protected:
   virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
     ScalarValueType& pr ) = 0;
 
+  ScalarValueType ComputeVolumeRegularizationTerm( );
+
   void ComputeHessian( const NeighborhoodType &it,
     GlobalDataStruct *globalData );
 
