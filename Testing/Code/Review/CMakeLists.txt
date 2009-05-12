@@ -345,7 +345,7 @@ ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2
   ${INPUT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.png
+  ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
 )
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
