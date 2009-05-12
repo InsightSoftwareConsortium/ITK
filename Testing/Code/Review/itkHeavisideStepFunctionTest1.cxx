@@ -30,6 +30,9 @@ int itkHeavisideStepFunctionTest1( int, char* [] )
 
   HeavisideFunctionBaseType::Pointer functionBase0 = HeavisideFunctionBaseType::New();
 
+  std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
+  functionBase0->Print( std::cout );
+
   const signed int minValue = -20;
   const signed int maxValue =  20;
 

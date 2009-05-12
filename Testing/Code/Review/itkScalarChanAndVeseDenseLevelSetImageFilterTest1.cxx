@@ -49,6 +49,8 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest1( int, char* [] )
  
   FilterType::Pointer filter = FilterType::New();
 
+  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
+  filter->Print( std::cout );
 
   return EXIT_SUCCESS;
 }

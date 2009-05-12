@@ -97,5 +97,8 @@ int itkScalarChanAndVeseLevelSetFunctionTest2( int, char* [] )
 
   ChanAndVeseLevelSetFunctionType::Pointer function = ChanAndVeseLevelSetFunctionType::New();
  
+  std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << std::endl;
+  function->Print( std::cout );
+
   return EXIT_SUCCESS;
 }

@@ -30,6 +30,9 @@ int itkAtanRegularizedHeavisideStepFunctionTest1( int, char* [] )
 
   HeavisideFunctionBaseType::Pointer functionBase0 = HeavisideFunctionBaseType::New();
 
+  std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
+  functionBase0->Print( std::cout );
+
   const double epsilon0 = 1.0;
   const double epsilon1 = 1e-4;
 
