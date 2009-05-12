@@ -40,7 +40,7 @@ namespace itk
  * \ingroup Optimizers
  */
   
-class SPSAOptimizer
+class ITK_EXPORT SPSAOptimizer
   : public SingleValuedNonLinearOptimizer
 {
 public:

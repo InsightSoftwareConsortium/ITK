@@ -70,6 +70,11 @@ SPSAOptimizer
   os << indent << "Alpha: " << m_Alpha << std::endl;
   os << indent << "c: " << m_Sc << std::endl;
   os << indent << "Gamma: " << m_Gamma << std::endl;
+  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
+  os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
+  os << indent << "Gradient: " << m_Gradient << std::endl;
+  os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
 
   os << indent << "NumberOfPerturbations: " << m_NumberOfPerturbations << std::endl;
 
