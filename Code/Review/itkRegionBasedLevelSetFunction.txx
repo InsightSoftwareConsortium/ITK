@@ -356,7 +356,7 @@ const ScalarValueType& itkNotUsed( inputPixel ),
 const InputIndexType& inputIndex )
 {
   unsigned int fId = this->m_FunctionId;
-  unsigned int pr = 1; // computes if it belongs to background
+  ScalarValueType product = 1; // computes if it belongs to background
 
   // Assuming only 1 level set function to be present
   FeatureIndexType featIndex = static_cast< FeatureIndexType >( inputIndex );
@@ -372,11 +372,11 @@ const InputIndexType& inputIndex )
     {
     featIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
     overlapTerm = this->m_OverlapPenaltyWeight *
-      ComputeOverlapParameters( featIndex, pr );
+      ComputeOverlapParameters( featIndex, product );
     }
 
-  ScalarValueType inTerm = this->m_Lambda1 * this->ComputeInternalTerm( featureVal, featIndex, fId );
-  ScalarValueType outTerm = this->m_Lambda2 * this->ComputeExternalTerm( featureVal, featIndex, pr );
+  ScalarValueType inTerm = this->m_Lambda1 * this->ComputeInternalTerm( featureVal, featIndex );
+  ScalarValueType outTerm = this->m_Lambda2 * product * this->ComputeExternalTerm( featureVal, featIndex );
 
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
     ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] - this->m_Volume );

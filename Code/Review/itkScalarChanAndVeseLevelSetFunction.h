@@ -126,10 +126,10 @@ protected:
   void UpdateSharedDataParameters();
 
   ScalarValueType ComputeInternalTerm( const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& fId );
+    const FeatureIndexType& iIdx );
 
   ScalarValueType ComputeExternalTerm( const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& pr );
+    const FeatureIndexType& iIdx );
 
   void UpdateSharedDataInsideParameters( const unsigned int& iId,
     const bool& iBool, const FeaturePixelType& );

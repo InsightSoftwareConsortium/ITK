@@ -131,8 +131,8 @@ protected:
   ScalarRegionBasedLevelSetFunction() : Superclass(){}
   ~ScalarRegionBasedLevelSetFunction(){}
 
-  ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
-    unsigned int& pr );
+  ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
+    ScalarValueType& product );
 
   virtual void UpdateSharedDataInsideParameters( const unsigned int& iId,
     const bool& iBool, const FeaturePixelType& iVal ) = 0;

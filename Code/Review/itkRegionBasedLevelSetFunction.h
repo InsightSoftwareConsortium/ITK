@@ -320,7 +320,7 @@ protected:
       \param[in] fId Index of the LevelSet Function
   */
   virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& fId ) = 0;
+    const FeatureIndexType& iIdx ) = 0;
 
   /** \brief Compute the external term
       \param[in] iValue Feature Image Value
@@ -329,11 +329,10 @@ protected:
       \note after discussion with kishore, pr is not and unsigned int
   */
   virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx,
-    const unsigned int& pr ) = 0;
+    const FeatureIndexType& iIdx ) = 0;
 
-  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
-    unsigned int& pr ) = 0;
+  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
+    ScalarValueType& pr ) = 0;
 
   void ComputeHessian( const NeighborhoodType &it,
     GlobalDataStruct *globalData );

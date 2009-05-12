@@ -161,8 +161,9 @@ typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedD
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::
 ComputeInternalTerm( const FeaturePixelType& iValue,
-  const FeatureIndexType& itkNotUsed(iIdx), const unsigned int& fId )
+  const FeatureIndexType& itkNotUsed(iIdx) )
 {
+  const unsigned int fId = this->m_FunctionId;
   const ScalarValueType cVals = this->m_SharedData->m_ForegroundConstantValues[fId];
   const ScalarValueType t = ( iValue - cVals );
   return t * t;
@@ -174,13 +175,13 @@ typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedD
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ComputeExternalTerm( const FeaturePixelType& iValue,
-    const FeatureIndexType& itkNotUsed(iIdx), const unsigned int& pr )
+    const FeatureIndexType& itkNotUsed(iIdx) )
 {
   const unsigned int fId = this->m_FunctionId;
   const ScalarValueType cBgrnd = this->m_SharedData->m_BackgroundConstantValues[fId]; // background
   const ScalarValueType t = ( iValue - cBgrnd );
 
-  return pr * t * t;
+  return t * t;
 }
 
 

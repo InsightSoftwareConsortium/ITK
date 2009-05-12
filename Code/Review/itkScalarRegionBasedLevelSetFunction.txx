@@ -25,14 +25,15 @@ namespace itk {
 template < class TInputImage, class TFeatureImage, class TSharedData >
 typename ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ScalarValueType
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
-::ComputeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& pr )
+::ComputeOverlapParameters( const FeatureIndexType& globalIndex, ScalarValueType& product )
 {
 // This conditional statement computes the amount of overlap s
 // and the presence of background pr
   unsigned int fId = this->m_FunctionId;
 
   // accumulates the overlap across all functions
-  unsigned int s = 0;
+  ScalarValueType sum = 0;
+  product = 1.;
 
   ListPixelType L;
   L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
@@ -47,14 +48,12 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       {
       otherIndex = this->m_SharedData->GetIndex( id, globalIndex );
       hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[id]->GetPixel( otherIndex );
-      if ( hVal > 0.5 )
-        {
-        s ++;
-        pr = 0;
-        }
+
+      sum += hVal;
+      product *= hVal;
       }
     }
-  return s;
+  return sum;
 }
 
 /* Performs the narrow-band update of the Heaviside function for each voxel. The

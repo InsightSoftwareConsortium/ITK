@@ -52,19 +52,19 @@ public:
 
 
   virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & )
+    const FeatureIndexType & )
     {
     return ScalarValueType( 0 );
     }
 
   virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & )
+    const FeatureIndexType & )
     {
     return ScalarValueType( 0 );
     }
 
-  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType,
-    unsigned int & )
+  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& ,
+    ScalarValueType& )
     {
     return ScalarValueType( 0 );
     }
