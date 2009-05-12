@@ -33,9 +33,9 @@ namespace itk {
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -66,7 +66,7 @@ class ITK_EXPORT ScalarChanAndVeseLevelSetFunction
 {
 public:
   typedef ScalarChanAndVeseLevelSetFunction           Self;
-  typedef ScalarRegionBasedLevelSetFunction< 
+  typedef ScalarRegionBasedLevelSetFunction<
     TInputImage, TFeatureImage, TSharedData >         Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
@@ -118,16 +118,12 @@ public:
   typedef typename Superclass::ListPixelIterator        ListPixelIterator;
   typedef typename Superclass::ListImageType            ListImageType;
 
-  void UpdatePixel( const unsigned int& idx,
-    NeighborhoodIterator<TInputImage> & iterator,
-    ScalarValueType & newValue,
-    bool & status );
-
 protected:
-  ScalarChanAndVeseLevelSetFunction() {}
+  ScalarChanAndVeseLevelSetFunction() : Superclass() {}
   ~ScalarChanAndVeseLevelSetFunction(){}
 
   void ComputeParameters();
+  void UpdateSharedDataParameters();
 
   ScalarValueType computeInternalTerm( const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx, const unsigned int& fId );

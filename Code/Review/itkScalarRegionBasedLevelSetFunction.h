@@ -35,9 +35,9 @@ namespace itk {
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -66,7 +66,7 @@ class ITK_EXPORT ScalarRegionBasedLevelSetFunction
 {
 public:
   typedef ScalarRegionBasedLevelSetFunction         Self;
-  typedef RegionBasedLevelSetFunction< 
+  typedef RegionBasedLevelSetFunction<
     TInputImage, TFeatureImage, TSharedData >       Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
@@ -118,6 +118,10 @@ public:
   typedef Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >
                                                     ListImageType;
 
+  /** \brief Performs the narrow-band update of the Heaviside function for each
+  voxel. The characteristic function of each region is recomputed (note the
+  shared data which contains information from the other level sets). Using the
+  new H values, the previous c_i are updated. */
   void UpdatePixel( const unsigned int& idx,
     NeighborhoodIterator<TInputImage> &iterator,
     InputPixelType &newValue,
@@ -127,10 +131,8 @@ protected:
   ScalarRegionBasedLevelSetFunction() : Superclass(){}
   ~ScalarRegionBasedLevelSetFunction(){}
 
-  void computeOverlapParameters( const FeatureIndexType featIndex,
-    unsigned int& s, unsigned int& pr );
-
-  void ComputeParameters();
+  ScalarValueType computeOverlapParameters( const FeatureIndexType featIndex,
+    unsigned int& pr );
 
 private:
   ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented

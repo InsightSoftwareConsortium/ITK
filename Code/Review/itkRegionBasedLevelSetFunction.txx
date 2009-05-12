@@ -23,6 +23,19 @@
 
 namespace itk
 {
+template < class TInput,
+  class TFeature,
+  class TSharedData >
+double
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::m_WaveDT = 1.0/(2.0 * ImageDimension);
+
+template < class TInput,
+  class TFeature,
+  class TSharedData >
+double
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::m_DT     = 1.0/(2.0 * ImageDimension);
 
 template < class TInput,
   class TFeature,
@@ -39,8 +52,8 @@ RegionBasedLevelSetFunction< TInput,
   m_VolumeMatchingWeight = NumericTraits<ScalarValueType>::Zero;
   m_Volume = 0;
   m_SharedData = 0;
-  this->m_UpdatedC = false;
-  this->m_UpdatedH = false;
+  m_UpdatedC = false;
+  m_UpdatedH = false;
 
   m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
 }
@@ -63,7 +76,7 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   typedef ImageRegionIteratorWithIndex< InputImageType > ImageIteratorType;
   ImageIteratorType It( hBuffer, hBuffer->GetRequestedRegion() );
 
-  It.GoToBegin(), 
+  It.GoToBegin(),
   constIt.GoToBegin();
 
   while(  !constIt.IsAtEnd() )
@@ -84,66 +97,30 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
   if ( forceUpdate )
     {
-    this->m_UpdatedC = false;
-    this->m_UpdatedH = false;
+    m_UpdatedC = false;
+    m_UpdatedH = false;
     }
 
-  if ( !this->m_UpdatedH )
+  if ( !m_UpdatedH )
     {
     // update H
-    this->m_UpdatedH = true;
+    m_UpdatedH = true;
     this->ComputeHImage();
 
     // Must update all H before updating C
     return;
     }
 
-  if ( !this->m_UpdatedC )
+  if ( !m_UpdatedC )
     {
-    this->m_UpdatedC = true;
+    m_UpdatedC = true;
     this->ComputeParameters();
     }
 
   this->SpecialProcessing();
 
-  unsigned int fId = this->m_FunctionId;
-
-  if ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] == 0 )
-    {
-    this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
-    }
-  else
-    {
-    this->m_SharedData->m_ForegroundConstantValues[fId] = 
-      this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] /
-      this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId];
-    }
-
-  if ( this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] == 0 )
-    {
-    this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
-    }
-  else
-    {
-    this->m_SharedData->m_BackgroundConstantValues[fId] = 
-      this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] /
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
-    }
+  this->UpdateSharedDataParameters();
 }
-
-template < class TInput,
-  class TFeature,
-  class TSharedData >
-double
-RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::m_WaveDT = 1.0/(2.0 * ImageDimension);
-
-template < class TInput,
-  class TFeature,
-  class TSharedData >
-double
-RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::m_DT     = 1.0/(2.0 * ImageDimension);
 
 template < class TInput,
   class TFeature,
@@ -156,11 +133,11 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   TimeStepType dt;
 
-  ACGlobalDataStruct *d = (ACGlobalDataStruct *)GlobalData;
+  GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
 
-  if (vnl_math_abs(d->m_MaxCurvatureChange) > 0.0)
+  if (vnl_math_abs(d->m_MaxCurvatureChange) > vnl_math::eps)
     {
-    if (d->m_MaxGlobalChange > 0.0)
+    if (d->m_MaxGlobalChange > vnl_math::eps)
       {
       dt = vnl_math_min( ( this->m_WaveDT / d->m_MaxGlobalChange ),
       ( this->m_DT / d->m_MaxCurvatureChange ) );
@@ -172,8 +149,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
   else
     {
-    if (d->m_MaxGlobalChange > 0.0)
+    if (d->m_MaxGlobalChange > vnl_math::eps)
       {
+      //NOTE: What's the difference between this->m_WaveDT and this->m_DT?
       dt = this->m_WaveDT / d->m_MaxGlobalChange;
       }
     else
@@ -217,29 +195,27 @@ ComputeCurvatureTerm(
       }
     }
 
-  return (curvature_term / gd->m_GradMagSqr );
+  if( gd->m_GradMagSqr > vnl_math::eps )
+    return (curvature_term / gd->m_GradMagSqr );
+  else
+    return 0.;
 }
 
+// Compute the Hessian matrix and various other derivatives.  Some of these
+// derivatives may be used by overloaded virtual functions.
 template < class TInput,
   class TFeature,
   class TSharedData >
-typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::PixelType
+void
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::ComputeUpdate( const NeighborhoodType &it, void *globalData,
-  const FloatOffsetType& offset )
+::ComputeHessian( const NeighborhoodType &it, GlobalDataStruct *gd )
 {
-  // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
 
-  ScalarValueType laplacian, laplacian_term, curvature_term, globalTerm;
+  gd->m_GradMagSqr = 0.;
+  unsigned int i, j;
 
-  // Access the global data structure
-  ACGlobalDataStruct *gd = (ACGlobalDataStruct *)globalData;
-
-  // Compute the Hessian matrix and various other derivatives.  Some of these
-  // derivatives may be used by overloaded virtual functions.
-  gd->m_GradMagSqr = 1.0e-6;
-  for( unsigned int i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; i++)
     {
     const unsigned int positionA =
       static_cast< unsigned int >( this->m_Center + this->m_xStride[i] );
@@ -253,7 +229,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     gd->m_dx_backward[i] = inputValue - it.GetPixel( positionB );
     gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
 
-    for( unsigned int j = i+1; j < ImageDimension; j++ )
+    for (j = i+1; j < ImageDimension; j++ )
       {
       const unsigned int positionAa = static_cast<unsigned int>(
         this->m_Center - this->m_xStride[i] - this->m_xStride[j] );
@@ -271,6 +247,25 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
         it.GetPixel( positionDa ) );
       }
     }
+}
+
+template < class TInput,
+  class TFeature,
+  class TSharedData >
+typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::PixelType
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ComputeUpdate( const NeighborhoodType &it, void *globalData,
+  const FloatOffsetType& offset )
+{
+  // Access the neighborhood center pixel of phi
+  const ScalarValueType inputValue = it.GetCenterPixel();
+
+  ScalarValueType laplacian, laplacian_term, curvature_term, globalTerm;
+
+  // Access the global data structure
+  GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
+
+  ComputeHessian( it, gd );
 
   ScalarValueType dh = m_DomainFunction->EvaluateDerivative( - inputValue );
 
@@ -301,7 +296,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     laplacian = NumericTraits<ScalarValueType>::Zero;
 
     // Compute the laplacian using the existing second derivative values
-    for(unsigned int i = 0;i < ImageDimension; i++)
+    for(unsigned int i = 0; i < ImageDimension; i++)
       {
       laplacian += gd->m_dxy[i][i];
       }
@@ -362,7 +357,6 @@ const InputIndexType& inputIndex )
 {
   unsigned int fId = this->m_FunctionId;
   unsigned int pr = 1; // computes if it belongs to background
-  unsigned int s = 0; // accumulates the overlap across all functions
 
   // Assuming only 1 level set function to be present
   FeatureIndexType featIndex = static_cast< FeatureIndexType >( inputIndex );
@@ -370,21 +364,19 @@ const InputIndexType& inputIndex )
   const FeaturePixelType featureVal =
     this->m_FeatureImage->GetPixel ( inputIndex );
 
-  ScalarValueType globalTerm;
+  ScalarValueType overlapTerm = 0.;
 
-  ScalarValueType overlapTerm;
   // This conditional statement computes the amount of overlap s
   // and the presence of background pr
   if ( this->m_SharedData->m_FunctionCount > 1 )
     {
     featIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
-    computeOverlapParameters( featIndex, s, pr );
+    overlapTerm = this->m_OverlapPenaltyWeight *
+      computeOverlapParameters( featIndex, pr );
     }
 
   ScalarValueType inTerm = this->m_Lambda1 * this->computeInternalTerm( featureVal, featIndex, fId );
   ScalarValueType outTerm = this->m_Lambda2 * this->computeExternalTerm( featureVal, featIndex, pr );
-
-  overlapTerm = this->computeOverlapTerm( s );
 
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
     ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] - this->m_Volume );
@@ -392,7 +384,7 @@ const InputIndexType& inputIndex )
   //regularizationTerm -= this->m_Nu;
   //NOTE: regularizationTerm here MUST take into account the curvature term!!!
 
-  globalTerm = - inTerm + outTerm - overlapTerm - regularizationTerm;
+  ScalarValueType globalTerm = - inTerm + outTerm - overlapTerm - regularizationTerm;
 
   return globalTerm;
 }

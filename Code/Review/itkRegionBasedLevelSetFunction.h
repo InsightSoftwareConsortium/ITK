@@ -34,9 +34,9 @@ namespace itk {
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -91,30 +91,22 @@ public:
   typedef FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >
                                                           VectorType;
 
-  struct GlobalDataStruct
-    {
-    ScalarValueType m_MaxAdvectionChange;
-    ScalarValueType m_MaxPropagationChange;
-    ScalarValueType m_MaxCurvatureChange;
-
-    vnl_matrix_fixed<ScalarValueType,
-      itkGetStaticConstMacro(ImageDimension),
-      itkGetStaticConstMacro(ImageDimension)> m_dxy;
-
-    ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
-
-    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
-
-    ScalarValueType m_GradMagSqr;
-    };
-
   /* This structure is derived from LevelSetFunction and stores intermediate
   values for computing time step sizes */
-  struct ACGlobalDataStruct : public GlobalDataStruct
+  struct GlobalDataStruct
     {
-    ScalarValueType m_MaxAdvectionChange;
-    ScalarValueType m_MaxPropagationChange;
+    GlobalDataStruct()
+      {
+      ScalarValueType null_value = NumericTraits<ScalarValueType>::Zero;
+
+      m_MaxCurvatureChange   = null_value;
+      m_MaxGlobalChange      = null_value;
+      }
+
+    ~GlobalDataStruct() {}
+
+//     ScalarValueType m_MaxAdvectionChange; // not used
+//     ScalarValueType m_MaxPropagationChange; // not used
     ScalarValueType m_MaxCurvatureChange;
 
     vnl_matrix_fixed<ScalarValueType,
@@ -152,6 +144,7 @@ public:
   typedef typename SharedDataType::Pointer          SharedDataPointer;
 
   typedef HeavisideStepFunctionBase< InputPixelType, InputPixelType > HeavisideFunctionType;
+  typedef typename HeavisideFunctionType::ConstPointer HeavisideFunctionConstPointer;
 
   void SetDomainFunction( const HeavisideFunctionType * f )
     {
@@ -186,13 +179,7 @@ public:
 
   void *GetGlobalDataPointer() const
     {
-    ACGlobalDataStruct *ans = new ACGlobalDataStruct();
-
-    ScalarValueType null_value = NumericTraits<ScalarValueType>::Zero;
-
-    ans->m_MaxCurvatureChange   = null_value;
-    ans->m_MaxGlobalChange      = null_value;
-    return ans;
+    return new GlobalDataStruct;
     }
 
   TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
@@ -269,14 +256,14 @@ public:
   virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct *gd = 0 );
 
-  /** Laplacian smoothing speed.  Can be used to spatially modify the
+  /** \brief Laplacian smoothing speed can be used to spatially modify the
     effects of laplacian smoothing of the level set function */
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct * = 0) const
     { return NumericTraits<ScalarValueType>::One; }
 
-  /** Curvature speed.  Can be used to spatially modify the effects of
+  /** \brief Curvature speed can be used to spatially modify the effects of
     curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
                                          const FloatOffsetType &, GlobalDataStruct * = 0
@@ -297,8 +284,8 @@ protected:
   bool m_UpdatedC;
   bool m_UpdatedH;
 
-  SharedDataPointer                                m_SharedData;
-  typename HeavisideFunctionType::ConstPointer     m_DomainFunction;
+  SharedDataPointer                 m_SharedData;
+  HeavisideFunctionConstPointer     m_DomainFunction;
 
   /* Area regularizer term in CV formulation, what about lambda1 and lambda2?*/
   ScalarValueType           m_AreaWeight;
@@ -327,21 +314,37 @@ protected:
     const ScalarValueType& imagePixel,
     const InputIndexType& inputIndex );
 
+  /** \brief Compute the internal term
+      \param[in] iValue Feature Image Value
+      \param[in] iIdx Feature Image Index
+      \param[in] fId Index of the LevelSet Function
+  */
   virtual ScalarValueType computeInternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx, const unsigned int& fId ) = 0;
 
+  /** \brief Compute the external term
+      \param[in] iValue Feature Image Value
+      \param[in] iIdx Feature Image Index
+      \param[in] pr Product of Heaviside Functions
+      \note after discussion with kishore, pr is not and unsigned int
+  */
   virtual ScalarValueType computeExternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx, const unsigned int& pr ) = 0;
+    const FeatureIndexType& iIdx,
+    const unsigned int& pr ) = 0;
 
-  virtual void computeOverlapParameters( const FeatureIndexType featIndex,
-    unsigned int& s, unsigned int& pr ) = 0;
+  virtual ScalarValueType computeOverlapParameters( const FeatureIndexType featIndex,
+    unsigned int& pr ) = 0;
 
-  virtual ScalarValueType computeOverlapTerm( const unsigned int& s )
-  { return this->m_OverlapPenaltyWeight * s; }
+//   virtual ScalarValueType computeOverlapTerm( const unsigned int& s )
+//   { return this->m_OverlapPenaltyWeight * s; }
+
+  void ComputeHessian( const NeighborhoodType &it,
+    GlobalDataStruct *globalData );
 
   virtual void ComputeParameters() = 0;
 
   virtual void SpecialProcessing(){}
+  virtual void UpdateSharedDataParameters() = 0;
 
 private:
   RegionBasedLevelSetFunction(const Self&); //purposely not implemented

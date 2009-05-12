@@ -22,84 +22,17 @@
 
 namespace itk {
 
-/* Calculates the numerator and denominator for c_i for each region. As part of
-the optimization, it is called once at the beginning of the code, and then the
-m_SumOfPixelValuesInsideLevelSet and m_NumberOfPixelsInsideLevelSet are updated
-during the evolution without iterating through the entire image. */
 template < class TInputImage, class TFeatureImage, class TSharedData >
-void
+typename ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ScalarValueType
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
-::ComputeParameters()
-{
-  unsigned int fId = this->m_FunctionId;
-
-  this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] = 0;
-  this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] = 0;
-  this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
-  this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] = 0;
-  this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] = 0;
-  this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
-
-  FeatureImageConstPointer featureImage = this->m_FeatureImage;
-
-  ImageIteratorType It( this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId],
-    this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetLargestPossibleRegion() );
-  ConstFeatureIteratorType fIt( this->m_FeatureImage,
-    this->m_FeatureImage->GetLargestPossibleRegion() );
-
-  FeaturePixelType featureVal;
-  FeatureIndexType globalIndex;
-  InputIndexType itInputIndex, inputIndex;
-  InputPixelType hVal;
-  ListPixelType L;
-
-  for( It.GoToBegin(), fIt.GoToBegin(); !It.IsAtEnd();
-    ++It, ++fIt )
-    {
-    featureVal = fIt.Get();
-    inputIndex = It.GetIndex();
-
-    globalIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
-
-    L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
-
-    bool inBgrnd = true; // assume the pixel is in background
-    for( ListPixelConstIterator it = L.begin(); it != L.end(); ++it )
-      {
-      itInputIndex = this->m_SharedData->GetIndex( *it, globalIndex );
-      hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[*it]->GetPixel( itInputIndex );
-
-      if ( hVal > 0.5 )
-        {
-        // inside the level-set function
-        inBgrnd = false;
-
-        if (*it == fId)
-          {
-          this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] += featureVal;
-          this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId]++;
-          }
-        }
-      }
-
-    // if the pixel belongs to the background
-    if ( inBgrnd )
-      {
-      this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] += featureVal;
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId]++;
-      }
-    }
-}
-
-
-template < class TInputImage, class TFeatureImage, class TSharedData >
-void
-ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
-::computeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& s, unsigned int& pr )
+::computeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& pr )
 {
 // This conditional statement computes the amount of overlap s
 // and the presence of background pr
   unsigned int fId = this->m_FunctionId;
+
+  // accumulates the overlap across all functions
+  unsigned int s = 0;
 
   ListPixelType L;
   L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
@@ -121,6 +54,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
         }
       }
     }
+  return s;
 }
 
 /* Performs the narrow-band update of the Heaviside function for each voxel. The
