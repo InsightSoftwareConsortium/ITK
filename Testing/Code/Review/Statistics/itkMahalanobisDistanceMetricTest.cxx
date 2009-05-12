@@ -241,12 +241,11 @@ int itkMahalanobisDistanceMetricTest(int, char* [] )
   measurementSingleComponent3[0] = 1.5;
   measurementSingleComponent3[1] = 2.5;
 
-  trueValue = 1.0;
-  distanceComputed = distance->Evaluate( measurementSingleComponent, measurementSingleComponent2 );
+  distance->Evaluate( measurementSingleComponent, measurementSingleComponent2 );
 
   try
     {
-    distanceComputed = distance->Evaluate( measurementSingleComponent, measurementSingleComponent3 );
+    distance->Evaluate( measurementSingleComponent, measurementSingleComponent3 );
     std::cerr << "Attempting to compute distance between unequal size measurement vectors" 
               << "Exception should have been thrown: " << std::endl;
     return EXIT_FAILURE;

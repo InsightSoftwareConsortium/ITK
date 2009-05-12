@@ -29,7 +29,7 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
 
   const unsigned int                  MeasurementVectorSize = 3;
   const unsigned int                  numberOfMeasurementVectors = 3;
-  unsigned int                        counter = 0;
+  unsigned int                        counter;
 
   typedef itk::FixedArray< 
     float, MeasurementVectorSize >             MeasurementVectorType;

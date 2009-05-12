@@ -79,7 +79,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
   std::cout << "WeightedMeanSampleFilter test \n \n";
 
   const unsigned int                  numberOfMeasurementVectors = 5;
-  unsigned int                        counter = 0;
+  unsigned int                        counter;
 
   typedef itk::FixedArray< 
     float, MeasurementVectorSize >             MeasurementVectorType;

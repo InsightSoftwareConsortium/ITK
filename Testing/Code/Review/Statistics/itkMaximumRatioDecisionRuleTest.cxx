@@ -57,7 +57,7 @@ int itkMaximumRatioDecisionRuleTest(int, char* [] )
   unsigned int  decisionValue;
   try
     {
-    decisionValue = decisionRule->Evaluate( membershipScoreVector);
+    decisionRule->Evaluate( membershipScoreVector);
     std::cerr << "An exception should have been thrown since a priori"
               << " probability is not set yet " << std::endl;
     return EXIT_FAILURE;
@@ -85,7 +85,7 @@ int itkMaximumRatioDecisionRuleTest(int, char* [] )
   //Evalue the membershipScore vector instantiated above ( 3 classes )
   try
     {
-    decisionValue = decisionRule->Evaluate( membershipScoreVector);
+    decisionRule->Evaluate( membershipScoreVector);
     std::cerr << "An exception should have been thrown since the membership" 
               << " score vector size doesn't match with the apriori vector" << std::endl;
     return EXIT_FAILURE;
