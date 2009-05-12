@@ -75,11 +75,19 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "alpha = " << m_Alpha << std::endl;
-  os << indent << "beta = " << m_Beta << std::endl;
-  os << indent << "gamma = " << m_Gamma << std::endl;
-  os << indent << "rigidity = " << m_Rigidity << std::endl;
-  os << indent << "No. of Iterations = " << m_Iterations << std::endl;
+  os << indent << "Alpha = " << m_Alpha << std::endl;
+  os << indent << "Beta = " << m_Beta << std::endl;
+  os << indent << "Gamma = " << m_Gamma << std::endl;
+  os << indent << "Rigidity = " << m_Rigidity << std::endl;
+  os << indent << "Iterations = " << m_Iterations << std::endl;
+  os << indent << "Step = " << m_Step << std::endl;
+  os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
+  os << indent << "Gradient = " << m_Gradient << std::endl;
+  os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
+  os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
+  os << indent << "Damping = " << m_Damping << std::endl;
+  os << indent << "Data = " << m_Data << std::endl;
+
 
 }/* End PrintSelf. */
 

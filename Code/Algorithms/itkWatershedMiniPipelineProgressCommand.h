@@ -62,6 +62,7 @@ protected:
   WatershedMiniPipelineProgressCommand() : m_Count(0.0), m_Filter(0),
                                            m_NumberOfFilters(1) {}
   virtual ~WatershedMiniPipelineProgressCommand() {}
+  void PrintSelf(std::ostream& os, Indent indent) const;
   
 private:
   double         m_Count;

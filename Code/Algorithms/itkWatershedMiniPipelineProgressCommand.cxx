@@ -47,4 +47,11 @@ void WatershedMiniPipelineProgressCommand
     }
 }
 
+void WatershedMiniPipelineProgressCommand
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  os << indent << "NumberOfFilters: " << m_NumberOfFilters << std::endl;
+  os << indent << "Count: " << m_Count << std::endl;
+}
 } // end namespace itk

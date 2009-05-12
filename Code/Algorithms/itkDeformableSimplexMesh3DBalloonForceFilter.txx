@@ -51,6 +51,7 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent); 
+  os << indent << "Kappa = " << m_Kappa << std::endl;
 }/* End PrintSelf. */
 
 /** Compute model Displacement according to image gradient forces */

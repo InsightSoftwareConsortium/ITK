@@ -199,6 +199,7 @@ BinaryMedialNodeMetric<VDimensions>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Result: " << m_Result << std::endl;
 }
 
 

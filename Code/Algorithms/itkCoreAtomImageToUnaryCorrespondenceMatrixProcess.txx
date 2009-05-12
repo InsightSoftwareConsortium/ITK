@@ -262,6 +262,8 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
+  os << indent << "Columns: " << this->GetColumns() << std::endl;
+  os << indent << "Rows: " << this->GetRows() << std::endl;
 }
 
 } // end namespace
