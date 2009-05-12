@@ -155,7 +155,7 @@ public:
 
   void SetDomainFunction( const HeavisideFunctionType * f )
     {
-    m_DomainFunction = f;
+    this->m_DomainFunction = f;
     }
 
   virtual void Initialize(const RadiusType &r)
@@ -297,8 +297,8 @@ protected:
   bool m_UpdatedC;
   bool m_UpdatedH;
 
-  SharedDataPointer                           m_SharedData;
-  typename HeavisideFunctionType::Pointer     m_DomainFunction;
+  SharedDataPointer                                m_SharedData;
+  typename HeavisideFunctionType::ConstPointer     m_DomainFunction;
 
   /* Area regularizer term in CV formulation, what about lambda1 and lambda2?*/
   ScalarValueType           m_AreaWeight;

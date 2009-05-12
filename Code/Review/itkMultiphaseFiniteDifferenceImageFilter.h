@@ -271,17 +271,17 @@ public:
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstReferenceMacro( ElapsedIterations, unsigned int );
 
-  void SetLevelSet( const IdCellType & i, const InputImageType * Im )
+  void SetLevelSet( const IdCellType & i, const InputImageType * levelSet )
     {
     m_LevelSet[i] = InputImageType::New();
-    m_LevelSet[i]->SetRequestedRegion( Im->GetRequestedRegion() );
-    m_LevelSet[i]->SetBufferedRegion( Im->GetBufferedRegion() );
-    m_LevelSet[i]->SetLargestPossibleRegion( Im->GetLargestPossibleRegion() );
+    m_LevelSet[i]->SetRequestedRegion( levelSet->GetRequestedRegion() );
+    m_LevelSet[i]->SetBufferedRegion( levelSet->GetBufferedRegion() );
+    m_LevelSet[i]->SetLargestPossibleRegion( levelSet->GetLargestPossibleRegion() );
     m_LevelSet[i]->Allocate();
-    m_LevelSet[i]->CopyInformation( Im );
+    m_LevelSet[i]->CopyInformation( levelSet );
 
-    ImageRegionIterator< InputImageType > in ( Im, Im->GetLargestPossibleRegion());
-    ImageRegionIterator< InputImageType > cp ( m_LevelSet[i], Im->GetLargestPossibleRegion()  );
+    ImageRegionConstIterator< InputImageType > in ( levelSet, levelSet->GetBufferedRegion());
+    ImageRegionIterator< InputImageType > cp ( m_LevelSet[i], levelSet->GetBufferedRegion()  );
 
     in.GoToBegin();
     cp.GoToBegin();
