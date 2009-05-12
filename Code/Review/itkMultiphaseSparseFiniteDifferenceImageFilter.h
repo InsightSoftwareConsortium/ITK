@@ -271,6 +271,19 @@ public:
   void InterpolateSurfaceLocationOff()
   { this->SetInterpolateSurfaceLocation( false ); }
 
+  void SetFunctionCount( unsigned int n )
+    {
+    this->Superclass::SetFunctionCount( n );
+
+    m_SparseData = new SparseDataStruct *[n];
+
+    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+      {
+      m_SparseData[i] = new SparseDataStruct(i);
+      }
+    }
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputEqualityComparableCheck,
@@ -467,18 +480,6 @@ to);
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation;
-
-  void SetFunctionCount( unsigned int n )
-    {
-    this->Superclass::SetFunctionCount( n );
-
-    m_SparseData = new SparseDataStruct *[n];
-
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-      {
-      m_SparseData[i] = new SparseDataStruct(i);
-      }
-    }
 
 private:
   MultiphaseSparseFiniteDifferenceImageFilter(const Self&);

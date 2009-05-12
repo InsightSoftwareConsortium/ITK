@@ -157,6 +157,18 @@ public:
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType >  FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType                               FaceListType;
 
+  void SetFunctionCount( unsigned int n )
+    {
+    this->Superclass::SetFunctionCount( n );
+
+    this->m_UpdateBuffers = new UpdateBufferPointer[n];
+
+    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+      {
+      this->m_UpdateBuffers[i] = UpdateBufferType::New();
+      }
+    }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputTimesDoubleCheck,
@@ -178,18 +190,6 @@ protected:
   ~MultiphaseDenseFiniteDifferenceImageFilter()
     {
     delete [] this->m_UpdateBuffers;
-    }
-
-  void SetFunctionCount( unsigned int n )
-    {
-    this->Superclass::SetFunctionCount( n );
-
-    this->m_UpdateBuffers = new UpdateBufferPointer[n];
-
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-      {
-      this->m_UpdateBuffers[i] = UpdateBufferType::New();
-      }
     }
 
   /** A simple method to copy the data from the input to the output.  ( Supports
