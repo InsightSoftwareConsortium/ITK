@@ -68,7 +68,7 @@ namespace itk {
  * the NodeType has the following additional members: m_Flux. 
  */
 template <class TInputImage, class TSparseOutputImage>
-class ImplicitManifoldNormalVectorFilter  
+class ITK_EXPORT ImplicitManifoldNormalVectorFilter  
   : public FiniteDifferenceSparseImageFilter <TInputImage, TSparseOutputImage>
 {
 public:  

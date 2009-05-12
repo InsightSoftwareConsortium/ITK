@@ -45,7 +45,7 @@ namespace itk
  *
  */
 template <class TInputMesh, class TOutputMesh>
-class SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+class ITK_EXPORT SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 
 public:

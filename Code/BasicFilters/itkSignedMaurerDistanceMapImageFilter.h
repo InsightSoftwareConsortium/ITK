@@ -60,7 +60,7 @@ namespace itk
  */
 
 template <class TInputImage, class TOutputImage>
-class SignedMaurerDistanceMapImageFilter :
+class ITK_EXPORT SignedMaurerDistanceMapImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

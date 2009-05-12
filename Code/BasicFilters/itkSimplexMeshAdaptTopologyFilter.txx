@@ -354,7 +354,10 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "ToDo: implement PrinSelf!!!";
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "SelectionMethod: " << m_SelectionMethod << std::endl;
+  os << indent << "ModifiedCount: " << m_ModifiedCount << std::endl;
+
 }
 
 

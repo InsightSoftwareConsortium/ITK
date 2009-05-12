@@ -113,13 +113,13 @@ public:
   
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
-  itkGetConstMacro(Scale, double);
+  itkGetConstReferenceMacro(Scale, double);
   itkSetMacro(Normalized, bool);
-  itkGetConstMacro(Normalized, bool);
+  itkGetConstReferenceMacro(Normalized, bool);
   itkSetMacro(Sigma, ArrayType);
-  itkGetConstMacro(Sigma, ArrayType);
+  itkGetConstReferenceMacro(Sigma, ArrayType);
   itkSetMacro(Mean, ArrayType);
-  itkGetConstMacro(Mean, ArrayType);
+  itkGetConstReferenceMacro(Mean, ArrayType);
   
 
 protected:
