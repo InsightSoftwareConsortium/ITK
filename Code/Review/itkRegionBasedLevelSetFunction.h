@@ -240,7 +240,7 @@ public:
   ScalarValueType GetVolumeMatchingWeight() const
     { return this->m_VolumeMatchingWeight; }
 
-  /** Volume.  */
+  /** Pixel Volume = Number of pixels inside the level-set  */
   void SetVolume( const ScalarValueType& volume )
     { this->m_Volume = volume; }
   ScalarValueType GetVolume() const
@@ -287,13 +287,30 @@ protected:
   SharedDataPointer                 m_SharedData;
   HeavisideFunctionConstPointer     m_DomainFunction;
 
-  /* Area regularizer term in CV formulation, what about lambda1 and lambda2?*/
+  /** Area regularization weight */
   ScalarValueType           m_AreaWeight;
+
+  /** Internal functional of the level set weight */
   ScalarValueType           m_Lambda1;
+
+  /** External functional of the level set weight */
   ScalarValueType           m_Lambda2;
+
+  /** Overlap Penalty Weight */
   ScalarValueType           m_OverlapPenaltyWeight;
+
+  /** Volume Regularization Weight */
   ScalarValueType           m_VolumeMatchingWeight;
+
+  /** Volume Constraint in pixels */
   ScalarValueType           m_Volume;
+
+  /** Curvature Regularization Weight */
+  ScalarValueType           m_CurvatureWeight;
+
+  /** Laplacian Regularization Weight */
+  ScalarValueType           m_LaplacianSmoothingWeight;
+
   unsigned int              m_FunctionId;
 
   std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
@@ -303,13 +320,11 @@ protected:
   static double m_WaveDT;
   static double m_DT;
 
-  ScalarValueType m_CurvatureWeight;
-  ScalarValueType m_LaplacianSmoothingWeight;
-
-
   void ComputeHImage();
-//   ScalarValueType ComputeRegularizationTerms( /* fill with adequate parameters */);
 
+  /** \brief Compute the global term as a combination of the internal, external,
+    overlapping and volume regularization terms.
+  */
   ScalarValueType ComputeGlobalTerm(
     const ScalarValueType& imagePixel,
     const InputIndexType& inputIndex );
@@ -331,17 +346,33 @@ protected:
   virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx ) = 0;
 
+  /** \brief Compute the overlap term
+      \param[in] featIndex
+      \param[out] pr = \f$ \prod_{i \neq j} H(\phi_i)\f$
+      \return OverlapTerm = \f$ \sum_{i \neq j} H(\phi_i)\f$
+  */
   virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
     ScalarValueType& pr ) = 0;
 
+  /** \brief Compute the overlap term
+      \return \f$ \int_{p \in \Omega} H(\phi_i) dp - this->Volume \f$
+      \note the volume regularization does not depend on the spacing.
+        So the volume must be set in number of pixels (not in real world unit).
+  */
   ScalarValueType ComputeVolumeRegularizationTerm( );
 
+  /** \brief Compute Hessian Matrix */
   void ComputeHessian( const NeighborhoodType &it,
     GlobalDataStruct *globalData );
 
+  /** \brief Compute Parameters for the inner and outer parts. */
   virtual void ComputeParameters() = 0;
 
+  /** \brief Any Preprocessing. */
   virtual void SpecialProcessing(){}
+
+  /** \brief Update and save the inner and outer parameters in the shared data
+    data structure. */
   virtual void UpdateSharedDataParameters() = 0;
 
 private:

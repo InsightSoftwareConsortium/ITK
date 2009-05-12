@@ -377,9 +377,8 @@ const InputIndexType& inputIndex )
   ScalarValueType outTerm = this->m_Lambda2 * product * this->ComputeExternalTerm( featureVal, featIndex );
 
   ScalarValueType regularizationTerm = this->m_VolumeMatchingWeight *
-    ComputeVolumeRegularizationTerm();
+    ComputeVolumeRegularizationTerm() - this->m_AreaWeight;
 
-  //regularizationTerm -= this->m_Nu;
   //NOTE: regularizationTerm here MUST take into account the curvature term!!!
 
   ScalarValueType globalTerm = - inTerm + outTerm - overlapTerm - regularizationTerm;
