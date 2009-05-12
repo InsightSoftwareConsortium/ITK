@@ -134,6 +134,11 @@ protected:
   ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
     unsigned int& pr );
 
+  virtual void UpdateSharedDataInsideParameters( const unsigned int& iId,
+    const bool& iBool, const FeaturePixelType& iVal ) = 0;
+  virtual void UpdateSharedDataOutsideParameters( const unsigned int& iId,
+    const bool& iBool, const FeaturePixelType& iVal ) = 0;
+
 private:
   ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

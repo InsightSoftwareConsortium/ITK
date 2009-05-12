@@ -335,9 +335,6 @@ protected:
   virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
     unsigned int& pr ) = 0;
 
-//   virtual ScalarValueType computeOverlapTerm( const unsigned int& s )
-//   { return this->m_OverlapPenaltyWeight * s; }
-
   void ComputeHessian( const NeighborhoodType &it,
     GlobalDataStruct *globalData );
 

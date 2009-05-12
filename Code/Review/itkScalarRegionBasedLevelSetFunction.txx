@@ -98,8 +98,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // if pixel belonged to current foreground but not anymore so
   if ( ( oldH > 0.5 ) && ( newH <= 0.5 ) )
     {
-    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId]--;
-    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] -= featureVal;
+    UpdateSharedDataInsideParameters( fId, false, featureVal );
 
     // have to update level-set backgrounds overlapping
     // at the current pixel
@@ -107,26 +106,22 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[*it] += featureVal;
-        this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[*it]++;
+        UpdateSharedDataOutsideParameters( *it, true, featureVal );
         }
       }
     }
 
   // if pixel entered the foreground
-  if ( ( oldH <= 0.5 ) & ( newH > 0.5 ) )
+  if ( ( oldH <= 0.5 ) && ( newH > 0.5 ) )
     {
-    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId]++;
-    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] += featureVal;
-
+    UpdateSharedDataInsideParameters( fId, true, featureVal );
     // have to update level-set backgrounds overlapping
     // at the current pixel
     if ( inBgrnd )
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[*it] -= featureVal;
-        this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[*it]--;
+        UpdateSharedDataOutsideParameters( *it, false, featureVal );
         }
       }
     }

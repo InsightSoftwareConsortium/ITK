@@ -73,6 +73,12 @@ public:
 
   virtual void UpdateSharedDataParameters() {}
 
+  virtual void UpdateSharedDataInsideParameters( const unsigned int& ,
+    const bool& , const FeaturePixelType& ) {}
+
+  virtual void UpdateSharedDataOutsideParameters( const unsigned int& ,
+    const bool& , const FeaturePixelType& ) {}
+
 
 protected:
   ScalarRegionBasedLevelSetFunctionTestHelper() {}

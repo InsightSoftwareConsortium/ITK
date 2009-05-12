@@ -51,6 +51,41 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
     }
 }
+
+template < class TInputImage, class TFeatureImage, class TSharedData >
+void
+ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData > ::UpdateSharedDataInsideParameters( const unsigned int& iId,
+    const bool& iA, const FeaturePixelType& iVal )
+{
+  if( iA )
+    {
+    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[iId]++;
+    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[iId] += iVal;
+    }
+  else
+    {
+    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[iId]--;
+    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[iId] -= iVal;
+    }
+}
+
+template < class TInputImage, class TFeatureImage, class TSharedData >
+void
+ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData > ::UpdateSharedDataOutsideParameters( const unsigned int& iId,
+    const bool& iA, const FeaturePixelType& iVal )
+{
+  if( iA )
+    {
+    this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[iId]++;
+    this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[iId] += iVal;
+    }
+  else
+    {
+    this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[iId]--;
+    this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[iId] -= iVal;
+    }
+}
+
 /* Calculates the numerator and denominator for c_i for each region. As part of
 the optimization, it is called once at the beginning of the code, and then the
 cNum and cDen are updated during the evolution without iterating through the

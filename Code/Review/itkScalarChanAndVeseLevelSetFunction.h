@@ -131,6 +131,11 @@ protected:
   ScalarValueType ComputeExternalTerm( const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx, const unsigned int& pr );
 
+  void UpdateSharedDataInsideParameters( const unsigned int& iId,
+    const bool& iBool, const FeaturePixelType& );
+  void UpdateSharedDataOutsideParameters( const unsigned int& iId,
+    const bool& iBool, const FeaturePixelType& );
+
 private:
   ScalarChanAndVeseLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
