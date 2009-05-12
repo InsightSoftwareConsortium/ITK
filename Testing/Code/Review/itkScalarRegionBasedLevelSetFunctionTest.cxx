@@ -63,8 +63,11 @@ public:
     return ScalarValueType( 0 );
     }
 
-  virtual void ComputeOverlapParameters( const FeatureIndexType,
-    unsigned int &, unsigned int & ) {}
+  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType,
+    unsigned int & )
+    {
+    return ScalarValueType( 0 );
+    }
 
   virtual void ComputeParameters() {}
 
