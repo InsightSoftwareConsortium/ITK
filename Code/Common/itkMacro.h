@@ -1213,21 +1213,21 @@ inline int RoundHalfIntegerToEven(double x)
 #ifndef NDEBUG 
 
 #ifdef _POSIX_SOURCE
-#define itkAssertInDebugOrThrowInReleaseMacro(msg) __assert_fail (msg.c_str(), __FILE__, __LINE__, __ASSERT_FUNCTION);
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) __assert_fail (msg, __FILE__, __LINE__, __ASSERT_FUNCTION);
 #else
-#define itkAssertInDebugOrThrowInReleaseMacro(msg)
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) itkGenericExceptionMacro( << msg );
 #endif
 
 #else 
-#define itkAssertInDebugOrThrowInReleaseMacro(msg) itkGenericExceptionMacro(msg);
+#define itkAssertInDebugOrThrowInReleaseMacro(msg) itkGenericExceptionMacro( << msg);
 #endif
 
 #define itkAssertOrThrowMacro(test, message) \
    if( !(test) ) \
      { \
-     std::stringstream msg;    \
-     msg << message;      \
-     itkAssertInDebugOrThrowInReleaseMacro(msg.str())      \
+     ::itk::OStringStream msgstr; \
+     msgstr << message;      \
+     itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
      }
 
 #endif //end of itkMacro.h
