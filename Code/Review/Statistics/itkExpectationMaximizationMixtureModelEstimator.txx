@@ -245,7 +245,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     unsigned int componentIndex, measurementVectorIndex;
     unsigned long size = m_Sample->Size();
     double logProportion;
-    double temp = 0.0;
+    double temp;
     for (componentIndex = 0; componentIndex < m_ComponentVector.size();
          componentIndex++)
       {
