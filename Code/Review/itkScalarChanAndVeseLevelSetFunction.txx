@@ -37,7 +37,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     {
     this->m_SharedData->m_ForegroundConstantValues[fId] =
       this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] /
-      this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId];
+      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
     }
 
   if ( this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] == 0 )
@@ -140,7 +140,11 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
         if (*it == fId)
           {
+          //NOTE (arnaud): here it must be featureVal * hVal
           this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] += featureVal;
+          //NOTE (arnaud): here it must be hVal instead of 1.
+          //However this will impact the computation of the volume.
+          //So the for the time being I let it like this
           this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] += 1.;
           }
         }

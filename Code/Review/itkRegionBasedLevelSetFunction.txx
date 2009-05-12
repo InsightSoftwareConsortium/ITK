@@ -52,8 +52,6 @@ RegionBasedLevelSetFunction< TInput,
   m_VolumeMatchingWeight = NumericTraits<ScalarValueType>::Zero;
   m_Volume = 0;
   m_SharedData = 0;
-  m_UpdatedC = false;
-  m_UpdatedH = false;
 
   m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
 }
@@ -97,27 +95,14 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
   if ( forceUpdate )
     {
-    m_UpdatedC = false;
-    m_UpdatedH = false;
-    }
-
-  if ( !m_UpdatedH )
-    {
-    // update H
-    m_UpdatedH = true;
-    this->ComputeHImage();
-
     // Must update all H before updating C
+    this->ComputeHImage();
     return;
     }
-
-  if ( !m_UpdatedC )
+  else
     {
-    m_UpdatedC = true;
     this->ComputeParameters();
     }
-
-  this->SpecialProcessing();
 
   this->UpdateSharedDataParameters();
 }

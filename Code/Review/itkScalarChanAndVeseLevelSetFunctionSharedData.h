@@ -40,9 +40,9 @@ namespace itk
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -133,10 +133,12 @@ public:
 
     this->m_ForegroundConstantValues.resize( n, 0.0 );
     this->m_NumberOfPixelsInsideLevelSet.resize( n, 0.0 );
+    this->m_WeightedNumberOfPixelsInsideLevelSet.resize( n, 0.0 );
     this->m_SumOfPixelValuesInsideLevelSet.resize( n, 0.0 );
 
     this->m_BackgroundConstantValues.resize( n, 0.0 );
     this->m_NumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
+    this->m_WeightedNumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
     this->m_SumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
 
     this->m_HeavisideFunctionOfLevelSetImage.resize( n, 0 );
@@ -221,7 +223,7 @@ public:
     ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
 
     ListRegionType region = this->m_NearestNeighborListImage->GetLargestPossibleRegion();
-    
+
     ListIteratorType lIt( this->m_NearestNeighborListImage, region );
 
     if ( m_KdTree )
@@ -230,16 +232,15 @@ public:
         {
         ListIndexType ind = lIt.GetIndex();
 
-        unsigned int numberOfNeighbors = 6;
         float queryPoint[ImageDimension];
         for( unsigned int i = 0; i < ImageDimension; i++ )
           queryPoint[i] = ind[i]*spacing[i];
 
         typename TreeType::InstanceIdentifierVectorType neighbors;
-        this->m_KdTree->Search( queryPoint, numberOfNeighbors, neighbors );
+        this->m_KdTree->Search( queryPoint, m_NumberOfNeighbors, neighbors );
 
         ListPixelType L;
-        for( unsigned int i = 0; i < numberOfNeighbors; i++ )
+        for( unsigned int i = 0; i < m_NumberOfNeighbors; i++ )
           {
           if( VerifyInsideRegion( neighbors[i], ind ) )
             {
@@ -270,11 +271,14 @@ public:
   std::vector< double >             m_BackgroundConstantValues;
   std::vector< double >             m_ForegroundConstantValues;
   std::vector< double >             m_SumOfPixelValuesInsideLevelSet;
+  std::vector< double >             m_WeightedNumberOfPixelsInsideLevelSet;
   std::vector< double >             m_NumberOfPixelsInsideLevelSet;
   std::vector< double >             m_SumOfPixelValuesOutsideLevelSet;
   std::vector< double >             m_NumberOfPixelsOutsideLevelSet;
+  std::vector< double >             m_WeightedNumberOfPixelsOutsideLevelSet;
 
   unsigned int                      m_FunctionCount;
+  unsigned int                      m_NumberOfNeighbors;
   std::vector< InputImagePointer >  m_HeavisideFunctionOfLevelSetImage;
   std::vector< InputIndexType >     m_Start;
   std::vector< InputIndexType >     m_End;
@@ -282,7 +286,7 @@ public:
   KdTreePointer                     m_KdTree;
 
 protected:
-  ScalarChanAndVeseLevelSetFunctionSharedData() {}
+  ScalarChanAndVeseLevelSetFunctionSharedData() : m_NumberOfNeighbors( 6 ){}
   ~ScalarChanAndVeseLevelSetFunctionSharedData(){}
 
 private:

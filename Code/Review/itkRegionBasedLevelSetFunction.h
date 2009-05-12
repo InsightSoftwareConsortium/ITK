@@ -281,9 +281,6 @@ protected:
   /** The feature image */
   FeatureImageConstPointer m_FeatureImage;
 
-  bool m_UpdatedC;
-  bool m_UpdatedH;
-
   SharedDataPointer                 m_SharedData;
   HeavisideFunctionConstPointer     m_DomainFunction;
 
@@ -323,42 +320,37 @@ protected:
   void ComputeHImage();
 
   /** \brief Compute the global term as a combination of the internal, external,
-    overlapping and volume regularization terms.
-  */
+    overlapping and volume regularization terms.  */
   ScalarValueType ComputeGlobalTerm(
     const ScalarValueType& imagePixel,
     const InputIndexType& inputIndex );
 
   /** \brief Compute the internal term
-      \param[in] iValue Feature Image Value
-      \param[in] iIdx Feature Image Index
-      \param[in] fId Index of the LevelSet Function
-  */
+  \param[in] iValue Feature Image Value
+  \param[in] iIdx Feature Image Index
+  \param[in] fId Index of the LevelSet Function  */
   virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx ) = 0;
 
   /** \brief Compute the external term
-      \param[in] iValue Feature Image Value
-      \param[in] iIdx Feature Image Index
-      \param[in] pr Product of Heaviside Functions
-      \note after discussion with kishore, pr is not and unsigned int
-  */
+  \param[in] iValue Feature Image Value
+  \param[in] iIdx Feature Image Index
+  \param[in] pr Product of Heaviside Functions
+  \note after discussion with kishore, pr is not and unsigned int */
   virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx ) = 0;
 
   /** \brief Compute the overlap term
-      \param[in] featIndex
-      \param[out] pr = \f$ \prod_{i \neq j} H(\phi_i)\f$
-      \return OverlapTerm = \f$ \sum_{i \neq j} H(\phi_i)\f$
-  */
+  \param[in] featIndex
+  \param[out] pr = \f$ \prod_{i \neq j} H(\phi_i)\f$
+  \return OverlapTerm = \f$ \sum_{i \neq j} H(\phi_i)\f$ */
   virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
     ScalarValueType& pr ) = 0;
 
   /** \brief Compute the overlap term
       \return \f$ \int_{p \in \Omega} H(\phi_i) dp - this->Volume \f$
       \note the volume regularization does not depend on the spacing.
-        So the volume must be set in number of pixels (not in real world unit).
-  */
+        So the volume must be set in number of pixels (not in real world unit). */
   ScalarValueType ComputeVolumeRegularizationTerm( );
 
   /** \brief Compute Hessian Matrix */
@@ -367,9 +359,6 @@ protected:
 
   /** \brief Compute Parameters for the inner and outer parts. */
   virtual void ComputeParameters() = 0;
-
-  /** \brief Any Preprocessing. */
-  virtual void SpecialProcessing(){}
 
   /** \brief Update and save the inner and outer parameters in the shared data
     data structure. */
