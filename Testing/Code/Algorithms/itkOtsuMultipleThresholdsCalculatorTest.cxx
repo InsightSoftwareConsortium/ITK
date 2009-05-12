@@ -68,7 +68,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
       {
       if (measurement > (*viter-range) && measurement <  (*viter+range))
         {
-        iter.SetFrequency(1.0);
+        iter.SetFrequency(1);
         }
       }
     }
