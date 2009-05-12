@@ -77,7 +77,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
         if (*it == fId)
           {
           this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] += featureVal;
-          this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] += 1.;
+          this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId]++;
           }
         }
       }
@@ -86,7 +86,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     if ( inBgrnd )
       {
       this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] += featureVal;
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] += 1.;
+      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId]++;
       }
     }
 }
