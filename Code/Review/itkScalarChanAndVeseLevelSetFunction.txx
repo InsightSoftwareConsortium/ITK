@@ -125,7 +125,7 @@ template < class TInputImage, class TFeatureImage, class TSharedData >
 typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::
-computeInternalTerm( const FeaturePixelType& iValue,
+ComputeInternalTerm( const FeaturePixelType& iValue,
   const FeatureIndexType& itkNotUsed(iIdx), const unsigned int& fId )
 {
   const ScalarValueType cVals = this->m_SharedData->m_ForegroundConstantValues[fId];
@@ -138,7 +138,7 @@ template < class TInputImage, class TFeatureImage, class TSharedData >
 typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
-::computeExternalTerm( const FeaturePixelType& iValue,
+::ComputeExternalTerm( const FeaturePixelType& iValue,
     const FeatureIndexType& itkNotUsed(iIdx), const unsigned int& pr )
 {
   const unsigned int fId = this->m_FunctionId;

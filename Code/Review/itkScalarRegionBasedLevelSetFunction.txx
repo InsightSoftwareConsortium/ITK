@@ -25,7 +25,7 @@ namespace itk {
 template < class TInputImage, class TFeatureImage, class TSharedData >
 typename ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ScalarValueType
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
-::computeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& pr )
+::ComputeOverlapParameters( const FeatureIndexType globalIndex, unsigned int& pr )
 {
 // This conditional statement computes the amount of overlap s
 // and the presence of background pr

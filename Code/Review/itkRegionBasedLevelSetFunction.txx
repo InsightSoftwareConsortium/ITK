@@ -321,7 +321,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   /* Compute the globalTerm - rms difference of image with c_0 or c_1*/
   if ( dh != 0. )
     {
-    globalTerm = dh * this->computeGlobalTerm( inputValue, it.GetIndex() );
+    globalTerm = dh * this->ComputeGlobalTerm( inputValue, it.GetIndex() );
     }
   else
     {
@@ -351,7 +351,7 @@ template < class TInput, class TFeature, class TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ScalarValueType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::computeGlobalTerm(
+::ComputeGlobalTerm(
 const ScalarValueType& itkNotUsed( inputPixel ),
 const InputIndexType& inputIndex )
 {
@@ -372,11 +372,11 @@ const InputIndexType& inputIndex )
     {
     featIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
     overlapTerm = this->m_OverlapPenaltyWeight *
-      computeOverlapParameters( featIndex, pr );
+      ComputeOverlapParameters( featIndex, pr );
     }
 
-  ScalarValueType inTerm = this->m_Lambda1 * this->computeInternalTerm( featureVal, featIndex, fId );
-  ScalarValueType outTerm = this->m_Lambda2 * this->computeExternalTerm( featureVal, featIndex, pr );
+  ScalarValueType inTerm = this->m_Lambda1 * this->ComputeInternalTerm( featureVal, featIndex, fId );
+  ScalarValueType outTerm = this->m_Lambda2 * this->ComputeExternalTerm( featureVal, featIndex, pr );
 
   ScalarValueType regularizationTerm = 2 * this->m_VolumeMatchingWeight *
     ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] - this->m_Volume );

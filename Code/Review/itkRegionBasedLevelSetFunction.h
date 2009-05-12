@@ -308,9 +308,9 @@ protected:
 
 
   void ComputeHImage();
-  ScalarValueType computeRegularizationTerms( /* fill with adequate parameters */);
+//   ScalarValueType ComputeRegularizationTerms( /* fill with adequate parameters */);
 
-  ScalarValueType computeGlobalTerm(
+  ScalarValueType ComputeGlobalTerm(
     const ScalarValueType& imagePixel,
     const InputIndexType& inputIndex );
 
@@ -319,7 +319,7 @@ protected:
       \param[in] iIdx Feature Image Index
       \param[in] fId Index of the LevelSet Function
   */
-  virtual ScalarValueType computeInternalTerm(const FeaturePixelType& iValue,
+  virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx, const unsigned int& fId ) = 0;
 
   /** \brief Compute the external term
@@ -328,11 +328,11 @@ protected:
       \param[in] pr Product of Heaviside Functions
       \note after discussion with kishore, pr is not and unsigned int
   */
-  virtual ScalarValueType computeExternalTerm(const FeaturePixelType& iValue,
+  virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType& iValue,
     const FeatureIndexType& iIdx,
     const unsigned int& pr ) = 0;
 
-  virtual ScalarValueType computeOverlapParameters( const FeatureIndexType featIndex,
+  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
     unsigned int& pr ) = 0;
 
 //   virtual ScalarValueType computeOverlapTerm( const unsigned int& s )

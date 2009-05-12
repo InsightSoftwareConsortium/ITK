@@ -51,19 +51,19 @@ public:
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
 
 
-  virtual ScalarValueType computeInternalTerm(const FeaturePixelType& ,
+  virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& ,
     const FeatureIndexType&, const unsigned int& )
     {
     return ScalarValueType( 0 );
     }
 
-  virtual ScalarValueType computeExternalTerm(const FeaturePixelType &,
+  virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType &,
     const FeatureIndexType &, const unsigned int & )
     {
     return ScalarValueType( 0 );
     }
 
-  virtual ScalarValueType computeOverlapParameters( const FeatureIndexType,
+  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType,
     unsigned int & )
     {
     return ScalarValueType( 0 );

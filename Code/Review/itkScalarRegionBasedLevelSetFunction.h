@@ -131,7 +131,7 @@ protected:
   ScalarRegionBasedLevelSetFunction() : Superclass(){}
   ~ScalarRegionBasedLevelSetFunction(){}
 
-  ScalarValueType computeOverlapParameters( const FeatureIndexType featIndex,
+  ScalarValueType ComputeOverlapParameters( const FeatureIndexType featIndex,
     unsigned int& pr );
 
 private:
