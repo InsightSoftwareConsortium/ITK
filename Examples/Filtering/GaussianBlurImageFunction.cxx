@@ -72,11 +72,13 @@ int main( int argc, char * argv[] )
 
   it.GoToBegin();
   out.GoToBegin();
-  while (!it.IsAtEnd()) {
-      out.Set( gaussianFunction->EvaluateAtIndex(it.GetIndex() ) );
-      ++it;
-      ++out;
-  }
+
+  while( !it.IsAtEnd() )
+    {
+    out.Set( gaussianFunction->EvaluateAtIndex(it.GetIndex() ) );
+    ++it;
+    ++out;
+    }
 
   typedef itk::ImageFileWriter < ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
