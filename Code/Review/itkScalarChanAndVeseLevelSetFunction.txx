@@ -116,7 +116,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
   InputIndexType itInputIndex, inputIndex;
-  InputPixelType hVal;
+  InputPixelType hVal = 0.5;
   ListPixelType L;
 
   for( It.GoToBegin(), fIt.GoToBegin(); !It.IsAtEnd();

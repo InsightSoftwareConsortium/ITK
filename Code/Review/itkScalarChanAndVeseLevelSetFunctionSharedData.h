@@ -144,6 +144,11 @@ public:
     this->m_End.resize( n );
     }
 
+  void SetNumberOfNeighbors( const unsigned int& n )
+    {
+    this->m_NumberOfNeighbors = n;
+    }
+
   void CreateHeavisideFunctionOfLevelSetImage( const unsigned int& j, const InputImageType * image )
     {
     const InputRegionType region = image->GetLargestPossibleRegion();

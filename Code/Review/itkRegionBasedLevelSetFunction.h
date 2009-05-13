@@ -254,7 +254,7 @@ public:
   { delete (GlobalDataStruct *) GlobalData; }
 
   virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct *gd = 0 );
+    const FloatOffsetType &, GlobalDataStruct *gd );
 
   /** \brief Laplacian smoothing speed can be used to spatially modify the
     effects of laplacian smoothing of the level set function */
@@ -352,6 +352,23 @@ protected:
       \note the volume regularization does not depend on the spacing.
         So the volume must be set in number of pixels (not in real world unit). */
   ScalarValueType ComputeVolumeRegularizationTerm( );
+
+  /** \brief Compute the laplacian term
+      \return \f$ \Delta \phi - \div(\frac{\nabla \phi}{|\nabla \phi|}) \f$
+      \verbatim For details see
+  @inproceedings{bb30335,
+  AUTHOR = "Li, C.M. and Xu, C.Y. and Gui, C. and Fox, M.D.",
+  TITLE = "Level Set Evolution without Re-Initialization: A New Variational Formulation",
+  BOOKTITLE = CVPR05,
+  YEAR = "2005",
+  PAGES = "I: 430-436"}
+  \endverbatim  */
+  ScalarValueType ComputeLaplacianTerm( const NeighborhoodType &,
+    const FloatOffsetType &, GlobalDataStruct *gd  );
+
+  /** \brief Compute the laplacian
+  \return \f$ \Delta \phi \f$ */
+  ScalarValueType ComputeLaplacian( GlobalDataStruct *gd );
 
   /** \brief Compute Hessian Matrix */
   void ComputeHessian( const NeighborhoodType &it,

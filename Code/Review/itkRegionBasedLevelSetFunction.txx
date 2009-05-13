@@ -116,7 +116,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 /* Computing the time-step for stable curve evolution */
 
-  TimeStepType dt;
+  TimeStepType dt = 0.0;
 
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
 
@@ -138,10 +138,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       {
       //NOTE: What's the difference between this->m_WaveDT and this->m_DT?
       dt = this->m_WaveDT / d->m_MaxGlobalChange;
-      }
-    else
-      {
-      dt = 0.0;
       }
     }
 
@@ -180,9 +176,13 @@ ComputeCurvatureTerm(
     }
 
   if( gd->m_GradMagSqr > vnl_math::eps )
+    {
     return (curvature_term / gd->m_GradMagSqr );
+    }
   else
+    {
     return 0.;
+    }
 }
 
 // Compute the Hessian matrix and various other derivatives.  Some of these
@@ -246,6 +246,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   ScalarValueType laplacian_term = 0.;
   ScalarValueType curvature_term = 0.;
+  ScalarValueType curvature = 0.;
   ScalarValueType globalTerm = 0.;
 
   // Access the global data structure
@@ -257,14 +258,16 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   // Computing the curvature term
   // Used to regularized using the length of contour
-  // What is CurvatureSpeed?
   if ( ( dh != 0. ) &&
     ( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::Zero ) )
     {
+    //NOTE: Why the curvature_term is multiplied by gd->m_GradMagSqr?
+    //NOTE: in ComputeCurvatureTerm the result has been divided by gd->m_GradMagSqr...
+    curvature = this->ComputeCurvatureTerm( it, offset, gd );
     curvature_term =
       this->m_CurvatureWeight *
       this->CurvatureSpeed(it, offset) *
-      this->ComputeCurvatureTerm( it, offset, gd ) *
+      curvature *
       gd->m_GradMagSqr * dh;
 
     gd->m_MaxCurvatureChange =
@@ -275,21 +278,18 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   // Used in maintaining squared distance function
   if( this->m_LaplacianSmoothingWeight != NumericTraits<ScalarValueType>::Zero)
     {
-    ScalarValueType laplacian = NumericTraits<ScalarValueType>::Zero;
-
-    // Compute the laplacian using the existing second derivative values
-    for(unsigned int i = 0; i < ImageDimension; i++)
+    if( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::Zero )
       {
-      laplacian += gd->m_dxy[i][i];
+      laplacian_term = this->ComputeLaplacian( gd ) - curvature;
       }
-
+    else
+      {
+      laplacian_term = this->ComputeLaplacianTerm( it, offset, gd );
+      }
     // Use the laplacian to maintain signed distance function
-    // What is LaplacianSmoothingSpeed ?
-    // Why do we have 0.1 * LaplacianSmoothingWeight ?
-    // Why do we have to subtract the curvature_term ?
-    laplacian_term =
-      0.1*( this->m_LaplacianSmoothingWeight *
-      LaplacianSmoothingSpeed(it,offset, gd) * laplacian - curvature_term);
+
+    laplacian_term *= this->m_LaplacianSmoothingWeight *
+      this->LaplacianSmoothingSpeed(it,offset, gd);
     }
 
   // Update value from curvature length and laplacian term
@@ -314,6 +314,37 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 
   return updateVal;
+}
+
+template < class TInput, class TFeature, class TSharedData >
+typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ScalarValueType
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ComputeLaplacianTerm( const NeighborhoodType &neighborhood,
+  const FloatOffsetType &offset, GlobalDataStruct *gd )
+{
+  ScalarValueType laplacian = ComputeLaplacian( gd );
+  ScalarValueType curvature = ComputeCurvatureTerm( neighborhood, offset, gd );
+
+  return laplacian - curvature;
+}
+
+
+template < class TInput, class TFeature, class TSharedData >
+typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ScalarValueType
+RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
+::ComputeLaplacian( GlobalDataStruct *gd )
+{
+  ScalarValueType laplacian = 0.;
+
+  // Compute the laplacian using the existing second derivative values
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    laplacian += gd->m_dxy[i][i];
+    }
+
+  return laplacian;
 }
 
 template < class TInput, class TFeature, class TSharedData >
