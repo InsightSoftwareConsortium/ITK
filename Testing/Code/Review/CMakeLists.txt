@@ -199,6 +199,7 @@ SET(ReviewTest2_SRCS
   itkScalarChanAndVeseLevelSetFunctionTest1.cxx
   itkScalarChanAndVeseLevelSetFunctionTest2.cxx
   itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
   itkScalarChanAndVeseSparseLevelSetImageFilterTest1.cxx
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
@@ -346,6 +347,12 @@ ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
   ${INPUT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${INPUT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2.mha
 )
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
