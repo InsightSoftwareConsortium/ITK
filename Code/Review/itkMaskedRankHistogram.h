@@ -412,10 +412,12 @@ public:
 
   void RemovePixel(const TInputPixel &p)
     {
-    assert(p - NumericTraits< TInputPixel >::NonpositiveMin() >= 0);
-    assert(p - NumericTraits< TInputPixel >::NonpositiveMin() < (int)m_Vec.size());
-    assert(m_Entries >= 1);
-    m_Vec[ (long unsigned int)(p - NumericTraits< TInputPixel >::NonpositiveMin())  ]--; 
+    const long int q = p - NumericTraits< TInputPixel >::NonpositiveMin();
+    itkAssertOrThrowMacro( ( q >= 0 ), "Input pixel value is out of range");
+    itkAssertOrThrowMacro( ( q < (int)m_Vec.size() ), "Input pixel value is out of range");
+    itkAssertOrThrowMacro( (m_Entries >= 1), "Insufficient entries");
+
+    m_Vec[ static_cast<long unsigned int>(q)  ]--; 
     --m_Entries;
 
     if (m_Compare(p, m_RankValue) || p == m_RankValue)
