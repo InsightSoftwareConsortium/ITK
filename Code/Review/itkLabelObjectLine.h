@@ -43,8 +43,8 @@ class LabelObjectLine
 public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef Index< ImageDimension > IndexType;
-  typedef unsigned long           LengthType;
+  typedef Index< VImageDimension > IndexType;
+  typedef unsigned long            LengthType;
 
   LabelObjectLine() {};
   LabelObjectLine( const IndexType & idx, const LengthType & length );
