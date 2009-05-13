@@ -67,6 +67,7 @@ INCLUDE (${CMAKE_ROOT}/Modules/CMakeBackwardCompatibilityCXX.cmake)
 # Configure Dart testing support.  This should be done before any
 # MESSAGE(FATAL_ERROR ...) commands are invoked.
 INCLUDE(${CMAKE_ROOT}/Modules/Dart.cmake)
+FIND_PACKAGE(Tclsh)
 MARK_AS_ADVANCED(TCL_TCLSH DART_ROOT)
 ENABLE_TESTING()
 IF(BUILD_TESTING)
