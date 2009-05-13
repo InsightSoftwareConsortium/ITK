@@ -82,7 +82,14 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   os << indent << "Iterations = " << m_Iterations << std::endl;
   os << indent << "Step = " << m_Step << std::endl;
   os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
-  os << indent << "Gradient = " << m_Gradient << std::endl;
+  if (m_Gradient)
+    {
+    os << indent << "Gradient = " << m_Gradient << std::endl;
+    }
+  else
+    {
+    os << indent << "Gradient = " << "(None)" << std::endl;
+    }
   os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
   os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
   os << indent << "Damping = " << m_Damping << std::endl;
