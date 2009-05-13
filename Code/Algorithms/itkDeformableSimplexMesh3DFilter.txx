@@ -56,9 +56,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 
-  m_Data = NULL;
-  
-  
+  this->m_Data = NULL;
 }
 
 template <typename TInputMesh, typename TOutputMesh>
@@ -82,9 +80,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   os << indent << "Iterations = " << m_Iterations << std::endl;
   os << indent << "Step = " << m_Step << std::endl;
   os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
-  if (m_Gradient)
+  if( this->m_Gradient.IsNotNull() )
     {
-    os << indent << "Gradient = " << m_Gradient << std::endl;
+    os << indent << "Gradient = " << this->m_Gradient << std::endl;
     }
   else
     {
@@ -93,7 +91,14 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
   os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
   os << indent << "Damping = " << m_Damping << std::endl;
-  os << indent << "Data = " << m_Data << std::endl;
+  if( this->m_Data.IsNotNull() )
+    {
+    os << indent << "Data = " << this->m_Data << std::endl;
+    }
+  else
+    {
+    os << indent << "Data = " << "(None)" << std::endl;
+    }
 
 
 }/* End PrintSelf. */
@@ -132,7 +137,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     {
     SimplexMeshGeometry * data;
     unsigned long idx = points.Index();
-    data = m_Data->GetElement(idx);
+    data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     points++;
     }
@@ -150,9 +155,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer      myPoints = this->GetInput(0)->GetPoints();
   InputPointsContainerIterator     points = myPoints->Begin();
 
-  if ( m_Gradient.IsNotNull() ) 
+  if ( this->m_Gradient.IsNotNull() ) 
     {
-    GradientImageSizeType imageSize = m_Gradient->GetBufferedRegion().GetSize();
+    GradientImageSizeType imageSize = this->m_Gradient->GetBufferedRegion().GetSize();
     
     m_ImageWidth  = imageSize[0];
     m_ImageHeight = imageSize[1];
@@ -165,9 +170,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     m_ImageDepth  = 0;
     }
 
-  if (m_Data.IsNull() )
+  if( this->m_Data.IsNull() )
     {
-    m_Data = this->GetInput(0)->GetGeometryData();
+    this->m_Data = this->GetInput(0)->GetGeometryData();
     }
 
   while( points != myPoints->End() ) 
@@ -175,7 +180,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
     SimplexMeshGeometry * data;
     unsigned long idx = points.Index();
 
-    data = m_Data->GetElement(idx);
+    data = this->m_Data->GetElement(idx);
     data->pos = points.Value();
 
     //        InputMeshType::ArrayType neighbors = this->GetInput(0)->GetNeighbors( points.Index() );
@@ -217,11 +222,11 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
   InputMeshPointer inputMesh = this->GetInput(0);
 
-  typename GeometryMapType::Iterator  dataIt = m_Data->Begin();
+  typename GeometryMapType::Iterator  dataIt = this->m_Data->Begin();
 
   SimplexMeshGeometry* data;
 
-  while ( dataIt != m_Data->End() )
+  while ( dataIt != this->m_Data->End() )
     {
     //      idx = dataIt.Index();
     data = dataIt.Value();
@@ -277,11 +282,11 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 ::ComputeDisplacement()
 {
   InputMeshPointer inputMesh = this->GetInput(0);
-  typename GeometryMapType::Iterator dataIt = m_Data->Begin();
+  typename GeometryMapType::Iterator dataIt = this->m_Data->Begin();
   SimplexMeshGeometry * data;
   VectorType displacement;
 
-  while( dataIt != m_Data->End() ) 
+  while( dataIt != this->m_Data->End() ) 
     {
     data = dataIt.Value();
 
@@ -341,7 +346,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 
   while ( neighborIt != neighborSet->end() )
     {
-    phiRef += m_Data->GetElement(*neighborIt++)->phi;
+    phiRef += this->m_Data->GetElement(*neighborIt++)->phi;
     }
   phiRef /= (double) neighborSet->size();
 
@@ -450,7 +455,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   output->SetPoints(this->GetInput(0)->GetPoints());
   output->SetPointData(this->GetInput(0)->GetPointData());
   output->SetCells(this->GetInput(0)->GetCells());
-  output->SetGeometryData(m_Data);
+  output->SetGeometryData(this->m_Data);
   output->SetLastCellId( this->GetInput(0)->GetLastCellId() );
 }
 
@@ -470,16 +475,16 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   double H_N3;
   double H_Mean;
 
-  GeometryMapIterator dataIt = m_Data->Begin();
+  GeometryMapIterator dataIt = this->m_Data->Begin();
 
   SimplexMeshGeometry * data;
 
-  while ( dataIt != m_Data->End() )
+  while ( dataIt != this->m_Data->End() )
     {
     data = dataIt->Value();
-    H_N1 =((SimplexMeshGeometry*)(m_Data->GetElement(data->neighborIndices[0])))->meanCurvature;
-    H_N2 =((SimplexMeshGeometry*)(m_Data->GetElement(data->neighborIndices[1])))->meanCurvature;
-    H_N3 =((SimplexMeshGeometry*)(m_Data->GetElement(data->neighborIndices[2])))->meanCurvature;
+    H_N1 =((SimplexMeshGeometry*)(this->m_Data->GetElement(data->neighborIndices[0])))->meanCurvature;
+    H_N2 =((SimplexMeshGeometry*)(this->m_Data->GetElement(data->neighborIndices[1])))->meanCurvature;
+    H_N3 =((SimplexMeshGeometry*)(this->m_Data->GetElement(data->neighborIndices[2])))->meanCurvature;
     H = data->meanCurvature;
 
     H_Mean = (H_N1 + H_N2 + H_N3)/3.0;
