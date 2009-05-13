@@ -195,15 +195,10 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     typename RegionType::IndexType index = m_GridRegion.GetIndex();
     for ( unsigned int j = 0; j < SpaceDimension; j++ )
       {
-      index[j] += 
-        static_cast< typename RegionType::IndexValueType >( m_Offset );
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      size[j] -= static_cast< typename RegionType::SizeValueType> ( SplineOrder );
-#else
+      index[j] += static_cast< typename RegionType::IndexValueType >( m_Offset );
       size[j] -= static_cast< typename RegionType::SizeValueType> ( 2 * m_Offset );
-#endif
-      m_ValidRegionLast[j] = index[j] +
-        static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
+      m_ValidRegionFirst[j] = index[j];
+      m_ValidRegionLast[j] = index[j] + static_cast< typename RegionType::IndexValueType >( size[j] ) - 1;
       }
     m_ValidRegion.SetSize( size );
     m_ValidRegion.SetIndex( index );
@@ -667,25 +662,17 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 {
   bool inside = true;
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  if ( !m_ValidRegion.IsStrictlyInside( index ) )
-#else
-  if ( !m_ValidRegion.IsInside( index ) )
-#endif
-    {
-    inside = false;
-    }
-
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  if ( inside && m_SplineOrderOdd ) // FIXME: This shouldn't be necessary.
-#else
   if ( inside && m_SplineOrderOdd )
-#endif
     {
     typedef typename ContinuousIndexType::ValueType ValueType;
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       if ( index[j] >= static_cast<ValueType>( m_ValidRegionLast[j] ) )
+        { 
+        inside = false;
+        break;
+        }
+      if ( index[j] < static_cast<ValueType>( m_ValidRegionFirst[j] ) )
         { 
         inside = false;
         break;

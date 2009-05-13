@@ -423,6 +423,7 @@ private:
   bool          m_SplineOrderOdd;
   SizeType      m_SupportSize;
   IndexType     m_ValidRegionLast;
+  IndexType     m_ValidRegionFirst;
   
   /** Array holding images wrapped from the flat parameters. */
   ImagePointer   m_WrappedImage[NDimensions];
