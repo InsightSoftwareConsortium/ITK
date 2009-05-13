@@ -221,31 +221,6 @@ public:
     return true;
     }
 
-  /** Test if a continuous index is strictly inside the region.
-   * This means that no half-pixel border around the image is
-   * allowed as tolerance. */
-  template <typename TCoordRepType>
-  bool
-  IsStrictlyInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
-    {
-    for(unsigned int i=0; i<ImageDimension; i++)
-      {
-      if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) )
-        {
-        return false;
-        }
-      // bound is the last valid pixel location
-      const TCoordRepType bound = static_cast<TCoordRepType>(
-         m_Index[i] + static_cast<long>(m_Size[i]) - 1);
-
-      if( index[i] > bound )
-        {
-        return false;
-        }
-      }
-    return true;
-    }
-
   /** Test if a region (the argument) is completely inside of this region */
   bool
   IsInside(const Self &region) const
