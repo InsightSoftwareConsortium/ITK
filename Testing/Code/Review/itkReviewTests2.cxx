@@ -27,6 +27,8 @@ void RegisterTests()
 
   REGISTER_TEST(itkDirectFourierReconstructionImageToImageFilterTest);
   REGISTER_TEST(itkHeavisideStepFunctionTest1);
+  REGISTER_TEST(itkLabelObjectLineComparatorTest);
+  REGISTER_TEST(itkLabelObjectLineTest);
   REGISTER_TEST(itkMultiphaseFiniteDifferenceImageFilterTest);
   REGISTER_TEST(itkMultiphaseDenseFiniteDifferenceImageFilterTest);
   REGISTER_TEST(itkMultiphaseSparseFiniteDifferenceImageFilterTest);
