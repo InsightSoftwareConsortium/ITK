@@ -146,6 +146,7 @@ SET(ReviewTest2_SRCS
   itkHeavisideStepFunctionTest1.cxx
   itkLabelObjectLineComparatorTest.cxx 
   itkLabelObjectLineTest.cxx 
+  itkLabelObjectTest.cxx 
   itkMultiphaseFiniteDifferenceImageFilterTest.cxx 
   itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx 
   itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx 
@@ -478,6 +479,10 @@ ADD_TEST(itkLabelObjectLineComparatorTest ${REVIEW_TESTS2}
 
 ADD_TEST(itkLabelObjectLineTest ${REVIEW_TESTS2}
   itkLabelObjectLineTest
+  )
+
+ADD_TEST(itkLabelObjectTest ${REVIEW_TESTS2}
+  itkLabelObjectTest
   )
 
 ADD_TEST(itkMultiphaseFiniteDifferenceImageFilterTest ${REVIEW_TESTS2}
