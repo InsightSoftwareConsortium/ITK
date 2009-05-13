@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -71,7 +71,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
   // Setup variables for computing interpolation
   m_Offset = SplineOrder / 2;
-  if ( SplineOrder % 2 ) 
+  if ( SplineOrder % 2 )
     {
     m_SplineOrderOdd = true;
     }
@@ -121,11 +121,11 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   m_IndexToPoint = m_GridDirection * scale;
   m_PointToIndex = m_IndexToPoint.GetInverse();
 
-  
+
   m_LastJacobianIndex = m_ValidRegion.GetIndex();
-  
+
 }
-    
+
 
 // Destructor
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -206,7 +206,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     //
     // If we are using the default parameters, update their size and set to identity.
     //
-    
+
     // Input parameters point to internal buffer => using default parameters.
     if (m_InputParametersPointer == &m_InternalParametersBuffer)
       {
@@ -323,7 +323,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     parameters->Fill( 0.0 );
     this->Modified();
     }
-  else 
+  else
     {
     itkExceptionMacro( << "Input parameters for the spline haven't been set ! "
        << "Set them using the SetParameters or SetCoefficientImage method first." );
@@ -342,7 +342,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
     itkExceptionMacro(<<"Mismatched between parameters size "
-                      << parameters.size() 
+                      << parameters.size()
                       << " and region size "
                       << m_GridRegion.GetNumberOfPixels() );
     }
@@ -367,7 +367,7 @@ void
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetFixedParameters( const ParametersType & passedParameters )
 {
- 
+
   ParametersType parameters( NDimensions * (3 + NDimensions) );
 
   // check if the number of parameters match the
@@ -387,7 +387,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   else if ( passedParameters.Size() != NDimensions * (3 + NDimensions) )
     {
     itkExceptionMacro(<< "Mismatched between parameters size "
-                      << passedParameters.size() 
+                      << passedParameters.size()
                       << " and number of fixed parameters "
                       << NDimensions * (3 + NDimensions) );
     }
@@ -399,7 +399,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       }
     }
 
-  /********************************************************* 
+  /*********************************************************
     Fixed Parameters store the following information:
         Grid Size
         Grid Origin
@@ -407,7 +407,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
         Grid Direction
      The size of these is equal to the  NInputDimensions
   *********************************************************/
-  
+
   /** Set the Grid Parameters */
   SizeType   gridSize;
   for (unsigned int i=0; i<NDimensions; i++)
@@ -416,14 +416,14 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     }
   RegionType bsplineRegion;
   bsplineRegion.SetSize( gridSize );
-  
+
   /** Set the Origin Parameters */
   OriginType origin;
   for (unsigned int i=0; i<NDimensions; i++)
     {
     origin[i] = parameters[NDimensions+i];
     }
-  
+
   /** Set the Spacing Parameters */
   SpacingType spacing;
   for (unsigned int i=0; i<NDimensions; i++)
@@ -440,8 +440,8 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       direction[di][dj] = parameters[3*NDimensions+(di*NDimensions+dj)];
       }
     }
-  
-  
+
+
   this->SetGridSpacing( spacing );
   this->SetGridDirection( direction );
   this->SetGridOrigin( origin );
@@ -505,7 +505,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
     itkExceptionMacro(<<"Mismatched between parameters size "
-                      << parameters.size() 
+                      << parameters.size()
                       << " and region size "
                       << m_GridRegion.GetNumberOfPixels() );
     }
@@ -525,14 +525,14 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Get the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const 
+const
 typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::ParametersType &
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetParameters( void ) const
 {
-  /** NOTE: For efficiency, this class does not keep a copy of the parameters - 
-   * it just keeps pointer to input parameters. 
+  /** NOTE: For efficiency, this class does not keep a copy of the parameters -
+   * it just keeps pointer to input parameters.
    */
   if (NULL == m_InputParametersPointer)
     {
@@ -545,14 +545,14 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Get the parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const 
+const
 typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::ParametersType &
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetFixedParameters( void ) const
 {
   RegionType resRegion = this->GetGridRegion(  );
-  
+
   for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[i] = (resRegion.GetSize())[i];
@@ -560,7 +560,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[NDimensions+i] = (this->GetGridOrigin())[i];
-    } 
+    }
   for (unsigned int i=0; i<NDimensions; i++)
     {
     this->m_FixedParameters[2*NDimensions+i] =  (this->GetGridSpacing())[i];
@@ -572,15 +572,14 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       this->m_FixedParameters[3*NDimensions+(di*NDimensions+dj)] = (this->GetGridDirection())[di][dj];
       }
     }
-  
+
   return (this->m_FixedParameters);
 }
 
 
-  
 // Set the B-Spline coefficients using input images
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-void 
+void
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetCoefficientImage( ImagePointer images[] )
 {
@@ -602,7 +601,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
     }
 
-}  
+}
 
 // Print self
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -635,8 +634,8 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     os << m_WrappedImage[j].GetPointer() << ", ";
     }
   os << m_WrappedImage[j].GetPointer() << " ]" << std::endl;
- 
-  os << indent << "InputParametersPointer: " 
+
+  os << indent << "InputParametersPointer: "
      << m_InputParametersPointer << std::endl;
   os << indent << "ValidRegion: " << m_ValidRegion << std::endl;
   os << indent << "LastJacobianIndex: " << m_LastJacobianIndex << std::endl;
@@ -647,20 +646,27 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
   if ( m_BulkTransform )
     {
-    os << indent << "BulkTransformType: " 
+    os << indent << "BulkTransformType: "
        << m_BulkTransform->GetNameOfClass() << std::endl;
     }
-     
+
 }
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-bool 
+bool
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
-::InsideValidRegion( 
+::InsideValidRegion(
   const ContinuousIndexType& index ) const
 {
   bool inside = true;
+
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  if( !m_ValidRegion.IsInside( index ) )
+    {
+    inside = false;
+    }
+#endif
 
   if ( inside && m_SplineOrderOdd )
     {
@@ -668,15 +674,17 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       if ( index[j] >= static_cast<ValueType>( m_ValidRegionLast[j] ) )
-        { 
+        {
         inside = false;
         break;
         }
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       if ( index[j] < static_cast<ValueType>( m_ValidRegionFirst[j] ) )
-        { 
+        {
         inside = false;
         break;
         }
+#endif
       }
     }
 
@@ -685,12 +693,12 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
 // Transform a point
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-void 
+void
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
-::TransformPoint( 
-  const InputPointType & point, 
-  OutputPointType & outputPoint, 
-  WeightsType & weights, 
+::TransformPoint(
+  const InputPointType & point,
+  OutputPointType & outputPoint,
+  WeightsType & weights,
   ParameterIndexArrayType & indices,
   bool& inside ) const
 {
@@ -750,7 +758,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       // multiply weigth with coefficient
       for ( j = 0; j < SpaceDimension; j++ )
         {
-        outputPoint[j] += static_cast<ScalarType>( 
+        outputPoint[j] += static_cast<ScalarType>(
           weights[counter] * m_Iterator[j].Get());
         }
 
@@ -764,7 +772,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
         ++( m_Iterator[j] );
         }
       }
-  
+
     // return results
     for ( j = 0; j < SpaceDimension; j++ )
       {
@@ -791,9 +799,9 @@ template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::OutputPointType
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
-::TransformPoint(const InputPointType &point) const 
+::TransformPoint(const InputPointType &point) const
 {
-  
+
   WeightsType weights( m_WeightsFunction->GetNumberOfWeights() );
   ParameterIndexArrayType indices( m_WeightsFunction->GetNumberOfWeights() );
   OutputPointType outputPoint;
@@ -805,12 +813,12 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 
 }
 
- 
-// Compute the Jacobian in one position 
+
+// Compute the Jacobian in one position
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const 
+const
 typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
-::JacobianType & 
+::JacobianType &
 BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetJacobian( const InputPointType & point ) const
 {
@@ -852,7 +860,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
       }
     }
 
- 
+
   ContinuousIndexType index;
 
   this->TransformPointToContinuousIndex( point, index );
@@ -904,7 +912,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 
-// Compute the Jacobian in one position 
+// Compute the Jacobian in one position
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
@@ -917,7 +925,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
   ContinuousIndexType index;
 
-  this->TransformPointToContinuousIndex( point, index ); 
+  this->TransformPointToContinuousIndex( point, index );
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
@@ -927,7 +935,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     indexes.Fill(0);
     return;
     }
-  
+
   // Compute interpolation weights
   IndexType supportIndex;
 
@@ -951,7 +959,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
     // go to next coefficient in the support region
     ++ counter;
     ++m_Iterator;
-    
+
     }
 
 }
@@ -983,7 +991,7 @@ BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 
 
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-unsigned int 
+unsigned int
 BSplineDeformableTransform<TScalarType, NDimensions,VSplineOrder>
 ::GetNumberOfAffectedWeights() const
 {
