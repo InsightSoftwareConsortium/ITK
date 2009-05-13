@@ -18,7 +18,7 @@
 #define __itkLabelObject_h
 
 #include <deque>
-#include <itkLightObject.h>
+#include "itkLightObject.h"
 #include "itkLabelObjectLine.h"
 #include "itkWeakPointer.h"
 #include "itkObjectFactory.h"
@@ -71,7 +71,7 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef itk::Index< ImageDimension >       IndexType;
+  typedef Index< VImageDimension >           IndexType;
   typedef TLabel                             LabelType;
   typedef LabelObjectLine< VImageDimension > LineType;
   typedef typename LineType::LengthType      LengthType;
