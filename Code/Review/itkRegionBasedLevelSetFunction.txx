@@ -338,7 +338,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 const ScalarValueType& itkNotUsed( inputPixel ),
 const InputIndexType& inputIndex )
 {
-  unsigned int fId = this->m_FunctionId;
   ScalarValueType product = 1; // computes if it belongs to background
 
   // Assuming only 1 level set function to be present
@@ -353,7 +352,7 @@ const InputIndexType& inputIndex )
   // and the presence of background pr
   if ( this->m_SharedData->m_FunctionCount > 1 )
     {
-    featIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
+    featIndex = this->m_SharedData->GetFeatureIndex( this->m_FunctionId, inputIndex );
     overlapTerm = this->m_OverlapPenaltyWeight *
       ComputeOverlapParameters( featIndex, product );
     }

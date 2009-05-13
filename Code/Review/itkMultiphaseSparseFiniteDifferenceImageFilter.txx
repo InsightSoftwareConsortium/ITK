@@ -160,7 +160,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TFunction >
 ::ApplyUpdate ( TimeStepType dt )
 {
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  unsigned int i, j, k;
+
+  for ( i = 0; i < this->m_FunctionCount; i++ )
     {
     this->m_CurrentFunctionIndex = i;
 
@@ -172,7 +174,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 
     LayerPointerType UpList[2];
     LayerPointerType DownList[2];
-    for ( unsigned int j = 0; j < 2; ++j )
+    for ( j = 0; j < 2; ++j )
       {
       UpList[j]   = LayerType::New();
       DownList[j] = LayerType::New();
@@ -198,8 +200,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     down_to = up_to = 0;
     up_search       = 3;
     down_search     = 4;
-    unsigned int j = 1;
-    unsigned int k = 0;
+    j = 1;
+    k = 0;
     while ( down_search < static_cast<StatusType>(sparsePtr->m_Layers.size()))
       {
       this->ProcessStatusList(UpList[j], UpList[k], up_to, up_search );
