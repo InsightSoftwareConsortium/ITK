@@ -119,7 +119,8 @@ protected:
 
     if( ( m_AbsoluteTolerance == zeroValue ) && ( m_RelativeTolerance != zeroValue ) )
       {
-      assert( ( m_RelativeTolerance > zeroValue ) && ( m_RelativeTolerance < 1. ) );
+      itkAssertOrThrowMacro( ( m_RelativeTolerance > zeroValue ) && ( m_RelativeTolerance < 1. ),
+        "Relative tolerance out of range" );
       BoundingBoxPointer bounding_box = BoundingBoxType::New();
       bounding_box->SetPoints( this->GetInput()->GetPoints() );
       bounding_box->ComputeBoundingBox();

@@ -177,7 +177,8 @@ QuadEdgeMeshParam< TInputMesh, TOutputMesh, TSolverTraits >
     m_BoundaryPtMap = m_BorderTransform->GetBoundaryPtMap( );
     }
 
-  assert( ( m_BoundaryPtMap.size( ) > 2 ) && ( m_Border.size( ) > 2 ) );
+  itkAssertOrThrowMacro( ( ( m_BoundaryPtMap.size( ) > 2 ) && ( m_Border.size( ) > 2 ) ),
+    "BoundaryPtMap or Border have less than 2 elements" );
 
   this->CopyToOutputBorder( );
 

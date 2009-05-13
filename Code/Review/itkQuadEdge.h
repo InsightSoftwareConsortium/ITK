@@ -22,8 +22,6 @@
 
 #include "itkMacro.h"
 
-#include <assert.h>
-
 // Debugging macros for classes that do not derive from the itkObject.
 // FIXME: Maybe variations of these macros should be moved into
 // itkMacro.h

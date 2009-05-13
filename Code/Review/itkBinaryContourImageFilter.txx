@@ -76,7 +76,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
   // to get the real number of threads which will be used
   typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-//  std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize( nbOfThreads );
@@ -150,7 +149,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
     while (! inLineIt.IsAtEndOfLine())
       {
       InputPixelType PVal = inLineIt.Get();
-      //std::cout << inLineIt.GetIndex() << std::endl;
+
       if (PVal == m_ForegroundValue)
         {
         // We've hit the start of a run
@@ -158,7 +157,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
         long length=0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
-        //std::cout << thisIndex << std::endl;
+
         outLineIt.Set( m_BackgroundValue );
         ++length;
         ++inLineIt;
@@ -175,7 +174,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
         thisRun.length=length;
         thisRun.where = thisIndex;
         fgLine.push_back(thisRun);
-//         std::cout << "fg " << thisIndex << " " << length << std::endl;
+
         }
       else 
         {
@@ -184,7 +183,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
         long length=0;
         IndexType thisIndex;
         thisIndex = inLineIt.GetIndex();
-        //std::cout << thisIndex << std::endl;
+
         outLineIt.Set( PVal );
         ++length;
         ++inLineIt;
@@ -201,10 +200,10 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
         thisRun.length=length;
         thisRun.where = thisIndex;
         bgLine.push_back(thisRun);
-//         std::cout << "bg " << thisIndex << " " << length << std::endl;
+
         }
       }
-//     std::cout << std::endl;
+
     m_ForegroundLineMap[lineId] = fgLine;
     m_BackgroundLineMap[lineId] = bgLine;
     lineId++;
@@ -215,9 +214,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
   // wait for the other threads to complete that part
   this->Wait();
 
-  // now process the map and make appropriate entries in an equivalence
-  // table
-  // assert( linecount == m_ForegroundLineMap.size() );
+  // now process the map and make appropriate entries in an equivalence table
   long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   long xsize = output->GetRequestedRegion().GetSize()[0];
   long linecount = pixelcount/xsize;
@@ -364,7 +361,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
     {
     offset = 1;
     }
-//   std::cout << "offset: " << offset << std::endl;
+
   
   typename TOutputImage::Pointer output = this->GetOutput();
 
@@ -408,7 +405,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
       if ((ss1 >= cStart) && (ee2 <= cLast))
         {
         // case 1
-//         std::cout << "case 1" << std::endl;
         eq = true;
         oStart = ss1;
         oLast = ee2;
@@ -416,7 +412,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
       else if ((ss1 <= cStart) && (ee2 >= cLast))
         {
         // case 4
-//         std::cout << "case 4" << std::endl;
         eq = true;
         oStart = cStart;
         oLast = cLast;
@@ -424,7 +419,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
       else if ((ss1 <= cLast) && (ee2 >= cLast))
         {
         // case 2
-//         std::cout << "case 2" << std::endl;
         eq = true;
         oStart = ss1;
         oLast = cLast;
@@ -432,7 +426,6 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
       else if ((ss1 <= cStart) && (ee2 >= cStart))
         {
         // case 3 
-//         std::cout << "case 3" << std::endl;
         eq = true;
         oStart = cStart;
         oLast = ee2;
@@ -440,12 +433,10 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
 
       if (eq) 
         {
-//         std::cout << oStart << " " << oLast << std::endl;
-        assert( oStart <= oLast );
+        itkAssertOrThrowMacro( ( oStart <= oLast ), "Start and Last out of order" );
         IndexType idx = cIt->where;
         for( int x=oStart; x<=oLast; x++ )
           {
-//           std::cout << idx << std::endl;
           idx[0] = x;
           output->SetPixel( idx, m_ForegroundValue );
           }

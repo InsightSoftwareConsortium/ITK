@@ -134,8 +134,8 @@ public:
     unsigned long ThisBin;
     bool eraseFlag = false;
 
-    // an assert is better than a log message in that case
-    assert(m_Initialized);
+    // an itkAssertOrThrowMacro is better than a log message in that case
+    itkAssertOrThrowMacro( m_Initialized, "Not Initialized" );
 
     if (total < target)
       {
@@ -325,9 +325,11 @@ public:
 
   void RemovePixel(const TInputPixel &p)
     {
-    assert(p - NumericTraits< TInputPixel >::NonpositiveMin() >= 0);
-    assert(p - NumericTraits< TInputPixel >::NonpositiveMin() < (int)m_Vec.size());
-    assert(m_Entries >= 1);
+    itkAssertOrThrowMacro( ( p - NumericTraits< TInputPixel >::NonpositiveMin() >= 0 ),
+      "pixel value too close to zero");
+    itkAssertOrThrowMacro( ( p - NumericTraits< TInputPixel >::NonpositiveMin() < (int)m_Vec.size()),
+      "pixel value outside the range of m_Vec.size()");
+    itkAssertOrThrowMacro( ( m_Entries >= 1), "Not enough entries");
     m_Vec[ (long unsigned int)(p - NumericTraits< TInputPixel >::NonpositiveMin())  ]--; 
     --m_Entries;
 
