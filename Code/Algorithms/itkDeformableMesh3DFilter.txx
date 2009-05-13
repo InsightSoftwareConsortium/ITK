@@ -99,8 +99,6 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
   os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
   os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
-  os << indent << "ImageWidth = " << m_ImageDepth << std::endl;
-  os << indent << "Step = " << m_Step << std::endl;
 }/* End PrintSelf. */
 
 /* Set default value of parameters and initialize local data container 
