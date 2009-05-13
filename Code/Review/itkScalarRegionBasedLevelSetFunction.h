@@ -135,9 +135,9 @@ protected:
     ScalarValueType& product );
 
   virtual void UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& iVal ) = 0;
+    const bool& iBool, const FeaturePixelType& iVal, const ScalarValueType& iH ) = 0;
   virtual void UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& iVal ) = 0;
+    const bool& iBool, const FeaturePixelType& iVal, const ScalarValueType& iH ) = 0;
 
 private:
   ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented

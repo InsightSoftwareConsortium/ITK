@@ -132,9 +132,9 @@ protected:
     const FeatureIndexType& iIdx );
 
   void UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& );
+    const bool& iBool, const FeaturePixelType&, const ScalarValueType& );
   void UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& );
+    const bool& iBool, const FeaturePixelType&, const ScalarValueType& );
 
 private:
   ScalarChanAndVeseLevelSetFunction(const Self&); //purposely not implemented

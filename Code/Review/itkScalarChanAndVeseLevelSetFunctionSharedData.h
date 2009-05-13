@@ -132,14 +132,12 @@ public:
     this->m_FunctionCount = n;
 
     this->m_ForegroundConstantValues.resize( n, 0.0 );
-    this->m_NumberOfPixelsInsideLevelSet.resize( n, 0.0 );
     this->m_WeightedNumberOfPixelsInsideLevelSet.resize( n, 0.0 );
-    this->m_SumOfPixelValuesInsideLevelSet.resize( n, 0.0 );
+    this->m_WeightedSumOfPixelValuesInsideLevelSet.resize( n, 0.0 );
 
     this->m_BackgroundConstantValues.resize( n, 0.0 );
-    this->m_NumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
     this->m_WeightedNumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
-    this->m_SumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
+    this->m_WeightedSumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
 
     this->m_HeavisideFunctionOfLevelSetImage.resize( n, 0 );
     this->m_Start.resize( n );
@@ -270,11 +268,9 @@ public:
 
   std::vector< double >             m_BackgroundConstantValues;
   std::vector< double >             m_ForegroundConstantValues;
-  std::vector< double >             m_SumOfPixelValuesInsideLevelSet;
+  std::vector< double >             m_WeightedSumOfPixelValuesInsideLevelSet;
   std::vector< double >             m_WeightedNumberOfPixelsInsideLevelSet;
-  std::vector< double >             m_NumberOfPixelsInsideLevelSet;
-  std::vector< double >             m_SumOfPixelValuesOutsideLevelSet;
-  std::vector< double >             m_NumberOfPixelsOutsideLevelSet;
+  std::vector< double >             m_WeightedSumOfPixelValuesOutsideLevelSet;
   std::vector< double >             m_WeightedNumberOfPixelsOutsideLevelSet;
 
   unsigned int                      m_FunctionCount;

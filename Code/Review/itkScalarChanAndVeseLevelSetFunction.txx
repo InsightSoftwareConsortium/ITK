@@ -29,60 +29,62 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   unsigned int fId = this->m_FunctionId;
 
-  if ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] == 0 )
+  if ( this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] > vnl_math::eps )
+    {
+    this->m_SharedData->m_ForegroundConstantValues[fId] =
+      this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] /
+      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId];
+    }
+  else
     {
     this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
     }
-  else
-    {
-    this->m_SharedData->m_ForegroundConstantValues[fId] =
-      this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] /
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
-    }
 
-  if ( this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] == 0 )
+  if ( this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] > vnl_math::eps )
+    {
+    this->m_SharedData->m_BackgroundConstantValues[fId] =
+      this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] /
+      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId];
+    }
+  else
     {
     this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
     }
+}
+
+template < class TInputImage, class TFeatureImage, class TSharedData >
+void
+ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+::UpdateSharedDataInsideParameters( const unsigned int& iId,
+    const bool& iA, const FeaturePixelType& iVal, const ScalarValueType& iH )
+{
+  if( iA )
+    {
+    this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[iId] += iH;
+    this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[iId] += iVal * iH;
+    }
   else
     {
-    this->m_SharedData->m_BackgroundConstantValues[fId] =
-      this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] /
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId];
+    this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[iId] -= iH;
+    this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[iId] -= iVal * iH;
     }
 }
 
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
-ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData > ::UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const bool& iA, const FeaturePixelType& iVal )
+ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+::UpdateSharedDataOutsideParameters( const unsigned int& iId,
+    const bool& iA, const FeaturePixelType& iVal, const ScalarValueType& iH )
 {
   if( iA )
     {
-    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[iId]++;
-    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[iId] += iVal;
+    this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[iId] += iH;
+    this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[iId] += iVal * iH;
     }
   else
     {
-    this->m_SharedData->m_NumberOfPixelsInsideLevelSet[iId]--;
-    this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[iId] -= iVal;
-    }
-}
-
-template < class TInputImage, class TFeatureImage, class TSharedData >
-void
-ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData > ::UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const bool& iA, const FeaturePixelType& iVal )
-{
-  if( iA )
-    {
-    this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[iId]++;
-    this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[iId] += iVal;
-    }
-  else
-    {
-    this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[iId]--;
-    this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[iId] -= iVal;
+    this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[iId] -= iH;
+    this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[iId] -= iVal * iH;
     }
 }
 
@@ -97,11 +99,11 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   unsigned int fId = this->m_FunctionId;
 
-  this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] = 0;
-  this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] = 0;
+  this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] = 0;
+  this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] = 0;
   this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
-  this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] = 0;
-  this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] = 0;
+  this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] = 0;
+  this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] = 0;
   this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
 
   FeatureImageConstPointer featureImage = this->m_FeatureImage;
@@ -140,12 +142,8 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
         if (*it == fId)
           {
-          //NOTE (arnaud): here it must be featureVal * hVal
-          this->m_SharedData->m_SumOfPixelValuesInsideLevelSet[fId] += featureVal;
-          //NOTE (arnaud): here it must be hVal instead of 1.
-          //However this will impact the computation of the volume.
-          //So the for the time being I let it like this
-          this->m_SharedData->m_NumberOfPixelsInsideLevelSet[fId] += 1.;
+          this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] += featureVal;
+          this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] += hVal;
           }
         }
       }
@@ -153,8 +151,8 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     // if the pixel belongs to the background
     if ( inBgrnd )
       {
-      this->m_SharedData->m_SumOfPixelValuesOutsideLevelSet[fId] += featureVal;
-      this->m_SharedData->m_NumberOfPixelsOutsideLevelSet[fId] += 1.;
+      this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] += featureVal;
+      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] += hVal;
       }
     }
 }

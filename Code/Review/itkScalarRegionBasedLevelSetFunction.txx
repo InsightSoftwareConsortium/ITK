@@ -97,7 +97,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // if pixel belonged to current foreground but not anymore so
   if ( ( oldH > 0.5 ) && ( newH <= 0.5 ) )
     {
-    UpdateSharedDataInsideParameters( fId, false, featureVal );
+    UpdateSharedDataInsideParameters( fId, false, featureVal, newH );
 
     // have to update level-set backgrounds overlapping
     // at the current pixel
@@ -105,7 +105,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        UpdateSharedDataOutsideParameters( *it, true, featureVal );
+        UpdateSharedDataOutsideParameters( *it, true, featureVal, newH );
         }
       }
     }
@@ -113,14 +113,14 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // if pixel entered the foreground
   if ( ( oldH <= 0.5 ) && ( newH > 0.5 ) )
     {
-    UpdateSharedDataInsideParameters( fId, true, featureVal );
+    UpdateSharedDataInsideParameters( fId, true, featureVal, newH );
     // have to update level-set backgrounds overlapping
     // at the current pixel
     if ( inBgrnd )
       {
       for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
         {
-        UpdateSharedDataOutsideParameters( *it, false, featureVal );
+        UpdateSharedDataOutsideParameters( *it, false, featureVal, newH );
         }
       }
     }

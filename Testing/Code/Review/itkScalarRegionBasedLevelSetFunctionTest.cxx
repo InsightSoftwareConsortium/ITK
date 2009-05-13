@@ -74,10 +74,10 @@ public:
   virtual void UpdateSharedDataParameters() {}
 
   virtual void UpdateSharedDataInsideParameters( const unsigned int& ,
-    const bool& , const FeaturePixelType& ) {}
+    const bool& , const FeaturePixelType&, const ScalarValueType& ) {}
 
   virtual void UpdateSharedDataOutsideParameters( const unsigned int& ,
-    const bool& , const FeaturePixelType& ) {}
+    const bool& , const FeaturePixelType&, const ScalarValueType& ) {}
 
 
 protected:
@@ -129,12 +129,12 @@ public:
 
   typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage[19];
 
-  int m_NumberOfPixelsInsideLevelSet[19];
-  int m_SumOfPixelValuesInsideLevelSet[19];
+  int m_WeightedNumberOfPixelsInsideLevelSet[19];
+  int m_WeightedSumOfPixelValuesInsideLevelSet[19];
   int m_ForegroundConstantValues[19];
 
-  int m_NumberOfPixelsOutsideLevelSet[19];
-  int m_SumOfPixelValuesOutsideLevelSet[19];
+  int m_WeightedNumberOfPixelsOutsideLevelSet[19];
+  int m_WeightedSumOfPixelValuesOutsideLevelSet[19];
   int m_BackgroundConstantValues[19];
 
 };

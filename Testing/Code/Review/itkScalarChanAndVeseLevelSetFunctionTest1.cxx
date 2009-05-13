@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,7 @@ namespace itk
 template < class TInput, // LevelSetImageType
   class TFeature, // FeatureImageType
   class TSharedData >
-class ScalarChanAndVeseLevelSetFunctionTestHelper : 
+class ScalarChanAndVeseLevelSetFunctionTestHelper :
  public ScalarChanAndVeseLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
@@ -42,23 +42,23 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods) */
   itkTypeMacro( ScalarChanAndVeseLevelSetFunctionTestHelper, ScalarChanAndVeseLevelSetFunction );
 
   typedef typename Superclass::ScalarValueType     ScalarValueType;
   typedef typename Superclass::FeaturePixelType    FeaturePixelType;
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
-  
+
 
   virtual ScalarValueType computeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & ) 
+    const FeatureIndexType &, const unsigned int & )
     {
     return ScalarValueType( 0 );
     }
 
   virtual ScalarValueType computeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType &, const unsigned int & ) 
+    const FeatureIndexType &, const unsigned int & )
     {
     return ScalarValueType( 0 );
     }
@@ -89,12 +89,12 @@ public:
   typedef SmartPointer<const Self>                            ConstPointer;
 
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods) */
   itkTypeMacro( ScalarChanAndVeseLevelSetFunctionSharedDataHelper, DataObject );
 
   unsigned long       m_FunctionCount;
-  
+
   typedef Index< NDimension >                 IndexType;
 
   IndexType GetFeatureIndex( unsigned int itkNotUsed(functionId), const IndexType & indx )
@@ -118,12 +118,12 @@ public:
 
   typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage[19];
 
-  int m_NumberOfPixelsInsideLevelSet[19];
-  int m_SumOfPixelValuesInsideLevelSet[19];
+  int m_WeightedNumberOfPixelsInsideLevelSet[19];
+  int m_WeightedSumOfPixelValuesInsideLevelSet[19];
   int m_ForegroundConstantValues[19];
 
-  int m_NumberOfPixelsOutsideLevelSet[19];
-  int m_SumOfPixelValuesOutsideLevelSet[19];
+  int m_WeightedNumberOfPixelsOutsideLevelSet[19];
+  int m_WeightedSumOfPixelValuesOutsideLevelSet[19];
   int m_BackgroundConstantValues[19];
 
 };
@@ -141,11 +141,11 @@ int itkScalarChanAndVeseLevelSetFunctionTest1( int, char* [] )
   typedef itk::ScalarChanAndVeseLevelSetFunctionSharedDataHelper<Dimension>      DataHelperType;
 
 
-  typedef itk::ScalarChanAndVeseLevelSetFunctionTestHelper< 
+  typedef itk::ScalarChanAndVeseLevelSetFunctionTestHelper<
     ImageType, FeatureImageType, DataHelperType >      ChanAndVeseLevelSetFunctionType;
 
   ChanAndVeseLevelSetFunctionType::Pointer function = ChanAndVeseLevelSetFunctionType::New();
- 
+
   std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << std::endl;
   function->Print( std::cout );
 

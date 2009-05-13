@@ -322,7 +322,7 @@ typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeVolumeRegularizationTerm( )
 {
-  return 2 * ( this->m_SharedData->m_NumberOfPixelsInsideLevelSet[this->m_FunctionId] - this->m_Volume );
+  return 2 * ( this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[this->m_FunctionId] - this->m_Volume );
 }
 
 /* Computes the fidelity term (eg: (intensity - mean)2 ).

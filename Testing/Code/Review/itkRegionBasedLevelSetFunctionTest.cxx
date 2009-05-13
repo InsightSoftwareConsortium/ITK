@@ -107,7 +107,7 @@ public:
     return indx;
     }
 
-  unsigned int m_NumberOfPixelsInsideLevelSet[19];
+  unsigned int m_WeightedNumberOfPixelsInsideLevelSet[19];
 };
 
 }
