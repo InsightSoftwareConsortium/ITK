@@ -89,6 +89,18 @@ ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 ADD_TEST(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
 ADD_TEST(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
+IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest2PixelCentered.png
+            ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements5.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
+        ${TEMP}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1
+  )
+ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest2.png
             ${TEMP}/itkBSplineDeformableTransformTest2.png
@@ -99,7 +111,20 @@ ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest2.png
         ${TEMP}/itkBSplineDeformableTransformTest2DeformationField.mhd 1
   )
+ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
+IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest3PixelCentered.png
+            ${TEMP}/itkBSplineDeformableTransformTest3PixelCentered.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements3.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest3PixelCentered.png
+        ${TEMP}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2
+  )
+ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest3.png
             ${TEMP}/itkBSplineDeformableTransformTest3.png
@@ -110,7 +135,20 @@ ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest3.png
         ${TEMP}/itkBSplineDeformableTransformTest3DeformationField.mhd 2
   )
+ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
+IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
+  --compare ${BASELINE}/itkBSplineDeformableTransformTest4PixelCentered.png
+            ${TEMP}/itkBSplineDeformableTransformTest4PixelCentered.png
+  itkBSplineDeformableTransformTest2
+        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+        ${TEMP}/itkBSplineDeformableTransformTest4PixelCentered.png
+        ${TEMP}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3
+  )
+ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest4.png
             ${TEMP}/itkBSplineDeformableTransformTest4.png
@@ -121,6 +159,7 @@ ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest4.png
         ${TEMP}/itkBSplineDeformableTransformTest4DeformationField.mhd 3
   )
+ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
 ADD_TEST(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)

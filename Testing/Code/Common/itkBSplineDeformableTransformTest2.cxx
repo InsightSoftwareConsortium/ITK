@@ -37,27 +37,26 @@
 class CommandProgressUpdate : public itk::Command 
 {
 public:
-  typedef  CommandProgressUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef  CommandProgressUpdate      Self;
+  typedef  itk::Command               Superclass;
+  typedef itk::SmartPointer<Self>     Pointer;
   itkNewMacro( Self );
 protected:
   CommandProgressUpdate() {};
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      const itk::ProcessObject * filter = 
-        dynamic_cast< const itk::ProcessObject * >( object );
-      if( ! itk::ProgressEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << filter->GetProgress() << std::endl;
+    const itk::ProcessObject * filter = dynamic_cast< const itk::ProcessObject * >( object );
+    if( ! itk::ProgressEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << filter->GetProgress() << std::endl;
     }
 };
 
@@ -66,18 +65,18 @@ template <unsigned int VSplineOrder>
 class BSplineDeformableTransformTest2Helper
 {
 public:
-  static int RunTest(int argc, char * argv [] )
-  {
+static int RunTest(int argc, char * argv [] )
+{
   const     unsigned int   ImageDimension = 2;
 
-  typedef   unsigned char  PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
-  typedef   itk::Image< PixelType, ImageDimension >  MovingImageType;
+  typedef   unsigned char                             PixelType;
+  typedef   itk::Image< PixelType, ImageDimension >   FixedImageType;
+  typedef   itk::Image< PixelType, ImageDimension >   MovingImageType;
 
-  typedef   itk::ImageFileReader< FixedImageType  >  FixedReaderType;
-  typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
+  typedef   itk::ImageFileReader< FixedImageType  >   FixedReaderType;
+  typedef   itk::ImageFileReader< MovingImageType >   MovingReaderType;
 
-  typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
+  typedef   itk::ImageFileWriter< MovingImageType >   MovingWriterType;
 
 
   typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -137,9 +136,6 @@ public:
   movingWriter->SetInput( resampler->GetOutput() );
 
 
-
-
-
   const unsigned int SpaceDimension = ImageDimension;
   typedef double CoordinateRepType;
 
@@ -149,9 +145,6 @@ public:
                             VSplineOrder >     TransformType;
   
   typename TransformType::Pointer bsplineTransform = TransformType::New();
-
-
-
 
 
   typedef typename TransformType::RegionType RegionType;
@@ -174,13 +167,25 @@ public:
 
   typedef typename TransformType::SpacingType SpacingType;
   SpacingType spacing;
-  spacing[0] = vcl_floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
-  spacing[1] = vcl_floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
 
   typedef typename TransformType::OriginType OriginType;
   OriginType origin;
+
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  spacing[0] = fixedSpacing[0] * fixedSize[0]  / numberOfGridCells;
+  spacing[1] = fixedSpacing[1] * fixedSize[1]  / numberOfGridCells;
+
+  const unsigned int orderShift = VSplineOrder / 2;
+
+  origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
+  origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
+#else
+  spacing[0] = vcl_floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
+  spacing[1] = vcl_floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
+
   origin[0] = fixedOrigin[0] - spacing[0];
   origin[1] = fixedOrigin[1] - spacing[1];
+#endif
   
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
@@ -189,17 +194,11 @@ public:
 
   typedef typename TransformType::ParametersType     ParametersType;
 
-  const unsigned int numberOfParameters =
-               bsplineTransform->GetNumberOfParameters();
-  
+  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
-
-
-
-
 
 
   std::ifstream infile;
@@ -215,19 +214,13 @@ public:
   infile.close();
 
 
-
-
-
   bsplineTransform->SetParameters( parameters );
 
 
+  typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
 
-
-   typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
-
-   resampler->AddObserver( itk::ProgressEvent(), observer );
+  resampler->AddObserver( itk::ProgressEvent(), observer );
   
-
 
   resampler->SetTransform( bsplineTransform );
   
@@ -243,9 +236,9 @@ public:
     }
 
 
-  typedef itk::Point<  float, ImageDimension >  PointType;
-  typedef itk::Vector< float, ImageDimension >  VectorType;
-  typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
+  typedef itk::Point<  float, ImageDimension >        PointType;
+  typedef itk::Vector< float, ImageDimension >        VectorType;
+  typedef itk::Image< VectorType, ImageDimension >    DeformationFieldType;
 
   typename DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
@@ -276,7 +269,6 @@ public:
     }
 
 
-
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
   typename FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
@@ -297,9 +289,8 @@ public:
       }
     }
   return EXIT_SUCCESS;
-  }
+}
 };
-
 
 
 int itkBSplineDeformableTransformTest2( int argc, char * argv[] )
@@ -350,4 +341,3 @@ int itkBSplineDeformableTransformTest2( int argc, char * argv[] )
 
    return EXIT_SUCCESS;
 }
-
