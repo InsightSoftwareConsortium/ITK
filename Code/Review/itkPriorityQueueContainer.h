@@ -23,7 +23,6 @@
 
 #include <functional>
 #include <queue>
-#include <assert.h>
 #include <vector>
 
 namespace itk
@@ -280,7 +279,7 @@ public:
 
   Element Peek( )
     {
-    assert( !Empty( ) );
+    itkAssertOrThrowMacro( (!Empty( )), "Element is Empty" );
     return( GetElementAtLocation( 0 ) );
     }
 
@@ -305,8 +304,9 @@ public:
   void Update( Element element )
     {
     ElementIdentifier location = m_Interface.GetLocation( element );
-    assert( location != -1 );
-    assert( location < static_cast< ElementIdentifier >( this->Size( ) ) );
+    itkAssertOrThrowMacro( (location != -1), "element is unknown");
+    itkAssertOrThrowMacro( (location < static_cast< ElementIdentifier >( this->Size( ) ) ),
+      "Element location is out of range" );
     UpdateDownTree( location );
     UpdateUpTree( location );
     }
@@ -316,8 +316,9 @@ public:
     ElementIdentifier location = m_Interface.GetLocation( element );
     m_Interface.SetLocation( element, -1);
 
-    assert( location != -1 );
-    assert( location < static_cast< ElementIdentifier >( this->Size( ) ) );
+    itkAssertOrThrowMacro( (location != -1), "element is unknown");
+    itkAssertOrThrowMacro( (location < static_cast< ElementIdentifier >( this->Size( ) ) ),
+      "Element location is out of range" );
 
     if( location == static_cast< ElementIdentifier >( this->Size( ) ) - 1 )
       {
@@ -325,8 +326,7 @@ public:
       }
     else
       {
-      SetElementAtLocation( location,
-        GetElementAtLocation( this->Size( ) - 1 ) );
+      SetElementAtLocation( location, GetElementAtLocation( this->Size( ) - 1 ) );
       this->pop_back();
       UpdateDownTree( location );
       UpdateUpTree( location );
