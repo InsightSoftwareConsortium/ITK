@@ -47,6 +47,7 @@ public:
   typedef unsigned long            LengthType;
 
   LabelObjectLine() {};
+  virtual ~LabelObjectLine() {};
   LabelObjectLine( const IndexType & idx, const LengthType & length );
 
   //
