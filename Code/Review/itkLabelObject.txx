@@ -232,9 +232,9 @@ LabelObject<TLabel, VImageDimension>::GetIndex( int offset ) const
 /** Copy the attributes of another node to this one */
 template < class TLabel, unsigned int VImageDimension >
 void 
-LabelObject<TLabel, VImageDimension>::CopyAttributesFrom( const Self * src )
+LabelObject<TLabel, VImageDimension>::CopyAttributesFrom( 
+  const Self * itkNotUsed(src) )
 {
-  assert( src != NULL );
   // nothing to do here - this class has no attribute
 }
    
