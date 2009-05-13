@@ -19,7 +19,6 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelObjectLineComparator.h"
-#include <assert.h>
 
 namespace itk
 {
@@ -105,7 +104,7 @@ void
 LabelObject<TLabel, VImageDimension>::
 AddIndex( const IndexType & idx ) 
 {
-  assert( !this->HasIndex( idx ) );
+  itkAssertOrThrowMacro( (!this->HasIndex( idx )), "Index out of range" );
 
   if( !m_LineContainer.empty() )
     {
@@ -235,6 +234,7 @@ void
 LabelObject<TLabel, VImageDimension>::CopyAttributesFrom( 
   const Self * itkNotUsed(src) )
 {
+  itkAssertOrThrowMacro ( (src != NULL), "Null Pointer" );
   // nothing to do here - this class has no attribute
 }
    
@@ -243,7 +243,7 @@ template < class TLabel, unsigned int VImageDimension >
 void 
 LabelObject<TLabel, VImageDimension>::CopyAllFrom( const Self * src )
 {
-  assert( src != NULL );
+  itkAssertOrThrowMacro ( (src != NULL), "Null Pointer" );
   m_LineContainer = src->m_LineContainer;
   m_Label = src->m_Label;
   // also copy the attributes
