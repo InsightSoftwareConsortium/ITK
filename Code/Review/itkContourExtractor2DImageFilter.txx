@@ -22,7 +22,6 @@
 #include "itkProgressReporter.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "vcl_cmath.h"
-#include "vcl_cassert.h"
 #include "itkContourExtractor2DImageFilter.h"
 
 namespace itk
@@ -258,10 +257,11 @@ ContourExtractor2DImageFilter<TInputImage>
   // Offset. value must have exactly one component 1 and the other component 0.
   // Also this assumes that fromValue and toValue are different. Otherwise we
   // can't interpolate anything!
-  assert(fromValue != toValue);
+  itkAssertOrThrowMacro( (fromValue != toValue), "source and destination are the same" );
 
-  assert( (toOffset[0] == 0 && toOffset[1] == 1) || 
-          (toOffset[0] == 1 && toOffset[1] == 0)     );
+  itkAssertOrThrowMacro( 
+    ( (toOffset[0] == 0 && toOffset[1] == 1) || (toOffset[0] == 1 && toOffset[1] == 0) ),
+    "toOffset has unexpected values");
 
   double x = (m_ContourValue - static_cast<InputRealType>(fromValue)) / 
              (toValue - static_cast<InputRealType>(fromValue));
@@ -296,9 +296,9 @@ ContourExtractor2DImageFilter<TInputImage>
     // We need to connect these two contours. The act of connecting them will
     // add the needed arc.
     ContourRef tail = newTail->second;
-    assert(tail->front() == to);
+    itkAssertOrThrowMacro( (tail->front() == to), "End doesn't match Beginning" );
     ContourRef head = newHead->second;
-    assert(head->back() == from);
+    itkAssertOrThrowMacro( (head->back() == from), "Beginning doesn't match End");
     if (head == tail)
       {
       // We've closed a contour. Add the end point, and remove from the maps
@@ -384,7 +384,7 @@ ContourExtractor2DImageFilter<TInputImage>
     {
     // Found a single contour to which the new arc should be prepended.
     ContourRef tail = newTail->second;
-    assert(tail->front() == to);
+    itkAssertOrThrowMacro( (tail->front() == to), "End doesn't match Beginning" );
     tail->push_front(from);
     // erase the old start of this contour
     m_ContourStarts.erase(newTail);
@@ -395,7 +395,7 @@ ContourExtractor2DImageFilter<TInputImage>
     {
     // Found a single contour to which the new arc should be appended.
     ContourRef head = newHead->second;
-    assert(head->back() == from);
+    itkAssertOrThrowMacro( (head->back() == from), "Beginning doesn't match End");
     head->push_back(to);
     // erase the old end of this contour
     m_ContourEnds.erase(newHead);
