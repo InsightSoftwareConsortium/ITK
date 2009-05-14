@@ -19,7 +19,7 @@
 #include "itkBSplineKernelFunction.h"
 #include "itkSimpleFilterWatcher.h"
 
-int itkGridImageSourceTest0( int argc, char *argv[] )
+int itkGridImageSourceTest0( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
@@ -101,7 +101,7 @@ int itkGridImageSourceTest0( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkGridImageSourceTest1( int argc, char *argv[] )
+int itkGridImageSourceTest1( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
@@ -175,7 +175,7 @@ int itkGridImageSourceTest1( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkGridImageSourceTest2( int argc, char *argv[] )
+int itkGridImageSourceTest2( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
@@ -245,7 +245,7 @@ int itkGridImageSourceTest2( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkGridImageSourceTest3( int argc, char *argv[] )
+int itkGridImageSourceTest3( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
@@ -325,7 +325,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
     
-  int test = EXIT_FAILURE;  
+  int test;
   if ( atoi( argv[2] ) == 0 )
     {
     test = itkGridImageSourceTest0( argc, argv );
