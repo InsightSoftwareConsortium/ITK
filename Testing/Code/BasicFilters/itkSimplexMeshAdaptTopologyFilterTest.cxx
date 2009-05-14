@@ -70,6 +70,7 @@ int itkSimplexMeshAdaptTopologyFilterTest( int , char * [] )
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(simplexMesh);
   filter->Update();
+  filter->Print(std::cout);
 
   std::cout << "[TEST DONE]" << std::endl;
 

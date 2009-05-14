@@ -53,6 +53,7 @@ int itkSignedMaurerDistanceMapImageFilterTest( int argc, char * argv[] )
   filter->SetUseImageSpacing( false );
   filter->SetInsideIsPositive( true );
   filter->Update();
+  filter->Print(std::cout);
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );

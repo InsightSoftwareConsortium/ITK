@@ -62,6 +62,7 @@ int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
   TriangleFilterType::Pointer backFilter = TriangleFilterType::New();
   backFilter->SetInput( simplexFilter->GetOutput() );
   backFilter->Update();
+  backFilter->Print(std::cout);
 
   SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   TriangleMeshPointer originalTriangleMesh = mySphereMeshSource->GetOutput();

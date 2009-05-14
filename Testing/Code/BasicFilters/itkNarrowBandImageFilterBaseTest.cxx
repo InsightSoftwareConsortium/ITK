@@ -166,7 +166,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(addFilter->GetOutput());    
-
+  filter->Print(std::cout);
   try
     {
     typedef itk::RescaleIntensityImageFilter<ImageType, WriterImageType> RescaleType;
