@@ -173,6 +173,8 @@ int itkLabelMapTest(int argc, char * argv[])
 
   itkAssertOrThrowMacro ( (map->GetPixel(idx) == 3), "SetPixel/SetLine/GetPixel failed");
 
+  map->Print(std::cout);
+
   map->PrintLabelObjects();
 
   map->RemoveLabelObject( lo );
