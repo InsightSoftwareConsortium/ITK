@@ -302,14 +302,11 @@ GaussianBlurImageFunction<TInputImage,TOutput>
   itN.SetDirection(1);
   it.GoToBeginOfLine();
   itN.GoToBeginOfLine();
-  while(!it.IsAtEnd())
+  while( !it.IsAtEnd() )
     {
-    while(!it.IsAtEndOfLine())
+    while( !it.IsAtEndOfLine() )
       {
-      if(m_Caster->GetOutput()->GetLargestPossibleRegion().IsInside(it.GetIndex()))
-        {
-        itN.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
-        }
+      itN.Set(m_OperatorImageFunction->EvaluateAtIndex(it.GetIndex()));
       ++it;
       ++itN;
       }
