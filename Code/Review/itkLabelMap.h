@@ -54,12 +54,13 @@ namespace itk
  * \ingroup LabeledImageObject
  */
 template <class TLabelObject >
-class ITK_EXPORT LabelMap : public ImageBase<TLabelObject::ImageDimension>
+class ITK_EXPORT LabelMap : public ImageBase< ::itk::GetImageDimension<TLabelObject>::ImageDimension>
 {
 public:
   /** Standard class typedefs */
   typedef LabelMap                                 Self;
-  typedef ImageBase<TLabelObject::ImageDimension>  Superclass;
+  typedef ImageBase< ::itk::GetImageDimension<TLabelObject>::ImageDimension>
+                                                   Superclass;
   typedef SmartPointer<Self>                       Pointer;
   typedef SmartPointer<const Self>                 ConstPointer;
   typedef WeakPointer<const Self>                  ConstWeakPointer;
