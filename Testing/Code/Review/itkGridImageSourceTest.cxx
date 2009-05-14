@@ -273,8 +273,10 @@ int itkGridImageSourceTest3( int, char *argv[] )
   gridOffset.Fill( 0.0 );
   gridSpacing[0] = 32.0;
   gridSpacing[1] = 16.0;
+  gridSpacing[2] = 16.0;
   sigma[0] = 1.0;
   sigma[1] = 5.0;
+  sigma[2] = 6.0;
   
   which.Fill( true );
 
