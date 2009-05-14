@@ -19,6 +19,7 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelObjectLineComparator.h"
+#include <algorithm>
 
 namespace itk
 {
