@@ -10,6 +10,7 @@ ENDIF(ITK_BINARY_DIR)
 
 SET(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
 SET(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
+SET(REVIEW_TESTS3 ${CXX_TEST_PATH}/itkReviewTests3)
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
@@ -211,6 +212,10 @@ SET(ReviewTest2_SRCS
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
+)
+
+SET(ReviewTest3_SRCS
+  itkGridImageSourceTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1589,6 +1594,29 @@ ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
   ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha # Output image with equispaced sigma steps
   )
 
+ADD_TEST(itkGridImageSourceTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkGridImageSourceTest1.nhdr
+            ${TEMP}/itkGridImageSourceTest1.nhdr
+  itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest1.nhdr 0)
+
+ADD_TEST(itkGridImageSourceTest2
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkGridImageSourceTest2.nhdr
+            ${TEMP}/itkGridImageSourceTest2.nhdr
+  itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest2.nhdr 1)
+
+ADD_TEST(itkGridImageSourceTest3
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkGridImageSourceTest3.nhdr
+            ${TEMP}/itkGridImageSourceTest3.nhdr
+  itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest3.nhdr 2)
+
+ADD_TEST(itkGridImageSourceTest4
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkGridImageSourceTest4.nhdr
+            ${TEMP}/itkGridImageSourceTest4.nhdr
+  itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
 
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
@@ -1630,6 +1658,12 @@ SET(ReviewTest2_LIBS
   )
 TARGET_LINK_LIBRARIES(itkReviewTests2 ${ReviewTest2_LIBS})
 
+ADD_EXECUTABLE(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
+
+SET(ReviewTest3_LIBS
+  ITKIO
+  )
+TARGET_LINK_LIBRARIES(itkReviewTests3 ${ReviewTest3_LIBS})
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}
@@ -1647,6 +1681,7 @@ TARGET_LINK_LIBRARIES(itkReviewTests ${ReviewTest_LIBS})
 
 IF (ITK_USE_REVIEW_STATISTICS)
   SUBDIRS( Statistics )
+  SUBDIRS( StatisticsBC )
 ENDIF (ITK_USE_REVIEW_STATISTICS)
 
 ENDIF(NOT ITK_DISABLE_CXX_TESTING)
