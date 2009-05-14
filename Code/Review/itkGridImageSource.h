@@ -84,8 +84,10 @@ public:
   typedef typename TOutputImage::SizeType                  SizeType;
 
   /** Other convenient types. */
-  typedef FixedArray<RealType, ImageDimension>             ArrayType;
-  typedef FixedArray<bool, ImageDimension>                 BoolArrayType; 
+  typedef FixedArray<RealType, itkGetStaticConstMacro(ImageDimension)>
+                                                           ArrayType;
+  typedef FixedArray<bool, itkGetStaticConstMacro(ImageDimension)>
+                                                           BoolArrayType; 
   typedef vnl_vector<RealType>                             PixelArrayType;
   typedef VectorContainer<unsigned long, PixelArrayType>   PixelArrayContainerType;
 
