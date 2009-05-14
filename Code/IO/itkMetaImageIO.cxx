@@ -1364,9 +1364,11 @@ MetaImageIO
       {
       delete [] indexMin;
       delete [] indexMax;
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File ROI cannot be written");
-      throw exception;
+      itkExceptionMacro("File ROI cannot be written: "
+                      << this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
       }
 
     delete [] indexMin;
@@ -1376,9 +1378,11 @@ MetaImageIO
     {
     if ( !m_MetaImage.Write(  m_FileName.c_str() ) ) 
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be written");
-      throw exception;
+      itkExceptionMacro("File cannot be written: "
+                      << this->GetFileName()
+                      << std::endl
+                      << "Reason: "
+                      << itksys::SystemTools::GetLastSystemError());
       }
     }
 
