@@ -126,8 +126,7 @@ AddIndex( const IndexType & idx )
 template < class TLabel, unsigned int VImageDimension >
 void 
 LabelObject<TLabel, VImageDimension>::
-AddLine( const LabelObject<TLabel, VImageDimension>:: IndexType & idx, 
-  const LengthType & length )
+AddLine( const IndexType & idx, const LengthType & length )
 {
   LineType line( idx, length );
   this->AddLine( line );
