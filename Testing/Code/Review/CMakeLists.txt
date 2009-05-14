@@ -145,7 +145,9 @@ SET(ReviewTest_SRCS
 SET(ReviewTest2_SRCS
   itkDirectFourierReconstructionImageToImageFilterTest.cxx
   itkHeavisideStepFunctionTest1.cxx
+  itkLabelMapFilterTest.cxx 
   itkLabelMapTest.cxx 
+  itkLabelMapToLabelImageFilterTest.cxx 
   itkLabelObjectLineComparatorTest.cxx 
   itkLabelObjectLineTest.cxx 
   itkLabelObjectTest.cxx 
@@ -475,8 +477,16 @@ ADD_TEST(itkHeavisideStepFunctionTest1 ${REVIEW_TESTS2}
   itkHeavisideStepFunctionTest1
   )
 
+ADD_TEST(itkLabelMapFilterTest ${REVIEW_TESTS2}
+  itkLabelMapFilterTest
+  )
+
 ADD_TEST(itkLabelMapTest ${REVIEW_TESTS2}
   itkLabelMapTest
+  )
+
+ADD_TEST(itkLabelMapToLabelImageFilterTest ${REVIEW_TESTS2}
+  itkLabelMapToLabelImageFilterTest
   )
 
 ADD_TEST(itkLabelObjectLineComparatorTest ${REVIEW_TESTS2}
