@@ -27,8 +27,7 @@ int itkLabelObjectTest(int argc, char * argv[])
   if( argc != 1 )
     {
     std::cerr << "usage: " << argv[0] << "" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 3;
@@ -109,19 +108,24 @@ int itkLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
     
-  LabelObjectType::LineContainerType::const_iterator it2=lo->GetLineContainer().begin();
-  for( LabelObjectType::LineContainerType::const_iterator it=ref->GetLineContainer().begin(); 
-     it != ref->GetLineContainer().end();
-     it++, it2++ )
+  typedef LabelObjectType::LineContainerType::const_iterator IteratorType;
+
+  IteratorType it2 = lo->GetLineContainer().begin();
+  IteratorType it1 = ref->GetLineContainer().begin();
+  IteratorType end = ref->GetLineContainer().end();
+
+  while( it1 != end )
     {
-    std::cout << it->GetIndex() << "-" << it->GetLength() << "    ";
+    std::cout << it1->GetIndex() << "-" << it1->GetLength() << "    ";
     std::cout << it2->GetIndex() << "-" << it2->GetLength();
     std::cout << std::endl;
-    if( it->GetIndex() != it2->GetIndex() || it->GetLength() != it2->GetLength() )
+    if( it1->GetIndex() != it2->GetIndex() || it1->GetLength() != it2->GetLength() )
       {
       std::cerr << "Line mismatch." << std::endl;
       return EXIT_FAILURE;
       }
+    it1++;
+    it2++;
     }
 
   return EXIT_SUCCESS;
