@@ -164,6 +164,9 @@ protected:
 
 private:
 
+  virtual TOutput EvaluateAtIndex( 
+    const IndexType & index, const OperatorArrayType & operatorArray ) const;
+
   SigmaArrayType                m_Sigma;
   OperatorImageFunctionPointer  m_OperatorImageFunction;
   mutable OperatorArrayType     m_OperatorArray;
