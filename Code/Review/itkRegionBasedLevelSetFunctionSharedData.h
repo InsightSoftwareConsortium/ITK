@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkScalarChanAndVeseLevelSetFunctionSharedData.h
+  Module:    itkRegionBasedLevelSetFunctionSharedData.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,9 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
-#ifndef __itkScalarChanAndVeseLevelSetFunctionSharedData_h
-#define __itkScalarChanAndVeseLevelSetFunctionSharedData_h
+#ifndef __itkRegionBasedLevelSetFunctionSharedData_h
+#define __itkRegionBasedLevelSetFunctionSharedData_h
 
 #include "itkLightObject.h"
 
@@ -31,7 +30,7 @@
 namespace itk
 {
 
-/** \class ScalarChanAndVeseLevelSetFunctionSharedData
+/** \class RegionBasedLevelSetFunctionSharedData
  *
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
  *
@@ -65,22 +64,19 @@ namespace itk
  *
  *
  */
-template < class TInputImage, class TFeatureImage >
-class ScalarChanAndVeseLevelSetFunctionSharedData : public LightObject
+template < class TInputImage, class TFeatureImage, class TSingleData >
+class RegionBasedLevelSetFunctionSharedData : public LightObject
 {
 public:
 
-  typedef ScalarChanAndVeseLevelSetFunctionSharedData       Self;
+  typedef RegionBasedLevelSetFunctionSharedData             Self;
   typedef LightObject                                       Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
 
   itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
 
-  /** Method for creation through the object factory. */
-  itkNewMacro( Self );
-
-  itkTypeMacro(ScalarChanAndVeseLevelSetFunctionSharedData, LightObject);
+  itkTypeMacro(RegionBasedLevelSetFunctionSharedData, LightObject);
 
   typedef TInputImage                                   InputImageType;
   typedef typename InputImageType::Pointer              InputImagePointer;
@@ -127,21 +123,23 @@ public:
   typedef typename TreeGeneratorType::KdTreeType              TreeType;
   typedef typename TreeType::Pointer                          KdTreePointer;
 
+  typedef TSingleData                                   LevelSetDataType;
+  typedef typename LevelSetDataType::Pointer            LevelSetDataPointer;
+  typedef std::vector< LevelSetDataPointer >            LevelSetDataPointerVector;
+  typedef typename LevelSetDataPointerVector::iterator  LevelSetDataPointerVectorIterator;
+
   void SetFunctionCount( const unsigned int& n )
     {
     this->m_FunctionCount = n;
+    this->m_LevelSetDataPointerVector.resize( n, 0 );
 
-    this->m_ForegroundConstantValues.resize( n, 0.0 );
-    this->m_WeightedNumberOfPixelsInsideLevelSet.resize( n, 0.0 );
-    this->m_WeightedSumOfPixelValuesInsideLevelSet.resize( n, 0.0 );
-
-    this->m_BackgroundConstantValues.resize( n, 0.0 );
-    this->m_WeightedNumberOfPixelsOutsideLevelSet.resize( n, 0.0 );
-    this->m_WeightedSumOfPixelValuesOutsideLevelSet.resize( n, 0.0 );
-
-    this->m_HeavisideFunctionOfLevelSetImage.resize( n, 0 );
-    this->m_Start.resize( n );
-    this->m_End.resize( n );
+    LevelSetDataPointerVectorIterator it = m_LevelSetDataPointerVector.begin();
+    LevelSetDataPointerVectorIterator end = m_LevelSetDataPointerVector.end();
+    while( it != end )
+      {
+      (*it) = LevelSetDataType::New();
+      it++;
+      }
     }
 
   void SetNumberOfNeighbors( const unsigned int& n )
@@ -151,67 +149,13 @@ public:
 
   void CreateHeavisideFunctionOfLevelSetImage( const unsigned int& j, const InputImageType * image )
     {
-    const InputRegionType region = image->GetLargestPossibleRegion();
-    this->m_HeavisideFunctionOfLevelSetImage[j] = InputImageType::New();
-    this->m_HeavisideFunctionOfLevelSetImage[j]->CopyInformation( image );
-    this->m_HeavisideFunctionOfLevelSetImage[j]->SetRegions( region );
-    this->m_HeavisideFunctionOfLevelSetImage[j]->Allocate();
-    this->m_HeavisideFunctionOfLevelSetImage[j]->FillBuffer( 0 );
-
-    const InputPointType origin = image->GetOrigin();
-    const InputSpacingType spacing = image->GetSpacing();
-
-    for( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      // FIXME : This computation of Start index is suspicious.
-      //         See similar computation in the Shrink image filter.
-      this->m_Start[j][i] = static_cast< InputIndexValueType >( origin[i] / spacing[i] );
-      this->m_End[j][i] = this->m_Start[j][i] + static_cast< InputIndexValueType >( region.GetSize()[i] ) - 1;
-      }
+    m_LevelSetDataPointerVector[j]->CreateHeavisideFunctionOfLevelSetImage( image );
     }
 
   void SetKdTree( KdTreePointer kdtree )
     {
     this->m_KdTree = kdtree;
     }
-
-  template< class TIndex >
-  bool VerifyInsideRegion( const unsigned int& i, const TIndex& featureIndex )
-    {
-    typedef typename TIndex::IndexValueType TIndexValueType;
-    for( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      if(  (featureIndex[j] < static_cast< TIndexValueType >(this->m_Start[i][j]) )
-        || (featureIndex[j] > static_cast< TIndexValueType >(this->m_End[i][j]))  )
-        {
-        return false;
-        }
-      }
-    return true;
-    }
-
-  InputIndexType GetIndex( const unsigned int& j, const FeatureIndexType& featureIndex )
-    {
-    InputIndexType index;
-    for( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      index[i] = featureIndex[i] - static_cast< InputIndexValueType >( this->m_Start[j][i] );
-      }
-
-    return index;
-    }
-
-  FeatureIndexType GetFeatureIndex( const unsigned int& j,
-    const InputIndexType& inputIndex )
-    {
-    FeatureIndexType index;
-    for( unsigned int i = 0; i < ImageDimension; i++ )
-      index[i] = inputIndex[i] +
-        static_cast< InputIndexValueType >( this->m_Start[j][i] );
-
-    return index;
-    }
-
 
   void AllocateListImage( const FeatureImageType * featureImage )
     {
@@ -221,77 +165,21 @@ public:
     this->m_NearestNeighborListImage->Allocate();
     }
 
-  void PopulateListImage()
-    {
-    ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
+  virtual void PopulateListImage() = 0;
 
-    ListRegionType region = this->m_NearestNeighborListImage->GetLargestPossibleRegion();
-
-    ListIteratorType lIt( this->m_NearestNeighborListImage, region );
-
-    if ( m_KdTree )
-      {
-      for(lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
-        {
-        ListIndexType ind = lIt.GetIndex();
-
-        float queryPoint[ImageDimension];
-        for( unsigned int i = 0; i < ImageDimension; i++ )
-          queryPoint[i] = ind[i]*spacing[i];
-
-        typename TreeType::InstanceIdentifierVectorType neighbors;
-        this->m_KdTree->Search( queryPoint, m_NumberOfNeighbors, neighbors );
-
-        ListPixelType L;
-        for( unsigned int i = 0; i < m_NumberOfNeighbors; i++ )
-          {
-          if( VerifyInsideRegion( neighbors[i], ind ) )
-            {
-            L.push_back( neighbors[i] );
-            }
-          }
-        lIt.Set( L );
-        }
-      }
-    else
-      {
-      for(lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
-        {
-        ListIndexType ind = lIt.GetIndex();
-        ListPixelType L;
-        for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-          {
-          if( VerifyInsideRegion( i, ind ) )
-            {
-            L.push_back( i );
-            }
-          }
-        lIt.Set( L );
-        }
-      }
-    }
-
-  std::vector< double >             m_BackgroundConstantValues;
-  std::vector< double >             m_ForegroundConstantValues;
-  std::vector< double >             m_WeightedSumOfPixelValuesInsideLevelSet;
-  std::vector< double >             m_WeightedNumberOfPixelsInsideLevelSet;
-  std::vector< double >             m_WeightedSumOfPixelValuesOutsideLevelSet;
-  std::vector< double >             m_WeightedNumberOfPixelsOutsideLevelSet;
+  LevelSetDataPointerVector         m_LevelSetDataPointerVector;
 
   unsigned int                      m_FunctionCount;
   unsigned int                      m_NumberOfNeighbors;
-  std::vector< InputImagePointer >  m_HeavisideFunctionOfLevelSetImage;
-  std::vector< InputIndexType >     m_Start;
-  std::vector< InputIndexType >     m_End;
   ListImagePointer                  m_NearestNeighborListImage;
   KdTreePointer                     m_KdTree;
 
 protected:
-  ScalarChanAndVeseLevelSetFunctionSharedData() : m_NumberOfNeighbors( 6 ){}
-  ~ScalarChanAndVeseLevelSetFunctionSharedData(){}
+  RegionBasedLevelSetFunctionSharedData() : m_NumberOfNeighbors( 6 ), m_KdTree( 0 ){}
+  ~RegionBasedLevelSetFunctionSharedData(){}
 
 private:
-  ScalarChanAndVeseLevelSetFunctionSharedData(const Self&); //purposely not implemented
+  RegionBasedLevelSetFunctionSharedData(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 };
 

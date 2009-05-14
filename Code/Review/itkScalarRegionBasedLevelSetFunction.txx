@@ -46,8 +46,8 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     unsigned int id = *it;
     if ( id != fId )
       {
-      otherIndex = this->m_SharedData->GetIndex( id, globalIndex );
-      hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[id]->GetPixel( otherIndex );
+      otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetIndex( globalIndex );
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->GetPixel( otherIndex );
 
       sum += hVal;
       product *= hVal;
@@ -70,11 +70,11 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   // For each affected h val: h val = new hval (this will dirty some cvals)
   InputIndexType inputIndex = iterator.GetIndex( idx );
-  FeatureIndexType globalIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
+  FeatureIndexType globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex( inputIndex );
 
   FeaturePixelType featureVal = this->m_FeatureImage->GetPixel( inputIndex );
 
-  ScalarValueType oldH = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetPixel( inputIndex );
+  ScalarValueType oldH = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->GetPixel( inputIndex );
   ScalarValueType newH = this->m_DomainFunction->Evaluate( - newValue );
 
   // Check if it is in other foreground
@@ -85,8 +85,8 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   bool inBgrnd = true; // assume the pixel is in background
   for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
     {
-    itInputIndex = this->m_SharedData->GetIndex( *it, globalIndex );
-    hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[*it]->GetPixel( itInputIndex );
+    itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
+    hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
 
     if ( ( hVal > 0.5 ) && ( *it != fId ) )
       {
@@ -125,7 +125,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       }
     }
 
-  this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->SetPixel( inputIndex, newH );
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->SetPixel( inputIndex, newH );
 }
 
 

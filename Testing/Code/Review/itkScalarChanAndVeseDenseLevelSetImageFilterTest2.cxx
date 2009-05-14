@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,6 +20,8 @@
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
+#include "itkScalarChanAndVeseLevelSetFunctionData.h"
+#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
@@ -52,11 +54,17 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   typedef itk::Image< ScalarPixelType, Dimension > LevelSetImageType;
   typedef itk::Image< ScalarPixelType, Dimension > FeatureImageType;
 
+  typedef itk::ScalarChanAndVeseLevelSetFunctionData< LevelSetImageType, FeatureImageType >
+    DataHelperType;
+
+  typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData< LevelSetImageType, FeatureImageType, DataHelperType >
+    SharedDataHelperType;
+
   typedef itk::ScalarChanAndVeseLevelSetFunction< LevelSetImageType,
-    FeatureImageType > LevelSetFunctionType;
+    FeatureImageType, SharedDataHelperType > LevelSetFunctionType;
 
   typedef itk::ScalarChanAndVeseDenseLevelSetImageFilter< LevelSetImageType,
-    FeatureImageType, LevelSetImageType, LevelSetFunctionType > MultiLevelSetType;
+    FeatureImageType, LevelSetImageType, LevelSetFunctionType, SharedDataHelperType > MultiLevelSetType;
 
   typedef itk::ImageFileReader< LevelSetImageType >     LevelSetReaderType;
   typedef itk::ImageFileReader< FeatureImageType >      FeatureReaderType;
@@ -70,9 +78,11 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
 
   LevelSetReaderType::Pointer levelSetReader1 = LevelSetReaderType::New();
   levelSetReader1->SetFileName( argv[1] );
+  levelSetReader1->Update();
 
   FeatureReaderType::Pointer featureReader = FeatureReaderType::New();
   featureReader->SetFileName( argv[2] );
+  featureReader->Update();
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 

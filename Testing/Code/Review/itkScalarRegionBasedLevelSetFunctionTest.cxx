@@ -107,35 +107,37 @@ public:
   unsigned long       m_FunctionCount;
 
   typedef Index< NDimension >                 IndexType;
-
-  IndexType GetFeatureIndex( unsigned int itkNotUsed(functionId), const IndexType & indx )
-    {
-    return indx;
-    }
-
-  typedef std::list< unsigned int > ListPixelType;
+  typedef std::list< unsigned int >           ListPixelType;
 
   typedef Image< ListPixelType, NDimension > ImageType;
-
   typename ImageType::Pointer   m_NearestNeighborListImage;
-
-  IndexType GetIndex( unsigned int itkNotUsed( functionId ), const IndexType & globalIndex )
-    {
-    return globalIndex;
-    }
 
   typedef double                              PixelType;
   typedef Image< PixelType, NDimension >      InputImageType;
 
-  typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage[19];
+  struct SingleData
+    {
+    typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage;
+    int m_WeightedNumberOfPixelsInsideLevelSet;
+    int m_WeightedSumOfPixelValuesInsideLevelSet;
+    int m_ForegroundConstantValues;
 
-  int m_WeightedNumberOfPixelsInsideLevelSet[19];
-  int m_WeightedSumOfPixelValuesInsideLevelSet[19];
-  int m_ForegroundConstantValues[19];
+    int m_WeightedNumberOfPixelsOutsideLevelSet;
+    int m_WeightedSumOfPixelValuesOutsideLevelSet;
+    int m_BackgroundConstantValues;
 
-  int m_WeightedNumberOfPixelsOutsideLevelSet[19];
-  int m_WeightedSumOfPixelValuesOutsideLevelSet[19];
-  int m_BackgroundConstantValues[19];
+    IndexType GetFeatureIndex( const IndexType & indx )
+      {
+      return indx;
+      }
+
+    IndexType GetIndex( const IndexType & globalIndex )
+      {
+      return globalIndex;
+      }
+    };
+
+  SingleData* m_LevelSetDataPointerVector[19];
 
 };
 

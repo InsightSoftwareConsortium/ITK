@@ -19,7 +19,6 @@
 #define __itkScalarChanAndVeseDenseLevelSetImageFilter_txx
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
 
 namespace itk
 {

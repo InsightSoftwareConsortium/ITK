@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,8 @@
 
 #include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
-#include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
+#include "itkScalarChanAndVeseLevelSetFunctionData.h"
+#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 
@@ -34,19 +35,21 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest1( int, char* [] )
   typedef itk::Image< float, Dimension >          FeatureImageType;
   typedef ImageType                               OutputImageType;
 
-  typedef itk::ScalarChanAndVeseLevelSetFunctionSharedData< 
-    ImageType, FeatureImageType >      DataHelperType;
+  typedef itk::ScalarChanAndVeseLevelSetFunctionData< ImageType, FeatureImageType >  DataHelperType;
+
+  typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData< ImageType, FeatureImageType, DataHelperType >
+    SharedDataHelperType;
 
 
-  typedef itk::ScalarChanAndVeseLevelSetFunction< 
-    ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
+  typedef itk::ScalarChanAndVeseLevelSetFunction<
+    ImageType, FeatureImageType, SharedDataHelperType >      RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
- 
-  typedef itk::ScalarChanAndVeseSparseLevelSetImageFilter< 
-    ImageType, FeatureImageType, OutputImageType, 
-    RegionBasedLevelSetFunctionType >                     FilterType;
- 
+
+  typedef itk::ScalarChanAndVeseSparseLevelSetImageFilter<
+    ImageType, FeatureImageType, OutputImageType,
+    RegionBasedLevelSetFunctionType, SharedDataHelperType >                     FilterType;
+
   FilterType::Pointer filter = FilterType::New();
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;

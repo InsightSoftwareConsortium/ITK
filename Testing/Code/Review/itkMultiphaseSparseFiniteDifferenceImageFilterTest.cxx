@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,8 @@
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
-#include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
+#include "itkScalarChanAndVeseLevelSetFunctionData.h"
+#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"
 
@@ -31,7 +32,7 @@ template < class TInputImage, class TOutputImage,
   class TFiniteDifferenceFunction = FiniteDifferenceFunction<TOutputImage>,
   typename TIdCell = unsigned int >
 class MultiphaseSparseFiniteDifferenceImageFilterTestHelper
-  : public MultiphaseSparseFiniteDifferenceImageFilter< 
+  : public MultiphaseSparseFiniteDifferenceImageFilter<
       TInputImage, TOutputImage, TFiniteDifferenceFunction >
 {
 public:
@@ -59,7 +60,7 @@ public:
     }
 
   virtual void CopyInputToOutput() {}
- 
+
 };
 
 
@@ -73,18 +74,20 @@ int itkMultiphaseSparseFiniteDifferenceImageFilterTest( int, char* [] )
   typedef itk::Image< PixelType, Dimension >      ImageType;
   typedef itk::Image< float, Dimension >          FeatureImageType;
 
-  typedef itk::ScalarChanAndVeseLevelSetFunctionSharedData< 
+  typedef itk::ScalarChanAndVeseLevelSetFunctionData<
     ImageType, FeatureImageType >      DataHelperType;
+  typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData<
+    ImageType, FeatureImageType, DataHelperType >      SharedDataHelperType;
 
 
-  typedef itk::ScalarChanAndVeseLevelSetFunction< 
-    ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
+  typedef itk::ScalarChanAndVeseLevelSetFunction<
+    ImageType, FeatureImageType, SharedDataHelperType >      RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
- 
-  typedef itk::MultiphaseSparseFiniteDifferenceImageFilterTestHelper< 
+
+  typedef itk::MultiphaseSparseFiniteDifferenceImageFilterTestHelper<
     ImageType, ImageType, RegionBasedLevelSetFunctionType >  FilterType;
- 
+
   FilterType::Pointer filter = FilterType::New();
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;

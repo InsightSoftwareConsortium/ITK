@@ -102,12 +102,16 @@ public:
 
   typedef Index< NDimension >                 IndexType;
 
-  IndexType GetFeatureIndex( unsigned int itkNotUsed( functionId ), const IndexType & indx )
+  struct SingleData
     {
-    return indx;
-    }
+    unsigned int m_WeightedNumberOfPixelsInsideLevelSet;
+    IndexType GetFeatureIndex( const IndexType & indx )
+      {
+      return indx;
+      }
+    };
 
-  unsigned int m_WeightedNumberOfPixelsInsideLevelSet[19];
+  SingleData* m_LevelSetDataPointerVector[19];
 };
 
 }

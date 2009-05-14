@@ -29,26 +29,26 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   unsigned int fId = this->m_FunctionId;
 
-  if ( this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] > vnl_math::eps )
+  if ( this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsInsideLevelSet > vnl_math::eps )
     {
-    this->m_SharedData->m_ForegroundConstantValues[fId] =
-      this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] /
-      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId];
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues =
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet /
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet;
     }
   else
     {
-    this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues = 0;
     }
 
-  if ( this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] > vnl_math::eps )
+  if ( this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet > vnl_math::eps )
     {
-    this->m_SharedData->m_BackgroundConstantValues[fId] =
-      this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] /
-      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId];
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues =
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet /
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet;
     }
   else
     {
-    this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
     }
 }
 
@@ -60,13 +60,13 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   if( iA )
     {
-    this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[iId] += iH;
-    this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[iId] += iVal * iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsInsideLevelSet += iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesInsideLevelSet += iVal * iH;
     }
   else
     {
-    this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[iId] -= iH;
-    this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[iId] -= iVal * iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsInsideLevelSet -= iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesInsideLevelSet -= iVal * iH;
     }
 }
 
@@ -78,13 +78,13 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   if( iA )
     {
-    this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[iId] += iH;
-    this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[iId] += iVal * iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet += iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet += iVal * iH;
     }
   else
     {
-    this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[iId] -= iH;
-    this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[iId] -= iVal * iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet -= iH;
+    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet -= iVal * iH;
     }
 }
 
@@ -99,17 +99,17 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
   unsigned int fId = this->m_FunctionId;
 
-  this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] = 0;
-  this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] = 0;
-  this->m_SharedData->m_ForegroundConstantValues[fId] = 0;
-  this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] = 0;
-  this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] = 0;
-  this->m_SharedData->m_BackgroundConstantValues[fId] = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsInsideLevelSet = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet = 0;
+  this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
 
   FeatureImageConstPointer featureImage = this->m_FeatureImage;
 
-  ImageIteratorType It( this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId],
-    this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[fId]->GetLargestPossibleRegion() );
+  ImageIteratorType It( this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage,
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->GetLargestPossibleRegion() );
   ConstFeatureIteratorType fIt( this->m_FeatureImage,
     this->m_FeatureImage->GetLargestPossibleRegion() );
 
@@ -125,15 +125,15 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     featureVal = fIt.Get();
     inputIndex = It.GetIndex();
 
-    globalIndex = this->m_SharedData->GetFeatureIndex( fId, inputIndex );
+    globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex( inputIndex );
 
     L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
 
     bool inBgrnd = true; // assume the pixel is in background
     for( ListPixelConstIterator it = L.begin(); it != L.end(); ++it )
       {
-      itInputIndex = this->m_SharedData->GetIndex( *it, globalIndex );
-      hVal = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[*it]->GetPixel( itInputIndex );
+      itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
 
       if ( hVal > 0.5 )
         {
@@ -142,8 +142,8 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
         if (*it == fId)
           {
-          this->m_SharedData->m_WeightedSumOfPixelValuesInsideLevelSet[fId] += featureVal;
-          this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[fId] += hVal;
+          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet += featureVal;
+          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsInsideLevelSet += hVal;
           }
         }
       }
@@ -151,8 +151,8 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     // if the pixel belongs to the background
     if ( inBgrnd )
       {
-      this->m_SharedData->m_WeightedSumOfPixelValuesOutsideLevelSet[fId] += featureVal;
-      this->m_SharedData->m_WeightedNumberOfPixelsOutsideLevelSet[fId] += hVal;
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal;
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += hVal;
       }
     }
 }
@@ -166,7 +166,7 @@ ComputeInternalTerm( const FeaturePixelType& iValue,
   const FeatureIndexType& itkNotUsed(iIdx) )
 {
   const unsigned int fId = this->m_FunctionId;
-  const ScalarValueType cVals = this->m_SharedData->m_ForegroundConstantValues[fId];
+  const ScalarValueType cVals = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues;
   const ScalarValueType t = ( iValue - cVals );
   return t * t;
 }
@@ -180,7 +180,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     const FeatureIndexType& itkNotUsed(iIdx) )
 {
   const unsigned int fId = this->m_FunctionId;
-  const ScalarValueType cBgrnd = this->m_SharedData->m_BackgroundConstantValues[fId]; // background
+  const ScalarValueType cBgrnd = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues; // background
   const ScalarValueType t = ( iValue - cBgrnd );
 
   return t * t;

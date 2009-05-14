@@ -19,7 +19,6 @@
 #define __itkScalarChanAndVeseSparseLevelSetImageFilter_h
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
 #include "itkRegionOfInterestImageFilter.h"
 
 /** \class ScalarChanAndVeseSparseLevelSetImageFilter
@@ -29,9 +28,9 @@
  * This code was adapted from the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -51,12 +50,12 @@
  *      "Level set segmentation using coupled active surfaces"
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
- *   
+ *
  */
 namespace itk
 {
 template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-  class TSharedData = ScalarChanAndVeseLevelSetFunctionSharedData< TInputImage, TFeatureImage > >
+  class TSharedData >
 class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter :
 public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
 {

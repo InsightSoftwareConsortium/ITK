@@ -65,7 +65,7 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
   // The phi function
   InputImageConstPointer contourImage = this->m_InitialImage;
-  InputImagePointer hBuffer = this->m_SharedData->m_HeavisideFunctionOfLevelSetImage[this->m_FunctionId];
+  InputImagePointer hBuffer = this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->m_HeavisideFunctionOfLevelSetImage;
 
   // Iterator for the phi function
   typedef ImageRegionConstIteratorWithIndex< InputImageType > ConstImageIteratorType;
@@ -353,7 +353,7 @@ typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeVolumeRegularizationTerm( )
 {
-  return 2 * ( this->m_SharedData->m_WeightedNumberOfPixelsInsideLevelSet[this->m_FunctionId] - this->m_Volume );
+  return 2 * ( this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->m_WeightedNumberOfPixelsInsideLevelSet - this->m_Volume );
 }
 
 /* Computes the fidelity term (eg: (intensity - mean)2 ).
@@ -383,7 +383,7 @@ const InputIndexType& inputIndex )
   // and the presence of background pr
   if ( this->m_SharedData->m_FunctionCount > 1 )
     {
-    featIndex = this->m_SharedData->GetFeatureIndex( this->m_FunctionId, inputIndex );
+    featIndex = this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->GetFeatureIndex( inputIndex );
     overlapTerm = this->m_OverlapPenaltyWeight *
       ComputeOverlapParameters( featIndex, product );
     }

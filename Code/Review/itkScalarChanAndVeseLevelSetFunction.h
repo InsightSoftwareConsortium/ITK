@@ -19,7 +19,6 @@
 #define __itkScalarChanAndVeseLevelSetFunction_h
 
 #include "itkScalarRegionBasedLevelSetFunction.h"
-#include "itkScalarChanAndVeseLevelSetFunctionSharedData.h"
 
 namespace itk {
 
@@ -60,7 +59,7 @@ namespace itk {
  */
 template < class TInputImage,
 class TFeatureImage,
-class TSharedData = ScalarChanAndVeseLevelSetFunctionSharedData< TInputImage, TFeatureImage > >
+class TSharedData >
 class ITK_EXPORT ScalarChanAndVeseLevelSetFunction
 : public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
