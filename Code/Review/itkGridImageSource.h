@@ -31,8 +31,24 @@ namespace itk
  * \brief Generate an n-dimensional image of a grid.
  *
  * GridImageSource generates an image of a grid.
+ * From the abstract...
+ * "Certain classes of images find disparate use amongst members of the
+ * ITK community for such purposes as visualization, simulation,
+ * testing, etc. Currently there exists two derived classes from the
+ * ImageSource class used for generating specific images for various
+ * applications, viz. RandomImageSource and GaussianImageSource. We
+ * propose to add to this set with the class GridImageSource which,
+ * obviously enough, produces a grid image. Such images are useful for
+ * visualizing deformation when used in conjunction with the
+ * WarpImageFilter, simulating magnetic resonance tagging images, or
+ * creating optical illusions with which to amaze your friends."
  *
  * The output image may be of any dimension. 
+ *
+ * \author Tustison N., Avants B., Gee J. University of Pennsylvania
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/1926/475
  *
  * \ingroup DataSources
  */
