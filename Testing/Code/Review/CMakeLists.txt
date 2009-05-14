@@ -145,6 +145,8 @@ SET(ReviewTest_SRCS
 
 SET(ReviewTest2_SRCS
   itkDirectFourierReconstructionImageToImageFilterTest.cxx
+  itkBSplineDeformableTransformInitializerTest1.cxx
+  itkBSplineDeformableTransformInitializerTest2.cxx
   itkHeavisideStepFunctionTest1.cxx
   itkLabelImageToLabelMapFilterTest.cxx 
   itkLabelMapFilterTest.cxx 
@@ -289,6 +291,26 @@ ADD_TEST(itkDirectFourierReconstructionImageToImageFilterTest
   2 
   0
   )
+
+ADD_TEST(itkBSplineDeformableTransformInitializerTest1 
+  ${REVIEW_TESTS2}
+  itkBSplineDeformableTransformInitializerTest1 
+  ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  ${TEMP}/itkBSplineDeformableTransformInitializerTest1.png
+  ${TEMP}/itkBSplineDeformableTransformInitializerTest1DeformationField.mhd
+)
+
+ADD_TEST(itkBSplineDeformableTransformInitializerTest2 
+  ${REVIEW_TESTS2}
+  itkBSplineDeformableTransformInitializerTest2 
+  ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  ${TEMP}/itkBSplineDeformableTransformInitializerTest2.png
+  ${TEMP}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd
+)
 
 ADD_TEST(itkQuadEdgem_NoPointTest ${REVIEW_TESTS2} itkQuadEdgem_NoPointTest)
 ADD_TEST(itkQuadEdgeTest1 ${REVIEW_TESTS2} itkQuadEdgeTest1)

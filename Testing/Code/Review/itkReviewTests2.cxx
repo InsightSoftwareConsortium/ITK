@@ -26,6 +26,8 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
 
   REGISTER_TEST(itkDirectFourierReconstructionImageToImageFilterTest);
+  REGISTER_TEST(itkBSplineDeformableTransformInitializerTest1);
+  REGISTER_TEST(itkBSplineDeformableTransformInitializerTest2);
   REGISTER_TEST(itkHeavisideStepFunctionTest1);
   REGISTER_TEST(itkLabelImageToLabelMapFilterTest);
   REGISTER_TEST(itkLabelMapFilterTest);
