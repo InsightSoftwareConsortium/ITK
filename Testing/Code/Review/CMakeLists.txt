@@ -17,6 +17,7 @@ ADD_TEST(itkReviewPrintTest ${REVIEW_PRINT_TEST})
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Review)
 SET(INPUTDATA ${ITK_DATA_ROOT}/Input)
+SET(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 
 INCLUDE_DIRECTORIES(
@@ -348,13 +349,13 @@ ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${REVIEW_TESTS2}
   itkScalarChanAndVeseSparseLevelSetImageFilterTest1)
 ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2
-  ${INPUT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
 )
 ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-  ${INPUT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2.mha
 )

@@ -76,6 +76,7 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest2( int argc, char * argv []
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
+  levelSetReader1->Update();
   levelSetFilter->SetFunctionCount( 1 );   // Protected ?
   levelSetFilter->SetFeatureImage( featureReader->GetOutput() );
   levelSetFilter->SetLevelSet( 0, levelSetReader1->GetOutput() );
