@@ -144,6 +144,8 @@ BSplineDeformableTransformInitializer<TTransform, TImage >
     {
     os << indent << "None" << std::endl;
     }
+  os << "Grid size inside the image " << this->m_GridSizeInsideTheImage << std::endl;
+  os << "Number of grid nodes inside the image " << this->m_NumberOfGridNodesInsideTheImage << std::endl;
 
 }
 
