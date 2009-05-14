@@ -284,7 +284,10 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     }
   regionN.SetIndex(ind);
 
-  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),region);
+  typename InternalImageType::RegionType regionS = region;
+  regionS.Crop( m_Caster->GetOutput()->GetBufferedRegion() );
+
+  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),regionS);
   itk::ImageLinearIteratorWithIndex<InternalImageType> itN(m_InternalImage,regionN);
   it.SetDirection(1);
   itN.SetDirection(1);
@@ -474,7 +477,10 @@ GaussianBlurImageFunction<TInputImage,TOutput>
     }
   regionN.SetIndex(ind);
 
-  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),region);
+  typename InternalImageType::RegionType regionS = region;
+  regionS.Crop( m_Caster->GetOutput()->GetBufferedRegion() );
+
+  itk::ImageLinearConstIteratorWithIndex<InternalImageType> it(m_Caster->GetOutput(),regionS);
   itk::ImageLinearIteratorWithIndex<InternalImageType> itN(m_InternalImage,regionN);
   it.SetDirection(1);
   itN.SetDirection(1);
