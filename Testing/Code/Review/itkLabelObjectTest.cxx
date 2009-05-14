@@ -114,6 +114,8 @@ int itkLabelObjectTest(int argc, char * argv[])
   IteratorType it1 = ref->GetLineContainer().begin();
   IteratorType end = ref->GetLineContainer().end();
 
+  lo->Print(std::cerr);
+
   while( it1 != end )
     {
     std::cout << it1->GetIndex() << "-" << it1->GetLength() << "    ";
