@@ -35,6 +35,14 @@ namespace itk
  * be the fixed image. The BSpline grid will use the fixed image as a base for
  * computing the grid spacing, orientation and origin, among other things.
  *
+ * This code was contributed in the Insight Journal paper:
+ *
+ * "Helper class for initializing the grid parameters of 
+ *  a BSpline deformable transform by using an image as reference"
+ *
+ *    http://www.insight-journal.org/browse/publication/216
+ *    http://hdl.handle.net/1926/1338
+ *
  *
  * \ingroup Transforms
  */
