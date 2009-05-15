@@ -116,6 +116,16 @@ protected:
     return rescaled;
     }
 
+  void PrintSelf(std::ostream& os, Indent indent) const
+    {
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "Minimum RGB Component Value: " << m_MinimumRGBComponentValue << std::endl;
+    os << indent << "Maximum RGB Component Value: " << m_MaximumRGBComponentValue << std::endl;
+    os << indent << "Minimum Input Value: " << m_MinimumInputValue << std::endl;
+    os << indent << "Maximum Input Value: " << m_MaximumInputValue << std::endl;
+    }
+
 private:
   ColormapFunctor(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
