@@ -116,7 +116,7 @@ public:
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
   *  is a 3rd order spline. */
   void SetSplineOrder( unsigned int SplineOrder );
-  itkGetMacro( SplineOrder, int );
+  itkGetConstMacro( SplineOrder, int );
   
   /** Set the input image.  This must be set by the user, after setting the spline order! */
   virtual void SetInputImage(const TImageType * inputData);

@@ -58,16 +58,16 @@ public:
   typedef typename NumericTraits<ScalarType>::RealType  RealType;
 
   itkSetMacro( MinimumRGBComponentValue, RGBComponentType );
-  itkGetMacro( MinimumRGBComponentValue, RGBComponentType );
+  itkGetConstMacro( MinimumRGBComponentValue, RGBComponentType );
 
   itkSetMacro( MaximumRGBComponentValue, RGBComponentType );
-  itkGetMacro( MaximumRGBComponentValue, RGBComponentType );
+  itkGetConstMacro( MaximumRGBComponentValue, RGBComponentType );
 
   itkSetMacro( MinimumInputValue, ScalarType );
-  itkGetMacro( MinimumInputValue, ScalarType );
+  itkGetConstMacro( MinimumInputValue, ScalarType );
 
   itkSetMacro( MaximumInputValue, ScalarType );
-  itkGetMacro( MaximumInputValue, ScalarType );
+  itkGetConstMacro( MaximumInputValue, ScalarType );
 
   virtual bool operator!=( const ColormapFunctor & ) const
     {
