@@ -45,7 +45,7 @@ int itkGridImageSourceTest0( int, char *argv[] )
   size.Fill( 64 );
   spacing.Fill( 1.0 );
   direction.SetIdentity();
-  direction(1,1)=-1.0;
+//  direction(1,1)=-1.0;
 
   // Specify grid parameters
   gridSpacing.Fill( 8.0 );
