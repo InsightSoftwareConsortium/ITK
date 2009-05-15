@@ -45,16 +45,21 @@ RegionBasedLevelSetFunction< TInput,
   TSharedData >
 ::RegionBasedLevelSetFunction()
 {
-  m_Lambda1 = 1;
-  m_Lambda2 = 1;
-  m_Volume = 0;
-  m_SharedData = 0;
+  m_Lambda1 = NumericTraits<ScalarValueType>::One;
+  m_Lambda2 = NumericTraits<ScalarValueType>::One;
 
-  m_AreaWeight = NumericTraits<ScalarValueType>::Zero;
-  m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
-  m_LaplacianSmoothingWeight = NumericTraits<ScalarValueType>::Zero;
   m_OverlapPenaltyWeight = NumericTraits<ScalarValueType>::Zero;
+  m_AreaWeight = NumericTraits<ScalarValueType>::Zero;
   m_VolumeMatchingWeight = NumericTraits<ScalarValueType>::Zero;
+  m_LaplacianSmoothingWeight = NumericTraits<ScalarValueType>::Zero;
+  m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
+  m_Volume = NumericTraits<ScalarValueType>::Zero;
+
+  m_FunctionId = 0;
+
+  m_SharedData = 0;
+  m_InitialImage = 0;
+  m_FeatureImage = 0;
 }
 
 /* Computes the Heaviside function and stores it in m_HeavisideFunctionOfLevelSetImage */

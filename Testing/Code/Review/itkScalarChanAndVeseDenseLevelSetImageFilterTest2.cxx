@@ -36,17 +36,21 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "inputLevelSetImage inputFeatureImage ";
-    std::cerr << " outputLevelSetImage" << std::endl;
+    std::cerr << " outputLevelSetImage CurvatureWeight AreaWeight";
+    std::cerr << " LaplacianWeight VolumeWeight Volume" << std::endl;
     return EXIT_FAILURE;
     }
 
   unsigned int nb_iteration = 50;
   double rms = 0.;
   double epsilon = 1.;
-  double mu = 0.;
-  double nu = 0.;
+  double curvature_weight = atof( argv[4] );
+  double area_weight = atof( argv[5] );
+  double laplacian_weight = atof( argv[6] );
+  double volume_weight = atof( argv[7] );
+  double volume = atof( argv[8] );
   double l1 = 1.;
-  double l2 = 3.;
+  double l2 = 1.;
 
   const unsigned int Dimension = 2;
   typedef float ScalarPixelType;
@@ -95,8 +99,11 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->SetUseImageSpacing( 0 );
 
   levelSetFilter->GetDifferenceFunction(0)->SetDomainFunction( domainFunction );
-  levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( mu );
-  levelSetFilter->GetDifferenceFunction(0)->SetAreaWeight( nu );
+  levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( curvature_weight );
+  levelSetFilter->GetDifferenceFunction(0)->SetAreaWeight( area_weight );
+  levelSetFilter->GetDifferenceFunction(0)->SetLaplacianSmoothingWeight( laplacian_weight );
+  levelSetFilter->GetDifferenceFunction(0)->SetVolumeMatchingWeight( volume_weight );
+  levelSetFilter->GetDifferenceFunction(0)->SetVolume( volume );
   levelSetFilter->GetDifferenceFunction(0)->SetLambda1( l1 );
   levelSetFilter->GetDifferenceFunction(0)->SetLambda2( l2 );
 
