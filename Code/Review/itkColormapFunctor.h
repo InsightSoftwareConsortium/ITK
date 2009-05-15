@@ -40,63 +40,34 @@ namespace Functor {
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT ColormapFunctor
-: public LightObject
+class ITK_EXPORT ColormapFunctor : public Object
 {
 public:
 
-  ColormapFunctor() :
-    m_MinimumInputValue( NumericTraits<TScalar>::min() ),
-    m_MaximumInputValue( NumericTraits<TScalar>::max() ),
-    m_MinimumRGBComponentValue( 
-      NumericTraits<typename TRGBPixel::ComponentType>::min() ),
-    m_MaximumRGBComponentValue( 
-      NumericTraits<typename TRGBPixel::ComponentType>::max() ) {};
-  ~ColormapFunctor() {};
+  typedef ColormapFunctor                          Self;
+  typedef Object                                   Superclass;
+  typedef SmartPointer<Self>                       Pointer;
+  typedef SmartPointer<const Self>                 ConstPointer;
 
-  typedef ColormapFunctor                               Self;
-  typedef LightObject                                   Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ColormapFunctor, Object);
 
   typedef TRGBPixel                                     RGBPixelType;
   typedef typename TRGBPixel::ComponentType             RGBComponentType;
   typedef TScalar                                       ScalarType;
   typedef typename NumericTraits<ScalarType>::RealType  RealType;
 
-  void SetMinimumRGBComponentValue( RGBComponentType min )
-    {
-    this->m_MinimumRGBComponentValue = min;
-    }
-  RGBComponentType GetMinimumRGBComponentValue()
-    {
-    return this->m_MinimumRGBComponentValue;
-    }
-  void SetMaximumRGBComponentValue( RGBComponentType max )
-    {
-    this->m_MaximumRGBComponentValue = max;
-    }
-  RGBComponentType GetMaximumRGBComponentValue()
-    {
-    return this->m_MaximumRGBComponentValue;
-    }
+  itkSetMacro( MinimumRGBComponentValue, RGBComponentType );
+  itkGetMacro( MinimumRGBComponentValue, RGBComponentType );
 
-  void SetMinimumInputValue( ScalarType min )
-    {
-    this->m_MinimumInputValue = min;
-    }
-  ScalarType GetMinimumInputValue()
-    {
-    return this->m_MinimumInputValue;
-    }
-  void SetMaximumInputValue( ScalarType max )
-    {
-    this->m_MaximumInputValue = max;
-    }
-  ScalarType GetMaximumInputValue()
-    {
-    return this->m_MaximumInputValue;
-    }
+  itkSetMacro( MaximumRGBComponentValue, RGBComponentType );
+  itkGetMacro( MaximumRGBComponentValue, RGBComponentType );
+
+  itkSetMacro( MinimumInputValue, ScalarType );
+  itkGetMacro( MinimumInputValue, ScalarType );
+
+  itkSetMacro( MaximumInputValue, ScalarType );
+  itkGetMacro( MaximumInputValue, ScalarType );
 
   virtual bool operator!=( const ColormapFunctor & ) const
     {
@@ -110,14 +81,23 @@ public:
   virtual RGBPixelType operator()( const ScalarType & ) const = 0;
 
 protected:
+  ColormapFunctor()
+    {
+    this->SetMinimumInputValue( NumericTraits<TScalar>::min() );
+    this->SetMaximumInputValue( NumericTraits<TScalar>::max() );
+    this->SetMinimumRGBComponentValue( NumericTraits<RGBComponentType>::min() );
+    this->SetMaximumRGBComponentValue( NumericTraits<RGBComponentType>::max() );
+    }
+
+  ~ColormapFunctor() {};
+
 
   /**
    * Map [min, max] input values to [0, 1].
    */
   RealType RescaleInputValue( ScalarType v ) const
     {
-    RealType d = static_cast<RealType>( this->m_MaximumInputValue
-      - this->m_MinimumInputValue );
+    RealType d = static_cast<RealType>( this->m_MaximumInputValue - this->m_MinimumInputValue );
     RealType value = ( static_cast<RealType>( v )
       - static_cast<RealType>( this->m_MinimumInputValue ) ) / d;
     value = vnl_math_max( 0.0, value );
@@ -130,19 +110,21 @@ protected:
    */
   RGBComponentType RescaleRGBComponentValue( RealType v ) const
     {
-    RealType d = static_cast<RealType>( m_MaximumRGBComponentValue
-      - m_MinimumRGBComponentValue );
-    return static_cast<RGBComponentType>( d * v ) 
-      + this->m_MinimumRGBComponentValue;
+    RealType d = static_cast<RealType>( m_MaximumRGBComponentValue - m_MinimumRGBComponentValue );
+    const RGBComponentType rescaled = 
+      static_cast<RGBComponentType>( d * v ) + this->m_MinimumRGBComponentValue;
+    return rescaled;
     }
 
-protected:
+private:
+  ColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
-  ScalarType                            m_MinimumInputValue;
-  ScalarType                            m_MaximumInputValue;
+  ScalarType            m_MinimumInputValue;
+  ScalarType            m_MaximumInputValue;
 
-  typename RGBPixelType::ComponentType  m_MinimumRGBComponentValue;
-  typename RGBPixelType::ComponentType  m_MaximumRGBComponentValue;
+  RGBComponentType      m_MinimumRGBComponentValue;
+  RGBComponentType      m_MaximumRGBComponentValue;
 
 };
 
