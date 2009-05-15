@@ -1020,11 +1020,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   this->InitializeBackgroundPixels();
 
 
-  for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
-    {
-    // Delete status image
-    this->m_SparseData[functionIndex]->m_ShiftedImage->Delete();
-    }
+  //   for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
+  //     {
+  //     // Delete status image
+  //     this->m_SparseData[functionIndex]->m_ShiftedImage->Delete();
+  //     }
 }
 
 template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >

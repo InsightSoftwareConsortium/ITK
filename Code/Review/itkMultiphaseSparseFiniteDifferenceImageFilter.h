@@ -316,12 +316,15 @@ public:
 protected:
   MultiphaseSparseFiniteDifferenceImageFilter();
   ~MultiphaseSparseFiniteDifferenceImageFilter()
-    { //FIXME: There may be memory leaks here...
-//     while( !m_SparseData.empty() )
-//       {
-//       delete m_SparseData.back();
-//       m_SparseData.pop_back();
-//       }
+    {
+    while( !m_SparseData.empty() )
+      {
+      if( m_SparseData )
+        {
+        delete m_SparseData.back();
+        }
+      m_SparseData.pop_back();
+      }
     }
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
