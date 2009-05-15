@@ -319,7 +319,7 @@ protected:
     {
     while( !m_SparseData.empty() )
       {
-      if( m_SparseData )
+      if( m_SparseData.back() )
         {
         delete m_SparseData.back();
         }
