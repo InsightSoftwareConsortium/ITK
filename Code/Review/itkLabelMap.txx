@@ -322,8 +322,8 @@ void
 LabelMap<TLabelObject>
 ::AddLabelObject( LabelObjectType * labelObject )
 {
-  assert( labelObject != NULL );
-  assert( !this->HasLabel( labelObject->GetLabel() ) );
+  itkAssertOrThrowMacro( (labelObject != NULL), "LabelObject Null" );
+  itkAssertOrThrowMacro( (!this->HasLabel( labelObject->GetLabel() )), "Label Not Found" );
 
   m_LabelObjectContainer[ labelObject->GetLabel() ] = labelObject;
 }
@@ -334,7 +334,7 @@ void
 LabelMap<TLabelObject>
 ::PushLabelObject( LabelObjectType * labelObject )
 {
-  assert( labelObject != NULL );
+  itkAssertOrThrowMacro( (labelObject != NULL), "LabelObject Null" );
 
   if( m_LabelObjectContainer.empty() )
     {
@@ -372,7 +372,7 @@ LabelMap<TLabelObject>
         it != m_LabelObjectContainer.end();
         it++, label++ )
         {
-        assert( it->second.IsNotNull() );
+        itkAssertOrThrowMacro( (it->second.IsNotNull()), "Null label" );
         if( label == m_BackgroundValue )
           {
           label++;
@@ -398,7 +398,7 @@ void
 LabelMap<TLabelObject>
 ::RemoveLabelObject( LabelObjectType * labelObject )
 {
-  assert( labelObject != NULL );
+  itkAssertOrThrowMacro( (labelObject != NULL), "LabelObject Null" );
   this->RemoveLabel( labelObject->GetLabel() );
 }
 
@@ -496,7 +496,7 @@ LabelMap<TLabelObject>
     it != m_LabelObjectContainer.end();
     it++ )
     {
-    assert( it->second.IsNotNull() );
+    itkAssertOrThrowMacro( (it->second.IsNotNull()), "Null label" );
     it->second->Print( os );
     os << std::endl;
     }
