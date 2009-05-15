@@ -252,6 +252,23 @@ ScalarToRGBColormapImageFilter<TInputImage,TOutputImage>
 
 }
 
+template <class TInputImage, class TOutputImage>
+void
+ScalarToRGBColormapImageFilter<TInputImage,TOutputImage>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "Class Name: " << this->GetNameOfClass( ) << std::endl;
+  if( this->m_Colormap.IsNotNull() )
+    {
+    os << indent << "Colormap " << this->m_Colormap << std::endl;
+    }
+  else
+    {
+    os << indent << "Colormap is NULL " << std::endl;
+    }
+  os << indent << "Use Input Image Extrema for Scaling " << this->m_UseInputImageExtremaForScaling << std::endl;
+}
 
 } // end namespace itk
 

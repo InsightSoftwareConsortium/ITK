@@ -76,6 +76,9 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
 
   typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> RGBFilterType;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
+
+  rgbfilter->Print( std::cout );
+
   rgbfilter->SetInput( reader->GetOutput() );
 
   if ( colormapString == "red" )
