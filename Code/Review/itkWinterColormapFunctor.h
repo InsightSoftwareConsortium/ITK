@@ -41,8 +41,6 @@ class ITK_EXPORT WinterColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  WinterColormapFunctor() {};
-  ~WinterColormapFunctor() {};
 
   typedef WinterColormapFunctor                  Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -57,6 +55,14 @@ public:
   typedef typename Superclass::RealType          RealType;
   
   virtual RGBPixelType operator()( const TScalar & ) const;
+
+protected:
+  WinterColormapFunctor() {};
+  ~WinterColormapFunctor() {};
+
+private:
+  WinterColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
   

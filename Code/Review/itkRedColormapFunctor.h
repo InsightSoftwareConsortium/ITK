@@ -41,8 +41,6 @@ class ITK_EXPORT RedColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  RedColormapFunctor() {};
-  ~RedColormapFunctor() {};
 
   typedef RedColormapFunctor                     Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -57,6 +55,14 @@ public:
   typedef typename Superclass::RealType          RealType;
   
   virtual RGBPixelType operator()( const TScalar & ) const;
+
+protected:
+  RedColormapFunctor() {};
+  ~RedColormapFunctor() {};
+
+private:
+  RedColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
   

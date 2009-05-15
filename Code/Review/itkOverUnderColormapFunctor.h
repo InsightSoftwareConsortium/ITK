@@ -41,8 +41,6 @@ class ITK_EXPORT OverUnderColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  OverUnderColormapFunctor() {};
-  ~OverUnderColormapFunctor() {};
 
   typedef OverUnderColormapFunctor               Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -57,6 +55,14 @@ public:
   typedef typename Superclass::RealType          RealType;
 
   virtual RGBPixelType operator()( const TScalar & ) const;
+
+protected:
+  OverUnderColormapFunctor() {};
+  ~OverUnderColormapFunctor() {};
+
+private:
+  OverUnderColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
 

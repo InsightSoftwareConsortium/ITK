@@ -44,8 +44,6 @@ class ITK_EXPORT CustomColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  CustomColormapFunctor() {};
-  ~CustomColormapFunctor() {};
 
   typedef CustomColormapFunctor                  Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -67,7 +65,7 @@ public:
     {
     m_RedChannel = red;
     }
-  ChannelType GetRedChannel()
+  ChannelType GetRedChannel() const
     {
     return m_RedChannel;
     }
@@ -75,7 +73,7 @@ public:
     {
     m_GreenChannel = green;
     }
-  ChannelType GetGreenChannel()
+  ChannelType GetGreenChannel() const
     {
     return m_GreenChannel;
     }
@@ -83,16 +81,23 @@ public:
     {
     m_BlueChannel = blue;
     }
-  ChannelType GetBlueChannel()
+  ChannelType GetBlueChannel() const
     {
     return m_BlueChannel;
     }
 
-private:
 
-  ChannelType                                   m_RedChannel;
-  ChannelType                                   m_GreenChannel;
-  ChannelType                                   m_BlueChannel;
+protected:
+  CustomColormapFunctor() {};
+  ~CustomColormapFunctor() {};
+
+private:
+  CustomColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
+  ChannelType        m_RedChannel;
+  ChannelType        m_GreenChannel;
+  ChannelType        m_BlueChannel;
 
 };
 

@@ -41,8 +41,6 @@ class ITK_EXPORT JetColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  JetColormapFunctor() {};
-  ~JetColormapFunctor() {};
 
   typedef JetColormapFunctor                     Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -57,6 +55,14 @@ public:
   typedef typename Superclass::RealType          RealType;
   
   virtual RGBPixelType operator()( const TScalar & ) const;
+
+protected:
+  JetColormapFunctor() {};
+  ~JetColormapFunctor() {};
+
+private:
+  JetColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 
 };
   
