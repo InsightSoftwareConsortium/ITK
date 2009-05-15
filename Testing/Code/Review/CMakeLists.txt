@@ -207,6 +207,7 @@ SET(ReviewTest2_SRCS
   itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkRegionBasedLevelSetFunctionTest.cxx
   itkScalarRegionBasedLevelSetFunctionTest.cxx
+  itkScalarToRGBColormapImageFilterTest.cxx
   itkScalarChanAndVeseLevelSetFunctionTest1.cxx
   itkScalarChanAndVeseLevelSetFunctionTest2.cxx
   itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
@@ -1644,6 +1645,18 @@ ADD_TEST(itkGridImageSourceTest4
   --compare ${BASELINE}/itkGridImageSourceTest4.nhdr
             ${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
+
+
+#
+# Functor colormaps
+#
+FOREACH( COLORMAP red green blue hot cool spring summer autumn winter copper hot hsv jet overunder )
+  ADD_TEST( RGBColormapTest_${COLORMAP} 
+     ${REVIEW_TESTS2} 
+     --compare ${TEMP}/RGBColormapTest_${COLORMAP}.png ${BASELINE}/RGBColormapTest_${COLORMAP}.png
+     itkScalarToRGBColormapImageFilterTest
+     ${INPUTDATA}/Colormap_Grey.png ${TEMP}/RGBColormapTest_${COLORMAP}.png ${COLORMAP} )
+ENDFOREACH(COLORMAP)
 
 
 ADD_EXECUTABLE(itkReviewPrintTest itkReviewPrintTest.cxx)
