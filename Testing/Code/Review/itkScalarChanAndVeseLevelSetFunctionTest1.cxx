@@ -118,13 +118,13 @@ public:
 
     typename InputImageType::Pointer m_HeavisideFunctionOfLevelSetImage;
 
-    int m_WeightedNumberOfPixelsInsideLevelSet;
-    int m_WeightedSumOfPixelValuesInsideLevelSet;
-    int m_ForegroundConstantValues;
+    double m_WeightedNumberOfPixelsInsideLevelSet;
+    double m_WeightedSumOfPixelValuesInsideLevelSet;
+    double m_ForegroundConstantValues;
 
-    int m_WeightedNumberOfPixelsOutsideLevelSet;
-    int m_WeightedSumOfPixelValuesOutsideLevelSet;
-    int m_BackgroundConstantValues;
+    double m_WeightedNumberOfPixelsOutsideLevelSet;
+    double m_WeightedSumOfPixelValuesOutsideLevelSet;
+    double m_BackgroundConstantValues;
     };
 
   SingleData* m_LevelSetDataPointerVector[19];
