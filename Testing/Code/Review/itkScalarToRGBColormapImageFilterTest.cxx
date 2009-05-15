@@ -43,9 +43,6 @@
 
 #include "itkScalarToRGBColormapImageFilter.h"
 
-#include <fstream.h>
-#include <sstream>
-#include <string>
 
 int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
 {
@@ -153,7 +150,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
 
     ColormapType::Pointer colormap = ColormapType::New();
 
-    ifstream str( argv[4] );
+    std::ifstream str( argv[4] );
     std::string line;
 
     float value;
