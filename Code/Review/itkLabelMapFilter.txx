@@ -114,7 +114,7 @@ LabelMapFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 LabelMapFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType&, int threadId )
+::ThreadedGenerateData( const OutputImageRegionType&, int itkNotUsed(threadId) )
 {
   while( true )
     {
@@ -145,7 +145,7 @@ LabelMapFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 LabelMapFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( LabelObjectType * labelObject )
+::ThreadedGenerateData( LabelObjectType * itkNotUsed(labelObject) )
 {
   // do nothing
   // the subclass should override this method
