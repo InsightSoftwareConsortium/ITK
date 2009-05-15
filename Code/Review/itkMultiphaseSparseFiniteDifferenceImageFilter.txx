@@ -22,24 +22,23 @@
 
 namespace itk
 {
-template < class TInputImage, class TOutputImage, class TFunction >
+template < class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::TimeStepType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::TimeStepType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::CalculateChange()
 {
-  TimeStepType minTimeStep = 999999;
+  TimeStepType minTimeStep = NumericTraits< TimeStepType >::max();
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     this->m_CurrentFunctionIndex = i;
 
-    const typename Superclass::FiniteDifferenceFunctionType::Pointer df =
-      this->GetDifferenceFunction ( this->m_CurrentFunctionIndex );
+    const FiniteDifferenceFunctionPointer df = this->m_DifferenceFunctions[i];
 
-    SparseDataStruct *sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
+    SparseDataStruct *sparsePtr = this->m_SparseData[i];
 
-    typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;
+    FiniteDifferenceFunctionFloatOffsetType offset;
     ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
       backwardValue, centerValue;
     const ValueType MIN_NORM      = 1.0e-6;
@@ -62,7 +61,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     // iteration.  Iterates through the active layer index list, applying
     // the level set function to the output image (level set image) at each
     // index.  Update values are stored in the update buffer.
-    typename LayerType::ConstIterator layerIt = sparsePtr->m_Layers[0]->Begin();
+    LayerConstIterator layerIt = sparsePtr->m_Layers[0]->Begin();
+
+    unsigned int j;
 
     while( layerIt != sparsePtr->m_Layers[0]->End() )
       {
@@ -80,7 +81,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
         // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2
         norm_grad_phi_squared = 0.0;
 
-        for ( unsigned int j = 0; j < ImageDimension; ++j )
+        for ( j = 0; j < ImageDimension; ++j )
           {
           forwardValue  = outputIt.GetNext ( j );
           backwardValue = outputIt.GetPrevious ( j );
@@ -116,15 +117,17 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
           norm_grad_phi_squared += offset[j] * offset[j];
           }
 
-        for ( unsigned int j = 0; j < ImageDimension; ++j )
-          {
-          // Adding sqrt imagedimension "extends the reach" of the
-          // interpolation
-          // to surfaces that pass close to the center of cells.  This is a
-          // heuristic fudge factor that improves interpolation and reduces
-          // "wiggling" at convergence.
-          offset[j] = ( offset[j] * centerValue ) * vcl_sqrt( ImageDimension
+        // Adding sqrt imagedimension "extends the reach" of the
+        // interpolation
+        // to surfaces that pass close to the center of cells.  This is a
+        // heuristic fudge factor that improves interpolation and reduces
+        // "wiggling" at convergence.
+        ValueType coeff = centerValue * vcl_sqrt( ImageDimension
             + 0.5 )/ ( norm_grad_phi_squared + MIN_NORM );
+
+        for ( j = 0; j < ImageDimension; ++j )
+          {
+          offset[j] *= coeff;
           }
 
         sparsePtr->m_UpdateBuffer.push_back ( df->ComputeUpdate ( outputIt, globalData, offset ) );
@@ -148,21 +151,21 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       minTimeStep = timeStep;
       }
     }
-  minTimeStep = 0.2;
+  minTimeStep = 0.2; //FIXME finally assined to a constant
   return minTimeStep;
 }
 
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::ApplyUpdate ( TimeStepType dt )
 {
-  unsigned int i, j, k;
+  unsigned int j, k;
 
-  for ( i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     this->m_CurrentFunctionIndex = i;
 
@@ -246,11 +249,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   this->m_CurrentFunctionIndex = 0;
 }
 
-template < class TInputImage, class TOutputImage, class TFunction >
+template < class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::ProcessOutsideList ( LayerType *OutsideList, StatusType ChangeToStatus )
 {
   SparseDataStruct *sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
@@ -267,11 +270,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     }
 }
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::ProcessStatusList ( LayerType *InputList, LayerType *OutputList,
                       StatusType ChangeToStatus, StatusType SearchForStatus )
 {
@@ -285,7 +288,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   statusIt ( sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
              this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
 
-  if ( m_BoundsCheckingActive == false )
+  if ( !m_BoundsCheckingActive )
     {
     statusIt.NeedToUseBoundaryConditionOff();
     }
@@ -333,11 +336,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     }
 }
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::UpdateActiveLayerValues ( TimeStepType dt, LayerType *UpList, LayerType
 *DownList )
 {
@@ -359,8 +362,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   unsigned int i, idx, counter;
   bool bounds_status, flag;
 
-  typename LayerType::Iterator layerIt;
-  typename UpdateBufferType::const_iterator updateIt;
+  LayerIterator layerIt;
+  UpdateBufferConstIterator updateIt;
 
   NeighborhoodIterator< OutputImageType >
     outputIt ( sparsePtr->m_NeighborList.GetRadius(),
@@ -372,7 +375,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     sparsePtr->m_StatusImage,
     this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
 
-  if ( m_BoundsCheckingActive == false )
+  if ( !m_BoundsCheckingActive )
     {
     outputIt.NeedToUseBoundaryConditionOff();
     statusIt.NeedToUseBoundaryConditionOff();
@@ -535,24 +538,24 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     }
   else
     {
-    this->SetRMSChange ( static_cast<double> (
-      vcl_sqrt ( ( double ) ( rms_change_accumulator /
-      static_cast<ValueType> ( counter ) ) ) ) );
+    this->SetRMSChange (
+      vcl_sqrt ( static_cast< double >( rms_change_accumulator /
+      static_cast<double> ( counter ) ) ) );
     }
 }
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::InitializeActiveLayerValues()
 {
   const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
   //  const ValueType CHANGE_FACTOR = 0.7;
   const ValueType MIN_NORM      = 1.0e-6;
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[i];
 
@@ -600,7 +603,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
           length += dx_backward * dx_backward;
           }
         }
-      length = vcl_sqrt ( ( double ) length ) + MIN_NORM;
+      length = vcl_sqrt ( length ) + MIN_NORM;
       distance = outputIt.GetCenterPixel() / length;
 
       sparsePtr->m_UpdateBuffer.push_back(
@@ -619,29 +622,27 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 }
 
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::PropagateAllLayerValues()
 {
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     PropagateFunctionLayerValues ( i );
     }
 }
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::PropagateFunctionLayerValues ( unsigned int functionIndex )
 {
   SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
-
-  unsigned int i;
 
   // Update values in the first inside and first outside layers using the
   // active layer as a seed. Inside layers are odd numbers, outside layers are
@@ -650,25 +651,25 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   this->PropagateLayerValues ( sparsePtr, 0, 2, 4, 2 ); // first outside
 
   // Update the rest of the layers.
-  for ( i = 1; i < sparsePtr->m_Layers.size() - 2; ++i )
+  for ( unsigned int i = 1; i < sparsePtr->m_Layers.size() - 2; ++i )
     {
     this->PropagateLayerValues ( sparsePtr, i, i+2, i+4, ( i+2 ) %2 );
     }
 }
 
-template <class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction, TIdCell >
 ::PropagateLayerValues ( SparseDataStruct *sparsePtr, StatusType from,
                         StatusType to, StatusType promote, int InOrOut )
 {
   unsigned int i;
-  ValueType value, value_temp, delta;
-  value = NumericTraits<ValueType>::Zero; // warnings
+  ValueType value_temp, delta;
+  ValueType value = NumericTraits<ValueType>::Zero; // warnings
   bool found_neighbor_flag;
-  typename LayerType::Iterator toIt;
+  LayerIterator toIt;
   LayerNodeType *node;
 
   StatusType past_end = static_cast<StatusType>( sparsePtr->m_Layers.size() )-1;
@@ -692,7 +693,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   statusIt ( sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
     this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion() );
 
-  if ( m_BoundsCheckingActive == false )
+  if ( !m_BoundsCheckingActive )
     {
     outputIt.NeedToUseBoundaryConditionOff();
     statusIt.NeedToUseBoundaryConditionOff();
@@ -727,7 +728,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         {
         value_temp = outputIt.GetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ) );
 
-        if ( found_neighbor_flag == false )
+        if ( !found_neighbor_flag )
           {
           value = value_temp;
           }
@@ -754,7 +755,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         }
       }
 
-    if ( found_neighbor_flag == true )
+    if ( found_neighbor_flag )
       {
       // Set the new value using the smallest distance
       // found in our "from" neighbors.
@@ -789,76 +790,76 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 }
 
 
-template<class TInputImage, class TOutputImage, class TFunction >
-double MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
+double MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_ConstantGradientValue = 1.0;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter<TInputImage,
-TOutputImage, TFunction >::ValueType
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::ValueType
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_ValueOne = NumericTraits<ITK_TYPENAME
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::ValueType >::One;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::ValueType
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::ValueType
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_ValueZero = NumericTraits<ITK_TYPENAME
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >::
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >::
 ValueType>::Zero;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::StatusType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::StatusType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusNull = NumericTraits< ITK_TYPENAME
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >::
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >::
 StatusType >::NonpositiveMin();
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::StatusType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::StatusType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusChanging = -1;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::StatusType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::StatusType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingUp = -2;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::StatusType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::StatusType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingDown = -3;
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 const ITK_TYPENAME MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-TOutputImage, TFunction >::StatusType
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+TOutputImage, TFunction, TIdCell >::StatusType
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusBoundaryPixel = -4;
 
-template<class TInputImage, class TOutputImage, class TFunction >
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::MultiphaseSparseFiniteDifferenceImageFilter()
 {
   this->m_CurrentFunctionIndex = 0;
   this->m_IsoSurfaceValue = m_ValueZero;
   this->m_NumberOfLayers = ImageDimension;
-  this->SetRMSChange ( static_cast< double > ( m_ValueZero ) );
+  this->SetRMSChange ( NumericTraits< double >::Zero );
   this->m_InterpolateSurfaceLocation = true;
   this->m_BoundsCheckingActive = false;
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::CopyInputToOutput()
 {
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
     OutputImagePointer input = this->m_LevelSet[i];
@@ -889,7 +890,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
       }
 
     // TODO: Can the zeroCrossingFilter have the same input and output?
-    typename ZeroCrossingFilterType::Pointer zeroCrossingFilter = ZeroCrossingFilterType::New();
+    ZeroCrossingFilterPointer zeroCrossingFilter = ZeroCrossingFilterType::New();
     zeroCrossingFilter->SetInput( sparsePtr->m_ShiftedImage );
     zeroCrossingFilter->SetBackgroundValue( m_ValueOne );
     zeroCrossingFilter->SetForegroundValue( m_ValueZero );
@@ -900,9 +901,9 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::InitializeIteration()
 {
   Superclass::InitializeIteration();
@@ -915,12 +916,14 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 }
 
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::Initialize()
 {
-  for ( unsigned int functionIndex = 0; functionIndex < this->m_FunctionCount;
+  IdCellType functionIndex;
+
+  for ( functionIndex = 0; functionIndex < this->m_FunctionCount;
     functionIndex++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
@@ -992,9 +995,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   // outside of the active layer.
   this->ConstructActiveLayer();
 
-  for ( unsigned int j = 0; j < this->m_FunctionCount; j++ )
+  for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[j];
+    SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
 
     // Construct the rest of the non-active set layers using the first two
     // layers. Inside layers are odd numbers, outside layers are even numbers.
@@ -1017,21 +1020,19 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   this->InitializeBackgroundPixels();
 
 
-  for ( unsigned int j = 0; j < this->m_FunctionCount; j++ )
+  for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[j];
-
     // Delete status image
-    sparsePtr->m_ShiftedImage->Delete();
+    this->m_SparseData[functionIndex]->m_ShiftedImage->Delete();
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundPixels()
 {
-  for ( unsigned int functionIndex = 0; functionIndex < this->m_FunctionCount;
+  for ( IdCellType functionIndex = 0; functionIndex < this->m_FunctionCount;
     functionIndex++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
@@ -1084,12 +1085,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 }
 
 
-template< class TInputImage, class TOutputImage, class TFunction >
+template< class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::ConstructActiveLayer()
 {
-  for ( unsigned int functionIndex = 0; functionIndex < this->m_FunctionCount;
+  for ( IdCellType functionIndex = 0; functionIndex < this->m_FunctionCount;
     functionIndex++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
@@ -1189,7 +1190,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
             statusIt.SetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ),
               layer_number, bounds_status );
 
-            if ( bounds_status == true ) // In bounds.
+            if ( bounds_status ) // In bounds.
               {
               node = sparsePtr->m_LayerNodeStore->Borrow();
               node->m_Value = offset_index;
@@ -1203,9 +1204,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::ConstructLayer ( SparseDataStruct *sparsePtr, StatusType from, StatusType to )
 {
   LayerNodeType *node;
@@ -1241,12 +1242,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::AllocateUpdateBuffer()
 {
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[i];
 
@@ -1260,9 +1261,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::PostProcessOutput()
 {
   // Get the output pointer and clear its contents
@@ -1274,7 +1275,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
   // Initialize layer values using the active layer as seeds.
   this->PropagateAllLayerValues();
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     InputImagePointer input = this->m_LevelSet[i];
     InputPointType origin = input->GetOrigin();
@@ -1320,9 +1321,9 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
     }
 }
 
-template<class TInputImage, class TOutputImage, class TFunction >
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
-MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction, TIdCell >
 ::PrintSelf ( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
@@ -1330,7 +1331,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
   os << indent << "m_IsoSurfaceValue: " << this->m_IsoSurfaceValue << std::endl;
   os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
 
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[i];
     os << indent << "m_LayerNodeStore: " << std::endl;

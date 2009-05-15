@@ -23,14 +23,14 @@
 namespace itk
 {
 template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData >
+class TOutputPixel, class TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature, TFunction,
-TOutputPixel, TSharedData >::
+TOutputPixel, TSharedData, TIdCell >::
 Initialize()
 {
   // Set the feature image for the individual level-set functions
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++)
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++)
     {
     InputImagePointer input = this->m_LevelSet[i];
     InputPointType origin = input->GetOrigin();
@@ -69,7 +69,7 @@ Initialize()
     this->m_SharedData->SetKdTree( this->m_KdTree );
     }
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     FunctionPtr typedPointer = this->m_DifferenceFunctions[i];
 
@@ -87,12 +87,12 @@ Initialize()
 
   Superclass::Initialize();
 
-  for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
     {
     this->m_DifferenceFunctions[i]->UpdateSharedData(true);
     }
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     this->m_DifferenceFunctions[i]->UpdateSharedData( false );
     }
@@ -101,29 +101,29 @@ Initialize()
 /** Overrides parent implementation */
 // This function is called at the end of each iteration
 template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData >
+class TOutputPixel, class TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData > ::
+TFunction, TOutputPixel, TSharedData, TIdCell > ::
 InitializeIteration()
 {
   Superclass::InitializeIteration();
 
-  for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
     {
     this->m_DifferenceFunctions[i]->UpdateSharedData( false );
     }
 
   // Estimate the progress of the filter
-  this->SetProgress( ( float ) ( ( float ) this->m_ElapsedIterations
+  this->SetProgress( ( ( float ) this->m_ElapsedIterations
     / ( float ) this->m_NumberOfIterations ) );
 }
 
 template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData >
+class TOutputPixel, class TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData > ::
+TFunction, TOutputPixel, TSharedData, TIdCell > ::
 UpdatePixel ( unsigned int functionIndex, unsigned int idx,
 NeighborhoodIterator< OutputImageType > &iterator, ValueType &newValue,
 bool &status )
@@ -135,10 +135,10 @@ bool &status )
 }
 
 template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData >
+class TOutputPixel, class TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData > ::
+TFunction, TOutputPixel, TSharedData, TIdCell > ::
 PrintSelf( std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);

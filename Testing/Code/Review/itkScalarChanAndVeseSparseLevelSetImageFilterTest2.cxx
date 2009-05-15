@@ -86,7 +86,6 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest2( int argc, char * argv []
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
-  levelSetReader1->Update();
   levelSetFilter->SetFunctionCount( 1 );   // Protected ?
   levelSetFilter->SetFeatureImage( featureReader->GetOutput() );
   levelSetFilter->SetLevelSet( 0, levelSetReader1->GetOutput() );
@@ -99,7 +98,6 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest2( int argc, char * argv []
   levelSetFilter->GetDifferenceFunction(0)->SetAreaWeight( nu );
   levelSetFilter->GetDifferenceFunction(0)->SetLambda1( l1 );
   levelSetFilter->GetDifferenceFunction(0)->SetLambda2( l2 );
-
 
   levelSetFilter->Update();
 

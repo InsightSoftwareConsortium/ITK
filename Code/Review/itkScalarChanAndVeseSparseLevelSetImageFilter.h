@@ -55,14 +55,14 @@
 namespace itk
 {
 template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-  class TSharedData >
+  class TSharedData, typename TIdCell = unsigned int >
 class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter :
-public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 {
 public:
   typedef ScalarChanAndVeseSparseLevelSetImageFilter      Self;
   typedef MultiphaseSparseFiniteDifferenceImageFilter<
-    TInputImage, TOutputImage, TFunction >                Superclass;
+    TInputImage, TOutputImage, TFunction, TIdCell >       Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
@@ -97,6 +97,8 @@ public:
   typedef typename Superclass::TimeStepType             TimeStepType;
   typedef typename Superclass::FiniteDifferenceFunctionType
                                                         FiniteDifferenceFunctionType;
+
+  typedef typename Superclass::IdCellType               IdCellType;
 
   typedef TFunction                                     FunctionType;
   typedef typename FunctionType::Pointer                FunctionPtr;

@@ -131,9 +131,9 @@ namespace itk {
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -182,10 +182,11 @@ public:
   typedef typename InputImageType::SizeType         InputSizeType;
   typedef typename InputImageType::SpacingType      InputSpacingType;
   typedef typename InputImageType::PointType        InputPointType;
+  typedef typename InputImageType::PixelType        InputPixelType;
 
   typedef TOutputImage                              OutputImageType;
   typedef typename OutputImageType::Pointer         OutputImagePointer;
-  typedef typename OutputImageType::PixelType       PixelType;
+  typedef typename OutputImageType::PixelType       OutputPixelType;
   typedef typename OutputImageType::RegionType      OutputRegionType;
   typedef typename OutputImageType::SizeType        OutputSizeType;
   typedef typename OutputImageType::SizeValueType   OutputSizeValueType;
@@ -202,9 +203,10 @@ public:
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
   typedef TFiniteDifferenceFunction                             FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::Pointer        FiniteDifferenceFunctionTypePtr;
+  typedef typename FiniteDifferenceFunctionType::Pointer        FiniteDifferenceFunctionPointer;
   typedef typename FiniteDifferenceFunctionType::TimeStepType   TimeStepType;
   typedef typename std::vector< TimeStepType >                  TimeStepVectorType;
+  typedef typename FiniteDifferenceFunctionType::RadiusType     RadiusType;
 
   typedef Vector< float, itkGetStaticConstMacro(ImageDimension) >
                                                                 CentroidVectorType;
@@ -218,10 +220,17 @@ public:
    * will be used by the filter to calculate updates at image pixels.
    * \param functionIndex Index of difference function to return.
    * \returns A FiniteDifferenceObject pointer. */
-  virtual const FiniteDifferenceFunctionTypePtr GetDifferenceFunction(
-    const unsigned int& functionIndex ) const
+  virtual const FiniteDifferenceFunctionPointer GetDifferenceFunction(
+    const IdCellType& functionIndex ) const
     {
-    return ( this->m_DifferenceFunctions[functionIndex] );
+    if( functionIndex < m_FunctionCount )
+      {
+      return ( this->m_DifferenceFunctions[functionIndex] );
+      }
+    else
+      {
+      return 0;
+      }
     }
 
   /** This method sets the pointer to a FiniteDifferenceFunction object that
@@ -229,9 +238,12 @@ public:
    * \param functionIndex Index of difference function to set.
    * \param function Pointer to difference function to set. */
   virtual void SetDifferenceFunction( const IdCellType& functionIndex,
-    FiniteDifferenceFunctionTypePtr function)
+    FiniteDifferenceFunctionPointer function)
     {
-    this->m_DifferenceFunctions[functionIndex] = function;
+    if( functionIndex < m_FunctionCount )
+      {
+      this->m_DifferenceFunctions[functionIndex] = function;
+      }
     }
 
   /** Set/Get the number of iterations that the filter will run. */
@@ -298,7 +310,7 @@ public:
     {
     if( i >= m_FunctionCount )
       {
-      itkExceptionMacro("Request for level set #" << i 
+      itkExceptionMacro("Request for level set #" << i
         << " but there are only " << m_FunctionCount );
       }
     else
@@ -321,9 +333,9 @@ public:
     {
     m_FunctionCount = n;
 
-    m_DifferenceFunctions.resize( m_FunctionCount );
+    m_DifferenceFunctions.resize( m_FunctionCount, 0 );
 
-    typename FiniteDifferenceFunctionType::RadiusType radius;
+    RadiusType radius;
     radius.Fill( 1 );
 
     for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
@@ -333,7 +345,7 @@ public:
       }
 
     // Initialize the images
-    m_LevelSet.resize( m_FunctionCount );
+    m_LevelSet.resize( m_FunctionCount, 0 );
 
     // Initialize the lookup table
     this->m_Lookup.resize( m_FunctionCount );
@@ -353,7 +365,7 @@ public:
     }
 
 protected:
-  MultiphaseFiniteDifferenceImageFilter() 
+  MultiphaseFiniteDifferenceImageFilter()
     {
     this->m_KdTree = 0;
     this->m_ElapsedIterations = 0;
@@ -379,7 +391,11 @@ protected:
   unsigned int                        m_NumberOfIterations;
 
   /** The function that will be used in calculating updates for each pixel. */
-  std::vector< FiniteDifferenceFunctionTypePtr > m_DifferenceFunctions;
+  std::vector< FiniteDifferenceFunctionPointer > m_DifferenceFunctions;
+
+  /** Control whether derivatives use spacing of the input image in its
+   * calculation. */
+  bool m_UseImageSpacing;
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -456,7 +472,7 @@ protected:
     {
     for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
       {
-      this->GetDifferenceFunction( i )->InitializeIteration();
+      this->m_DifferenceFunctions[i]->InitializeIteration();
       }
     }
 
@@ -468,7 +484,7 @@ protected:
    *
    * \param timeStepList The set of time changes compiled from all the threaded
    *        calls to ThreadedGenerateData.
-   *  
+   *
    * \param valid The set of flags indicating which of "list" elements are valid
    * \param size The size of "list" and "valid"
    *
@@ -485,10 +501,6 @@ private:
   MultiphaseFiniteDifferenceImageFilter(const Self&);
   //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** Control whether derivatives use spacing of the input image in its
-   * calculation. */
-  bool m_UseImageSpacing;
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */

@@ -25,14 +25,16 @@ namespace itk
 
 template < class TInputImage,
   class TOutputImage,
-  class TFunction >
+  class TFunction,
+  typename TIdCell >
 void
-MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
+  TOutputImage, TFunction, TIdCell >
 ::CopyInputToOutput()
 {
   OutputImagePointer output = this->GetOutput();
 
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     InputImagePointer input = this->m_LevelSet[i];
     InputPointType origin = input->GetOrigin();
@@ -62,7 +64,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction 
     ImageRegionIterator< OutputImageType > out( output, region );
 
     // Fill the output pointer
-    PixelType p = static_cast<PixelType> ( this->m_Lookup[i] );
+    OutputPixelType p = static_cast<OutputPixelType> ( this->m_Lookup[i] );
 
     in.GoToBegin();
     out.GoToBegin();
@@ -85,12 +87,14 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction 
 
 template < class TInputImage,
   class TOutputImage,
-  class TFunction >
+  class TFunction,
+  typename TIdCell >
 void
-MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction >
+MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
+  TOutputImage, TFunction, TIdCell >
 ::AllocateUpdateBuffer()
 {
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     InputImagePointer input = this->m_LevelSet[i];
     InputRegionType region = input->GetLargestPossibleRegion();
@@ -103,23 +107,24 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction 
 
 template < class TInputImage,
   class TOutputImage,
-  class TFunction >
+  class TFunction,
+  typename TIdCell >
 typename
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-  TOutputImage, TFunction >::TimeStepType
+  TOutputImage, TFunction, TIdCell >::TimeStepType
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-  TOutputImage, TFunction >
+  TOutputImage, TFunction, TIdCell >
 ::CalculateChange()
 {
   TimeStepType timeStep = 9999;
 
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     OutputImagePointer levelset = this->m_LevelSet[i];
     TimeStepType dt;
 
     // Get the FiniteDifferenceFunction to use in calculations.
-    const typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction ( i );
+    const FiniteDifferenceFunctionPointer df = this->m_DifferenceFunctions[i];
 
     const OutputSizeType radius = df->GetRadius();
 
@@ -127,7 +132,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
     // of boundary conditions, the rest with boundary conditions.  We operate
     // on the levelset region because input has been copied to output.
     FaceCalculatorType faceCalculator;
-    FaceListType faceList = 
+    FaceListType faceList =
       faceCalculator ( levelset, levelset->GetLargestPossibleRegion(), radius );
 
     void *globalData;
@@ -146,8 +151,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
       NeighborhoodIteratorType nD ( radius, levelset, *fIt );
       UpdateIteratorType nU ( m_UpdateBuffers[i], *fIt );
 
-      nD.GoToBegin(); 
-      nU.GoToBegin(); 
+      nD.GoToBegin();
+      nU.GoToBegin();
 
       while( !nD.IsAtEnd() )
         {
@@ -176,24 +181,53 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
 
 template< class TInputImage,
   class TOutputImage,
-  class TFunction >
+  class TFunction,
+  typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-  TOutputImage, TFunction >
+  TOutputImage, TFunction, TIdCell >
+::SetFunctionCount( const IdCellType& n )
+{
+  this->Superclass::SetFunctionCount( n );
+
+  this->m_UpdateBuffers.resize( n, 0 );
+
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+    {
+    this->m_UpdateBuffers[i] = UpdateBufferType::New();
+    }
+}
+
+template< class TInputImage,
+  class TOutputImage,
+  class TFunction,
+  typename TIdCell >
+void
+MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
+  TOutputImage, TFunction, TIdCell >
 ::ApplyUpdate ( TimeStepType dt )
 {
   double rms_change_accumulator = 0;
   double den = 0;
+  IdCellType i;
 
-  for( unsigned int i = 0;  i < this->m_FunctionCount; i++ )
+  for( i = 0;  i < this->m_FunctionCount; i++ )
     {
     const double img_size = this->m_LevelSet[i]->GetLargestPossibleRegion().GetNumberOfPixels();
     den += img_size;
     }
 
-  // Updating the output image
-  for ( unsigned int i = 0;  i < this->m_FunctionCount; i++ )
+  // this must never occur!
+  if( den < vnl_math::eps )
     {
+    itkExceptionMacro( "den = 0." );
+    }
+
+  // Updating the output image
+  for ( i = 0;  i < this->m_FunctionCount; i++ )
+    {
+    //NOTE: here this->m_LevelSet[i]->GetRequestedRegion() is used and previously
+    // it is this->m_LevelSet[i]->GetLargestPossibleRegion()
     InputRegionType region = this->m_LevelSet[i]->GetRequestedRegion();
 
     ImageRegionIterator<UpdateBufferType> u ( m_UpdateBuffers[i], region );
@@ -204,14 +238,14 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
 
     while( !u.IsAtEnd() )
       {
-      u.Value() = o.Value() + static_cast<PixelType> ( u.Value() * dt );
+      u.Value() = o.Value() + static_cast<OutputPixelType> ( u.Value() * dt );
       ++u;
       ++o;
       }
 
     if ( this->GetElapsedIterations() % this->m_ReinitializeCounter == 0 )
       {
-      typename ThresholdFilterType::Pointer thresh = ThresholdFilterType::New();
+      ThresholdFilterPointer thresh = ThresholdFilterType::New();
       thresh->SetLowerThreshold( NumericTraits< OutputPixelType >::NonpositiveMin() );
       thresh->SetUpperThreshold( 0 );
       thresh->SetInsideValue( 1 );
@@ -219,18 +253,18 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
       thresh->SetInput( m_UpdateBuffers[i] );
       thresh->Update();
 
-      typename MaurerType::Pointer maurer = MaurerType::New();
+      MaurerPointer maurer = MaurerType::New();
       maurer->SetInput( thresh->GetOutput() );
       maurer->SetSquaredDistance( 0 );
-      maurer->SetUseImageSpacing( 1 );
+      maurer->SetUseImageSpacing( this->m_UseImageSpacing );
       maurer->SetInsideIsPositive( 0 );
       maurer->Update();
 
       ImageRegionIterator< OutputImageType >  it ( maurer->GetOutput(), region );
 
       o.GoToBegin();
-      it.GoToBegin(); 
-  
+      it.GoToBegin();
+
       while( !o.IsAtEnd() )
         {
         rms_change_accumulator += static_cast<double> ( vnl_math_sqr( o.Value() - it.Value() ) );
@@ -244,10 +278,13 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
   this->SetRMSChange( vcl_sqrt(rms_change_accumulator / den ) );
 }
 
-template< class TInputImage, class TOutputImage, class TFunction >
+template< class TInputImage,
+  class TOutputImage,
+  class TFunction,
+  typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-  TOutputImage, TFunction >
+  TOutputImage, TFunction, TIdCell >
 ::PostProcessOutput()
 {
   this->CopyInputToOutput();

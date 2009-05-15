@@ -176,15 +176,16 @@ namespace itk {
  *      http://hdl.handle.net/1926/1533
  *
  */
-template < class TInputImage, class TOutputImage, class TFunction >
+template < class TInputImage, class TOutputImage, class TFunction,
+  typename TIdCell = unsigned int >
 class ITK_EXPORT MultiphaseSparseFiniteDifferenceImageFilter :
-  public MultiphaseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction >
+  public MultiphaseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 {
 public:
   /** Standard class typedefs */
   typedef MultiphaseSparseFiniteDifferenceImageFilter     Self;
   typedef MultiphaseFiniteDifferenceImageFilter<
-    TInputImage, TOutputImage, TFunction >                Superclass;
+    TInputImage, TOutputImage, TFunction, TIdCell >       Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
@@ -213,12 +214,19 @@ public:
   typedef typename OutputImageType::ValueType             ValueType;
   typedef typename Superclass::OutputIndexType            OutputIndexType;
   typedef typename Superclass::OutputIndexValueType       OutputIndexValueType;
-  typedef typename OutputImageType::PixelType             OutputPixelType;
+  typedef typename Superclass::OutputPixelType            OutputPixelType;
+
+  typedef typename Superclass::IdCellType                 IdCellType;
+
 
   itkStaticConstMacro( ImageDimension, unsigned int, TOutputImage::ImageDimension );
 
   typedef typename Superclass::FiniteDifferenceFunctionType
     FiniteDifferenceFunctionType;
+  typedef typename Superclass::FiniteDifferenceFunctionPointer
+    FiniteDifferenceFunctionPointer;
+  typedef typename FiniteDifferenceFunctionType::FloatOffsetType
+    FiniteDifferenceFunctionFloatOffsetType;
 
   /** Node type used in sparse field layer lists. */
   typedef SparseFieldLevelSetNode< OutputIndexType >    LayerNodeType;
@@ -226,9 +234,14 @@ public:
   /** A list type used in the algorithm. */
   typedef SparseFieldLayer< LayerNodeType >             LayerType;
   typedef typename LayerType::Pointer                   LayerPointerType;
+  typedef typename LayerType::Iterator                  LayerIterator;
+  typedef typename LayerType::ConstIterator             LayerConstIterator;
 
   /** A type for a list of LayerPointerTypes */
   typedef std::vector< LayerPointerType >               LayerListType;
+  typedef typename LayerListType::iterator              LayerListIterator;
+  typedef typename LayerListType::const_iterator        LayerListConstIterator;
+
 
   /** Type used for storing status information */
   typedef signed char                                   StatusType;
@@ -237,16 +250,21 @@ public:
    *  the internals of the algorithm. */
   typedef Image< StatusType, itkGetStaticConstMacro(ImageDimension) >
                                                         StatusImageType;
+  typedef typename StatusImageType::Pointer             StatusImagePointer;
 
   typedef ZeroCrossingImageFilter<OutputImageType, OutputImageType>
     ZeroCrossingFilterType;
+  typedef typename ZeroCrossingFilterType::Pointer
+    ZeroCrossingFilterPointer;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
-  typedef ObjectStore< LayerNodeType > LayerNodeStorageType;
+  typedef ObjectStore< LayerNodeType >            LayerNodeStorageType;
+  typedef typename LayerNodeStorageType::Pointer  LayerNodeStoragePointer;
 
   /** Container type used to store updates to the active layer. */
-  typedef std::vector< ValueType > UpdateBufferType;
+  typedef std::vector< ValueType >                  UpdateBufferType;
+  typedef typename UpdateBufferType::const_iterator UpdateBufferConstIterator;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
@@ -271,15 +289,15 @@ public:
   void InterpolateSurfaceLocationOff()
   { this->SetInterpolateSurfaceLocation( false ); }
 
-  void SetFunctionCount( unsigned int n )
+  void SetFunctionCount( const IdCellType& n )
     {
     this->Superclass::SetFunctionCount( n );
 
-    m_SparseData = new SparseDataStruct *[n];
+    m_SparseData.resize( this->m_FunctionCount, 0 );
 
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+    for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
       {
-      m_SparseData[i] = new SparseDataStruct(i);
+      m_SparseData[i] = new SparseDataStruct( i );
       }
     }
 
@@ -297,14 +315,21 @@ public:
 
 protected:
   MultiphaseSparseFiniteDifferenceImageFilter();
-  ~MultiphaseSparseFiniteDifferenceImageFilter(){};
+  ~MultiphaseSparseFiniteDifferenceImageFilter()
+    { //FIXME: There may be memory leaks here...
+//     while( !m_SparseData.empty() )
+//       {
+//       delete m_SparseData.back();
+//       m_SparseData.pop_back();
+//       }
+    }
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
   // This data structure is created for each phase
   struct SparseDataStruct
     {
-    SparseDataStruct(unsigned int index)
+    SparseDataStruct( const IdCellType& index )
       {
       m_LayerNodeStore = LayerNodeStorageType::New();
       m_LayerNodeStore->SetGrowthStrategyToExponential();
@@ -322,18 +347,18 @@ protected:
     LayerListType m_Layers;
 
     /** An image of status values used internally by the algorithm. */
-    typename StatusImageType::Pointer m_StatusImage;
+    StatusImagePointer m_StatusImage;
 
-    typename OutputImageType::Pointer m_ShiftedImage;
+    OutputImagePointer m_ShiftedImage;
 
     /** Storage for layer node objects. */
-    typename LayerNodeStorageType::Pointer m_LayerNodeStore;
+    LayerNodeStoragePointer m_LayerNodeStore;
 
     /** The update buffer used to store change values computed in
     *  CalculateChange. */
     UpdateBufferType m_UpdateBuffer;
 
-    unsigned int m_Index;
+    IdCellType m_Index;
     };
 
   /**This function allows a subclass to override the way in which updates to
@@ -465,7 +490,7 @@ to);
       meaningful status. */
   static const StatusType m_StatusNull;
 
-  SparseDataStruct ** m_SparseData;
+  std::vector< SparseDataStruct* > m_SparseData;
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.

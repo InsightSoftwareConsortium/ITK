@@ -113,7 +113,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     }
 
   // Reset the state once execution is completed
-  if( this->m_ManualReinitialization == false )
+  if( !this->m_ManualReinitialization )
     {
     this->SetInitializedState(true);
     }
@@ -141,16 +141,22 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename Superclass::InputImagePointer  inputPtr  =
-    const_cast< TInputImage * >( this->GetInput(0) );
+  InputImagePointer  inputPtr  =
+    const_cast< InputImageType* >( this->GetInput(0) );
 
-  if ( !inputPtr )
+  if ( inputPtr.IsNull() )
+    {
     return;
+    }
+
+  if( this->m_DifferenceFunctions[0].IsNull() )
+    {
+    return;
+    }
 
   // Get the size of the neighborhood on which we are going to operate.  This
   // radius is supplied by the difference function we are using.
-  typename FiniteDifferenceFunctionType::RadiusType radius
-    = this->m_DifferenceFunctions[0]->GetRadius();
+  RadiusType radius = this->m_DifferenceFunctions[0]->GetRadius();
 
   // Try to set up a buffered region that will accommodate our
   // neighborhood operations.  This may not be possible and we
@@ -203,19 +209,20 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 ::ResolveTimeStep( const TimeStepVectorType &timeStepList,
   const std::vector< bool >& valid )
 {
-  TimeStepType min = NumericTraits<TimeStepType>::Zero;
+  TimeStepType oMin = NumericTraits<TimeStepType>::Zero;
+  size_t size = timeStepList.size();
 
-  if( timeStepList.size() == valid.size() )
+  if( size == valid.size() )
     {
     bool flag = false;
-    size_t size = timeStepList.size();
     size_t k = 0;
+    size_t i;
 
-    for(size_t i = 0; i < size; ++i)
+    for( i = 0; i < size; ++i)
       {
       if (valid[i])
         {
-        min = timeStepList[i];
+        oMin = timeStepList[i];
         k = i;
         flag = true;
         break;
@@ -228,16 +235,16 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
       }
 
     // find minimum value
-    for (size_t j = k; j < size; ++j)
+    for ( i = k; i < size; ++i)
       {
-      if ( valid[j] && (timeStepList[j] < min) )
+      if ( valid[i] && (timeStepList[i] < oMin) )
         {
-        min = timeStepList[j];
+        oMin = timeStepList[i];
         }
       }
    }
 
-   return min;
+   return oMin;
 }
 
 template < class TInputImage,

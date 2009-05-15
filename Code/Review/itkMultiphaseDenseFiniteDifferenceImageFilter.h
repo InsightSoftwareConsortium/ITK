@@ -72,9 +72,9 @@ namespace itk {
  * Based on the paper:
  *
  *        "An active contour model without edges"
- *         T. Chan and L. Vese. 
+ *         T. Chan and L. Vese.
  *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -98,16 +98,20 @@ namespace itk {
  *
  * \ingroup ImageFilters
  * \sa FiniteDifferenceImageFilter */
-template < class TInputImage, class TOutputImage, class TFunction >
+template < class TInputImage,
+  class TOutputImage,
+  class TFunction,
+  typename TIdCell = unsigned int >
 class ITK_EXPORT MultiphaseDenseFiniteDifferenceImageFilter
   : public MultiphaseFiniteDifferenceImageFilter<TInputImage,
   TOutputImage,
-  TFunction >
+  TFunction,
+  TIdCell >
 {
 public:
   /** Standard class typedefs */
   typedef MultiphaseDenseFiniteDifferenceImageFilter        Self;
-  typedef MultiphaseFiniteDifferenceImageFilter< 
+  typedef MultiphaseFiniteDifferenceImageFilter<
     TInputImage, TOutputImage, TFunction >                  Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
@@ -122,6 +126,7 @@ public:
   typedef typename Superclass::InputRegionType          InputRegionType;
   typedef typename Superclass::InputSpacingType         InputSpacingType;
   typedef typename Superclass::InputPointType           InputPointType;
+  typedef typename Superclass::InputPixelType           InputPixelType;
 
   typedef typename Superclass::OutputImageType          OutputImageType;
   typedef typename Superclass::OutputImagePointer       OutputImagePointer;
@@ -131,52 +136,48 @@ public:
   typedef typename Superclass::OutputIndexType          OutputIndexType;
   typedef typename Superclass::OutputIndexValueType     OutputIndexValueType;
   typedef typename OutputImageType::PixelType           OutputPixelType;
+
+  typedef typename Superclass::IdCellType               IdCellType;
+
   typedef OutputImageType                               UpdateBufferType;
+  typedef OutputImagePointer                            UpdateBufferPointer;
+
+  /** The type of region used for multithreading */
+  typedef typename UpdateBufferType::RegionType         ThreadRegionType;
+
+  typedef BinaryThresholdImageFilter< OutputImageType, OutputImageType >          ThresholdFilterType;
+  typedef typename ThresholdFilterType::Pointer                                   ThresholdFilterPointer;
+
+  typedef SignedMaurerDistanceMapImageFilter< OutputImageType, OutputImageType >  MaurerType;
+  typedef typename MaurerType::Pointer                                            MaurerPointer;
 
   typedef ImageRegionIterator<UpdateBufferType> UpdateIteratorType;
 
-  typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  typedef typename Superclass::FiniteDifferenceFunctionType       FiniteDifferenceFunctionType;
+  typedef typename Superclass::FiniteDifferenceFunctionPointer    FiniteDifferenceFunctionPointer;
+  typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
-  /** The pixel type of the output image will be used in computations.
-   * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
-
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** The container type for the update buffer. */
-
-
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
 
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType >  FaceCalculatorType;
   typedef typename FaceCalculatorType::FaceListType                               FaceListType;
 
-  void SetFunctionCount( unsigned int n )
-    {
-    this->Superclass::SetFunctionCount( n );
-
-    this->m_UpdateBuffers = new UpdateBufferPointer[n];
-
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-      {
-      this->m_UpdateBuffers[i] = UpdateBufferType::New();
-      }
-    }
+  void SetFunctionCount( const IdCellType& n );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputTimesDoubleCheck,
-    (Concept::MultiplyOperator<PixelType, double>));
+    (Concept::MultiplyOperator<OutputPixelType, double>));
   itkConceptMacro(OutputAdditiveOperatorsCheck,
-    (Concept::AdditiveOperators<PixelType>));
+    (Concept::AdditiveOperators<OutputPixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
+    (Concept::Convertible<InputPixelType, OutputPixelType>));
   /** End concept checking */
 #endif
 
@@ -187,10 +188,7 @@ protected:
     this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
     }
 
-  ~MultiphaseDenseFiniteDifferenceImageFilter()
-    {
-    delete [] this->m_UpdateBuffers;
-    }
+  ~MultiphaseDenseFiniteDifferenceImageFilter() {}
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
@@ -210,9 +208,6 @@ private:
   MultiphaseDenseFiniteDifferenceImageFilter(const Self&);
   void operator=(const Self&); //purposely not implemented
 
-  /** The type of region used for multithreading */
-  typedef typename UpdateBufferType::RegionType ThreadRegionType;
-
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
   virtual void AllocateUpdateBuffer();
@@ -223,12 +218,7 @@ private:
   virtual TimeStepType CalculateChange();
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
-  typedef typename UpdateBufferType::Pointer UpdateBufferPointer;
-
-  typedef BinaryThresholdImageFilter< OutputImageType, OutputImageType >          ThresholdFilterType;
-  typedef SignedMaurerDistanceMapImageFilter< OutputImageType, OutputImageType >  MaurerType;
-
-  UpdateBufferPointer * m_UpdateBuffers;
+  std::vector< UpdateBufferPointer > m_UpdateBuffers;
 };
 
 
