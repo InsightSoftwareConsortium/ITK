@@ -28,9 +28,9 @@
 int itkImageFileReaderTest2(int argc, char* argv[])
 {
 
-  if (argc < 3)
+  if (argc < 4)
     {
-    std::cout << "usage: itkIOTests itkImageFileReaderTest inputFileName outputFileName" << std::endl;
+    std::cout << "usage: itkIOTests itkImageFileReaderTest inputFileName outputDirectory outputExtension" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -43,8 +43,14 @@ int itkImageFileReaderTest2(int argc, char* argv[])
   typedef itk::ImageFileWriter<Image4DType> Writer4DType;
 
 
+  std::string tempFile1 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_1." ) + std::string( argv[3] );
+  std::string tempFile2 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_2." ) + std::string( argv[3] );
+  std::string tempFile3 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_3." ) + std::string( argv[3] );
+  std::string tempFile4 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_4." ) + std::string( argv[3] );
+
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
+  std::cout << "testing reading to 4D image" << std::endl;
   try
     {
     Reader4DType::Pointer reader = Reader4DType::New();
@@ -52,7 +58,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
 
     Writer4DType::Pointer writer = Writer4DType::New();
     writer->SetInput(reader->GetOutput());
-    writer->SetFileName(argv[2]);
+    writer->SetFileName(tempFile1);
     writer->Update();
     }
   catch (itk::ExceptionObject &ex)
@@ -61,18 +67,18 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-
   // read the new 4D file into a 3D file
+  std::cout << "testing reading from 4D image into 3D" << std::endl;
   try
     {
     Reader3DType::Pointer reader = Reader3DType::New();
     // we expect the filename to be 2 or 3 dimensions
-    reader->SetFileName(argv[2]);
-    reader->Update();
+    reader->SetFileName(tempFile1);
+   
 
     Writer3DType::Pointer writer = Writer3DType::New();
     writer->SetInput(reader->GetOutput());
-    writer->SetFileName(argv[2]);
+    writer->SetFileName(tempFile2);
     writer->Update();
     }
   catch (itk::ExceptionObject &ex)
@@ -81,17 +87,60 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  int status = 1;
-  // reader the 4D file into a 4D image, then try to stream it as a 3D
-  // IORegion 
+  // stream read new 3D file into 4D
+  std::cout << "testing requested stream reading from 3D image into 4D" << std::endl;
   try
     {
     Reader4DType::Pointer reader = Reader4DType::New();
-    reader->SetFileName(argv[2]);
+    reader->SetFileName(tempFile2);
+
+    Writer4DType::Pointer writer = Writer4DType::New();
+    writer->SetInput(reader->GetOutput());
+    writer->SetFileName(tempFile3);
+    writer->SetNumberOfStreamDivisions(4);
+    writer->Update();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    std::cout << ex;
+    return EXIT_FAILURE;
+    }
+
+
+  // stream read new 4D file into 3D
+  std::cout << "testing requested stream reading from 4D image into 3D" << std::endl;
+  try
+    {
+    Reader3DType::Pointer reader = Reader3DType::New();
+    reader->SetFileName(tempFile3);
+
+    Writer3DType::Pointer writer = Writer3DType::New();
+    writer->SetInput(reader->GetOutput());
+    writer->SetFileName(tempFile4);
+    writer->SetNumberOfStreamDivisions(4);
+    writer->Update();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    std::cout << ex;
+    return EXIT_FAILURE;
+    }
+
+
+
+  int status = 1;
+  // read the 4D file into a 4D image, then try to stream it as a 3D
+  // IORegion   
+  std::cout << "testing requested invalid paste IORegion" << std::endl;
+  try
+    {
+    Reader4DType::Pointer reader = Reader4DType::New();
+    reader->SetFileName(tempFile4);
     reader->Update();
     
     Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     
+    // the dimension of this ioregion is an error
     itk::ImageIORegion ioregion(3);
     for (unsigned int i = 0; i < 3; ++i)
       {
@@ -108,6 +157,8 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     }
   catch (itk::ExceptionObject &ex)
     {    
+    // if the writer doesn't support pasting an exception will be
+    // thrown too
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
