@@ -41,8 +41,6 @@ class ITK_EXPORT AutumnColormapFunctor
 : public ColormapFunctor<TScalar, TRGBPixel>
 {
 public:
-  AutumnColormapFunctor() {};
-  ~AutumnColormapFunctor() {};
 
   typedef AutumnColormapFunctor                  Self;
   typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
@@ -58,6 +56,13 @@ public:
   
   virtual RGBPixelType operator()( const TScalar & ) const;
 
+protected:
+  AutumnColormapFunctor() {};
+  ~AutumnColormapFunctor() {};
+
+private:
+  AutumnColormapFunctor(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
   
 } // end namespace functor
