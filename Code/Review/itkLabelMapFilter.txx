@@ -130,14 +130,18 @@ LabelMapFilter<TInputImage, TOutputImage>
 
     // get the label object
     LabelObjectType * labelObject = m_LabelObjectIterator->second;
+
     // increment the iterator now, so it will not be invalidated if the object is destroyed
     m_LabelObjectIterator++;
+
     // pretend one more object is processed, even if it will be done later, to simplify the lock management
     m_Progress->CompletedPixel();
+
     // unlock the mutex, so the other threads can get an object
     m_LabelObjectContainerLock->Unlock();
+
     // and run the user defined method for that object
-    ThreadedGenerateData( labelObject );
+    this->ThreadedProcessLabelObject( labelObject );
     }
 }
 
@@ -145,7 +149,7 @@ LabelMapFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 LabelMapFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( LabelObjectType * itkNotUsed(labelObject) )
+::ThreadedProcessLabelObject( LabelObjectType * itkNotUsed(labelObject) )
 {
   // do nothing
   // the subclass should override this method

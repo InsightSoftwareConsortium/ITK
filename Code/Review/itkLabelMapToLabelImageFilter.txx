@@ -49,7 +49,7 @@ LabelMapToLabelImageFilter<TInputImage, TOutputImage>
 template<class TInputImage, class TOutputImage>
 void
 LabelMapToLabelImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( LabelObjectType * labelObject )
+::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
 

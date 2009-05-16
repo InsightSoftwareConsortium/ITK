@@ -100,7 +100,7 @@ protected:
 
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
 
-  virtual void ThreadedGenerateData( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
 
   /**
    * Return the label collection image to use. This method may be overloaded

@@ -81,7 +81,7 @@ protected:
 
   virtual void BeforeThreadedGenerateData();
 
-  virtual void ThreadedGenerateData( LabelObjectType * labelObject );  
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );  
 
 private:
   LabelMapToLabelImageFilter(const Self&); //purposely not implemented
