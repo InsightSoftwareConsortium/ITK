@@ -36,7 +36,7 @@ int itkFFTShiftImageFilterTest(int argc, char * argv[])
     std::cerr << "  outputImage: The output image." << std::endl;
     std::cerr << "  inverse: 0, to perform a forward transform, or 1 to perform" << std::endl;
     std::cerr << "           an inverse transform." << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 3;

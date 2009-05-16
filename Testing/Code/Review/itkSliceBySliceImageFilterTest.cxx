@@ -57,7 +57,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   if( argc != 3 )
     {
     std::cerr << "usage: " << argv[0] << " input output" << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int                 Dimension = 3;

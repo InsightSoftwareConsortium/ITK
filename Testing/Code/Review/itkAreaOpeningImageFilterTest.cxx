@@ -33,7 +33,7 @@ int itkAreaOpeningImageFilterTest(int argc, char * argv[])
     std::cerr << "usage: " << argv[0] << " inputImage outputImage lambda conn use_spacing" << std::endl;
     std::cerr << "  inputImage: The input image." << std::endl;
     std::cerr << "  outputImage: The output image." << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 3;

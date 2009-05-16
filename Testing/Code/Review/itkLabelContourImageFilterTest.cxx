@@ -34,8 +34,7 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " output: the output image" << std::endl;
     std::cerr << " fullyConnected: 0 or 1" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 3;

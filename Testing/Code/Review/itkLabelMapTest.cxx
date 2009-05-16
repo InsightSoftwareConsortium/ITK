@@ -28,8 +28,7 @@ int itkLabelMapTest(int argc, char * argv[])
   if( argc != 1 )
     {
     std::cerr << "usage: " << argv[0] << "" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 3;

@@ -32,8 +32,7 @@ int itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   if( argc != 4 )
     {
     std::cerr << "usage: " << argv[0] << " inputImage outputImage pow" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
   const int dim = 2;
