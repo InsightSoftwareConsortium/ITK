@@ -132,20 +132,6 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputP
   this->SetProgress ( ( ( float ) this->m_ElapsedIterations / this->m_NumberOfIterations ) );
 }
 
-template < class TInput,
-  class TFeature,
-  class TFunction,
-  class TOutputPixel,
-  class TSharedData >
-void
-ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputPixel, TSharedData >
-::PrintSelf( std::ostream& os, Indent indent ) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "Class Name: " << GetNameOfClass( ) << std::endl;
-}
-
-
 } /* end namespace itk */
 
 #endif

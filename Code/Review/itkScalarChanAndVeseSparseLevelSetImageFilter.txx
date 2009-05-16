@@ -134,18 +134,6 @@ bool &status )
   iterator.SetPixel(idx, newValue, status);
 }
 
-template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData, typename TIdCell >
-void
-ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData, TIdCell > ::
-PrintSelf( std::ostream& os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "Name Of Class: " << std::endl;
-}
-
-
 } /* end namespace itk */
 
 #endif

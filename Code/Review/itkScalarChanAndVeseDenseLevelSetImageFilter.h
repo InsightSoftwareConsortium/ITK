@@ -137,8 +137,6 @@ protected:
     }
   ~ScalarChanAndVeseDenseLevelSetImageFilter(){}
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
-
   SharedDataPointer   m_SharedData;
 
   virtual void Initialize();
