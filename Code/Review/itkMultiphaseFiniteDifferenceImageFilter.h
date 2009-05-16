@@ -375,6 +375,7 @@ protected:
     this->m_ManualReinitialization = false;
     this->m_InitializedState = false;
     this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
+    this->m_FunctionCount = 0;
     this->InPlaceOn();
     }
 
