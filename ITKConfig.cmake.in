@@ -68,3 +68,7 @@ SET(ITK_USE_ORIENTED_IMAGE_DIRECTION "@ITK_USE_ORIENTED_IMAGE_DIRECTION@")
 # same for gdcm
 SET(ITK_VXL_DIR "@ITK_VXL_DIR@")
 SET(ITK_GDCM_DIR "@ITK_GDCM_DIR@")
+
+# Let's also export VNL_CONFIG_ENABLE_SSE2_ROUNDING as it may be requirred
+# to know whether to add a -msse2 compilation flag for gcc 
+SET(VNL_CONFIG_ENABLE_SSE2_ROUNDING "@VNL_CONFIG_ENABLE_SSE2_ROUNDING@")

@@ -1174,7 +1174,7 @@ int main()
 
 //-------------------------------------
 
-#ifdef VXL_HAS_SSE2_HARDWARE_SUPPORT
+#if defined(VXL_HAS_SSE2_HARDWARE_SUPPORT) || defined(VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE)
 #include <emmintrin.h>
 int main()
 {
@@ -1182,12 +1182,12 @@ int main()
   double d_a[]  = { 6.75, 3.42 };
   double d_b[]  = { 2.3, 9.2 };
   double res[2] = {0.0};
-  
+
   __m128d z;
   z = _mm_mul_pd(_mm_loadu_pd(d_a),_mm_loadu_pd(d_b));
-  
+
   _mm_storeu_pd(res,z);
-  
+
   return 0;
 }
 #endif

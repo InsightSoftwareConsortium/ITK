@@ -19,4 +19,7 @@
 //: Set to 0 if you don't have SSE2 support on your target platform
 #define VNL_CONFIG_ENABLE_SSE2    @VNL_CONFIG_ENABLE_SSE2@
 
+//: Set to 0 if you don't want to use SSE2 instructions to implement rounding, floor, and ceil functions.
+#define VNL_CONFIG_ENABLE_SSE2_ROUNDING @VNL_CONFIG_ENABLE_SSE2_ROUNDING@
+
 #endif

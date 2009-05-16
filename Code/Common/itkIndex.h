@@ -271,7 +271,7 @@ public:
   // produce consistent results. This can be removed once vnl_math_rnd is
   // fixed in VXL.
 #if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
-#define vnl_math_rnd(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
+#define vnl_math_rnd_halfintup(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
 #endif
 #endif
   /** Copy values from a FixedArray by rounding each one of the components */
@@ -279,21 +279,21 @@ public:
   inline void CopyWithRound( const FixedArray<TCoordRep,VIndexDimension> & point )
     {
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
-    itkFoorLoopRoundingAndAssignmentMacro(IndexType,ContinuousIndexType,IndexValueType,m_Index,point,VIndexDimension);
+    itkForLoopRoundingAndAssignmentMacro(IndexType,ContinuousIndexType,IndexValueType,m_Index,point,VIndexDimension);
 #else
     for(unsigned int i=0;i < VIndexDimension; ++i)
       {
 #ifdef ITK_USE_PORTABLE_ROUND
       m_Index[i] = static_cast< IndexValueType>( itk::Math::RoundHalfIntegerUp( point[i] ) );
 #else
-      m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd( point[i] ) );
+      m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd_halfintup( point[i] ) );
 #endif
       }
 #endif
     }
 #ifndef ITK_USE_PORTABLE_ROUND
 #if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
-#undef vnl_math_rnd
+#undef vnl_math_rnd_halfintup
 #endif
 #endif
 

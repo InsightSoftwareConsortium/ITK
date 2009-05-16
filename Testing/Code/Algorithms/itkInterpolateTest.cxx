@@ -180,12 +180,18 @@ int itkInterpolateTest(int, char *[] )
   cindex = ContinuousIndexType(darray1);
   passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 70 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 70 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   index[0] = 10;
   index[1] = 20;
@@ -203,12 +209,18 @@ int itkInterpolateTest(int, char *[] )
   cindex = ContinuousIndexType(darray2);
   passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 60 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 60 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   // position near image border
   double epsilon = 1.0e-10;
@@ -216,47 +228,161 @@ int itkInterpolateTest(int, char *[] )
   cindex = ContinuousIndexType(darray3);
   passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 79 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 79 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   // position outside the image
   double darray4[3] = {20, 20, 40};
   cindex = ContinuousIndexType(darray4);
   passed = TestContinuousIndex<InterpolatorType>( interp, cindex, false, 0 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
   passed = TestGeometricPoint<InterpolatorType>( interp, point, false, 0 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
-  // at non-integer position 
-  double darray5[3] = {5.25, 12.5, 42.0};
+  // at non-integer position, before half value
+  double darray5[3] = {5.25, 12.4, 42.0};
   cindex = ContinuousIndexType(darray5);
-  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.75 );
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.65 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   image->TransformContinuousIndexToPhysicalPoint( cindex, point );
-  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.65 );
 
-  if( !passed ) flag = 1;
+  if( !passed )
+    {
+    flag = 1;
+    }
 
   /* Create and initialize the nearest neigh. interpolator */
   NNInterpolatorType::Pointer nninterp = NNInterpolatorType::New();
   nninterp->SetInputImage(image);
   nninterp->Print( std::cout );
 
-  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true,
-    60 );
+  double expectedValue = 
+    itk::Math::Round( darray5[0] ) +
+    itk::Math::Round( darray5[1] ) +
+    itk::Math::Round( darray5[2] );
 
-  if( !passed ) flag = 1;
+  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
 
+  if( !passed ) 
+    {
+    flag = 1;
+    }
+
+  // at non-integer position, after half value
+  double darray6[3] = {5.25, 12.6, 42.0};
+  cindex = ContinuousIndexType(darray6);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.85 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.85 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  expectedValue = 
+    itk::Math::Round( darray6[0] ) +
+    itk::Math::Round( darray6[1] ) +
+    itk::Math::Round( darray6[2] );
+
+  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
+
+  if( !passed ) 
+    {
+    flag = 1;
+    }
+
+  // at non-integer position, at half value with an even base number
+  double darray7[3] = {5.25, 12.5, 42.0};
+  cindex = ContinuousIndexType(darray7);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 59.75 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 59.75 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  expectedValue = 
+    itk::Math::Round( darray7[0] ) +
+    itk::Math::Round( darray7[1] ) +
+    itk::Math::Round( darray7[2] );
+
+  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
+
+  if( !passed ) 
+    {
+    flag = 1;
+    }
+
+  // at non-integer position, at half value with an odd base number
+  double darray8[3] = {5.25, 11.5, 42.0};
+  cindex = ContinuousIndexType(darray8);
+  passed = TestContinuousIndex<InterpolatorType>( interp, cindex, true, 58.75 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  image->TransformContinuousIndexToPhysicalPoint( cindex, point );
+  passed = TestGeometricPoint<InterpolatorType>( interp, point, true, 58.75 );
+
+  if( !passed )
+    {
+    flag = 1;
+    }
+
+  expectedValue = 
+    itk::Math::Round( darray8[0] ) +
+    itk::Math::Round( darray8[1] ) +
+    itk::Math::Round( darray8[2] );
+
+  passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
+
+  if( !passed ) 
+    {
+    flag = 1;
+    }
 
 
   /* Return results of test */

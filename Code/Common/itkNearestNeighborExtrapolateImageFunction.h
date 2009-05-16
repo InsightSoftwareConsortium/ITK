@@ -95,7 +95,7 @@ public:
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
         nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
 #else
-        nindex[j] = static_cast<ValueType>( vnl_math_rnd( index[j] ) );
+        nindex[j] = static_cast<ValueType>( vnl_math_rnd_halfintup( index[j] ) );
 #endif
         }
       }

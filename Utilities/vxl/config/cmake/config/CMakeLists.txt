@@ -186,6 +186,30 @@ PERFORM_CHECK_HEADER(ieeefp.h VXL_HAS_IEEEFP_H)
 PERFORM_CHECK_HEADER(iso646.h VCL_CXX_HAS_HEADER_ISO646_H)
 PERFORM_CHECK_HEADER(emmintrin.h VXL_HAS_EMMINTRIN_H)
 
+# check for hardware support for sse2 with the current compiler flags
+PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VXL_HAS_SSE2_HARDWARE_SUPPORT)
+
+# if no support right now, see if the support exists if some flags
+# are added.  This can be used to give the user some useful info.
+IF(NOT VXL_HAS_SSE2_HARDWARE_SUPPORT)
+  IF(CMAKE_COMPILER_IS_GNUCXX)
+    SET(VXL_SSE_TEST_FLAG_BACKUP ${CMAKE_REQUIRED_FLAGS})
+    SET(CMAKE_REQUIRED_FLAGS " -msse2 ${VXL_SSE_TEST_FLAG_BACKUP} ")
+    PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE)
+    SET( VXL_SSE2_HARDWARE_SUPPORT_POSSIBLE_HELP
+      "The current compiler flags do not allow the SSE2 instructions to be used. "
+      "It looks like if you add the flag '-msse2' you will be able to use the "
+      "SSE2 instructions. If you chose to set VNL_CONFIG_ENABLE_SSE or "
+      "VNL_CONFIG_ENABLE_SSE2_ROUNDING to ON, cmake will put this flag for you. "
+      "You can also add this flag yourself. If you still see this message, after "
+      "the flag change, you may need to set VXL_UPDATE_CONFIGURATION to ON and "
+      "rerun cmake."
+      CACHE INTERNAL "help string for how to enable SSE2 support" )
+    SET(CMAKE_REQUIRED_FLAGS ${VXL_SSE_TEST_FLAG_BACKUP})
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+ENDIF(NOT VXL_HAS_SSE2_HARDWARE_SUPPORT)
+
+
 #
 # Check for aligned dynamic memory allocation support, useful for sse
 #
@@ -196,16 +220,6 @@ IF(VXL_HAS_EMMINTRIN_H)
   PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_ALIGNED_MALLOC)
   PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_MINGW_ALIGNED_MALLOC)
   PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VXL_HAS_POSIX_MEMALIGN)
-  
-  # check for hardware support for sse2
-  IF(CMAKE_COMPILER_IS_GNUCXX)
-    SET(VXL_SSE_TEST_FLAG_BACKUP ${CMAKE_REQUIRED_FLAGS})
-    SET(CMAKE_REQUIRED_FLAGS " -msse2 ${VXL_SSE_TEST_FLAG_BACKUP} ")
-    PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VXL_HAS_SSE2_HARDWARE_SUPPORT)
-    SET(CMAKE_REQUIRED_FLAGS ${VXL_SSE_TEST_FLAG_BACKUP})
-  ELSE(CMAKE_COMPILER_IS_GNUCXX)
-    PERFORM_CMAKE_TEST_RUN(vxl_platform_tests.cxx VXL_HAS_SSE2_HARDWARE_SUPPORT)
-  ENDIF(CMAKE_COMPILER_IS_GNUCXX) 
 ELSE(VXL_HAS_EMMINTRIN_H)
   SET( VXL_HAS_MM_MALLOC 0 )
   SET( VXL_HAS_ALIGNED_MALLOC 0 )
