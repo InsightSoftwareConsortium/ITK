@@ -94,7 +94,7 @@ SetTargetLandmarks(PointSetType * landmarks)
 
 /**
  * This method has been deprecated as of ITK 3.6.
- * Please use the method: void ComputeG(vector,gmatrix) instead.
+ * Please use the method: void ComputeG( vector, gmatrix ) instead.
  */
 #if !defined(ITK_LEGACY_REMOVE)
 template <class TScalarType, unsigned int NDimensions>
@@ -102,7 +102,8 @@ const typename KernelTransform<TScalarType, NDimensions>::GMatrixType &
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType & ) const
 {
-  itkLegacyReplaceBodyMacro(itkKernelTransform::ComputeG_vector, 3.6,itkKernelTransform::ComputeG_vector_gmatrix);
+  itkLegacyReplaceBodyMacro( itkKernelTransform::ComputeG_vector, 3.6,
+                             itkKernelTransform::ComputeG_vector_gmatrix );
   return m_GMatrix;
 }
 #endif
@@ -115,7 +116,8 @@ void
 KernelTransform<TScalarType, NDimensions>::
 ComputeG( const InputVectorType &, GMatrixType & itkNotUsed( gmatrix ) ) const
 {
-  itkExceptionMacro(<< "ComputeG(vector,gmatrix) must be reimplemented in subclasses of KernelTransform.");
+  itkExceptionMacro( << "ComputeG(vector,gmatrix) must be reimplemented"
+                     << " in subclasses of KernelTransform." );
 }
 
 /**
@@ -144,7 +146,8 @@ ComputeDeformationContribution( const InputPointType  & thisPoint,
                                 OutputPointType & result  ) const
 {
 
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
 
   PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
 
@@ -173,7 +176,8 @@ template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>
 ::ComputeD(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
   
   PointsIterator sp  = this->m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator tp  = this->m_TargetLandmarks->GetPoints()->Begin();
@@ -217,7 +221,8 @@ template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeL(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
   vnl_matrix<TScalarType> O2(NDimensions*(NDimensions+1),
                              NDimensions*(NDimensions+1), 0);
 
@@ -232,8 +237,10 @@ ComputeL(void)
 
   this->m_LMatrix.update( this->m_KMatrix, 0, 0 );
   this->m_LMatrix.update( this->m_PMatrix, 0, this->m_KMatrix.columns() );
-  this->m_LMatrix.update( this->m_PMatrix.transpose(), this->m_KMatrix.rows(), 0);
-  this->m_LMatrix.update( O2, this->m_KMatrix.rows(), this->m_KMatrix.columns());
+  this->m_LMatrix.update( this->m_PMatrix.transpose(),
+                          this->m_KMatrix.rows(), 0);
+  this->m_LMatrix.update( O2, this->m_KMatrix.rows(),
+                          this->m_KMatrix.columns());
 
 }
 
@@ -245,7 +252,8 @@ template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeK(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
   GMatrixType G;
 
   this->ComputeD();
@@ -276,7 +284,7 @@ ComputeK(void)
     while( p2 != end ) 
       {
       const InputVectorType s = p1.Value() - p2.Value();
-      this->ComputeG(s,G);
+      this->ComputeG(s, G);
       // write value in upper and lower triangle of matrix
       this->m_KMatrix.update(G, i*NDimensions, j*NDimensions);
       this->m_KMatrix.update(G, j*NDimensions, i*NDimensions);  
@@ -295,7 +303,8 @@ template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeP()
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
   IMatrixType I;
   IMatrixType temp;
   InputPointType p;
@@ -323,7 +332,8 @@ template <class TScalarType, unsigned int NDimensions>
 void KernelTransform<TScalarType, NDimensions>::
 ComputeY(void)
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
 
   typename VectorSetType::ConstIterator displacement =
     this->m_Displacements->Begin();
@@ -356,7 +366,8 @@ void
 KernelTransform<TScalarType, NDimensions>
 ::ReorganizeW(void) 
 {
-  unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
+  unsigned long numberOfLandmarks = this->m_SourceLandmarks
+                                        ->GetNumberOfPoints();
 
   // The deformable (non-affine) part of the registration goes here
   this->m_DMatrix.set_size(NDimensions,numberOfLandmarks);
@@ -440,7 +451,8 @@ GetJacobian( const InputPointType & ) const
   // FIXME: TODO
   // The Jacobian should be computable in terms of the matrices
   // used to Transform points...
-  itkExceptionMacro(<< "GetJacobian must be implemented in subclasses of KernelTransform.");
+  itkExceptionMacro(<< "GetJacobian must be implemented in subclasses"
+                    << " of KernelTransform.");
 
   return this->m_Jacobian;
 
@@ -530,7 +542,9 @@ void
 KernelTransform<TScalarType, NDimensions>::
 UpdateParameters( void ) const
 {
-  this->m_Parameters = ParametersType( this->m_SourceLandmarks->GetNumberOfPoints() * NDimensions );
+  this->m_Parameters = ParametersType( this->m_SourceLandmarks
+                                           ->GetNumberOfPoints() 
+                                       * NDimensions );
 
   PointsIterator itr = this->m_SourceLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_SourceLandmarks->GetPoints()->End();
@@ -569,7 +583,9 @@ const typename KernelTransform<TScalarType, NDimensions>::ParametersType &
 KernelTransform<TScalarType, NDimensions>::
 GetFixedParameters( void ) const
 {
-  this->m_FixedParameters = ParametersType( this->m_TargetLandmarks->GetNumberOfPoints() * NDimensions );
+  this->m_FixedParameters = ParametersType( this->m_TargetLandmarks
+                                                ->GetNumberOfPoints() 
+                                            * NDimensions );
   
   PointsIterator itr = this->m_TargetLandmarks->GetPoints()->Begin();
   PointsIterator end = this->m_TargetLandmarks->GetPoints()->End();

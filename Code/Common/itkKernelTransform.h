@@ -99,16 +99,17 @@ public:
   
   /** PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
-  typedef DefaultStaticMeshTraits<TScalarType,
-                                  NDimensions,
-                                  NDimensions,
-                                  TScalarType,
-                                  TScalarType> PointSetTraitsType;
-  typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> PointSetType;
-  typedef typename PointSetType::Pointer                        PointSetPointer;
-  typedef typename PointSetType::PointsContainer                PointsContainer;
-  typedef typename PointSetType::PointsContainerIterator        PointsIterator;
-  typedef typename PointSetType::PointsContainerConstIterator   PointsConstIterator;
+  typedef DefaultStaticMeshTraits<TScalarType, NDimensions,
+                                  NDimensions, TScalarType,
+                                  TScalarType>          PointSetTraitsType;
+  typedef PointSet<InputPointType, NDimensions, PointSetTraitsType> 
+                                                        PointSetType;
+  typedef typename PointSetType::Pointer                PointSetPointer;
+  typedef typename PointSetType::PointsContainer        PointsContainer;
+  typedef typename PointSetType::PointsContainerIterator 
+                                                        PointsIterator;
+  typedef typename PointSetType::PointsContainerConstIterator
+                                                        PointsConstIterator;
     
   /** VectorSet typedef. */
   typedef itk::VectorContainer<unsigned long,InputVectorType> VectorSetType;
@@ -143,10 +144,10 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual const JacobianType & GetJacobian(const InputPointType  &point) const;
 
-  /** Set the Transformation Parameters and update the internal transformation. 
-   * The parameters represent the source landmarks. Each landmark point is represented
-   * by NDimensions doubles. All the landmarks are concatenated to form one flat
-   * Array<double>. */
+  /** Set the Transformation Parameters and update the internal transformation.
+   * The parameters represent the source landmarks. Each landmark point is 
+   * represented by NDimensions doubles. All the landmarks are concatenated to 
+   * form one flat Array<double>. */
   virtual void SetParameters(const ParametersType &);
   
   /** Set Transform Fixed Parameters:
@@ -231,11 +232,14 @@ protected:
    *    Elastic body spline
    *    Thin plate spline
    *    Volume spline */
-  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix ) const;
+  virtual void ComputeG(const InputVectorType& landmarkVector, 
+                        GMatrixType & gmatrix ) const;
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
-  itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
+  itkLegacyMacro( virtual const GMatrixType & ComputeG(
+                                  const InputVectorType & landmarkVector 
+                                  ) const );
 
 
   /** Compute a G(x) for a point to itself (i.e. for the block diagonal
@@ -252,8 +256,9 @@ protected:
   
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  virtual void ComputeDeformationContribution( const InputPointType & inputPoint,
-                                                     OutputPointType & result ) const;
+  virtual void ComputeDeformationContribution( 
+                                          const InputPointType & inputPoint,
+                                          OutputPointType & result ) const;
 
   /** Compute K matrix. */
   void ComputeK();

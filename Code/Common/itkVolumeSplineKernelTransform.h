@@ -29,7 +29,8 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template <class TScalarType,         // Data type for scalars (float or double)
+template <class TScalarType,         // Data type for scalars (float or
+                                                              // double)
           unsigned int NDimensions = 3>          // Number of dimensions
 class ITK_EXPORT VolumeSplineKernelTransform : 
                 public KernelTransform<   TScalarType, NDimensions>
@@ -57,27 +58,28 @@ public:
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
+  itkStaticConstMacro(SpaceDimension, unsigned int,
+                      Superclass::SpaceDimension);
                               
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
-  typedef typename Superclass::InputPointType     InputPointType;
-  typedef typename Superclass::OutputPointType    OutputPointType;
-  typedef typename Superclass::InputVectorType    InputVectorType;
-  typedef typename Superclass::OutputVectorType   OutputVectorType;
+  typedef typename Superclass::InputPointType   InputPointType;
+  typedef typename Superclass::OutputPointType  OutputPointType;
+  typedef typename Superclass::InputVectorType  InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType  
-                                                  InputCovariantVectorType;
+                                                InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType 
-                                                  OutputCovariantVectorType;
-  typedef typename Superclass::PointsIterator     PointsIterator;
+                                                OutputCovariantVectorType;
+  typedef typename Superclass::PointsIterator   PointsIterator;
     
 
 protected:
   VolumeSplineKernelTransform() {};
   virtual ~VolumeSplineKernelTransform() {}
   
-  /** These (rather redundant) typedefs are needed because on SGI, typedefs
-   * are not inherited. */
+  /** These (rather redundant) typedefs are needed because on SGI, 
+   * typedefs are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
   
   /** Compute G(x)
@@ -88,17 +90,22 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType& landmarkVector,
+                        GMatrixType & gmatrix) const;
   /**
-   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
+   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix)
+   * instead.
    */
-  itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
+  itkLegacyMacro( virtual const GMatrixType & ComputeG(
+                                  const InputVectorType & landmarkVector 
+                                  ) const );
 
 
-  /** Compute the contribution of the landmarks weighted by the kernel funcion
-      to the global deformation of the space  */
-  virtual void ComputeDeformationContribution(const InputPointType & inputPoint,
-                                              OutputPointType & result ) const;
+  /** Compute the contribution of the landmarks weighted by the kernel 
+   *  funcion to the global deformation of the space  */
+  virtual void ComputeDeformationContribution(
+                                  const InputPointType & inputPoint,
+                                  OutputPointType & result ) const;
 
 private:
   VolumeSplineKernelTransform(const Self&); //purposely not implemented
@@ -109,10 +116,12 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_VolumeSplineKernelTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT VolumeSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef VolumeSplineKernelTransform< ITK_TEMPLATE_2 x > \
-                                                  VolumeSplineKernelTransform##y; } \
+#define ITK_TEMPLATE_VolumeSplineKernelTransform(_, EXPORT, x, y) \
+  namespace itk { \
+    _(2(class EXPORT VolumeSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
+    namespace Templates { typedef \
+          VolumeSplineKernelTransform< ITK_TEMPLATE_2 x > \
+                                     VolumeSplineKernelTransform##y; } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
