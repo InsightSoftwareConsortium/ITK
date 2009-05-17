@@ -172,6 +172,7 @@ int itkInterpolateTest(int, char *[] )
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
   ContinuousIndexType cindex;
+  IndexType mindex;
   PointType point;
   bool passed;
 
@@ -193,10 +194,9 @@ int itkInterpolateTest(int, char *[] )
     flag = 1;
     }
 
-  index[0] = 10;
-  index[1] = 20;
-  index[2] = 40;
-  if ( interp->EvaluateAtIndex( index ) != 70 )
+  mindex.CopyWithRound( cindex );
+  double expectedValue = mindex[0] + mindex[1] + mindex[2];
+  if ( interp->EvaluateAtIndex( mindex ) != expectedValue )
     {
     std::cout << "Index: " << index;
     std::cout << "Value: " << interp->EvaluateAtIndex(index) << std::endl;
@@ -282,10 +282,8 @@ int itkInterpolateTest(int, char *[] )
   nninterp->SetInputImage(image);
   nninterp->Print( std::cout );
 
-  double expectedValue = 
-    itk::Math::Round( darray5[0] ) +
-    itk::Math::Round( darray5[1] ) +
-    itk::Math::Round( darray5[2] );
+  mindex.CopyWithRound( cindex );
+  expectedValue = mindex[0] + mindex[1] + mindex[2];
 
   passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
 
@@ -312,10 +310,8 @@ int itkInterpolateTest(int, char *[] )
     flag = 1;
     }
 
-  expectedValue = 
-    itk::Math::Round( darray6[0] ) +
-    itk::Math::Round( darray6[1] ) +
-    itk::Math::Round( darray6[2] );
+  mindex.CopyWithRound( cindex );
+  expectedValue = mindex[0] + mindex[1] + mindex[2];
 
   passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
 
@@ -342,11 +338,8 @@ int itkInterpolateTest(int, char *[] )
     flag = 1;
     }
 
-  expectedValue = 60;
-
-  // itk::Math::Round( darray7[0] ) +    FIXME
-  // itk::Math::Round( darray7[1] ) +
-  // itk::Math::Round( darray7[2] );
+  mindex.CopyWithRound( cindex );
+  expectedValue = mindex[0] + mindex[1] + mindex[2];
 
   passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
 
@@ -373,10 +366,9 @@ int itkInterpolateTest(int, char *[] )
     flag = 1;
     }
 
-  expectedValue = 
-    itk::Math::Round( darray8[0] ) +
-    itk::Math::Round( darray8[1] ) +
-    itk::Math::Round( darray8[2] );
+
+  mindex.CopyWithRound( cindex );
+  expectedValue = mindex[0] + mindex[1] + mindex[2];
 
   passed = TestContinuousIndex<NNInterpolatorType>( nninterp, cindex, true, expectedValue );
 
@@ -399,4 +391,3 @@ int itkInterpolateTest(int, char *[] )
 
   return EXIT_SUCCESS; 
 }
-

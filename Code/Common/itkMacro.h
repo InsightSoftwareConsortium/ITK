@@ -1014,13 +1014,13 @@ inline int Round(double  x) { return RoundHalfIntegerToEven(x); }
 #define itkForLoopRoundingAndAssignmentMacro(DestinationType,Sourcrnd_halfintup,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
     for(unsigned int i=0;i < NumberOfIterations; ++i) \
       { \
-      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::RoundHalfIntegerUp( SourceArray[i] ) ); \
+      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::Round( SourceArray[i] ) ); \
       }
 #else
 #define itkForLoopRoundingAndAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
     for(unsigned int i=0;i < NumberOfIterations; ++i) \
       { \
-      DestinationArray[i] = static_cast< DestinationElementType >( vnl_math_rnd_halfintup( SourceArray[i] ) ); \
+      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::RoundHalfIntegerUp( SourceArray[i] ) ); \
       }
 #endif
 

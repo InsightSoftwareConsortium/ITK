@@ -284,7 +284,7 @@ public:
     for(unsigned int i=0;i < VIndexDimension; ++i)
       {
 #ifdef ITK_USE_PORTABLE_ROUND
-      m_Index[i] = static_cast< IndexValueType>( itk::Math::RoundHalfIntegerUp( point[i] ) );
+      m_Index[i] = static_cast< IndexValueType>( itk::Math::Round( point[i] ) );
 #else
       m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd_halfintup( point[i] ) );
 #endif
