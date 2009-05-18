@@ -47,6 +47,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
   std::string tempFile2 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_2." ) + std::string( argv[3] );
   std::string tempFile3 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_3." ) + std::string( argv[3] );
   std::string tempFile4 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_4." ) + std::string( argv[3] );
+  std::string tempFile5 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_5." ) + std::string( argv[3] );
 
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
@@ -151,7 +152,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
 
     Writer4DType::Pointer writer = Writer4DType::New();
     writer->SetInput(reader->GetOutput());
-    writer->SetFileName(argv[2]);
+    writer->SetFileName(tempFile5);
     writer->SetIORegion(ioregion);
     writer->Update();
     }
