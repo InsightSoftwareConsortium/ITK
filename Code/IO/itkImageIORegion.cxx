@@ -194,7 +194,9 @@ ImageIORegion
 ::IsInside(const IndexType &index) const
 {
   if (m_ImageDimension != index.size())
-      return false;
+    {
+    return false;
+    }
   for(unsigned int i=0; i<m_ImageDimension; i++)
     {
     if( index[i] < m_Index[i] ) 
