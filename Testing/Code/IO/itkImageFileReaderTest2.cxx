@@ -114,6 +114,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     {
     Reader3DType::Pointer reader = Reader3DType::New();
     reader->SetFileName(tempFile3);
+    reader->Update();
 
     Writer3DType::Pointer writer = Writer3DType::New();
     writer->SetInput(reader->GetOutput());
@@ -126,8 +127,6 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     std::cout << ex;
     return EXIT_FAILURE;
     }
-
-
 
   int status = 1;
   // read the 4D file into a 4D image, then try to stream it as a 3D
@@ -164,7 +163,6 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     std::cout << ex;
     status = 0;
     }
-
   if (status) 
     {
     std::cout << "Failed to catch expected exception." << std::endl;
