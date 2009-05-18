@@ -98,7 +98,6 @@ int itkLabelObjectLineTest(int, char* [] )
 
   labelLine->Print(std::cout);
   delete labelLine;
-  labelLine = 0;
 
   return (EXIT_SUCCESS);
 }
