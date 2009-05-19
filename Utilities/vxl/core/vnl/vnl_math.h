@@ -51,9 +51,9 @@
 #   include <emmintrin.h> // sse 2 intrinsics
 # endif
 #endif
-// Turn on fast impl when using GCC on Intel-based machines with the following exception:
-//   PPC with Mac OS X
-#if defined(__GNUC__) && (!defined(__APPLE__)  || !defined(__ppc__) )
+// Turn on fast impl when using GCC with the following exception:
+//   PPC, PPC64
+#if defined(__GNUC__) && (!defined(__ppc__)) && (!defined(__ppc64__))
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
