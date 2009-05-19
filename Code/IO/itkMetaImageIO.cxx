@@ -847,27 +847,36 @@ void MetaImageIO::Read(void* buffer)
 { 
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int ioDims = this->m_IORegion.GetImageDimension();
-
-  const unsigned int minDimension = ( nDims > ioDims ) ? ioDims : nDims;
-
   
-  // this is a check to see if we are actually streaming
-  // we initialize with m_IORegion to match dimensions
-  ImageIORegion largestRegion(minDimension);
-  for(unsigned int i=0; i<minDimension; i++)
+  // this will check to see if we are actually streaming
+  // we initialize with the dimensions of the file, since if
+  // largestRegion and ioRegion don't match, we'll use the streaming
+  // path since the comparison will fail
+  ImageIORegion largestRegion(nDims);
+  for(unsigned int i=0; i<nDims; i++)
     {
     largestRegion.SetIndex(i, 0);
     largestRegion.SetSize(i, this->GetDimensions(i));
     }
+
   
   if(largestRegion != m_IORegion)
     {
-    int* indexMin = new int[minDimension];
-    int* indexMax = new int[minDimension];
-    for(unsigned int i=0;i<minDimension;i++)
+    int* indexMin = new int[nDims];
+    int* indexMax = new int[nDims];
+    for(unsigned int i=0;i<nDims;i++)
       {
-      indexMin[i] = m_IORegion.GetIndex()[i];
-      indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] - 1;
+      if ( i < m_IORegion.GetImageDimension() )
+        {
+        indexMin[i] = m_IORegion.GetIndex()[i];
+        indexMax[i] = indexMin[i] + m_IORegion.GetSize()[i] - 1;
+        }
+      else 
+        {
+        indexMin[i] = 0;
+        // this is zero since this is a (size - 1)
+        indexMax[i] = 0; 
+        }
       }
 
     if (!m_MetaImage.ReadROI(indexMin, indexMax, 
@@ -1356,6 +1365,9 @@ MetaImageIO
     int* indexMax = new int[nDims];
     for( unsigned int k=0; k<nDims; k++ )
       {
+      // the dimensions of m_IORegion should match out requested
+      // dimensions, but ImageIORegion will throw an
+      // exception if out of bounds 
       indexMin[k] = m_IORegion.GetIndex()[k];
       indexMax[k] = m_IORegion.GetIndex()[k] + m_IORegion.GetSize()[k] - 1;
       }
