@@ -55,7 +55,6 @@ int itkLabelObjectLineTest(int, char* [] )
     return (EXIT_FAILURE);
     }
   delete labelLine;
-  labelLine = 0;
 
   labelLine = new LabelObjectLineType(currentIndex, 11);
   indexBack = labelLine->GetIndex();
