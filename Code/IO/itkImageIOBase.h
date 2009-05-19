@@ -322,8 +322,15 @@ public:
 
   /** Method for supporting streaming.  Given a requested region, determine what
    * could be the region that we can read from the file. This is called the
-   * streamable region, which will be smaller than the LargestPossibleRegion and
-   * greater or equal to the RequestedRegion */
+   * streamable region, which will be equal or smaller than the
+   * LargestPossibleRegion (unless it was dimensionaly clipped) and
+   * greater or equal to the RequestedRegion
+   *
+   * the resulting IORegion may be a greater dimensions the the
+   * requested IORegion, if the the derived class is unable to read
+   * the requested region. For example if the file has a size of [ 10,
+   * 10, 10] but the requested region is [10, 10] the return may be 3 dimensions.
+   */
   virtual ImageIORegion 
   GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
 
@@ -337,9 +344,11 @@ public:
    * If pasted is enabled and is not support or does not work with the file, 
    * then an excepetion should be thrown. 
    *
-   * The default implementation depends on CanStreamWrite. 
+   * The default implementation depends on CanStreamWrite.
    * If false then 1 is returned (unless pasting is indicated), so that the whole file will be updated in one region.
-   * If true then its assumed that any arbitrary region can be writen to any file. So the users request will be respected. If a derived class has more restictive conditions then they should be checked
+   * If true then its assumed that any arbitrary region can be writen
+   * to any file. So the users request will be respected. If a derived
+   * class has more restictive conditions then they should be checked
    */
   virtual unsigned int GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                                          const ImageIORegion &pasteRegion,

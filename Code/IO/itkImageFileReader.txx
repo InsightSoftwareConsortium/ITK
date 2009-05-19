@@ -245,7 +245,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
     AccessorFunctorType::SetVectorLength( output, m_ImageIO->GetNumberOfComponents() );
     }
-  
+
   output->SetLargestPossibleRegion(region);
 }
 
@@ -294,12 +294,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
   typename TOutputImage::RegionType largestRegion = out->GetLargestPossibleRegion();
 
-  if (!m_UseStreaming) 
-    {
-    m_ImageIO->SetUseStreamedReading(m_UseStreaming);
-    out->SetRequestedRegionToLargestPossibleRegion();
-    }
-
   // Delegate to the ImageIO the computation of how much the 
   // requested region must be enlarged.
 
@@ -312,15 +306,27 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ImageIORegion ioRequestedRegion( TOutputImage::ImageDimension );
 
   typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
-  
+
   ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion, largestRegion.GetIndex() );
 
   // Tell the IO if we should use streaming while reading
   m_ImageIO->SetUseStreamedReading(m_UseStreaming);
-
+  
   ImageIORegion ioStreamableRegion  = 
     m_ImageIO->GenerateStreamableReadRegionFromRequestedRegion( ioRequestedRegion );
 
+  // if the ImageIO must read a higher dimension, we can't read the file
+  if (ioStreamableRegion.GetImageDimension() > TOutputImage::ImageDimension )
+    {
+    ::itk::OStringStream message;
+    message << "ImageIO returns IO region that does is not fully contain by the largest possible region\n"
+            << "Largest region: " << largestRegion 
+            << "StreamableRegion region: " << ioStreamableRegion;
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    e.SetLocation(ITK_LOCATION);
+    e.SetDescription(message.str().c_str());
+    throw e;
+    }
 
   ImageIOAdaptor::Convert( ioStreamableRegion, this->m_StreamableRegion, largestRegion.GetIndex() );
 
@@ -332,7 +338,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     itkExceptionMacro(
       << "ImageIO returns IO region that does not fully contain the requested region"
       << "Requested region: " << imageRequestedRegion 
-      << "StreamableRegion region: " << this->m_StreamableRegion);
+      << "StreamableRegion region: " << this->m_StreamableRegion
+      );
     }
     
   itkDebugMacro (<< "StreamableRegion set to =" << this->m_StreamableRegion );
@@ -353,8 +360,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
      << "Allocating the buffer with the StreamableRegion \n" 
      << this->m_StreamableRegion << "\n");
 
-  output->SetBufferedRegion( this->m_StreamableRegion );
-  output->Allocate();
+  this->AllocateOutputs();
 
   // Test if the file exist and if it can be open.
   // and exception will be thrown otherwise.

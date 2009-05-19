@@ -1073,29 +1073,45 @@ ImageIOBase
 {
   //
   // The default implementations determines that the streamable region is
-  // equal to the largest possible region of the image.
+  // equal to the minimal size of the image in the file. That is two
+  // say the return ImageIORegion::GetImageSizeInPixels() is equal to
+  // the number in the file.
   //
   
-  // Since the image in the file may have a dimension lower
-  // than the image type over which the ImageFileReader/Writer is
-  // being instantiated, we must fill in the co-dimensions in a
-  // consistent way.
+  // Since the image in the file may have a lower or higher dimension
+  // than the image type over which the ImageFileReader is
+  // being instantiated we must choose an image dimension which will
+  // represent all the pixels. That is we can trim trailing 1s.
+  
+  unsigned int minIODimension = this->m_NumberOfDimensions;
+  while (minIODimension) 
+    {
+    if (this->m_Dimensions[minIODimension-1] == 1)
+      {
+      --minIODimension;
+      }
+    else
+      {
+      break;
+      }
+    }
 
-  // First: allocate with the image IO number of dimensions
-  ImageIORegion streamableRegion( requested.GetImageDimension() );
+  // dimension size we use to represent the region
+  unsigned int maxDimension =
+    minIODimension > requested.GetImageDimension() ? minIODimension : requested.GetImageDimension();
 
-  // Second: copy only the number of dimension that the image has.
-  unsigned int maxDimensionToCopy =
-    this->m_NumberOfDimensions > requested.GetImageDimension() ?
-    requested.GetImageDimension() : this->m_NumberOfDimensions;
-  for( unsigned int i=0; i < maxDimensionToCopy; i++ )
+  // First: allocate with the correct dimensions
+  ImageIORegion streamableRegion( maxDimension );
+
+  // Second: copy only the number of dimension that the file has.
+  for( unsigned int i=0; i < minIODimension; i++ )
     {
     streamableRegion.SetSize( i, this->m_Dimensions[i] );
     streamableRegion.SetIndex( i, 0 );
     }
 
   // Third: set the rest to the default : start = 0, size = 1
-  for( unsigned int j=maxDimensionToCopy; j<requested.GetImageDimension(); j++ )
+  for( unsigned int j=minIODimension; j<streamableRegion.GetImageDimension(); j++ )
     {
     streamableRegion.SetSize( j, 1 );
     streamableRegion.SetIndex( j, 0 );

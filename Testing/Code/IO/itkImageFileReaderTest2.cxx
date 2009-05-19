@@ -34,8 +34,10 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
+  typedef itk::Image<short, 2> Image2DType;
   typedef itk::Image<short, 3> Image3DType;
   typedef itk::Image<short, 4> Image4DType;
+  typedef itk::ImageFileReader<Image2DType> Reader2DType;
   typedef itk::ImageFileReader<Image3DType> Reader3DType;
   typedef itk::ImageFileReader<Image4DType> Reader4DType;
 
@@ -43,11 +45,11 @@ int itkImageFileReaderTest2(int argc, char* argv[])
   typedef itk::ImageFileWriter<Image4DType> Writer4DType;
 
 
-  std::string tempFile1 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_1." ) + std::string( argv[3] );
-  std::string tempFile2 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_2." ) + std::string( argv[3] );
-  std::string tempFile3 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_3." ) + std::string( argv[3] );
-  std::string tempFile4 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_4." ) + std::string( argv[3] );
-  std::string tempFile5 = std::string( argv[2] ) + std::string( "itkImageFileReaderTest2_5." ) + std::string( argv[3] );
+  std::string tempFile1 = std::string( argv[2] ) + std::string( "/itkImageFileReaderTest2_1." ) + std::string( argv[3] );
+  std::string tempFile2 = std::string( argv[2] ) + std::string( "/itkImageFileReaderTest2_2." ) + std::string( argv[3] );
+  std::string tempFile3 = std::string( argv[2] ) + std::string( "/itkImageFileReaderTest2_3." ) + std::string( argv[3] );
+  std::string tempFile4 = std::string( argv[2] ) + std::string( "/itkImageFileReaderTest2_4." ) + std::string( argv[3] );
+  std::string tempFile5 = std::string( argv[2] ) + std::string( "/itkImageFileReaderTest2_5." ) + std::string( argv[3] );
 
   // we expect the filename to be 2 or 3 dimensions
   // and reading it into a 4D
@@ -73,7 +75,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
   try
     {
     Reader3DType::Pointer reader = Reader3DType::New();
-    // we expect the filename to be 2 or 3 dimensions
+    // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
    
 
@@ -87,6 +89,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     std::cout << ex;
     return EXIT_FAILURE;
     }
+
 
   // stream read new 3D file into 4D
   std::cout << "testing requested stream reading from 3D image into 4D" << std::endl;
@@ -128,6 +131,25 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
+  // read the new 4D file into a 2D file
+  // this is expected to throw an exception on some readers and pass
+  // on others.
+  std::cout << "testing reading from 4D image into 2D" << std::endl;
+  try
+    {
+    Reader2DType::Pointer reader = Reader2DType::New();
+    // we expect the filename to be 4 dimensions
+    reader->SetFileName(tempFile1);
+    reader->DebugOn();
+    reader->UpdateLargestPossibleRegion();    
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    // this exception may occour
+    std::cout << "------------------ Caught possible expected exception!" << std::endl;
+    std::cout << ex;
+    }
+ 
   int status = 1;
   // read the 4D file into a 4D image, then try to stream it as a 3D
   // IORegion   
@@ -137,10 +159,12 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(tempFile4);
     reader->Update();
+    reader->DebugOn();
     
     Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     
-    // the dimension of this ioregion is an error
+    // the dimension of this ioregion is an error, since it is one
+    // less then the image file dimension
     itk::ImageIORegion ioregion(3);
     for (unsigned int i = 0; i < 3; ++i)
       {
@@ -157,8 +181,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     }
   catch (itk::ExceptionObject &ex)
     {    
-    // if the writer doesn't support pasting an exception will be
-    // thrown too
+    // this exception is expected since the ioregion should be invalid
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
     status = 0;
