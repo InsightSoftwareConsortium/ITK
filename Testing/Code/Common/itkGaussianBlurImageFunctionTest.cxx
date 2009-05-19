@@ -215,6 +215,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
  
   std::cout << "[PASSED] " << std::endl;
 
+  gaussianFunction->Print( std::cout );
   std::cout << "GaussianBlurImageFunctionTest: [DONE] " << std::endl;
   return EXIT_SUCCESS;
 }
