@@ -30,7 +30,7 @@
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
 
-int itkTriangleMeshToBinaryImageFilterTest2( int , char * [] )
+int itkTriangleMeshToBinaryImageFilterTest2( int argc, char * argv [] )
 { 
   
   // Declare the type of the input and output mesh
@@ -108,15 +108,17 @@ int itkTriangleMeshToBinaryImageFilterTest2( int , char * [] )
 
   //Update the filter
   imageFilter->Update();
-  // uncomment to save the binary image
-  /*
-  typedef itk::ImageFileWriter<ImageType > WriterType;
 
-  WriterType::Pointer ImageWriter = WriterType::New();
-  ImageWriter->SetInput(imageFilter->GetOutput() );
-  ImageWriter->SetFileName("mybinaryimage.mhd");
-  ImageWriter->Update();
-  */
+  if( argc > 1 )
+    {
+    typedef itk::ImageFileWriter<ImageType > WriterType;
+
+    WriterType::Pointer ImageWriter = WriterType::New();
+    ImageWriter->SetInput(imageFilter->GetOutput() );
+    ImageWriter->SetFileName( argv[1] );
+    ImageWriter->Update();
+    }
+
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 
