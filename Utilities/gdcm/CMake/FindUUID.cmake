@@ -12,8 +12,20 @@ FIND_PATH(UUID_INCLUDE_DIR uuid/uuid.h
 /usr/include
 )
 
+# On MacOSX we have:
+# $ nm -g /usr/lib/libSystem.dylib | grep uuid_generate
+# 000b3aeb T _uuid_generate
+# 0003e67e T _uuid_generate_random
+# 000b37a1 T _uuid_generate_time
+IF(APPLE)
+  SET(UUID_LIBRARY_VAR System)
+ELSE(APPLE)
+  # Linux type:
+  SET(UUID_LIBRARY_VAR uuid)
+ENDIF(APPLE)
+
 FIND_LIBRARY(UUID_LIBRARY
-  NAMES uuid
+  NAMES ${UUID_LIBRARY_VAR}
   PATHS /lib /usr/lib /usr/local/lib
   )
 
