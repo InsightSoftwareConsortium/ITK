@@ -44,16 +44,19 @@
 #endif
 
 // Figure out when the fast implementation can be used
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(__GCCXML__))
 # if !VXL_HAS_EMMINTRIN_H
 #   error "Required file emmintrin.h for SSE2 not found"
 # else
 #   include <emmintrin.h> // sse 2 intrinsics
+#   define USE_SSE2_IMPL 1
 # endif
+#else
+# define USE_SSE2_IMPL 0
 #endif
 // Turn on fast impl when using GCC with the following exception:
-//   PPC, PPC64
-#if defined(__GNUC__) && (!defined(__ppc__)) && (!defined(__ppc64__))
+//   GCCXML, PPC, PPC64
+#if defined(__GNUC__) && (!defined(__GCCXML__)) && (!defined(__ppc__)) && (!defined(__ppc64__))
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
@@ -180,7 +183,7 @@ template <class T> bool vnl_math_isfinite(T);
 // We assume that the rounding mode is not changed from the default
 // one (or at least that it is always restored to the default one).
 
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING // Fast sse2 implementation
+#if USE_SSE2_IMPL // Fast sse2 implementation
 
 inline int vnl_math_rnd_halfinttoeven(float  x)
 {
@@ -291,7 +294,7 @@ inline int vnl_math_rnd_halfinttoeven(double x)
 // We also assume that the rounding mode is not changed from the default
 // one (or at least that it is always restored to the default one).
 
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
+#if USE_SSE2_IMPL || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
 
 inline int vnl_math_rnd_halfintup(float  x) { return vnl_math_rnd_halfinttoeven(2*x+0.5f)>>1; }
 inline int vnl_math_rnd_halfintup(double  x) { return vnl_math_rnd_halfinttoeven(2*x+0.5)>>1; }
@@ -324,7 +327,7 @@ inline int vnl_math_rnd_halfintup(double x)
 // We assume that the rounding mode is not changed from the default
 // one (or at least that it is always restored to the default one).
 
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
+#if  USE_SSE2_IMPL || GCC_USE_FAST_IMPL || VC_USE_FAST_IMPL
 
 inline int vnl_math_rnd(float  x) { return vnl_math_rnd_halfinttoeven(x); }
 inline int vnl_math_rnd(double  x) { return vnl_math_rnd_halfinttoeven(x); }
@@ -346,7 +349,7 @@ inline int vnl_math_rnd(double x) { return x>=0.0?static_cast<int>(x+0.5):static
 // We also assume that the rounding mode is not changed from the default
 // one (or at least that it is always restored to the default one).
 
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING // Fast sse2 implementation
+#if  USE_SSE2_IMPL // Fast sse2 implementation
 
 inline int vnl_math_floor(float  x)
 {
@@ -431,7 +434,7 @@ inline int vnl_math_floor(double x)
 // We also assume that the rounding mode is not changed from the default
 // one (or at least that it is always restored to the default one).
 
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING // Fast sse2 implementation
+#if  USE_SSE2_IMPL // Fast sse2 implementation
 
 inline int vnl_math_ceil(float  x)
 {
