@@ -53,6 +53,7 @@ int itkVTKPolyDataReaderTest(int argc, char* argv[] )
     {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   std::cout << "polyDataReader:" << std::endl;
@@ -85,7 +86,6 @@ int itkVTKPolyDataReaderTest(int argc, char* argv[] )
   for(unsigned int i=0; i<numberOfPoints; i++)
     {
     mesh->GetPoint(i, &point);
-    //std::cout << "Point[" << i << "]: " << point << std::endl;
     }
 
   std::cout << "Test passed"<< std::endl;
