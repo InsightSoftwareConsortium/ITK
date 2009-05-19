@@ -251,8 +251,11 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     // clamped to be minimum for 1.
     for(unsigned int j = 0; j < ImageDimension; j++ )
       {
-      inputIndex[j] = (double) outputIndex[j] /
-        (double) m_ExpandFactors[j];
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+      inputIndex[j] = ( (double) outputIndex[j] + 0.5 ) / (double) m_ExpandFactors[j] - 0.5;
+#else
+      inputIndex[j] = (double) outputIndex[j] / (double) m_ExpandFactors[j];
+#endif
       }
     
     // interpolate value and write to output
@@ -389,10 +392,15 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType&  inputStartIndex
     = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::PointType&
+    inputOrigin = inputPtr->GetOrigin();
 
   typename OutputImageType::SpacingType outputSpacing;
   typename TOutputImage::SizeType     outputSize;
   typename TOutputImage::IndexType    outputStartIndex;
+  typename TOutputImage::PointType    outputOrigin;
+
+  typename TInputImage::SpacingType   inputOriginShift;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
@@ -403,9 +411,22 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     outputStartIndex[i] = (long)
       ((ExpandFactorsType)inputStartIndex[i] * m_ExpandFactors[i]+
        (ExpandFactorsType)0.5);
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+    const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
+    inputOriginShift[i] = - ( inputSpacing[i] / 2.0 ) * fraction;
+#endif
     }
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();
+  const typename TOutputImage::SpacingType outputOriginShift = inputDirection * inputOriginShift;
+
+  outputOrigin = inputOrigin + outputOriginShift;
+#else
+  outputOrigin = inputOrigin;
+#endif
 
   outputPtr->SetSpacing( outputSpacing );
+  outputPtr->SetOrigin( outputOrigin );
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
