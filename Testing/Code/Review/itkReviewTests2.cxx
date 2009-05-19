@@ -71,6 +71,7 @@ void RegisterTests()
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
   REGISTER_TEST(itkTriangleHelperTest);
+  REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkCrossHelperTest);
   REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
   REGISTER_TEST(itkPriorityQueueTest);

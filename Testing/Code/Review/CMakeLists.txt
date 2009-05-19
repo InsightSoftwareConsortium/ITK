@@ -190,6 +190,7 @@ SET(ReviewTest2_SRCS
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
   itkTriangleHelperTest.cxx
+  itkTriangleMeshToBinaryImageFilterTest3.cxx
   itkCrossHelperTest.cxx
   itkQuadEdgeMeshLinearParameterizationTest.cxx
   itkPriorityQueueTest.cxx
@@ -379,12 +380,16 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest1 ${REVIEW_TESTS2}
 ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${REVIEW_TESTS2}
   itkScalarChanAndVeseSparseLevelSetImageFilterTest1)
 ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+            ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
   itkScalarChanAndVeseSparseLevelSetImageFilterTest2
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
 )
 ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS2}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -392,6 +397,8 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS2}
   1 1 0 0 0 
 )
 ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS2}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -399,6 +406,8 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS2}
   1 1 1 1 50 
 )
 ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS2}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
   itkScalarChanAndVeseDenseLevelSetImageFilterTest2
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -414,6 +423,14 @@ ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
 ADD_TEST( itkTriangleHelperTest ${REVIEW_TESTS2}
   itkTriangleHelperTest)
+ADD_TEST( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS2}
+  itkTriangleMeshToBinaryImageFilterTest3
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${TEMP}/itkTriangleMeshToBinaryImageFilterTest3.mha
+  100 # image size X
+  100 # image size Y 
+  100 # image size Z
+  )
 ADD_TEST( itkCrossHelperTest ${REVIEW_TESTS2}
   itkCrossHelperTest)
 ADD_TEST( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
