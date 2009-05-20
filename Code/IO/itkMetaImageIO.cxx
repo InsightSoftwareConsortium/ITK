@@ -846,7 +846,6 @@ void MetaImageIO::ReadImageInformation()
 void MetaImageIO::Read(void* buffer)
 { 
   const unsigned int nDims = this->GetNumberOfDimensions();
-  const unsigned int ioDims = this->m_IORegion.GetImageDimension();
   
   // this will check to see if we are actually streaming
   // we initialize with the dimensions of the file, since if
