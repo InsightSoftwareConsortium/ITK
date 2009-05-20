@@ -25,6 +25,10 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
 
+  // NOTE: Please do not add more tests to this test driver. The Borland
+  // compiler sometimes has problems linking large executables. Add new
+  // tests to itkReviewTests3.cxx
+  //
   REGISTER_TEST(itkDirectFourierReconstructionImageToImageFilterTest);
   REGISTER_TEST(itkBSplineDeformableTransformInitializerTest1);
   REGISTER_TEST(itkBSplineDeformableTransformInitializerTest2);
@@ -71,7 +75,6 @@ void RegisterTests()
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
   REGISTER_TEST(itkTriangleHelperTest);
-  REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkCrossHelperTest);
   REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
   REGISTER_TEST(itkPriorityQueueTest);
@@ -97,4 +100,9 @@ void RegisterTests()
   REGISTER_TEST(itkScalarToRGBColormapImageFilterTest);
   REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
   REGISTER_TEST(itkSinRegularizedHeavisideStepFunctionTest1);
+
+  // NOTE: Please do not add more tests to this test driver. The Borland
+  // compiler sometimes has problems linking large executables. Add new
+  // tests to itkReviewTests3.cxx
+  //
 }

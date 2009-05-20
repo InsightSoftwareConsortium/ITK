@@ -190,7 +190,6 @@ SET(ReviewTest2_SRCS
   itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
   itkContourExtractor2DImageFilterTest.cxx
   itkTriangleHelperTest.cxx
-  itkTriangleMeshToBinaryImageFilterTest3.cxx
   itkCrossHelperTest.cxx
   itkQuadEdgeMeshLinearParameterizationTest.cxx
   itkPriorityQueueTest.cxx
@@ -221,6 +220,7 @@ SET(ReviewTest2_SRCS
 
 SET(ReviewTest3_SRCS
   itkGridImageSourceTest.cxx
+  itkTriangleMeshToBinaryImageFilterTest3.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -423,7 +423,7 @@ ADD_TEST( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshDeletePointAndReorderIDsTest)
 ADD_TEST( itkTriangleHelperTest ${REVIEW_TESTS2}
   itkTriangleHelperTest)
-ADD_TEST( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS2}
+ADD_TEST( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
   itkTriangleMeshToBinaryImageFilterTest3
   ${INPUTDATA}/genusZeroSurface01.vtk
   ${TEMP}/itkTriangleMeshToBinaryImageFilterTest3.mha
