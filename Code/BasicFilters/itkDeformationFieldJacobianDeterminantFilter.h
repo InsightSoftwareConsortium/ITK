@@ -136,6 +136,8 @@ protected:
   virtual ~DeformationFieldJacobianDeterminantFilter() {}
 
 private:
+  DeformationFieldJacobianDeterminantFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
 };
 
 } // end namespace itk

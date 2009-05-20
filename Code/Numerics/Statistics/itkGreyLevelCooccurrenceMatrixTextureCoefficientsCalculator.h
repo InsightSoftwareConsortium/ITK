@@ -150,6 +150,9 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
+  GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
   HistogramPointer m_Histogram;
   double m_Energy, m_Entropy, m_Correlation, m_InverseDifferenceMoment,
     m_Inertia, m_ClusterShade, m_ClusterProminence, m_HaralickCorrelation;

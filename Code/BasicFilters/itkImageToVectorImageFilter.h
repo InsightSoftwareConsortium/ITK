@@ -84,6 +84,10 @@ protected:
     {
     Superclass::SetNthInput(num, input);
     }
+private:
+  ImageToVectorImageFilter(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+   
 };
 }
 

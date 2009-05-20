@@ -172,6 +172,8 @@ protected:
   virtual void FillHistogram( RadiusType radius, RegionType region );
   
 private:
+  ScalarImageToGreyLevelCooccurrenceMatrixGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   void NormalizeHistogram( void );
   
   ImageConstPointer        m_Input;

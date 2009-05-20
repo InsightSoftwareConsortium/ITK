@@ -102,6 +102,8 @@ protected:
   void FillHistogram( RadiusType radius, RegionType region );
   
 private:
+  MaskedScalarImageToGreyLevelCooccurrenceMatrixGenerator(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
   ImageConstPointer m_ImageMask;
   PixelType         m_InsidePixelValue;
   
