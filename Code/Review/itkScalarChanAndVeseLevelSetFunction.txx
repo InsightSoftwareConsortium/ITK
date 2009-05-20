@@ -50,6 +50,10 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     {
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
     }
+  /* std::cout <<this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues
+    <<"  **  "
+    <<this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues
+    <<std::endl; */
 }
 
 template < class TInputImage, class TFeatureImage, class TSharedData >
@@ -142,17 +146,17 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
         if (*it == fId)
           {
-          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet += featureVal;
+          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet += featureVal * hVal;
           this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsInsideLevelSet += hVal;
           }
         }
       }
 
     // if the pixel belongs to the background
-    if ( inBgrnd )
+    //     if ( inBgrnd )
       {
-      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal;
-      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += hVal;
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal * ( 1. - hVal );
+      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += 1. - hVal;
       }
     }
 }

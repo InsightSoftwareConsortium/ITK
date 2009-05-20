@@ -92,6 +92,7 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest2( int argc, char * argv []
   levelSetFilter->SetNumberOfIterations( nb_iteration );
   levelSetFilter->SetMaximumRMSError( rms );
   levelSetFilter->SetUseImageSpacing( 0 );
+  levelSetFilter->SetInPlace( false );
 
   levelSetFilter->GetDifferenceFunction(0)->SetDomainFunction( domainFunction );
   levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( mu );

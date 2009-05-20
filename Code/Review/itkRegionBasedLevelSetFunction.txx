@@ -103,14 +103,12 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     {
     // Must update all H before updating C
     this->ComputeHImage();
-    return;
     }
   else
     {
     this->ComputeParameters();
+    this->UpdateSharedDataParameters();
     }
-
-  this->UpdateSharedDataParameters();
 }
 
 template < class TInput,
@@ -167,6 +165,7 @@ ComputeCurvatureTerm(
 {
   // Calculate the mean curvature
   ScalarValueType curvature_term = NumericTraits<ScalarValueType>::Zero;
+
   unsigned int i, j;
 
   for (i = 0; i < ImageDimension; i++)
@@ -269,12 +268,14 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     {
     //NOTE: Why the curvature_term is multiplied by gd->m_GradMagSqr?
     //NOTE: in ComputeCurvatureTerm the result has been divided by gd->m_GradMagSqr...
+    //NOTE: According to the definition of the mean curavture it must not be, so
+    // I commented this product
     curvature = this->ComputeCurvatureTerm( it, offset, gd );
     curvature_term =
       this->m_CurvatureWeight *
       this->CurvatureSpeed(it, offset) *
-      curvature *
-      gd->m_GradMagSqr * dh;
+      curvature * //gd->m_GradMagSqr *
+      dh;
 
     gd->m_MaxCurvatureChange =
       vnl_math_max( gd->m_MaxCurvatureChange, vnl_math_abs( curvature_term ) );

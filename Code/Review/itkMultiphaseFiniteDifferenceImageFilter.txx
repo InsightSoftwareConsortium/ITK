@@ -258,14 +258,17 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   TIdCell >
 ::Halt()
 {
+  float progress = 0.;
+
   if( this->m_NumberOfIterations != 0 )
     {
-    this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() )
-      / static_cast<float>( this->m_NumberOfIterations ) );
+    progress = static_cast<float>( this->GetElapsedIterations() )
+      / static_cast<float>( this->m_NumberOfIterations );
     }
+  this->UpdateProgress( progress );
 
   return ( (this->GetElapsedIterations() >= this->m_NumberOfIterations) ||
-      ( this->GetMaximumRMSError() > m_RMSChange ) );
+      ( this->GetMaximumRMSError() >= m_RMSChange ) );
 }
 
 

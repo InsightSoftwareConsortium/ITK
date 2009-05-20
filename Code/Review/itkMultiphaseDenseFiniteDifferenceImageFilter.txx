@@ -116,12 +116,11 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
   TOutputImage, TFunction, TIdCell >
 ::CalculateChange()
 {
-  TimeStepType timeStep = 9999;
+  TimeStepType timeStep = NumericTraits< TimeStepType >::max();
 
   for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     OutputImagePointer levelset = this->m_LevelSet[i];
-    TimeStepType dt;
 
     // Get the FiniteDifferenceFunction to use in calculations.
     const FiniteDifferenceFunctionPointer df = this->m_DifferenceFunctions[i];
@@ -165,7 +164,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
     // Ask the finite difference function to compute the time step for
     // this iteration.  We give it the global data pointer to use, then
     // ask it to free the global data memory.
-    dt = df->ComputeGlobalTimeStep ( globalData );
+    TimeStepType dt = df->ComputeGlobalTimeStep ( globalData );
     df->ReleaseGlobalDataPointer ( globalData );
 
     if ( dt < timeStep )

@@ -403,7 +403,7 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS2}
   ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
-  1 1 1 1 50 
+  1 1 1 1 200 
 )
 ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS2}
   --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
@@ -413,6 +413,13 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS2}
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
   0 0 1 0 0 
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${REVIEW_TESTS2}
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha
+  0 0 0 0 0 
 )
 
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}

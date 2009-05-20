@@ -41,7 +41,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
     return EXIT_FAILURE;
     }
 
-  unsigned int nb_iteration = 50;
+  unsigned int nb_iteration = 500;
   double rms = 0.;
   double epsilon = 1.;
   double curvature_weight = atof( argv[4] );
@@ -97,6 +97,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->SetNumberOfIterations( nb_iteration );
   levelSetFilter->SetMaximumRMSError( rms );
   levelSetFilter->SetUseImageSpacing( 0 );
+  levelSetFilter->SetInPlace( false );
 
   levelSetFilter->GetDifferenceFunction(0)->SetDomainFunction( domainFunction );
   levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( curvature_weight );

@@ -127,9 +127,6 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputP
     {
     this->m_DifferenceFunctions[i]->UpdateSharedData ( false );
     }
-
-  // Estimate the progress of the filter
-  this->SetProgress ( ( ( float ) this->m_ElapsedIterations / this->m_NumberOfIterations ) );
 }
 
 } /* end namespace itk */
