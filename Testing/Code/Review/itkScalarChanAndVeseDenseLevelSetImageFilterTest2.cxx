@@ -113,6 +113,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   WriterType::Pointer writer1 = WriterType::New();
 
   writer1->SetInput( levelSetFilter->GetOutput() );
+  writer1->UseCompressionOn();
 
   writer1->SetFileName( argv[3] );
 
