@@ -140,7 +140,6 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     Reader2DType::Pointer reader = Reader2DType::New();
     // we expect the filename to be 4 dimensions
     reader->SetFileName(tempFile1);
-    reader->DebugOn();
     reader->UpdateLargestPossibleRegion();    
     }
   catch (itk::ExceptionObject &ex)
@@ -158,8 +157,6 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     {
     Reader4DType::Pointer reader = Reader4DType::New();
     reader->SetFileName(tempFile4);
-    reader->Update();
-    reader->DebugOn();
     
     Image4DType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     
@@ -175,7 +172,8 @@ int itkImageFileReaderTest2(int argc, char* argv[])
 
     Writer4DType::Pointer writer = Writer4DType::New();
     writer->SetInput(reader->GetOutput());
-    writer->SetFileName(tempFile5);
+    writer->SetFileName(tempFile5); // this file name should not
+                                    // matter since it should never be written
     writer->SetIORegion(ioregion);
     writer->Update();
     }
