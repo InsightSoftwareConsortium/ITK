@@ -237,7 +237,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
 
     while( !u.IsAtEnd() )
       {
-      u.Value() = o.Value() + static_cast<OutputPixelType> ( u.Value() * dt );
+      u.Set( o.Value() + static_cast<OutputPixelType> ( dt ) * u.Get() );
       ++u;
       ++o;
       }
@@ -264,10 +264,13 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
       o.GoToBegin();
       it.GoToBegin();
 
+      OutputPixelType val;
+
       while( !o.IsAtEnd() )
         {
-        rms_change_accumulator += static_cast<double> ( vnl_math_sqr( o.Value() - it.Value() ) );
-        o.Value() = it.Value();
+        val = it.Value();
+        rms_change_accumulator += static_cast<double> ( vnl_math_sqr( o.Value() - val ) );
+        o.Set( val );
         ++o;
         ++it;
         }

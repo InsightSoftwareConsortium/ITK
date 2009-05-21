@@ -50,10 +50,6 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     {
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
     }
-  /* std::cout <<this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues
-    <<"  **  "
-    <<this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues
-    <<std::endl; */
 }
 
 template < class TInputImage, class TFeatureImage, class TSharedData >
@@ -120,44 +116,47 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
   InputIndexType itInputIndex, inputIndex;
-  InputPixelType hVal = 0.5;
+  InputPixelType hVal = 0.;
   ListPixelType L;
+
+  // Reference:
+  // Dufour, Shinin, Tajbakhsh, Guillen-Aghion, Olivo-Marin
+  // Segmenting and Tracking Fluorescent Cells in Dynamic 3-D
+  // Microscopy With Coupled Active Surfaces
+  // IEEE Transactions on Image Processing, vol. 14, No 9, September 2005
+  // In the paper:
+  // m_WeightedSumOfPixelValuesInsideLevelSet = \sum I(x) * H(\phi_i(x))
+  // m_WeightedNumberOfPixelsInsideLevelSet = \sum H(\phi_i(x))
+  // m_WeightedSumOfPixelValuesOutsideLevelSet = \sum \left( I(x) \prod \left( 1 - H(\phi_i(x))\right) \right)
+  // m_WeightedNumberOfPixelsInsideLevelSet = \sum \prod \left( 1 - H(\phi_i(x))\right)
 
   for( It.GoToBegin(), fIt.GoToBegin(); !It.IsAtEnd();
     ++It, ++fIt )
     {
     featureVal = fIt.Get();
     inputIndex = It.GetIndex();
+    InputPixelType prod = 1.;
 
     globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex( inputIndex );
 
     L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
 
-    bool inBgrnd = true; // assume the pixel is in background
+//     bool inBgrnd = true; // assume the pixel is in background
     for( ListPixelConstIterator it = L.begin(); it != L.end(); ++it )
       {
       itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
       hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
+      prod *= ( 1. - hVal );
 
-      if ( hVal > 0.5 )
+      if (*it == fId)
         {
-        // inside the level-set function
-        inBgrnd = false;
-
-        if (*it == fId)
-          {
-          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesInsideLevelSet += featureVal * hVal;
-          this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsInsideLevelSet += hVal;
-          }
+        this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_WeightedSumOfPixelValuesInsideLevelSet += featureVal * hVal;
+        this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_WeightedNumberOfPixelsInsideLevelSet += hVal;
         }
       }
 
-    // if the pixel belongs to the background
-    //     if ( inBgrnd )
-      {
-      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal * ( 1. - hVal );
-      this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += 1. - hVal;
-      }
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal * prod;
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += prod;
     }
 }
 

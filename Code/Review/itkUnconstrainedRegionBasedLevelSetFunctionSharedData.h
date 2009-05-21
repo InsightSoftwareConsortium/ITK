@@ -130,7 +130,7 @@ public:
       {
       L.push_back( i );
       }
-    this->m_NearestNeighborListImage.FillBuffer( L );
+    this->m_NearestNeighborListImage->FillBuffer( L );
     }
 
 protected:

@@ -271,10 +271,8 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     //NOTE: According to the definition of the mean curavture it must not be, so
     // I commented this product
     curvature = this->ComputeCurvatureTerm( it, offset, gd );
-    curvature_term =
-      this->m_CurvatureWeight *
+    curvature_term *= this->m_CurvatureWeight * //gd->m_GradMagSqr *
       this->CurvatureSpeed(it, offset) *
-      curvature * //gd->m_GradMagSqr *
       dh;
 
     gd->m_MaxCurvatureChange =
@@ -388,7 +386,8 @@ const InputIndexType& inputIndex )
 
   // This conditional statement computes the amount of overlap s
   // and the presence of background pr
-  if ( this->m_SharedData->m_FunctionCount > 1 )
+  if ( ( this->m_SharedData->m_FunctionCount > 1 ) &&
+     ( this->m_OverlapPenaltyWeight != NumericTraits<ScalarValueType>::Zero ) )
     {
     featIndex = this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->GetFeatureIndex( inputIndex );
     overlapTerm = this->m_OverlapPenaltyWeight *
