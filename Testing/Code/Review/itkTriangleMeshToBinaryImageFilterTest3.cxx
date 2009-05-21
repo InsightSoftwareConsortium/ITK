@@ -75,6 +75,22 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   imageFilter->SetSize( size );
   
+  ImageType::PointType origin;
+
+  origin[0] = atof( argv[6] );
+  origin[1] = atof( argv[7] );
+  origin[2] = atof( argv[8] );
+
+  imageFilter->SetOrigin( origin );
+
+  ImageType::SpacingType spacing;
+
+  spacing[0] = atof( argv[9] );
+  spacing[1] = atof( argv[10] );
+  spacing[2] = atof( argv[11] );
+
+  imageFilter->SetSpacing( spacing );
+
   std::cout << "[PASSED]" << std::endl; 
 
   // Testing PrintSelf
@@ -85,10 +101,11 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   typedef itk::ImageFileWriter<ImageType > WriterType;
 
-  WriterType::Pointer ImageWriter = WriterType::New();
-  ImageWriter->SetInput(imageFilter->GetOutput() );
-  ImageWriter->SetFileName( argv[2] );
-  ImageWriter->Update();
+  WriterType::Pointer imageWriter = WriterType::New();
+  imageWriter->SetInput(imageFilter->GetOutput() );
+  imageWriter->SetFileName( argv[2] );
+  imageWriter->UseCompressionOn();
+  imageWriter->Update();
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;

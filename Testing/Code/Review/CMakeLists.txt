@@ -434,9 +434,9 @@ ADD_TEST( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
   itkTriangleMeshToBinaryImageFilterTest3
   ${INPUTDATA}/genusZeroSurface01.vtk
   ${TEMP}/itkTriangleMeshToBinaryImageFilterTest3.mha
-  100 100 100 # image size X Y Z
-  0.0 0.0 0.0 # image origin X Y Z
-  1.0 1.0 1.0 # image spacing X Y Z
+    140   160   180   # image size X Y Z
+   -0.7  -0.8  -0.9   # image origin X Y Z
+   0.01  0.01  0.01   # image spacing X Y Z
   )
 ADD_TEST( itkCrossHelperTest ${REVIEW_TESTS2}
   itkCrossHelperTest)
