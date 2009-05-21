@@ -120,10 +120,18 @@ protected:
     {
     Superclass::PrintSelf(os, indent);
 
-    os << indent << "Minimum RGB Component Value: " << m_MinimumRGBComponentValue << std::endl;
-    os << indent << "Maximum RGB Component Value: " << m_MaximumRGBComponentValue << std::endl;
-    os << indent << "Minimum Input Value: " << m_MinimumInputValue << std::endl;
-    os << indent << "Maximum Input Value: " << m_MaximumInputValue << std::endl;
+    os << indent << "Minimum RGB Component Value: "
+       << static_cast<typename NumericTraits<RGBComponentType>::PrintType>(
+         this->GetMinimumRGBComponentValue()) << std::endl;
+    os << indent << "Maximum RGB Component Value: "
+       << static_cast<typename NumericTraits<RGBComponentType>::PrintType>(
+         this->GetMaximumRGBComponentValue()) << std::endl;
+    os << indent << "Minimum Input Value: "
+       << static_cast<typename NumericTraits<ScalarType>::PrintType>(
+         this->GetMinimumInputValue()) << std::endl;
+    os << indent << "Maximum Input Value: "
+       << static_cast<typename NumericTraits<ScalarType>::PrintType>(
+         this->GetMaximumInputValue()) << std::endl;
     }
 
 private:
