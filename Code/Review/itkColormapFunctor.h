@@ -83,10 +83,10 @@ public:
 protected:
   ColormapFunctor()
     {
-    this->SetMinimumInputValue( NumericTraits<TScalar>::min() );
-    this->SetMaximumInputValue( NumericTraits<TScalar>::max() );
-    this->SetMinimumRGBComponentValue( NumericTraits<RGBComponentType>::min() );
-    this->SetMaximumRGBComponentValue( NumericTraits<RGBComponentType>::max() );
+    this->m_MinimumInputValue = NumericTraits<TScalar>::min();
+    this->m_MaximumInputValue = NumericTraits<TScalar>::max();
+    this->m_MinimumRGBComponentValue = NumericTraits<RGBComponentType>::min();
+    this->m_MaximumRGBComponentValue = NumericTraits<RGBComponentType>::max();
     }
 
   ~ColormapFunctor() {};
