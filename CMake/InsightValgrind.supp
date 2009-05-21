@@ -183,6 +183,40 @@
   fun:Tcl_FindExecutable 
   fun:Tcl_Main 
 }
+
+{
+  CrazyTclError7
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_AttemptSetObjLength
+}
+
+{
+  CrazyTclError8
+  Memcheck:Leak
+  fun:malloc
+  fun:Tcl_Alloc
+  fun:TclCreateExecEnv
+  fun:Tcl_CreateInterp  
+}
+
+{
+  CrazyTclError9
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_SetObjLength
+}
+
+{
+  CrazyTclError10
+  Memcheck:Leak
+  fun:malloc
+  fun:Tcl_Alloc
+  fun:TclAllocateFreeObjects
+  fun:Tcl_NewObj 
+}
+
 {
    <insert a suppression name here>
    Memcheck:Leak
