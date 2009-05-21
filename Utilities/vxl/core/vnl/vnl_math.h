@@ -62,7 +62,7 @@
 # define GCC_USE_FAST_IMPL 0
 #endif
 // Turn on fast impl when using msvc on 32 bits windows
-#if defined(VCL_VC) && !defined(_WIN64)
+#if defined(VCL_VC) && (!defined(__GCCXML__)) && !defined(_WIN64)
 # define VC_USE_FAST_IMPL 1
 #else
 # define VC_USE_FAST_IMPL 0
