@@ -28,11 +28,14 @@
 int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 { 
 
-  if( argc != 6 )
+  if( argc != 12 )
     {
     std::cerr << "Usage: itkVTKPolyDataReaderTest ";
-    std::cerr << " inputFilename.vtk imageSizeX imageSizeY imageSizeZ ";
-    std::cerr << " outputImageMask" << std::endl;
+    std::cerr << " inputFilename.vtk outputImageMask";
+    std::cerr << " imageSizeX imageSizeY imageSizeZ ";
+    std::cerr << " imageOriginX imageOriginY imageOriginZ ";
+    std::cerr << " imageSpacingX imageSpacingY imageSpacingZ ";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
