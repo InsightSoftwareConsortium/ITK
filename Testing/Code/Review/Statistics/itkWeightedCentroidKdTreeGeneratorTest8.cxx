@@ -90,6 +90,7 @@ int itkWeightedCentroidKdTreeGeneratorTest8(int argc , char * argv [] )
   MeasurementVectorType result;
   MeasurementVectorType test_point;
   MeasurementVectorType min_point;
+  min_point.Fill(0.0);
 
   unsigned int numberOfFailedPoints = 0;
 
