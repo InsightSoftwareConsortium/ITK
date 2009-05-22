@@ -376,7 +376,9 @@ public:
       return (m_Id == it.m_Id);
       }
 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   protected:
+#endif
     // This method is purposely not implemented
     ConstIterator();
 
@@ -393,8 +395,8 @@ public:
 
   /** \class Histogram::Iterator */
   class Iterator : public ConstIterator
-    {
-    public:
+  {
+  public:
 
     Iterator(Self * histogram):ConstIterator( histogram )
       {
@@ -420,7 +422,9 @@ public:
       return histogram->SetFrequency( this->m_Id, value );
       }
 
-    protected:
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
+  protected:
+#endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();
@@ -429,7 +433,7 @@ public:
     Iterator(const ConstIterator & it);
     ConstIterator& operator=(const ConstIterator& it);
 
-    private:
+  private:
     }; // end of iterator class
 
 
