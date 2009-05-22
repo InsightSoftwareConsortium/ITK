@@ -62,7 +62,7 @@ public:
   /** Remove all measurement vectors */
   virtual void Clear()
     {
-    return m_Values.clear();
+    m_Values.clear();
     }
 
   /** Get the measurement associated with a particular
