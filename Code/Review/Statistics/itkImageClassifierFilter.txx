@@ -26,6 +26,7 @@ template< class TSample, class TInputImage, class TOutputImage >
 ImageClassifierFilter<TSample,TInputImage,TOutputImage>
 ::ImageClassifierFilter()
 {
+  this->m_NumberOfClasses = 0;
   this->SetNumberOfRequiredInputs( 3 );
   this->SetNumberOfRequiredOutputs( 1 );
 
