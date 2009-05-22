@@ -32,6 +32,8 @@ ImageClassifierFilter<TSample,TInputImage,TOutputImage>
 
   /** Initialize decision rule */
   m_DecisionRule = NULL;
+
+  m_NumberOfClasses = 0;
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
