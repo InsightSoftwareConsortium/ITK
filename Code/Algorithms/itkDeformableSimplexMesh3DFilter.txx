@@ -49,6 +49,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
   m_Damping = 0.65;
   m_Rigidity = 1;
  
+  m_ImageDepth = 0;
+  m_ImageHeight = 0;
+  m_ImageWidth = 0;
 
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
