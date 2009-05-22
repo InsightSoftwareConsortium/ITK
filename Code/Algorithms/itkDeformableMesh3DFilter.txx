@@ -41,6 +41,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_TimeStep = 0.01;
   m_PotentialMagnitude = NumericTraits<PixelType>::One;
   m_GradientMagnitude = NumericTraits<PixelType>::One;
+
+  m_ImageDepth = 0;
+  m_ImageHeight = 0;
+  m_ImageWidth = 0;
+
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
