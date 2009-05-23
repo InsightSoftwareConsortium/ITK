@@ -19,6 +19,7 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelObjectLineComparator.h"
+#include "vnl/vnl_math.h"
 #include <algorithm>
 
 namespace itk
@@ -294,7 +295,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
         {
         // we may expand the line
         long int newLength = idx[0] + length - currentIdx[0];
-        currentLength = std::max( newLength, currentLength );
+        currentLength = vnl_math_max( newLength, currentLength );
         }
       else
         {
