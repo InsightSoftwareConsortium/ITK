@@ -93,7 +93,11 @@
    #include <thread.h>
 #endif
 
-#if _WIN32
+#if defined(__CYGWIN__)
+#undef GDCM_SYSTEM_UUID_FOUND
+#endif
+
+#if defined(_WIN32)
 #define HAVE_UUIDCREATE
 #else
 #ifdef GDCM_SYSTEM_UUID_FOUND
