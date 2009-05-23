@@ -21,8 +21,8 @@
 #include "itkMeasurementVectorTraits.h"
 
 #define itkSetGetLengthVerificationMacro( measure, len1, len2 ) \
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( (measure), len1 ); \
-  if( ::itk::Statistics::MeasurementVectorTraits::GetLength( (measure) ) != len2 ) \
+  itk::Statistics::MeasurementVectorTraits::SetLength( (measure), len1 ); \
+  if( itk::Statistics::MeasurementVectorTraits::GetLength( (measure) ) != len2 ) \
     { \
     std::cerr << "Set/GetLength() failed in measure " << std::endl; \
     } 
@@ -30,7 +30,7 @@
 #define itkSetLengthExceptionMacro( measure, len ) \
   try \
     { \
-    ::itk::Statistics::MeasurementVectorTraits::SetLength( (measure), len ); \
+    itk::Statistics::MeasurementVectorTraits::SetLength( (measure), len ); \
     std::cerr << "Failed to get expected exception for SetLength() "; \
     std::cerr << std::endl; \
     return EXIT_FAILURE; \
@@ -42,7 +42,7 @@
 #define itkAssertLengthExceptionMacro( m1, m2 ) \
   try \
     { \
-    ::itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ); \
+    itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ); \
     std::cerr << "Failed to get expected exception for Assert() "; \
     std::cerr << std::endl; \
     return EXIT_FAILURE; \
@@ -53,8 +53,8 @@
 
 #define itkAssertLengthSameValueReturn( m1, m2 ) \
   if( \
-    ::itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ) != \
-    ::itk::Statistics::MeasurementVectorTraits::GetLength( (m1) ) ) \
+    itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ) != \
+    itk::Statistics::MeasurementVectorTraits::GetLength( (m1) ) ) \
     { \
     std::cerr << "Failed to get expected VLenght for Assert() "; \
     std::cerr << std::endl; \
@@ -62,7 +62,7 @@
     } 
 
 #define itkAssertSameLengthTest( m1, m2 ) \
-  if( ::itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ) != 0 ) \
+  if( itk::Statistics::MeasurementVectorTraits::Assert( (m1), (m2) ) != 0 ) \
     { \
     std::cerr << "Failed to recognize same length in Assert() "; \
     std::cerr << std::endl; \
@@ -81,7 +81,7 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   typedef itk::VariableLengthVector< float >  MeasurementVectorType3;
   typedef std::vector< float >                MeasurementVectorType4;
 
-  const unsigned int length2 = 19;
+  const unsigned int length2 = 9;
 
   typedef itk::FixedArray< float, length2 >   MeasurementVectorType1b;
   typedef itk::Array< float >                 MeasurementVectorType2b;
@@ -122,18 +122,22 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   MeasurementVectorType3b measure3b;
   MeasurementVectorType4b measure4b;
 
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure1b, length2 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure2b, length2 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure3b, length2 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure4b, length2 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure1b, length2 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure2b, length2 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure3b, length2 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure4b, length2 );
 
   // against each other 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertSameLengthTest( measure1b, measure1b );
+#endif
   itkAssertSameLengthTest( measure2b, measure2b );
   itkAssertSameLengthTest( measure3b, measure3b );
   itkAssertSameLengthTest( measure4b, measure4b );
 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertSameLengthTest( &measure1b, &measure1b );
+#endif
   itkAssertSameLengthTest( &measure2b, &measure2b );
   itkAssertSameLengthTest( &measure3b, &measure3b );
   itkAssertSameLengthTest( &measure4b, &measure4b );
@@ -144,18 +148,22 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   MeasurementVectorType3b measure3bb;
   MeasurementVectorType4b measure4bb;
 
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure1bb, length1 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure2bb, length1 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure3bb, length1 );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure4bb, length1 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure1bb, length1 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure2bb, length1 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure3bb, length1 );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure4bb, length1 );
 
   // against each other 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertLengthExceptionMacro( measure1b, measure1bb );
+#endif
   itkAssertLengthExceptionMacro( measure2b, measure2bb );
   itkAssertLengthExceptionMacro( measure3b, measure3bb );
   itkAssertLengthExceptionMacro( measure4b, measure4bb );
 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertLengthExceptionMacro( &measure1b, &measure1bb );
+#endif
   itkAssertLengthExceptionMacro( &measure2b, &measure2bb );
   itkAssertLengthExceptionMacro( &measure3b, &measure3bb );
   itkAssertLengthExceptionMacro( &measure4b, &measure4bb );
@@ -211,9 +219,9 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   itkAssertLengthSameValueReturn( &measure3b, zeroLength );
   itkAssertLengthSameValueReturn( &measure4b, zeroLength );
 
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure2b, zeroLength );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure3b, zeroLength );
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measure4b, zeroLength );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure2b, zeroLength );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure3b, zeroLength );
+  itk::Statistics::MeasurementVectorTraits::SetLength( measure4b, zeroLength );
 
   itkAssertLengthSameValueReturn( measure1b, measure2b );
   itkAssertLengthSameValueReturn( measure1b, measure3b );
