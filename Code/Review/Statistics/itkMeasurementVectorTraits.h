@@ -223,6 +223,7 @@ public:
     }
 
 
+#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   template< class TValueType1, unsigned int VLength, class TValueType2, unsigned int VLength2 >
   static MeasurementVectorLength Assert( const FixedArray< TValueType1, VLength > &, 
                       const FixedArray< TValueType2, VLength2 > & , const char *errMsg="Length Mismatch")
@@ -246,6 +247,7 @@ public:
       }
     return 0;
     }
+#endif
   template< class TValueType1, class TValueType2 >
   static MeasurementVectorLength Assert( const Array< TValueType1 > &a, 
                       const Array< TValueType2 > &b, const char *errMsg="Length Mismatch")

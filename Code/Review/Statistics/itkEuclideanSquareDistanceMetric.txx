@@ -51,10 +51,11 @@ inline double
 EuclideanSquareDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const
 {
-  MeasurementVectorTraits::Assert( x1, x2, 
-    "ManhattanDistanceMetric:: The two measurement vectors have unequal size");
-  
   MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength( x1 ); 
+  if (measurementVectorSize != MeasurementVectorTraits::GetLength(x2))
+    {
+    itkExceptionMacro( << "EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size" );
+    }
 
   double temp, distance = NumericTraits< double >::Zero;
   for(unsigned int i = 0; i < measurementVectorSize; i++)
