@@ -78,7 +78,10 @@ public:
   typedef typename std::deque< LineType >    LineContainerType;
   typedef unsigned int                       AttributeType;
 
-  static const AttributeType LABEL=0;
+  enum
+    {
+    LABEL = 0
+    };
 
   static AttributeType GetAttributeFromName( const std::string & s );
   static std::string GetNameFromAttribute( const AttributeType & a );
