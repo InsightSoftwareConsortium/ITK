@@ -284,7 +284,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     IndexType zero_zero( hist2->GetMeasurementVectorSize() );
     zero_zero[0] = 0;
-    zero_zero[0] = 0;
+    zero_zero[1] = 0;
 
     float zzF;
     zzF = hist2->GetFrequency(zero_zero);
