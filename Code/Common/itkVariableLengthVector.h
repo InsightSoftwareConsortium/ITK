@@ -27,7 +27,7 @@ namespace itk
  * length can be defined at run-time. 
  *
  * This class is templated over the data type. This data-type is meant
- * to a scalar, such as float, double etc...
+ * to be a scalar, such as float, double etc...
  *
  * \note
  * ITK itself provides several classes that can serve as \c Arrays.

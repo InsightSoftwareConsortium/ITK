@@ -41,14 +41,14 @@ namespace itk
  * particular kinds of events produced by a specific itk::Object. This 
  * mechanism decouples classes among them.
  *
- * As oppossed to itk::Exception, itk::EventObject does not represent error 
+ * As opposed to itk::Exception, itk::EventObject does not represent error 
  * states, but simply flow of information allowing to trigger actions 
- * as a consecuence of changes occurring in state on some itk::Objects.
+ * as a consequence of changes occurring in state on some itk::Objects.
  *
  * itk::EventObject carries information in its own type, it relies on the 
  * appropiate use of the RTTI (Run Time Type Information).
  *
- * A set of standard EventObjects is defined near the end of itkIndent.h.
+ * A set of standard EventObjects is defined near the end of itkEventObject.h.
  *
  * \sa itk::Command
  * \sa itk::ExceptionObject
