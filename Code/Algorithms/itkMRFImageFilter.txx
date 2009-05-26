@@ -456,9 +456,15 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[ i ]);
     }
 
+#ifdef ITK_USE_PORTABLE_ROUND
   int maxNumPixelError = 
     static_cast<int>( Math::Round( m_ErrorTolerance * 
                       m_TotalNumberOfValidPixelsInOutputImage) );
+#else
+  int maxNumPixelError = 
+    static_cast<int> ( vnl_math_rnd (m_ErrorTolerance * 
+                       m_TotalNumberOfValidPixelsInOutputImage) );
+#endif
 
   m_NumberOfIterations = 0;
   do

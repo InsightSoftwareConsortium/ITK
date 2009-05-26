@@ -978,8 +978,8 @@ inline int RoundHalfIntegerUp(float   x) { return vnl_math_rnd_halfintup(x); }
 inline int RoundHalfIntegerUp(double  x) { return vnl_math_rnd_halfintup(x); }
 inline int RoundHalfIntegerToEven(float   x) { return vnl_math_rnd_halfinttoeven(x); }
 inline int RoundHalfIntegerToEven(double  x) { return vnl_math_rnd_halfinttoeven(x); }
-inline int Round(float   x) { return RoundHalfIntegerToEven(x); }
-inline int Round(double  x) { return RoundHalfIntegerToEven(x); }
+inline int Round(float   x) { return RoundHalfIntegerUp(x); }
+inline int Round(double  x) { return RoundHalfIntegerUp(x); }
 } // end namespace Math
 } // end namespace itk
 

@@ -285,14 +285,26 @@ MinMaxCurvatureFlowFunction<TImage>
 
 
   // Compute first perpendicular point
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( (double)(m_StencilRadius - gradient[1]) );
   position[1] = Math::Round( (double)(m_StencilRadius + gradient[0]) );
+#else
+  position[0] = vnl_math_rnd( (double)(m_StencilRadius - gradient[1]) );
+  position[1] = vnl_math_rnd( (double)(m_StencilRadius + gradient[0]) );
+#endif
+
   
   threshold = it.GetPixel( position[0] + stride * position[1] );
 
   // Compute second perpendicular point 
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( (double)(m_StencilRadius + gradient[1]) );
   position[1] = Math::Round( (double)(m_StencilRadius - gradient[0]) );
+#else
+  position[0] = vnl_math_rnd( (double)(m_StencilRadius + gradient[1]) );
+  position[1] = vnl_math_rnd( (double)(m_StencilRadius - gradient[0]) );
+#endif
+
 
   threshold += it.GetPixel( position[0] + stride * position[1] );
   threshold *= 0.5;
@@ -391,32 +403,54 @@ MinMaxCurvatureFlowFunction<TImage>
   double rCosPhi         = m_StencilRadius * cosPhi;
 
   // Point 1: angle = 0;
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( m_StencilRadius + rCosThetaCosPhi );
   position[1] = Math::Round( m_StencilRadius + rCosThetaSinPhi );
   position[2] = Math::Round( m_StencilRadius - rSinTheta );
+#else
+  position[0] = vnl_math_rnd( m_StencilRadius + rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius - rSinTheta );
+#endif
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 2: angle = 90;
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( m_StencilRadius - rSinPhi );
   position[1] = Math::Round( m_StencilRadius + rCosPhi );
+#else
+  position[0] = vnl_math_rnd( m_StencilRadius - rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius + rCosPhi );
+#endif
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 3: angle = 180;
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( m_StencilRadius - rCosThetaCosPhi );
   position[1] = Math::Round( m_StencilRadius - rCosThetaSinPhi );
   position[2] = Math::Round( m_StencilRadius + rSinTheta );
+#else
+  position[0] = vnl_math_rnd( m_StencilRadius - rCosThetaCosPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosThetaSinPhi );
+  position[2] = vnl_math_rnd( m_StencilRadius + rSinTheta );
+#endif
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 4: angle = 270;
+#ifdef ITK_USE_PORTABLE_ROUND
   position[0] = Math::Round( m_StencilRadius + rSinPhi );
   position[1] = Math::Round( m_StencilRadius - rCosPhi );
+#else
+  position[0] = vnl_math_rnd( m_StencilRadius + rSinPhi );
+  position[1] = vnl_math_rnd( m_StencilRadius - rCosPhi );
+#endif
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 

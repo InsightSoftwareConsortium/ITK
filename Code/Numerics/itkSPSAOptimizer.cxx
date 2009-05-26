@@ -349,7 +349,11 @@ void SPSAOptimizer
   for ( unsigned int j = 0; j < spaceDimension; j++ )
     {
     /** Generate randomly -1 or 1. */
+#ifdef ITK_USE_PORTABLE_ROUND
     m_Delta[ j ] = 2 * Math::Round( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
+#else
+    m_Delta[ j ] = 2 * vnl_math_rnd ( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
+#endif
 
     /**
      * Take scales into account. The perturbation of a parameter that has a
