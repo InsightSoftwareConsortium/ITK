@@ -24,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 int itkListSampleTest(int argc, char *argv[] ) 
 {
-  std::cout << "ListSample Test \n \n"; 
+  std::cerr << "ListSample Test \n \n"; 
   if( argc< 2 ) 
     {
     std::cerr << "itkListSampleTest LengthOfMeasurementVector" << std::endl;
@@ -45,8 +45,8 @@ int itkListSampleTest(int argc, char *argv[] )
 
   MeasurementVectorType mv( measurementVectorSize );
 
-  std::cout << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
-  std::cout << "Vector length = " << itk::Statistics::MeasurementVectorTraits::GetLength( mv ) << std::endl;
+  std::cerr << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
+  std::cerr << "Vector length = " << itk::Statistics::MeasurementVectorTraits::GetLength( mv ) << std::endl;
 
   for ( unsigned int i = 0; i < sampleSize; i++ )
     {
@@ -84,48 +84,77 @@ int itkListSampleTest(int argc, char *argv[] )
   // general interface
   //
   std::cerr << "General interface..." << std::endl;
+  std::cerr << "Trying Size()...";
   if ( sampleSize != sample->Size() )
     {
-    std::cerr << "Size() failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }
-
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
+  std::cerr << "Trying GetMeasurementVectorSize()...";
   if (sample->GetMeasurementVectorSize() != measurementVectorSize)
     {
     std::cerr << "GetMeasurementVectorSize() failed" << std::endl;
     return EXIT_FAILURE;
     }
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
 
   // get and set measurements
+  std::cerr << "Trying GetMeasurementVector(4)..." << std::endl;
   mv = sample->GetMeasurementVector(4);
   if ( mv != sample->GetMeasurementVector(4) )
     {
-    std::cerr << "GetMeasurementVector failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
 
+  std::cerr << "Trying SetMeasurementVector(4,mv)...";
   float tmp = mv[0];
   mv[0] += 1.0;
   sample->SetMeasurementVector(4,mv);
   if (mv != sample->GetMeasurementVector(4))
     {
-    std::cerr << "SetMeasurementVector failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }  
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
 
+  std::cerr << "Trying SetMeasurement(4,0,tmp)...";
   mv[0] = tmp;
   sample->SetMeasurement(4,0,tmp);
   if (mv != sample->GetMeasurementVector(4))
     {
-    std::cerr << "SetMeasurement failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }  
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
   
   // frequency
+  std::cerr << "Trying GetTotalFrequency...";
   if (sample->GetTotalFrequency() != sampleSize)
     {
-    std::cerr << "GetTotalFrequency failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
     }
 
   //
@@ -134,6 +163,7 @@ int itkListSampleTest(int argc, char *argv[] )
   std::cerr << "Iterators..." << std::endl;
     {
     // forward iterator
+    std::cerr << "Trying Iterator::Copy Constructor...";
     typedef SampleType::Iterator IteratorType;
     
     IteratorType s_iter = sample->Begin();
@@ -142,60 +172,93 @@ int itkListSampleTest(int argc, char *argv[] )
     IteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
       {
-      std::cerr << "Iterator::Copy Constructor failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
     
     // assignment operator 
+    std::cerr << "Trying Iterator::assignment operator...";
     IteratorType assignment_iter( bs_iter );
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
       {
-      std::cerr << "Iterator::assignment operator failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     SampleType::InstanceIdentifier id = 0;
     while (s_iter != sample->End())
       {
+      std::cerr << "Trying Iterator::GetMeasurementVector (forward)...";
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" 
-                  << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
         }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
+        }
+      std::cerr << "Trying Iterator::GetInstanceIdentifier (forward)...";
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" 
-                  << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
         }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
+        }
+      std::cerr << "Trying Iterator::GetFrequency (forward)...";
       if (s_iter.GetFrequency() != 1)
         {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
         }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
+        }
+      std::cerr << "Trying GetFrequency (forward)...";
       if (sample->GetFrequency(id) != 1)
         {
-        std::cerr << "GetFrequency (forward) failed" << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
+        }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
         }
       ++id;
       ++s_iter;
       }
     
+    std::cerr << "Trying Iterator::End (forward)...";
     if (s_iter != sample->End())
       {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
-    
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
+
     }
 
   // ConstIterator test
   std::cerr << "Const Iterators..." << std::endl;
     {
+    std::cerr << "Trying Iterator::Copy Constructor (from const)...";
     // forward iterator
     typedef SampleType::ConstIterator  ConstIteratorType;
     
@@ -205,67 +268,102 @@ int itkListSampleTest(int argc, char *argv[] )
     ConstIteratorType bs_iter(s_iter);
     if (bs_iter != s_iter)
       {
-      std::cerr << "Iterator::Copy Constructor (from const) failed" 
-                << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     // assignment operator
+    std::cerr << "Trying Const Iterator::operator= ()...";
     ConstIteratorType assignment_iter( bs_iter );
     assignment_iter = s_iter;
     if (assignment_iter != s_iter)
       {
-      std::cerr << "Const Iterator::operator= () failed" 
-                << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     // copy from non-const iterator
+    std::cerr << "Trying Iterator::Copy Constructor (from non-const)...";
     SampleType::Iterator nonconst_iter = sample->Begin();
     SampleType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
       {
-      std::cerr << "Iterator::Copy Constructor (from non-const) failed" 
-                << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
     // assignment from non-const iterator
+    std::cerr << "Trying Iterator::assignment (from non-const)...";
     s2_iter = nonconst_iter;
     if (s2_iter != s_iter)
       {
-      std::cerr << "Iterator::assignment (from non-const) failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
-    
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
+
     SampleType::InstanceIdentifier id = 0;
     while (s_iter != sample->End())
       {
+      std::cerr << "Trying Iterator::GetMeasurementVector (forward)...";
       if (sample->GetMeasurementVector(id) != 
           s_iter.GetMeasurementVector())
         {
-        std::cerr << "Iterator::GetMeasurementVector (forward) failed" 
-                  << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
         }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
+        }
+
+      std::cerr << "Trying Iterator::GetInstanceIdentifier (forward)..."; 
       if (id != s_iter.GetInstanceIdentifier())
         {
-        std::cerr << "Iterator::GetInstanceIdentifier (forward) failed" 
-                  << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
         }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
+        }
+      std::cerr << "Trying Iterator::GetFrequency (forward)...";
       if (s_iter.GetFrequency() != 1)
         {
-        std::cerr << "Iterator::GetFrequency (forward) failed" << std::endl;
+        std::cerr << "FAILED" << std::endl;
         return EXIT_FAILURE;
+        }
+      else
+        {
+        std::cerr << "PASSED" << std::endl;
         }
       ++id;
       ++s_iter;
       }
     
+    std::cerr << "Trying Iterator::End (forward)...";
     if (s_iter != sample->End())
       {
-      std::cerr << "Iterator::End (forward) failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
     
     }
@@ -273,21 +371,30 @@ int itkListSampleTest(int argc, char *argv[] )
 
   //
   // resizing
-  //
+    std::cerr << "Trying Clear()...";
   sample->Clear();
   if (sample->Size() != 0)
     {
-    std::cerr << "Clear() failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
 
+  std::cerr << "Trying Resize()...";
   sample->Resize(sampleSize);
   if (sample->Size() != sampleSize)
     {
-    std::cerr << "Resize() failed" << std::endl;
+    std::cerr << "FAILED" << std::endl;
     return EXIT_FAILURE;
     }
-  
+  else
+    {
+    std::cerr << "PASSED" << std::endl;
+    }
+
 
   // Test a VariableSizeVector
   typedef itk::VariableLengthVector< float >  
@@ -326,9 +433,9 @@ int itkListSampleTest(int argc, char *argv[] )
     std::cerr << "Failed to throw expected exception in SetMeasurementVectorSize() " << std::endl;
     return EXIT_FAILURE;
     }
-  catch( itk::ExceptionObject & )
+  catch( itk::ExceptionObject &excp )
     {
-    std::cout << "Caught expected exception" << std::endl;
+    std::cerr << "Caught expected exception: " << excp << std::endl;
     }
 
 
@@ -357,11 +464,11 @@ int itkListSampleTest(int argc, char *argv[] )
     {
     MeasurementVectorType measurement =
       sample->GetMeasurementVector( largestId + 10 );
-    std::cout << measurement << std::endl;
+    std::cerr << measurement << std::endl;
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cout << excp << std::endl;
+    std::cerr << "Caught expected exception: " << excp << std::endl;
     exceptionWorks = true;
     }
   
@@ -403,20 +510,31 @@ int itkListSampleTest(int argc, char *argv[] )
     IteratorType iter = sample->Begin();
     IteratorType iter2 = sample->Begin();
 
+    std::cerr << "Trying Iterator operator=()...";
     iter2 = iter;
     if( iter2 != iter )
       {
-      std::cerr << "Iterator operator=() failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Iterator constructor from sample...";
     IteratorType iter3 = sample->Begin();
     if( iter3 != sample->Begin() )
       {
-      std::cerr << "Iterator constructor from sample failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Iterator walk...";
     unsigned int counter = 0;
     while( iter3 != sample->End() )
       {
@@ -426,24 +544,41 @@ int itkListSampleTest(int argc, char *argv[] )
 
     if( counter != sample->Size() )
       {
-      std::cerr << "Iterator walk failed" << std::endl;
+      std::cerr << "FAILED. counter: " << counter
+                << " != sample->Size(): " << sample->Size()
+                << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Iterator copy constructor...";
     IteratorType iter4( iter2 ); 
     if( iter4 != iter2 )
       {
-      std::cerr << "Iterator copy constructor failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Iterator operator=...";
     IteratorType iter5 = iter2; 
     if( iter5 != iter2 )
       {
-      std::cerr << "Iterator operator= failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Iterator Constructor with instance identifier 7...";
     IteratorType iter6( sample );
     for(unsigned int kk=0; kk<7; kk++ )
       {
@@ -452,14 +587,19 @@ int itkListSampleTest(int argc, char *argv[] )
 
     if( iter6.GetInstanceIdentifier() != 7 )
       {
-      std::cerr << "Iterator Constructor with instance identifier 7 failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     }
 
   // Testing methods specific to ConstIterators
     {
+    std::cerr << "Trying ConstIterator operator!=() and operator=()...";
     typedef SampleType::ConstIterator ConstIteratorType;
     ConstIteratorType iter = sample->Begin();
     ConstIteratorType iter2 = sample->End();
@@ -468,56 +608,82 @@ int itkListSampleTest(int argc, char *argv[] )
 
     if( iter2 != iter )
       {
-      std::cerr << "ConstIterator operator!=() or operator=() failed" << std::endl;
+      std::cerr << "ConstIterator operator!=() or operator=() FAILED" << std::endl;
       return EXIT_FAILURE;
       }
 
     if( !( iter2 == iter ) )
       {
-      std::cerr << "ConstIterator operator==() failed" << std::endl;
+      std::cerr << "ConstIterator operator==() FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying ConstIterator copy constructor...";
     ConstIteratorType iter3( iter2 ); 
     if( iter3 != iter2 )
       {
-      std::cerr << "ConstIterator copy constructor failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Constructor from const container Begin() differs from non-const Begin()...";
     const SampleType * constSample = sample.GetPointer();
 
     ConstIteratorType iter4( constSample->Begin() ); 
     ConstIteratorType iter5( sample->Begin() );
     if( iter4 != iter5 )
       {
-      std::cerr << "Constructor from const container Begin() differs from non-const Begin() " << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying ConstIterator Constructor from const container differs from non-const container...";
     ConstIteratorType iter6( constSample ); 
     ConstIteratorType iter7( sample );
     if( iter6 != iter7 )
       {
-      std::cerr << "ConstIterator Constructor from const container differs from non-const container" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
       }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
+      }
 
+    std::cerr << "Trying Constructor with instance identifier 0...";
     ConstIteratorType iter8( sample );
     if( iter8.GetInstanceIdentifier() != 0 )
       {
-      std::cerr << "Constructor with instance identifier 0 failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     
     ConstIteratorType iter9( sample );
+    std::cerr << "Trying Instance identifier = "
+              << iter9.GetInstanceIdentifier()
+              << "...";
     for(unsigned int kk=0; kk<7; kk++ )
       {
       ++iter9;
       }
     
-    std::cout << "Instance identifier = " << iter9.GetInstanceIdentifier() << std::endl;
     MeasurementVectorType vector9a = iter9.GetMeasurementVector();
     MeasurementVectorType vector9b = sample->GetMeasurementVector( 7 );
     for( unsigned int kitr =0; kitr < measurementVectorSize; kitr++ )
@@ -530,16 +696,23 @@ int itkListSampleTest(int argc, char *argv[] )
         return EXIT_FAILURE;
         }
       }
-
+    std::cerr << "PASSED" << std::endl;
+    
+    std::cerr << "Trying ConstIterator constructor from sample...";
     unsigned int counter = 0;
     ConstIteratorType iter10( constSample );
     if( iter10 != constSample->Begin() )
       {
-      std::cerr << "ConstIterator constructor from sample failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
 
+    std::cerr << "Trying Iterator walk...";
     while( iter10 != constSample->End() )
       {
       ++iter10;
@@ -548,12 +721,16 @@ int itkListSampleTest(int argc, char *argv[] )
 
     if( counter != constSample->Size() )
       {
-      std::cerr << "Iterator walk failed" << std::endl;
+      std::cerr << "FAILED" << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cerr << "PASSED" << std::endl;
       }
 
     }
   
-  std::cout << "Test passed." << std::endl;
+  std::cerr << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
