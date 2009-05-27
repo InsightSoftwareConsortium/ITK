@@ -56,7 +56,7 @@ int itkMathRoundProfileTest1( int, char *[] )
   ArrayType output3;
   ArrayType output4;
 
-  const unsigned long numberOfValues = 1000000L;
+  const unsigned long numberOfValues = 1000L;
 
   const double initialValue = -10.0;
 
@@ -252,9 +252,17 @@ int itkMathRoundProfileTest1( int, char *[] )
     {
     std::cout << "******* On this platform, itk::Math::Round() neither rounds up nor rounds to even consistently ********" << std::endl;
     }
+
+#ifndef ITK_USE_PORTABLE_ROUND
+  // If the ITK_USE_PORTABLE_ROUND is OFF, it is 
+  // expected that the Round will not be portable
+  // so we are tolerant in the comparison.
+#else
   if (roundMismatch)
     {
     return EXIT_FAILURE;
     }
+#endif
+
   return EXIT_SUCCESS;
 }
