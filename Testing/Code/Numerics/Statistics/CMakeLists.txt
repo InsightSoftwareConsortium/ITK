@@ -94,12 +94,21 @@ ADD_TEST(itkSampleClassifierTest ${STATISTICS_TESTS}
 ADD_TEST(itkSampleClassifierWithMaskTest ${STATISTICS_TESTS} 
          itkSampleClassifierWithMaskTest ${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat)
 ADD_TEST(itkSampleMeanShiftClusteringFilterTest ${STATISTICS_TESTS}                itkSampleMeanShiftClusteringFilterTest ${ITK_DATA_ROOT}/Input/sf4.png)
+IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
+ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}
+  --compare ${BASELINE}/itkSampleSelectiveMeanShiftBlurringFilterTestPixelCentered.png
+            ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTestPixelCentered.png
+            itkSampleSelectiveMeanShiftBlurringFilterTest
+            ${ITK_DATA_ROOT}/Input/sf4.png
+            ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTestPixelCentered.png)
+ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST(itkSampleSelectiveMeanShiftBlurringFilterTest ${STATISTICS_TESTS}
   --compare ${BASELINE}/itkSampleSelectiveMeanShiftBlurringFilterTest.png
             ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTest.png
             itkSampleSelectiveMeanShiftBlurringFilterTest
             ${ITK_DATA_ROOT}/Input/sf4.png
             ${TEMP}/itkSampleSelectiveMeanShiftBlurringFilterTest.png)
+ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST(itkScalarImageTextureCalculatorTest ${STATISTICS_TESTS} itkScalarImageTextureCalculatorTest)
 ADD_TEST(itkScalarImageToHistogramGeneratorTest ${STATISTICS_TESTS} itkScalarImageToHistogramGeneratorTest)
 ADD_TEST(itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest ${STATISTICS_TESTS} itkScalarImageToGreyLevelCooccurrenceMatrixGeneratorTest)
