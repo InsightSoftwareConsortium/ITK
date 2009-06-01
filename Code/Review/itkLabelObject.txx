@@ -215,7 +215,7 @@ LabelObject<TLabel, VImageDimension>::GetIndex( int offset ) const
     it++ )
     {
     int size = it->GetLength();
-    if( o > size)
+    if( o >= size)
       {
       o -= size;
       }

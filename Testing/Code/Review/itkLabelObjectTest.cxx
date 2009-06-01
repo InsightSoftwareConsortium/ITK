@@ -35,6 +35,8 @@ int itkLabelObjectTest(int argc, char * argv[])
   typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
   typedef LabelObjectType::IndexType             IndexType;
   
+  // testing AddLine(), GetNumberOfLines(), GetLineContainer() const and Optimize()
+  
   LabelObjectType::Pointer lo = LabelObjectType::New();
   
   IndexType idx;
@@ -69,7 +71,8 @@ int itkLabelObjectTest(int argc, char * argv[])
   idx[0] = 10;
   idx[1] = 1;
   idx[2] = 1;
-  lo->AddLine( idx, 1 );
+  // add this line with an itk::LabelLineObject to test the AddLine(LabelObjectLine) method
+  lo->AddLine( LabelObjectType::LineType(idx, 1) );
   
   lo->Optimize();
   
@@ -129,6 +132,71 @@ int itkLabelObjectTest(int argc, char * argv[])
     it1++;
     it2++;
     }
+    
+
+  // testing AddIndex(), GetIndex() and HasIndex()
+  
+  lo = LabelObjectType::New();
+  std::vector< IndexType > idxs;
+  
+  // one isolated pixel
+  idx[0] = 0;
+  idx[1] = 0;
+  idx[2] = 0;
+  lo->AddIndex( idx );
+  idxs.push_back( idx );
+
+  // and two consecutive ones
+  idx[0] = 1;
+  idx[1] = 2;
+  idx[2] = 3;
+  lo->AddIndex( idx );
+  idxs.push_back( idx );
+
+  idx[0] = 2;
+  idx[1] = 2;
+  idx[2] = 3;
+  lo->AddIndex( idx );
+  idxs.push_back( idx );
+  
+  // should produce 2 lines
+  if( lo->GetNumberOfLines() != 2 )
+    {
+    std::cerr << "number of lines should be 2!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  // should produce 3 pixels
+  if( lo->Size() != 3 )
+    {
+    std::cerr << "size should be 3!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  for( int i=0; i<lo->Size(); i++ )
+    {
+    if( lo->GetIndex( i ) != idxs[i] )
+      {
+      std::cerr << "Wrong index returned by GetIndex(" << i << "): " << lo->GetIndex( i ) << ". " << idxs[i] << " was expected." << std::endl;
+      return EXIT_FAILURE;
+      }
+    if( !lo->HasIndex( idxs[i] ) )
+      {
+      std::cerr << "label object should have the index " << idxs[i] << "!" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  
+  // test with an index not there
+  idx[0] = 10;
+  idx[1] = 10;
+  idx[2] = 10;
+  if( lo->HasIndex( idx ) )
+    {
+    std::cerr << "label object shouldn't have the index " << idx << "!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
   return EXIT_SUCCESS;
 }
