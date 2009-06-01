@@ -160,8 +160,12 @@ public:
         {
         return false;
         }
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+      if( index[j] >= m_EndContinuousIndex[j] )
+#else
       if( index[j] > m_EndContinuousIndex[j] )
-        {
+#endif
+      {
         return false;
         }
       }
