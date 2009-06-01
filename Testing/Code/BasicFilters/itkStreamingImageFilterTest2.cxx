@@ -137,6 +137,15 @@ int itkStreamingImageFilterTest2(int, char* [] )
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+    short col = itk::Math::RoundHalfIntegerUp( static_cast<float> (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+                                                                   (shrink->GetShrinkFactors()[0] /*- 1*/) / 2.0 ) );
+    col += colOffset;
+
+    short row =  itk::Math::RoundHalfIntegerUp( static_cast<float> (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+                                                                    (shrink->GetShrinkFactors()[1] /*- 1*/) / 2.0 ) );
+    row += rowOffset;
+#else    
     short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                  (shrink->GetShrinkFactors()[0] - 1) / 2);
     col += colOffset;
@@ -144,6 +153,7 @@ int itkStreamingImageFilterTest2(int, char* [] )
     short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
                  (shrink->GetShrinkFactors()[1] - 1) / 2);
     row += rowOffset;
+#endif
     short trueValue = col + region.GetSize()[0] * row;
 
     if ( iterator2.Get() != trueValue )
