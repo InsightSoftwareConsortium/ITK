@@ -464,7 +464,7 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
             ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
   ResampleImageFilter3Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter3Test1Extrapolation.png
+        ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
         0
 )
 ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
