@@ -228,33 +228,39 @@ VTKPolyDataReader<TOutputMesh>
     outputMesh->SetCell( i, cell );
     }
 
+  bool foundPointData = false;
+
   while( !inputFile.eof() )
     {
     std::getline( inputFile, line );
 
     if( line.find("POINT_DATA") != std::string::npos )
       {
+      foundPointData = true;
       break;
       }
     }
 
-  typedef typename OutputMeshType::PointDataContainer PointDataContainer;
-
-  outputMesh->SetPointData( PointDataContainer::New() );
-  outputMesh->GetPointData()->Reserve( numberOfPoints );
-
-  itkDebugMacro("POINT_DATA line" << line );
-
-  // Skip two lines
-  std::getline( inputFile, line );
-  std::getline( inputFile, line );
-
-  double pointData;
-
-  for( int pid=0; pid < numberOfPoints; pid++ )
+  if( foundPointData )
     {
-    inputFile >> pointData;
-    outputMesh->SetPointData( pid, pointData );
+    typedef typename OutputMeshType::PointDataContainer PointDataContainer;
+
+    outputMesh->SetPointData( PointDataContainer::New() );
+    outputMesh->GetPointData()->Reserve( numberOfPoints );
+
+    itkDebugMacro("POINT_DATA line" << line );
+
+    // Skip two lines
+    std::getline( inputFile, line );
+    std::getline( inputFile, line );
+
+    double pointData;
+
+    for( int pid=0; pid < numberOfPoints; pid++ )
+      {
+      inputFile >> pointData;
+      outputMesh->SetPointData( pid, pointData );
+      }
     }
 
   inputFile.close();
