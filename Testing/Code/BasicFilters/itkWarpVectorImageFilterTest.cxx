@@ -54,9 +54,9 @@ public:
     for( int j = 0; j < VDimension; j++ )
       {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-         if ( index[j] < size[j] )
+         if ( static_cast< unsigned int >( index[j] ) < size[j] )
            {
-           if ( index[j] >= clampSize[j] )
+           if ( static_cast< unsigned int >( index[j] ) >= clampSize[j] )
              {
              //Interpolators behave this way in half-pixel band at image perimeter
              accum += coeff[j] * (double) (clampSize[j]-1);
