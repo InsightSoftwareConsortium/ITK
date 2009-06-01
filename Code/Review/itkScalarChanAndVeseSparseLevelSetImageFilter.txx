@@ -22,11 +22,11 @@
 
 namespace itk
 {
-template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData, typename TIdCell >
+template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
+class TSharedData, typename TIdCell >
 void
-ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature, TFunction,
-TOutputPixel, TSharedData, TIdCell >::
+ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
+TFunction, TSharedData, TIdCell >::
 Initialize()
 {
   // Set the feature image for the individual level-set functions
@@ -100,11 +100,11 @@ Initialize()
 
 /** Overrides parent implementation */
 // This function is called at the end of each iteration
-template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData, typename TIdCell >
+template <class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
+class TSharedData, typename TIdCell >
 void
-ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData, TIdCell > ::
+ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputImage,
+TFunction, TSharedData, TIdCell > ::
 InitializeIteration()
 {
   Superclass::InitializeIteration();
@@ -119,11 +119,11 @@ InitializeIteration()
     / ( float ) this->m_NumberOfIterations ) );
 }
 
-template < class TInput, class TFeature, class TFunction,
-class TOutputPixel, class TSharedData, typename TIdCell >
+template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
+class TSharedData, typename TIdCell >
 void
-ScalarChanAndVeseSparseLevelSetImageFilter< TInput, TFeature,
-TFunction, TOutputPixel, TSharedData, TIdCell > ::
+ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputImage,
+TFunction, TSharedData, TIdCell > ::
 UpdatePixel ( unsigned int functionIndex, unsigned int idx,
 NeighborhoodIterator< OutputImageType > &iterator, ValueType &newValue,
 bool &status )
