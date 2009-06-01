@@ -36,6 +36,7 @@ class ImagePattern
 {
 public:
   typedef itk::Index<VDimension> IndexType;
+  typedef itk::Size<VDimension> SizeType;
 
   ImagePattern() 
     {
@@ -46,20 +47,44 @@ public:
       }
     }
 
-  double Evaluate( const IndexType& index )
+    double Evaluate( const IndexType& index , const SizeType& size,
+                     const SizeType& clampSize, const float& padValue)
     {
     double accum = offset;
     for( int j = 0; j < VDimension; j++ )
       {
-      accum += coeff[j] * (double) index[j];
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+         if ( index[j] < size[j] )
+           {
+           if ( index[j] >= clampSize[j] )
+             {
+             //Interpolators behave this way in half-pixel band at image perimeter
+             accum += coeff[j] * (double) (clampSize[j]-1);
+             }
+           else
+             {
+             accum += coeff[j] * (double) index[j];
+             }
+           }
+         else
+           {
+           accum = padValue;
+           break; 
+           }     
+#else         
+         accum += coeff[j] * (double) index[j];         
+
+#endif
       }
+            
     return accum;
-    }
+      }
 
   double coeff[VDimension];
   double offset;
 
 };
+
 
 // The following three classes are used to support callbacks
 // on the filter in the pipeline that follows later
@@ -114,9 +139,11 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
   Iterator inIter( input, region );
 
+  float padValue = 4.0;
+
   for( ; !inIter.IsAtEnd(); ++inIter )
     {
-    inIter.Set( pattern.Evaluate( inIter.GetIndex() ) );
+    inIter.Set( pattern.Evaluate( inIter.GetIndex(), size, size, padValue ) );
     }
 
   //=============================================================
@@ -158,8 +185,6 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   std::cout << std::endl;
   typedef itk::WarpVectorImageFilter<ImageType,ImageType,FieldType> WarperType;
   WarperType::Pointer warper = WarperType::New();
-
-  PixelType padValue = 4.0;
 
   warper->SetInput( input );
   warper->SetDeformationField( field );
@@ -203,10 +228,47 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   // compute non-padded output region
   ImageType::RegionType validRegion;
   ImageType::SizeType validSize = validRegion.GetSize();
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   for( j = 0; j < ImageDimension; j++ )
     {
     validSize[j] = size[j] * factors[j] - (factors[j] - 1);
     }
+#else
+  //Needed to deal with incompatibility of various IsInside()s &
+  //nearest-neighbour type interpolation on half-band at perimeter of
+  //image. Evaluate() now has logic for this outer half-band.   
+  ImageType::SizeType decrementForScaling;
+  ImageType::SizeType clampSizeDecrement;
+  ImageType::SizeType clampSize;
+  for( j = 0; j < ImageDimension; j++ )
+    {
+    validSize[j] = size[j] * factors[j];
+
+    //Consider as inside anything < 1/2 pixel of (size[j]-1)*factors[j]
+    //(0-63) map to (0,126), with 127 exactly at 1/2 pixel, therefore
+    //edged out; or to (0,190), with 190 just beyond 189 by 1/3 pixel;
+    //or to (0,253), with 254 exactly at 1/2 pixel, therefore out
+    //also; or (0, 317), with 317 at 2/5 pixel beyond 315. And so on. 
+
+    decrementForScaling[j] =   factors[j] / 2 ;
+
+    validSize[j] -= decrementForScaling[j];
+    
+    //This part of logic determines what is inside, but in outer
+    //1/2 pixel band, which has to be clamped to that nearest outer
+    //pixel scaled by factor: (0,63) maps to (0,190) as inside, but
+    //pixel 190 is outside of (0,189), and must be clamped to it.
+    //If factor is 2 or less, this decrement has no effect. 
+
+    clampSizeDecrement[j]  =  (factors[j] - 1 - decrementForScaling[j]) ;
+      
+    if (clampSizeDecrement[j] < 0)
+      {
+      clampSizeDecrement[j] = 0;
+      }
+    clampSize[j]= validSize[j] - clampSizeDecrement[j];
+    }
+#endif
   validRegion.SetSize( validSize );
 
   // adjust the pattern coefficients to match
@@ -223,7 +285,11 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     if( validRegion.IsInside( index ) )
       {
 
-      PixelType trueValue = pattern.Evaluate( outIter.GetIndex() );
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+    PixelType trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
+#else
+    PixelType trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, validSize, padValue );   
+#endif
 
       for( unsigned int k=0; k<ImageDimension; k++ )
         {
