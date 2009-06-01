@@ -118,15 +118,15 @@ int itkImportImageTest(int, char* [] )
       }
 #else 
     if ( iterator2.Get() != 
-         static_cast<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] * factor
-                               )
+         static_cast<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] )
                           +(region.GetSize()[0]
-                          * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
+                            * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
       {
          std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() <<  " " << iterator2.Get()
-                   << " compare value " << static_cast<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0])
-                          +(region.GetSize()[0]
-                            * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])) << "\n"; 
+                   << " compare value " << static_cast<long>(
+                      (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] )
+                          + (region.GetSize()[0]
+                             * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])) << "\n"; 
       passed = false;
       }
 #endif
