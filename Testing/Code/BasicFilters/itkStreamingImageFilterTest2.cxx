@@ -139,11 +139,11 @@ int itkStreamingImageFilterTest2(int, char* [] )
     {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     short col = itk::Math::RoundHalfIntegerUp( static_cast<float> (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
-                                                                   (shrink->GetShrinkFactors()[0] /*- 1*/) / 2.0 ) );
+                                                                   (shrink->GetShrinkFactors()[0] ) / 2.0 ) );
     col += colOffset;
 
     short row =  itk::Math::RoundHalfIntegerUp( static_cast<float> (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
-                                                                    (shrink->GetShrinkFactors()[1] /*- 1*/) / 2.0 ) );
+                                                                    (shrink->GetShrinkFactors()[1] ) / 2.0 ) );
     row += rowOffset;
 #else    
     short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
