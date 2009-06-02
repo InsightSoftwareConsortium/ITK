@@ -264,6 +264,8 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   int numberNodes1 = bloxCoreAtomImage1->GetMedialNodeCount();
   int numberNodes2 = bloxCoreAtomImage2->GetMedialNodeCount();
+  std::cout << " numberNodes1 " << numberNodes1 << "\n"; 
+  std::cout << " numberNodes2 " << numberNodes2 << "\n"; 
 
   //-------Test CoreAtomImageToDistanceMatrixProcess-----------
 
@@ -281,6 +283,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   // Set the correct values of the distance matrix to test against.
   correctDistance->set_size(numberNodes1, numberNodes1);
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(0,0,0); 
   correctDistance->put(0,1,2.42792);
   correctDistance->put(0,2,2.42792);
@@ -288,7 +291,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(0,4,2.42792);
   correctDistance->put(0,5,3.62853);
   correctDistance->put(0,6,3.62853);
+#else
+  correctDistance->put(0,0,0); 
+  correctDistance->put(0,1,2.42084);
+  correctDistance->put(0,2,2.42084);
+  correctDistance->put(0,3,3.41827);
+  correctDistance->put(0,4,2.42084);
+  correctDistance->put(0,5,3.41827);
+  correctDistance->put(0,6,3.41827);
+  correctDistance->put(0,7,4.18537);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(1,0,2.42792);
   correctDistance->put(1,1,0);
   correctDistance->put(1,2,3.7268);
@@ -296,7 +310,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(1,4,3.7268);
   correctDistance->put(1,5,2.78767);
   correctDistance->put(1,6,4.94715);
+#else
+  correctDistance->put(1,0,2.42084);
+  correctDistance->put(1,1,0);
+  correctDistance->put(1,2,3.40729);
+  correctDistance->put(1,3,2.4056);
+  correctDistance->put(1,4,3.40729);
+  correctDistance->put(1,5,2.4056);
+  correctDistance->put(1,6,4.16341);
+  correctDistance->put(1,7,3.40113);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(2,0,2.42792);
   correctDistance->put(2,1,3.7268);
   correctDistance->put(2,2,0);
@@ -304,7 +329,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(2,4,3.7268);
   correctDistance->put(2,5,4.94715);
   correctDistance->put(2,6,2.78767);
+#else
+  correctDistance->put(2,0,2.42084);
+  correctDistance->put(2,1,3.40729);
+  correctDistance->put(2,2,0);
+  correctDistance->put(2,3,2.4056);
+  correctDistance->put(2,4,3.40729);
+  correctDistance->put(2,5,4.16341);
+  correctDistance->put(2,6,2.4056);
+  correctDistance->put(2,7,3.40113);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(3,0,3.62853);
   correctDistance->put(3,1,2.78767);
   correctDistance->put(3,2,2.78767);
@@ -312,7 +348,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(3,4,4.94715);
   correctDistance->put(3,5,4.48191);
   correctDistance->put(3,6,4.48191);
+#else
+  correctDistance->put(3,0,3.41827);
+  correctDistance->put(3,1,2.4056);
+  correctDistance->put(3,2,2.4056);
+  correctDistance->put(3,3,0);
+  correctDistance->put(3,4,4.16341);
+  correctDistance->put(3,5,3.38892);
+  correctDistance->put(3,6,3.38892);
+  correctDistance->put(3,7,2.39571);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(4,0,2.42792);
   correctDistance->put(4,1,3.7268);
   correctDistance->put(4,2,3.7268);
@@ -320,7 +367,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(4,4,0);
   correctDistance->put(4,5,2.78767);
   correctDistance->put(4,6,2.78767);
+#else
+  correctDistance->put(4,0,2.42084);
+  correctDistance->put(4,1,3.40729);
+  correctDistance->put(4,2,3.40729);
+  correctDistance->put(4,3,4.16341);
+  correctDistance->put(4,4,0);
+  correctDistance->put(4,5,2.4056);
+  correctDistance->put(4,6,2.4056);
+  correctDistance->put(4,7,3.40113);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(5,0,3.62853);
   correctDistance->put(5,1,2.78767);
   correctDistance->put(5,2,4.94715);
@@ -328,7 +386,19 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(5,4,2.78767);
   correctDistance->put(5,5,0);
   correctDistance->put(5,6,4.48191);
+#else
+  correctDistance->put(5,0,3.41827);
+  correctDistance->put(5,1,2.4056);
+  correctDistance->put(5,2,4.16341);
+  correctDistance->put(5,3,3.38892);
+  correctDistance->put(5,4,2.4056);
+  correctDistance->put(5,5,0);
+  correctDistance->put(5,6,3.38892);
+  correctDistance->put(5,7,2.39571);
+#endif
 
+  
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctDistance->put(6,0,3.62853);
   correctDistance->put(6,1,4.94715);
   correctDistance->put(6,2,2.78767);
@@ -336,7 +406,27 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(6,4,2.78767);
   correctDistance->put(6,5,4.48191);
   correctDistance->put(6,6,0);
+#else
+  correctDistance->put(6,0,3.41827);
+  correctDistance->put(6,1,4.16341);
+  correctDistance->put(6,2,2.4056);
+  correctDistance->put(6,3,3.38892);
+  correctDistance->put(6,4,2.4056);
+  correctDistance->put(6,5,3.38892);
+  correctDistance->put(6,6,0);
+  correctDistance->put(6,7,2.39571);
+#endif
 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  correctDistance->put(7,0,4.18537);
+  correctDistance->put(7,1,3.40113);
+  correctDistance->put(7,2,3.40113);
+  correctDistance->put(7,3,2.39571);
+  correctDistance->put(7,4,3.40113);
+  correctDistance->put(7,5,2.39571);
+  correctDistance->put(7,6,2.39571);
+#endif
+  
   // Set bloxCoreAtomImage1 as the input to the process.
   distanceMatrixProcess->SetInput1(bloxCoreAtomImage1);
 
@@ -364,6 +454,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
         indexJ = j;
         difference = vcl_fabs(distanceMatrix->get(i,j) - correctDistance->get(i,j));
         distanceSuccess = false;
+
         break;
         }
       }
@@ -404,6 +495,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   // Set correctCorrespondenceMatrix to test against.
   DistanceMatrixPointer correctCorrespondenceMatrix = MatrixType::New();
   correctCorrespondenceMatrix->set_size(numberNodes1, numberNodes2);
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(0,0,0.99678);
   correctCorrespondenceMatrix->put(0,1,0.982923);
   correctCorrespondenceMatrix->put(0,2,0.982923);
@@ -411,7 +503,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(0,4,0.982923);
   correctCorrespondenceMatrix->put(0,5,0.969779);
   correctCorrespondenceMatrix->put(0,6,0.969779);
+#else
+  correctCorrespondenceMatrix->put(0,0,0.981144);
+  correctCorrespondenceMatrix->put(0,1,0.982383);
+  correctCorrespondenceMatrix->put(0,2,0.982383);
+  correctCorrespondenceMatrix->put(0,3,0.982826);
+  correctCorrespondenceMatrix->put(0,4,0.982383);
+  correctCorrespondenceMatrix->put(0,5,0.982826);
+  correctCorrespondenceMatrix->put(0,6,0.982826);
+  correctCorrespondenceMatrix->put(0,7,0.98053);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(1,0,0.978068);
   correctCorrespondenceMatrix->put(1,1,0.992896);
   correctCorrespondenceMatrix->put(1,2,0.992896);
@@ -419,7 +522,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(1,4,0.992896);
   correctCorrespondenceMatrix->put(1,5,0.968077);
   correctCorrespondenceMatrix->put(1,6,0.968077);
+#else
+  correctCorrespondenceMatrix->put(1,0,0.970357);
+  correctCorrespondenceMatrix->put(1,1,0.981081);
+  correctCorrespondenceMatrix->put(1,2,0.981081);
+  correctCorrespondenceMatrix->put(1,3,0.984781);
+  correctCorrespondenceMatrix->put(1,4,0.981081);
+  correctCorrespondenceMatrix->put(1,5,0.984781);
+  correctCorrespondenceMatrix->put(1,6,0.984781);
+  correctCorrespondenceMatrix->put(1,7,0.982012);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(2,0,0.978068);
   correctCorrespondenceMatrix->put(2,1,0.992896);
   correctCorrespondenceMatrix->put(2,2,0.992896);
@@ -427,7 +541,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(2,4,0.992896);
   correctCorrespondenceMatrix->put(2,5,0.968077);
   correctCorrespondenceMatrix->put(2,6,0.968077);
+#else
+  correctCorrespondenceMatrix->put(2,0,0.970357);
+  correctCorrespondenceMatrix->put(2,1,0.981081);
+  correctCorrespondenceMatrix->put(2,2,0.981081);
+  correctCorrespondenceMatrix->put(2,3,0.984781);
+  correctCorrespondenceMatrix->put(2,4,0.981081);
+  correctCorrespondenceMatrix->put(2,5,0.984781);
+  correctCorrespondenceMatrix->put(2,6,0.984781);
+  correctCorrespondenceMatrix->put(2,7,0.982012);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(3,0,0.918658);
   correctCorrespondenceMatrix->put(3,1,0.933304);
   correctCorrespondenceMatrix->put(3,2,0.933304);
@@ -435,7 +560,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(3,4,0.933304);
   correctCorrespondenceMatrix->put(3,5,0.952194);
   correctCorrespondenceMatrix->put(3,6,0.952194);
+#else
+  correctCorrespondenceMatrix->put(3,0,0.959862);
+  correctCorrespondenceMatrix->put(3,1,0.973439);
+  correctCorrespondenceMatrix->put(3,2,0.973439);
+  correctCorrespondenceMatrix->put(3,3,0.981371);
+  correctCorrespondenceMatrix->put(3,4,0.973439);
+  correctCorrespondenceMatrix->put(3,5,0.981371);
+  correctCorrespondenceMatrix->put(3,6,0.981371);
+  correctCorrespondenceMatrix->put(3,7,0.983565);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(4,0,0.978068);
   correctCorrespondenceMatrix->put(4,1,0.992896);
   correctCorrespondenceMatrix->put(4,2,0.992896);
@@ -443,7 +579,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(4,4,0.992896);
   correctCorrespondenceMatrix->put(4,5,0.968077);
   correctCorrespondenceMatrix->put(4,6,0.968077);
+#else
+  correctCorrespondenceMatrix->put(4,0,0.970357);
+  correctCorrespondenceMatrix->put(4,1,0.981081);
+  correctCorrespondenceMatrix->put(4,2,0.981081);
+  correctCorrespondenceMatrix->put(4,3,0.984781);
+  correctCorrespondenceMatrix->put(4,4,0.981081);
+  correctCorrespondenceMatrix->put(4,5,0.984781);
+  correctCorrespondenceMatrix->put(4,6,0.984781);
+  correctCorrespondenceMatrix->put(4,7,0.982012);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(5,0,0.918658);
   correctCorrespondenceMatrix->put(5,1,0.933304);
   correctCorrespondenceMatrix->put(5,2,0.933304);
@@ -451,7 +598,18 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(5,4,0.933304);
   correctCorrespondenceMatrix->put(5,5,0.952194);
   correctCorrespondenceMatrix->put(5,6,0.952194);
+#else
+  correctCorrespondenceMatrix->put(5,0,0.959862);
+  correctCorrespondenceMatrix->put(5,1,0.973439);
+  correctCorrespondenceMatrix->put(5,2,0.973439);
+  correctCorrespondenceMatrix->put(5,3,0.981371);
+  correctCorrespondenceMatrix->put(5,4,0.973439);
+  correctCorrespondenceMatrix->put(5,5,0.981371);
+  correctCorrespondenceMatrix->put(5,6,0.981371);
+  correctCorrespondenceMatrix->put(5,7,0.983565);
+#endif
 
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   correctCorrespondenceMatrix->put(6,0,0.918658);
   correctCorrespondenceMatrix->put(6,1,0.933304);
   correctCorrespondenceMatrix->put(6,2,0.933304);
@@ -459,7 +617,27 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctCorrespondenceMatrix->put(6,4,0.933304);
   correctCorrespondenceMatrix->put(6,5,0.952194);
   correctCorrespondenceMatrix->put(6,6,0.952194);
+#else
+  correctCorrespondenceMatrix->put(6,0,0.959862);
+  correctCorrespondenceMatrix->put(6,1,0.973439);
+  correctCorrespondenceMatrix->put(6,2,0.973439);
+  correctCorrespondenceMatrix->put(6,3,0.981371);
+  correctCorrespondenceMatrix->put(6,4,0.973439);
+  correctCorrespondenceMatrix->put(6,5,0.981371);
+  correctCorrespondenceMatrix->put(6,6,0.981371);
+  correctCorrespondenceMatrix->put(6,7,0.983565);
+#endif
 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+  correctCorrespondenceMatrix->put(7,0,0.946738);
+  correctCorrespondenceMatrix->put(7,1,0.959427);
+  correctCorrespondenceMatrix->put(7,2,0.959427);
+  correctCorrespondenceMatrix->put(7,3,0.97191);
+  correctCorrespondenceMatrix->put(7,4,0.959427);
+  correctCorrespondenceMatrix->put(7,5,0.97191);
+  correctCorrespondenceMatrix->put(7,6,0.97191);
+  correctCorrespondenceMatrix->put(7,7,0.981765);
+#endif
   // Print the contents of the correspondence matrix.
   std::cerr << "\nCorrespondence Matrix: " << std::endl;
   for(int m=0;m<numberNodes1;++m)
@@ -536,7 +714,12 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   int numberOfPairs = nodePairProcess->GetNumberOfNodePairs();
 
   // Print results of test.
+  
+#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   if(numberOfPairs == 21)
+#else     
+  if(numberOfPairs == 28)
+#endif
     {
     std::cerr << "CoreAtomImageToDistanceMatrixProcess Test Passed!" << std::endl;
     }
