@@ -23,24 +23,27 @@
 #include "vnl/vnl_math.h"
 #include <math.h>
 
-double itkMathRoundTestHelperFunction( double x )
+int itkMathRoundTestHelperFunction( double x )
 {
-  if( x >= 0.0 )
-    {
-    return static_cast< int >( x + 0.5f );
-    }
-  
- return static_cast< int >( x - 0.5f );
+  x+=0.5;
+  return static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
 }
 
 #define itkRoundMacro( x, y )                 \
-    if( x >= 0.0 )                            \
+    if( x >= 0.5 )                            \
       {                                       \
-      y = static_cast< int >( x + 0.5f );     \
+      y = static_cast< int >( x + 0.5 );      \
       }                                       \
     else                                      \
       {                                       \
-      y = static_cast< int >( x - 0.5f );     \
+      if( (x+0.5)==static_cast<int>(x+0.5) )  \
+        {                                     \
+        y = static_cast< int >( x + 0.5 );    \
+        }                                     \
+      else                                    \
+        {                                     \
+        y = static_cast< int >( x - 0.5 );    \
+        }                                     \
       }
 
 
@@ -49,12 +52,13 @@ int itkMathRoundProfileTest1( int, char *[] )
   itk::TimeProbesCollectorBase  chronometer;
 
   typedef std::vector< double >   ArrayType;
+  typedef std::vector< int >      IntArrayType;
 
   ArrayType input;
-  ArrayType output1;
-  ArrayType output2;
-  ArrayType output3;
-  ArrayType output4;
+  IntArrayType output1;
+  IntArrayType output2;
+  IntArrayType output3;
+  IntArrayType output4;
 
   const unsigned long numberOfValues = 1000L;
 
@@ -93,18 +97,16 @@ int itkMathRoundProfileTest1( int, char *[] )
     // Count the time of simply assigning values in an std::vector
     //
     //
-    ArrayType::const_iterator  outItr1src = output1.begin();
-    ArrayType::iterator        outItr2dst = output2.begin();
+    IntArrayType::const_iterator  outItr1src = output1.begin();
+    IntArrayType::iterator        outItr2dst = output2.begin();
 
-    ArrayType::const_iterator  outEnd1 = output1.end();
+    IntArrayType::const_iterator  outEnd1 = output1.end();
 
     chronometer.Start("std::vector");
 
     while( outItr1src != outEnd1 )
       {
-      *outItr2dst = *outItr1src;
-      ++outItr1src;
-      ++outItr2dst;
+      *outItr2dst++ = *outItr1src++;
       }
 
     chronometer.Stop("std::vector");
@@ -112,7 +114,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     ArrayType::const_iterator  inpItr   = input.begin();
     ArrayType::const_iterator  inputEnd = input.end();
 
-    ArrayType::iterator        outItr1nc = output1.begin();
+    IntArrayType::iterator        outItr1nc = output1.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -121,9 +123,7 @@ int itkMathRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      *outItr1nc = itkMathRoundTestHelperFunction( *inpItr );
-      ++outItr1nc;
-      ++inpItr;
+      *outItr1nc++ = itkMathRoundTestHelperFunction( *inpItr++ );
       }
 
     chronometer.Stop("if-round");
@@ -132,7 +132,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    ArrayType::iterator        outItr3nc = output3.begin();
+    IntArrayType::iterator        outItr3nc = output3.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -141,15 +141,8 @@ int itkMathRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      if( *inpItr >= 0.0 )
-        {
-        *outItr3nc =  static_cast< int >( *inpItr + 0.5f );
-        }
-    
-      *outItr3nc = static_cast< int >( *inpItr - 0.5f );
-
-      ++outItr3nc;
-      ++inpItr;
+      const double x = (*inpItr++) + 0.5;
+      *outItr3nc++ = static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
       }
 
     chronometer.Stop("Functor");
@@ -157,7 +150,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    ArrayType::iterator        outItr4nc = output4.begin();
+    IntArrayType::iterator        outItr4nc = output4.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -167,8 +160,8 @@ int itkMathRoundProfileTest1( int, char *[] )
     while( inpItr != inputEnd )
       {
       itkRoundMacro(*inpItr, *outItr4nc );
-      ++outItr4nc;
       ++inpItr;
+      ++outItr4nc;
       }
 
     chronometer.Stop("Macro");
@@ -177,7 +170,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    ArrayType::iterator        outItr = output2.begin();
+    IntArrayType::iterator        outItr = output2.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -186,9 +179,7 @@ int itkMathRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      *outItr = itk::Math::Round( *inpItr ); 
-      ++outItr;
-      ++inpItr;
+      *outItr++ = itk::Math::Round( *inpItr++ );
       }
 
     chronometer.Stop("itk::Math::Round");
@@ -203,12 +194,9 @@ int itkMathRoundProfileTest1( int, char *[] )
   ArrayType::const_iterator inpItr   = input.begin();
   ArrayType::const_iterator inputEnd = input.end();
 
-  ArrayType::const_iterator outItr1 = output1.begin();
-  ArrayType::const_iterator outItr2 = output2.begin();
-
-  const double tolerance = 1e-5;
-
-  bool roundUp = true;
+  IntArrayType::const_iterator outItr1 = output1.begin();
+  IntArrayType::const_iterator outItr2 = output2.begin();
+  
   bool roundMismatch = false;
 
   std::cout << std::endl;
@@ -216,17 +204,11 @@ int itkMathRoundProfileTest1( int, char *[] )
 
   while( inpItr != inputEnd )
     {
-    if( vnl_math_abs( *outItr1 - *outItr2 ) > tolerance )
+      if( (*outItr1) != (*outItr2) )
       {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1 << " differs from itk::Math::Round: " << *outItr2 << std::endl;
-      if ((static_cast<int>(*outItr2) % 2) == 0)
-        {
-        roundUp = false;
-        }
-      else
-        {
-        roundMismatch = true;
-        }
+      
+      roundMismatch = true;
       }
     ++inpItr;
     ++outItr1;
@@ -237,32 +219,11 @@ int itkMathRoundProfileTest1( int, char *[] )
   std::cout << "Tested " << output1.size() << " entries " << std::endl;
   std::cout << std::endl;
 
-  if (!roundMismatch)
-    {
-    if( roundUp)
-      {
-      std::cout << "******* On this platform, itk::Math::Round() rounds up ********" << std::endl;
-      }
-    else
-      {
-      std::cout << "******* On this platform, itk::Math::Round() rounds to even ********" << std::endl;
-      }
-    }
-  else
-    {
-    std::cout << "******* On this platform, itk::Math::Round() neither rounds up nor rounds to even consistently ********" << std::endl;
-    }
-
-#ifndef ITK_USE_PORTABLE_ROUND
-  // If the ITK_USE_PORTABLE_ROUND is OFF, it is 
-  // expected that the Round will not be portable
-  // so we are tolerant in the comparison.
-#else
   if (roundMismatch)
     {
+    std::cout << "******* On this platform, itk::Math::Round() does not round half integers upward ********" << std::endl;
     return EXIT_FAILURE;
     }
-#endif
 
   return EXIT_SUCCESS;
 }
