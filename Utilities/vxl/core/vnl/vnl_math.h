@@ -44,7 +44,7 @@
 #endif
 
 // Figure out when the fast implementation can be used
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(__GCCXML__))
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && (!defined(__GCCXML__)) && defined(__SSE2__)
 # if !VXL_HAS_EMMINTRIN_H
 #   error "Required file emmintrin.h for SSE2 not found"
 # else
