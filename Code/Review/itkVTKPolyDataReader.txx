@@ -53,7 +53,6 @@ VTKPolyDataReader<TOutputMesh>
   if( m_FileName == "" )
     {
     itkExceptionMacro("No input FileName");
-    return;
     }
 
   //
@@ -65,7 +64,6 @@ VTKPolyDataReader<TOutputMesh>
     {
     itkExceptionMacro("Unable to open file\n"
         "inputFilename= " << m_FileName );
-    return;
     }
 
   std::string line;
@@ -91,7 +89,6 @@ VTKPolyDataReader<TOutputMesh>
     {
     itkExceptionMacro("ERROR: Failed to read numberOfPoints\n"
         "       pointLine= " << pointLine );
-    return;
     }
 
   itkDebugMacro("numberOfPoints= " << numberOfPoints );
@@ -100,7 +97,6 @@ VTKPolyDataReader<TOutputMesh>
     {
     itkExceptionMacro("numberOfPoints < 1"
         << "       numberOfPoints= " << numberOfPoints );
-    return;
     }
 
   outputMesh->GetPoints()->Reserve( numberOfPoints );
@@ -140,7 +136,6 @@ VTKPolyDataReader<TOutputMesh>
     {
     itkExceptionMacro("ERROR: Failed to read numberOfPolygons from subline2"
         "\npolygonLine= " << polygonLine );
-    return;
     }
 
   itkDebugMacro("numberOfPolygons " << numberOfPolygons );
@@ -150,7 +145,6 @@ VTKPolyDataReader<TOutputMesh>
     {
     itkExceptionMacro("ERROR: numberOfPolygons < 1\nnumberOfPolygons= "
         << numberOfPolygons );
-    return;
     }
 
   if( numberOfIndices < numberOfPolygons )
@@ -158,7 +152,6 @@ VTKPolyDataReader<TOutputMesh>
     itkExceptionMacro("ERROR: numberOfIndices < numberOfPolygons\n"
         << "numberOfIndices= " << numberOfIndices << "\n"
         << "numberOfPolygons= " << numberOfPolygons );
-    return;
     }
 
   //
@@ -174,7 +167,6 @@ VTKPolyDataReader<TOutputMesh>
       {
       itkExceptionMacro("Failed to read " << numberOfPolygons
           << " polygons before the end of file");
-      return;
       }
 
     std::getline( inputFile, line );
@@ -182,13 +174,15 @@ VTKPolyDataReader<TOutputMesh>
     if( line.find("DATA") != std::string::npos )
       {
       itkExceptionMacro("Read keyword DATA");
-      return;
       }
 
-    if( sscanf( line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints,
-          &ids[0], &ids[1], &ids[2] ) != 4 )
+    int got;
+    if( (got = sscanf( line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints,
+                       &ids[0], &ids[1], &ids[2] )) != 4 )
       {
-      break;
+      itkExceptionMacro("Error parsing POLYGON cell. Expected 4 items but got "
+                        << got << std::endl
+                        << "Line is: " << line);
       }
 
     if( numberOfCellPoints != 3 )
@@ -196,7 +190,6 @@ VTKPolyDataReader<TOutputMesh>
       itkExceptionMacro("ERROR: numberOfCellPoints != 3\n"
           << "numberOfCellPoints= " << numberOfCellPoints
           << "itkVTKPolyDataReader can only read triangles");
-      return;
       }
 
     if( static_cast<long>(ids[0]) < 0 ||
@@ -205,7 +198,6 @@ VTKPolyDataReader<TOutputMesh>
       {
       itkExceptionMacro("ERROR: Incorrect point ids\n"
           "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);
-      return;
       }
 
     if( static_cast<long>(ids[0]) >= numberOfPoints ||
@@ -214,7 +206,6 @@ VTKPolyDataReader<TOutputMesh>
       {
       itkExceptionMacro("ERROR: Incorrect point ids\n"
           << "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);
-      return;
       }
 
     CellAutoPointer cell;
@@ -251,13 +242,31 @@ VTKPolyDataReader<TOutputMesh>
     itkDebugMacro("POINT_DATA line" << line );
 
     // Skip two lines
-    std::getline( inputFile, line );
-    std::getline( inputFile, line );
+    if (!inputFile.eof())
+      {
+      std::getline( inputFile, line );
+      }
+    else
+      {
+      itkExceptionMacro("Unexpected end-of-file while trying to read POINT_DATA.");
+      }
+    if (!inputFile.eof())
+      {
+      std::getline( inputFile, line );
+      }
+    else
+      {
+      itkExceptionMacro("Unexpected end-of-file while trying to read POINT_DATA.");
+      }
 
     double pointData;
 
     for( int pid=0; pid < numberOfPoints; pid++ )
       {
+      if (inputFile.eof())
+        {
+        itkExceptionMacro("Unexpected end-of-file while trying to read POINT_DATA." << "Failed while trying to reading point data for id: " << pid);
+        }
       inputFile >> pointData;
       outputMesh->SetPointData( pid, pointData );
       }
