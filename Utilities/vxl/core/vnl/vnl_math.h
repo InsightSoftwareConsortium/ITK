@@ -54,9 +54,9 @@
 #else
 # define USE_SSE2_IMPL 0
 #endif
-// Turn on fast impl when using GCC with the following exception:
-//   GCCXML, PPC, PPC64
-#if defined(__GNUC__) && (!defined(__GCCXML__)) && (!defined(__ppc__)) && (!defined(__ppc64__))
+// Turn on fast impl when using GCC on x86 platform with the following exception:
+//   GCCXML
+#if defined(__GNUC__) && (!defined(__GCCXML__)) &&  (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
 # define GCC_USE_FAST_IMPL 1
 #else
 # define GCC_USE_FAST_IMPL 0
