@@ -59,6 +59,7 @@ int itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char* argv[] )
     {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
@@ -75,6 +76,7 @@ int itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char* argv[] )
     {
     std::cerr << "Error during Update() " << std::endl;
     std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
     }
 
   // Should make a diff
