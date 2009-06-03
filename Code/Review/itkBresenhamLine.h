@@ -46,7 +46,7 @@ public:
   BresenhamLine(){}
   ~BresenhamLine(){}
 
-  OffsetArray buildLine(LType Direction, unsigned int length);
+  OffsetArray BuildLine(LType Direction, unsigned int length);
 
 };
 

@@ -106,7 +106,7 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>
   for (unsigned i = 0; i < decomposition.size(); i++)
     {
     typename KernelType::LType ThisLine = decomposition[i];
-    typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
+    typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
     unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))

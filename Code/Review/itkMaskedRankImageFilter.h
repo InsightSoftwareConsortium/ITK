@@ -111,7 +111,7 @@ protected:
   
   void PrintSelf(std::ostream& os, Indent indent) const;
   
-  bool useVectorBasedHistogram()
+  bool UseVectorBasedHistogram()
     {
     // bool, short and char are acceptable for vector based algorithm: they do not require
     // too much memory. Other types are not usable with that algorithm

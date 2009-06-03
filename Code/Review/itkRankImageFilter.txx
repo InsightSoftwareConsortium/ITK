@@ -48,7 +48,7 @@ RankImageFilter<TInputImage, TOutputImage, TKernel>
 ::NewHistogram()
 {
   HistogramType * hist;
-  if (useVectorBasedHistogram())
+  if (UseVectorBasedHistogram())
     {
     hist = new VHistogram();
     }

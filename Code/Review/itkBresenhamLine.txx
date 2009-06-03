@@ -24,7 +24,7 @@ namespace itk {
 
 template<unsigned int VDimension>
 typename BresenhamLine<VDimension>::OffsetArray BresenhamLine<VDimension>
-::buildLine(LType Direction, unsigned int length)
+::BuildLine(LType Direction, unsigned int length)
 {
   // copied from the line iterator
   /** Variables that drive the Bresenham-Algorithm */

@@ -103,7 +103,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   for (unsigned i = 0; i < decomposition.size() - 1; i++)
     {
     KernelLType ThisLine = decomposition[i];
-    BresOffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
+    BresOffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
     unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))
@@ -125,7 +125,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   {
   unsigned i = decomposition.size() - 1;
   KernelLType ThisLine = decomposition[i];
-  typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
+  typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
   unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
   // want lines to be odd
   if (!(SELength%2))
@@ -148,7 +148,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   for (int i = decomposition.size() - 2; i >= 0; --i)
     {
     KernelLType ThisLine = decomposition[i];
-    typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
+    typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
     unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength%2))

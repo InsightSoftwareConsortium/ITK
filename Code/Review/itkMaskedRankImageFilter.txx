@@ -48,7 +48,7 @@ MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>
 ::NewHistogram()
 {
   HistogramType * hist;
-  if (useVectorBasedHistogram())
+  if (UseVectorBasedHistogram())
     {
     hist = new VHistogram();
     }

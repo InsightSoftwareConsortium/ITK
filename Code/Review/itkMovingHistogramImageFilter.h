@@ -152,7 +152,7 @@ protected:
   // declare the type used to store the histogram
   typedef THistogram HistogramType;
 
-  void pushHistogram(HistogramType * histogram, 
+  void PushHistogram(HistogramType * histogram, 
          const OffsetListType* addedList,
          const OffsetListType* removedList,
          const RegionType &inputRegion,
@@ -160,7 +160,7 @@ protected:
          const InputImageType* inputImage,
          const IndexType currentIdx);
 
-  void printHist(const HistogramType &H);
+  void PrintHistogram(const HistogramType &H);
 
 #endif
 

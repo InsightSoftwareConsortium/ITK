@@ -106,7 +106,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
   for (unsigned i = 0; i < decomposition.size(); i++)
     {
     typename KernelType::LType ThisLine = decomposition[i];
-    typename BresType::OffsetArray TheseOffsets = BresLine.buildLine(ThisLine, bufflength);
+    typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
 
     typedef typename KernelType::LType KernelLType;
 
