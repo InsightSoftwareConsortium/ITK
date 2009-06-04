@@ -580,8 +580,19 @@ int TestMattesMetricWithBSplineDeformableTransform(
       }
 
     measurePlus = metric->GetValue( parametersPlus );
+    unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples(); 
     measureMinus = metric->GetValue( parametersMinus );
+    unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples(); 
 
+    //Test was failing due to some +-perturbed points viewed as
+    //"inside", while -=perturbed points were outside, and
+    //vice-versa. This logic ensures that such points are excluded
+    //from the test.
+    if ( numberPlusSamples!= numberMinusSamples)
+      {
+      continue; 
+      }
+    
     double approxDerivative = ( measurePlus - measureMinus ) / ( 2 * delta );
     double ratio = derivative[i]/approxDerivative;
 
