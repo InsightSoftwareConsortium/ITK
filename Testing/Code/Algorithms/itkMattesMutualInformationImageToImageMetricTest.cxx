@@ -579,12 +579,26 @@ int TestMattesMetricWithBSplineDeformableTransform(
         }
       }
 
-    measurePlus = metric->GetValue( parametersPlus );
-    measureMinus = metric->GetValue( parametersMinus );
 
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+    measurePlus = metric->GetValue( parametersPlus );
     unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples(); 
-    unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples(); 
+    measureMinus = metric->GetValue( parametersMinus );
+    unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples();
+    
+    //Test was failing due to some +-perturbed points viewed as
+    //"inside", while -=perturbed points were outside, and
+    //vice-versa. This logic ensures that such points are excluded
+    //from the test.
+    if ( numberPlusSamples!= numberMinusSamples)
+      {
+      continue; 
+      }
+#else
+    measurePlus = metric->GetValue( parametersPlus );
+    unsigned long numberPlusSamples= metric->GetNumberOfPixelsCounted(); 
+    measureMinus = metric->GetValue( parametersMinus );
+    unsigned long numberMinusSamples= metric->GetNumberOfPixelsCounted();
 
     //Test was failing due to some +-perturbed points viewed as
     //"inside", while -=perturbed points were outside, and
