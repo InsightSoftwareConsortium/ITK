@@ -558,7 +558,7 @@ int TestMattesMetricWithBSplineDeformableTransform(
   typename MetricType::MeasureType measurePlus;
   typename MetricType::MeasureType measureMinus;
 
-  double delta = 0.01 * imgSpacing[0];
+  double delta = 0.1 * imgSpacing[0];
 
   bool testFailed = false;
 
@@ -580,8 +580,10 @@ int TestMattesMetricWithBSplineDeformableTransform(
       }
 
     measurePlus = metric->GetValue( parametersPlus );
-    unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples(); 
     measureMinus = metric->GetValue( parametersMinus );
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+    unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples(); 
     unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples(); 
 
     //Test was failing due to some +-perturbed points viewed as
@@ -592,6 +594,7 @@ int TestMattesMetricWithBSplineDeformableTransform(
       {
       continue; 
       }
+#endif
     
     double approxDerivative = ( measurePlus - measureMinus ) / ( 2 * delta );
     double ratio = derivative[i]/approxDerivative;
@@ -603,7 +606,7 @@ int TestMattesMetricWithBSplineDeformableTransform(
     std::cout << ratio << "\t";
     std::cout << std::endl;
 
-    if ( vnl_math_abs( ratio - 1.0 ) > 0.01 && vnl_math_abs( derivative[i] ) > 1e-4 )
+    if ( vnl_math_abs( ratio - 1.0 ) > 0.05 && vnl_math_abs( derivative[i] ) > 1e-4 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;
