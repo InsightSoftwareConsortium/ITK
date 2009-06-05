@@ -201,10 +201,14 @@ int main( int argc, char *argv[] )
   ConstIteratorType inputIt(   reader->GetOutput(), inputRegion  );
   IteratorType      outputIt(  outputImage,         outputRegion );
 
-  for ( inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd();
-        ++inputIt, ++outputIt)
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+
+  while( !inputIt.IsAtEnd() )
     {
     outputIt.Set(  inputIt.Get()  );
+    ++inputIt;
+    ++outputIt;
     }
   // Software Guide : EndCodeSnippet
 
@@ -212,11 +216,11 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // \index{Iterators!image dimensionality}
-  //  The \code{for} loop above is a common
-  // construct in ITK.  The beauty of these four lines of code is that they are
-  // equally valid for one, two, three, or even ten dimensional data, and no
-  // knowledge of the size of the image is necessary.  Consider the ugly
-  // alternative of ten nested \code{for} loops for traversing an image.
+  //  The \code{while} loop above is a common construct in ITK.  The beauty of
+  //  these four lines of code is that they are equally valid for one, two,
+  //  three, or even ten dimensional data, and no knowledge of the size of the
+  //  image is necessary.  Consider the ugly alternative of ten nested
+  //  \code{for} loops for traversing an image.
   //
   // Software Guide : EndLatex
   
