@@ -36,20 +36,14 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
 
   for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
-    InputImagePointer input = this->m_LevelSet[i];
-    InputPointType origin = input->GetOrigin();
-    InputSpacingType spacing = input->GetSpacing();
-    InputSizeType size = input->GetLargestPossibleRegion().GetSize();
+    const InputImageType * input = this->m_LevelSet[i];
+    const InputPointType origin = input->GetOrigin();
+    const InputSizeType size = input->GetBufferedRegion().GetSize();
 
+    // Find the index of the target image where this Level Set
+    // should be pasted.
     OutputIndexType start;
-
-    // FIXME: Review pixel centering policy here !!!
-    // Probably the PhysicalPointToIndex method should be used here...
-    //
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      start[j] = static_cast<OutputIndexValueType>( origin[j]/spacing[j] );
-      }
+    output->TransformPhysicalPointToIndex( origin, start );
 
     OutputRegionType region;
     region.SetSize( size );
@@ -60,7 +54,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
       itkExceptionMacro ( << "Either input and/or output is NULL." );
       }
 
-    ImageRegionIterator< InputImageType > in( input, input->GetLargestPossibleRegion() );
+    ImageRegionConstIterator< InputImageType > in( input, input->GetBufferedRegion() );
     ImageRegionIterator< OutputImageType > out( output, region );
 
     // Fill the output pointer

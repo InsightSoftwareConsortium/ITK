@@ -32,23 +32,17 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature,
   TFunction, TOutputPixel, TSharedData >::
 Initialize()
 {
+  const FeatureImageType * featureImage = this->GetFeatureImage();
+
   // Set the feature image for the individual level-set functions
   for( unsigned int i = 0; i < this->m_FunctionCount; i++)
     {
     InputImagePointer input = this->m_LevelSet[i];
-    InputPointType origin = input->GetOrigin();
-    InputSpacingType spacing = input->GetSpacing();
+    const InputPointType origin = input->GetOrigin();
 
     // In the context of the global coordinates
     FeatureIndexType start;
-
-    // FIXME: This is suspicious code. It looks like we should
-    // have used first IndexToPhysicalPoint and then PhysicalPointToIndex
-    // as it was done in the ShrinkImagefilter...
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      start[j] = static_cast<FeatureIndexValueType>( origin[j]/spacing[j] );
-      }
+    featureImage->TransformPhysicalPointToIndex( origin, start );
 
     // Defining roi region
     FeatureRegionType region;
@@ -57,7 +51,7 @@ Initialize()
 
     // Initialize the ROI filter with the feature image
     ROIFilterPointer roi = ROIFilterType::New();
-    roi->SetInput( this->GetFeatureImage() );
+    roi->SetInput( featureImage );
     roi->SetRegionOfInterest( region );
     roi->Update();
 
