@@ -108,10 +108,11 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   FeatureImageConstPointer featureImage = this->m_FeatureImage;
 
-  ImageIteratorType It( this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage,
-    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->GetLargestPossibleRegion() );
-  ConstFeatureIteratorType fIt( this->m_FeatureImage,
-    this->m_FeatureImage->GetLargestPossibleRegion() );
+  const InputImageType * levelSetImage = 
+    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage;
+
+  ConstImageIteratorType It( levelSetImage, levelSetImage->GetLargestPossibleRegion() );
+  ConstFeatureIteratorType fIt( this->m_FeatureImage, this->m_FeatureImage->GetLargestPossibleRegion() );
 
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
@@ -130,8 +131,10 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // m_WeightedSumOfPixelValuesOutsideLevelSet = \sum \left( I(x) \prod \left( 1 - H(\phi_i(x))\right) \right)
   // m_WeightedNumberOfPixelsInsideLevelSet = \sum \prod \left( 1 - H(\phi_i(x))\right)
 
-  for( It.GoToBegin(), fIt.GoToBegin(); !It.IsAtEnd();
-    ++It, ++fIt )
+  It.GoToBegin();
+  fIt.GoToBegin();
+
+  while( !It.IsAtEnd() )
     {
     featureVal = fIt.Get();
     inputIndex = It.GetIndex();
@@ -141,7 +144,6 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
     L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
 
-//     bool inBgrnd = true; // assume the pixel is in background
     for( ListPixelConstIterator it = L.begin(); it != L.end(); ++it )
       {
       itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
@@ -157,6 +159,9 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal * prod;
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += prod;
+
+    ++It;
+    ++fIt;
     }
 }
 
