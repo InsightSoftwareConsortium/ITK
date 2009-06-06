@@ -47,8 +47,13 @@ public:
       }
     }
 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     double Evaluate( const IndexType& index , const SizeType& size,
                      const SizeType& clampSize, const float& padValue)
+#else
+    double Evaluate( const IndexType& index , const SizeType&,
+                     const SizeType&, const float&)
+#endif
     {
     double accum = offset;
     for( int j = 0; j < VDimension; j++ )
