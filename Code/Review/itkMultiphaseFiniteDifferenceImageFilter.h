@@ -370,13 +370,13 @@ protected:
     this->m_KdTree = 0;
     this->m_ElapsedIterations = 0;
     this->m_MaximumRMSError = vnl_math::eps;
-    this->m_RMSChange = 100.0;
+    this->m_RMSChange = NumericTraits<double>::max();
     this->m_UseImageSpacing = true;
     this->m_ManualReinitialization = false;
     this->m_InitializedState = false;
     this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
     this->m_FunctionCount = 0;
-    this->InPlaceOn();
+    this->InPlaceOff();
     }
 
   ~MultiphaseFiniteDifferenceImageFilter(){}

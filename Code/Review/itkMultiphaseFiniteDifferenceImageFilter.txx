@@ -68,7 +68,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
       this->m_DifferenceFunctions[id]->SetScaleCoefficients(coeffs);
       }
 
-    // Allocate the output image -- inherited
+    // Allocate the output image -- inherited method
     this->AllocateOutputs();
 
     // Copy the input image to the output image.  Algorithms will operate
@@ -83,8 +83,6 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     this->AllocateUpdateBuffer();
 
     this->SetInitializedState(true);
-
-    this->m_ElapsedIterations = 0;
     }
 
   // Iterative algorithm
@@ -99,6 +97,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     dt = this->CalculateChange();
 
     this->ApplyUpdate( dt );
+
     this->m_ElapsedIterations++;
 
     // Invoke the iteration event.
@@ -268,7 +267,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   this->UpdateProgress( progress );
 
   return ( (this->GetElapsedIterations() >= this->m_NumberOfIterations) ||
-      ( this->GetMaximumRMSError() >= m_RMSChange ) );
+      ( this->GetMaximumRMSError() >= this->m_RMSChange ) );
 }
 
 
