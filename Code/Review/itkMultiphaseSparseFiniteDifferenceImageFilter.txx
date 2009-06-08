@@ -849,7 +849,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   this->m_CurrentFunctionIndex = 0;
   this->m_IsoSurfaceValue = m_ValueZero;
   this->m_NumberOfLayers = ImageDimension;
-  this->SetRMSChange ( NumericTraits< double >::Zero );
   this->m_InterpolateSurfaceLocation = true;
   this->m_BoundsCheckingActive = false;
 }
