@@ -58,7 +58,6 @@ Initialize()
     // Assign roi output
     FeatureImagePointer feature = roi->GetOutput();
     this->m_DifferenceFunctions[i]->SetFeatureImage( feature );
-    this->m_DifferenceFunctions[i]->SetInitialImage( input );
     }
 
   // Initialize the function count in shared data
@@ -85,16 +84,6 @@ Initialize()
   this->m_SharedData->PopulateListImage();
 
   this->Superclass::Initialize();
-
-  for (unsigned int i = 0; i < this->m_FunctionCount; i++)
-    {
-    this->m_DifferenceFunctions[i]->UpdateSharedData(true);
-    }
-
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
-    {
-    this->m_DifferenceFunctions[i]->UpdateSharedData( false );
-    }
 }
 
 
@@ -121,6 +110,7 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputP
     {
     this->m_DifferenceFunctions[i]->UpdateSharedData ( false );
     }
+
 }
 
 } /* end namespace itk */

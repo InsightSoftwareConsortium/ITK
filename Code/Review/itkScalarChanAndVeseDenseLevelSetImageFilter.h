@@ -110,7 +110,6 @@ public:
     FeatureImageType, FeatureImageType >              ROIFilterType;
   typedef typename ROIFilterType::Pointer             ROIFilterPointer;
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputHasNumericTraitsCheck,
