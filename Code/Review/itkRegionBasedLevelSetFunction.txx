@@ -85,6 +85,7 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   while(  !constIt.IsAtEnd() )
     {
+    // Convention is inside of level-set function is negative
     ScalarValueType hVal = m_DomainFunction->Evaluate( - constIt.Get() );
     It.Set( hVal );
     ++It;

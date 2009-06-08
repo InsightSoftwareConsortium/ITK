@@ -105,10 +105,6 @@ public:
 
     ~GlobalDataStruct() {}
 
-//     ScalarValueType m_MaxAdvectionChange; // not used
-//     ScalarValueType m_MaxPropagationChange; // not used
-    ScalarValueType m_MaxCurvatureChange;
-
     vnl_matrix_fixed<ScalarValueType,
       itkGetStaticConstMacro(ImageDimension),
       itkGetStaticConstMacro(ImageDimension)> m_dxy;
@@ -119,6 +115,8 @@ public:
     ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
 
     ScalarValueType m_GradMagSqr;
+
+    ScalarValueType m_MaxCurvatureChange;
     ScalarValueType m_MaxGlobalChange;
     };
 
@@ -378,7 +376,7 @@ protected:
   virtual void ComputeParameters() = 0;
 
   /** \brief Update and save the inner and outer parameters in the shared data
-    data structure. */
+    structure. */
   virtual void UpdateSharedDataParameters() = 0;
 
 private:

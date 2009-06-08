@@ -104,8 +104,12 @@ public:
   typedef typename FeatureImageType::IndexType          FeatureIndexType;
   typedef typename FeatureImageType::PointType          FeaturePointType;
 
+  // Allocates m_HeavisideFunctionOfLevelSetImage to have same origin, 
+  // spacing and size as image. Also sets the m_Start and m_End indices.
   void CreateHeavisideFunctionOfLevelSetImage( const InputImageType * image );
 
+  // Checks if the given index lies in the domain of the current
+  // level-set function. The domain is defined by the start and end indices.
   template< class TIndex >
   bool VerifyInsideRegion( const TIndex& featureIndex )
     {
@@ -120,8 +124,10 @@ public:
     return true;
     }
 
+  // Get the index into the domain of the current level-set function
   InputIndexType GetIndex( const FeatureIndexType& featureIndex );
 
+  // Get the index in the domain of the feature image
   FeatureIndexType GetFeatureIndex( const InputIndexType& inputIndex );
 
 
