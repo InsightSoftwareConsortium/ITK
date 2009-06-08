@@ -70,13 +70,13 @@ public:
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate( const InputType& input ) const
     {
-    if( input > this->GetEpsilon() )
+    if( input >= this->GetEpsilon() )
       {
       return 1.0;
       }
     else
       {
-      if( input < -this->GetEpsilon() )
+      if( input <= -this->GetEpsilon() )
         {
         return 0.0;
         }
@@ -92,7 +92,7 @@ public:
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative( const InputType& input ) const
     {
-    if( vnl_math_abs( input ) > this->GetEpsilon() )
+    if( vnl_math_abs( input ) >= this->GetEpsilon() )
       {
       return 0.0;
       }
