@@ -106,12 +106,6 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet = 0;
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
 
-  FeatureImageConstPointer featureImage = this->m_FeatureImage;
-
-  const InputImageType * levelSetImage = 
-    this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage;
-
-  ConstImageIteratorType It( levelSetImage, levelSetImage->GetLargestPossibleRegion() );
   ConstFeatureIteratorType fIt( this->m_FeatureImage, this->m_FeatureImage->GetLargestPossibleRegion() );
 
   FeaturePixelType featureVal;
@@ -131,13 +125,12 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // m_WeightedSumOfPixelValuesOutsideLevelSet = \sum \left( I(x) \prod \left( 1 - H(\phi_i(x))\right) \right)
   // m_WeightedNumberOfPixelsInsideLevelSet = \sum \prod \left( 1 - H(\phi_i(x))\right)
 
-  It.GoToBegin();
   fIt.GoToBegin();
 
-  while( !It.IsAtEnd() )
+  while( !fIt.IsAtEnd() )
     {
     featureVal = fIt.Get();
-    inputIndex = It.GetIndex();
+    inputIndex = fIt.GetIndex();
     InputPixelType prod = 1.;
 
     globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex( inputIndex );
@@ -160,7 +153,6 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedSumOfPixelValuesOutsideLevelSet += featureVal * prod;
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_WeightedNumberOfPixelsOutsideLevelSet += prod;
 
-    ++It;
     ++fIt;
     }
 }
