@@ -22,6 +22,9 @@
 
 namespace itk {
 
+// Computes the foreground constant and background constant value. For the Dense 
+// image filter, this is called prior to the start of every iteration. For the
+// sparse filter, this is only called one during initialization.
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
@@ -50,6 +53,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     {
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues = 0;
     }
+
 }
 
 template < class TInputImage, class TFeatureImage, class TSharedData >

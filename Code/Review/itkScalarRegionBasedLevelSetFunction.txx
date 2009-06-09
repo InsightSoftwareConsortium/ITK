@@ -22,6 +22,8 @@
 
 namespace itk {
 
+// Computes the overlap multiplicative factors for the penalty term (sum) and
+// the background intensity fitting terms in multiphase level-sets
 template < class TInputImage, class TFeatureImage, class TSharedData >
 typename ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ScalarValueType
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
@@ -43,23 +45,25 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   for ( ListPixelIterator it = L.begin(); it != L.end(); ++it )
     {
-    unsigned int id = *it;
-    if ( id != fId )
+    if ( *it != fId )
       {
-      otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[id]->GetIndex( globalIndex );
-      hVal = this->m_SharedData->m_LevelSetDataPointerVector[id]->m_HeavisideFunctionOfLevelSetImage->GetPixel( otherIndex );
+      otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( otherIndex );
 
       sum += hVal;
-      product *= hVal;
+      product *= ( 1 - hVal );
       }
     }
+
   return sum;
 }
 
 /* Performs the narrow-band update of the Heaviside function for each voxel. The
 characteristic function of each region is recomputed (note the shared
 data which contains information from the other level sets). Using the
-new H values, the previous c_i are updated. */
+new H values, the previous c_i are updated. Used by only the sparse image 
+filter */
+// TODO: Convert this implementation to the regularized form
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
