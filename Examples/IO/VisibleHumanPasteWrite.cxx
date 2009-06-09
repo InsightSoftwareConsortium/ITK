@@ -41,7 +41,7 @@
 // is capable of streaming. 
 
 
-int main(int argc, char *argv[])   
+int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])   
 {        
   typedef itk::RGBPixel<unsigned char> RGBPixelType;
   typedef itk::Vector<unsigned char, 3> VRGBPixelType;

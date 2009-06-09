@@ -51,7 +51,7 @@
 // following is an example that reads the entire raw dataset and
 // generates that classic image: 
 
-int main(int argc, char *argv[])   
+int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])   
 {    
   typedef itk::RGBPixel<unsigned char> RGBPixelType;
   typedef unsigned char PixelType;
