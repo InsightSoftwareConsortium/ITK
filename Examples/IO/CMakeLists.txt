@@ -72,6 +72,13 @@ TARGET_LINK_LIBRARIES(DicomPrintPatientInformation  ITKIO)
 ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
 TARGET_LINK_LIBRARIES(TransformReadWrite  ITKIO)
 
+ADD_EXECUTABLE(VisibleHumanStreamReadWrite  VisibleHumanStreamReadWrite.cxx )
+TARGET_LINK_LIBRARIES(VisibleHumanStreamReadWrite  ITKIO)
+
+ADD_EXECUTABLE(VisibleHumanPasteWrite  VisibleHumanPasteWrite.cxx )
+TARGET_LINK_LIBRARIES(VisibleHumanPasteWrite  ITKIO)
+
+
 IF(NOT BORLAND)
   ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
   TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)

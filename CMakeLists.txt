@@ -728,6 +728,14 @@ MARK_AS_ADVANCED(ITK_OSIRIX_DATA_ROOT)
 
 
 #-----------------------------------------------------------------------------
+# Configure the default ITK_VISIBLEHUMAN_DATA_ROOT for the location of Data from the Visible Human Project
+# When this data is available, additional Examples are enabled.
+FIND_PATH(ITK_VISIBLEHUMAN_DATA_ROOT Male/Fullcolor/fullbody
+  DOC "Directory with data taken from http://www.nlm.nih.gov/research/visible/getting_data.html")
+MARK_AS_ADVANCED(ITK_VISIBLEHUMAN_DATA_ROOT)
+
+
+#-----------------------------------------------------------------------------
 # This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
 SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes") 
