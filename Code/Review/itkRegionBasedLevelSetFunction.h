@@ -379,6 +379,8 @@ protected:
     structure. */
   virtual void UpdateSharedDataParameters() = 0;
 
+  bool m_UpdateC;
+
 private:
   RegionBasedLevelSetFunction(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

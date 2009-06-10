@@ -60,6 +60,7 @@ RegionBasedLevelSetFunction< TInput,
   m_SharedData = 0;
   m_InitialImage = 0;
   m_FeatureImage = 0;
+  m_UpdateC = false;
 }
 
 /* Computes the Heaviside function and stores it in m_HeavisideFunctionOfLevelSetImage */
@@ -104,12 +105,19 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     {
     // Must update all H before updating C
     this->ComputeHImage();
+    this->m_UpdateC = false;
     }
   else
     {
-    this->ComputeParameters();
+    if ( !this->m_UpdateC )
+      {
+      this->ComputeParameters();
+      this->m_UpdateC = true;
+      }
     this->UpdateSharedDataParameters();
     }
+
+  return;
 }
 
 template < class TInput,
