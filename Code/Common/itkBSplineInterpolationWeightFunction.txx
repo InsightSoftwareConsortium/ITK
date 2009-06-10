@@ -37,7 +37,7 @@ inline int BSplineFloor(double x)
   u.d = x + 103079215104.0;
   return (int)((u.hilo[1]<<16)|(u.hilo[0]>>16));  
 #else
-  return int(floor(x));
+  return int(vcl_floor(x));
 #endif
 }
 
