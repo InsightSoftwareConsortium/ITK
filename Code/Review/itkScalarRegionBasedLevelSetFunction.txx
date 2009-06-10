@@ -63,7 +63,6 @@ characteristic function of each region is recomputed (note the shared
 data which contains information from the other level sets). Using the
 new H values, the previous c_i are updated. Used by only the sparse image 
 filter */
-// TODO: Convert this implementation to the regularized form
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
@@ -80,54 +79,38 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
   ScalarValueType oldH = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->GetPixel( inputIndex );
   ScalarValueType newH = this->m_DomainFunction->Evaluate( - newValue );
+  ScalarValueType change = newH - oldH;
 
-  // Check if it is in other foreground
+  // update the foreground constant for current level-set function
+  UpdateSharedDataInsideParameters( fId, featureVal, change );
+
+  // Compute the product factor
   ListPixelType L = this->m_SharedData->m_NearestNeighborListImage->GetPixel( globalIndex );
   InputIndexType itInputIndex;
   ScalarValueType hVal;
 
-  bool inBgrnd = true; // assume the pixel is in background
+  InputPixelType product = 1;
+  for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
+    {
+    if (*it != fId )
+      {
+      itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
+      product *= ( 1 - hVal );
+      }
+    }
+  // Determine the change in the product factor
+  ScalarValueType productChange = -(product * change);
+
+  // update the background constant of all level-set functions
   for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
     {
     itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
     hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
 
-    if ( ( hVal > 0.5 ) && ( *it != fId ) )
-      {
-      inBgrnd = false; // belongs to foreground elsewhere
-      }
+    UpdateSharedDataOutsideParameters( *it, featureVal, productChange );
     }
 
-  // if pixel belonged to current foreground but not anymore so
-  if ( ( oldH > 0.5 ) && ( newH <= 0.5 ) )
-    {
-    UpdateSharedDataInsideParameters( fId, false, featureVal, newH );
-
-    // have to update level-set backgrounds overlapping
-    // at the current pixel
-    if ( inBgrnd )
-      {
-      for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
-        {
-        UpdateSharedDataOutsideParameters( *it, true, featureVal, newH );
-        }
-      }
-    }
-
-  // if pixel entered the foreground
-  if ( ( oldH <= 0.5 ) && ( newH > 0.5 ) )
-    {
-    UpdateSharedDataInsideParameters( fId, true, featureVal, newH );
-    // have to update level-set backgrounds overlapping
-    // at the current pixel
-    if ( inBgrnd )
-      {
-      for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
-        {
-        UpdateSharedDataOutsideParameters( *it, false, featureVal, newH );
-        }
-      }
-    }
 
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->SetPixel( inputIndex, newH );
 }

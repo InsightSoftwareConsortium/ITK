@@ -56,40 +56,31 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 
 }
 
+// update the foreground constant for pixel updates
+// Called only when sparse filters are used to prevent iteration through the
+// entire image
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const bool& iA, const FeaturePixelType& iVal, const ScalarValueType& iH )
+    const FeaturePixelType& iVal, const ScalarValueType& iChange )
 {
-  if( iA )
-    {
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsInsideLevelSet += iH;
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesInsideLevelSet += iVal * iH;
-    }
-  else
-    {
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsInsideLevelSet -= iH;
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesInsideLevelSet -= iVal * iH;
-    }
+  // update the foreground constant calculation of the current level-set function
+  this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsInsideLevelSet += iChange;
+  this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesInsideLevelSet += iVal * iChange;
 }
 
+// update the background constant for pixel updates
+// Called only when sparse filters are used to prevent iteration through the
+// entire image
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const bool& iA, const FeaturePixelType& iVal, const ScalarValueType& iH )
+    const FeaturePixelType& iVal, const ScalarValueType& iChange )
 {
-  if( iA )
-    {
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet += iH;
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet += iVal * iH;
-    }
-  else
-    {
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet -= iH;
-    this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet -= iVal * iH;
-    }
+  this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet += iChange;
+  this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet += iVal * iChange;
 }
 
 /* Calculates the numerator and denominator for c_i for each region. As part of

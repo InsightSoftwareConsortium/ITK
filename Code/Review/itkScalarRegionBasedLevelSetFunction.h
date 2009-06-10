@@ -134,10 +134,14 @@ protected:
   ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
     ScalarValueType& product );
 
+  // update the background and foreground constants for pixel updates
+  // Called only when sparse filters are used to prevent iteration through the
+  // entire image
   virtual void UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& iVal, const ScalarValueType& iH ) = 0;
+    const FeaturePixelType& iVal, const ScalarValueType& iChange ) = 0;
   virtual void UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const bool& iBool, const FeaturePixelType& iVal, const ScalarValueType& iH ) = 0;
+    const FeaturePixelType& iVal, const ScalarValueType& iChange ) = 0;
+
 
 private:
   ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented
