@@ -74,10 +74,10 @@ public:
   virtual void UpdateSharedDataParameters() {}
 
   virtual void UpdateSharedDataInsideParameters( const unsigned int& ,
-    const bool& , const FeaturePixelType&, const ScalarValueType& ) {}
+    const FeaturePixelType&, const ScalarValueType& ) {}
 
   virtual void UpdateSharedDataOutsideParameters( const unsigned int& ,
-    const bool& , const FeaturePixelType&, const ScalarValueType& ) {}
+    const FeaturePixelType&, const ScalarValueType& ) {}
 
 
 protected:
