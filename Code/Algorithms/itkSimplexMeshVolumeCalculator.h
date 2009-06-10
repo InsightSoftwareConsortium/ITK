@@ -123,6 +123,7 @@ public:
       PointIdIterator  it =  poly->PointIdsBegin();
       InputPointType center,p;
       center.Fill(0);
+      p.Fill(0.0);
 
       while ( it != poly->PointIdsEnd() )
         {
