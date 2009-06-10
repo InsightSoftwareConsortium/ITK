@@ -84,10 +84,12 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
   composeRGB->UpdateOutputInformation();    
   RGB2DImageType::RegionType largest = composeRGB->GetOutput()->GetLargestPossibleRegion();
   itk::ImageIORegion halfIO(2);
-  halfIO.SetIndex( 0, largest.GetIndex(0) + 0.25 * largest.GetSize(0) );
-  halfIO.SetIndex( 1, largest.GetIndex(1) + 0.25 * largest.GetSize(1) );
-  halfIO.SetSize( 0, 0.5 * largest.GetSize(0) );
-  halfIO.SetSize( 1, 0.5 * largest.GetSize(1) );
+  halfIO.SetIndex( 0, largest.GetIndex(0) 
+                   + (unsigned long) (0.25 * largest.GetSize(0)) );
+  halfIO.SetIndex( 1, largest.GetIndex(1) 
+                   + (unsigned long) (0.25 * largest.GetSize(1)) );
+  halfIO.SetSize( 0, (unsigned long) (0.5 * largest.GetSize(0)) );
+  halfIO.SetSize( 1, (unsigned long) (0.5 * largest.GetSize(1)) );
     
 
 // After using an adaptor to convert the color image into a vector
