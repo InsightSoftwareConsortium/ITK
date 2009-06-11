@@ -26,6 +26,7 @@
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkTextOutput.h"
 #include "itkBSplineDeformableTransform.h"
+#include "itkImageMaskSpatialObject.h"
 
 #include <iostream>
 
@@ -136,6 +137,48 @@ int TestMattesMetricWithAffineTransform(
     ++ti;
     }
 
+  //Setup a fixed image mask for the image
+  typename MovingImageType::Pointer imgMovingMask = MovingImageType::New();
+  imgMovingMask->CopyInformation(imgMoving);
+  imgMovingMask->SetRegions(region);
+  imgMovingMask->Allocate();
+  imgMovingMask->FillBuffer(0);
+  typename FixedImageType::Pointer imgFixedMask   = FixedImageType::New();
+  imgFixedMask->CopyInformation(imgFixed);
+  imgFixedMask->SetRegions(region);
+  imgFixedMask->Allocate();
+  imgFixedMask->FillBuffer(0);
+
+  int NumberFixedImageMaskVoxels=0;
+    {//Set up a mask that only has every 10th voxel listed is used in fixed image region
+    //This should result in only about 588 samples
+      {
+      ReferenceIteratorType ri(imgMovingMask,region);
+      ri.Begin();
+      while(!ri.IsAtEnd()) //Set all moving mask voxels to 1
+        {
+        ri.Set(1);
+        ++ri;
+        }
+      }
+
+      {
+      int count=0;
+      TargetIteratorType ti(imgFixedMask,region);
+      ti.Begin();
+      while(!ti.IsAtEnd())//Set a subset of fixed mask voxels to 1, so that requested number can be made more than possible number
+        {
+        if(count%17 == 0)
+          {
+          ti.Set(1);
+          ++NumberFixedImageMaskVoxels;
+          }
+        count++;
+        ++ti;
+        }
+      }
+    }
+
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
@@ -173,7 +216,26 @@ int TestMattesMetricWithAffineTransform(
   if( useSampling )
     {
     // set the number of samples to use
-    metric->SetNumberOfSpatialSamples( 500 );
+    //metric->SetNumberOfSpatialSamples( 500 );
+      {
+      // NOTE: This number of spatial samples is to be larger than possible
+      // and it will be truncated to the size of the image.
+
+      // convert mask image to mask
+      typedef itk::ImageMaskSpatialObject<ImageDimension> ImageMaskSpatialObjectType;
+      typename ImageMaskSpatialObjectType::Pointer soMovingMask  = ImageMaskSpatialObjectType::New();
+      soMovingMask->SetImage( imgMovingMask );
+      soMovingMask->ComputeObjectToWorldTransform();
+      typename ImageMaskSpatialObjectType::Pointer soFixedMask  = ImageMaskSpatialObjectType::New();
+      soFixedMask->SetImage( imgFixedMask );
+      soFixedMask->ComputeObjectToWorldTransform();
+
+
+      metric->SetMovingImageMask(soMovingMask);
+      metric->SetFixedImageMask(soFixedMask);
+      //metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
+      metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*2) );
+      }
     }
   else
     {
