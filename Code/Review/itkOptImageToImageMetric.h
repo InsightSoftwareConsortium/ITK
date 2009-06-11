@@ -338,7 +338,7 @@ protected:
       valueIndex = 0;
       }
     ~FixedImageSamplePoint() {};
-  
+
     public:
       FixedImagePointType           point;
       double                        value;
@@ -358,11 +358,11 @@ protected:
   virtual void SampleFixedImageDomain( FixedImageSampleContainer & samples) const;
 
   virtual void SampleFixedImageIndexes( FixedImageSampleContainer & 
-                                           samples);
+                                           samples) const;
 
   /** Gather all the pixels from the fixed image domain. */
   virtual void SampleFullFixedImageDomain( FixedImageSampleContainer & 
-                                           samples);
+                                           samples) const;
 
   /** Container to store a set of points and fixed image values. */
   FixedImageSampleContainer   m_FixedImageSamples;
@@ -370,7 +370,10 @@ protected:
   unsigned long               m_NumberOfParameters;
   mutable ParametersType      m_Parameters;
 
-  mutable unsigned long       m_NumberOfFixedImageSamples;
+  /*mutable*/ unsigned long       m_NumberOfFixedImageSamples;
+  //m_NumberOfMovingImageSamples must be mutable because the const
+  //thread consolidation functions merge each threads valus
+  //onto this accumulator variable.
   mutable unsigned long       m_NumberOfMovingImageSamples;
 
   FixedImageConstPointer      m_FixedImage;
