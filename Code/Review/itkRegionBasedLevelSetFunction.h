@@ -137,6 +137,7 @@ public:
   typedef typename FeatureImageType::ConstPointer   FeatureImageConstPointer;
   typedef typename FeatureImageType::PixelType      FeaturePixelType;
   typedef typename FeatureImageType::IndexType      FeatureIndexType;
+  typedef typename FeatureImageType::SpacingType    FeatureSpacingType;
   typedef typename FeatureImageType::OffsetType     FeatureOffsetType;
 
   typedef TSharedData                               SharedDataType;
@@ -195,7 +196,15 @@ public:
   virtual const FeatureImageType *GetFeatureImage() const
     { return m_FeatureImage.GetPointer(); }
   virtual void SetFeatureImage(const FeatureImageType *f)
-    {    m_FeatureImage = f;  }
+    { 
+    m_FeatureImage = f;
+
+    FeatureSpacingType spacing = m_FeatureImage->GetSpacing();
+    for(unsigned int i = 0; i < ImageDimension; i++)
+      {
+      this->m_InvSpacing[i] = 1/spacing[i];
+      }
+    }
 
   /** Nu. Area regularization values */
   void SetAreaWeight( const ScalarValueType& nu)
@@ -312,6 +321,7 @@ protected:
   std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
   ::size_t m_Center;
   ::size_t m_xStride[itkGetStaticConstMacro(ImageDimension)];
+  double m_InvSpacing[itkGetStaticConstMacro(ImageDimension)];
 
   static double m_WaveDT;
   static double m_DT;

@@ -61,6 +61,11 @@ RegionBasedLevelSetFunction< TInput,
   m_InitialImage = 0;
   m_FeatureImage = 0;
   m_UpdateC = false;
+
+  for(unsigned int i = 0; i < ImageDimension; i++)
+    {
+    m_InvSpacing[i] = 1;
+    }
 }
 
 /* Computes the Heaviside function and stores it in m_HeavisideFunctionOfLevelSetImage */
@@ -220,12 +225,17 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     const unsigned int positionB =
       static_cast< unsigned int >( this->m_Center - this->m_xStride[i] );
 
-    gd->m_dx[i] = 0.5 * ( it.GetPixel( positionA ) - it.GetPixel( positionB ) );
-    gd->m_dxy[i][i] =
-      it.GetPixel( positionA ) + it.GetPixel( positionB ) - 2.0 * inputValue;
-    gd->m_dx_forward[i]  = it.GetPixel( positionA ) - inputValue;
-    gd->m_dx_backward[i] = inputValue - it.GetPixel( positionB );
+    gd->m_dx[i] = 0.5 * ( this->m_InvSpacing[i] ) * 
+      ( it.GetPixel( positionA ) - it.GetPixel( positionB ) );
+    gd->m_dx_forward[i]  = ( this->m_InvSpacing[i] ) * 
+      ( it.GetPixel( positionA ) - inputValue );
+    gd->m_dx_backward[i] = ( this->m_InvSpacing[i] ) * 
+      ( inputValue - it.GetPixel( positionB ) );
+
     gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
+
+    gd->m_dxy[i][i] = ( this->m_InvSpacing[i] ) * 
+      ( gd->m_dx_forward[i] - gd->m_dx_backward[i] );
 
     for (j = i+1; j < ImageDimension; j++ )
       {
@@ -238,11 +248,10 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       const unsigned int positionDa = static_cast<unsigned int>(
         this->m_Center + this->m_xStride[i] + this->m_xStride[j] );
 
-      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 *(
-        it.GetPixel( positionAa ) -
-        it.GetPixel( positionBa ) -
-        it.GetPixel( positionCa ) +
-        it.GetPixel( positionDa ) );
+      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 * 
+       ( this->m_InvSpacing[i] ) * ( this->m_InvSpacing[j] ) * 
+       ( it.GetPixel( positionAa ) - it.GetPixel( positionBa ) +
+        it.GetPixel( positionDa ) - it.GetPixel( positionCa ) );
       }
     }
 }
