@@ -71,7 +71,8 @@ int itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv [] )
   
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
-  PointType  pt;
+  PointType pt;
+  pt.Fill( 0. );
 
   std::cout << "Testing itk::RegularSphereMeshSource "<< std::endl;
 

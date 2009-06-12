@@ -74,7 +74,8 @@ int itkVTKPolyDataWriterTest2( int argc, char * argv [] )
   
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
-  PointType  pt;
+  PointType pt;
+  pt.Fill( 0. );
 
   bool testPassed = true;
 
