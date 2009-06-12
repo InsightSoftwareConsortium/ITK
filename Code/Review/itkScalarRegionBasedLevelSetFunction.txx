@@ -105,12 +105,8 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   // update the background constant of all level-set functions
   for( ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it )
     {
-    itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
-    hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( itInputIndex );
-
     UpdateSharedDataOutsideParameters( *it, featureVal, productChange );
     }
-
 
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->SetPixel( inputIndex, newH );
 }
