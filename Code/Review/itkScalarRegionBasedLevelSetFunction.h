@@ -30,7 +30,8 @@ namespace itk {
  * \brief LevelSet function that computes a speed image based on regional integrals
  *
  * This class implements a level set function that computes the speed image by
- * integrating values on the image domain.
+ * integrating values on the image domain. NOTE: The convention followed is 
+ * inside of the level-set function is negative and outside is positive.
  *
  * Based on the paper:
  *

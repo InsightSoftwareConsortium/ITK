@@ -109,17 +109,6 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   InputPixelType hVal;
   ListPixelType L;
 
-  // Reference:
-  // Dufour, Shinin, Tajbakhsh, Guillen-Aghion, Olivo-Marin
-  // Segmenting and Tracking Fluorescent Cells in Dynamic 3-D
-  // Microscopy With Coupled Active Surfaces
-  // IEEE Transactions on Image Processing, vol. 14, No 9, September 2005
-  // In the paper:
-  // m_WeightedSumOfPixelValuesInsideLevelSet = \sum I(x) * H(\phi_i(x))
-  // m_WeightedNumberOfPixelsInsideLevelSet = \sum H(\phi_i(x))
-  // m_WeightedSumOfPixelValuesOutsideLevelSet = \sum \left( I(x) \prod \left( 1 - H(\phi_i(x))\right) \right)
-  // m_WeightedNumberOfPixelsInsideLevelSet = \sum \prod \left( 1 - H(\phi_i(x))\right)
-
   fIt.GoToBegin();
 
   while( !fIt.IsAtEnd() )

@@ -50,7 +50,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
       otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex( globalIndex );
       hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel( otherIndex );
 
-      sum += hVal;
+      sum += (1 - hVal);
       product *= ( 1 - hVal );
       }
     }

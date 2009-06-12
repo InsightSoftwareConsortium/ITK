@@ -57,7 +57,8 @@ namespace itk {
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- *
+ * NOTE: The convention followed is 
+ * inside of the level-set function is negative and outside is positive.
  */
 template < class TInput, // LevelSetImageType
   class TFeature, // FeatureImageType
