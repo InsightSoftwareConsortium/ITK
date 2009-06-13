@@ -370,6 +370,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>
 
   InputVectorType tmp;
   InputPointType p1, p2, cellCenter;
+  p1.Fill(0);
   cellCenter.Fill(0);
 
   // compute the cell center first

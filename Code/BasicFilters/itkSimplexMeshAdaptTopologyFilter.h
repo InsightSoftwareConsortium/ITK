@@ -176,6 +176,10 @@ public:
     double ComputeArea(unsigned long p1,unsigned long p2, unsigned long p3)
       {
       InputPointType v1,v2,v3;
+      v1.Fill(0);
+      v2.Fill(0);
+      v3.Fill(0);
+
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);
       mesh->GetPoint(p3, &v3);

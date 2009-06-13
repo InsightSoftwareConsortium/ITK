@@ -443,6 +443,11 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 {
   PointType p,n1,n2,n3;
 
+  p.Fill(0);
+  n1.Fill(0);
+  n2.Fill(0);
+  n3.Fill(0);
+
   IndexArray neighbors = this->GetNeighbors( idx );  
   this->GetPoint(idx,&p);
   this->GetPoint(neighbors[0],&n1);

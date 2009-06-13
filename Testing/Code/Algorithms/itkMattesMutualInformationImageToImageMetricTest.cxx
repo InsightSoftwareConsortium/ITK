@@ -153,28 +153,28 @@ int TestMattesMetricWithAffineTransform(
     {//Set up a mask that only has every 10th voxel listed is used in fixed image region
     //This should result in only about 588 samples
       {
-      ReferenceIteratorType ri(imgMovingMask,region);
-      ri.Begin();
-      while(!ri.IsAtEnd()) //Set all moving mask voxels to 1
+      ReferenceIteratorType ri1(imgMovingMask,region);
+      ri1.Begin();
+      while(!ri1.IsAtEnd()) //Set all moving mask voxels to 1
         {
-        ri.Set(1);
-        ++ri;
+        ri1.Set(1);
+        ++ri1;
         }
       }
 
       {
       int count=0;
-      TargetIteratorType ti(imgFixedMask,region);
-      ti.Begin();
-      while(!ti.IsAtEnd())//Set a subset of fixed mask voxels to 1, so that requested number can be made more than possible number
+      TargetIteratorType ti1(imgFixedMask,region);
+      ti1.Begin();
+      while(!ti1.IsAtEnd())//Set a subset of fixed mask voxels to 1, so that requested number can be made more than possible number
         {
         if(count%17 == 0)
           {
-          ti.Set(1);
+          ti1.Set(1);
           ++NumberFixedImageMaskVoxels;
           }
         count++;
-        ++ti;
+        ++ti1;
         }
       }
     }

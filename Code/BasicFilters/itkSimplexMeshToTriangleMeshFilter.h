@@ -112,10 +112,13 @@ public:
      */
     void Visit(unsigned long cellId, SimplexPolygonType * poly)
       {
-      typedef typename SimplexPolygonType::PointIdIterator   PointIdIterator;
+      typedef typename SimplexPolygonType::PointIdIterator  PointIdIterator;
       PointIdIterator  it =  poly->PointIdsBegin();
-      InputPointType center,p;
+      InputPointType center;
       center.Fill(0);
+
+      InputPointType p;
+      p.Fill(0);
 
       while ( it != poly->PointIdsEnd() )
         {
