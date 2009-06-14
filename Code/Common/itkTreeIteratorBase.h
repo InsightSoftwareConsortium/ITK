@@ -179,7 +179,7 @@ public:
   void
   operator++(int)
     {
-    assert( !IsAtEnd() );
+    // assert( !IsAtEnd() );
     this->Next();
     }
   /** operator = */

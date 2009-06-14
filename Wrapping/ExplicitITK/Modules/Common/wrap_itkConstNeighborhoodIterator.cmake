@@ -4,7 +4,7 @@ WRAP_TEMPLATE("ID2ZFID2" "Templates::ImageD2,Templates::ZeroFluxNeumannBoundaryC
 WRAP_TEMPLATE("IF4ZFID4" "Templates::ImageF4,Templates::ZeroFluxNeumannBoundaryConditionIF4")
 WRAP_TEMPLATE("IF2ZFIF2" "Templates::ImageF2,Templates::ZeroFluxNeumannBoundaryConditionIF2")
 WRAP_TEMPLATE("IF3ZFIF3" "Templates::ImageF3,Templates::ZeroFluxNeumannBoundaryConditionIF3")
-WRAP_TEMPLATE("IS2ZFIS2" "Templates::ImageS2,Templates::ZeroFluxNeumannBoundaryConditionIS2")
+WRAP_TEMPLATE("ISS2ZFISS2" "Templates::ImageSS2,Templates::ZeroFluxNeumannBoundaryConditionISS2")
 WRAP_TEMPLATE("ISI2ZFISI2" "Templates::ImageSI2,Templates::ZeroFluxNeumannBoundaryConditionISI2")
 WRAP_TEMPLATE("IUC2ZFIUC2" "Templates::ImageUC2,Templates::ZeroFluxNeumannBoundaryConditionIUC2")
 WRAP_TEMPLATE("IUC3ZFIUC3" "Templates::ImageUC3,Templates::ZeroFluxNeumannBoundaryConditionIUC3")
