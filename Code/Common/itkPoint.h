@@ -151,7 +151,9 @@ public:
   /** Set the current point to a barycentric combination of the two points
    * given as arguments.
    *
-   * \param  \f$ \alpha \f$ = weight for the first point
+   * \param A First point
+   * \param B Second point
+   * \param alpha Weight for the first point
    * 
    * The first point is multiplied by \f$ \alpha \f$, the second is multiplied 
    * by * \f$ (1-\alpha) \f$, and the sum is stored in the Point on which the
