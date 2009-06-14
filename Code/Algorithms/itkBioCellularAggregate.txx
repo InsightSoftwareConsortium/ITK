@@ -405,6 +405,7 @@ CellularAggregate<NSpaceDimension>
   CellsConstIterator end    = m_Mesh->GetPointData()->End();
 
   PointType position;
+  position.Fill(0);
 
   while( cellIt != end )
     {
@@ -442,6 +443,7 @@ CellularAggregate<NSpaceDimension>
     BioCellType     * cell1      =  cell1It.Value();
 
     PointType  position1;
+    position1.Fill(0);
     m_Mesh->GetPoint( cell1Id, &position1 );
 
     const double rA          = cell1->GetRadius();

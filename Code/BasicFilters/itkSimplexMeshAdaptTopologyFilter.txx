@@ -149,6 +149,8 @@ void SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>
       //create first new point
       InputPointType newMidPoint, helperPoint;
       InputPointType p1, p2;
+      p1.Fill(0);
+      p2.Fill(0);
       inputMesh->GetPoint(lineOneFirstIdx, &p1);
       inputMesh->GetPoint(lineOneSecondIdx, &p2);
 

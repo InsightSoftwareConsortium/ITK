@@ -68,6 +68,7 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
   MeshType::Pointer myMesh = mySphereMeshSource->GetOutput();
 
   PointType  pt;
+  pt.Fill(0);
 
   bool testPassed = true;
 
