@@ -66,7 +66,8 @@ namespace itk
  * If ITK_USE_SPROC is defined, then sproc() will be used to create
  * multiple threads on an SGI. If ITK_USE_PTHREADS is defined, then
  * pthread_create() will be used to create multiple threads (on
- * a sun, for example). */
+ * a sun, for example).
+ */
 
 // The maximum number of threads allowed
 #ifdef ITK_USE_SPROC
