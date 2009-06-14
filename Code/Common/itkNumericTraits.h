@@ -39,7 +39,7 @@ namespace itk
  *
  * NumericTraits is used to extend the traits associated with native types
  * such as float, char, int, and so on. These traits are extensions of the
- * standard <numeric_limits> defined by the C++ compilers. Some of the added
+ * standard numeric_limits defined by the C++ compilers. Some of the added
  * traits include minimum and maximum value; accumulation type; etc.
  *
  * \ingroup DataRepresentation
