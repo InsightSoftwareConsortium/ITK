@@ -118,7 +118,7 @@ public:
   /**
    * \author Hans J. Johnson
    * Function to set the stored value of type MetaDataObjectType.
-   * \param A constant reference to at MetaDataObjectType.
+   * \param NewValue A constant reference to at MetaDataObjectType.
    */
   void SetMetaDataObjectValue(const MetaDataObjectType & NewValue );
   /**
@@ -140,7 +140,9 @@ private:
 /**
  * EncapsulateMetaData is a convenience function that encapsulates raw MetaData into a
  * MetaDataObject that can be put into the MetaDataDictionary.
- * \param value the value of type T that is to be encapsulated.
+ * \param Dictionary TODO
+ * \param key TODO
+ * \param invalue the value of type T that is to be encapsulated.
  * \return A smartpointer ot a MetaDataObject that is suitable for
  * insertion into a MetaDataDictionary.
  */
