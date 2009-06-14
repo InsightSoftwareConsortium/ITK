@@ -145,7 +145,7 @@ public:
 
   /** Determing the subsampling factor in case
    *  we want a coarse version of the image/
-   * \Warning this is only used when streaming is on. */
+   * \warning this is only used when streaming is on. */
   itkSetMacro(SubSamplingFactor,unsigned int);
   itkGetConstMacro(SubSamplingFactor,unsigned int);
 

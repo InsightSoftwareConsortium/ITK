@@ -90,20 +90,20 @@ public:
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Determine if the file can be written with this ImageIO implementation.
+  /* * Determine if the file can be written with this ImageIO implementation.
    * \param FileNameToWrite The name of the file to test for writing.
    * \author Hans J. Johnson
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
-   */
+  */
   // Implemented in superclass
   // virtual bool CanWriteFile(const char * FileNameToWrite);
 
-  /** Set the spacing and dimension information for the set filename. */
+  /* * Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
   // virtual void WriteImageInformation();
 
-  /** Writes the data to disk from the memory buffer provided. Make sure
+  /* * Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   // Implemented in superclass
   // virtual void Write(const void* buffer);

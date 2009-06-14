@@ -96,22 +96,23 @@ protected:
 
   /** Compute G(x)
    * For the elastic body spline, this is:
-   * G(x) = [alpha*r(x)^2*I - 3*x*x']*r(x)
+   * \f$ G(x) = [alpha*r(x)^2*I - 3*x*x']*r(x) \f$
    * \f$ G(x) = [\alpha*r(x)^2*I - 3*x*x']*r(x) \f$
    * where
    * \f$\alpha = 12 ( 1 - \nu ) - 1\f$
    * \f$\nu\f$ is Poisson's Ratio
-   * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
+   * \f$ r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2] \f$
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
-   * I = identity matrix */
+   * I = identity matrix
+   */
   virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
   /**
    * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
    */
   itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
 
-  /** alpha,  Alpha is related to Poisson's Ratio ($\nu$) as
-   * $\alpha = 12 ( 1 - \nu ) - 1$
+  /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
+   * \$\alpha = 12 ( 1 - \nu ) - 1\f$
    */
   TScalarType m_Alpha;
 

@@ -50,7 +50,7 @@ namespace itk
  *  itkDanielssonDistanceImageFilterClass except is does not return the Voronoi
  *  map.
  *
- *  \cite C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm
+ *  Ref: C. R. Maurer, Jr., R. Qi, and V. Raghavan, "A Linear Time Algorithm
  *  for Computing Exact Euclidean Distance Transforms of Binary Images in
  *  Arbitrary Dimensions", IEEE - Transactions on Pattern Analysis and Machine
  *  Intelligence, 25(2): 265-270, 2003.

@@ -39,7 +39,7 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation.
  *
- * \TODO Need to make sure that the translation parameters in the baseclass
+ * TODO: Need to make sure that the translation parameters in the baseclass
  * cannot be set to non-zero values.
  *
  * \ingroup Transforms

@@ -77,7 +77,7 @@ namespace itk {
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  *
- * \cite B.C. Vemuri, J. Ye, Y. Chen, C.M. Leonard. "Image
+ * Ref: B.C. Vemuri, J. Ye, Y. Chen, C.M. Leonard. "Image
  * registration via level-set motion: applications to atlas-based
  * segmentation". Medical Image Analysis. Vol. 7. pp. 1-20. 2003.
  * 
