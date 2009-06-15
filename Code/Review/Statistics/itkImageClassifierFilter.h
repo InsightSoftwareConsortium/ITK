@@ -53,7 +53,7 @@ public:
   typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Standard macros */
-  itkTypeMacro(ImageClassifierFilter, ProcessObject);
+  itkTypeMacro(ImageClassifierFilter, ImageToImagefilter);
   itkNewMacro(Self);
 
   /** Image pixel value typedef. */

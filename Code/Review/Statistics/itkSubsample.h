@@ -46,7 +46,7 @@ public:
   typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Subsample, Sample);
+  itkTypeMacro(Subsample, TSample);
 
   /** standard New() method support */
   itkNewMacro(Self);

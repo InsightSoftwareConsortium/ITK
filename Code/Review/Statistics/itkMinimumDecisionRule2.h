@@ -38,7 +38,7 @@ public:
   typedef SmartPointer<const Self>        ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MinimumDecisionRule2, DecisionRuleBase);
+  itkTypeMacro(MinimumDecisionRule2, DecisionRule);
 
   /** Standard New() method support */
   itkNewMacro(Self);

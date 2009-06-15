@@ -111,12 +111,12 @@ class ITK_EXPORT ScalarImageToTextureFeaturesFilter : public ProcessObject
 public:
   /** Standard typedefs */
   typedef ScalarImageToTextureFeaturesFilter        Self;
-  typedef Object                                    Superclass;
+  typedef ProcessObject                             Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
       
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageToTextureFeaturesFilter, Object);
+  itkTypeMacro(ScalarImageToTextureFeaturesFilter, ProcessObject);
       
   /** standard New() method support */
   itkNewMacro(Self);
