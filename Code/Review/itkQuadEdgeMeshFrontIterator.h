@@ -107,7 +107,7 @@ protected:
       { }
       virtual ~FrontAtom( ) { }
       FrontAtom& operator=( const FrontAtom& r )
-      { m_Edge = r.m_Edge; m_Cost = r.m_Cost; return this; }
+      { m_Edge = r.m_Edge; m_Cost = r.m_Cost; return *this; }
       bool operator==( const FrontAtom& r ) const
       { return( m_Edge == r.m_Edge ); }
       bool operator!=( const FrontAtom& r ) const

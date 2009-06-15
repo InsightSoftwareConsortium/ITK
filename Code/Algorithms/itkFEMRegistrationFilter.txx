@@ -1775,6 +1775,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::MultiResSolve()
 
     SolverType SSS;
     typename FixedImageType::SizeType nextLevelSize;
+    nextLevelSize.Fill( 0 );
     typename FixedImageType::SizeType lastLevelSize;
 
     if (m_Maxiters[m_CurrentLevel] > 0)
