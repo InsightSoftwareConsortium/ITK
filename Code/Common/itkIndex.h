@@ -260,20 +260,6 @@ public:
    *    Index<3> index = {5, 2, 7}; */
   IndexValueType m_Index[VIndexDimension];
   
-#ifndef ITK_USE_PORTABLE_ROUND
-  // The Windows implementaton of vnl_math_rnd() does not round the
-  // same way as other versions. It has an assembly "fast" implementation
-  // but with the drawback of rounding to the closest even number.
-  // See: http://www.musicdsp.org/showone.php?id=170
-  // For example 0.5 is rounded down to 0.0.
-  // This conditional code replaces the standard vnl implementation that uses
-  // assembler code. The code below will be slower for windows but will
-  // produce consistent results. This can be removed once vnl_math_rnd is
-  // fixed in VXL.
-#if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
-#define vnl_math_rnd_halfintup(x) ((x>=0.0)?(int)(x + 0.5):(int)(x - 0.5))
-#endif
-#endif
   /** Copy values from a FixedArray by rounding each one of the components */
   template <class TCoordRep>
   inline void CopyWithRound( const FixedArray<TCoordRep,VIndexDimension> & point )
@@ -283,19 +269,10 @@ public:
 #else
     for(unsigned int i=0;i < VIndexDimension; ++i)
       {
-#ifdef ITK_USE_PORTABLE_ROUND
       m_Index[i] = static_cast< IndexValueType>( itk::Math::Round( point[i] ) );
-#else
-      m_Index[i] = static_cast< IndexValueType>( vnl_math_rnd_halfintup( point[i] ) );
-#endif
       }
 #endif
     }
-#ifndef ITK_USE_PORTABLE_ROUND
-#if (defined (VCL_VC) && !defined(__GCCXML__)) || (defined(_MSC_VER) && (_MSC_VER <= 1310))
-#undef vnl_math_rnd_halfintup
-#endif
-#endif
 
   /** Copy values from a FixedArray by casting each one of the components */
   template <class TCoordRep>

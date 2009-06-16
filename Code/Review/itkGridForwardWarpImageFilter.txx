@@ -129,11 +129,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
           inside = false;
           break;
           }
-#ifdef ITK_USE_PORTABLE_ROUND
         refIndex[j] = Math::Round(contindex[j]);
-#else
-        refIndex[j] = vnl_math_rnd(contindex[j]);
-#endif
         }
 
       if( inside )
@@ -160,11 +156,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
                 targetIn = false;
                 break;
                 }
-#ifdef ITK_USE_PORTABLE_ROUND
               targetIndex[j] = Math::Round(contindex[j]);
-#else
-              targetIndex[j] = vnl_math_rnd(contindex[j]);
-#endif
               }
 
             if( targetIn ) 

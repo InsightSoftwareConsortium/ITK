@@ -980,6 +980,10 @@ inline int RoundHalfIntegerToEven(float   x) { return vnl_math_rnd_halfinttoeven
 inline int RoundHalfIntegerToEven(double  x) { return vnl_math_rnd_halfinttoeven(x); }
 inline int Round(float   x) { return RoundHalfIntegerUp(x); }
 inline int Round(double  x) { return RoundHalfIntegerUp(x); }
+inline int Floor(float   x) { return vnl_math_floor(x); }
+inline int Floor(double  x) { return vnl_math_floor(x); }
+inline int Ceil(float   x) { return vnl_math_ceil(x); }
+inline int Ceil(double  x) { return vnl_math_ceil(x); }
 } // end namespace Math
 } // end namespace itk
 
@@ -1010,19 +1014,11 @@ inline int Round(double  x) { return RoundHalfIntegerUp(x); }
 // perfomed as part of the assignment, by using the DestinationElementType as
 // the casting type. 
 // Source and destination array types must have defined opearator[] in their API.
-#ifdef ITK_USE_PORTABLE_ROUND
 #define itkForLoopRoundingAndAssignmentMacro(DestinationType,Sourcrnd_halfintup,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
     for(unsigned int i=0;i < NumberOfIterations; ++i) \
       { \
       DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::Round( SourceArray[i] ) ); \
       }
-#else
-#define itkForLoopRoundingAndAssignmentMacro(DestinationType,SourceType,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
-    for(unsigned int i=0;i < NumberOfIterations; ++i) \
-      { \
-      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::RoundHalfIntegerUp( SourceArray[i] ) ); \
-      }
-#endif
 
 #endif
 // end of Template Meta Programming helper macros

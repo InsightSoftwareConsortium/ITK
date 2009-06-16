@@ -112,6 +112,58 @@ int itkMathRoundTest( int, char *[] )
   ok &= math_test_helper("rnd_halfintup(9.5001)   ==  10", itk::Math::RoundHalfIntegerUp(9.5001)  ==  10);
   ok &= math_test_helper("rnd_halfintup(9.5001f)  ==  10", itk::Math::RoundHalfIntegerUp(9.5001f) ==  10);
 
+  ok &= math_test_helper("floor(8.0)      ==  8", itk::Math::Floor(8.0)      ==  8);
+  ok &= math_test_helper("floor(8.0f)     ==  8", itk::Math::Floor(8.0f)     ==  8);
+  ok &= math_test_helper("floor(8.9999)   ==  8", itk::Math::Floor(8.9999)   ==  8);
+  ok &= math_test_helper("floor(8.9999f)  ==  8", itk::Math::Floor(8.9999f)  ==  8);
+  ok &= math_test_helper("floor(8.0001)   ==  8", itk::Math::Floor(8.0001)   ==  8);
+  ok &= math_test_helper("floor(8.0001f)  ==  8", itk::Math::Floor(8.0001f)  ==  8);
+  ok &= math_test_helper("floor(-8.0)     == -8", itk::Math::Floor(-8.0)     == -8);
+  ok &= math_test_helper("floor(-8.0f)    == -8", itk::Math::Floor(-8.0f)    == -8);
+  ok &= math_test_helper("floor(-8.9999)  == -9", itk::Math::Floor(-8.9999)  == -9);
+  ok &= math_test_helper("floor(-8.9999f) == -9", itk::Math::Floor(-8.9999f) == -9);
+  ok &= math_test_helper("floor(-8.0001)  == -9", itk::Math::Floor(-8.0001)  == -9);
+  ok &= math_test_helper("floor(-8.0001f) == -9", itk::Math::Floor(-8.0001f) == -9);
+
+  ok &= math_test_helper("floor(9.0)      ==  9 ", itk::Math::Floor(9.0)      ==  9);
+  ok &= math_test_helper("floor(9.0f)     ==  9 ", itk::Math::Floor(9.0f)     ==  9);
+  ok &= math_test_helper("floor(9.9999)   ==  9 ", itk::Math::Floor(9.9999)   ==  9);
+  ok &= math_test_helper("floor(9.9999f)  ==  9 ", itk::Math::Floor(9.9999f)  ==  9);
+  ok &= math_test_helper("floor(9.0001)   ==  9 ", itk::Math::Floor(9.0001)   ==  9);
+  ok &= math_test_helper("floor(9.0001f)  ==  9 ", itk::Math::Floor(9.0001f)  ==  9);
+  ok &= math_test_helper("floor(-9.0)     == -9 ", itk::Math::Floor(-9.0)     == -9);
+  ok &= math_test_helper("floor(-9.0f)    == -9 ", itk::Math::Floor(-9.0f)    == -9);
+  ok &= math_test_helper("floor(-9.9999)  == -10", itk::Math::Floor(-9.9999)  == -10);
+  ok &= math_test_helper("floor(-9.9999f) == -10", itk::Math::Floor(-9.9999f) == -10);
+  ok &= math_test_helper("floor(-9.0001)  == -10", itk::Math::Floor(-9.0001)  == -10);
+  ok &= math_test_helper("floor(-9.0001f) == -10", itk::Math::Floor(-9.0001f) == -10);
+
+  ok &= math_test_helper("ceil(8.0)      ==  8", itk::Math::Ceil(8.0)      ==  8);
+  ok &= math_test_helper("ceil(8.0f)     ==  8", itk::Math::Ceil(8.0f)     ==  8);
+  ok &= math_test_helper("ceil(8.9999)   ==  9", itk::Math::Ceil(8.9999)   ==  9);
+  ok &= math_test_helper("ceil(8.9999f)  ==  9", itk::Math::Ceil(8.9999f)  ==  9);
+  ok &= math_test_helper("ceil(8.0001)   ==  9", itk::Math::Ceil(8.0001)   ==  9);
+  ok &= math_test_helper("ceil(8.0001f)  ==  9", itk::Math::Ceil(8.0001f)  ==  9);
+  ok &= math_test_helper("ceil(-8.0)     == -8", itk::Math::Ceil(-8.0)     == -8);
+  ok &= math_test_helper("ceil(-8.0f)    == -8", itk::Math::Ceil(-8.0f)    == -8);
+  ok &= math_test_helper("ceil(-8.9999)  == -8", itk::Math::Ceil(-8.9999)  == -8);
+  ok &= math_test_helper("ceil(-8.9999f) == -8", itk::Math::Ceil(-8.9999f) == -8);
+  ok &= math_test_helper("ceil(-8.0001)  == -8", itk::Math::Ceil(-8.0001)  == -8);
+  ok &= math_test_helper("ceil(-8.0001f) == -8", itk::Math::Ceil(-8.0001f) == -8);
+
+  ok &= math_test_helper("ceil(9.0)      ==  9 ", itk::Math::Ceil(9.0)      ==  9);
+  ok &= math_test_helper("ceil(9.0f)     ==  9 ", itk::Math::Ceil(9.0f)     ==  9);
+  ok &= math_test_helper("ceil(9.9999)   ==  10", itk::Math::Ceil(9.9999)   ==  10);
+  ok &= math_test_helper("ceil(9.9999f)  ==  10", itk::Math::Ceil(9.9999f)  ==  10);
+  ok &= math_test_helper("ceil(9.0001)   ==  10", itk::Math::Ceil(9.0001)   ==  10);
+  ok &= math_test_helper("ceil(9.0001f)  ==  10", itk::Math::Ceil(9.0001f)  ==  10);
+  ok &= math_test_helper("ceil(-9.0)     == -9 ", itk::Math::Ceil(-9.0)     == -9);
+  ok &= math_test_helper("ceil(-9.0f)    == -9 ", itk::Math::Ceil(-9.0f)    == -9);
+  ok &= math_test_helper("ceil(-9.9999)  == -9 ", itk::Math::Ceil(-9.9999)  == -9);
+  ok &= math_test_helper("ceil(-9.9999f) == -9 ", itk::Math::Ceil(-9.9999f) == -9);
+  ok &= math_test_helper("ceil(-9.0001)  == -9 ", itk::Math::Ceil(-9.0001)  == -9);
+  ok &= math_test_helper("ceil(-9.0001f) == -9 ", itk::Math::Ceil(-9.0001f) == -9);
+
   if (!ok)
     {
     return EXIT_FAILURE;
