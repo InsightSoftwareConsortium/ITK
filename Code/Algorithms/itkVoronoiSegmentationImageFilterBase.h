@@ -169,6 +169,7 @@ public:
   VoronoiPointer GetVoronoiDiagram(void)
     { return m_WorkingVD; }
     
+#if !defined(CABLE_CONFIGURATION)  // generates invalid iterator instantiation with msvc
   /** Seeds positions are randomly set. 
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */ 
@@ -176,6 +177,17 @@ public:
     { 
     m_NumberOfSeeds = num; 
     m_WorkingVD->SetSeeds(num,begin); 
+    } 
+#endif
+
+  /** Seeds positions are randomly set. 
+   * If you need to set seeds position then use the SetSeeds method
+   * after the InitializeSegment method .  */ 
+  void SetSeeds(SeedsType & seeds)
+    { 
+    m_NumberOfSeeds = seeds.size();
+    typename SeedsType::iterator it = seeds.begin();
+    m_WorkingVD->SetSeeds(m_NumberOfSeeds, it); 
     } 
     
   /** Get the point specified by the ID given. */
