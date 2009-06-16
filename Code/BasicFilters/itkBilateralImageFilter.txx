@@ -26,28 +26,6 @@
 #include "itkStatisticsImageFilter.h"
 
 
-// anonymous namespace
-namespace
-{
-//--------------------------------------------------------------------------
-// The 'floor' function on x86 and mips is many times slower than these
-// and is used a lot in this code, optimize for different CPU architectures
-inline int BilateralFloor(double x)
-{
-#if defined mips || defined sparc || defined __ppc__
-  return (int)((unsigned int)(x + 2147483648.0) - 2147483648U);
-#elif defined i386 || defined _M_IX86
-  union { unsigned int hilo[2]; double d; } u;  
-  u.d = x + 103079215104.0;
-  return (int)((u.hilo[1]<<16)|(u.hilo[0]>>16));  
-#else
-  return int(floor(x));
-#endif
-}
-
-}
-
-
 namespace itk
 {
 template< class TInputImage, class TOutputImage >
@@ -327,7 +305,7 @@ BilateralImageFilter<TInputImage, TOutputImage>
           {
           // look up the range gaussian in a table
           tableArg = rangeDistance * distanceToTableIndex;
-          rangeGaussian = m_RangeGaussianTable[BilateralFloor(tableArg)];
+          rangeGaussian = m_RangeGaussianTable[Math::Floor(tableArg)];
           
           // normalization factor so filter integrates to one
           // (product of the domain and the range gaussian)

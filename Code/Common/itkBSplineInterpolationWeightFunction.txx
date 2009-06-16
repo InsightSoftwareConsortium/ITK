@@ -22,27 +22,6 @@
 #include "itkMatrix.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-// anonymous namespace
-namespace
-{
-//--------------------------------------------------------------------------
-// The 'floor' function on x86 and mips is many times slower than these
-// and is used a lot in this code, optimize for different CPU architectures
-inline int BSplineFloor(double x)
-{
-#if defined mips || defined sparc || defined __ppc__
-  return (int)((unsigned int)(x + 2147483648.0) - 2147483648U);
-#elif defined i386 || defined _M_IX86
-  union { unsigned int hilo[2]; double d; } u;  
-  u.d = x + 103079215104.0;
-  return (int)((u.hilo[1]<<16)|(u.hilo[0]>>16));  
-#else
-  return int(vcl_floor(x));
-#endif
-}
-
-}
-
 namespace itk
 {
 
@@ -147,7 +126,7 @@ void BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension,
   for ( j = 0; j < SpaceDimension; j++ )
     {
     startIndex[j] = static_cast<typename IndexType::IndexValueType>(
-      BSplineFloor( index[j] - static_cast<double>( SplineOrder - 1 ) / 2.0 ) );
+       Math::Floor( index[j] - static_cast<double>( SplineOrder - 1 ) / 2.0 ) );
     }
 
   // Compute the weights
