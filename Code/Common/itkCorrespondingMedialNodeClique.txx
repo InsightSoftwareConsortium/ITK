@@ -26,7 +26,16 @@ template <unsigned int VImageDimension, unsigned int VCliqueSize>
 CorrespondingMedialNodeClique<VImageDimension, VCliqueSize>
 ::CorrespondingMedialNodeClique()
 {
+  m_NodeCoordinates = 0;
+  m_CenterOfMass = 0;
+  m_TransformMatrix = 0;
 
+  m_AverageDistance = 0;
+
+  for( unsigned int i = 0; i < VCliqueSize; i++ )
+    {
+    m_CorrespondenceValue[i] = 0;
+    }
 }
 
 template <unsigned int VImageDimension, unsigned int VCliqueSize>
