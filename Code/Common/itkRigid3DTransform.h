@@ -37,7 +37,7 @@ namespace itk
  * methods or in serialized form using SetParameters() and SetFixedParameters().
  *
  * The serialization of the optimizable parameters is an array of 12 elements.
- * The first 9 parameters represents the rotation matrix in column-major order
+ * The first 9 parameters represents the rotation matrix in row-major order
  * (where the column index varies the fastest). The last 3 parameters defines
  * the translation in each dimension.
  *
@@ -96,7 +96,7 @@ public:
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 12 parameters. The first 9 represents the rotation
-   * matrix is column-major order and the last 3 represents the translation.
+   * matrix is row-major order and the last 3 represents the translation.
    *
    * \warning The rotation matrix must be orthogonal to within a specified tolerance,
    * else an exception is thrown.
