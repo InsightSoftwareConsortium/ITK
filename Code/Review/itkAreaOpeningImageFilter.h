@@ -45,6 +45,12 @@ namespace itk
  * included, but operation appears incorrect. Check the ifdefs if you
  * are interested.
  *
+ * This code was contributed in the Insight Journal paper
+ *
+ * http://hdl.handle.net/1926/1316
+ * http://www.insight-journal.org/browse/publication/203
+ *
+ *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  */
