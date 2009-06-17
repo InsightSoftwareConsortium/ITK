@@ -423,33 +423,32 @@ TOutput
 GaussianBlurImageFunction<TInputImage,TOutput>
 ::Evaluate(const PointType& point) const
 {
+  ContinuousIndexType cindex;
 
-  IndexType index;
+  this->m_InternalImage->TransformPhysicalPointToContinuousIndex( point, cindex );
 
-  double offset[itkGetStaticConstMacro(ImageDimension)];
-  for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension);i++)
-    {
-    index[i] = (unsigned long)point[i];
-    offset[i] = point[i]-index[i];
-    }
-
-  this->RecomputeContinuousGaussianKernel(offset);
-
-  return this->EvaluateAtIndex( index, m_ContinuousOperatorArray );
+  return this->EvaluateAtContinuousIndex( cindex );
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
 template <class TInputImage,class TOutput>
 TOutput
 GaussianBlurImageFunction<TInputImage,TOutput>
-::EvaluateAtContinuousIndex( const ContinuousIndexType & index ) const
+::EvaluateAtContinuousIndex( const ContinuousIndexType & cindex ) const
 {
-  PointType point;
+  IndexType index;
+
+  index.CopyWithRound( cindex );
+
+  double offset[itkGetStaticConstMacro(ImageDimension)];
   for(unsigned int i=0; i<itkGetStaticConstMacro(ImageDimension);i++)
     {
-    point[i] = index[i];
+    offset[i] = cindex[i] - index[i];
     }
-  return this->Evaluate(point);
+
+  this->RecomputeContinuousGaussianKernel( offset );
+
+  return this->EvaluateAtIndex( index, m_ContinuousOperatorArray );
 }
 
 } // end namespace itk
