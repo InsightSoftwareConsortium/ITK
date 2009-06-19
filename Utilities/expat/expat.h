@@ -11,7 +11,7 @@ See the file COPYING for copying permission.
 #include "expatDllConfig.h"
 
 #if defined(_WIN32) && !defined(ITK_EXPAT_STATIC)
-#  if defined(vtkexpat_EXPORTS)
+#  if defined(ITKEXPAT_EXPORTS)
 #    define XMLPARSEAPI(type) __declspec( dllexport ) type __cdecl
 #  else
 #    define XMLPARSEAPI(type) __declspec( dllimport ) type __cdecl
