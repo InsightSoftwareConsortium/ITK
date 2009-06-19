@@ -26,14 +26,6 @@
 namespace itk
 {
 
-//template <class NodeType>
-//void 
-//NarrowBand<NodeType>
-//::PrintSelf(std::ostream& os, Indent indent) const
-//{
-//  Superclass::PrintSelf(os, indent);
-//}
-
 #if !defined(CABLE_CONFIGURATION)
 template <class NodeType >
 std::vector< ITK_TYPENAME NarrowBand<NodeType>::RegionType>
