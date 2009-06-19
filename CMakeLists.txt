@@ -396,12 +396,24 @@ INCLUDE(${ITK_SOURCE_DIR}/Wrapping/itkWrapSetup.cmake)
 
 
 IF(WIN32)
+  # Some libraries (e.g. vxl libs) have no dllexport markup, so we can
+  # build full shared libraries only with the GNU toolchain.
+  IF(CMAKE_COMPILER_IS_GNUCXX)
+    # CMake adds --enable-all-exports on Cygwin (since Cygwin is
+    # supposed to be UNIX-like), but we need to add it explicitly for
+    # a native windows build with the MinGW tools.
+    IF(MINGW)
+      SET(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+    ENDIF(MINGW)
+  ELSE(CMAKE_COMPILER_IS_GNUCXX)
    IF(BUILD_SHARED_LIBS)
      SET(ITK_COMMON_BUILD_TYPE "SHARED")
    ELSE(BUILD_SHARED_LIBS)
      SET(ITK_COMMON_BUILD_TYPE "STATIC")
    ENDIF(BUILD_SHARED_LIBS)
    SET(BUILD_SHARED_LIBS OFF)
+  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ENDIF(WIN32)
 
 OPTION(BUILD_EXAMPLES "Build the Examples directory." ON)
