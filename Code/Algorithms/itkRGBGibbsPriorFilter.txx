@@ -140,6 +140,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>
   int numx;
   LabelType origin;
   LabelType neighbors[4];
+  neighbors[0] = neighbors[1] = neighbors[2] = neighbors[3] = 0;
 
   for (unsigned int rgb = 0; rgb < m_VecDim; rgb++) 
     {
