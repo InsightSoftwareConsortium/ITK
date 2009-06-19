@@ -270,6 +270,27 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
       }
     }
 
+  //Test for NumberOfSigmaSteps = 0
+  multiScaleEnhancementFilter->SetNumberOfSigmaSteps( 0 );
+  try
+    {
+    multiScaleEnhancementFilter->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
+
+  //Test for NumberOfSigmaSteps = 1
+  multiScaleEnhancementFilter->SetNumberOfSigmaSteps( 1 );
+  try
+    {
+    multiScaleEnhancementFilter->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
 
   return EXIT_SUCCESS;
 }
