@@ -74,7 +74,7 @@ template<class TInputImage,
   class TInputFilter=ImageToImageFilter< 
     Image< ITK_TYPENAME TInputImage::PixelType,  ::itk::GetImageDimension<TInputImage >::ImageDimension - 1 >,
     Image< ITK_TYPENAME TOutputImage::PixelType, ::itk::GetImageDimension<TOutputImage>::ImageDimension - 1 > >,
-  class TOutputFilter=TInputFilter,
+  class TOutputFilter=ITK_TYPENAME TInputFilter::Superclass,
   class TInternalInputImage=ITK_TYPENAME TInputFilter::InputImageType,
   class TInternalOutputImage=ITK_TYPENAME TOutputFilter::OutputImageType >
 class ITK_EXPORT SliceBySliceImageFilter : 
