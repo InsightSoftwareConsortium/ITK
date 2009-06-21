@@ -26,6 +26,7 @@
 #include "itkSpatialOrientationAdapter.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include <itksys/SystemTools.hxx>
 
 namespace itk
 {
