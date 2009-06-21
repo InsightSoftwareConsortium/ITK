@@ -52,6 +52,9 @@ public:
   typedef typename InputMeshType::QEPrimal        InputQEPrimal;
   typedef typename InputMeshType::VectorType      InputVectorType;
 
+  typedef typename InputMeshType::PointDataContainer   InputPointDataContainer;
+  typedef typename InputMeshType::CellDataContainer    InputCellDataContainer;
+
   typedef typename InputMeshType::PointsContainerConstIterator
       InputPointsContainerConstIterator;
   typedef typename InputMeshType::CellsContainerConstIterator
@@ -79,15 +82,25 @@ public:
   typedef typename OutputMeshType::PointsContainerIterator
       OutputPointsContainerIterator;
 
+  typedef typename OutputMeshType::PointDataContainer  OutputPointDataContainer;
+  typedef typename OutputMeshType::CellDataContainer   OutputCellDataContainer;
+
 public:
   itkNewMacro( Self );
   itkTypeMacro( QuadEdgeMeshToQuadEdgeMeshFilter, MeshToMeshFilter );
 
 protected:
-  QuadEdgeMeshToQuadEdgeMeshFilter( );
-  virtual ~QuadEdgeMeshToQuadEdgeMeshFilter( ) { }
+  QuadEdgeMeshToQuadEdgeMeshFilter();
+  virtual ~QuadEdgeMeshToQuadEdgeMeshFilter() { }
 
-  virtual void CopyInputMeshToOutputMesh( );
+  virtual void CopyInputMeshToOutputMesh();
+  virtual void CopyInputMeshToOutputMeshGeometry();
+  virtual void CopyInputMeshToOutputMeshPoints();
+  virtual void CopyInputMeshToOutputMeshCells();
+  virtual void CopyInputMeshToOutputMeshEdgeCells();
+  virtual void CopyInputMeshToOutputMeshFieldData();
+  virtual void CopyInputMeshToOutputMeshPointData();
+  virtual void CopyInputMeshToOutputMeshCellData(); 
 
 private:
   QuadEdgeMeshToQuadEdgeMeshFilter( const Self& ); // Not impl.

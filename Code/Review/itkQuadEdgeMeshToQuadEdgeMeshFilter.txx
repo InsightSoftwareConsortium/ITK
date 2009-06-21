@@ -39,6 +39,38 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMesh()
 {
+  this->CopyInputMeshToOutputMeshGeometry();
+  this->CopyInputMeshToOutputMeshFieldData();
+}
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshGeometry()
+{
+  this->CopyInputMeshToOutputMeshPoints();
+  this->CopyInputMeshToOutputMeshEdgeCells();
+  this->CopyInputMeshToOutputMeshCells();
+}
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshFieldData()
+{
+  this->CopyInputMeshToOutputMeshPointData();
+  this->CopyInputMeshToOutputMeshCellData();
+}
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshPoints()
+{
+
   InputMeshConstPointer in = this->GetInput();
   OutputMeshPointer out = this->GetOutput();
 
@@ -51,6 +83,16 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     out->SetPoint( inIt.Index(), pOut );
     inIt++;
     } 
+}
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshEdgeCells()
+{
+  InputMeshConstPointer in = this->GetInput();
+  OutputMeshPointer out = this->GetOutput();
 
   // Copy Edge Cells
   InputCellsContainerConstIterator ecIt = in->GetEdgeCells()->Begin();
@@ -65,7 +107,17 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
       }
     ecIt++;
     }
+}
 
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshCells()
+{
+  InputMeshConstPointer in = this->GetInput();
+  OutputMeshPointer out = this->GetOutput();
 
   // Copy cells
   InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
@@ -88,6 +140,78 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshPointData()
+{
+
+  InputMeshConstPointer in = this->GetInput();
+  OutputMeshPointer out = this->GetOutput();
+
+  typedef typename InputPointDataContainer::ConstPointer  InputPointDataContainerConstPointer;
+  typedef typename OutputPointDataContainer::Pointer      OutputPointDataContainerPointer;
+
+  InputPointDataContainerConstPointer inputPointData = in->GetPointData();
+
+  if( inputPointData.IsNull() );
+    {
+    // There is nothing to copy
+    return;
+    }
+
+  OutputPointDataContainerPointer outputPointData = OutputPointDataContainer::New();
+  outputPointData->Reserve( inputPointData->Size() );
+
+  // Copy point data
+  typedef typename InputPointDataContainer::ConstIterator  InputPointDataContainerConstIterator;
+  InputPointDataContainerConstIterator inIt = inputPointData->Begin();
+  while( inIt != inputPointData->End() )
+    {
+    outputPointData->SetElement( inIt.Index(), inIt.Value() );
+    inIt++;
+    } 
+
+  out->SetPointData( outputPointData );
+}
+
+
+// ---------------------------------------------------------------------
+template< class TInputMesh, class TOutputMesh >
+void 
+QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
+::CopyInputMeshToOutputMeshCellData()
+{
+
+  InputMeshConstPointer in = this->GetInput();
+  OutputMeshPointer out = this->GetOutput();
+
+  typedef typename InputCellDataContainer::ConstPointer  InputCellDataContainerConstPointer;
+  typedef typename OutputCellDataContainer::Pointer      OutputCellDataContainerPointer;
+
+  InputCellDataContainerConstPointer inputCellData = in->GetCellData();
+
+  if( inputCellData.IsNull() );
+    {
+    // There is nothing to copy
+    return;
+    }
+
+  OutputCellDataContainerPointer outputCellData = OutputCellDataContainer::New();
+  outputCellData->Reserve( inputCellData->Size() );
+
+  // Copy point data
+  typedef typename InputCellDataContainer::ConstIterator  InputCellDataContainerConstIterator;
+  InputCellDataContainerConstIterator inIt = inputCellData->Begin();
+  while( inIt != inputCellData->End() )
+    {
+    outputCellData->SetElement( inIt.Index(), inIt.Value() );
+    inIt++;
+    } 
+
+  out->SetCellData( outputCellData );
+}
 } // end namespace itk
 
 #endif 
