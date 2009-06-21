@@ -153,11 +153,13 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   typedef typename InputPointDataContainer::ConstPointer  InputPointDataContainerConstPointer;
   typedef typename OutputPointDataContainer::Pointer      OutputPointDataContainerPointer;
 
+std::cout << "INPUT MESH = " << in.GetPointer() << std::endl;
   InputPointDataContainerConstPointer inputPointData = in->GetPointData();
 
   if( inputPointData.IsNull() );
     {
     // There is nothing to copy
+    itkWarningMacro("Input mesh point data is NULL");
     return;
     }
 

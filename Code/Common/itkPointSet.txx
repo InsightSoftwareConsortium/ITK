@@ -42,7 +42,10 @@ PointSet<TPixelType, VDimension, TMeshTraits>
   os << indent << "Buffered Region: " << m_BufferedRegion << std::endl;
   os << indent << "Maximum Number Of Regions: " 
      << m_MaximumNumberOfRegions << std::endl;
-
+  os << indent << "Point Data Container pointer: "
+     << ((this->m_PointDataContainer) ?  this->m_PointDataContainer.GetPointer() : 0) << std::endl;
+  os << indent << "Size of Point Data Container: "
+     << ((this->m_PointDataContainer) ?  this->m_PointDataContainer->Size() : 0) << std::endl;
 }
 
 

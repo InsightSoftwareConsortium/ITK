@@ -40,14 +40,14 @@ Mesh<TPixelType, VDimension, TMeshTraits>
      << ((m_CellLinksContainer) ?  m_CellLinksContainer->Size() : 0) << std::endl;
   os << indent << "Number Of Cells: "
      << ((m_CellsContainer) ?  m_CellsContainer->Size() : 0) << std::endl;
+  os << indent << "Cell Data Container pointer: "
+     << ((m_CellDataContainer) ?  m_CellDataContainer.GetPointer() : 0) << std::endl;
   os << indent << "Size of Cell Data Container: "
      << ((m_CellDataContainer) ?  m_CellDataContainer->Size() : 0) << std::endl;
   os << indent << "Number of explicit cell boundary assignments: "
      << static_cast<unsigned long>( m_BoundaryAssignmentsContainers.size() ) << std::endl;
-
   os << indent << "CellsAllocationMethod: "
      << m_CellsAllocationMethod << std::endl;
-
 }
 
 
