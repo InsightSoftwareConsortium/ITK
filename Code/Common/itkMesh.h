@@ -173,6 +173,7 @@ public:
   /** Create types that are pointers to each of the container types. */
   typedef typename PointsContainer::Pointer       PointsContainerPointer;
   typedef typename CellsContainer::Pointer        CellsContainerPointer;
+  typedef typename CellsContainer::ConstPointer   CellsContainerConstPointer;
   typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
   typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
@@ -310,23 +311,23 @@ public:
    * cell identifiers */
   void SetCellLinks(CellLinksContainer*);
 #ifndef CABLE_CONFIGURATION
-  CellLinksContainerPointer GetCellLinks();
-  const CellLinksContainerPointer GetCellLinks() const;
+  CellLinksContainer * GetCellLinks();
+  const CellLinksContainer * GetCellLinks() const;
 
   /** Access m_CellsContainer, which holds cells used by the mesh.
    *  Individual cells are accessed through cell identifiers.  */
   void SetCells(CellsContainer*);
 
-  CellsContainerPointer GetCells();
-  const CellsContainerPointer GetCells() const;
+  CellsContainer * GetCells();
+  const CellsContainer * GetCells() const;
 #endif
   /** Access m_CellDataContainer, which contains data associated with
    *  the mesh's cells.  Optionally, this can be NULL, indicating that
    *  no data are associated with the cells.  The data for a cell can
    *  be accessed through its cell identifier.  */
   void SetCellData(CellDataContainer*);
-  CellDataContainerPointer GetCellData();
-  const CellDataContainerPointer GetCellData() const;
+  CellDataContainer *  GetCellData();
+  const CellDataContainer * GetCellData() const;
 
   /**
    * Set/get the BoundaryAssignmentsContainer for a given dimension.

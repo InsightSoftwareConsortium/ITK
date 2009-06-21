@@ -71,7 +71,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routines to get the cell links container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellLinks()
 {
@@ -80,7 +80,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return m_CellLinksContainer;
 }
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainerPointer
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellLinks() const
 {
@@ -112,7 +112,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routines to get the cells container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCells()
 {
@@ -120,7 +120,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return m_CellsContainer;
 }
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainerPointer
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCells() const
 {
@@ -150,7 +150,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
  * Access routines to get the cell data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
+typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellData()
 {
@@ -159,7 +159,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
   return m_CellDataContainer;
 }
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainerPointer
+const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
 ::GetCellData() const
 {

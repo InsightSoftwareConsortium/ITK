@@ -258,8 +258,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>
 
   os << indent << "LastCellId = " << m_LastCellId << std::endl;
 
-  CellsContainerPointer cells = this->GetCells();
-  CellsContainerIterator cellIt = cells->Begin();
+  CellsContainerConstPointer cells = this->GetCells();
+  CellsContainerConstIterator cellIt = cells->Begin();
 
   os << indent << "Cells Point Ids:" << std::endl;
   while ( cellIt != cells->End() )

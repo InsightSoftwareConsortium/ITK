@@ -58,11 +58,17 @@ public:
   typedef typename MeshType::PointDataContainerConstPointer     PointDataContainerConstPointer;
   typedef typename MeshType::PointDataContainerIterator         PointDataContainerIterator;
 
-  typedef typename MeshType::CellsContainerPointer        CellsContainerPointer;
-  typedef typename MeshType::CellsContainerIterator       CellsContainerIterator;
+  typedef typename MeshType::CellsContainer                 CellsContainer;
+  typedef typename CellsContainer::Pointer                  CellsContainerPointer;
+  typedef typename CellsContainer::ConstPointer             CellsContainerConstPointer;
+  typedef typename CellsContainer::Iterator                 CellsContainerIterator;
+  typedef typename CellsContainer::ConstIterator            CellsContainerConstIterator;
 
-  typedef typename MeshType::CellDataContainerPointer     CellDataContainerPointer;
-  typedef typename MeshType::CellDataContainerIterator    CellDataContainerIterator;
+  typedef typename MeshType::CellDataContainer              CellDataContainer;
+  typedef typename CellDataContainer::Iterator              CellDataContainerIterator;
+  typedef typename CellDataContainer::ConstIterator         CellDataContainerConstIterator;
+  typedef typename CellDataContainer::Pointer               CellDataContainerPointer;
+  typedef typename CellDataContainer::ConstPointer          CellDataContainerConstPointer;
   
   /** Set/Get the name of the CellDataName where data are written. */
   itkSetStringMacro(CellDataName);
