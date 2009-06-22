@@ -194,7 +194,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   InputCellDataContainerConstPointer inputCellData = in->GetCellData();
 
-  if( inputCellData.IsNull() );
+  if( inputCellData.IsNull() )
     {
     // There is nothing to copy
     return;
