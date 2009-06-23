@@ -130,9 +130,10 @@ PyBuffer<TImage>
                         importImageFilterWillOwnTheBuffer );
 
     importer->Update();
-    importer->SetReleaseDataFlag( true );
+    ImagePointer output = importer->GetOutput();
+    output->DisconnectPipeline();
 
-    return ImagePointer(importer->GetOutput());
+    return output;
 }
 
 template<class TImage>
