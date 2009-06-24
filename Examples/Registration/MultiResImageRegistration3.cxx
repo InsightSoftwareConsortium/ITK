@@ -58,18 +58,16 @@ public:
   typedef   OptimizerType *                            OptimizerPointer;
 
   void Execute(itk::Object * object, const itk::EventObject & event)
-  {
-
+    {
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
       }
-
     RegistrationPointer registration =
-                            dynamic_cast<RegistrationPointer>( object );
+      dynamic_cast<RegistrationPointer>( object );
 
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
-                       registration->GetOptimizer() );
+      registration->GetOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -86,7 +84,7 @@ public:
       optimizer->SetMaximumStepLength( optimizer->GetMaximumStepLength() / 4.0 );
       optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
-  }
+    }
 
   void Execute(const itk::Object * , const itk::EventObject & )
     { return; }
@@ -106,8 +104,8 @@ public:
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *           OptimizerPointer;
+  typedef   itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef   const OptimizerType *                    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -149,7 +147,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
-  typedef   float     InternalPixelType;
+  typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
@@ -249,8 +247,6 @@ int main( int argc, char *argv[] )
     metric->SetNumberOfSpatialSamples( atoi( argv[9] ) );
     }
 
-
-
   metric->ReinitializeSeed( 76926294 );
  
 
@@ -273,8 +269,6 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-
-
   typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
   CommandType::Pointer command = CommandType::New();
   registration->AddObserver( itk::IterationEvent(), command );
@@ -285,6 +279,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -312,8 +309,6 @@ int main( int argc, char *argv[] )
   std::cout << " Translation Z = " << TranslationAlongZ  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
-
-
 
   typedef itk::ResampleImageFilter< 
                             MovingImageType, 
@@ -401,7 +396,5 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
-
   return EXIT_SUCCESS;
 }
-

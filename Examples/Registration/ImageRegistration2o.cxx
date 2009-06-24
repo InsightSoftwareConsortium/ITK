@@ -18,9 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // Some of the most challenging cases of image registration arise when images
@@ -112,20 +109,20 @@ public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
 
@@ -165,7 +162,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex 
   
   // Software Guide : BeginCodeSnippet
-  typedef   float     InternalPixelType;
+  typedef   float                                            InternalPixelType;
   typedef itk::OrientedImage< InternalPixelType, Dimension > InternalImageType;
   // Software Guide : EndCodeSnippet
 
@@ -384,6 +381,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -574,4 +574,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

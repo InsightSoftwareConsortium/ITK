@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates how to use the
@@ -54,7 +52,7 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 
 protected:
@@ -62,8 +60,8 @@ protected:
  
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef const OptimizerType                         *OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  typedef const OptimizerType *                     OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -78,10 +76,10 @@ public:
       {
       return;
       }
-      std::cout << optimizer->GetCurrentIteration() << " = ";
-      std::cout << optimizer->GetValue() << " : ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
-  }
+    std::cout << optimizer->GetCurrentIteration() << " = ";
+    std::cout << optimizer->GetValue() << " : ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    }
    
 };
 
@@ -186,6 +184,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -205,7 +206,9 @@ int main( int argc, char *argv[] )
   const double bestValue = optimizer->GetValue();
 
   std::cout << "Registration done !" << std::endl;
-  std::cout << "Stopping condition   = " << optimizer->GetStopCondition() << std::endl;
+  std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
   std::cout << "Number of iterations = " << numberOfIterations << std::endl;
   std::cout << "Translation along X  = " << TranslationAlongX << std::endl;
   std::cout << "Translation along Y  = " << TranslationAlongY << std::endl;
@@ -263,4 +266,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates how to combine the MutualInformation metric with an
@@ -29,8 +25,8 @@
 // naturally well-suited for optimizing the Mutual Information metric given its
 // random and noisy behavior.
 //
-// The structure of the example is almost identical o the one illustrated in
-// ImageRegistration4. Therefore we will focus here on the setup that is
+// The structure of the example is almost identical to the one illustrated in
+// ImageRegistration4. Therefore we focus here on the setup that is
 // specifically required for the evolutionary optimizer.
 //
 //
@@ -67,17 +63,17 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() { m_LastMetricValue = 0.0; };
 public:
   typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef   const OptimizerType *                  OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
@@ -122,7 +118,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::OnePlusOneEvolutionaryOptimizer       OptimizerType;
+  typedef itk::OnePlusOneEvolutionaryOptimizer           OptimizerType;
   typedef itk::LinearInterpolateImageFunction< 
                                     MovingImageType,
                                     double             > InterpolatorType;
@@ -145,8 +141,6 @@ int main( int argc, char *argv[] )
                                           FixedImageType, 
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
-
-
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -261,6 +255,10 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Registration completed!" << std::endl;
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -327,7 +325,7 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 100 );
 
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  unsigned char                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< 
                         FixedImageType,
@@ -345,4 +343,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

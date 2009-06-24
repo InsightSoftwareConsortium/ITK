@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}
@@ -219,7 +217,7 @@ int main( int argc, char *argv[] )
   SpacingType spacingLow = fixedImage->GetSpacing();
 
   typedef TransformType::OriginType OriginType;
-  OriginType originLow = fixedImage->GetOrigin();;
+  OriginType originLow = fixedImage->GetOrigin();
 
   FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
 
@@ -251,8 +249,6 @@ int main( int argc, char *argv[] )
   transformLow->SetParameters( parametersLow );
   //  Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  We now pass the parameters of the current transform as the initial
@@ -276,6 +272,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -303,7 +302,7 @@ int main( int argc, char *argv[] )
   bsplineRegion.SetSize( totalGridSize );
 
   SpacingType spacingHigh = fixedImage->GetSpacing();
-  OriginType  originHigh  = fixedImage->GetOrigin();;
+  OriginType  originHigh  = fixedImage->GetOrigin();
 
   for(unsigned int rh=0; rh<ImageDimension; rh++)
     {
@@ -414,8 +413,6 @@ int main( int argc, char *argv[] )
     } 
   // Software Guide : EndCodeSnippet
 
-
-
   // Finally we use the last transform parameters in order to resample the image.
   //
   transformHigh->SetParameters( registration->GetLastTransformParameters() );
@@ -520,12 +517,10 @@ int main( int argc, char *argv[] )
       } 
     }
 
-
-
   // Generate the explicit deformation field resulting from 
   // the registration.
 
-  typedef itk::Vector< float, ImageDimension >  VectorType;
+  typedef itk::Vector< float, ImageDimension >      VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
   DeformationFieldType::Pointer field = DeformationFieldType::New();
@@ -556,8 +551,6 @@ int main( int argc, char *argv[] )
     ++fi;
     }
 
-
-
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
@@ -580,4 +573,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

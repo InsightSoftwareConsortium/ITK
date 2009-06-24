@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {brainweb1e1a10f20.mha}
 //    INPUTS: {brainweb1e1a10f20Rot10Tx15.mha}
@@ -112,30 +108,30 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::VersorRigid3DTransformOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::VersorRigid3DTransformOptimizer OptimizerType;
+  typedef   const OptimizerType *              OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
 
@@ -176,8 +172,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::VersorRigid3DTransform< double > TransformType;
   // Software Guide : EndCodeSnippet
-
-
 
   typedef itk::VersorRigid3DTransformOptimizer           OptimizerType;
 
@@ -379,6 +373,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -669,15 +666,12 @@ int main( int argc, char *argv[] )
     writer2->Update();
     }
 
-
-
-
-//
-//  Here we extract slices from the input volume, and the difference volumes
-//  produced before and after the registration.  These slices are presented as
-//  figures in the Software Guide.
-//
-//
+  //
+  //  Here we extract slices from the input volume, and the difference volumes
+  //  produced before and after the registration.  These slices are presented as
+  //  figures in the Software Guide.
+  //
+  //
   
   typedef itk::Image< OutputPixelType, 2 > OutputSliceType;
 
@@ -743,4 +737,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

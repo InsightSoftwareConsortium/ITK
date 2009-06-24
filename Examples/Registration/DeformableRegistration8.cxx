@@ -18,9 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}
@@ -104,30 +101,30 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::LBFGSBOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::LBFGSBOptimizer    OptimizerType;
+  typedef   const OptimizerType * OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( !(itk::IterationEvent().CheckEvent( &event )) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetCachedValue() << "   ";
-      std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( !(itk::IterationEvent().CheckEvent( &event )) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetCachedValue() << "   ";
+    std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
     }
 };
 
@@ -321,7 +318,7 @@ int main( int argc, char *argv[] )
   SpacingType spacing = fixedImage->GetSpacing();
 
   typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();;
+  OriginType origin = fixedImage->GetOrigin();
 
   FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
 
@@ -353,8 +350,6 @@ int main( int argc, char *argv[] )
 
   transform->SetParameters( parameters );
   //  Software Guide : EndCodeSnippet
-
-
 
   //  Software Guide : BeginLatex
   //  
@@ -461,6 +456,9 @@ int main( int argc, char *argv[] )
     itkProbesStart( "Registration" );
     registration->StartRegistration(); 
     itkProbesStop( "Registration" );
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -586,14 +584,12 @@ int main( int argc, char *argv[] )
       } 
     }
 
-
-
   // Generate the explicit deformation field resulting from 
   // the registration.
   if( argc > 6 )
     {
 
-    typedef itk::Vector< float, ImageDimension >  VectorType;
+    typedef itk::Vector< float, ImageDimension >      VectorType;
     typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
     DeformationFieldType::Pointer field = DeformationFieldType::New();
@@ -658,4 +654,3 @@ int main( int argc, char *argv[] )
 #undef itkProbesStart
 #undef itkProbesStop
 #undef itkProbesReport
-

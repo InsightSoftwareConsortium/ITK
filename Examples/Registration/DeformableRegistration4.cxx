@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineDeformableTransform}
@@ -233,7 +231,7 @@ int main( int argc, char *argv[] )
   SpacingType spacing = fixedImage->GetSpacing();
 
   typedef TransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();;
+  OriginType origin = fixedImage->GetOrigin();
 
   FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
 
@@ -266,8 +264,6 @@ int main( int argc, char *argv[] )
   transform->SetParameters( parameters );
   //  Software Guide : EndCodeSnippet
 
-
-
   //  Software Guide : BeginLatex
   //  
   //  We now pass the parameters of the current transform as the initial
@@ -296,8 +292,6 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
   // Software Guide : EndCodeSnippet
 
-
-
   // Add time and memory probes
   itkProbesCreate();
 
@@ -308,6 +302,9 @@ int main( int argc, char *argv[] )
     itkProbesStart( "Registration" );
     registration->StartRegistration(); 
     itkProbesStop( "Registration" );
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -443,12 +440,10 @@ int main( int argc, char *argv[] )
       } 
     }
 
-
-
   // Generate the explicit deformation field resulting from 
   // the registration.
 
-  typedef itk::Vector< float, ImageDimension >  VectorType;
+  typedef itk::Vector< float, ImageDimension >      VectorType;
   typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
   DeformationFieldType::Pointer field = DeformationFieldType::New();
@@ -479,8 +474,6 @@ int main( int argc, char *argv[] )
     ++fi;
     }
 
-
-
   typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
@@ -508,4 +501,3 @@ int main( int argc, char *argv[] )
 #undef itkProbesStart
 #undef itkProbesStop
 #undef itkProbesReport
-

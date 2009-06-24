@@ -18,9 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: {BrainT1SliceBorder20.png}
 //    INPUTS: {BrainProtonDensitySliceShifted13x17y.png}
@@ -82,33 +79,32 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef   const OptimizerType *                  OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
-
 
 int main( int argc, char *argv[] )
 {
@@ -154,8 +150,6 @@ int main( int argc, char *argv[] )
                                           FixedImageType, 
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
-
-
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -241,8 +235,6 @@ int main( int argc, char *argv[] )
     metric->SetUseExplicitPDFDerivatives( atoi( argv[9] ) );
     }
 
-
-
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
@@ -286,8 +278,6 @@ int main( int argc, char *argv[] )
   optimizer->SetNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
 
-
-
   // Software Guide : BeginLatex
   //
   // Whenever the regular step gradient descent optimizer encounters that the
@@ -310,9 +300,6 @@ int main( int argc, char *argv[] )
   optimizer->SetRelaxationFactor( 0.8 );
   // Software Guide : EndCodeSnippet
 
-
-
-
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
@@ -322,6 +309,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -507,8 +497,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
 
-
-
   // Software Guide : BeginLatex
   //
   // You must note however that there are a number of non-trivial issues
@@ -565,4 +553,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

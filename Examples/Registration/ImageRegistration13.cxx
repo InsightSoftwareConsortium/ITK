@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Rigid Transform
@@ -60,30 +56,30 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  typedef   const OptimizerType *                   OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
 
@@ -111,8 +107,8 @@ int main( int argc, char *argv[] )
   // The CenteredRigid2DTransform applies a rigid transform in 2D space.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredRigid2DTransform< double > TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  typedef itk::CenteredRigid2DTransform< double >  TransformType;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
   // Software Guide : EndCodeSnippet
    
   typedef itk::LinearInterpolateImageFunction< 
@@ -128,9 +124,6 @@ int main( int argc, char *argv[] )
                                           FixedImageType, 
                                           MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
-
-
-
 
   // Software Guide : BeginCodeSnippet
   TransformType::Pointer      transform     = TransformType::New();
@@ -260,6 +253,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -335,26 +331,25 @@ int main( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-  //  Software Guide : BeginLatex
-  //  
-  //  Let's execute this example over some of the images provided in
-  //  \code{Examples/Data}, for example:
-  //  
-  //  \begin{itemize}
-  //  \item \code{BrainProtonDensitySlice.png} 
-  //  \item \code{BrainProtonDensitySliceBorder20.png}
-  //  \end{itemize}
-  //
-  //  The second image is the result of intentionally shifting the first
-  //  image by $20mm$ in $X$ and $20mm$ in
-  //  $Y$. Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration1}. The example 
-  //  yielded the following results.
-  //  
-  //  \begin{verbatim}
-  //  Translation X = 20
-  //  Translation Y = 20
-  //  \end{verbatim}
-  //  These values match the true misalignment introduced in the moving image.
-  //  Software Guide : EndLatex 
-
+//  Software Guide : BeginLatex
+//  
+//  Let's execute this example over some of the images provided in
+//  \code{Examples/Data}, for example:
+//  
+//  \begin{itemize}
+//  \item \code{BrainProtonDensitySlice.png} 
+//  \item \code{BrainProtonDensitySliceBorder20.png}
+//  \end{itemize}
+//
+//  The second image is the result of intentionally shifting the first
+//  image by $20mm$ in $X$ and $20mm$ in
+//  $Y$. Both images have unit-spacing and are shown in Figure
+//  \ref{fig:FixedMovingImageRegistration1}. The example 
+//  yielded the following results.
+//  
+//  \begin{verbatim}
+//  Translation X = 20
+//  Translation Y = 20
+//  \end{verbatim}
+//  These values match the true misalignment introduced in the moving image.
+//  Software Guide : EndLatex 

@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates the use of the \doxygen{SpatialObject} as a
@@ -85,8 +81,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-
-
 //
 // Observer to the optimizer
 //
@@ -101,44 +95,41 @@ protected:
   CommandIterationUpdate() {};
 public:
   typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
-  typedef   const OptimizerType   *           OptimizerPointer;
+  typedef   const OptimizerType *                     OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( typeid( event ) != typeid( itk::IterationEvent ) )
-        {
-        return;
-        }
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    
+    OptimizerType::DerivativeType gradient = optimizer->GetGradient();
+    OptimizerType::ScalesType     scales   = optimizer->GetScales();
 
-      OptimizerType::DerivativeType gradient = optimizer->GetGradient();
-      OptimizerType::ScalesType     scales   = optimizer->GetScales();
+    double magnitude2 = 0.0;
 
-      double magnitude2 = 0.0;
+    for(unsigned int i=0; i<gradient.size(); i++)
+      {
+      const double fc = gradient[i] / scales[i];
+      magnitude2 += fc * fc;
+      }  
 
-      for(unsigned int i=0; i<gradient.size(); i++)
-        {
-        const double fc = gradient[i] / scales[i];
-        magnitude2 += fc * fc;
-        }  
-
-      const double gradientMagnitude = vcl_sqrt( magnitude2 );
-
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << gradientMagnitude << "   ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
+    const double gradientMagnitude = vcl_sqrt( magnitude2 );
+    
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << gradientMagnitude << "   ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
     }
 };
-
-
-
 
 int main( int argc, char * argv [] )
 {
@@ -197,7 +188,7 @@ int main( int argc, char * argv [] )
 
   typedef itk::NormalizedCorrelationPointSetToImageMetric< 
                                     FixedPointSetType, 
-                                    ImageType  >   MetricType;                                          
+                                    ImageType  >   MetricType;
                                           
 
   typedef OptimizerType::ScalesType       OptimizerScalesType;
@@ -212,31 +203,19 @@ int main( int argc, char * argv [] )
 
   typedef itk::ImageFileReader< ImageType >      ImageReaderType;
 
-
-
   SpatialObjectType::Pointer            spatialObject;
-
   TransformType::Pointer                transform;
-
   OptimizerType::Pointer                optimizer;
-
   IterationObserverType::Pointer        iterationObserver;
-
   LinearInterpolatorType::Pointer       linearInterpolator;
-
   MetricType::Pointer                   metric;
-
   RegistrationType::Pointer             registrationMethod;
-
   ImageReaderType::Pointer              movingImageReader;
-
   FixedPointSetType::Pointer            fixedPointSet;
-
   ImageType::ConstPointer               movingImage;
 
-  SpatialObjectToImageFilterType::Pointer    rasterizationFilter;
-
-  NarrowBandFilterType::Pointer      narrowBandPointSetFilter;
+  SpatialObjectToImageFilterType::Pointer rasterizationFilter;
+  NarrowBandFilterType::Pointer           narrowBandPointSetFilter;
 
   
   metric              = MetricType::New();
@@ -337,12 +316,7 @@ int main( int argc, char * argv [] )
   optimizer->SetRelaxationFactor( 0.90 );
   optimizer->SetGradientMagnitudeTolerance( 0.05 );
   optimizer->MinimizeOn();
-
-
-
-
   optimizer->AddObserver( itk::IterationEvent(), iterationObserver );
-
 
   TransformType::TranslationType  initialTranslation;
   initialTranslation[0] = 0.0;
@@ -376,11 +350,12 @@ int main( int argc, char * argv [] )
 
   optimizer->SetScales( optimizerScales );
 
-
-
   try
     {
     registrationMethod->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registrationMethod->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -389,8 +364,6 @@ int main( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   ParametersType transformParameters = 
          registrationMethod->GetLastTransformParameters();
@@ -405,5 +378,3 @@ int main( int argc, char * argv [] )
 
   return EXIT_SUCCESS;
 }
-
-

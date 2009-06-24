@@ -20,8 +20,6 @@
 
 #define ITK_LEAN_AND_MEAN
 
-
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Translation Transform,
@@ -55,38 +53,37 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() 
-  {
+    {
     m_IterationNumber=0;
-  }
+    }
 public:
   typedef itk::AmoebaOptimizer         OptimizerType;
   typedef   const OptimizerType   *    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( ! itk::IterationEvent().CheckEvent( &event ) )
-        {
-        return;
-        }
-      std::cout << m_IterationNumber++ << "   ";
-      std::cout << optimizer->GetCachedValue() << "   ";
-      std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+    std::cout << m_IterationNumber++ << "   ";
+    std::cout << optimizer->GetCachedValue() << "   ";
+    std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
     }
 private:
   unsigned long m_IterationNumber;
 };
-
 
 int main( int argc, char *argv[] )
 {
@@ -272,6 +269,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -330,10 +330,7 @@ int main( int argc, char *argv[] )
   writer->SetInput( resample->GetOutput() );
   writer->Update();
 
-// Software Guide : EndCodeSnippet
-
-
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }
-

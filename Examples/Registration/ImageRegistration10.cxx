@@ -18,9 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the image registration framework in
@@ -60,7 +57,7 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
@@ -69,12 +66,12 @@ public:
   typedef   const OptimizerType   *    OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
+    {
     Execute( (const itk::Object *)caller, event);
-  }
+    }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
+    {
     OptimizerPointer optimizer = 
                       dynamic_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -83,7 +80,7 @@ public:
       }
     std::cout << optimizer->GetCachedValue() << "   ";
     std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
-  }
+    }
 };
 
 
@@ -327,8 +324,6 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumNumberOfIterations( 200 );
   // Software Guide : EndCodeSnippet
 
-
-
   //
   // Create the Command observer and register it with the optimizer.
   //
@@ -353,6 +348,9 @@ int main( int argc, char *argv[] )
 
     // run the registration
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -455,11 +453,11 @@ int main( int argc, char *argv[] )
   //  pixel type of the resampled image to the final type used by the
   //  writer. The cast and writer filters are instantiated below.
   //
-  typedef unsigned short  OutputPixelType;
+  typedef unsigned short                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter< 
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   //  The filters are created by invoking their \code{New()}

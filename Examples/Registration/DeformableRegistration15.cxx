@@ -18,9 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
 // Software Guide : BeginLatex
 //
 // This example illustrates a realistic pipeline for solving a full deformable registration problem.
@@ -99,33 +96,32 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  typedef   const OptimizerType *                   OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
     {
-      OptimizerPointer optimizer = 
-        dynamic_cast< OptimizerPointer >( object );
-      if( !(itk::IterationEvent().CheckEvent( &event )) )
-        {
-        return;
-        }
-      std::cout << optimizer->GetCurrentIteration() << "   ";
-      std::cout << optimizer->GetValue() << "   ";
-      std::cout << std::endl;
+    OptimizerPointer optimizer = 
+      dynamic_cast< OptimizerPointer >( object );
+    if( !(itk::IterationEvent().CheckEvent( &event )) )
+      {
+      return;
+      }
+    std::cout << optimizer->GetCurrentIteration() << "   ";
+    std::cout << optimizer->GetValue() << "   ";
+    std::cout << std::endl;
     }
 };
-
 
 int main( int argc, char *argv[] )
 {
@@ -196,8 +192,6 @@ int main( int argc, char *argv[] )
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
-
-
 
   // Auxiliary identity transform.
   typedef itk::IdentityTransform<double,SpaceDimension> IdentityTransformType;
@@ -342,6 +336,9 @@ int main( int argc, char *argv[] )
     itkProbesStart( "Rigid Registration" );
     registration->StartRegistration(); 
     itkProbesStop( "Rigid Registration" );
+    std::cout << "Optimizer stop condition = "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -451,7 +448,7 @@ int main( int argc, char *argv[] )
   SpacingType spacing = fixedImage->GetSpacing();
 
   typedef DeformableTransformType::OriginType OriginType;
-  OriginType origin = fixedImage->GetOrigin();;
+  OriginType origin = fixedImage->GetOrigin();
 
   FixedImageType::SizeType fixedImageSize = fixedRegion.GetSize();
 
@@ -533,9 +530,6 @@ int main( int argc, char *argv[] )
   // image.
   metric->SetNumberOfSpatialSamples( numberOfBSplineParameters * 100 );
 
-
-
-
   std::cout << std::endl << "Starting Deformable Registration Coarse Grid" << std::endl;
 
   try 
@@ -583,13 +577,13 @@ int main( int argc, char *argv[] )
   bsplineRegion.SetSize( totalGridSize );
 
   SpacingType spacingHigh = fixedImage->GetSpacing();
-  OriginType  originHigh  = fixedImage->GetOrigin();;
+  OriginType  originHigh  = fixedImage->GetOrigin();
 
   for(unsigned int rh=0; rh<ImageDimension; rh++)
     {
     spacingHigh[rh] *= static_cast<double>(fixedImageSize[rh] - 1)  / 
-                       static_cast<double>(gridHighSizeOnImage[rh] - 1);
-    originHigh[rh]  -=  spacingHigh[rh]; 
+      static_cast<double>(gridHighSizeOnImage[rh] - 1);
+    originHigh[rh] -= spacingHigh[rh]; 
     }
 
   SpacingType gridOriginOffsetHigh = gridDirection * spacingHigh;
@@ -842,14 +836,12 @@ int main( int argc, char *argv[] )
     std::cout << " Done!" << std::endl;
     }
 
-
-
   // Generate the explicit deformation field resulting from 
   // the registration.
   if( argc > 6 )
     {
 
-    typedef itk::Vector< float, ImageDimension >  VectorType;
+    typedef itk::Vector< float, ImageDimension >      VectorType;
     typedef itk::Image< VectorType, ImageDimension >  DeformationFieldType;
 
     DeformationFieldType::Pointer field = DeformationFieldType::New();
@@ -921,4 +913,3 @@ int main( int argc, char *argv[] )
 #undef itkProbesStart
 #undef itkProbesStop
 #undef itkProbesReport
-

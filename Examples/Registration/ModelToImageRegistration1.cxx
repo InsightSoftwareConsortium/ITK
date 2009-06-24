@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates the use of the \doxygen{SpatialObject} as a
@@ -161,10 +157,10 @@ template < class TOptimizer >
 class IterationCallback : public itk::Command 
 {
 public:
-  typedef IterationCallback   Self;
-  typedef itk::Command  Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef IterationCallback             Self;
+  typedef itk::Command                  Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   
   itkTypeMacro( IterationCallback, Superclass );
   itkNewMacro( Self );
@@ -175,37 +171,37 @@ public:
   /** Method to specify the optimizer. */
   void SetOptimizer( OptimizerType * optimizer )
     { 
-      m_Optimizer = optimizer;
-      m_Optimizer->AddObserver( itk::IterationEvent(), this );
+    m_Optimizer = optimizer;
+    m_Optimizer->AddObserver( itk::IterationEvent(), this );
     }
 
   /** Execute method will print data at each iteration */
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object *, const itk::EventObject & event)
     {
-      if( typeid( event ) == typeid( itk::StartEvent ) )
-        {
-        std::cout << std::endl << "Position              Value";
-        std::cout << std::endl << std::endl;
-        }    
-      else if( typeid( event ) == typeid( itk::IterationEvent ) )
-        {
-        std::cout << m_Optimizer->GetCurrentIteration() << "   ";
-        std::cout << m_Optimizer->GetValue() << "   ";
-        std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
-        }
-      else if( typeid( event ) == typeid( itk::EndEvent ) )
-        {
-        std::cout << std::endl << std::endl;
-        std::cout << "After " << m_Optimizer->GetCurrentIteration();
-        std::cout << "  iterations " << std::endl;
-        std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
-        std::cout << std::endl;
-        }
+    if( typeid( event ) == typeid( itk::StartEvent ) )
+      {
+      std::cout << std::endl << "Position              Value";
+      std::cout << std::endl << std::endl;
+      }
+    else if( typeid( event ) == typeid( itk::IterationEvent ) )
+      {
+      std::cout << m_Optimizer->GetCurrentIteration() << "   ";
+      std::cout << m_Optimizer->GetValue() << "   ";
+      std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
+      }
+    else if( typeid( event ) == typeid( itk::EndEvent ) )
+      {
+      std::cout << std::endl << std::endl;
+      std::cout << "After " << m_Optimizer->GetCurrentIteration();
+      std::cout << "  iterations " << std::endl;
+      std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
+      std::cout << std::endl;
+      }
     }
 //  Software Guide : EndCodeSnippet 
 
@@ -251,13 +247,13 @@ public:
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;
   typedef itk::ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>  
-  Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+                                            Superclass;
+  typedef itk::SmartPointer<Self>           Pointer;
+  typedef itk::SmartPointer<const Self>     ConstPointer;
 
-  typedef itk::Point<double,2>   PointType;
-  typedef std::list<PointType> PointListType;
-  typedef TMovingSpatialObject MovingSpatialObjectType;
+  typedef itk::Point<double,2>                PointType;
+  typedef std::list<PointType>                PointListType;
+  typedef TMovingSpatialObject                MovingSpatialObjectType;
   typedef typename Superclass::ParametersType ParametersType;
   typedef typename Superclass::DerivativeType DerivativeType;
   typedef typename Superclass::MeasureType    MeasureType;
@@ -293,14 +289,14 @@ public:
         if(this->m_MovingSpatialObject->IsInside(point,99999))
           { 
           m_PointList.push_back( point );
-          }    
+          }
         ++it;
         }
 
       std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
     }
 
-  unsigned int GetNumberOfParameters(void) const  {return ParametricSpaceDimension;};
+  unsigned int GetNumberOfParameters(void) const  {return ParametricSpaceDimension;}
 
   /** Get the Derivatives of the Match Measure */
   void GetDerivative( const ParametersType &, DerivativeType & ) const
@@ -889,6 +885,9 @@ int main( int argc, char *argv[] )
   try 
     {
     registration->StartRegistration();
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     }
   catch( itk::ExceptionObject & exp ) 
     {

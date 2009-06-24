@@ -125,17 +125,17 @@
 template <typename TRegistration>
 class RegistrationInterfaceCommand : public itk::Command 
 {
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We then define \code{Self}, \code{Superclass}, \code{Pointer},
-// \code{New()} and a constructor in a similar fashion to the
-// \code{CommandIterationUpdate} class in Section 
-// \ref{sec:MonitoringImageRegistration}.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // We then define \code{Self}, \code{Superclass}, \code{Pointer},
+  // \code{New()} and a constructor in a similar fashion to the
+  // \code{CommandIterationUpdate} class in Section 
+  // \ref{sec:MonitoringImageRegistration}.
+  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
 public:
   typedef  RegistrationInterfaceCommand   Self;
   typedef  itk::Command                   Superclass;
@@ -143,75 +143,75 @@ public:
   itkNewMacro( Self );
 protected:
   RegistrationInterfaceCommand() {};
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// For convenience, we declare types useful for converting pointers
-// in the \code{Execute()} method.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // For convenience, we declare types useful for converting pointers
+  // in the \code{Execute()} method.
+  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
 public:
   typedef   TRegistration                              RegistrationType;
   typedef   RegistrationType *                         RegistrationPointer;
   typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
   typedef   OptimizerType *                            OptimizerPointer;
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Two arguments are passed to the \code{Execute()} method: the first
-// is the pointer to the object which invoked the event and the 
-// second is the event that was invoked.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // Two arguments are passed to the \code{Execute()} method: the first
+  // is the pointer to the object which invoked the event and the 
+  // second is the event that was invoked.
+  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   void Execute(itk::Object * object, const itk::EventObject & event)
-  {
-// Software Guide : EndCodeSnippet
+    {
+    // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// First we verify if that the event invoked is of the right type.
-// If not, we return without any further action.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginLatex
+    //
+    // First we verify if that the event invoked is of the right type.
+    // If not, we return without any further action.
+    //
+    // Software Guide : EndLatex
+    // Software Guide : BeginCodeSnippet
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
       }
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// We then convert the input object pointer to a RegistrationPointer.
-// Note that no error checking is done here to verify if the 
-// \code{dynamic\_cast} was successful since we know the actual object
-// is a multi-resolution registration method. 
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginLatex
+    //
+    // We then convert the input object pointer to a RegistrationPointer.
+    // Note that no error checking is done here to verify if the 
+    // \code{dynamic\_cast} was successful since we know the actual object
+    // is a multi-resolution registration method. 
+    //
+    // Software Guide : EndLatex
+    // Software Guide : BeginCodeSnippet
     RegistrationPointer registration =
                             dynamic_cast<RegistrationPointer>( object );
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// If this is the first resolution level we set the maximum step length
-// (representing the first step size) and the minimum step length (representing
-// the convergence criterion) to large values.  At each subsequent resolution
-// level, we will reduce the minimum step length by a factor of 10 in order to
-// allow the optimizer to focus on progressively smaller regions. The maximum
-// step length is set up to the current step length. In this way, when the
-// optimizer is reinitialized at the beginning of the registration process for
-// the next level, the step length will simply start with the last value used
-// for the previous level. This will guarantee the continuity of the path
-// taken by the optimizer through the parameter space.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginLatex
+    //
+    // If this is the first resolution level we set the maximum step length
+    // (representing the first step size) and the minimum step length (representing
+    // the convergence criterion) to large values.  At each subsequent resolution
+    // level, we will reduce the minimum step length by a factor of 10 in order to
+    // allow the optimizer to focus on progressively smaller regions. The maximum
+    // step length is set up to the current step length. In this way, when the
+    // optimizer is reinitialized at the beginning of the registration process for
+    // the next level, the step length will simply start with the last value used
+    // for the previous level. This will guarantee the continuity of the path
+    // taken by the optimizer through the parameter space.
+    //
+    // Software Guide : EndLatex
+    // Software Guide : BeginCodeSnippet
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >( 
                        registration->GetOptimizer() );
 
@@ -231,16 +231,16 @@ public:
       optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
   }
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Another version of the \code{Execute()} method accepting a \code{const}
-// input object is also required since this method is defined as pure virtual
-// in the base class.  This version simply returns without taking any action.
-//
-// Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginLatex
+  //
+  // Another version of the \code{Execute()} method accepting a \code{const}
+  // input object is also required since this method is defined as pure virtual
+  // in the base class.  This version simply returns without taking any action.
+  //
+  // Software Guide : EndLatex
+  // Software Guide : BeginCodeSnippet
   void Execute(const itk::Object * , const itk::EventObject & )
     { return; }
 };
@@ -260,8 +260,8 @@ public:
 protected:
   CommandIterationUpdate() {};
 public:
-  typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType   *           OptimizerPointer;
+  typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  typedef   const OptimizerType *                     OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -313,7 +313,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex 
   // Software Guide : BeginCodeSnippet
-  typedef   float     InternalPixelType;
+  typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
   // Software Guide : EndCodeSnippet
 
@@ -518,6 +518,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -676,8 +679,6 @@ int main( int argc, char *argv[] )
     writer->Update();
     }
 
-
-
   //  Software Guide : BeginLatex
   // 
   // \begin{figure}
@@ -726,4 +727,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

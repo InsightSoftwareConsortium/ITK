@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 // Given the numerous parameters involved in tuning a registration method for
@@ -164,8 +160,8 @@ public:
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef const OptimizerType                         *OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef const OptimizerType *                    OptimizerPointer;
   // Software Guide : EndCodeSnippet
 
 
@@ -186,11 +182,10 @@ public:
 
   // Software Guide : BeginCodeSnippet
   void Execute(itk::Object *caller, const itk::EventObject & event)
-  {
+    {
     Execute( (const itk::Object *)caller, event);
-  }
+    }
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -203,67 +198,67 @@ public:
 
   // Software Guide : BeginCodeSnippet
   void Execute(const itk::Object * object, const itk::EventObject & event)
-  {
-  // Software Guide : EndCodeSnippet
+    {
+    // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  Note that the first argument is a pointer to an Object even
-  //  though the actual object invoking the event is probably a subclass of
-  //  Object. In our case we know that the actual object is an
-  //  optimizer. Thus we can perform a \code{dynamic\_cast} to the real type
-  //  of the object.
-  //
-  //  Software Guide : EndLatex 
+    //  Software Guide : BeginLatex
+    //
+    //  Note that the first argument is a pointer to an Object even
+    //  though the actual object invoking the event is probably a subclass of
+    //  Object. In our case we know that the actual object is an
+    //  optimizer. Thus we can perform a \code{dynamic\_cast} to the real type
+    //  of the object.
+    //
+    //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     OptimizerPointer optimizer = 
                       dynamic_cast< OptimizerPointer >( object );
-  // Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  The next step is to verify that the event invoked is actually the one in
-  //  which we are interested. This is checked using the RTTI\footnote{RTTI
-  //  stands for: Run-Time Type Information} support. The \code{CheckEvent()}
-  //  method allows us to compare the actual type of two events.  In this case
-  //  we compare the type of the received event with an IterationEvent. The
-  //  comparison will return true if \code{event} is of type
-  //  \code{IterationEvent} or derives from \code{IterationEvent}.  If we find
-  //  that the event is not of the expected type then the \code{Execute()}
-  //  method of this command observer should return without any further action. 
-  //
-  // \index{itk::EventObject!CheckEvent}
-  //
-  //  Software Guide : EndLatex 
+    //  Software Guide : BeginLatex
+    //
+    //  The next step is to verify that the event invoked is actually the one in
+    //  which we are interested. This is checked using the RTTI\footnote{RTTI
+    //  stands for: Run-Time Type Information} support. The \code{CheckEvent()}
+    //  method allows us to compare the actual type of two events.  In this case
+    //  we compare the type of the received event with an IterationEvent. The
+    //  comparison will return true if \code{event} is of type
+    //  \code{IterationEvent} or derives from \code{IterationEvent}.  If we find
+    //  that the event is not of the expected type then the \code{Execute()}
+    //  method of this command observer should return without any further action. 
+    //
+    // \index{itk::EventObject!CheckEvent}
+    //
+    //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
       }
-  // Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
-  //
-  //  If the event matches the type we are looking for, we are ready to
-  //  query data from the optimizer. Here, for example, we get the current
-  //  number of iterations, the current value of the cost function and the
-  //  current position on the parameter space. All of these values are printed
-  //  to the standard output. You could imagine more elaborate actions like
-  //  updating a GUI or refreshing a visualization pipeline.
-  //
-  //  Software Guide : EndLatex 
+    //  Software Guide : BeginLatex
+    //
+    //  If the event matches the type we are looking for, we are ready to
+    //  query data from the optimizer. Here, for example, we get the current
+    //  number of iterations, the current value of the cost function and the
+    //  current position on the parameter space. All of these values are printed
+    //  to the standard output. You could imagine more elaborate actions like
+    //  updating a GUI or refreshing a visualization pipeline.
+    //
+    //  Software Guide : EndLatex 
 
-  // Software Guide : BeginCodeSnippet
-      std::cout << optimizer->GetCurrentIteration() << " = ";
-      std::cout << optimizer->GetValue() << " : ";
-      std::cout << optimizer->GetCurrentPosition() << std::endl;
-  // Software Guide : EndCodeSnippet
-  }
+    // Software Guide : BeginCodeSnippet
+    std::cout << optimizer->GetCurrentIteration() << " = ";
+    std::cout << optimizer->GetValue() << " : ";
+    std::cout << optimizer->GetCurrentPosition() << std::endl;
+    // Software Guide : EndCodeSnippet
+    }
    
   //  Software Guide : BeginLatex
   //
@@ -412,6 +407,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -532,4 +530,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
-
-
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Rigid Transform
@@ -58,17 +54,17 @@ class CommandIterationUpdate : public itk::Command
 public:
   typedef  CommandIterationUpdate   Self;
   typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
 protected:
   CommandIterationUpdate() {m_LastMetricValue = 0;}
 public:
-  typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  typedef itk::OnePlusOneEvolutionaryOptimizer  OptimizerType;
+  typedef   const OptimizerType *               OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
@@ -129,8 +125,6 @@ int main( int argc, char *argv[] )
                                           FixedImageType, 
                                           MovingImageType >    MetricType;
 
-
-
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
@@ -172,9 +166,6 @@ int main( int argc, char *argv[] )
   scales.Fill( 1.0 );
     
   metric->SetDerivativeStepLengthScales(scales);
-
-
-
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
@@ -300,6 +291,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -371,10 +365,7 @@ int main( int argc, char *argv[] )
   writer->SetInput( resample->GetOutput() );
   writer->Update();
 
-// Software Guide : EndCodeSnippet
-
-
+  // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }
-

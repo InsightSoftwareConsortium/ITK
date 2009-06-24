@@ -17,10 +17,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-      
-
-
-
 
 //  Software Guide : BeginCommandLineArgs
 //  INPUTS: {BrainT1SliceBorder20.png}, {BrainProtonDensitySliceShifted13x17y.png}
@@ -29,8 +25,6 @@
 //  OUTPUTS: {JointEntropyHistogramAfterRegistration.png}
 //  128
 //  Software Guide : EndCommandLineArgs
-
-
 
 //  Software Guide : BeginLatex
 //
@@ -122,9 +116,6 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 
-
-
-
 // Software Guide : BeginLatex
 //
 // The header files of the classes featured in this example are included as a
@@ -140,14 +131,10 @@
 #include "itkMutualInformationHistogramImageToImageMetric.h"
 // Software Guide : EndCodeSnippet
 
-
-
 #include "itkCommand.h"
 #include "itkUnaryFunctorImageFilter.h"
 
 #include <stdio.h>
-
-
 
 // Functor to rescale plot the histogram on a log scale and invert it.
 template< class TInput >
@@ -176,8 +163,6 @@ public:
       }
     }
 };
-
-
 
 // Class to write the joint histograms.
 // Software : BeginLatex
@@ -225,29 +210,29 @@ public:
     m_Metric(0)
     {
 
-// Software Guide : BeginLatex
-//
-// The \code{HistogramWriter} has a member variable \code{m\_Filter} of type
-// HistogramToEntropyImageFilter.
-//
-// Software Guide : EndLatex 
+    // Software Guide : BeginLatex
+    //
+    // The \code{HistogramWriter} has a member variable \code{m\_Filter} of type
+    // HistogramToEntropyImageFilter.
+    //
+    // Software Guide : EndLatex 
      
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     this->m_Filter = HistogramToEntropyImageFilterType::New();
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// It also has an ImageFileWriter that has been instantiated using the image
-// type that is produced as output from the histogram to image filter. We
-// connect the output of the filter as input to the writer.
-//
-// Software Guide : EndLatex 
+    // Software Guide : BeginLatex
+    //
+    // It also has an ImageFileWriter that has been instantiated using the image
+    // type that is produced as output from the histogram to image filter. We
+    // connect the output of the filter as input to the writer.
+    //
+    // Software Guide : EndLatex 
 
-// Software Guide : BeginCodeSnippet
+    // Software Guide : BeginCodeSnippet
     this->m_HistogramFileWriter = HistogramFileWriterType::New();
     this->m_HistogramFileWriter->SetInput( this->m_Filter->GetOutput() );
-// Software Guide : EndCodeSnippet
+    // Software Guide : EndCodeSnippet
 
     std::string outputFileBase = "JointHistogram"; 
             // Base of series filenames ( of the joint histogram )
@@ -400,7 +385,7 @@ private:
 };
 
 
-// Command - observer invoked after every iteration of the optimizer    
+// Command - observer invoked after every iteration of the optimizer
 class CommandIterationUpdate : public itk::Command 
 {
 public:
@@ -420,7 +405,7 @@ public:
   
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
-      Execute( (const itk::Object *)caller, event);
+    Execute( (const itk::Object *)caller, event);
     }
 
   void Execute(const itk::Object * object, const itk::EventObject & event)
@@ -496,9 +481,9 @@ int main( int argc, char *argv[] )
 
   const unsigned int Dimension = 2;
   
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
-  typedef   float     InternalPixelType;
+  typedef itk::Image< PixelType, Dimension >         FixedImageType;
+  typedef itk::Image< PixelType, Dimension >         MovingImageType;
+  typedef   float                                    InternalPixelType;
   typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
@@ -509,6 +494,7 @@ int main( int argc, char *argv[] )
   typedef itk::ImageRegistrationMethod< 
                                     InternalImageType, 
                                     InternalImageType >  RegistrationType;
+
   typedef itk::MutualInformationHistogramImageToImageMetric< 
                                           InternalImageType, 
                                           InternalImageType >    MetricType;
@@ -645,6 +631,9 @@ int main( int argc, char *argv[] )
   try 
     { 
     registration->StartRegistration(); 
+    std::cout << "Optimizer stop condition: "
+              << registration->GetOptimizer()->GetStopConditionDescription()
+              << std::endl;
     } 
   catch( itk::ExceptionObject & err ) 
     { 
@@ -721,8 +710,6 @@ int main( int argc, char *argv[] )
 
 }
 
-
-
 // Software Guide : BeginLatex
 //
 // Mutual information attempts to re-group the joint entropy histograms into a
@@ -747,4 +734,3 @@ int main( int argc, char *argv[] )
 // \label{fig:JointEntropyHistograms}
 // \end{figure}
 //  Software Guide : EndLatex 
-
