@@ -112,6 +112,8 @@ public:
   itkGetConstReferenceMacro( CurrentIndex, ParametersType );
   itkGetConstReferenceMacro( MaximumNumberOfIterations, unsigned long );
 
+  /** Get the reason for termination */
+  const std::string GetStopConditionDescription() const;
 
 protected:
   ExhaustiveOptimizer();
@@ -141,6 +143,7 @@ private:
   ExhaustiveOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&);//purposely not implemented
 
+  OStringStream m_StopConditionDescription;
 };
 
 } // end namespace itk
