@@ -198,6 +198,8 @@ int itkLBFGSBOptimizerTest(int, char *[])
   std::cout << "Infinity Norm of Projected Gradient = ";
   std::cout << itkOptimizer->GetInfinityNormOfProjectedGradient() << std::endl;
   
+  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+
   //
   // check results to see if it is within range
   //

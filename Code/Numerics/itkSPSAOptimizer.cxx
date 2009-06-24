@@ -514,6 +514,34 @@ GuessParameters(
 } //end GuessParameters
 
 
+const std::string
+SPSAOptimizer::
+GetStopConditionDescription() const
+{
+  ::itk::OStringStream reason;
+  reason << this->GetNameOfClass() << ": ";
+  switch( m_StopCondition )
+    {
+    case Unknown:
+      reason << "Unknown stop condition";
+      break;
+    case MaximumNumberOfIterations:
+      reason << "Maximum number of iterations exceeded. Number of iterations is "
+             << m_MaximumNumberOfIterations;
+      break;
+    case BelowTolerance:
+      reason << "Below tolerance. " << "Tolerance is " << m_Tolerance;
+      break;
+    case MetricError:
+      reason << "Metric error";
+      break;
+    default:
+      reason << " No reason given for termination ";
+      break;
+    }
+  return reason.str();
+}
+
 } // end namespace itk
 
 

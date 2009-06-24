@@ -39,6 +39,7 @@ OnePlusOneEvolutionaryOptimizer
   m_InitialRadius = 1.01;
   m_MaximumIteration = 100;
   m_Stop = false;
+  m_StopConditionDescription.str("");
   m_CurrentCost = 0;
   m_CurrentIteration = 0;
   m_FrobeniusNorm = 0.0;
@@ -156,6 +157,9 @@ OnePlusOneEvolutionaryOptimizer
     {
     if ( m_Stop )
       {
+      m_StopConditionDescription.str("");
+      m_StopConditionDescription << this->GetNameOfClass() << ": ";
+      m_StopConditionDescription << "StopOptimization() called";
       break;
       }
 
@@ -256,6 +260,11 @@ OnePlusOneEvolutionaryOptimizer
     if (m_FrobeniusNorm <= m_Epsilon) 
       {
       itkDebugMacro(<< "converges at iteration = " << iter);
+      m_StopConditionDescription.str("");
+      m_StopConditionDescription << this->GetNameOfClass() << ": ";
+      m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm 
+                                 << ") is less than Epsilon (" << m_Epsilon
+                                 << " at iteration # " << iter;
       break;
       }
       
@@ -284,10 +293,24 @@ OnePlusOneEvolutionaryOptimizer
     this->InvokeEvent( IterationEvent() );   
     itkDebugMacro(<< "Current position: " << this->GetCurrentPosition());
     }
+  m_StopConditionDescription.str("");
+  m_StopConditionDescription << this->GetNameOfClass() << ": ";
+  m_StopConditionDescription << "Maximum number of iterations ("
+                             << m_MaximumIteration
+                             << ") exceeded. ";
   this->InvokeEvent( EndEvent() );
 }
  
+/**
+ *
+ */
 
+const std::string
+OnePlusOneEvolutionaryOptimizer
+::GetStopConditionDescription() const
+{
+  return m_StopConditionDescription.str();
+}
 
 /**
  *
@@ -296,7 +319,6 @@ void
 OnePlusOneEvolutionaryOptimizer
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-
   Superclass::PrintSelf(os,indent);
 
   if (m_RandomGenerator)

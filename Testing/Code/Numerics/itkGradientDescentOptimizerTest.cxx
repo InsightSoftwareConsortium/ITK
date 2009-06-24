@@ -186,6 +186,7 @@ int itkGradientDescentOptimizerTest(int, char* [] )
   std::cout << std::endl;
 
   itkOptimizer->Print( std::cout );
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   if( !pass )
     {

@@ -97,6 +97,9 @@ public:
   /** Return Current Value */
   MeasureType GetValue();
 
+  /** Get the reason for termination */
+  const std::string GetStopConditionDescription() const;
+
 protected:
   LBFGSOptimizer();
   virtual ~LBFGSOptimizer();
@@ -110,6 +113,7 @@ private:
   
   bool                          m_OptimizerInitialized;
   InternalOptimizerType       * m_VnlOptimizer;
+  mutable OStringStream         m_StopConditionDescription;
 
   bool                          m_Trace;
   unsigned int                  m_MaximumNumberOfFunctionEvaluations;

@@ -133,6 +133,7 @@ public:
   itkGetMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
+  const std::string GetStopConditionDescription() const;
 
 protected:
   PowellOptimizer();
@@ -246,6 +247,7 @@ private:
    * optimization will stop at the next iteration. */
   bool               m_Stop;
 
+  OStringStream      m_StopConditionDescription;
 }; // end of class
 
 } // end of namespace itk

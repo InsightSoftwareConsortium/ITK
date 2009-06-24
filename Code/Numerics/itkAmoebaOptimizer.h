@@ -85,7 +85,7 @@ public:
    * terminate after the maximum number of iterations has been reached. 
    * The default value is 500. */
   virtual void SetMaximumNumberOfIterations( unsigned int n );
-  itkGetMacro( MaximumNumberOfIterations, unsigned int );
+  itkGetConstMacro( MaximumNumberOfIterations, unsigned int );
 
   /** Set/Get the mode which determines how the amoeba algorithm
    * defines the initial simplex.  Default is
@@ -97,12 +97,12 @@ public:
    * x0[d-1]]. */
   itkSetMacro(AutomaticInitialSimplex, bool);
   itkBooleanMacro(AutomaticInitialSimplex);
-  itkGetMacro(AutomaticInitialSimplex, bool);
+  itkGetConstMacro(AutomaticInitialSimplex, bool);
 
   /** Set/Get the deltas that are used to define the initial simplex
    * when AutomaticInitialSimplex is off. */
   itkSetMacro(InitialSimplexDelta, ParametersType);
-  itkGetMacro(InitialSimplexDelta, ParametersType);
+  itkGetConstMacro(InitialSimplexDelta, ParametersType);
 
   /** The optimization algorithm will terminate when the simplex
    * diameter and the difference in cost function at the corners of
@@ -113,9 +113,12 @@ public:
    * SetFunctionConvergenceTolerance() with the default value being
    * 1e-4. */
   virtual void SetParametersConvergenceTolerance( double tol );
-  itkGetMacro( ParametersConvergenceTolerance, double );
+  itkGetConstMacro( ParametersConvergenceTolerance, double );
   virtual void SetFunctionConvergenceTolerance( double tol );
-  itkGetMacro( FunctionConvergenceTolerance, double );
+  itkGetConstMacro( FunctionConvergenceTolerance, double );
+
+  /** Report the reason for stopping. */
+  const std::string GetStopConditionDescription() const;
 
   /** Return Current Value */
   MeasureType GetValue() const;
@@ -139,6 +142,8 @@ private:
 
   bool                          m_AutomaticInitialSimplex;
   ParametersType                m_InitialSimplexDelta;
+
+  OStringStream                 m_StopConditionDescription;
 };
 
 } // end namespace itk

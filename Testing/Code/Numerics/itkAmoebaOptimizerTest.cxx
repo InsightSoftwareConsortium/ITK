@@ -173,6 +173,7 @@ public:
         std::cout << m_IterationNumber++ << "   ";
         std::cout << optimizer->GetCachedValue() << "   ";
         std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
+        std::cout << optimizer->GetStopConditionDescription() << std::endl;
         }
       else if( m_GradientEvent.CheckEvent( &event ) )
         {

@@ -234,7 +234,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
 
   std::cout << "Report from vnl optimizer: " << std::endl;
-  vnlOptimizer->diagnose_outcome( std::cout );
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   std::cout << std::endl;
 

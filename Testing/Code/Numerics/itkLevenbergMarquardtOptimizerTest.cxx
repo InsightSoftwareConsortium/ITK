@@ -333,6 +333,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
                       std::cout << " Failed user request "; break;
   }
   std::cout << std::endl;
+  std::cout << "Stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;    
   std::cout << std::endl;

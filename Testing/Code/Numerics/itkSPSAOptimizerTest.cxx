@@ -178,17 +178,9 @@ int itkSPSAOptimizerTest(int, char* [] )
     << itkOptimizer->GetCurrentIteration()
     << std::endl;
 
-  std::string StopConditionString;
-  switch ( itkOptimizer->GetStopCondition() )
-    {
-    case itk::SPSAOptimizer::Unknown : StopConditionString = "Unknown"; break;
-    case itk::SPSAOptimizer::MaximumNumberOfIterations :  StopConditionString = "MaximumNumberOfIterations"; break;
-    case itk::SPSAOptimizer::BelowTolerance :  StopConditionString = "BelowTolerance"; break;
-    case itk::SPSAOptimizer::MetricError :  StopConditionString = "MetricError";
-    }
   std::cout
     << "Stop condition: "
-    << StopConditionString
+    << itkOptimizer->GetStopConditionDescription()
     << std::endl;
 
   

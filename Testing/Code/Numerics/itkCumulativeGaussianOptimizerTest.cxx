@@ -87,6 +87,8 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   // Start optimization;
   optimizer->StartOptimization();
  
+  std::cout << "StopConditionDescription: " << optimizer->GetStopConditionDescription() << std::endl;
+
   // The test passes if the difference between the given parameters and estimated parameters
   // is less than or equal to 0.1.
   if( vcl_fabs(optimizer->GetComputedMean() - mean) <= 0.1 &&

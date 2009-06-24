@@ -193,6 +193,9 @@ public:
   itkSetMacro(Tolerance, double);
   itkGetConstMacro(Tolerance, double);
     
+  /** Get the reason for termination */
+  const std::string GetStopConditionDescription() const;
+
 protected:
 
   SPSAOptimizer();

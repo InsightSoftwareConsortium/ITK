@@ -228,9 +228,23 @@ LevenbergMarquardtOptimizer
 /** Get the Optimizer */
 vnl_levenberg_marquardt * 
 LevenbergMarquardtOptimizer
-::GetOptimizer()
+::GetOptimizer() const
 {
   return m_VnlOptimizer;
+}
+
+const std::string
+LevenbergMarquardtOptimizer
+::GetStopConditionDescription() const
+{
+  OStringStream reason, outcome;
+  outcome.str("");
+  if (GetOptimizer())
+    {
+    GetOptimizer()->diagnose_outcome(outcome);
+    }
+  reason << this->GetNameOfClass() << ": " << (outcome.str().size() > 0) ? outcome.str().c_str() : "";
+  return reason.str();
 }
 
 } // end namespace itk

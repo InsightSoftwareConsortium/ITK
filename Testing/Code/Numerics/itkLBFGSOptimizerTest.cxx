@@ -175,6 +175,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   itkOptimizer->SetLineSearchAccuracy( LineSearch_Tol );
   itkOptimizer->SetDefaultStepLength( Step_Length );
   itkOptimizer->Print( std::cout );
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   try 
     {
@@ -203,6 +204,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << "," ;
   std::cout << finalPosition[1] << ")" << std::endl;  
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   //
   // check results to see if it is within range

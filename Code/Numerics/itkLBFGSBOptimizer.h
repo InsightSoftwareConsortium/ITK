@@ -159,6 +159,9 @@ public:
    * function. */
   itkGetConstReferenceMacro( InfinityNormOfProjectedGradient, double );
 
+  /** Get the reason for termination */
+  const std::string GetStopConditionDescription() const;
+
 protected:
   LBFGSBOptimizer();
   virtual ~LBFGSBOptimizer();
@@ -176,7 +179,7 @@ private:
 
   bool                     m_OptimizerInitialized;
   InternalOptimizerType  * m_VnlOptimizer;
-
+  mutable OStringStream    m_StopConditionDescription;
   BoundValueType           m_LowerBound;
   BoundValueType           m_UpperBound;
   BoundSelectionType       m_BoundSelection;

@@ -21,6 +21,9 @@
 #include "vnl/algo/vnl_lbfgsb.h"
 #include <vnl/vnl_math.h>
 
+extern "C" {
+  extern double v3p_netlib_dpmeps_();
+}
 
 namespace itk
 {
@@ -47,7 +50,7 @@ public:
   virtual bool report_iter();
 
 private:
-  LBFGSBOptimizer* m_ItkObj;
+  LBFGSBOptimizer*     m_ItkObj;
 };
 
   
@@ -74,6 +77,7 @@ LBFGSBOptimizer
   m_CurrentIteration                = 0;
   m_Value                           = 0.0;
   m_InfinityNormOfProjectedGradient = 0.0;
+  m_StopConditionDescription.str("");
  
 }
 
@@ -386,6 +390,9 @@ LBFGSBOptimizer
 
   ParametersType parameters( this->GetInitialPosition() );
 
+  // Clear the description
+  m_StopConditionDescription.str("");
+
   // vnl optimizers return the solution by reference 
   // in the variable provided as initial position
   m_VnlOptimizer->minimize( parameters );
@@ -436,6 +443,9 @@ LBFGSBOptimizerHelper
   // Return true to terminate the optimization loop.
   if( this->num_iterations_ > m_ItkObj->m_MaximumNumberOfIterations )
     {
+    m_ItkObj->m_StopConditionDescription <<
+      "Too many iterations. Iterations = " <<
+      m_ItkObj->m_MaximumNumberOfIterations;
     return true;
     }
   else
@@ -444,6 +454,68 @@ LBFGSBOptimizerHelper
     }
 }
 
+const std::string
+LBFGSBOptimizer::
+GetStopConditionDescription() const
+{
+  if (m_VnlOptimizer)
+    {
+    m_StopConditionDescription.str("");
+    m_StopConditionDescription << this->GetNameOfClass() << ": ";
+    switch (m_VnlOptimizer->get_failure_code())
+      {
+      case vnl_nonlinear_minimizer::ERROR_FAILURE:
+        m_StopConditionDescription << "Failure";
+        break;
+      case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
+        m_StopConditionDescription << "Dodgy input";
+        break;
+      case vnl_nonlinear_minimizer::CONVERGED_FTOL:
+        m_StopConditionDescription << "Function tolerance reached after "
+                                   << m_CurrentIteration
+                                   << " iterations. "
+                                   << "The relative reduction of the cost function <= "
+                                   << m_CostFunctionConvergenceFactor * v3p_netlib_dpmeps_()
+                                   << " = CostFunctionConvergenceFactor ("
+                                   << m_CostFunctionConvergenceFactor
+                                   << ") * machine precision ("
+                                   << v3p_netlib_dpmeps_()
+                                   << ").";
+        break;
+      case vnl_nonlinear_minimizer::CONVERGED_XTOL:
+        m_StopConditionDescription << "Solution tolerance reached";
+        break;
+      case vnl_nonlinear_minimizer::CONVERGED_XFTOL:
+        m_StopConditionDescription << "Solution and Function tolerance both reached";
+        break;
+      case vnl_nonlinear_minimizer::CONVERGED_GTOL:
+        m_StopConditionDescription << "Gradient tolerance reached. "
+                                   << "Projected gradient tolerance is "
+                                   << m_ProjectedGradientTolerance;
+        break;
+      case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
+        m_StopConditionDescription << "Too many iterations. Iterations = "
+                                   << m_MaximumNumberOfEvaluations;
+        break;
+      case vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
+        m_StopConditionDescription << "Function tolerance too small";
+        break;
+      case vnl_nonlinear_minimizer::FAILED_XTOL_TOO_SMALL:
+        m_StopConditionDescription << "Solution tolerance too small";
+        break;
+      case vnl_nonlinear_minimizer::FAILED_GTOL_TOO_SMALL:
+        m_StopConditionDescription << "Gradient tolerance too small";
+        break;
+      case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
+        break;
+      }
+    return m_StopConditionDescription.str();
+    }
+  else
+    {
+    return std::string("");
+    }
+}
 
 } // end namespace itk
 

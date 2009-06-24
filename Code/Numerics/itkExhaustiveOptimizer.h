@@ -92,7 +92,7 @@ public:
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ExhaustiveOptimizer,           SingleValuedNonLinearOptimizer   );
+  itkTypeMacro( ExhaustiveOptimizer, SingleValuedNonLinearOptimizer );
  
   virtual void    StartOptimization( void );
 

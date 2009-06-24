@@ -86,6 +86,9 @@ public:
   /** Print an array. */
   void PrintArray(MeasureType * array);
 
+  /** Report the reason for stopping. */
+  const std::string GetStopConditionDescription() const;
+
 protected:
   CumulativeGaussianOptimizer();
   virtual ~CumulativeGaussianOptimizer();
@@ -157,6 +160,10 @@ private:
   
   /** Find the constant of the integrated sample. */
   double VerticalBestShift(MeasureType * originalArray, MeasureType * newArray);
+
+  /** Describe the stop condition */
+  OStringStream m_StopConditionDescription;
+
 };
 
 } // end namespace itk

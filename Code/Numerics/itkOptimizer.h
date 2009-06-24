@@ -79,6 +79,9 @@ public:
   /** Start optimization. */
   virtual void StartOptimization() {};
 
+  /** Get the reason for termination */
+  virtual const std::string GetStopConditionDescription() const;
+
 protected:
   Optimizer();
   virtual ~Optimizer() {};
@@ -100,7 +103,6 @@ private:
   
   ParametersType          m_InitialPosition;
   ScalesType              m_Scales;
-
 };
 
 } // end namespace itk

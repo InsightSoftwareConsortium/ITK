@@ -38,6 +38,7 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_FitError = 0;
   m_FinalSampledArray = NULL;
   m_CumulativeGaussianArray = NULL;
+  m_StopConditionDescription << this->GetNameOfClass() << ": Constructed";
 }
 
 CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
@@ -111,11 +112,13 @@ CumulativeGaussianOptimizer
   extendedArray = ExtendGaussian(sampledGaussianArray, extendedArray, sampledGaussianArraySize);
   
   MeasureGaussianParameters(extendedArray);
+  bool smallChangeBetweenIterations = false;
   while (averageSumOfSquaredDifferences >= m_DifferenceTolerance)
     {
-    for(int j = 0; j < extendedArraySize; j++) 
+    for(int j = 0; j < extendedArraySize; j++)
+      {
       extendedArrayCopy->put(j, extendedArray->get(j));
-
+      }
     extendedArray = RecalculateExtendedArrayFromGaussianParameters(sampledGaussianArray,
                                                                    extendedArray,
                                                                    sampledGaussianArraySize);
@@ -130,8 +133,28 @@ CumulativeGaussianOptimizer
 
     // Stop if there is a very very very small change between iterations.
     if(vcl_fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
+      {
+      m_StopConditionDescription.str("");
+      m_StopConditionDescription << this->GetNameOfClass() << ": "
+                                 << "Change between iterations ("
+                                 << vcl_fabs(temp - averageSumOfSquaredDifferences)
+                                 << ") is less than DifferenceTolerance ("
+                                 << m_DifferenceTolerance
+                                 << ").";
       break;
+      }
     }
+  if (!smallChangeBetweenIterations)
+    {
+    m_StopConditionDescription.str("");
+    m_StopConditionDescription << this->GetNameOfClass() << ": "
+                               << "Average sum of squared differences ("
+                               << averageSumOfSquaredDifferences
+                               << ") is less than DifferenceTolerance ("
+                               << m_DifferenceTolerance
+                               << ").";
+    }
+
   // Update the mean calculation.
   m_ComputedMean = m_ComputedMean - m_OffsetForMean;
   
@@ -163,8 +186,9 @@ void CumulativeGaussianOptimizer
 
   // Calculate the standard deviation
   for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
+    {
     m_ComputedStandardDeviation += array->get(i) * vcl_pow((i - m_ComputedMean), 2);
-
+    }
   m_ComputedStandardDeviation = vcl_sqrt(m_ComputedStandardDeviation/sum );
 
   // For the ERF, sum is the difference between the lower and upper intensities.
@@ -226,6 +250,10 @@ void
 CumulativeGaussianOptimizer
 ::StartOptimization()
 {
+  this->InvokeEvent( StartEvent() );
+  m_StopConditionDescription.str("");
+  m_StopConditionDescription << this->GetNameOfClass() << ": Running";
+
   // Declare arrays.
   int cumGaussianArraySize = m_CumulativeGaussianArray->GetNumberOfElements();
   int sampledGaussianArraySize = cumGaussianArraySize;
@@ -239,15 +267,17 @@ CumulativeGaussianOptimizer
 
   // Make a copy of the Cumulative Gaussian sampled data array.
   for(int j = 0; j < cumGaussianArraySize; j++)
+    {
     cumGaussianArrayCopy->put(j, m_CumulativeGaussianArray->get(j));
-  
+    }
   // Take the derivative of the data array resulting in a Gaussian array.
   MeasureType * derivative = new MeasureType();
   derivative->SetSize(cumGaussianArraySize - 1);
 
   for(int i=1; i < (int)(derivative->GetNumberOfElements()+1); i++)
+    {
     derivative->put(i-1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i-1) );
-
+    }
   m_CumulativeGaussianArray = derivative;
   
   // Iteratively recalculate and resample the Gaussian array.
@@ -255,15 +285,17 @@ CumulativeGaussianOptimizer
   
   // Generate new Gaussian array with final parameters.
   for(int i = 0; i < sampledGaussianArraySize; i++)
+    {
     sampledGaussianArray->put(i, m_ComputedAmplitude * vcl_exp(- ( vcl_pow((i-m_ComputedMean),2) / (2*vcl_pow(m_ComputedStandardDeviation,2)) ) ));
-
+    }
   // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5 
   // shift during derivation, then take the integral of the Gaussian sample
   // to produce a Cumulative Gaussian.
 
   for(int i = sampledGaussianArraySize-1; i > 0; i--)
+    {
     sampledGaussianArray->put(i-1, sampledGaussianArray->get(i) - sampledGaussianArray->get(i-1));
-
+    }
   m_ComputedMean += 0.5;
 
   // Find the best vertical shift that minimizes the least square error.
@@ -271,8 +303,9 @@ CumulativeGaussianOptimizer
   
   // Add constant c to array.
   for(int i = 0; i < (int)(sampledGaussianArray->GetNumberOfElements()); i++)
+    {
     sampledGaussianArray->put(i, sampledGaussianArray->get(i) + c);
-
+    }
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
   // sampled Cumulative Gaussian.
   int floorOfMean = (int)(m_ComputedMean);
@@ -327,10 +360,21 @@ CumulativeGaussianOptimizer
   double c = 0;
   int size = originalArray->GetNumberOfElements();
   for(int i=0; i<size; i++)
+    {
     c += originalArray->get(i);
+    }
   for(int i=0; i<size; i++)
+    {
     c -= newArray->get(i);
+    }
   return (c/size);
+}
+
+const std::string
+CumulativeGaussianOptimizer
+::GetStopConditionDescription() const
+{
+  return m_StopConditionDescription.str();
 }
 
 void
@@ -338,27 +382,27 @@ CumulativeGaussianOptimizer
 ::PrintSelf(std::ostream &os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Difference Tolerance = " << m_DifferenceTolerance
-    << "Computed Mean = " << m_ComputedMean
-    << "Computed Standard Deviation = " << m_ComputedStandardDeviation
-    << "Computed Amplitude = " << m_ComputedAmplitude
-    << "Computed Transition Height = " << m_ComputedTransitionHeight
-    << std::endl;
 
-  os << indent << "Upper Asymptote = " << m_UpperAsymptote
-    << "Lower Asymptote = " << m_LowerAsymptote
-    << "Offset For Mean = " << m_OffsetForMean
-    << "Verbose = " << m_Verbose
-    << "Fit Error = " << m_FitError
-    << std::endl;
+  os << indent << "Difference Tolerance = " << m_DifferenceTolerance << std::endl;
+  os << indent << "Computed Mean = " << m_ComputedMean << std::endl;
+  os << indent << "Computed Standard Deviation = " << m_ComputedStandardDeviation << std::endl;
+  os << indent << "Computed Amplitude = " << m_ComputedAmplitude << std::endl;
+  os << indent << "Computed Transition Height = " << m_ComputedTransitionHeight << std::endl;
 
+  os << indent << "Upper Asymptote = " << m_UpperAsymptote << std::endl;
+  os << indent << "Lower Asymptote = " << m_LowerAsymptote << std::endl;
+  os << indent << "Offset For Mean = " << m_OffsetForMean << std::endl;
+  os << indent << "Verbose = " << m_Verbose << std::endl;
+  os << indent << "Fit Error = " << m_FitError << std::endl;
+
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription << std::endl;
   if(m_FinalSampledArray)
     {
-    os << indent << "FinalSampledArray = " << m_FinalSampledArray << std::endl;
+    os << indent << "Final Sampled Array = " << m_FinalSampledArray << std::endl;
     }
   else
     {
-    os << indent << "FinalSampledArray = [not defined] " << std::endl;
+    os << indent << "Final Sampled Array = [not defined] " << std::endl;
     }
 }
 

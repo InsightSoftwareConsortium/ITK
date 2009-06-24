@@ -39,6 +39,14 @@ GradientDescentOptimizer
   m_Maximize = false;
   m_Value = 0.0;
   m_StopCondition = MaximumNumberOfIterations;
+  m_StopConditionDescription << this->GetNameOfClass() << ": ";
+}
+
+const std::string
+GradientDescentOptimizer
+::GetStopConditionDescription() const
+{
+  return m_StopConditionDescription.str();
 }
 
 void
@@ -100,6 +108,8 @@ GradientDescentOptimizer
 
   m_Stop = false;
 
+  m_StopConditionDescription.str("");
+  m_StopConditionDescription << this->GetNameOfClass() << ": ";
   InvokeEvent( StartEvent() );
   while( !m_Stop ) 
     {
@@ -114,6 +124,7 @@ GradientDescentOptimizer
       // An exception has occurred. 
       // Terminate immediately.
       m_StopCondition = MetricError;
+      m_StopConditionDescription << "Metric error";
       StopOptimization();
 
       // Pass exception to caller
@@ -123,6 +134,7 @@ GradientDescentOptimizer
 
     if( m_Stop )
       {
+      m_StopConditionDescription << "StopOptimization() called";
       break;
       }
   
@@ -132,16 +144,15 @@ GradientDescentOptimizer
 
     if( m_CurrentIteration >= m_NumberOfIterations )
       {
+      m_StopConditionDescription << "Maximum number of iterations ("
+                                 << m_NumberOfIterations
+                                 << ") exceeded.";
       m_StopCondition = MaximumNumberOfIterations;
       StopOptimization();
       break;
       }
-    
     }
-    
-
 }
-
 
 /**
  * Stop optimization

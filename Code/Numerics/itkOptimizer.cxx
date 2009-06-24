@@ -68,6 +68,15 @@ Optimizer
   this->Modified();
 }
 
+const std::string 
+Optimizer
+::GetStopConditionDescription() const
+{
+  OStringStream description;
+  description << this->GetNameOfClass() << ": "
+              << "Optimizer did not provide a stop condition description";
+  return description.str();
+}
 
 /**
  * Print Self method
@@ -93,6 +102,9 @@ Optimizer
     os << indent << "Scales: not defined (default 1)" 
        << std::endl;
     }
+
+  os << indent << "StopConditionDescription: " 
+     << this->GetStopConditionDescription() << std::endl;
 }
 
 } // end namespace itk

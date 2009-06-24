@@ -96,6 +96,8 @@ public:
   itkGetConstReferenceMacro( Value, MeasureType );
   itkGetConstReferenceMacro( Gradient, DerivativeType );
   
+  /** Get the reason for termination */
+  virtual const std::string GetStopConditionDescription() const;
   
 protected:
   RegularStepGradientDescentBaseOptimizer();
@@ -141,8 +143,7 @@ protected:
   StopConditionType             m_StopCondition;
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
-
-
+  OStringStream                 m_StopConditionDescription;
 };
 
 } // end namespace itk

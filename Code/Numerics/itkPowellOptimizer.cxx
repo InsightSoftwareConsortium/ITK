@@ -46,6 +46,8 @@ PowellOptimizer
 
   m_MaximumLineIteration = 100;
   m_SpaceDimension = 0;
+
+  m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
 
 PowellOptimizer
@@ -320,15 +322,15 @@ PowellOptimizer
       if( vcl_fabs(p) < vcl_fabs(new_step*q) &&
           p > q*(a-x+2*tolerance1) &&
           p < q*(b-x-2*tolerance1)  )
-          {
-          new_step = p/q;      /* it is accepted         */
-          }
+        {
+        new_step = p/q;      /* it is accepted         */
+        }
 
       /* If p/q is too large then the  gold section procedure can
          reduce [a,b] range to more  extent      */
       }
 
-     /* Adjust the step to be not less than tolerance*/
+    /* Adjust the step to be not less than tolerance*/
     if( vcl_fabs(new_step) < tolerance1 )
       {
       if ( new_step > 0.0 )
@@ -350,7 +352,7 @@ PowellOptimizer
     functionValueOft = this->GetLineValue(t, tempCoord);
 
     if( functionValueOft <= functionValueOfX )
-    {
+      {
       if( t < x )      /* Reduce the range so that  */
         {
         b = x;        /* t would fall within it  */
@@ -360,25 +362,25 @@ PowellOptimizer
         a = x;
         }
 
-     /* assing the best approximation to x */
-    v = w;
-    w = x;
-    x = t;
+      /* assing the best approximation to x */
+      v = w;
+      w = x;
+      x = t;
 
-    functionValueOfV = functionValueOfW;
-    functionValueOfW = functionValueOfX;
-    functionValueOfX = functionValueOft;
-    }
+      functionValueOfV = functionValueOfW;
+      functionValueOfW = functionValueOfX;
+      functionValueOfX = functionValueOft;
+      }
     else                              /* x remains the better approx  */
-    {
-    if( t < x )      /* Reduce the range enclosing x  */
       {
-      a = t;
-      }
-    else
-      {
-      b = t;
-      }
+      if( t < x )      /* Reduce the range enclosing x  */
+        {
+        a = t;
+        }
+      else
+        {
+        b = t;
+        }
 
       if( functionValueOft <= functionValueOfW || w==x )
         {
@@ -392,8 +394,8 @@ PowellOptimizer
         v = t;
         functionValueOfV=functionValueOft;
         }
-     }
-  }
+      }
+    }
 
   *extX = x;
   *extVal = functionValueOfX;
@@ -413,6 +415,9 @@ PowellOptimizer
     {
     return;
     }
+
+  m_StopConditionDescription.str("");
+  m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
   this->InvokeEvent( StartEvent() );
   m_Stop = false;
@@ -481,6 +486,12 @@ PowellOptimizer
     if (2.0*vcl_fabs(fp-fx)
         <= m_ValueTolerance*(vcl_fabs(fp)+vcl_fabs(fx)))
       {
+      m_StopConditionDescription << "Cost function values at the current parameter ("
+                                 << fx
+                                 << ") and at the local extrema ("
+                                 << fp 
+                                 << ") are within Value Tolerance ("
+                                 << m_ValueTolerance << ")";
       this->InvokeEvent( EndEvent() );
       return;
       }
@@ -497,8 +508,8 @@ PowellOptimizer
     if (fptt < fp)
       {
       double t = 2.0 * (fp - 2.0*fx + fptt)
-                     * vnl_math_sqr(fp-fx-del)
-                     - del * vnl_math_sqr(fp-fptt);
+        * vnl_math_sqr(fp-fx-del)
+        - del * vnl_math_sqr(fp-fptt);
       if (t < 0.0)
         {
         this->SetLine(p, xit);
@@ -522,8 +533,20 @@ PowellOptimizer
 
     }
 
+  m_StopConditionDescription << "Maximum number of iterations exceeded. "
+                             << "Number of iterations is "
+                             << m_MaximumIteration;
   this->InvokeEvent( EndEvent() );
+}
 
+/**
+ *
+ */
+const std::string
+PowellOptimizer
+::GetStopConditionDescription() const
+{
+  return m_StopConditionDescription.str();
 }
 
 /**
