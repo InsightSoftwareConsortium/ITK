@@ -41,13 +41,23 @@
 // is capable of streaming. 
 
 
-int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])   
+int main(int argc, char *argv[])   
 {        
+
+  if ( argc < 3 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " inputImageFile  outputImageFile" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  
+  std::string inputImageFile = argv[1];
+  std::string outputImageFile = argv[2];
+
   typedef itk::RGBPixel<unsigned char> RGBPixelType;
   typedef itk::Vector<unsigned char, 3> VRGBPixelType;
-  typedef unsigned char PixelType;
-  typedef itk::Image<PixelType, 3> ImageType;
-  typedef itk::Image<RGBPixelType, 3> RGB3DImageType;
   typedef itk::Image<RGBPixelType, 2> RGB2DImageType;
   typedef itk::Image<VRGBPixelType, 2> VRGB2DImageType;
 
@@ -56,7 +66,7 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
 //  capable of streaming 
   typedef itk::ImageFileReader< RGB2DImageType > ImageReaderType;
   ImageReaderType::Pointer reader = ImageReaderType::New();
-  reader->SetFileName( "streamed_vm.mha" );
+  reader->SetFileName( inputImageFile );
     
 // The pipeline is continued through a gradient magnitude filter,
 // which works on vector images to produce a scalar output. Then a
@@ -65,6 +75,7 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
   typedef itk::VectorGradientMagnitudeImageFilter< RGB2DImageType > GradientMagnitudeImageFilter;
   GradientMagnitudeImageFilter::Pointer grad = GradientMagnitudeImageFilter::New();
   grad->SetInput( reader->GetOutput() );
+
   grad->SetUseImageSpacingOn();
 
   typedef  GradientMagnitudeImageFilter::OutputImageType GradientMagnitudeOutputImageType;
@@ -104,7 +115,7 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
 
   typedef itk::ImageFileWriter< ToVectorImageAdaptorType > ImageWriterType;
   ImageWriterType::Pointer writer = ImageWriterType::New();
-  writer->SetFileName( "streamed_pasted_vm.mha" );
+  writer->SetFileName( outputImageFile );
   writer->SetNumberOfStreamDivisions( 10 );
   writer->SetIORegion( halfIO );
   writer->SetInput( adaptor );

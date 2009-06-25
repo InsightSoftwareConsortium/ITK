@@ -51,8 +51,19 @@
 // following is an example that reads the entire raw dataset and
 // generates that classic image: 
 
-int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])   
+int main(int argc, char *argv[])   
 {    
+  if ( argc < 3 )
+    {
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " visibleHumanPath  outputImageFile" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  std::string visibleHumanPath = argv[1];
+  std::string outputImageFile = argv[2];
+
   typedef itk::RGBPixel<unsigned char> RGBPixelType;
   typedef unsigned char PixelType;
   typedef itk::Image<PixelType, 3> ImageType;
@@ -63,7 +74,7 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
   // genderate the names of the decompressed Visible Male images
   typedef itk::NumericSeriesFileNames    NameGeneratorType;
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
-  nameGenerator->SetSeriesFormat( "a_vm%04d.raw" );
+  nameGenerator->SetSeriesFormat( visibleHumanPath+"a_vm%04d.raw" );
   nameGenerator->SetStartIndex( 1001 );
   nameGenerator->SetEndIndex( 2878 );
   nameGenerator->SetIncrementIndex( 1 );
@@ -144,7 +155,7 @@ int main(int itkNotUsed(argc), char *itkNotUsed(argv)[])
 
   typedef itk::ImageFileWriter< RGB2DImageType > ImageWriterType;
   ImageWriterType::Pointer writer = ImageWriterType::New();
-  writer->SetFileName( "streamed_vm.mha" );
+  writer->SetFileName( outputImageFile );
 
 // this line is a request for the number of regions
 // the image will be broken into

@@ -79,6 +79,27 @@ ADD_EXECUTABLE(VisibleHumanPasteWrite  VisibleHumanPasteWrite.cxx )
 TARGET_LINK_LIBRARIES(VisibleHumanPasteWrite  ITKIO)
 
 
+SET(IO_EXAMPLES ${CXX_TEST_PATH}/IOExamples)
+
+SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
+SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+
+ADD_EXECUTABLE(IOExamples IOExamples.cxx )
+TARGET_LINK_LIBRARIES(IOExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+
+IF(ITK_VISIBLEHUMAN_DATA_ROOT)
+  ADD_TEST(VisibleHumanStreamReadWriteTest 
+    ${IO_EXAMPLES}
+    VisibleHumanStreamReadWriteTest 
+    ${ITK_VISIBLEHUMAN_DATA_ROOT}/Male/Fullcolor/fullbody/
+    ${TEMP}/VisibleHumanStreamReadWrite.mha )
+  ADD_TEST(VisibleHumanPasteWriteTest 
+    ${IO_EXAMPLES}
+    VisibleHumanPasteWriteTest
+    ${TEMP}/VisibleHumanStreamReadWrite.mha
+    ${TEMP}/VisibleHumanPasteWrite.mha)
+ENDIF(ITK_VISIBLEHUMAN_DATA_ROOT)
+
 IF(NOT BORLAND)
   ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
   TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
