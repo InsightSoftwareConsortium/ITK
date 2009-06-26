@@ -137,7 +137,7 @@ public:
   itkConceptMacro(SameDimension,
     (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
        itkGetStaticConstMacro(OutputImageDimension)>));
-
+  itkConceptMacro(OutputImagePixelTypeIsInteger, (Concept::IsInteger<OutputImagePixelType>));
 
   void SetMaskImage(TMaskImage* mask)
     {
