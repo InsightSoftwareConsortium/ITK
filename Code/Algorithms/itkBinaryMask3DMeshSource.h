@@ -67,13 +67,7 @@ namespace itk
  * \par INPUT
  * The input should be a 3D binary image. 
  *
- *
- *  */
-#ifndef ITK_EXPLICIT_INSTANTIATION
-//This is already explicitly defined when ITK_EXPLICIT_INSTANTIATION is used.
-template class Image<unsigned short,3>;
-#endif
-
+ */
 template <class TInputImage, class TOutputMesh>
 class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
