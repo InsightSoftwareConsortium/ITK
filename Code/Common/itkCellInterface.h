@@ -166,7 +166,7 @@ public:
   typedef Array<CoordRepType>                 ParametricCoordArrayType;
   typedef Array<InterpolationWeightType>      ShapeFunctionsArrayType;
 
-  static int GetNextUserCellId(); // never return > MAX_INTERFACE
+//  static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
   /** \class MultiVisitor 
    * \brief A visitor that can visit different cell types in a mesh.
