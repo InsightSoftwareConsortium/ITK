@@ -133,11 +133,6 @@ public:
      The method is provided only to comply with the interface of other transforms. */
   void SetIdentity( void ) { }
 
-
-  /** Set the Transformation Parameters
-   * and update the internal transformation. */
-  virtual void SetParameters(const ParametersType &) {};
-
   /** Compute the Jacobian of the transformation
    *
    * This method computes the Jacobian matrix of the transformation.
@@ -183,6 +178,25 @@ public:
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
   virtual bool IsLinear() const { return true; }
+
+  /** Get the Fixed Parameters. */
+  virtual const ParametersType& GetFixedParameters(void) const
+    {
+    return this->m_FixedParameters;
+    }
+
+  /** Set the fixed parameters and update internal transformation. */
+  virtual void SetFixedParameters( const ParametersType & ) {}
+
+  /** Get the Parameters. */
+  virtual const ParametersType& GetParameters(void) const
+    {
+    return this->m_Parameters;
+    }
+
+  /** Set the fixed parameters and update internal transformation. */
+  virtual void SetParameters( const ParametersType & ) {}
+
 
 protected:
   IdentityTransform():Transform<TScalarType,NDimensions,NDimensions>(NDimensions,1) 
