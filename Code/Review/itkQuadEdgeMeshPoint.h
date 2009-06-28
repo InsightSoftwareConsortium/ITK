@@ -52,8 +52,6 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(DimensionShouldBe3,
-                  (Concept::SameDimension<itkGetStaticConstMacro(PointDimension),3>));
   /** End concept checking */
 #endif
 
