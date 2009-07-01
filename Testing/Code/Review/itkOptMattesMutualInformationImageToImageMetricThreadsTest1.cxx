@@ -90,39 +90,60 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   typedef itk::TranslationTransform< double, Dimension >  TranformType;
   TranformType::Pointer transform = TranformType::New();
 
+  metric->SetNumberOfFixedImageSamples( 10 );
   metric->SetTransform( transform );
   metric->SetInterpolator( interpolator );
   metric->SetFixedImage( fixedImageReader->GetOutput() ); 
   metric->SetMovingImage( movingImageReader->GetOutput() ); 
   metric->SetFixedImageRegion(  fixedImageReader->GetOutput()->GetBufferedRegion()  );
 
-  try 
-    {
-    metric->Initialize();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-    }
-
   MetricType::TransformParametersType displacement( Dimension );
 
   displacement[0] = 17;
   displacement[1] = 19;
 
-  std::vector< double > results;
+  typedef MetricType::MeasureType      MeasureType;
+  typedef MetricType::DerivativeType   DerivativeType;
+
+  MeasureType value;
+  DerivativeType derivative;
+
+  MeasureType value1;
+  DerivativeType derivative1;
+
+  std::vector< MeasureType > values;
+  std::vector< DerivativeType > derivatives;
 
   for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreads; numberOfThreads++ )
     {
-    metric->SetNumberOfThreads( numberOfThreads );
-    metric->Initialize();
-    metric->ReinitializeSeed( 76926294 );
-    const double value = metric->GetValue( displacement );
-    results.push_back( value );
+    try 
+      {
+      metric->SetNumberOfThreads( numberOfThreads );
+      metric->ReinitializeSeed( 76926294 );
+      metric->Initialize();
+      
+      metric->GetValueAndDerivative( displacement, value, derivative );
+
+      value1 = metric->GetValue( displacement );
+      metric->GetDerivative( displacement, derivative1 );
+      }
+    catch( itk::ExceptionObject & excep )
+      {
+      std::cerr << excep << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    values.push_back( value );
+    derivatives.push_back( derivative );
+
     if( verbose )
       {
-      std::cout << numberOfThreads << " : " << value << std::endl;
+      std::cout << numberOfThreads;
+      std::cout << " : " << value;
+      std::cout << " : " << value1;
+      std::cout << " : " << derivative;
+      std::cout << " : " << derivative1 << std::endl;
+      std::cout << std::endl << std::endl;
       }
     }
 
@@ -130,11 +151,11 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   const double tolerance = 1e-7;
 
-  for( unsigned int i = 0; i < results.size(); i++ )
+  for( unsigned int i = 0; i < values.size(); i++ )
     {
-    for( unsigned int j = i; j < results.size(); j++ )
+    for( unsigned int j = i; j < values.size(); j++ )
       {
-      const double difference = results[i] - results[j];
+      const double difference = values[i] - values[j];
 
       if( vnl_math_abs( difference ) > tolerance )
         {
@@ -142,8 +163,8 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
           {
           std::cerr << i << " : " << j;
           std::cerr << " Differ by " << difference;
-          std::cerr << " from " << results[i];
-          std::cerr << " to " << results[j];
+          std::cerr << " from " << values[i];
+          std::cerr << " to " << values[j];
           std::cerr << std::endl;
           }
         testFailed = true;
