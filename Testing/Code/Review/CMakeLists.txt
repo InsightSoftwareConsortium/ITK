@@ -267,6 +267,7 @@ ADD_TEST(itkOptMattesImageToImageMetricsTest01
   ${REVIEW_TESTS} itkOptMattesMutualInformationImageToImageMetricThreadsTest1
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  0
   )
 
 

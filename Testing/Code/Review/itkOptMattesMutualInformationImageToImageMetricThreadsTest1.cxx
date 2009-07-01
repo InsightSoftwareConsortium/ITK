@@ -22,8 +22,17 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 
-int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* argv[] )
+int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char* argv[] )
 {
+
+  if( argc < 3 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage " << std::endl;
+    std::cerr << argv[0] << " fixedImage movingImage [verbose(1/0)]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
 #else
@@ -33,10 +42,10 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
   const unsigned int maximumNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
   const unsigned int defaultNumberOfThreads = itk::MultiThreader::GetGlobalDefaultNumberOfThreads();
 
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << "\t Global Maximum Number of Threads " << maximumNumberOfThreads << std::endl;
-  std::cout << "\t Global Default Number of Threads " << defaultNumberOfThreads << std::endl;
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+  std::cout << " Global Maximum Number of Threads " << maximumNumberOfThreads << std::endl;
+  std::cout << " Global Default Number of Threads " << defaultNumberOfThreads << std::endl;
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   std::cout << std::endl;
 
 
@@ -52,6 +61,13 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
+
+  bool verbose = false;
+
+  if( argc > 3 )
+    {
+    verbose = atoi( argv[3] );
+    }
 
   try
     {
@@ -103,10 +119,13 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
     metric->Initialize();
     const double value = metric->GetValue( displacement );
     results.push_back( value );
-    std::cout << numberOfThreads << " : " << value << std::endl;
+    if( verbose )
+      {
+      std::cout << numberOfThreads << " : " << value << std::endl;
+      }
     }
 
-  bool testFailed = true;
+  bool testFailed = false;
 
   const double tolerance = 1e-7;
 
@@ -118,12 +137,15 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
 
       if( vnl_math_abs( difference ) > tolerance )
         {
-        std::cerr << i << " : " << j;
-        std::cerr << " Differ by " << difference;
-        std::cerr << " from " << results[i];
-        std::cerr << " to " << results[j];
-        std::cerr << std::endl;
-        testFailed = false;
+        if( verbose )
+          {
+          std::cerr << i << " : " << j;
+          std::cerr << " Differ by " << difference;
+          std::cerr << " from " << results[i];
+          std::cerr << " to " << results[j];
+          std::cerr << std::endl;
+          }
+        testFailed = true;
         }
       }
     }
