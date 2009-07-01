@@ -117,6 +117,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
     {
     metric->SetNumberOfThreads( numberOfThreads );
     metric->Initialize();
+    metric->ReinitializeSeed( 76926294 );
     const double value = metric->GetValue( displacement );
     results.push_back( value );
     if( verbose )
