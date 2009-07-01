@@ -54,6 +54,7 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMorphologicalOpeningImageFilterTest);
 
   REGISTER_TEST(itkOptImageToImageMetricsTest);
+  REGISTER_TEST(itkOptMattesMutualInformationImageToImageMetricThreadsTest1);
   REGISTER_TEST(itkTimeAndMemoryProbeTest);
 
   REGISTER_TEST(itkBruker2DSEQImageIOTest);

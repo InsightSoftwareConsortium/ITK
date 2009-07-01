@@ -63,6 +63,7 @@ SET(ReviewTest_SRCS
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
 
   itkOptImageToImageMetricsTest.cxx
+  itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 
   itkTimeAndMemoryProbeTest.cxx
 
@@ -261,6 +262,13 @@ ADD_TEST(itkOptImageToImageMetricsTest03
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
+
+ADD_TEST(itkOptMattesImageToImageMetricsTest01
+  ${REVIEW_TESTS} itkOptMattesMutualInformationImageToImageMetricThreadsTest1
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  )
+
 
 IF(ITK_USE_MINC2 AND MINC2_FOUND)
   SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkMINC2ImageIOTest.cxx)
