@@ -95,12 +95,34 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
   displacement[0] = 17;
   displacement[1] = 19;
 
+  std::vector< double > results;
+
   for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreads; numberOfThreads++ )
     {
     metric->SetNumberOfThreads( numberOfThreads );
+    metric->Initialize();
     const double value = metric->GetValue( displacement );
+    results.push_back( value );
     std::cout << numberOfThreads << " : " << value << std::endl;
     }
 
-  return EXIT_SUCCESS;
+  bool testPassed = true;
+
+  const double tolerance = 1e-7;
+
+  for( unsigned int i = 0; i < maximumNumberOfThreads; i++ )
+    {
+    for( unsigned int j = 0; j < maximumNumberOfThreads; j++ )
+      {
+      const double difference = results[i] - results[j];
+      if( vnl_math_abs( difference ) > tolerance )
+        {
+        std::cerr << i << " : " << j;
+        std::cerr << " Differ by " << difference << std::endl;
+        testPassed = false;
+        }
+      }
+    }
+
+  return testPassed;
 }
