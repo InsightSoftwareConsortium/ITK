@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** \class HessianObjectnessMeasureImageFilter
+/** \class HessianToObjectnessMeasureImageFilter
  * \brief A filter to enhance M-dimensional objects in N-dimensional images 
  * 
  * The objectness measure is a generalization of Frangi's vesselness measure,
