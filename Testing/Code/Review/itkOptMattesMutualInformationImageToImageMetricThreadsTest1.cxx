@@ -106,23 +106,32 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int , char* arg
     std::cout << numberOfThreads << " : " << value << std::endl;
     }
 
-  bool testPassed = true;
+  bool testFailed = true;
 
   const double tolerance = 1e-7;
 
-  for( unsigned int i = 0; i < maximumNumberOfThreads; i++ )
+  for( unsigned int i = 0; i < results.size(); i++ )
     {
-    for( unsigned int j = 0; j < maximumNumberOfThreads; j++ )
+    for( unsigned int j = 0; j < results.size(); j++ )
       {
       const double difference = results[i] - results[j];
+
       if( vnl_math_abs( difference ) > tolerance )
         {
         std::cerr << i << " : " << j;
-        std::cerr << " Differ by " << difference << std::endl;
-        testPassed = false;
+        std::cerr << " Differ by " << difference;
+        std::cerr << " from " << results[i];
+        std::cerr << " to " << results[j];
+        std::cerr << std::endl;
+        testFailed = false;
         }
       }
     }
 
-  return testPassed;
+  if( testFailed )
+    {
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
 }
