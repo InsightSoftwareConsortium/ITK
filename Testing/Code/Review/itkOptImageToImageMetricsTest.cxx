@@ -55,6 +55,21 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
+
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //  First run the experiments with the default number of threads,
+  //  as set from the command line arguments, the system defaults 
+  //  or the ITK environment variable:
+  //  ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+  std::cout << "Now Running tests with : " << std::endl;
+  std::cout << "\t Global Default Number of Threads " << itk::MultiThreader::GetGlobalDefaultNumberOfThreads() << std::endl;
+  std::cout << "\t Global Maximum Number of Threads " << itk::MultiThreader::GetGlobalMaximumNumberOfThreads() << std::endl;
+  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+  std::cout << std::endl;
+
+
   itk::TranslationLinearTest( fixedImageReader.GetPointer(), 
                               movingImageReader.GetPointer() );
 
@@ -70,11 +85,12 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   std::cout << "OPTIMIZED OFF" << std::endl;  
 #endif
 
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // DO EXPERIMENTS WITH NUMBER OF THREADS SET TO 1!!!
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // Then, do experiments with number of threads set to 1!!!!!!!!!!
+  // In this way we can compare the results with N threads versus 1.
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << "Running tests with : " << std::endl;
+  std::cout << "Now Running tests with : " << std::endl;
   std::cout << "\t itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1); " << std::endl;
   std::cout << "\t itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1); " << std::endl;
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
