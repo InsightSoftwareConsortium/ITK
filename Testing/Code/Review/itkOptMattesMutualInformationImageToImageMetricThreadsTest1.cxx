@@ -132,7 +132,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   for( unsigned int i = 0; i < results.size(); i++ )
     {
-    for( unsigned int j = 0; j < results.size(); j++ )
+    for( unsigned int j = i; j < results.size(); j++ )
       {
       const double difference = results[i] - results[j];
 
