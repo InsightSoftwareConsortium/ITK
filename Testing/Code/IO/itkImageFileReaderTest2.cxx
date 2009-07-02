@@ -132,8 +132,7 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     }
 
   // read the new 4D file into a 2D file
-  // this is expected to throw an exception on some readers and pass
-  // on others.
+  // we expect the first 2D slice to be read
   std::cout << "testing reading from 4D image into 2D" << std::endl;
   try
     {
@@ -144,9 +143,8 @@ int itkImageFileReaderTest2(int argc, char* argv[])
     }
   catch (itk::ExceptionObject &ex)
     {
-    // this exception may occour
-    std::cout << "------------------ Caught possible expected exception!" << std::endl;
     std::cout << ex;
+    return EXIT_FAILURE;
     }
  
   int status = 1;
