@@ -41,14 +41,14 @@ TransformFileWriter
 /** Set the writer to append to the specified file */
 void TransformFileWriter::SetAppendOn( )
 {
-  this->m_AppendMode = true;
+  this->SetAppendMode(true);
 }
 
 /** Set the writer to overwrite the specified file - This is the
  * default mode. */
 void TransformFileWriter::SetAppendOff( )
 {
-  this->m_AppendMode = false;
+  this->SetAppendMode(false);
 }
 
 /** Set the writer mode (append/overwrite). */
@@ -91,6 +91,7 @@ void TransformFileWriter
     itkExceptionMacro( "Can't Create IO object for file " <<
                        m_FileName);
     }
+  transformIO->SetAppendMode(this->m_AppendMode);
   transformIO->SetFileName(m_FileName);
   transformIO->SetTransformList(this->m_TransformList);
   transformIO->Write();
