@@ -29,7 +29,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage " << std::endl;
-    std::cerr << argv[0] << " fixedImage movingImage [verbose(1/0)]" << std::endl;
+    std::cerr << argv[0] << " fixedImage movingImage [verbose(1/0)] [numberOfSamples]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -91,7 +91,14 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   TranformType::Pointer transform = TranformType::New();
 
 #ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-  metric->SetNumberOfFixedImageSamples( 50000 );
+  unsigned int numberOfSamples = 100;
+
+  if( argc > 4 )
+    {
+    numberOfSamples = atoi( argv[4] );
+    }
+
+  metric->SetNumberOfFixedImageSamples( numberOfSamples );
 #endif
 
   metric->SetTransform( transform );
