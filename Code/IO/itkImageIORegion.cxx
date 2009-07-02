@@ -234,6 +234,22 @@ ImageIORegion
   return true;
 }
 
+/** Get the number of pixels contained in this region. This just
+   * multiplies the size components. */
+unsigned long 
+ImageIORegion
+::GetNumberOfPixels( void ) const 
+{
+  unsigned long numPixels=1;
+  
+  for ( unsigned int d = 0; d < this->GetImageDimension(); ++d )
+    {
+    numPixels *= m_Size[d];
+    }
+  
+  return numPixels;
+}
+
 
 bool
 ImageIORegion

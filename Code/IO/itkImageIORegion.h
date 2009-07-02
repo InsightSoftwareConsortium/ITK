@@ -138,6 +138,9 @@ public:
   /** Test if a region (the argument) is completly inside of this region */
   bool IsInside(const Self &region) const;
 
+  /** Get the number of pixels contained in this region. This just
+   * multiplies the size components. */
+  unsigned long GetNumberOfPixels( void ) const;
 
 protected:
   /** Methods invoked by Print() to print information about the object

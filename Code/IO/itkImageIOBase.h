@@ -249,7 +249,11 @@ public:
   typedef std::streamoff SizeType;
 
   /** Convenient method for accessing the number of bytes to get to
-   * the next pixel. Returns m_Strides[1]; */
+   * the next pixel. Returns m_Strides[1]; 
+   * 
+   * Please note that this methods depends the private methods
+   * ComputeStrides being called, otherwise this is the incorrect value.
+   */
   virtual SizeType GetPixelStride () const;
 
   /** Return the number of pixels in the image. */
@@ -261,6 +265,14 @@ public:
   /** Return the number of pixels times the number
    * of components in the image. */
   SizeType GetImageSizeInComponents() const;
+
+
+  /** Compute the size (in bytes) of the components of a pixel. For
+   * example, and RGB pixel of unsigned char would have a 
+   * component size of 1 byte. This method can be invoked only after
+   * the component type is set. */
+  virtual unsigned int GetComponentSize() const;
+
 
   /*-------- This part of the interfaces deals with reading data ----- */
 
@@ -447,6 +459,10 @@ protected:
   void Resize(const unsigned int numDimensions, 
               const unsigned int* dimensions);
 
+  /** Compute the size (in bytes) of the pixel. For
+   * example, and RGB pixel of unsigned char would have size 3 bytes. */
+  virtual unsigned int GetPixelSize() const;
+
   /** Calculates the different strides (distance from one thing to the next).
    * Upon return,
    * strides[0] = bytes to get to the next component of a pixel,
@@ -454,16 +470,6 @@ protected:
    * strides[2] = bytes to get to the next row in y direction,
    * strides[3] = bytes to get to the next slice in z direction, etc. */
   void ComputeStrides();
-
-  /** Compute the size (in bytes) of the pixel. For
-   * example, and RGB pixel of unsigned char would have size 3 bytes. */
-  virtual unsigned int GetPixelSize() const;
-
-  /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a 
-   * component size of 1 byte. This method can be invoked only after
-   * the component type is set. */
-  virtual unsigned int GetComponentSize() const;
 
   /** Convenient method for accessing number of bytes to get to the next pixel 
    * component. Returns m_Strides[0]. */
