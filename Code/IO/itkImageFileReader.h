@@ -176,9 +176,9 @@ private:
   void operator=(const Self&); //purposely not implemented
   std::string m_ExceptionMessage;  
 
-  // The region that the ImageIO class will return when we ask it to produce a
-  // requested region.
-  ImageRegionType m_StreamableRegion; 
+  // The region that the ImageIO class will return when we ask to
+  // produce the requested region.
+  ImageIORegion m_ActualIORegion; 
 };
 
 

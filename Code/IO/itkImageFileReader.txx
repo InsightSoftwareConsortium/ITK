@@ -111,6 +111,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   catch(itk::ExceptionObject &err)
     {
     m_ExceptionMessage = err.GetDescription();
+    throw err;
     }
 
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
@@ -293,58 +294,59 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   itkDebugMacro (<< "Starting EnlargeOutputRequestedRegion() ");
   typename TOutputImage::Pointer out = dynamic_cast<TOutputImage*>(output);
   typename TOutputImage::RegionType largestRegion = out->GetLargestPossibleRegion();
+  ImageRegionType streamableRegion;
 
-  // Delegate to the ImageIO the computation of how much the 
-  // requested region must be enlarged.
 
-  //
   // The following code converts the ImageRegion (templated over dimension)
   // into an ImageIORegion (not templated over dimension).
-  //
   ImageRegionType imageRequestedRegion = out->GetRequestedRegion();
-
   ImageIORegion ioRequestedRegion( TOutputImage::ImageDimension );
 
   typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
 
   ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion, largestRegion.GetIndex() );
 
+  
   // Tell the IO if we should use streaming while reading
   m_ImageIO->SetUseStreamedReading(m_UseStreaming);
-  
-  ImageIORegion ioStreamableRegion  = 
+
+
+  // Delegate to the ImageIO the computation of how the 
+  // requested region must be enlarged.
+  m_ActualIORegion  = 
     m_ImageIO->GenerateStreamableReadRegionFromRequestedRegion( ioRequestedRegion );
 
-  // if the ImageIO must read a higher dimension, we can't read the file
-  if (ioStreamableRegion.GetImageDimension() > TOutputImage::ImageDimension )
+  // the m_ActualIORegion may be more dimensions then the output
+  // Image, in which case we still need to read this larger region to
+  // support reading the "first slice" of a larger image
+  // see bug 9212
+
+
+  // convert the IORegion to a ImageRegion (which is dimension templated)
+  // if the ImageIO must read a higher dimension region, this will
+  // truncate the last dimensions
+  ImageIOAdaptor::Convert( m_ActualIORegion, streamableRegion, largestRegion.GetIndex() );
+  
+  // Check whether the imageRequestedRegion is fully contained inside the
+  // streamable region
+  if( !streamableRegion.IsInside( imageRequestedRegion ) )
     {
+    // we must use a InvalidRequestedRegionError since
+    // DataObject::PropagateRequestedRegion() has an exception
+    // specification
     ::itk::OStringStream message;
-    message << "ImageIO returns IO region that does is not fully contain by the largest possible region\n"
-            << "Largest region: " << largestRegion 
-            << "StreamableRegion region: " << ioStreamableRegion;
+    message << "ImageIO returns IO region that does not fully contain the requested region"
+            << "Requested region: " << imageRequestedRegion 
+            << "StreamableRegion region: " << streamableRegion;
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
     e.SetDescription(message.str().c_str());
     throw e;
     }
-
-  ImageIOAdaptor::Convert( ioStreamableRegion, this->m_StreamableRegion, largestRegion.GetIndex() );
-
-  //
-  // Check whether the imageRequestedRegion is fully contained inside the
-  // streamable region or not.
-  if( !this->m_StreamableRegion.IsInside( imageRequestedRegion ) )
-    {
-    itkExceptionMacro(
-      << "ImageIO returns IO region that does not fully contain the requested region"
-      << "Requested region: " << imageRequestedRegion 
-      << "StreamableRegion region: " << this->m_StreamableRegion
-      );
-    }
     
-  itkDebugMacro (<< "StreamableRegion set to =" << this->m_StreamableRegion );
+  itkDebugMacro (<< "RequestedRegion is set to:" << streamableRegion << " while the m_ActualIORegion is: " << m_ActualIORegion); 
 
-  out->SetRequestedRegion(this->m_StreamableRegion);
+  out->SetRequestedRegion( streamableRegion );
 }
 
 
@@ -354,70 +356,103 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();  
-  typename TOutputImage::RegionType largestRegion = output->GetLargestPossibleRegion();
+  typename TOutputImage::RegionType requestedRegion = output->GetRequestedRegion();
 
   itkDebugMacro ( << "ImageFileReader::GenerateData() \n" 
-     << "Allocating the buffer with the StreamableRegion \n" 
-     << this->m_StreamableRegion << "\n");
+                  << "Allocating the buffer with the EnlargedRequestedRegion \n" 
+                  << output->GetRequestedRegion() << "\n");
 
+  // allocated the output image to the size of the enlarge requested region
   this->AllocateOutputs();
 
   // Test if the file exist and if it can be open.
-  // and exception will be thrown otherwise.
-  try
-    {
-    m_ExceptionMessage = "";
-    this->TestFileExistanceAndReadability();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-    m_ExceptionMessage = err.GetDescription();
-    }
-
+  // an exception will be thrown otherwise, since we can't
+  // successfully read the file. (actually this is called in
+  // GenerateOutputInformation and is most likely not needed, but
+  // perhaps the files system changed since that was called)
+  this->TestFileExistanceAndReadability();
+ 
   // Tell the ImageIO to read the file
-  //
-  OutputImagePixelType *buffer = output->GetPixelContainer()->GetBufferPointer();
-
   m_ImageIO->SetFileName(m_FileName.c_str());
 
-  ImageIORegion ioRegion(TOutputImage::ImageDimension);
-
-  typedef ImageIORegionAdaptor< TOutputImage::ImageDimension >  ImageIOAdaptor;
+  itkDebugMacro (<< "Setting imageIO IORegion to: " << m_ActualIORegion ); 
+  m_ImageIO->SetIORegion( m_ActualIORegion );
   
-  // Convert the m_StreamableRegion from ImageRegion type to ImageIORegion type
-  ImageIOAdaptor::Convert( this->m_StreamableRegion, ioRegion, largestRegion.GetIndex() );
+  char *loadBuffer = 0;
+  // the size of the buffer is computed based on the actual number of
+  // pixels to be read and the actual size of the pixels to be read
+  // (as opposed to the sizes of the output)
+  size_t sizeOfActualIORegion = m_ActualIORegion.GetNumberOfPixels() * (m_ImageIO->GetComponentSize()*m_ImageIO->GetNumberOfComponents());
 
-  itkDebugMacro (<< "ioRegion: " << ioRegion);
- 
-  m_ImageIO->SetIORegion( ioRegion );
-
-  if ( m_ImageIO->GetComponentTypeInfo()
-       == typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType)
-       && (m_ImageIO->GetNumberOfComponents()
-           == ConvertPixelTraits::GetNumberOfComponents()))
+  try 
     {
-    itkDebugMacro(<< "No buffer conversion required.");
-    // allocate a buffer and have the ImageIO read directly into it
-    m_ImageIO->Read(buffer);
-    return;
-    }
-  else // a type conversion is necessary
-    {
-    itkDebugMacro(<< "Buffer conversion required.");
-    // note: char is used here because the buffer is read in bytes
-    // regardles of the actual type of the pixels.
-    ImageRegionType region = output->GetBufferedRegion();
-    std::vector<char> loadBuffer(m_ImageIO->GetImageSizeInBytes());
-
-    m_ImageIO->Read(static_cast<void *>(&loadBuffer[0]));
     
-    itkDebugMacro(<< "Buffer conversion required from: "
-                  << m_ImageIO->GetComponentTypeInfo().name()
-                  << " to: "
-                  << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
+    if ( (m_ImageIO->GetComponentTypeInfo() != typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType) )
+         || (m_ImageIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents() ))
+      {
+      // the pixel types don't match so a type conversion needs to be
+      // performed
+      itkDebugMacro(<< "Buffer conversion required from: "
+                    << m_ImageIO->GetComponentTypeInfo().name()
+                    << " to: "
+                    << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
 
-    this->DoConvertBuffer(static_cast<void *>(&loadBuffer[0]), region.GetNumberOfPixels());
+      loadBuffer = new char[ sizeOfActualIORegion ];
+      m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+      
+      this->DoConvertBuffer(static_cast< void *>(loadBuffer), m_ActualIORegion.GetNumberOfPixels() );
+      }
+    else if ( m_ActualIORegion.GetNumberOfPixels() != requestedRegion.GetNumberOfPixels() ) 
+      {
+      // for the number of pixels read and the number of pixels
+      // requested to not match, the dimensions of the two regions may
+      // be different, therefore we buffer and copy the pixels
+
+      itkDebugMacro(<< "Buffer required because file dimension is greater then image dimension");
+      
+      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
+      
+      loadBuffer = new char[ sizeOfActualIORegion ];
+      m_ImageIO->Read( static_cast< void *>(loadBuffer) );
+      
+      // we use std::copy here as it should be optimized to memcpy for
+      // plain old data, but still is oop
+      std::copy( reinterpret_cast<const OutputImagePixelType *>(loadBuffer),
+                 reinterpret_cast<const OutputImagePixelType *>(loadBuffer) +  output->GetBufferedRegion().GetNumberOfPixels(),
+                 outputBuffer );
+      }
+    else 
+      {
+      itkDebugMacro(<< "No buffer conversion required.");
+
+      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
+      m_ImageIO->Read(outputBuffer);
+      }
+
     }
+  catch (...)
+    {
+    // if an exception is thrown catch it
+    
+    if (loadBuffer) 
+      {
+      // clean up
+      delete [] loadBuffer;
+      loadBuffer = 0;
+      }
+    
+    // then rethrow
+    throw;
+    }
+  
+
+  // clean up
+  if (loadBuffer) 
+    {
+    delete [] loadBuffer;
+    loadBuffer = 0;
+    }
+  
 }
 
 template <class TOutputImage, class ConvertPixelTraits>
