@@ -90,7 +90,10 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   typedef itk::TranslationTransform< double, Dimension >  TranformType;
   TranformType::Pointer transform = TranformType::New();
 
-  metric->SetNumberOfFixedImageSamples( 10 );
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
+  metric->SetNumberOfFixedImageSamples( 50000 );
+#endif
+
   metric->SetTransform( transform );
   metric->SetInterpolator( interpolator );
   metric->SetFixedImage( fixedImageReader->GetOutput() ); 
@@ -114,11 +117,16 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   std::vector< MeasureType > values;
   std::vector< DerivativeType > derivatives;
 
-  for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreads; numberOfThreads++ )
+  // By now restrict the number of threads to test to the range 1 to 4.
+  const unsigned int maximumNumberOfThreadsToTest = 5;
+
+  for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; numberOfThreads++ )
     {
     try 
       {
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
       metric->SetNumberOfThreads( numberOfThreads );
+#endif
       metric->ReinitializeSeed( 76926294 );
       metric->Initialize();
       
