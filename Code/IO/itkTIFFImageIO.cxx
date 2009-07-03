@@ -1735,11 +1735,6 @@ void TIFFImageIO::InternalWrite(const void* buffer)
       TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT,SAMPLEFORMAT_INT);
       }
     TIFFSetField(tif, TIFFTAG_SOFTWARE, "InsightToolkit");
-    if(this->GetComponentType() == SHORT
-       || this->GetComponentType() == CHAR)
-      {
-      TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT,SAMPLEFORMAT_INT);
-      }
 
     if ( scomponents > 3 )
       {
