@@ -23,7 +23,7 @@ ADD_LIBRARY( itkNetlibSlatec
  )
 
 IF(ITK_USE_SYSTEM_VXL)
-  TARGET_LINK_LIBRARIES( itkNetlibSlatec netlib )
+  TARGET_LINK_LIBRARIES( itkNetlibSlatec v3p_netlib netlib)
 ELSE(ITK_USE_SYSTEM_VXL)
   TARGET_LINK_LIBRARIES( itkNetlibSlatec itkv3p_netlib )
 ENDIF(ITK_USE_SYSTEM_VXL)
