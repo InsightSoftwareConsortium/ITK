@@ -660,6 +660,16 @@ ADD_TEST(itkTIFFImageIOMultiPagesTest ${IO_TESTS}
             3
             )
 
+ADD_TEST(itkTIFFImageIOMultiPagesTest2 ${IO_TESTS} 
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/rampShort.tif
+            ${ITK_TEST_OUTPUT_DIR}/rampShort.tif
+  itkTIFFImageIOTest 
+            ${ITK_DATA_ROOT}/Input/rampShort.tif
+            ${ITK_TEST_OUTPUT_DIR}/rampShort.tif
+            3
+            3
+            )
+
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries 0)
