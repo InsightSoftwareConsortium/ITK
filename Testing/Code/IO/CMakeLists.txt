@@ -625,7 +625,7 @@ ADD_TEST(itkTIFFImageIOTest11 ${IO_TESTS}
   itkTIFFImageIOTest 
             ${ITK_DATA_ROOT}/Input/ShortTestImage.tiff
             ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
-            1
+            2
             2)
 
 ADD_TEST(itkTIFFImageIOTest12 ${IO_TESTS}   

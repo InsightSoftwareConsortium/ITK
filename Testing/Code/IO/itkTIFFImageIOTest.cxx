@@ -19,60 +19,19 @@
 #include "itkImage.h"
 #include <fstream>
 
-int itkTIFFImageIOTest( int ac, char* av[] )
+template<class T> int DoIt( int, char * argv[], typename T::Pointer)
 {
+  typename itk::ImageFileReader<T>::Pointer reader
+    = itk::ImageFileReader<T>::New();
 
-  if(ac < 3)
-    {
-    std::cerr << "Usage: " << av[0] 
-              << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:ushort]\n";
-    return EXIT_FAILURE;
-    }
-  
-  typedef itk::RGBPixel<unsigned short> PixelTypeShort;
-  typedef itk::RGBPixel<unsigned char> PixelTypeChar;
-  typedef itk::Image<PixelTypeChar, 2> myImageChar;
-  typedef itk::Image<unsigned char, 3> myImage3D;
-  typedef itk::Image<PixelTypeShort, 2> myImageShort;
+  typename itk::ImageFileWriter<T>::Pointer writer
+    = itk::ImageFileWriter<T>::New();
 
-  itk::ImageFileReader<myImageChar>::Pointer reader 
-                                  = itk::ImageFileReader<myImageChar>::New();
-
-  itk::ImageFileReader<myImage3D>::Pointer reader3D 
-                                  = itk::ImageFileReader<myImage3D>::New();
-
-  itk::ImageFileReader<myImageShort>::Pointer readerShort 
-                                  = itk::ImageFileReader<myImageShort>::New();
-
-
-  if((ac == 5) && (!strcmp(av[4],"2")))
-    {
-    readerShort->SetFileName(av[1]);
-    }
-  else if((ac == 4) && (!strcmp(av[3],"3")))
-    {
-    reader3D->SetFileName(av[1]);
-    }
-  else
-    {
-    reader->SetFileName(av[1]);
-    }
+  reader->SetFileName(argv[1]);
 
   try
     { 
-    if((ac == 5) && (!strcmp(av[4],"2")))
-      {
-      readerShort->Update();
-      }
-    else if((ac == 4) && (!strcmp(av[3],"3")))
-      {
-      reader3D->Update();
-      }
-    else
-      {
-      reader->Update();
-      }
+    reader->Update();
     }
   catch (itk::ExceptionObject & e)
     {
@@ -82,55 +41,90 @@ int itkTIFFImageIOTest( int ac, char* av[] )
     }
   
 
-  if((ac == 5) && (!strcmp(av[4],"2")))
-    {
-    myImageShort::Pointer image = readerShort->GetOutput();
+  typename T::Pointer image = reader->GetOutput();
+  image->Print(std::cout );
 
-    image->Print(std::cout );
+  typename T::RegionType region = image->GetLargestPossibleRegion();
+  std::cout << "region " << region;
 
-    myImageShort::RegionType region = image->GetLargestPossibleRegion();
-    std::cout << "region " << region;
-
-    // Generate test image
-    itk::ImageFileWriter<myImageShort>::Pointer writer;
-    writer = itk::ImageFileWriter<myImageShort>::New();
-    writer->SetInput( readerShort->GetOutput() );
-    writer->SetFileName(av[2]);
+  // Generate test image
+  writer->SetInput( reader->GetOutput() );
+  writer->SetFileName(argv[2]);
+  try
+    { 
     writer->Update();
     }
-  else if((ac == 4) && (!strcmp(av[3],"3")))
+  catch (itk::ExceptionObject & e)
     {
-    myImage3D::Pointer image = reader3D->GetOutput();
+    std::cerr << "exception in file writer " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
+  return EXIT_SUCCESS;
+}
 
-    image->Print(std::cout );
+int itkTIFFImageIOTest( int argc, char* argv[] )
+{
 
-    myImage3D::RegionType region = image->GetLargestPossibleRegion();
-    std::cout << "region " << region;
+  unsigned int dimension = 2;
+  unsigned int pixelType = 1;
 
-    // Generate test image
-    itk::ImageFileWriter<myImage3D>::Pointer writer;
-    writer = itk::ImageFileWriter<myImage3D>::New();
-    writer->SetInput( reader3D->GetOutput() );
-    writer->SetFileName(av[2]);
-    writer->Update();
+  if(argc < 3)
+    {
+    std::cerr << "Usage: " << argv[0] 
+              << " Input Output [dimensionality:default 2]"
+              << "[pixeltype: 1:uchar(default) 2:ushort 3: short]\n";
+    return EXIT_FAILURE;
+    }
+  else if (argc == 4)
+    {
+    dimension = atoi(argv[3]);
+    }
+  else if (argc == 5)
+    {
+    dimension = atoi(argv[3]);
+    pixelType = atoi(argv[4]);
+    }
+
+  if (dimension == 2 && pixelType == 1)
+    {
+    typedef itk::RGBPixel<unsigned char> PixelType;
+    itk::Image<PixelType, 2>::Pointer dummy;
+    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
+
+    }
+  else if (dimension == 2 && pixelType == 2)
+    {
+    typedef itk::RGBPixel<unsigned short> PixelType;
+    itk::Image<PixelType, 2>::Pointer dummy;
+    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
+    }
+  else if (dimension == 2 && pixelType == 3)
+    {
+    typedef itk::RGBPixel<short> PixelType;
+    itk::Image<PixelType, 2>::Pointer dummy;
+    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
+    }
+  else if (dimension == 3 && pixelType == 1)
+    {
+    itk::Image<unsigned char, 3>::Pointer dummy;
+    return DoIt<itk::Image<unsigned char, 3> >( argc, argv, dummy);
+    }
+  else if (dimension == 3 && pixelType == 2)
+    {
+    itk::Image<unsigned short, 3>::Pointer dummy;
+    return DoIt<itk::Image<unsigned short, 3> >( argc, argv, dummy);
+    }
+  else if (dimension == 3 && pixelType == 3)
+    {
+    itk::Image<short, 3>::Pointer dummy;
+    return DoIt<itk::Image<short, 3> >( argc, argv, dummy);
     }
   else
     {
-    myImageChar::Pointer image = reader->GetOutput();
-
-    image->Print(std::cout );
-
-    myImageChar::RegionType region = image->GetLargestPossibleRegion();
-    std::cout << "region " << region;
-
-    // Generate test image
-    itk::ImageFileWriter<myImageChar>::Pointer writer;
-    writer = itk::ImageFileWriter<myImageChar>::New();
-    writer->SetInput( reader->GetOutput() );
-    writer->SetFileName(av[2]);
-    writer->Update();
+    std::cerr << "Usage: " << argv[0] 
+              << " Input Output [dimensionality:default 2]"
+              << "[pixeltype: 1:uchar(default) 2:ushort 3: short]\n";
+    return EXIT_FAILURE;
     }
-
-  return EXIT_SUCCESS;
-
 }
