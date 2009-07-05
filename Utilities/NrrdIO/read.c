@@ -397,6 +397,7 @@ nrrdRead (Nrrd *nrrd, FILE *file, NrrdIoState *nio) {
 void
 _nrrdSplitName (char **dirP, char **baseP, const char *name) {
   char *where;
+  char separator;
   
   if (dirP) {
     *dirP = (char *)airFree(*dirP);
@@ -404,7 +405,19 @@ _nrrdSplitName (char **dirP, char **baseP, const char *name) {
   if (baseP) {
     *baseP = (char *)airFree(*baseP);
   }
-  where = strrchr(name, '/');
+
+  /* for unix, the separator is '/' */
+  separator = '/';
+
+  /* for windows, the separator might be '\' */
+#ifdef _WIN32
+  if (strchr(name, '\\')) {
+    separator = '\\';
+  }
+#endif
+  
+  where = strrchr(name, separator);
+
   /* we found a valid break if the last directory character
      is somewhere in the string except the last character */
   if (where && airStrlen(where) > 1) {
