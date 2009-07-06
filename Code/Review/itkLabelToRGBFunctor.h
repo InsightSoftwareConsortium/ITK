@@ -125,6 +125,18 @@ public:
     m_Colors.push_back( rgbPixel );
     }
 
+  // Empty the color LUT
+  void ResetColors()
+    {
+    m_Colors.clear();
+    }
+
+  // Get number of colors in the LUT
+  unsigned int GetNumberOfColors()
+    {
+    return m_Colors.size();
+    }
+
   bool operator != (const Self &l) const
     { 
     const bool areDifferent = m_BackgroundColor != l.m_BackgroundColor || 

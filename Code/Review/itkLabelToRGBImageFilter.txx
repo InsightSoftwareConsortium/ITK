@@ -35,6 +35,32 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 }
 
 template <class TLabelImage, class TOutputImage>
+unsigned int
+LabelToRGBImageFilter<TLabelImage, TOutputImage>
+::GetNumberOfColors()
+{ 
+  return this->GetFunctor().GetNumberOfColors(); 
+}
+
+template <class TLabelImage, class TOutputImage>
+void 
+LabelToRGBImageFilter<TLabelImage, TOutputImage>
+::ResetColors()
+{ 
+  this->GetFunctor().ResetColors(); 
+}
+
+template <class TLabelImage, class TOutputImage>
+void 
+LabelToRGBImageFilter<TLabelImage, TOutputImage>
+::AddColor( const typename OutputPixelType::ComponentType r, const typename
+OutputPixelType::ComponentType g, const typename
+OutputPixelType::ComponentType b )
+{ 
+  this->GetFunctor().AddColor( r, g, b ); 
+}
+
+template <class TLabelImage, class TOutputImage>
 void
 LabelToRGBImageFilter<TLabelImage, TOutputImage>
 ::BeforeThreadedGenerateData()

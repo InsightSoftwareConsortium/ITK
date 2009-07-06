@@ -96,6 +96,21 @@ public:
     m_RGBFunctor.SetBackgroundValue( v );
     }
 
+  void ResetColors() 
+    { 
+    m_RGBFunctor.ResetColors(); 
+    }
+
+  unsigned int GetNumberOfColors()
+    {
+    return m_RGBFunctor.GetNumberOfColors();
+    }
+    
+  void AddColor( const typename TRGBPixel::ComponentType r, const typename TRGBPixel::ComponentType g, const typename TRGBPixel::ComponentType b )
+    {
+    m_RGBFunctor.AddColor( r, g, b );
+    }
+
 protected:
 
 private: 

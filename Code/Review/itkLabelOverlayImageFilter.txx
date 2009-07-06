@@ -72,6 +72,41 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 }
 
 /**
+ * Get number of colors in the LUT container
+ */
+template <class TInputImage, class TLabelImage, class TOutputImage>
+unsigned int
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
+::GetNumberOfColors()
+{ 
+  return this->GetFunctor().GetNumberOfColors(); 
+}
+
+/**
+ * Empty the color LUT container
+ */
+template <class TInputImage, class TLabelImage, class TOutputImage>
+void 
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
+::ResetColors()
+{ 
+  this->GetFunctor().ResetColors(); 
+}
+
+
+/**
+ * Add a color to the LUT container
+ */
+template <class TInputImage, class TLabelImage, class TOutputImage>
+void 
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
+::AddColor( const typename OutputPixelType::ComponentType r, const typename OutputPixelType::ComponentType g, const typename OutputPixelType::ComponentType b )
+{ 
+  this->GetFunctor().AddColor( r, g, b ); 
+}
+
+
+/**
  * Standard PrintSelf method 
  */
 template <class TInputImage, class TLabelImage, class TOutputImage>

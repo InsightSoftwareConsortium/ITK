@@ -80,6 +80,15 @@ public:
   itkSetMacro( BackgroundColor, OutputPixelType );
   itkGetConstReferenceMacro( BackgroundColor, OutputPixelType );
 
+  /** Empty the color LUT container */
+  void ResetColors();
+  
+  /** Get number of colors in the LUT container */
+  unsigned int GetNumberOfColors();
+  
+  /** Add color to the LUT container */
+  void AddColor( const typename OutputPixelType::ComponentType r, const typename OutputPixelType::ComponentType g, const typename OutputPixelType::ComponentType b );
+   
 protected:
   LabelToRGBImageFilter();
   virtual ~LabelToRGBImageFilter() {};

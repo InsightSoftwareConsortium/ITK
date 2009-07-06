@@ -107,5 +107,10 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  // exercise the methods to change the colors
+  filter->GetNumberOfColors();
+  filter->ResetColors();
+  filter->AddColor( 255, 255, 255 );
+  
   return EXIT_SUCCESS;
 }
