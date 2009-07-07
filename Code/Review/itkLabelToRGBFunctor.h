@@ -132,7 +132,7 @@ public:
     }
 
   // Get number of colors in the LUT
-  unsigned int GetNumberOfColors()
+  unsigned int GetNumberOfColors() const
     {
     return m_Colors.size();
     }

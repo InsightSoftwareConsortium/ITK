@@ -37,7 +37,7 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 template <class TLabelImage, class TOutputImage>
 unsigned int
 LabelToRGBImageFilter<TLabelImage, TOutputImage>
-::GetNumberOfColors()
+::GetNumberOfColors() const
 { 
   return this->GetFunctor().GetNumberOfColors(); 
 }
@@ -53,9 +53,7 @@ LabelToRGBImageFilter<TLabelImage, TOutputImage>
 template <class TLabelImage, class TOutputImage>
 void 
 LabelToRGBImageFilter<TLabelImage, TOutputImage>
-::AddColor( const typename OutputPixelType::ComponentType r, const typename
-OutputPixelType::ComponentType g, const typename
-OutputPixelType::ComponentType b )
+::AddColor( ComponentType r, ComponentType g, ComponentType b )
 { 
   this->GetFunctor().AddColor( r, g, b ); 
 }

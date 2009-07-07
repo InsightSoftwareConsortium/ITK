@@ -77,7 +77,7 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 template <class TInputImage, class TLabelImage, class TOutputImage>
 unsigned int
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
-::GetNumberOfColors()
+::GetNumberOfColors() const
 { 
   return this->GetFunctor().GetNumberOfColors(); 
 }
@@ -100,7 +100,7 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
 template <class TInputImage, class TLabelImage, class TOutputImage>
 void 
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>
-::AddColor( const typename OutputPixelType::ComponentType r, const typename OutputPixelType::ComponentType g, const typename OutputPixelType::ComponentType b )
+::AddColor( ComponentType r, ComponentType g, ComponentType b )
 { 
   this->GetFunctor().AddColor( r, g, b ); 
 }

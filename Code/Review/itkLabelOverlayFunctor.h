@@ -101,12 +101,15 @@ public:
     m_RGBFunctor.ResetColors(); 
     }
 
-  unsigned int GetNumberOfColors()
+  unsigned int GetNumberOfColors() const
     {
     return m_RGBFunctor.GetNumberOfColors();
     }
+
+  /** type of the color component */
+  typedef typename TRGBPixel::ComponentType ComponentType;
     
-  void AddColor( const typename TRGBPixel::ComponentType r, const typename TRGBPixel::ComponentType g, const typename TRGBPixel::ComponentType b )
+  void AddColor( ComponentType r, ComponentType g, ComponentType b )
     {
     m_RGBFunctor.AddColor( r, g, b );
     }

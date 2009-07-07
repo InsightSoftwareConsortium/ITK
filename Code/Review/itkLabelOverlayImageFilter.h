@@ -115,10 +115,13 @@ public:
   void ResetColors();
 
   /** Get number of colors in the LUT container */
-  unsigned int GetNumberOfColors();
- 
+  unsigned int GetNumberOfColors() const;
+
+  /** type of the color component */
+  typedef typename OutputPixelType::ComponentType ComponentType;
+
   /** Add color to the LUT container */
-  void AddColor( const typename OutputPixelType::ComponentType r, const typename OutputPixelType::ComponentType g, const typename OutputPixelType::ComponentType b );
+  void AddColor( ComponentType r, ComponentType g, ComponentType b );
  
 protected:
   LabelOverlayImageFilter();
