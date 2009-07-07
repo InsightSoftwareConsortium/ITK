@@ -36,7 +36,7 @@ namespace Functor {
  *
  * \sa LabelOverlayImageFilter LabelToRGBFunctor
  *
- **/
+ */
 template< class TInputPixel, class TLabel, class TRGBPixel >
 class LabelOverlayFunctor
 {
