@@ -34,7 +34,7 @@ namespace itk {
  * \sa BinaryImageToLabelMapFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage=LabelMap< LabelObject< typename TInputImage::PixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension::ImageDimension > > >
+template<class TInputImage, class TOutputImage=LabelMap< LabelObject< typename TInputImage::PixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension > > >
 class ITK_EXPORT LabelImageToLabelMapFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
