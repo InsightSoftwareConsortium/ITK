@@ -50,23 +50,21 @@ public:
   virtual ~LabelObjectLine() {};
   LabelObjectLine( const IndexType & idx, const LengthType & length );
 
-  //
-  // Set/Get Index
-  //
+  /**
+   * Set/Get Index
+   */
   void SetIndex( const IndexType & idx );
-  IndexType & GetIndex();
   const IndexType & GetIndex() const;
 
-  //
-  // SetGet Length
-  //
+  /**
+   * SetGet Length
+   */
   void SetLength( const LengthType length );
-  LengthType & GetLength();
   const LengthType & GetLength() const;
 
-  //
-  // Check for index
-  //
+  /**
+   *  Check for index
+   */
   bool HasIndex( const IndexType idx ) const;
   bool IsNextIndex( const IndexType & idx ) const;
 

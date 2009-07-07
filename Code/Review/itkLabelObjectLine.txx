@@ -37,13 +37,6 @@ void LabelObjectLine<VImageDimension>::SetIndex( const IndexType & idx )
 }
 
 template < unsigned int VImageDimension >
-typename LabelObjectLine<VImageDimension>::IndexType & 
-LabelObjectLine<VImageDimension>::GetIndex()
-{
-  return m_Index;
-}
-
-template < unsigned int VImageDimension >
 const typename LabelObjectLine<VImageDimension>::IndexType & 
 LabelObjectLine<VImageDimension>::GetIndex() const
 {
@@ -54,13 +47,6 @@ template < unsigned int VImageDimension >
 void LabelObjectLine<VImageDimension>::SetLength( const LengthType length )
 {
   m_Length = length;
-}
-
-template < unsigned int VImageDimension >
-typename LabelObjectLine<VImageDimension>::LengthType & 
-LabelObjectLine<VImageDimension>::GetLength()
-{
-  return m_Length;
 }
 
 template < unsigned int VImageDimension >
