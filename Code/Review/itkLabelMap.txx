@@ -262,7 +262,6 @@ LabelMap<TLabelObject>
     labelObject->SetLabel( label );
     labelObject->AddIndex( idx );
     this->AddLabelObject( labelObject );
-//     std::cout<< m_LabelObjectContainer.size() << std::endl;
     }
   
 }
@@ -293,7 +292,6 @@ LabelMap<TLabelObject>
     labelObject->SetLabel( label );
     labelObject->AddLine( idx, length );
     this->AddLabelObject( labelObject );
-//     std::cout<< m_LabelObjectContainer.size() << std::endl;
     }
 }
 
