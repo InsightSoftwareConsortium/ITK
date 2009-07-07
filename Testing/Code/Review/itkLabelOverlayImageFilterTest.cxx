@@ -108,9 +108,28 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     }
 
   // exercise the methods to change the colors
-  filter->GetNumberOfColors();
+  unsigned int numberOfColors1 = filter->GetNumberOfColors();
+  filter->AddColor( 1, 255, 255 );
+
+  unsigned int numberOfColors2 = filter->GetNumberOfColors();
+
+  if( numberOfColors2 != numberOfColors1 + 1 )
+    {
+    std::cerr << "Error in GetNumberOfColors() or AddColor() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   filter->ResetColors();
   filter->AddColor( 255, 255, 255 );
-  
+   
+  unsigned int numberOfColors3 = filter->GetNumberOfColors();
+
+  if( numberOfColors3 != 1 )
+    {
+    std::cerr << "Error in GetNumberOfColors() or ResetColors() or AddColor() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
   return EXIT_SUCCESS;
 }
