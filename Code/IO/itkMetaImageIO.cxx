@@ -904,7 +904,7 @@ void MetaImageIO::Read(void* buffer)
                       << itksys::SystemTools::GetLastSystemError());
     }
 
-  m_MetaImage.ElementByteOrderFix();
+  m_MetaImage.ElementByteOrderFix( m_IORegion.GetNumberOfPixels() );
 } 
 
 MetaImage * MetaImageIO::GetMetaImagePointer(void)
