@@ -95,7 +95,6 @@ public:
       Iterator operator--()        { return ++m_Iterator; }
       Iterator operator--(int)     { return m_Iterator++; }
       Iterator operator->() const  { return (m_Iterator-1); }
-      operator ConstReverseIterator () { return *this; }
       ValueType& operator*() const { return *(m_Iterator-1); }
       bool operator!=(const ReverseIterator &rit) const {return m_Iterator != rit.m_Iterator;}
       bool operator==(const ReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;}
