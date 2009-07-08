@@ -620,6 +620,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(this->m_InputForegroundValue) << std::endl;
   os << indent << "OutputBackgroundValue: "
      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputBackgroundValue) << std::endl;
+  os << indent << "Number of Objects: " << this->m_NumberOfObjects << std::endl;
 }
 
 } // end namespace itk
