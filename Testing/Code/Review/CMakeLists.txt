@@ -1676,9 +1676,11 @@ ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
 
 ADD_TEST(itkAggregateLabelMapFilterTest1
   ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-labelAggregate.mha
+            ${TEMP}/cthead1-labelAggregate.mha
   itkAggregateLabelMapFilterTest 
-  ${TEMP}/itkLabelInputImage.nhdr
-  ${TEMP}/itkLabelOutputImage.nhdr
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-labelAggregate.mha
   )
 
 ADD_TEST(itkBinaryImageToLabelMapFilterTest1
