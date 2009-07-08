@@ -222,6 +222,7 @@ SET(ReviewTest2_SRCS
 SET(ReviewTest3_SRCS
   itkGridImageSourceTest.cxx
   itkTriangleMeshToBinaryImageFilterTest3.cxx
+  itkBinaryImageToLabelMapFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1670,6 +1671,18 @@ ADD_TEST(itkMultiScaleHessianBasedMeasureImageFilterTest ${REVIEW_TESTS}
    1  # Object Dimension (search for tubes)
    0  # Search for Dark objects over bright background
   ${TEMP}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha # Output image with equispaced sigma steps
+  )
+
+ADD_TEST(itkBinaryImageToLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-labeled.mha
+            ${TEMP}/cthead1-labeled.mha
+  itkBinaryImageToLabelMapFilterTest
+  ${INPUTDATA}/cthead1-mask.png
+  ${TEMP}/cthead1-labeled.mha
+  1     # Fully connected
+  255   # Input foreground
+  0     # Output background
   )
 
 ADD_TEST(itkGridImageSourceTest1
