@@ -27,5 +27,6 @@ void RegisterTests()
 
   REGISTER_TEST(itkGridImageSourceTest);
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
+  REGISTER_TEST(itkAggregateLabelMapFilterTest);
   REGISTER_TEST(itkBinaryImageToLabelMapFilterTest);
 }
