@@ -111,12 +111,28 @@ int itkFixedArrayTest(int, char* [] )
     std::cout << *bit << std::endl;
     }
 
-  std::cout << "FixedArray<unsigned int, 20>::ConstIterator it = array20.End();" << std::endl;
+  std::cout << "FixedArray<unsigned int, 20>::ConstIterator it = array20.Begin();" << std::endl;
   itk::FixedArray<unsigned int, 20>::ConstIterator cit = array20.Begin();
   while (cit != array20.End())
     {
     std::cout << *cit << std::endl;
     ++cit;
+    }
+
+  std::cout << "FixedArray<unsigned int, 20>::ReverseIterator rit = array20.rBegin();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::ReverseIterator rit = array20.rBegin();
+  while (rit != array20.rEnd())
+    {
+    std::cout << *rit << std::endl;
+    ++rit;
+    }
+
+  std::cout << "FixedArray<unsigned int, 20>::ConstReverseIterator crit = array20.rBegin();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::ConstReverseIterator crit = array20.rBegin();
+  while (crit != array20.rEnd())
+    {
+    std::cout << *crit << std::endl;
+    ++crit;
     }
 
   // Try all index types
