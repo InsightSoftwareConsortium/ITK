@@ -64,6 +64,7 @@ int itkAggregateLabelMapFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );
+  writer->UseCompressionOn();
   writer->Update();
 
   return EXIT_SUCCESS;
