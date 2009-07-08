@@ -165,7 +165,6 @@ protected:
 private:
   InPlaceLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-  void PrintSelf(std::& os, Indent indent) const;
 
   bool m_InPlace;
 

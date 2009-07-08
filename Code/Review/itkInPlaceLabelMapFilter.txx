@@ -151,14 +151,6 @@ InPlaceLabelMapFilter<TInputImage>
     }
 }
 
-template <class TImage>
-void
-InPlaceLabelMapFiler<TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-}
-
 } // end namespace itk
 
 #endif
