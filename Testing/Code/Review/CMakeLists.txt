@@ -225,6 +225,7 @@ SET(ReviewTest3_SRCS
   itkTriangleMeshToBinaryImageFilterTest3.cxx
   itkBinaryImageToLabelMapFilterTest.cxx
   itkLabelMapToBinaryImageFilterTest.cxx
+  itkChangeLabelLabelMapFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1705,6 +1706,18 @@ ADD_TEST(itkLabelMapToBinaryImageFilterTest1
   ${TEMP}/cthead1-label-binary.mha
   255   # Input foreground
   0     # Output background
+  )
+
+ADD_TEST(itkChangeLabelLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-changed.mha
+            ${TEMP}/cthead1-label-changed.mha
+  itkChangeLabelLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-changed.mha
+   94  150  # ( Old, New ) Label pair
+   92  163  # ( Old, New ) Label pair
+  176  176  # ( Old, New ) Label pair
   )
 
 
