@@ -29,4 +29,5 @@ void RegisterTests()
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkAggregateLabelMapFilterTest);
   REGISTER_TEST(itkBinaryImageToLabelMapFilterTest);
+  REGISTER_TEST(itkLabelMapToBinaryImageFilterTest);
 }

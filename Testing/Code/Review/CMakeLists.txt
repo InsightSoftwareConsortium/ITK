@@ -224,6 +224,7 @@ SET(ReviewTest3_SRCS
   itkGridImageSourceTest.cxx
   itkTriangleMeshToBinaryImageFilterTest3.cxx
   itkBinaryImageToLabelMapFilterTest.cxx
+  itkLabelMapToBinaryImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1694,6 +1695,18 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest1
   255   # Input foreground
   0     # Output background
   )
+
+ADD_TEST(itkLabelMapToBinaryImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-binary.mha
+            ${TEMP}/cthead1-label-binary.mha
+  itkLabelMapToBinaryImageFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-binary.mha
+  255   # Input foreground
+  0     # Output background
+  )
+
 
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
