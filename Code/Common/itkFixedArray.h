@@ -100,6 +100,7 @@ public:
       bool operator==(const ReverseIterator &rit) const {return m_Iterator == rit.m_Iterator;}
     private:
       Iterator m_Iterator;
+      friend class ConstReverseIterator;
     };
   
   /** \class ConstReverseIterator 
@@ -108,6 +109,7 @@ public:
     {
     public:
       explicit ConstReverseIterator(ConstIterator i): m_Iterator(i) {}
+      ConstReverseIterator(const ReverseIterator& rit) { m_Iterator = rit.m_Iterator; }
       ConstIterator operator++()         { return --m_Iterator; }
       ConstIterator operator++(int)      { return m_Iterator--; }
       ConstIterator operator--()         { return ++m_Iterator; }
