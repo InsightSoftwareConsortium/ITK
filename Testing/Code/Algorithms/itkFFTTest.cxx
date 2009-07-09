@@ -310,15 +310,15 @@ test_fft_rtc(unsigned int *SizeOfDimensions)
   
   /*Subtract the 2 images Pixel Values
     and test whether they are greater than 0.01 for the test to pass*/
-  for(unsigned int i = 0; i < std::min(_SizesA[2],_SizesB[2]); i++)
+  for(unsigned int i = 0; i < vnl_math_min(_SizesA[2],_SizesB[2]); i++)
     {
     unsigned int zStrideA = i * _SizesA[1] * _SizesA[0];
     unsigned int zStrideB = i * _SizesB[1] * _SizesB[0];
-    for(unsigned int j = 0; j < std::min(_SizesA[1],_SizesB[1]); j++)
+    for(unsigned int j = 0; j < vnl_math_min(_SizesA[1],_SizesB[1]); j++)
       {
       unsigned int yStrideA = j * _SizesA[0];
       unsigned int yStrideB = j * _SizesB[0];
-      for(unsigned int k = 0; k < std::min(_SizesA[0],_SizesB[0]); k++)
+      for(unsigned int k = 0; k < vnl_math_min(_SizesA[0],_SizesB[0]); k++)
         {
           double val = std::abs(fftbufA[zStrideA+yStrideA+k]);
           double diff = std::abs(fftbufA[zStrideA+yStrideA+k]-fftbufB[zStrideB+yStrideB+k]);
