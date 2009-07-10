@@ -113,11 +113,14 @@ protected:
 
   typename FastMutexLock::Pointer m_LabelObjectContainerLock;
 
+  typedef typename InputImageType::LabelObjectContainerType   LabelObjectContainerType;
+  typedef typename LabelObjectContainerType::const_iterator   LabelObjectContainerConstIterator;
+
 private:
   LabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename InputImageType::LabelObjectContainerType::const_iterator m_LabelObjectIterator;
+  LabelObjectContainerConstIterator   m_LabelObjectIterator;
 
   ProgressReporter * m_Progress;
 

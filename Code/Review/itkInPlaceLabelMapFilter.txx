@@ -31,8 +31,7 @@ namespace itk
  */
 template <class TInputImage>
 InPlaceLabelMapFilter<TInputImage>
-::InPlaceLabelMapFilter()
-  : m_InPlace(true)
+::InPlaceLabelMapFilter() : m_InPlace(true)
 {
 }
 
@@ -53,7 +52,7 @@ InPlaceLabelMapFilter<TInputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
+  os << indent << "InPlace: " << (this->m_InPlace ? "On" : "Off") << std::endl;
   if ( this->CanRunInPlace())
     {
     os << indent << "The input and output to this filter are the same type. The filter can be run in place." << std::endl;
@@ -70,14 +69,14 @@ InPlaceLabelMapFilter<TInputImage>
 ::AllocateOutputs()
 {
   // if told to run in place and the types support it, 
-  if( m_InPlace && this->CanRunInPlace() )
+  if( this->m_InPlace && this->CanRunInPlace() )
     {
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput
-      = dynamic_cast<TOutputImage *>(const_cast<TInputImage *>(this->GetInput()));
-    if (inputAsOutput)
+    OutputImagePointer inputAsOutput = dynamic_cast<TOutputImage *>(const_cast<TInputImage *>(this->GetInput()));
+
+    if( inputAsOutput )
       {
       // save the largest possible region to restore it after the graft output.
       // the largest possible region is not that important with LabelMap and
@@ -108,13 +107,15 @@ InPlaceLabelMapFilter<TInputImage>
     
     output->SetBackgroundValue( input->GetBackgroundValue() );
 
-    typedef typename InputImageType::LabelObjectType LabelObjectType;
 
-    typename InputImageType::LabelObjectContainerType::const_iterator it;
-    const typename InputImageType::LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
-    for( it = labelObjectContainer.begin(); it != labelObjectContainer.end(); it++ )
+    const LabelObjectContainerType & labelObjectContainer = input->GetLabelObjectContainer();
+
+    LabelObjectContainerConstIterator  it = labelObjectContainer.begin();
+
+    while( it != labelObjectContainer.end() )
       {
       const LabelObjectType * labeObject = it->second;
+
       assert( labeObject != NULL );
       assert( labeObject->GetLabel() == it->first );
 
@@ -122,6 +123,7 @@ InPlaceLabelMapFilter<TInputImage>
       newLabelObject->CopyAllFrom( labeObject );
       
       output->AddLabelObject( newLabelObject );
+      it++;
       }
 
     }
@@ -133,8 +135,9 @@ InPlaceLabelMapFilter<TInputImage>
 ::ReleaseInputs()
 {
   // if told to run in place and the types support it, 
-  if (m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)))
+  if( this->m_InPlace && (typeid(TInputImage) == typeid(TOutputImage)) )
     {
+
     // Release any input where the ReleaseData flag has been set
     ProcessObject::ReleaseInputs();
     
