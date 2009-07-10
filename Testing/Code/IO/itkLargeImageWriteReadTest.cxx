@@ -128,14 +128,21 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
 
   std::cout << "Comparing the pixel values.. :" << std::endl;
 
+  pixelValue = itk::NumericTraits< PixelType >::Zero;
+
   chronometer.Start("Compare");
   while( !ritr.IsAtEnd() )
     {
-    if( oitr.Get() != ritr.Get() )
+    if( ( oitr.Get() != ritr.Get() ) || ( oitr.Get() != pixelValue ) )
       {
       std::cerr << "Pixel comparison failed at index = " << oitr.GetIndex() << std::endl;
+      std::cerr << "Expected pixel value " << pixelValue << std::endl;
+      std::cerr << "Original Image pixel value " << oitr.Get() << std::endl;
+      std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
       return EXIT_FAILURE;
       }
+
+    ++pixelValue;
     ++oitr;
     ++ritr;
     }
