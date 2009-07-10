@@ -34,7 +34,6 @@ AggregateLabelMapFilter<TImage>
 
   ImageType * output = this->GetOutput();
 
-  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
   LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
 
   ProgressReporter progress( this, 0, labelObjectContainer.size() );
