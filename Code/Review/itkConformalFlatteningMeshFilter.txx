@@ -219,7 +219,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   normAB2 = AB[0] * AB[0] + AB[1] * AB[1] + AB[2] * AB[2];
 
-  if( normAB2 < 1e-6 )
+  if( normAB2 < 1e-10 )
     {
     itkExceptionMacro("||AB||^2 = " << normAB2
         << "\nRisk of division by zero");
@@ -344,19 +344,19 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     normBC2 = BC[0] * BC[0] + BC[1] * BC[1] + BC[2] * BC[2];
     normCA2 = CA[0] * CA[0] + CA[1] * CA[1] + CA[2] * CA[2];
 
-    if( normAB2 < 1e-6 )
+    if( normAB2 < 1e-10 )
       {
       itkExceptionMacro("normAB2 " << normAB2);
       return;
       }
 
-    if( normBC2 < 1e-6 )
+    if( normBC2 < 1e-10 )
       {
       itkExceptionMacro("normBC2 " << normBC2);
       return;
       }
 
-    if( normCA2 < 1e-6 )
+    if( normCA2 < 1e-10 )
       {
       itkExceptionMacro("normCA2 " << normCA2);
       return;
@@ -396,19 +396,19 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     sinBCA = vcl_sqrt( 1.0 - cosBCA * cosBCA );
     sinCAB = vcl_sqrt( 1.0 - cosCAB * cosCAB );
 
-    if( sinABC < 1e-6 )
+    if( sinABC < 1e-10 )
       {
       itkExceptionMacro("sinABC= " << sinABC);
       return;
       }
 
-    if( sinBCA < 1e-6 )
+    if( sinBCA < 1e-10 )
       {
       itkExceptionMacro("sinBCA= " << sinBCA);
       return;
       }
 
-    if( sinCAB < 1e-6 )
+    if( sinCAB < 1e-10 )
       {
       itkExceptionMacro("sinCAB= " << sinCAB);
       return;
@@ -438,59 +438,80 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   VectorCoordType y(numberOfPoints, 0.0);
   {
   // solving Ax = b (D x = bx)
-  VectorCoordType Dx;
-  D.pre_mult(x, Dx);
+  VectorCoordType rx = bx;
+  VectorCoordType zx(numberOfPoints);
 
-  VectorCoordType Dy;
-  D.pre_mult(y, Dy);
+  VectorCoordType ry = by;
+  VectorCoordType zy(numberOfPoints);
 
 
-  VectorCoordType rx = bx - Dx;
-  VectorCoordType px = rx;
+  // Jacobi preconditioner
+  VectorCoordType Dinv( numberOfPoints );
+  for (unsigned long ip = 0; ip < numberOfPoints; ++ip)
+    {
+      Dinv[ip] = 1.0/( D(ip, ip) + DBL_MIN);
 
-  VectorCoordType ry = by - Dy;
-  VectorCoordType py = ry;
+      zx[ip] = rx[ip]*Dinv[ip];
+      zy[ip] = ry[ip]*Dinv[ip];
+    }
+
+  VectorCoordType dx = zx;
+  VectorCoordType dy = zy;
 
 
   unsigned int numIter = bx.size();
+  if (bx.size() != numberOfPoints)
+    {
+    // check for safe
+    std::cerr<<"bx.size() != numberOfPoints\n";
+    }
   numIter += numIter/10; // let the iteration times a little more than the dimension
 
-  double tol = 1e-10;
+  double tol = 1e-6;
   
   for ( i = 0; i <= numIter; ++i)
     {
-    VectorCoordType Dpx;
-    D.pre_mult(px, Dpx);
-    VectorCoordType Dpy;
-    D.pre_mult(py, Dpy);
- 
-    double pDpx = inner_product(px, Dpx);
-    double pDpy = inner_product(py, Dpy);
-    
-    double alphax = inner_product(px, rx)/(pDpx + DBL_MIN);
-    double alphay = inner_product(py, ry)/(pDpy + DBL_MIN);
+    VectorCoordType Dxd;
+    D.pre_mult(dx, Dxd);
+    VectorCoordType Dyd;
+    D.pre_mult(dy, Dyd);
 
-    x += alphax*px;
-    y += alphay*py;
+    double dDxd = inner_product(dx, Dxd);
+    double dDyd = inner_product(dy, Dyd);
 
-    rx -= alphax*Dpx;
-    ry -= alphay*Dpy;
+    double zxTrx = inner_product(zx, rx);
+    double zyTry = inner_product(zy, ry);
 
-    if ((inner_product(rx, rx) < tol) && (inner_product(ry, ry) < tol))
+    double alphax = zxTrx/(dDxd + DBL_MIN);
+    double alphay = zyTry/(dDyd + DBL_MIN);
+
+    x += alphax*dx;
+    y += alphay*dy;
+
+
+    rx -= alphax*Dxd;
+    ry -= alphay*Dyd;
+
+    double rxTrx = inner_product(rx, rx);
+    double ryTry = inner_product(ry, ry);
+    if ( rxTrx < tol && ryTry < tol)
       {
+        //      std::cout<<"out from here when i = "<<i<<std::endl;
       break;
       }
 
-    VectorCoordType Drx;
-    D.pre_mult(rx, Drx);
-    VectorCoordType Dry;
-    D.pre_mult(ry, Dry);
 
-    double betax = -inner_product(px, Drx)/(pDpx + DBL_MIN);
-    double betay = -inner_product(py, Dry)/(pDpy + DBL_MIN);
+    for (unsigned long id = 0; id < numberOfPoints; ++id)
+      {
+        zx[id] = rx[id]*Dinv[id];
+        zy[id] = ry[id]*Dinv[id];
+      }
 
-    px = rx + betax*px;
-    py = ry + betay*py;
+    double betaX = inner_product(zx, rx)/(zxTrx + DBL_MIN);
+    double betaY = inner_product(zy, ry)/(zyTry + DBL_MIN);
+
+    dx = zx + betaX*dx;
+    dy = zy + betaY*dy;
     }
   }
 
@@ -540,7 +561,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
         {
         uiMidPointIdx = numberOfPoints/2;
         }
-      this->m_MapScale = 1.0/vcl_sqrt(v_r2[uiMidPointIdx]);
+      this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
       }
 
     i = 0;
