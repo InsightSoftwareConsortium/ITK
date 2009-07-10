@@ -233,15 +233,24 @@ ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 5 )
 
-  # Just below 2 Gigabytes
+  # Image of 1.67 Gigabytes (pixels size is 16bits)
   ADD_TEST(itkLargeImageWriteReadTest1 ${IO_TESTS} itkLargeImageWriteReadTest
            ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd  30000L )
 
-  # Just above 2 Gigabytes
+  # Image of 2.98 Gigabytes (pixels size is 16bits)
   ADD_TEST(itkLargeImageWriteReadTest2 ${IO_TESTS} itkLargeImageWriteReadTest
            ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd  40000L )
 
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 5 )
+
+
+IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 12 )
+
+  # Image of 9.12 Gigabytes (pixels size is 16bits)
+  ADD_TEST(itkLargeImageWriteReadTest3 ${IO_TESTS} itkLargeImageWriteReadTest
+           ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd  70000L )
+
+ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 12 )
 
 
 
