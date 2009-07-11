@@ -84,7 +84,7 @@ ChangeLabelLabelMapFilter<TImage>
 
   ImageType * output = this->GetOutput();
 
-  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
+  typedef typename std::deque< ITK_TYPENAME LabelObjectType::Pointer > VectorType;
 
   ProgressReporter progress( this, 0, 1 );
   // TODO: report the progress
