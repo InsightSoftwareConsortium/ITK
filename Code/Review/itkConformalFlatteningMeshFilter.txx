@@ -41,7 +41,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   // If during the stage when this parameter is used and it is still
   // -1.0, then it indicates that the user doesn't assign a scale
   // factor. Then automatically calculate it s.t. after doing the
-  // stereo-graphic projection, upper and lowwer hemi-sphere will have
+  // stereo-graphic projection, upper and lower hemi-sphere will have
   // same number of vertics.
 }
 
@@ -540,7 +540,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       {
       // < 0 means user doesn't explictly assign it. Then
       // automatically calculate it s.t. after doing the
-      // stereo-graphic projection, upper and lowwer hemi-sphere will have
+      // stereo-graphic projection, upper and lower hemi-sphere will have
       // same number of vertics.
 
       std::vector<double> v_r2(numberOfPoints);
@@ -561,7 +561,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
         {
         uiMidPointIdx = numberOfPoints/2;
         }
-      this->m_MapScale = 1.0/sqrt(v_r2[uiMidPointIdx]);
+      this->m_MapScale = 1.0/vcl_sqrt(v_r2[uiMidPointIdx]);
       }
 
     i = 0;
