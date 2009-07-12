@@ -562,6 +562,42 @@ public:
 };
 
 
+#if 0
+#ifndef ITK_TYPE_SAME_LONG_AND___INT64
+/** \class NumericTraits< __int64 >
+ * \brief Define traits for type std::complex<double>.
+ * \ingroup DataRepresentation
+ */
+template <>
+class NumericTraits< __int64 >  {
+public:
+  typedef __int64               TheType;
+  typedef __int64               ValueType;
+  typedef TheType               PrintType;
+  typedef __int64               AbsType;
+  typedef TheType               AccumulateType;
+  typedef double                RealType;
+  typedef double                ScalarRealType;
+  typedef double                FloatType;
+
+  static const TheType ITKCommon_EXPORT Zero;
+  static const TheType ITKCommon_EXPORT One;
+
+  static TheType min( TheType ) { return vcl_numeric_limits<ValueType>::min(); }
+  static TheType max( TheType ) { return vcl_numeric_limits<ValueType>::max(); }
+  static TheType NonpositiveMin() {
+    return TheType(-NumericTraits<double>::NonpositiveMin(),0.0); }
+  static bool IsPositive(TheType val) { return val.real() > 0.0; }
+  static bool IsNonpositive(TheType val) { return val.real() <= 0.0; }
+  static bool IsNegative(TheType val) { return val.real() < 0.0; }
+  static bool IsNonnegative(TheType val) {return val.real() >= 0.0; }
+  static TheType ZeroValue() { return Zero; }
+  static TheType OneValue() { return One; }
+};
+#endif
+#endif
+
+
 } // end namespace itk
 
 #endif // __itkNumericTraits_h
