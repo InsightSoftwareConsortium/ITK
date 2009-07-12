@@ -60,23 +60,32 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
-  /** Specify the size of the output image. */
-  itkSetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
+  /** Basic types from the OutputImageType */
+  typedef typename TOutputImage::SizeType         SizeType;
+  typedef typename TOutputImage::IndexType        IndexType;
+  typedef typename TOutputImage::SpacingType      SpacingType;
+  typedef typename TOutputImage::PointType        PointType;
+  typedef typename SizeType::SizeValueType        SizeValueType;
+  typedef SizeValueType                           SizeValueArrayType[TOutputImage::ImageDimension];
+  typedef typename TOutputImage::SpacingValueType  SpacingValueType;
+  typedef SpacingValueType                         SpacingValueArrayType[TOutputImage::ImageDimension];
+  typedef typename TOutputImage::PointValueType    PointValueType;
+  typedef PointValueType                           PointValueArrayType[TOutputImage::ImageDimension];
 
-  /** Get the size of the output image. */
-  itkGetVectorMacro(Size,unsigned long,TOutputImage::ImageDimension);
-  
-  /** Specify the spacing of the output image. */
-  itkSetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
+  /** Set/Get size of the output image */
+  itkSetMacro( Size, SizeType );
+  virtual void SetSize( SizeValueArrayType sizeArray );
+  virtual const SizeValueType * GetSize() const;
 
-  /** Get the spacing of the output image. */
-  itkGetVectorMacro(Spacing,float,TOutputImage::ImageDimension);
+  /** Set/Get spacing of the output image */
+  itkSetMacro( Spacing, SpacingType );
+  virtual void SetSpacing( SpacingValueArrayType spacingArray );
+  virtual const SpacingValueType * GetSpacing() const;
 
-  /** Specify the origin of the output image. */
-  itkSetVectorMacro(Origin,float,TOutputImage::ImageDimension);
-
-  /** Get the origin of the output image. */
-  itkGetVectorMacro(Origin,float,TOutputImage::ImageDimension);
+  /** Set/Get origin of the output image */
+  itkSetMacro( Origin, PointType );
+  virtual void SetOrigin( PointValueArrayType originArray );
+  virtual const PointValueType * GetOrigin() const;
   
   /** Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::min(). */
@@ -110,12 +119,18 @@ private:
   RandomImageSource(const RandomImageSource&); //purposely not implemented
   void operator=(const RandomImageSource&); //purposely not implemented
 
-  unsigned long *m_Size;    //size of the output image
-  float         *m_Spacing; //spacing
-  float         *m_Origin;  //origin
+  SizeType       m_Size;    //size of the output image
+  SpacingType    m_Spacing; //spacing
+  PointType      m_Origin;  //origin
 
   typename TOutputImage::PixelType m_Min; //minimum possible value
   typename TOutputImage::PixelType m_Max; //maximum possible value
+
+  // The following variables are deprecated, and provided here just for
+  // backward compatibility. It use is discouraged.
+  mutable  PointValueArrayType      m_OriginArray;
+  mutable  SpacingValueArrayType    m_SpacingArray;
+
 };
 
 } // end namespace itk

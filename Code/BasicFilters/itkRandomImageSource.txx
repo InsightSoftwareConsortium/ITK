@@ -36,9 +36,6 @@ template <class TOutputImage>
 RandomImageSource<TOutputImage>
 ::RandomImageSource()
 {
-  m_Size = new unsigned long [TOutputImage::GetImageDimension()];
-  m_Spacing = new float [TOutputImage::GetImageDimension()];
-  m_Origin = new float [TOutputImage::GetImageDimension()];  
 
   //Initial image is 64 wide in each direction.
   for (unsigned int i=0; i<TOutputImage::GetImageDimension(); i++)
@@ -56,10 +53,113 @@ template <class TOutputImage>
 RandomImageSource<TOutputImage>
 ::~RandomImageSource()
 {
-  delete [] m_Size;
-  delete [] m_Spacing;
-  delete [] m_Origin;
 }
+
+template <class TOutputImage>
+void
+RandomImageSource<TOutputImage>
+::SetSize( SizeValueArrayType sizeArray )
+{
+  const unsigned int count = TOutputImage::ImageDimension;
+  unsigned int i;
+  for( i=0; i<count; i++ )
+    {
+    if( sizeArray[i] != this->m_Size[i] )
+      {
+      break;
+      }
+    }
+  if( i < count )
+    {
+    this->Modified();
+    for( i=0; i<count; i++ )
+      {
+      this->m_Size[i] = sizeArray[i];
+      }
+    }
+}
+
+template <class TOutputImage>
+const typename RandomImageSource<TOutputImage>::SizeValueType *
+RandomImageSource<TOutputImage>
+::GetSize() const
+{
+  return this->m_Size.GetSize();
+}
+
+template <class TOutputImage>
+void
+RandomImageSource<TOutputImage>
+::SetSpacing( SpacingValueArrayType spacingArray )
+{
+  const unsigned int count = TOutputImage::ImageDimension;
+  unsigned int i;
+  for( i=0; i<count; i++ )
+    {
+    if( spacingArray[i] != this->m_Spacing[i] )
+      {
+      break;
+      }
+    }
+  if( i < count )
+    {
+    this->Modified();
+    for( i=0; i<count; i++ )
+      {
+      this->m_Spacing[i] = spacingArray[i];
+      }
+    }
+}
+
+template <class TOutputImage>
+void
+RandomImageSource<TOutputImage>
+::SetOrigin( PointValueArrayType originArray )
+{
+  const unsigned int count = TOutputImage::ImageDimension;
+  unsigned int i;
+  for( i=0; i<count; i++ )
+    {
+    if( originArray[i] != this->m_Origin[i] )
+      {
+      break;
+      }
+    }
+  if( i < count )
+    {
+    this->Modified();
+    for( i=0; i<count; i++ )
+      {
+      this->m_Origin[i] = originArray[i];
+      }
+    }
+}
+
+template <class TOutputImage>
+const typename RandomImageSource<TOutputImage>::PointValueType *
+RandomImageSource<TOutputImage>
+::GetOrigin() const
+{
+  for(unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
+    {
+    this->m_OriginArray[i] = this->m_Origin[i];
+    }
+  return this->m_OriginArray;
+}
+
+
+template <class TOutputImage>
+const typename RandomImageSource<TOutputImage>::SpacingValueType *
+RandomImageSource<TOutputImage>
+::GetSpacing() const
+{
+  for(unsigned int i=0; i < TOutputImage::ImageDimension; i++ )
+    {
+    this->m_SpacingArray[i] = this->m_Spacing[i];
+    }
+  return this->m_SpacingArray;
+}
+
 
 /**
  *
@@ -106,14 +206,13 @@ RandomImageSource<TOutputImage>
 ::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::IndexType index = {{0}};
-  typename TOutputImage::SizeType size = {{0}};
-  size.SetSize( m_Size );
+  IndexType index;
+  index.Fill( 0 );
   
   output = this->GetOutput(0);
 
   typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize( size );
+  largestPossibleRegion.SetSize( this->m_Size );
   largestPossibleRegion.SetIndex( index );
   output->SetLargestPossibleRegion( largestPossibleRegion );
 
