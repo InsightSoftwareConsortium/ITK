@@ -75,15 +75,15 @@ public:
     { return ImageDimension; }
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<ImageDimension>                   IndexType;
-  typedef typename IndexType::IndexValueType      IndexValueType;
-  typedef IndexValueType                          IndexValueArrayType[ImageDimension];
+  typedef Index< itkGetStaticConstMacro( ImageDimension) >  IndexType;
+  typedef typename IndexType::IndexValueType                IndexValueType;
+  typedef IndexValueType                          IndexValueArrayType[ ImageDimension];
   typedef typename IndexType::OffsetType          OffsetType;
   typedef typename OffsetType::OffsetValueType    OffsetValueType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<ImageDimension>                    SizeType;
-  typedef typename SizeType::SizeValueType        SizeValueType;
+  typedef Size< itkGetStaticConstMacro( ImageDimension ) >  SizeType;
+  typedef typename SizeType::SizeValueType                  SizeValueType;
 
   /** Slice region typedef. SliceRegion is one dimension less than Self. */
   typedef ImageRegion<itkGetStaticConstMacro(SliceDimension)> SliceRegion;
@@ -195,7 +195,7 @@ public:
    * to the next integer coordinate. */
   template <typename TCoordRepType>
   bool
-  IsInside(const ContinuousIndex<TCoordRepType,ImageDimension> &index) const
+  IsInside(const ContinuousIndex<TCoordRepType,VImageDimension> &index) const
     {
     for(unsigned int i=0; i<ImageDimension; i++)
       {
@@ -280,7 +280,7 @@ private:
   SizeType            m_Size;
 
   /** Friends of ImageRegion */
-  friend class ImageBase<ImageDimension>;
+  friend class ImageBase<VImageDimension>;
 };
 
 
