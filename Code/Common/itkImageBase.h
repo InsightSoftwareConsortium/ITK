@@ -125,11 +125,13 @@ public:
    * spacing is the geometric distance between image samples. ITK only
    * supports positive spacing value: negative values may cause
    * undesirable results.  */
-  typedef Vector<double, VImageDimension>         SpacingType;
+  typedef double                                    SpacingValueType;
+  typedef Vector<SpacingValueType, VImageDimension> SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef Point<double, VImageDimension> PointType;
+  typedef double                                    PointValueType;
+  typedef Point<PointValueType, VImageDimension>    PointType;
 
   /** Direction typedef support.  The Direction is a matix of
    * direction cosines that specify the direction between samples.

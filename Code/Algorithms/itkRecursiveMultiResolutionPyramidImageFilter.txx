@@ -285,7 +285,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
 
   int ilevel, idim;
   unsigned int factors[ImageDimension];
-  unsigned long radius[ImageDimension];
+  
+  typename TInputImage::SizeType radius;
+
   RegionType requestedRegion;
   SizeType   requestedSize;
   IndexType  requestedIndex;
@@ -438,7 +440,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType *oper = new OperatorType;
-  unsigned long radius[ImageDimension];
+
+  typename TInputImage::SizeType radius;
+
   RegionType inputRequestedRegion = baseRegion;
   refLevel = 0;
 

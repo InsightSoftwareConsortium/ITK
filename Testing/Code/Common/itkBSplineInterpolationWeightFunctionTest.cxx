@@ -69,7 +69,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 
     const unsigned int numberOfWeigts = weights1.size();
     
-    const int indexDifference = abs( startIndex2[0] + startIndex1[0] ) & 1;
+    const int indexDifference = vnl_math_abs( startIndex2[0] + startIndex1[0] ) & 1;
 
 
     const double tolerance = 1e-6;
@@ -77,7 +77,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 
     for( unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++ )
       {
-      if( vcl_abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
+      if( vnl_math_abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
         {
         symmetryForXBroken = true;
         }
@@ -161,7 +161,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 
     const unsigned int numberOfWeigts = weights1.size();
     
-    const int indexDifference = abs( startIndex2[0] + startIndex1[0] + 1 ) & 1;
+    const int indexDifference = vnl_math_abs( startIndex2[0] + startIndex1[0] + 1 ) & 1;
 
 
     const double tolerance = 1e-6;
@@ -169,7 +169,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 
     for( unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++ )
       {
-      if( vcl_abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
+      if( vnl_math_abs( weights1[nw] - weights2[numberOfWeigts-nw-1-indexDifference] ) > tolerance )
         {
         symmetryForXBroken = true;
         }

@@ -57,9 +57,10 @@ public:
   typedef ImageIORegion Self;
   typedef Region        Superclass;
 
-  /** these types correspond to those of itk::Size and itk::Index */
-  typedef unsigned long           SizeValueType;
-  typedef long                    IndexValueType;
+  /** these types correspond to those of itk::Size, itk::Offset and itk::Index */
+  typedef size_t                  SizeValueType;
+  typedef ptrdiff_t               IndexValueType;
+  typedef ptrdiff_t               OffsetValueType;
 
 
   /** Index typedef support. An index is used to access pixel values. */
@@ -140,7 +141,7 @@ public:
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  unsigned long GetNumberOfPixels( void ) const;
+  SizeValueType GetNumberOfPixels( void ) const;
 
 protected:
   /** Methods invoked by Print() to print information about the object

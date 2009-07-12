@@ -166,7 +166,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
 
   SourceType::Pointer source = SourceType::New();
 
-  unsigned long size[ImageDimension] = {64,64};
+  ImageType::SizeValueType size[ImageDimension] = {64,64};
   source->SetSize( size );
   source->SetMin(0.0);
   source->SetMax(1.0);

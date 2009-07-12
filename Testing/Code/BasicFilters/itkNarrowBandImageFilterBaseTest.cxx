@@ -146,7 +146,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
 
   typedef itk::RandomImageSource<ImageType> RandomSourceType;
   RandomSourceType::Pointer randomSource = RandomSourceType::New();
-  unsigned long tam[2];
+  ImageType::SizeValueType tam[2];
   tam[0]=64;
   tam[1]=64;
   randomSource->SetSize(tam);

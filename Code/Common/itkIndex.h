@@ -240,7 +240,7 @@ public:
    * \warning No bound checking is performed
    * \sa GetIndex()
    * \sa SetElement() */
-  IndexValueType GetElement( unsigned long element )
+  IndexValueType GetElement( unsigned long element ) const
     { return m_Index[ element ]; }
 
   /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"

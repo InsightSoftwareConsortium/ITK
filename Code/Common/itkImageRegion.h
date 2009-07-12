@@ -77,6 +77,9 @@ public:
   /** Index typedef support. An index is used to access pixel values. */
   typedef Index<VImageDimension>                  IndexType;
   typedef typename IndexType::IndexValueType      IndexValueType;
+  typedef IndexValueType                          IndexValueArrayType[VImageDimension];
+  typedef typename IndexType::OffsetType          OffsetType;
+  typedef typename OffsetType::OffsetValueType    OffsetValueType;
 
   /** Size typedef support. A size is used to define region bounds. */
   typedef Size<VImageDimension>                   SizeType;
@@ -245,13 +248,13 @@ public:
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  unsigned long GetNumberOfPixels() const;
+  SizeValueType GetNumberOfPixels() const;
 
   /** Pad an image region by the specified radius. Region can be padded
    * uniformly in all dimensions or can be padded by different amounts
    * in each dimension. */
-  void PadByRadius(unsigned long radius);
-  void PadByRadius(const unsigned long radius[VImageDimension]);
+  void PadByRadius(IndexValueType radius);
+  void PadByRadius(const IndexValueArrayType radius);
   void PadByRadius(const SizeType &radius);
 
   /** Crop a region by another region. If this region is outside of the

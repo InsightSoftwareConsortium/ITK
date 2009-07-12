@@ -45,7 +45,7 @@ int main(int, char * [] )
   typedef itk::Image<unsigned char,2> ImageType;
   typedef itk::RandomImageSource<ImageType> RandomImageSourceType;
   RandomImageSourceType::Pointer randomImageSource = RandomImageSourceType::New();
-  unsigned long size[2];
+  ImageType::SizeValueType size[2];
   size[0] = 10;
   size[1] = 10;
   randomImageSource->SetSize(size);

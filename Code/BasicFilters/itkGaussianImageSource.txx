@@ -266,7 +266,7 @@ GaussianImageSource<TOutputImage>
 template<typename TOutputImage>
 void 
 GaussianImageSource<TOutputImage>
-::SetSize(const unsigned long* size)
+::SetSize(const SizeValueType * size)
 {
   unsigned int i; 
   for (i=0; i<TOutputImage::ImageDimension; i++)

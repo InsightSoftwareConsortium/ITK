@@ -48,15 +48,15 @@ int itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest(int, char*[])
   const unsigned int dim = 3;
   const unsigned int size = 20;
 
+  // Image typedef
+  typedef itk::Image< unsigned char, dim > ImageType;
+
   //-----------------Create a new input image--------------------
 
   // Image size and spacing parameters
-  unsigned long sourceImageSize[]  = { size,size,size };
-  double sourceImageSpacing[] = { 1.0,1.0,1.0 };
-  double sourceImageOrigin[] = { 0,0,0 };
-
-  // Image typedef
-  typedef itk::Image< unsigned char, dim > ImageType;
+  ImageType::SizeValueType    sourceImageSize[]  = { size,size,size };
+  ImageType::SpacingValueType sourceImageSpacing[] = { 1.0,1.0,1.0 };
+  ImageType::PointValueType   sourceImageOrigin[] = { 0,0,0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   ImageType::Pointer sourceImage = ImageType::New();

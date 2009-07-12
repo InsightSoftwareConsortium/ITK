@@ -131,7 +131,8 @@ int itkFEMRegistrationFilterTest(int, char* [] )
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
-  unsigned long sizeArray[ImageDimension] = { 32, 32, 32 };
+  FloatImageType::SizeValueType sizeArray[ImageDimension] = { 32, 32, 32 };
+
   SizeType size;
   size.SetSize( sizeArray );
 

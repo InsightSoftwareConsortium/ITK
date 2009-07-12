@@ -35,7 +35,7 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
-  unsigned long size[TDimension];
+  typename ImageType::SizeValueType size[TDimension];
   for (unsigned int i = 0; i < TDimension; i++)
     {
     size[i]= 2 << (i + 1);
@@ -47,8 +47,9 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
   random->SetMax(hi);
   random->SetSize(size);
 
-  float spacing[3] = {5.0f, 10.0f, 15.0f};
-  float origin[3] = {-5.0f, -10.0f, -15.0f};
+  typename ImageType::SpacingValueType spacing[3] = {5.0f, 10.0f, 15.0f};
+  typename ImageType::PointValueType origin[3] = {-5.0f, -10.0f, -15.0f};
+
   random->SetSpacing(spacing);
   random->SetOrigin(origin);
 

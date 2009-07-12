@@ -61,10 +61,11 @@ public:
   typedef typename TInputImage::PixelType  InputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TInputImage::IndexType  InputImageIndexType;
-  typedef typename TOutputImage::SizeType  OutputImageSizeType;
-  typedef typename TInputImage::SizeType   InputImageSizeType;
+  typedef typename TOutputImage::IndexType      OutputImageIndexType;
+  typedef typename TInputImage::IndexType       InputImageIndexType;
+  typedef typename TOutputImage::SizeType       OutputImageSizeType;
+  typedef typename TInputImage::SizeType        InputImageSizeType;
+  typedef typename TInputImage::SizeValueType   SizeValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadImageFilter, ImageToImageFilter);
@@ -75,10 +76,10 @@ public:
 
   /** Set/Get the output image padding.  Default is no padding 
    *  (same as input). */
-  itkSetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
-  itkSetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
-  itkGetVectorMacro(PadLowerBound, const unsigned long, ImageDimension);
-  itkGetVectorMacro(PadUpperBound, const unsigned long, ImageDimension);
+  itkSetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
+  itkSetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
+  itkGetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
+  itkGetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
                  
   
   void SetPadLowerBound(const InputImageSizeType & bound)
@@ -121,8 +122,8 @@ private:
   PadImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned long m_PadLowerBound[ImageDimension];
-  unsigned long m_PadUpperBound[ImageDimension];
+  SizeValueType    m_PadLowerBound[ImageDimension];
+  SizeValueType    m_PadUpperBound[ImageDimension];
 };
 
   

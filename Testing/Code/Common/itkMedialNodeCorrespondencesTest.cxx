@@ -66,9 +66,15 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
-  unsigned long sourceImageSize[]  = { 20,20,20 };
-  double sourceImageSpacing[] = { 1.0,1.0,1.0 };
-  double sourceImageOrigin[] = { 0,0,0 };
+  typedef itk::Image< unsigned char, dim > ImageType;
+
+  typedef ImageType::SizeValueType      SizeValueType;
+  typedef ImageType::SpacingValueType   SpacingValueType;
+  typedef ImageType::PointValueType     PointValueType;
+
+  SizeValueType    sourceImageSize[]  = { 20,20,20 };
+  SpacingValueType sourceImageSpacing[] = { 1.0,1.0,1.0 };
+  PointValueType   sourceImageOrigin[] = { 0,0,0 };
 
   int intensity1 = 255;
   int intensity2 = 128;
@@ -77,7 +83,6 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   CoreAtomType::Pointer bloxCoreAtomImage1 = CoreAtomType::New();
   CoreAtomType::Pointer bloxCoreAtomImage2 = CoreAtomType::New();
 
-  typedef itk::Image< unsigned char, dim > ImageType;
   typedef itk::SphereSpatialFunction<dim> FunctionType;
   typedef FunctionType::InputType FunctionPositionType;
   typedef itk::FloodFilledSpatialFunctionConditionalIterator <ImageType, FunctionType> ItType;

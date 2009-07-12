@@ -49,13 +49,16 @@ int itkReleaseDataFilterTest(int, char* [] )
   random->SetMax(1000.0);
 
 
-  unsigned long randomSize[2];
+  ImageType::SizeValueType randomSize[2];
+
   randomSize[0] = randomSize[1] = 16;
+
   random->SetSize(randomSize);
   
-  float spacing[2] = {0.7, 2.1};
+  ImageType::SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
-  float origin[2] = {15, 400};
+
+  ImageType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
   
   MonitorFilter::Pointer monitor1 = MonitorFilter::New();

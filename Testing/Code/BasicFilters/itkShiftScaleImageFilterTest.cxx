@@ -62,13 +62,13 @@ int itkShiftScaleImageFilterTest(int, char* [] )
 
   typedef itk::RandomImageSource<TestInputImage> SourceType;
   SourceType::Pointer source = SourceType::New();
-  unsigned long randomSize[3] = {17, 8, 20};
+  TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
   // Set up Start, End and Progress callbacks
   FilterWatcher sourceWatch(source);
 
   // Set up source
-  source->SetSize(randomSize);
+  source->SetSize( randomSize );
   double minValue = -128.0;
   double maxValue = 127.0;
 

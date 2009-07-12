@@ -37,13 +37,14 @@ int itkBinaryMedianImageFilterTest(int, char* [] )
   random->SetMin(   0 );
   random->SetMax( 100 );
 
-  unsigned long randomSize[2];
+  ImageType::SizeValueType randomSize[2];
   randomSize[0] = randomSize[1] = 8;
   random->SetSize(randomSize);
   
-  float spacing[2] = {0.7, 2.1};
+  ImageType::SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
-  float origin[2] = {15, 400};
+
+  ImageType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
     
   ImageType::PixelType foreground =  97; // prime numbers are good testers

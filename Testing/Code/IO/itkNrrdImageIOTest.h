@@ -34,9 +34,10 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
   typename itk::RandomImageSource<ImageType>::Pointer source
     = itk::RandomImageSource<ImageType>::New();
 
-  unsigned long sz[VImageDimension];
-  float spacing[VImageDimension];
-  float origin[VImageDimension];
+  typename ImageType::SizeType sz;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType origin;
+
   for (unsigned int i = 0; i < VImageDimension; i++)
     {
     sz[i]      = size;

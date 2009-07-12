@@ -324,7 +324,6 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
     std::cout << "Origin="<< test->GetOrigin() << " CenterOfSpace=" << GetImageCenterPhysicalPoint(test) << " CenterOfMass=" << GetCenterOfMass(test) << "CG=" <<testCG << std::endl;
     }
   std::cout << "Found " << errorCount << " errors." << std::endl;
+
   return errorCount;
 }
-
-

@@ -82,13 +82,17 @@ int main()
   random->SetMin(    0.0 );
   random->SetMax( 1000.0 );
   
-  unsigned long size[2] = {20, 20};
+  typedef FloatImage2DType::SpacingValueType  SpacingValueType;
+  typedef FloatImage2DType::SizeValueType     SizeValueType;
+  typedef FloatImage2DType::PointValueType    PointValueType;
+
+  SizeValueType size[2] = {20, 20};
   random->SetSize( size );
 
-  float spacing[2] = {0.7, 2.1};
+  SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
 
-  float origin[2] = {15, 400};
+  PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
 

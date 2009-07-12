@@ -116,7 +116,7 @@ CannyEdgeDetectionImageFilter<TInputImage,TOutputImage>
 
   //Set the kernel size.
   // fix me this needs to be based on the variance of the gaussian filter
-  unsigned long radius = 1;
+  typename TInputImage::SizeValueType radius = 1;
   
   // get a copy of the input requested region (should equal the output
   // requested region)

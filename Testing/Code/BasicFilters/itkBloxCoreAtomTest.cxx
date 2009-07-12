@@ -46,14 +46,14 @@ int itkBloxCoreAtomTest(int, char* [] )
 {
   const unsigned int dim = 3;
 
-  //-----------------Create a new input image--------------------
-  // Image size and spacing parameters
-  unsigned long sourceImageSize[]  = { 20,20,20 };
-  double sourceImageSpacing[] = { 1.0,1.0,1.0 };
-  double sourceImageOrigin[] = { 0,0,0 };
-
   // Image typedef
   typedef itk::Image< unsigned char, dim > ImageType;
+
+  //-----------------Create a new input image--------------------
+  // Image size and spacing parameters
+  ImageType::SizeValueType     sourceImageSize[]  = { 20,20,20 };
+  ImageType::SpacingValueType  sourceImageSpacing[] = { 1.0,1.0,1.0 };
+  ImageType::PointValueType    sourceImageOrigin[] = { 0,0,0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   ImageType::Pointer sourceImage = ImageType::New();

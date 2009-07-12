@@ -118,7 +118,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
-  unsigned long sizeArray[ImageDimension] = { 128, 128 };
+  ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
   SizeType size;
   size.SetSize( sizeArray );
 

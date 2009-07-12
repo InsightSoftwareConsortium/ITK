@@ -40,7 +40,8 @@ int itkRawImageIOTest(int argc, char* argv[])
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.
   //
-  unsigned long size[2];
+  ImageType::SizeValueType size[2];
+
   size[0]=128; size[1]=64;
   
   itk::RandomImageSource<ImageType>::Pointer random;

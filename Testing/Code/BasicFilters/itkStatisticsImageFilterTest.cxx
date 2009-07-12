@@ -91,7 +91,8 @@ int itkStatisticsImageFilterTest(int, char* [] )
 
   typedef itk::RandomImageSource<FloatImage> SourceType;
   SourceType::Pointer source = SourceType::New();
-  unsigned long randomSize[3] = {17, 8, 20};
+
+  FloatImage::SizeValueType randomSize[3] = {17, 8, 20};
 
   source->SetSize(randomSize);
   float minValue = -100.0;

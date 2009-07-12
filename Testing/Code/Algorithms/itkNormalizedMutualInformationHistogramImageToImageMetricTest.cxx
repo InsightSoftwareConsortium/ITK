@@ -47,14 +47,14 @@ int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
     typedef FixedImageSourceType::Pointer FixedImageSourcePointer;
     
     // Note: the following declarations are classical arrays
-    unsigned long fixedImageSize[] = {100,  100};
-    unsigned long movingImageSize[] = {100,  100}; 
+    FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
+    MovingImageType::SizeValueType movingImageSize[] = {100,  100}; 
     
-    float fixedImageSpacing[]  = {1.0f, 1.0f}; 
-    float movingImageSpacing[] = {1.0f, 1.0f}; 
+    FixedImageType::SpacingValueType fixedImageSpacing[]  = {1.0f, 1.0f}; 
+    MovingImageType::SpacingValueType movingImageSpacing[] = {1.0f, 1.0f}; 
     
-    float fixedImageOrigin[] = {0.0f, 0.0f}; 
-    float movingImageOrigin[] = {0.0f, 0.0f}; 
+    FixedImageType::PointValueType fixedImageOrigin[] = {0.0f, 0.0f}; 
+    MovingImageType::PointValueType movingImageOrigin[] = {0.0f, 0.0f}; 
     
     MovingImageSourceType::Pointer movingImageSource =
       MovingImageSourceType::New();

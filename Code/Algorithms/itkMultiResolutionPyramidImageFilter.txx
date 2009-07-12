@@ -590,7 +590,9 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>
   typedef GaussianOperator<OutputPixelType,ImageDimension> OperatorType;
 
   OperatorType *oper = new OperatorType;
-  unsigned long radius[ImageDimension];
+
+  typename TInputImage::SizeType radius;
+
   RegionType inputRequestedRegion = baseRegion;
   refLevel = 0;
 

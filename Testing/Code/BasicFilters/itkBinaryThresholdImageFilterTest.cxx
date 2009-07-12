@@ -49,7 +49,7 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   typedef itk::RandomImageSource<InputImageType> SourceType;
   SourceType::Pointer source = SourceType::New();
 
-  unsigned long sizeArray[ImageDimension] = { 3,3,3 };
+  InputImageType::SizeValueType sizeArray[ImageDimension] = { 3,3,3 };
 
   source->SetMin( itk::NumericTraits<InputPixelType>::Zero );
   source->SetMax( itk::NumericTraits<InputPixelType>::max() );

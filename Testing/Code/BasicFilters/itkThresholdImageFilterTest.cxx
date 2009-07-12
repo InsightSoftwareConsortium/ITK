@@ -42,9 +42,10 @@ int itkThresholdImageFilterTest(int, char* [] )
   random->SetMax(1000.0);
   random->ReleaseDataFlagOn();
   
-  float spacing[2] = {0.7, 2.1};
+  FloatImage2DType::SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
-  float origin[2] = {15, 400};
+
+  FloatImage2DType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
     
   itksys_ios::ostringstream *os;

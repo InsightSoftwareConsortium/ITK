@@ -324,9 +324,9 @@ ImageTypePtr3D set3DData()
   typedef itk::GaussianImageSource< ImageType3D > GaussianSourceType;
   GaussianSourceType::Pointer pSource = GaussianSourceType::New();
 
-  float spacing[]       = { 1.2f, 1.3f, 1.4f };
-  float origin[]        = { 1.0f, 4.0f, 2.0f };
-  unsigned long size[]  = { 65, 75, 60};
+  ImageType3D::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
+  ImageType3D::PointValueType origin[] = { 1.0f, 4.0f, 2.0f };
+  ImageType3D::SizeValueType    size[]  = { 65, 75, 60};
 
   GaussianSourceType::ArrayType mean;
   mean[0] = size[0]/2.0f + origin[0];

@@ -70,8 +70,12 @@ int itkConstantPadImageTest(int, char* [] )
   FilterWatcher watch(constantPad);
   constantPad->SetInput( if2 );
   
-  unsigned long upperfactors[2] = { 0, 0};
-  unsigned long lowerfactors[2] = { 0, 0};
+  typedef ShortImage::SizeValueType   SizeValueType;
+  typedef ShortImage::IndexValueType  IndexValueType;
+
+  SizeValueType upperfactors[2] = { 0, 0};
+  SizeValueType lowerfactors[2] = { 0, 0};
+
   constantPad->SetConstant(13);
   // check the method using the SizeType rather than the simple table type.
   ShortImage::SizeType stfactors;
@@ -106,8 +110,8 @@ int itkConstantPadImageTest(int, char* [] )
   passed = true; 
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
-  if ((index[0] != (0 - (long) lowerfactors[0])) 
-      || (index[1] != (0 - (long) lowerfactors[1]))
+  if ((index[0] != (0 - (IndexValueType) lowerfactors[0])) 
+      || (index[1] != (0 - (IndexValueType) lowerfactors[1]))
       || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
       || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
     {
@@ -182,8 +186,8 @@ int itkConstantPadImageTest(int, char* [] )
     passed = true; 
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (long) lowerfactors[0])) 
-        || (index[1] != (0 - (long) lowerfactors[1]))
+    if ((index[0] != (0 - (IndexValueType) lowerfactors[0])) 
+        || (index[1] != (0 - (IndexValueType) lowerfactors[1]))
         || (size[0] != (8 + lowerfactors[0] + upperfactors[0])) 
         || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
       {

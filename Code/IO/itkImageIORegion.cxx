@@ -236,7 +236,7 @@ ImageIORegion
 
 /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-unsigned long 
+ImageIORegion::SizeValueType
 ImageIORegion
 ::GetNumberOfPixels( void ) const 
 {

@@ -42,9 +42,9 @@ int itkNormalizeImageFilterTest(int, char* [] )
 
   typedef itk::RandomImageSource<ShortImage> SourceType;
   SourceType::Pointer source = SourceType::New();
-  unsigned long randomSize[3] = {18, 17, 67};
+  ShortImage::SizeValueType randomSize[3] = {18, 17, 67};
 
-  source->SetSize(randomSize);
+  source->SetSize( randomSize );
   float minValue = -1000.0;
   float maxValue =  1000.0;
 

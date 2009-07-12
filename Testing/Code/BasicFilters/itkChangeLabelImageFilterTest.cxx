@@ -49,7 +49,7 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   typedef itk::RandomImageSource<InputImageType> SourceType;
   SourceType::Pointer source = SourceType::New();
 
-  unsigned long sizeArray[ImageDimension] = { 3,3,3 };
+  InputImageType::SizeValueType sizeArray[ImageDimension] = { 3,3,3 };
 
   // limit to a few labels
   InputPixelType upper = 10;

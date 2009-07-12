@@ -69,7 +69,8 @@ int itkShiftScaleInPlaceImageFilterTest(int, char* [] )
 
   typedef itk::RandomImageSource<TestInputImage> SourceType;
   SourceType::Pointer source = SourceType::New();
-  unsigned long randomSize[3] = {17, 8, 20};
+
+  TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
   // Set up Start, End and Progress callbacks
   ShiftScaleInPlaceFilterWatcher sourceWatch(source, "source");

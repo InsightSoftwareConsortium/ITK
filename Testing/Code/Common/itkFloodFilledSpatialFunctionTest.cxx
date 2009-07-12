@@ -38,13 +38,17 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
 {
   const unsigned int dim = 2;
 
-  // Image size and spacing parameters
-  unsigned long sourceImageSize[]  = { 5, 5};
-  double sourceImageSpacing[] = { 1.0,1.0 };
-  double sourceImageOrigin[] = { 0,0 };
-
   // Image typedef
   typedef itk::Image< bool, dim > ImageType;
+
+  typedef ImageType::SizeValueType      SizeValueType;
+  typedef ImageType::SpacingValueType   SpacingValueType;
+  typedef ImageType::PointValueType     PointValueType;
+
+  // Image size and spacing parameters
+  SizeValueType     sourceImageSize[]  = { 5, 5};
+  SpacingValueType  sourceImageSpacing[] = { 1.0,1.0 };
+  PointValueType    sourceImageOrigin[] = { 0,0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   ImageType::Pointer sourceImage = ImageType::New();

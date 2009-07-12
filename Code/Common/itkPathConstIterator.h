@@ -216,7 +216,7 @@ protected: //made protected so other iterators can access
   SpacingType m_ImageSpacing;
 
   /** Size of the source image */
-  const unsigned long int* m_ImageSize;
+  const SizeValueType * m_ImageSize;
   
   /** Should GoToBegin() initially skip the first index of a closed path so that
    * the first index will only be visited once--at the end of the path?  If 

@@ -37,13 +37,14 @@ int itkMedianImageFilterTest(int, char* [] )
   random->SetMin(0.0);
   random->SetMax(1000.0);
 
-  unsigned long randomSize[2];
+  FloatImage2DType::SizeValueType randomSize[2];
   randomSize[0] = randomSize[1] = 8;
   random->SetSize(randomSize);
   
-  float spacing[2] = {0.7, 2.1};
+  FloatImage2DType::SpacingValueType spacing[2] = {0.7, 2.1};
   random->SetSpacing( spacing );
-  float origin[2] = {15, 400};
+
+  FloatImage2DType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
     
   // Create a median image

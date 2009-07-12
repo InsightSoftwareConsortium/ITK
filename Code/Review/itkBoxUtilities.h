@@ -200,6 +200,7 @@ BoxMeanCalculatorFunction(const TInputImage * accImage,
   typedef typename TInputImage::IndexType                     IndexType;
   typedef typename TInputImage::PixelType                     PixelType;
   typedef typename TInputImage::OffsetType                    OffsetType;
+  typedef typename TInputImage::OffsetValueType               OffsetValueType;
   typedef TOutputImage                                        OutputImageType;
   typedef typename TOutputImage::PixelType                    OutputPixelType;
   typedef typename TInputImage::PixelType                     InputPixelType;
@@ -216,7 +217,10 @@ BoxMeanCalculatorFunction(const TInputImage * accImage,
 
   // this process is actually slightly asymmetric because we need to
   // subtract rectangles that are next to our kernel, not overlapping it
-  SizeType kernelSize, internalRadius, RegionLimit;
+  SizeType kernelSize;
+  SizeType internalRadius;
+  SizeType RegionLimit;
+
   IndexType RegionStart = inputRegion.GetIndex();
   for( int i=0; i<TInputImage::ImageDimension; i++ )
     {
@@ -339,7 +343,10 @@ BoxMeanCalculatorFunction(const TInputImage * accImage,
             if (UnitCorners[k][j] > 0)
               {
               // leading edge - crop it
-              ThisCorner[j] = vnl_math_min(ThisCorner[j], (long)RegionLimit[j]);
+              if( ThisCorner[j] > static_cast< OffsetValueType>( RegionLimit[j] ) )
+                {
+                ThisCorner[j] = static_cast< OffsetValueType>( RegionLimit[j] );
+                }
               }
             else
               {
@@ -381,6 +388,7 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
   typedef typename TInputImage::IndexType                     IndexType;
   typedef typename TInputImage::PixelType                     PixelType;
   typedef typename TInputImage::OffsetType                    OffsetType;
+  typedef typename TInputImage::OffsetValueType               OffsetValueType;
   typedef TOutputImage                                        OutputImageType;
   typedef typename TOutputImage::PixelType                    OutputPixelType;
   typedef typename TInputImage::PixelType                     InputPixelType;
@@ -398,7 +406,9 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
 
   // this process is actually slightly asymmetric because we need to
   // subtract rectangles that are next to our kernel, not overlapping it
-  SizeType kernelSize, internalRadius, RegionLimit;
+  SizeType kernelSize;
+  SizeType internalRadius;
+  SizeType RegionLimit;
   IndexType RegionStart = inputRegion.GetIndex();
   for( int i=0; i<TInputImage::ImageDimension; i++ )
     {
@@ -526,7 +536,10 @@ BoxSigmaCalculatorFunction(const TInputImage * accImage,
             if (UnitCorners[k][j] > 0)
               {
               // leading edge - crop it
-              ThisCorner[j] = vnl_math_min(ThisCorner[j], (long)RegionLimit[j]);
+              if( ThisCorner[j] > static_cast< OffsetValueType >( RegionLimit[j]) )
+                {
+                ThisCorner[j] = static_cast< OffsetValueType>( RegionLimit[j] );
+                }
               }
             else
               {

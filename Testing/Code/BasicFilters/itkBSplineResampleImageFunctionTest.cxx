@@ -40,11 +40,12 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
   const unsigned int SplineOrder = 3;
 
   /** Generate a random input image and connect to BSpline decomposition filter */
-  typedef itk::FixedArray<float,ImageDimension> FloatArrayType;
-  typedef itk::FixedArray<unsigned long, ImageDimension> SizeType;
+  typedef ImageType::SpacingType  SpacingType;
+  typedef ImageType::PointType    PointType;
+  typedef ImageType::SizeType     SizeType;
 
-  FloatArrayType spacing;
-  FloatArrayType origin;
+  SpacingType    spacing;
+  PointType      origin;
   SizeType       size;
 
   spacing.Fill( 2.0 );
@@ -54,9 +55,9 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
   typedef itk::RandomImageSource<ImageType> SourceType;
   SourceType::Pointer source = SourceType::New();
 
-  source->SetSize( size.GetDataPointer() );
-  source->SetSpacing( spacing.GetDataPointer() );
-  source->SetOrigin( origin.GetDataPointer() );
+  source->SetSize( size );
+  source->SetSpacing( spacing );
+  source->SetOrigin( origin );
 
   source->SetMin( 0.0 );
   source->SetMax( 10.0 );

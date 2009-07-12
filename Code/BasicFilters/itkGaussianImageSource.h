@@ -74,7 +74,8 @@ public:
   typedef FixedArray<double, itkGetStaticConstMacro(NDimensions)> ArrayType;
 
   /** Size type matches that used for images */
-  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
+  typedef typename TOutputImage::SizeType         SizeType;
+  typedef typename TOutputImage::SizeValueType    SizeValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource,ImageSource);
@@ -83,13 +84,13 @@ public:
   itkNewMacro(Self);
   
   /** Specify the size of the output image. */
-  virtual void SetSize( const unsigned long* values);
+  virtual void SetSize( const SizeValueType * values);
 
   /** Specify the size of the output image. */
   virtual void SetSize( const SizeType values);
 
   /** Get the size of the output image. */
-  itkGetVectorMacro(Size,const unsigned long,NDimensions);
+  itkGetVectorMacro(Size,const SizeValueType,NDimensions);
   
   /** Specify the spacing of the output image. */
   itkSetMacro(Spacing, SpacingType);
@@ -133,7 +134,7 @@ private:
   GaussianImageSource(const GaussianImageSource&); //purposely not implemented
   void operator=(const GaussianImageSource&); //purposely not implemented
 
-  unsigned long  m_Size[NDimensions];    //size of the output image
+  SizeValueType  m_Size[NDimensions];    //size of the output image
   SpacingType    m_Spacing;   //spacing
   PointType      m_Origin;    //origin
   DirectionType  m_Direction; // direction
