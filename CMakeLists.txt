@@ -746,6 +746,7 @@ MARK_AS_ADVANCED(ITK_COMPUTER_MEMORY_SIZE)
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
+INCLUDE(TestForANSIStreamHeaders)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in 
   ${ITK_BINARY_DIR}/itkConfigure.h)
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
