@@ -1050,7 +1050,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   if( this->GetEdgeCells()->size() == 0 ) return( (QEPrimal*)0 );
 
-  CellsContainerIterator cit = this->GetEdgeCells()->Begin();
+  const CellsContainer * edgeCells = this->GetEdgeCells();
+  CellsContainerConstIterator cit = edgeCells->Begin();
   EdgeCellType* e = dynamic_cast< EdgeCellType* >( cit.Value( ) );
   return( e->GetQEGeom( ) );
 }

@@ -261,9 +261,9 @@ public:
   /** another way of deleting all the cells */
   virtual void Clear();
 
-  CellsContainerPointer GetEdgeCells() {return m_EdgeCellsContainer;}
-  const CellsContainerPointer GetEdgeCells() const {return m_EdgeCellsContainer;}
-  void SetEdgeCells(CellsContainerPointer edgeCells)
+  CellsContainer * GetEdgeCells() {return m_EdgeCellsContainer;}
+  const CellsContainer * GetEdgeCells() const {return m_EdgeCellsContainer;}
+  void SetEdgeCells(CellsContainer * edgeCells)
     {m_EdgeCellsContainer = edgeCells;}
   void SetEdgeCell(CellIdentifier cellId, CellAutoPointer & cellPointer )
     {m_EdgeCellsContainer->InsertElement(cellId,cellPointer.ReleaseOwnership());}
