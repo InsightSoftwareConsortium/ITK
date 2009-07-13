@@ -50,6 +50,8 @@
   if( variable.GetPointer() != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "Expected " << variable.GetPointer() << std::endl; \
+    std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
     }
 
@@ -58,6 +60,8 @@
   if( variable != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
+    std::cerr << "Expected " << variable << std::endl; \
+    std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
     }
 
