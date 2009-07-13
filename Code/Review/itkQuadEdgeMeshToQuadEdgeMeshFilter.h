@@ -55,10 +55,16 @@ public:
   typedef typename InputMeshType::PointDataContainer   InputPointDataContainer;
   typedef typename InputMeshType::CellDataContainer    InputCellDataContainer;
 
+  typedef typename InputPointDataContainer::ConstPointer 
+    InputPointDataContainerConstPointer; 
   typedef typename InputMeshType::PointsContainerConstIterator
-      InputPointsContainerConstIterator;
+    InputPointsContainerConstIterator;
+  typedef typename InputMeshType::PointsContainerConstPointer
+    InputPointsContainerConstPointer;
   typedef typename InputMeshType::CellsContainerConstIterator
-      InputCellsContainerConstIterator;
+    InputCellsContainerConstIterator;
+  typedef typename InputMeshType::CellsContainerConstPointer
+    InputCellsContainerConstPointer; 
 
   typedef typename InputMeshType::EdgeCellType    InputEdgeCellType;
   typedef typename InputMeshType::PolygonCellType InputPolygonCellType;
@@ -81,6 +87,10 @@ public:
   typedef typename OutputQEPrimal::IteratorGeom     OutputQEIterator;
   typedef typename OutputMeshType::PointsContainerIterator
       OutputPointsContainerIterator;
+  typedef typename OutputMeshType::PointsContainerPointer
+      OutputPointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainerConstPointer
+      OutputPointsContainerConstPointer;
 
   typedef typename OutputMeshType::PointDataContainer  OutputPointDataContainer;
   typedef typename OutputMeshType::CellDataContainer   OutputCellDataContainer;

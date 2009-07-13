@@ -75,14 +75,19 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   OutputMeshPointer out = this->GetOutput();
 
   // Copy points
-  InputPointsContainerConstIterator inIt = in->GetPoints()->Begin();
-  while( inIt != in->GetPoints()->End() )
+  InputPointsContainerConstPointer inPoints = in->GetPoints();
+
+  if( inPoints )
     {
-    OutputPointType pOut;
-    pOut.CastFrom( inIt.Value() );
-    out->SetPoint( inIt.Index(), pOut );
-    inIt++;
-    } 
+    InputPointsContainerConstIterator inIt = inPoints->Begin();
+    while( inIt != inPoints->End() )
+      {
+      OutputPointType pOut;
+      pOut.CastFrom( inIt.Value() );
+      out->SetPoint( inIt.Index(), pOut );
+      inIt++;
+      } 
+    }
 }
 
 // ---------------------------------------------------------------------
@@ -95,17 +100,21 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   OutputMeshPointer out = this->GetOutput();
 
   // Copy Edge Cells
-  InputCellsContainerConstIterator ecIt = in->GetEdgeCells()->Begin();
-  while( ecIt != in->GetEdgeCells()->End() )
+  InputCellsContainerConstPointer inEdgeCells = in->GetEdgeCells();
+
+  if( inEdgeCells )
     {
-    InputEdgeCellType* pe = 
-      dynamic_cast< InputEdgeCellType* >( ecIt.Value());
-    //if( pe )
+    InputCellsContainerConstIterator ecIt = inEdgeCells->Begin();
+    while( ecIt != inEdgeCells->End() )
       {
-      out->AddEdgeWithSecurePointList( pe->GetQEGeom()->GetOrigin(),
-                                       pe->GetQEGeom()->GetDestination() );
+      InputEdgeCellType* pe = dynamic_cast< InputEdgeCellType* >( ecIt.Value());
+      if( pe )
+        {
+        out->AddEdgeWithSecurePointList( pe->GetQEGeom()->GetOrigin(),
+                                         pe->GetQEGeom()->GetDestination() );
+        }
+      ecIt++;
       }
-    ecIt++;
     }
 }
 
@@ -120,23 +129,27 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   OutputMeshPointer out = this->GetOutput();
 
   // Copy cells
-  InputCellsContainerConstIterator cIt = in->GetCells()->Begin();
-  while( cIt != in->GetCells()->End() )
+  InputCellsContainerConstPointer inCells = in->GetCells();
+
+  if( inCells )
     {
-    InputPolygonCellType* pe = 
-      dynamic_cast< InputPolygonCellType* >( cIt.Value());
-    //if( pe )
+    InputCellsContainerConstIterator cIt = inCells->Begin();
+    while( cIt != inCells->End() )
       {
-      InputPointIdList points;
-      InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
-      while( pit != pe->InternalPointIdsEnd( ) )
+      InputPolygonCellType * pe = dynamic_cast< InputPolygonCellType* >( cIt.Value());
+      if( pe )
         {
-        points.push_back( ( *pit ) );
-        ++pit;
+        InputPointIdList points;
+        InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
+        while( pit != pe->InternalPointIdsEnd( ) )
+          {
+          points.push_back( ( *pit ) );
+          ++pit;
+          }
+        out->AddFaceWithSecurePointList( points, false );
         }
-      out->AddFaceWithSecurePointList( points, false );
+      cIt++;
       }
-    cIt++;
     }
 }
 
@@ -150,10 +163,8 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   InputMeshConstPointer in = this->GetInput();
   OutputMeshPointer out = this->GetOutput();
 
-  typedef typename InputPointDataContainer::ConstPointer  InputPointDataContainerConstPointer;
   typedef typename OutputPointDataContainer::Pointer      OutputPointDataContainerPointer;
 
-std::cout << "INPUT MESH = " << in.GetPointer() << std::endl;
   InputPointDataContainerConstPointer inputPointData = in->GetPointData();
 
   if( inputPointData.IsNull() )
