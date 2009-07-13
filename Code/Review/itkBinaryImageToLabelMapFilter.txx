@@ -241,13 +241,13 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   long nbOfLineIdToJoin = 0;
   if( threadId != nbOfThreads - 1 )
     {
-    SizeType outputRegionForThreadSize = outputRegionForThread.GetSize();
-    outputRegionForThreadSize[splitAxis] -= 1;
-    lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
+    SizeType localRegionSize = outputRegionForThreadSize;
+    localRegionSize[splitAxis] -= 1;
+    lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, localRegionSize ).GetNumberOfPixels() / xsizeForThread;
     m_FirstLineIdToJoin[threadId] = lastLineIdForThread;
     // found the number of line ids to join
     nbOfLineIdToJoin = RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread
-                         - RegionType( outputRegionIdx, outputRegionForThreadSize ).GetNumberOfPixels() / xsizeForThread;
+                         - RegionType( outputRegionIdx, localRegionSize ).GetNumberOfPixels() / xsizeForThread;
     }
 
   for(long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
