@@ -60,34 +60,37 @@ public:
   typedef typename Superclass::InputImagePointer  InputImagePointer;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
-  typedef typename TSourceImage::Pointer      SourceImagePointer;
-  typedef typename TSourceImage::ConstPointer SourceImageConstPointer;
-
   /** Typedef to describe the output and input image region types. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-  typedef typename TInputImage::RegionType  InputImageRegionType;
-  typedef typename TSourceImage::RegionType SourceImageRegionType;
+  typedef TInputImage                           InputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef TSourceImage                          SourceImageType;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename SourceImageType::RegionType  SourceImageRegionType;
+
+  typedef typename SourceImageType::Pointer      SourceImagePointer;
+  typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  typedef typename TSourceImage::PixelType SourceImagePixelType;
+  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  typedef typename InputImageType::PixelType  InputImagePixelType;
+  typedef typename SourceImageType::PixelType SourceImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TOutputImage::SizeType  OutputImageSizeType;
-  typedef typename TInputImage::IndexType  InputImageIndexType;
-  typedef typename TInputImage::SizeType   InputImageSizeType;
-  typedef typename TSourceImage::IndexType SourceImageIndexType;
-  typedef typename TSourceImage::SizeType  SourceImageSizeType;
+  typedef typename OutputImageType::IndexType OutputImageIndexType;
+  typedef typename OutputImageType::SizeType  OutputImageSizeType;
+  typedef typename InputImageType::IndexType  InputImageIndexType;
+  typedef typename InputImageType::SizeType   InputImageSizeType;
+  typedef typename SourceImageType::IndexType SourceImageIndexType;
+  typedef typename SourceImageType::SizeType  SourceImageSizeType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+                      InputImageType::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+                      OutputImageType::ImageDimension);
   itkStaticConstMacro(SourceImageDimension, unsigned int,
-                      TSourceImage::ImageDimension);
+                      SourceImageType::ImageDimension);
 
   /** Set/Get the destination index (where in the first input the second
    * input will be pasted. */
@@ -101,13 +104,13 @@ public:
 
   /** Set/Get the "destination" image.  This is the image that will be
    * obscured by the paste operation. */
-  void SetDestinationImage(TInputImage *dest) { this->SetNthInput(0, dest); }
-  const TInputImage* GetDestinationImage() { return this->GetInput(0); }
+  void SetDestinationImage(const InputImageType *dest);
+  const InputImageType * GetDestinationImage() const;
 
   /** Set/Get the "source" image.  This is the image that will be
    * pasted over the destination image. */
-  void SetSourceImage(TSourceImage *src) { this->SetNthInput(1, src); }
-  const TSourceImage* GetSourceImage() { return this->GetInput(1); }
+  void SetSourceImage(const SourceImageType *src);
+  const SourceImageType * GetSourceImage() const;
   
   /** PasteImageFilter needs to set the input requested regions for its
    * inputs.  The first input's requested region will be set to match
