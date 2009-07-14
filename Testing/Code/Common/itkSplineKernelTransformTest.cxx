@@ -209,6 +209,32 @@ int itkSplineKernelTransformTest(int , char* [] )
     }
   std::cout << std::endl;
 
+  // volume spline transform
+  std::cout << "VS 2D Test:" << std::endl;
+  vs2D->SetSourceLandmarks( sourceLandmarks2D );
+  vs2D->SetTargetLandmarks( targetLandmarks2D );
+
+  vs2D->ComputeWMatrix();
+
+  source2Dit = sourceLandmarks2D->GetPoints()->Begin();
+  target2Dit = targetLandmarks2D->GetPoints()->Begin();
+  
+  source2Dend = sourceLandmarks2D->GetPoints()->End();
+  while( source2Dit != source2Dend )
+    {
+    sourcePoint2D = source2Dit.Value();
+    targetPoint2D = target2Dit.Value();
+    mappedPoint2D = vs2D->TransformPoint(sourcePoint2D);
+    std::cout << sourcePoint2D << " : " << targetPoint2D;
+    std::cout << " warps to: " << mappedPoint2D << std::endl;
+    if( mappedPoint2D.EuclideanDistanceTo( targetPoint2D ) > epsilon )
+      {
+      return EXIT_FAILURE;
+      }
+    source2Dit++;
+    target2Dit++;
+    }
+  std::cout << std::endl;
 
 
    // 3-D case
