@@ -63,7 +63,7 @@ itkImageIOFileNameExtensionsTests.cxx
 itkIOCommonTest.cxx
 itkIOPrintTest.cxx
 itkImageFileReaderTest1.cxx
-itkImageFileReaderTest2.cxx
+itkImageFileReaderDimensionsTest.cxx
 itkImageFileReaderStreamingTest.cxx
 itkImageFileWriterTest.cxx
 itkImageFileWriterTest2.cxx
@@ -271,14 +271,14 @@ ADD_TEST( itkImageFileReaderTest1 ${IO_TESTS}
   itkImageFileReaderTest1 )
 
 ADD_TEST( itkImageFileReaderDimensionsTest_MHD ${IO_TESTS} 
-  itkImageFileReaderTest2
+  itkImageFileReaderDimensionsTest
   ${ITK_DATA_ROOT}/Input/HeadMRVolume.mha
   ${ITK_TEST_OUTPUT_DIR}
   mha
   )
 
 ADD_TEST( itkImageFileReaderDimensionsTest_NRRD ${IO_TESTS} 
-  itkImageFileReaderTest2
+  itkImageFileReaderDimensionsTest
   ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd
   ${ITK_TEST_OUTPUT_DIR}
   nrrd
