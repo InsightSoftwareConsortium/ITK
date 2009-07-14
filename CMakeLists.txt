@@ -513,6 +513,14 @@ IF(UNIX)
   ENDIF(NOT CMAKE_COMPILER_IS_GNUCXX)
 ENDIF(UNIX)
 
+
+#
+#  This line is required for gcc 4.3.3, since ITK uses deprecated header files
+#  by default.
+#
+INCLUDE(TestForANSIStreamHeaders)
+
+
 IF(BORLAND)
     SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -w- -whid -waus -wpar")
     SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w- -whid -waus -wpar")
@@ -746,7 +754,6 @@ MARK_AS_ADVANCED(ITK_COMPUTER_MEMORY_SIZE)
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
-INCLUDE(TestForANSIStreamHeaders)
 CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in 
   ${ITK_BINARY_DIR}/itkConfigure.h)
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
