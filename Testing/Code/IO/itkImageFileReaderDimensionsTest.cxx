@@ -25,7 +25,7 @@
 // This test is designed to test reading and writing of miss matched
 // dimensions
 
-int itkImageFileReaderTest2(int argc, char* argv[])
+int itkImageFileReaderDimensionsTest(int argc, char* argv[])
 {
 
   if (argc < 4)
