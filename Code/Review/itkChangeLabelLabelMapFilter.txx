@@ -79,20 +79,26 @@ void
 ChangeLabelLabelMapFilter<TImage>
 ::GenerateData()
 {
+  this->MoveLabelsToTemporaryArray();
+  this->ChangeBackgroundIfNeeded();
+  this->RestoreLabeObjectsAndChangeLabels();
+}
+
+template <class TImage>
+void
+ChangeLabelLabelMapFilter<TImage>
+::MoveLabelsToTemporaryArray()
+{
   // Allocate the output
   this->AllocateOutputs();
 
   ImageType * output = this->GetOutput();
 
-  typedef typename std::deque< ITK_TYPENAME LabelObjectType::Pointer > VectorType;
-
   ProgressReporter progress( this, 0, 1 );
   // TODO: report the progress
 
   // First remove the ones to change and store them elsewhere to process later
-  VectorType labelObjectsToBeRelabeled;
-
-  typedef typename ChangeMapType::iterator   ChangeMapIterator;
+  this->m_LabelObjectsToBeRelabeled.clear();
 
   ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
 
@@ -104,7 +110,7 @@ ChangeLabelLabelMapFilter<TImage>
       {
       if( output->HasLabel( labelToBeReplaced ) )
         {
-        labelObjectsToBeRelabeled.push_back( output->GetLabelObject( labelToBeReplaced ) );
+        this->m_LabelObjectsToBeRelabeled.push_back( output->GetLabelObject( labelToBeReplaced ) );
         output->RemoveLabel( labelToBeReplaced );
         }
       }
@@ -113,6 +119,14 @@ ChangeLabelLabelMapFilter<TImage>
     pairToReplace++;
     }
     
+}
+
+template <class TImage>
+void
+ChangeLabelLabelMapFilter<TImage>
+::ChangeBackgroundIfNeeded()
+{
+  ImageType * output = this->GetOutput();
 
   // Check if the background is among the list of labels to relabel.
   ChangeMapIterator backgroundLabelItr = m_MapOfLabelToBeReplaced.find( output->GetBackgroundValue() );
@@ -133,13 +147,21 @@ ChangeLabelLabelMapFilter<TImage>
       output->SetBackgroundValue( newLabelForBackground );
       }
     }
+}
 
+
+template <class TImage>
+void
+ChangeLabelLabelMapFilter<TImage>
+::RestoreLabeObjectsAndChangeLabels()
+{
+  ImageType * output = this->GetOutput();
 
   // Put the objects back in the map, with the updated label
   typedef typename VectorType::iterator   LabelObjectIterator;
-  LabelObjectIterator labelObjectItr = labelObjectsToBeRelabeled.begin();
+  LabelObjectIterator labelObjectItr = this->m_LabelObjectsToBeRelabeled.begin();
 
-  while( labelObjectItr != labelObjectsToBeRelabeled.end() )
+  while( labelObjectItr != this->m_LabelObjectsToBeRelabeled.end() )
     {
     LabelObjectType * labelObjectSource = *labelObjectItr;
     PixelType newLabel = m_MapOfLabelToBeReplaced[ labelObjectSource->GetLabel() ];
@@ -191,8 +213,6 @@ ChangeLabelLabelMapFilter<TImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
-
-  typedef typename ChangeMapType::const_iterator   ChangeMapIterator;
 
   ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
 

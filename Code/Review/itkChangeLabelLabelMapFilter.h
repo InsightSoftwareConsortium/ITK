@@ -67,6 +67,7 @@ public:
   itkTypeMacro(ChangeLabelLabelMapFilter, InPlaceLabelMapFilter);
   
   typedef typename std::map< PixelType, PixelType > ChangeMapType;
+  typedef typename ChangeMapType::const_iterator    ChangeMapIterator;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -106,6 +107,14 @@ protected:
 private:
   ChangeLabelLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  void MoveLabelsToTemporaryArray();
+  void ChangeBackgroundIfNeeded();
+  void RestoreLabeObjectsAndChangeLabels();
+
+  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
+
+  VectorType            m_LabelObjectsToBeRelabeled;
 
 }; // end of class
 
