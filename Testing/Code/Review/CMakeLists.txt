@@ -1720,6 +1720,17 @@ ADD_TEST(itkChangeLabelLabelMapFilterTest1
   176  176  # ( Old, New ) Label pair
   )
 
+ADD_TEST(itkChangeLabelLabelMapFilterTest2
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-changed2.mha
+            ${TEMP}/cthead1-label-changed2.mha
+  itkChangeLabelLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-changed2.mha
+   94  100  # ( Old, New ) Label pair
+    0   50  # ( Old, New ) Label pair background
+   92    0
+  )
 
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
