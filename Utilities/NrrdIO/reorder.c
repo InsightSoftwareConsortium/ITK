@@ -22,6 +22,10 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+#if defined(__GNUC__) && (__GNUC__ == 4 && __GNUC_MINOR__ >= 3)
+#pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
+
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
