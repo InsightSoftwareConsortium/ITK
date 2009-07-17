@@ -89,4 +89,10 @@ Updated in version 1.1.0 August 28, 2008
 Recent Updates
 
     - RR added nifti_NBL_matches_nim() check for write_bricks()
+    - HJ added casts to suppress compiler warnings
+    - RR added NIFTI_ECODE_PYPICKLE
+    - RR added NIFTI_ECODEs 18-28 for the LONI MiND group
+    - RR added examples/clib_01_read_write.c as a simple library example
+    - RR allow uppercase extension
+    - RR added 4 checks of alloc() returns
 

@@ -329,6 +329,7 @@ int    nifti_validfilename(const char* fname);
 int    disp_nifti_1_header(const char * info, const nifti_1_header * hp ) ;
 void   nifti_set_debug_level( int level ) ;
 void   nifti_set_skip_blank_ext( int skip ) ;
+void   nifti_set_allow_upper_fext( int allow ) ;
 
 int    valid_nifti_brick_list(nifti_image * nim , int nbricks,
                               const int * blist, int disp_error);
@@ -448,9 +449,20 @@ int    valid_nifti_extensions(const nifti_image *nim);
                                             /~fissell/NIFTI_ECODE_WORKFLOW_FWDS
                                             /NIFTI_ECODE_WORKFLOW_FWDS.html   */
 
-#define NIFTI_ECODE_FREESURFER      14  /* http://surfer.nmr.mgh.harvard.edu */
+#define NIFTI_ECODE_FREESURFER      14  /* http://surfer.nmr.mgh.harvard.edu  */
 
-#define NIFTI_MAX_ECODE             14  /******* maximum extension code *******/
+#define NIFTI_ECODE_PYPICKLE        16  /* embedded Python objects
+                                           http://niftilib.sourceforge.net
+                                                 /pynifti                     */
+
+        /* LONI MiND codes: http://www.loni.ucla.edu/twiki/bin/view/Main/MiND */
+#define NIFTI_ECODE_MIND_IDENT      18  /* Vishal Patel: vishal.patel@ucla.edu*/
+#define NIFTI_ECODE_B_VALUE         20
+#define NIFTI_ECODE_SPHERICAL_DIRECTION 22
+#define NIFTI_ECODE_DT_COMPONENT    24
+#define NIFTI_ECODE_SHC_DEGREEORDER 26  /* end LONI MiND codes                */
+
+#define NIFTI_MAX_ECODE             26  /******* maximum extension code *******/
 
 /* nifti_type file codes */
 #define NIFTI_FTYPE_ANALYZE   0
@@ -465,8 +477,9 @@ int    valid_nifti_extensions(const nifti_image *nim);
 #ifdef _NIFTI1_IO_C_
 
 typedef struct {
-    int debug;               /*!< debug level for status reports */
-    int skip_blank_ext;      /*!< skip extender if no extensions */
+    int debug;               /*!< debug level for status reports  */
+    int skip_blank_ext;      /*!< skip extender if no extensions  */
+    int allow_upper_fext;    /*!< allow uppercase file extensions */
 } nifti_global_options;
 
 typedef struct {

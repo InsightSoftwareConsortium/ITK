@@ -1,5 +1,4 @@
 # Do all regression tests
-PROJECT(REGRESSION_TEST)
 
 SET(NT ${NIFTI_BINARY_DIR}/utils/nifti_tool )
 SET(DATA ${REGRESSION_TEST_BINARY_DIR}/nifti_regress_data)
