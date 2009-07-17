@@ -3216,7 +3216,8 @@ static int fileext_n_compare(const char * test_ext,
 /* return 1 if there are uppercase but no lowercase */
 static int is_uppercase(const char * str)
 {
-   int c, hasupper = 0;
+   size_t c;
+   int hasupper = 0;
 
    if( !str || !*str ) return 0;
 
@@ -3231,7 +3232,8 @@ static int is_uppercase(const char * str)
 /* return 1 if there are both uppercase and lowercase characters */
 static int is_mixedcase(const char * str)
 {
-   int c, hasupper = 0, haslower = 0;
+   size_t c;
+   int hasupper = 0, haslower = 0;
 
    if( !str || !*str ) return 0;
 
@@ -3248,7 +3250,7 @@ static int is_mixedcase(const char * str)
 /* convert any lowercase chars to uppercase */
 static int make_uppercase(char * str)
 {
-   int c;
+   size_t c;
 
    if( !str || !*str ) return 0;
 

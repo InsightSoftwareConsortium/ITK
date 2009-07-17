@@ -1,11 +1,11 @@
 # Do all regression tests
 
 SET(NT ${NIFTI_BINARY_DIR}/utils/nifti_tool )
-SET(DATA ${REGRESSION_TEST_BINARY_DIR}/nifti_regress_data)
-SET(TESTS ${REGRESSION_TEST_SOURCE_DIR}/cmake_testscripts)
+SET(DATA  ${NIFTI_TESTS_BINARY_DIR}/nifti_regress_test/nifti_regress_data)
+SET(TESTS ${NIFTI_TESTS_SOURCE_DIR}/nifti_regress_test/cmake_testscripts)
 
 ADD_TEST(fetch_data
-sh ${TESTS}/fetch_data_test.sh ${REGRESSION_TEST_BINARY_DIR} 
+sh ${TESTS}/fetch_data_test.sh ${NIFTI_TESTS_BINARY_DIR}/nifti_regress_test
 )
 
 ADD_TEST(nifti_ver ${NT} -nifti_ver)
