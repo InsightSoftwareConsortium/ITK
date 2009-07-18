@@ -3263,8 +3263,7 @@ static int make_uppercase(char * str)
 /* convert any uppercase chars to lowercase */
 static int make_lowercase(char * str)
 {
-   int c;
-
+   size_t c;
    if( !str || !*str ) return 0;
 
    for(c = 0; c < strlen(str); c++ )
