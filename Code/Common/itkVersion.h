@@ -28,7 +28,7 @@
 #define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3097 $, $Date: 2009-07-18 02:00:05 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3098 $, $Date: 2009-07-19 02:00:11 $ (GMT)"
 
 namespace itk
 {
