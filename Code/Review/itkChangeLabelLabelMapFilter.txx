@@ -55,7 +55,8 @@ void
 ChangeLabelLabelMapFilter<TImage>
 ::SetChange( const PixelType & oldLabel, const PixelType & newLabel )
 {
-  if( m_MapOfLabelToBeReplaced.find( oldLabel ) == m_MapOfLabelToBeReplaced.end() || m_MapOfLabelToBeReplaced[ oldLabel ] != newLabel )
+  if( m_MapOfLabelToBeReplaced.find( oldLabel ) == m_MapOfLabelToBeReplaced.end() ||
+      m_MapOfLabelToBeReplaced[ oldLabel ] != newLabel )
     {
     m_MapOfLabelToBeReplaced[ oldLabel ] = newLabel;
     this->Modified();
@@ -81,7 +82,7 @@ ChangeLabelLabelMapFilter<TImage>
 {
   this->MoveLabelsToTemporaryArray();
   this->ChangeBackgroundIfNeeded();
-  this->RestoreLabeObjectsAndChangeLabels();
+  this->RestoreLabelObjectsAndChangeLabels();
 }
 
 template <class TImage>
@@ -94,9 +95,9 @@ ChangeLabelLabelMapFilter<TImage>
 
   ImageType * output = this->GetOutput();
 
-  ProgressReporter progress( this, 0, 1 );
-  // TODO: report the progress
-
+  // Report the progress
+  ProgressReporter progress( this, 0, m_MapOfLabelToBeReplaced.size() );
+  
   // First remove the ones to change and store them elsewhere to process later
   this->m_LabelObjectsToBeRelabeled.clear();
 
@@ -115,7 +116,7 @@ ChangeLabelLabelMapFilter<TImage>
         }
       }
 
-    // progress.CompletedPixel();
+    progress.CompletedPixel();
     pairToReplace++;
     }
     
@@ -161,6 +162,8 @@ ChangeLabelLabelMapFilter<TImage>
   typedef typename VectorType::iterator   LabelObjectIterator;
   LabelObjectIterator labelObjectItr = this->m_LabelObjectsToBeRelabeled.begin();
 
+  ProgressReporter progress( this, 0, 1 );
+
   while( labelObjectItr != this->m_LabelObjectsToBeRelabeled.end() )
     {
     LabelObjectType * labelObjectSource = *labelObjectItr;
@@ -201,7 +204,7 @@ ChangeLabelLabelMapFilter<TImage>
       }
     
     // go to the next label object
-    // progress.CompletedPixel();
+    progress.CompletedPixel();
     labelObjectItr++;
     }
 }
