@@ -52,5 +52,15 @@ RelabelLabelMapFilter<TImage>
     }
 }
 
+
+template <class TImage>
+void
+RelabelLabelMapFilter<TImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+}
+
+
 }// end namespace itk
 #endif
