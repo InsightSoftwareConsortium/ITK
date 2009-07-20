@@ -37,7 +37,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "inputLevelSetImage inputFeatureImage ";
     std::cerr << " outputLevelSetImage CurvatureWeight AreaWeight";
-    std::cerr << " LaplacianWeight VolumeWeight Volume" << std::endl;
+    std::cerr << " ReinitializationWeight VolumeWeight Volume" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -46,7 +46,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   double epsilon = 1.;
   double curvature_weight = atof( argv[4] );
   double area_weight = atof( argv[5] );
-  double laplacian_weight = atof( argv[6] );
+  double reinitialization_weight = atof( argv[6] );
   double volume_weight = atof( argv[7] );
   double volume = atof( argv[8] );
   double l1 = 1.;
@@ -102,7 +102,7 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->GetDifferenceFunction(0)->SetDomainFunction( domainFunction );
   levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( curvature_weight );
   levelSetFilter->GetDifferenceFunction(0)->SetAreaWeight( area_weight );
-  levelSetFilter->GetDifferenceFunction(0)->SetLaplacianSmoothingWeight( laplacian_weight );
+  levelSetFilter->GetDifferenceFunction(0)->SetReinitializationSmoothingWeight( reinitialization_weight );
   levelSetFilter->GetDifferenceFunction(0)->SetVolumeMatchingWeight( volume_weight );
   levelSetFilter->GetDifferenceFunction(0)->SetVolume( volume );
   levelSetFilter->GetDifferenceFunction(0)->SetLambda1( l1 );
