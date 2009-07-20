@@ -31,4 +31,6 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryImageToLabelMapFilterTest);
   REGISTER_TEST(itkChangeLabelLabelMapFilterTest);
   REGISTER_TEST(itkLabelMapToBinaryImageFilterTest);
+  REGISTER_TEST(itkRelabelLabelMapFilterTest1);
+
 }

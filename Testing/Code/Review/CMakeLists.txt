@@ -226,6 +226,7 @@ SET(ReviewTest3_SRCS
   itkBinaryImageToLabelMapFilterTest.cxx
   itkLabelMapToBinaryImageFilterTest.cxx
   itkChangeLabelLabelMapFilterTest.cxx
+  itkRelabelLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1731,6 +1732,15 @@ ADD_TEST(itkChangeLabelLabelMapFilterTest2
     0   50  # ( Old, New ) Label pair background
    92    0
   )
+
+ADD_TEST(itkRelabelLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-relabeled.mha
+            ${TEMP}/cthead1-label-relabeled.mha
+  itkRelabelLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-relabeled.mha
+)
 
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
