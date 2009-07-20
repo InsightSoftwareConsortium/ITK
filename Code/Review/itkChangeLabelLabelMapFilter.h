@@ -20,10 +20,9 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include <map>
 
-
 namespace itk {
 /** \class ChangeLabelLabelMapFilter
- * \brief  Replace the label Ids of selected LabelObjects with new label Ids
+ * \brief  Replace the label Ids of selected LabelObjects with new label Ids.
  *
  * This filter takes as input a label map and a list of pairs of Label Ids, to
  * produce as output a new label map where the label Ids have been replaced
