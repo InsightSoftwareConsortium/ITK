@@ -227,6 +227,7 @@ SET(ReviewTest3_SRCS
   itkLabelMapToBinaryImageFilterTest.cxx
   itkChangeLabelLabelMapFilterTest.cxx
   itkRelabelLabelMapFilterTest1.cxx
+  itkShiftScaleLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1740,7 +1741,19 @@ ADD_TEST(itkRelabelLabelMapFilterTest1
   itkRelabelLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/cthead1-label-relabeled.mha
-)
+  )
+
+ADD_TEST(itkShiftScaleLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-shiftscaled.mha
+            ${TEMP}/cthead1-label-shiftscaled.mha
+  itkShiftScaleLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-shiftscaled.mha
+   10   # shift value
+   0.5  # scale value
+   17   # new background
+  )
 
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
