@@ -22,7 +22,7 @@
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
-#include "itkPackLabelMapFilter.h"
+#include "itkRelabelLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkTestingMacros.h"
@@ -52,7 +52,7 @@ int itkRelabelLabelMapFilterTest1(int argc, char * argv[])
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::PackLabelMapFilter< LabelMapType > ChangeType;
+  typedef itk::RelabelLabelMapFilter< LabelMapType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
   itk::SimpleFilterWatcher watcher6(change, "filter");
