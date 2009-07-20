@@ -33,7 +33,7 @@
 int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
 {
 
-  if( argc != 5 )
+  if( argc != 6 )
     {
     std::cerr << "usage: " << argv[0];
     std::cerr << " inputLabelImage outputLabelImage inputBackgroundValue sizeX sizeY" << std::endl;
