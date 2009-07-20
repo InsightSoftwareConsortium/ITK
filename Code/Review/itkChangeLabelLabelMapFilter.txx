@@ -154,7 +154,7 @@ ChangeLabelLabelMapFilter<TImage>
 template <class TImage>
 void
 ChangeLabelLabelMapFilter<TImage>
-::RestoreLabeObjectsAndChangeLabels()
+::RestoreLabelObjectsAndChangeLabels()
 {
   ImageType * output = this->GetOutput();
 

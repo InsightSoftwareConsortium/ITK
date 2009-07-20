@@ -110,7 +110,7 @@ private:
 
   void MoveLabelsToTemporaryArray();
   void ChangeBackgroundIfNeeded();
-  void RestoreLabeObjectsAndChangeLabels();
+  void RestoreLabelObjectsAndChangeLabels();
 
   typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
 
