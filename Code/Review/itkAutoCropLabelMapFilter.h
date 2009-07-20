@@ -103,9 +103,14 @@ private:
   AutoCropLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  SizeType  m_CropBorder;
-  TimeStamp m_CropTimeStamp;
+  void FindBoundingBox();
+  void SetAndPadCropRegion();
 
+  SizeType      m_CropBorder;
+  TimeStamp     m_CropTimeStamp;
+
+  IndexType     m_MinIndex;
+  IndexType     m_MaxIndex;
 };
 
 } // end namespace itk

@@ -33,15 +33,13 @@ AutoCropLabelMapFilter<TInputImage>
 }
 
 template <class TInputImage>
+void
 AutoCropLabelMapFilter<TInputImage>
 ::FindBoundingBox()
 {
-
   // find the bounding box of the objects
-  IndexType mins;
-  mins.Fill( NumericTraits< long >::max() );
-  IndexType maxs;
-  maxs.Fill( NumericTraits< long >::NonpositiveMin() );
+  this->m_MinIndex.Fill( NumericTraits< long >::max() );
+  this->m_MaxIndex.Fill( NumericTraits< long >::NonpositiveMin() );
 
   const InputImageType * inputImage = this->GetInput();
 
@@ -54,8 +52,10 @@ AutoCropLabelMapFilter<TInputImage>
     const LabelObjectType * labelObject = loit->second;
     typename LabelObjectType::LineContainerType::const_iterator lit;
     const typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-    lit = lineContainer.begin()
-    while(lit != lineContainer.end())
+
+    lit = lineContainer.begin();
+
+    while( lit != lineContainer.end() )
       {
       const IndexType & idx = lit->GetIndex();
       unsigned long length = lit->GetLength();
@@ -63,19 +63,19 @@ AutoCropLabelMapFilter<TInputImage>
       // update the mins and maxs
       for( int i=0; i<ImageDimension; i++)
         {
-        if( idx[i] < mins[i] )
+        if( idx[i] < this->m_MinIndex[i] )
           {
-          mins[i] = idx[i];
+          this->m_MinIndex[i] = idx[i];
           }
-        if( idx[i] > maxs[i] )
+        if( idx[i] > this->m_MaxIndex[i] )
           {
-          maxs[i] = idx[i];
+          this->m_MaxIndex[i] = idx[i];
           }
         }
       // must fix the max for the axis 0
-      if( idx[0] + (long)length > maxs[0] )
+      if( idx[0] + (long)length > this->m_MaxIndex[0] )
         {
-        maxs[0] = idx[0] + length - 1;
+        this->m_MaxIndex[0] = idx[0] + length - 1;
         }
       lit++;
       }
@@ -85,9 +85,12 @@ AutoCropLabelMapFilter<TInputImage>
 }
 
 template <class TInputImage>
+void
 AutoCropLabelMapFilter<TInputImage>
 ::SetAndPadCropRegion()
 {
+  const InputImageType * input = this->GetInput();
+
   // prefetch image region and size
   InputImageRegionType cropRegion = input->GetLargestPossibleRegion();
 
@@ -95,9 +98,9 @@ AutoCropLabelMapFilter<TInputImage>
   SizeType regionSize;
   for( int i=0; i<ImageDimension; i++ )
     {
-    regionSize[i] = maxs[i] - mins[i] + 1;
+    regionSize[i] = this->m_MaxIndex[i] - this->m_MinIndex[i] + 1;
     }
-  cropRegion.SetIndex( mins );
+  cropRegion.SetIndex( this->m_MinIndex );
   cropRegion.SetSize( regionSize );
   
   // pad the crop border while ensuring border is not larger than the largest
@@ -110,8 +113,6 @@ AutoCropLabelMapFilter<TInputImage>
   m_CropTimeStamp.Modified();
   
   Superclass::GenerateOutputInformation();
-
-  const InputImageType * input = this->GetInput();
 
   if( !(input->GetMTime() > m_CropTimeStamp) && !(this->GetMTime() > m_CropTimeStamp) )
     {
@@ -142,7 +143,7 @@ AutoCropLabelMapFilter<TInputImage>
 
 template <class TImage>
 void
-ShiftScaleLabelMapFilter<TImage>
+AutoCropLabelMapFilter<TImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
