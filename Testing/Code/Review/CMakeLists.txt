@@ -1752,7 +1752,7 @@ ADD_TEST(itkShiftScaleLabelMapFilterTest1
   ${TEMP}/cthead1-label-shiftscaled.mha
    10   # shift value
    0.5  # scale value
-   17   # new background
+   1    # change background (boolean)
   )
 
 ADD_TEST(itkGridImageSourceTest1
