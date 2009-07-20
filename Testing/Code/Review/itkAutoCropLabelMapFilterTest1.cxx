@@ -30,7 +30,7 @@
 
 #include "itkTestingMacros.h"
 
-int itkAutoCropLabelMapFilter(int argc, char * argv[])
+int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
 {
 
   if( argc != 5 )
@@ -54,13 +54,15 @@ int itkAutoCropLabelMapFilter(int argc, char * argv[])
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::CropLabelMapFilter< LabelMapType > ChangeType;
+  typedef itk::AutoCropLabelMapFilter< LabelMapType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
+
   ChangeType::SizeType size;
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
-  change->SetCropSize( size );
+  change->SetCropBorder( size );
+
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
