@@ -210,7 +210,7 @@ public:
   void SetFixedImageIndexes( const FixedImageIndexContainer & indexes );
 
   /** Set/Get number of threads to use for computations. */
-  itkSetMacro( NumberOfThreads, unsigned int );
+  void SetNumberOfThreads( unsigned int numberOfThreads );
   itkGetConstReferenceMacro( NumberOfThreads, unsigned int );
 
   /** Set/Get gradient computation. */

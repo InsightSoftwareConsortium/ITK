@@ -107,6 +107,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_ThreaderTransform = NULL;
 }
 
+/**
+ * Set the number of threads. This will be clamped by the
+ * multithreader, so we must check to see if it is accepted.
+ */
+template <class TFixedImage, class TMovingImage> 
+void
+ImageToImageMetric<TFixedImage,TMovingImage>
+::SetNumberOfThreads( unsigned int numberOfThreads )
+{
+  m_Threader->SetNumberOfThreads( numberOfThreads);
+  m_NumberOfThreads = m_Threader->GetNumberOfThreads();
+}
 
 /**
  * Set the parameters that define a unique transform
