@@ -60,7 +60,8 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   change->SetInput( i2l->GetOutput() );
   change->SetShift( atof(argv[3]) );
   change->SetScale( atof(argv[4]) );
-  change->SetChangeBackgroundValue( atoi(argv[5]) );
+  bool changeBackground = atoi(argv[5]);
+  change->SetChangeBackgroundValue( changeBackground ); 
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
