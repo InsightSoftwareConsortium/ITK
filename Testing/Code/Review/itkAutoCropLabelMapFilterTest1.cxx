@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAutoCropMapFilterTest1.cxx
+  Module:    itkAutoCropLabelMapFilterTest1.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -25,7 +25,7 @@
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
-#include "itkCropLabelMapFilter.h"
+#include "itkAutoCropLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkTestingMacros.h"
