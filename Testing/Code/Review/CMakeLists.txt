@@ -1763,8 +1763,9 @@ ADD_TEST(itkAutoCropLabelMapFilterTest1
   itkAutoCropLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/cthead1-label-autocrop.mha
-  8  # border size
-  8  # border size
+  176  # Value to use as background of input image
+  4    # border size
+  4    # border size
   )
 
 ADD_TEST(itkGridImageSourceTest1

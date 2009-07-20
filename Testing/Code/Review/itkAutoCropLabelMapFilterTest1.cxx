@@ -35,16 +35,18 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
 
   if( argc != 5 )
     {
-    std::cerr << "usage: " << argv[0] << " input output size0 size1" << std::endl;
+    std::cerr << "usage: " << argv[0];
+    std::cerr << " inputLabelImage outputLabelImage inputBackgroundValue sizeX sizeY" << std::endl;
     return EXIT_FAILURE;
     }
 
   const unsigned int dim = 2;
+  typedef unsigned char   PixelType;
   
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< PixelType, dim > ImageType;
 
-  typedef itk::LabelObject< unsigned char, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >       LabelMapType;
+  typedef itk::LabelObject< PixelType, dim > LabelObjectType;
+  typedef itk::LabelMap< LabelObjectType >   LabelMapType;
   
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -54,15 +56,21 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
+  PixelType backgroundValue = atoi( argv[3] );
+
+  i2l->SetBackgroundValue( backgroundValue );
+
   typedef itk::AutoCropLabelMapFilter< LabelMapType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
 
+
   ChangeType::SizeType size;
-  size[0] = atoi( argv[3] );
-  size[1] = atoi( argv[4] );
+  size[0] = atoi( argv[4] );
+  size[1] = atoi( argv[5] );
   change->SetCropBorder( size );
 
+  
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
