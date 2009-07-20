@@ -57,7 +57,7 @@ namespace itk {
  *      http://www.insight-journal.org/browse/publication/323
  *      http://hdl.handle.net/1926/1533
  *
- * NOTE: The convention followed is 
+ * NOTE: The convention followed is
  * inside of the level-set function is negative and outside is positive.
  */
 template < class TInput, // LevelSetImageType
@@ -116,6 +116,7 @@ public:
     ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
 
     ScalarValueType m_GradMagSqr;
+    ScalarValueType m_GradMag;
 
     ScalarValueType m_MaxCurvatureChange;
     ScalarValueType m_MaxGlobalChange;
@@ -196,7 +197,7 @@ public:
   virtual const FeatureImageType *GetFeatureImage() const
     { return m_FeatureImage.GetPointer(); }
   virtual void SetFeatureImage(const FeatureImageType *f)
-    { 
+    {
     m_FeatureImage = f;
 
     FeatureSpacingType spacing = m_FeatureImage->GetSpacing();
@@ -237,10 +238,10 @@ public:
     { return m_CurvatureWeight; }
 
   /** Weight of the laplacian smoothing term */
-  void SetLaplacianSmoothingWeight(const ScalarValueType c)
-    { m_LaplacianSmoothingWeight = c; }
-  ScalarValueType GetLaplacianSmoothingWeight() const
-    { return m_LaplacianSmoothingWeight; }
+  void SetReinitializationSmoothingWeight(const ScalarValueType c)
+    { m_ReinitializationSmoothingWeight = c; }
+  ScalarValueType GetReinitializationSmoothingWeight() const
+    { return m_ReinitializationSmoothingWeight; }
 
   /** Volume matching weight.  */
   void SetVolumeMatchingWeight( const ScalarValueType& tau )
@@ -261,7 +262,7 @@ public:
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
   { delete (GlobalDataStruct *) GlobalData; }
 
-  virtual ScalarValueType ComputeCurvatureTerm(const NeighborhoodType &,
+  virtual ScalarValueType ComputeCurvature(const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct *gd );
 
   /** \brief Laplacian smoothing speed can be used to spatially modify the
@@ -314,7 +315,7 @@ protected:
   ScalarValueType           m_CurvatureWeight;
 
   /** Laplacian Regularization Weight */
-  ScalarValueType           m_LaplacianSmoothingWeight;
+  ScalarValueType           m_ReinitializationSmoothingWeight;
 
   unsigned int              m_FunctionId;
 
@@ -372,8 +373,6 @@ protected:
   YEAR = "2005",
   PAGES = "I: 430-436"}
   \endverbatim  */
-  ScalarValueType ComputeLaplacianTerm( const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct *gd  );
 
   /** \brief Compute the laplacian
   \return \f$ \Delta \phi \f$ */

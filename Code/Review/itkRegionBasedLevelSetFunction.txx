@@ -51,7 +51,7 @@ RegionBasedLevelSetFunction< TInput,
   m_OverlapPenaltyWeight = NumericTraits<ScalarValueType>::Zero;
   m_AreaWeight = NumericTraits<ScalarValueType>::Zero;
   m_VolumeMatchingWeight = NumericTraits<ScalarValueType>::Zero;
-  m_LaplacianSmoothingWeight = NumericTraits<ScalarValueType>::Zero;
+  m_ReinitializationSmoothingWeight = NumericTraits<ScalarValueType>::Zero;
   m_CurvatureWeight = NumericTraits<ScalarValueType>::Zero;
   m_Volume = NumericTraits<ScalarValueType>::Zero;
 
@@ -173,12 +173,12 @@ typename RegionBasedLevelSetFunction< TInput,
 ScalarValueType
 RegionBasedLevelSetFunction< TInput,
   TFeature, TSharedData >::
-ComputeCurvatureTerm(
+ComputeCurvature(
   const NeighborhoodType &itkNotUsed(neighborhood),
   const FloatOffsetType &itkNotUsed(offset), GlobalDataStruct *gd)
 {
   // Calculate the mean curvature
-  ScalarValueType curvature_term = NumericTraits<ScalarValueType>::Zero;
+  ScalarValueType curvature = NumericTraits<ScalarValueType>::Zero;
 
   unsigned int i, j;
 
@@ -188,15 +188,15 @@ ComputeCurvatureTerm(
       {
       if(j != i)
         {
-        curvature_term -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
-        curvature_term += gd->m_dxy[j][j] * gd->m_dx[i] * gd->m_dx[i];
+        curvature -= gd->m_dx[i] * gd->m_dx[j] * gd->m_dxy[i][j];
+        curvature += gd->m_dxy[j][j] * gd->m_dx[i] * gd->m_dx[i];
         }
       }
     }
 
-  if( gd->m_GradMagSqr > vnl_math::eps )
+  if( gd->m_GradMag > vnl_math::eps )
     {
-    return (curvature_term / gd->m_GradMagSqr );
+    return (curvature / vcl_sqrt( gd->m_GradMag * gd->m_GradMag * gd->m_GradMag ) );
     }
   else
     {
@@ -216,6 +216,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   const ScalarValueType inputValue = it.GetCenterPixel();
 
   gd->m_GradMagSqr = 0.;
+  gd->m_GradMag = 0.;
   unsigned int i, j;
 
   for (i = 0; i < ImageDimension; i++)
@@ -225,16 +226,16 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     const unsigned int positionB =
       static_cast< unsigned int >( this->m_Center - this->m_xStride[i] );
 
-    gd->m_dx[i] = 0.5 * ( this->m_InvSpacing[i] ) * 
+    gd->m_dx[i] = 0.5 * ( this->m_InvSpacing[i] ) *
       ( it.GetPixel( positionA ) - it.GetPixel( positionB ) );
-    gd->m_dx_forward[i]  = ( this->m_InvSpacing[i] ) * 
+    gd->m_dx_forward[i]  = ( this->m_InvSpacing[i] ) *
       ( it.GetPixel( positionA ) - inputValue );
-    gd->m_dx_backward[i] = ( this->m_InvSpacing[i] ) * 
+    gd->m_dx_backward[i] = ( this->m_InvSpacing[i] ) *
       ( inputValue - it.GetPixel( positionB ) );
 
     gd->m_GradMagSqr += gd->m_dx[i] * gd->m_dx[i];
 
-    gd->m_dxy[i][i] = ( this->m_InvSpacing[i] ) * 
+    gd->m_dxy[i][i] = ( this->m_InvSpacing[i] ) *
       ( gd->m_dx_forward[i] - gd->m_dx_backward[i] );
 
     for (j = i+1; j < ImageDimension; j++ )
@@ -248,12 +249,13 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       const unsigned int positionDa = static_cast<unsigned int>(
         this->m_Center + this->m_xStride[i] + this->m_xStride[j] );
 
-      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 * 
-       ( this->m_InvSpacing[i] ) * ( this->m_InvSpacing[j] ) * 
+      gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 *
+       ( this->m_InvSpacing[i] ) * ( this->m_InvSpacing[j] ) *
        ( it.GetPixel( positionAa ) - it.GetPixel( positionBa ) +
         it.GetPixel( positionDa ) - it.GetPixel( positionCa ) );
       }
     }
+  gd->m_GradMag = vcl_sqrt( gd->m_GradMagSqr );
 }
 
 template < class TInput,
@@ -284,14 +286,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   if ( ( dh != 0. ) &&
     ( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::Zero ) )
     {
-    //NOTE: Why the curvature_term is multiplied by gd->m_GradMagSqr?
-    //NOTE: in ComputeCurvatureTerm the result has been divided by gd->m_GradMagSqr...
-    //NOTE: According to the definition of the mean curavture it must not be, so
-    // I commented this product
-    curvature = this->ComputeCurvatureTerm( it, offset, gd );
-    curvature_term *= this->m_CurvatureWeight * //gd->m_GradMagSqr *
-      this->CurvatureSpeed(it, offset) *
-      dh;
+    curvature = this->ComputeCurvature( it, offset, gd );
+    curvature_term = this->m_CurvatureWeight * curvature *
+      this->CurvatureSpeed(it,offset, gd) * dh;
 
     gd->m_MaxCurvatureChange =
       vnl_math_max( gd->m_MaxCurvatureChange, vnl_math_abs( curvature_term ) );
@@ -299,19 +296,11 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   // Computing the laplacian term
   // Used in maintaining squared distance function
-  if( this->m_LaplacianSmoothingWeight != NumericTraits<ScalarValueType>::Zero)
+  if( this->m_ReinitializationSmoothingWeight != NumericTraits<ScalarValueType>::Zero)
     {
-    if( this->m_CurvatureWeight != NumericTraits< ScalarValueType >::Zero )
-      {
-      laplacian_term = this->ComputeLaplacian( gd ) - curvature;
-      }
-    else
-      {
-      laplacian_term = this->ComputeLaplacianTerm( it, offset, gd );
-      }
-    // Use the laplacian to maintain signed distance function
+    laplacian_term = this->ComputeLaplacian( gd ) - curvature;
 
-    laplacian_term *= this->m_LaplacianSmoothingWeight *
+    laplacian_term *= this->m_ReinitializationSmoothingWeight *
       this->LaplacianSmoothingSpeed(it,offset, gd);
     }
 
@@ -337,19 +326,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 
   return updateVal;
-}
-
-template < class TInput, class TFeature, class TSharedData >
-typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::ScalarValueType
-RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
-::ComputeLaplacianTerm( const NeighborhoodType &neighborhood,
-  const FloatOffsetType &offset, GlobalDataStruct *gd )
-{
-  ScalarValueType laplacian = ComputeLaplacian( gd );
-  ScalarValueType curvature = ComputeCurvatureTerm( neighborhood, offset, gd );
-
-  return laplacian - curvature;
 }
 
 
