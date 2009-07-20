@@ -65,6 +65,7 @@ int itkRelabelLabelMapFilterTest1(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );
+  writer->UseCompressionOn();
   
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
