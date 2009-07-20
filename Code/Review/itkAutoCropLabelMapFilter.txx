@@ -33,13 +33,47 @@ AutoCropLabelMapFilter<TInputImage>
 }
 
 template <class TInputImage>
+void 
+AutoCropLabelMapFilter<TInputImage>
+::GenerateOutputInformation()
+{
+
+  const InputImageType * input = this->GetInput();
+
+  //
+  // FIXME: This way of implementing a GenerateOutputInformation() method is suspicious.
+  //        Needs to be revisited.
+  //
+  if( !(input->GetMTime() > m_CropTimeStamp) && !(this->GetMTime() > m_CropTimeStamp) )
+    {
+    // early exit, crop sizes already computed
+    return;
+    }
+ 
+  // update the input if needed
+  if( input->GetSource() )
+    {
+    ProcessObject * upstream = input->GetSource();
+    if (upstream)
+      {
+      upstream->Update();
+      }
+    }
+
+  this->FindBoundingBox();
+  this->SetAndPadCropRegion();
+}
+
+template <class TInputImage>
 void
 AutoCropLabelMapFilter<TInputImage>
 ::FindBoundingBox()
 {
+  typedef typename InputImageType::IndexValueType IndexValueType;
+
   // find the bounding box of the objects
-  this->m_MinIndex.Fill( NumericTraits< long >::max() );
-  this->m_MaxIndex.Fill( NumericTraits< long >::NonpositiveMin() );
+  this->m_MinIndex.Fill( NumericTraits< IndexValueType >::max() );
+  this->m_MaxIndex.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
 
   const InputImageType * inputImage = this->GetInput();
 
@@ -58,7 +92,7 @@ AutoCropLabelMapFilter<TInputImage>
     while( lit != lineContainer.end() )
       {
       const IndexType & idx = lit->GetIndex();
-      unsigned long length = lit->GetLength();
+      IndexValueType length = lit->GetLength();
   
       // update the mins and maxs
       for( int i=0; i<ImageDimension; i++)
@@ -73,7 +107,7 @@ AutoCropLabelMapFilter<TInputImage>
           }
         }
       // must fix the max for the axis 0
-      if( idx[0] + (long)length > this->m_MaxIndex[0] )
+      if( idx[0] + (IndexValueType)length > this->m_MaxIndex[0] )
         {
         this->m_MaxIndex[0] = idx[0] + length - 1;
         }
@@ -114,31 +148,7 @@ AutoCropLabelMapFilter<TInputImage>
   
   Superclass::GenerateOutputInformation();
 
-  if( !(input->GetMTime() > m_CropTimeStamp) && !(this->GetMTime() > m_CropTimeStamp) )
-    {
-    // early exit, crop sizes already computed
-    return;
-    }
-    
-  // update the input if needed
-  if( input->GetSource() )
-    {
-    ProcessObject * upstream = input->GetSource();
-    if (upstream)
-      {
-      upstream->Update();
-      }
-    }
-
-}
-
-template <class TInputImage>
-void 
-AutoCropLabelMapFilter<TInputImage>
-::GenerateOutputInformation()
-{
-  FindBoundingBox();
-  SetAndPadCropRegion();
+   
 }
 
 template <class TImage>
@@ -150,6 +160,8 @@ AutoCropLabelMapFilter<TImage>
 
   os << indent << "Crop Border: "  << m_CropBorder << std::endl;
   os << indent << "Crop Time Stamp: "  << m_CropTimeStamp << std::endl;
+  os << indent << "Min Indexes : "  << m_MinIndex << std::endl;
+  os << indent << "Max Indexes : "  << m_MaxIndex << std::endl;
 }
 
 } // end namespace itk
