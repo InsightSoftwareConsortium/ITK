@@ -228,6 +228,7 @@ SET(ReviewTest3_SRCS
   itkChangeLabelLabelMapFilterTest.cxx
   itkRelabelLabelMapFilterTest1.cxx
   itkShiftScaleLabelMapFilterTest1.cxx
+  itkAutoCropLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1753,6 +1754,17 @@ ADD_TEST(itkShiftScaleLabelMapFilterTest1
    10   # shift value
    0.5  # scale value
    1    # change background (boolean)
+  )
+
+ADD_TEST(itkAutoCropLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-autocrop.mha
+            ${TEMP}/cthead1-label-autocrop.mha
+  itkAutoCropLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-autocrop.mha
+  8  # border size
+  8  # border size
   )
 
 ADD_TEST(itkGridImageSourceTest1
