@@ -1776,10 +1776,8 @@ ADD_TEST(itkChangeRegionLabelMapFilterTest1
   itkChangeRegionLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/cthead1-label-changeregion.mha
-  12  # index 1
-  8   # index 2
-  50  # size 1 
-  90  # size 2
+  50  100  # Start Index 
+  120 150  # Size
   )
 
 ADD_TEST(itkGridImageSourceTest1
