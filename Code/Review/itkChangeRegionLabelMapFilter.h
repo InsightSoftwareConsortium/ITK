@@ -89,7 +89,7 @@ protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
-  virtual void ThreadedGenerateData( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
   
   void GenerateInputRequestedRegion();
 

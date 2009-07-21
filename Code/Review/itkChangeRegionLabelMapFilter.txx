@@ -81,7 +81,7 @@ ChangeRegionLabelMapFilter<TInputImage>
 template<class TInputImage>
 void
 ChangeRegionLabelMapFilter<TInputImage>
-::ThreadedGenerateData( LabelObjectType * labelObject )
+::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
   typename InputImageType::LabelObjectType::LineContainerType lineContainer = labelObject->GetLineContainer();
