@@ -48,7 +48,6 @@ ChangeRegionLabelMapFilter<TInputImage>
 {
   Superclass::GenerateOutputInformation();
   this->GetOutput()->SetLargestPossibleRegion( m_Region );
-//  std::cout << "ChangeRegionLabelMapFilter::GenerateOutputInformation(): " << this->GetOutput()->GetLargestPossibleRegion() << std::endl;
 }
 
 template <class TInputImage>
@@ -65,12 +64,9 @@ void
 ChangeRegionLabelMapFilter<TInputImage>
 ::GenerateData()
 {
-//  std::cout << "ChangeRegionLabelMapFilter::GenerateData(): " << this->GetOutput()->GetLargestPossibleRegion() << std::endl;
-
   if( m_Region.IsInside( this->GetInput()->GetLargestPossibleRegion() ) )
     {
-    // only copy the image, and do nothing much
-    // oh, we have to pretend we have a progress !
+    // only copy the image, report progress anyway
     ProgressReporter progress( this, 0, 1 );
     this->AllocateOutputs();
     }
@@ -90,7 +86,6 @@ ChangeRegionLabelMapFilter<TInputImage>
   typename InputImageType::LabelObjectType::LineContainerType::const_iterator lit;
   typename InputImageType::LabelObjectType::LineContainerType lineContainer = labelObject->GetLineContainer();
   labelObject->GetLineContainer().clear();
-//   std::cout << "lineContainer.size(): " << lineContainer.size() << std::endl;
   
   IndexType idxMin = m_Region.GetIndex();
   IndexType idxMax;
@@ -98,8 +93,6 @@ ChangeRegionLabelMapFilter<TInputImage>
     {
     idxMax[i] = idxMin[i] + m_Region.GetSize()[i] - 1;
     }
-//   std::cout << "idxMin: " << idxMin << std::endl;
-//   std::cout << "idxMax: " << idxMax << std::endl;
 
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
@@ -136,7 +129,6 @@ ChangeRegionLabelMapFilter<TInputImage>
         labelObject->AddLine( newIdx, newLength );
         }
       }
-  
     }
 
   // remove the object if it is empty
@@ -146,7 +138,6 @@ ChangeRegionLabelMapFilter<TInputImage>
     this->GetOutput()->RemoveLabelObject( labelObject );
     this->m_LabelObjectContainerLock->Unlock();
     }
-
 }
 
 template<class TInputImage>

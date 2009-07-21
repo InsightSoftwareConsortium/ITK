@@ -26,11 +26,10 @@ namespace itk
 {
   
 /** \class ChangeRegionLabelMapFilter
- * \brief Change the region of a label map
+ * \brief Change the region of a label map.
  *
- * Change the region of a label map. If the output can't contain some lines of
- * the objects, they are truncated, or remove. All the objects fully outside the
- * output region are removed.
+ * Change the region of a label map. If the output can't contain some of the objects' lines
+ * they are truncated or removed. All objects fully outside the output region are removed.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -76,12 +75,9 @@ public:
   typedef TInputImage TOutputImage;
   
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** The output region to use */
   itkSetMacro(Region, OutputImageRegionType);
@@ -106,7 +102,7 @@ protected:
 private:
   ChangeRegionLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  
   OutputImageRegionType m_Region;
 
 };
