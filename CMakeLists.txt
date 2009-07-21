@@ -294,11 +294,39 @@ MARK_AS_ADVANCED(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION)
 # ITK_INSTALL_NO_DOCUMENTATION - do not install documentation files
 
 IF(NOT ITK_INSTALL_BIN_DIR)
+  # Solaris: unlike libraries, 64 bit executables should be installed in "bin${sun64}" only
+  # if the 32 version is installed in  "bin/sparcv7" or "bin/i86", and a isaexec
+  # is copied in "bin" with the name of the executable, so the system can choose the best
+  # executable. If only a 32 or 64 bit version is available, the executable should go in
+  # bin. So it seems better to let the packagers deal with that.
+  # Ref: http://docs.sun.com/app/docs/doc/816-5138/dev-env-13?a=view
   SET(ITK_INSTALL_BIN_DIR "/bin")
 ENDIF(NOT ITK_INSTALL_BIN_DIR)
 
 IF(NOT ITK_INSTALL_LIB_DIR)
-  SET(ITK_INSTALL_LIB_DIR "/lib/InsightToolkit")
+  # 64 bit libraries are not installed in the same directories on solaris
+  # Ref: http://docs.sun.com/app/docs/doc/816-5138/6mba6ua5m?a=view
+  SET(sun64 )
+  IF(CMAKE_SYSTEM MATCHES "SunOS.*" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+    EXEC_PROGRAM("uname"
+      ARGS "-p"
+      OUTPUT_VARIABLE sunproc
+    )
+    IF("${sunproc}" STREQUAL "sparc")
+      SET(sun64 "/sparcv9")
+    ENDIF("${sunproc}" STREQUAL "sparc")
+
+    IF("${sunproc}" STREQUAL "i386")
+      SET(sun64 "/amd64")
+    ENDIF("${sunproc}" STREQUAL "i386")
+
+    IF("${sun64}" STREQUAL "")
+      # sun64 is not set - solaris has been ported to a new architecture?
+      MESSAGE("Warning: Unknown processor '${sunproc}'. The libraries may not be installed in the right place.")
+    ENDIF("${sun64}" STREQUAL "")
+  ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*" AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+  SET(ITK_INSTALL_LIB_DIR "/lib/InsightToolkit${sun64}")
 ENDIF(NOT ITK_INSTALL_LIB_DIR)
 
 IF(NOT ITK_INSTALL_DATA_DIR)
@@ -875,3 +903,4 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
     ENDIF("${COMP_OPTION}" STREQUAL "-ffloat-store")
   ENDFOREACH(COMP_OPTION)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
