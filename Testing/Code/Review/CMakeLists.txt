@@ -231,6 +231,7 @@ SET(ReviewTest3_SRCS
   itkAutoCropLabelMapFilterTest1.cxx
   itkChangeRegionLabelMapFilterTest1.cxx
   itkMergeLabelMapFilterTest1.cxx
+  itkCropLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1787,9 +1788,20 @@ ADD_TEST(itkMergeLabelMapFilterTest1a
             ${TEMP}/cthead1-label-merge_keep.mha
   itkMergeLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
-  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1Label.png  #TODO replace with merge image
   ${TEMP}/cthead1-label-merge_keep.mha
   1    # Keep Method
+  )
+
+ADD_TEST(itkCropLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-crop.mha
+            ${TEMP}/cthead1-label-crop.mha
+  itkCropLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-crop.mha
+  40    # Horizontal left and right crop border
+  50    # Vertical upper and lower crop border
   )
 
 ADD_TEST(itkGridImageSourceTest1
