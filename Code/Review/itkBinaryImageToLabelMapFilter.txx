@@ -95,9 +95,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   this->m_Barrier = Barrier::New();
   this->m_Barrier->Initialize( nbOfThreads );
 
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount/xsize;
   m_LineMap.resize( linecount );
   m_FirstLineIdToJoin.resize( nbOfThreads - 1 );
 }
@@ -121,9 +121,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   inLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  long pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  long xsizeForThread = outputRegionForThread.GetSize()[0];
-  long linecountForThread = pixelcountForThread/xsizeForThread;
+  SizeValueType pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
+  SizeValueType linecountForThread = pixelcountForThread/xsizeForThread;
   ProgressReporter progress(this, threadId, linecountForThread);
 
   // find the split axis
@@ -142,8 +142,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   // compute the number of pixels before that threads
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  long firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
-  long lineId = firstLineIdForThread;
+  SizeValueType firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+  SizeValueType lineId = firstLineIdForThread;
 
   OffsetVectorType LineOffsets;
   SetupLineOffsets(LineOffsets);
@@ -233,11 +233,11 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // now process the map and make appropriate entries in an equivalence
   // table
   // assert( linecount == m_LineMap.size() );
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount/xsize;
 
-  long lastLineIdForThread =  linecount;
+  SizeValueType lastLineIdForThread =  linecount;
   long nbOfLineIdToJoin = 0;
   if( threadId != nbOfThreads - 1 )
     {
@@ -250,14 +250,14 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
                          - RegionType( outputRegionIdx, localRegionSize ).GetNumberOfPixels() / xsizeForThread;
     }
 
-  for(long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
+  for(SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
     {
     if( !m_LineMap[ThisIdx].empty() )
       {
       OffsetVectorType::const_iterator I = LineOffsets.begin();
       while( I != LineOffsets.end() )
         {
-        long NeighIdx = ThisIdx + (*I);
+        SizeValueType NeighIdx = ThisIdx + (*I);
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
@@ -279,10 +279,11 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 
   while( m_FirstLineIdToJoin.size() != 0 )
     {
-    if( threadId * 2 < (long)m_FirstLineIdToJoin.size() )
+    const SizeValueType threadChunk = 2 * threadId;
+    if( threadChunk < (SizeValueType)m_FirstLineIdToJoin.size() )
       {
-      for(long ThisIdx = m_FirstLineIdToJoin[threadId * 2];
-          ThisIdx < m_FirstLineIdToJoin[threadId * 2] + nbOfLineIdToJoin;
+      for(SizeValueType ThisIdx = m_FirstLineIdToJoin[threadChunk];
+          ThisIdx < m_FirstLineIdToJoin[threadChunk] + nbOfLineIdToJoin;
           ++ThisIdx)
         {
         if( !m_LineMap[ThisIdx].empty() )
@@ -290,7 +291,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
           OffsetVectorType::const_iterator I = LineOffsets.begin();
           while( I != LineOffsets.end() )
             {
-            long NeighIdx = ThisIdx + (*I);
+            SizeValueType NeighIdx = ThisIdx + (*I);
             // check if the neighbor is in the map
             if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
               {
@@ -314,8 +315,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     if( threadId == 0 )
       {
       // remove the region already joined
-      typename std::vector< long > newFirstLineIdToJoin;
-      for( int i = 1; i < (long)m_FirstLineIdToJoin.size(); i += 2 )
+      typename std::vector< SizeValueType > newFirstLineIdToJoin;
+      for( SizeValueType i = 1; i < (SizeValueType)m_FirstLineIdToJoin.size(); i += 2 )
         {
         newFirstLineIdToJoin.push_back( m_FirstLineIdToJoin[i] );
         }
@@ -335,9 +336,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 {
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount/xsize;
   unsigned long int totalLabs = CreateConsecutive();
   ProgressReporter progress(this, 0, linecount);
   // check for overflow exception here
@@ -348,16 +349,18 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
       << "Number of objects greater than maximum of output pixel type " );
     }
 
-  for (long ThisIdx = 0; ThisIdx<linecount; ThisIdx++)
+  for (SizeValueType ThisIdx = 0; ThisIdx<linecount; ThisIdx++)
     {
     // now fill the labelled sections
-    typename lineEncoding::const_iterator cIt;
+    typedef typename lineEncoding::const_iterator LineIterator;
 
-    for (cIt = m_LineMap[ThisIdx].begin();cIt != m_LineMap[ThisIdx].end();++cIt)
+    LineIterator cIt = m_LineMap[ThisIdx].begin();
+    while( cIt != m_LineMap[ThisIdx].end() )
       {
-      unsigned long Ilab = LookupSet( cIt->label);
+      SizeValueType Ilab = LookupSet( cIt->label);
       OutputPixelType lab = m_Consecutive[Ilab];
       output->SetLine( cIt->where, cIt->length, lab );
+      ++cIt;
       }
     progress.CompletedPixel();
     }
@@ -418,7 +421,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   typename LineNeighborhoodType::IndexListType::const_iterator LI;
   
   PretendIndexType idx = LineRegion.GetIndex();
-  long offset = fakeImage->ComputeOffset( idx );
+  OffsetValueType offset = fakeImage->ComputeOffset( idx );
 
   for (LI=ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++)
     {
@@ -455,7 +458,7 @@ void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CompareLines(lineEncoding &current, const lineEncoding &Neighbour)
 {
-  long offset = 0;
+  OffsetValueType offset = 0;
   if (m_FullyConnected)
     {
     offset = 1;
@@ -469,14 +472,14 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   for (cIt = current.begin();cIt != current.end();++cIt)
     {
     //runLength cL = *cIt;
-    long cStart = cIt->where[0];  // the start x position
-    long cLast = cStart + cIt->length - 1;
+    OffsetValueType cStart = cIt->where[0];  // the start x position
+    OffsetValueType cLast = cStart + cIt->length - 1;
 
     for (nIt=mIt; nIt != Neighbour.end(); ++nIt)
       {
       //runLength nL = *nIt;
-      long nStart = nIt->where[0];
-      long nLast = nStart + nIt->length - 1;
+      OffsetValueType nStart = nIt->where[0];
+      OffsetValueType nLast = nStart + nIt->length - 1;
       // there are a few ways that neighbouring lines might overlap
       //   neighbor      S                  E
       //   current    S                        E
@@ -490,10 +493,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
       //   neighbor      S                  E
       //   current             S       E
       //------------------------------------------
-      long ss1 = nStart - offset;
-      // long ss2 = nStart + offset;
-      long ee1 = nLast - offset;
-      long ee2 = nLast + offset;
+      OffsetValueType ss1 = nStart - offset;
+      // OffsetValueType ss2 = nStart + offset;
+      OffsetValueType ee1 = nLast - offset;
+      OffsetValueType ee2 = nLast + offset;
       bool eq = false;
       // the logic here can probably be improved a lot
       if ((ss1 >= cStart) && (ee2 <= cLast))

@@ -83,8 +83,10 @@ public:
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
+  typedef typename TOutputImage::PixelType        OutputPixelType;
+  typedef typename TInputImage::PixelType         InputPixelType;
+  typedef typename TInputImage::SizeValueType     SizeValueType;
+  typedef typename TInputImage::OffsetValueType   OffsetValueType;
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
@@ -226,13 +228,13 @@ private:
   OutputPixelType                   m_OutputBackgroundValue;
   InputPixelType                    m_InputForegroundValue;
 
-  unsigned long                     m_NumberOfObjects;
+  SizeValueType                     m_NumberOfObjects;
 
   bool                              m_FullyConnected;
   
-  typename std::vector< long >      m_NumberOfLabels;
-  typename std::vector< long >      m_FirstLineIdToJoin;
-  typename Barrier::Pointer         m_Barrier;
+  typename std::vector< SizeValueType >   m_NumberOfLabels;
+  typename std::vector< SizeValueType >   m_FirstLineIdToJoin;
+  typename Barrier::Pointer               m_Barrier;
 
 #if !defined(CABLE_CONFIGURATION)
   LineMapType                       m_LineMap;
