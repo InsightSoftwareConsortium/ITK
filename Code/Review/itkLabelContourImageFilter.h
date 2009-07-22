@@ -84,11 +84,13 @@ public:
   /**
    * Image typedef support
    */
-  typedef TInputImage                       InputImageType;
-  typedef typename TInputImage::IndexType   IndexType;
-  typedef typename TInputImage::SizeType    SizeType;
-  typedef typename TInputImage::OffsetType  OffsetType;
-  typedef typename TInputImage::PixelType   InputImagePixelType;
+  typedef TInputImage                           InputImageType;
+  typedef typename TInputImage::IndexType       IndexType;
+  typedef typename TInputImage::SizeType        SizeType;
+  typedef typename TInputImage::OffsetType      OffsetType;
+  typedef typename TInputImage::PixelType       InputImagePixelType;
+  typedef typename TInputImage::SizeValueType   SizeValueType;
+  typedef typename TInputImage::OffsetValueType OffsetValueType;
 
   typedef TOutputImage                      OutputImageType;
   typedef typename TOutputImage::RegionType RegionType;

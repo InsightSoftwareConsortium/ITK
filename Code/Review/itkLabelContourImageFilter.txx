@@ -67,7 +67,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
 
-  long nbOfThreads = this->GetNumberOfThreads();
+  unsigned long nbOfThreads = this->GetNumberOfThreads();
   if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
     nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
@@ -80,9 +80,9 @@ LabelContourImageFilter< TInputImage, TOutputImage>
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize( nbOfThreads );
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount/xsize;
   m_LineMap.clear();
   m_LineMap.resize( linecount );
   m_NumberOfThreads = nbOfThreads;
@@ -110,9 +110,9 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   outLineIt.SetDirection(0);
 
   // set the progress reporter to deal with the number of lines
-  long pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
-  long xsizeForThread = outputRegionForThread.GetSize()[0];
-  long linecountForThread = pixelcountForThread/xsizeForThread;
+  SizeValueType pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
+  SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
+  SizeValueType linecountForThread = pixelcountForThread/xsizeForThread;
   ProgressReporter progress(this, threadId, linecountForThread * 2);
 
   // find the split axis
@@ -130,8 +130,8 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   // compute the number of pixels before that thread
   SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  long firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
-  long lineId = firstLineIdForThread;
+  SizeValueType firstLineIdForThread = RegionType( outputRegionIdx, outputRegionSize ).GetNumberOfPixels() / xsizeForThread;
+  SizeValueType lineId = firstLineIdForThread;
 
   OffsetVec LineOffsets;
   SetupLineOffsets(LineOffsets);
@@ -149,7 +149,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
       InputPixelType PVal = inLineIt.Get();
 
       runLength thisRun;
-      long length=0;
+      SizeValueType length=0;
       IndexType thisIndex;
       thisIndex = inLineIt.GetIndex();
       //std::cout << thisIndex << std::endl;
@@ -184,24 +184,24 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   // now process the map and make appropriate entries in an equivalence
   // table
   // assert( linecount == m_ForegroundLineMap.size() );
-  long pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  long xsize = output->GetRequestedRegion().GetSize()[0];
-  long linecount = pixelcount/xsize;
+  SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
+  SizeValueType linecount = pixelcount/xsize;
 
-  long lastLineIdForThread =  linecount;
+  SizeValueType lastLineIdForThread =  linecount;
   if( threadId != m_NumberOfThreads - 1 )
     {
     lastLineIdForThread = firstLineIdForThread + RegionType( outputRegionIdx, outputRegionForThread.GetSize() ).GetNumberOfPixels() / xsizeForThread;
     }
 
-  for(long ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
+  for(SizeValueType ThisIdx = firstLineIdForThread; ThisIdx < lastLineIdForThread; ++ThisIdx)
     {
     if( !m_LineMap[ThisIdx].empty() )
       {
       for (OffsetVec::const_iterator I = LineOffsets.begin();
            I != LineOffsets.end(); ++I)
         {
-        long NeighIdx = ThisIdx + (*I);
+        SizeValueType NeighIdx = ThisIdx + (*I);
         // check if the neighbor is in the map
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
@@ -276,7 +276,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   typename LineNeighborhoodType::IndexListType::const_iterator LI;
   
   PretendIndexType idx = LineRegion.GetIndex();
-  long offset = fakeImage->ComputeOffset( idx );
+  OffsetValueType offset = fakeImage->ComputeOffset( idx );
 
   for (LI=ActiveIndexes.begin(); LI != ActiveIndexes.end(); LI++)
     {
@@ -324,7 +324,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
       }
     }
 
-  long offset = 0;
+  OffsetValueType offset = 0;
   if (m_FullyConnected || sameLine)
     {
     offset = 1;
@@ -345,8 +345,8 @@ LabelContourImageFilter< TInputImage, TOutputImage>
       continue;
       }
     //runLength cL = *cIt;
-    long cStart = cIt->where[0];  // the start x position
-    long cLast = cStart + cIt->length - 1;
+    OffsetValueType cStart = cIt->where[0];  // the start x position
+    OffsetValueType cLast = cStart + cIt->length - 1;
     bool lineCompleted = false;
     for (nIt=mIt; nIt != Neighbour.end() && !lineCompleted; ++nIt)
       {
@@ -356,8 +356,8 @@ LabelContourImageFilter< TInputImage, TOutputImage>
         }
 
       //runLength nL = *nIt;
-      long nStart = nIt->where[0];
-      long nLast = nStart + nIt->length - 1;
+      OffsetValueType nStart = nIt->where[0];
+      OffsetValueType nLast = nStart + nIt->length - 1;
       // there are a few ways that neighbouring lines might overlap
       //   neighbor      S------------------E
       //   current    S------------------------E
@@ -371,13 +371,13 @@ LabelContourImageFilter< TInputImage, TOutputImage>
       //   neighbor      S------------------E
       //   current             S-------E
       //-------------
-      long ss1 = nStart - offset;
-      // long ss2 = nStart + offset;
-      // long ee1 = nLast - offset;
-      long ee2 = nLast + offset;
+      OffsetValueType ss1 = nStart - offset;
+      // OffsetValueType ss2 = nStart + offset;
+      // OffsetValueType ee1 = nLast - offset;
+      OffsetValueType ee2 = nLast + offset;
       bool eq = false;
-      long oStart = 0;
-      long oLast = 0;
+      OffsetValueType oStart = 0;
+      OffsetValueType oLast = 0;
       // the logic here can probably be improved a lot
       if ((ss1 >= cStart) && (ee2 <= cLast))
         {
