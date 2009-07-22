@@ -230,6 +230,7 @@ SET(ReviewTest3_SRCS
   itkShiftScaleLabelMapFilterTest1.cxx
   itkAutoCropLabelMapFilterTest1.cxx
   itkChangeRegionLabelMapFilterTest1.cxx
+  itkMergeLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1778,6 +1779,17 @@ ADD_TEST(itkChangeRegionLabelMapFilterTest1
   ${TEMP}/cthead1-label-changeregion.mha
   50  100  # Start Index 
   120 150  # Size
+  )
+
+ADD_TEST(itkMergeLabelMapFilterTest1a
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-merge_keep.mha
+            ${TEMP}/cthead1-label-merge_keep.mha
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-merge_keep.mha
+  1    # Keep Method
   )
 
 ADD_TEST(itkGridImageSourceTest1
