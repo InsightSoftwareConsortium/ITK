@@ -87,5 +87,5 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
    
   i2l->Print( std::cout );
 
-  return 0;
+  return EXIT_SUCCESS;
 }
