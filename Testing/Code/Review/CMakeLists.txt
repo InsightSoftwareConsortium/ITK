@@ -1823,7 +1823,7 @@ ADD_TEST(itkRegionFromReferenceLabelMapFilterTest1
             ${TEMP}/cthead1-label-regionreference.mha
   itkRegionFromReferenceLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
-  ${INPUTDATA}/cthead1.png  #TODO replace with reference image
+  ${INPUTDATA}/circle.png  #TODO replace with reference image
   ${TEMP}/cthead1-label-regionreference.mha
   )
 
