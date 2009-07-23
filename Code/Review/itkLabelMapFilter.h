@@ -46,7 +46,9 @@ namespace itk
  * \ingroup LabeledImageFilters
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT LabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT LabelMapFilter :
+public
+ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
@@ -54,7 +56,6 @@ public:
   typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
   typedef SmartPointer<Self>                             Pointer;
   typedef SmartPointer<const Self>                       ConstPointer;
-  
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelMapFilter,ImageToImageFilter);
@@ -77,10 +78,8 @@ public:
   typedef typename OutputImageType::PixelType      OutputImagePixelType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** LabelMapFilter requires the entire input to be
    * available. Thus, it needs to provide an implementation of

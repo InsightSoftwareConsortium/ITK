@@ -26,9 +26,6 @@
 namespace itk
 {
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 LabelMapFilter<TInputImage, TOutputImage>
 ::LabelMapFilter()
@@ -36,9 +33,6 @@ LabelMapFilter<TInputImage, TOutputImage>
   m_Progress = NULL;
 }
 
-/**
- *
- */
 template <class TInputImage, class TOutputImage>
 LabelMapFilter<TInputImage, TOutputImage>
 ::~LabelMapFilter()
@@ -74,8 +68,7 @@ void
 LabelMapFilter<TInputImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
 
