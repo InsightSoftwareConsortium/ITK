@@ -37,4 +37,6 @@ void RegisterTests()
   REGISTER_TEST(itkChangeRegionLabelMapFilterTest1);
   REGISTER_TEST(itkMergeLabelMapFilterTest1);  
   REGISTER_TEST(itkCropLabelMapFilterTest1);
+  REGISTER_TEST(itkPadLabelMapFilterTest1);  
+  REGISTER_TEST(itkRegionFromReferenceLabelMapFilterTest1);  
 }

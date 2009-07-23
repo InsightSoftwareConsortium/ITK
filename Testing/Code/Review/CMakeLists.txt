@@ -232,6 +232,8 @@ SET(ReviewTest3_SRCS
   itkChangeRegionLabelMapFilterTest1.cxx
   itkMergeLabelMapFilterTest1.cxx
   itkCropLabelMapFilterTest1.cxx
+  itkPadLabelMapFilterTest1.cxx
+  itkRegionFromReferenceLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1803,6 +1805,28 @@ ADD_TEST(itkCropLabelMapFilterTest1
   40    # Horizontal left and right crop border
   50    # Vertical upper and lower crop border
   )
+
+ADD_TEST(itkPadLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-pad.mha
+            ${TEMP}/cthead1-label-pad.mha
+  itkPadLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-pad.mha
+  40    # Horizontal left and right pad border 
+  50    # Vertical upper and lower pad border 
+  )
+
+ADD_TEST(itkRegionFromReferenceLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-regionreference.mha
+            ${TEMP}/cthead1-label-regionreference.mha
+  itkRegionFromReferenceLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1.png  #TODO replace with reference image
+  ${TEMP}/cthead1-label-regionreference.mha
+  )
+
 
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
