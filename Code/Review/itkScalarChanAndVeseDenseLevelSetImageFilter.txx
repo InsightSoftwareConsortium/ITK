@@ -35,9 +35,9 @@ Initialize()
   const FeatureImageType * featureImage = this->GetFeatureImage();
 
   // Set the feature image for the individual level-set functions
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++)
+  for( unsigned int fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    InputImagePointer input = this->m_LevelSet[i];
+    InputImagePointer input = this->m_LevelSet[fId];
     const InputPointType origin = input->GetOrigin();
 
     // In the context of the global coordinates
@@ -57,7 +57,7 @@ Initialize()
 
     // Assign roi output
     FeatureImagePointer feature = roi->GetOutput();
-    this->m_DifferenceFunctions[i]->SetFeatureImage( feature );
+    this->m_DifferenceFunctions[fId]->SetFeatureImage( feature );
     }
 
   // Initialize the function count in shared data
@@ -69,14 +69,14 @@ Initialize()
     this->m_SharedData->SetKdTree( this->m_KdTree );
     }
 
-  for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for ( unsigned int fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_DifferenceFunctions[i]->SetFunctionId( i );
+    this->m_DifferenceFunctions[fId]->SetFunctionId( fId );
 
-    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage ( i, this->m_LevelSet[i] );
+    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage ( fId, this->m_LevelSet[fId] );
 
     // Share the this->m_SharedData structure
-    this->m_DifferenceFunctions[i]->SetSharedData( this->m_SharedData );
+    this->m_DifferenceFunctions[fId]->SetSharedData( this->m_SharedData );
     }
 
   this->m_SharedData->AllocateListImage( this->GetFeatureImage() );
@@ -100,15 +100,15 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputP
 {
   this->Superclass::InitializeIteration();
 
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( unsigned int fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_DifferenceFunctions[i]->SetInitialImage( this->m_LevelSet[i] );
-    this->m_DifferenceFunctions[i]->UpdateSharedData ( true );
+    this->m_DifferenceFunctions[fId]->SetInitialImage( this->m_LevelSet[fId] );
+    this->m_DifferenceFunctions[fId]->UpdateSharedData ( true );
     }
 
-  for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+  for( unsigned int fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_DifferenceFunctions[i]->UpdateSharedData ( false );
+    this->m_DifferenceFunctions[fId]->UpdateSharedData ( false );
     }
 
 }

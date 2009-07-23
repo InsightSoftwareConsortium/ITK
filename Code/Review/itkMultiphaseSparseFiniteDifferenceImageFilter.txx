@@ -30,23 +30,24 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 {
   TimeStepType minTimeStep = NumericTraits< TimeStepType >::max();
 
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_CurrentFunctionIndex = i;
+    this->m_CurrentFunctionIndex = fId;
 
-    const FiniteDifferenceFunctionPointer df = this->m_DifferenceFunctions[i];
+    const FiniteDifferenceFunctionPointer df = this->m_DifferenceFunctions[fId];
 
-    SparseDataStruct *sparsePtr = this->m_SparseData[i];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     FiniteDifferenceFunctionFloatOffsetType offset;
     ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
       backwardValue, centerValue;
     const ValueType MIN_NORM      = 1.0e-6;
+
     void *globalData = df->GetGlobalDataPointer();
 
     NeighborhoodIterator<OutputImageType> outputIt ( df->GetRadius(),
-      this->m_LevelSet[this->m_CurrentFunctionIndex],
-      this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion() );
+
     TimeStepType timeStep;
 
     if( m_BoundsCheckingActive == false )
@@ -57,9 +58,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     sparsePtr->m_UpdateBuffer.clear();
     sparsePtr->m_UpdateBuffer.reserve ( sparsePtr->m_Layers[0]->Size() );
 
-    // Calculates the update values for the active layer indicies in this
-    // iteration.  Iterates through the active layer index list, applying
-    // the level set function to the output image (level set image) at each
+    // Calculates the update values for the active layer indices in this
+    // iteration.  Iterates through the active layer index list by evaluating
+    // the update to the output image (level set image) at each
     // index.  Update values are stored in the update buffer.
     LayerConstIterator layerIt = sparsePtr->m_Layers[0]->Begin();
 
@@ -69,11 +70,13 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       {
       outputIt.SetLocation ( layerIt->m_Value );
 
+      centerValue = outputIt.GetCenterPixel();
+
       // Calculate the offset to the surface from the center of this
       // neighborhood.  This is used by some level set functions in sampling a
       // speed, advection, or curvature term.
       if ( this->GetInterpolateSurfaceLocation()
-        && ( centerValue = outputIt.GetCenterPixel() ) != 0.0 )
+        && centerValue != 0.0 )
         {
         // Surface is at the zero crossing, so distance to surface is:
         // phi(x) / norm(grad(phi)), where phi(x) is the center of the
@@ -151,7 +154,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       minTimeStep = timeStep;
       }
     }
-  minTimeStep = 0.2; //FIXME finally assined to a constant
+
+  minTimeStep = 0.2; //FIXME finally assigned to a constant
+
   return minTimeStep;
 }
 
@@ -165,11 +170,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 {
   unsigned int j, k;
 
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_CurrentFunctionIndex = i;
+    this->m_CurrentFunctionIndex = fId;
 
-    SparseDataStruct *sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
     unsigned int t;
 
     StatusType up_to, up_search;
@@ -177,6 +182,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 
     LayerPointerType UpList[2];
     LayerPointerType DownList[2];
+
     for ( j = 0; j < 2; ++j )
       {
       UpList[j]   = LayerType::New();
@@ -184,7 +190,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       }
 
     // Process the active layer.  This step will update the values in the
-    //active
+    // active
     // layer as well as the values at indices that *will* become part of the
     // active layer when they are promoted/demoted.  Also records promotions,
     // demotions in the m_StatusLayer for current active layer indices
@@ -246,6 +252,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     // which has already been updated).
     this->PropagateAllLayerValues();
     }
+
   this->m_CurrentFunctionIndex = 0;
 }
 
@@ -868,8 +875,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
     // is important. DO NOT DELETE.
     sparsePtr->m_ShiftedImage = OutputImageType::New();
     sparsePtr->m_ShiftedImage->SetRegions( input->GetRequestedRegion() );
-    sparsePtr->m_ShiftedImage->Allocate();
     sparsePtr->m_ShiftedImage->CopyInformation( input );
+    sparsePtr->m_ShiftedImage->Allocate();
 
     // Copy input to ShiftedImage
     // TODO: Is there a better way to do this??
@@ -920,51 +927,49 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::Initialize()
 {
-  IdCellType functionIndex;
-
-  for ( functionIndex = 0; functionIndex < this->m_FunctionCount;
-    functionIndex++ )
+  for ( IdCellType  fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
-
-    unsigned int i;
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     // Allocate the status image.
     sparsePtr->m_StatusImage = StatusImageType::New();
     sparsePtr->m_StatusImage->SetRegions (
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId]->GetRequestedRegion() );
+    sparsePtr->m_StatusImage->CopyInformation( this->m_LevelSet[fId] );
     sparsePtr->m_StatusImage->Allocate();
     sparsePtr->m_StatusImage->FillBuffer( m_StatusNull );//NonpositiveMin
 
     // Initialize the boundary pixels in the status image to
     // m_StatusBoundaryPixel values.  Uses the face calculator to find all of
     // the region faces.
-    typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType > BFCType;
-
     BFCType faceCalculator;
     typename BFCType::FaceListType faceList;
-    typename BFCType::SizeType sz;
+
+    // Set the difference function radius here
+    typename BFCType::SizeType sz = this->m_DifferenceFunctions[fId]->GetRadius();
     typename BFCType::FaceListType::iterator fit;
 
-    sz.Fill ( 1 ); // Set the difference function radius here
+    // Compute the boundary pixel regions set in a container
     faceList = faceCalculator ( sparsePtr->m_StatusImage,
       sparsePtr->m_StatusImage->GetRequestedRegion(), sz );
-    fit = faceList.begin();
 
+    // Iterate over the boundary region sets
+    fit = faceList.begin();
     for( ++fit; fit != faceList.end(); ++fit )
       {
+      // For each region, set the pixel in m_StatusImage to m_StatusBoundaryPixel
       ImageRegionIterator<StatusImageType> statusIt( sparsePtr->m_StatusImage, *fit );
 
       statusIt.GoToBegin();
       while( ! statusIt.IsAtEnd() )
         {
-        statusIt.Set ( m_StatusBoundaryPixel );// -4 : FIXME: What does "-4" means here ?
+        statusIt.Set ( m_StatusBoundaryPixel );
         ++statusIt;
         }
       }
 
-    // Erase all existing layer lists.
-    for ( i = 0; i < sparsePtr->m_Layers.size(); ++i )
+    // Erase all existing layer lists -- element by element
+    for ( unsigned int i = 0; i < sparsePtr->m_Layers.size(); ++i )
       {
       while ( ! sparsePtr->m_Layers[i]->Empty() )
         {
@@ -991,17 +996,20 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     }
 
   // Construct the active layer and initialize the first layers inside and
-  // outside of the active layer.
+  // outside of the active layer
   this->ConstructActiveLayer();
 
-  for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     // Construct the rest of the non-active set layers using the first two
     // layers. Inside layers are odd numbers, outside layers are even numbers.
+    // We need to loop from i = 1 to m_Layers.size()-2 since the last two layers
+    // are constructed in the previous iteration
     for ( unsigned int i = 1; i < sparsePtr->m_Layers.size() - 2; ++i )
       {
+      // Construct layer i+2 from layer i. Note that layer i+1 is on the other side
       this->ConstructLayer( sparsePtr, i, i+2 );
       }
     }
@@ -1017,13 +1025,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   // calculations, but is useful for presenting a more intuitive output to the
   // filter.  See PostProcessOutput method for more information.
   this->InitializeBackgroundPixels();
-
-
-  //   for ( functionIndex = 0; functionIndex < this->m_FunctionCount; functionIndex++ )
-  //     {
-  //     // Delete status image
-  //     this->m_SparseData[functionIndex]->m_ShiftedImage->Delete();
-  //     }
 }
 
 template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
@@ -1031,32 +1032,30 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundPixels()
 {
-  for ( IdCellType functionIndex = 0; functionIndex < this->m_FunctionCount;
-    functionIndex++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     // Assign background pixels OUTSIDE the sparse field layers to a new level
-    // set
-    // with value greater than the outermost layer.  Assign background pixels
+    // set with value greater than the outermost layer.  Assign background pixels
     // INSIDE the sparse field layers to a new level set with value less than
     // the innermost layer.
     const ValueType max_layer = static_cast<ValueType> ( this->m_NumberOfLayers );
 
-    const ValueType outside_value  = max_layer + m_ConstantGradientValue;
-    const ValueType inside_value = - ( max_layer + m_ConstantGradientValue );
+    const ValueType outside_value  = max_layer + 1;
+    const ValueType inside_value = - ( max_layer + 1 );
 
     ImageRegionConstIterator<StatusImageType> statusIt (
       sparsePtr->m_StatusImage,
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     ImageRegionIterator<OutputImageType> outputIt (
-      this->m_LevelSet[functionIndex],
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId],
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     ImageRegionIterator<OutputImageType> shiftedIt (
       sparsePtr->m_ShiftedImage,
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     outputIt.GoToBegin();
     shiftedIt.GoToBegin();
@@ -1089,10 +1088,9 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::ConstructActiveLayer()
 {
-  for ( IdCellType functionIndex = 0; functionIndex < this->m_FunctionCount;
-    functionIndex++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[functionIndex];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     //  We find the active layer by searching for 0's in the zero crossing
     //  image (output image).  The first inside and outside layers are also
@@ -1105,21 +1103,20 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     //  location. If this is the case, then we need to do active bounds
     //  checking in the solver.
 
-    unsigned int i;
     NeighborhoodIterator< OutputImageType >
       outputIt ( sparsePtr->m_NeighborList.GetRadius(),
-      this->m_LevelSet[functionIndex],
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId],
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     NeighborhoodIterator< StatusImageType >
       statusIt ( sparsePtr->m_NeighborList.GetRadius(),
       sparsePtr->m_StatusImage,
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     NeighborhoodIterator< OutputImageType >
       shiftedIt ( sparsePtr->m_NeighborList.GetRadius(),
       sparsePtr->m_ShiftedImage,
-      this->m_LevelSet[functionIndex]->GetRequestedRegion() );
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     OutputIndexType center_index, offset_index;
     LayerNodeType *node;
@@ -1129,13 +1126,15 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
     OutputIndexType lowerBounds;
     OutputSizeType upperBounds;
-    lowerBounds = this->m_LevelSet[functionIndex]->GetRequestedRegion().GetIndex();
-    upperBounds = this->m_LevelSet[functionIndex]->GetRequestedRegion().GetSize();
+    lowerBounds = this->m_LevelSet[fId]->GetRequestedRegion().GetIndex();
+    upperBounds = this->m_LevelSet[fId]->GetRequestedRegion().GetSize();
 
+    // Iterate over the output image
     outputIt.GoToBegin();
-
     while( !outputIt.IsAtEnd() )
       {
+      // Check if the center pixel has a value 0. This is usually rare since
+      // the surface mostly will not pass through the pixel.
       if ( outputIt.GetCenterPixel() == m_ValueZero )
         {
         // Grab the neighborhood in the status image.
@@ -1144,7 +1143,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
         // Check to see if any of the sparse field touches a boundary.  If so,
         // then activate bounds checking.
-        for ( i = 0; i < ImageDimension; i++ )
+        for ( unsigned int i = 0; i < ImageDimension; i++ )
           {
           if ( ( center_index[i] + static_cast< long > (
             this->m_NumberOfLayers ) >= static_cast< long>( upperBounds[i] - 1 ) )
@@ -1169,10 +1168,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
         // Search the neighborhood pixels for first inside & outside layer
         // members.  Construct these lists and set status list values.
-        for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+        for ( unsigned int i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
           {
           offset_index = center_index + sparsePtr->m_NeighborList.GetNeighborhoodOffset ( i );
 
+          // If the neighborhood pixel is not on the active layer
+          // determine its sign to assign to outside or inside layers
           if ( outputIt.GetPixel( sparsePtr->m_NeighborList.GetArrayIndex( i ) ) != m_ValueZero )
             {
             value = shiftedIt.GetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ) );
@@ -1210,9 +1211,10 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 {
   LayerNodeType *node;
   bool boundary_status;
+
   typename LayerType::ConstIterator fromIt;
-  NeighborhoodIterator<StatusImageType>
-  statusIt ( sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
+  NeighborhoodIterator<StatusImageType> statusIt (
+    sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
     this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion() );
 
   // For all indices in the "from" layer...
@@ -1226,6 +1228,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     statusIt.SetLocation ( fromIt->m_Value );
     for ( unsigned int i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
       {
+      // If the pixel is not a boundary pixel or belongs to another layer
       if ( statusIt.GetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ) ) == m_StatusNull )
         {
         statusIt.SetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ), to, boundary_status );
@@ -1246,9 +1249,9 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::AllocateUpdateBuffer()
 {
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
-    SparseDataStruct *sparsePtr = this->m_SparseData[i];
+    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     // Preallocate the update buffer.  NOTE: There is currently no way to
     // downsize a std::vector. This means that the update buffer will grow
@@ -1274,26 +1277,23 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
   // Initialize layer values using the active layer as seeds.
   this->PropagateAllLayerValues();
 
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
-    InputImagePointer input = this->m_LevelSet[i];
+    InputImagePointer input = this->m_LevelSet[fId];
     InputPointType origin = input->GetOrigin();
     InputSpacingType spacing = input->GetSpacing();
 
     // Local iterator
-    ImageRegionIterator< InputImageType > inIt ( this->m_LevelSet[i],
-      this->m_LevelSet[i]->GetLargestPossibleRegion() );
+    ImageRegionIterator< InputImageType > inIt ( this->m_LevelSet[fId],
+      this->m_LevelSet[fId]->GetRequestedRegion() );
 
     // In the context of the global coordinates
     OutputIndexType start;
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      start[j] = static_cast<OutputIndexValueType>( origin[j]/spacing[j] );
-      }
+    output->TransformPhysicalPointToIndex( origin, start );
 
     // Defining sub-region in the global coordinates
     OutputRegionType region;
-    region.SetSize( input->GetLargestPossibleRegion().GetSize() );
+    region.SetSize( input->GetRequestedRegion().GetSize() );
     region.SetIndex( start );
 
     if ( !input || !output )
@@ -1303,7 +1303,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
 
     ImageRegionIterator< OutputImageType > outIt ( output, region );
 
-    OutputPixelType p = static_cast<OutputPixelType> ( this->m_Lookup[i] );
+    OutputPixelType p = static_cast<OutputPixelType> ( this->m_Lookup[fId] );
 
     inIt.GoToBegin();
     outIt.GoToBegin();

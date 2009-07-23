@@ -126,7 +126,7 @@ public:
 
   virtual const FeatureImageType * GetFeatureImage() const
     {
-    return (static_cast< const FeatureImageType*>(this->ProcessObject::GetInput(0)));
+    return (static_cast< const FeatureImageType*>( this->ProcessObject::GetInput(0)) );
     }
 
 protected:

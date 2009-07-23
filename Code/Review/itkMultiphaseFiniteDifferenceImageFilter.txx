@@ -90,8 +90,8 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 
   while ( ! this->Halt() )
     {
-    /* An optional method for precalculating global values, or setting
-    up for the next iteration*/
+    // An optional method for precalculating global values, or setting
+    // up for the next iteration
     this->InitializeIteration();
 
     dt = this->CalculateChange();

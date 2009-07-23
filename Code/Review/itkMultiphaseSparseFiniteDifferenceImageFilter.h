@@ -257,6 +257,8 @@ public:
   typedef typename ZeroCrossingFilterType::Pointer
     ZeroCrossingFilterPointer;
 
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType > BFCType;
+
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
   typedef ObjectStore< LayerNodeType >            LayerNodeStorageType;
@@ -357,7 +359,7 @@ protected:
     /** Storage for layer node objects. */
     LayerNodeStoragePointer m_LayerNodeStore;
 
-    /** The update buffer used to store change values computed in
+    /** The update buffer used to store a vector of change values computed in
     *  CalculateChange. */
     UpdateBufferType m_UpdateBuffer;
 
@@ -442,7 +444,7 @@ to);
   void PropagateFunctionLayerValues( unsigned int functionIndex );
 
   /** Updates the active layer values using m_UpdateBuffer. Also creates an
-   *  "up" and "down" list for promotion/demotion of indicies leaving the
+   *  "up" and "down" list for promotion/demotion of indices leaving the
    *  active set. */
   void UpdateActiveLayerValues( TimeStepType dt, LayerType *StatusUpList,
     LayerType *StatusDownList );
