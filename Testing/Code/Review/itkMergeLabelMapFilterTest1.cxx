@@ -63,6 +63,12 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   typedef ChangeType::MethodChoice MethodChoice;
   MethodChoice method = static_cast<MethodChoice>( atoi( argv[4] ) );
 
+  change->SetMethod( ChangeType::STRICT );
+  TEST_SET_GET_VALUE( ChangeType::STRICT, change->GetMethod() );
+
+  change->SetMethod( ChangeType::KEEP );
+  TEST_SET_GET_VALUE( ChangeType::KEEP, change->GetMethod() );
+
   change->SetMethod( method ); 
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
