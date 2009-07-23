@@ -100,9 +100,11 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
 
-  // Test if the file exists and if it can be open.
+  // Test if the file exists and if it can be opened.
   // An exception will be thrown otherwise.
-  //
+  // We catch the exception because some ImageIO's may not actually
+  // open a file. Still reports file error if no ImageIO is loaded.
+
   try
     {
     m_ExceptionMessage = "";
@@ -111,7 +113,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   catch(itk::ExceptionObject &err)
     {
     m_ExceptionMessage = err.GetDescription();
-    throw err;
     }
 
   if ( m_UserSpecifiedImageIO == false ) //try creating via factory
@@ -365,13 +366,22 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
   // allocated the output image to the size of the enlarge requested region
   this->AllocateOutputs();
 
-  // Test if the file exist and if it can be open.
-  // an exception will be thrown otherwise, since we can't
-  // successfully read the file. (actually this is called in
-  // GenerateOutputInformation and is most likely not needed, but
-  // perhaps the files system changed since that was called)
-  this->TestFileExistanceAndReadability();
- 
+  // Test if the file exists and if it can be opened.
+  // An exception will be thrown otherwise, since we can't
+  // successfully read the file. We catch the exception because some
+  // ImageIO's may not actually open a file. Still
+  // reports file error if no ImageIO is loaded.
+
+  try
+    {
+    m_ExceptionMessage = "";
+    this->TestFileExistanceAndReadability();
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    m_ExceptionMessage = err.GetDescription();
+    }
+
   // Tell the ImageIO to read the file
   m_ImageIO->SetFileName(m_FileName.c_str());
 
