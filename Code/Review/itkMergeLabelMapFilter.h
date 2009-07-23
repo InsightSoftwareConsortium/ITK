@@ -75,7 +75,7 @@ public:
     KEEP = 0,
     AGGREGATE = 1,
     PACK = 2,
-    STRICT = 3,
+    STRICT = 3
   } MethodChoice;
 
   itkSetMacro( Method, MethodChoice );
