@@ -30,18 +30,15 @@ TFunction, TSharedData, TIdCell >::
 Initialize()
 {
   // Set the feature image for the individual level-set functions
-  for( IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    InputImagePointer input = this->m_LevelSet[i];
+    InputImagePointer input = this->m_LevelSet[fId];
     InputPointType origin = input->GetOrigin();
     InputSpacingType spacing = input->GetSpacing();
 
     // In the context of the global coordinates
     FeatureIndexType start;
-    for( unsigned int j = 0; j < ImageDimension; j++ )
-      {
-      start[j] = static_cast<FeatureIndexValueType>( origin[j]/spacing[j] );
-      }
+    this->GetFeatureImage()->TransformPhysicalPointToIndex( origin, start );
 
     // Defining roi region
     FeatureRegionType region;
@@ -56,8 +53,8 @@ Initialize()
 
     // Assign roi output
     FeatureImagePtr feature = roi->GetOutput();
-    this->m_DifferenceFunctions[i]->SetFeatureImage( feature );
-    this->m_DifferenceFunctions[i]->SetInitialImage( input );
+    this->m_DifferenceFunctions[fId]->SetFeatureImage( feature );
+    this->m_DifferenceFunctions[fId]->SetInitialImage( input );
     }
 
   // Initialize the function count in m_SharedData
@@ -69,13 +66,13 @@ Initialize()
     this->m_SharedData->SetKdTree( this->m_KdTree );
     }
 
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    FunctionPtr typedPointer = this->m_DifferenceFunctions[i];
+    FunctionPtr typedPointer = this->m_DifferenceFunctions[fId];
 
-    typedPointer->SetFunctionId( i );
+    typedPointer->SetFunctionId( fId );
 
-    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage ( i, this->m_LevelSet[i] );
+    this->m_SharedData->CreateHeavisideFunctionOfLevelSetImage ( fId, this->m_LevelSet[fId] );
 
     // Share the m_SharedData structure
     typedPointer->SetSharedData( this->m_SharedData );
@@ -87,14 +84,14 @@ Initialize()
 
   Superclass::Initialize();
 
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_DifferenceFunctions[i]->UpdateSharedData(true);
+    this->m_DifferenceFunctions[fId]->UpdateSharedData(true);
     }
 
-  for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
-    this->m_DifferenceFunctions[i]->UpdateSharedData( false );
+    this->m_DifferenceFunctions[fId]->UpdateSharedData( false );
     }
 }
 
@@ -109,9 +106,9 @@ InitializeIteration()
 {
   Superclass::InitializeIteration();
 
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
     {
-    this->m_DifferenceFunctions[i]->UpdateSharedData( false );
+    this->m_DifferenceFunctions[fId]->UpdateSharedData( false );
     }
 
   // Estimate the progress of the filter
