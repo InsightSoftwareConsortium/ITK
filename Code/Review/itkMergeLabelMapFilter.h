@@ -71,6 +71,9 @@ public:
   /** End concept checking */
 #endif
 
+#ifdef STRICT
+#undef STRICT
+#endif
   typedef enum {
     KEEP = 0,
     AGGREGATE = 1,
