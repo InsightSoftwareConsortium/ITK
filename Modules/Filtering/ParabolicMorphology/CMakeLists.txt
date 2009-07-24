@@ -66,7 +66,8 @@ FOREACH(CurrentExe "check"
                    "perfDT"
                    "perfDT3D"
                    "mkSpot"
-                   "erodeBinary2D")
+                   "erodeBinary2D"
+                   "testErodeBinary")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
