@@ -76,7 +76,7 @@ MergeLabelMapFilter<TImage>
 
   ImageType * output = this->GetOutput();
 
-  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
+  typedef std::deque< LabelObjectPointer > VectorType;
   VectorType labelObjects;
 
   ProgressReporter progress( this, 0, 1 );
@@ -90,7 +90,7 @@ MergeLabelMapFilter<TImage>
     while( it2 != otherLabelObjects.end() )
       {
       const LabelObjectType * lo = it2->second;
-      typename LabelObjectType::Pointer newLo = LabelObjectType::New();
+      LabelObjectPointer newLo = LabelObjectType::New();
       newLo->CopyAllFrom( lo );
       
       if( ! output->HasLabel( newLo->GetLabel() ) )
@@ -138,7 +138,7 @@ MergeLabelMapFilter<TImage>
     while( it2 != otherLabelObjects.end() )
       {
       const LabelObjectType * lo = it2->second;
-      typename LabelObjectType::Pointer newLo = LabelObjectType::New();
+      LabelObjectPointer newLo = LabelObjectType::New();
       newLo->CopyAllFrom( lo );
     
       if( ! output->HasLabel( newLo->GetLabel() ) )
@@ -185,7 +185,7 @@ MergeLabelMapFilter<TImage>
       if( ! output->HasLabel( lo->GetLabel() ) )
         {
         // we can keep the label
-        typename LabelObjectType::Pointer newLo = LabelObjectType::New();
+        LabelObjectPointer newLo = LabelObjectType::New();
         newLo->CopyAllFrom( lo );
         output->AddLabelObject( newLo );
         }
@@ -253,7 +253,7 @@ MergeLabelMapFilter<TImage>
     while( it2 != otherLabelObjects.end() )
       {
       const LabelObjectType * lo = it2->second;
-      typename LabelObjectType::Pointer newLo = LabelObjectType::New();
+      LabelObjectPointer newLo = LabelObjectType::New();
       newLo->CopyAllFrom( lo );
       output->PushLabelObject( newLo );
       
