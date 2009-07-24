@@ -427,6 +427,10 @@ to);
   /** Initializes the values of the active layer set. */
   void InitializeActiveLayerValues();
 
+  /** Initializes the pixel constants that will be set outside the
+   *  sparse layer. */
+  void InitializeBackgroundConstants();
+
   /** Adjusts the values in a single layer "to" using values in a neighboring
    *  layer "from". The list of indicies in "to" are traversed and assigned
    *  new values appropriately. Any indicies in "to" without neighbors in
@@ -506,6 +510,9 @@ to);
 
   /** The value in the input which represents the isosurface of interest. */
   ValueType m_IsoSurfaceValue;
+
+  /** The value of the pixel outside the sparse layers */
+  ValueType m_BackgroundValue;
 
   /** This flag tells the solver whether or not to interpolate for the actual
       surface location when calculating change at each active layer node.  By

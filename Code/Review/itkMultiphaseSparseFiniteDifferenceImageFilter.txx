@@ -812,6 +812,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         {
         sparsePtr->m_LayerNodeStore->Return ( node );
         statusIt.SetCenterPixel ( m_StatusNull );
+
+        this->m_LevelSet[sparsePtr->m_Index]->SetPixel( indexCurrent ,
+          delta * this->m_BackgroundValue );
         }
       else
         {
@@ -881,6 +884,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 {
   this->m_CurrentFunctionIndex = 0;
   this->m_IsoSurfaceValue = m_ValueZero;
+  this->m_BackgroundValue  = NumericTraits<ValueType>::max();
   this->m_NumberOfLayers = ImageDimension;
   this->m_InterpolateSurfaceLocation = true;
   this->m_BoundsCheckingActive = false;
@@ -1020,6 +1024,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       }
     }
 
+  // Set the background constants required to be set outside the sparse layer
+  this->InitializeBackgroundConstants();
+
   // Construct the active layer and initialize the first layers inside and
   // outside of the active layer
   this->ConstructActiveLayer();
@@ -1052,30 +1059,37 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   this->InitializeBackgroundPixels();
 }
 
+
+template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
+void
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
+::InitializeBackgroundConstants()
+{
+  // Determine the maximum spacing to set the background pixel values
+  // outside the sparse field
+  float maxSpacing = NumericTraits<float>::min();
+  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    maxSpacing = vnl_math_max( maxSpacing, static_cast<float>( spacing[i] ) );
+
+  // Assign background pixels OUTSIDE the sparse field layers to a new level
+  // set with value greater than the outermost layer.  Assign background pixels
+  // INSIDE the sparse field layers to a new level set with value less than
+  // the innermost layer.
+  const ValueType max_layer = static_cast<ValueType> ( this->m_NumberOfLayers );
+
+  this->m_BackgroundValue  = ( max_layer + 1 ) * maxSpacing;
+}
+
+
 template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundPixels()
 {
-  // Determine the maximum spacing to set the background pixel values
-  // outside the sparse field
-  float maxSpacing = -1;
-  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    maxSpacing = vnl_math_max( maxSpacing, static_cast<float>( spacing[i] ) );
-
   for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[fId];
-
-    // Assign background pixels OUTSIDE the sparse field layers to a new level
-    // set with value greater than the outermost layer.  Assign background pixels
-    // INSIDE the sparse field layers to a new level set with value less than
-    // the innermost layer.
-    const ValueType max_layer = static_cast<ValueType> ( this->m_NumberOfLayers );
-
-    const ValueType outside_value  = ( max_layer + 1 ) * maxSpacing;
-    const ValueType inside_value = - ( max_layer + 1 ) * maxSpacing;
 
     ImageRegionConstIterator<StatusImageType> statusIt (
       sparsePtr->m_StatusImage,
@@ -1100,11 +1114,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
         {
         if( shiftedIt.Get() > m_ValueZero )
           {
-          outputIt.Set ( outside_value );
+          outputIt.Set ( this->m_BackgroundValue );
           }
         else
           {
-          outputIt.Set ( inside_value );
+          outputIt.Set ( - this->m_BackgroundValue );
           }
         }
       ++shiftedIt;
