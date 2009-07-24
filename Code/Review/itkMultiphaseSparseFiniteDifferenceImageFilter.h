@@ -215,6 +215,8 @@ public:
   typedef typename Superclass::OutputIndexType            OutputIndexType;
   typedef typename Superclass::OutputIndexValueType       OutputIndexValueType;
   typedef typename Superclass::OutputPixelType            OutputPixelType;
+  typedef typename OutputImageType::PointType             OutputPointType;
+  typedef typename OutputImageType::SpacingType           OutputSpacingType;
 
   typedef typename Superclass::IdCellType                 IdCellType;
 

@@ -558,29 +558,28 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   TFunction, TIdCell >
 ::InitializeActiveLayerValues()
 {
-  const ValueType CHANGE_FACTOR = m_ConstantGradientValue / 2.0;
-  //  const ValueType CHANGE_FACTOR = 0.7;
   const ValueType MIN_NORM      = 1.0e-6;
+  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
   for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[i];
 
-    unsigned int center;
+    typename OutputImageType::Pointer output = this->m_LevelSet[i];
 
     typename LayerType::ConstIterator activeIt;
-    ConstNeighborhoodIterator<OutputImageType>
-    outputIt ( sparsePtr->m_NeighborList.GetRadius(),
-      this->m_LevelSet[i],
-      this->m_LevelSet[i]->GetRequestedRegion() );
+    ConstNeighborhoodIterator<OutputImageType> outputIt (
+      sparsePtr->m_NeighborList.GetRadius(),
+      output, output->GetRequestedRegion() );
 
     sparsePtr->m_UpdateBuffer.clear();
     sparsePtr->m_UpdateBuffer.reserve ( sparsePtr->m_Layers[0]->Size() );
 
+    unsigned int center; // index to active layer pixel
     center = outputIt.Size()/2;
-    typename OutputImageType::Pointer output = this->m_LevelSet[i];
 
-    ValueType dx_forward, dx_backward, length, distance;
+    ValueType dx, gradientMagnitude, gradientMagnitudeSqr,
+      distance, forward, current, backward;
 
     // For all indicies in the active layer...
     activeIt = sparsePtr->m_Layers[0]->Begin();
@@ -590,35 +589,40 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       // assign an active layer value in the output image.
       outputIt.SetLocation ( activeIt->m_Value );
 
-      length = m_ValueZero;
+      gradientMagnitudeSqr = m_ValueZero;
 
       for ( unsigned int j = 0; j < ImageDimension; ++j )
         {
-        dx_forward = outputIt.GetPixel ( center +
-          sparsePtr->m_NeighborList.GetStride( j ) ) -
-          outputIt.GetCenterPixel();
-        dx_backward = outputIt.GetCenterPixel() -
-          outputIt.GetPixel ( center -
-          sparsePtr->m_NeighborList.GetStride ( j ) );
+        // Compute forward and backward pixel values
+        forward = outputIt.GetPixel ( center + sparsePtr->m_NeighborList.GetStride( j ) );
+        current = outputIt.GetCenterPixel();
+        backward = outputIt.GetPixel ( center - sparsePtr->m_NeighborList.GetStride ( j ) );
 
-        if ( vnl_math_abs ( dx_forward ) > vnl_math_abs ( dx_backward ) )
+        // Choose the derivative closest to the 0 contour
+        if ( vnl_math_sgn( current*forward ) == -1 )
           {
-          length += dx_forward * dx_forward;
+          dx = ( forward - current ) / spacing[j];
           }
         else
           {
-          length += dx_backward * dx_backward;
+          dx = ( current - backward ) / spacing[j];
           }
-        }
-      length = vcl_sqrt ( length ) + MIN_NORM;
-      distance = outputIt.GetCenterPixel() / length;
 
+        gradientMagnitudeSqr += dx * dx;
+        }
+      gradientMagnitude = vcl_sqrt ( gradientMagnitudeSqr ) + MIN_NORM;
+
+      // Compute the correct distance as phi(x)/gradientMagnitude
+      distance = outputIt.GetCenterPixel() / gradientMagnitude;
+
+      // Insert in the update buffer
       sparsePtr->m_UpdateBuffer.push_back(
-        vnl_math_min ( vnl_math_max ( -CHANGE_FACTOR, distance ),
-        CHANGE_FACTOR ) );
+        vnl_math_min ( vnl_math_max ( -MIN_NORM, distance ),
+        MIN_NORM ) );
       ++activeIt;
       }
 
+    // Update the level-set image using the update buffer
     activeIt = sparsePtr->m_Layers[0]->Begin();
     while( activeIt != sparsePtr->m_Layers[0]->End() )
       {
@@ -672,6 +676,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 ::PropagateLayerValues ( SparseDataStruct *sparsePtr, StatusType from,
                         StatusType to, StatusType promote, int InOrOut )
 {
+  // InOrOut indicates whether we are propagating in the negative/positive region
+  // of the level-set function
+
   unsigned int i;
   ValueType value_temp, delta;
   ValueType value = NumericTraits<ValueType>::Zero; // warnings
@@ -685,11 +692,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   // positive)?
   if ( InOrOut == 1 )
     {
-    delta = - m_ConstantGradientValue;
+    delta = - 1;
     }
   else
     {
-    delta = m_ConstantGradientValue;
+    delta = 1;
     }
 
   NeighborhoodIterator<OutputImageType>
@@ -709,7 +716,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   toIt  = sparsePtr->m_Layers[to]->Begin();
   while ( toIt != sparsePtr->m_Layers[to]->End() )
     {
-    statusIt.SetLocation ( toIt->m_Value );
+    // Set the iterator location in the status image
+    OutputIndexType indexCurrent = toIt->m_Value;
+    statusIt.SetLocation ( indexCurrent );
 
     // Is this index marked for deletion? If the status image has
     // been marked with another layer's value, we need to delete this node
@@ -723,17 +732,34 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       continue;
       }
 
+    // Set the iterator location in the level-set image
     outputIt.SetLocation ( toIt->m_Value );
 
+    // We explore all neighbors to identify the closest from-layer node
     found_neighbor_flag = false;
+    unsigned int indexNeighbor;
     for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
       {
       // If this neighbor is in the "from" list, compare its absolute value
-      // to to any previous values found in the "from" list.  Keep the value
-      // that will cause the next layer to be closest to the zero level set.
-      if ( statusIt.GetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ) ) == from )
+      // to any previous values found in the "from" list.  Keep the value
+      // that will cause the to-layer to be closest to the zero level set.
+      indexNeighbor = sparsePtr->m_NeighborList.GetArrayIndex ( i ); // Get index
+      if ( statusIt.GetPixel ( indexNeighbor ) == from ) // if belongs to from-layer
         {
-        value_temp = outputIt.GetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ) );
+        // This value should be a distance in terms of spacing with neighbors
+        // plus its current value
+
+        OutputPointType p1, p2;
+        ValueType dist = 0; // compute the distance between neighbors
+        this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(
+          statusIt.GetIndex( indexNeighbor ), p1 );
+        this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(
+          indexCurrent, p2);
+        for( unsigned int j = 0; j < ImageDimension; j++ )
+          dist += (p1[j] - p2[j]) * (p1[j] - p2[j]);
+        dist = delta * vcl_sqrt( dist );
+
+        value_temp = dist + outputIt.GetPixel ( indexNeighbor ); // grab its value
 
         if ( !found_neighbor_flag )
           {
@@ -741,6 +767,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
           }
         else
           {
+          // Irrespective of negative/positive region, select the lowest absolute minimum
+          //value = delta * vnl_math_min( vnl_math_abs( value_temp ), vnl_math_abs( value ) );
           if ( InOrOut == 1 )
             {
             // Find the largest (least negative) neighbor
@@ -757,6 +785,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
               value = value_temp;
               }
             }
+
           }
         found_neighbor_flag = true;
         }
@@ -767,10 +796,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       // Set the new value using the smallest distance
       // found in our "from" neighbors.
       bool bounds_status;
-      ValueType updateValue = value + delta;
-
-      UpdatePixel ( sparsePtr->m_Index, outputIt.Size() >>1, outputIt, updateValue, bounds_status );
-
+      UpdatePixel ( sparsePtr->m_Index, outputIt.Size() >>1, outputIt, value, bounds_status );
       ++toIt;
       }
     else
@@ -879,7 +905,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
     sparsePtr->m_ShiftedImage->Allocate();
 
     // Copy input to ShiftedImage
-    // TODO: Is there a better way to do this??
     //
     OutputRegionType region = input->GetRequestedRegion();
     ImageRegionIterator<OutputImageType> lIt( input, region );
@@ -1032,6 +1057,13 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundPixels()
 {
+  // Determine the maximum spacing to set the background pixel values
+  // outside the sparse field
+  float maxSpacing = -1;
+  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    maxSpacing = vnl_math_max( maxSpacing, static_cast<float>( spacing[i] ) );
+
   for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[fId];
@@ -1042,8 +1074,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     // the innermost layer.
     const ValueType max_layer = static_cast<ValueType> ( this->m_NumberOfLayers );
 
-    const ValueType outside_value  = max_layer + 1;
-    const ValueType inside_value = - ( max_layer + 1 );
+    const ValueType outside_value  = ( max_layer + 1 ) * maxSpacing;
+    const ValueType inside_value = - ( max_layer + 1 ) * maxSpacing;
 
     ImageRegionConstIterator<StatusImageType> statusIt (
       sparsePtr->m_StatusImage,
