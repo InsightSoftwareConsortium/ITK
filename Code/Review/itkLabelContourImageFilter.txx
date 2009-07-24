@@ -203,7 +203,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
         {
         SizeValueType NeighIdx = ThisIdx + (*I);
         // check if the neighbor is in the map
-        if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
+        if ( NeighIdx > 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
           // Now check whether they are really neighbors
           bool areNeighbors
