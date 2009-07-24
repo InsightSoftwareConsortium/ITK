@@ -85,7 +85,7 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef ImageBase< ImageDimension >    ReferenceImageType;
+  typedef ImageBase< itkGetStaticConstMacro( ImageDimension ) >    ReferenceImageType;
 
   /** Copy the output information from another Image. */
   void SetReferenceImage ( const ReferenceImageType *image );
