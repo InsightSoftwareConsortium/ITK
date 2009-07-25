@@ -121,11 +121,11 @@ class TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputImage,
 TFunction, TSharedData, TIdCell > ::
-UpdatePixel ( unsigned int functionIndex, unsigned int idx,
+UpdatePixel ( unsigned int fId, unsigned int idx,
 NeighborhoodIterator< OutputImageType > &iterator, ValueType &newValue,
 bool &status )
 {
-  FunctionPtr typedPointer = this->m_DifferenceFunctions[functionIndex];
+  FunctionPtr typedPointer = this->m_DifferenceFunctions[fId];
   typedPointer->UpdatePixel( idx, iterator, newValue, status );
 
   iterator.SetPixel(idx, newValue, status);

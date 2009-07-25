@@ -61,7 +61,7 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 /* Performs the narrow-band update of the Heaviside function for each voxel. The
 characteristic function of each region is recomputed (note the shared
 data which contains information from the other level sets). Using the
-new H values, the previous c_i are updated. Used by only the sparse image 
+new H values, the previous c_i are updated. Used by only the sparse image
 filter */
 template < class TInputImage, class TFeatureImage, class TSharedData >
 void
