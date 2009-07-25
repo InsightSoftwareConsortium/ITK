@@ -44,7 +44,6 @@ ShiftScaleLabelMapFilter<TImage>
   ImageType * output = this->GetOutput();
 
   // get the label objects
-  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
   LabelObjectContainerType labelObjects = output->GetLabelObjectContainer();
 
   ProgressReporter progress( this, 0, labelObjects.size() );
