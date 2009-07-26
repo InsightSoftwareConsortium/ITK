@@ -92,8 +92,12 @@ TOutputImage, TFunction, TIdCell >::TimeStepType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::CalculateChange()
 {
+  // Initialize to the maximum possible value
   TimeStepType minTimeStep = NumericTraits< TimeStepType >::max();
+  TimeStepType timeStep;
+  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
+  // Calculate change across all the level-set functions
   for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )
     {
     this->m_CurrentFunctionIndex = fId;
@@ -103,16 +107,14 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     FiniteDifferenceFunctionFloatOffsetType offset;
-    ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue,
-      backwardValue, centerValue;
+    ValueType gradientMagnitude, gradientMagnitudeSqr,
+      forward, backward, current;
     const ValueType MIN_NORM      = 1.0e-6;
 
     void *globalData = df->GetGlobalDataPointer();
 
     NeighborhoodIterator<OutputImageType> outputIt ( df->GetRadius(),
       this->m_LevelSet[fId], this->m_LevelSet[fId]->GetRequestedRegion() );
-
-    TimeStepType timeStep;
 
     if( m_BoundsCheckingActive == false )
       {
@@ -134,63 +136,60 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       {
       outputIt.SetLocation ( layerIt->m_Value );
 
-      centerValue = outputIt.GetCenterPixel();
+      current = outputIt.GetCenterPixel();
 
-      // Calculate the offset to the surface from the center of this
+      // Calculate the offset to the surface from the current of this
       // neighborhood.  This is used by some level set functions in sampling a
       // speed, advection, or curvature term.
-      if ( this->GetInterpolateSurfaceLocation()
-        && centerValue != 0.0 )
+      if ( this->GetInterpolateSurfaceLocation() && current != 0.0 )
         {
         // Surface is at the zero crossing, so distance to surface is:
-        // phi(x) / norm(grad(phi)), where phi(x) is the center of the
+        // phi(x) / norm(grad(phi)), where phi(x) is the current of the
         // neighborhood.  The location is therefore
-        // (i,j,k) - ( phi(x) * grad(phi(x)) ) / norm(grad(phi))^2
-        norm_grad_phi_squared = 0.0;
+        // (i,j,k) - ( phi(x)/ norm(grad(phi))) * (grad(phi(x)) / norm(grad(phi)) )
+        gradientMagnitudeSqr = 0.0;
 
         for ( j = 0; j < ImageDimension; ++j )
           {
-          forwardValue  = outputIt.GetNext ( j );
-          backwardValue = outputIt.GetPrevious ( j );
+          forward  = outputIt.GetNext ( j );
+          backward = outputIt.GetPrevious ( j );
 
-          if ( forwardValue * backwardValue >= 0 )
+          if ( forward * backward >= 0 )
             {
             //  Neighbors are same sign OR at least one neighbor is zero.
-            dx_forward  = forwardValue - centerValue;
-            dx_backward = centerValue - backwardValue;
-
             // Pick the larger magnitude derivative.
-            if ( ::vnl_math_abs ( dx_forward ) >::vnl_math_abs( dx_backward ) )
+            if ( vnl_math_abs ( forward - current ) > vnl_math_abs( current - backward ) )
               {
-              offset[j] = dx_forward;
+              offset[j] = ( forward - current ) / spacing[j];
               }
             else
               {
-              offset[j] = dx_backward;
+              offset[j] = ( current - backward ) / spacing[j];
               }
             }
           else //Neighbors are opposite sign, pick the direction of 0 surface.
             {
-            if ( forwardValue * centerValue < 0 )
+            if ( forward * current < 0 )
               {
-              offset[j] = forwardValue - centerValue;
+              offset[j] = ( forward - current ) / spacing[j];
               }
             else
               {
-              offset[j] = centerValue - backwardValue;
+              offset[j] = ( current - backward ) / spacing[j];
               }
             }
 
-          norm_grad_phi_squared += offset[j] * offset[j];
+          gradientMagnitudeSqr += offset[j] * offset[j];
           }
+        gradientMagnitude = vcl_sqrt ( gradientMagnitudeSqr ) + MIN_NORM;
 
         // Adding sqrt imagedimension "extends the reach" of the
         // interpolation
-        // to surfaces that pass close to the center of cells.  This is a
+        // to surfaces that pass close to the current of cells.  This is a
         // heuristic fudge factor that improves interpolation and reduces
         // "wiggling" at convergence.
-        ValueType coeff = centerValue * vcl_sqrt( ImageDimension
-            + 0.5 )/ ( norm_grad_phi_squared + MIN_NORM );
+        ValueType coeff = current * vcl_sqrt( ImageDimension
+            + 0.5 ) / ( gradientMagnitudeSqr + MIN_NORM );
 
         for ( j = 0; j < ImageDimension; ++j )
           {
@@ -253,17 +252,16 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       DownList[j] = LayerType::New();
       }
 
-    // Process the active layer.  This step will update the values in the
-    // active
-    // layer as well as the values at indices that *will* become part of the
-    // active layer when they are promoted/demoted.  Also records promotions,
-    // demotions in the m_StatusLayer for current active layer indices
-    // (i.e. those indices which will move inside or outside the active
-    // layers).
+    // Process the active layer. This step will update the values in the
+    // active layer as well as the values at indices that *will* become part
+    // of the active layer when they are promoted/demoted. Also records
+    // promotions, demotions in the UpList[0] and DownList[0] for current
+    // active layer indices (i.e. those indices which will move inside or outside
+    // the active layers).
     this->UpdateActiveLayerValues( dt, UpList[0], DownList[0] );
 
-    // Process the status up/down lists.  This is an iterative process which
-    // proceeds outwards from the active layer.  Each iteration generates the
+    // Process the up/down lists. This is an iterative process which
+    // proceeds outwards from the active layer. Each iteration generates the
     // list for the next iteration.
 
     // First process the status lists generated on the active layer.
@@ -355,9 +353,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   bool bounds_status;
   LayerNodeType *node;
   StatusType neighbor_status;
-  NeighborhoodIterator<StatusImageType>
-  statusIt ( sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
-             this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
+  NeighborhoodIterator<StatusImageType> statusIt (
+    m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
+    this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
 
   if ( !m_BoundsCheckingActive )
     {
@@ -367,21 +365,21 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and update the status image value at that index.
   // Also examine the neighbors of the index to determine which need to go
-  // onto
-  // the output list (search for SearchForStatus).
+  // onto the output list (search for SearchForStatus).
   while ( ! InputList->Empty() )
     {
     statusIt.SetLocation ( InputList->Front()->m_Value );
     statusIt.SetCenterPixel ( ChangeToStatus );
 
     node = InputList->Front();  // Must unlink from the input list
-    InputList->PopFront();      // _before_ transferring to another list.
+    InputList->PopFront();      // before transferring to another list.
     sparsePtr->m_Layers[ChangeToStatus]->PushFront ( node );
 
-    for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+    // Iterate through the neighbors of this status-changed node
+    for ( i = 0; i < m_NeighborList.GetSize(); ++i )
       {
       neighbor_status = statusIt.GetPixel (
-        sparsePtr->m_NeighborList.GetArrayIndex ( i ) );
+        m_NeighborList.GetArrayIndex ( i ) );
 
       // Have we bumped up against the boundary?  If so, turn on bounds
       // checking.
@@ -390,22 +388,24 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         m_BoundsCheckingActive = true;
         }
 
+      // Find neighbors that move into the list prior to the ChangeToStatus
       if ( neighbor_status == SearchForStatus )
         {
         // mark this pixel so we don't add it twice.
-        statusIt.SetPixel ( sparsePtr->m_NeighborList.GetArrayIndex ( i ),
+        statusIt.SetPixel ( m_NeighborList.GetArrayIndex ( i ),
                             m_StatusChanging, bounds_status );
         if ( bounds_status == true )
           {
           node = sparsePtr->m_LayerNodeStore->Borrow();
           node->m_Value = statusIt.GetIndex() +
-            sparsePtr->m_NeighborList.GetNeighborhoodOffset ( i );
+            m_NeighborList.GetNeighborhoodOffset ( i );
           OutputList->PushFront ( node );
           } // else this index was out of bounds.
         }
       }
     }
 }
+
 
 template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
 void
@@ -424,6 +424,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   // assigned new values if they are determined to be part of the active list
   // for the next iteration (i.e. their values will be raised or lowered into
   // the active range).
+
+  // These need to take into account the spacing ??
   const ValueType LOWER_ACTIVE_THRESHOLD = -( m_ConstantGradientValue/2.0 );
   const ValueType UPPER_ACTIVE_THRESHOLD =  m_ConstantGradientValue / 2.0;
 
@@ -437,24 +439,28 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   UpdateBufferConstIterator updateIt;
 
   NeighborhoodIterator< OutputImageType >
-    outputIt ( sparsePtr->m_NeighborList.GetRadius(),
-    this->m_LevelSet[this->m_CurrentFunctionIndex],
-    this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
+  outputIt ( m_NeighborList.GetRadius(),
+  this->m_LevelSet[this->m_CurrentFunctionIndex],
+  this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
 
   NeighborhoodIterator< StatusImageType >
-    statusIt ( sparsePtr->m_NeighborList.GetRadius(),
-    sparsePtr->m_StatusImage,
-    this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
+  statusIt ( m_NeighborList.GetRadius(),
+  sparsePtr->m_StatusImage,
+  this->m_LevelSet[this->m_CurrentFunctionIndex]->GetRequestedRegion() );
 
+  // If bounds checking is turned on
   if ( !m_BoundsCheckingActive )
     {
     outputIt.NeedToUseBoundaryConditionOff();
     statusIt.NeedToUseBoundaryConditionOff();
     }
 
-  counter = 0;
+  // Compute the rms change in active layer values
+  counter = 0; // counter
   rms_change_accumulator = m_ValueZero;
 
+  // Iterate over the update buffer and active layer
+  // Both are the same size
   layerIt = sparsePtr->m_Layers[0]->Begin();
   updateIt = sparsePtr->m_UpdateBuffer.begin();
 
@@ -479,14 +485,15 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 
     if ( new_value >= UPPER_ACTIVE_THRESHOLD )
       {
-      // This index will move UP into a positive (outside) layer.
+      // This index will move UP into a positive (outside) layer. Contour is shrinking
+      // into the negative layers.
 
-      // First check for active layer neighbors moving in the opposite
-      // direction.
+      // First check for neighbors that belong to the active layer and moving
+      // in the opposite direction.
       flag = false;
-      for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+      for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
-        if ( statusIt.GetPixel( sparsePtr->m_NeighborList.GetArrayIndex( i ) )
+        if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex( i ) )
                 == m_StatusActiveChangingDown )
           {
           flag = true;
@@ -501,50 +508,49 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr ( new_value-outputIt.GetCenterPixel() );
-
       // Search the neighborhood for inside indicies.
-      temp_value = new_value - m_ConstantGradientValue;
-      for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+      temp_value = new_value - m_ConstantGradientValue * m_PixelDistance[i];
+      for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
-        idx = sparsePtr->m_NeighborList.GetArrayIndex ( i );
+        idx = m_NeighborList.GetArrayIndex ( i );
         neighbor_status = statusIt.GetPixel ( idx );
+        // 1 is first negative layer that will come into the active layer
         if ( neighbor_status == 1 )
           {
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
           if ( outputIt.GetPixel ( idx ) < LOWER_ACTIVE_THRESHOLD ||
-              ::vnl_math_abs ( temp_value ) < ::vnl_math_abs (
+              vnl_math_abs ( temp_value ) < vnl_math_abs (
               outputIt.GetPixel ( idx ) ) )
             {
             UpdatePixel ( this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status );
             }
           }
         }
-      // Push it into the uplist
+      // Push current active layer pixel into the uplist
       node = sparsePtr->m_LayerNodeStore->Borrow();
       node->m_Value = layerIt->m_Value;
       UpList->PushFront ( node );
       statusIt.SetCenterPixel ( m_StatusActiveChangingUp );
 
-      // Now remove this index from the active list.
+      // Now remove this pixel from the active list.
       release_node = layerIt.GetPointer();
-      ++layerIt;
       sparsePtr->m_Layers[0]->Unlink ( release_node );
       sparsePtr->m_LayerNodeStore->Return ( release_node );
       }
 
     else if ( new_value < LOWER_ACTIVE_THRESHOLD )
       {
-      // This index will move DOWN into a negative (inside) layer.
+      // This index will move DOWN into a negative (inside) layer. 2 in the
+      // positive sparse field will come in
 
       // First check for active layer neighbors moving in the opposite
       // direction.
       flag = false;
-      for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+      for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
 
-        if ( statusIt.GetPixel( sparsePtr->m_NeighborList.GetArrayIndex( i ) )
+        if ( statusIt.GetPixel( m_NeighborList.GetArrayIndex( i ) )
                 == m_StatusActiveChangingUp )
           {
           flag = true;
@@ -559,26 +565,25 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr ( new_value - outputIt.GetCenterPixel() );
-
       // Search the neighborhood for outside indicies.
-      temp_value = new_value + m_ConstantGradientValue;
-      for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+      temp_value = new_value + m_ConstantGradientValue * m_PixelDistance[i];
+      for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
-        idx = sparsePtr->m_NeighborList.GetArrayIndex ( i );
+        idx = m_NeighborList.GetArrayIndex ( i );
         neighbor_status = statusIt.GetPixel ( idx );
         if ( neighbor_status == 2 )
           {
           // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
           if ( outputIt.GetPixel ( idx ) >= UPPER_ACTIVE_THRESHOLD ||
-            ::vnl_math_abs ( temp_value ) < ::vnl_math_abs (
+            vnl_math_abs ( temp_value ) < vnl_math_abs (
             outputIt.GetPixel ( idx ) ) )
             {
             UpdatePixel ( this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status );
             }
           }
         }
+      // Push current active layer pixel into the downlist
       node = sparsePtr->m_LayerNodeStore->Borrow();
       node->m_Value = layerIt->m_Value;
       DownList->PushFront ( node );
@@ -586,23 +591,24 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 
       // Now remove this index from the active list.
       release_node = layerIt.GetPointer();
-      ++layerIt;
       sparsePtr->m_Layers[0]->Unlink ( release_node );
       sparsePtr->m_LayerNodeStore->Return ( release_node );
       }
     else
       {
-      rms_change_accumulator += vnl_math_sqr ( new_value - outputIt.GetCenterPixel() );
-
-      UpdatePixel ( this->m_CurrentFunctionIndex, outputIt.Size() >> 1, outputIt, new_value, bounds_status );
-
-      ++layerIt;
+      UpdatePixel( this->m_CurrentFunctionIndex, outputIt.Size()/2, outputIt, new_value, bounds_status );
       }
+
+    // Update the accumulator value
+    rms_change_accumulator += vnl_math_sqr ( new_value - outputIt.GetCenterPixel() );
+
+    // Move to the next active layer pixel
+    ++layerIt;
     ++updateIt;
     ++counter;
     }
 
-  // Determine the average change during this iteration.
+  // Determine the average RMS of change during this iteration
   if ( counter == 0 )
     {
     this->SetRMSChange ( static_cast<double> ( m_ValueZero ) );
@@ -636,7 +642,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
 
     typename LayerType::ConstIterator activeIt;
     ConstNeighborhoodIterator<OutputImageType> outputIt (
-      sparsePtr->m_NeighborList.GetRadius(),
+      m_NeighborList.GetRadius(),
       output, output->GetRequestedRegion() );
 
     sparsePtr->m_UpdateBuffer.clear();
@@ -661,20 +667,35 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
       for ( unsigned int j = 0; j < ImageDimension; ++j )
         {
         // Compute forward and backward pixel values
-        forward = outputIt.GetPixel ( center + sparsePtr->m_NeighborList.GetStride( j ) );
+        forward = outputIt.GetPixel ( center + m_NeighborList.GetStride( j ) );
         current = outputIt.GetCenterPixel();
-        backward = outputIt.GetPixel ( center - sparsePtr->m_NeighborList.GetStride ( j ) );
+        backward = outputIt.GetPixel ( center - m_NeighborList.GetStride ( j ) );
 
-        // Choose the derivative closest to the 0 contour
-        if ( vnl_math_sgn( current*forward ) == -1 )
+        if ( forward * backward >= 0 )
           {
-          dx = ( forward - current ) / spacing[j];
+          //  Neighbors are same sign OR at least one neighbor is zero.
+          // Pick the larger magnitude derivative.
+          if ( ::vnl_math_abs ( forward - center ) >::vnl_math_abs( center - backward ) )
+            {
+            dx = ( forward - current ) / spacing[j];
+            }
+          else
+            {
+            dx = ( current - backward ) / spacing[j];
+            }
           }
         else
           {
-          dx = ( current - backward ) / spacing[j];
+          // Choose the derivative closest to the 0 contour
+          if ( vnl_math_sgn( current*forward ) == -1 )
+            {
+            dx = ( forward - current ) / spacing[j];
+            }
+          else
+            {
+            dx = ( current - backward ) / spacing[j];
+            }
           }
-
         gradientMagnitudeSqr += dx * dx;
         }
       gradientMagnitude = vcl_sqrt ( gradientMagnitudeSqr ) + MIN_NORM;
@@ -762,11 +783,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
   delta = ( InOrOut == 1 ) ? -1: 1;
 
   NeighborhoodIterator<OutputImageType>
-  outputIt ( sparsePtr->m_NeighborList.GetRadius(),
+  outputIt ( m_NeighborList.GetRadius(),
     this->m_LevelSet[sparsePtr->m_Index],
     this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion() );
   NeighborhoodIterator<StatusImageType>
-  statusIt ( sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
+  statusIt ( m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
     this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion() );
 
   if ( !m_BoundsCheckingActive )
@@ -801,12 +822,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
     // We explore all neighbors to identify the closest from-layer node
     found_neighbor_flag = false;
     unsigned int indexNeighbor;
-    for ( i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+    for ( i = 0; i < m_NeighborList.GetSize(); ++i )
       {
       // If this neighbor is in the "from" list, compare its absolute value
       // to any previous values found in the "from" list.  Keep the value
       // that will cause the to-layer to be closest to the zero level set.
-      indexNeighbor = sparsePtr->m_NeighborList.GetArrayIndex ( i ); // Get index
+      indexNeighbor = m_NeighborList.GetArrayIndex ( i ); // Get index
       if ( statusIt.GetPixel ( indexNeighbor ) == from ) // if belongs to from-layer
         {
         // This value should be a distance in terms of spacing with neighbors
@@ -958,6 +979,25 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
 ::Initialize()
 {
+  // Initialize m_PixelDistance values for the corresponding neighborhood list
+  // This stores the distance between neighbors. Usually same as 1 except when
+  // the image spacing is different.
+  OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
+  OffsetType offset;
+  this->m_PixelDistance.clear();
+  this->m_PixelDistance.reserve ( m_NeighborList.GetSize() );
+  for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
+    {
+    offset = m_NeighborList.GetNeighborhoodOffset ( i );
+    m_PixelDistance[i] = 0;
+    for( unsigned int j = 0; j < ImageDimension; j++ )
+      {
+      m_PixelDistance[i] += offset[j]*spacing[j]*offset[j]*spacing[j];
+      }
+    m_PixelDistance[i] = vcl_sqrt( m_PixelDistance[i] );
+    }
+
+
   for ( IdCellType  fId = 0; fId < this->m_FunctionCount; ++fId )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[fId];
@@ -1153,17 +1193,17 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     //  checking in the solver.
 
     NeighborhoodIterator< OutputImageType >
-      outputIt ( sparsePtr->m_NeighborList.GetRadius(),
+      outputIt ( m_NeighborList.GetRadius(),
       this->m_LevelSet[fId],
       this->m_LevelSet[fId]->GetRequestedRegion() );
 
     NeighborhoodIterator< StatusImageType >
-      statusIt ( sparsePtr->m_NeighborList.GetRadius(),
+      statusIt ( m_NeighborList.GetRadius(),
       sparsePtr->m_StatusImage,
       this->m_LevelSet[fId]->GetRequestedRegion() );
 
     NeighborhoodIterator< OutputImageType >
-      shiftedIt ( sparsePtr->m_NeighborList.GetRadius(),
+      shiftedIt ( m_NeighborList.GetRadius(),
       sparsePtr->m_ShiftedImage,
       this->m_LevelSet[fId]->GetRequestedRegion() );
 
@@ -1219,11 +1259,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
         // Search the neighborhood pixels for first inside & outside layer
         // members.  Construct these lists and set status list values.
-        for ( unsigned int i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+        for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
           {
           // If the neighborhood pixel is not on the active layer
           // determine its sign to assign to outside or inside layers
-          unsigned int neighborIndex = sparsePtr->m_NeighborList.GetArrayIndex( i );
+          unsigned int neighborIndex = m_NeighborList.GetArrayIndex( i );
           if ( outputIt.GetPixel( neighborIndex ) != m_ValueZero )
             {
             value = shiftedIt.GetPixel ( neighborIndex );
@@ -1239,7 +1279,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
               if ( bounds_status ) // In bounds.
                 {
-                offset_index = center_index + sparsePtr->m_NeighborList.GetNeighborhoodOffset ( i );
+                offset_index = center_index + m_NeighborList.GetNeighborhoodOffset ( i );
                 node = sparsePtr->m_LayerNodeStore->Borrow();
                 node->m_Value = offset_index;
                 sparsePtr->m_Layers[layer_number]->PushFront ( node );
@@ -1262,7 +1302,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   bool boundary_status;
 
   NeighborhoodIterator<StatusImageType> statusIt (
-    sparsePtr->m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
+    m_NeighborList.GetRadius(), sparsePtr->m_StatusImage,
     this->m_LevelSet[sparsePtr->m_Index]->GetRequestedRegion() );
 
 
@@ -1277,41 +1317,22 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     // assign them values in the status image.  Status pixels outside the
     // boundary will be ignored.
     statusIt.SetLocation ( fromIt->m_Value );
-    for ( unsigned int i = 0; i < sparsePtr->m_NeighborList.GetSize(); ++i )
+    for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
       {
       // If the pixel is not a boundary pixel or belongs to another layer
-      unsigned int neighborIndex = sparsePtr->m_NeighborList.GetArrayIndex ( i );
+      unsigned int neighborIndex = m_NeighborList.GetArrayIndex ( i );
       if ( statusIt.GetPixel ( neighborIndex ) == m_StatusNull )
         {
         statusIt.SetPixel ( neighborIndex, to, boundary_status );
         if ( boundary_status == true ) // in bounds
           {
           node = sparsePtr->m_LayerNodeStore->Borrow();
-          node->m_Value = statusIt.GetIndex() + sparsePtr->m_NeighborList.GetNeighborhoodOffset ( i );
+          node->m_Value = statusIt.GetIndex() + m_NeighborList.GetNeighborhoodOffset ( i );
           sparsePtr->m_Layers[to]->PushFront ( node );
           }
         }
       }
     ++fromIt;
-    }
-}
-
-template<class TInputImage, class TOutputImage, class TFunction, typename TIdCell >
-void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
-::AllocateUpdateBuffer()
-{
-  for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
-    {
-    SparseDataStruct *sparsePtr = this->m_SparseData[fId];
-
-    // Preallocate the update buffer.  NOTE: There is currently no way to
-    // downsize a std::vector. This means that the update buffer will grow
-    // dynamically but not shrink.  In newer implementations there may be a
-    // squeeze method which can do this.  Alternately, we can implement our
-    // own strategy for downsizing.
-    sparsePtr->m_UpdateBuffer.clear();
-    sparsePtr->m_UpdateBuffer.reserve ( sparsePtr->m_Layers[0]->Size() );
     }
 }
 

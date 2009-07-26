@@ -270,6 +270,10 @@ public:
   typedef std::vector< ValueType >                  UpdateBufferType;
   typedef typename UpdateBufferType::const_iterator UpdateBufferConstIterator;
 
+  typedef SparseFieldCityBlockNeighborList<
+    NeighborhoodIterator<OutputImageType> >       NeighborListType;
+  typedef typename NeighborListType::OffsetType   OffsetType;
+
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers +1   */
@@ -343,10 +347,6 @@ protected:
       m_Index = index;
       }
 
-    /** Connectivity information for examining neighbor pixels.   */
-    SparseFieldCityBlockNeighborList< NeighborhoodIterator<OutputImageType> >
-      m_NeighborList;
-
     /** An array which contains all of the layers needed in the sparse
     * field. Layers are organized as follows: m_Layer[0] = active layer,
     * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
@@ -367,6 +367,12 @@ protected:
 
     IdCellType m_Index;
     };
+
+  /** Connectivity information for examining neighbor pixels.   */
+  NeighborListType m_NeighborList;
+
+  /** Stores the distance between pixels in the neighborhood iterator. */
+  std::vector< ValueType > m_PixelDistance;
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -402,7 +408,7 @@ protected:
   void CopyInputToOutput();
 
   /** Reserves memory in the update buffer. Called before each iteration. */
-  void AllocateUpdateBuffer();
+  void AllocateUpdateBuffer(){}
 
   /** Applies the update buffer values to the active layer and reconstructs the
    *  sparse field layers for the next iteration. */

@@ -82,7 +82,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     // the subclass, since this class cannot define an update buffer type.
     this->AllocateUpdateBuffer();
 
-    this->SetInitializedState(true);
+    this->SetInitializedState( true );
     }
 
   // Iterative algorithm
