@@ -333,8 +333,6 @@ int main(int ac, char* av[] )
   std::vector< char* > args;
   typedef std::pair< char *, char *> ComparePairType;
   std::vector< ComparePairType > compareList;
-  // with putenv(), we must keep the string allocated
-  std::vector< std::string > envList;
   
   // parse the command line
   int i = 1;
@@ -357,8 +355,7 @@ int main(int ac, char* av[] )
         libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
         libpath += oldenv;
         }
-      envList.push_back( libpath );
-      putenv( const_cast<char *>( envList.back().c_str() ) );
+      itksys::SystemTools::PutEnv( libpath.c_str() );
       i += 2;
       }
     else if( !skip && strcmp(av[i], "--add-before-env") == 0 )
@@ -377,8 +374,7 @@ int main(int ac, char* av[] )
         env += KWSYS_SHARED_FORWARD_PATH_SEP;
         env += oldenv;
         }
-      envList.push_back( env );
-      putenv( const_cast<char *>( envList.back().c_str() ) );
+      itksys::SystemTools::PutEnv( env.c_str() );
       i += 3;
       }
     else if( !skip && strcmp(av[i], "--compare") == 0 )
