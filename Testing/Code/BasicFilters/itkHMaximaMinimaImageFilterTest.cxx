@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkFilterWatcher.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkHMinimaImageFilter.h"
@@ -38,42 +37,40 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-
   //
   //  The following code defines the input and output pixel types and their
   //  associated image types.
   //
   const unsigned int Dimension = 2;
   
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
+  typedef unsigned short   InputPixelType;
+  typedef short            InternalPixelType;
+  typedef unsigned char    OutputPixelType;
   typedef unsigned char    WritePixelType;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
+  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
+  typedef itk::Image< InternalPixelType,  Dimension > InternalImageType;
+  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  typedef itk::Image< WritePixelType, Dimension >     WriteImageType;
 
 
   // readers/writers
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-  typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>
-    RescaleType;
+  typedef itk::ImageFileWriter< WriteImageType >   WriterType;
 
   // define the hmaxima filter
   typedef itk::HMaximaImageFilter<
                             InputImageType, 
-                            OutputImageType >  HmaximaFilterType;
+                            InternalImageType >  HmaximaFilterType;
   // define the hminima filter
   typedef itk::HMinimaImageFilter<
-                            InputImageType, 
+                            InternalImageType, 
                             OutputImageType >  HminimaFilterType;
 
 
   // Creation of Reader and Writer filters
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer  = WriterType::New();
-  RescaleType::Pointer rescaler = RescaleType::New();
   
   // Create the filters
   HmaximaFilterType::Pointer  hmaxima = HmaximaFilterType::New();
@@ -93,19 +90,8 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   hminima->SetHeight( static_cast<InputPixelType>(atof(argv[3])) );
 
   // Run the filter
-//   rescaler->SetInput( hmaxima->GetOutput() );
-//   rescaler->SetOutputMinimum(   0 );
-//   rescaler->SetOutputMaximum( 255 );
   writer->SetInput( hminima->GetOutput() );
   writer->Update();
-
-  // Output the number of iterations used
-  std::cout << "Hmaxima took " << hmaxima->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "Hminima took " << hminima->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-
-  std::cout << "<DartMeasurement name=\"HMaximaNumberOfIterations\" type=\"numeric/integer\">" << hmaxima->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  std::cout << "<DartMeasurement name=\"HMinimaNumberOfIterations\" type=\"numeric/integer\">" << hminima->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-
 
   return EXIT_SUCCESS;
 
