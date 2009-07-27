@@ -3166,7 +3166,8 @@ int nifti_type_and_names_match( nifti_image * nim, int show_warn )
 static int fileext_compare(const char * test_ext, const char * known_ext)
 {
    char caps[8] = "";
-   int  c, cmp, len;
+   int  c, cmp;
+   size_t len;
 
    /* if equal, don't need to check case (store to avoid multiple calls) */
    cmp = strcmp(test_ext, known_ext);
@@ -3192,7 +3193,8 @@ static int fileext_n_compare(const char * test_ext,
                              const char * known_ext, int maxlen)
 {
    char caps[8] = "";
-   int  c, cmp, len;
+   int  c, cmp;
+   size_t len;
 
    /* if equal, don't need to check case (store to avoid multiple calls) */
    cmp = strncmp(test_ext, known_ext, maxlen);
