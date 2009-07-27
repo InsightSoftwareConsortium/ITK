@@ -408,7 +408,7 @@ int itkMatrixTest(int, char* [] )
    *
    */
  
-   itk::Matrix<float,3,3> invertibleMatrix;
+   itk::Matrix<double,3,3> invertibleMatrix;
    invertibleMatrix[0][0] = 1.015625;
    invertibleMatrix[0][1] = 3.7241876106217399000472402087113071242494464386448e-33;
    invertibleMatrix[0][2] = 1.8034176825630083413048304619152872874110471457243e-17;
@@ -419,7 +419,7 @@ int itkMatrixTest(int, char* [] )
    invertibleMatrix[2][1] = -1.015625;
    invertibleMatrix[2][2] = 2.9279401122629200669017501823532256821636110544205e-16;
 
-   itk::Matrix<float,3,3> inverseMatrixMatlab;
+   itk::Matrix<double,3,3> inverseMatrixMatlab;
    inverseMatrixMatlab[0][0] = 9.8462e-01;
    inverseMatrixMatlab[0][1] = -1.4797e-17;
    inverseMatrixMatlab[0][2] = -5.6092e-40;
@@ -432,7 +432,7 @@ int itkMatrixTest(int, char* [] )
  
    std::cout << "Testing matrix inversion for " << std::endl << invertibleMatrix << std::endl;
  
-   const vnl_matrix_fixed<float,3,3> invertedMatrix = invertibleMatrix.GetInverse();
+   const vnl_matrix_fixed<double,3,3> invertedMatrix = invertibleMatrix.GetInverse();
    
    std::cout << "Inverted to " << std::endl << invertedMatrix << std::endl;
 
