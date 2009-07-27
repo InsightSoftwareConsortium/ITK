@@ -918,43 +918,52 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TFunction
 {
   for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
-    SparseDataStruct * sparsePtr = this->m_SparseData[i];
     OutputImagePointer input = this->m_LevelSet[i];
 
-    // This is used as a temporary buffer in this specific instance
-    // However, we need to use it later on. Therefore, its instantiation
-    // is important. DO NOT DELETE.
-    sparsePtr->m_ShiftedImage = OutputImageType::New();
-    sparsePtr->m_ShiftedImage->SetRegions( input->GetRequestedRegion() );
-    sparsePtr->m_ShiftedImage->CopyInformation( input );
-    sparsePtr->m_ShiftedImage->Allocate();
+    // This is used as a temporary buffer
+    OutputImagePointer tempImage = OutputImageType::New();
+    tempImage->SetRegions( input->GetRequestedRegion() );
+    tempImage->CopyInformation( input );
+    tempImage->Allocate();
 
-    // Copy input to ShiftedImage
-    //
+    // Compute Heaviside of input image
+    // Copy input to temp
     OutputRegionType region = input->GetRequestedRegion();
     ImageRegionIterator<OutputImageType> lIt( input, region );
-    ImageRegionIterator<OutputImageType> sIt( sparsePtr->m_ShiftedImage, region );
+    ImageRegionIterator<OutputImageType> tIt( tempImage, region );
 
     lIt.GoToBegin();
-    sIt.GoToBegin();
+    tIt.GoToBegin();
 
     while(  !lIt.IsAtEnd() )
       {
-      sIt.Set( lIt.Get() );
-      ++sIt;
+      tIt.Set( lIt.Get() );
+      ++tIt;
       ++lIt;
       }
 
     // TODO: Can the zeroCrossingFilter have the same input and output?
     ZeroCrossingFilterPointer zeroCrossingFilter = ZeroCrossingFilterType::New();
-    zeroCrossingFilter->SetInput( sparsePtr->m_ShiftedImage );
+    zeroCrossingFilter->SetInput( tempImage );
     zeroCrossingFilter->SetBackgroundValue( m_ValueOne );
     zeroCrossingFilter->SetForegroundValue( m_ValueZero );
     zeroCrossingFilter->Update();
 
-    // The levelset image has a 0 where the zero contour exists and 1 everywhere else
-    this->m_LevelSet[i] = zeroCrossingFilter->GetOutput();
-    this->m_LevelSet[i]->DisconnectPipeline();
+    // The levelset image has a 0 where the zero contour exists and + outside and - inside
+    ImageRegionIterator<OutputImageType> zIt( zeroCrossingFilter->GetOutput(), region );
+
+    lIt.GoToBegin();
+    zIt.GoToBegin();
+
+    while(  !lIt.IsAtEnd() )
+      {
+      if ( zIt.Get() == 0 )
+        {
+        lIt.Set( 0 );
+        }
+      ++zIt;
+      ++lIt;
+      }
     }
 }
 
@@ -1140,12 +1149,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       this->m_LevelSet[fId],
       this->m_LevelSet[fId]->GetRequestedRegion() );
 
-    ImageRegionIterator<OutputImageType> shiftedIt (
-      sparsePtr->m_ShiftedImage,
-      this->m_LevelSet[fId]->GetRequestedRegion() );
-
     outputIt.GoToBegin();
-    shiftedIt.GoToBegin();
     statusIt.GoToBegin();
 
     while(  !outputIt.IsAtEnd() )
@@ -1153,16 +1157,15 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       if( statusIt.Get() == m_StatusNull || statusIt.Get() ==
         m_StatusBoundaryPixel )
         {
-        if( shiftedIt.Get() > m_ValueZero )
+        if( outputIt.Get() > 0 )
           {
           outputIt.Set ( this->m_BackgroundValue );
           }
-        else
+        if( outputIt.Get() < 0 )
           {
           outputIt.Set ( - this->m_BackgroundValue );
           }
         }
-      ++shiftedIt;
       ++outputIt;
       ++statusIt;
       }
@@ -1201,15 +1204,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
       sparsePtr->m_StatusImage,
       this->m_LevelSet[fId]->GetRequestedRegion() );
 
-    NeighborhoodIterator< OutputImageType >
-      shiftedIt ( m_NeighborList.GetRadius(),
-      sparsePtr->m_ShiftedImage,
-      this->m_LevelSet[fId]->GetRequestedRegion() );
-
     OutputIndexType center_index, offset_index;
     LayerNodeType *node;
     bool bounds_status;
-    ValueType value;
     StatusType layer_number;
 
     // Determine image bounds for checking if sparse layers touch boundaries
@@ -1253,9 +1250,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
         sparsePtr->m_Layers[0]->PushFront ( node );
         statusIt.SetCenterPixel ( 0 );
 
-        // Grab the neighborhood in the image of shifted input values.
-        shiftedIt.SetLocation ( center_index );
-
         // Search the neighborhood pixels for first inside & outside layer
         // members.  Construct these lists and set status list values.
         for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
@@ -1265,10 +1259,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
           unsigned int neighborIndex = m_NeighborList.GetArrayIndex( i );
           if ( outputIt.GetPixel( neighborIndex ) != m_ValueZero )
             {
-            value = shiftedIt.GetPixel ( neighborIndex );
-
             // Determine if the neighbor belongs to layer 1 (inside) or 2 (outside)
-            layer_number = ( value < m_ValueZero ) ? 1 : 2;
+            layer_number = ( outputIt.GetPixel ( neighborIndex ) > 0 ) ? 2 : 1;
 
             // This check is to prevent the same pixel from being included more than once
             // in the list

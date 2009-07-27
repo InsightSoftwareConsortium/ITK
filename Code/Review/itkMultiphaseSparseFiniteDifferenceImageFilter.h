@@ -195,6 +195,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter );
 
+  itkStaticConstMacro( ImageDimension, unsigned int, TOutputImage::ImageDimension );
+
   /**Typedefs from the superclass */
   typedef typename Superclass::TimeStepType               TimeStepType;
 
@@ -219,9 +221,6 @@ public:
   typedef typename OutputImageType::SpacingType           OutputSpacingType;
 
   typedef typename Superclass::IdCellType                 IdCellType;
-
-
-  itkStaticConstMacro( ImageDimension, unsigned int, TOutputImage::ImageDimension );
 
   typedef typename Superclass::FiniteDifferenceFunctionType
     FiniteDifferenceFunctionType;
@@ -355,8 +354,6 @@ protected:
 
     /** An image of status values used internally by the algorithm. */
     StatusImagePointer m_StatusImage;
-
-    OutputImagePointer m_ShiftedImage;
 
     /** Storage for layer node objects. */
     LayerNodeStoragePointer m_LayerNodeStore;
