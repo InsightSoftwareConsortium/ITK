@@ -132,7 +132,7 @@ public:
 protected:
   ScalarChanAndVeseSparseLevelSetImageFilter()
     {
-    this->SetNumberOfLayers(5); // Narrow-band usage
+    this->SetNumberOfLayers(2); // Narrow-band usage
     this->m_SharedData = SharedDataType::New();
     }
 

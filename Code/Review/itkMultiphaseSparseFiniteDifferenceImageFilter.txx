@@ -107,7 +107,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
     SparseDataStruct *sparsePtr = this->m_SparseData[fId];
 
     FiniteDifferenceFunctionFloatOffsetType offset;
-    ValueType gradientMagnitude, gradientMagnitudeSqr,
+    ValueType gradientMagnitudeSqr,
       forward, backward, current;
     const ValueType MIN_NORM      = 1.0e-6;
 
@@ -181,7 +181,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
 
           gradientMagnitudeSqr += offset[j] * offset[j];
           }
-        gradientMagnitude = vcl_sqrt ( gradientMagnitudeSqr ) + MIN_NORM;
 
         // Adding sqrt imagedimension "extends the reach" of the
         // interpolation
