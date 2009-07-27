@@ -34,7 +34,7 @@ int itkMatrixTest(int, char* [] )
 {
 
 
-  typedef   float                                NumericType;
+  typedef   float                                 NumericType;
   typedef   itk::Matrix<NumericType,3,3>          MatrixType;
   typedef   itk::Vector<NumericType,3>            VectorType;
   typedef   itk::Point<NumericType,3>             PointType;
@@ -385,7 +385,82 @@ int itkMatrixTest(int, char* [] )
     std::cout << excp;
     return EXIT_FAILURE;
     }
-  std::cout << "Test Passed !" << std::endl;
 
+  {
+  /*
+   *  This tries to invert a matrix close to
+   *     1.0156e+00   3.7242e-33   1.8034e-17
+   *    -1.5263e-17   2.4781e-16   1.2000e+00
+   *    -1.4363e-40  -1.0156e+00   2.9279e-16
+   *
+   *  Matlab suggest that the inverse of this matrix is close to
+   *  
+   *     9.8462e-01  -1.4797e-17  -5.6092e-40
+   *     3.6105e-33   2.4024e-16  -9.8462e-01
+   *     1.2524e-17   8.3334e-01   2.0333e-16
+   *
+   *  However, it has been reported that vnl_matrix_inverse may produce a warning
+   *
+   *    vnl/algo/vnl_svd.txx: suspicious return value (3) from SVDC
+   *    vnl/algo/vnl_svd.txx: M is 3x3
+   *
+   *  and will then only return NaN values
+   *
+   */
+ 
+   itk::Matrix<float,3,3> invertibleMatrix;
+   invertibleMatrix[0][0] = 1.015625;
+   invertibleMatrix[0][1] = 3.7241876106217399000472402087113071242494464386448e-33;
+   invertibleMatrix[0][2] = 1.8034176825630083413048304619152872874110471457243e-17;
+   invertibleMatrix[1][0] = -1.5263338494897929595479901809795819644932635128498e-17;
+   invertibleMatrix[1][1] = 2.4780806492783651398537081433914863737300038337708e-16;
+   invertibleMatrix[1][2] = 1.1999969482421875;
+   invertibleMatrix[2][0] = -1.4362888869790077531846951109846653370783300825652e-40;
+   invertibleMatrix[2][1] = -1.015625;
+   invertibleMatrix[2][2] = 2.9279401122629200669017501823532256821636110544205e-16;
+
+   itk::Matrix<float,3,3> inverseMatrixMatlab;
+   inverseMatrixMatlab[0][0] = 9.8462e-01;
+   inverseMatrixMatlab[0][1] = -1.4797e-17;
+   inverseMatrixMatlab[0][2] = -5.6092e-40;
+   inverseMatrixMatlab[1][0] = 3.6105e-33;
+   inverseMatrixMatlab[1][1] = 2.4024e-16;
+   inverseMatrixMatlab[1][2] = -9.8462e-01;
+   inverseMatrixMatlab[2][0] = 1.2524e-17;
+   inverseMatrixMatlab[2][1] = 8.3334e-01;
+   inverseMatrixMatlab[2][2] = 2.0333e-16;
+ 
+   std::cout << "Testing matrix inversion for " << std::endl << invertibleMatrix << std::endl;
+ 
+   const vnl_matrix_fixed<float,3,3> invertedMatrix = invertibleMatrix.GetInverse();
+   
+   std::cout << "Inverted to " << std::endl << invertedMatrix << std::endl;
+
+   std::cout << "Matlab inverse " << std::endl << inverseMatrixMatlab << std::endl;
+ 
+   unsigned int num_nans(0);
+   for ( unsigned int i = 0; i < 3; ++i )
+     {
+     for ( unsigned int j = 0; j < 3; ++j )
+       {
+         if ( vnl_math_isnan(invertedMatrix[i][j]) ) ++num_nans;
+       }
+     }
+
+   
+   const double relative_error = ( invertedMatrix - inverseMatrixMatlab.GetVnlMatrix() ).frobenius_norm()
+      / inverseMatrixMatlab.GetVnlMatrix().frobenius_norm();
+   
+   std::cout << "Relative error compared to Matlab " << std::endl << relative_error << std::endl;
+ 
+   if ( num_nans>0 || relative_error>1e-4 )
+     {
+     std::cout << "Matrix could not be inverted" << std::endl;
+     return EXIT_FAILURE;
+     }
+  }
+
+  
+  std::cout << "Test Passed !" << std::endl;
   return EXIT_SUCCESS;
 }
