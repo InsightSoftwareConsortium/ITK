@@ -115,8 +115,8 @@ public:
   
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-#if _MSC_VER < 1300
-  // Work-around for a visual c++ 6.0 bug. For details, see
+#if _MSC_VER <= 1300
+  // Work-around for a visual c++ 6.0 and 7.0 bug. For details, see
   // http://www.itk.org/mailman/private/insight-developers/2009-April/012191.html
   typedef TransformBase                                InverseTransformBaseType;
 #else
