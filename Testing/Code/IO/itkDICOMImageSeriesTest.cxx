@@ -27,11 +27,11 @@
 int itkDICOMImageSeriesTest(int ac, char* av[])
 {
 
-  if(ac < 3)
-  {
+  if( ac < 3 )
+    {
     std::cerr << "Usage: " << av[0] << " DicomDirectory ReverseOrder(0/1)\n";
     return EXIT_FAILURE;
-  }
+    }
 
   typedef itk::Image<unsigned short,5> ImageNDType;
   typedef itk::ImageSeriesReader<ImageNDType> ReaderType;
