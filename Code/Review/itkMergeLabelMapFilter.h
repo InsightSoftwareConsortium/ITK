@@ -21,7 +21,14 @@
 
 namespace itk {
 /** \class MergeLabelMapFilter
- * \brief TODO
+ * \brief Merges two Label Maps using different methods to create the product.
+ *
+ * This filter takes two input Label Map and takes an additional integer to determine the method that will
+ * be used to merge the two Label Maps. The integers are read as follows:
+ *   KEEP = 0,
+ *   AGGREGATE = 1,
+ *   PACK = 2,
+ *   STRICT = 3
  *
  * This implementation was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/584  or 
@@ -44,7 +51,7 @@ public:
   typedef SmartPointer<const Self>      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
+  typedef TImage                              ImageType; 
   typedef typename ImageType::Pointer         ImagePointer;
   typedef typename ImageType::ConstPointer    ImageConstPointer;
   typedef typename ImageType::PixelType       PixelType;
@@ -53,13 +60,13 @@ public:
   typedef typename LabelObjectType::Pointer   LabelObjectPointer;
   
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  itkStaticConstMacro( ImageDimension, unsigned int, TImage::ImageDimension );
 
   /** Standard New method. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Runtime information support. */
-  itkTypeMacro(MergeLabelMapFilter, InPlaceLabelMapFilter);
+  itkTypeMacro( MergeLabelMapFilter, InPlaceLabelMapFilter );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -100,8 +107,8 @@ protected:
   MethodChoice         m_Method;
 
 private:
-  MergeLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MergeLabelMapFilter( const Self& ); //purposely not implemented
+  void operator=( const Self& ); //purposely not implemented
   
   void MergeWithKeep();
   void MergeWithAggregate();
