@@ -67,6 +67,9 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( change->GetOutput() );
 
+  l2i->SetInput( NULL );
+  TRY_EXPECT_NO_EXCEPTION( l2i->Update() );
+
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
