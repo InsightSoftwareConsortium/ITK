@@ -28,7 +28,7 @@
 #define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3107 $, $Date: 2009-07-28 02:00:03 $ (GMT)"
+#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3108 $, $Date: 2009-07-28 19:00:40 $ (GMT)"
 
 namespace itk
 {
@@ -62,11 +62,11 @@ public:
   /** Return the version of itk this object is a part of.
    * A variety of methods are included. GetITKSourceVersion returns a string
    * with an identifier which timestamps a particular source tree.  */
-  static const char *GetITKVersion() { return ITK_VERSION; }
-  static int GetITKMajorVersion() { return ITK_VERSION_MAJOR; }
-  static int GetITKMinorVersion() { return ITK_VERSION_MINOR; }
-  static int GetITKBuildVersion() { return ITK_VERSION_PATCH; }
-  static const char *GetITKSourceVersion() { return ITK_SOURCE_VERSION; }
+  static const char *GetITKVersion();
+  static int GetITKMajorVersion();
+  static int GetITKMinorVersion();
+  static int GetITKBuildVersion();
+  static const char *GetITKSourceVersion();
     
 protected:
   Version();
