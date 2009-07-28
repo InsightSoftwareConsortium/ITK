@@ -58,10 +58,18 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::ShiftScaleLabelMapFilter< LabelMapType > ChangeType;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
-  change->SetShift( atof(argv[3]) );
-  change->SetScale( atof(argv[4]) );
-  bool changeBackground = atoi(argv[5]);
+
+  change->SetShift( atof( argv[3] ) );
+  TEST_SET_GET_VALUE( atof( argv[3] ), change->GetShift() );
+
+  change->SetScale( atof( argv[4] ) );
+  TEST_SET_GET_VALUE( atof( argv[4] ), change->GetScale() );
+
+
+  bool changeBackground = atoi( argv[5] );
   change->SetChangeBackgroundValue( changeBackground ); 
+  TEST_SET_GET_VALUE( atof( argv[5] ), change->GetChangeBackgroundValue() );
+
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
