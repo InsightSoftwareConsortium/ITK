@@ -313,7 +313,7 @@ void ImageSeriesReader<TOutputImage>
   const int numberOfFiles = static_cast<int>(m_FileNames.size());
   for ( int i = 0; i != numberOfFiles; ++i )
     {
-    sliceStartIndex[m_NumberOfDimensionsInImage] = i;
+    sliceStartIndex[ m_NumberOfDimensionsInImage-1 ] = i;
 
     // if this slice in not in the requested region then skip this file
     if( !requestedRegion.IsInside(sliceStartIndex) ) 
