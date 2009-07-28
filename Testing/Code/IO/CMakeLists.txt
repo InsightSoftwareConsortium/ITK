@@ -62,6 +62,7 @@ itkImageIOBaseTest.cxx
 itkImageIOFileNameExtensionsTests.cxx
 itkIOCommonTest.cxx
 itkIOPrintTest.cxx
+itkIOPluginTest.cxx
 itkImageFileReaderTest1.cxx
 itkImageFileReaderDimensionsTest.cxx
 itkImageFileReaderStreamingTest.cxx
@@ -1256,6 +1257,20 @@ IF(ITK_BINARY_DIR)
              ${ITK_SOURCE_DIR}/Code/IO)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)
+
+IF(ITK_BUILD_SHARED_LIBS)
+ADD_TEST(itkIOPluginTest ${IO_TESTS} itkIOPluginTest
+  ${ITK_TEST_OUTPUT_DIR}
+  "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+  ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+  )
+## Create a library to test ITK IO plugins
+SET(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
+SET(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
+ADD_LIBRARY(FileFreeTestLib SHARED ${FileFreeTest_Source})
+TARGET_LINK_LIBRARIES (FileFreeTestLib ITKIO ITKCommon)
+ADD_DEPENDENCIES(itkIOTests FileFreeTestLib)
+ENDIF(ITK_BUILD_SHARED_LIBS)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
 

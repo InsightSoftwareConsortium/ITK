@@ -60,6 +60,7 @@ void RegisterTests()
   REGISTER_TEST(itkImageIOFileNameExtensionsTests);
   REGISTER_TEST(itkIOCommonTest);
   REGISTER_TEST(itkIOPrintTest);
+  REGISTER_TEST(itkIOPluginTest);
   REGISTER_TEST(itkJPEGImageIOTest);
   REGISTER_TEST(itkMatrixImageWriteReadTest);
   REGISTER_TEST(itkMeshSpatialObjectIOTest);
