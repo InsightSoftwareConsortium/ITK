@@ -77,6 +77,7 @@ public:
   typedef typename LineType::LengthType      LengthType;
   typedef typename std::deque< LineType >    LineContainerType;
   typedef unsigned int                       AttributeType;
+  typedef unsigned long                      SizeValueType;
 
   enum
     {
@@ -121,15 +122,17 @@ public:
 
   void SetLineContainer( const LineContainerType & lineContainer );
 
-  int GetNumberOfLines() const;
+  SizeValueType GetNumberOfLines() const;
 
-  const LineType & GetLine( int i ) const;
+  const LineType & GetLine( SizeValueType i ) const;
   
-  LineType & GetLine( int i );
+  LineType & GetLine( SizeValueType i );
 
-  int Size() const;
+  SizeValueType Size() const;
+
+  bool Empty() const;
   
-  IndexType GetIndex( int offset ) const;
+  IndexType GetIndex( SizeValueType offset ) const;
   
   /** Copy the attributes of another node to this one */
   virtual void CopyAttributesFrom( const Self * src );

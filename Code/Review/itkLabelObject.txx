@@ -170,7 +170,7 @@ LabelObject<TLabel, VImageDimension>::SetLineContainer( const LineContainerType 
 }
 
 template < class TLabel, unsigned int VImageDimension >
-int 
+typename LabelObject<TLabel, VImageDimension>::SizeValueType
 LabelObject<TLabel, VImageDimension>::GetNumberOfLines() const
 {
   return m_LineContainer.size();
@@ -179,20 +179,20 @@ LabelObject<TLabel, VImageDimension>::GetNumberOfLines() const
 template < class TLabel, unsigned int VImageDimension >
 const 
 typename LabelObject<TLabel, VImageDimension>::LineType & 
-LabelObject<TLabel, VImageDimension>::GetLine( int i ) const
+LabelObject<TLabel, VImageDimension>::GetLine( SizeValueType i ) const
 {
   return m_LineContainer[i];
 }
   
 template < class TLabel, unsigned int VImageDimension >
 typename LabelObject<TLabel, VImageDimension>::LineType & 
-LabelObject<TLabel, VImageDimension>::GetLine( int i )
+LabelObject<TLabel, VImageDimension>::GetLine( SizeValueType i )
 {
   return m_LineContainer[i];
 }
 
 template < class TLabel, unsigned int VImageDimension >
-int 
+typename LabelObject<TLabel, VImageDimension>::SizeValueType
 LabelObject<TLabel, VImageDimension>::Size() const
 {
   int size = 0;
@@ -204,17 +204,26 @@ LabelObject<TLabel, VImageDimension>::Size() const
     }
   return size;
 }
-  
+
+template < class TLabel, unsigned int VImageDimension >
+bool 
+LabelObject<TLabel, VImageDimension>::Empty() const
+{ 
+  return this->m_LineContainer.empty();
+}
+
 template < class TLabel, unsigned int VImageDimension >
 typename LabelObject<TLabel, VImageDimension>::IndexType 
-LabelObject<TLabel, VImageDimension>::GetIndex( int offset ) const
+LabelObject<TLabel, VImageDimension>::GetIndex( SizeValueType offset ) const
 {
-  int o = offset;
-  for( typename LineContainerType::const_iterator it=m_LineContainer.begin();
-    it != m_LineContainer.end();
-    it++ )
+  SizeValueType o = offset;
+
+  typename LineContainerType::const_iterator it = this->m_LineContainer.begin();
+
+  while( it != m_LineContainer.end() )
     {
-    int size = it->GetLength();
+    SizeValueType size = it->GetLength();
+
     if( o >= size)
       {
       o -= size;
@@ -225,6 +234,8 @@ LabelObject<TLabel, VImageDimension>::GetIndex( int offset ) const
       idx[0] += o;
       return idx;
       }
+
+    it++;
     }
   itkGenericExceptionMacro(<< "Invalid offset: " << offset);
 }
@@ -272,9 +283,9 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     IndexType currentIdx = lineContainer.begin()->GetIndex();
     long int currentLength = lineContainer.begin()->GetLength();
     
-    for( typename LineContainerType::const_iterator it=lineContainer.begin(); 
-         it != lineContainer.end();
-         it++ )
+    typename LineContainerType::const_iterator it = lineContainer.begin(); 
+
+    while( it != lineContainer.end() )
       {
       const LineType & line = *it;
       IndexType idx = line.GetIndex();
@@ -300,15 +311,15 @@ LabelObject<TLabel, VImageDimension>::Optimize()
       else
         {
         // add the previous line to the new line container and use the new line index and size
-        // std::cout << currentIdx << "  " << currentLength << std::endl;
         this->AddLine( currentIdx, currentLength );
         currentIdx = idx;
         currentLength = length;
         }
-      // std::cout << line.GetIndex() << "  " << line.GetLength() << std::endl;
+
+      it++;
       }
+
     // complete the last line
-    // std::cout << currentIdx << "  " << currentLength << std::endl;
     this->AddLine( currentIdx, currentLength );
     }
 }
