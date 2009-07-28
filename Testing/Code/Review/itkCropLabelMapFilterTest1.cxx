@@ -61,6 +61,9 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
   change->SetCropSize( size );
+
+  TEST_SET_GET_VALUE( size, change->GetCropSize() );
+  
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
