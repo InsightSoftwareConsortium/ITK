@@ -356,6 +356,23 @@ int main(int ac, char* av[] )
         libpath += oldenv;
         }
       itksys::SystemTools::PutEnv( libpath.c_str() );
+      // on some 64 bit systems, LD_LIBRARY_PATH_64 is used before
+      // LD_LIBRARY_PATH if it is set. It can lead the test to load
+      // the system library instead of the expected one, so this
+      // var must also be set
+      if( std::string(KWSYS_SHARED_FORWARD_LDPATH) == "LD_LIBRARY_PATH" )
+        {
+        std::string libpath = "LD_LIBRARY_PATH_64";
+        libpath += "=";
+        libpath += av[i+1];
+        char * oldenv = getenv("LD_LIBRARY_PATH_64");
+        if( oldenv )
+          {
+          libpath += KWSYS_SHARED_FORWARD_PATH_SEP;
+          libpath += oldenv;
+          }
+        itksys::SystemTools::PutEnv( libpath.c_str() );
+        }
       i += 2;
       }
     else if( !skip && strcmp(av[i], "--add-before-env") == 0 )
