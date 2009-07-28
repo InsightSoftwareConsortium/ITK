@@ -57,15 +57,13 @@ public:
   typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
   
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ShiftScaleLabelMapFilter, 
-               InPlaceLabelMapFilter);
+  itkTypeMacro(ShiftScaleLabelMapFilter, InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -78,20 +76,14 @@ public:
   /** End concept checking */
 #endif
 
-  /**
-   */
   itkSetMacro( Shift, double );
   itkGetConstReferenceMacro( Shift, double );
 
-  /**
-   */
   itkSetMacro( Scale, double );
   itkGetConstReferenceMacro( Scale, double );
 
-  /**
-   */
+  itkSetMacro( ChangeBackgroundValue, bool );  
   itkGetConstMacro( ChangeBackgroundValue, bool );
-  itkSetMacro( ChangeBackgroundValue, bool );
   itkBooleanMacro( ChangeBackgroundValue );
 
 protected:
