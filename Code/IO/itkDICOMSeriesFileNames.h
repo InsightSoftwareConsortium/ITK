@@ -100,27 +100,30 @@ public:
   itkGetConstMacro(Ascending, bool);
   itkBooleanMacro(Ascending);
 
+  /** Type of the array used for returning filenames */
+  typedef std::vector<std::string>    FileNamesArrayType;
+
   /** Returns a vector containing the UIDs for each series in the
    * directory. If parameter "recursive" is true, subdirectories will
    * be scanned. */
-  const std::vector<std::string> &GetSeriesUIDs(bool recursive = false);
+  const FileNamesArrayType & GetSeriesUIDs(bool recursive = false);
   
   /** Returns a vector containing the Descriptions for each series in the
    * directory. GetSeriesUIDs() should be called before */
-  const std::vector<std::string> &GetSeriesDescriptions(){return m_SeriesDescriptions;}
-  const std::vector<std::string> &GetSeriesBodyParts(){return m_BodyParts;}
-  const std::vector<std::string> &GetSeriesScanOptions(){return m_ScanOptions;}
+  const FileNamesArrayType & GetSeriesDescriptions(){return m_SeriesDescriptions;}
+  const FileNamesArrayType & GetSeriesBodyParts(){return m_BodyParts;}
+  const FileNamesArrayType & GetSeriesScanOptions(){return m_ScanOptions;}
 
   /** Returns a vector containing the series file names. The file
    * names are sorted based on the current sorting mode. If parameter
    * "recursive" is true, subdirectories will be scanned. */
-  const std::vector<std::string> &GetFileNames (bool recursive = false);
+  const FileNamesArrayType & GetFileNames (bool recursive = false);
 
   /** Returns a vector containing the file names for a specified
    * series UID. The file names are sorted based on the current
    * sorting mode. If parameter "recursive" is true, subdirectories
    * will be scanned. */
-  const std::vector<std::string> &GetFileNames (const std::string& seriesUID,
+  const FileNamesArrayType & GetFileNames (const std::string& seriesUID,
                                                 bool recursive = false);
   
   /** Set the filename sorting order to sorting images based on the
@@ -153,23 +156,23 @@ private:
   void operator=(const Self&); //purposely not implemented
   
   int CanReadFile(const char* fname);
-  void RecurseDirectory( std::string directory, std::vector<std::string> &filenames);
+  void RecurseDirectory( std::string directory, FileNamesArrayType &filenames);
 
   itkdicomparser::DICOMParser    m_Parser;
   itkdicomparser::DICOMAppHelper m_AppHelper;
 
   bool                     m_Ascending;
   std::string              m_Directory;
-  std::vector<std::string> m_FileNames;
-  std::vector<std::string> m_SeriesUIDs;
-  std::vector<std::string> m_SeriesDescriptions;
-  std::vector<std::string> m_BodyParts;
-  std::vector<std::string> m_ScanOptions;
+  FileNamesArrayType       m_FileNames;
+  FileNamesArrayType       m_SeriesUIDs;
+  FileNamesArrayType       m_SeriesDescriptions;
+  FileNamesArrayType       m_BodyParts;
+  FileNamesArrayType       m_ScanOptions;
 
   FileNameSortingOrderType m_FileNameSortingOrder;
 
-  TimeStamp  m_DirectorySetTime;
-  TimeStamp  m_DirectoryScanTime;
+  TimeStamp                m_DirectorySetTime;
+  TimeStamp                m_DirectoryScanTime;
 };
 
 } //namespace ITK
