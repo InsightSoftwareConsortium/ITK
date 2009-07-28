@@ -68,7 +68,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   size[0] = atoi( argv[4] );
   size[1] = atoi( argv[5] );
   change->SetCropBorder( size );
-  //TEST_SET_GET_VALUE( size, change->GetCropBorder( size ) );
+  TEST_SET_GET_VALUE( size, change->GetCropBorder() );
   
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
