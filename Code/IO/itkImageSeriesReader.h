@@ -25,6 +25,7 @@
 #include <vector>
 #include <string>
 #include "itkMetaDataDictionary.h"
+#include "itkImageFileReader.h"
 
 namespace itk
 {
@@ -172,6 +173,10 @@ protected:
 private:
   ImageSeriesReader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  typedef ImageFileReader<TOutputImage> ReaderType;
+
+  void CollapseNumberOfImageDimensions( ReaderType * reader );
 };
 
 } //namespace ITK

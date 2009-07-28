@@ -16,9 +16,9 @@
 =========================================================================*/
 #ifndef __itkImageSeriesReader_txx
 #define __itkImageSeriesReader_txx
+
 #include "itkImageSeriesReader.h"
 
-#include "itkImageFileReader.h"
 #include "itkImageRegion.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -72,10 +72,35 @@ void ImageSeriesReader<TOutputImage>
 
 template <class TOutputImage>
 void ImageSeriesReader<TOutputImage>
+::CollapseNumberOfImageDimensions( ReaderType * reader )
+{
+  this->m_NumberOfDimensionsInImage = reader->GetImageIO()->GetNumberOfDimensions();
+
+  SizeType dimSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
+
+  // collapse the number of dimensions in image if any of the last
+  // dimensions are one
+  int d;
+  for (d = static_cast< int >(this->m_NumberOfDimensionsInImage)-1; d >= 0; --d)
+    {
+    if (dimSize[d] == 1)
+      {
+      this->m_NumberOfDimensionsInImage--;
+      }
+    else
+      {
+      break;
+      }
+    }
+}
+
+
+template <class TOutputImage>
+void ImageSeriesReader<TOutputImage>
 ::GenerateOutputInformation(void)
 {
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef ImageFileReader<TOutputImage> ReaderType;
+
   Array<float> position1(TOutputImage::ImageDimension); position1.Fill(0.0f);
   Array<float> position2(TOutputImage::ImageDimension); position2.Fill(0.0f);
 
@@ -137,34 +162,22 @@ void ImageSeriesReader<TOutputImage>
       direction = reader->GetOutput()->GetDirection();
       largestRegion = reader->GetOutput()->GetLargestPossibleRegion();
  
-      m_NumberOfDimensionsInImage = reader->GetImageIO()->GetNumberOfDimensions();
+      this->CollapseNumberOfImageDimensions( reader );
       }
     else if (i == 0) 
       {
       // ----------------------------
       // first of multiple slices
 
-      m_NumberOfDimensionsInImage = reader->GetImageIO()->GetNumberOfDimensions();
+      this->m_NumberOfDimensionsInImage = reader->GetImageIO()->GetNumberOfDimensions();
       spacing = reader->GetOutput()->GetSpacing();
       direction = reader->GetOutput()->GetDirection(); 
       
       SizeType dimSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
-      // collapse the number of dimensions in image if any of the last
-      // dimensions are one
-      int d;
-      for (d = static_cast<int>(m_NumberOfDimensionsInImage)-1; d >= 0; --d)
-        {
-        if (dimSize[d] == 1)
-          {
-          m_NumberOfDimensionsInImage--;
-          }
-        else
-          {
-          break;
-          }
-        }
-      dimSize[m_NumberOfDimensionsInImage] = m_FileNames.size();
+      this->CollapseNumberOfImageDimensions( reader );
+
+      dimSize[this->m_NumberOfDimensionsInImage] = m_FileNames.size();
       
       IndexType start;
       start.Fill(0);
@@ -223,7 +236,7 @@ void ImageSeriesReader<TOutputImage>
         }
         
       // set interslice spacing
-      spacing[m_NumberOfDimensionsInImage] = interSliceSpacing;
+      spacing[this->m_NumberOfDimensionsInImage] = interSliceSpacing;
         
       }
 
@@ -262,10 +275,7 @@ template <class TOutputImage>
 void ImageSeriesReader<TOutputImage>
 ::GenerateData()
 {
-  typedef ImageFileReader<TOutputImage> ReaderType;
-
   TOutputImage * output = this->GetOutput();
-  
   
   ImageRegionType requestedRegion = output->GetRequestedRegion();
   ImageRegionType largestRegion = output->GetLargestPossibleRegion();
@@ -279,11 +289,11 @@ void ImageSeriesReader<TOutputImage>
   // the last dimension that is other than 1 of validSize to 1.  However, if the
   // input and output have the same number of dimensions, this should
   // not be done because it will lower the dimension of the image.
-  if (TOutputImage::ImageDimension != m_NumberOfDimensionsInImage)
+  if (TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage)
     {
-    validSize[m_NumberOfDimensionsInImage] = 1;
-    sliceRequestedRegion.SetSize( m_NumberOfDimensionsInImage, 1 );
-    sliceRequestedRegion.SetIndex( m_NumberOfDimensionsInImage, 0 );
+    validSize[this->m_NumberOfDimensionsInImage] = 1;
+    sliceRequestedRegion.SetSize( this->m_NumberOfDimensionsInImage, 1 );
+    sliceRequestedRegion.SetIndex( this->m_NumberOfDimensionsInImage, 0 );
     }
 
   // Allocate the output buffer
@@ -313,7 +323,7 @@ void ImageSeriesReader<TOutputImage>
   const int numberOfFiles = static_cast<int>(m_FileNames.size());
   for ( int i = 0; i != numberOfFiles; ++i )
     {
-    sliceStartIndex[ m_NumberOfDimensionsInImage-1 ] = i;
+    sliceStartIndex[this->m_NumberOfDimensionsInImage] = i;
 
     // if this slice in not in the requested region then skip this file
     if( !requestedRegion.IsInside(sliceStartIndex) ) 
