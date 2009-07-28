@@ -66,8 +66,8 @@ int itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
   change->SetRegion( region );
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
-  filter->SetInput( NULL );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  change->SetInput( NULL );
+  TRY_EXPECT_EXCEPTION( change->Update() );
 
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
