@@ -311,25 +311,25 @@ private:
   mutable bool                                  m_ImplicitDerivativesSecondPass;
 
 
-  inline void GetValueThreadPreProcess( unsigned int threadID,
+  virtual inline void GetValueThreadPreProcess( unsigned int threadID,
                                         bool withinSampleThread ) const;
-  inline bool GetValueThreadProcessSample( unsigned int threadID,
+  virtual inline bool GetValueThreadProcessSample( unsigned int threadID,
                                        unsigned long fixedImageSample,
                                        const MovingImagePointType & mappedPoint,
                                        double movingImageValue ) const;
-  inline void GetValueThreadPostProcess( unsigned int threadID,
+  virtual inline void GetValueThreadPostProcess( unsigned int threadID,
                                         bool withinSampleThread ) const;
 
-  inline void GetValueAndDerivativeThreadPreProcess( 
+  virtual inline void GetValueAndDerivativeThreadPreProcess( 
                                        unsigned int threadID,
                                        bool withinSampleThread ) const;
-  inline bool GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
+  virtual inline bool GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
                                        unsigned long fixedImageSample,
                                        const MovingImagePointType & mappedPoint,
                                        double movingImageValue,
                                        const ImageDerivativesType &
                                                movingImageGradientValue ) const;
-  inline void GetValueAndDerivativeThreadPostProcess( 
+  virtual inline void GetValueAndDerivativeThreadPostProcess( 
                                        unsigned int threadID,
                                        bool withinSampleThread ) const;
 

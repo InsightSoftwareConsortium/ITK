@@ -504,7 +504,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
   else
     {
-    // Reset the joint pdfs to zero
+    // zero-th thread uses the variables directly
     memset( m_JointPDF->GetBufferPointer(),
             0,
             m_JointPDFBufferSize );
@@ -517,11 +517,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueThreadProcessSample(
-  unsigned int threadID,
-  unsigned long fixedImageSample,
-  const MovingImagePointType & itkNotUsed(mappedPoint),
-  double movingImageValue) const
+::GetValueThreadProcessSample( unsigned int threadID,
+                               unsigned long fixedImageSample,
+                               const MovingImagePointType & itkNotUsed(mappedPoint),
+                               double movingImageValue) const
 {
   /**
    * Compute this sample's contribution to the marginal and
@@ -531,10 +530,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if(movingImageValue < m_MovingImageTrueMin)
     {
+    std::cout << "val = " << movingImageValue << std::endl;
     return false;
     }
   else if(movingImageValue > m_MovingImageTrueMax)
     {
+    std::cout << "val = " << movingImageValue << std::endl;
     return false;
     }
 
@@ -589,9 +590,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   double movingImageParzenWindowArg =
                     static_cast<double>( pdfMovingIndex )
-                     - static_cast<double>( movingImageParzenWindowTerm );
+                     - movingImageParzenWindowTerm;
 
-  while (pdfMovingIndex <= pdfMovingIndexMax)
+  while( pdfMovingIndex <= pdfMovingIndexMax )
     {
     *(pdfPtr++) += static_cast<PDFValueType>( m_CubicBSplineKernel
                                               ->Evaluate(
@@ -705,11 +706,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     }
 
-  if( this->m_NumberOfMovingImageSamples <
+  if( this->m_NumberOfPixelsCounted <
       this->m_NumberOfFixedImageSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << this->m_NumberOfMovingImageSamples << " / "
+                       << this->m_NumberOfPixelsCounted << " / "
                        << this->m_NumberOfFixedImageSamples
                        << std::endl );
     }
@@ -810,14 +811,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueAndDerivativeThreadProcessSample(
-  unsigned int threadID,
-  unsigned long fixedImageSample,
-  const MovingImagePointType & itkNotUsed(mappedPoint),
-  double movingImageValue,
-  const ImageDerivativesType &
-  movingImageGradientValue
-  ) const
+::GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
+                         unsigned long fixedImageSample,
+                         const MovingImagePointType & itkNotUsed(mappedPoint),
+                         double movingImageValue,
+                         const ImageDerivativesType &
+                         movingImageGradientValue) const
 {
   /**
    * Compute this sample's contribution to the marginal
@@ -826,10 +825,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    */
   if(movingImageValue < m_MovingImageTrueMin)
     {
+    std::cout << "deriv, val = " << movingImageValue << std::endl;
     return false;
     }
   else if(movingImageValue > m_MovingImageTrueMax)
     {
+    std::cout << "deriv, val = " << movingImageValue << std::endl;
     return false;
     }
 
@@ -903,7 +904,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   double movingImageParzenWindowArg = static_cast<double>( pdfMovingIndex )
                           - static_cast<double>( movingImageParzenWindowTerm );
 
-  while (pdfMovingIndex <= pdfMovingIndexMax)
+  while( pdfMovingIndex <= pdfMovingIndexMax )
     {
     *(pdfPtr++) += static_cast<PDFValueType>( m_CubicBSplineKernel
                                               ->Evaluate(
@@ -968,7 +969,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
 
     double nFactor = 1.0 / (m_MovingImageBinSize
-                            * this->m_NumberOfMovingImageSamples);
+                            * this->m_NumberOfPixelsCounted);
 
     pdfDPtr = pdfDPtrStart;
     tPdfDPtrEnd = pdfDPtrStart + maxI;
@@ -1056,11 +1057,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       }
     }
 
-  if( this->m_NumberOfMovingImageSamples <
+  if( this->m_NumberOfPixelsCounted <
       this->m_NumberOfFixedImageSamples / 4 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << this->m_NumberOfMovingImageSamples << " / "
+                       << this->m_NumberOfPixelsCounted << " / "
                        << this->m_NumberOfFixedImageSamples
                        << std::endl );
     }
@@ -1086,7 +1087,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   double sum = 0.0;
 
   const double nFactor = 1.0 / (m_MovingImageBinSize
-                            * this->m_NumberOfMovingImageSamples);
+                            * this->m_NumberOfPixelsCounted);
 
   for( unsigned int fixedIndex = 0;
        fixedIndex < m_NumberOfHistogramBins;

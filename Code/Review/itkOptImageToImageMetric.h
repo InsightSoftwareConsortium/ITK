@@ -184,14 +184,14 @@ public:
   itkGetConstObjectMacro( Interpolator, InterpolatorType );
 
   /** Get the number of pixels considered in the computation. */
-  itkGetConstReferenceMacro( NumberOfMovingImageSamples, unsigned long );
-  unsigned long GetNumberOfPixelsCounter( void )
+  unsigned long GetNumberOfMovingImageSamples( void )
     {
-    return GetNumberOfMovingImageSamples(); 
+    return this->GetNumberOfPixelsCounted();
     }
+  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
 
   /** Set the region over which the metric will be computed */
-  itkSetMacro( FixedImageRegion, FixedImageRegionType );
+  void SetFixedImageRegion( FixedImageRegionType reg );
 
   /** Get the region over which the metric will be computed */
   itkGetConstReferenceMacro( FixedImageRegion, FixedImageRegionType );
@@ -204,9 +204,14 @@ public:
   itkSetConstObjectMacro( FixedImageMask, FixedImageMaskType );
   itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
+  void SetUseFixedImageMask( bool useMask );
+  itkGetConstReferenceMacro( UseFixedImageMask, bool );
+
   /** Set the fixed image indexes to be used as the samples when
    *   computing the match metric */
   void SetFixedImageIndexes( const FixedImageIndexContainer & indexes );
+  void SetUseFixedImageIndexes( bool useIndex );
+  itkGetConstReferenceMacro( UseFixedImageIndexes, bool );
 
   /** Set/Get number of threads to use for computations. */
   void SetNumberOfThreads( unsigned int numberOfThreads );
@@ -239,25 +244,13 @@ public:
   /** Initialize the components related to supporting multiple threads */
   virtual void MultiThreadingInitialize( void ) throw ( ExceptionObject );
 
-  /** Number of spatial samples to used to compute metric */
-  virtual void SetNumberOfFixedImageSamples( unsigned long numSamples )
-    {
-    // This is not a macro because we need to also set m_UseAllPixels
-    itkDebugMacro("Setting NumberOfFixedImageSamples to " << numSamples ); 
-    if (this->m_NumberOfFixedImageSamples != numSamples)
-      {
-      if( this->m_NumberOfFixedImageSamples == 0 )
-        {
-        // make sure that there is at least one sample
-        this->m_NumberOfFixedImageSamples = 1;
-        }
-      this->m_UseAllPixels = false;
-      this->m_NumberOfFixedImageSamples = numSamples;
-      this->Modified();
-      } 
-    } 
-
+  /** Number of spatial samples to used to compute metric 
+   *   This sets the number of samples.  */
+  virtual void SetNumberOfFixedImageSamples( unsigned long numSamples );
   itkGetConstReferenceMacro( NumberOfFixedImageSamples, unsigned long ); 
+
+  /** Number of spatial samples to used to compute metric 
+   *   This sets the number of samples.  */
   void SetNumberOfSpatialSamples( unsigned long num )
     {
     this->SetNumberOfFixedImageSamples( num ); 
@@ -271,17 +264,30 @@ public:
    *  metric computation */
   void SetFixedImageSamplesIntensityThreshold( const FixedImagePixelType & thresh );
   itkGetConstReferenceMacro( FixedImageSamplesIntensityThreshold, FixedImagePixelType );
-  itkSetMacro( UseFixedImageSamplesIntensityThreshold, bool );
+
+  void SetUseFixedImageSamplesIntensityThreshold( bool useThresh );
   itkGetConstReferenceMacro( UseFixedImageSamplesIntensityThreshold, bool );
 
   /** Select whether the metric will be computed using all the pixels on the
-   * fixed image region, or only using a set of randomly selected pixels. */ 
-  itkSetMacro( UseAllPixels, bool );
+   * fixed image region, or only using a set of randomly selected pixels. 
+   * This value override IntensityThreshold, Masks, and SequentialSampling. */
+  void SetUseAllPixels( bool useAllPixels );
+  void UseAllPixelsOn( void )
+    {
+    this->SetUseAllPixels( true );
+    }
+  void UseAllPixelsOff( void )
+    {
+    this->SetUseAllPixels( false );
+    }
   itkGetConstReferenceMacro( UseAllPixels, bool );
-  itkBooleanMacro( UseAllPixels );
 
-  /** Get the number of pixels considered in the computation. */
-  itkGetConstReferenceMacro( NumberOfPixelsCounted, unsigned long );
+  /** If set to true, then every pixel in the fixed image will be scanned to
+   * determine if it should be used in registration metric computation.  A
+   * pixel will be chosen if it meets any mask or threshold limits set.  If
+   * set to false, then UseAllPixels will be set to false. */
+  void SetUseSequentialSampling( bool sequentialSampling );
+  itkGetConstReferenceMacro( UseSequentialSampling, bool );
 
   /** Reinitialize the seed of the random number generator that selects the
    * sample of pixels used for estimating the image histograms and the joint
@@ -321,8 +327,6 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  mutable unsigned long       m_NumberOfPixelsCounted;
-
   /** \class FixedImageSamplePoint 
    * A fixed image spatial sample consists of the fixed domain point 
    * and the fixed image value at that point. */
@@ -347,8 +351,9 @@ protected:
   
   bool                      m_UseFixedImageIndexes;
   FixedImageIndexContainer  m_FixedImageIndexes;
-  FixedImagePixelType       m_FixedImageSamplesIntensityThreshold;
+
   bool                      m_UseFixedImageSamplesIntensityThreshold;
+  FixedImagePixelType       m_FixedImageSamplesIntensityThreshold;
 
   /** FixedImageSamplePoint typedef support. */
   typedef std::vector<FixedImageSamplePoint> FixedImageSampleContainer;
@@ -369,11 +374,11 @@ protected:
   unsigned long               m_NumberOfParameters;
   mutable ParametersType      m_Parameters;
 
-  /*mutable*/ unsigned long       m_NumberOfFixedImageSamples;
-  //m_NumberOfMovingImageSamples must be mutable because the const
+  unsigned long               m_NumberOfFixedImageSamples;
+  //m_NumberOfPixelsCounted must be mutable because the const
   //thread consolidation functions merge each threads valus
   //onto this accumulator variable.
-  mutable unsigned long       m_NumberOfMovingImageSamples;
+  mutable unsigned long       m_NumberOfPixelsCounted;
 
   FixedImageConstPointer      m_FixedImage;
   MovingImageConstPointer     m_MovingImage;
@@ -389,12 +394,14 @@ protected:
   bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
 
-  FixedImageMaskConstPointer       m_FixedImageMask;
-  MovingImageMaskConstPointer      m_MovingImageMask;
+  bool                        m_UseFixedImageMask;
+  FixedImageMaskConstPointer  m_FixedImageMask;
+  MovingImageMaskConstPointer m_MovingImageMask;
 
   unsigned int                m_NumberOfThreads;
 
   bool                        m_UseAllPixels;
+  bool                        m_UseSequentialSampling;
 
   bool                        m_ReseedIterator;
 
@@ -485,18 +492,17 @@ protected:
                                unsigned int threadID ) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
-  bool                                                 m_InterpolatorIsBSpline;
+  bool                                       m_InterpolatorIsBSpline;
   /** Pointer to BSplineInterpolator. */
-  typename BSplineInterpolatorType::Pointer            m_BSplineInterpolator;
+  typename BSplineInterpolatorType::Pointer  m_BSplineInterpolator;
 
   /** Pointer to central difference calculator. */
-  typename DerivativeFunctionType::Pointer             m_DerivativeCalculator;
+  typename DerivativeFunctionType::Pointer   m_DerivativeCalculator;
 
   /** Compute image derivatives at a point. */
-  virtual void ComputeImageDerivatives( 
-                                      const MovingImagePointType & mappedPoint,
-                                      ImageDerivativesType & gradient,
-                                      unsigned int threadID ) const;
+  virtual void ComputeImageDerivatives( const MovingImagePointType & mappedPoint,
+                                        ImageDerivativesType & gradient,
+                                        unsigned int threadID ) const;
 
 
   /**
@@ -512,76 +518,56 @@ protected:
 
   MultiThreaderType::Pointer               m_Threader;
   MultiThreaderParameterType               m_ThreaderParameter;
-  mutable unsigned int                     m_ThreaderChunkSize;
-  mutable unsigned int                     m_ThreaderSizeOfLastChunk;
   mutable unsigned int                   * m_ThreaderNumberOfMovingImageSamples;
   bool                                     m_WithinThreadPreProcess;
   bool                                     m_WithinThreadPostProcess;
 
-  void                           GetValueMultiThreadedPreProcessInitiate( 
-                                                                   void ) const;
+  void                           GetValueMultiThreadedPreProcessInitiate( void ) const;
   void                           GetValueMultiThreadedInitiate( void ) const;
-  void                           GetValueMultiThreadedPostProcessInitiate( 
-                                                                   void ) const;
+  void                           GetValueMultiThreadedPostProcessInitiate( void ) const;
   static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPreProcess( void * arg );
   static ITK_THREAD_RETURN_TYPE  GetValueMultiThreaded( void * arg );
   static ITK_THREAD_RETURN_TYPE  GetValueMultiThreadedPostProcess( void * arg );
 
-  void                      GetValueThread( unsigned int threadID ) const;
+  virtual inline void       GetValueThread( unsigned int threadID ) const;
   virtual inline void       GetValueThreadPreProcess( 
-                                       unsigned int threadID,
-                                       bool withinSampleThread ) const;
+                                 unsigned int threadID,
+                                 bool withinSampleThread ) const
+    { };
   virtual inline bool       GetValueThreadProcessSample( 
-    unsigned int itkNotUsed(threadID),
-    unsigned long itkNotUsed(fixedImageSample),
-    const MovingImagePointType & itkNotUsed(mappedPoint),
-    double itkNotUsed(movingImageValue)) const 
-    { return false; };
+                                 unsigned int itkNotUsed(threadID),
+                                 unsigned long itkNotUsed(fixedImageSample),
+                                 const MovingImagePointType & itkNotUsed(mappedPoint),
+                                 double itkNotUsed(movingImageValue)) const
+    { std::cout << "VT: ERROR" << std::endl; return false; };
   virtual inline void       GetValueThreadPostProcess( 
-    unsigned int itkNotUsed(threadID),
-    bool itkNotUsed(withinSampleThread) ) const {};
+                                 unsigned int itkNotUsed(threadID),
+                                 bool itkNotUsed(withinSampleThread) ) const
+    { };
       
+  void                          GetValueAndDerivativeMultiThreadedPreProcessInitiate( void ) const;
+  void                          GetValueAndDerivativeMultiThreadedInitiate( void ) const;
+  void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate( void ) const;
+  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPreProcess( void * arg );
+  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreaded(void * arg);
+  static ITK_THREAD_RETURN_TYPE GetValueAndDerivativeMultiThreadedPostProcess(void * arg);
 
-  /*
-  void                          InitiateGetDerivativeMultiThreaded( void) const;
-  static ITK_THREAD_RETURN_TYPE GetDerivativeMultiThreaded( void * arg );
-  void                       GetDerivativeThread( unsigned int threadID ) const;
-  virtual inline void   GetDerivativeThreadProcessSample( unsigned int threadID,
-                                             unsigned long fixedImageSample,
-                                             MovingImagePointType mappedPoint,
-                                             double movingImageValue) const = 0;
-  */
-
-  void                GetValueAndDerivativeMultiThreadedPreProcessInitiate( 
-                                                                    void) const;
-  void                GetValueAndDerivativeMultiThreadedInitiate( void) const;
-  void                GetValueAndDerivativeMultiThreadedPostProcessInitiate( 
-                                                                    void) const;
-  static ITK_THREAD_RETURN_TYPE 
-                      GetValueAndDerivativeMultiThreadedPreProcess(void * arg);
-
-  static ITK_THREAD_RETURN_TYPE 
-  GetValueAndDerivativeMultiThreaded(void * arg);
-
-  static ITK_THREAD_RETURN_TYPE 
-                      GetValueAndDerivativeMultiThreadedPostProcess(void * arg);
-
-  void                 GetValueAndDerivativeThread(unsigned int threadID) const;
-  virtual inline void  GetValueAndDerivativeThreadPreProcess( unsigned int itkNotUsed(threadID),
-    bool itkNotUsed(withinSampleThread)) const {};
+  virtual inline void  GetValueAndDerivativeThread(unsigned int threadID) const;
+  virtual inline void  GetValueAndDerivativeThreadPreProcess(
+                                unsigned int itkNotUsed(threadID),
+                                bool itkNotUsed(withinSampleThread)) const 
+    { };
   virtual inline bool  GetValueAndDerivativeThreadProcessSample( 
-    unsigned int itkNotUsed(threadID),
-    unsigned long itkNotUsed(fixedImageSample),
-    const MovingImagePointType & itkNotUsed(mappedPoint),
-    double itkNotUsed(movingImageValue),
-    const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const
-    { 
-    return false; 
-    }
-
+                                unsigned int itkNotUsed(threadID),
+                                unsigned long itkNotUsed(fixedImageSample),
+                                const MovingImagePointType & itkNotUsed(mappedPoint),
+                                double itkNotUsed(movingImageValue),
+                                const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const
+    { std::cout << "VDT: ERROR" << std::endl; return false; }
   virtual inline void  GetValueAndDerivativeThreadPostProcess( 
-    unsigned int itkNotUsed(threadID),
-    bool itkNotUsed(withinSampleThread) ) const {};
+                                unsigned int itkNotUsed(threadID),
+                                bool itkNotUsed(withinSampleThread) ) const 
+    { };
 
   /** Synchronizes the threader transforms with the transform
    *   member variable.
