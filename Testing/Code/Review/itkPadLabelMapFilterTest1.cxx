@@ -65,10 +65,8 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
+  
   l2i->SetInput( change->GetOutput() );
-
-  l2i->SetInput( NULL );
-  TRY_EXPECT_NO_EXCEPTION( l2i->Update() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -77,6 +75,9 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   writer->UseCompressionOn();
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  l2i->SetInput( NULL );
+  TRY_EXPECT_EXCEPTION( l2i->Update() );
 
   return EXIT_SUCCESS;
 }
