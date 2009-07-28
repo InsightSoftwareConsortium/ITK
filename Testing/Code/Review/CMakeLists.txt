@@ -1790,10 +1790,56 @@ ADD_TEST(itkMergeLabelMapFilterTest1a
             ${TEMP}/cthead1-label-merge_keep.mha
   itkMergeLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
-  ${INPUTDATA}/cthead1Label.png  #TODO replace with merge image
+  ${INPUTDATA}/cthead1Label.png  
   ${TEMP}/cthead1-label-merge_keep.mha
-  1    # Keep Method
+  0    # Keep Method
   )
+
+ADD_TEST(itkMergeLabelMapFilterTest1b
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/simple-label-merge-keep.mha
+            ${TEMP}/simple-label-merge-keep.mha
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-a.png
+  ${INPUTDATA}/simple-label-b.png  
+  ${TEMP}/simple-label-merge-keep.mha
+  0    # Keep Method
+  )
+
+ADD_TEST(itkMergeLabelMapFilterTest1c
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/simple-label-merge-aggregate.mha
+            ${TEMP}/simple-label-merge-aggregate.mha
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-a.png
+  ${INPUTDATA}/simple-label-b.png  
+  ${TEMP}/simple-label-merge-aggregate.mha
+  1    # Aggregate Method
+  )
+
+ADD_TEST(itkMergeLabelMapFilterTest1d
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/simple-label-merge-pack.mha
+            ${TEMP}/simple-label-merge-pack.mha
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-a.png
+  ${INPUTDATA}/simple-label-b.png  
+  ${TEMP}/simple-label-merge-pack.mha
+  2    # Pack Method
+  )
+
+
+ADD_TEST(itkMergeLabelMapFilterTest1e
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/simple-label-merge-strict.mha
+            ${TEMP}/simple-label-merge-strict.mha
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-a.png
+  ${INPUTDATA}/simple-label-b.png  
+  ${TEMP}/simple-label-merge-strict.mha
+  3    # Strict Method
+  )
+
 
 ADD_TEST(itkCropLabelMapFilterTest1
   ${REVIEW_TESTS3}
