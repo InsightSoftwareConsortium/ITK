@@ -38,6 +38,7 @@ void RegisterTests()
   REGISTER_TEST(itkDicomImageIODirection2DTest);
   REGISTER_TEST(itkDICOMSeriesFileNamesTest);
   REGISTER_TEST(itkDICOMImageSeriesTest);
+  REGISTER_TEST(itkDICOMImageSeriesTest2);
   REGISTER_TEST(itkAnalyzeImageIOTest);
   REGISTER_TEST(itkAnalyzeImageIOTest2);
   REGISTER_TEST(itkAnalyzeImageIOBadHeader);

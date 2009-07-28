@@ -53,6 +53,7 @@ itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
 itkDICOMImageIO2Test.cxx
 itkDICOMImageSeriesTest.cxx
+itkDICOMImageSeriesTest2.cxx
 itkDICOMSeriesFileNamesTest.cxx
 itkDicomImageIOTest.cxx
 itkDicomImageIODirection2DTest.cxx 
@@ -683,6 +684,10 @@ ADD_TEST(itkTIFFImageIOMultiPagesTest2 ${IO_TESTS}
 ADD_TEST(itkDICOMImageSeriesTest ${IO_TESTS} 
   itkDICOMImageSeriesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries 0)
+
+ADD_TEST(itkDICOMImageSeriesTest2 ${IO_TESTS} 
+  itkDICOMImageSeriesTest2
+            ${ITK_DATA_ROOT}/Input/DicomSeries )
 
 ADD_TEST(itkDICOMSeriesFileNamesTest ${IO_TESTS} 
   itkDICOMSeriesFileNamesTest
