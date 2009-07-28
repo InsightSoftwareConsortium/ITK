@@ -565,9 +565,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
         }
 
       // Search the neighborhood for outside indicies.
-      temp_value = new_value + m_ConstantGradientValue * m_PixelDistance[i];
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
+        temp_value = new_value + m_ConstantGradientValue * m_PixelDistance[i];
         idx = m_NeighborList.GetArrayIndex ( i );
         neighbor_status = statusIt.GetPixel ( idx );
         if ( neighbor_status == 2 )
@@ -993,7 +993,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunctio
   OutputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
   OffsetType offset;
   this->m_PixelDistance.clear();
-  this->m_PixelDistance.reserve ( m_NeighborList.GetSize() );
+  this->m_PixelDistance.resize ( m_NeighborList.GetSize() );
   for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
     {
     offset = m_NeighborList.GetNeighborhoodOffset ( i );
