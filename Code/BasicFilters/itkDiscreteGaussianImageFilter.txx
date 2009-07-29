@@ -17,6 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkDiscreteGaussianImageFilter_txx
 #define __itkDiscreteGaussianImageFilter_txx
 
+#include "itkDiscreteGaussianImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkImageRegionIterator.h"
