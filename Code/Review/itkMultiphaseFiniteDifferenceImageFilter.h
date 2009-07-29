@@ -159,45 +159,58 @@ namespace itk {
  * \ingroup LevelSetSegmentation
  * \sa DenseFiniteDifferenceImageFilter2 */
  template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction = FiniteDifferenceFunction<TOutputImage>,
   typename TIdCell = unsigned int >
 class ITK_EXPORT MultiphaseFiniteDifferenceImageFilter
-  : public InPlaceImageFilter< TInputImage, TOutputImage >
+  : public InPlaceImageFilter< TFeatureImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef MultiphaseFiniteDifferenceImageFilter           Self;
-  typedef InPlaceImageFilter<TInputImage, TOutputImage>   Superclass;
+  typedef InPlaceImageFilter<TFeatureImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( MultiphaseFiniteDifferenceImageFilter, InPlaceImageFilter );
 
-  /** Input and output image types. */
-  typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::Pointer          InputImagePointer;
-  typedef typename InputImageType::RegionType       InputRegionType;
-  typedef typename InputImageType::SizeType         InputSizeType;
-  typedef typename InputImageType::SpacingType      InputSpacingType;
-  typedef typename InputImageType::PointType        InputPointType;
-  typedef typename InputImageType::PixelType        InputPixelType;
+  /** Dimensionality of input and output data is assumed to be the same. */
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef TOutputImage                              OutputImageType;
-  typedef typename OutputImageType::Pointer         OutputImagePointer;
-  typedef typename OutputImageType::PixelType       OutputPixelType;
-  typedef typename OutputImageType::RegionType      OutputRegionType;
-  typedef typename OutputImageType::SizeType        OutputSizeType;
-  typedef typename OutputImageType::SizeValueType   OutputSizeValueType;
-  typedef typename OutputImageType::IndexType       OutputIndexType;
-  typedef typename OutputImageType::IndexValueType  OutputIndexValueType;
+  /** Input and output image types. */
+  typedef TInputImage                                 InputImageType;
+  typedef typename InputImageType::Pointer            InputImagePointer;
+  typedef typename InputImageType::PointType          InputPointType;
+  typedef typename InputPointType::CoordRepType       InputCoordRepType;
+  typedef typename InputImageType::IndexType          InputIndexType;
+  typedef typename InputIndexType::IndexValueType     InputIndexValueType;
+  typedef typename InputImageType::SizeType           InputSizeType;
+  typedef typename InputSizeType::SizeValueType       InputSizeValueType;
+  typedef typename InputImageType::RegionType         InputRegionType;
+  typedef typename InputImageType::PixelType          InputPixelType;
+  typedef typename InputImageType::SpacingType        InputSpacingType;
+
+  typedef TFeatureImage                               FeatureImageType;
+  typedef typename FeatureImageType::Pointer          FeatureImagePointer;
+  typedef typename FeatureImageType::RegionType       FeatureRegionType;
+  typedef typename FeatureImageType::SizeType         FeatureSizeType;
+  typedef typename FeatureImageType::SpacingType      FeatureSpacingType;
+  typedef typename FeatureImageType::PointType        FeaturePointType;
+  typedef typename FeatureImageType::PixelType        FeaturePixelType;
+
+  typedef TOutputImage                                OutputImageType;
+  typedef typename OutputImageType::Pointer           OutputImagePointer;
+  typedef typename OutputImageType::PixelType         OutputPixelType;
+  typedef typename OutputImageType::RegionType        OutputRegionType;
+  typedef typename OutputImageType::SizeType          OutputSizeType;
+  typedef typename OutputImageType::SizeValueType     OutputSizeValueType;
+  typedef typename OutputImageType::IndexType         OutputIndexType;
+  typedef typename OutputImageType::IndexValueType    OutputIndexValueType;
 
   typedef TIdCell                                   IdCellType;
   typedef std::vector< IdCellType >                 VectorIdCellType;
-
-  /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
@@ -283,7 +296,7 @@ public:
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstReferenceMacro( ElapsedIterations, unsigned int );
 
-  void SetLevelSet( const IdCellType & i, const InputImageType * levelSet )
+  void SetLevelSet( const IdCellType & i, const InputImageType *levelSet )
     {
     m_LevelSet[i] = InputImageType::New();
     m_LevelSet[i]->SetRequestedRegion( levelSet->GetRequestedRegion() );

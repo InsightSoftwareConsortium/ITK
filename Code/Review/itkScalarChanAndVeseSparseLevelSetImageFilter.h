@@ -57,12 +57,13 @@ namespace itk
 template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
   class TSharedData, typename TIdCell = unsigned int >
 class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter :
-public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
+public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+  TOutputImage, TFunction, TIdCell >
 {
 public:
   typedef ScalarChanAndVeseSparseLevelSetImageFilter      Self;
-  typedef MultiphaseSparseFiniteDifferenceImageFilter<
-    TInputImage, TOutputImage, TFunction, TIdCell >       Superclass;
+  typedef MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
+    TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
@@ -76,21 +77,21 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
   /** Inherited typedef from the superclass. */
+  typedef typename Superclass::InputImageType           InputImageType;
+  typedef typename Superclass::InputImagePointer        InputImagePointer;
+  typedef typename Superclass::InputPointType           InputPointType;
+  typedef typename Superclass::ValueType                ValueType;
+  typedef typename Superclass::InputSpacingType         InputSpacingType;
+
   typedef TFeatureImage                                 FeatureImageType;
-  typedef typename FeatureImageType::Pointer            FeatureImagePtr;
+  typedef typename FeatureImageType::Pointer            FeatureImagePointer;
   typedef typename FeatureImageType::PixelType          FeaturePixelType;
   typedef typename FeatureImageType::IndexType          FeatureIndexType;
   typedef typename FeatureIndexType::IndexValueType     FeatureIndexValueType;
   typedef typename FeatureImageType::RegionType         FeatureRegionType;
 
   /** Output image type typedefs */
-  typedef typename Superclass::InputImageType           InputImageType;
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::InputPointType           InputPointType;
-  typedef typename Superclass::InputSpacingType         InputSpacingType;
-
-  typedef typename Superclass::OutputImageType          OutputImageType;
-  typedef typename OutputImageType::ValueType           ValueType;
+  typedef TOutputImage                                  OutputImageType;
   typedef typename OutputImageType::IndexType           IndexType;
   typedef typename OutputImageType::PixelType           OutputPixelType;
 
@@ -119,14 +120,9 @@ public:
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage(const FeatureImageType *f)
+  virtual void SetFeatureImage( const FeatureImagePointer f )
     {
-    this->ProcessObject::SetNthInput( 0, const_cast< FeatureImageType *>(f) );
-    }
-
-  virtual const FeatureImageType * GetFeatureImage() const
-    {
-    return (static_cast< const FeatureImageType*>( this->ProcessObject::GetInput(0)) );
+    this->SetInput( f );
     }
 
 protected:
@@ -143,7 +139,7 @@ protected:
   virtual void Initialize();
   virtual void InitializeIteration();
   virtual void UpdatePixel( unsigned int functionIndex,
-    unsigned int idx, NeighborhoodIterator< OutputImageType > &iterator,
+    unsigned int idx, NeighborhoodIterator< InputImageType > &iterator,
     ValueType &newValue, bool &status );
 };
 

@@ -22,27 +22,22 @@
 
 namespace itk
 {
-template < class TInput,
-  class TFeature,
-  class TFunction,
-  class TOutputPixel,
+template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
   class TSharedData >
 void
-ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature,
-  TFunction, TOutputPixel, TSharedData >::
+ScalarChanAndVeseDenseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
+TFunction, TSharedData >::
 Initialize()
 {
-  const FeatureImageType * featureImage = this->GetFeatureImage();
-
   // Set the feature image for the individual level-set functions
   for( unsigned int fId = 0; fId < this->m_FunctionCount; ++fId )
     {
     InputImagePointer input = this->m_LevelSet[fId];
-    const InputPointType origin = input->GetOrigin();
+    InputPointType origin = input->GetOrigin();
 
     // In the context of the global coordinates
     FeatureIndexType start;
-    featureImage->TransformPhysicalPointToIndex( origin, start );
+    this->GetInput()->TransformPhysicalPointToIndex( origin, start );
 
     // Defining roi region
     FeatureRegionType region;
@@ -51,7 +46,7 @@ Initialize()
 
     // Initialize the ROI filter with the feature image
     ROIFilterPointer roi = ROIFilterType::New();
-    roi->SetInput( featureImage );
+    roi->SetInput( this->GetInput() );
     roi->SetRegionOfInterest( region );
     roi->Update();
 
@@ -79,7 +74,7 @@ Initialize()
     this->m_DifferenceFunctions[fId]->SetSharedData( this->m_SharedData );
     }
 
-  this->m_SharedData->AllocateListImage( this->GetFeatureImage() );
+  this->m_SharedData->AllocateListImage( this->GetInput() );
 
   this->m_SharedData->PopulateListImage();
 
@@ -89,13 +84,11 @@ Initialize()
 
 /** Overrides parent implementation */
 // This function is called at the end of each iteration
-template < class TInput,
-  class TFeature,
-  class TFunction,
-  class TOutputPixel,
+template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
   class TSharedData >
 void
-ScalarChanAndVeseDenseLevelSetImageFilter< TInput, TFeature, TFunction, TOutputPixel, TSharedData >
+ScalarChanAndVeseDenseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
+TFunction, TSharedData >
 ::InitializeIteration()
 {
   this->Superclass::InitializeIteration();

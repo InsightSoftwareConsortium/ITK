@@ -34,11 +34,10 @@ Initialize()
     {
     InputImagePointer input = this->m_LevelSet[fId];
     InputPointType origin = input->GetOrigin();
-    InputSpacingType spacing = input->GetSpacing();
 
     // In the context of the global coordinates
     FeatureIndexType start;
-    this->GetFeatureImage()->TransformPhysicalPointToIndex( origin, start );
+    this->GetInput()->TransformPhysicalPointToIndex( origin, start );
 
     // Defining roi region
     FeatureRegionType region;
@@ -47,12 +46,12 @@ Initialize()
 
     // Initialize the ROI filter with the feature image
     ROIFilterPointer roi = ROIFilterType::New();
-    roi->SetInput( this->GetFeatureImage() );
+    roi->SetInput( this->GetInput() );
     roi->SetRegionOfInterest( region );
     roi->Update();
 
     // Assign roi output
-    FeatureImagePtr feature = roi->GetOutput();
+    FeatureImagePointer feature = roi->GetOutput();
     this->m_DifferenceFunctions[fId]->SetFeatureImage( feature );
     this->m_DifferenceFunctions[fId]->SetInitialImage( input );
     }
@@ -78,7 +77,7 @@ Initialize()
     typedPointer->SetSharedData( this->m_SharedData );
     }
 
-  this->m_SharedData->AllocateListImage( this->GetFeatureImage() );
+  this->m_SharedData->AllocateListImage( this->GetInput() );
 
   this->m_SharedData->PopulateListImage();
 
@@ -122,7 +121,7 @@ void
 ScalarChanAndVeseSparseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputImage,
 TFunction, TSharedData, TIdCell > ::
 UpdatePixel ( unsigned int fId, unsigned int idx,
-NeighborhoodIterator< OutputImageType > &iterator, ValueType &newValue,
+NeighborhoodIterator< InputImageType > &iterator, ValueType &newValue,
 bool &status )
 {
   FunctionPtr typedPointer = this->m_DifferenceFunctions[fId];

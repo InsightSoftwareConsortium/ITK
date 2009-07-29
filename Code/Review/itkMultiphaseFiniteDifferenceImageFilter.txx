@@ -27,11 +27,13 @@
 namespace itk {
 
 template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction,
   typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage,
   TOutputImage,
   TFiniteDifferenceFunction,
   TIdCell >
@@ -125,11 +127,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
  *
  */
 template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction,
   typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage,
   TOutputImage,
   TFiniteDifferenceFunction,
   TIdCell >
@@ -140,8 +144,8 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  InputImagePointer  inputPtr  =
-    const_cast< InputImageType* >( this->GetInput(0) );
+  FeatureImagePointer  inputPtr  =
+    const_cast< FeatureImageType* >( this->GetInput(0) );
 
   if ( inputPtr.IsNull() )
     {
@@ -165,7 +169,7 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 
   // get a copy of the input requested region (should equal the output
   // requested region)
-  InputRegionType inputRequestedRegion;
+  FeatureRegionType inputRequestedRegion;
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
@@ -196,12 +200,14 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 }
 
 template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction,
   typename TIdCell >
-typename MultiphaseFiniteDifferenceImageFilter< TInputImage,
+typename MultiphaseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   TOutputImage, TFiniteDifferenceFunction, TIdCell >::TimeStepType
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage,
   TOutputImage,
   TFiniteDifferenceFunction,
   TIdCell >
@@ -247,11 +253,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 }
 
 template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction,
   typename TIdCell >
 bool
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage,
   TOutputImage,
   TFiniteDifferenceFunction,
   TIdCell >
@@ -272,11 +280,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 
 
 template < class TInputImage,
+  class TFeatureImage,
   class TOutputImage,
   class TFiniteDifferenceFunction,
   typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage,
   TOutputImage,
   TFiniteDifferenceFunction,
   TIdCell >

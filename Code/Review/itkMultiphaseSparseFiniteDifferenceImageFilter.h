@@ -176,16 +176,17 @@ namespace itk {
  *      http://hdl.handle.net/1926/1533
  *
  */
-template < class TInputImage, class TOutputImage, class TFunction,
+template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
   typename TIdCell = unsigned int >
 class ITK_EXPORT MultiphaseSparseFiniteDifferenceImageFilter :
-  public MultiphaseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TFunction, TIdCell >
+  public MultiphaseFiniteDifferenceImageFilter< TInputImage,
+  TFeatureImage, TOutputImage, TFunction, TIdCell >
 {
 public:
   /** Standard class typedefs */
   typedef MultiphaseSparseFiniteDifferenceImageFilter     Self;
-  typedef MultiphaseFiniteDifferenceImageFilter<
-    TInputImage, TOutputImage, TFunction, TIdCell >       Superclass;
+  typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
+    TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
   typedef SmartPointer<Self>                              Pointer;
   typedef SmartPointer<const Self>                        ConstPointer;
 
@@ -195,31 +196,39 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter );
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TOutputImage::ImageDimension );
+  itkStaticConstMacro( ImageDimension, unsigned int, Superclass::ImageDimension );
 
   /**Typedefs from the superclass */
   typedef typename Superclass::TimeStepType               TimeStepType;
 
   /** Information derived from the image types. */
   typedef typename Superclass::InputImageType             InputImageType;
-  typedef typename Superclass::InputSizeType              InputSizeType;
   typedef typename Superclass::InputImagePointer          InputImagePointer;
   typedef typename Superclass::InputRegionType            InputRegionType;
-  typedef typename Superclass::InputSpacingType           InputSpacingType;
+  typedef typename Superclass::InputSizeType              InputSizeType;
+  typedef typename Superclass::InputSizeValueType         InputSizeValueType;
+  typedef typename Superclass::InputIndexType             InputIndexType;
+  typedef typename Superclass::InputIndexValueType        InputIndexValueType;
+  typedef typename Superclass::InputPixelType             InputPixelType;
   typedef typename Superclass::InputPointType             InputPointType;
+  typedef typename Superclass::InputSpacingType           InputSpacingType;
+
+  typedef typename Superclass::FeatureImageType           FeatureImageType;
+  typedef typename Superclass::FeatureSizeType            FeatureSizeType;
+  typedef typename Superclass::FeatureImagePointer        FeatureImagePointer;
+  typedef typename Superclass::FeatureRegionType          FeatureRegionType;
+  typedef typename Superclass::FeatureSpacingType         FeatureSpacingType;
+  typedef typename Superclass::FeaturePointType           FeaturePointType;
 
   typedef typename Superclass::OutputImageType            OutputImageType;
   typedef typename Superclass::OutputImagePointer         OutputImagePointer;
   typedef typename Superclass::OutputRegionType           OutputRegionType;
   typedef typename Superclass::OutputSizeType             OutputSizeType;
-  typedef typename Superclass::OutputSizeValueType        SizeValueType;
-  typedef typename OutputImageType::ValueType             ValueType;
   typedef typename Superclass::OutputIndexType            OutputIndexType;
   typedef typename Superclass::OutputIndexValueType       OutputIndexValueType;
   typedef typename Superclass::OutputPixelType            OutputPixelType;
-  typedef typename OutputImageType::PointType             OutputPointType;
-  typedef typename OutputImageType::SpacingType           OutputSpacingType;
 
+  typedef typename InputImageType::ValueType              ValueType;
   typedef typename Superclass::IdCellType                 IdCellType;
 
   typedef typename Superclass::FiniteDifferenceFunctionType
@@ -253,7 +262,7 @@ public:
                                                         StatusImageType;
   typedef typename StatusImageType::Pointer             StatusImagePointer;
 
-  typedef ZeroCrossingImageFilter<OutputImageType, OutputImageType>
+  typedef ZeroCrossingImageFilter< InputImageType, InputImageType>
     ZeroCrossingFilterType;
   typedef typename ZeroCrossingFilterType::Pointer
     ZeroCrossingFilterPointer;
@@ -468,7 +477,7 @@ to);
   void InitializeIteration();
 
   virtual void UpdatePixel(unsigned int itkNotUsed(functionIndex), unsigned int itkNotUsed(idx),
-    NeighborhoodIterator<OutputImageType> & itkNotUsed(iterator), ValueType & itkNotUsed(newValue),
+    NeighborhoodIterator< InputImageType> & itkNotUsed(iterator), ValueType & itkNotUsed(newValue),
     bool & itkNotUsed(status) ){};
 
   itkGetConstMacro( ValueZero, ValueType );
