@@ -28,20 +28,20 @@
 namespace itk
 {
 
-template < class TInputImage, class TOutputImage,
+template < class TInputImage, class TFeatureImage, class TOutputImage,
   class TFiniteDifferenceFunction = FiniteDifferenceFunction<TOutputImage>,
   typename TIdCell = unsigned int >
 class MultiphaseFiniteDifferenceImageFilterTestHelper
   : public MultiphaseFiniteDifferenceImageFilter<
-      TInputImage, TOutputImage, TFiniteDifferenceFunction, TIdCell >
+      TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell >
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiphaseFiniteDifferenceImageFilterTestHelper           Self;
-  typedef MultiphaseFiniteDifferenceImageFilter<
-    TInputImage, TOutputImage,TFiniteDifferenceFunction,TIdCell>    Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef MultiphaseFiniteDifferenceImageFilterTestHelper             Self;
+  typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
+    TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell > Superclass;
+  typedef SmartPointer<Self>                                          Pointer;
+  typedef SmartPointer<const Self>                                    ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( MultiphaseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter );
@@ -70,23 +70,23 @@ int itkMultiphaseFiniteDifferenceImageFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
 
-  typedef double                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::Image< float, Dimension >          FeatureImageType;
+  typedef itk::Image< double,        Dimension >  LevelSetImageType;
+  typedef itk::Image< float,         Dimension >  FeatureImageType;
+  typedef itk::Image< unsigned char, Dimension >  OutputImageType;
 
   typedef itk::ScalarChanAndVeseLevelSetFunctionData<
-    ImageType, FeatureImageType >      DataHelperType;
+    LevelSetImageType, FeatureImageType >                 DataHelperType;
   typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData<
-    ImageType, FeatureImageType, DataHelperType >      SharedDataHelperType;
-
+    LevelSetImageType, FeatureImageType, DataHelperType > SharedDataHelperType;
 
   typedef itk::ScalarChanAndVeseLevelSetFunction<
-    ImageType, FeatureImageType, SharedDataHelperType >      RegionBasedLevelSetFunctionType;
+    LevelSetImageType, FeatureImageType, SharedDataHelperType >
+                                                  RegionBasedLevelSetFunctionType;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
 
-  typedef itk::MultiphaseFiniteDifferenceImageFilterTestHelper<
-    ImageType, ImageType, RegionBasedLevelSetFunctionType >  FilterType;
+  typedef itk::MultiphaseFiniteDifferenceImageFilterTestHelper< LevelSetImageType,
+    FeatureImageType, OutputImageType, RegionBasedLevelSetFunctionType >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
