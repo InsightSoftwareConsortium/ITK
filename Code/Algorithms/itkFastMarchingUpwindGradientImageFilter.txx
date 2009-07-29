@@ -235,6 +235,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
         }
       }
     }
+  else
+    {
+    m_TargetValue = static_cast<double>(output->GetPixel(index));
+    }
 }
 
 /**

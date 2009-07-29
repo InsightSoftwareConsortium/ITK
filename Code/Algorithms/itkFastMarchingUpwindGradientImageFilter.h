@@ -164,7 +164,10 @@ public:
   /** Get the number of targets. */
   itkGetConstReferenceMacro( NumberOfTargets, long );
 
-  /** Get the arrival time corresponding to the last reached target. */
+  /** Get the arrival time corresponding to the last reached target. 
+   *  If TargetReachedMode is set to NoTargets, TargetValue contains
+   *  the last (aka largest) Eikonal solution value generated. 
+   */
   itkGetConstReferenceMacro( TargetValue, double );
 
   enum
