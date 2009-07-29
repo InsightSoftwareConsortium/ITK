@@ -1173,7 +1173,7 @@ NiftiImageIO
   std::string FName(this->GetFileName());
   //
   // set the file type
-  char * tempextension=nifti_find_file_extension(FName.c_str());
+  const char * tempextension=nifti_find_file_extension(FName.c_str());
   if(tempextension == NULL)
     {
     itkExceptionMacro( <<
