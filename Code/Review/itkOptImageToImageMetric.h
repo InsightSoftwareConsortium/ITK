@@ -539,7 +539,7 @@ protected:
                                  unsigned long itkNotUsed(fixedImageSample),
                                  const MovingImagePointType & itkNotUsed(mappedPoint),
                                  double itkNotUsed(movingImageValue)) const
-    { std::cout << "VT: ERROR" << std::endl; return false; };
+    { return false; };
   virtual inline void       GetValueThreadPostProcess( 
                                  unsigned int itkNotUsed(threadID),
                                  bool itkNotUsed(withinSampleThread) ) const
@@ -563,7 +563,7 @@ protected:
                                 const MovingImagePointType & itkNotUsed(mappedPoint),
                                 double itkNotUsed(movingImageValue),
                                 const ImageDerivativesType & itkNotUsed(movingImageGradientValue) ) const
-    { std::cout << "VDT: ERROR" << std::endl; return false; }
+    { return false; }
   virtual inline void  GetValueAndDerivativeThreadPostProcess( 
                                 unsigned int itkNotUsed(threadID),
                                 bool itkNotUsed(withinSampleThread) ) const 
@@ -573,9 +573,6 @@ protected:
    *   member variable.
    */
   void SynchronizeTransforms() const;
-
-  /** Update sample sizes for the threads. */
-  void NumberOfFixedImageSamplesUpdated();
 
 private:
   ImageToImageMetric(const Self&); //purposely not implemented

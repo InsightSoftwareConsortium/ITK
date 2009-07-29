@@ -530,12 +530,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
   if(movingImageValue < m_MovingImageTrueMin)
     {
-    std::cout << "val = " << movingImageValue << std::endl;
     return false;
     }
   else if(movingImageValue > m_MovingImageTrueMax)
     {
-    std::cout << "val = " << movingImageValue << std::endl;
     return false;
     }
 
@@ -825,12 +823,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    */
   if(movingImageValue < m_MovingImageTrueMin)
     {
-    std::cout << "deriv, val = " << movingImageValue << std::endl;
     return false;
     }
   else if(movingImageValue > m_MovingImageTrueMax)
     {
-    std::cout << "deriv, val = " << movingImageValue << std::endl;
     return false;
     }
 

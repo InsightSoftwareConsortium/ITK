@@ -143,7 +143,6 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::SetNumberOfFixedImageSamples( unsigned long numSamples )
 {
-  std::cout << "SET1 Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
   if( numSamples != m_NumberOfFixedImageSamples )
     {
     m_NumberOfFixedImageSamples = numSamples;
@@ -153,7 +152,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     this->Modified();
     }
-  std::cout << "SET2 Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
 }
 
 template <class TFixedImage, class TMovingImage> 
@@ -267,7 +265,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       {
       this->SetUseFixedImageSamplesIntensityThreshold( false );
       this->SetUseFixedImageMask( NULL );
-      std::cout << "Here1" << std::endl;
       this->SetNumberOfFixedImageSamples( this->m_FixedImageRegion.GetNumberOfPixels() );
       this->SetUseSequentialSampling( true );
       }
@@ -307,7 +304,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
 {
 
-  std::cout << "I1 Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
   if( !m_Transform )
     {
     itkExceptionMacro(<<"Transform is not present");
@@ -364,7 +360,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   // user code a chance to set parameters on the metric
   this->InvokeEvent( InitializeEvent() );
 
-  std::cout << "I2 Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
 }
 
 
@@ -376,7 +371,6 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::MultiThreadingInitialize(void) throw ( ExceptionObject )
 {
-  std::cout << "MI Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
 
   m_Threader->SetNumberOfThreads( m_NumberOfThreads );
 
@@ -407,9 +401,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     this->m_ThreaderTransform[ithread] = transformCopy;
     }
 
-  std::cout << "Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
   m_FixedImageSamples.resize( m_NumberOfFixedImageSamples );
-  std::cout << "Target sample size = " << m_NumberOfFixedImageSamples << std::endl;
   if( m_UseSequentialSampling )
     {
     // 
@@ -437,8 +429,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       SampleFixedImageDomain( m_FixedImageSamples );
       }
     }
-
-  std::cout << "FixedImageSamples.size() = " << m_FixedImageSamples.size() << std::endl;
 
   //  
   //  Check if the interpolator is of type BSplineInterpolateImageFunction.
@@ -570,8 +560,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 {
   typename FixedImageSampleContainer::iterator iter;
 
-  std::cout << "SampleFixedImageIndexes" << std::endl;
-
   unsigned long len = m_FixedImageIndexes.size();
   if( len != m_NumberOfFixedImageSamples 
        || samples.size() != m_NumberOfFixedImageSamples )
@@ -579,8 +567,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     throw ExceptionObject(__FILE__, __LINE__, 
        "Index list size does not match desired number of samples" );
     }
-
-  std::cout << "SampleFixedImageIndexes" << std::endl;
 
   iter=samples.begin();
   for(unsigned long i=0; i<len; i++)
@@ -606,15 +592,11 @@ void
 ImageToImageMetric<TFixedImage,TMovingImage>
 ::SampleFixedImageDomain( FixedImageSampleContainer & samples ) const
 {
-  std::cout << "SampleFixedImageDomain" << std::endl;
-
   if( samples.size() != m_NumberOfFixedImageSamples )
     {
     throw ExceptionObject(__FILE__, __LINE__, 
        "Sample size does not match desired number of samples" );
     }
-
-  std::cout << "SampleFixedImageDomain" << std::endl;
 
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
@@ -727,15 +709,11 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 ::SampleFullFixedImageDomain( FixedImageSampleContainer& samples ) const
 {
 
-  std::cout << "SampleFullFixedImage" << std::endl;
-
   if( samples.size() != m_NumberOfFixedImageSamples )
     {
     throw ExceptionObject(__FILE__, __LINE__, 
        "Sample size does not match desired number of samples" );
     }
-
-  std::cout << "SampleFullFixedImage" << std::endl;
 
   // Set up a region interator within the user specified fixed image region.
   typedef ImageRegionConstIteratorWithIndex<FixedImageType> RegionIterator;
@@ -929,8 +907,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     m_BSplinePreTransformPointsArray[counter]      = mappedPoint;
     m_WithinBSplineSupportRegionArray[counter]     = valid;
     }
-
-  std::cout << "bspline counter = " << counter << std::endl;
 
   // Restore the previous parameters.
   // m_Transform->SetParameters( *previousParameters );
@@ -1366,7 +1342,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     }
 
-  std::cout << "vt thread = " << threadID << " ; nSamples = " << numSamples << std::endl;
   if(threadID > 0)
     {
     m_ThreaderNumberOfMovingImageSamples[threadID-1] = numSamples;
@@ -1509,8 +1484,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     this->GetValueAndDerivativeThreadPreProcess(threadID, true);
     }
 
-  std::cout << "vdt: chunksize = " << chunkSize << std::endl;
-
   // Process the samples
   MovingImagePointType mappedPoint;
   bool sampleOk;
@@ -1536,7 +1509,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
         }
       }
     }
-  std::cout << "vdt thread = " << threadID << " ; nSamples = " << numSamples << std::endl;
 
   if(threadID > 0)
     {
