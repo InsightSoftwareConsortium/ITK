@@ -36,6 +36,7 @@ class ImagePattern
 {
 public:
   typedef itk::Index<VDimension> IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
   typedef itk::Size<VDimension> SizeType;
   typedef float PixelType;
 
@@ -61,9 +62,9 @@ public:
     for( int j = 0; j < VDimension; j++ )
       {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-         if ( index[j] < size[j] )
+         if ( index[j] < static_cast<IndexValueType>(size[j]) )
            {
-           if ( index[j] >= clampSize[j] )
+           if ( index[j] >= static_cast<IndexValueType>(clampSize[j]) )
              {
              //Interpolators behave this way in half-pixel band at image perimeter
              accum += coeff[j] * (double) (clampSize[j]-1);
