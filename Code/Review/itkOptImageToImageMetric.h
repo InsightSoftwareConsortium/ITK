@@ -531,8 +531,8 @@ protected:
 
   virtual inline void       GetValueThread( unsigned int threadID ) const;
   virtual inline void       GetValueThreadPreProcess( 
-                                 unsigned int threadID,
-                                 bool withinSampleThread ) const
+                                 unsigned int itkNotUsed(threadID),
+                                 bool itkNotUsed(withinSampleThread) ) const
     { };
   virtual inline bool       GetValueThreadProcessSample( 
                                  unsigned int itkNotUsed(threadID),
