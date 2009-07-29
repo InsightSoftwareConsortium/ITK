@@ -321,12 +321,13 @@ int main( int argc, char *argv[] )
   fastMarching->SetSpeedConstant( 1.0 );
 
 
-  //  The FastMarchingImageFilter requires the user to specify the
-  //  size of the image to be produced as output. This is done using the
-  //  \code{SetOutputSize()}. Note that the size is obtained here from the
-  //  output image of the smoothing filter. The size of this image is valid
+  //  The FastMarchingImageFilter requires the user to specify the size of the
+  //  image to be produced as output. This is done using the
+  //  \code{SetOutputRegion()} method. Note that the size is obtained here from
+  //  the output image of the smoothing filter. The size of this image is valid
   //  only after the \code{Update()} methods of this filter has been called
-  //  directly or indirectly.
+  //  directly or indirectly. Other image parameters such as Origin, Spacing
+  //  and Direction are set in a similar manner.
 
   
   //  Software Guide : BeginLatex
@@ -341,8 +342,11 @@ int main( int argc, char *argv[] )
   try
     {
     reader->Update();
-    fastMarching->SetOutputSize( 
-      reader->GetOutput()->GetBufferedRegion().GetSize() );
+    const InternalImageType * inputImage = reader->GetOutput();
+    fastMarching->SetOutputRegion( inputImage->GetBufferedRegion() );
+    fastMarching->SetOutputSpacing( inputImage->GetSpacing() );
+    fastMarching->SetOutputOrigin( inputImage->GetOrigin() );
+    fastMarching->SetOutputDirection( inputImage->GetDirection() );
     writer->Update();
     }
   catch( itk::ExceptionObject & excep )
