@@ -17,7 +17,7 @@
 #ifndef __itkOptLinearInterpolateImageFunction_txx
 #define __itkOptLinearInterpolateImageFunction_txx
 
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkOptLinearInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
 
@@ -77,27 +77,11 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    */
   signed long baseIndex[ImageDimension];
   double distance[ImageDimension];
-  long tIndex;
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    // The following "if" block is equivalent to the following line without
-    // having to call floor.
-    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
-    if (index[dim] >= 0.0)
-      {
-      baseIndex[dim] = (long) index[dim];
-      }
-    else
-      {
-      tIndex = (long) index[dim];
-      if (double(tIndex) != index[dim])
-        {
-        tIndex--;
-        }
-      baseIndex[dim] = tIndex;
-      }
-    distance[dim] = index[dim] - static_cast< RealType >( baseIndex[dim] );
+    baseIndex[dim] = Math::Floor( index[dim] );
+    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
   
   /**
@@ -124,11 +108,27 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
       if ( upper & 1 )
         {
         neighIndex[dim] = baseIndex[dim] + 1;
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer upper boundary of the image grid.
+        if( neighIndex[dim] > this->m_EndIndex[dim] )
+          {
+          neighIndex[dim] = this->m_EndIndex[dim];
+          }
+#endif
         overlap *= distance[dim];
         }
       else
         {
         neighIndex[dim] = baseIndex[dim];
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+        // Take care of the case where the pixel is just
+        // in the outer lower boundary of the image grid.
+        if( neighIndex[dim] < this->m_StartIndex[dim] )
+          {
+          neighIndex[dim] = this->m_StartIndex[dim];
+          }
+#endif
         overlap *= 1.0 - distance[dim];
         }
 

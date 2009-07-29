@@ -22,7 +22,7 @@
 // gets integrated into the main directories.
 #include "itkConfigure.h"
 
-#if defined( ITK_USE_OPTIMIZED_REGISTRATION_METHODS ) && defined( LINEAR_INTERPOLATOR_FIXED )
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
 #include "itkOptLinearInterpolateImageFunction.h"
 #else
 

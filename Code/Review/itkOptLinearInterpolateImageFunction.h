@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ImageFunctions ImageInterpolators 
  */
-template <class TInputImage, class TCoordRep = float>
+template <class TInputImage, class TCoordRep = double>
 class ITK_EXPORT LinearInterpolateImageFunction : 
   public InterpolateImageFunction<TInputImage,TCoordRep> 
 {
@@ -118,21 +118,29 @@ private:
     {
     IndexType basei;
 
-    double i = index[0];
-    basei[0] = (long)i;
-    if( i < 0.0 && double(basei[0]) != i)
+    basei[0] = Math::Floor(index[0]);
+    if( basei[0] < this->m_StartIndex[0] )
       {
-      basei[0]--;
+      basei[0] = this->m_StartIndex[0];
       }
 
-    double distance = i - double(basei[0]);
+    const double distance = index[0] - static_cast<double>(basei[0]);
 
-    double val0 = this->GetInputImage()->GetPixel( basei );
-    double val1 = val0;
+    const RealType val0 = this->GetInputImage()->GetPixel( basei );
+
+    if(distance <= 0.)
+      {
+      return( static_cast<OutputType>( val0 ) );
+      }
+
     ++basei[0];
-    val1 = this->GetInputImage()->GetPixel( basei );
+    if(basei[0]>this->m_EndIndex[0])
+      {
+      return( static_cast<OutputType>( val0 ) );
+      }
+    const RealType val1 = this->GetInputImage()->GetPixel( basei );
 
-    return( static_cast<OutputType>( val0 + distance * ( val1 - val0 ) ) );
+    return( static_cast<OutputType>( val0 + ( val1 - val0 ) * distance ) );
     }
 
   inline OutputType EvaluateOptimized( const Dispatch<2>&,
@@ -140,61 +148,76 @@ private:
     {
     IndexType basei;
 
-    double i = index[0];
-    basei[0] = (long)i;
-    if( i < 0.0 && double(basei[0]) != i)
+    basei[0] = Math::Floor(index[0]);
+    if( basei[0] < this->m_StartIndex[0] )
       {
-      basei[0]--;
+      basei[0] = this->m_StartIndex[0];
       }
-    double distance0 = i - double(basei[0]);
+    const double distance0 = index[0] - static_cast<double>(basei[0]);
 
-    i = index[1];
-    basei[1] = (long)i;
-    if( i < 0.0 && double(basei[1]) != i)
+    basei[1] = Math::Floor(index[1]);
+    if( basei[1] < this->m_StartIndex[1] )
       {
-      basei[1]--;
+      basei[1] = this->m_StartIndex[1];
       }
-    double distance1 = i - double(basei[1]);
+    const double distance1 = index[1] - static_cast<double>(basei[1]);
 
 
-    double val00 = this->GetInputImage()->GetPixel( basei );
-    if(distance0+distance1 == 0)
+    const RealType val00 = this->GetInputImage()->GetPixel( basei );
+    if(distance0 <= 0. && distance1 <= 0.)
       {
       return( static_cast<OutputType>( val00 ) );
       }
-    else if(distance1 == 0) // if they have the same "y"
+    else if(distance1 <= 0.) // if they have the same "y"
       {
       ++basei[0];  // then interpolate across "x"
       if(basei[0]>this->m_EndIndex[0])
         {
         return( static_cast<OutputType>( val00 ) );
         }
-      double val10 = this->GetInputImage()->GetPixel( basei );
-      return( static_cast<OutputType>(val00 + distance0 * (val10 - val00)) );
+      const RealType val10 = this->GetInputImage()->GetPixel( basei );
+      return( static_cast<OutputType>(val00 + (val10 - val00) * distance0) );
       }
-    else if(distance0 == 0) // if they have the same "x"
+    else if(distance0 <= 0.) // if they have the same "x"
       {
       ++basei[1];  // then interpolate across "y"
       if(basei[1]>this->m_EndIndex[1])
         {
         return( static_cast<OutputType>( val00 ) );
         }
-      double val01 = this->GetInputImage()->GetPixel( basei );
-      return( static_cast<OutputType>(val00 + distance1 * (val01 - val00)) );
+      const RealType val01 = this->GetInputImage()->GetPixel( basei );
+      return( static_cast<OutputType>(val00 + (val01 - val00) * distance1) );
       }
-    else
+    else // interpolate across "xy"
       {
       ++basei[0];
-      double val10 = this->GetInputImage()->GetPixel( basei );
-      ++basei[1];
-      double val11 = this->GetInputImage()->GetPixel( basei );
-      --basei[0];
-      double val01 = this->GetInputImage()->GetPixel( basei );
-    
-      double val0 = val00 + distance1 * ( val01 - val00 ); // interpolate across "y"
-      double val1 = val10 + distance1 * ( val11 - val10 ); // interpolate across "y"
+      if(basei[0]>this->m_EndIndex[0]) // interpolate across "y"
+        {
+        --basei[0];
+        ++basei[1];
+        if(basei[1]>this->m_EndIndex[1])
+          {
+          return( static_cast<OutputType>( val00 ) );
+          }
+        const RealType val01 = this->GetInputImage()->GetPixel( basei );
+        return( static_cast<OutputType>(val00 + (val01 - val00) * distance1) );
+        }
+      const RealType val10 = this->GetInputImage()->GetPixel( basei );
 
-      return( static_cast<OutputType>( val0 + distance0 * (val1-val0) ) ); // interpolate across "X"
+      const RealType valx0 = val00 + (val10 - val00) * distance0;
+      
+      ++basei[1];
+      if(basei[1]>this->m_EndIndex[1]) // interpolate across "x"
+        {
+        return( static_cast<OutputType>( valx0 ) );
+        }
+      const RealType val11 = this->GetInputImage()->GetPixel( basei );
+      --basei[0];
+      const RealType val01 = this->GetInputImage()->GetPixel( basei );
+
+      const RealType valx1 = val01 + (val11 - val01) * distance0;
+
+      return( static_cast<OutputType>( valx0 + (valx1-valx0) * distance1 ) );
       }
     }
 
@@ -202,166 +225,267 @@ private:
                                        const ContinuousIndexType & index) const
     {
     IndexType basei;
-    double val[8];
 
-    unsigned long min0;
-    unsigned long max0;
-    unsigned long min1;
-    unsigned long max1;
-    unsigned long min2;
-    unsigned long max2;
+    basei[0] = Math::Floor(index[0]);
+    if( basei[0] < this->m_StartIndex[0] )
+      {
+      basei[0] = this->m_StartIndex[0];
+      }
+    const double distance0 = index[0] - static_cast<double>(basei[0]);
+ 
+    basei[1] = Math::Floor(index[1]);
+    if( basei[1] < this->m_StartIndex[1] )
+      {
+      basei[1] = this->m_StartIndex[1];
+      }
+    const double distance1 = index[1] - static_cast<double>(basei[1]);
+ 
+    basei[2] = Math::Floor(index[2]);
+    if( basei[2] < this->m_StartIndex[2] )
+      {
+      basei[2] = this->m_StartIndex[2];
+      }
+    const double distance2 = index[2] - static_cast<double>(basei[2]);
 
-    double i = index[0];
-    basei[0] = (long)i;
-    if( i < 0.0 && double(basei[0]) != i)
+    if(distance0<=0. && distance1<=0. && distance2<=0.)
       {
-      basei[0]--;
+      return( static_cast<OutputType>( this->GetInputImage()->GetPixel( basei ) ) );
       }
-    double distance0 = i - double(basei[0]);
- 
-    i = index[1];
-    basei[1] = (long)i;
-    if( i < 0.0 && double(basei[1]) != i)
-      {
-      basei[1]--;
-      }
-    double distance1 = i - double(basei[1]);
- 
-    i = index[2];
-    basei[2] = (long)i;
-    if( i < 0.0 && double(basei[2]) != i)
-      {
-      basei[2]--;
-      }
-    double distance2 = i - double(basei[2]);
 
-    val[0] = this->GetInputImage()->GetPixel( basei );
-    if(distance0+distance1+distance2 == 0)
-      {
-      return( static_cast<OutputType>( val[0] ) );
-      }
-    if(distance0 > 0.0)
-      {
-      min0 = basei[0];
-      max0 = basei[0]+1;
-      if(max0>this->m_EndIndex[0])
-        {
-        max0 = this->m_EndIndex[0];
-        }
-      }
-    if(distance1 > 0.0)
-      {
-      min1 = basei[1];
-      max1 = basei[1]+1;
-      if(max1>this->m_EndIndex[1])
-        {
-        max1 = this->m_EndIndex[1];
-        }
-      }
-    if(distance2 > 0.0)
-      {
-      min2 = basei[2];
-      max2 = basei[2]+1;
-      if(max2>this->m_EndIndex[2])
-        {
-        max2 = this->m_EndIndex[2];
-        }
-      }
-    if(distance2 == 0)
-      {
-      if(distance1 == 0)
-        {
-        basei[0] = max0;
-        val[1] = this->GetInputImage()->GetPixel( basei );
- 
-        double val0 = val[0] + distance0 * (val[1]-val[0]);
- 
-        return( static_cast<OutputType>( val0 ) );
-        }
-      else if(distance0 == 0)
-        {
-        basei[1] = max1;
-        val[2] = this->GetInputImage()->GetPixel( basei );
- 
-        double val0 = val[0] + distance1 * (val[2]-val[0]);
- 
-        return( static_cast<OutputType>( val0 ) );
-        }
-      else
-        {
-        basei[0] = max0;
-        val[1] = this->GetInputImage()->GetPixel( basei );
-        basei[1] = max1;
-        val[3] = this->GetInputImage()->GetPixel( basei );
-        basei[0] = min0;
-        val[2] = this->GetInputImage()->GetPixel( basei );
- 
-        double val0 = val[0] + distance0 * (val[1]-val[0]);
-        double val1 = val[2] + distance0 * (val[3]-val[2]);
+    typedef typename IndexType::IndexValueType IndexValueType;
 
-        return( static_cast<OutputType>( val0 + distance1 * (val1 - val0) ) );
+    const RealType val000 = this->GetInputImage()->GetPixel( basei );
+    
+    if(distance2 <= 0.)
+      {
+      if(distance1 <= 0.) // interpolate across "x"
+        {
+        ++basei[0];
+        if(basei[0]>this->m_EndIndex[0])
+          {
+          return( static_cast<OutputType>( val000 ) );
+          }
+        const RealType val100 = this->GetInputImage()->GetPixel( basei );
+ 
+        return static_cast<OutputType>( val000 + (val100-val000) * distance0 );
+        }
+      else if(distance0 <= 0.) // interpolate across "y"
+        {
+        ++basei[1];
+        if(basei[1]>this->m_EndIndex[1])
+          {
+          return( static_cast<OutputType>( val000 ) );
+          }
+        const RealType val010 = this->GetInputImage()->GetPixel( basei );
+ 
+        return static_cast<OutputType>( val000 + (val010-val000) * distance1 );
+        }
+      else  // interpolate across "xy"
+        {
+        ++basei[0];
+        if(basei[0]>this->m_EndIndex[0]) // interpolate across "y"
+          {
+          --basei[0];
+          ++basei[1];
+          if(basei[1]>this->m_EndIndex[1])
+            {
+            return( static_cast<OutputType>( val000 ) );
+            }
+          const RealType val010 = this->GetInputImage()->GetPixel( basei );
+
+          return static_cast<OutputType>( val000 + (val010-val000) * distance1 );
+          }
+        const RealType val100 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType valx00 = val000 + (val100-val000) * distance0;
+
+        ++basei[1];
+        if(basei[1]>this->m_EndIndex[1]) // interpolate across "x"
+          {
+          return( static_cast<OutputType>( valx00 ) );
+          }
+        const RealType val110 = this->GetInputImage()->GetPixel( basei );
+
+        --basei[0];
+        const RealType val010 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType valx10 = val010 + (val110-val010) * distance0;
+
+        return static_cast<OutputType>( valx00 + (valx10-valx00) * distance1 );
         }
       }
     else
       {
-      basei[2] = max2;
-      val[4] = this->GetInputImage()->GetPixel( basei );
-      if(distance1 == 0)
+      if(distance1 <= 0.)
         {
-        if(distance0 == 0)
+        if(distance0 <= 0.) // interpolate across "z"
           {
-          return( static_cast<OutputType>( val[0] + distance2 
-                                                    * (val[4] - val[0]) ) );
+          ++basei[2];
+          if(basei[2]>this->m_EndIndex[2])
+            {
+            return( static_cast<OutputType>( val000 ) );
+            }
+          const RealType val001 = this->GetInputImage()->GetPixel( basei );
+          
+          return static_cast<OutputType>( val000 + (val001-val000) * distance2 );
           }
-        else
+        else // interpolate across "xz"
           {
-          basei[0] = max0;
-          val[5] = this->GetInputImage()->GetPixel( basei );
-          basei[2] = min2;
-          val[1] = this->GetInputImage()->GetPixel( basei );
-  
-          double val0 = val[0] + distance0 * (val[1]-val[0]);
-          double val1 = val[4] + distance0 * (val[5]-val[4]);
- 
-          return( static_cast<OutputType>( val0 + distance2 * (val1 - val0) ) );
+          ++basei[0];
+          if(basei[0]>this->m_EndIndex[0]) // interpolate across "z"
+            {
+            --basei[0];
+            ++basei[2];
+            if(basei[2]>this->m_EndIndex[2])
+              {
+              return( static_cast<OutputType>( val000 ) );
+              }
+            const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+            return static_cast<OutputType>( val000 + (val001-val000) * distance2 );
+            }
+          const RealType val100 = this->GetInputImage()->GetPixel( basei );
+
+          const RealType valx00 = val000 + (val100-val000) * distance0;
+
+          ++basei[2];
+          if(basei[2]>this->m_EndIndex[2]) // interpolate across "x"
+            {
+            return( static_cast<OutputType>( valx00 ) );
+            }
+          const RealType val101 = this->GetInputImage()->GetPixel( basei );
+
+          --basei[0];
+          const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+          const RealType valx01 = val001 + (val101-val001) * distance0;
+
+          return static_cast<OutputType>( valx00 + (valx01-valx00) * distance2 );
           }
         }
-      else if(distance0 == 0)
+      else if(distance0 <= 0.) // interpolate across "yz"
         {
-        basei[1] = max1;
-        val[6] = this->GetInputImage()->GetPixel( basei );
-        basei[2] = min2;
-        val[2] = this->GetInputImage()->GetPixel( basei );
- 
-        double val0 = val[0] + distance1 * (val[2]-val[0]);
-        double val1 = val[4] + distance1 * (val[6]-val[4]);
- 
-        return( static_cast<OutputType>( val0 + distance2 * (val1 - val0) ) );
+        ++basei[1];
+        if(basei[1]>this->m_EndIndex[1]) // interpolate across "z"
+          {
+          --basei[1];
+          ++basei[2];
+          if(basei[2]>this->m_EndIndex[2])
+            {
+            return( static_cast<OutputType>( val000 ) );
+            }
+          const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+          return static_cast<OutputType>( val000 + (val001-val000) * distance2 );
+          }
+        const RealType val010 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType val0x0 = val000 + (val010-val000) * distance1;
+
+        ++basei[2];
+        if(basei[2]>this->m_EndIndex[2]) // interpolate across "y"
+          {
+          return( static_cast<OutputType>( val0x0 ) );
+          }
+        const RealType val011 = this->GetInputImage()->GetPixel( basei );
+
+        --basei[1];
+        const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType val0x1 = val001 + (val011-val001) * distance1;
+
+        return static_cast<OutputType>( val0x0 + (val0x1-val0x0) * distance2 );
         }
-      else 
+      else // interpolate across "xyz"
         {
-        basei[0] = max0;
-        val[5] = this->GetInputImage()->GetPixel( basei );
-        basei[1] = max1;
-        val[7] = this->GetInputImage()->GetPixel( basei );
-        basei[0] = min0;
-        val[6] = this->GetInputImage()->GetPixel( basei );
-        basei[2] = min2;
-        val[2] = this->GetInputImage()->GetPixel( basei );
-        basei[0] = max0;
-        val[3] = this->GetInputImage()->GetPixel( basei );
-        basei[1] = min1;
-        val[1] = this->GetInputImage()->GetPixel( basei );
- 
-        double val00 = val[0] + distance0 * (val[1]-val[0]);
-        double val01 = val[2] + distance0 * (val[3]-val[2]);
-        double val0 = val00 + distance1 * (val01-val00);
-  
-        double val10 = val[4] + distance0 * (val[5]-val[4]);
-        double val11 = val[6] + distance0 * (val[7]-val[6]);
-        double val1 = val10 + distance1 * (val11-val10);
-  
-        return( static_cast<OutputType>( val0 + distance2 * (val1-val0) ) );
+        ++basei[0];
+        if(basei[0]>this->m_EndIndex[0]) // interpolate across "yz"
+          {
+          --basei[0];
+          ++basei[1];
+          if(basei[1]>this->m_EndIndex[1])  // interpolate across "z"
+            {
+            --basei[1];
+            ++basei[2];
+            if(basei[2]>this->m_EndIndex[2])
+              {
+              return( static_cast<OutputType>( val000 ) );
+              }
+            const RealType val001 = this->GetInputImage()->GetPixel( basei );
+            
+            return static_cast<OutputType>( val000 + (val001-val000) * distance2 );
+            }
+          const RealType val010 = this->GetInputImage()->GetPixel( basei );
+
+          const RealType val0x0 = val000 + (val010-val000) * distance1;
+
+          ++basei[2];
+          if(basei[2]>this->m_EndIndex[2]) // interpolate across "y"
+            {
+            return( static_cast<OutputType>( val0x0 ) );
+            }
+          const RealType val011 = this->GetInputImage()->GetPixel( basei );
+
+          --basei[1];
+          const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+          const RealType val0x1 = val001 + (val011-val001) * distance1;
+
+          return static_cast<OutputType>( val0x0 + (val0x1-val0x0) * distance2 );
+          }
+        const RealType val100 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType valx00 = val000 + (val100-val000) * distance0;
+
+        ++basei[1];
+        if(basei[1]>this->m_EndIndex[1]) // interpolate across "xz"
+          {
+          --basei[1];
+          ++basei[2];
+          if(basei[2]>this->m_EndIndex[2]) // interpolate across "x"
+            {
+            return( static_cast<OutputType>( valx00 ) );
+            }
+          const RealType val101 = this->GetInputImage()->GetPixel( basei );
+
+          --basei[0];
+          const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+          const RealType valx01 = val001 + (val101-val001) * distance0;
+
+          return static_cast<OutputType>( valx00 + (valx01-valx00) * distance2 );
+          }
+        const RealType val110 = this->GetInputImage()->GetPixel( basei );
+
+        --basei[0];
+        const RealType val010 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType valx10 = val010 + (val110-val010) * distance0;
+
+        const RealType valxx0 = valx00 + (valx10-valx00) * distance1;
+
+        
+        ++basei[2];
+        if(basei[2]>this->m_EndIndex[2]) // interpolate across "xy"
+          {
+          return( static_cast<OutputType>( valxx0 ) );
+          }
+        const RealType val011 = this->GetInputImage()->GetPixel( basei );
+
+        ++basei[0];
+        const RealType val111 = this->GetInputImage()->GetPixel( basei );
+
+        --basei[1];
+        const RealType val101 = this->GetInputImage()->GetPixel( basei );
+
+        --basei[0];
+        const RealType val001 = this->GetInputImage()->GetPixel( basei );
+
+        const RealType valx01 = val001 + (val101-val001) * distance0;
+        const RealType valx11 = val011 + (val111-val011) * distance0;
+        const RealType valxx1 = valx01 + (valx11-valx01) * distance1;
+
+        return( static_cast<OutputType>( valxx0 + (valxx1-valxx0) * distance2 ) );
         }
       }
     }
