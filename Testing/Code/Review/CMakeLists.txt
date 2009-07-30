@@ -1880,6 +1880,9 @@ ADD_TEST(itkBinaryImageToShapeLabelMapFilterTest1
   itkBinaryImageToShapeLabelMapFilterTest1
   ${INPUTDATA}/Spots.png
   ${TEMP}/Spots-binaryimage-to-shapelabel.mha
+  1     # Fully connected (bool)
+  255   # Input image foreground
+  0     # Output image background
   )
 
 ADD_TEST(itkGridImageSourceTest1
