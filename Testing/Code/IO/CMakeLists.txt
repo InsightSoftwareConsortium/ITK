@@ -77,6 +77,7 @@ itkImageFileWriterStreamingPastingCompressingTest1.cxx
 itkImageIODirection2DTest.cxx
 itkImageIODirection3DTest.cxx
 itkImageReadDICOMSeriesWriteTest.cxx
+itkImageSeriesReaderDimensionsTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkLargeImageWriteReadTest.cxx
@@ -692,6 +693,23 @@ ADD_TEST(itkDICOMImageSeriesTest2 ${IO_TESTS}
 ADD_TEST(itkDICOMSeriesFileNamesTest ${IO_TESTS} 
   itkDICOMSeriesFileNamesTest
             ${ITK_DATA_ROOT}/Input/DicomSeries)
+
+
+ADD_TEST(itkImageSeriesReaderDimensionsTest1 ${IO_TESTS} 
+  itkImageSeriesReaderDimensionsTest
+            ${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm
+            ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm
+            ${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm
+         )
+
+
+ADD_TEST(itkImageSeriesReaderDimensionsTest2 ${IO_TESTS} 
+  itkImageSeriesReaderDimensionsTest
+            ${ITK_DATA_ROOT}/Input/cthead1.tif
+            ${ITK_DATA_ROOT}/Input/cthead1.tif
+            ${ITK_DATA_ROOT}/Input/cthead1.tif
+         )
+
 
 ADD_TEST(itkImageSeriesWriterTest ${IO_TESTS} 
   itkImageSeriesWriterTest

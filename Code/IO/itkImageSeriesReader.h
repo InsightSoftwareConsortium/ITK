@@ -161,7 +161,10 @@ protected:
   FileNamesContainer m_FileNames;
 
   /** The number of independent variables in the images that comprise
-   *  the series. */
+   *  the series. This is also used as the slice moving dimension
+   *  index for the output image. That is for reading a series of 2D
+   *  images into  a 3D image, the moving dimension index is 2.
+   */
   int m_NumberOfDimensionsInImage;
 
   /** Array of MetaDataDictionaries. This allows to hold information from the
@@ -176,7 +179,7 @@ private:
 
   typedef ImageFileReader<TOutputImage> ReaderType;
 
-  void CollapseNumberOfImageDimensions( ReaderType * reader );
+  int ComputeMovingDimensionIndex( ReaderType * reader );
 };
 
 } //namespace ITK

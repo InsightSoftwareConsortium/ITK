@@ -55,6 +55,7 @@ void RegisterTests()
   REGISTER_TEST(itkImageFileWriterStreamingTest1);
   REGISTER_TEST(itkImageFileWriterStreamingTest2);
   REGISTER_TEST(itkImageFileWriterStreamingPastingCompressingTest1);
+  REGISTER_TEST(itkImageSeriesReaderDimensionsTest);
   REGISTER_TEST(itkImageSeriesWriterTest);
   REGISTER_TEST(itkImageReadDICOMSeriesWriteTest);
   REGISTER_TEST(itkImageIOBaseTest);
