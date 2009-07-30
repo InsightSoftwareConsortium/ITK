@@ -52,11 +52,6 @@ virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
   typedef AutoPointer<Self>         SelfAutoPointer;   \
   typedef Self *                    RawPointer;        \
   typedef const Self *              ConstRawPointer;   \
-  SelfAutoPointer   New(void) {                        \
-                SelfAutoPointer ptr( new celltype );   \
-                ptr.TakeOwnership();                   \
-                return ptr;                            \
-                }                                      \
 
 
 // Define a macro for the common typedefs required by the 
