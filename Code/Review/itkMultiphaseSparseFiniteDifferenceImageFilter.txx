@@ -1368,7 +1368,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 
     ImageRegionIterator< OutputImageType > outIt ( output, region );
 
-    InputPixelType p = static_cast< InputPixelType > ( this->m_Lookup[fId] );
+    OutputPixelType p = static_cast< OutputPixelType > ( this->m_Lookup[fId] );
 
     inIt.GoToBegin();
     outIt.GoToBegin();
