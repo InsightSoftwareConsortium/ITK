@@ -40,4 +40,5 @@ void RegisterTests()
   REGISTER_TEST(itkPadLabelMapFilterTest1);  
   REGISTER_TEST(itkRegionFromReferenceLabelMapFilterTest1);
   REGISTER_TEST(itkBinaryImageToShapeLabelMapFilterTest1);
+  REGISTER_TEST(itkLabelImageToShapeLabelMapFilterTest1);
 }

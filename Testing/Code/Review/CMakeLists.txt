@@ -235,6 +235,7 @@ SET(ReviewTest3_SRCS
   itkPadLabelMapFilterTest1.cxx
   itkRegionFromReferenceLabelMapFilterTest1.cxx
   itkBinaryImageToShapeLabelMapFilterTest1.cxx
+  itkLabelImageToShapeLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1840,6 +1841,18 @@ ADD_TEST(itkMergeLabelMapFilterTest1e
   ${TEMP}/simple-label-merge-strict.mha
   3    # Strict Method
   )
+
+ADD_TEST(itkLabelImageToShapeLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/simple-label-to-shapelabelmap.mha
+            ${TEMP}/simple-label-to-shapelabelmap.mha
+  itkLabelImageToShapeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-a.png
+  ${TEMP}/simple-label-to-shapelabelmap.mha
+  90    #output background value
+  40    #compute Feret Diameter
+  200   #computer Perimeter
+  )  
 
 ADD_TEST(itkCropLabelMapFilterTest1
   ${REVIEW_TESTS3}
