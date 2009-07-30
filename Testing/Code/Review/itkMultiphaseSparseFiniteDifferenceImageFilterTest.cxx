@@ -29,11 +29,11 @@ namespace itk
 {
 
 template < class TInputImage, class TFeatureImage, class TOutputImage,
-  class TFiniteDifferenceFunction = FiniteDifferenceFunction<TOutputImage>,
-  typename TIdCell = unsigned int >
+  class TFiniteDifferenceFunction,typename TIdCell >
 class MultiphaseSparseFiniteDifferenceImageFilterTestHelper
   : public MultiphaseSparseFiniteDifferenceImageFilter<
-      TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction >
+      TInputImage, TFeatureImage, TOutputImage, 
+      TFiniteDifferenceFunction, TIdCell >
 {
 public:
   /** Standard class typedefs. */
@@ -84,8 +84,11 @@ int itkMultiphaseSparseFiniteDifferenceImageFilterTest( int, char* [] )
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
 
+  typedef unsigned long IdCellType;
+
   typedef itk::MultiphaseSparseFiniteDifferenceImageFilterTestHelper< LevelSetImageType,
-    FeatureImageType, OutputImageType, RegionBasedLevelSetFunctionType >  FilterType;
+    FeatureImageType, OutputImageType, RegionBasedLevelSetFunctionType, 
+    IdCellType >  FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
