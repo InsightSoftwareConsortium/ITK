@@ -18,6 +18,7 @@
 #include "itkFileFreeImageIO.h"
 #include "itksys/RegularExpression.hxx"
 #include <string.h>
+#include <cstdlib>
 
 namespace itk {
 
@@ -175,8 +176,6 @@ void
 FileFreeImageIO
 ::Read(void *buffer)
 {
-  std::cout << "Size in bytes: " << this->GetImageSizeInBytes() << std::endl;
-  std::cout << "***********************" << std::endl;
   memset(buffer, (unsigned char) 175, this->GetImageSizeInBytes());
 }
 
@@ -187,15 +186,11 @@ FileFreeImageIO
   return false;
 }
 
-// Write to the MRML scene
-
 void
 FileFreeImageIO
 ::WriteImageInformation()
 {
 }
-
-// Write to the MRML scene
 
 void
 FileFreeImageIO
