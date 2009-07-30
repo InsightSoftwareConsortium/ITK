@@ -100,17 +100,6 @@ QuadEdgeMeshLineCell< TCellInterface >
 
 // ---------------------------------------------------------------------
 template< class TCellInterface >
-typename QuadEdgeMeshLineCell< TCellInterface >::SelfAutoPointer
-QuadEdgeMeshLineCell< TCellInterface >
-::New()
-{
-  SelfAutoPointer ptr( new Self );
-  ptr.TakeOwnership();
-  return( ptr );
-}
-
-// ---------------------------------------------------------------------
-template< class TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::Accept( unsigned long cellId, MultiVisitor* mv )
