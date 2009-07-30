@@ -31,9 +31,10 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   if( argc != 6 )
     {
-    std::cerr << "usage: " << argv[0];
+    std::cerr << "Usage: " << argv[0];
     std::cerr << " inputBinaryImage outputShapeLabelMap";
     std::cerr << " fullyConnected(0/1) foregroundValue backgroundValue";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
