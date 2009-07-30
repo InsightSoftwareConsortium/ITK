@@ -74,7 +74,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 void
 ShapeLabelMapFilter<TImage, TLabelImage>
-::ThreadedGenerateData( LabelObjectType * labelObject )
+::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   ImageType * output = this->GetOutput();
   const LabelPixelType & label = labelObject->GetLabel();
@@ -373,80 +373,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 
   if( m_ComputeFeretDiameter )
     {
-    const PixelType & label = labelObject->GetLabel();
-
-    // Init the vars
-    unsigned long size = 0;
-    typedef typename std::deque< IndexType > IndexListType;
-    IndexListType idxList;
-    
-    // the iterators
-    typename LabelObjectType::LineContainerType::const_iterator lit;
-    typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
-
-    typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
-    SizeType neighborHoodRadius;
-    neighborHoodRadius.Fill( 1 );
-    NeighborIteratorType it( neighborHoodRadius, m_LabelImage, m_LabelImage->GetBufferedRegion() );
-    ConstantBoundaryCondition<LabelImageType> lcbc;
-    // Use label + 1 to have a label different of the current label on the border
-    lcbc.SetConstant( label + 1 );
-    it.OverrideBoundaryCondition( &lcbc );
-    it.GoToBegin();
-
-    // Iterate over all the lines
-    for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
-      {
-      const IndexType & firstIdx = lit->GetIndex();
-      unsigned long length = lit->GetLength();
-
-      long endIdx0 = firstIdx[0] + length;
-      for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++)
-        {
-
-        // Move the iterator to the new location
-        it += idx - it.GetIndex();
-
-        // Push the pixel in the list if it is on the border of the object
-        for (unsigned i = 0; i < it.Size(); i++)
-          {
-          if( it.GetPixel(i) != label )
-            {
-            idxList.push_back( idx );
-            size++;
-            break;
-            }
-          }
-        }
-      }
-
-    // We can now search the feret diameter
-    double feretDiameter = 0;
-    for( typename IndexListType::const_iterator iIt1 = idxList.begin();
-      iIt1 != idxList.end();
-      iIt1++ )
-      {
-      typename IndexListType::const_iterator iIt2 = iIt1;
-      for( iIt2++; iIt2 != idxList.end(); iIt2++ )
-        {
-        // Compute the length between the 2 indexes
-        double length = 0;
-        for( int i = 0; i<ImageDimension; i++ )
-          {
-          length += vcl_pow( ( iIt1->operator[]( i ) - iIt2->operator[]( i ) ) * output->GetSpacing()[i], 2 );
-          }
-        if( feretDiameter < length )
-          {
-          feretDiameter = length;
-          }
-        }
-      }
-    // Final computation
-    feretDiameter = vcl_sqrt( feretDiameter );
-
-    // Finally put the values in the label object
-    labelObject->SetFeretDiameter( feretDiameter );
-
+    this->ComputeFeretDiameter( labelObject );
     }
 
   // Be sure that the calculator has the perimeter estimation for that label.
@@ -460,6 +387,94 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     }
 }
 
+
+template<class TImage, class TLabelImage>
+void
+ShapeLabelMapFilter<TImage, TLabelImage>
+::ComputeFeretDiameter( LabelObjectType * labelObject )
+{
+  const LabelPixelType & label = labelObject->GetLabel();
+
+  // Init the vars
+  unsigned long size = 0;
+
+  typedef typename std::deque< IndexType > IndexListType;
+  IndexListType idxList;
+  
+  // the iterators
+  typename LabelObjectType::LineContainerType::const_iterator lit;
+  typename LabelObjectType::LineContainerType & lineContainer = labelObject->GetLineContainer();
+
+  typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
+  SizeType neighborHoodRadius;
+  neighborHoodRadius.Fill( 1 );
+  NeighborIteratorType it( neighborHoodRadius, m_LabelImage, m_LabelImage->GetBufferedRegion() );
+  ConstantBoundaryCondition<LabelImageType> lcbc;
+  // Use label + 1 to have a label different of the current label on the border
+  lcbc.SetConstant( label + 1 );
+  it.OverrideBoundaryCondition( &lcbc );
+  it.GoToBegin();
+
+  // Iterate over all the lines
+  for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
+    {
+    const IndexType & firstIdx = lit->GetIndex();
+    unsigned long length = lit->GetLength();
+
+    long endIdx0 = firstIdx[0] + length;
+    for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++)
+      {
+
+      // Move the iterator to the new location
+      it += idx - it.GetIndex();
+
+      // Push the pixel in the list if it is on the border of the object
+      for (unsigned i = 0; i < it.Size(); i++)
+        {
+        if( it.GetPixel(i) != label )
+          {
+          idxList.push_back( idx );
+          size++;
+          break;
+          }
+        }
+      }
+    }
+
+  ImageType * output = this->GetOutput();
+
+  const typename ImageType::SpacingType & spacing = output->GetSpacing();
+
+  typedef typename ImageType::OffsetValueType   OffsetValueType;
+
+  // We can now search the feret diameter
+  double feretDiameter = 0;
+  for( typename IndexListType::const_iterator iIt1 = idxList.begin();
+    iIt1 != idxList.end();
+    iIt1++ )
+    {
+    typename IndexListType::const_iterator iIt2 = iIt1;
+    for( iIt2++; iIt2 != idxList.end(); iIt2++ )
+      {
+      // Compute the length between the 2 indexes
+      double length = 0;
+      for( int i = 0; i<ImageDimension; i++ )
+        {
+        const OffsetValueType indexDifference = ( iIt1->operator[]( i ) - iIt2->operator[]( i ) );
+        length += vcl_pow( indexDifference * spacing[i], 2 );
+        }
+      if( feretDiameter < length )
+        {
+        feretDiameter = length;
+        }
+      }
+    }
+  // Final computation
+  feretDiameter = vcl_sqrt( feretDiameter );
+
+  // Finally put the values in the label object
+  labelObject->SetFeretDiameter( feretDiameter );
+}
 
 template<class TImage, class TLabelImage>
 void

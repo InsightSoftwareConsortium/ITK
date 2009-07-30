@@ -138,7 +138,7 @@ protected:
   ShapeLabelMapFilter();
   ~ShapeLabelMapFilter() {};
 
-  virtual void ThreadedGenerateData( LabelObjectType * labelObject );
+  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
   
   virtual void BeforeThreadedGenerateData();
 
@@ -157,6 +157,8 @@ private:
   LabelImageConstPointer                    m_LabelImage;
 
   typename PerimeterCalculatorType::Pointer m_PerimeterCalculator;
+
+  void ComputeFeretDiameter( LabelObjectType * labelObject );
 
 }; // end of class
 
