@@ -84,9 +84,9 @@ CurvatureFlowFunction<TImage>
 ::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(gd),
                 const FloatOffsetType& itkNotUsed(offset))
 {
-  PixelType firstderiv[ImageDimension];
-  PixelType secderiv[ImageDimension];
-  PixelType crossderiv[ImageDimension][ImageDimension];
+  PixelRealType firstderiv[ImageDimension];
+  PixelRealType secderiv[ImageDimension];
+  PixelRealType crossderiv[ImageDimension][ImageDimension];
   unsigned long center;
   unsigned long stride[ImageDimension];
   unsigned int i,j;
@@ -102,7 +102,7 @@ CurvatureFlowFunction<TImage>
     stride[i] = it.GetStride( (unsigned long) i );
     }
 
-  PixelType magnitudeSqr = 0.0;
+  PixelRealType magnitudeSqr = 0.0;
   for( i = 0; i < ImageDimension; i++ )
     {
 
@@ -136,8 +136,8 @@ CurvatureFlowFunction<TImage>
     }
 
   // compute the update value = mean curvature * magnitude
-  PixelType update = 0.0;
-  PixelType temp;
+  PixelRealType update = 0.0;
+  PixelRealType temp;
 
   // accumulate dx^2 * (dyy + dzz) terms
   for( i = 0; i < ImageDimension; i++ )
@@ -170,7 +170,7 @@ CurvatureFlowFunction<TImage>
   globalData->m_MaxChange =
     vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
 #endif
-  return update;
+  return static_cast<PixelType>(update);
 
 }
 
