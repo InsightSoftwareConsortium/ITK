@@ -183,13 +183,14 @@ public:
     { return (m_Pointer!=NULL); }
 
   /** Function to print object pointed to.  */
-  ObjectType *Print (std::ostream& os) const 
+/*  ObjectType *Print (std::ostream& os) const 
     { 
     // This prints the object pointed to by the pointer  
     (*m_Pointer).Print(os);  
     os << "Owner: " << m_IsOwner << std::endl;
     return m_Pointer;
     } 
+*/
 
 private:
 
