@@ -1788,6 +1788,7 @@ ADD_TEST(itkChangeRegionLabelMapFilterTest1
 
 ADD_TEST(itkMergeLabelMapFilterTest1a
   ${REVIEW_TESTS3}
+  --without-threads
   --compare ${BASELINE}/cthead1-label-merge_keep.mha
             ${TEMP}/cthead1-label-merge_keep.mha
   itkMergeLabelMapFilterTest1
@@ -1799,6 +1800,7 @@ ADD_TEST(itkMergeLabelMapFilterTest1a
 
 ADD_TEST(itkMergeLabelMapFilterTest1b
   ${REVIEW_TESTS3}
+  --without-threads
   --compare ${BASELINE}/simple-label-merge-keep.mha
             ${TEMP}/simple-label-merge-keep.mha
   itkMergeLabelMapFilterTest1
@@ -1810,6 +1812,7 @@ ADD_TEST(itkMergeLabelMapFilterTest1b
 
 ADD_TEST(itkMergeLabelMapFilterTest1c
   ${REVIEW_TESTS3}
+  --without-threads
   --compare ${BASELINE}/simple-label-merge-aggregate.mha
             ${TEMP}/simple-label-merge-aggregate.mha
   itkMergeLabelMapFilterTest1
@@ -1821,6 +1824,7 @@ ADD_TEST(itkMergeLabelMapFilterTest1c
 
 ADD_TEST(itkMergeLabelMapFilterTest1d
   ${REVIEW_TESTS3}
+  --without-threads
   --compare ${BASELINE}/simple-label-merge-pack.mha
             ${TEMP}/simple-label-merge-pack.mha
   itkMergeLabelMapFilterTest1
@@ -1833,6 +1837,7 @@ ADD_TEST(itkMergeLabelMapFilterTest1d
 
 ADD_TEST(itkMergeLabelMapFilterTest1e
   ${REVIEW_TESTS3}
+  --without-threads
   --compare ${BASELINE}/simple-label-merge-strict.mha
             ${TEMP}/simple-label-merge-strict.mha
   itkMergeLabelMapFilterTest1
