@@ -264,7 +264,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     if( m_UseAllPixels )
       {
       this->SetUseFixedImageSamplesIntensityThreshold( false );
-      this->SetUseFixedImageMask( NULL );
+      this->SetUseFixedImageMask( false );
       this->SetNumberOfFixedImageSamples( this->m_FixedImageRegion.GetNumberOfPixels() );
       this->SetUseSequentialSampling( true );
       }

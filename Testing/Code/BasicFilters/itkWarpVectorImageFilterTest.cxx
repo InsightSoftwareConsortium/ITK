@@ -265,11 +265,13 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     //pixel 190 is outside of (0,189), and must be clamped to it.
     //If factor is 2 or less, this decrement has no effect. 
 
-    clampSizeDecrement[j]  =  (factors[j] - 1 - decrementForScaling[j]) ;
-      
-    if (clampSizeDecrement[j] < 0)
+    if( factors[j] < 1+decrementForScaling[j])
       {
       clampSizeDecrement[j] = 0;
+      }
+    else
+      {
+      clampSizeDecrement[j]  =  (factors[j] - 1 - decrementForScaling[j]) ;
       }
     clampSize[j]= validSize[j] - clampSizeDecrement[j];
     }
