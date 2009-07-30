@@ -18,7 +18,7 @@
 #include "itkFileFreeImageIO.h"
 #include "itksys/RegularExpression.hxx"
 #include <string.h>
-#include <cstdlib>
+#include <stdlib.h>
 
 namespace itk {
 
