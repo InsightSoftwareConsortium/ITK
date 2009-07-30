@@ -1788,71 +1788,80 @@ ADD_TEST(itkChangeRegionLabelMapFilterTest1
 
 ADD_TEST(itkMergeLabelMapFilterTest1a
   ${REVIEW_TESTS3}
-  --without-threads
-  --compare ${BASELINE}/cthead1-label-merge_keep.mha
-            ${TEMP}/cthead1-label-merge_keep.mha
+  --compare ${BASELINE}/simple-label-merge-keep.mha
+            ${TEMP}/simple-label-merge-keep.mha
   itkMergeLabelMapFilterTest1
-  ${INPUTDATA}/cthead1Label.png
-  ${INPUTDATA}/cthead1Label.png  
-  ${TEMP}/cthead1-label-merge_keep.mha
+  ${INPUTDATA}/simple-label-c.png
+  ${INPUTDATA}/simple-label-d.png  
+  ${TEMP}/simple-label-merge-keep.mha
+  50   # Background value 1
+  50   # Background value 2
   0    # Keep Method
+  0    # Expect success
   )
 
 ADD_TEST(itkMergeLabelMapFilterTest1b
   ${REVIEW_TESTS3}
-  --without-threads
-  --compare ${BASELINE}/simple-label-merge-keep.mha
-            ${TEMP}/simple-label-merge-keep.mha
+  --compare ${BASELINE}/simple-label-merge-aggregate.mha
+            ${TEMP}/simple-label-merge-aggregate.mha
   itkMergeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-a.png
-  ${INPUTDATA}/simple-label-b.png  
-  ${TEMP}/simple-label-merge-keep.mha
-  0    # Keep Method
+  ${INPUTDATA}/simple-label-c.png
+  ${INPUTDATA}/simple-label-d.png  
+  ${TEMP}/simple-label-merge-aggregate.mha
+  50   # Background value 1
+  50   # Background value 2
+  1    # Aggregate Method
+  0    # Expect success
   )
 
 ADD_TEST(itkMergeLabelMapFilterTest1c
   ${REVIEW_TESTS3}
-  --without-threads
-  --compare ${BASELINE}/simple-label-merge-aggregate.mha
-            ${TEMP}/simple-label-merge-aggregate.mha
-  itkMergeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-a.png
-  ${INPUTDATA}/simple-label-b.png  
-  ${TEMP}/simple-label-merge-aggregate.mha
-  1    # Aggregate Method
-  )
-
-ADD_TEST(itkMergeLabelMapFilterTest1d
-  ${REVIEW_TESTS3}
-  --without-threads
   --compare ${BASELINE}/simple-label-merge-pack.mha
             ${TEMP}/simple-label-merge-pack.mha
   itkMergeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-a.png
-  ${INPUTDATA}/simple-label-b.png  
+  ${INPUTDATA}/simple-label-c.png
+  ${INPUTDATA}/simple-label-d.png  
   ${TEMP}/simple-label-merge-pack.mha
+  50   # Background value 1
+  50   # Background value 2
   2    # Pack Method
+  0    # Expect success
   )
 
+
+ADD_TEST(itkMergeLabelMapFilterTest1d
+  ${REVIEW_TESTS3}
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-c.png
+  ${INPUTDATA}/simple-label-d.png  
+  ${TEMP}/thisFileShouldNotExist.mha
+  50   # Background value 1
+  50   # Background value 2
+  3    # Strict Method
+  1    # Expect FAILURE
+  )
 
 ADD_TEST(itkMergeLabelMapFilterTest1e
   ${REVIEW_TESTS3}
-  --without-threads
   --compare ${BASELINE}/simple-label-merge-strict.mha
             ${TEMP}/simple-label-merge-strict.mha
   itkMergeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-a.png
-  ${INPUTDATA}/simple-label-b.png  
+  ${INPUTDATA}/simple-label-e.png
+  ${INPUTDATA}/simple-label-d.png  
   ${TEMP}/simple-label-merge-strict.mha
+  50   # Background value 1
+  50   # Background value 2
   3    # Strict Method
+  0    # Expect success
   )
+
 
 ADD_TEST(itkLabelImageToShapeLabelMapFilterTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/simple-label-to-shapelabelmap.mha
             ${TEMP}/simple-label-to-shapelabelmap.mha
   itkLabelImageToShapeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-a.png
+  ${INPUTDATA}/simple-label-c.png
   ${TEMP}/simple-label-to-shapelabelmap.mha
   90    #output background value
   40    #compute Feret Diameter
