@@ -64,15 +64,15 @@ public: \
  \
   typedef ElementRealType ScalarRealType; \
  \
-  static const RealType max( const Self & a ) \
+  static const Self max( const Self & a ) \
     {  \
-      RealType b(a.Size());  \
+      Self b(a.Size());  \
       b.Fill( NumericTraits< T >::max() ); \
       return b; \
     } \
-  static const RealType min( const Self & a ) \
+  static const Self min( const Self & a ) \
     {  \
-      RealType b(a.Size());  \
+      Self b(a.Size());  \
       b.Fill( NumericTraits< T >::min() ); \
       return b; \
     } \
