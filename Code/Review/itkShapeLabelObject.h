@@ -230,13 +230,13 @@ public:
     return Superclass::GetNameFromAttribute( a );
     }
 
-  typedef ImageRegion< ImageDimension > RegionType;
+  typedef ImageRegion< VImageDimension > RegionType;
 
-  typedef typename itk::Point<double, ImageDimension> CentroidType;
+  typedef typename itk::Point<double, VImageDimension> CentroidType;
 
-  typedef Matrix< double, ImageDimension, ImageDimension >   MatrixType;
+  typedef Matrix< double, VImageDimension, VImageDimension >   MatrixType;
 
-  typedef Vector< double, ImageDimension > VectorType;
+  typedef Vector< double, VImageDimension > VectorType;
 
   const RegionType & GetRegion() const
     {
@@ -422,8 +422,8 @@ public:
   // some helper methods - not really required, but really useful!
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
-  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+  typedef AffineTransform<double,VImageDimension>   AffineTransformType;
+  typedef typename AffineTransformType::Pointer     AffineTransformPointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
@@ -432,10 +432,10 @@ public:
     {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+    for (unsigned int i = 0; i < VImageDimension; i++) 
       {
       offset[i]  = m_Centroid[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < VImageDimension; j++)
         {
         matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
         }
@@ -457,10 +457,10 @@ public:
     {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+    for (unsigned int i = 0; i < VImageDimension; i++) 
       {
       offset[i]    = m_Centroid[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < VImageDimension; j++)
         {
         matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
         }
