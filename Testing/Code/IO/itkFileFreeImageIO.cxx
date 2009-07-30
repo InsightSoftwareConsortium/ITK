@@ -181,7 +181,7 @@ FileFreeImageIO
 
 bool
 FileFreeImageIO
-::CanWriteFile(const char* filename)
+::CanWriteFile(const char* )
 {
   return false;
 }
@@ -194,7 +194,7 @@ FileFreeImageIO
 
 void
 FileFreeImageIO
-::Write(const void *buffer)
+::Write(const void *)
 {
 }
 
