@@ -22,7 +22,7 @@
 namespace itk {
 
 /** \class LabelMapToLabelImageFilter
- * \brief Convert a LabelMap to a labeled image
+ * \brief Converts a LabelMap to a labeled image.
  *
  * LabelMapToBinaryImageFilter to a label image.
  *
@@ -63,17 +63,14 @@ public:
   typedef typename OutputImageType::IndexType      IndexType;
   
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Standard New method. */
   itkNewMacro(Self);  
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToLabelImageFilter, 
-               ImageToImageFilter);
+  itkTypeMacro(LabelMapToLabelImageFilter, ImageToImageFilter);
 
 protected:
   LabelMapToLabelImageFilter();
