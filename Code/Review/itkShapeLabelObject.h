@@ -71,24 +71,24 @@ public:
   typedef typename Superclass::LineContainerType LineContainerType;
 
   typedef typename Superclass::AttributeType AttributeType;
-  static const AttributeType SIZE=100;
-  static const AttributeType PHYSICAL_SIZE=101;
-  static const AttributeType REGION_ELONGATION=102;
-  static const AttributeType SIZE_REGION_RATIO=103;
-  static const AttributeType CENTROID=104;
-  static const AttributeType REGION=105;
-  static const AttributeType SIZE_ON_BORDER=106;
-  static const AttributeType PHYSICAL_SIZE_ON_BORDER=107;
-  static const AttributeType FERET_DIAMETER=108;
-  static const AttributeType BINARY_PRINCIPAL_MOMENTS=109;
-  static const AttributeType BINARY_PRINCIPAL_AXES=110;
-  static const AttributeType BINARY_ELONGATION=111;
-  static const AttributeType PERIMETER=112;
-  static const AttributeType ROUNDNESS=113;
-  static const AttributeType EQUIVALENT_RADIUS=114;
-  static const AttributeType EQUIVALENT_PERIMETER=115;
-  static const AttributeType EQUIVALENT_ELLIPSOID_RADIUS=116;
-  static const AttributeType BINARY_FLATNESS=117;
+  itkStaticConstMacro(SIZE, AttributeType, 100);
+  itkStaticConstMacro(PHYSICAL_SIZE, AttributeType, 101);
+  itkStaticConstMacro(REGION_ELONGATION, AttributeType, 102);
+  itkStaticConstMacro(SIZE_REGION_RATIO, AttributeType, 103);
+  itkStaticConstMacro(CENTROID, AttributeType, 104);
+  itkStaticConstMacro(REGION, AttributeType, 105);
+  itkStaticConstMacro(SIZE_ON_BORDER, AttributeType, 106);
+  itkStaticConstMacro(PHYSICAL_SIZE_ON_BORDER, AttributeType, 107);
+  itkStaticConstMacro(FERET_DIAMETER, AttributeType, 108);
+  itkStaticConstMacro(BINARY_PRINCIPAL_MOMENTS, AttributeType, 109);
+  itkStaticConstMacro(BINARY_PRINCIPAL_AXES, AttributeType, 110);
+  itkStaticConstMacro(BINARY_ELONGATION, AttributeType, 111);
+  itkStaticConstMacro(PERIMETER, AttributeType, 112);
+  itkStaticConstMacro(ROUNDNESS, AttributeType, 113);
+  itkStaticConstMacro(EQUIVALENT_RADIUS, AttributeType, 114);
+  itkStaticConstMacro(EQUIVALENT_PERIMETER, AttributeType, 115);
+  itkStaticConstMacro(EQUIVALENT_ELLIPSOID_RADIUS, AttributeType, 116);
+  itkStaticConstMacro(BINARY_FLATNESS, AttributeType, 117);
 
   static AttributeType GetAttributeFromName( const std::string & s )
     {
