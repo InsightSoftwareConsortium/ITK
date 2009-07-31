@@ -19,6 +19,7 @@
 
 #include "itkPoint.h"
 #include "itkConceptChecking.h"
+#include "itkGeometricalQuadEdge.h"
 
 namespace itk
 {
@@ -28,7 +29,7 @@ namespace itk
  * \brief Wrapper around a itk::Point in order to add a reference
  * to an entry in the edge ring.
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge=GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >
 class QuadEdgeMeshPoint : public Point< TCoordRep, VPointDimension >
 {
 public:
