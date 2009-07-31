@@ -24,7 +24,7 @@
 #include "itkConstantBoundaryCondition.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-
+#include "vnl/vnl_math.h"
 
 namespace itk {
 
@@ -278,8 +278,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     centroid[i] /= size;
     regionSize[i] = maxs[i] - mins[i] + 1;
     double s = regionSize[i] * output->GetSpacing()[i];
-    minSize = std::min( s, minSize );
-    maxSize = std::max( s, maxSize );
+    minSize = vnl_math_min( s, minSize );
+    maxSize = vnl_math_max( s, maxSize );
     for(unsigned int j = 0; j<ImageDimension; j++)
       {
       centralMoments[i][j] /= size;
