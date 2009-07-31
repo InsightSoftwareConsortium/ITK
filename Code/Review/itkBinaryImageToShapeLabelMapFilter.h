@@ -41,7 +41,7 @@ namespace itk {
  * \sa ShapeLabelObject, LabelShapeOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage=LabelMap< ShapeLabelObject< unsigned long, TInputImage::ImageDimension > > >
+template<class TInputImage, class TOutputImage=LabelMap< ShapeLabelObject< unsigned long, ::itk::GetImageDimension<TInputImage>::ImageDimension> > >
 class ITK_EXPORT BinaryImageToShapeLabelMapFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -71,9 +71,12 @@ public:
   itkStaticConstMacro( OutputImageDimension, unsigned int, TInputImage::ImageDimension );
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  typedef typename itk::BinaryImageToLabelMapFilter< InputImageType, OutputImageType >
-                                                               LabelizerType;
-  typedef typename itk::ShapeLabelMapFilter< OutputImageType > LabelObjectValuatorType;
+  typedef BinaryImageToLabelMapFilter< InputImageType, OutputImageType >
+                         LabelizerType;
+  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
+                         ShapeLabelFilterOutput;
+  typedef ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >
+                         LabelObjectValuatorType;
 
   /** Standard New method. */
   itkNewMacro( Self );

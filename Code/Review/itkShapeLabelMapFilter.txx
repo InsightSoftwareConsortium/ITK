@@ -395,9 +395,6 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 {
   const LabelPixelType & label = labelObject->GetLabel();
 
-  // Init the vars
-  unsigned long size = 0;
-
   typedef typename std::deque< IndexType > IndexListType;
   IndexListType idxList;
   
@@ -434,7 +431,6 @@ ShapeLabelMapFilter<TImage, TLabelImage>
         if( it.GetPixel(i) != label )
           {
           idxList.push_back( idx );
-          size++;
           break;
           }
         }
