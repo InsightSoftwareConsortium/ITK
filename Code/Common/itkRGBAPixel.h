@@ -82,7 +82,8 @@ public:
     { this->Fill(r);}
   
   /** Pass-through constructor for the Array base class. */
-  RGBAPixel(const Self& r): BaseArray(r) {}
+  template< class TRGBAPixelValueType >
+  RGBAPixel(const RGBAPixel< TRGBAPixelValueType >& r): BaseArray(r) {}
   RGBAPixel(const ComponentType  r[4]): BaseArray(r) {}  
     
   /** Pass-through assignment operator for the Array base class. */
