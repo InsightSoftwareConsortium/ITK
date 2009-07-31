@@ -1291,7 +1291,7 @@ ADD_TEST(itkIOPluginTest ${IO_TESTS} itkIOPluginTest
 SET(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
 SET(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
 ADD_LIBRARY(FileFreeTestLib SHARED ${FileFreeTest_Source})
-TARGET_LINK_LIBRARIES (FileFreeTestLib ITKIO ITKCommon)
+TARGET_LINK_LIBRARIES (FileFreeTestLib ITKIO)
 ADD_DEPENDENCIES(itkIOTests FileFreeTestLib)
 ENDIF(ITK_BUILD_SHARED_LIBS)
 
