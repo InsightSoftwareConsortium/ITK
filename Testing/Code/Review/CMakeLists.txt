@@ -1861,7 +1861,7 @@ ADD_TEST(itkLabelImageToShapeLabelMapFilterTest1
   --compare ${BASELINE}/simple-label-to-shapelabelmap.mha
             ${TEMP}/simple-label-to-shapelabelmap.mha
   itkLabelImageToShapeLabelMapFilterTest1
-  ${INPUTDATA}/simple-label-c.png
+  ${INPUTDATA}/simple-label-a.png
   ${TEMP}/simple-label-to-shapelabelmap.mha
   90    #output background value
   40    #compute Feret Diameter
