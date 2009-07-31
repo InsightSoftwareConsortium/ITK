@@ -284,6 +284,7 @@ public:
   /** overloaded method for backward compatibility */
   void BuildCellLinks() { }
 
+#if !defined(CABLE_CONFIGURATION)
   /** overloaded method for backward compatibility */
   void SetBoundaryAssignments(int dimension,
                               BoundaryAssignmentsContainer* container)
@@ -306,6 +307,7 @@ public:
     (void)dimension;
     return( (const BoundaryAssignmentsContainerPointer)0 );
     }
+#endif
 
   /** overloaded method for backward compatibility */
   void SetBoundaryAssignment(int dimension, CellIdentifier cellId,
