@@ -261,7 +261,7 @@ MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
 
 #-----------------------------------------------------------------------------
 # ITK turn on the correct usage of centered-pixel coordinates.
-OPTION(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY "Turn on correct usage of centered-pixel coordinates." OFF)
+OPTION(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY "Turn on correct usage of centered-pixel coordinates." ON)
 MARK_AS_ADVANCED(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
   MESSAGE("Attention: You enabled ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY This feature has not been fully tested and validated.")
