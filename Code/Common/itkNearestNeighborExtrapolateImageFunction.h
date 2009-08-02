@@ -82,21 +82,18 @@ public:
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      if ( index[j] < this->GetStartContinuousIndex()[j] ) 
+#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
+      nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
+#else
+      nindex[j] = static_cast<ValueType>( vnl_math_rnd_halfintup( index[j] ) );
+#endif
+      if ( nindex[j] < this->GetStartContinuousIndex()[j] ) 
         { 
         nindex[j] = this->GetStartIndex()[j]; 
         }
-      else if ( index[j] > this->GetEndContinuousIndex()[j] ) 
+      else if ( nindex[j] > this->GetEndContinuousIndex()[j] ) 
         { 
         nindex[j] = this->GetEndIndex()[j];
-        }
-      else
-        {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-        nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
-#else
-        nindex[j] = static_cast<ValueType>( vnl_math_rnd_halfintup( index[j] ) );
-#endif
         }
       }
     return static_cast<OutputType>( this->GetInputImage()->GetPixel( nindex ) );
