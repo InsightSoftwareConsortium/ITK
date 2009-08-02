@@ -341,7 +341,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   double equivalentRadius = hyperSphereRadiusFromVolume( physicalSize );
   double equivalentPerimeter = hyperSpherePerimeter( equivalentRadius );
 
-  // Compute equilalent ellipsoid radius
+  // Compute equivalent ellipsoid radius
   VectorType ellipsoidSize;
   double edet = 1.0;
   for(unsigned int i = 0; i < ImageDimension; i++)
@@ -351,7 +351,14 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   edet = vcl_pow( edet, 1.0/ImageDimension );
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
-    ellipsoidSize[i] = 2.0 * equivalentRadius * vcl_sqrt( principalMoments[i] / edet );
+    if (edet != 0.0)
+      {
+      ellipsoidSize[i] = 2.0 * equivalentRadius * vcl_sqrt( principalMoments[i] / edet );
+      }
+    else
+      {
+      ellipsoidSize[i] = 0.0;
+      }
     }
 
   // Set the values in the object
@@ -359,8 +366,14 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   labelObject->SetPhysicalSize( physicalSize );
   labelObject->SetRegion( region );
   labelObject->SetCentroid( physicalCentroid );
-  labelObject->SetRegionElongation( maxSize / minSize );
-  labelObject->SetSizeRegionRatio( size / (double)region.GetNumberOfPixels() );
+  if (minSize != 0)
+    {
+    labelObject->SetRegionElongation( maxSize / minSize );
+    }
+  if (region.GetNumberOfPixels() != 0)
+    {
+    labelObject->SetSizeRegionRatio( size / (double)region.GetNumberOfPixels() );
+    }
   labelObject->SetSizeOnBorder( sizeOnBorder );
   labelObject->SetPhysicalSizeOnBorder( physicalSizeOnBorder );
   labelObject->SetBinaryPrincipalMoments( principalMoments );
