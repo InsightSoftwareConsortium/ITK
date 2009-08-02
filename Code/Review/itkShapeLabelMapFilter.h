@@ -20,23 +20,23 @@
 
 #include "itkInPlaceLabelMapFilter.h"
 
-#define PI 3.14159265358979323846
-
 namespace itk {
 
 /** \class ShapeLabelMapFilter
  * \brief The valuator class for the ShapeLabelObject
  *
- * ShapeLabelMapFilter can be used to set the attributes values of the ShapeLabelObject
- * in a LabelMap.
+ * ShapeLabelMapFilter can be used to set the attributes values of the
+ * ShapeLabelObject in a LabelMap.
  *
- * ShapeLabelMapFilter takes an optional parameter, used only to optimize
- * the computation time and the memory usage when the perimeter or the feret diameter
- * is used: the exact copy of the input LabelMap is stored in an Image.
- * It can be set with SetLabelImage(). It is cleared at the end of the computation, so
- * must be reset before running Update() again. It is not part of the pipeline management
- * design, to let the subclasses of ShapeLabelMapFilter use the pipeline design to 
- * specify truly required inputs.
+ * ShapeLabelMapFilter takes an optional parameter, used only to
+ * optimize the computation time and the memory usage when the
+ * perimeter or the feret diameter is used: the exact copy of the
+ * input LabelMap is stored in an Image.
+ * It can be set with SetLabelImage(). It is cleared at the end of the
+ * computation, so must be reset before running Update() again. It is
+ * not part of the pipeline management design, to let the subclasses
+ * of ShapeLabelMapFilter use the pipeline design to specify truly
+ * required inputs.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -113,35 +113,18 @@ public:
   itkGetConstReferenceMacro( ComputePerimeter, bool );
   itkBooleanMacro( ComputePerimeter );
 
-
   /** Set the label image */
   void SetLabelImage( const TLabelImage *input )
     {
     m_LabelImage = input;
     }
 
-  /** */
-  static long factorial( long n );
-
-  static long doubleFactorial( long n );
-
-  static double gammaN2p1( long n );
-
-  static double hyperSphereVolume( double radius );
-
-  static double hyperSpherePerimeter( double radius );
-
-  static double hyperSphereRadiusFromVolume( double volume );
-
-
 protected:
   ShapeLabelMapFilter();
   ~ShapeLabelMapFilter() {};
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
-  
   virtual void BeforeThreadedGenerateData();
-
   virtual void AfterThreadedGenerateData();
 
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -151,14 +134,19 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   bool                                      m_ComputeFeretDiameter;
-
   bool                                      m_ComputePerimeter;
-
   LabelImageConstPointer                    m_LabelImage;
-
   typename PerimeterCalculatorType::Pointer m_PerimeterCalculator;
 
   void ComputeFeretDiameter( LabelObjectType * labelObject );
+
+  /** utilities */
+  static long Factorial( long n );
+  static long DoubleFactorial( long n );
+  static double GammaN2p1( long n );
+  static double HyperSphereVolume( double radius );
+  static double HyperSpherePerimeter( double radius );
+  static double HyperSphereRadiusFromVolume( double volume );
 
 }; // end of class
 

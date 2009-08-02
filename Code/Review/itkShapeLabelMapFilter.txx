@@ -338,8 +338,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     }
 
   double physicalSize = size * sizePerPixel;
-  double equivalentRadius = hyperSphereRadiusFromVolume( physicalSize );
-  double equivalentPerimeter = hyperSpherePerimeter( equivalentRadius );
+  double equivalentRadius = HyperSphereRadiusFromVolume( physicalSize );
+  double equivalentPerimeter = HyperSpherePerimeter( equivalentRadius );
 
   // Compute equivalent ellipsoid radius
   VectorType ellipsoidSize;
@@ -514,42 +514,42 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 long
 ShapeLabelMapFilter<TImage, TLabelImage>
-::factorial( long n )
+::Factorial( long n )
 {
   if( n < 1 )
     {
     return 1;
     }
-  return n * factorial( n - 1 );
+  return n * Factorial( n - 1 );
 }
 
 
 template<class TImage, class TLabelImage>
 long
 ShapeLabelMapFilter<TImage, TLabelImage>
-::doubleFactorial( long n )
+::DoubleFactorial( long n )
 {
   if( n < 2 )
     {
     return 1;
     }
-  return n * doubleFactorial( n - 2 );
+  return n * DoubleFactorial( n - 2 );
 }
 
 
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::gammaN2p1( long n )
+::GammaN2p1( long n )
 {
   bool even = n % 2 == 0;
   if( even )
     {
-    return factorial( n / 2 );
+    return Factorial( n / 2 );
     }
   else
     {
-    return  vcl_sqrt( PI ) * doubleFactorial( n ) / vcl_pow( 2, ( n + 1 ) / 2.0 );
+    return  vcl_sqrt( vnl_math::pi ) * DoubleFactorial( n ) / vcl_pow( 2, ( n + 1 ) / 2.0 );
     }
 }
 
@@ -557,27 +557,27 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::hyperSphereVolume( double radius )
+::HyperSphereVolume( double radius )
 {
-  return vcl_pow( PI, ImageDimension / 2.0 ) * vcl_pow( radius, ImageDimension ) / gammaN2p1( ImageDimension );
+  return vcl_pow( vnl_math::pi, ImageDimension / 2.0 ) * vcl_pow( radius, ImageDimension ) / GammaN2p1( ImageDimension );
 }
 
 
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::hyperSpherePerimeter( double radius )
+::HyperSpherePerimeter( double radius )
 {
-  return ImageDimension * hyperSphereVolume( radius ) / radius;
+  return ImageDimension * HyperSphereVolume( radius ) / radius;
 }
 
 
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::hyperSphereRadiusFromVolume( double volume )
+::HyperSphereRadiusFromVolume( double volume )
 {
-  return vcl_pow( volume * gammaN2p1( ImageDimension ) / vcl_pow( PI, ImageDimension / 2.0 ), 1.0 / ImageDimension );
+  return vcl_pow( volume * GammaN2p1( ImageDimension ) / vcl_pow( vnl_math::pi, ImageDimension / 2.0 ), 1.0 / ImageDimension );
 }
 
 }// end namespace itk
