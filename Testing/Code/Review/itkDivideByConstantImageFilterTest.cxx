@@ -110,6 +110,7 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
   
   // Execute the filter
   filter->Update();
+  filter->Print(std::cout);
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
@@ -139,5 +140,25 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
     ++it;
     }
 
-  return EXIT_SUCCESS;
+  // Check for exception if constant is 0
+  bool caught = false;
+  try
+    {
+    filter->SetConstant(0);
+    filter->Update();
+    }
+  catch(itk::ExceptionObject &err)
+    {
+    std::cout << "Caught expected exception" << std::endl;
+    err.Print(std::cout);
+    caught = true;
+    }
+  if (!caught)
+    {
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    return EXIT_SUCCESS;
+    }
 }

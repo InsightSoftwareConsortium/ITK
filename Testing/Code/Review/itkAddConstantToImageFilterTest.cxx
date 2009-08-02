@@ -110,6 +110,7 @@ int itkAddConstantToImageFilterTest(int, char* [] )
 
   // Execute the filter
   filter->Update();
+  filter->Print(std::cout);
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
