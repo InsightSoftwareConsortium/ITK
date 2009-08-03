@@ -237,6 +237,8 @@ SET(ReviewTest3_SRCS
   itkBinaryImageToShapeLabelMapFilterTest1.cxx
   itkLabelImageToShapeLabelMapFilterTest1.cxx
   itkShapeKeepNObjectsLabelMapFilterTest1.cxx
+  itkShapeOpeningLabelMapFilterTest1.cxx
+  #itkShapeRelabelLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1915,14 +1917,26 @@ ADD_TEST(itkBinaryImageToShapeLabelMapFilterTest1
 
 ADD_TEST(itkShapeKeepNObjectsLabelMapFilterTest1
   ${REVIEW_TESTS3}
-  --compare ${BASELINE}/Spots-shape-keep-n-objects.mha
-            ${TEMP}/Spots-shape-keep-n-objects.mha
+  --compare ${BASELINE}/cthead1-keep-n-objects.mha
+            ${TEMP}/cthead1-shape-keep-n-objects.mha
   itkShapeKeepNObjectsLabelMapFilterTest1
-  ${INPUTDATA}/Spots.png
-  ${TEMP}/Spots-shape-keep-n-objects.mha
-  1     # Reverse Ordering (bool) 
-  150   # Attribute
-  3     # Number of objects to keep
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-shape-keep-n-objects.mha
+  0         # Reverse Ordering (bool) 
+  0         # Attribute
+  2         # Number of objects to keep
+  )
+
+ADD_TEST(itkShapeOpeningLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-shape-opening.mha
+            ${TEMP}/cthead1-shape-opening.mha
+  itkShapeOpeningLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-shape-opening.mha
+  140   # Lambda
+  1     # Reverse Ordering (bool) - Objects with values smaller than Lambda are removed 
+  0     # Attribute
   )
 
 ADD_TEST(itkGridImageSourceTest1
