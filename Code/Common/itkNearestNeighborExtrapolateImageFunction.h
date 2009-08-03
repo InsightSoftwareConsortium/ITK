@@ -82,11 +82,7 @@ public:
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
-#else
-      nindex[j] = static_cast<ValueType>( vnl_math_rnd_halfintup( index[j] ) );
-#endif
       if ( nindex[j] < this->GetStartContinuousIndex()[j] ) 
         { 
         nindex[j] = this->GetStartIndex()[j]; 
