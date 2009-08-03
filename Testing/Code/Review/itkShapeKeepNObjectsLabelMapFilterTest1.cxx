@@ -21,7 +21,9 @@
 
 #include "itkLabelObject.h"
 #include "itkShapeLabelObject.h"
+#include "itkShapeLabelObjectAccessors.h"
 #include "itkLabelMap.h"
+
 #include "itkShapeKeepNObjectsLabelMapFilter.h"
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
@@ -48,7 +50,6 @@ int itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::ShapeLabelObject< PixelType, dim >           ShapeLabelObjectType;
   typedef itk::LabelMap< ShapeLabelObjectType >             LabelMapType;
 
-
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -66,23 +67,16 @@ int itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing boolean macro for ReverseOrdering
-  opening->ReverseOrderingOn();
+  opening->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
   
-  opening->ReverseOrderingOff();
+  opening->ReverseOrderingOn();
   TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
 
   //testing get and set macros for Attribute 
   bool attribute = atoi( argv[4] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
-
-  //testing boolean macro for Attribute
-  opening->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( false, opening->GetAttribute() );
-  
-  opening->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( true, opening->GetAttribute() );
 
   opening->SetNumberOfObjects( atoi(argv[5]) );
   opening->SetInput( i2l->GetOutput() );
