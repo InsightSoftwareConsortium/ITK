@@ -236,6 +236,7 @@ SET(ReviewTest3_SRCS
   itkRegionFromReferenceLabelMapFilterTest1.cxx
   itkBinaryImageToShapeLabelMapFilterTest1.cxx
   itkLabelImageToShapeLabelMapFilterTest1.cxx
+  itkShapeKeepNObjectsLabelMapFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1760,7 +1761,7 @@ ADD_TEST(itkShiftScaleLabelMapFilterTest1
   ${TEMP}/cthead1-label-shiftscaled.mha
    10   # shift value
    0.5  # scale value
-   1    # change background (boolean)
+   true # change background (boolean)
   )
 
 ADD_TEST(itkAutoCropLabelMapFilterTest1
@@ -1912,6 +1913,18 @@ ADD_TEST(itkBinaryImageToShapeLabelMapFilterTest1
   0     # Output image background
   )
 
+ADD_TEST(itkShapeKeepNObjectsLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/Spots-shape-keep-n-objects.mha
+            ${TEMP}/Spots-shape-keep-n-objects.mha
+  itkShapeKeepNObjectsLabelMapFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/Spots-shape-keep-n-objects.mha
+  1     # Reverse Ordering (bool) 
+  150   # Attribute
+  3     # Number of objects to keep
+  )
+
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/itkGridImageSourceTest1.nhdr
@@ -1933,7 +1946,8 @@ ADD_TEST(itkGridImageSourceTest3
 ADD_TEST(itkGridImageSourceTest4
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/itkGridImageSourceTest4.nhdr
-            ${TEMP}/itkGridImageSourceTest4.nhdr
+            
+${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
 
 
