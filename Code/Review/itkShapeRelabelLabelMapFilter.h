@@ -20,6 +20,7 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkLabelObject.h"
 #include "itkLabelObjectAccessors.h"
+#include "itkShapeLabelObjectAccessors.h"
 
 namespace itk {
 /** \class ShapeRelabelLabelMapFilter
@@ -49,12 +50,12 @@ public:
   typedef SmartPointer<const Self>      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  typedef TImage                                   ImageType;
+  typedef typename ImageType::Pointer              ImagePointer;
+  typedef typename ImageType::ConstPointer         ImageConstPointer;
+  typedef typename ImageType::PixelType            PixelType;
+  typedef typename ImageType::IndexType            IndexType;
+  typedef typename ImageType::LabelObjectType      LabelObjectType;
   
   typedef typename LabelObjectType::AttributeType AttributeType;
   
