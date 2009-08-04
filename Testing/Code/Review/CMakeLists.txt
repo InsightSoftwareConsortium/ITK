@@ -1913,6 +1913,8 @@ ADD_TEST(itkBinaryImageToShapeLabelMapFilterTest1
   1     # Fully connected (bool)
   255   # Input image foreground
   0     # Output image background
+  50    # Feret Diameter
+  200   # Perimeter
   )
 
 ADD_TEST(itkShapeKeepNObjectsLabelMapFilterTest1

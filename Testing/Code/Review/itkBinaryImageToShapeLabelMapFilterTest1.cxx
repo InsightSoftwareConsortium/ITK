@@ -29,11 +29,12 @@
 int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if( argc != 6 )
+  if( argc != 8 )
     {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputBinaryImage outputShapeLabelMap";
     std::cerr << " fullyConnected(0/1) foregroundValue backgroundValue";
+    std::cerr << " feretDiameter, perimeter";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -76,22 +77,21 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   int outputBackgroundValue = ( atoi(argv[5]) );
   i2l->SetOutputBackgroundValue( outputBackgroundValue );
   TEST_SET_GET_VALUE( outputBackgroundValue, i2l->GetOutputBackgroundValue() );
-
+ 
   //testing get/set ComputeFeretDiameter macro
-  bool computeFeretDiameter =  atoi(argv[6]);
+  bool computeFeretDiameter =  ( atoi(argv[6]) );
   i2l->SetComputeFeretDiameter( computeFeretDiameter );
   TEST_SET_GET_VALUE( computeFeretDiameter, i2l->GetComputeFeretDiameter() );
-
+  
   //testing boolean ComputeFeretDiameter macro
   i2l->ComputeFeretDiameterOff();
   TEST_SET_GET_VALUE( false, i2l->GetComputeFeretDiameter() );
 
   i2l->ComputeFeretDiameterOn();
   TEST_SET_GET_VALUE( true, i2l->GetComputeFeretDiameter() );
- 
-
+    
   //testing get/set ComputePerimeter macro
-  bool computePerimeter =  atoi(argv[6]);
+  bool computePerimeter =  atoi(argv[7]);
   i2l->SetComputePerimeter( computePerimeter );
   TEST_SET_GET_VALUE( computePerimeter, i2l->GetComputePerimeter() );
 
