@@ -106,6 +106,8 @@ protected:
 
   void GenerateData();
 
+  typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
+
   template <class TAttributeAccessor> 
   void TemplatedGenerateData( const TAttributeAccessor & )
     {
@@ -114,7 +116,6 @@ protected:
 
     ImageType * output = this->GetOutput();
 
-    typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
     const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
     typedef typename LabelObjectType::Pointer     LabelObjectPointer;
     typedef std::vector< LabelObjectPointer >     VectorType;
@@ -146,7 +147,6 @@ protected:
     //   progress.CompletedPixel();
     
     // and put back the objects in the map
-    typedef typename ImageType::LabelObjectType LabelObjectType;
     output->ClearLabels();
     unsigned int label = 0;
     typename VectorType::const_iterator it = labelObjects.begin();
