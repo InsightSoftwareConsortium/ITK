@@ -71,12 +71,10 @@ public:
   itkStaticConstMacro( OutputImageDimension, unsigned int, TInputImage::ImageDimension );
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  typedef BinaryImageToLabelMapFilter< InputImageType, OutputImageType >
-                         LabelizerType;
-  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
-                         ShapeLabelFilterOutput;
-  typedef ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >
-                         LabelObjectValuatorType;
+  typedef BinaryImageToLabelMapFilter< InputImageType, OutputImageType > LabelizerType;
+  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)> 
+                                                                         ShapeLabelFilterOutput;
+  typedef ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >    LabelObjectValuatorType;
 
   /** Standard New method. */
   itkNewMacro( Self );
