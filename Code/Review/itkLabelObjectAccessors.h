@@ -32,7 +32,7 @@ public:
   typedef TLabelObject                        LabelObjectType;
   typedef typename LabelObjectType::LabelType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetLabel();
     }
@@ -45,7 +45,7 @@ public:
   typedef TLabelObject     LabelObjectType;
   typedef int              AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetNumberOfLines();
     }
@@ -57,7 +57,7 @@ class LabelObjectComparator
 public:
   typedef TLabelObject       LabelObjectType;
   typedef TAttributeAccessor AttributeAccessorType;
-  bool operator()( const LabelObjectType * a, const LabelObjectType * b )
+  const bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
     {
     return m_Accessor( a ) > m_Accessor( b );
     }
@@ -71,7 +71,7 @@ class LabelObjectReverseComparator
 public:
   typedef TLabelObject       LabelObjectType;
   typedef TAttributeAccessor AttributeAccessorType;
-  bool operator()( const LabelObjectType * a, const LabelObjectType * b )
+  const bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
     {
     return m_Accessor( a ) < m_Accessor( b );
     }
