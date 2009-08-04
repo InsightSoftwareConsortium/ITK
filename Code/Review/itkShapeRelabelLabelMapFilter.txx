@@ -38,115 +38,106 @@ ShapeRelabelLabelMapFilter<TImage>
   switch( m_Attribute )
     {
     case LabelObjectType::LABEL:
-      TemplatedGenerateData< typename Functor::LabelLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::LabelLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::SIZE:
-      TemplatedGenerateData< typename Functor::SizeLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::PHYSICAL_SIZE:
-      TemplatedGenerateData< typename Functor::PhysicalSizeLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PhysicalSizeLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::SIZE_REGION_RATIO:
-      TemplatedGenerateData< typename Functor::SizeRegionRatioLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeRegionRatioLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::REGION_ELONGATION:
-      TemplatedGenerateData< typename Functor::RegionElongationLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::RegionElongationLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::SIZE_ON_BORDER:
-      TemplatedGenerateData< typename Functor::SizeOnBorderLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeOnBorderLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::PHYSICAL_SIZE_ON_BORDER:
-      TemplatedGenerateData< typename Functor::PhysicalSizeOnBorderLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PhysicalSizeOnBorderLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::FERET_DIAMETER:
-      TemplatedGenerateData< typename Functor::FeretDiameterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::FeretDiameterLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::BINARY_ELONGATION:
-      TemplatedGenerateData< typename Functor::BinaryElongationLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::BinaryElongationLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::PERIMETER:
-      TemplatedGenerateData< typename Functor::PerimeterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PerimeterLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::ROUNDNESS:
-      TemplatedGenerateData< typename Functor::RoundnessLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::RoundnessLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::EQUIVALENT_RADIUS:
-      TemplatedGenerateData< typename Functor::EquivalentRadiusLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::EquivalentRadiusLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::EQUIVALENT_PERIMETER:
-      TemplatedGenerateData< typename Functor::EquivalentPerimeterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::EquivalentPerimeterLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     case LabelObjectType::BINARY_FLATNESS:
-      TemplatedGenerateData< typename Functor::BinaryFlatnessLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::BinaryFlatnessLabelObjectAccessor< LabelObjectType > AccessorType;
+      AccessorType accessor;
+      this->TemplatedGenerateData( accessor );
       break;
+      }
     default:
       itkExceptionMacro(<< "Unknown attribute type");
       break;
-    }
-}
-
-
-template <class TImage>
-template <class TAttributeAccessor>
-void
-ShapeRelabelLabelMapFilter<TImage>
-::TemplatedGenerateData()
-{
-  // Allocate the output
-  this->AllocateOutputs();
-
-  ImageType * output = this->GetOutput();
-
-  typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
-  const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
-  typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
-
-  ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
-
-  // Get the label objects in a vector, so they can be sorted
-  VectorType labelObjects;
-  labelObjects.reserve( labelObjectContainer.size() );
-  for( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
-    it != labelObjectContainer.end();
-    it++ )
-    {
-    labelObjects.push_back( it->second );
-    progress.CompletedPixel();
-    }
-
-  // Instantiate the comparator and sort the vector
-  if( m_ReverseOrdering )
-    {
-    Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor > comparator;
-    std::sort( labelObjects.begin(), labelObjects.end(), comparator );
-    }
-  else
-    {
-    Functor::LabelObjectComparator< LabelObjectType, TAttributeAccessor > comparator;
-    std::sort( labelObjects.begin(), labelObjects.end(), comparator );
-    }
-  //   progress.CompletedPixel();
-  
-  // and put back the objects in the map
-  typedef typename ImageType::LabelObjectType LabelObjectType;
-  output->ClearLabels();
-  unsigned int label = 0;
-  typename VectorType::const_iterator it = labelObjects.begin();
-  while( it != labelObjects.end() )
-    {
-    // Avoid the background label if it is used
-    if( label == output->GetBackgroundValue() )
-      {
-      label++;
-      }
-    ( *it )->SetLabel( label );
-    output->AddLabelObject( *it );
-    
-    // Go to the next label
-    label++;
-    progress.CompletedPixel();
-
-    it++;
     }
 }
 

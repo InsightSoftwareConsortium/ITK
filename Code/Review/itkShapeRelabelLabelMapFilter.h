@@ -106,8 +106,67 @@ protected:
 
   void GenerateData();
 
-  template <class TAttributeAccessor> void TemplatedGenerateData();
-  
+  template <class TAttributeAccessor> 
+  void TemplatedGenerateData( const TAttributeAccessor & )
+    {
+    // Allocate the output
+    this->AllocateOutputs();
+
+    ImageType * output = this->GetOutput();
+
+    typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
+    const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+    typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
+
+    ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+
+    // Get the label objects in a vector, so they can be sorted
+    VectorType labelObjects;
+    labelObjects.reserve( labelObjectContainer.size() );
+    for( typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
+      it != labelObjectContainer.end();
+      it++ )
+      {
+      labelObjects.push_back( it->second );
+      progress.CompletedPixel();
+      }
+
+    // Instantiate the comparator and sort the vector
+    if( m_ReverseOrdering )
+      {
+      Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor > comparator;
+      std::sort( labelObjects.begin(), labelObjects.end(), comparator );
+      }
+    else
+      {
+      Functor::LabelObjectComparator< LabelObjectType, TAttributeAccessor > comparator;
+      std::sort( labelObjects.begin(), labelObjects.end(), comparator );
+      }
+    //   progress.CompletedPixel();
+    
+    // and put back the objects in the map
+    typedef typename ImageType::LabelObjectType LabelObjectType;
+    output->ClearLabels();
+    unsigned int label = 0;
+    typename VectorType::const_iterator it = labelObjects.begin();
+    while( it != labelObjects.end() )
+      {
+      // Avoid the background label if it is used
+      if( label == output->GetBackgroundValue() )
+        {
+        label++;
+        }
+      ( *it )->SetLabel( label );
+      output->AddLabelObject( *it );
+      
+      // Go to the next label
+      label++;
+      progress.CompletedPixel();
+
+      it++;
+      }
+    }
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   bool          m_ReverseOrdering;
