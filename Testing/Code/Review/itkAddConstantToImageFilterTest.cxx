@@ -97,7 +97,6 @@ int itkAddConstantToImageFilterTest(int, char* [] )
   // Create an ADD Filter
   FilterType::Pointer filter = FilterType::New();
 
-
   // Connect the input images
   filter->SetInput( inputImage );
 
@@ -140,5 +139,13 @@ int itkAddConstantToImageFilterTest(int, char* [] )
     ++it;
     }
 
+  FilterType::Pointer filter2 = FilterType::New();
+  filter2 = filter;
+  filter2->Print(std::cout);
+  if (filter2 != filter)
+    {
+    std::cout << "Error: operator = failed. filter2 != filter." << std::endl;
+    return EXIT_FAILURE;
+    }
   return EXIT_SUCCESS;
 }

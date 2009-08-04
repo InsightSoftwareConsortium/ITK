@@ -140,5 +140,14 @@ int itkSubtractConstantFromImageFilterTest(int, char* [] )
     ++it;
     }
 
+  FilterType::Pointer filter2 = FilterType::New();
+  filter2 = filter;
+  filter2->Print(std::cout);
+  if (filter2 != filter)
+    {
+    std::cout << "Error: operator = failed. filter2 != filter." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
