@@ -31,7 +31,7 @@ public:
   typedef TLabelObject  LabelObjectType;
   typedef unsigned long AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSize();
     }
@@ -44,7 +44,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetPhysicalSize();
     }
@@ -57,7 +57,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetRegionElongation();
     }
@@ -70,7 +70,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSizeRegionRatio();
     }
@@ -83,7 +83,7 @@ public:
   typedef TLabelObject  LabelObjectType;
   typedef unsigned long AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSizeOnBorder();
     }
@@ -96,7 +96,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetPhysicalSizeOnBorder();
     }
@@ -109,7 +109,7 @@ public:
   typedef TLabelObject                           LabelObjectType;
   typedef typename LabelObjectType::CentroidType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetCentroid();
     }
@@ -122,7 +122,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetFeretDiameter();
     }
@@ -135,7 +135,7 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::VectorType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetBinaryPrincipalMoments();
     }
@@ -148,7 +148,7 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::MatrixType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetBinaryPrincipalAxes();
     }
@@ -161,7 +161,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetBinaryElongation();
     }
@@ -174,7 +174,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetPerimeter();
     }
@@ -187,7 +187,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetRoundness();
     }
@@ -200,7 +200,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetEquivalentRadius();
     }
@@ -213,7 +213,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetEquivalentPerimeter();
     }
@@ -226,7 +226,7 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::VectorType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetEquivalentEllipsoidSize();
     }
@@ -239,7 +239,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject )
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetBinaryFlatness();
     }
