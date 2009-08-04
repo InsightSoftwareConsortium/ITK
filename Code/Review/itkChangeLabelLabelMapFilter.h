@@ -97,8 +97,6 @@ protected:
 
   void GenerateData();
 
-  template <class TAttributeAccessor> void TemplatedGenerateData();
-  
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   ChangeMapType          m_MapOfLabelToBeReplaced;

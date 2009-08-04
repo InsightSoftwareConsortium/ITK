@@ -92,8 +92,6 @@ protected:
 
   void GenerateData();
 
-  template <class TAttributeAccessor> void TemplatedGenerateData();
-  
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   double          m_Shift;
