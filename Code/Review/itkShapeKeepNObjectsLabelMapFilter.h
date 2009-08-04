@@ -18,6 +18,9 @@
 #define __itkShapeKeepNObjectsLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
+#include "itkLabelObjectAccessors.h"
+#include "itkShapeLabelObjectAccessors.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 /** \class ShapeKeepNObjectsLabelMapFilter
@@ -111,8 +114,63 @@ protected:
   void GenerateData();
 
   template <class TAttributeAccessor> 
-  void TemplatedGenerateData( const TAttributeAccessor & );
-  
+  void TemplatedGenerateData( const TAttributeAccessor & )
+    {
+    // Allocate the output
+    this->AllocateOutputs();
+
+    ImageType * output = this->GetOutput();
+    ImageType * output2 = this->GetOutput( 1 );
+
+    // set the background value for the second output - this is not done in the superclasses
+    output2->SetBackgroundValue( output->GetBackgroundValue() );
+
+    typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
+    const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+    typedef typename LabelObjectType::Pointer   LabelObjectPointer;
+    typedef std::vector< LabelObjectPointer >   VectorType;
+
+    ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
+
+    // get the label objects in a vector, so they can be sorted
+    VectorType labelObjects;
+    labelObjects.reserve( labelObjectContainer.size() );
+    typename LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
+    while( it != labelObjectContainer.end() )
+      {
+      labelObjects.push_back( it->second );
+      progress.CompletedPixel();
+      it++;
+      }
+
+    // instantiate the comparator and sort the vector
+    if( m_NumberOfObjects < labelObjectContainer.size() )
+      {
+      typename VectorType::iterator end = labelObjects.begin() + m_NumberOfObjects;
+      if( m_ReverseOrdering )
+        {
+        Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor > comparator;
+        std::nth_element( labelObjects.begin(), end, labelObjects.end(), comparator );
+        }
+      else
+        {
+        Functor::LabelObjectComparator< LabelObjectType, TAttributeAccessor > comparator;
+        std::nth_element( labelObjects.begin(), end, labelObjects.end(), comparator );
+        }
+      progress.CompletedPixel();
+    
+      // and remove the last objects of the map
+      for( typename VectorType::const_iterator it = end;
+        it != labelObjects.end();
+        it++ )
+        {
+        output2->AddLabelObject( *it );
+        output->RemoveLabelObject( *it );
+        progress.CompletedPixel();
+        }
+      }
+    }
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   bool          m_ReverseOrdering;
