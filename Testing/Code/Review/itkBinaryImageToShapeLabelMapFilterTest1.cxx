@@ -54,6 +54,8 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   //converting binary image to shape label map 
   typedef itk::BinaryImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
+  itk::SimpleFilterWatcher watcher1( i2l );
+
   i2l->SetInput( reader->GetOutput() );
 
   //testing get/set FullyConnected macro
@@ -104,6 +106,8 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
+  itk::SimpleFilterWatcher watcher2( l2i );
+
   l2i->SetInput( i2l->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
