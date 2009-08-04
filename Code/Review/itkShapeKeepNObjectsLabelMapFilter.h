@@ -110,7 +110,8 @@ protected:
 
   void GenerateData();
 
-  template <class TAttributeAccessor> void TemplatedGenerateData();
+  template <class TAttributeAccessor> 
+  void TemplatedGenerateData( const TAttributeAccessor & );
   
   void PrintSelf(std::ostream& os, Indent indent) const;
 

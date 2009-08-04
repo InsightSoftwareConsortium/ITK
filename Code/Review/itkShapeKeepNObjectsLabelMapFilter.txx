@@ -47,47 +47,103 @@ ShapeKeepNObjectsLabelMapFilter<TImage>
   switch( m_Attribute )
     {
     case LabelObjectType::LABEL:
-      TemplatedGenerateData< typename Functor::LabelLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::LabelLabelObjectAccessor< LabelObjectType >   FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::SIZE:
-      TemplatedGenerateData< typename Functor::SizeLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::PHYSICAL_SIZE:
-      TemplatedGenerateData< typename Functor::PhysicalSizeLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PhysicalSizeLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::SIZE_REGION_RATIO:
-      TemplatedGenerateData< typename Functor::SizeRegionRatioLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeRegionRatioLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::REGION_ELONGATION:
-      TemplatedGenerateData< typename Functor::RegionElongationLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::RegionElongationLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::SIZE_ON_BORDER:
-      TemplatedGenerateData< typename Functor::SizeOnBorderLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::SizeOnBorderLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::PHYSICAL_SIZE_ON_BORDER:
-      TemplatedGenerateData< typename Functor::PhysicalSizeOnBorderLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PhysicalSizeOnBorderLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::FERET_DIAMETER:
-      TemplatedGenerateData< typename Functor::FeretDiameterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::FeretDiameterLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::BINARY_ELONGATION:
-      TemplatedGenerateData< typename Functor::BinaryElongationLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::BinaryElongationLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::PERIMETER:
-      TemplatedGenerateData< typename Functor::PerimeterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::PerimeterLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::ROUNDNESS:
-      TemplatedGenerateData< typename Functor::RoundnessLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::RoundnessLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::EQUIVALENT_RADIUS:
-      TemplatedGenerateData< typename Functor::EquivalentRadiusLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::EquivalentRadiusLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::EQUIVALENT_PERIMETER:
-      TemplatedGenerateData< typename Functor::EquivalentPerimeterLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::EquivalentPerimeterLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     case LabelObjectType::BINARY_FLATNESS:
-      TemplatedGenerateData< typename Functor::BinaryFlatnessLabelObjectAccessor< LabelObjectType > >();
+      {
+      typedef typename Functor::BinaryFlatnessLabelObjectAccessor< LabelObjectType > FunctorType;
+      FunctorType functor;
+      this->TemplatedGenerateData( functor );
       break;
+      }
     default:
       itkExceptionMacro(<< "Unknown attribute type");
       break;
@@ -99,7 +155,7 @@ template <class TImage>
 template <class TAttributeAccessor>
 void
 ShapeKeepNObjectsLabelMapFilter<TImage>
-::TemplatedGenerateData()
+::TemplatedGenerateData( const TAttributeAccessor & itkNotUsed( accessor ) )
 {
   // Allocate the output
   this->AllocateOutputs();
