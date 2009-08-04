@@ -18,6 +18,9 @@
 #define __itkShapeOpeningLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
+#include "itkLabelObjectAccessors.h"
+#include "itkShapeLabelObjectAccessors.h"
+#include "itkProgressReporter.h"
 
 namespace itk {
 /** \class ShapeOpeningLabelMapFilter
@@ -111,8 +114,48 @@ protected:
 
   void GenerateData();
 
-  template <class TAttributeAccessor> void TemplatedGenerateData();
-  
+  template <class TAttributeAccessor> 
+  void TemplatedGenerateData( const TAttributeAccessor & accessor )
+    {
+    // Allocate the output
+    this->AllocateOutputs();
+
+    ImageType * output = this->GetOutput();
+    ImageType * output2 = this->GetOutput( 1 );
+    assert( this->GetNumberOfOutputs() == 2 );
+    assert( output2 != NULL );
+
+    // set the background value for the second output - this is not done in the superclasses
+    output2->SetBackgroundValue( output->GetBackgroundValue() );
+
+    const typename ImageType::LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
+
+    ProgressReporter progress( this, 0, labelObjectContainer.size() );
+
+    typename ImageType::LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
+    while( it != labelObjectContainer.end() )
+      {
+      typedef typename ImageType::LabelObjectType LabelObjectType;
+      typename LabelObjectType::LabelType label = it->first;
+      LabelObjectType * labelObject = it->second;
+
+      if( ( !m_ReverseOrdering && accessor( labelObject ) < m_Lambda )
+        || ( m_ReverseOrdering && accessor( labelObject ) > m_Lambda ) )
+        {
+        // must increment the iterator before removing the object to avoid invalidating the iterator
+        it++;
+        output2->AddLabelObject( labelObject );
+        output->RemoveLabel( label );
+        }
+      else
+        {
+        it++;
+        }
+
+      progress.CompletedPixel();
+      }
+    }
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   double        m_Lambda;
