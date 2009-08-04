@@ -75,9 +75,12 @@ int itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( true, relabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute 
-  bool attribute = atoi( argv[4] );
+  unsigned int attribute = atoi( argv[4] );
   relabel->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, relabel->GetAttribute() );
+
+  std::string attributeName  = ShapeLabelObjectType::GetNameFromAttribute( attribute );
+  relabel->SetAttribute( attributeName );
 
   relabel->SetInput( i2l->GetOutput() );
 
