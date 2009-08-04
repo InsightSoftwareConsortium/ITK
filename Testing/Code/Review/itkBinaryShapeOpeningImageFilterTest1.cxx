@@ -21,6 +21,11 @@
 
 #include "itkBinaryShapeOpeningImageFilter.h"
 
+#include "itkLabelObject.h"
+#include "itkShapeLabelObject.h"
+#include "itkShapeLabelObjectAccessors.h"
+#include "itkLabelMap.h"
+
 #include "itkTestingMacros.h"
 
 int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
@@ -28,7 +33,9 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
 
   if( argc != 9 )
     {
-    std::cerr << "usage: " << argv[0] << " input output foreground background lambda reverseOrdering connectivity attribute" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " input output";
+    std::cerr << " foreground background lambda";
+    std::cerr << "reverseOrdering connectivity attribute" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -42,13 +49,53 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   
   typedef itk::BinaryShapeOpeningImageFilter< IType > BinaryOpeningType;
   BinaryOpeningType::Pointer opening = BinaryOpeningType::New();
+  
   opening->SetInput( reader->GetOutput() );
-  opening->SetForegroundValue( atoi(argv[3]) );
-  opening->SetBackgroundValue( atoi(argv[4]) );
-  opening->SetLambda( atof(argv[5]) );
-  opening->SetReverseOrdering( atoi(argv[6]) );
-  opening->SetFullyConnected( atoi(argv[7]) );
-  opening->SetAttribute( argv[8] );
+ 
+  //testing get/set InputForegroundValue macro
+  int inputForegroundValue = ( atoi(argv[3]) );
+  opening->SetInputForegroundValue( inputForegroundValue );
+  TEST_SET_GET_VALUE( inputForegroundValue, opening->GetInputForegroundValue() );
+
+  //testing get/set OutputBackgroundValue macro
+  int outputBackgroundValue = ( atoi(argv[4]) );
+  opening->SetOutputBackgroundValue( outputBackgroundValue );
+  TEST_SET_GET_VALUE( outputBackgroundValue, opening->GetOutputBackgroundValue() );
+
+  //testing get and set macros for Lambda 
+  double lambda = atof( argv[5] );
+  opening->SetLambda( lambda );
+  TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
+
+  //testing boolean macro for ReverseOrdering
+  opening->ReverseOrderingOn();
+  TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() ); 
+
+  opening->ReverseOrderingOff();
+  TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+
+  //testing get and set macros or ReverseOrdering 
+  bool reverseOrdering = atoi( argv[6] );
+  opening->SetReverseOrdering( reverseOrdering );
+  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() ); 
+
+  //testing boolean macro for FullyConnected
+  opening->FullyConnectedOn();
+  TEST_SET_GET_VALUE( true, opening->GetFullyConnected() ); 
+
+  opening->FullyConnectedOff();
+  TEST_SET_GET_VALUE( false, opening->GetFullyConnected() );
+
+  //testing get and set macros or FullyConnected 
+  bool fullyConnected = atoi( argv[7] );
+  opening->SetFullyConnected( fullyConnected );
+  TEST_SET_GET_VALUE( fullyConnected , opening->GetFullyConnected() ); 
+
+  //testing get and set macros for Attribute 
+  bool attribute = atoi( argv[8] );
+  opening->SetAttribute( attribute );
+  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+ 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   typedef itk::ImageFileWriter< IType > WriterType;

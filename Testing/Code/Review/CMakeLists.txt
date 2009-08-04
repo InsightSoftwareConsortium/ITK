@@ -223,6 +223,7 @@ SET(ReviewTest3_SRCS
   itkAggregateLabelMapFilterTest.cxx
   itkGridImageSourceTest.cxx
   itkTriangleMeshToBinaryImageFilterTest3.cxx
+
   itkBinaryImageToLabelMapFilterTest.cxx
   itkLabelMapToBinaryImageFilterTest.cxx
   itkChangeLabelLabelMapFilterTest.cxx
@@ -230,15 +231,19 @@ SET(ReviewTest3_SRCS
   itkShiftScaleLabelMapFilterTest1.cxx
   itkAutoCropLabelMapFilterTest1.cxx
   itkChangeRegionLabelMapFilterTest1.cxx
+
   itkMergeLabelMapFilterTest1.cxx
   itkCropLabelMapFilterTest1.cxx
   itkPadLabelMapFilterTest1.cxx
   itkRegionFromReferenceLabelMapFilterTest1.cxx
+
   itkBinaryImageToShapeLabelMapFilterTest1.cxx
   itkLabelImageToShapeLabelMapFilterTest1.cxx
+
   itkShapeKeepNObjectsLabelMapFilterTest1.cxx
   itkShapeOpeningLabelMapFilterTest1.cxx
   itkShapeRelabelLabelMapFilterTest1.cxx
+  itkBinaryShapeOpeningImageFilterTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1939,6 +1944,21 @@ ADD_TEST(itkShapeOpeningLabelMapFilterTest1
   140   # Lambda
   1     # Reverse Ordering (bool) - Objects with values smaller than Lambda are removed 
   0     # Attribute
+  )
+
+ADD_TEST(itkBinaryShapeOpeningImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-binary-shape-opening.mha
+            ${TEMP}/cthead1-binary-shape-opening.mha
+  itkBinaryShapeOpeningImageFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-binary-shape-opening.mha
+  255   # Input image foreground
+  0     # Output image background
+  140   # Lambda
+  1     # Reverse Ordering (bool) - Objects with values smaller than Lambda are removed
+  1     # Fully connected (bool) 
+  0     # Attribute (bool)
   )
 
 ADD_TEST(itkShapeRelabelLabelMapFilterTest1
