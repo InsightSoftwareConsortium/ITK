@@ -116,7 +116,8 @@ protected:
 
     typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
     const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
-    typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
+    typedef typename LabelObjectType::Pointer     LabelObjectPointer;
+    typedef std::vector< LabelObjectPointer >     VectorType;
 
     ProgressReporter progress( this, 0, 2 * labelObjectContainer.size() );
 
