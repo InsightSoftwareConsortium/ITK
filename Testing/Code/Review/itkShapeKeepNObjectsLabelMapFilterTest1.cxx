@@ -61,18 +61,18 @@ int itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::ShapeKeepNObjectsLabelMapFilter< LabelMapType > LabelOpeningType;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
  
-  //testing get and set macros or ReverseOrdering 
-  bool reverseOrdering = atoi( argv[3] );
-  opening->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
-
   //testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
   TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() ); 
 
   opening->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
-  
+
+  //testing get and set macros or ReverseOrdering 
+  bool reverseOrdering = atoi( argv[3] );
+  opening->SetReverseOrdering( reverseOrdering );
+  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() ); 
+
   //testing get and set macros for Attribute 
   bool attribute = atoi( argv[4] );
   opening->SetAttribute( attribute );
