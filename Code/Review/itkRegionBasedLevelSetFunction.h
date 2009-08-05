@@ -101,6 +101,7 @@ public:
       ScalarValueType null_value = NumericTraits<ScalarValueType>::Zero;
 
       m_MaxCurvatureChange   = null_value;
+      m_MaxAdvectionChange   = null_value;
       m_MaxGlobalChange      = null_value;
       }
 
@@ -112,13 +113,14 @@ public:
 
     ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
 
-    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
-    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx_forward[ itkGetStaticConstMacro( ImageDimension ) ];
+    ScalarValueType m_dx_backward[ itkGetStaticConstMacro( ImageDimension ) ];
 
     ScalarValueType m_GradMagSqr;
     ScalarValueType m_GradMag;
 
     ScalarValueType m_MaxCurvatureChange;
+    ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxGlobalChange;
     };
 
@@ -207,6 +209,11 @@ public:
       }
     }
 
+  /** Advection field.  Default implementation returns a vector of zeros. */
+  virtual VectorType AdvectionField(const NeighborhoodType &,
+                                    const FloatOffsetType &, GlobalDataStruct * = 0)  const
+    { return this->m_ZeroVectorConstant; }
+
   /** Nu. Area regularization values */
   void SetAreaWeight( const ScalarValueType& nu)
     { this->m_AreaWeight = nu; }
@@ -236,6 +243,11 @@ public:
     { m_CurvatureWeight = c; }
   ScalarValueType GetCurvatureWeight() const
     { return m_CurvatureWeight; }
+
+  void SetAdvectionWeight( const ScalarValueType& iA)
+    { this->m_AdvectionWeight = iA; }
+  ScalarValueType GetAdvectionWeight() const
+    { return this->m_AdvectionWeight; }
 
   /** Weight of the laplacian smoothing term */
   void SetReinitializationSmoothingWeight(const ScalarValueType c)
@@ -314,6 +326,8 @@ protected:
   /** Curvature Regularization Weight */
   ScalarValueType           m_CurvatureWeight;
 
+  ScalarValueType           m_AdvectionWeight;
+
   /** Laplacian Regularization Weight */
   ScalarValueType           m_ReinitializationSmoothingWeight;
 
@@ -390,6 +404,13 @@ protected:
   virtual void UpdateSharedDataParameters() = 0;
 
   bool m_UpdateC;
+
+  /** This method's only purpose is to initialize the zero vector
+   * constant. */
+  static VectorType InitializeZeroVectorConstant();
+
+  /** Zero vector constant. */
+  static VectorType m_ZeroVectorConstant;
 
 private:
   RegionBasedLevelSetFunction(const Self&); //purposely not implemented
