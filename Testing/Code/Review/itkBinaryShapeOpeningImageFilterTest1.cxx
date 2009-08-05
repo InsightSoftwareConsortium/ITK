@@ -21,11 +21,6 @@
 
 #include "itkBinaryShapeOpeningImageFilter.h"
 
-#include "itkLabelObject.h"
-#include "itkShapeLabelObject.h"
-#include "itkShapeLabelObjectAccessors.h"
-#include "itkLabelMap.h"
-
 #include "itkTestingMacros.h"
 
 int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
@@ -46,7 +41,7 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  
+
   typedef itk::BinaryShapeOpeningImageFilter< IType > BinaryOpeningType;
   BinaryOpeningType::Pointer opening = BinaryOpeningType::New();
   
@@ -92,7 +87,7 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( fullyConnected , opening->GetFullyConnected() ); 
 
   //testing get and set macros for Attribute 
-  bool attribute = atoi( argv[8] );
+  BinaryOpeningType::AttributeType attribute = atoi( argv[8] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
  
@@ -105,6 +100,8 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   writer->UseCompressionOn();
   
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  std::cout << "Test Complete!" << std::endl;
 
   return EXIT_SUCCESS;
 }

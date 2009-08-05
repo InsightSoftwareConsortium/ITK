@@ -1958,7 +1958,7 @@ ADD_TEST(itkBinaryShapeOpeningImageFilterTest1
   140   # Lambda
   1     # Reverse Ordering (bool) - Objects with values smaller than Lambda are removed
   1     # Fully connected (bool) 
-  0     # Attribute (bool)
+  100   # Attribute (bool)
   )
 
 ADD_TEST(itkShapeRelabelLabelMapFilterTest1
