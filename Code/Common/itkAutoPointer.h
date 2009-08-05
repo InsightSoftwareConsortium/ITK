@@ -171,7 +171,7 @@ public:
     { return (void*)m_Pointer >= (void*) r.m_Pointer; }
 
   /** Overload operator assignment.  */
-  AutoPointer &operator = (AutoPointer &r) const
+  AutoPointer &operator = (AutoPointer &r)
     { 
     AutoPointer( r ).Swap( *this );
     return *this;
