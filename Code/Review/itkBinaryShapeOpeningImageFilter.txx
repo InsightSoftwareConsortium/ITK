@@ -31,6 +31,7 @@ BinaryShapeOpeningImageFilter<TInputImage>
   m_InputForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
   m_ReverseOrdering = false;
+  m_Lambda = 0.0;
   m_Attribute = LabelObjectType::SIZE;
 }
 
