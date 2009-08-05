@@ -135,7 +135,6 @@ protected:
     typename ImageType::LabelObjectContainerType::const_iterator it = labelObjectContainer.begin();
     while( it != labelObjectContainer.end() )
       {
-      typedef typename ImageType::LabelObjectType LabelObjectType;
       typename LabelObjectType::LabelType label = it->first;
       LabelObjectType * labelObject = it->second;
 
