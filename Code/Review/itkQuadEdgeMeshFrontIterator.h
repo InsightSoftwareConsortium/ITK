@@ -175,6 +175,8 @@ public:
   Self & operator++( );
 
   Self & operator++( int ) { return( this->operator++( ) ); }
+  
+  MeshType* GetMesh() const { return this->m_Mesh; }
 
 protected:
   /** Find a default seed by taking any edge (with proper type) in
