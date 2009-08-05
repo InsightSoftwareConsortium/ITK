@@ -59,6 +59,8 @@ public:
   
   typedef typename LabelObjectType::AttributeType AttributeType;
   
+  typedef typename Superclass::LabelObjectContainerType  LabelObjectContainerType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
@@ -125,7 +127,6 @@ protected:
     // set the background value for the second output - this is not done in the superclasses
     output2->SetBackgroundValue( output->GetBackgroundValue() );
 
-    typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
     const LabelObjectContainerType & labelObjectContainer = output->GetLabelObjectContainer();
     typedef typename LabelObjectType::Pointer   LabelObjectPointer;
     typedef std::vector< LabelObjectPointer >   VectorType;
@@ -160,12 +161,12 @@ protected:
       progress.CompletedPixel();
     
       // and remove the last objects of the map
-      for( typename VectorType::const_iterator it = end;
-        it != labelObjects.end();
-        it++ )
+      for( typename VectorType::const_iterator it2 = end;
+        it2 != labelObjects.end();
+        it2++ )
         {
-        output2->AddLabelObject( *it );
-        output->RemoveLabelObject( *it );
+        output2->AddLabelObject( *it2 );
+        output->RemoveLabelObject( *it2 );
         progress.CompletedPixel();
         }
       }
