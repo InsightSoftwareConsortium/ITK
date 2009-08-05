@@ -411,6 +411,7 @@ public:
    */
   virtual unsigned int GetNumberOfUsingCells(void);
 
+#if !defined(CABLE_CONFIGURATION)
   /**
    * Get a begin iterator for the UsingCellsContainer.
    */
@@ -420,7 +421,8 @@ public:
    * Get an end iterator for the UsingCellsContainer.
    */
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
-    
+#endif
+
   /** Standard part of every itk Object. */
   itkTypeMacro(CellInterface, LightObject);
 
