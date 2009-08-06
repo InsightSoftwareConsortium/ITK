@@ -73,14 +73,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   typedef ShapeLabelObject<unsigned long, itkGetStaticConstMacro(ImageDimension)>    LabelObjectType;
-  typedef typename itk::LabelMap< LabelObjectType >                                  LabelMapType;
-  typedef typename itk::BinaryImageToLabelMapFilter< InputImageType, LabelMapType >  LabelizerType;
+  typedef LabelMap< LabelObjectType >                                                LabelMapType;
+  typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >                LabelizerType;
   typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
       ShapeLabelFilterOutput;
-  typedef typename itk::ShapeLabelMapFilter< LabelMapType,ShapeLabelFilterOutput >   LabelObjectValuatorType;
+  typedef ShapeLabelMapFilter< LabelMapType,ShapeLabelFilterOutput >                 LabelObjectValuatorType;
   typedef typename LabelObjectType::AttributeType                                    AttributeType;
-  typedef typename itk::ShapeOpeningLabelMapFilter< LabelMapType >                   OpeningType;
-  typedef typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType > BinarizerType;
+  typedef ShapeOpeningLabelMapFilter< LabelMapType >                                 OpeningType;
+  typedef LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >               BinarizerType;
 
   /** Standard New method. */
   itkNewMacro(Self);  
@@ -153,7 +153,7 @@ public:
 
 protected:
   BinaryShapeOpeningImageFilter();
-  ~BinaryShapeOpeningImageFilter() {};
+  ~BinaryShapeOpeningImageFilter() {}
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   /** BinaryShapeOpeningImageFilter needs the entire input to be available.
