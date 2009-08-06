@@ -79,10 +79,7 @@ public:
   typedef unsigned int                       AttributeType;
   typedef unsigned long                      SizeValueType;
 
-  enum
-    {
-    LABEL = 0
-    };
+  itkStaticConstMacro(LABEL, AttributeType, 0);
 
   static AttributeType GetAttributeFromName( const std::string & s );
   static std::string GetNameFromAttribute( const AttributeType & a );
