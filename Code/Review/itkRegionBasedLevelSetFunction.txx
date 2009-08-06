@@ -160,9 +160,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   if (vnl_math_abs(d->m_MaxCurvatureChange) > vnl_math::eps)
     {
-    if (d->m_MaxGlobalChange > vnl_math::eps)
+    if (d->m_MaxAdvectionChange > vnl_math::eps)
       {
-      dt = vnl_math_min( ( this->m_WaveDT / d->m_MaxGlobalChange ),
+      dt = vnl_math_min( (m_WaveDT / d->m_MaxAdvectionChange),
       ( this->m_DT / d->m_MaxCurvatureChange ) );
       }
     else
@@ -172,16 +172,17 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
   else
     {
-    if (d->m_MaxGlobalChange > vnl_math::eps)
+    if (d->m_MaxAdvectionChange > vnl_math::eps)
       {
       //NOTE: What's the difference between this->m_WaveDT and this->m_DT?
-      dt = this->m_WaveDT / d->m_MaxGlobalChange;
+      dt = this->m_WaveDT / d->m_MaxAdvectionChange;
       }
     }
 
   // Reset the values
   d->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
   d->m_MaxGlobalChange      = NumericTraits<ScalarValueType>::Zero;
+  d->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
 
   return dt;
 }
@@ -336,6 +337,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       {
       x_energy = m_AdvectionWeight * advection_field[i];
 
+      // TODO: Is this condition right ?
       if (x_energy > NumericTraits<ScalarValueType>::Zero )
         {
         advection_term += advection_field[i] * gd->m_dx_backward[i];
@@ -361,7 +363,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   squared distances - global terms of rms differences of image and piecewise
   constant regions*/
   PixelType updateVal =
-    static_cast< PixelType >( curvature_term + laplacian_term - globalTerm + advection_term );
+    static_cast< PixelType >( curvature_term + laplacian_term + globalTerm + advection_term );
 
   /* If MaxGlobalChange recorded is lower than the current globalTerm */
   if( vnl_math_abs( gd->m_MaxGlobalChange) < vnl_math_abs( globalTerm ) )
@@ -438,9 +440,7 @@ const InputIndexType& inputIndex )
   ScalarValueType regularizationTerm = this->m_VolumeMatchingWeight *
     ComputeVolumeRegularizationTerm() - this->m_AreaWeight;
 
-  //NOTE: regularizationTerm here MUST take into account the curvature term!!!
-
-  ScalarValueType globalTerm = - inTerm + outTerm - overlapTerm - regularizationTerm;
+  ScalarValueType globalTerm = + inTerm - outTerm + overlapTerm + regularizationTerm;
 
   return globalTerm;
 }
