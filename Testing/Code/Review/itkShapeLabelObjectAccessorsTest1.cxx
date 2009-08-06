@@ -48,12 +48,46 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   typedef itk::LabelMap< ShapeLabelObjectType >   LabelMapType;
   typedef itk::ImageFileReader< ImageType >       ReaderType;
 
+  // Exercise the attribute translation code and verify that
+  // translations are correct
+  int status = EXIT_SUCCESS;
+
+  std::vector<std::string> attributes;
+  attributes.push_back("Label");
+  attributes.push_back("Size");
+  attributes.push_back("PhysicalSize");
+  attributes.push_back("RegionElongation");
+  attributes.push_back("SizeRegionRatio");
+  attributes.push_back("Centroid");
+  attributes.push_back("Region");
+  attributes.push_back("SizeOnBorder");
+  attributes.push_back("PhysicalSizeOnBorder");
+  attributes.push_back("FeretDiameter");
+  attributes.push_back("BinaryPrincipalMoments");
+  attributes.push_back("BinaryPrincipalAxes");
+  attributes.push_back("BinaryElongation");
+  attributes.push_back("Perimeter");
+  attributes.push_back("Roundness");
+  attributes.push_back("EquivalentRadius");
+  attributes.push_back("EquivalentPerimeter");
+  attributes.push_back("EquivalentEllipsoidSize");
+  attributes.push_back("BinaryFlatness");
+  for (size_t a = 0; a < attributes.size(); a++)
+    {
+    if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) != attributes[a])
+      {
+      std::cout << "Attribute translation for " << attributes[a] << " failed." << std::endl;
+      std::cout << "   Received " << ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) << " but expected " << attributes[a] << std::endl; 
+      status = EXIT_FAILURE;
+      }
+    }
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
  
   typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
+  i2l->SetComputePerimeter(true);
   i2l->Update();
 
   typedef LabelMapType::LabelObjectContainerType LabelObjectContainerType;
@@ -61,6 +95,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   LabelObjectContainerType container = labelMap->GetLabelObjectContainer();
   std::cout << "File " << argv[1] << " has " << labelMap->GetNumberOfLabelObjects() << " labels." << std::endl;
  
+  // Retrieve all attributes
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
     {
     ShapeLabelObjectType *labelObject = labelMap->GetNthLabelObject(n);
@@ -103,9 +138,109 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     std::cout << "    BinaryFlatness: "
               << labelObject->GetBinaryFlatness() << std::endl;
     }
-
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+    {
+    ShapeLabelObjectType *labelCopy = labelMap->GetNthLabelObject(n);
+    ShapeLabelObjectType *labelObject = labelMap->GetNthLabelObject(0);
+    labelObject->CopyAttributesFrom(labelCopy);
+    if (labelCopy->GetLabel() != labelObject->GetLabel())
+      {
+      std::cout << "CopyAttributesFrom failed for attribute: " << "Label" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetRegion() != labelObject->GetRegion())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "Region" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetSize() != labelObject->GetSize())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "Size" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetPhysicalSize() != labelObject->GetPhysicalSize())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "PhysicalSize" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetCentroid() != labelObject->GetCentroid())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "Centroid" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetRegionElongation() != labelObject->GetRegionElongation())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "RegionElongation" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetSizeRegionRatio() != labelObject->GetSizeRegionRatio())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "SizeRegionRatio" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetSizeOnBorder() != labelObject->GetSizeOnBorder())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "SizeOnBorder" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetPhysicalSizeOnBorder() != labelObject->GetPhysicalSizeOnBorder())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "PhysicalSizeOnBorder" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetFeretDiameter() != labelObject->GetFeretDiameter())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "FeretDiameter" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetBinaryPrincipalMoments() != labelObject->GetBinaryPrincipalMoments())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "BinaryPrincipalMoments" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetBinaryPrincipalAxes() != labelObject->GetBinaryPrincipalAxes())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "BinaryPrincipalAxes" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetBinaryElongation() != labelObject->GetBinaryElongation())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "BinaryElongation" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetPerimeter() != labelObject->GetPerimeter())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "Perimeter" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetRoundness() != labelObject->GetRoundness())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "Roundness" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetEquivalentRadius() != labelObject->GetEquivalentRadius())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "EquivalentRadius" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetEquivalentPerimeter() != labelObject->GetEquivalentPerimeter())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "EquivalentPerimeter" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetEquivalentEllipsoidSize() != labelObject->GetEquivalentEllipsoidSize())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "EquivalentEllipsoidSize" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetBinaryFlatness() != labelObject->GetBinaryFlatness())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "BinaryFlatness" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    }
   // Check that the accessors match the Get's
-  int status = EXIT_SUCCESS;
+
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
     {
     itk::Functor::LabelLabelObjectAccessor< ShapeLabelObjectType >  accessorLabel;
