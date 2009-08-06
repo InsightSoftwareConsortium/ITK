@@ -244,6 +244,7 @@ SET(ReviewTest3_SRCS
   itkShapeOpeningLabelMapFilterTest1.cxx
   itkShapeRelabelLabelMapFilterTest1.cxx
   itkBinaryShapeOpeningImageFilterTest1.cxx
+  itkShapeLabelObjectAccessorsTest1.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1970,6 +1971,12 @@ ADD_TEST(itkShapeRelabelLabelMapFilterTest1
   ${TEMP}/cthead1-shape-relabel-labelmap.mha
   1     # Reverse Ordering (bool) - Objects with values smaller than Lambda are removed  
   0     # Attribute
+  )
+
+ADD_TEST(itkShapeLabelObjectAccessorsTest1
+  ${REVIEW_TESTS3}
+  itkShapeLabelObjectAccessorsTest1
+  ${INPUTDATA}/cthead1Label.png
   )
 
 ADD_TEST(itkGridImageSourceTest1
