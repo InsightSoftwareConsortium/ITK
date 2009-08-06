@@ -53,6 +53,7 @@ Initialize()
     // Assign roi output
     FeatureImagePointer feature = roi->GetOutput();
     this->m_DifferenceFunctions[fId]->SetFeatureImage( feature );
+    this->m_DifferenceFunctions[fId]->CalculateAdvectionImage();
     }
 
   // Initialize the function count in shared data

@@ -54,6 +54,7 @@ Initialize()
     FeatureImagePointer feature = roi->GetOutput();
     this->m_DifferenceFunctions[fId]->SetFeatureImage( feature );
     this->m_DifferenceFunctions[fId]->SetInitialImage( input );
+    this->m_DifferenceFunctions[fId]->CalculateAdvectionImage();
     }
 
   // Initialize the function count in m_SharedData

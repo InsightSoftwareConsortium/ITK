@@ -291,6 +291,12 @@ public:
                                          ) const
     { return NumericTraits<ScalarValueType>::One; }
 
+  /** This method must be defined in a subclass to implement a working function
+   * object.  This method is called before the solver begins its work to
+   * produce the speed image used as the level set function's Advection field
+   * term.  See LevelSetFunction for more information. */
+  virtual void CalculateAdvectionImage() {}
+
 protected:
 
   RegionBasedLevelSetFunction();
