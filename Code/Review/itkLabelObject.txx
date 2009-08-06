@@ -53,7 +53,6 @@ LabelObject<TLabel, VImageDimension>
     {
     case LABEL:
     return "Label";
-    break;
     }
   // can't recognize the namespace
   throw std::runtime_error("Unknown attribute.");
@@ -246,7 +245,8 @@ void
 LabelObject<TLabel, VImageDimension>::CopyAttributesFrom( const Self * src )
 {
   itkAssertOrThrowMacro ( (src != NULL), "Null Pointer" );
-  // nothing to do here - this class has no attribute
+  m_Label = src->m_Label;
+
 }
    
 /** Copy the lines, the label and the attributes from another node. */
