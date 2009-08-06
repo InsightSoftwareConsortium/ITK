@@ -194,7 +194,7 @@ ScalarValueType
 RegionBasedLevelSetFunction< TInput,
   TFeature, TSharedData >::
 ComputeCurvature(
-  const NeighborhoodType &it,
+  const NeighborhoodType &itkNotUsed(it),
   const FloatOffsetType &itkNotUsed(offset), GlobalDataStruct *gd)
 {
   // Calculate the mean curvature
