@@ -61,6 +61,7 @@ public:
     {
     return m_Accessor( a ) > m_Accessor( b );
     }
+  LabelObjectComparator(){}
 private:
   AttributeAccessorType m_Accessor;
 };
@@ -75,6 +76,7 @@ public:
     {
     return m_Accessor( a ) < m_Accessor( b );
     }
+  LabelObjectReverseComparator(){}
 private:
   AttributeAccessorType m_Accessor;
 };
