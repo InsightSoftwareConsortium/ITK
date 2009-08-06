@@ -5,6 +5,9 @@
 /* Functions */
 #define F77_aloc v3p_netlib_F77_aloc
 #define exit_ v3p_netlib_exit_
+#if defined(c_abs)
+#undef c_abs
+#endif
 #define c_abs v3p_netlib_c_abs
 #define c_div v3p_netlib_c_div
 #define c_sqrt v3p_netlib_c_sqrt
