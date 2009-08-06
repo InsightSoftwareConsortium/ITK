@@ -38,6 +38,19 @@ public:
 };
 
 template< class TLabelObject >
+class ITK_EXPORT RegionLabelObjectAccessor
+{
+public:
+  typedef TLabelObject                         LabelObjectType;
+  typedef typename LabelObjectType::RegionType AttributeValueType;
+
+  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+    {
+    return labelObject->GetRegion();
+    }
+};
+
+template< class TLabelObject >
 class ITK_EXPORT PhysicalSizeLabelObjectAccessor
 {
 public:
