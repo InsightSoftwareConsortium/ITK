@@ -92,6 +92,7 @@ const double vnl_math::pi_over_4       VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.78539
 const double vnl_math::one_over_pi     VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.31830988618379067154 );
 const double vnl_math::two_over_pi     VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.63661977236758134308 );
 const double vnl_math::two_over_sqrtpi VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.12837916709551257390 );
+const double vnl_math::one_over_sqrt2pi VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.39894228040143267794 );
 const double vnl_math::sqrt2           VCL_STATIC_CONST_INIT_FLOAT_DEFN( 1.41421356237309504880 );
 const double vnl_math::sqrt1_2         VCL_STATIC_CONST_INIT_FLOAT_DEFN( 0.70710678118654752440 );
 
