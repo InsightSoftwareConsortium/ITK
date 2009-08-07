@@ -29,8 +29,8 @@ template <class TInputImage, class TOutputImage>
 LabelMapToBinaryImageFilter<TInputImage, TOutputImage>
 ::LabelMapToBinaryImageFilter()
 {
-  this->m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  this->m_OutputForegroundValue = NumericTraits<OutputImagePixelType>::max();
+  this->m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  this->m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -107,13 +107,13 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>
     while( !oIt.IsAtEnd() )
       {
       const OutputImagePixelType & bg = bgIt.Get();
-      if( bg != this->m_OutputForegroundValue )
+      if( bg != this->m_ForegroundValue )
         {
         oIt.Set( bg );
         }
       else
         {
-        oIt.Set( this->m_OutputBackgroundValue );
+        oIt.Set( this->m_BackgroundValue );
         }
       ++oIt;
       ++bgIt;
@@ -127,7 +127,7 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>
 
     while( !oIt.IsAtEnd() )
       {
-      oIt.Set( this->m_OutputBackgroundValue );
+      oIt.Set( this->m_BackgroundValue );
       ++oIt;
       }
     }
@@ -161,7 +161,7 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>
 
     for( unsigned int i=0; i<length; i++)
       {
-      output->SetPixel( idx, this->m_OutputForegroundValue );
+      output->SetPixel( idx, this->m_ForegroundValue );
       idx[0]++;
       }
     }
@@ -175,10 +175,10 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>
 {
   this->Superclass::PrintSelf(os,indent);
 
-  os << indent << "OutputForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputForegroundValue) << std::endl;
-  os << indent << "OutputBackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_OutputBackgroundValue) << std::endl;
+  os << indent << "ForegroundValue: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_ForegroundValue) << std::endl;
+  os << indent << "BackgroundValue: "
+     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->m_BackgroundValue) << std::endl;
   os << indent << "Barrier object: " << this->m_Barrier.GetPointer() << std::endl;
 }
 

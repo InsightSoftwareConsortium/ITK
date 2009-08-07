@@ -104,8 +104,8 @@ BinaryShapeKeepNObjectsImageFilter<TInputImage>
   
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
   binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetOutputForegroundValue( m_ForegroundValue );
-  binarizer->SetOutputBackgroundValue( m_BackgroundValue );
+  binarizer->SetForegroundValue( m_ForegroundValue );
+  binarizer->SetBackgroundValue( m_BackgroundValue );
   binarizer->SetBackgroundImage( this->GetInput() );
   binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(binarizer, .2f);  

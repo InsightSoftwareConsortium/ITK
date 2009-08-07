@@ -80,15 +80,15 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
-  itkSetMacro(OutputBackgroundValue, OutputImagePixelType);
-  itkGetConstMacro(OutputBackgroundValue, OutputImagePixelType);
+  itkSetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
 
   /**
    * Set/Get the value used as "foreground" in the output image.
    * Defaults to NumericTraits<PixelType>::max().
    */
-  itkSetMacro(OutputForegroundValue, OutputImagePixelType);
-  itkGetConstMacro(OutputForegroundValue, OutputImagePixelType);
+  itkSetMacro(ForegroundValue, OutputImagePixelType);
+  itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
    /** Set/Get the background image top be used to restore the background values */
   void SetBackgroundImage( const OutputImageType *input)
@@ -138,8 +138,8 @@ private:
   LabelMapToBinaryImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  OutputImagePixelType          m_OutputBackgroundValue;
-  OutputImagePixelType          m_OutputForegroundValue;
+  OutputImagePixelType          m_BackgroundValue;
+  OutputImagePixelType          m_ForegroundValue;
 
   typename Barrier::Pointer     m_Barrier;
 

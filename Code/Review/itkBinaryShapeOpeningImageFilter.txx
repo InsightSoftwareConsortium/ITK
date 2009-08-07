@@ -27,8 +27,8 @@ template<class TInputImage>
 BinaryShapeOpeningImageFilter<TInputImage>
 ::BinaryShapeOpeningImageFilter()
 {
-  m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_InputForegroundValue = NumericTraits<OutputImagePixelType>::max();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
   m_ReverseOrdering = false;
   m_Lambda = 0.0;
@@ -76,8 +76,8 @@ BinaryShapeOpeningImageFilter<TInputImage>
   
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
   labelizer->SetInput( this->GetInput() );
-  labelizer->SetInputForegroundValue( m_InputForegroundValue );
-  labelizer->SetOutputBackgroundValue( m_OutputBackgroundValue );
+  labelizer->SetInputForegroundValue( m_ForegroundValue );
+  labelizer->SetOutputBackgroundValue( m_BackgroundValue );
   labelizer->SetFullyConnected( m_FullyConnected );
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(labelizer, .3f);
@@ -105,8 +105,8 @@ BinaryShapeOpeningImageFilter<TInputImage>
   
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
   binarizer->SetInput( opening->GetOutput() );
-  binarizer->SetOutputForegroundValue( m_InputForegroundValue );
-  binarizer->SetOutputBackgroundValue( m_OutputBackgroundValue );
+  binarizer->SetForegroundValue( m_ForegroundValue );
+  binarizer->SetBackgroundValue( m_BackgroundValue );
   binarizer->SetBackgroundImage( this->GetInput() );
   binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(binarizer, .2f);  
@@ -125,8 +125,8 @@ BinaryShapeOpeningImageFilter<TInputImage>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
-  os << indent << "OutputBackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
-  os << indent << "InputForegroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_InputForegroundValue) << std::endl;
+  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent << "ForegroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue) << std::endl;
   os << indent << "Lambda: "  << m_Lambda << std::endl;
   os << indent << "ReverseOrdering: "  << m_ReverseOrdering << std::endl;
   os << indent << "Attribute: "  << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")" << std::endl;

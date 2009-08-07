@@ -50,15 +50,15 @@ int itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   
   opening->SetInput( reader->GetOutput() );
  
-  //testing get/set InputForegroundValue macro
-  int inputForegroundValue = ( atoi(argv[4]) );
-  opening->SetInputForegroundValue( inputForegroundValue );
-  TEST_SET_GET_VALUE( inputForegroundValue, opening->GetInputForegroundValue() );
+  //testing get/set ForegroundValue macro
+  int ForegroundValue = ( atoi(argv[4]) );
+  opening->SetForegroundValue( ForegroundValue );
+  TEST_SET_GET_VALUE( ForegroundValue, opening->GetForegroundValue() );
 
-  //testing get/set OutputBackgroundValue macro
-  int outputBackgroundValue = ( atoi(argv[5]) );
-  opening->SetOutputBackgroundValue( outputBackgroundValue );
-  TEST_SET_GET_VALUE( outputBackgroundValue, opening->GetOutputBackgroundValue() );
+  //testing get/set BackgroundValue macro
+  int BackgroundValue = ( atoi(argv[5]) );
+  opening->SetBackgroundValue( BackgroundValue );
+  TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
   //testing get and set macros for Lambda 
   double lambda = atof( argv[6] );

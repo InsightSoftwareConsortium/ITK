@@ -118,15 +118,15 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
-  itkSetMacro( OutputBackgroundValue, OutputImagePixelType );
-  itkGetConstMacro( OutputBackgroundValue, OutputImagePixelType );
+  itkSetMacro( BackgroundValue, OutputImagePixelType );
+  itkGetConstMacro( BackgroundValue, OutputImagePixelType );
 
   /**
    * Set/Get the value used as "foreground" in the output image.
    * Defaults to NumericTraits<PixelType>::max().
    */
-  itkSetMacro( InputForegroundValue, OutputImagePixelType );
-  itkGetConstMacro( InputForegroundValue, OutputImagePixelType);
+  itkSetMacro( ForegroundValue, OutputImagePixelType );
+  itkGetConstMacro( ForegroundValue, OutputImagePixelType);
 
   /**
    * Set/Get the threshold used to keep or remove the objects.
@@ -203,8 +203,8 @@ private:
   void operator=( const Self& ); //purposely not implemented
 
   bool                 m_FullyConnected;
-  OutputImagePixelType m_OutputBackgroundValue;
-  OutputImagePixelType m_InputForegroundValue;
+  OutputImagePixelType m_BackgroundValue;
+  OutputImagePixelType m_ForegroundValue;
   double               m_Lambda;
   bool                 m_ReverseOrdering;
   AttributeType        m_Attribute;
