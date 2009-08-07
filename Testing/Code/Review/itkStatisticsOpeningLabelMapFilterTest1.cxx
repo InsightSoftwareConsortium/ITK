@@ -35,7 +35,7 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   if( argc != 7 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " input output";
+    std::cerr << " input feature output";
     std::cerr << " lambda reverseOrdering(0/1) attribute";
     std::cerr << std::endl;
     return EXIT_FAILURE;
