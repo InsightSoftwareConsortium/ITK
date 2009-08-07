@@ -181,20 +181,16 @@ double
 GaussianDistribution
 ::PDF(double x)
 {
-  static const double oneonsqrttwopi = 1.0 / vcl_sqrt( 2.0 * vnl_math::pi );
-
-  return oneonsqrttwopi * vcl_exp(-0.5*x*x);
+  return vnl_math::one_over_sqrt2pi * vcl_exp(-0.5*x*x);
 }
 
 double
 GaussianDistribution
 ::PDF(double x, double mean, double variance)
 {
-  static const double oneonsqrttwopi = 1.0 / vcl_sqrt( 2.0 * vnl_math::pi );
-
   double xminusmean = x - mean;
   
-  return (oneonsqrttwopi / vcl_sqrt(variance))
+  return (vnl_math::one_over_sqrt2pi / vcl_sqrt(variance))
     * vcl_exp(-0.5*xminusmean*xminusmean / variance);
 }
 
@@ -301,7 +297,7 @@ GaussianDistribution
   
   for( newt=0; newt < 3; newt++ )
     {
-    dq  = 0.5e+0 * vnl_erfc( dx / 1.414213562373095e+0 ) - dp;
+    dq  = 0.5e+0 * vnl_erfc( dx * vnl_math::sqrt1_2 ) - dp;
     ddq = vcl_exp( -0.5e+0 * dx * dx ) / 2.506628274631000e+0;
     dx  = dx + dq / ddq;
     }

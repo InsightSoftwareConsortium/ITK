@@ -195,7 +195,7 @@ void CumulativeGaussianOptimizer
   m_ComputedTransitionHeight = sum;
 
   // Calculate the amplitude.
-  m_ComputedAmplitude =  sum / (m_ComputedStandardDeviation * vcl_sqrt(2*3.14159265));
+  m_ComputedAmplitude =  sum / (m_ComputedStandardDeviation * vcl_sqrt(2*vnl_math::pi));
 }
   
 void 

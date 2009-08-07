@@ -60,7 +60,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>
       prefixDenom *= m_Sigma[i];
       }
 
-    prefixDenom *= 2*vcl_pow( 2 * 3.1415927, VImageDimension / 2.0); 
+    prefixDenom *= 2*vcl_pow( 2 * vnl_math::pi, VImageDimension / 2.0); 
     }
   else
     {

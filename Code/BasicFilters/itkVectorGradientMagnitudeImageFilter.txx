@@ -315,7 +315,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
   int     num;
-  const double dpi = 3.14159265358979323846;
+  const double dpi = vnl_math::pi;
   const double epsilon = 1.0e-11;
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
