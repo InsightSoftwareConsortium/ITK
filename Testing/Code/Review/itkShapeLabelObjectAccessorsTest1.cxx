@@ -359,5 +359,26 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
       status = EXIT_FAILURE;
       }
     }
+
+  // Cover PrintSelf
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+    {
+    ShapeLabelObjectType *l = labelMap->GetNthLabelObject(n);
+    std::cout << "Print ShapeLabelObject " << n << std::endl;
+    l->Print(std::cout);
+    }
+
+  // Check transforms
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+    {
+    ShapeLabelObjectType *l = labelMap->GetNthLabelObject(n);
+    ShapeLabelObjectType::AffineTransformPointer principleToPhysical = l->GetBinaryPrincipalAxesToPhysicalAxesTransform();
+    std::cout << "Print principleToPhysical " << n << std::endl;
+    principleToPhysical->Print(std::cout);
+
+    ShapeLabelObjectType::AffineTransformPointer physicalToPrinciple = l->GetPhysicalAxesToBinaryPrincipalAxesTransform();
+    std::cout << "Print physicalToPrinciple " << n << std::endl;
+    physicalToPrinciple->Print(std::cout);
+    }
   return status;
 }
