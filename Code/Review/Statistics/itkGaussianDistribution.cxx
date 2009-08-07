@@ -174,7 +174,7 @@ GaussianDistribution
 {
   double xminusmean = x - mean;
   
-  return (vnl_math::one_over_sqrt2pi / sqrt(variance))
+  return (vnl_math::one_over_sqrt2pi / vcl_sqrt(variance))
     * vcl_exp(-0.5*xminusmean*xminusmean / variance);
 }
 
@@ -209,7 +209,7 @@ GaussianDistribution
 ::CDF(double x, double mean, double variance)
 {
   // convert to zero mean unit variance
-  double u = (x - mean) / sqrt(variance);
+  double u = (x - mean) / vcl_sqrt(variance);
   
   return 0.5 * (vnl_erf(vnl_math::sqrt1_2 * u) + 1.0);
 }
@@ -258,7 +258,7 @@ GaussianDistribution
   
   /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
   
-  dt = sqrt( -2.0 * log(dp) );
+  dt = vcl_sqrt( -2.0 * vcl_log(dp) );
   dx = dt
     - ((.010328e+0*dt + .802853e+0)*dt + 2.515517e+0)
     /(((.001308e+0*dt + .189269e+0)*dt + 1.432788e+0)*dt + 1.e+0);
@@ -302,7 +302,7 @@ GaussianDistribution
     {
     // apply the mean and variance to provide the value for the
     // prescribed Gaussian
-    x = x*sqrt(variance) + mean;
+    x = x*vcl_sqrt(variance) + mean;
     return x;
     }
 }
