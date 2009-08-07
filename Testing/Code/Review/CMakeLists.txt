@@ -245,6 +245,10 @@ SET(ReviewTest3_SRCS
   itkShapeRelabelLabelMapFilterTest1.cxx
   itkBinaryShapeOpeningImageFilterTest1.cxx
   itkShapeLabelObjectAccessorsTest1.cxx
+
+  itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
+  itkLabelImageToStatisticsLabelMapFilterTest1.cxx
+
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -2060,6 +2064,7 @@ ADD_EXECUTABLE(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
 
 SET(ReviewTest3_LIBS
   ITKIO
+  ITKStatistics
   )
 TARGET_LINK_LIBRARIES(itkReviewTests3 ${ReviewTest3_LIBS})
 
