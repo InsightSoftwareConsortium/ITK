@@ -19,6 +19,7 @@
 
 #include "itkShapeRelabelLabelMapFilter.h"
 #include "itkStatisticsLabelObject.h"
+#include "itkStatisticsLabelObjectAccessors.h"
 
 namespace itk {
 /** \class StatisticsRelabelLabelMapFilter

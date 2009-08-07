@@ -19,6 +19,7 @@
 
 #include "itkShapeOpeningLabelMapFilter.h"
 #include "itkStatisticsLabelObject.h"
+#include "itkStatisticsLabelObjectAccessors.h"
 
 namespace itk {
 /** \class StatisticsOpeningLabelMapFilter
