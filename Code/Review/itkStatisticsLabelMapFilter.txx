@@ -69,13 +69,27 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
   typedef typename LabelObjectType::HistogramType HistogramType;
 
   typename HistogramType::SizeType histogramSize;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  histogramSize.SetSize(1);
+#endif
   histogramSize.Fill( m_NumberOfBins );
+
   typename HistogramType::MeasurementVectorType featureImageMin;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  featureImageMin.SetSize(1);
+#endif
   featureImageMin.Fill( m_Minimum );
+
   typename HistogramType::MeasurementVectorType featureImageMax;
+#ifdef ITK_USE_REVIEW_STATISTICS
+  featureImageMax.SetSize(1);
+#endif
   featureImageMax.Fill( m_Maximum );
 
   typename HistogramType::Pointer histogram = HistogramType::New();
+#ifdef ITK_USE_REVIEW_STATISTICS
+  histogram->SetMeasurementVectorSize(1);
+#endif
   histogram->SetClipBinsAtEnds( false );
   histogram->Initialize( histogramSize, featureImageMin, featureImageMax );
 
@@ -152,7 +166,11 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     }
 
   // final computations
+#ifdef ITK_USE_REVIEW_STATISTICS
+  const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
+#else
   const typename HistogramType::FrequencyType & totalFreq = histogram->GetTotalFrequency();
+#endif
   double mean = sum / totalFreq;
   double variance = ( sum2 - ( vcl_pow( sum, 2 ) / totalFreq ) ) / ( totalFreq - 1 );
   double sigma = vcl_sqrt( variance );
