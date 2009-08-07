@@ -249,6 +249,7 @@ SET(ReviewTest3_SRCS
   itkShapeRelabelImageFilterTest1.cxx
   itkLabelShapeKeepNObjectsImageFilterTest1.cxx
   itkLabelShapeOpeningImageFilterTest1.cxx
+  itkShapeUniqueLabelMapFilterTest1.cxx
 
   itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
   itkLabelImageToStatisticsLabelMapFilterTest1.cxx

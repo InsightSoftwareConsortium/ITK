@@ -60,4 +60,5 @@ void RegisterTests()
   REGISTER_TEST(itkLabelStatisticsKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkLabelStatisticsOpeningImageFilterTest1);
   REGISTER_TEST(itkStatisticsRelabelImageFilterTest1);
+  REGISTER_TEST(itkShapeUniqueLabelMapFilterTest1);
 }
