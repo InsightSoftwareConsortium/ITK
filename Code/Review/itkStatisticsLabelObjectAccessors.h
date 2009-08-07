@@ -16,6 +16,7 @@
 =========================================================================*/
 #ifndef __itkStatisticsLabelObjectAccessors_h
 #define __itkStatisticsLabelObjectAccessors_h
+#include "itkShapeLabelObjectAccessors.h"
 
 
 namespace itk
