@@ -308,13 +308,13 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
+  AttributeType m_Attribute;
+
 private:
   ShapeUniqueLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
   bool          m_ReverseOrdering;
-  AttributeType m_Attribute;
-
   struct LineOfLabelObject
     {
     typedef typename LabelObjectType::LineType LineType;
