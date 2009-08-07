@@ -256,7 +256,6 @@ LabelObject<TLabel, VImageDimension>::CopyAllFrom( const Self * src )
 {
   itkAssertOrThrowMacro ( (src != NULL), "Null Pointer" );
   m_LineContainer = src->m_LineContainer;
-  m_Label = src->m_Label;
   // also copy the attributes
   this->CopyAttributesFrom( src );
 }
