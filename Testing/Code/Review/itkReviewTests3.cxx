@@ -49,4 +49,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1);
   REGISTER_TEST(itkLabelImageToStatisticsLabelMapFilterTest1);
   REGISTER_TEST(itkStatisticsOpeningLabelMapFilterTest1);
+  REGISTER_TEST(itkStatisticsKeepNObjectsLabelMapFilterTest1);
 }
