@@ -251,6 +251,7 @@ SET(ReviewTest3_SRCS
   itkStatisticsOpeningLabelMapFilterTest1.cxx
   itkStatisticsKeepNObjectsLabelMapFilterTest1.cxx
   itkStatisticsRelabelLabelMapFilterTest1.cxx
+  itkBinaryStatisticsOpeningImageFilterTest1.cxx
 
 )
 
