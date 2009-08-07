@@ -139,31 +139,31 @@ public:
     this->SetAttribute( LabelObjectType::GetAttributeFromName( s ) );
     }
 
-
-   /** Set the feature image */
-  void SetFeatureImage(TFeatureImage *input)
+  /** Set the feature image */
+  void SetFeatureImage(const TFeatureImage *input)
     {
     // Process object is not const-correct so the const casting is required.
     this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
     }
 
   /** Get the feature image */
-  FeatureImageType * GetFeatureImage()
+  const FeatureImageType * GetFeatureImage()
     {
-    return static_cast<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+    return static_cast<const FeatureImageType*>(this->ProcessObject::GetInput(1));
     }
 
-  /** Set the input image */
-  void SetInput1(InputImageType *input)
+   /** Set the input image */
+  void SetInput1(const InputImageType *input)
     {
     this->SetInput( input );
     }
 
   /** Set the feature image */
-  void SetInput2(FeatureImageType *input)
+  void SetInput2(const FeatureImageType *input)
     {
     this->SetFeatureImage( input );
     }
+
 
 protected:
   LabelStatisticsKeepNObjectsImageFilter();
