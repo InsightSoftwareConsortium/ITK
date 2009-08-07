@@ -235,7 +235,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // assert( linecount == m_LineMap.size() );
   SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
-  SizeValueType linecount = pixelcount/xsize;
+  OffsetValueType linecount = pixelcount/xsize;
 
   SizeValueType lastLineIdForThread =  linecount;
   long nbOfLineIdToJoin = 0;
@@ -257,9 +257,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
       OffsetVectorType::const_iterator I = LineOffsets.begin();
       while( I != LineOffsets.end() )
         {
-        SizeValueType NeighIdx = ThisIdx + (*I);
+        OffsetValueType NeighIdx = ThisIdx + (*I);
         // check if the neighbor is in the map
-        if ( NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
+        if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
           // Now check whether they are really neighbors
           bool areNeighbors = CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
@@ -291,9 +291,9 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
           OffsetVectorType::const_iterator I = LineOffsets.begin();
           while( I != LineOffsets.end() )
             {
-            SizeValueType NeighIdx = ThisIdx + (*I);
+            OffsetValueType NeighIdx = ThisIdx + (*I);
             // check if the neighbor is in the map
-            if ( NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
+            if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
               {
               // Now check whether they are really neighbors
               bool areNeighbors

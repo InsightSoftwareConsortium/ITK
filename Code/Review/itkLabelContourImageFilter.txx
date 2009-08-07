@@ -186,7 +186,7 @@ LabelContourImageFilter< TInputImage, TOutputImage>
   // assert( linecount == m_ForegroundLineMap.size() );
   SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
-  SizeValueType linecount = pixelcount/xsize;
+  OffsetValueType linecount = pixelcount/xsize;
 
   SizeValueType lastLineIdForThread =  linecount;
   if( threadId != m_NumberOfThreads - 1 )
@@ -201,9 +201,9 @@ LabelContourImageFilter< TInputImage, TOutputImage>
       for (OffsetVec::const_iterator I = LineOffsets.begin();
            I != LineOffsets.end(); ++I)
         {
-        SizeValueType NeighIdx = ThisIdx + (*I);
+        OffsetValueType NeighIdx = ThisIdx + (*I);
         // check if the neighbor is in the map
-        if ( NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
+        if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
           // Now check whether they are really neighbors
           bool areNeighbors
