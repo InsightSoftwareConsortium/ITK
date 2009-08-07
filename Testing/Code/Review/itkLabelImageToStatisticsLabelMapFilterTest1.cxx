@@ -106,8 +106,8 @@ int itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   i2l->ComputeHistogramOn();
   TEST_SET_GET_VALUE( true, i2l->GetComputeHistogram() );
     
-  //testing get/set InputForegroundValue macro
-  int numberOfBins = ( atoi(argv[8]) );
+  //testing get/set NumberOfBins macro
+  unsigned int numberOfBins = ( atoi(argv[8]) );
   i2l->SetNumberOfBins( numberOfBins );
   TEST_SET_GET_VALUE( numberOfBins, i2l->GetNumberOfBins() );
 

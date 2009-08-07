@@ -83,7 +83,7 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( inputForegroundValue, i2l->GetInputForegroundValue() );
 
   //testing get/set OutputBackgroundValue macro
-  int outputBackgroundValue = ( atoi(argv[6]) );
+  unsigned int outputBackgroundValue = ( atoi(argv[6]) );
   i2l->SetOutputBackgroundValue( outputBackgroundValue );
   TEST_SET_GET_VALUE( outputBackgroundValue, i2l->GetOutputBackgroundValue() );
  
@@ -123,8 +123,8 @@ int itkBinaryImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   i2l->ComputeHistogramOn();
   TEST_SET_GET_VALUE( true, i2l->GetComputeHistogram() );
     
-  //testing get/set InputForegroundValue macro
-  int numberOfBins = ( atoi(argv[10]) );
+  //testing get/set NumberOfBins macro
+  unsigned int numberOfBins = ( atoi(argv[10]) );
   i2l->SetNumberOfBins( numberOfBins );
   TEST_SET_GET_VALUE( numberOfBins, i2l->GetNumberOfBins() );
 
