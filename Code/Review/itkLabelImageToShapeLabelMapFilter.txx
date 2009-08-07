@@ -27,7 +27,7 @@ template<class TInputImage, class TOutputImage>
 LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>
 ::LabelImageToShapeLabelMapFilter()
 {
-  m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
+  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = false;
 }
@@ -73,7 +73,7 @@ LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>
   
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
   labelizer->SetInput( this->GetInput() );
-  labelizer->SetBackgroundValue( m_OutputBackgroundValue );
+  labelizer->SetBackgroundValue( m_BackgroundValue );
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(labelizer, .5f);
   
@@ -97,7 +97,7 @@ LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_OutputBackgroundValue) << std::endl;
+  os << indent << "BackgroundValue: "  << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
 }

@@ -54,8 +54,8 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   l2s->SetInput( reader->GetOutput() );
 
   const PixelType backgroundValue = atoi(argv[3]);
-  l2s->SetOutputBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, l2s->GetOutputBackgroundValue() );
+  l2s->SetBackgroundValue( backgroundValue );
+  TEST_SET_GET_VALUE( backgroundValue, l2s->GetBackgroundValue() );
   
   const bool computeFeretDiameter = atoi( argv[4]);
   l2s->SetComputeFeretDiameter( computeFeretDiameter );

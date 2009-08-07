@@ -99,8 +99,8 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
-  itkSetMacro( OutputBackgroundValue, OutputImagePixelType );
-  itkGetConstMacro( OutputBackgroundValue, OutputImagePixelType );
+  itkSetMacro( BackgroundValue, OutputImagePixelType );
+  itkGetConstMacro( BackgroundValue, OutputImagePixelType );
 
   /**
    * Set/Get whether the maximum Feret diameter should be computed or not. 
@@ -139,7 +139,7 @@ private:
   LabelImageToShapeLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  OutputImagePixelType m_OutputBackgroundValue;
+  OutputImagePixelType m_BackgroundValue;
   bool                 m_ComputeFeretDiameter;
   bool                 m_ComputePerimeter;
 
