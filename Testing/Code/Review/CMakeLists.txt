@@ -1891,8 +1891,8 @@ ADD_TEST(itkLabelImageToShapeLabelMapFilterTest1
   ${INPUTDATA}/simple-label-b.png
   ${TEMP}/simple-label-to-shapelabelmap.mha
   90    #output background value
-  40    #compute Feret Diameter
-  200   #computer Perimeter
+  1     #compute Feret Diameter (bool)
+  1     #computer Perimeter (bool)
   )  
 
 ADD_TEST(itkCropLabelMapFilterTest1
@@ -1937,8 +1937,8 @@ ADD_TEST(itkBinaryImageToShapeLabelMapFilterTest1
   1     # Fully connected (bool)
   255   # Input image foreground
   0     # Output image background
-  50    # Feret Diameter
-  200   # Perimeter
+  1     # Compute Feret Diameter (bool)
+  1     # Compute Perimeter (bool)
   )
 
 ADD_TEST(itkShapeKeepNObjectsLabelMapFilterTest1
@@ -1995,6 +1995,38 @@ ADD_TEST(itkShapeLabelObjectAccessorsTest1
   ${REVIEW_TESTS3}
   itkShapeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
+  )
+
+ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
+            ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
+  itkBinaryImageToStatisticsLabelMapFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
+  1     # Fully connected (bool)
+  0     # Input image foreground
+  0     # Output image background
+  1     # Compute Feret Diameter (bool)
+  1     # Compute Perimeter (bool)
+  1     # Compute Histogram (bool)
+  128   # Number Of Bins
+  )
+
+ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${INPUTDATA}/Spots.png
+            ${TEMP}/Spots-labelimage-to-statisticslabel.png
+  itkLabelImageToStatisticsLabelMapFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/Spots-labelimage-to-statisticslabel.png
+  0     # Image background
+  1     # Compute Feret Diameter (bool)
+  1     # Compute Perimeter (bool)
+  1     # Compute Histogram (bool)
+  128   # Number Of Bins
   )
 
 ADD_TEST(itkGridImageSourceTest1
