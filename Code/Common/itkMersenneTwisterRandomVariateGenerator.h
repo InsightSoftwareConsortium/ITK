@@ -36,6 +36,8 @@ namespace Statistics {
 /** \class MersenneTwisterRandomVariateGenerator
  * \brief MersenneTwisterRandom random variate generator
  *
+ * \warning This class is NOT thread-safe.
+ *
  * This notice was included with the original implementation.
  * The only changes made were to obfuscate the author's email addresses.
  *
