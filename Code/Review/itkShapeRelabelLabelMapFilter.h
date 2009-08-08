@@ -136,13 +136,13 @@ protected:
     // Instantiate the comparator and sort the vector
     if( m_ReverseOrdering )
       {
-      Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor > comparator;
-      std::sort( labelObjects.begin(), labelObjects.end(), comparator );
+      std::sort( labelObjects.begin(), labelObjects.end(),
+        Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor >() );
       }
     else
       {
-      Functor::LabelObjectComparator< LabelObjectType, TAttributeAccessor > comparator;
-      std::sort( labelObjects.begin(), labelObjects.end(), comparator );
+      std::sort( labelObjects.begin(), labelObjects.end(),
+        Functor::LabelObjectComparator< LabelObjectType, TAttributeAccessor >() );
       }
     //   progress.CompletedPixel();
     
