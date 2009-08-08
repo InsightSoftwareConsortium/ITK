@@ -77,9 +77,11 @@ DenseFrequencyContainer
     }
   FrequencyType frequency = this->GetFrequency(id);
 
-  if( NumericTraits< FrequencyType >::max() - frequency < value )
+  const FrequencyType largestIntegerThatFitsInFloat = 16777216;
+
+  if( largestIntegerThatFitsInFloat - frequency < value )
     {
-    itkExceptionMacro("Frequency container saturated for Instance " << id );
+    itkAssertInDebugOrThrowInReleaseMacro("Frequency container saturated for Instance ");
     }
   else
     {
@@ -88,7 +90,7 @@ DenseFrequencyContainer
 
   if( NumericTraits< TotalFrequencyType >::max() - m_TotalFrequency < value )
     {
-    itkExceptionMacro("Total Frequency container saturated for Instance " << id );
+    itkAssertInDebugOrThrowInReleaseMacro("Total Frequency container saturated for Instance ");
     }
   else
     {

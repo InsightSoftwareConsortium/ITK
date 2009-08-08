@@ -82,10 +82,11 @@ SparseFrequencyContainer
   // element is allocated if the key doesn't exist yet
   FrequencyType frequency = this->GetFrequency(id);
 
+  const FrequencyType largestIntegerThatFitsInFloat = 16777216;
 
-  if( NumericTraits< FrequencyType >::max() - frequency < value )
+  if( largestIntegerThatFitsInFloat - frequency < value )
     {
-    itkExceptionMacro("Frequency container saturated for Instance " << id );
+    itkAssertInDebugOrThrowInReleaseMacro("Frequency container saturated for Instance ");
     }
   else
     {
@@ -93,9 +94,9 @@ SparseFrequencyContainer
     }
 
 
-  if( NumericTraits< TotalFrequencyType >::max() - m_TotalFrequency < value )
+  if(  - m_TotalFrequency < value )
     {
-    itkExceptionMacro("Total Frequency container saturated for Instance " << id );
+    itkAssertInDebugOrThrowInReleaseMacro("Total Frequency container saturated for Instance ");
     }
   else
     {
