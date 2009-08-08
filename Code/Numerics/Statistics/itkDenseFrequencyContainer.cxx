@@ -76,8 +76,25 @@ DenseFrequencyContainer
     return false;
     }
   FrequencyType frequency = this->GetFrequency(id);
-  (*m_FrequencyContainer)[id] = frequency + value; 
-  m_TotalFrequency += value;
+
+  if( NumericTraits< FrequencyType >::max() - frequency < value )
+    {
+    itkExceptionMacro("Frequency container saturated for Instance " << id );
+    }
+  else
+    {
+    (*m_FrequencyContainer)[id] = frequency + value; 
+    }
+
+  if( NumericTraits< TotalFrequencyType >::max() - m_TotalFrequency < value )
+    {
+    itkExceptionMacro("Total Frequency container saturated for Instance " << id );
+    }
+  else
+    {
+    m_TotalFrequency += value;
+    }
+
   return true;
 }
 
