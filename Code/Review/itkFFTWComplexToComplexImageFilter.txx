@@ -160,6 +160,8 @@ void
 FFTWComplexToComplexImageFilter<float,NDimension>::
 PrintSelf(std::ostream& os,Indent indent) const
 {
+  (void) os;
+  (void) indent;
 }
 
 #endif // defined(USE_FFTWF)

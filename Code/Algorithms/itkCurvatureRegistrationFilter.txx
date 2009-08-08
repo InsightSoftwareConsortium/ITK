@@ -215,6 +215,8 @@ void
 CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
 ::ApplyUpdate(TimeStepType dt)
 {
+  // unused dt parameter
+  (void) dt;
   DeformationFieldPointer update = this->GetUpdateBuffer();
 
   ImageRegionConstIterator<DeformationFieldType> itInDeformation;
@@ -247,9 +249,9 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
     // extract l-th component of deformation field.
     itInDeformation.GoToBegin();
     itInUpdate.GoToBegin();
-    for ( size_t offset = 0; (offset < numberOfPixels) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd(); ++offset )
+    for ( size_t offset1 = 0; (offset1 < numberOfPixels) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd(); ++offset1 )
       {
-      this->m_DeformationFieldComponentImage[offset] = this->m_TimeStep * itInUpdate.Value()[l] + itInDeformation.Value()[l];
+      this->m_DeformationFieldComponentImage[offset1] = this->m_TimeStep * itInUpdate.Value()[l] + itInDeformation.Value()[l];
       ++itInUpdate;
       ++itInDeformation;
       }
@@ -279,9 +281,9 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
 
     // update deformation field
     itOutDeformation.GoToBegin();
-    for ( size_t offset = 0; (offset < numberOfPixels) && ! itOutDeformation.IsAtEnd(); ++offset )
+    for ( size_t offset1 = 0; (offset1 < numberOfPixels) && ! itOutDeformation.IsAtEnd(); ++offset1 )
       {
-      itOutDeformation.Value()[l] = this->m_DeformationFieldComponentImage[offset] * normFactorDCT;
+      itOutDeformation.Value()[l] = this->m_DeformationFieldComponentImage[offset1] * normFactorDCT;
       ++itOutDeformation;
       }
     }
