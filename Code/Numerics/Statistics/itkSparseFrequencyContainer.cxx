@@ -86,23 +86,14 @@ SparseFrequencyContainer
 
   if( largestIntegerThatFitsInFloat - frequency < value )
     {
-    itkAssertInDebugOrThrowInReleaseMacro("Frequency container saturated for Instance ");
+    itkExceptionMacro("Frequency container saturated for Instance ");
     }
   else
     {
     m_FrequencyContainer[id] = frequency + value;
     }
 
-
-  if(  - m_TotalFrequency < value )
-    {
-    itkAssertInDebugOrThrowInReleaseMacro("Total Frequency container saturated for Instance ");
-    }
-  else
-    {
-    m_TotalFrequency += value;
-    }
-
+  m_TotalFrequency += value;
 
   return true;
 }
