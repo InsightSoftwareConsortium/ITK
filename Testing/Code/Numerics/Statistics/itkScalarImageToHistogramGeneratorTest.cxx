@@ -99,12 +99,21 @@ int itkScalarImageToHistogramGeneratorTest( int , char * [] )
         }
       }
     }
+
     {
-    const unsigned int NumberOfBins=4;
-    typedef unsigned long                         PixelType;
-    // NOTE :  it is not uncommon to have a 3D image with more than 4096 * 4096 voxels in the background (i.e. 0'th histogram bin), and this causes an overflow event
-    const unsigned int imageSize=4096+NumberOfBins;  // Note 4096^2 = 16777216, which is greater than the number that can be accurately incremented by a floating point number.
-    //const unsigned int imageSize=406+NumberOfBins;  // Note 4096^2 = 16777216, which is greater than the number that can be accurately incremented by a floating point number.
+    const unsigned int NumberOfBins = 4;
+    typedef unsigned long PixelType;
+
+    // NOTE :  it is not uncommon to have a 3D image with more than 4096 * 4096
+    // voxels in the background (i.e. 0'th histogram bin), and this causes an
+    // overflow event
+    const unsigned int imageSize=4096+NumberOfBins;  
+
+    // Note 4096^2 = 16777216, which is greater than the number that can be
+    // accurately incremented by a floating point number.
+    //const unsigned int imageSize=406+NumberOfBins;  // Note 4096^2 =
+    //16777216, which is greater than the number that can be accurately
+    //incremented by a floating point number.
     const unsigned int                            Dimension = 2;
 
     typedef itk::Image< PixelType, Dimension >    ImageType;
@@ -146,7 +155,6 @@ int itkScalarImageToHistogramGeneratorTest( int , char * [] )
       }
 
 
-
     typedef itk::Statistics::ScalarImageToHistogramGenerator< 
       ImageType 
       >   HistogramGeneratorType;
@@ -158,7 +166,17 @@ int itkScalarImageToHistogramGeneratorTest( int , char * [] )
 
     histogramGenerator->SetNumberOfBins( 4 );
     histogramGenerator->SetMarginalScale( 10.0 );
-    histogramGenerator->Compute();
+
+    try
+      {
+      histogramGenerator->Compute();
+      std::cout << "Failed to catch expected exception about saturation of counters" << std::endl;
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cout << "Get Expected Exception" << std::endl;
+      std::cout << excp << std::endl;
+      }
 
     typedef HistogramGeneratorType::HistogramType  HistogramType;
 
@@ -172,35 +190,38 @@ int itkScalarImageToHistogramGeneratorTest( int , char * [] )
 
     int status=EXIT_SUCCESS;
       {
-      const unsigned int bin=0;
-      if( histogram->GetFrequency( bin, channel ) == 16777216 ) {
+
+      const unsigned int bin = 0;
+
+      if( histogram->GetFrequency( bin, channel ) == 16777216 ) 
+        {
         std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
         std::cerr << "Frequency was= " <<  (unsigned int)histogram->GetFrequency( bin, channel ) 
           << " which is the maximum integer value representable by a 32bit floating point number " << std::endl;
-        status=EXIT_FAILURE;
-      }
+        status = EXIT_FAILURE;
+        }
 
-      if( histogram->GetFrequency( bin, channel ) != imageSize*imageSize - NumberOfBins +1)
+      if( histogram->GetFrequency( bin, channel ) != imageSize*imageSize - NumberOfBins + 1 )
         {
         std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
         std::cerr << "Frequency was= " <<  (unsigned int)histogram->GetFrequency( bin, channel ) << " Instead of the expected " << imageSize*imageSize - NumberOfBins +1 << std::endl;
-        status=EXIT_FAILURE;
+        status = EXIT_FAILURE;
         }
       }
+
     for( unsigned int bin=1; bin < histogramSize; bin++ )
       {
       if( histogram->GetFrequency( bin, channel ) != 1 )
         {
         std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
         std::cerr << "Frequency was= " <<  (unsigned int)histogram->GetFrequency( bin, channel ) << " Instead of the expected " << 1 << std::endl;
-        status=EXIT_FAILURE;
+        status = EXIT_FAILURE;
         }
       }
+
     return status;
     }
 
   return EXIT_SUCCESS;
 
 }
-
-
