@@ -490,8 +490,10 @@ public:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
+#if !defined(CABLE_CONFIGURATION)
+# ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellInterface.txx"
+#endif
 #endif
 
 #endif
