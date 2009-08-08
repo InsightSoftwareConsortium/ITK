@@ -83,11 +83,11 @@ public:
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
       nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
-      if ( nindex[j] < this->GetStartContinuousIndex()[j] ) 
+      if ( nindex[j] < this->GetStartIndex()[j] ) 
         { 
         nindex[j] = this->GetStartIndex()[j]; 
         }
-      else if ( nindex[j] > this->GetEndContinuousIndex()[j] ) 
+      else if ( nindex[j] > this->GetEndIndex()[j] ) 
         { 
         nindex[j] = this->GetEndIndex()[j];
         }
