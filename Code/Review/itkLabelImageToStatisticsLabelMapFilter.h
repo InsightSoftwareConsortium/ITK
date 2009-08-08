@@ -38,7 +38,7 @@ namespace itk {
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TFeatureImage, class TOutputImage=LabelMap< StatisticsLabelObject< typename TInputImage::PixelType, TInputImage::ImageDimension > > >
+template<class TInputImage, class TFeatureImage, class TOutputImage=LabelMap< StatisticsLabelObject< typename TInputImage::PixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > >
 class ITK_EXPORT LabelImageToStatisticsLabelMapFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -76,8 +76,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef typename itk::LabelImageToLabelMapFilter< InputImageType, OutputImageType > LabelizerType;
-  typedef typename itk::StatisticsLabelMapFilter< OutputImageType, FeatureImageType > LabelObjectValuatorType;
+  typedef LabelImageToLabelMapFilter< InputImageType, OutputImageType >               LabelizerType;
+  typedef StatisticsLabelMapFilter< OutputImageType, FeatureImageType >               LabelObjectValuatorType;
 
   /** Standard New method. */
   itkNewMacro(Self);  

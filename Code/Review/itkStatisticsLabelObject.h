@@ -60,7 +60,7 @@ public:
 
   typedef typename Superclass::IndexType IndexType;
 
-  typedef Point< double, ImageDimension > PointType;
+  typedef Point< double, itkGetStaticConstMacro(ImageDimension) > PointType;
 
   typedef TLabel LabelType;
 
@@ -70,11 +70,11 @@ public:
 
   typedef typename Superclass::LineContainerType LineContainerType;
 
-  typedef Matrix< double, ImageDimension, ImageDimension >   MatrixType;
+  typedef Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) >   MatrixType;
 
-  typedef Vector< double, ImageDimension > VectorType;
+  typedef Vector< double, itkGetStaticConstMacro(ImageDimension) > VectorType;
 
-  typedef typename itk::Statistics::Histogram< double > HistogramType;
+  typedef Statistics::Histogram< double > HistogramType;
 
   typedef typename Superclass::AttributeType AttributeType;
   itkStaticConstMacro(MINIMUM, AttributeType, 200);
@@ -239,7 +239,7 @@ public:
     return Superclass::GetNameFromAttribute( a );
     }
 
-  typedef ImageRegion< ImageDimension > RegionType;
+  typedef ImageRegion< itkGetStaticConstMacro(ImageDimension) > RegionType;
 
   typedef typename Superclass::CentroidType CentroidType;
 

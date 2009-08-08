@@ -38,7 +38,7 @@ namespace itk {
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TFeatureImage, class TOutputImage=LabelMap< StatisticsLabelObject< unsigned long, TInputImage::ImageDimension > > >
+template<class TInputImage, class TFeatureImage, class TOutputImage=LabelMap< StatisticsLabelObject< unsigned long, ::itk::GetImageDimension<TInputImage>::ImageDimension > > >
 class ITK_EXPORT BinaryImageToStatisticsLabelMapFilter : 
     public ImageToImageFilter<TInputImage, TOutputImage>
 {

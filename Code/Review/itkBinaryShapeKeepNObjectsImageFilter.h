@@ -76,12 +76,14 @@ public:
                       TInputImage::ImageDimension);
 
   typedef ShapeLabelObject<unsigned long, itkGetStaticConstMacro(ImageDimension)>                            LabelObjectType;
-  typedef typename itk::LabelMap< LabelObjectType >                                  LabelMapType;
-  typedef typename itk::BinaryImageToLabelMapFilter< InputImageType, LabelMapType >  LabelizerType;
-  typedef typename itk::ShapeLabelMapFilter< LabelMapType >                          LabelObjectValuatorType;
-  typedef typename LabelObjectType::AttributeType                                    AttributeType;
-  typedef typename itk::ShapeKeepNObjectsLabelMapFilter< LabelMapType >              KeepNObjectsType;
-  typedef typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType > BinarizerType;
+  typedef LabelMap< LabelObjectType >                                                                        LabelMapType;
+  typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >                                        LabelizerType;
+  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
+                              ShapeLabelFilterOutput;
+  typedef ShapeLabelMapFilter< LabelMapType, ShapeLabelFilterOutput >                                        LabelObjectValuatorType;
+  typedef typename LabelObjectType::AttributeType                                                            AttributeType;
+  typedef ShapeKeepNObjectsLabelMapFilter< LabelMapType >                                                    KeepNObjectsType;
+  typedef LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >                                       BinarizerType;
 
   /** Standard New method. */
   itkNewMacro(Self);  

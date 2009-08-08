@@ -528,7 +528,6 @@ protected:
     m_EquivalentEllipsoidSize.Fill(0);
     m_BinaryFlatness = 0;
     }
-  
 
   void PrintSelf(std::ostream& os, Indent indent) const
     {

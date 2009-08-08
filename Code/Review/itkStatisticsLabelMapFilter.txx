@@ -288,6 +288,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
   labelObject->SetMaximumIndex( maxIdx );
   labelObject->SetCenterOfGravity( centerOfGravity );
   labelObject->SetPrincipalAxes( principalAxes );
+  labelObject->SetFlatness( flatness );
   labelObject->SetPrincipalMoments( principalMoments );
   // labelObject->SetCentralMoments( centralMoments );
   labelObject->SetSkewness( skewness );
