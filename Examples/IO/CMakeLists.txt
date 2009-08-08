@@ -48,6 +48,9 @@ TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite  ITKIO)
 ADD_EXECUTABLE(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
 TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite2  ITKIO)
 
+ADD_EXECUTABLE(DicomSeriesReadGaussianImageWrite DicomSeriesReadGaussianImageWrite.cxx )
+TARGET_LINK_LIBRARIES(DicomSeriesReadGaussianImageWrite  ITKIO)
+
 ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
 TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags  ITKIO)
 
