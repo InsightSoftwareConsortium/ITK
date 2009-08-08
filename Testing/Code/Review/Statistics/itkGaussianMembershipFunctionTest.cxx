@@ -68,7 +68,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
  
   const double tolerance = 0.001;
 
-  if( fabs( function->GetMean()[0] - mean[0]) > tolerance ) 
+  if( vcl_fabs( function->GetMean()[0] - mean[0]) > tolerance ) 
     {
     std::cerr << "Error in GetMean() method" << std::endl;
     return EXIT_FAILURE;
@@ -92,7 +92,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
   double trueValue = 0.3989;
   double distanceComputed = function->Evaluate( measurement );
 
-  if( fabs( distanceComputed - trueValue) > tolerance )
+  if( vcl_fabs( distanceComputed - trueValue) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
               << "ComputedValue=" << distanceComputed << std::endl;

@@ -94,8 +94,8 @@ int itkSubsampleTest3(int, char* [] )
 
   FilterType::MeasurementVectorType::ValueType    epsilon = 1e-6; 
 
-  if ( ( fabs( meanOutput[0] - mean[0]) > epsilon )  || 
-       ( fabs( meanOutput[1] - mean[1]) > epsilon ))
+  if ( ( vcl_fabs( meanOutput[0] - mean[0]) > epsilon )  || 
+       ( vcl_abs( meanOutput[1] - mean[1]) > epsilon ))
     {
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
@@ -133,8 +133,8 @@ int itkSubsampleTest3(int, char* [] )
   std::cout << meanOutput[0] << " " << mean[0] << " "  
             << meanOutput[1] << " " << mean[1] << " " << std::endl;  
 
-  if ( ( fabs( meanOutput[0] - mean[0]) > epsilon )  || 
-       ( fabs( meanOutput[1] - mean[1]) > epsilon ))
+  if ( ( vcl_abs( meanOutput[0] - mean[0]) > epsilon )  || 
+       ( vcl_abs( meanOutput[1] - mean[1]) > epsilon ))
     {
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;

@@ -137,9 +137,9 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   std::cout << "Mean:   " << mean << std::endl;
   CovarianceSampleFilterType::MeasurementVectorType    mean2 = covarianceFilter->GetMean();
 
-  if ( ( fabs( mean[0] - mean[0]) > epsilon )  || 
-       ( fabs( mean[1] - mean[1]) > epsilon)  || 
-       ( fabs( mean[2] - mean[2]) > epsilon) ) 
+  if ( ( vcl_fabs( mean[0] - mean[0]) > epsilon )  || 
+       ( vcl_fabs( mean[1] - mean[1]) > epsilon)  || 
+       ( vcl_fabs( mean[2] - mean[2]) > epsilon) ) 
     {
     std::cerr << "Mean parameter value retrieved using GetMean() and the decorator\
                   are not the same:: " <<  mean << "," << mean2 << std::endl;
@@ -168,9 +168,9 @@ int itkCovarianceSampleFilterTest(int, char* [] )
 
   MeanSampleFilterType::MeasurementVectorType meanCalculatedUsingMeanSampleFilter = meanFilter->GetMean();
  
-  if ( ( fabs( meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon )  || 
-       ( fabs( meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon)  || 
-       ( fabs( meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon) ) 
+  if ( ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[0] - mean[0]) > epsilon )  || 
+       ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon)  || 
+       ( vcl_fabs( meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon) ) 
     {
     std::cerr << "Mean calculated using the MeanSampleFilter is different from\
                  the once calculated using the covariance filter " << std::endl;

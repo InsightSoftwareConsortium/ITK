@@ -75,7 +75,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected1[i+5]);
+    diff = vcl_fabs(value - expected1[i+5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -114,7 +114,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected1[i+5] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -174,7 +174,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected11[i+5]);
+    diff = vcl_fabs(value - expected11[i+5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -213,7 +213,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected11[i+5] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -264,7 +264,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, params );
 
-    diff = fabs(value - expected11[i+5]);
+    diff = vcl_fabs(value - expected11[i+5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -303,7 +303,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected11[i+5],params );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -350,7 +350,7 @@ int itkTDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, (long)params[0] );
 
-    diff = fabs(value - expected11[i+5]);
+    diff = vcl_fabs(value - expected11[i+5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -390,7 +390,7 @@ int itkTDistributionTest(int, char* [] )
     value = distributionFunction->EvaluateInverseCDF( expected11[i+5],
                                                       (long) params[0] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);

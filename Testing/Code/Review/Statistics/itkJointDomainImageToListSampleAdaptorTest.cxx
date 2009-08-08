@@ -220,7 +220,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
 
   for ( unsigned int m=0; m < 5; m ++ )
     {
-    if ( fabs( v1[m] - v2[m] ) > epsilon )
+    if ( vcl_fabs( v1[m] - v2[m] ) > epsilon )
       {
       std::cerr << "Accessing the measurement vector using the two method produced different \
                   result " << std::endl; 

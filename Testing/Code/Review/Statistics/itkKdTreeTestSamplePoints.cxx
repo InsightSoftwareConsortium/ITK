@@ -153,7 +153,7 @@ int itkKdTreeTestSamplePoints(int , char *[] )
   // 
   // Compute the distance to the "presumed" nearest neighbor
   //
-  double result_dist = sqrt(
+  double result_dist = vcl_sqrt(
         (result[0] - queryPoint[0]) *
         (result[0] - queryPoint[0]) +
         (result[1] - queryPoint[1]) *
@@ -170,7 +170,7 @@ int itkKdTreeTestSamplePoints(int , char *[] )
 
     std::cout << "Compute distance with: " << test_point;
 
-    const double dist = sqrt(
+    const double dist = vcl_sqrt(
         (test_point[0] - queryPoint[0]) *
         (test_point[0] - queryPoint[0]) +
         (test_point[1] - queryPoint[1]) *

@@ -106,8 +106,8 @@ GaussianMembershipFunction< TMeasurementVector >
     double det = vnl_determinant(m_Covariance.GetVnlMatrix());
       
     // calculate coefficient C of multivariate gaussian
-    m_PreFactor = 1.0 / (sqrt(det) * 
-                         vcl_pow(sqrt(2.0 * vnl_math::pi), double(this->GetMeasurementVectorSize())));
+    m_PreFactor = 1.0 / (vcl_sqrt(det) * 
+                         vcl_pow(vcl_sqrt(2.0 * vnl_math::pi), double(this->GetMeasurementVectorSize())));
     }
 }
 

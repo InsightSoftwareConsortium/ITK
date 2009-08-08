@@ -82,7 +82,7 @@ int itkEuclideanSquareDistanceMetricTest(int, char* [] )
   double distanceComputed = distance->Evaluate( measurement );
   const double tolerance = 0.001;
 
-  if( fabs( distanceComputed - trueValue) > tolerance )
+  if( vcl_fabs( distanceComputed - trueValue) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
               << "ComputedValue=" << distanceComputed << std::endl;
@@ -99,7 +99,7 @@ int itkEuclideanSquareDistanceMetricTest(int, char* [] )
   double trueValue2 = 1.29;
   double distanceComputed2 = distance->Evaluate( measurement, measurement2 );
 
-  if( fabs( distanceComputed2 - trueValue2) > tolerance )
+  if( vcl_fabs( distanceComputed2 - trueValue2) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue2
               << "ComputedValue=" << distanceComputed2 << std::endl;

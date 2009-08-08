@@ -133,7 +133,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   //Set the centroid position change threshold
   estimator->SetCentroidPositionChangesThreshold(0.0);
   const double tolerance = 0.1;
-  if( fabs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance )
+  if( vcl_fabs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance )
     {
     std::cerr << "Set/GetCentroidPositionChangesThreshold() " << std::endl;
     return EXIT_FAILURE;
@@ -172,7 +172,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
       displacement += (temp * temp);
       }
     std::cout << std::endl;
-    displacement = sqrt(displacement);
+    displacement = vcl_sqrt(displacement);
     std::cout << "    Mean displacement: " << std::endl;
     std::cout << "        " << displacement 
               << std::endl << std::endl;

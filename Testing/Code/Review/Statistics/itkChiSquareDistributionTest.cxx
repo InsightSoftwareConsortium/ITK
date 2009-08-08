@@ -71,7 +71,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected1[i]);
+    diff = vcl_fabs(value - expected1[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -110,7 +110,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected1[i] );
 
-    diff = fabs(value - double(i));
+    diff = vcl_fabs(value - double(i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -170,7 +170,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected11[i]);
+    diff = vcl_fabs(value - expected11[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -209,7 +209,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected11[i] );
 
-    diff = fabs(value - double(2*i));
+    diff = vcl_fabs(value - double(2*i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -263,7 +263,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x );
 
-    diff = fabs(value - expected100[i]);
+    diff = vcl_fabs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -302,7 +302,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected100[i] );
 
-    diff = fabs(value - double(50+20*i));
+    diff = vcl_fabs(value - double(50+20*i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -351,7 +351,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, params );
 
-    diff = fabs(value - expected100[i]);
+    diff = vcl_fabs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -390,7 +390,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateInverseCDF( expected100[i], params );
 
-    diff = fabs(value - double(50+20*i));
+    diff = vcl_fabs(value - double(50+20*i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);
@@ -434,7 +434,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
     value = distributionFunction->EvaluateCDF( x, (long)params[0] );
 
-    diff = fabs(value - expected100[i]);
+    diff = vcl_fabs(value - expected100[i]);
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(2);
@@ -474,7 +474,7 @@ int itkChiSquareDistributionTest(int, char* [] )
     value = distributionFunction->EvaluateInverseCDF(
       expected100[i], (long)params[0] );
 
-    diff = fabs(value - double(50+20*i));
+    diff = vcl_fabs(value - double(50+20*i));
 
     std::cout << "Chi-Square cdf at ";
     std::cout.width(20);

@@ -165,7 +165,7 @@ int itkWeightedCentroidKdTreeGeneratorTest8(int argc , char * argv [] )
     // 
     // Compute the distance to the "presumed" nearest neighbor
     //
-    double result_dist = sqrt(
+    double result_dist = vcl_sqrt(
           (result[0] - queryPoint[0]) *
           (result[0] - queryPoint[0]) +
           (result[1] - queryPoint[1]) *
@@ -180,7 +180,7 @@ int itkWeightedCentroidKdTreeGeneratorTest8(int argc , char * argv [] )
       {
       test_point = tree->GetMeasurementVector( i );
 
-      const double dist = sqrt(
+      const double dist = vcl_sqrt(
           (test_point[0] - queryPoint[0]) *
           (test_point[0] - queryPoint[0]) +
           (test_point[1] - queryPoint[1]) *
