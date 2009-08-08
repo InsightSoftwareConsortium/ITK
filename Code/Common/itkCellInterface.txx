@@ -114,6 +114,8 @@ CellInterface< TPixelType , TCellTraits >
 }
 
 
+#if !defined(CABLE_CONFIGURATION)
+
 /**
  * Get a begin iterator for the UsingCellsContainer.
  */
@@ -136,6 +138,8 @@ CellInterface< TPixelType , TCellTraits >
 {
   return m_UsingCells.end();
 }
+
+#endif
 
 } // end namespace itk
 
