@@ -30,11 +30,7 @@ ScalarImageToHistogramGenerator< TImage >
 {
   m_ImageToListAdaptor = AdaptorType::New();
   m_HistogramGenerator = GeneratorType::New();
-#ifdef ITK_USE_REVIEW_STATISTICS
   m_HistogramGenerator->SetInput( m_ImageToListAdaptor );
-#else
-  m_HistogramGenerator->SetListSample( m_ImageToListAdaptor );
-#endif
 }
 
 template < class TImage >
@@ -68,14 +64,9 @@ ScalarImageToHistogramGenerator< TImage >
 ::SetNumberOfBins( unsigned int numberOfBins ) 
 {
   typename HistogramType::SizeType size;
-#ifdef ITK_USE_REVIEW_STATISTICS
   size.SetSize(1);
   size.Fill( numberOfBins );
   m_HistogramGenerator->SetHistogramSize( size );
-#else
-  size.Fill( numberOfBins );
-  m_HistogramGenerator->SetNumberOfBins( size );
-#endif
 }
 
 

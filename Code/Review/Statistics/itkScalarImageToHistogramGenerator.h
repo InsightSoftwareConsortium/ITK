@@ -18,15 +18,9 @@
 #define __itkScalarImageToHistogramGenerator_h
 
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkImageToListSampleAdaptor.h"
 #include "itkSampleToHistogramFilter.h"
 #include "itkHistogram.h"
-#else
-#include "itkScalarImageToListAdaptor.h"
-#include "itkListSampleToHistogramGenerator.h"
-#endif
-
 #include "itkObject.h"
 
 namespace itk {
@@ -53,28 +47,15 @@ public:
   itkNewMacro(Self);
 
   typedef TImageType                                      ImageType;
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::ImageToListSampleAdaptor< 
-#else
-  typedef itk::Statistics::ScalarImageToListAdaptor< 
-#endif
                                               ImageType 
                                                       >   AdaptorType;
   typedef typename AdaptorType::Pointer                   AdaptorPointer;
   typedef typename ImageType::PixelType                   PixelType;
   typedef typename NumericTraits< PixelType >::RealType   RealPixelType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::Histogram< double > HistogramType;
   typedef itk::Statistics::SampleToHistogramFilter< AdaptorType, HistogramType > GeneratorType;
-#else
-  typedef itk::Statistics::ListSampleToHistogramGenerator< 
-                                  AdaptorType, 
-                                  RealPixelType,
-                                  DenseFrequencyContainer
-                                                          > GeneratorType;
-  typedef typename GeneratorType::HistogramType             HistogramType;
-#endif
 
   typedef typename GeneratorType::Pointer                   GeneratorPointer;
 
