@@ -89,7 +89,7 @@ SparseFrequencyContainer
     }
   else
     {
-    (*m_FrequencyContainer)[id] = frequency + value; 
+    m_FrequencyContainer[id] = frequency + value;
     }
 
 
