@@ -186,28 +186,9 @@ int itkScalarImageToHistogramGeneratorTest( int , char * [] )
 
     std::cout << "Histogram size " << histogramSize << std::endl;
 
-    const unsigned int channel = 0;  // the only channel
+    unsigned int channel = 0;
 
-    int status=EXIT_SUCCESS;
-      {
-
-      const unsigned int bin = 0;
-
-      if( histogram->GetFrequency( bin, channel ) == 16777216 ) 
-        {
-        std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
-        std::cerr << "Frequency was= " <<  (unsigned int)histogram->GetFrequency( bin, channel ) 
-          << " which is the maximum integer value representable by a 32bit floating point number " << std::endl;
-        status = EXIT_FAILURE;
-        }
-
-      if( histogram->GetFrequency( bin, channel ) != imageSize*imageSize - NumberOfBins + 1 )
-        {
-        std::cerr << "Error in bin= " << bin << " channel = " << channel << std::endl;
-        std::cerr << "Frequency was= " <<  (unsigned int)histogram->GetFrequency( bin, channel ) << " Instead of the expected " << imageSize*imageSize - NumberOfBins +1 << std::endl;
-        status = EXIT_FAILURE;
-        }
-      }
+    int status = EXIT_SUCCESS;
 
     for( unsigned int bin=1; bin < histogramSize; bin++ )
       {
