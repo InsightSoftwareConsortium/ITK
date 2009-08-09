@@ -78,7 +78,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( false, Unique->GetReverseOrdering() );
 
   //testing get and set macros for Attribute 
-  bool attribute = atoi( argv[5] );
+  LabelUniqueType::AttributeType attribute = atoi( argv[5] );
   Unique->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, Unique->GetAttribute() );
 
