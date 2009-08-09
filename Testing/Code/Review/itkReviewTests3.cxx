@@ -51,4 +51,5 @@ void RegisterTests()
   REGISTER_TEST(itkLabelShapeKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkLabelShapeOpeningImageFilterTest1);
   REGISTER_TEST(itkShapeUniqueLabelMapFilterTest1);
+  REGISTER_TEST(itkScaleVersor3DTransformTest);
 }
