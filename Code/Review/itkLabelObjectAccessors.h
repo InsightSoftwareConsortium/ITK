@@ -32,7 +32,7 @@ public:
   typedef TLabelObject                        LabelObjectType;
   typedef typename LabelObjectType::LabelType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetLabel();
     }
@@ -45,7 +45,7 @@ public:
   typedef TLabelObject     LabelObjectType;
   typedef int              AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetNumberOfLines();
     }

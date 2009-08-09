@@ -32,7 +32,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMinimum();
     }
@@ -45,7 +45,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMaximum();
     }
@@ -58,7 +58,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMean();
     }
@@ -71,7 +71,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSum();
     }
@@ -84,7 +84,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSigma();
     }
@@ -97,7 +97,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetVariance();
     }
@@ -110,7 +110,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMedian();
     }
@@ -123,7 +123,7 @@ public:
   typedef TLabelObject                        LabelObjectType;
   typedef typename LabelObjectType::IndexType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMaximumIndex();
     }
@@ -136,7 +136,7 @@ public:
   typedef TLabelObject                        LabelObjectType;
   typedef typename LabelObjectType::IndexType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetMinimumIndex();
     }
@@ -149,7 +149,7 @@ public:
   typedef TLabelObject                        LabelObjectType;
   typedef typename LabelObjectType::PointType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetCenterOfGravity();
     }
@@ -164,7 +164,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef typename LabelObjectType::MatrixType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetCentralMoments();
     }
@@ -178,7 +178,7 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::VectorType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetPrincipalMoments();
     }
@@ -191,7 +191,7 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::MatrixType AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetPrincipalAxes();
     }
@@ -204,7 +204,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetKurtosis();
     }
@@ -217,7 +217,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetSkewness();
     }
@@ -230,7 +230,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetElongation();
     }
@@ -243,7 +243,7 @@ public:
   typedef TLabelObject                              LabelObjectType;
   typedef typename LabelObjectType::HistogramType * AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetHistogram();
     }
@@ -256,7 +256,7 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline const AttributeValueType operator()( const LabelObjectType * labelObject ) const
+  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
     {
     return labelObject->GetFlatness();
     }
