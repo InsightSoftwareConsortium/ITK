@@ -118,10 +118,10 @@ protected:
     ProgressReporter progress( this, 0, 1 );
     // TODO: really report the progress
     
-    typedef typename ImageType::LabelObjectContainerType LabelObjectContainerType;
+    typedef typename ImageType::LabelObjectContainerType LabelObjectsType;
 
-    const LabelObjectContainerType & labelObjects = this->GetLabelMap()->GetLabelObjectContainer();
-    for( typename LabelObjectContainerType::const_iterator it2 = labelObjects.begin();
+    const LabelObjectsType & labelObjects = this->GetLabelMap()->GetLabelObjectContainer();
+    for( typename LabelObjectsType::const_iterator it2 = labelObjects.begin();
       it2 != labelObjects.end();
       it2++ )
       {
@@ -286,7 +286,7 @@ protected:
       }
 
     // remove objects without lines
-    typename LabelObjectContainerType::const_iterator it = labelObjects.begin();
+    typename LabelObjectsType::const_iterator it = labelObjects.begin();
     while( it != labelObjects.end() )
       {
       typename LabelObjectType::LabelType label = it->first;
