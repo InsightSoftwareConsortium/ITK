@@ -46,20 +46,9 @@ void RegisterTests()
   REGISTER_TEST(itkShapeRelabelLabelMapFilterTest1);
   REGISTER_TEST(itkBinaryShapeOpeningImageFilterTest1);
   REGISTER_TEST(itkShapeLabelObjectAccessorsTest1);
-  REGISTER_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1);
-  REGISTER_TEST(itkLabelImageToStatisticsLabelMapFilterTest1);
-  REGISTER_TEST(itkStatisticsOpeningLabelMapFilterTest1);
-  REGISTER_TEST(itkStatisticsKeepNObjectsLabelMapFilterTest1);
-  REGISTER_TEST(itkStatisticsRelabelLabelMapFilterTest1);
-  REGISTER_TEST(itkBinaryStatisticsOpeningImageFilterTest1);
   REGISTER_TEST(itkBinaryShapeKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkShapeRelabelImageFilterTest1);
   REGISTER_TEST(itkLabelShapeKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkLabelShapeOpeningImageFilterTest1);
-  REGISTER_TEST(itkBinaryStatisticsKeepNObjectsImageFilterTest1);
-  REGISTER_TEST(itkLabelStatisticsKeepNObjectsImageFilterTest1);
-  REGISTER_TEST(itkLabelStatisticsOpeningImageFilterTest1);
-  REGISTER_TEST(itkStatisticsRelabelImageFilterTest1);
   REGISTER_TEST(itkShapeUniqueLabelMapFilterTest1);
-  REGISTER_TEST(itkStatisticsUniqueLabelMapFilterTest1);
 }

@@ -11,6 +11,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
 SET(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
 SET(REVIEW_TESTS3 ${CXX_TEST_PATH}/itkReviewTests3)
+SET(REVIEW_TESTS4 ${CXX_TEST_PATH}/itkReviewTests4)
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
@@ -251,6 +252,9 @@ SET(ReviewTest3_SRCS
   itkLabelShapeOpeningImageFilterTest1.cxx
   itkShapeUniqueLabelMapFilterTest1.cxx
 
+)
+
+SET(ReviewTest4_SRCS
   itkBinaryImageToStatisticsLabelMapFilterTest1.cxx
   itkLabelImageToStatisticsLabelMapFilterTest1.cxx
   itkStatisticsOpeningLabelMapFilterTest1.cxx
@@ -262,7 +266,6 @@ SET(ReviewTest3_SRCS
   itkLabelStatisticsOpeningImageFilterTest1.cxx
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
-
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -1997,38 +2000,6 @@ ADD_TEST(itkShapeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
   )
 
-ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
-  ${REVIEW_TESTS3}
-  --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
-            ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
-  itkBinaryImageToStatisticsLabelMapFilterTest1
-  ${INPUTDATA}/Spots.png
-  ${INPUTDATA}/Spots.png
-  ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
-  1     # Fully connected (bool)
-  0     # Input image foreground
-  0     # Output image background
-  1     # Compute Feret Diameter (bool)
-  1     # Compute Perimeter (bool)
-  1     # Compute Histogram (bool)
-  128   # Number Of Bins
-  )
-
-ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
-  ${REVIEW_TESTS3}
-  --compare ${INPUTDATA}/Spots.png
-            ${TEMP}/Spots-labelimage-to-statisticslabel.png
-  itkLabelImageToStatisticsLabelMapFilterTest1
-  ${INPUTDATA}/Spots.png
-  ${INPUTDATA}/Spots.png
-  ${TEMP}/Spots-labelimage-to-statisticslabel.png
-  0     # Image background
-  1     # Compute Feret Diameter (bool)
-  1     # Compute Perimeter (bool)
-  1     # Compute Histogram (bool)
-  128   # Number Of Bins
-  )
-
 ADD_TEST(itkGridImageSourceTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/itkGridImageSourceTest1.nhdr
@@ -2050,9 +2021,40 @@ ADD_TEST(itkGridImageSourceTest3
 ADD_TEST(itkGridImageSourceTest4
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/itkGridImageSourceTest4.nhdr
-            
-${TEMP}/itkGridImageSourceTest4.nhdr
+  ${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
+
+ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
+  ${REVIEW_TESTS4}
+  --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
+            ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
+  itkBinaryImageToStatisticsLabelMapFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/Spots-binaryimage-to-statisticslabel.mha
+  1     # Fully connected (bool)
+  0     # Input image foreground
+  0     # Output image background
+  1     # Compute Feret Diameter (bool)
+  1     # Compute Perimeter (bool)
+  1     # Compute Histogram (bool)
+  128   # Number Of Bins
+  )
+
+ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
+  ${REVIEW_TESTS4}
+  --compare ${INPUTDATA}/Spots.png
+            ${TEMP}/Spots-labelimage-to-statisticslabel.png
+  itkLabelImageToStatisticsLabelMapFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/Spots-labelimage-to-statisticslabel.png
+  0     # Image background
+  1     # Compute Feret Diameter (bool)
+  1     # Compute Perimeter (bool)
+  1     # Compute Histogram (bool)
+  128   # Number Of Bins
+  )
 
 
 #
@@ -2113,6 +2115,14 @@ SET(ReviewTest3_LIBS
   ITKStatistics
   )
 TARGET_LINK_LIBRARIES(itkReviewTests3 ${ReviewTest3_LIBS})
+
+ADD_EXECUTABLE(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
+
+SET(ReviewTest4_LIBS
+  ITKIO
+  ITKStatistics
+  )
+TARGET_LINK_LIBRARIES(itkReviewTests4 ${ReviewTest4_LIBS})
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}
