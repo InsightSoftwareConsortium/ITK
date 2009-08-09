@@ -149,22 +149,22 @@ protected:
     // and put back the objects in the map
     output->ClearLabels();
     unsigned int label = 0;
-    typename VectorType::const_iterator it = labelObjects.begin();
-    while( it != labelObjects.end() )
+    typename VectorType::const_iterator it2 = labelObjects.begin();
+    while( it2 != labelObjects.end() )
       {
       // Avoid the background label if it is used
       if( label == output->GetBackgroundValue() )
         {
         label++;
         }
-      ( *it )->SetLabel( label );
-      output->AddLabelObject( *it );
+      ( *it2 )->SetLabel( label );
+      output->AddLabelObject( *it2 );
       
       // Go to the next label
       label++;
       progress.CompletedPixel();
 
-      it++;
+      it2++;
       }
     }
 
