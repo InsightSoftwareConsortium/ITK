@@ -122,6 +122,9 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     unsigned long length = lit->GetLength();
 
     typename HistogramType::MeasurementVectorType mv;
+#ifdef ITK_USE_REVIEW_STATISTICS
+    mv.SetSize(1);
+#endif
     long endIdx0 = firstIdx[0] + length;
     for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++)
       {
