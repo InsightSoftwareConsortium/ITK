@@ -192,8 +192,8 @@ protected:
           // which line to keep. This is necessary to avoid the case where a part of a label is over
           // a second label, and below in another part of the image.
           bool keepCurrent = true;
-          AttributeType prevAttr = accessor( prev.labelObject );
-          AttributeType attr = accessor( l.labelObject );
+          typename TAttributeAccessor::AttributeValueType prevAttr = accessor( prev.labelObject );
+          typename TAttributeAccessor::AttributeValueType attr = accessor( l.labelObject );
           // this may be changed to a single boolean expression, but may become quite difficult to read
           if( attr == prevAttr  )
             {
