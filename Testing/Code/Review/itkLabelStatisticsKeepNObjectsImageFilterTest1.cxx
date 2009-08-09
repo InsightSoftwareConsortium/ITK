@@ -57,7 +57,7 @@ int itkLabelStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for Lambda 
-  double numberOfObjects = atof( argv[5] );
+  unsigned int numberOfObjects = atoi( argv[5] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
   TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
