@@ -112,7 +112,7 @@ protected:
     this->AllocateOutputs();
 
     // the priority queue to store all the lines of all the objects sorted
-    typedef typename std::priority_queue< LineOfLabelObject, typename std::vector<LineOfLabelObject>, LineOfLabelObjectComparator > PriorityQueueType;
+    typedef typename std::priority_queue< LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator > PriorityQueueType;
     PriorityQueueType pq;
 
     ProgressReporter progress( this, 0, 1 );
