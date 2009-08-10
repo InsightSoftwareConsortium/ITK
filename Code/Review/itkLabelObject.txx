@@ -41,7 +41,7 @@ LabelObject<TLabel, VImageDimension>::GetAttributeFromName( const std::string & 
     return LABEL;
     }
   // can't recognize the name
-  throw std::runtime_error("Unknown attribute.");
+  itkGenericExceptionMacro(<< "Unknown attribute: " << s);
 }
 
 template < class TLabel, unsigned int VImageDimension >
@@ -55,7 +55,7 @@ LabelObject<TLabel, VImageDimension>
     return "Label";
     }
   // can't recognize the namespace
-  throw std::runtime_error("Unknown attribute.");
+  itkGenericExceptionMacro(<< "Unknown attribute: " << a);
 }
 
 /**
