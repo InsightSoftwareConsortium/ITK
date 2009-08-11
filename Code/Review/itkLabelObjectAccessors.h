@@ -57,7 +57,7 @@ class LabelObjectComparator
 public:
   typedef TLabelObject       LabelObjectType;
   typedef TAttributeAccessor AttributeAccessorType;
-  const bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
+  bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
     {
     return m_Accessor( a ) > m_Accessor( b );
     }
@@ -72,7 +72,7 @@ class LabelObjectReverseComparator
 public:
   typedef TLabelObject       LabelObjectType;
   typedef TAttributeAccessor AttributeAccessorType;
-  const bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
+  bool operator()( const LabelObjectType * a, const LabelObjectType * b ) const
     {
     return m_Accessor( a ) < m_Accessor( b );
     }
