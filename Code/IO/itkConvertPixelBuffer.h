@@ -47,44 +47,44 @@ public:
   /** General method converts from one type to another. */
   static void Convert(InputPixelType* inputData, 
                       int inputNumberOfComponents, 
-                      OutputPixelType* outputData , int size);
+                      OutputPixelType* outputData , size_t size);
   static void ConvertVectorImage(InputPixelType* inputData, 
                       int inputNumberOfComponents, 
-                      OutputPixelType* outputData , int size);
+                      OutputPixelType* outputData , size_t size);
 protected:
   /** Convert to Gray output. */
   /** Input values are cast to output values. */
   static void ConvertGrayToGray(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
   /** Weights convert from linear RGB to CIE luminance assuming a
    *  modern monitor. See Charles Poynton's Colour FAQ
    *
    *  http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html */
   static void ConvertRGBToGray(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
 
   /** Weights convert from linear RGB to CIE luminance assuming a
    *  modern monitor. Values are attentuated by the Alpha channel. See
    *  Charles Poynton's Colour FAQ 
    *  http://www.inforamp.net/~poynton/notes/colour_and_gamma/ColorFAQ.html */
   static void ConvertRGBAToGray(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
   static void ConvertMultiComponentToGray(InputPixelType* inputData, 
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
-                                          int size);
+                                          size_t size);
   
   /** Convert to RGB output. */
   /** Each RGB output component is set the the
    * input Gray value. */
   static void ConvertGrayToRGB(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
   /** Input values are cast component by component to output values. */
   static void ConvertRGBToRGB(InputPixelType* inputData, 
-                              OutputPixelType* outputData , int size);
+                              OutputPixelType* outputData , size_t size);
   /** Input values are attenuated by the Alpha channel. */
   static void ConvertRGBAToRGB(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
   /** Conversion depends upon the number of components in the
    * input. If the number of input components is 2, the output
    * components are each set to the first input component attenuated
@@ -96,35 +96,35 @@ protected:
   static void ConvertMultiComponentToRGB(InputPixelType* inputData, 
                                          int inputNumberOfComponents,
                                          OutputPixelType* outputData , 
-                                         int size);
+                                         size_t size);
     
   /** Convert to RGBA output. */
   static void ConvertGrayToRGBA(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
   static void ConvertRGBToRGBA(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
   static void ConvertRGBAToRGBA(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
   static void ConvertMultiComponentToRGBA(InputPixelType* inputData, 
                                           int inputNumberOfComponents,
                                           OutputPixelType* outputData , 
-                                          int size);
+                                          size_t size);
 
   /** Convert tensor output. */
   /** Each input is made into a 6 component symmetric pixel */
   static void ConvertTensor6ToTensor6(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
   static void ConvertTensor9ToTensor6(InputPixelType* inputData, 
-                               OutputPixelType* outputData , int size);
+                               OutputPixelType* outputData , size_t size);
 
   /** Convertions related to complex */
   static void ConvertGrayToComplex(InputPixelType * inputData,
-                                OutputPixelType * OutputData, int size);
+                                OutputPixelType * OutputData, size_t size);
   static void ConvertComplexToComplex(InputPixelType* inputData, 
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
   static void ConvertMultiComponentToComplex(InputPixelType* inputData, 
                                 int inputNumberOfComponents,
-                                OutputPixelType* outputData , int size);
+                                OutputPixelType* outputData , size_t size);
 
 private:
   ConvertPixelBuffer();

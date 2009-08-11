@@ -151,7 +151,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
   
   /** Convert a block of pixels from one type to another. */
-  void DoConvertBuffer(void* buffer, unsigned long numberOfPixels);
+  void DoConvertBuffer(void* buffer, size_t numberOfPixels);
 
   /** Test whether the given filename exist and it is readable, this
     * is intended to be called before attempting to use  ImageIO

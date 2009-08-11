@@ -407,6 +407,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
                     << " to: "
                     << typeid(ITK_TYPENAME ConvertPixelTraits::ComponentType).name());
 
+
       loadBuffer = new char[ sizeOfActualIORegion ];
       m_ImageIO->Read( static_cast< void *>(loadBuffer) );
       
@@ -469,7 +470,7 @@ template <class TOutputImage, class ConvertPixelTraits>
 void 
 ImageFileReader<TOutputImage, ConvertPixelTraits>
 ::DoConvertBuffer(void* inputData,
-                  unsigned long numberOfPixels)
+                  size_t numberOfPixels)
 {
   // get the pointer to the destination buffer
   OutputImagePixelType *outputData =
@@ -506,7 +507,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         static_cast<type*>(inputData),                  \
         m_ImageIO->GetNumberOfComponents(),             \
         outputData,                                     \
-        static_cast<int>(numberOfPixels));              \
+        numberOfPixels);              \
      } \
    else \
      { \
@@ -519,7 +520,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
         static_cast<type*>(inputData),                  \
         m_ImageIO->GetNumberOfComponents(),             \
         outputData,                                     \
-        static_cast<int>(numberOfPixels));              \
+        numberOfPixels);              \
       } \
     }
   if(0)
