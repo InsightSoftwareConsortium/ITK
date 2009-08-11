@@ -43,7 +43,7 @@ namespace Statistics {
  * 
  * The upper bound and lower bound of the histogram will be automatically 
  * determined by the FindSampleBound funtion in itkStatisticsAlgorithm.h & 
- * .txx. The hitogram object's upper bound will be slightly bigger than
+ * .txx. The histogram object's upper bound will be slightly bigger than
  * the uppper bound from the FindSampleBound to include the maximum values
  * in the Histogram object. To extend the upper bound of the histogram. this
  * class internally uses the intervals between two bins and the marginal scale
@@ -52,10 +52,10 @@ namespace Statistics {
  * upper bound of Histogram will be upper bound of the list sample + 
  * (bin interval) / 100 ( = marginal scale). 
  *
- * The result historam has equi-size bins along each axe.
+ * The result histogram has equi-size bins along each axes.
  *
  * NOTE: The second template argument, THistogramMeasurement should be
- * float-point type (float or double). 
+ * floating-point type (float or double). 
  *
  * <b> Recent API changes </b>
  * The class is templated over the list sample, the frequency measurement 
