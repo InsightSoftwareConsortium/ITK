@@ -47,7 +47,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
-template<class TImage, class TLabelImage=Image< typename TImage::PixelType, ::itk::GetImageDimension<TImage>::ImageDimension> > 
+template<class TImage, class TLabelImage=Image< ITK_TYPENAME TImage::PixelType, ::itk::GetImageDimension<TImage>::ImageDimension> > 
 class ITK_EXPORT ShapeLabelMapFilter : 
 public
 InPlaceLabelMapFilter<TImage>

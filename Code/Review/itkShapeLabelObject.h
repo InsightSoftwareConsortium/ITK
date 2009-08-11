@@ -232,7 +232,7 @@ public:
 
   typedef ImageRegion< VImageDimension > RegionType;
 
-  typedef typename itk::Point<double, VImageDimension> CentroidType;
+  typedef Point<double, VImageDimension> CentroidType;
 
   typedef Matrix< double, VImageDimension, VImageDimension >   MatrixType;
 

@@ -191,7 +191,7 @@ protected:
           // the label, the only "attribute" to be guarenteed to be unique, is used to choose
           // which line to keep. This is necessary to avoid the case where a part of a label is over
           // a second label, and below in another part of the image.
-          bool keepCurrent = true;
+          bool keepCurrent;
           typename TAttributeAccessor::AttributeValueType prevAttr = accessor( prev.labelObject );
           typename TAttributeAccessor::AttributeValueType attr = accessor( l.labelObject );
           // this may be changed to a single boolean expression, but may become quite difficult to read
