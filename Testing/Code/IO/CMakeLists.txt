@@ -81,6 +81,7 @@ itkImageSeriesReaderDimensionsTest.cxx
 itkImageSeriesWriterTest.cxx
 itkJPEGImageIOTest.cxx
 itkLargeImageWriteReadTest.cxx
+itkLargeImageWriteConvertReadTest.cxx
 itkMatrixImageWriteReadTest.cxx
 itkMeshSpatialObjectIOTest.cxx
 itkMetaImageIOTest.cxx
@@ -243,6 +244,9 @@ IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 5 )
   # Image of 2.98 Gigabytes (pixels size is 16bits)
   ADD_TEST(itkLargeImageWriteReadTest2 ${IO_TESTS} itkLargeImageWriteReadTest
            ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd  40000L )
+  # Image of 2.5 Gigabytes (pixels size is 8-bits out and 16-bit in)
+  ADD_TEST(itkLargeImageWriteConvertReadTest ${IO_TESTS} itkLargeImageWriteConvertReadTest
+           ${ITK_TEST_OUTPUT_DIR}/LargeImageConvert.nrrd  50000L )
 
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 5 )
 

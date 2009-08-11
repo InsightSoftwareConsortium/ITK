@@ -60,7 +60,7 @@ public:
   typedef ImageToListSampleAdaptor< ImageType >             AdaptorType;
   typedef typename AdaptorType::Pointer                     AdaptorPointer;
   typedef typename ImageType::PixelType                     PixelType;
-  typedef typename PixelType::ValueType                     ValueType;
+  typedef typename NumericTraits< PixelType >::ValueType    ValueType;
   typedef typename NumericTraits< ValueType >::RealType     ValueRealType;
   typedef DenseFrequencyContainer2                          FrequencyContainerType;
 
