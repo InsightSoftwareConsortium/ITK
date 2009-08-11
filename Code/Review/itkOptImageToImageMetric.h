@@ -204,9 +204,6 @@ public:
   itkSetConstObjectMacro( FixedImageMask, FixedImageMaskType );
   itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
-  void SetUseFixedImageMask( bool useMask );
-  itkGetConstReferenceMacro( UseFixedImageMask, bool );
-
   /** Set the fixed image indexes to be used as the samples when
    *   computing the match metric */
   void SetFixedImageIndexes( const FixedImageIndexContainer & indexes );
@@ -394,7 +391,6 @@ protected:
   bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
 
-  bool                        m_UseFixedImageMask;
   FixedImageMaskConstPointer  m_FixedImageMask;
   MovingImageMaskConstPointer m_MovingImageMask;
 

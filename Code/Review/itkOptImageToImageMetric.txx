@@ -52,7 +52,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   m_WithinThreadPostProcess = false;
 
   m_FixedImage    = 0; // has to be provided by the user.
-  m_UseFixedImageMask = false;
   m_FixedImageMask = 0;
 
   m_MovingImage   = 0; // has to be provided by the user.
@@ -171,25 +170,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template <class TFixedImage, class TMovingImage> 
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SetUseFixedImageMask( bool useMask )
-{
-  if( useMask != m_UseFixedImageMask )
-    {
-    m_UseFixedImageMask = useMask;
-    if( m_UseFixedImageMask )
-      {
-      this->SetUseAllPixels( false );
-      }
-    else
-      {
-      this->Modified();
-      }
-    }
-}
-
-template <class TFixedImage, class TMovingImage> 
-void
-ImageToImageMetric<TFixedImage,TMovingImage>
 ::SetUseFixedImageIndexes( bool useIndexes )
 {
   if( useIndexes != m_UseFixedImageIndexes )
@@ -264,7 +244,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     if( m_UseAllPixels )
       {
       this->SetUseFixedImageSamplesIntensityThreshold( false );
-      this->SetUseFixedImageMask( false );
       this->SetNumberOfFixedImageSamples( this->m_FixedImageRegion.GetNumberOfPixels() );
       this->SetUseSequentialSampling( true );
       }
@@ -605,7 +584,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   typename FixedImageSampleContainer::iterator iter;
   typename FixedImageSampleContainer::const_iterator end=samples.end();
 
-  if( m_UseFixedImageMask
+  if( m_FixedImageMask.IsNotNull()
       || m_UseFixedImageSamplesIntensityThreshold )
     {
     InputPointType inputPoint;
@@ -643,7 +622,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       // Check if the Index is inside the mask, translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
-      if( m_UseFixedImageMask )
+      if( m_FixedImageMask.IsNotNull() )
         {
         double val;
         if( m_FixedImageMask->ValueAt( inputPoint, val ) )
@@ -724,7 +703,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   typename FixedImageSampleContainer::iterator iter;
   typename FixedImageSampleContainer::const_iterator end=samples.end();
 
-  if( m_UseFixedImageMask
+  if( m_FixedImageMask.IsNotNull()
       || m_UseFixedImageSamplesIntensityThreshold )
     {
     InputPointType inputPoint;
@@ -738,7 +717,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       // Check if the Index is inside the mask, translate index to point
       m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
  
-      if( m_UseFixedImageMask )
+      if( m_FixedImageMask.IsNotNull() )
         {
         // If not inside the mask, ignore the point
         if( !m_FixedImageMask->IsInside( inputPoint ) )
@@ -1593,14 +1572,6 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
   os << indent << "Moving Image Mask: " << m_MovingImageMask.GetPointer() 
      << std::endl;
-  if( m_UseFixedImageMask )
-    {
-    os << indent << "Use Fixed Image Mask: True" << std::endl;
-    }
-  else
-    {
-    os << indent << "Use Fixed Image Mask: False" << std::endl;
-    }
   os << indent << "Fixed Image Mask: " << m_FixedImageMask.GetPointer() 
      << std::endl;
   os << indent << "Number of Moving Image Samples: " << m_NumberOfPixelsCounted 
