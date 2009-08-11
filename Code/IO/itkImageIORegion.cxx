@@ -240,7 +240,7 @@ ImageIORegion::SizeValueType
 ImageIORegion
 ::GetNumberOfPixels( void ) const 
 {
-  unsigned long numPixels=1;
+  size_t numPixels=1;
   
   for ( unsigned int d = 0; d < this->GetImageDimension(); ++d )
     {
