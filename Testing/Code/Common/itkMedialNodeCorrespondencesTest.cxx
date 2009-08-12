@@ -430,6 +430,7 @@ int itkMedialNodeCorrespondencesTest(int, char *[])
   correctDistance->put(7,4,3.40113);
   correctDistance->put(7,5,2.39571);
   correctDistance->put(7,6,2.39571);
+  correctDistance->put(7,7,0);
 #endif
   
   // Set bloxCoreAtomImage1 as the input to the process.
