@@ -78,7 +78,7 @@ int itkStatisticsKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() ); 
 
   //testing get and set macros for Attribute 
-  bool attribute = atoi( argv[5] );
+  LabelOpeningType::AttributeType attribute = atoi( argv[5] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 
