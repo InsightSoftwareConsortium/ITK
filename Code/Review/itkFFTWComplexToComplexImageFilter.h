@@ -103,8 +103,6 @@ protected:
   virtual bool FullMatrix();
 
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
 private:
   FFTWComplexToComplexImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
@@ -158,8 +156,6 @@ protected:
       fftw_destroy_plan( this->m_Plan );
       }
     }
-
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   //
   // these should be defined in every FFT filter class
