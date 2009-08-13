@@ -310,7 +310,7 @@ ADD_TEST(itkStreamingImageFilterTest3_1 ${BASIC_FILTERS_TESTS2}
   ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
 ADD_TEST(itkStreamingImageFilterTest3_2 ${BASIC_FILTERS_TESTS2} 
   --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png 
-  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
+  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
   itkStreamingImageFilterTest3
   ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
 ADD_TEST(itkSubtractImageFilterTest ${BASIC_FILTERS_TESTS2} itkSubtractImageFilterTest)
