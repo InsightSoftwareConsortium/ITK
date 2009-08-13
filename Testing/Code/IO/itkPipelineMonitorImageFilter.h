@@ -77,7 +77,8 @@ namespace itk {
        return true;
        }
      itkWarningMacro(<<"Streamed pipeline was executed " << this->GetNumberOfUpdates() 
-                     << " times which was not the expected number of times.");
+                     << " times which was not the expected number "  << expectedNumber
+                     << " of times.");
      return false;
    }
    
