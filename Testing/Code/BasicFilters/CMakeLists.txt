@@ -303,6 +303,16 @@ ADD_TEST(itkSquaredDifferenceImageFilterTest ${BASIC_FILTERS_TESTS2} itkSquaredD
 ADD_TEST(itkStatisticsImageFilterTest ${BASIC_FILTERS_TESTS2} itkStatisticsImageFilterTest)
 ADD_TEST(itkStreamingImageFilterTest ${BASIC_FILTERS_TESTS2} itkStreamingImageFilterTest)
 ADD_TEST(itkStreamingImageFilterTest2 ${BASIC_FILTERS_TESTS2} itkStreamingImageFilterTest2)
+ADD_TEST(itkStreamingImageFilterTest3_1 ${BASIC_FILTERS_TESTS2} 
+  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png 
+  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
+  itkStreamingImageFilterTest3
+  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
+ADD_TEST(itkStreamingImageFilterTest3_2 ${BASIC_FILTERS_TESTS2} 
+  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png 
+  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
+  itkStreamingImageFilterTest3
+  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
 ADD_TEST(itkSubtractImageFilterTest ${BASIC_FILTERS_TESTS2} itkSubtractImageFilterTest)
 ADD_TEST(itkTanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS2} itkTanImageFilterAndAdaptorTest)
 ADD_TEST(itkTernaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS2} itkTernaryMagnitudeImageFilterTest)
@@ -352,6 +362,7 @@ ADD_TEST(itkAdaptiveHistogramEqualizationImageFilterTest ${BASIC_FILTERS_TESTS}
 
 ADD_TEST(itkAccumulateImageFilterTest ${BASIC_FILTERS_TESTS3} 
    --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png
+
              ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
              itkAccumulateImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
 
@@ -1190,6 +1201,7 @@ itkSquaredDifferenceImageFilterTest.cxx
 itkStatisticsImageFilterTest.cxx
 itkStreamingImageFilterTest.cxx
 itkStreamingImageFilterTest2.cxx
+itkStreamingImageFilterTest3.cxx
 itkSubtractImageFilterTest.cxx
 itkTanImageFilterAndAdaptorTest.cxx
 itkTernaryMagnitudeImageFilterTest.cxx
