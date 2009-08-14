@@ -59,6 +59,22 @@ ImageSliceConstIteratorWithIndex<TImage>
 }
 
 //----------------------------------------------------------------------
+//  Go to the first pixel of the current slice
+//----------------------------------------------------------------------
+template<class TImage>
+void 
+ImageSliceConstIteratorWithIndex<TImage>
+::GoToBeginOfSlice(void)
+{
+  // Move to beginning of Slice
+  this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];   
+  this->m_Position -= m_LineJump *
+    ( this->m_EndIndex[ m_Direction_B ] - this->m_BeginIndex[ m_Direction_B ] ); 
+  
+}
+
+
+//----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
 template<class TImage>
@@ -68,11 +84,10 @@ ImageSliceConstIteratorWithIndex<TImage>
 {
 
   // Move to beginning of Slice
-  this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];   
   this->m_Position -= m_LineJump *
-    ( this->m_EndIndex[ m_Direction_B ] - this->m_BeginIndex[ m_Direction_B ] ); 
+    ( this->m_PositionIndex[ m_Direction_B ] - this->m_BeginIndex[ m_Direction_B ] ); 
+  this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
   
-
   for( unsigned int n=0; n<TImage::ImageDimension; n++ )
     {
 

@@ -163,6 +163,9 @@ public:
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
   void NextLine(void);
   
+  /** Go to the first pixel of the current slice */
+  void GoToBeginOfSlice(void);
+
   /** Go to the next slice
    * \sa operator++ \sa EndOfLine \sa End */
   void NextSlice(void);
