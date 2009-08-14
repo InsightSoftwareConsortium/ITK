@@ -135,7 +135,8 @@ public:
   typedef typename Superclass::OffsetType OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType  SizeType;
+  typedef typename Superclass::SizeType       SizeType;
+  typedef typename Superclass::SizeValueType  SizeValueType;
 
   /** Direction typedef support. A matrix of direction cosines. */
   typedef typename Superclass::DirectionType  DirectionType;
