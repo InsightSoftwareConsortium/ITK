@@ -76,10 +76,10 @@ void
 Image<TPixel, VImageDimension>
 ::FillBuffer (const TPixel& value)
 {
-  const unsigned long numberOfPixels =
+  const SizeValueType numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
-  for(unsigned int i=0; i<numberOfPixels; i++) 
+  for(SizeValueType i=0; i<numberOfPixels; i++) 
     {
     (*m_Buffer)[i] = value;
     }

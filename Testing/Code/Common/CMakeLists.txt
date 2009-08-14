@@ -383,6 +383,10 @@ ADD_TEST(itkImportContainerTest ${COMMON_TESTS2} itkImportContainerTest)
 ADD_TEST(itkZeroFluxBoundaryConditionTest ${COMMON_TESTS2} itkZeroFluxBoundaryConditionTest)
 ADD_TEST(itkSystemInformationTest ${SYSTEM_INFORMATION_TEST})
 ADD_TEST(SystemInformation ${SYSTEM_INFORMATION})
+IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
+  ADD_TEST(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
+ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
+
 
 IF(ITK_BINARY_DIR)
   SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
@@ -609,6 +613,7 @@ itkVariableLengthVectorTest.cxx
 itkVariableSizeMatrixTest.cxx
 itkImportContainerTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
+itkImageFillBufferTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx
 

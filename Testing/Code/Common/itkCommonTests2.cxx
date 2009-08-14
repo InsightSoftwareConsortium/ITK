@@ -114,5 +114,6 @@ REGISTER_TEST(itkVariableLengthVectorTest);
 REGISTER_TEST(itkVariableSizeMatrixTest);
 // REGISTER_TEST(itkQuaternionOrientationAdapterTest);
 REGISTER_TEST(itkImportContainerTest);
+REGISTER_TEST(itkImageFillBufferTest);
 }
 
