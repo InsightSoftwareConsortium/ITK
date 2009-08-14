@@ -832,6 +832,7 @@ IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter7PixelCentered.png
             ${TEMP}/ResampleImageFilter7PixelCentered.png
+  --compareNumberOfPixelsTolerance 1
   ResampleImageFilter7Test
         ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
         ${TEMP}/ResampleImageFilter7PixelCentered.png
