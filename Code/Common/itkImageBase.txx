@@ -26,7 +26,6 @@
 #include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
 #include <string.h>
-#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -204,7 +203,7 @@ void
 ImageBase<VImageDimension>
 ::ComputeOffsetTable()
 {
-  ITK_UINT64 num=1;
+  vxl_uint_64 num=1;
   const SizeType& bufferSize = this->GetBufferedRegion().GetSize();
 
   m_OffsetTable[0] = (OffsetValueType)num;
