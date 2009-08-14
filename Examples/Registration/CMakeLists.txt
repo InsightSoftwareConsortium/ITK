@@ -1392,6 +1392,7 @@ IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
   --compare ${BASELINE}/ImageRegistration12TestPixelCentered.png
             ${TEMP}/ImageRegistration12TestPixelCentered.png
+  --compareNumberOfPixelsTolerance 2
   ImageRegistration12Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
