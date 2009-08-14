@@ -41,7 +41,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
  
   // do the math with a very large type to be sure to be able to store very
   // large numbers on 32 bit systems
-  unsigned long long total = ((unsigned long long)size[0]) * ((unsigned long long)size[1]) * ((unsigned long long)size[2]);
+  ITK_UINT64 total = ((ITK_UINT64)size[0]) * ((ITK_UINT64)size[1]) * ((ITK_UINT64)size[2]);
   std::cout << "Expected memory usage is: " << total << std::endl;
   if( total > itk::NumericTraits<ImageType::SizeValueType>::max() )
     {
