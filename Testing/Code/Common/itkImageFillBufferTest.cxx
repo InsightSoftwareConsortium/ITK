@@ -38,27 +38,29 @@ int itkImageFillBufferTest(int argc, char * argv[])
   size[0] = (ImageType::SizeValueType) (atof(argv[1])*1024);
   size[1] = 1024;
   size[2] = 1024;
-  image->SetRegions( size );
-
+ 
   // do the math with a very large type to be sure to be able to store very
   // large numbers on 32 bit systems
-  long long total = ((long long)size[0]) * ((long long)size[1]) * ((long long)size[2]);
+  unsigned long long total = ((unsigned long long)size[0]) * ((unsigned long long)size[1]) * ((unsigned long long)size[2]);
   std::cout << "Expected memory usage is: " << total << std::endl;
-  std::cout << "Size reported by GetNumberOfPixels() is: " << image->GetBufferedRegion().GetNumberOfPixels() << std::endl;
   if( total > itk::NumericTraits<ImageType::SizeValueType>::max() )
     {
     // we should get an error on allocation
     try
       {
-      image->Allocate();
+      image->SetRegions( size );
       }
-    catch(...)
+    catch(itk::ExceptionObject e)
       {
+      std::cout << e << std::endl;
       std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;
       return (EXIT_SUCCESS);
       }
-    // TODO: uncomment me once an exception is effectively sent
-    // return (EXIT_FAILURE); 
+    return (EXIT_FAILURE); 
+    }
+  else
+    {
+    image->SetRegions( size );
     }
 
   image->Allocate();
