@@ -200,15 +200,27 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
       pass = false;
       break;
       }
-    if( vcl_fabs( offset2[k] - relativeCenter[k] ) > tolerance )
+    }
+
+  TransformType::InputPointType mappedOrigin = transform->TransformPoint( fixedOrigin );
+  TransformType::InputPointType expectedPoint;
+  expectedPoint[0] = 29.0; 
+  expectedPoint[1] = 165.75; 
+  expectedPoint[2] = 13.25;
+
+  for(unsigned int j=0; j < Dimension; j++ )
+    {
+    if( vcl_fabs( expectedPoint[j] - mappedOrigin[j] ) > tolerance )
       {
-      std::cerr << "Offset differs from expected value" << std::endl;
-      std::cerr << "It should be " << relativeCenter << std::endl;
-      std::cerr << "but it is    " << offset2 << std::endl;
+      std::cerr << "Mapped point differs from expected point" << std::endl;
+      std::cerr << "It should be " << expectedPoint << std::endl;
+      std::cerr << "but it is    " << mappedOrigin << std::endl;
       pass = false;
       break;
       }
     }
+
+
   }
 
 
