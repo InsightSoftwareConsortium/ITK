@@ -42,8 +42,7 @@
 //  
 //  The filter used to extract a region from an image is the
 //  \doxygen{ExtractImageFilter}. Its header is included below.  This filter
-//  is capable of extracting $(N-1)$-dimensional images from $N$-dimensional
-//  ones.
+//  is capable of extracting a slice from the input image.
 //
 //  \index{itk::ExtractImageFilter!header}
 //
@@ -57,21 +56,21 @@
 //  Software Guide : BeginLatex
 //  
 //  The filter used to place the processed image in a region of the output
-//  image is the \doxygen{TileImageFilter}. Its header is included below.
-//  This filter is capable of inserting a $(N-1)$-dimensional image into
-//  a $N$-dimensional one.
+//  image is the \doxygen{PasteImageFilter}. Its header is included below.
+//  This filter is capable of inserting the processed image into the
+//  destination image.
 //
-//  \index{itk::TileImageFilter!header}
+//  \index{itk::PasteImageFilter!header}
 //
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkTileImageFilter.h"
+#include "itkPasteImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkNormalizeImageFilter.h"
+#include "itkMedianImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -84,7 +83,7 @@ int main( int argc, char ** argv )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " input3DImageFile  output2DImageFile " << std::endl;
+    std::cerr << argv[0] << " input3DImageFile  output3DImageFile " << std::endl;
     std::cerr << " sliceNumber " << std::endl;
     return EXIT_FAILURE;
     }
@@ -93,7 +92,7 @@ int main( int argc, char ** argv )
   //  Software Guide : BeginLatex
   //
   //  Image types are defined below. Note that the input image type is $3D$ and
-  //  the output image type is $2D$.
+  //  the output image type is a $3D$ image as well.
   //
   //  Software Guide : EndLatex 
 
@@ -103,7 +102,7 @@ int main( int argc, char ** argv )
   typedef unsigned char        OutputPixelType;
 
   typedef itk::Image< InputPixelType,  3 >    InputImageType;
-  typedef itk::Image< MiddlePixelType, 2 >    MiddleImageType;
+  typedef itk::Image< MiddlePixelType, 3 >    MiddleImageType;
   typedef itk::Image< OutputPixelType, 3 >    OutputImageType;
   // Software Guide : EndCodeSnippet
 
@@ -179,15 +178,14 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //  
-  //  The ExtractImageFilter requires a region to be defined by the
-  //  user. The region is specified by an \doxygen{Index} indicating the
-  //  pixel where the region starts and an \doxygen{Size} indication how many
-  //  pixels the region has along each dimension. In order to extract a $2D$
-  //  image from a $3D$ data set, it is enough to set the size of the region
-  //  to $0$ in one dimension.  This will indicate to
-  //  ExtractImageFilter that a dimensional reduction has been
-  //  specified. Here we take the region from the largest possible region of
-  //  the input image. Note that Update() is being called first on the
+  //  The ExtractImageFilter requires a region to be defined by the user. The
+  //  region is specified by an \doxygen{Index} indicating the pixel where the
+  //  region starts and an \doxygen{Size} indication how many pixels the region
+  //  has along each dimension. In order to extract a $2D$ image from a $3D$
+  //  data set, it is enough to set the size of the region to $1$ in one
+  //  dimension. Note that, strictly speaking, we are extracting here a $3D$
+  //  image of a single slice. Here we take the region from the buffered region
+  //  of the input image. Note that Update() is being called first on the
   //  reader, since otherwise the output would have invalid data.
   //  
   //  Software Guide : EndLatex 
@@ -195,23 +193,21 @@ int main( int argc, char ** argv )
   
   // Software Guide : BeginCodeSnippet
   reader->Update();
-  InputImageType::RegionType inputRegion =
-           reader->GetOutput()->GetLargestPossibleRegion();
+  const InputImageType * inputImage = reader->GetOutput();
+  InputImageType::RegionType inputRegion = inputImage->GetBufferedRegion();
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //  
   //  We take the size from the region and collapse the size in the $Z$
-  //  component by setting its value to $0$. This will indicate to the
-  //  ExtractImageFilter that the output image should have a
-  //  dimension less than the input image.
+  //  component by setting its value to $1$.
   //  
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
   InputImageType::SizeType size = inputRegion.GetSize();
-  size[2] = 0;
+  size[2] = 1;
   // Software Guide : EndCodeSnippet
  
   //  Software Guide : BeginLatex
@@ -220,7 +216,7 @@ int main( int argc, char ** argv )
   //  reason, the dimension to be collapsed in the one with index $2$. You
   //  may keep in mind the association of index components
   //  $\{X=0,Y=1,Z=2\}$. If we were interested in extracting a slice
-  //  perpendicular to the $Y$ axis we would have set \code{size[1]=0;}.
+  //  perpendicular to the $Y$ axis we would have set \code{size[1]=1;}.
   //  
   //  Software Guide : EndLatex 
 
@@ -269,13 +265,13 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::TileImageFilter< MiddleImageType, OutputImageType > TileFilterType;
-  TileFilterType::Pointer pasteFilter = TileFilterType::New();
+  typedef itk::PasteImageFilter< MiddleImageType, OutputImageType > PasteFilterType;
+  PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::NormalizeImageFilter< MiddleImageType, MiddleImageType > NormalizeFilterType;
-  NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
+  typedef itk::MedianImageFilter< MiddleImageType, MiddleImageType > MedianFilterType;
+  MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -286,9 +282,24 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex 
 
   // Software Guide : BeginCodeSnippet
-  extractFilter->SetInput( reader->GetOutput() );
-  normalizeFilter->SetInput( extractFilter->GetOutput() );
-  pasteFilter->SetInput( normalizeFilter->GetOutput() );
+  extractFilter->SetInput( inputImage );
+  medianFilter->SetInput( extractFilter->GetOutput() );
+  pasteFilter->SetSourceImage( medianFilter->GetOutput() );
+  pasteFilter->SetDestinationImage( inputImage );
+  pasteFilter->SetDestinationIndex( start );
+
+  MiddleImageType::SizeType indexRadius;
+  
+  indexRadius[0] = 1; // radius along x
+  indexRadius[1] = 1; // radius along y
+  indexRadius[2] = 0; // radius along z
+
+  medianFilter->SetRadius( indexRadius );
+  medianFilter->UpdateLargestPossibleRegion();
+
+  const MiddleImageType * medianImage = medianFilter->GetOutput();
+
+  pasteFilter->SetSourceRegion( medianImage->GetBufferedRegion() );
   writer->SetInput( pasteFilter->GetOutput() );
   // Software Guide : EndCodeSnippet
 
