@@ -22,6 +22,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkFastMutexLock.h"
 
 namespace itk
 {
