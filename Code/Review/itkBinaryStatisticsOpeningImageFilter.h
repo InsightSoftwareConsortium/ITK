@@ -80,11 +80,9 @@ public:
   typedef StatisticsLabelObject<unsigned long, itkGetStaticConstMacro(ImageDimension)>    LabelObjectType;
   typedef LabelMap< LabelObjectType >                                                LabelMapType;
   typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >                LabelizerType;
-  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
-      StatisticsLabelFilterOutput;
-  typedef StatisticsLabelMapFilter< LabelMapType,StatisticsLabelFilterOutput >                 LabelObjectValuatorType;
+  typedef StatisticsLabelMapFilter< LabelMapType, FeatureImageType >                 LabelObjectValuatorType;
   typedef typename LabelObjectType::AttributeType                                    AttributeType;
-  typedef StatisticsOpeningLabelMapFilter< LabelMapType >                                 OpeningType;
+  typedef StatisticsOpeningLabelMapFilter< LabelMapType >                            OpeningType;
   typedef LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >               BinarizerType;
 
   /** Standard New method. */
