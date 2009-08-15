@@ -36,21 +36,20 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
 template < class TFixedImage, class TMovingImage >
 void 
 CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
-::InitializeTransform() const
+::InitializeTransform()
 {
   // Compute moments and initialize center of rotaion and translation
   this->Superclass::InitializeTransform();
 
-  typedef typename Superclass::FixedImageCalculatorType::MatrixType   
-                                                             FixedMatrixType;
-  typedef typename Superclass::MovingImageCalculatorType::MatrixType  
-                                                            MovingMatrixType;
+  typedef typename Superclass::FixedImageCalculatorType::MatrixType   FixedMatrixType;
+  typedef typename Superclass::MovingImageCalculatorType::MatrixType  MovingMatrixType;
   
-  FixedMatrixType   fixedPrincipalAxis  = 
-                              this->GetFixedCalculator()->GetPrincipalAxes(); 
-  MovingMatrixType  movingPrincipalAxis = 
-                             this->GetMovingCalculator()->GetPrincipalAxes(); 
+  FixedMatrixType   fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes(); 
+  MovingMatrixType  movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes(); 
   
+  MovingMatrixType  rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
+
+  this->GetTransform()->SetMatrix( rotationMatrix );
 }
   
 

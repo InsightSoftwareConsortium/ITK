@@ -88,7 +88,7 @@ public:
   typedef typename Superclass::OutputVectorType  OutputVectorType;
   
   /** Initialize the transform using data from the images */
-  void InitializeTransform() const;
+  void InitializeTransform();
 
 protected:
   CenteredVersorTransformInitializer();

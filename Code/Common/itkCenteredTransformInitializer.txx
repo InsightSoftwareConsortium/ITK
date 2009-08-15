@@ -37,7 +37,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 template < class TTransform, class TFixedImage, class TMovingImage >
 void 
 CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
-::InitializeTransform() const
+::InitializeTransform()
 {
   // Sanity check
   if( !m_FixedImage )

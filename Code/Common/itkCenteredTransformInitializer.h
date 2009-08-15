@@ -122,7 +122,7 @@ public:
 
 
   /** Initialize the transform using data from the images */
-  virtual void InitializeTransform() const;
+  virtual void InitializeTransform();
 
   /** Select between using the geometrical center of the images or 
       using the center of mass given by the image intensities. */
@@ -138,6 +138,8 @@ protected:
   ~CenteredTransformInitializer(){};
 
   void PrintSelf(std::ostream &os, Indent indent) const;
+
+  itkGetObjectMacro( Transform, TransformType );
 
 private:
   CenteredTransformInitializer(const Self&); //purposely not implemented
