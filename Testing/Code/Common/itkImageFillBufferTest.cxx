@@ -39,30 +39,31 @@ int itkImageFillBufferTest(int argc, char * argv[])
   size[1] = 1024;
   size[2] = 1024;
  
-  // do the math with a very large type to be sure to be able to store very
-  // large numbers on 32 bit systems
-  vxl_uint_64 total = ((vxl_uint_64)size[0]) * ((vxl_uint_64)size[1]) * ((vxl_uint_64)size[2]);
-  std::cout << "Expected memory usage is: " << total << std::endl;
-  if( total > itk::NumericTraits<ImageType::SizeValueType>::max() )
-    {
-    // we should get an error on allocation
-    try
-      {
-      image->SetRegions( size );
-      }
-    catch(itk::ExceptionObject e)
-      {
-      std::cout << e << std::endl;
-      std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;
-      return (EXIT_SUCCESS);
-      }
-    return (EXIT_FAILURE); 
-    }
-  else
-    {
-    image->SetRegions( size );
-    }
+  // // do the math with a very large type to be sure to be able to store very
+  // // large numbers on 32 bit systems
+  // vxl_uint_64 total = ((vxl_uint_64)size[0]) * ((vxl_uint_64)size[1]) * ((vxl_uint_64)size[2]);
+  // std::cout << "Expected memory usage is: " << total << std::endl;
+  // if( total > itk::NumericTraits<ImageType::SizeValueType>::max() )
+  //   {
+  // // we should get an error on allocation
+  //  try
+  //    {
+  //    image->SetRegions( size );
+  //    }
+  //   catch(itk::ExceptionObject e)
+  //     {
+  //     std::cout << e << std::endl;
+  //     std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;
+  //     return (EXIT_SUCCESS);
+  //     }
+  //   return (EXIT_FAILURE); 
+  //   }
+  // else
+  //   {
+  //   image->SetRegions( size );
+  //   }
 
+  image->SetRegions( size );
   image->Allocate();
   image->FillBuffer( 128 );
   image->Print(std::cout);
@@ -76,7 +77,7 @@ int itkImageFillBufferTest(int argc, char * argv[])
   // we may have a segfault here on 32 bit systems if 4 GB is requested and 0 effectively allocated
   if( image->GetPixel( idx ) != 128 )
     {
-    std::cerr << "Value is not 128!" << total << std::endl;
+    std::cerr << "Value is not 128!" << std::endl;
     return (EXIT_FAILURE);  
     }
 

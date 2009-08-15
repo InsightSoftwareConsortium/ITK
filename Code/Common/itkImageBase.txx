@@ -203,20 +203,23 @@ void
 ImageBase<VImageDimension>
 ::ComputeOffsetTable()
 {
-  vxl_uint_64 num=1;
+  // vxl_uint_64 num=1;
+  OffsetValueType num=1;
   const SizeType& bufferSize = this->GetBufferedRegion().GetSize();
 
-  m_OffsetTable[0] = (OffsetValueType)num;
+  // m_OffsetTable[0] = (OffsetValueType)num;
+  m_OffsetTable[0] = num;
   for (unsigned int i=0; i < VImageDimension; i++)
     {
     num *= bufferSize[i];
-    m_OffsetTable[i+1] = (OffsetValueType)num;
+    // m_OffsetTable[i+1] = (OffsetValueType)num;
+    m_OffsetTable[i+1] = num;
     }
-  if( num > NumericTraits<SizeValueType>::max() )
-    {
-    itkExceptionMacro(<< "Requested number of pixels (" << num
-      << ") is greater than the largest possible number of pixels (" << NumericTraits<SizeValueType>::max() << ").");
-    }
+  // if( num > NumericTraits<SizeValueType>::max() )
+  //   {
+  //   itkExceptionMacro(<< "Requested number of pixels (" << num
+  //     << ") is greater than the largest possible number of pixels (" << NumericTraits<SizeValueType>::max() << ").");
+  //   }
 }
 
 
