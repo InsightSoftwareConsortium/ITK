@@ -30,6 +30,8 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
   // Force to use Moments computation since we need here the second
   // order moments in order to estimate a rotation
   this->Superclass::MomentsOn();
+
+  this->m_ComputeRotation = false;
 }
 
 
@@ -41,15 +43,18 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
   // Compute moments and initialize center of rotaion and translation
   this->Superclass::InitializeTransform();
 
-  typedef typename Superclass::FixedImageCalculatorType::MatrixType   FixedMatrixType;
-  typedef typename Superclass::MovingImageCalculatorType::MatrixType  MovingMatrixType;
-  
-  FixedMatrixType   fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes(); 
-  MovingMatrixType  movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes(); 
-  
-  MovingMatrixType  rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
+  if( this->m_ComputeRotation )
+    {
+    typedef typename Superclass::FixedImageCalculatorType::MatrixType   FixedMatrixType;
+    typedef typename Superclass::MovingImageCalculatorType::MatrixType  MovingMatrixType;
+    
+    FixedMatrixType   fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes(); 
+    MovingMatrixType  movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes(); 
+    
+    MovingMatrixType  rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
 
-  this->GetTransform()->SetMatrix( rotationMatrix );
+    this->GetTransform()->SetMatrix( rotationMatrix );
+    }
 }
   
 

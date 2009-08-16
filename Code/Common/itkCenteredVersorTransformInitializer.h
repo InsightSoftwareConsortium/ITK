@@ -90,6 +90,12 @@ public:
   /** Initialize the transform using data from the images */
   void InitializeTransform();
 
+  /** Enable the use of the principal axes of each image to compute an
+   * initial rotation that will align them. */
+  itkSetMacro( ComputeRotation, bool );
+  itkGetMacro( ComputeRotation, bool );
+  itkBooleanMacro( ComputeRotation );
+
 protected:
   CenteredVersorTransformInitializer();
   ~CenteredVersorTransformInitializer(){};
@@ -100,6 +106,7 @@ private:
   CenteredVersorTransformInitializer(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  bool         m_ComputeRotation;
 }; //class CenteredVersorTransformInitializer
 
 
