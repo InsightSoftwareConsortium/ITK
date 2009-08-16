@@ -124,7 +124,8 @@ public:
   typedef Image<float, 3>                                 OriginalImageType;
   typedef typename OriginalImageType::IndexType           OriginalImageIndexType;
   typedef typename OriginalImageIndexType::IndexValueType ImageIndexValueType;
-  typedef typename OriginalImageType::Pointer             OriginalImagePointer;
+  typedef typename OriginalImageType::ConstPointer        OriginalImagePointer;
+
   /** control the range of search for Bresenham at normal line */
   itkSetMacro(Range, int);
   itkGetConstMacro(Range, int);
@@ -143,7 +144,7 @@ public:
   /**
    * Set Original image
    */ 
-  itkSetMacro(Image, OriginalImagePointer);
+  itkSetConstObjectMacro( Image, OriginalImageType );
 
 protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
