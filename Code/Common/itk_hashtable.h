@@ -174,11 +174,13 @@ struct hash<unsigned long>
   size_t operator()(unsigned long x) const { return x; }
 };
 
+#ifdef _WIN64
 template<>
 struct hash<size_t>
 {
   size_t operator()(size_t x) const { return x; }
 };
+#endif
 
 template <class Value>
 struct hashtable_node
