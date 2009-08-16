@@ -174,6 +174,12 @@ struct hash<unsigned long>
   size_t operator()(unsigned long x) const { return x; }
 };
 
+template<>
+struct hash<size_t>
+{
+  size_t operator()(size_t x) const { return x; }
+};
+
 template <class Value>
 struct hashtable_node
 {
