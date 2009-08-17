@@ -193,13 +193,11 @@ int itkFRPROptimizerTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Fletch Reeves test failed." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
-
+  std::cout << "Fletch Reeves test passed." << std::endl;
   }
 
   {
@@ -248,14 +246,14 @@ int itkFRPROptimizerTest(int, char* [] )
 
   if( !pass )
     {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Polak Ribiere test failed." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
-
+  std::cout << "Polak Ribiere test passed." << std::endl;
   }
+  
+  return EXIT_SUCCESS;
 }
 
 
