@@ -87,6 +87,13 @@ ADD_TEST(itkCannyEdgeDetectionImageFilterTest ${BASIC_FILTERS_TESTS}
             itkCannyEdgeDetectionImageFilterTest
             ${INPUTDATA}/cthead1.png 
             ${TEMP}/itkCannyEdgeDetectionImageFilterTest.png)
+ADD_TEST(itkCannyEdgeDetectionImageFilterTest2 ${BASIC_FILTERS_TESTS} 
+  --compare ${TEMP}/itkCannyEdgeDetectionImageFilterTest2_A.png
+            ${TEMP}/itkCannyEdgeDetectionImageFilterTest2_B.png
+            itkCannyEdgeDetectionImageFilterTest2
+            ${INPUTDATA}/cthead1.png 
+            ${TEMP}/itkCannyEdgeDetectionImageFilterTest2_A.png
+            ${TEMP}/itkCannyEdgeDetectionImageFilterTest2_B.png)
 ADD_TEST(itkChainCodeToFourierSeriesPathFilterTest ${BASIC_FILTERS_TESTS} itkChainCodeToFourierSeriesPathFilterTest)
 ADD_TEST(itkChangeInformationImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeInformationImageFilterTest)
 ADD_TEST(itkChangeLabelImageFilterTest ${BASIC_FILTERS_TESTS} itkChangeLabelImageFilterTest)
@@ -1035,6 +1042,7 @@ itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilterTest.cxx
 itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest.cxx
 itkBloxCoreAtomTest.cxx
 itkCannyEdgeDetectionImageFilterTest.cxx
+itkCannyEdgeDetectionImageFilterTest2.cxx
 itkChainCodeToFourierSeriesPathFilterTest.cxx
 itkChangeInformationImageFilterTest.cxx
 itkChangeLabelImageFilterTest.cxx
