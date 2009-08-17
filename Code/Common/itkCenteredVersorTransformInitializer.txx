@@ -64,6 +64,7 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   this->Superclass::PrintSelf(os,indent);
+  os << indent << "Compute Rotation " << this->m_ComputeRotation << std::endl;
 }
  
 }  // namespace itk
