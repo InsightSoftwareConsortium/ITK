@@ -294,9 +294,6 @@ void
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  std::cout << "=========================================== YEAH\n";
-#endif
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
   
