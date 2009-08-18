@@ -2030,6 +2030,7 @@ ADD_TEST(itkGridImageSourceTest4
   ${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
 
+IF(NOT BORLAND)
 ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
   --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
@@ -2061,7 +2062,7 @@ ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
   1     # Compute Histogram (bool)
   128   # Number Of Bins
   )
-
+ENDIF(NOT BORLAND)
 
 #
 # Functor colormaps
@@ -2122,6 +2123,7 @@ SET(ReviewTest3_LIBS
   )
 TARGET_LINK_LIBRARIES(itkReviewTests3 ${ReviewTest3_LIBS})
 
+IF(NOT BORLAND)
 ADD_EXECUTABLE(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
 
 SET(ReviewTest4_LIBS
@@ -2129,6 +2131,7 @@ SET(ReviewTest4_LIBS
   ITKStatistics
   )
 TARGET_LINK_LIBRARIES(itkReviewTests4 ${ReviewTest4_LIBS})
+ENDIF(NOT BORLAND)
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}
