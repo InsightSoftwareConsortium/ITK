@@ -221,7 +221,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template <class TFixedImage, class TMovingImage> 
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SetFixedImageRegion( FixedImageRegionType reg )
+::SetFixedImageRegion( const FixedImageRegionType reg )
 {
   if( reg != m_FixedImageRegion )
     {
