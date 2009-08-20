@@ -131,13 +131,16 @@ public:
        this mask will be considered for the computation of the metric */
   typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >
                                                      FixedImageMaskType;
-  typedef typename  FixedImageMaskType::Pointer      FixedImageMaskPointer;
+  typedef typename FixedImageMaskType::Pointer       FixedImageMaskPointer;
+  typedef typename FixedImageMaskType::ConstPointer  FixedImageMaskConstPointer;
+
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
   typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >
                                                      MovingImageMaskType;
-  typedef typename  MovingImageMaskType::Pointer     MovingImageMaskPointer;
+  typedef typename MovingImageMaskType::Pointer      MovingImageMaskPointer;
+  typedef typename MovingImageMaskType::ConstPointer MovingImageMaskConstPointer;
 
 
   /**  Type of the measure. */
@@ -184,10 +187,22 @@ public:
  
   /** Set/Get the moving image mask. */
   itkSetObjectMacro( MovingImageMask, MovingImageMaskType );
+#ifdef ITK_LEGACY_REMOVE
+  itkSetConstObjectMacro( MovingImageMask, MovingImageMaskType );
+#else
+  virtual void SetMovingImageMask( const MovingImageMaskType* mask )
+    { this->SetMovingImageMask(const_cast<MovingImageMaskType*>(mask)); }
+#endif
   itkGetConstObjectMacro( MovingImageMask, MovingImageMaskType );
 
   /** Set/Get the fixed image mask. */
   itkSetObjectMacro( FixedImageMask, FixedImageMaskType );
+#ifdef ITK_LEGACY_REMOVE
+  itkSetConstObjectMacro( FixedImageMask, FixedImageMaskType );
+#else
+  virtual void SetFixedImageMask( const FixedImageMaskType* mask )
+    { this->SetFixedImageMask(const_cast<FixedImageMaskType*>(mask)); }
+#endif
   itkGetConstObjectMacro( FixedImageMask, FixedImageMaskType );
 
   /** Set/Get gradient computation. */
@@ -228,8 +243,13 @@ protected:
   bool                        m_ComputeGradient;
   GradientImagePointer        m_GradientImage;
 
+#ifdef ITK_LEGACY_REMOVE
+  FixedImageMaskConstPointer  m_FixedImageMask;
+  MovingImageMaskConstPointer m_MovingImageMask;
+#else
   mutable FixedImageMaskPointer   m_FixedImageMask;
   mutable MovingImageMaskPointer  m_MovingImageMask;
+#endif
 
 private:
   ImageToImageMetric(const Self&); //purposely not implemented

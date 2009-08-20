@@ -230,9 +230,15 @@ int TestMattesMetricWithAffineTransform(
       soFixedMask->SetImage( imgFixedMask );
       soFixedMask->ComputeObjectToWorldTransform();
 
-
       metric->SetMovingImageMask(soMovingMask);
       metric->SetFixedImageMask(soFixedMask);
+
+      // Make the mask const to enhance code coverage
+      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask = soMovingMask.GetPointer();
+      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask  = soFixedMask.GetPointer();
+      metric->SetMovingImageMask(soMovingConstMask);
+      metric->SetFixedImageMask(soFixedConstMask);
+
       //metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
       metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*2) );
       }
