@@ -433,7 +433,13 @@ IF(WIN32)
     IF(MINGW)
       SET(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS
         "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      SET(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS
+        "-shared -Wl,--export-all-symbols -Wl,--enable-auto-import")
+      SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
     ENDIF(MINGW)
+    IF(CYGWIN)
+      SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import")
+    ENDIF(CYGWIN)
   ELSE(CMAKE_COMPILER_IS_GNUCXX)
    IF(BUILD_SHARED_LIBS)
      SET(ITK_COMMON_BUILD_TYPE "SHARED")
