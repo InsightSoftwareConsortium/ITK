@@ -1113,6 +1113,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     case gdcm::PixelFormat::FLOAT32:
       m_ComponentType = ImageIOBase::FLOAT;
       break;
+    case gdcm::PixelFormat::FLOAT64:
+      m_ComponentType = ImageIOBase::DOUBLE;
+      break;
     default:
       itkExceptionMacro( "Unhandled PixelFormat: " << outputpt ); 
     }
