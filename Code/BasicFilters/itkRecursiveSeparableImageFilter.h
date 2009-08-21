@@ -103,14 +103,14 @@ protected:
 
   int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
 
-  /** RecursiveSeparableImageFilter needs all of the input to produce an
-   * output. Therefore, RecursiveSeparableImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
-
-  // Override since the filter produces the entire dataset.
+  /** RecursiveSeparableImageFilter needs all of the input only in the
+   *  "Direction" dimension. Therefore we enlarge the output's
+   *  RequestedRegion to this. Then the superclass's
+   *  GenerateInputRequestedRegion method will copy the output region
+   *  to the input.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() 
+   */
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   /** Set up the coefficients of the filter to approximate a specific kernel.
