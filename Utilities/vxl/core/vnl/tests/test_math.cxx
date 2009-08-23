@@ -7,13 +7,16 @@
 
 
 static
-void check_pointer( const void * )
+void check_pointer( const void *)
 {
 }
 
 static
 void test_static_const_definition()
 {
+  // The Intel compiler has problems resolving static consts with this test
+  // as it stands 
+#if !defined(__INTEL_COMPILER)  || defined(NDEBUG)
   check_pointer( &vnl_math::e );
   check_pointer( &vnl_math::log2e );
   check_pointer( &vnl_math::log10e );
@@ -29,6 +32,7 @@ void test_static_const_definition()
   check_pointer( &vnl_math::sqrt1_2 );
   check_pointer( &vnl_math::eps );
   check_pointer( &vnl_math::sqrteps );
+#endif
 }
 
 void test_math()

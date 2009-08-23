@@ -26,7 +26,9 @@ void test_static_const_definition()
     check_pointer( &vnl_numeric_traits< Type >::maxval );\
     check_pointer( &vnl_numeric_traits< const Type >::maxval );\
   } while (false)
-
+  // The Intel compiler has problems resolving static consts with this test
+  // as it stands 
+#if !defined(__INTEL_COMPILER)  || defined(NDEBUG)
   ALL(bool);
   ALL(char);
   ALL(unsigned char);
@@ -43,6 +45,7 @@ void test_static_const_definition()
   ONE_ZERO( vcl_complex<float> );
   ONE_ZERO( vcl_complex<double> );
   ONE_ZERO( vcl_complex<long double> );
+#endif
 
 #undef ONE_ZERO
 #undef ALL
