@@ -244,9 +244,10 @@ public:
   itkNewMacro( Self );
   itkTypeMacro( QuadEdgeMesh, Mesh );
 
+#if !defined(CABLE_CONFIGURATION)
   /** FrontIterator definitions */
   itkQEDefineFrontIteratorMethodsMacro( Self );
-
+#endif
 
 public:
 
