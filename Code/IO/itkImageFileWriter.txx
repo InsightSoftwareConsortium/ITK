@@ -338,7 +338,7 @@ ImageFileWriter<TInputImage>
     // write the data
     this->GenerateData();
     
-    this->UpdateProgress((float) piece / (numDivisions - 1));
+    this->UpdateProgress((float) (piece+1) / numDivisions );
     }
 
   
