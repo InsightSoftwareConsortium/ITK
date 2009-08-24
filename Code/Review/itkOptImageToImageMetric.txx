@@ -249,6 +249,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       }
     else
       {
+      this->SetUseSequentialSampling( false );
       this->Modified();
       }
     }

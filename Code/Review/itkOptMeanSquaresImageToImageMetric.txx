@@ -44,6 +44,7 @@ MeanSquaresImageToImageMetric<TFixedImage,TMovingImage>
 
   //  For backward compatibility, the default behavior is to use all the pixels
   //  in the fixed image.
+  //  This should be fixed in ITKv4 so that this metric behaves as the others.
   this->SetUseAllPixels( true );
 }
 
