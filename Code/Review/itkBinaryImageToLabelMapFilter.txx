@@ -146,7 +146,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeValueType lineId = firstLineIdForThread;
 
   OffsetVectorType LineOffsets;
-  SetupLineOffsets(LineOffsets);
+  this->SetupLineOffsets(LineOffsets);
 
   long nbOfLabels = 0;
   for( inLineIt.GoToBegin();
@@ -207,7 +207,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   if( threadId == 0 )
     {
     // set up the union find structure
-    InitUnion(nbOfLabels);
+    this->InitUnion(nbOfLabels);
     // insert all the labels into the structure -- an extra loop but
     // saves complicating the ones that come later
     typename LineMapType::iterator MapBegin, MapEnd, LineIt;
@@ -221,7 +221,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
       for (cIt = LineIt->begin();cIt != LineIt->end();++cIt)
         {
         cIt->label = label;
-        InsertSet(label);
+        this->InsertSet(label);
         label++;
         }
       }
@@ -262,11 +262,11 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
         if ( NeighIdx >= 0 && NeighIdx < linecount && !m_LineMap[NeighIdx].empty() ) 
           {
           // Now check whether they are really neighbors
-          bool areNeighbors = CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
+          bool areNeighbors = this->CheckNeighbors(m_LineMap[ThisIdx][0].where, m_LineMap[NeighIdx][0].where);
           if (areNeighbors)
             {
             // Compare the two lines
-            CompareLines(m_LineMap[ThisIdx], m_LineMap[NeighIdx]);
+            this->CompareLines(m_LineMap[ThisIdx], m_LineMap[NeighIdx]);
             }
           }
         ++I;
