@@ -28,7 +28,7 @@ void test_static_const_definition()
   } while (false)
   // The Intel compiler has problems resolving static consts with this test
   // as it stands 
-#if !defined(__INTEL_COMPILER)  || defined(NDEBUG)
+#if !defined(__INTEL_COMPILER)
   ALL(bool);
   ALL(char);
   ALL(unsigned char);

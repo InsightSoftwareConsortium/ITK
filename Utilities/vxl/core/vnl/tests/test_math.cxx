@@ -16,7 +16,7 @@ void test_static_const_definition()
 {
   // The Intel compiler has problems resolving static consts with this test
   // as it stands 
-#if !defined(__INTEL_COMPILER)  || defined(NDEBUG)
+#if !defined(__INTEL_COMPILER)
   check_pointer( &vnl_math::e );
   check_pointer( &vnl_math::log2e );
   check_pointer( &vnl_math::log10e );
