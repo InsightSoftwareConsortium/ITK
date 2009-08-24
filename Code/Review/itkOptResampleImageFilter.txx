@@ -792,12 +792,9 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // get pointers to the input and output
   InputImagePointer  inputPtr  =
     const_cast< TInputImage *>( this->GetInput() );
-
+  
   // Request the entire input image
-  InputImageRegionType inputRegion;
-  inputRegion = inputPtr->GetLargestPossibleRegion();
-  inputPtr->SetLargestPossibleRegion(inputRegion);
-  inputPtr->SetRequestedRegion(inputRegion);
+  inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
   return;
 }
@@ -892,6 +889,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     outputPtr->SetOrigin( m_OutputOrigin );
     outputPtr->SetDirection( m_OutputDirection );
     }
+
   return;
 }
 
