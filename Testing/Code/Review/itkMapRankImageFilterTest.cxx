@@ -72,7 +72,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
   filter->SetRadius( r5 );
   if ( filter->GetRadius() != r5 )
     {
-    std::cerr << "Radius value is not the expected one: r5." << std::endl;
+    std::cerr << "Radius value is not the expected one: r5." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -80,7 +80,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
   filter->SetRadius( 1 );
   if ( filter->GetRadius() != r1 )
     {
-    std::cerr << "Radius value is not the expected one: r1." << std::endl;
+    std::cerr << "Radius value is not the expected one: r1." << std::endl;
     return EXIT_FAILURE;
     }
 
