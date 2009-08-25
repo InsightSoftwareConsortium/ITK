@@ -811,7 +811,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                  << nSamples << " / " << m_NumberOfSpatialSamples
                  << std::endl );
 
-  if( nSamples < m_NumberOfSpatialSamples / 4 )
+  if( nSamples < m_NumberOfSpatialSamples / 16 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
                        << nSamples << " / " << m_NumberOfSpatialSamples 
@@ -1106,7 +1106,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
                  << nSamples << " / " << m_NumberOfSpatialSamples 
                  << std::endl );
 
-  if( nSamples < m_NumberOfSpatialSamples / 4 )
+  if( nSamples < m_NumberOfSpatialSamples / 16 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
                        << nSamples << " / " << m_NumberOfSpatialSamples 

@@ -705,7 +705,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   if( this->m_NumberOfPixelsCounted <
-      this->m_NumberOfFixedImageSamples / 4 )
+      this->m_NumberOfFixedImageSamples / 16 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
                        << this->m_NumberOfPixelsCounted << " / "
@@ -1054,7 +1054,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     }
 
   if( this->m_NumberOfPixelsCounted <
-      this->m_NumberOfFixedImageSamples / 4 )
+      this->m_NumberOfFixedImageSamples / 16 )
     {
     itkExceptionMacro( "Too many samples map outside moving image buffer: "
                        << this->m_NumberOfPixelsCounted << " / "
