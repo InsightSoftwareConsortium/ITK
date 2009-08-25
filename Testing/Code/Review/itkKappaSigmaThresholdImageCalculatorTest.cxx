@@ -37,9 +37,9 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
   typedef signed short                          PixelType;
   const unsigned int                            Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
-  typedef itk::Image< char, Dimension >         MaskType;
-  typedef itk::ImageFileReader< ImageType >     ReaderType;
+  typedef itk::Image< PixelType, Dimension >     ImageType;
+  typedef itk::Image< unsigned char, Dimension > MaskType;
+  typedef itk::ImageFileReader< ImageType >      ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
