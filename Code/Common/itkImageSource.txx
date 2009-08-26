@@ -84,8 +84,12 @@ typename ImageSource<TOutputImage>::OutputImageType *
 ImageSource<TOutputImage>
 ::GetOutput(unsigned int idx)
 {
-  return dynamic_cast<TOutputImage*>
+  TOutputImage* out = dynamic_cast<TOutputImage*>
     (this->ProcessObject::GetOutput(idx));
+  if ( out == NULL ) {
+    itkWarningMacro ( << "dynamic_cast to output type failed" );
+  }
+  return out;
 }
 
 /**

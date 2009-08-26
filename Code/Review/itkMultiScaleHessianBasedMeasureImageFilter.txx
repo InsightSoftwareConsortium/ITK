@@ -186,9 +186,7 @@ MultiScaleHessianBasedMeasureImageFilter
       break;
       }
 
-    // TODO: change the to debug output
-    std::cout << "Computing measure for scale with sigma = "
-              << sigma << std::endl;
+    itkDebugMacro ( << "Computing measure for scale with sigma = " << sigma );
 
     m_HessianFilter->SetSigma( sigma );
 
@@ -243,18 +241,20 @@ MultiScaleHessianBasedMeasureImageFilter
   ImageRegionIterator<UpdateBufferType> oit( m_UpdateBuffer, outputRegion );
 
   typename ScalesImageType::Pointer scalesImage = static_cast<ScalesImageType*>(this->ProcessObject::GetOutput(1));
-  ImageRegionIterator<ScalesImageType> osit (scalesImage, outputRegion );
+  ImageRegionIterator<ScalesImageType> osit;
 
   typename HessianImageType::Pointer hessianImage = static_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
-  ImageRegionIterator<HessianImageType> ohit( hessianImage, outputRegion );
+  ImageRegionIterator<HessianImageType> ohit;
 
   oit.GoToBegin();
   if (m_GenerateScalesOutput)
     {
+    osit = ImageRegionIterator<ScalesImageType> ( scalesImage, outputRegion );
     osit.GoToBegin();
     }
   if (m_GenerateHessianOutput)
     {
+    ohit = ImageRegionIterator<HessianImageType> ( hessianImage, outputRegion );
     ohit.GoToBegin();
     }
 
