@@ -99,7 +99,6 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   while( !it1.IsAtEnd() ) 
     {
     it1.Set( 2 );
-    std::cout << it1.Get() << std::endl;
     ++it1;
     }
 
@@ -111,7 +110,6 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   while( !it2.IsAtEnd() ) 
     {
     it2.Set( 3 );
-    std::cout << it2.Get() << std::endl;
     ++it2;
     }
            
@@ -149,7 +147,7 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
     ++it3;
     }
 
-  // Exerciset the GetCheckerPattern() method
+  // Exercise the GetCheckerPattern() method
   myPatternArrayType pattern2 = filter->GetCheckerPattern();
 
   for(unsigned int k=0; k<3; k++)
@@ -166,7 +164,3 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-
