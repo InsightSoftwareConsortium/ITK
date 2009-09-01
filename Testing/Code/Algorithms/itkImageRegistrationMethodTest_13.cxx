@@ -227,7 +227,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
 
   for ( j = 9; j < 12; j++ )
     {
-    parametersScales[j] = 0.0001;
+    parametersScales[j] = 0.001;
     }
 
   optimizer->SetScales( parametersScales );
@@ -249,7 +249,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
    ******************************************************************/
   metric->SetMovingImageStandardDeviation( 5.0 );
   metric->SetFixedImageStandardDeviation( 5.0 );
-  metric->SetNumberOfSpatialSamples( 50 );
+  metric->SetNumberOfSpatialSamples( 100 );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
 
@@ -287,12 +287,12 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
 
     try
       {
-        optimizer->SetNumberOfIterations( iter[j] );
-        optimizer->SetLearningRate( rates[j] );
-        registration->SetInitialTransformParameters( initialParameters );
-        registration->Update();
+      optimizer->SetNumberOfIterations( iter[j] );
+      optimizer->SetLearningRate( rates[j] );
+      registration->SetInitialTransformParameters( initialParameters );
+      registration->Update();
      
-        initialParameters = registration->GetLastTransformParameters();
+      initialParameters = registration->GetLastTransformParameters();
 
       }
     catch( itk::ExceptionObject & e )
