@@ -559,13 +559,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>
   // normalize the distortions 
   *distortion /= ( double ) totalNumVecsInInput;
 
+  delete [] tempVec;
+
   // check for bizarre errors 
   if ( *distortion < 0.0 ) 
     {
     itkExceptionMacro(<<"Computational overflow");
     }
-
-  delete [] tempVec;
 
 }// End nearest_neighbor_search_basic
 
