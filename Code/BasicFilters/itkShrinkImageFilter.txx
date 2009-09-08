@@ -132,7 +132,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   OutputImagePointer      outputPtr = this->GetOutput();
   
     
-  // convert the factor for convenient multiplication
+  // Convert the factor for convenient multiplication
   unsigned int i;
   typename TOutputImage::SizeType  factorSize;
   for ( i=0; i < TInputImage::ImageDimension; i++ )
@@ -148,9 +148,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   typename TOutputImage::PointType tempPoint;
 
-  // use this index to compute the offset everywhere in this class
+  // Use this index to compute the offset everywhere in this class
   outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
-  inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // We wish to perform the following mapping of outputIndex to
   // inputIndex on all points in our region
@@ -165,14 +164,13 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   for ( i=0; i < TInputImage::ImageDimension; i++ )
     {
     offsetIndex[i] = inputIndex[i] - outputIndex[i]*m_ShrinkFactors[i];
-    // it is plausible that due to small amounts of loss of numerical
+    // It is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
     offsetIndex[i] = vnl_math_max( zeroOffset, offsetIndex[i] );
     }
 
-    
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   
   // Define/declare an iterator that will walk the output region for this
@@ -182,16 +180,16 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   while ( !outIt.IsAtEnd() ) 
     {
-    // determine the index and physical location of the output pixel
+    // Determine the index and physical location of the output pixel
     outputIndex = outIt.GetIndex();
 
-    // an optimized version of 
+    // An optimized version of 
     // outputPtr->TransformIndexToPhysicalPoint(outputIndex, tempPoint);
     // inputPtr->TransformPhysicalPointToIndex(tempPoint, inputIndex);
     // but without the rounding and precision issues
     inputIndex = outputIndex * factorSize + offsetIndex;
 
-    // copy the input pixel to the output
+    // Copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
     ++outIt;
 
@@ -207,10 +205,10 @@ void
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
   
-  // get pointers to the input and output
+  // Get pointers to the input and output
   InputImagePointer  inputPtr = const_cast<TInputImage *> (this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
   
@@ -229,7 +227,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     = outputPtr->GetRequestedRegion().GetIndex();
 
   
-  // convert the factor for convenient multiplication
+  // Convert the factor for convenient multiplication
   typename TOutputImage::SizeType  factorSize;
   for ( i=0; i < TInputImage::ImageDimension; i++ )
     {
@@ -243,10 +241,8 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   typename TInputImage::SizeType   inputRequestedRegionSize;
   typename TOutputImage::PointType tempPoint;
 
-
- // use this index to compute the offset everywhere in this class
+  // Use this index to compute the offset everywhere in this class
   outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
-  inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // We wish to perform the following mapping of outputIndex to
   // inputIndex on all points in our region
@@ -261,7 +257,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   for ( i=0; i < TInputImage::ImageDimension; i++ )
     {
     offsetIndex[i] = inputIndex[i] - outputIndex[i]*m_ShrinkFactors[i];
-    // it is plausible that due to small amounts of loss of numerical
+    // It is plausible that due to small amounts of loss of numerical
     // precision that the offset it negaive, this would cause sampling
     // out of out region, this is insurance against that possibility
     offsetIndex[i] = vnl_math_max( zeroOffset, offsetIndex[i] );
@@ -269,14 +265,14 @@ ShrinkImageFilter<TInputImage,TOutputImage>
 
   inputRequestedRegionIndex = outputRequestedRegionStartIndex*factorSize + offsetIndex;
 
-  // originally this was
-  // inputSize = outputRequestedRegionSize * factorSize
-  // but since we don't sample edge to edge, we can reduce the size
-  for ( i=0; i < TInputImage::ImageDimension; ++i )
-    {
-    inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * factorSize[i] + 1;
-    }
-
+  // Originally this was
+  //  for ( i=0; i < TInputImage::ImageDimension; ++i )
+  //  {
+  //  inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * factorSize[i] + 1;
+  //  }
+  // but with centered pixels we may sample edge to edge
+  
+  inputRequestedRegionSize = outputRequestedRegionSize * factorSize;
 
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetIndex( inputRequestedRegionIndex );
@@ -294,10 +290,10 @@ void
 ShrinkImageFilter<TInputImage,TOutputImage>
 ::GenerateOutputInformation()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
   
-  // get pointers to the input and output
+  // Get pointers to the input and output
   InputImageConstPointer  inputPtr  = this->GetInput();
   OutputImagePointer      outputPtr = this->GetOutput();
 
@@ -306,7 +302,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     return;
     }
   
-  // we need to compute the output spacing, the output image size, and the
+  // Compute the output spacing, the output image size, and the
   // output image start index
   unsigned int i;
   const typename TInputImage::SpacingType&
@@ -324,7 +320,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
     {
     outputSpacing[i] = inputSpacing[i] * (double) m_ShrinkFactors[i];
 
-    // we round down so that all output pixels fit input input region
+    // Round down so that all output pixels fit input input region
     outputSize[i] = (unsigned long)
       vcl_floor((double) inputSize[i] / (double) m_ShrinkFactors[i]);
 
@@ -333,7 +329,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
       outputSize[i] = 1;
       }
 
-    // because of the later origin shift this starting index is not
+    // Because of the later origin shift this starting index is not
     // critical
     outputStartIndex[i] = (long)
       vcl_ceil((double) inputStartIndex[i] / (double) m_ShrinkFactors[i] );
@@ -341,7 +337,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   
   outputPtr->SetSpacing( outputSpacing );
 
-  // compute origin offset
+  // Compute origin offset
   // The physical center's of the input and output should be the same
   ContinuousIndex<double, TOutputImage::ImageDimension> inputCenterIndex;
   ContinuousIndex<double, TOutputImage::ImageDimension> outputCenterIndex;
@@ -360,7 +356,7 @@ ShrinkImageFilter<TInputImage,TOutputImage>
   outputOrigin = outputOrigin + (inputCenterPoint - outputCenterPoint);
   outputPtr->SetOrigin(outputOrigin);
   
-  // set region
+  // Set region
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
   outputLargestPossibleRegion.SetIndex( outputStartIndex );
