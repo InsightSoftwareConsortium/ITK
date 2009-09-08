@@ -231,7 +231,7 @@ public:
    * This method is intended to be overriden by derived classes.
    * 
    */
-  bool GetInverse(Self * inverseTransform) const {return false;}
+  bool GetInverse(Self * itkNotUsed(inverseTransform) ) const {return false;}
 
   /** Return an inverse of this transform. If the inverse has not been
    *  implemented, return NULL. The type of the inverse transform
