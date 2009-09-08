@@ -42,7 +42,7 @@ namespace itk
  * GeometricalQuadEdge<...> and GeometricalQuadEdge<...>::Dual would be the
  * same types (this is simply due to the very definition of
  * GeometricalQuadEdge<...>::Dual). This would in turn make the types QEType
- * and QEDual of \ref itkQE::Mesh identical and would prevent any algorithm
+ * and QEDual of \ref QuadEdgeMesh identical and would prevent any algorithm
  * requiring to distinguish those types (e.g. by relying on a
  * dynamic_cast<QEType*>) to be effective.  This justifies the existence of
  * last dummy template parameter and it's default value.

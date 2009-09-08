@@ -32,7 +32,7 @@
 #include "itkQuadEdgeMeshFrontIterator.h"
 #include "itkConceptChecking.h"
 
-/**
+/****
  * \brief Documentation of itkQE namespace
  * \todo More comments here !
  *

@@ -70,10 +70,10 @@ public:
   Self & operator=( const ValueType r[VPointDimension] );
   
  
-  /** Accessor on \ref m_Edge */
+  /** Accessor on m_Edge */
   void SetEdge( TQuadEdge * inputEdge );
 
-  /** Accessor on \ref m_Edge */
+  /** Accessor on m_Edge */
   TQuadEdge * GetEdge();
   TQuadEdge * GetEdge() const;
 
