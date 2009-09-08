@@ -429,10 +429,10 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   const ValueType LOWER_ACTIVE_THRESHOLD = -( m_ConstantGradientValue/2.0 );
   const ValueType UPPER_ACTIVE_THRESHOLD =  m_ConstantGradientValue / 2.0;
 
-  ValueType new_value, temp_value, rms_change_accumulator;
+  ValueType new_value, temp_value;
   LayerNodeType *node, *release_node;
   StatusType neighbor_status;
-  unsigned int i, idx, counter;
+  unsigned int i, idx;
   bool bounds_status, flag;
 
   LayerIterator layerIt;
@@ -454,10 +454,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     outputIt.NeedToUseBoundaryConditionOff();
     statusIt.NeedToUseBoundaryConditionOff();
     }
-
-  // Compute the rms change in active layer values
-  counter = 0; // counter
-  rms_change_accumulator = m_ValueZero;
 
   // Iterate over the update buffer and active layer
   // Both are the same size
@@ -599,25 +595,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       UpdatePixel( this->m_CurrentFunctionIndex, outputIt.Size()/2, outputIt, new_value, bounds_status );
       }
 
-    // Update the accumulator value
-    rms_change_accumulator += vnl_math_sqr ( new_value - outputIt.GetCenterPixel() );
-
     // Move to the next active layer pixel
     ++layerIt;
     ++updateIt;
-    ++counter;
-    }
-
-  // Determine the average RMS of change during this iteration
-  if ( counter == 0 )
-    {
-    this->SetRMSChange ( static_cast<double> ( m_ValueZero ) );
-    }
-  else
-    {
-    this->SetRMSChange (
-      vcl_sqrt ( static_cast< double >( rms_change_accumulator /
-      static_cast<double> ( counter ) ) ) );
     }
 }
 
@@ -634,11 +614,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   const ValueType MIN_NORM      = 1.0e-6;
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
+  double temp;
   for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
     SparseDataStruct *sparsePtr = this->m_SparseData[i];
 
-    typename InputImageType::Pointer levelset = this->m_LevelSet[i];
+    InputImagePointer levelset = this->m_LevelSet[i];
 
     typename LayerType::ConstIterator activeIt;
     ConstNeighborhoodIterator< InputImageType > outputIt (
@@ -650,7 +631,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
     unsigned int center; // index to active layer pixel
     center = outputIt.Size()/2;
-
     ValueType dx, gradientMagnitude, gradientMagnitudeSqr,
       distance, forward, current, backward;
 
@@ -714,6 +694,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     activeIt = sparsePtr->m_Layers[0]->Begin();
     while( activeIt != sparsePtr->m_Layers[0]->End() )
       {
+      // Update the accumulator value using the update buffer
+      temp = static_cast< double > ( sparsePtr->m_UpdateBuffer.front()
+        - levelset->GetPixel ( activeIt->m_Value ) );
+      m_RMSSum += temp * temp;
+      m_RMSCounter++;
+
       levelset->SetPixel ( activeIt->m_Value, sparsePtr->m_UpdateBuffer.front() );
       ++activeIt;
       }
@@ -883,6 +869,11 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       unsigned int center = outputIt.Size()/2;
 
       UpdatePixel(sparsePtr->m_Index, center, outputIt, value, bounds_status);
+
+      // Update the rms change
+      m_RMSSum += ( value - outputIt.GetCenterPixel() ) * ( value - outputIt.GetCenterPixel() );
+      m_RMSCounter++;
+
       ++toIt;
       }
     else
@@ -975,11 +966,24 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 {
   Superclass::InitializeIteration();
 
+  m_RMSSum = 0.;
+  m_RMSCounter = 0; // counter
+
   // Set the values in the output image for the active layer.
   this->InitializeActiveLayerValues();
 
   // Initialize layer values using the active layer as seeds
   this->PropagateAllLayerValues();
+
+  // Determine the average RMS of change during this iteration
+  if ( m_RMSCounter == 0 )
+    {
+    this->SetRMSChange ( static_cast<double> ( 0. ) );
+    }
+  else
+    {
+    this->SetRMSChange ( vcl_sqrt ( m_RMSSum / m_RMSCounter ) );
+    }
 }
 
 
@@ -1341,6 +1345,12 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   this->InitializeActiveLayerValues();
   // Initialize layer values using the active layer as seeds.
   this->PropagateAllLayerValues();
+
+  // Initialize pixels outside the sparse field layers to positive
+  // and negative values, respectively. This is not necessary for the
+  // calculations, but is useful for presenting a more intuitive output to the
+  // filter.
+  this->InitializeBackgroundPixels();
 
   for ( IdCellType fId = 0; fId < this->m_FunctionCount; fId++ )
     {

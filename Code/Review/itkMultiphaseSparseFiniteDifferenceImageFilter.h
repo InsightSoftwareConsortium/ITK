@@ -538,6 +538,9 @@ private:
 
   unsigned int    m_CurrentFunctionIndex;
 
+  double       m_RMSSum;
+  unsigned int m_RMSCounter;
+
   /** This flag is true when methods need to check boundary conditions and
       false when methods do not need to check for boundary conditions. */
   bool m_BoundsCheckingActive;

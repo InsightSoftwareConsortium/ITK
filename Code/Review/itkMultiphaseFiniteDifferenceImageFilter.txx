@@ -90,12 +90,13 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   // Iterative algorithm
   TimeStepType dt;
 
+  // An optional method for precalculating global values, or setting
+  // up for the next iteration
+  this->InitializeIteration();
+  this->m_RMSChange = NumericTraits<double>::max();
+
   while ( ! this->Halt() )
     {
-    // An optional method for precalculating global values, or setting
-    // up for the next iteration
-    this->InitializeIteration();
-
     dt = this->CalculateChange();
 
     this->ApplyUpdate( dt );
@@ -111,6 +112,8 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
       this->ResetPipeline();
       throw ProcessAborted(__FILE__,__LINE__);
       }
+
+    this->InitializeIteration();
     }
 
   // Reset the state once execution is completed
