@@ -505,9 +505,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
         }
 
       // Search the neighborhood for inside indicies.
-      temp_value = new_value - m_ConstantGradientValue * m_PixelDistance[i];
       for ( i = 0; i < m_NeighborList.GetSize(); ++i )
         {
+        temp_value = new_value - m_ConstantGradientValue * m_PixelDistance[i];
         idx = m_NeighborList.GetArrayIndex ( i );
         neighbor_status = statusIt.GetPixel ( idx );
         // 1 is first negative layer that will come into the active layer
