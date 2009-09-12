@@ -216,7 +216,7 @@ int itkAmoebaOptimizerTest(int, char* [] )
 
 
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
-
+  std::cout << "itkOptimizer->GetCostFunction(): " << itkOptimizer->GetCostFunction() << std::endl;
 
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 

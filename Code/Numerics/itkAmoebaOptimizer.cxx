@@ -169,6 +169,7 @@ AmoebaOptimizer
   CostFunctionAdaptorType * adaptor = 
     new CostFunctionAdaptorType( numberOfParameters );
        
+  SingleValuedNonLinearOptimizer::SetCostFunction( costFunction );
   adaptor->SetCostFunction( costFunction );
 
   if( m_OptimizerInitialized )
