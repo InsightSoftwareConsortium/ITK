@@ -95,7 +95,7 @@ public:
   itkGetMacro( DefaultStepLength, double );
 
   /** Return Current Value */
-  MeasureType GetValue();
+  MeasureType GetValue() const;
 
   /** Get the reason for termination */
   const std::string GetStopConditionDescription() const;

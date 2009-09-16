@@ -183,9 +183,9 @@ LBFGSOptimizer
 /** Return Current Value */
 LBFGSOptimizer::MeasureType
 LBFGSOptimizer
-::GetValue()
+::GetValue() const
 {
-  return this->GetNonConstCostFunctionAdaptor()->f(this->GetCurrentPosition());
+  return this->GetCachedValue();
 }
 
 /**

@@ -138,7 +138,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
   itkOptimizer->SetGradientConvergenceTolerance( 1e-3 );
   itkOptimizer->SetLineSearchAccuracy( 0.1 );
   itkOptimizer->SetDefaultStepLength( 5.0 );
-
+  std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance 
