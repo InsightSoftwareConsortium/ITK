@@ -808,6 +808,74 @@ ADD_TEST(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
   ${INPUTDATA}/genusZeroSurface01.vtk
   )
 
+ADD_TEST(itkVTKPolyDataReaderTest2 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/sphereBinary.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest1 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad1.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest2 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad2.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest3 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad3.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest4 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad4.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest5 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad5.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest6 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad6.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest7 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad7.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest8 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad8.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest9 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad9.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest10 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad10.vtk
+  )
+
+SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
+  itkVTKPolyDataReaderBadTest1
+  itkVTKPolyDataReaderBadTest2
+  itkVTKPolyDataReaderBadTest3
+  itkVTKPolyDataReaderBadTest4
+  itkVTKPolyDataReaderBadTest5
+  itkVTKPolyDataReaderBadTest6
+  itkVTKPolyDataReaderBadTest7
+  itkVTKPolyDataReaderBadTest8
+  itkVTKPolyDataReaderBadTest9
+  itkVTKPolyDataReaderBadTest10
+  PROPERTIES WILL_FAIL true)
+
 ADD_TEST(itkVTKPolyDataWriterTest01 ${REVIEW_TESTS}
   itkVTKPolyDataWriterTest
   ${TEMP}/VTKPolyDataWriterTest01.vtk
