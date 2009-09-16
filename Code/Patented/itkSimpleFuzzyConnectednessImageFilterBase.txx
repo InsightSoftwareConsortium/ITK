@@ -195,6 +195,8 @@ SimpleFuzzyConnectednessImageFilterBase<TInputImage,TOutputImage>
   m_FuzzyScene->Allocate();  
   m_FuzzyScene->FillBuffer( 0 );
 
+  m_FuzzyScene->CopyInformation(m_InputImage);
+
   RegionType region1;
   region1.SetSize(m_Size);
   region1.SetIndex(index);

@@ -88,6 +88,16 @@ int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
   inputimg->SetRequestedRegion( region );
   inputimg->Allocate();
 
+  UShortImage2D::PointType origin;
+  UShortImage2D::SpacingType spacing;
+  UShortImage2D::DirectionType direction;
+  origin[0] = 1.0; origin[1] = 10.0;
+  spacing[0] = 1.0; spacing[1] = 2.0;
+  direction.SetIdentity();
+  direction(1,1) = -1.0;
+  inputimg->SetOrigin(origin);
+  inputimg->SetSpacing(spacing);
+  inputimg->SetDirection(direction);
 
 
 /* Testing Image:
@@ -129,6 +139,8 @@ int itkSimpleFuzzyConnectednessScalarImageFilterTest(int, char* [] ){
   testFuzzy->SetParameters(270.0,2500.0,1.0,1.0,1.0);
   testFuzzy->SetThreshold(0.5);
   testFuzzy->Update();
+  testFuzzy->GetOutput()->Print(std::cout);
+  testFuzzy->GetFuzzyScene()->Print(std::cout);
 
 /* printout the segmentation result */
   std::cout<<"Segmentation Result"<<std::endl;
