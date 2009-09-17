@@ -171,14 +171,16 @@ public:
                       CoordRepType,PointsContainer>   BoundingBoxType;
 
   /** Create types that are pointers to each of the container types. */
-  typedef typename PointsContainer::Pointer       PointsContainerPointer;
-  typedef typename CellsContainer::Pointer        CellsContainerPointer;
-  typedef typename CellsContainer::ConstPointer   CellsContainerConstPointer;
-  typedef typename CellLinksContainer::Pointer    CellLinksContainerPointer;
-  typedef typename PointDataContainer::Pointer    PointDataContainerPointer;
-  typedef typename CellDataContainer::Pointer     CellDataContainerPointer;
-  typedef typename PointLocatorType::Pointer      PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer       BoundingBoxPointer;
+  typedef typename PointsContainer::Pointer           PointsContainerPointer;
+  typedef typename CellsContainer::Pointer            CellsContainerPointer;
+  typedef typename CellsContainer::ConstPointer       CellsContainerConstPointer;
+  typedef typename CellLinksContainer::Pointer        CellLinksContainerPointer;
+  typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
+  typedef typename CellDataContainer::Pointer         CellDataContainerPointer;
+  typedef typename CellDataContainer::ConstPointer    CellDataContainerConstPointer;
+  typedef typename PointLocatorType::Pointer          PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer           BoundingBoxPointer;
+  typedef typename CellLinksContainer::ConstPointer   CellLinksContainerConstPointer;
 
   /** Create types that are iterators for each of the container types. */
   typedef typename
@@ -282,7 +284,7 @@ protected:
   /** An object containing parent cell links for each point.  Since a point
    *  can be used by multiple cells, each point identifier accesses another
    *  container which holds the cell identifiers */
-  CellLinksContainerPointer  m_CellLinksContainer;
+  mutable CellLinksContainerPointer  m_CellLinksContainer;
 
   /** A vector of objects containing explicit cell boundary assignments.
    *  The vector is indexed by the topological dimension of the cell
@@ -428,7 +430,7 @@ public:
 #endif
   /** Dynamically build the links from points back to their using cells.  This
    * information is stored in the cell links container, not in the points. */
-  void BuildCellLinks();
+  void BuildCellLinks() const;
 
 #ifndef CABLE_CONFIGURATION
   /** Get the bounding box of a cell in the mesh. The user
@@ -440,7 +442,7 @@ public:
   /** This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more
    *  information.  (Note, this follows the Visitor Design Pattern.) */
-  virtual void Accept(CellMultiVisitorType* mv);
+  virtual void Accept(CellMultiVisitorType* mv) const;
 #endif
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks

@@ -22,6 +22,7 @@
 
 namespace itk
 {
+
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
@@ -70,25 +71,12 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPoints()
 {
+  const InputMeshType * in = this->GetInput();
+  OutputMeshType * out = this->GetOutput();
 
-  InputMeshConstPointer in = this->GetInput();
-  OutputMeshPointer out = this->GetOutput();
-
-  // Copy points
-  InputPointsContainerConstPointer inPoints = in->GetPoints();
-
-  if( inPoints )
-    {
-    InputPointsContainerConstIterator inIt = inPoints->Begin();
-    while( inIt != inPoints->End() )
-      {
-      OutputPointType pOut;
-      pOut.CastFrom( inIt.Value() );
-      out->SetPoint( inIt.Index(), pOut );
-      inIt++;
-      } 
-    }
+  CopyMeshToMeshPoints( in, out );
 }
+
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
@@ -96,26 +84,10 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshEdgeCells()
 {
-  InputMeshConstPointer in = this->GetInput();
-  OutputMeshPointer out = this->GetOutput();
+  const InputMeshType * in = this->GetInput();
+  OutputMeshType * out = this->GetOutput();
 
-  // Copy Edge Cells
-  InputCellsContainerConstPointer inEdgeCells = in->GetEdgeCells();
-
-  if( inEdgeCells )
-    {
-    InputCellsContainerConstIterator ecIt = inEdgeCells->Begin();
-    while( ecIt != inEdgeCells->End() )
-      {
-      InputEdgeCellType* pe = dynamic_cast< InputEdgeCellType* >( ecIt.Value());
-      if( pe )
-        {
-        out->AddEdgeWithSecurePointList( pe->GetQEGeom()->GetOrigin(),
-                                         pe->GetQEGeom()->GetDestination() );
-        }
-      ecIt++;
-      }
-    }
+  CopyMeshToMeshEdgeCells( in, out );
 }
 
 
@@ -125,32 +97,10 @@ void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCells()
 {
-  InputMeshConstPointer in = this->GetInput();
-  OutputMeshPointer out = this->GetOutput();
+  const InputMeshType * in = this->GetInput();
+  OutputMeshType * out = this->GetOutput();
 
-  // Copy cells
-  InputCellsContainerConstPointer inCells = in->GetCells();
-
-  if( inCells )
-    {
-    InputCellsContainerConstIterator cIt = inCells->Begin();
-    while( cIt != inCells->End() )
-      {
-      InputPolygonCellType * pe = dynamic_cast< InputPolygonCellType* >( cIt.Value());
-      if( pe )
-        {
-        InputPointIdList points;
-        InputPointsIdInternalIterator pit = pe->InternalPointIdsBegin();
-        while( pit != pe->InternalPointIdsEnd( ) )
-          {
-          points.push_back( ( *pit ) );
-          ++pit;
-          }
-        out->AddFaceWithSecurePointList( points, false );
-        }
-      cIt++;
-      }
-    }
+  CopyMeshToMeshCells( in, out );
 }
 
 // ---------------------------------------------------------------------
@@ -160,33 +110,10 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPointData()
 {
 
-  InputMeshConstPointer in = this->GetInput();
-  OutputMeshPointer out = this->GetOutput();
+  const InputMeshType * in = this->GetInput();
+  OutputMeshType * out = this->GetOutput();
 
-  typedef typename OutputPointDataContainer::Pointer      OutputPointDataContainerPointer;
-
-  InputPointDataContainerConstPointer inputPointData = in->GetPointData();
-
-  if( inputPointData.IsNull() )
-    {
-    // There is nothing to copy
-    itkWarningMacro("Input mesh point data is NULL");
-    return;
-    }
-
-  OutputPointDataContainerPointer outputPointData = OutputPointDataContainer::New();
-  outputPointData->Reserve( inputPointData->Size() );
-
-  // Copy point data
-  typedef typename InputPointDataContainer::ConstIterator  InputPointDataContainerConstIterator;
-  InputPointDataContainerConstIterator inIt = inputPointData->Begin();
-  while( inIt != inputPointData->End() )
-    {
-    outputPointData->SetElement( inIt.Index(), inIt.Value() );
-    inIt++;
-    } 
-
-  out->SetPointData( outputPointData );
+  CopyMeshToMeshPointData( in, out );
 }
 
 
@@ -197,34 +124,12 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCellData()
 {
 
-  InputMeshConstPointer in = this->GetInput();
-  OutputMeshPointer out = this->GetOutput();
+  const InputMeshType * in = this->GetInput();
+  OutputMeshType * out = this->GetOutput();
 
-  typedef typename InputCellDataContainer::ConstPointer  InputCellDataContainerConstPointer;
-  typedef typename OutputCellDataContainer::Pointer      OutputCellDataContainerPointer;
-
-  InputCellDataContainerConstPointer inputCellData = in->GetCellData();
-
-  if( inputCellData.IsNull() )
-    {
-    // There is nothing to copy
-    return;
-    }
-
-  OutputCellDataContainerPointer outputCellData = OutputCellDataContainer::New();
-  outputCellData->Reserve( inputCellData->Size() );
-
-  // Copy point data
-  typedef typename InputCellDataContainer::ConstIterator  InputCellDataContainerConstIterator;
-  InputCellDataContainerConstIterator inIt = inputCellData->Begin();
-  while( inIt != inputCellData->End() )
-    {
-    outputCellData->SetElement( inIt.Index(), inIt.Value() );
-    inIt++;
-    } 
-
-  out->SetCellData( outputCellData );
+  CopyMeshToMeshCellData( in, out );
 }
+
 } // end namespace itk
 
 #endif 

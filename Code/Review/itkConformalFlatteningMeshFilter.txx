@@ -101,16 +101,6 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   Superclass::PrintSelf(os,indent);
 }
 
-/**
- *
- */
-template <class TInputMesh, class TOutputMesh>
-void
-ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::SetInput(TInputMesh *input)
-{
-  this->ProcessObject::SetNthInput(0, input);
-}
 
 /**
  * This method causes the filter to generate its output.
@@ -123,13 +113,14 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
-  typedef typename TInputMesh::PointsContainerPointer
-    InputPointsContainerPointer;
+  typedef typename TInputMesh::PointsContainerConstPointer
+    InputPointsContainerConstPointer;
+
   typedef typename TOutputMesh::PointsContainerPointer
     OutputPointsContainerPointer;
 
-  InputMeshPointer    inputMesh      =  this->GetInput();
-  OutputMeshPointer   outputMesh     =  this->GetOutput();
+  InputMeshConstPointer inputMesh      =  this->GetInput();
+  OutputMeshPointer     outputMesh     =  this->GetOutput();
 
   if( !inputMesh )
     {
@@ -143,7 +134,6 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 
-  InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = outputMesh->GetPoints();
 
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
@@ -151,7 +141,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   outPoints->Reserve( numberOfPoints );
   outPoints->Squeeze();  // in case the previous mesh had
                          // allocated a larger memory
-                  
+
   unsigned int i;
 
   SparseMatrixCoordType D(numberOfPoints,numberOfPoints);
@@ -468,7 +458,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   numIter += numIter/10; // let the iteration times a little more than the dimension
 
   double tol = 1e-6;
-  
+
   for ( i = 0; i <= numIter; ++i)
     {
     VectorCoordType Dxd;
@@ -545,12 +535,12 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
       std::vector<double> v_r2(numberOfPoints);
       std::vector<double>::iterator itv_r2=v_r2.begin();
-    
-      for (i = 0; i < numberOfPoints;  ++i, ++itv_r2) 
+
+      for (i = 0; i < numberOfPoints;  ++i, ++itv_r2)
         {
           *itv_r2 = x(i)*x(i) + y(i)*y(i);
         }
-          
+
       std::sort(v_r2.begin(), v_r2.end());
       unsigned int uiMidPointIdx = 0;
       if( numberOfPoints % 2 )
@@ -619,11 +609,10 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     << " " << bounds[4] << " " << bounds[5]);
 
   //Create duplicate references to the rest of data on the mesh
-
-  outputMesh->SetPointData( inputMesh->GetPointData() );
-  outputMesh->SetCellLinks( inputMesh->GetCellLinks() );
-  outputMesh->SetCells( inputMesh->GetCells() );
-  outputMesh->SetCellData( inputMesh->GetCellData() );
+  this->CopyInputMeshToOutputMeshPointData();
+  this->CopyInputMeshToOutputMeshCellLinks();
+  this->CopyInputMeshToOutputMeshCells();
+  this->CopyInputMeshToOutputMeshCellData();
 
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 

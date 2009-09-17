@@ -18,6 +18,8 @@
 #ifndef __itkQuadEdgeMeshSmoothing_txx
 #define __itkQuadEdgeMeshSmoothing_txx
 
+#include "itkQuadEdgeMeshSmoothing.h"
+
 namespace itk
 {
 template< class TInputMesh, class TOutputMesh >
@@ -85,7 +87,7 @@ GenerateData()
       }
     else
       {
-      mesh = this->GetInput();
+      mesh = this->GetOutput();
       }
     }
 

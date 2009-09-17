@@ -52,20 +52,28 @@ public:
   itkTypeMacro(MeshToMeshFilter,MeshSource);
 
   /** Some convenient typedefs. */
-  typedef TInputMesh                      InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  typedef TInputMesh                       InputMeshType;
+  typedef typename InputMeshType::Pointer  InputMeshPointer;
+  typedef TOutputMesh                      OutputMeshType;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
   
   /** Set the mesh input of this process object.  */
-  void SetInput(InputMeshType *input);
+  void SetInput( const InputMeshType *input);
 
   /** Get the mesh input of this process object.  */
-  InputMeshType * GetInput(void);
-  InputMeshType * GetInput(unsigned int idx);
+  const InputMeshType * GetInput(void) const;
+  const InputMeshType * GetInput(unsigned int idx) const;
   
 protected:
   MeshToMeshFilter();
   ~MeshToMeshFilter() {};
   
+  void CopyInputMeshToOutputMeshPoints();
+  void CopyInputMeshToOutputMeshPointData();
+  void CopyInputMeshToOutputMeshCellLinks();
+  void CopyInputMeshToOutputMeshCells();
+  void CopyInputMeshToOutputMeshCellData();
+
 private:
   MeshToMeshFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

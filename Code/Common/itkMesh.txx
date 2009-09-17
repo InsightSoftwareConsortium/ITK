@@ -79,6 +79,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                 << m_CellLinksContainer );
   return m_CellLinksContainer;
 }
+
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainer *
 Mesh<TPixelType, VDimension, TMeshTraits>
@@ -955,23 +956,26 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::Accept(CellMultiVisitorType* mv)
+::Accept(CellMultiVisitorType* mv) const
 {
-  if(!m_CellsContainer)
+  if(! this->m_CellsContainer)
     {
     return;
     }
-  for(CellsContainerIterator i = m_CellsContainer->Begin();
-      i != m_CellsContainer->End(); ++i)
+
+  CellsContainerConstIterator itr =  this->m_CellsContainer->Begin();
+ 
+  while( itr !=  this->m_CellsContainer->End() )
     {
-    if( i->Value() )
+    if( itr->Value() )
       {
-      i->Value()->Accept(i->Index(), mv);
+      itr->Value()->Accept(itr->Index(), mv);
       }
     else
       {
-      itkDebugMacro("Null cell at " << i->Index());
+      itkDebugMacro("Null cell at " << itr->Index());
       }
+    ++itr;
     }
 }
 
@@ -983,7 +987,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>
-::BuildCellLinks()
+::BuildCellLinks() const
 {
   /**
    * Make sure we have a cells and a points container.
@@ -1001,7 +1005,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>
    */
   if( !m_CellLinksContainer )
     {
-    this->SetCellLinks(CellLinksContainer::New());
+    this->m_CellLinksContainer = CellLinksContainer::New();
     }
 
   /**
@@ -1213,7 +1217,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>
                       << typeid(data).name() << " to "
                       << typeid(Self*).name() );
     }
-
 
   this->m_CellsContainer     = mesh->m_CellsContainer;
   this->m_CellDataContainer  = mesh->m_CellDataContainer;

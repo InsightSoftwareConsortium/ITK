@@ -18,7 +18,8 @@
 #include "itkSimplexMesh.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 
-int itkSimplexMeshWithFloatCoordRepTest(int, char* []) {
+int itkSimplexMeshWithFloatCoordRepTest(int, char* []) 
+{
    const unsigned int Dimension = 3;
 
    typedef float                                                    PixelType;

@@ -77,7 +77,3 @@ int itkSimplexMeshAdaptTopologyFilterTest( int , char * [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

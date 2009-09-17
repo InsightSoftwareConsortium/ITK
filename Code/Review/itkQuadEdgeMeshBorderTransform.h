@@ -44,7 +44,7 @@ public:
   typedef SmartPointer< const Self >                    ConstPointer;
 
   typedef TInputMesh                                    InputMeshType;
-  typedef typename InputMeshType::Pointer               InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer          InputMeshConstPointer;
   typedef typename InputMeshType::CoordRepType          InputCoordRepType;
   typedef typename InputMeshType::PointType             InputPointType;
   typedef typename InputMeshType::Traits                InputTraits;

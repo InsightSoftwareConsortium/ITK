@@ -68,7 +68,7 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   typedef typename TInputMesh::PointDataContainerPointer  InputPointDataContainerPointer;
   typedef typename TOutputMesh::PointDataContainerPointer OutputPointDataContainerPointer;
 
-  InputMeshPointer    inputMesh      =  this->GetInput();
+  const InputMeshType * inputMesh    =  this->GetInput();
   OutputMeshPointer   outputMesh     =  this->GetOutput();
   
   if( !inputMesh )
@@ -83,12 +83,12 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 
-  InputPointsContainerPointer  inPoints  = inputMesh->GetPoints();
+  const InputPointsContainer *  inPoints = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = OutputPointsContainer::New();
 
   outPoints->Reserve( inputMesh->GetNumberOfPoints() );
                          
-  InputPointDataContainerPointer  inData  = inputMesh->GetPointData();
+  const InputPointDataContainer *  inData = inputMesh->GetPointData();
   OutputPointDataContainerPointer outData = OutputPointDataContainer::New();
 
   outData->Reserve( inputMesh->GetNumberOfPoints() );

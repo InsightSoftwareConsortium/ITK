@@ -118,7 +118,7 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
   typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
   typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
-  InputMeshPointer    inputMesh      =  this->GetInput();
+  const InputMeshType * inputMesh    =  this->GetInput();
   OutputMeshPointer   outputMesh     =  this->GetOutput();
   
   if( !inputMesh )
@@ -309,7 +309,3 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

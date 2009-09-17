@@ -143,7 +143,3 @@ int itkInteriorExteriorMeshFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

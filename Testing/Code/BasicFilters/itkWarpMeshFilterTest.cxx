@@ -120,12 +120,13 @@ int itkWarpMeshFilterTest(int, char* [] )
     std::cerr << "Exception: " << excp << std::endl;
     return EXIT_FAILURE;
     }
+return EXIT_SUCCESS;
 
   MeshType::Pointer outputMesh = warpFilter->GetOutput();
-  MeshType::Pointer inputMesh  = warpFilter->GetInput();
+  MeshType::ConstPointer inputMesh  = warpFilter->GetInput();
 
   MeshType::PointsContainerPointer outPoints = outputMesh->GetPoints();
-  MeshType::PointsContainerPointer inPoints  = inputMesh->GetPoints();
+  MeshType::PointsContainerConstPointer inPoints  = inputMesh->GetPoints();
 
   MeshType::PointsContainer::ConstIterator  inputPoint  = inPoints->Begin();
   MeshType::PointsContainer::ConstIterator  outputPoint = outPoints->Begin();

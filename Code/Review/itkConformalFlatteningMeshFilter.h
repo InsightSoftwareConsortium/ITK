@@ -54,7 +54,7 @@ public:
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
-  typedef typename InputMeshType::Pointer      InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer InputMeshConstPointer;
   typedef typename OutputMeshType::Pointer     OutputMeshPointer;
   typedef typename InputMeshType::PointType    InputPointType;
   typedef typename OutputMeshType::PointType   OutputPointType;
@@ -68,8 +68,6 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConformalFlatteningMeshFilter,MeshToMeshFilter);
-
-  void SetInput(TInputMesh *input);
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   itkStaticConstMacro(InputPointDimension, unsigned int,

@@ -65,17 +65,17 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
-  typedef typename TInputMesh::PointsContainerPointer  InputPointsContainerPointer;
+  typedef typename TInputMesh::PointsContainerConstPointer  InputPointsContainerConstPointer;
   typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
 
   typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
   typedef typename TOutputMesh::PointDataContainer OutputPointDataContainer;
 
-  typedef typename TInputMesh::PointDataContainerPointer  InputPointDataContainerPointer;
+  typedef typename TInputMesh::PointDataContainerConstPointer  InputPointDataContainerConstPointer;
   typedef typename TOutputMesh::PointDataContainerPointer OutputPointDataContainerPointer;
 
-  InputMeshPointer    inputMesh      =  this->GetInput();
-  OutputMeshPointer   outputMesh     =  this->GetOutput();
+  const InputMeshType * inputMesh =  this->GetInput();
+  OutputMeshPointer    outputMesh =  this->GetOutput();
   
   if( !inputMesh )
     {
@@ -95,8 +95,8 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 
-  InputPointsContainerPointer     inPoints  = inputMesh->GetPoints();
-  InputPointDataContainerPointer  inData    = inputMesh->GetPointData();
+  InputPointsContainerConstPointer inPoints  = inputMesh->GetPoints();
+  InputPointDataContainerConstPointer inData = inputMesh->GetPointData();
 
   typename InputPointsContainer::ConstIterator inputPoint = inPoints->Begin();
   typename InputPointDataContainer::ConstIterator  inputData;
@@ -143,11 +143,10 @@ InteriorExteriorMeshFilter<TInputMesh,TOutputMesh,TSpatialFunction>
     }
 
   // Create duplicate references to the rest of data in the mesh
-  outputMesh->SetCellLinks(  inputMesh->GetCellLinks() );
-  
-  outputMesh->SetCells(  inputMesh->GetCells() );
-  outputMesh->SetCellData(  inputMesh->GetCellData() );
-  
+  this->CopyInputMeshToOutputMeshCellLinks();
+  this->CopyInputMeshToOutputMeshCells();
+  this->CopyInputMeshToOutputMeshCellData();
+
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
   for( unsigned int dim = 0; dim < maxDimension; dim++ )

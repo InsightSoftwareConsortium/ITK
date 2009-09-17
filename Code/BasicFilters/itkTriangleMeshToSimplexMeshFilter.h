@@ -70,9 +70,10 @@ public:
 
   typedef typename TInputMesh::BoundaryAssignmentsContainerPointer InputBoundaryAssignmentsContainerPointer;
 
-  typedef typename TInputMesh::PointsContainer    InputPointsContainer;
-  typedef typename InputPointsContainer::Pointer  InputPointsContainerPointer;
-  typedef typename InputPointsContainer::Iterator InputPointsContainerIterator;
+  typedef typename TInputMesh::PointsContainer          InputPointsContainer;
+  typedef typename InputPointsContainer::Pointer        InputPointsContainerPointer;
+  typedef typename InputPointsContainer::Iterator       InputPointsContainerIterator;
+  typedef typename InputPointsContainer::ConstIterator  InputPointsContainerConstIterator;
 
   typedef typename TOutputMesh::Pointer                   OutputMeshPointer;
   typedef typename TOutputMesh::PointType                 OutputPointType;

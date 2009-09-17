@@ -79,7 +79,3 @@ int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-
