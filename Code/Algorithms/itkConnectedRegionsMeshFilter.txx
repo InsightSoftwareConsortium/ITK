@@ -137,11 +137,11 @@ void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
 ::GenerateData()
 {
-  InputMeshPointer input = this->GetInput();
+  InputMeshConstPointer input = this->GetInput();
   OutputMeshPointer output = this->GetOutput();
-  InputMeshPointsContainerPointer inPts = input->GetPoints();
-  InputMeshCellsContainerPointer inCells = input->GetCells();
-  InputMeshCellDataContainerPointer inCellData = input->GetCellData();
+  InputMeshPointsContainerConstPointer inPts = input->GetPoints();
+  InputMeshCellsContainerConstPointer inCells = input->GetCells();
+  InputMeshCellDataContainerConstPointer inCellData = input->GetCellData();
 
   itkDebugMacro(<<"Executing connectivity");
 
@@ -217,7 +217,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
     m_NumberOfCellsInRegion = 0;
     if ( m_ExtractionMode == PointSeededRegions )
       {
-      InputMeshCellLinksContainerPointer cellLinks;
+      InputMeshCellLinksContainerConstPointer cellLinks;
       cellLinks = input->GetCellLinks();
       InputMeshCellLinksContainer links;
       typename std::set<InputMeshCellIdentifier>::iterator citer;
@@ -249,7 +249,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
       double minDist2=NumericTraits<double>::max(), dist2;
       InputMeshPointIdentifier minId = 0;
       InputMeshPointType x;
-      for (PointsContainerConstIterator piter=inPts->Begin();
+      for (PointsContainerConstIterator piter = inPts->Begin();
            piter != inPts->End(); ++piter)
         {
         x = piter->Value();
@@ -262,7 +262,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
         }
 
       // get the cells using the closest point and use them as seeds
-      InputMeshCellLinksContainerPointer cellLinks;
+      InputMeshCellLinksContainerConstPointer cellLinks;
       cellLinks = input->GetCellLinks();
       InputMeshCellLinksContainer links;
       typename std::set<InputMeshCellIdentifier>::iterator citer;
@@ -287,8 +287,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
   itkDebugMacro (<<"Extracted " << m_RegionNumber << " region(s)");
 
   // Pass the point and point data through
-  output->SetPoints(inPts);
-  output->SetPointData(input->GetPointData());
+  this->CopyInputMeshToOutputMeshPoints();
+  this->CopyInputMeshToOutputMeshPointData();
   
   // Create output cells
   //
@@ -413,12 +413,11 @@ void
 ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>
 ::PropagateConnectedWave()
 {
-  InputMeshPointer input = this->GetInput();
+  InputMeshConstPointer input = this->GetInput();
   unsigned long cellId;
   InputMeshCellPointer cellPtr;
   InputMeshPointIdConstIterator piter;
-  InputMeshCellLinksContainerPointer cellLinks;
-  cellLinks = input->GetCellLinks();
+  InputMeshCellLinksContainerConstPointer cellLinks = input->GetCellLinks();
   InputMeshCellLinksContainer links;
 
   std::vector<unsigned long>::iterator i;

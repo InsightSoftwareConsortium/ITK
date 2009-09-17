@@ -77,6 +77,10 @@ public:
   InputPointsContainerPointer;
   typedef typename InputMeshType::PointsContainer::Iterator
   InputPointsContainerIterator;
+  typedef typename InputMeshType::PointsContainerConstPointer
+  InputPointsContainerConstPointer;
+  typedef typename InputMeshType::PointsContainer::ConstIterator
+  InputPointsContainerConstIterator;
   typedef typename InputMeshType::PointDataContainerPointer
   InputPointDataContainerPointer;
   typedef typename InputMeshType::PointDataContainer::Iterator
@@ -89,6 +93,15 @@ public:
   InputCellDataContainerPointer;
   typedef typename InputMeshType::CellDataContainer::Iterator
   InputCellDataContainerIterator;
+  typedef typename InputMeshType::CellsContainerConstPointer
+  InputCellsContainerConstPointer;
+  typedef typename InputMeshType::CellsContainer::ConstIterator
+  InputCellsContainerConstIterator;
+  typedef typename InputMeshType::CellDataContainerConstPointer
+  InputCellDataContainerConstPointer;
+  typedef typename InputMeshType::CellDataContainer::ConstIterator
+  InputCellDataContainerConstIterator;
+
   typedef typename OutputMeshType::PointsContainerPointer
   OutputPointsContainerPointer;
   typedef typename OutputMeshType::PointsContainer::Iterator
@@ -102,6 +115,7 @@ public:
   typedef CovariantVector<PixelType, 2>         GradientType;
   typedef Image<GradientType, 2>                GradientImageType;
   typedef typename InputMeshType::Pointer       InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer  InputMeshConstPointer;
   typedef typename OutputMeshType::Pointer      OutputMeshPointer;
   typedef typename ImageType::Pointer           ImagePointer;
   typedef typename ImageType::IndexType         IndexType;

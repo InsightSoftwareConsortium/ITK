@@ -297,6 +297,8 @@ RegularSphereMeshSource<TOutputMesh>
 
     // set output
     outputMesh->Graft(result);
+
+    result->SetCells( NULL );
     }
 }
 

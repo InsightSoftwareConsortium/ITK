@@ -92,9 +92,9 @@ public:
   typedef TInputMesh  InputMeshType;
   typedef TOutputMesh OutputMeshType;
 
-  typedef typename InputMeshType::PointsContainerPointer     InputPointsContainerPointer;
-  typedef typename InputMeshType::PointsContainer            InputPointsContainer;
-  typedef typename InputMeshType::PointsContainer::Iterator  InputPointsContainerIterator;
+  typedef typename InputMeshType::PointsContainerPointer          InputPointsContainerPointer;
+  typedef typename InputMeshType::PointsContainer                 InputPointsContainer;
+  typedef typename InputMeshType::PointsContainer::ConstIterator  InputPointsContainerConstIterator;
 
   /** Other definitions. */
   typedef typename SimplexMeshGeometry::PointType     PointType;

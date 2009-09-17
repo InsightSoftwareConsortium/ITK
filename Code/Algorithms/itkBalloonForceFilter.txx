@@ -167,8 +167,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Normals = InputMeshType::New();
   m_Locations = InputMeshType::New();
 
-  InputPointsContainerPointer      myPoints = this->GetInput(0)->GetPoints();
-  InputPointsContainerIterator     points = myPoints->Begin();
+  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputPointsContainerConstPointer  myPoints = inputMesh->GetPoints();
+  InputPointsContainerConstIterator points = myPoints->Begin();
 
   InputPointsContainerPointer      myForces = m_Forces->GetPoints();
   myForces->Reserve(m_NumberOfNodes);
@@ -190,11 +191,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   myLocations->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     locations = myLocations->Begin();
 
-  InputCellsContainerPointer       myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator      cells = myCells->Begin();
+  InputCellsContainerConstPointer       myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator      cells = myCells->Begin();
 
-  InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
-  InputCellDataContainerIterator   celldata = myCellData->Begin();
+  InputCellDataContainerConstPointer    myCellData = inputMesh->GetCellData();
+  InputCellDataContainerConstIterator   celldata = myCellData->Begin();
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
 
@@ -944,11 +945,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer    myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator   locations = myLocations->Begin();
 
-  InputCellsContainerPointer     myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator    cells = myCells->Begin();
+  InputMeshConstPointer inputMesh = this->GetInput(0);
 
-  InputCellDataContainerPointer  myCellData = this->GetInput(0)->GetCellData();
-  InputCellDataContainerIterator celldata = myCellData->Begin();
+  InputCellsContainerConstPointer   myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator  cells = myCells->Begin();
+
+  InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
+  InputCellDataContainerConstIterator celldata = myCellData->Begin();
 
     {
     for (unsigned int i=0; i<m_NumberOfNodes; i++)

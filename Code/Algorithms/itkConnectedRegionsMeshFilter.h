@@ -68,7 +68,7 @@ public:
    */
   typedef TInputMesh                               InputMeshType;
   typedef TOutputMesh                              OutputMeshType;
-  typedef typename TInputMesh::Pointer             InputMeshPointer;
+  typedef typename TInputMesh::ConstPointer        InputMeshConstPointer;
   typedef typename TOutputMesh::Pointer            OutputMeshPointer;
 
   itkStaticConstMacro( PointDimension, unsigned int,
@@ -76,14 +76,18 @@ public:
 
   typedef typename TInputMesh::PointType           InputMeshPointType;
   typedef typename TInputMesh::PointIdentifier     InputMeshPointIdentifier;
-  typedef typename TInputMesh::PointsContainerPointer 
-                                                   InputMeshPointsContainerPointer;
+  typedef typename TInputMesh::PointsContainerConstPointer 
+                                                   InputMeshPointsContainerConstPointer;
   typedef typename TInputMesh::CellsContainer      InputMeshCellsContainer;
   typedef typename TInputMesh::CellsContainerPointer 
                                                    InputMeshCellsContainerPointer;
+  typedef typename TInputMesh::CellsContainerConstPointer 
+                                                   InputMeshCellsContainerConstPointer;
   typedef typename TInputMesh::CellDataContainer   InputMeshCellDataContainer;
   typedef typename TInputMesh::CellDataContainerPointer 
                                                    InputMeshCellDataContainerPointer;
+  typedef typename TInputMesh::CellDataContainerConstPointer 
+                                                   InputMeshCellDataContainerConstPointer;
   typedef typename InputMeshType::PointsContainer::ConstIterator 
                                                    PointsContainerConstIterator;
   typedef typename InputMeshType::CellsContainer::ConstIterator
@@ -93,8 +97,8 @@ public:
   typedef typename TInputMesh::CellAutoPointer     InputMeshCellPointer;
   typedef typename TInputMesh::CellTraits::PointIdConstIterator 
                                                    InputMeshPointIdConstIterator;
-  typedef typename TInputMesh::CellLinksContainerPointer
-                                                   InputMeshCellLinksContainerPointer;
+  typedef typename TInputMesh::CellLinksContainerConstPointer
+                                                   InputMeshCellLinksContainerConstPointer;
   typedef typename TInputMesh::PointCellLinksContainer
                                                    InputMeshCellLinksContainer;
   typedef typename TInputMesh::CellIdentifier      InputMeshCellIdentifier;

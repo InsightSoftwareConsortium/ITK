@@ -122,8 +122,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_Normals         = InputMeshType::New();
   m_Locations       = InputMeshType::New();
 
-  InputPointsContainerPointer      myPoints = this->GetInput(0)->GetPoints();
-  InputPointsContainerIterator     points = myPoints->Begin();
+  InputMeshConstPointer             inputMesh = this->GetInput(0);
+  InputPointsContainerConstPointer  myPoints = inputMesh->GetPoints();
+  InputPointsContainerConstIterator points = myPoints->Begin();
 
   InputPointsContainerPointer      myForces = m_Forces->GetPoints();
   myForces->Reserve(m_NumberOfNodes);
@@ -145,10 +146,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   myLocations->Reserve(m_NumberOfNodes);
   InputPointsContainerIterator     locations = myLocations->Begin();
 
-  InputCellsContainerPointer       myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator      cells = myCells->Begin(); 
-
-  InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin(); 
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
 
@@ -279,8 +278,9 @@ void
 DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 ::SetMeshStiffness () 
 { 
-  InputCellDataContainerPointer    myCellData = this->GetInput(0)->GetCellData();
-  InputCellDataContainerIterator   celldata = myCellData->Begin();
+  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
+  InputCellDataContainerConstIterator celldata = myCellData->Begin();
 
   m_K = new StiffnessMatrixRawPointer[m_NumberOfCells];
 
@@ -304,8 +304,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   int i; 
   const unsigned long *tp;
 
-  InputCellsContainerPointer  myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator cells = myCells->Begin();
+  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin();
 
   InputPointsContainerPointer  myForces = m_Forces->GetPoints();
   InputPointsContainerIterator forces = myForces->Begin();
@@ -475,11 +476,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer    myLocations = m_Locations->GetPoints();
   InputPointsContainerIterator   locations = myLocations->Begin();
 
-  InputCellsContainerPointer     myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator    cells = myCells->Begin(); 
+  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputCellsContainerConstPointer     myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator    cells = myCells->Begin(); 
   
-  InputCellDataContainerPointer  myCellData = this->GetInput(0)->GetCellData();
-  InputCellDataContainerIterator celldata = myCellData->Begin(); 
+  InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
+  InputCellDataContainerConstIterator celldata = myCellData->Begin(); 
   
   i = 0;
   for (; i<m_NumberOfNodes; i++) 
@@ -776,8 +778,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   double coa, cob, coc;
   double absvec;
 
-  InputCellsContainerPointer    myCells = this->GetInput(0)->GetCells();
-  InputCellsContainerIterator   cells = myCells->Begin();
+  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputCellsContainerConstPointer    myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator   cells = myCells->Begin();
 
   InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
   InputPointsContainerIterator  normals = myNormals->Begin();
