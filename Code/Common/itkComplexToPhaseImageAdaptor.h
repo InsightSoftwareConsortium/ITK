@@ -29,7 +29,7 @@ namespace Accessor {
  *
  * ComplexToPhasePixelAccessor is templated over an internal type and an
  * external type representation. The internal type is an std::complex<T> and
- * the external part is a type T. This class cast the input applies the funtion
+ * the external part is a type T. This class cast the input applies the function
  * to it and cast the result according to the types defined as template
  * parameters
  *

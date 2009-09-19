@@ -29,7 +29,7 @@ namespace Accessor {
  *
  * AcosPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
- * applies the funtion to it and cast the result according 
+ * applies the function to it and cast the result according 
  * to the types defined as template parameters
  * 
  * \ingroup ImageAdaptors */

@@ -28,7 +28,7 @@ namespace Accessor {
  * \brief Give access to Luminance of a color pixel type.
  *
  * RGBToLuminancePixelAccessor is templated over an internal type and an
- * external type representation. This class cast the input applies the funtion
+ * external type representation. This class cast the input applies the function
  * to it and cast the result according to the types defined as template
  * parameters. The input pixel type must support the GetLuminance() method.
  * This is the case of the RGBPixel class for example.
