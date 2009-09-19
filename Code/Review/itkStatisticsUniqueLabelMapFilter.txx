@@ -18,6 +18,7 @@
 #define __itkStatisticsUniqueLabelMapFilter_txx
 
 #include "itkStatisticsUniqueLabelMapFilter.h"
+#include "itkStatisticsLabelObjectAccessors.h"
 
 
 namespace itk {
