@@ -68,7 +68,7 @@ typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVect
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetInitialProportions() 
 {
-  return m_InitialProportions;
+  return &m_InitialProportions;
 }
 
 template< class TSample >
