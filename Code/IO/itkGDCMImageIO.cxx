@@ -1866,6 +1866,9 @@ void GDCMImageIO::Write(const void* buffer)
   //Smarter approach using real iterators
   itk::MetaDataDictionary::ConstIterator itr = dict.Begin();
   itk::MetaDataDictionary::ConstIterator end = dict.End();
+  gdcm::StringFilter sf;
+  sf.SetFile( writer.GetFile() );
+
   while(itr != end)
     {
     const std::string &key = itr->first; //Needed for bcc32
@@ -1912,9 +1915,10 @@ void GDCMImageIO::Write(const void* buffer)
         if(!tag.IsGroupLength()) // Get rid of group length, they are not useful
           {
           gdcm::DataElement de( tag );
-          de.SetByteValue( value.c_str(), value.size() );
           if( dictEntry.GetVR().IsVRFile() )
             de.SetVR( dictEntry.GetVR() );
+          std::string si = sf.FromString( tag, value.c_str(), value.size() );
+          de.SetByteValue( si.c_str(), si.size() );
           header.Insert( de ); //value, tag.GetGroup(), tag.GetElement());
           }
         }
@@ -2080,22 +2084,25 @@ void GDCMImageIO::Write(const void* buffer)
 
   // Compute the outpixeltype
   gdcm::PixelFormat outpixeltype = gdcm::PixelFormat::UNKNOWN;
-  if( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
+  if( pixeltype == gdcm::PixelFormat::FLOAT32 || pixeltype == gdcm::PixelFormat::FLOAT64 )
     {
-    outpixeltype.SetBitsAllocated( atoi(bitsAllocated.c_str()) );
-    outpixeltype.SetBitsStored( atoi(bitsStored.c_str()) );
-    outpixeltype.SetHighBit( atoi(highBit.c_str()) );
-    outpixeltype.SetPixelRepresentation( atoi(pixelRep.c_str()) );
-    if( this->GetNumberOfComponents() != 1 )
+    if( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
       {
-      itkExceptionMacro(<<"Sorry Dave I can't do that" );
+      outpixeltype.SetBitsAllocated( atoi(bitsAllocated.c_str()) );
+      outpixeltype.SetBitsStored( atoi(bitsStored.c_str()) );
+      outpixeltype.SetHighBit( atoi(highBit.c_str()) );
+      outpixeltype.SetPixelRepresentation( atoi(pixelRep.c_str()) );
+      if( this->GetNumberOfComponents() != 1 )
+        {
+        itkExceptionMacro(<<"Sorry Dave I can't do that" );
+        }
+      assert( outpixeltype != gdcm::PixelFormat::UNKNOWN );
       }
-    assert( outpixeltype != gdcm::PixelFormat::UNKNOWN );
-    }
-  else
-    {
-    itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
-      "This is currently not supported" );
+    else
+      {
+      itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
+        "This is currently not supported" );
+      }
     }
 
   image.SetPhotometricInterpretation( pi );
