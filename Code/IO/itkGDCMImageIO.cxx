@@ -19,6 +19,7 @@
 =========================================================================*/
 #include "gdcmFile.h"
 
+#include "itkVersion.h"
 #include "itkGDCMImageIO.h"
 #include "itkIOCommon.h"
 #include "itkPoint.h"
@@ -1848,6 +1849,11 @@ void GDCMImageIO::Write(const void* buffer)
   // global static:
   gdcm::UIDGenerator::SetRoot( m_UIDPrefix.c_str() );
 
+  // echo "ITK" | od -b
+  gdcm::FileMetaInformation::AppendImplementationClassUID( "111.124.113" );
+  const std::string project_name = std::string("GDCM/ITK ") + itk::Version::GetITKVersion();
+  gdcm::FileMetaInformation::SetSourceApplicationEntityTitle( project_name.c_str() );
+
   gdcm::ImageWriter writer;
   gdcm::DataSet &header = writer.GetFile().GetDataSet();
   gdcm::Global &g = gdcm::Global::GetInstance();
@@ -1983,6 +1989,47 @@ void GDCMImageIO::Write(const void* buffer)
   image.SetDirectionCosines(4,m_Direction[1][1]);
   image.SetDirectionCosines(5,m_Direction[1][2]);
 
+  // reset any previous value:
+  m_RescaleSlope = 1.0;
+  m_RescaleIntercept = 0.0;
+
+  // Get user defined rescale slope/intercept
+  std::string rescaleintercept;
+  ExposeMetaData<std::string>(dict, "0028|1052" , rescaleintercept);
+  std::string rescaleslope;
+  ExposeMetaData<std::string>(dict, "0028|1053" , rescaleslope);
+  if( rescaleintercept != "" && rescaleslope != "" )
+    {
+    itksys_ios::stringstream sstr1;
+    sstr1 << rescaleintercept;
+    if( ! (sstr1 >> m_RescaleIntercept) )
+      {
+      itkExceptionMacro( "Problem reading RescaleIntercept: " << rescaleintercept );
+      }
+    itksys_ios::stringstream sstr2;
+    sstr2 << rescaleslope;
+    if( !(sstr2 >> m_RescaleSlope) )
+      {
+      itkExceptionMacro( "Problem reading RescaleSlope: " << rescaleslope );
+      }
+    // header->InsertValEntry( "US", 0x0028, 0x1054 ); // Rescale Type
+    }
+  else if( rescaleintercept != "" || rescaleslope != "" ) // xor
+    {
+    itkExceptionMacro( "Both RescaleSlope & RescaleIntercept need to be present" );
+    }
+ 
+  // Handle the bitDepth:
+  std::string bitsAllocated;
+  std::string bitsStored;
+  std::string highBit;
+  std::string pixelRep;
+  // Get user defined bit representation:
+  ExposeMetaData<std::string>(dict, "0028|0100", bitsAllocated);
+  ExposeMetaData<std::string>(dict, "0028|0101", bitsStored);
+  ExposeMetaData<std::string>(dict, "0028|0102", highBit);
+  ExposeMetaData<std::string>(dict, "0028|0103", pixelRep);
+
   gdcm::PixelFormat pixeltype = gdcm::PixelFormat::UNKNOWN;
   switch (this->GetComponentType())
     {
@@ -2005,8 +2052,12 @@ void GDCMImageIO::Write(const void* buffer)
     pixeltype = gdcm::PixelFormat::UINT32;
     break;
     //Disabling FLOAT and DOUBLE for now...
-    //case ImageIOBase::FLOAT:
-    //case ImageIOBase::DOUBLE:
+  case ImageIOBase::FLOAT:
+    pixeltype = gdcm::PixelFormat::FLOAT32;
+    break;
+  case ImageIOBase::DOUBLE:
+    pixeltype = gdcm::PixelFormat::FLOAT64;
+    break;
   default:
     itkExceptionMacro(<<"DICOM does not support this component type");
     }
@@ -2027,17 +2078,61 @@ void GDCMImageIO::Write(const void* buffer)
     }
   pixeltype.SetSamplesPerPixel( this->GetNumberOfComponents() );
 
+  // Compute the outpixeltype
+  gdcm::PixelFormat outpixeltype = gdcm::PixelFormat::UNKNOWN;
+  if( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
+    {
+    outpixeltype.SetBitsAllocated( atoi(bitsAllocated.c_str()) );
+    outpixeltype.SetBitsStored( atoi(bitsStored.c_str()) );
+    outpixeltype.SetHighBit( atoi(highBit.c_str()) );
+    outpixeltype.SetPixelRepresentation( atoi(pixelRep.c_str()) );
+    if( this->GetNumberOfComponents() != 1 )
+      {
+      itkExceptionMacro(<<"Sorry Dave I can't do that" );
+      }
+    assert( outpixeltype != gdcm::PixelFormat::UNKNOWN );
+    }
+  else
+    {
+    itkExceptionMacro(<<"A Floating point buffer was passed but the stored pixel type was not specified."
+      "This is currently not supported" );
+    }
+
   image.SetPhotometricInterpretation( pi );
-  image.SetPixelFormat( pixeltype );
+  if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
+    image.SetPixelFormat( outpixeltype );
+  else
+    image.SetPixelFormat( pixeltype );
   unsigned long len = image.GetBufferLength();
 
   size_t numberOfBytes = this->GetImageSizeInBytes();
-  assert( len == numberOfBytes );
 
   gdcm::DataElement pixeldata( gdcm::Tag(0x7fe0,0x0010) );
-  // only do a straight copy:
-  pixeldata.SetByteValue( (char*)buffer, numberOfBytes );
+  // Handle rescaler here:
+  // Whenever shift / scale is needed... do it !
+  if( m_RescaleIntercept != 0 || m_RescaleSlope != 1 )
+    {
+    // rescale from float to unsigned short
+    gdcm::Rescaler ir;
+    ir.SetIntercept( m_RescaleIntercept );
+    ir.SetSlope( m_RescaleSlope );
+    ir.SetPixelFormat( pixeltype );
+    ir.SetMinMaxForPixelType( outpixeltype.GetMin(), outpixeltype.GetMax() );
+    image.SetIntercept( m_RescaleIntercept );
+    image.SetSlope( m_RescaleSlope );
+    char* copy = new char[len];
+    ir.InverseRescale(copy,(char*)buffer,numberOfBytes );
+    pixeldata.SetByteValue( copy, len);
+    delete[] copy;
+    }
+  else
+    {
+    assert( len == numberOfBytes );
+    // only do a straight copy:
+    pixeldata.SetByteValue( (char*)buffer, numberOfBytes );
+    }
   image.SetDataElement( pixeldata );
+
 
   // Handle compression here:
   // If user ask to use compression:
