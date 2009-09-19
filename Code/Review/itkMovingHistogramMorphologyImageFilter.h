@@ -30,7 +30,8 @@ class MorphologyHistogram
 public:
   MorphologyHistogram()
     {
-    if( UseVectorBasedAlgorithm() )
+    m_UseVectorBasedAlgorithm = UseVectorBasedAlgorithm();
+    if( m_UseVectorBasedAlgorithm )
       { initVector(); }
     }
   ~MorphologyHistogram(){}
@@ -52,7 +53,7 @@ public:
 
   inline void AddBoundary()
     {
-    if( UseVectorBasedAlgorithm() )
+    if( m_UseVectorBasedAlgorithm )
       { AddBoundaryVector(); }
     else
       { AddBoundaryMap(); }
@@ -60,7 +61,7 @@ public:
 
   inline void RemoveBoundary()
     {
-    if( UseVectorBasedAlgorithm() )
+    if( m_UseVectorBasedAlgorithm )
       { RemoveBoundaryVector(); }
     else
       { RemoveBoundaryMap(); }
@@ -68,7 +69,7 @@ public:
 
   inline void AddPixel( const TInputPixel &p )
     {
-    if( UseVectorBasedAlgorithm() )
+    if( m_UseVectorBasedAlgorithm )
       { AddPixelVector( p ); }
     else
       { AddPixelMap( p ); }
@@ -76,7 +77,7 @@ public:
 
   inline void RemovePixel( const TInputPixel &p )
     {
-    if( UseVectorBasedAlgorithm() )
+    if( m_UseVectorBasedAlgorithm )
       { RemovePixelVector( p ); }
     else
       { RemovePixelMap( p ); }
@@ -84,7 +85,7 @@ public:
 
   inline TInputPixel GetValue( const TInputPixel & )
     {
-    if( UseVectorBasedAlgorithm() )
+    if( m_UseVectorBasedAlgorithm )
       { return GetValueVector(); }
     else
       { return GetValueMap(); }
@@ -102,7 +103,8 @@ public:
         || typeid(TInputPixel) == typeid(bool);
     }
 
-
+  bool m_UseVectorBasedAlgorithm;
+  
   //
   // the map based algorithm
   //
