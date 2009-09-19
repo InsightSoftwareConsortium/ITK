@@ -173,12 +173,14 @@ public:
    * this binary structure in memory since it can consume lot of memory. Therefore
    * any field that is bigger than the default value 0xfff is discarded and just seek'd 
    * This method allow advanced user to force the reading of such field
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
   itkSetMacro(MaxSizeLoadEntry, long);
 
   /** Parse any sequences in the DICOM file. Defaults to the value of
    *  LoadSequencesDefault. Loading DICOM files is faster when
    *  sequences are not needed.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
   itkSetMacro(LoadSequences, bool);
   itkGetConstMacro(LoadSequences, bool);
@@ -187,6 +189,7 @@ public:
   /** Parse any private tags in the DICOM file. Defaults to the value
    * of LoadPrivateTagsDefault. Loading DICOM files is faster when
    * private tags are not needed.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
    */
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
@@ -197,7 +200,9 @@ public:
    * ivar LoadSequences is initialized to the value of
    * LoadSequencesDefault.  This method is useful when relying on the
    * IO factory mechanism to load images rather than specifying a
-   * particular ImageIO object on the readers. Default is false. */
+   * particular ImageIO object on the readers. Default is false.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
+   */
   static void SetLoadSequencesDefault(bool b)
     { m_LoadSequencesDefault = b; }
   static void LoadSequencesDefaultOn()
@@ -212,7 +217,9 @@ public:
    * ivar LoadPrivateTags is initialized to the value of
    * LoadPrivateTagsDefault.  This method is useful when relying on the
    * IO factory mechanism to load images rather than specifying a
-   * particular ImageIO object on the readers. Default is false. */
+   * particular ImageIO object on the readers. Default is false.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
+   */
   static void SetLoadPrivateTagsDefault(bool b)
     { m_LoadPrivateTagsDefault = b; }
   static void LoadPrivateTagsDefaultOn()

@@ -42,6 +42,8 @@
 #include "gdcmDictSet.h"  // access to dictionary
 #else
 #include "gdcmImageHelper.h"
+#include "gdcmFileExplicitFilter.h"
+#include "gdcmImageChangeTransferSyntax.h"
 #include "gdcmDataSetHelper.h"
 #include "gdcmStringFilter.h"
 #include "gdcmImageApplyLookupTable.h"
@@ -72,9 +74,11 @@ public:
 };
 
 // Initialize static members
-/*
+
+/* WARNING GDCM 1.x only WARNING Those options have no effect on GDCM 2.x as parsing is fast enough
+ *
  * m_LoadPrivateTagsDefault:
- * When this flag is set to false, GDCM will try to use the value stored in each private Group Length attribute value.
+ * When this flag is set to false, GDCM 1.x will try to use the value stored in each private Group Length attribute value.
  * This is a modest optimization feature that can be found in some ACR-NEMA file and/or DICOM pre-2008 file.
  * Because it is required by the standard that DICOM file reader can read file where Group Length attribute value
  * would be invalid, turning this flag to off, on the one hand might lead to some speed improvement, but on the
@@ -1903,7 +1907,8 @@ void GDCMImageIO::Write(const void* buffer)
           {
           gdcm::DataElement de( tag );
           de.SetByteValue( value.c_str(), value.size() );
-          de.SetVR( dictEntry.GetVR() );
+          if( dictEntry.GetVR().IsVRFile() )
+            de.SetVR( dictEntry.GetVR() );
           header.Insert( de ); //value, tag.GetGroup(), tag.GetElement());
           }
         }
@@ -1950,7 +1955,9 @@ void GDCMImageIO::Write(const void* buffer)
   //std::cout << header << std::endl;
 
   //this->SetNumberOfDimensions(3);
-  gdcm::Image &image = writer.GetImage();
+  //gdcm::Image &image = writer.GetImage();
+  gdcm::SmartPointer<gdcm::Image> simage = new gdcm::Image;
+  gdcm::Image &image = *simage;
   image.SetNumberOfDimensions( 2 ); // good default
   image.SetDimension(0, m_Dimensions[0] );
   image.SetDimension(1, m_Dimensions[1] );
@@ -2032,6 +2039,36 @@ void GDCMImageIO::Write(const void* buffer)
   pixeldata.SetByteValue( (char*)buffer, numberOfBytes );
   image.SetDataElement( pixeldata );
 
+  // Handle compression here:
+  // If user ask to use compression:
+  if( m_UseCompression )
+    {
+    gdcm::ImageChangeTransferSyntax change;
+    if( m_CompressionType == JPEG )
+      {
+      change.SetTransferSyntax( gdcm::TransferSyntax::JPEGLosslessProcess14_1 );
+      }
+    else if ( m_CompressionType == JPEG2000 )
+      {
+      change.SetTransferSyntax( gdcm::TransferSyntax::JPEG2000Lossless );
+      }
+    else
+      {
+      itkExceptionMacro(<< "Unknown compression type" );
+      }
+    change.SetInput( image );
+    bool b = change.Change();
+    if( !b )
+      {
+      itkExceptionMacro(<< "Could not change the Transfer Syntax for Compression" );
+      }
+    writer.SetImage( change.GetOutput() );
+    }
+  else
+    {
+    writer.SetImage( image );
+    }
+
   if( !m_KeepOriginalUID )
     {
     // UID generation part:
@@ -2046,20 +2083,31 @@ void GDCMImageIO::Write(const void* buffer)
       m_FrameOfReferenceInstanceUID = uid.Generate();
       }
     //std::string uid = uid.Generate();
-  const char *studyuid = m_StudyInstanceUID.c_str();
-    {
-    gdcm::DataElement de( gdcm::Tag(0x0020,0x000d) ); // Study
-    de.SetByteValue( studyuid, strlen(studyuid) );
-    de.SetVR( gdcm::Attribute<0x0020, 0x000d>::GetVR() );
-    header.Insert( de );
+    const char *studyuid = m_StudyInstanceUID.c_str();
+      {
+      gdcm::DataElement de( gdcm::Tag(0x0020,0x000d) ); // Study
+      de.SetByteValue( studyuid, strlen(studyuid) );
+      de.SetVR( gdcm::Attribute<0x0020, 0x000d>::GetVR() );
+      header.Insert( de );
+      }
+    const char *seriesuid = m_SeriesInstanceUID.c_str();
+      {
+      gdcm::DataElement de( gdcm::Tag(0x0020,0x000e) ); // Series
+      de.SetByteValue( seriesuid, strlen(seriesuid) );
+      de.SetVR( gdcm::Attribute<0x0020, 0x000e>::GetVR() );
+      header.Insert( de );
+      }
     }
-  const char *seriesuid = m_SeriesInstanceUID.c_str();
+
+  if( image.GetTransferSyntax() != gdcm::TransferSyntax::ImplicitVRLittleEndian )
     {
-    gdcm::DataElement de( gdcm::Tag(0x0020,0x000e) ); // Series
-    de.SetByteValue( seriesuid, strlen(seriesuid) );
-    de.SetVR( gdcm::Attribute<0x0020, 0x000e>::GetVR() );
-    header.Insert( de );
-    }
+    gdcm::FileExplicitFilter fef;
+    //fef.SetChangePrivateTags( true );
+    fef.SetFile( writer.GetFile() );
+    if(!fef.Change())
+      {
+      itkExceptionMacro(<<"Failed to change to Explicit Transfer Syntax");
+      }
     }
 
   const char *filename = m_FileName.c_str();
