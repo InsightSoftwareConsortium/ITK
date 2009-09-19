@@ -813,6 +813,11 @@ ADD_TEST(itkVTKPolyDataReaderTest2 ${REVIEW_TESTS}
   ${INPUTDATA}/sphereBinary.vtk
   )
 
+ADD_TEST(itkVTKPolyDataReaderBadTest0 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad0.vtk
+  )
+
 ADD_TEST(itkVTKPolyDataReaderBadTest1 ${REVIEW_TESTS}
   itkVTKPolyDataReaderTest
   ${INPUTDATA}/vtkPolyDataBad1.vtk
@@ -864,6 +869,7 @@ ADD_TEST(itkVTKPolyDataReaderBadTest10 ${REVIEW_TESTS}
   )
 
 SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
+  itkVTKPolyDataReaderBadTest0
   itkVTKPolyDataReaderBadTest1
   itkVTKPolyDataReaderBadTest2
   itkVTKPolyDataReaderBadTest3
