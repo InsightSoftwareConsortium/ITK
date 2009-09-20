@@ -1206,7 +1206,8 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
        * Old behavior was to skip SQ, Pixel Data element. I decided that it is not safe to mime64
        * VR::UN element. There used to be a bug in gdcm 1.2.0 and VR:UN element.
        */
-      if ( tag.IsPublic() && vr != gdcm::VR::SQ && tag != gdcm::Tag(0x7fe0,0x0010) /* && vr != gdcm::VR::UN*/ )
+      if ( (m_LoadPrivateTags || tag.IsPublic()) && vr != gdcm::VR::SQ 
+        && tag != gdcm::Tag(0x7fe0,0x0010) /* && vr != gdcm::VR::UN*/ )
         {
         const gdcm::ByteValue *bv = ref.GetByteValue();
         if( bv )
@@ -1231,7 +1232,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream& file)
     else /* if ( vr & gdcm::VR::VRASCII ) */
       {
       // Only copying field from the public DICOM dictionary
-      if( tag.IsPublic() )
+      if( m_LoadPrivateTags || tag.IsPublic() )
         {
         EncapsulateMetaData<std::string>(dico, PrintAsPipeSeparatedString(tag), sf.ToString( tag ) );
         }
