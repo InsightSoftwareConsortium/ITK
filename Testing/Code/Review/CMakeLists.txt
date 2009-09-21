@@ -868,6 +868,41 @@ ADD_TEST(itkVTKPolyDataReaderBadTest10 ${REVIEW_TESTS}
   ${INPUTDATA}/vtkPolyDataBad10.vtk
   )
 
+ADD_TEST(itkVTKPolyDataReaderBadTest11 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad11.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest12 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad12.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest13 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad13.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest14 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad14.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest15 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad15.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest16 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad16.vtk
+  )
+
+ADD_TEST(itkVTKPolyDataReaderBadTest17 ${REVIEW_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad17.vtk
+  )
+
 SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
   itkVTKPolyDataReaderBadTest0
   itkVTKPolyDataReaderBadTest1
@@ -880,6 +915,13 @@ SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
   itkVTKPolyDataReaderBadTest8
   itkVTKPolyDataReaderBadTest9
   itkVTKPolyDataReaderBadTest10
+  itkVTKPolyDataReaderBadTest11
+  itkVTKPolyDataReaderBadTest12
+  itkVTKPolyDataReaderBadTest13
+  itkVTKPolyDataReaderBadTest14
+  itkVTKPolyDataReaderBadTest15
+  itkVTKPolyDataReaderBadTest16
+  itkVTKPolyDataReaderBadTest17
   PROPERTIES WILL_FAIL true)
 
 ADD_TEST(itkVTKPolyDataWriterTest01 ${REVIEW_TESTS}
