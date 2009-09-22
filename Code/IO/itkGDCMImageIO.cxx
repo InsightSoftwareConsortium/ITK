@@ -1918,8 +1918,13 @@ void GDCMImageIO::Write(const void* buffer)
           gdcm::DataElement de( tag );
           if( dictEntry.GetVR().IsVRFile() )
             de.SetVR( dictEntry.GetVR() );
+#if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION <= 12
+          // This will not work in the vast majority of cases but to get at least something working in GDCM 2.0.12
+          de.SetByteValue( value.c_str(), value.size() );
+#else
           std::string si = sf.FromString( tag, value.c_str(), value.size() );
           de.SetByteValue( si.c_str(), si.size() );
+#endif
           header.Insert( de ); //value, tag.GetGroup(), tag.GetElement());
           }
         }
