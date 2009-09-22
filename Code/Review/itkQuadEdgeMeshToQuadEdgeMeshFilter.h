@@ -103,6 +103,7 @@ protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
   virtual ~QuadEdgeMeshToQuadEdgeMeshFilter() { }
 
+  virtual void CopyMeshToMesh(const TInputMesh * in, TOutputMesh * out);
   virtual void CopyInputMeshToOutputMesh();
   virtual void CopyInputMeshToOutputMeshGeometry();
   virtual void CopyInputMeshToOutputMeshPoints();

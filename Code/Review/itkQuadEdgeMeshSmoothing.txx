@@ -44,7 +44,7 @@ template< class TInputMesh, class TOutputMesh >
 void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::
 GenerateData()
 {
-  OutputMeshPointer mesh;
+  OutputMeshPointer mesh = OutputMeshType::New();
 
   OutputPointsContainerPointer temp = OutputPointsContainer::New();
   temp->Reserve( this->GetInput()->GetNumberOfPoints() );
@@ -87,7 +87,7 @@ GenerateData()
       }
     else
       {
-      mesh = this->GetOutput();
+      this->CopyMeshToMesh(this->GetInput(), mesh);
       }
     }
 
