@@ -82,6 +82,7 @@ public:
 
   /** Set if the Optimizer should Maximize the metric */
   itkSetMacro( Maximize, bool );
+  itkBooleanMacro( Maximize);
   itkGetConstReferenceMacro( Maximize, bool );
 
   /** Set/Get maximum iteration limit. */

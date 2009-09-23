@@ -92,6 +92,16 @@ public:
   /** Set if the Optimizer should Maximize the metric */
   itkSetMacro( Maximize, bool );
   itkBooleanMacro( Maximize );
+  itkGetConstReferenceMacro( Maximize, bool );
+
+  bool GetMinimize( ) const
+    { return !m_Maximize; }
+  void SetMinimize(bool v)
+    { this->SetMaximize(!v); }
+  void    MinimizeOn(void) 
+    { SetMaximize( false ); }
+  void    MinimizeOff(void) 
+    { SetMaximize( true ); }
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro( MaximumIteration, unsigned int );
@@ -134,6 +144,9 @@ public:
 
   /** Return Current Iteration */
   itkGetConstReferenceMacro( CurrentIteration, unsigned int);
+
+  /** Return if optimizer has been initialized */
+  itkGetConstReferenceMacro( Initialized, bool);
 
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
