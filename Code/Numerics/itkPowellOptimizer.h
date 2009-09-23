@@ -128,10 +128,10 @@ public:
   void StopOptimization() 
     { m_Stop = true; }
 
-  itkGetMacro(CatchGetValueException, bool);
+  itkGetConstReferenceMacro(CatchGetValueException, bool);
   itkSetMacro(CatchGetValueException, bool);
 
-  itkGetMacro(MetricWorstPossibleValue, double);
+  itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
   const std::string GetStopConditionDescription() const;
