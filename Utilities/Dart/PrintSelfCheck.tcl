@@ -304,6 +304,16 @@ proc check_printself { filename } {
             } elseif { $verbose } {
               puts "\tIvar Issue:\t\tCan't find $class_name.i.$ivar"
             }
+          } elseif { [string match Get* "$token"] == 1 } {
+            set token_end [expr [string wordend $data $start ] - 1]
+            set ivar [string range $token 3 end]
+            set ivar [string trim $ivar]
+
+            if { [list_contains "$class_name.i.$ivar"] == 1 } {
+              set class_list($class_name.i.$ivar) 1
+            } elseif { $verbose } {
+              puts "\tIvar Issue:\t\tCan't find $class_name.i.$ivar"
+            }
           } elseif { [string compare "this" $token] == 0 } {
             set start [expr $start + 2]
             set token_end [expr [string wordend $data $start ] - 1]
