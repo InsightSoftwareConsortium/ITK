@@ -28,7 +28,7 @@ template <class TInputImage, class TOutputImage, class TKernel>
 KernelImageFilter<TInputImage, TOutputImage, TKernel>
 ::KernelImageFilter()
 {
-  this->SetRadius( 1 );
+  this->SetRadius( 1UL );
 }
 
 
