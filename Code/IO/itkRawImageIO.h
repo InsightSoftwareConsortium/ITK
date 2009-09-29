@@ -36,7 +36,7 @@ namespace itk
  *
  * This class reads and writes 2D or 3D images. Because raw data has 
  * little useful information built into the format,
- * so the user is responsible for specifying pixel type, 
+ * the user is responsible for specifying pixel type, 
  * dimensions, spacing, origin, header type, and so on. (Note: the
  * pixel type and image dimension is defined via the template parameter.)
  *
