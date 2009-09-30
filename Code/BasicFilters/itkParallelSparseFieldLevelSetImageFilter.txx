@@ -1198,6 +1198,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 
       // Create the temporary output image
       str->Filter->m_OutputImageTemp = OutputImageType::New();
+      str->Filter->m_OutputImageTemp->CopyInformation(str->Filter->m_OutputImage);
       str->Filter->m_OutputImageTemp->SetRegions(str->Filter->m_OutputImage->GetRequestedRegion());
       str->Filter->m_OutputImageTemp->Allocate();
       }
@@ -2636,7 +2637,8 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
   Superclass::PrintSelf(os, indent);
 
   unsigned int i;
-  os << indent << "m_IsoSurfaceValue: " << m_IsoSurfaceValue << std::endl;
+  os << indent << "m_NumberOfLayers: " << NumericTraits<StatusType>::PrintType(this->GetNumberOfLayers()) << std::endl;
+  os << indent << "m_IsoSurfaceValue: " << this->GetIsoSurfaceValue() << std::endl;
   os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
   unsigned int ThreadId;
   for (ThreadId=0; ThreadId < m_NumOfThreads; ThreadId++)
