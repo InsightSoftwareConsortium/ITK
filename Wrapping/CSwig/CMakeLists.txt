@@ -303,6 +303,13 @@ SET(SWIG_INC
   ${ITK_TOP}/Wrapping/CSwig/IO
   ${ITK_TOP}/Wrapping/CSwig/Algorithms
   )
+IF(ITK_USE_SYSTEM_VXL)
+  SET(SWIG_INC
+    ${SWIG_INC}
+    ${VXL_VCL_INCLUDE_DIR}
+    ${VXL_CORE_INCLUDE_DIR}
+    )
+ENDIF(ITK_USE_SYSTEM_VXL)
 ADD_DEFINITIONS(-DSWIG_GLOBAL)
 
 SET(ITK_KITS VXLNumerics CommonA CommonB Numerics
