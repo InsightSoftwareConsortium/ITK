@@ -267,7 +267,11 @@ ADD_TEST(itkNormalizedCorrelationImageFilterTest ${BASIC_FILTERS_TESTS3}
              ${ITK_DATA_ROOT}/Input/sf4.png ${ITK_DATA_ROOT}/Input/circle.png ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
 ADD_TEST(itkObjectMorphologyImageFilterTest ${BASIC_FILTERS_TESTS1} itkObjectMorphologyImageFilterTest)
 ADD_TEST(itkOrImageFilterTest ${BASIC_FILTERS_TESTS1} itkOrImageFilterTest)
-ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS1} itkParallelSparseFieldLevelSetImageFilterTest)
+ADD_TEST(itkParallelSparseFieldLevelSetImageFilterTest ${BASIC_FILTERS_TESTS1}
+   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ParallelSparseFieldLevelSetImageFilterTest.mha
+             ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
+              itkParallelSparseFieldLevelSetImageFilterTest
+              ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha) 
 ADD_TEST(itkPathToChainCodePathFilterTest ${BASIC_FILTERS_TESTS1} itkPathToChainCodePathFilterTest)
 ADD_TEST(itkPathToImageFilterTest ${BASIC_FILTERS_TESTS1} itkPathToImageFilterTest)
 ADD_TEST(itkPermuteAxesImageFilterTest ${BASIC_FILTERS_TESTS1} itkPermuteAxesImageFilterTest)

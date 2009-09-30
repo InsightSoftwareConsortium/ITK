@@ -21,7 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkLevelSetFunction.h"
 #include "itkParallelSparseFieldLevelSetImageFilter.h"
 
-//#include "itkImageFileWriter.h"
+#include "itkImageFileWriter.h"
 
 /*
  * This test exercises the dense p.d.e. solver framework
@@ -104,9 +104,9 @@ class MorphFunction : public LevelSetFunction< Image<float, 3> >
 {
 public:
   void SetDistanceTransform (Image<float, 3> *d)
-    {
+  {
     m_DistanceTransform = d;
-    }
+  }
   
   typedef MorphFunction Self;
 
@@ -114,7 +114,7 @@ public:
   typedef Superclass::RadiusType RadiusType;
   typedef Superclass::GlobalDataStruct GlobalDataStruct;
   
-   /** 
+  /** 
    * Smart pointer support for this class.
    */
   typedef SmartPointer<Self> Pointer;
@@ -134,22 +134,22 @@ protected:
   ~MorphFunction() {}
 
   MorphFunction()
-    {
+  {
     RadiusType r;
     r[0] = r[1] = r[2] = 1;
     Superclass::Initialize(r);
-    }
+  }
 
 private:
   Image<float, 3>::Pointer m_DistanceTransform;
   virtual ScalarValueType PropagationSpeed(
-                                           const NeighborhoodType& neighborhood,
-                                           const FloatOffsetType &,
-                                           GlobalDataStruct * 
-                                           ) const
+    const NeighborhoodType& neighborhood,
+    const FloatOffsetType &,
+    GlobalDataStruct * 
+    ) const
   {
-  Index<3> idx = neighborhood.GetIndex();
-  return m_DistanceTransform->GetPixel(idx);
+    Index<3> idx = neighborhood.GetIndex();
+    return m_DistanceTransform->GetPixel(idx);
   }
 };
 
@@ -178,49 +178,51 @@ public:
   itkSetMacro(Iterations, unsigned int);
 
   void SetDistanceTransform(Image<float, 3> *im)
-    {
+  {
     ((MorphFunction *)(this->GetDifferenceFunction().GetPointer()))
       ->SetDistanceTransform(im);
-    }
+  }
 
 protected:
   ~MorphFilter() {}
   MorphFilter()
-    {
+  {
     MorphFunction::Pointer p = MorphFunction::New();
     p->SetPropagationWeight(-1.0);
     p->SetAdvectionWeight(0.0);
     p->SetCurvatureWeight(1.0);
     this->SetDifferenceFunction(p);
     m_Iterations = 0;
-    }
+  }
   MorphFilter(const Self &); // purposely not implemented
   
 private:
   unsigned int m_Iterations; 
   
   virtual bool Halt()
-    {
+  {
     if (this->GetElapsedIterations() == m_Iterations) return true;
     else return false;
-    }  
+  }  
 };
 
 } // end namespace itk
 
-int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
+int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
 {
+  if (argc < 2)
+    {
+    std::cerr << "Usage: " << argv[0] << " OutputImage [InitImage [TargetImage]]\n";
+    return EXIT_FAILURE;
+    }
+
   typedef itk::Image<float, 3> ImageType;
   
-  const int n = 20;  // Number of iterations
+  const int n = 100;  // Number of iterations
   const int numOfThreads= 3; // Number of threads to be used
-  
-  std::cout << "Debug line: 0" << std::endl << std::flush;
   
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();
-  
-  std::cout << "Debug line: 1" << std::endl << std::flush;
   
   ImageType::RegionType r;
   ImageType::SizeType   sz = {{HEIGHT, WIDTH, DEPTH}};
@@ -228,49 +230,58 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
   r.SetSize(sz);
   r.SetIndex(idx);
   
-  std::cout << "Debug line: 2" << std::endl << std::flush;
-  
+  ImageType::PointType origin;
+  ImageType::SpacingType spacing;
+  ImageType::DirectionType direction;
+  origin[0] = 1.0; origin[1] = 10.0; origin[2] = 100.0;
+  spacing[0] = 1.0; spacing[1] = 2.0; spacing[2] = 3.0;
+  direction.SetIdentity();
+  direction(1,1) = -1.0;
+
   im_init->SetLargestPossibleRegion(r);
   im_init->SetBufferedRegion(r);
   im_init->SetRequestedRegion(r);
-  
-  std::cout << "Debug line: 3" << std::endl << std::flush;
+
+  im_init->SetOrigin(origin);
+  im_init->SetSpacing(spacing);
+  im_init->SetDirection(direction);
   
   im_target->SetLargestPossibleRegion(r);
   im_target->SetBufferedRegion(r);
   im_target->SetRequestedRegion(r);
-  
-  std::cout << "Debug line: 4" << std::endl << std::flush;
+
+  im_target->SetOrigin(origin);
+  im_target->SetSpacing(spacing);
+  im_target->SetDirection(direction);
   
   im_init->Allocate();
   im_target->Allocate();
   
-  std::cout << "Debug line: 5" << std::endl << std::flush;
-  
   evaluate_function(im_init, sphere);
   evaluate_function(im_target, cube);
   
-//   typedef  itk::ImageFileWriter<  ImageType  > WriterType;
-//   WriterType::Pointer writer = WriterType::New();
-//   writer->SetInput (im_init);
-//   writer->SetFileName ("init.mha");
-//   writer->Write ();
-//   writer->SetInput (im_target);
-//   writer->SetFileName ("target.mha");
-//   writer->Write ();
-  
-  std::cout << "Debug line: 6" << std::endl << std::flush;
-  
+  typedef  itk::ImageFileWriter<  ImageType  > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  if (argc > 2)
+    {
+    writer->SetInput (im_init);
+    writer->SetFileName (argv[2]);
+    writer->Update ();
+    }
+  if (argc > 3)
+    {
+    writer->SetInput (im_target);
+    writer->SetFileName (argv[3]);
+    writer->Update ();
+    }
   itk::ImageRegionIterator<ImageType> itr(im_target,
                                           im_target->GetRequestedRegion());
   
   // Squash level sets everywhere but near the zero set.
   for (itr = itr.Begin(); ! itr.IsAtEnd(); ++itr)
-  {
-  itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
-  }
-  
-  std::cout << "Debug line: 7" << std::endl << std::flush;
+    {
+    itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
+    }
   
   itk::MorphFilter::Pointer mf = itk::MorphFilter::New();
   mf->SetDistanceTransform(im_target);
@@ -279,22 +290,20 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int, char* [])
   mf->SetNumberOfThreads(numOfThreads);
   mf->SetNumberOfLayers(3);
   
-  std::cout << "Debug line: 8" << std::endl << std::flush;
-
   try
     {
-      mf->Update();
+    mf->Update();
     }
   catch (itk::ExceptionObject &e)
     {
-      std::cerr << e << std::endl;
+    std::cerr << e << std::endl;
     }
   
-  //   writer->SetInput (mf->GetOutput());
-  //   writer->SetFileName ("out.mha");
-  //   writer->Write();
-  
-  std::cout << "Debug line: 9" << std::endl << std::flush;
+  mf->GetOutput()->Print(std::cout);
+
+  writer->SetInput (mf->GetOutput());
+  writer->SetFileName (argv[1]);
+  writer->Update();
   
   std::cout << mf << std::endl << std::flush;
   
