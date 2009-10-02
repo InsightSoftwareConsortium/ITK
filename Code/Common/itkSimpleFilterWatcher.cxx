@@ -117,6 +117,7 @@ SimpleFilterWatcher
   m_TimeProbe = watch.m_TimeProbe;
   m_Process = watch.m_Process;
   m_Steps = watch.m_Steps;
+  m_Iterations = watch.m_Iterations;
   m_Comment = watch.m_Comment;
   m_TestAbort = watch.m_TestAbort;
   m_Quiet = watch.m_Quiet;
@@ -194,6 +195,7 @@ SimpleFilterWatcher
   m_TimeProbe = watch.m_TimeProbe;
   m_Process = watch.m_Process;
   m_Steps = watch.m_Steps;
+  m_Iterations = watch.m_Iterations;
   m_Comment = watch.m_Comment;
   m_TestAbort = watch.m_TestAbort;
   m_Quiet = watch.m_Quiet;
