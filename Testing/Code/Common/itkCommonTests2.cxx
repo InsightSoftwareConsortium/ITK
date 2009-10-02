@@ -69,6 +69,7 @@ REGISTER_TEST(itkSemaphoreTest );
 REGISTER_TEST(itkShapedNeighborhoodIteratorTest );
 REGISTER_TEST(itkSimilarity2DTransformTest );
 REGISTER_TEST(itkSimilarity3DTransformTest );
+REGISTER_TEST(itkSimpleFilterWatcherTest );
 REGISTER_TEST(itkSimplexMeshTest );
 REGISTER_TEST(itkSizeTest );
 REGISTER_TEST(itkSliceIteratorTest );

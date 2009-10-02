@@ -341,6 +341,7 @@ ADD_TEST(itkScaleLogarithmicTransformTest ${COMMON_TESTS2} itkScaleLogarithmicTr
 ADD_TEST(itkShapedNeighborhoodIteratorTest ${COMMON_TESTS2} itkShapedNeighborhoodIteratorTest)
 ADD_TEST(itkSimilarity2DTransformTest ${COMMON_TESTS2} itkSimilarity2DTransformTest)
 ADD_TEST(itkSimilarity3DTransformTest ${COMMON_TESTS2} itkSimilarity3DTransformTest)
+ADD_TEST(itkSimpleFilterWatcherTest ${COMMON_TESTS2} itkSimpleFilterWatcherTest)
 ADD_TEST(itkSimplexMeshTest ${COMMON_TESTS2} itkSimplexMeshTest)
 ADD_TEST(itkSizeTest ${COMMON_TESTS2} itkSizeTest)
 ADD_TEST(itkSliceIteratorTest ${COMMON_TESTS2} itkSliceIteratorTest)
@@ -573,6 +574,7 @@ itkSemaphoreTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkSimilarity3DTransformTest.cxx
+itkSimpleFilterWatcherTest.cxx
 itkSimplexMeshTest.cxx
 itkSizeTest.cxx
 itkSliceIteratorTest.cxx
