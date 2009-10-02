@@ -26,7 +26,8 @@ namespace itk
 {
 
 /** \class SimpleFilterWatcher
- * \brief Simple mechanism for monitoring the pipeline events of a filter and reporting these events to std::cout
+ * \brief Simple mechanism for monitoring the pipeline events of a filter
+ * and reporting these events to std::cout.
  *
  * SimpleFilterWatcher provides a simple mechanism for monitoring the
  * execution of filter.  SimpleFilterWatcher is a stack-based object
@@ -110,7 +111,7 @@ public:
   void SetIterations(int val) {m_Iterations=val;}
   int GetIterations() {return m_Iterations;}
 
-  /** Set/Get the quiet mode boolean. If true, verbose progess is
+  /** Set/Get the quiet mode boolean. If true, verbose progress is
     * reported. */
   void SetQuiet(bool val) {m_Quiet=val;}
   bool GetQuiet() {return m_Quiet;}
