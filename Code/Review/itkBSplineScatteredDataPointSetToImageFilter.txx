@@ -292,11 +292,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
    * Set up multithread processing to handle generating the
    * control point lattice.
    */
-  typename ImageSource<TOutputImage>::ThreadStruct str;
-  str.Filter = this;
+  typename ImageSource<TOutputImage>::ThreadStruct str1;
+  str1.Filter = this;
 
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-  this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str );
+  this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
 
   /**
    * Multithread the generation of the control point lattice.
@@ -377,11 +377,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
      * Set up multithread processing to handle generating the
      * control point lattice.
      */
-    typename ImageSource<TOutputImage>::ThreadStruct str;
-    str.Filter = this;
+    typename ImageSource<TOutputImage>::ThreadStruct str2;
+    str2.Filter = this;
 
     this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str );
+    this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str2 );
 
     /**
      * Multithread the generation of the control point lattice.
