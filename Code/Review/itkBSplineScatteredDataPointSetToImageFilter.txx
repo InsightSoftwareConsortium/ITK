@@ -433,7 +433,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 template <class TInputPointSet, class TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::ThreadedGenerateData( const RegionType &region, int threadId )
+::ThreadedGenerateData( const RegionType &itkNotUsed(region), int threadId )
 {
   /**
    * Ignore the output region as we're only interested in dividing the
