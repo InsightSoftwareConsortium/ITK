@@ -9,6 +9,7 @@ SET(ITKIOReview_SRCS
   itkPhilipsPAR.cxx
   itkVoxBoCUBImageIO.cxx
   itkVoxBoCUBImageIOFactory.cxx
+  itkGaborKernelFunction.cxx
   )
  
 ADD_LIBRARY(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
