@@ -17,7 +17,7 @@
 #include "itkGaborImageSource.h"
 #include "itkImageFileWriter.h"
 
-int itkGaborImageSourceTest0( int argc, char *argv[] )
+int itkGaborImageSourceTest0( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 2;
@@ -62,7 +62,7 @@ int itkGaborImageSourceTest0( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkGaborImageSourceTest1( int argc, char *argv[] )
+int itkGaborImageSourceTest1( int, char *argv[] )
 {
   typedef float PixelType;
   const unsigned int ImageDimension = 3;
@@ -114,7 +114,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
     
-  int test = EXIT_FAILURE;  
+  int test;
   if ( atoi( argv[2] ) == 0 )
     {
     test = itkGaborImageSourceTest0( argc, argv );
