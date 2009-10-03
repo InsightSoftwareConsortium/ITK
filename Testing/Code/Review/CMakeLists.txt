@@ -253,6 +253,8 @@ SET(ReviewTest3_SRCS
   itkShapeUniqueLabelMapFilterTest1.cxx
 
   itkScaleVersor3DTransformTest.cxx
+
+  itkGaborImageSourceTest.cxx
 )
 
 SET(ReviewTest4_SRCS
@@ -2146,6 +2148,18 @@ ADD_TEST(itkGridImageSourceTest4
   ${TEMP}/itkGridImageSourceTest4.nhdr
   itkGridImageSourceTest ${TEMP}/itkGridImageSourceTest4.nhdr 3)
 
+ADD_TEST(itkGaborImageSourceTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/GaborImageSourceTest0.mha
+  ${TEMP}/GaborImageSourceTest0.mha
+  itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest0.mha 0)
+
+ADD_TEST(itkGaborImageSourceTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/GaborImageSourceTest1.mha
+  ${TEMP}/GaborImageSourceTest1.mha
+  itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest1.mha 1)
+
 IF(NOT BORLAND)
 ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
@@ -2234,6 +2248,7 @@ TARGET_LINK_LIBRARIES(itkReviewTests2 ${ReviewTest2_LIBS})
 ADD_EXECUTABLE(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
 
 SET(ReviewTest3_LIBS
+  ITKIOReview
   ITKIO
   ITKStatistics
   )
