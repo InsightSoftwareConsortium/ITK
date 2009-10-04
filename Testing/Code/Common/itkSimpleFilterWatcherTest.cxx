@@ -34,9 +34,6 @@ int itkSimpleFilterWatcherTest (int, char*[])
   FilterType::Pointer filter = FilterType::New();
   const char * comment = "comment";
 
-  // Test empty constructor.
-  WatcherType watcher0();
-
   // Test constructor that takes a ProcessObject.
   WatcherType watcher1( filter, comment );
 
