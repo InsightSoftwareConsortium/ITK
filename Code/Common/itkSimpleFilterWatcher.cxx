@@ -31,6 +31,7 @@ SimpleFilterWatcher
   m_Steps = 0;
   m_Comment = comment;
   m_TestAbort = false;
+  m_Iterations = 0;
 #if defined(_COMPILER_VERSION) && (_COMPILER_VERSION == 730)
   m_Quiet = true;
 #else
@@ -76,6 +77,7 @@ SimpleFilterWatcher
   m_Steps = 0;
   m_Comment = "Not watching an object";
   m_TestAbort = false;
+  m_Iterations = 0;
 #if defined(_COMPILER_VERSION) && (_COMPILER_VERSION == 730)
   m_Quiet = true;
 #else
