@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup Functions
  */
-class ITKCommon_EXPORT GaborKernelFunction : public KernelFunction
+class ITK_EXPORT GaborKernelFunction : public KernelFunction
 {
 public:
   /** Standard class typedefs. */
