@@ -56,7 +56,7 @@ BinaryMask3DMeshSource<TInputImage,TOutputMesh>
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
   this->GetOutput()->GetCells()->Reserve(m_CellLimit);
 
-  m_ObjectValue = NumericTraits< InputPixelType >::Zero;
+  m_ObjectValue = NumericTraits< InputPixelType >::One;
 }
 
 template<class TInputImage, class TOutputMesh>
