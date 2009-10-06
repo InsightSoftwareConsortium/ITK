@@ -103,6 +103,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   function->SetOrder( order );
   function->SetNormalizeAcrossScale( true );
   function->SetUseImageSpacing( true );
+  function->SetInterpolationMode( GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation );
   function->Initialize( );
 
   // Step over input and output images
@@ -114,11 +115,33 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   IteratorType out( output, output->GetRequestedRegion() );
   out.GoToBegin();
 
+  typedef typename GaussianDerivativeImageFunctionType::PointType  PointType;
+  PointType point;
+  typedef typename GaussianDerivativeImageFunctionType::ContinuousIndexType ContinuousIndexType;
+  ContinuousIndexType cindex;
+  const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  unsigned long pixelNumber = 0;
   while( !it.IsAtEnd() )
     {
-    out.Set( function->EvaluateAtIndex(it.GetIndex()) );
+    // To test all available Evaluate functions, we split it in three parts.
+    if ( pixelNumber < nop / 3 )
+      {
+      out.Set( function->EvaluateAtIndex( it.GetIndex() ) );
+      }
+    else if ( pixelNumber < nop * 2 / 3 )
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      out.Set( function->Evaluate( point ) );
+      }
+    else
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      reader->GetOutput()->TransformPhysicalPointToContinuousIndex( point, cindex );
+      out.Set( function->EvaluateAtContinuousIndex( cindex ) );
+      }
     ++it;
     ++out;
+    ++pixelNumber;
     }
 
   // Rescale output
@@ -146,6 +169,77 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     std::cout << err << std::endl; 
     return EXIT_FAILURE;
     }
+
+  // Test some functions
+  typedef typename GaussianDerivativeImageFunctionType::VarianceArrayType VarianceArrayType;
+  VarianceArrayType varReturned = function->GetVariance();
+  for ( unsigned int i = 0; i < Dimension; ++i )
+  {
+    if ( varReturned[ i ] != variance )
+    {
+      std::cout << "GetVariance()[" << i << "] failed. Expected: "
+        << variance
+        << " but got: "
+        << varReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  typedef typename GaussianDerivativeImageFunctionType::OrderArrayType  OrderArrayType;
+  OrderArrayType orderReturned = function->GetOrder();
+  for ( unsigned int i = 0; i < Dimension; ++i )
+  {
+    if ( orderReturned[ i ] != order[ i ] )
+    {
+      std::cout << "GetOrder()[" << i << "] failed. Expected: "
+        << order[ i ]
+        << " but got: "
+        << orderReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  if ( function->GetMaximumError() != maxError )
+  {
+    std::cout << "GetMaximumError failed. Expected: "
+      << maxError
+      << " but got: "
+      << function->GetMaximumError() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetNormalizeAcrossScale() != true )
+  {
+    std::cout << "GetNormalizeAcrossScale failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetNormalizeAcrossScale() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetUseImageSpacing() != true )
+  {
+    std::cout << "GetUseImageSpacing failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetUseImageSpacing() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
+  {
+    std::cout << "GetMaximumKernelWidth failed. Expected: "
+      << maxKernelWidth
+      << " but got: "
+      << function->GetMaximumKernelWidth() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetInterpolationMode() != GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation )
+  {
+    std::cout << "GetInterpolationMode failed. Expected: "
+      << GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation
+      << " but got: "
+      << function->GetInterpolationMode() << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Call PrintSelf.
+  function->Print( std::cout );
 
   return EXIT_SUCCESS;
 }

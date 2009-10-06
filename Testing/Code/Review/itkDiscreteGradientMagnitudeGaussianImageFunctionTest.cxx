@@ -87,16 +87,17 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 
   // Create function
   typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
-    GaussianDerivativeImageFunctionType;
-  typename GaussianDerivativeImageFunctionType::Pointer function = 
-    GaussianDerivativeImageFunctionType::New();
+    DiscreteGradientMagnitudeGaussianFunctionType;
+  typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function = 
+    DiscreteGradientMagnitudeGaussianFunctionType::New();
   function->SetInputImage( reader->GetOutput() );
   function->SetMaximumError( maxError );
   function->SetMaximumKernelWidth( maxKernelWidth );
   function->SetVariance( variance );
   function->SetNormalizeAcrossScale( true );
   function->SetUseImageSpacing( true );
-  function->Initialize( );
+  function->SetInterpolationMode( DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation );
+  function->Initialize();
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
@@ -132,13 +133,68 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
     {
     writer->Update();
     }
-  catch ( itk::ExceptionObject &err)
+  catch ( itk::ExceptionObject &err )
     {
     std::cout << "ExceptionObject caught !" << std::endl; 
     std::cout << err << std::endl; 
     return EXIT_FAILURE;
     }
 
+  // Test some functions
+  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType VarianceArrayType;
+  VarianceArrayType varReturned = function->GetVariance();
+  for ( unsigned int i = 0; i < Dimension; ++i )
+  {
+    if ( varReturned[ i ] != variance )
+    {
+      std::cout << "GetVariance()[" << i << "] failed. Expected: "
+        << variance
+        << " but got: "
+        << varReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  if ( function->GetMaximumError() != maxError )
+  {
+    std::cout << "GetMaximumError failed. Expected: "
+      << maxError
+      << " but got: "
+      << function->GetMaximumError() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetNormalizeAcrossScale() != true )
+  {
+    std::cout << "GetNormalizeAcrossScale failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetNormalizeAcrossScale() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetUseImageSpacing() != true )
+  {
+    std::cout << "GetUseImageSpacing failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetUseImageSpacing() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
+  {
+    std::cout << "GetMaximumKernelWidth failed. Expected: "
+      << maxKernelWidth
+      << " but got: "
+      << function->GetMaximumKernelWidth() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetInterpolationMode() != DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation )
+  {
+    std::cout << "GetInterpolationMode failed. Expected: "
+      << DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation
+      << " but got: "
+      << function->GetInterpolationMode() << std::endl;
+    return EXIT_FAILURE;
+  }
+  
   return EXIT_SUCCESS;
 }
 

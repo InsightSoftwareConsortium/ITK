@@ -105,6 +105,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   function->SetVariance( variance );
   function->SetNormalizeAcrossScale( true );
   function->SetUseImageSpacing( true );
+  function->SetInterpolationMode( HessianGaussianImageFunctionType::NearestNeighbourInterpolation );
   function->Initialize( );
 
   // Step over input and output images
@@ -148,7 +149,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
-      for( unsigned int i=0; i<Dimension; i++ )
+  for( unsigned int i=0; i<Dimension; i++ )
     {
     try
       {
@@ -171,6 +172,61 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
     }
+
+  // Test some functions
+  typedef typename HessianGaussianImageFunctionType::VarianceArrayType VarianceArrayType;
+  VarianceArrayType varReturned = function->GetVariance();
+  for ( unsigned int i = 0; i < Dimension; ++i )
+  {
+    if ( varReturned[ i ] != variance )
+    {
+      std::cout << "GetVariance()[" << i << "] failed. Expected: "
+        << variance
+        << " but got: "
+        << varReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  if ( function->GetMaximumError() != maxError )
+  {
+    std::cout << "GetMaximumError failed. Expected: "
+      << maxError
+      << " but got: "
+      << function->GetMaximumError() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetNormalizeAcrossScale() != true )
+  {
+    std::cout << "GetNormalizeAcrossScale failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetNormalizeAcrossScale() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetUseImageSpacing() != true )
+  {
+    std::cout << "GetUseImageSpacing failed. Expected: "
+      << true
+      << " but got: "
+      << function->GetUseImageSpacing() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
+  {
+    std::cout << "GetMaximumKernelWidth failed. Expected: "
+      << maxKernelWidth
+      << " but got: "
+      << function->GetMaximumKernelWidth() << std::endl;
+    return EXIT_FAILURE;
+  }
+  if ( function->GetInterpolationMode() != HessianGaussianImageFunctionType::NearestNeighbourInterpolation )
+  {
+    std::cout << "GetInterpolationMode failed. Expected: "
+      << HessianGaussianImageFunctionType::NearestNeighbourInterpolation
+      << " but got: "
+      << function->GetInterpolationMode() << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
