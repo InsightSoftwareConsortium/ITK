@@ -137,6 +137,8 @@ ADD_EXECUTABLE(LaplacianSharpeningImageFilter LaplacianSharpeningImageFilter.cxx
 TARGET_LINK_LIBRARIES(LaplacianSharpeningImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(VectorIndexSelection VectorIndexSelection.cxx )
 TARGET_LINK_LIBRARIES(VectorIndexSelection  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(VesselnessMeasureImageFilter VesselnessMeasureImageFilter.cxx )
+TARGET_LINK_LIBRARIES(VesselnessMeasureImageFilter  ITKBasicFilters ITKIO)
 SET(FILTERING_EXAMPLES ${CXX_TEST_PATH}/FilteringExamples)
 SET(FILTERING_EXAMPLES2 ${CXX_TEST_PATH}/FilteringExamples2)
 SET(FILTERING_EXAMPLES3 ${CXX_TEST_PATH}/FilteringExamples3)
