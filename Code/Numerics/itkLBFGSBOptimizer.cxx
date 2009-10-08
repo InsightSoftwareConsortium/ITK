@@ -64,6 +64,7 @@ LBFGSBOptimizer
 {
   m_OptimizerInitialized = false;
   m_VnlOptimizer         = 0;
+  m_Trace                              = false;
 
   m_LowerBound       = InternalBoundValueType(0);
   m_UpperBound       = InternalBoundValueType(0); 
@@ -99,6 +100,15 @@ LBFGSBOptimizer
 ::PrintSelf( std::ostream& os, Indent indent) const
 {  
   Superclass::PrintSelf(os, indent);
+  os << indent << "Trace: ";
+  if ( m_Trace )
+    {
+    os << "On";
+    }
+  else
+    { os << "Off";
+    }
+  os << std::endl;
 
   os << indent << "LowerBound: " << m_LowerBound << std::endl;
   os << indent << "UpperBound: " << m_UpperBound << std::endl;
@@ -133,6 +143,27 @@ LBFGSBOptimizer
     os << indent << "Vnl LBFGSB Failure Code: " << 
       this->m_VnlOptimizer->get_failure_code() << std::endl;
     }
+}
+
+/**
+ * Set the optimizer trace flag
+ */
+void
+LBFGSBOptimizer
+::SetTrace( bool flag )
+{
+  if ( flag == m_Trace )
+    {
+    return;
+    }
+
+  m_Trace = flag;
+  if ( m_OptimizerInitialized )
+    {
+    m_VnlOptimizer->set_trace( m_Trace );
+    }
+
+  this->Modified();
 }
 
 /**

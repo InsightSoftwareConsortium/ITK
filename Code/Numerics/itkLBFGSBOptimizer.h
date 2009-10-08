@@ -98,6 +98,13 @@ public:
   /** Plug in a Cost Function into the optimizer  */
   virtual void SetCostFunction( SingleValuedCostFunction * costFunction );
 
+  /** Set/Get the optimizer trace flag. If set to true, the optimizer
+   * prints out information every iteration.
+   */
+  virtual void SetTrace( bool flag );
+  itkGetMacro( Trace, bool );
+  itkBooleanMacro( Trace );
+
   /** Set the lower bound value for each variable. */
   virtual void SetLowerBound( const BoundValueType & value );
   virtual const BoundValueType & GetLowerBound();
@@ -177,6 +184,7 @@ private:
   // counts, etc.
   friend class LBFGSBOptimizerHelper;
 
+  bool                     m_Trace;
   bool                     m_OptimizerInitialized;
   InternalOptimizerType  * m_VnlOptimizer;
   mutable OStringStream    m_StopConditionDescription;
