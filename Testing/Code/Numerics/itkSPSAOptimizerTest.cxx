@@ -209,6 +209,8 @@ int itkSPSAOptimizerTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
+  itkOptimizer->Print( std::cout );
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 

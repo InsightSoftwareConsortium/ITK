@@ -48,16 +48,16 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   UCharImage2DType::SizeType imageSize;
-    imageSize[0] = 128;
-    imageSize[1] = 128;
+  imageSize[0] = 128;
+  imageSize[1] = 128;
 
   // Create fixed image
   UCharImage2DType::Pointer fixedImage = UCharImage2DType::New();
-    fixedImage->SetRegions(imageSize);
-    fixedImage->Allocate();
-    fixedImage->FillBuffer(0);
-    fixedImage->Update();
-    
+  fixedImage->SetRegions(imageSize);
+  fixedImage->Allocate();
+  fixedImage->FillBuffer(0);
+  fixedImage->Update();
+
   UCharIteratorType fixedIt( fixedImage, fixedImage->GetBufferedRegion() );
   for ( fixedIt.GoToBegin(); !fixedIt.IsAtEnd(); ++fixedIt )
     {
@@ -70,11 +70,11 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   // Create moving image
   UCharImage2DType::Pointer movingImage = UCharImage2DType::New();
-    movingImage->SetRegions(imageSize);
-    movingImage->Allocate();
-    movingImage->FillBuffer(0);
-    movingImage->Update();
-    
+  movingImage->SetRegions(imageSize);
+  movingImage->Allocate();
+  movingImage->FillBuffer(0);
+  movingImage->Update();
+
   UCharIteratorType movingIt( movingImage, movingImage->GetBufferedRegion() );
   for ( movingIt.GoToBegin(); !movingIt.IsAtEnd(); ++movingIt )
     {
@@ -93,7 +93,7 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   //------------------------------------------------------------------
   std::cout << "Test [Set,Get]ForegroundValue method..." << std::endl;
 
-    metric->SetForegroundValue(255);
+  metric->SetForegroundValue(255);
   if (metric->GetForegroundValue()!=255)
     {
     std::cerr << "Error!" << std::endl;
@@ -110,11 +110,11 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   TransformType::ParametersType parameters = transform->GetParameters();
 
-    metric->SetFixedImage( fixedImage );
-    metric->SetMovingImage( movingImage );
-    metric->SetInterpolator( interpolator );
-    metric->SetTransform( transform );
-    metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  metric->SetFixedImage( fixedImage );
+  metric->SetMovingImage( movingImage );
+  metric->SetInterpolator( interpolator );
+  metric->SetTransform( transform );
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
   try
     {
     metric->Initialize();
@@ -127,7 +127,8 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     }
 
   // The value 0.620753 was computed by hand for these two images
-  if (!((metric->GetValue( parameters ) >= 0.620753-epsilon)&&(metric->GetValue( parameters ) <= 0.620753+epsilon)))
+  MetricType::MeasureType value = metric->GetValue( parameters );
+  if ( !( value >= 0.620753 - epsilon && value <= 0.620753 + epsilon ) )
     {
     std::cerr << "Error!" << std::endl;
     return EXIT_FAILURE;
@@ -142,16 +143,16 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   metric->ComputeGradient();
 
   DoubleImage2DType::Pointer xGradImage = DoubleImage2DType::New();
-    xGradImage->SetRegions(imageSize);
-    xGradImage->Allocate();
-    xGradImage->FillBuffer(0);
-    xGradImage->Update();
+  xGradImage->SetRegions(imageSize);
+  xGradImage->Allocate();
+  xGradImage->FillBuffer(0);
+  xGradImage->Update();
 
   DoubleImage2DType::Pointer yGradImage = DoubleImage2DType::New();
-    yGradImage->SetRegions(imageSize);
-    yGradImage->Allocate();
-    yGradImage->FillBuffer(0);
-    yGradImage->Update();
+  yGradImage->SetRegions(imageSize);
+  yGradImage->Allocate();
+  yGradImage->FillBuffer(0);
+  yGradImage->Update();
 
   DoubleIteratorType xGradIt( xGradImage, xGradImage->GetBufferedRegion() );
   DoubleIteratorType yGradIt( yGradImage, yGradImage->GetBufferedRegion() );
@@ -226,6 +227,29 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     }
   std::cout << " [ PASSED ] " << std::endl;
 
+  //------------------------------------------------------------------
+  // exercise GetValueAndDerivative method
+  //------------------------------------------------------------------
+  std::cout << "Test GetValueAndDerivative method..." << std::endl;
+  metric->GetValueAndDerivative( parameters, value, derivative );
+
+  if ( !( value >= 0.620753 - epsilon && value <= 0.620753 + epsilon ) )
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  // The value 0.0477502 was computed by hand
+  if ( !( (derivative[0]>=-0.0477502-epsilon) && (derivative[0]<=-0.0477502+epsilon) ) )
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if ( !( (derivative[1]>=-0.0477502-epsilon) && (derivative[1]<=-0.0477502+epsilon) ) )
+    {
+    std::cerr << "Error!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
 
   //------------------------------------------------------------------
   // exercise Complement method
@@ -241,6 +265,11 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     }
   std::cout << " [ PASSED ] " << std::endl;    
 
+  //------------------------------------------------------------------
+  // exercise PrintSelf method
+  //------------------------------------------------------------------
+  std::cout << "Test PrintSelf method..." << std::endl;
+  metric->Print( std::cout );
 
   return EXIT_SUCCESS;
 }
