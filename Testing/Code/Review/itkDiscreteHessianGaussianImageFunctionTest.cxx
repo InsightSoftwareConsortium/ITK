@@ -122,9 +122,30 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     outs.push_back( out );
     }
 
+  typedef typename HessianGaussianImageFunctionType::PointType  PointType;
+  PointType point;
+  typedef typename HessianGaussianImageFunctionType::ContinuousIndexType ContinuousIndexType;
+  ContinuousIndexType cindex;
+  const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  unsigned long pixelNumber = 0;
   while( !it.IsAtEnd() )
     {
-    hessian = function->EvaluateAtIndex( it.GetIndex() );
+    if ( pixelNumber < nop / 3 )
+      {
+      hessian = function->EvaluateAtIndex( it.GetIndex() );
+      }
+    else if ( pixelNumber < nop * 2 / 3 )
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      hessian = function->Evaluate( point );
+      }
+    else
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      reader->GetOutput()->TransformPhysicalPointToContinuousIndex( point, cindex );
+      hessian = function->EvaluateAtContinuousIndex( cindex );
+      }
+
     hessian.ComputeEigenValues( eigenValues );
 
     for( unsigned int i=0; i<Dimension; i++ )
@@ -133,6 +154,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       ++outs[i];
       }
     ++it;
+    ++pixelNumber;
     }
 
   // Write outputs
@@ -227,6 +249,9 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       << function->GetInterpolationMode() << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Call PrintSelf.
+  function->Print( std::cout );
 
   return EXIT_SUCCESS;
 }

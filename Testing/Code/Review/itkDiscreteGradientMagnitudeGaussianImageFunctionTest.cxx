@@ -108,11 +108,33 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   IteratorType out( output, output->GetRequestedRegion() );
   out.GoToBegin();
 
+  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::PointType  PointType;
+  PointType point;
+  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::ContinuousIndexType ContinuousIndexType;
+  ContinuousIndexType cindex;
+  const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
+  unsigned long pixelNumber = 0;
   while( !it.IsAtEnd() )
     {
-    out.Set( function->EvaluateAtIndex(it.GetIndex()) );
+    // To test all available Evaluate functions, we split it in three parts.
+    if ( pixelNumber < nop / 3 )
+      {
+      out.Set( function->EvaluateAtIndex( it.GetIndex() ) );
+      }
+    else if ( pixelNumber < nop * 2 / 3 )
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      out.Set( function->Evaluate( point ) );
+      }
+    else
+      {
+      reader->GetOutput()->TransformIndexToPhysicalPoint( it.GetIndex(), point );
+      reader->GetOutput()->TransformPhysicalPointToContinuousIndex( point, cindex );
+      out.Set( function->EvaluateAtContinuousIndex( cindex ) );
+      }
     ++it;
     ++out;
+    ++pixelNumber;
     }
 
   // Rescale output
@@ -194,6 +216,9 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
       << function->GetInterpolationMode() << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Call PrintSelf.
+  function->Print( std::cout );
   
   return EXIT_SUCCESS;
 }
