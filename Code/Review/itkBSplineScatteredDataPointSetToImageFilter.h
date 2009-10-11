@@ -193,6 +193,13 @@ protected:
   void BeforeThreadedGenerateData();
   void AfterThreadedGenerateData();
 
+  /** Only the points are divided among the threads, so always return
+   * a valid number */
+  int SplitRequestedRegion(int, int, RegionType&)
+    {
+    return this->GetNumberOfThreads();
+    }
+
   void GenerateData();
 
 private:
