@@ -1187,6 +1187,9 @@ ADD_TEST(itkWarpHarmonicEnergyCalculatorTest ${REVIEW_TESTS}
         )
 
 ADD_TEST(itkBSplineScatteredDataPointSetToImageFilterTest01 ${REVIEW_TESTS}
+        --compare
+          ${BASELINE}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
+          ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
         itkBSplineScatteredDataPointSetToImageFilterTest
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png
         ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
