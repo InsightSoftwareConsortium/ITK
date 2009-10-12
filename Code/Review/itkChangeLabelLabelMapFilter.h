@@ -105,14 +105,6 @@ private:
   ChangeLabelLabelMapFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  void MoveLabelsToTemporaryArray();
-  void ChangeBackgroundIfNeeded();
-  void RestoreLabelObjectsAndChangeLabels();
-
-  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
-
-  VectorType            m_LabelObjectsToBeRelabeled;
-
 }; // end of class
 
 } // end namespace itk

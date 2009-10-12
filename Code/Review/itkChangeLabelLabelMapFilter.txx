@@ -80,26 +80,19 @@ void
 ChangeLabelLabelMapFilter<TImage>
 ::GenerateData()
 {
-  this->MoveLabelsToTemporaryArray();
-  this->ChangeBackgroundIfNeeded();
-  this->RestoreLabelObjectsAndChangeLabels();
-}
+  // MoveLabelsToTemporaryArray
 
-template <class TImage>
-void
-ChangeLabelLabelMapFilter<TImage>
-::MoveLabelsToTemporaryArray()
-{
   // Allocate the output
   this->AllocateOutputs();
 
   ImageType * output = this->GetOutput();
 
   // Report the progress
-  ProgressReporter progress( this, 0, m_MapOfLabelToBeReplaced.size() );
+  ProgressReporter progress( this, 0, m_MapOfLabelToBeReplaced.size() * 2 );
   
   // First remove the ones to change and store them elsewhere to process later
-  this->m_LabelObjectsToBeRelabeled.clear();
+  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
+  VectorType            labelObjectsToBeRelabeled;
 
   ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
 
@@ -111,7 +104,7 @@ ChangeLabelLabelMapFilter<TImage>
       {
       if( output->HasLabel( labelToBeReplaced ) )
         {
-        this->m_LabelObjectsToBeRelabeled.push_back( output->GetLabelObject( labelToBeReplaced ) );
+        labelObjectsToBeRelabeled.push_back( output->GetLabelObject( labelToBeReplaced ) );
         output->RemoveLabel( labelToBeReplaced );
         }
       }
@@ -120,14 +113,7 @@ ChangeLabelLabelMapFilter<TImage>
     pairToReplace++;
     }
     
-}
-
-template <class TImage>
-void
-ChangeLabelLabelMapFilter<TImage>
-::ChangeBackgroundIfNeeded()
-{
-  ImageType * output = this->GetOutput();
+  // ChangeBackgroundIfNeeded
 
   // Check if the background is among the list of labels to relabel.
   ChangeMapIterator backgroundLabelItr = m_MapOfLabelToBeReplaced.find( output->GetBackgroundValue() );
@@ -148,23 +134,14 @@ ChangeLabelLabelMapFilter<TImage>
       output->SetBackgroundValue( newLabelForBackground );
       }
     }
-}
 
-
-template <class TImage>
-void
-ChangeLabelLabelMapFilter<TImage>
-::RestoreLabelObjectsAndChangeLabels()
-{
-  ImageType * output = this->GetOutput();
+  // RestoreLabelObjectsAndChangeLabels
 
   // Put the objects back in the map, with the updated label
   typedef typename VectorType::iterator   LabelObjectIterator;
-  LabelObjectIterator labelObjectItr = this->m_LabelObjectsToBeRelabeled.begin();
+  LabelObjectIterator labelObjectItr = labelObjectsToBeRelabeled.begin();
 
-  ProgressReporter progress( this, 0, 1 );
-
-  while( labelObjectItr != this->m_LabelObjectsToBeRelabeled.end() )
+  while( labelObjectItr != labelObjectsToBeRelabeled.end() )
     {
     LabelObjectType * labelObjectSource = *labelObjectItr;
     PixelType newLabel = m_MapOfLabelToBeReplaced[ labelObjectSource->GetLabel() ];
