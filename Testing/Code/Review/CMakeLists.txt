@@ -2007,6 +2007,18 @@ ADD_TEST(itkMergeLabelMapFilterTest1e
   0    # Expect success
   )
 
+ADD_TEST(itkMergeLabelMapFilterTest1f
+  ${REVIEW_TESTS3}
+  itkMergeLabelMapFilterTest1
+  ${INPUTDATA}/simple-label-e.png
+  ${INPUTDATA}/simple-label-d.png  
+  ${TEMP}/simple-label-merge-wrong.mha
+  50   # Background value 1
+  50   # Background value 2
+  10   # wrong Method
+  1    # Expect failure
+  )
+
 
 ADD_TEST(itkLabelImageToShapeLabelMapFilterTest1
   ${REVIEW_TESTS3}
