@@ -1859,6 +1859,30 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest1
   0     # Output background
   )
 
+ADD_TEST(itkBinaryImageToLabelMapFilterTest2
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/connected0lines-0.png
+            ${TEMP}/connected0lines-0.png
+  itkBinaryImageToLabelMapFilterTest
+  ${INPUTDATA}/connected0lines.png
+  ${TEMP}/connected0lines-0.png
+  0     # Not fully connected
+  255   # Input foreground
+  0     # Output background
+  )
+
+ADD_TEST(itkBinaryImageToLabelMapFilterTest3
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/connected0lines-1.png
+            ${TEMP}/connected0lines-1.png
+  itkBinaryImageToLabelMapFilterTest
+  ${INPUTDATA}/connected0lines.png
+  ${TEMP}/connected0lines-1.png
+  1     # Fully connected
+  255   # Input foreground
+  0     # Output background
+  )
+
 ADD_TEST(itkLabelMapToBinaryImageFilterTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/cthead1-label-binary.mha
