@@ -124,7 +124,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeValueType pixelcountForThread = outputRegionForThread.GetNumberOfPixels();
   SizeValueType xsizeForThread = outputRegionForThread.GetSize()[0];
   SizeValueType linecountForThread = pixelcountForThread/xsizeForThread;
-  ProgressReporter progress(this, threadId, linecountForThread);
+  ProgressReporter progress(this, threadId, linecountForThread, 75, 0.0f, 0.75f);
 
   // find the split axis
   IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
@@ -340,7 +340,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
   SizeValueType linecount = pixelcount/xsize;
   unsigned long int totalLabs = CreateConsecutive();
-  ProgressReporter progress(this, 0, linecount);
+  ProgressReporter progress(this, 0, linecount, 25, 0.75f, 0.25f);
   // check for overflow exception here
   if( totalLabs > static_cast<unsigned long int>(
           NumericTraits<OutputPixelType>::max() ) )
