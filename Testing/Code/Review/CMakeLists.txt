@@ -1894,6 +1894,16 @@ ADD_TEST(itkChangeLabelLabelMapFilterTest2
    92    0
   )
 
+ADD_TEST(itkChangeLabelLabelMapFilterTest3
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/cthead1-label-changed3.png
+            ${TEMP}/cthead1-label-changed3.png
+  itkChangeLabelLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/cthead1-label-changed3.png
+    0   94  # ( Old, New ) Label pair background
+  )
+
 ADD_TEST(itkRelabelLabelMapFilterTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/cthead1-label-relabeled.mha
