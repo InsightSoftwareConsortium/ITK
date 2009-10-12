@@ -346,7 +346,8 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
           NumericTraits<OutputPixelType>::max() ) )
     {
     itkExceptionMacro(
-      << "Number of objects greater than maximum of output pixel type " );
+      << "Number of objects (" << totalLabs << ") greater than maximum of output pixel type ("
+      << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(NumericTraits<OutputPixelType>::max()) << ")." );
     }
 
   for (SizeValueType ThisIdx = 0; ThisIdx<linecount; ThisIdx++)

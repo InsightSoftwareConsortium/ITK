@@ -1857,6 +1857,7 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest1
   1     # Fully connected
   255   # Input foreground
   0     # Output background
+  0     # Expect failure
   )
 
 ADD_TEST(itkBinaryImageToLabelMapFilterTest2
@@ -1869,6 +1870,7 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest2
   0     # Not fully connected
   255   # Input foreground
   0     # Output background
+  0     # Expect failure
   )
 
 ADD_TEST(itkBinaryImageToLabelMapFilterTest3
@@ -1881,6 +1883,18 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest3
   1     # Fully connected
   255   # Input foreground
   0     # Output background
+  0     # Expect failure
+  )
+
+ADD_TEST(itkBinaryImageToLabelMapFilterTest4
+  ${REVIEW_TESTS3}
+  itkBinaryImageToLabelMapFilterTest
+  ${INPUTDATA}/289.png
+  ${TEMP}/tooManyObjects.png
+  0     # Not fully connected
+  255   # Input foreground
+  0     # Output background
+  1     # Expect failure
   )
 
 ADD_TEST(itkLabelMapToBinaryImageFilterTest1

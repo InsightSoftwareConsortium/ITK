@@ -33,11 +33,11 @@
 int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 {
 
-  if( argc != 6 )
+  if( argc != 7 )
     {
     std::cerr << "usage: " << argv[0];
     std::cerr << " inputBinaryImage outputLabelImage";
-    std::cerr << " fullyConnected(0/1)  foregroundValue backgroundValue";
+    std::cerr << " fullyConnected(0/1)  foregroundValue backgroundValue expectfailure";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -79,7 +79,16 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   l2i->SetInput( i2l->GetOutput() );
   writer->SetInput( l2i->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() )
+  bool expectfailure = atoi( argv[6] );
+
+  if( expectfailure )
+    {
+    TRY_EXPECT_EXCEPTION( writer->Update() );
+    }
+  else
+    {
+    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    }
 
   i2l->GetOutput()->PrintLabelObjects();
 
