@@ -1474,18 +1474,18 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     0
   )
   ADD_TEST(itkOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIEW_TESTS}
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
     itkOptGrayscaleMorphologicalClosingImageFilterTest
     ${INPUTDATA}/cthead1.png
-    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
     1
   )
   ADD_TEST(itkOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
@@ -1504,18 +1504,18 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     0
   )
   ADD_TEST(itkOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIEW_TESTS}
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
-    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     itkOptGrayscaleMorphologicalOpeningImageFilterTest
     ${INPUTDATA}/cthead1.png
-    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
-    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
-    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     1
   )
   ADD_TEST(itkOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
@@ -1563,18 +1563,18 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     0
   )
   ADD_TEST(itkMapOptGrayscaleMorphologicalClosingImageFilterTestSafeBorder ${REVIEW_TESTS}
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
     itkMapOptGrayscaleMorphologicalClosingImageFilterTest
     ${INPUTDATA}/cthead1.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasic.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHisto.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestVHGW.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchor.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalClosingImageFilterTestAnchorSafeBorder.png
     1
   )
   ADD_TEST(itkMapOptGrayscaleMorphologicalOpeningImageFilterTest ${REVIEW_TESTS}
@@ -1593,18 +1593,18 @@ IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
     0
   )
   ADD_TEST(itkMapOptGrayscaleMorphologicalOpeningImageFilterTestSafeBorder ${REVIEW_TESTS}
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
-    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    --compare ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+              ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     itkMapOptGrayscaleMorphologicalOpeningImageFilterTest
     ${INPUTDATA}/cthead1.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasic.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHisto.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestVHGW.png
-    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchor.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestBasicSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestHistoSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestVHGWSafeBorder.png
+    ${TEMP}/itkMapOptGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
     1
   )
   ADD_TEST(itkMapOptGrayscaleDilateImageFilterTest ${REVIEW_TESTS}
