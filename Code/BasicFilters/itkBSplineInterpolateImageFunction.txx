@@ -105,6 +105,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     }
   else
     {
+    m_CoefficientFilter->GetOutput()->DisconnectPipeline();
     m_Coefficients = NULL;
     }
 }
