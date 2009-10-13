@@ -91,8 +91,10 @@ ChangeLabelLabelMapFilter<TImage>
   ProgressReporter progress( this, 0, m_MapOfLabelToBeReplaced.size() * 2 );
   
   // First remove the ones to change and store them elsewhere to process later
-  typedef typename std::deque< typename LabelObjectType::Pointer > VectorType;
-  VectorType            labelObjectsToBeRelabeled;
+  typedef typename LabelObjectType::Pointer     LabelObjectPointer;
+  typedef std::deque< LabelObjectPointer >      VectorType;
+
+  VectorType   labelObjectsToBeRelabeled;
 
   ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
 
