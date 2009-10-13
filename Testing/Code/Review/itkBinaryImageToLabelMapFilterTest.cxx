@@ -42,7 +42,7 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  const unsigned int Dimension = 3;
   
   typedef unsigned char BinaryPixelType;
   typedef unsigned char LabelPixelType;
@@ -58,6 +58,9 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   
   typedef itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
+  // test the behavior without input
+  TRY_EXPECT_EXCEPTION( i2l->Update() );
+  i2l->ResetPipeline();
 
   i2l->SetFullyConnected( atoi(argv[3]) );
   i2l->SetInputForegroundValue( atoi(argv[4]) );

@@ -1897,6 +1897,19 @@ ADD_TEST(itkBinaryImageToLabelMapFilterTest4
   1     # Expect failure
   )
 
+ADD_TEST(itkBinaryImageToLabelMapFilterTest5
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/nonConnected3DLines-0.tif
+            ${TEMP}/nonConnected3DLines-0.tif
+  itkBinaryImageToLabelMapFilterTest
+  ${INPUTDATA}/nonConnected3DLines.tif
+  ${TEMP}/nonConnected3DLines-0.tif
+  0     # Not fully connected
+  255   # Input foreground
+  0     # Output background
+  0     # Expect failure
+  )
+
 ADD_TEST(itkLabelMapToBinaryImageFilterTest1
   ${REVIEW_TESTS3}
   --compare ${BASELINE}/cthead1-label-binary.mha
