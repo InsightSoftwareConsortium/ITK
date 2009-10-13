@@ -54,22 +54,26 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::CropLabelMapFilter< LabelMapType > ChangeType;
-  ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
-  ChangeType::SizeType size;
+  typedef itk::CropLabelMapFilter< LabelMapType > CropType;
+  CropType::Pointer crop = CropType::New();
+  // test the behavior without input
+  TRY_EXPECT_EXCEPTION( crop->Update() );
+  crop->ResetPipeline();
+
+  crop->SetInput( i2l->GetOutput() );
+  CropType::SizeType size;
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
   
-  change->SetCropSize( size );
-  TEST_SET_GET_VALUE( size, change->GetUpperBoundaryCropSize() );
-  TEST_SET_GET_VALUE( size, change->GetLowerBoundaryCropSize() );
+  crop->SetCropSize( size );
+  TEST_SET_GET_VALUE( size, crop->GetUpperBoundaryCropSize() );
+  TEST_SET_GET_VALUE( size, crop->GetLowerBoundaryCropSize() );
   
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  itk::SimpleFilterWatcher watcher6(crop, "filter");
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput( crop->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
