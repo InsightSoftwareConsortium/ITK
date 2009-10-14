@@ -1193,7 +1193,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   this->SynchronizeTransforms();
 
   m_Threader->SetSingleMethod(GetValueMultiThreaded,
-                              (void *)(&m_ThreaderParameter));
+                              const_cast<void *>(static_cast<const void *>(&m_ThreaderParameter)));
   m_Threader->SingleMethodExecute();
 
   for( unsigned int threadID = 0; threadID<m_NumberOfThreads-1; threadID++ )
@@ -1208,7 +1208,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValueMultiThreadedPostProcessInitiate( void ) const
 {
   m_Threader->SetSingleMethod(GetValueMultiThreadedPostProcess,
-                              (void *)(&m_ThreaderParameter));
+                              const_cast<void *>(static_cast<const void *>(&m_ThreaderParameter)));
   m_Threader->SingleMethodExecute();
 }
 
@@ -1357,7 +1357,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
   this->SynchronizeTransforms();
 
   m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreaded,
-                              (void *)(&m_ThreaderParameter));
+                              const_cast<void *>(static_cast<const void *>(&m_ThreaderParameter)));
   m_Threader->SingleMethodExecute();
 
   for( unsigned int threadID = 0; threadID<m_NumberOfThreads-1; threadID++ )
