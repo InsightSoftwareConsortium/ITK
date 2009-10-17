@@ -66,6 +66,14 @@ ADD_TEST(itkCollidingFrontsImageFilterTest ${ALGORITHMS_TESTS4} itkCollidingFron
 ADD_TEST(itkCurvesLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkCurvesLevelSetImageFilterZeroSigmaTest)
 ADD_TEST(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest)
 ADD_TEST(itkLabelVotingImageFilterTest ${ALGORITHMS_TESTS4} itkLabelVotingImageFilterTest)
+
+ADD_TEST(itkLevelSetMotionRegistrationFilterTest ${ALGORITHMS_TESTS4} 
+  itkLevelSetMotionRegistrationFilterTest
+  ${TEMP}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
+  ${TEMP}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
+  ${TEMP}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
+)
+
 ADD_TEST(itkFEMRegistrationFilterTest ${ALGORITHMS_TESTS} itkFEMRegistrationFilterTest)
 ADD_TEST(itkGeodesicActiveContourLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkGeodesicActiveContourLevelSetImageFilterTest)
 ADD_TEST(itkGeodesicActiveContourShapePriorLevelSetImageFilterTest ${ALGORITHMS_TESTS} itkGeodesicActiveContourShapePriorLevelSetImageFilterTest)
@@ -381,6 +389,7 @@ itkCollidingFrontsImageFilterTest.cxx
 itkCurvesLevelSetImageFilterZeroSigmaTest.cxx
 itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest.cxx
 itkLabelVotingImageFilterTest.cxx
+itkLevelSetMotionRegistrationFilterTest
 itkNarrowBandCurvesLevelSetImageFilterTest.cxx
 itkFFTTest.cxx
 ${CURVATUREREGISTRATION_SRCS}

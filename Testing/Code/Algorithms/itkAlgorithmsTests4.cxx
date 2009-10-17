@@ -56,5 +56,6 @@ void RegisterTests()
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
   REGISTER_TEST(itkThresholdMaximumConnectedComponentsImageFilterTest );
   REGISTER_TEST(itkScalarImageKmeansImageFilter3DTest );
+  REGISTER_TEST(itkLevelSetMotionRegistrationFilterTest );
 }
 
