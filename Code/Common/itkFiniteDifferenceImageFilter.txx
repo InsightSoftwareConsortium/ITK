@@ -24,7 +24,28 @@
 #include "itkFiniteDifferenceImageFilter.h"
 
 namespace itk {
-  
+
+template <class TInputImage, class TOutputImage>
+FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+::FiniteDifferenceImageFilter()
+{ 
+  m_UseImageSpacing    = false;
+  m_ElapsedIterations  = 0;
+  m_DifferenceFunction = 0;
+  m_NumberOfIterations = NumericTraits<unsigned int>::max();
+  m_MaximumRMSError = 0.0;
+  m_RMSChange = 0.0;
+  m_State = UNINITIALIZED;
+  m_ManualReinitialization = false;
+  this->InPlaceOff();
+}
+
+template <class TInputImage, class TOutputImage>
+FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+::~FiniteDifferenceImageFilter()
+{
+}
+
 template <class TInputImage, class TOutputImage>
 void
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>
