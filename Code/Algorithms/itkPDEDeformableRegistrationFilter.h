@@ -128,7 +128,7 @@ public:
   const MovingImageType * GetMovingImage(void) const;
 
   /** Set initial deformation field. */
-  void SetInitialDeformationField( DeformationFieldType * ptr )
+  void SetInitialDeformationField( const DeformationFieldType * ptr )
   { this->SetInput( ptr ); }
 
   /** Get output deformation field. */
