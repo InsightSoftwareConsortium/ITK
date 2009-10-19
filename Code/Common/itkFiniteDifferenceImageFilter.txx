@@ -62,11 +62,21 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     {
     // Set the coefficients for the deriviatives
     double coeffs[TInputImage::ImageDimension];
+
     if (m_UseImageSpacing)
       {
+      const TInputImage * inputImage =  this->GetInput();
+      if( inputImage == NULL )
+        {
+        itkExceptionMacro("Input image is NULL");
+        }
+
+      typedef typename TInputImage::SpacingType SpacingType;
+      const SpacingType spacing = inputImage->GetSpacing();
+      
       for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
         {
-        coeffs[i] = 1.0 / this->GetInput()->GetSpacing()[i];
+        coeffs[i] = 1.0 / spacing[i];
         }
       }
     else
