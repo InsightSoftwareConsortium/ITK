@@ -60,40 +60,15 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
   if (this->GetState() == UNINITIALIZED)
     {
-    // Set the coefficients for the deriviatives
-    double coeffs[TInputImage::ImageDimension];
-
-    if (m_UseImageSpacing)
-      {
-      const TInputImage * inputImage =  this->GetInput();
-      if( inputImage == NULL )
-        {
-        itkExceptionMacro("Input image is NULL");
-        }
-
-      typedef typename TInputImage::SpacingType SpacingType;
-      const SpacingType spacing = inputImage->GetSpacing();
-      
-      for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
-        {
-        coeffs[i] = 1.0 / spacing[i];
-        }
-      }
-    else
-      {
-      for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
-        {
-        coeffs[i] = 1.0;
-        }
-      }
-    m_DifferenceFunction->SetScaleCoefficients(coeffs);
-
     // Allocate the output image
     this->AllocateOutputs();
 
     // Copy the input image to the output image.  Algorithms will operate
     // directly on the output image and the update buffer.
     this->CopyInputToOutput();
+
+    // Set the coefficients of the Function and consider the use of images spacing.
+    this->InitializeFunctionCoefficients();
 
     // Perform any other necessary pre-iteration initialization.
     this->Initialize();
@@ -265,6 +240,40 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     }
 }
 
+
+template <class TInputImage, class TOutputImage>
+void
+FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+::InitializeFunctionCoefficients()
+{
+  // Set the coefficients for the derivatives
+  double coeffs[TInputImage::ImageDimension];
+  
+  if ( this-> m_UseImageSpacing )
+    {
+    const TInputImage * inputImage =  this->GetInput();
+    if( inputImage == NULL )
+      {
+      itkExceptionMacro("Input image is NULL");
+      }
+
+    typedef typename TInputImage::SpacingType SpacingType;
+    const SpacingType spacing = inputImage->GetSpacing();
+    
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+      {
+      coeffs[i] = 1.0 / spacing[i];
+      }
+    }
+  else
+    {
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+      {
+      coeffs[i] = 1.0;
+      }
+    }
+  m_DifferenceFunction->SetScaleCoefficients(coeffs);
+}
 
 template <class TInputImage, class TOutputImage>
 void

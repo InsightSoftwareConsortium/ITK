@@ -340,6 +340,10 @@ private:
   FiniteDifferenceImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
+  /** Initialize the values of the Function coefficients. This function will
+   * also take care of checking whether the image spacing should be taken into
+   * account or not. */
+  void InitializeFunctionCoefficients();
 
   /** Control whether derivatives use spacing of the input image in
       its calculation. */
