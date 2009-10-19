@@ -213,7 +213,8 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   // turn on/off use image spacing
   registrator->UseImageSpacingOn();
 
-  typedef RegistrationType::FiniteDifferenceFunctionType FunctionType;
+  typedef RegistrationType::LevelSetMotionFunctionType FunctionType;
+
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
   fptr->Print( std::cout );
@@ -376,6 +377,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
     {
     fptr = dynamic_cast<FunctionType *>(
       registrator->GetDifferenceFunction().GetPointer() );
+    fptr->SetMovingImageInterpolator( NULL );
     registrator->SetInput( initField );
     registrator->Update();
     }
