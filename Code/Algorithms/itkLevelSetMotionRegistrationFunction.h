@@ -193,7 +193,14 @@ FloatOffsetType(0.0));
    * image prior to calculating gradients. */
   virtual void SetGradientSmoothingStandardDeviations(double);
   virtual double GetGradientSmoothingStandardDeviations() const;
-  
+
+  /** Use the image spacing information in calculations. Use this option if you
+   * want derivatives in physical space. Default is UseImageSpacing ON, due to a
+   * backward compatibility state. */
+  void SetUseImageSpacing( bool);
+  bool GetUseImageSpacing() const;
+
+
 protected:
   LevelSetMotionRegistrationFunction();
   ~LevelSetMotionRegistrationFunction() {}
@@ -253,6 +260,7 @@ private:
   /** Mutex lock to protect modification to metric. */
   mutable SimpleFastMutexLock     m_MetricCalculationLock;
 
+  bool                            m_UseImageSpacing;
 };
 
 

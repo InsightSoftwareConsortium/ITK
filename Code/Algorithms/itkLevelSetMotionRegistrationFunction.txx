@@ -57,6 +57,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_NumberOfPixelsProcessed = 0L;
   m_RMSChange = NumericTraits<double>::max();
   m_SumOfSquaredChange = 0.0;
+  m_UseImageSpacing = true;
 
   m_MovingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
   m_MovingImageSmoothingFilter
@@ -193,6 +194,30 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 }
 
 /**
+ * Return the flag that defines whether the image spacing should be taken into
+ * account in computations.
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+bool
+LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::GetUseImageSpacing() const
+{
+  return this->m_UseImageSpacing;
+}
+ 
+/**
+ * Set the flag that defines whether the image spacing should be taken into
+ * account in computations.
+ */
+template <class TFixedImage, class TMovingImage, class TDeformationField>
+void
+LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+::SetUseImageSpacing( bool useImageSpacing )
+{
+  this->m_UseImageSpacing = useImageSpacing;
+}
+
+/**
  * Set the function state values before each iteration
  */
 template <class TFixedImage, class TMovingImage, class TDeformationField>
@@ -272,7 +297,14 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // smooth image. Do we need to structure the gradient calculation to
   // take into account the Jacobian of the deformation field? i.e. in
   // which coordinate frame do we ultimately want the gradient vector?
-  const MovingSpacingType mSpacing = this->GetMovingImage()->GetSpacing();
+  
+  MovingSpacingType mSpacing = this->GetMovingImage()->GetSpacing();
+
+  if( !this->m_UseImageSpacing )
+    {
+    mSpacing.Fill( 1.0 );
+    }
+
   PointType mPoint( mappedPoint );
   const double centralValue = m_SmoothMovingImageInterpolator->Evaluate( mPoint );
   double forwardDifferences[ImageDimension];
@@ -367,7 +399,7 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       // spacing. we will use this to calculate a timestep which
       // converts the update (measured in intensity) to a vector
       // measured in physical units (mm).
-      L1norm += (vnl_math_abs(update[j]) / this->GetMovingImage()->GetSpacing()[j]);
+      L1norm += (vnl_math_abs(update[j]) / mSpacing[j]);
       }
     }
 

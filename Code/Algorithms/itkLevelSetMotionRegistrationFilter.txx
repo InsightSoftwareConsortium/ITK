@@ -79,9 +79,11 @@ LevelSetMotionRegistrationFilter<TFixedImage,TMovingImage,TDeformationField>
       << "Could not cast difference function to LevelSetMotionRegistrationFunction" );
     }
   
-  /*
-   * Smooth the deformation field
-   */
+  drfp->SetUseImageSpacing( this->GetUseImageSpacing() );
+
+  //
+  // Smooth the deformation field
+  // 
   if ( this->GetSmoothDeformationField() )
     {
     this->SmoothDeformationField();
