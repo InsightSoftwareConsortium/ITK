@@ -19,7 +19,7 @@
 #endif
 
 #include "itkMath.h"
-#include "iostream.h"
+#include <iostream>
 
 
 // we are temporarily not going to use a ctest driver so just this
