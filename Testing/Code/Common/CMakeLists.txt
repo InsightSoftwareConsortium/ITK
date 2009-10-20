@@ -619,6 +619,12 @@ itkImageFillBufferTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx
 
+###
+# will be moved to a common test driver after the file is determined to be portable and the rounding has been fully migrated
+ADD_EXECUTABLE( itkMathTest itkMathTest.cxx )
+ADD_TEST( itkMathTest  ${CXX_TEST_PATH}/itkMathTest )
+###
+
 CONFIGURE_FILE(${ITKTesting_SOURCE_DIR}/Code/Common/itkSystemInformationTest.h.in
                ${ITKTesting_BINARY_DIR}/Code/Common/itkSystemInformationTest.h
                @ONLY IMMEDIATE)
