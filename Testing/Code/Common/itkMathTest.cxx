@@ -20,6 +20,7 @@
 
 #include "itkMath.h"
 #include <iostream>
+#include <cstdlib>
 
 
 // we are temporarily not going to use a ctest driver so just this
