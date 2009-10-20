@@ -72,6 +72,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration18 ImageRegistration18.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
 
+ADD_EXECUTABLE(ImageRegistration19 ImageRegistration19.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration19 ITKStatistics ITKIO ITKNumerics)
+
 ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKIO ITKNumerics)
 
@@ -793,6 +796,16 @@ ADD_TEST(ImageRegistration18Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration18Test.png 0.0 0.0
 )
+
+ADD_TEST(ImageRegistration19Test 
+  ${CXX_TEST_PATH}/ImageRegistration19
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
+        ${TEMP}/ImageRegistration19Test.png 
+        ${TEMP}/ImageRegistration19DifferenceTest.png 
+        2.0 2.0 # Initial translation parameters
+)
+
 
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
