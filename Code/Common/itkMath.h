@@ -42,6 +42,7 @@ namespace Math
   template <typename TReturn,typename TInput>                           \
   inline TReturn name(TInput x)                                         \
   {                                                                     \
+                                                                        \
     if (sizeof(TReturn) <= 4)                                           \
       {                                                                 \
       return static_cast<TReturn>(Detail::name##_32(x));                \
@@ -71,26 +72,83 @@ namespace Math
    }
 #endif
 
-/** Define TReturn itk::Math::RoundHalfIntegerToEven<TReturn,TInput>(TInput x) */
+// \brief Define TReturn itk::Math::RoundHalfIntegerToEven<TReturn,TInput>(TInput x) 
+// Round towards nearest integer
+//
+// \tparam TReturn a type convertable from integer types
+// \tparam TInput must be float or double
+//
+//         halfway cases are rounded towards the nearest even integer, e.g.
+//         RoundHalfIntegerToEven( 1.5) ==  2
+//         RoundHalfIntegerToEven(-1.5) == -2
+//         RoundHalfIntegerToEven( 2.5) ==  2
+//         RoundHalfIntegerToEven( 3.5) ==  4
+//
+// The behavior of overflow is undefined due to numerous implementations.
+//
+// \warning We assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
 itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
 
-/** Define TReturn itk::Math::RoundHalfIntegerUp<TReturn,TInput>(TInput x) */
+// \brief Define TReturn itk::Math::RoundHalfIntegerUp<TReturn,TInput>(TInput x) 
+//  Round towards nearest integer
+//
+//         halfway cases are rounded upward, e.g.
+//         RoundHalfIntegerUp( 1.5) ==  2
+//         RoundHalfIntegerUp(-1.5) == -1
+//         RoundHalfIntegerUp( 2.5) ==  3
+//
+// The behavior of overflow is undefined due to numerous implementations.
+//
+// \warning argument absolute value must be less than INT_MAX/2
+// for RoundHalfIntegerUp to be guaranteed to work.
+// We also assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
 itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp);
 
-/** Define TReturn itk::Math::Round<TReturn,TInput>(TInput x) */
+// \brief Define TReturn itk::Math::Round<TReturn,TInput>(TInput x) 
+// Round towards nearest integer
+//
+//         halfway cases such as 0.5 may be rounded either up or down
+//         so as to maximize the efficiency, e.g.
+//         Round( 1.5) ==  1 or  2
+//         Round(-1.5) == -2 or -1
+//         Round( 2.5) ==  2 or  3
+//         Round( 3.5) ==  3 or  4
+//
+// The behavior of overflow is undefined due to numerous implementations.
+//
+// \sa RoundHalfIntegerToEven
 template <typename TReturn, typename TInput>
 inline TReturn Round(TInput x) { return RoundHalfIntegerUp<TReturn,TInput>(x); }
 
-/** Define TReturn itk::Math::Floor<TReturn,TInput>(TInput x) */
+// \brief Define TReturn itk::Math::Floor<TReturn,TInput>(TInput x) 
+// Round towards minus infinity
+//
+// The behavior of overflow is undefined due to numerous implementations.
+//
+// \warning argument absolute value must be less than INT_MAX/2
+// for vnl_math_floor to be guaranteed to work.
+// We also assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
 itkTemplateFloatingToIntegerMacro(Floor);
 
-/** Define TReturn itk::Math::Ceil<TReturn,TInput>(TInput x) */
+// \brief Define TReturn itk::Math::Ceil<TReturn,TInput>(TInput x)
+// Round towards plus infinity
+//
+// The behavior of overflow is undefined due to numerous implementations.
+//
+// \warning argument absolute value must be less than INT_MAX/2
+// for vnl_math_ceil to be guaranteed to work.
+// We also assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one)
 itkTemplateFloatingToIntegerMacro(Ceil);
 
 
 #undef  itkTemplateFloatingToIntegerMacro
 
-#ifndef ITK_LEGACY_REMOVE
+
+#if !defined(ITK_LEGACY_REMOVE) && !(defined(_MSC_VER) && (_MSC_VER <= 1300))
 /**
  * These methods have been deprecated as of ITK 3.16
  * Please use the templated method
@@ -103,8 +161,8 @@ inline int RoundHalfIntegerToEven(float  x) { return Detail::RoundHalfIntegerToE
 inline int RoundHalfIntegerUp(double x) { return Detail::RoundHalfIntegerUp_32(x); }
 inline int RoundHalfIntegerUp(float  x) { return Detail::RoundHalfIntegerUp_32(x); }
 
-inline int Round(double x) { return RoundHalfIntegerUp(x); }
-inline int Round(float  x) { return RoundHalfIntegerUp(x); }
+inline int Round(double x) { return Detail::RoundHalfIntegerUp_32(x); }
+inline int Round(float  x) { return Detail::RoundHalfIntegerUp_32(x); }
 
 inline int Floor(double x) { return Detail::Floor_32(x); }
 inline int Floor(float  x) { return Detail::Floor_32(x); }
@@ -113,8 +171,6 @@ inline int Ceil(double x) { return Detail::Ceil_32(x); }
 inline int Ceil(float  x) { return Detail::Ceil_32(x); }
 
 #endif // end of ITK_LEGACY_REMOVE
-
-#undef TemplateFloatingToInteger
 
 
 } // end namespace Math
