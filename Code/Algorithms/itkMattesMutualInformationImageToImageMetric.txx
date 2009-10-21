@@ -237,13 +237,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    */
   const int padding = 2;  // this will pad by 2 bins
 
-  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin ) /
-    static_cast<double>( m_NumberOfHistogramBins - 2 * padding );
+  const double histogramWidth = 
+    static_cast<double>( static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 2 * padding );
+
+  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin ) / histogramWidth;
   m_FixedImageNormalizedMin = fixedImageMin / m_FixedImageBinSize - 
     static_cast<double>( padding );
 
-  m_MovingImageBinSize = ( movingImageMax - movingImageMin ) /
-    static_cast<double>( m_NumberOfHistogramBins - 2 * padding );
+  m_MovingImageBinSize = ( movingImageMax - movingImageMin ) / histogramWidth;
   m_MovingImageNormalizedMin = movingImageMin / m_MovingImageBinSize -
     static_cast<double>( padding );
 
@@ -269,8 +270,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    * Allocate memory for the marginal PDF and initialize values
    * to zero. The marginal PDFs are stored as std::vector.
    */
-  m_FixedImageMarginalPDF.resize( m_NumberOfHistogramBins, 0.0 );
-  m_MovingImageMarginalPDF.resize( m_NumberOfHistogramBins, 0.0 );
+  m_FixedImageMarginalPDF.resize( this->m_NumberOfHistogramBins, 0.0 );
+  m_MovingImageMarginalPDF.resize( this->m_NumberOfHistogramBins, 0.0 );
 
   /**
    * Allocate memory for the joint PDF and joint PDF derivatives.
@@ -667,16 +668,22 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     double windowTerm =
       static_cast<double>( (*iter).FixedImageValue ) / m_FixedImageBinSize -
         m_FixedImageNormalizedMin;
-    unsigned int pindex = static_cast<unsigned int>( vcl_floor(windowTerm ) );
+
+    OffsetValueType pindex = static_cast< OffsetValueType >( vcl_floor(windowTerm ) );
 
     // Make sure the extreme values are in valid bins
     if ( pindex < 2 )
       {
       pindex = 2;
       }
-    else if ( pindex > (m_NumberOfHistogramBins - 3) )
+    else 
       {
-      pindex = m_NumberOfHistogramBins - 3;
+      const OffsetValueType nindex = 
+        static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+      if ( pindex > nindex ) 
+        {
+        pindex = nindex;
+        }
       }
 
     (*iter).FixedImageParzenWindowIndex = pindex;
@@ -747,19 +754,24 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-      unsigned int movingImageParzenWindowIndex = 
-        static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
+
+      OffsetValueType movingImageParzenWindowIndex = 
+        static_cast<OffsetValueType>( vcl_floor(movingImageParzenWindowTerm ) );
 
       // Make sure the extreme values are in valid bins
       if ( movingImageParzenWindowIndex < 2 )
         {
         movingImageParzenWindowIndex = 2;
         }
-      else if ( movingImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+      else
         {
-        movingImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
+        const OffsetValueType nindex = 
+          static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+        if ( movingImageParzenWindowIndex > nindex ) 
+          {
+          movingImageParzenWindowIndex = nindex;
+          }
         }
-
 
       // Since a zero-order BSpline (box car) kernel is used for
       // the fixed image marginal pdf, we need only increment the
@@ -1027,7 +1039,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
       double movingImageParzenWindowTerm =
         movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-      unsigned int movingImageParzenWindowIndex = 
+
+      OffsetValueType movingImageParzenWindowIndex = 
         static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
 
      // Make sure the extreme values are in valid bins
@@ -1035,9 +1048,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         {
         movingImageParzenWindowIndex = 2;
         }
-      else if ( movingImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+      else 
         {
-        movingImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
+        const OffsetValueType nindex = 
+          static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+        if ( movingImageParzenWindowIndex > nindex )
+          {
+          movingImageParzenWindowIndex = nindex;
+          }
         }
 
 
@@ -1306,19 +1324,23 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
         double movingImageParzenWindowTerm =
           movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-        unsigned int movingImageParzenWindowIndex = 
-          static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
+        OffsetValueType movingImageParzenWindowIndex = 
+          static_cast<OffsetValueType>( vcl_floor(movingImageParzenWindowTerm ) );
 
        // Make sure the extreme values are in valid bins
         if ( movingImageParzenWindowIndex < 2 )
           {
           movingImageParzenWindowIndex = 2;
           }
-        else if ( movingImageParzenWindowIndex > (m_NumberOfHistogramBins - 3) )
+        else 
           {
-          movingImageParzenWindowIndex = m_NumberOfHistogramBins - 3;
+          const OffsetValueType nindex = 
+            static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+          if ( movingImageParzenWindowIndex > nindex ) 
+            {
+            movingImageParzenWindowIndex = nindex;
+            }
           }
-
 
         // Move the pointer to the fist affected bin
         int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
