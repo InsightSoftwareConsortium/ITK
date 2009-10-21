@@ -37,7 +37,7 @@ namespace Math
 // A useful macro to generate a template floating point to integer conversion
 // templated on the return type and using either the 32 bit, the 64 bit or
 // the vanilla version
-#ifdef VXL_HAS_INT_64
+#if VXL_HAS_INT_64
 #define itkTemplateFloatingToIntegerMacro(name)                         \
   template <typename TReturn,typename TInput>                           \
   inline TReturn name(TInput x)                                         \

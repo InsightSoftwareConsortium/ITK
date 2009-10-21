@@ -201,7 +201,7 @@ inline vxl_int_32 Ceil_32(float  x) { return Ceil_base<vxl_int_32,float>(x); }
 
 ////////////////////////////////////////
 // 64 bits versions
-#ifdef VXL_HAS_INT_64
+#if VXL_HAS_INT_64
 
 
 // Figure out when the fast implementation can be used
