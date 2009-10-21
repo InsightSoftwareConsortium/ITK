@@ -66,3 +66,6 @@ TARGET_LINK_LIBRARIES(VesselTubeSpatialObject  ITKIO )
 
 ADD_EXECUTABLE(DTITubeSpatialObject DTITubeSpatialObject.cxx)
 TARGET_LINK_LIBRARIES(DTITubeSpatialObject  ITKIO )
+
+ADD_EXECUTABLE(BoundingBoxFromImageMaskSpatialObject BoundingBoxFromImageMaskSpatialObject.cxx)
+TARGET_LINK_LIBRARIES(BoundingBoxFromImageMaskSpatialObject  ITKIO )
