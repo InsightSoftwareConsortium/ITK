@@ -33,9 +33,11 @@
 # define USE_SSE2_32IMPL 0
 #endif
 // Turn on 64-bit sse2 impl on 64-bit architectures if asked for
-// NOTE: I have concerns that this expression is correct. Perhaps we
-// need parentheses? BCL
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined(__SSE2__) && (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__))
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined(__SSE2__) && \
+  ( (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__)) && \
+    (!defined(__GNUC__)) || ( defined(__GNUC__) && (__GNUC__>=3 )))
+// intrinsics of 64-bit sse are not correctly defined for older versions
+// of gcc, perhaps it would be better to use a comple test for this?
 # define USE_SSE2_64IMPL 1
 #else
 # define USE_SSE2_64IMPL 0
@@ -87,7 +89,7 @@ inline TReturn RoundHalfIntegerToEven_base(TInput x)
     }
 
   const TReturn r = static_cast<TReturn>( x );
-  return ( x != static_cast<TInput>( r ) ) ? r : static_cast<TReturn>( 2*r/2 );
+  return ( x != static_cast<TInput>( r ) ) ? r : static_cast<TReturn>( 2*(r/2) );
 }
 
 template <typename TReturn, typename TInput>
@@ -290,6 +292,8 @@ inline vxl_int_64 Ceil_64(float  x) { return Ceil_base<vxl_int_64,float>(x); }
 
 } // end namespace Detail
 } // end namespace Math
+
+
 } // end namespace itk
 
 
