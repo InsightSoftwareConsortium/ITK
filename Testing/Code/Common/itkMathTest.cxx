@@ -31,7 +31,7 @@ int main( int, char *[] )
   bool ok = true;
 
 
-#ifndef ITK_LEGACY_REMOVE && !(defined(_MSC_VER) && (_MSC_VER <= 1300))
+#if !defined(ITK_LEGACY_REMOVE) && !(defined(_MSC_VER) && (_MSC_VER <= 1300))
 
   std::cout << itk::Math::RoundHalfIntegerToEven( 1.9f ) << std::endl;
   std::cout << itk::Math::RoundHalfIntegerToEven( 1.9 ) << std::endl;
