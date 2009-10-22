@@ -123,9 +123,12 @@ ImageMaskSpatialObject< TDimension >
   
   ImagePointer image = this->GetImage();
 
-  IndexType index;
-  typename RegionType::SizeType  size;
+  typedef typename RegionType::SizeType       SizeType; 
+  typedef typename SizeType::SizeValueType    SizeValueType;
   
+  IndexType index;
+  SizeType  size;
+
   if( ImageType::ImageDimension == 3)
     {
     
@@ -220,8 +223,19 @@ ImageMaskSpatialObject< TDimension >
         IndexType tmpIndex = it.GetIndex();
         for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
           {
-          index[ i ] = index[ i ] < tmpIndex[ i ] ? index[ i ] : tmpIndex[ i ];
-          size[ i ]  = (long)size[ i ]  > tmpIndex[ i ] ? size[ i ]  : tmpIndex[ i ];
+
+          if ( index[ i ] > tmpIndex[ i ] )
+            {
+            index[ i ] = tmpIndex[ i ];
+            }
+
+          const SizeValueType tmpSize = static_cast< SizeValueType >( tmpIndex[ i ] );
+
+          if ( size[ i ]  < tmpSize )
+            {
+            size[ i ]  = tmpSize;
+            }
+
           }
         }
       ++it;
