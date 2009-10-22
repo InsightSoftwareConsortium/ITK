@@ -283,6 +283,7 @@ ADD_TEST(itkOrientedImageProfileTest2 ${COMMON_TESTS2} itkOrientedImageProfileTe
 ADD_TEST(itkOrientedImageProfileTest3 ${COMMON_TESTS2} itkOrientedImageProfileTest3)
 
 ADD_TEST(itkMathRoundTest ${COMMON_TESTS2} itkMathRoundTest)
+ADD_TEST(itkMathRoundTest2 ${COMMON_TESTS2} itkMathRoundTest2)
 
 ADD_TEST(itkVNLRoundProfileTest1 ${COMMON_TESTS2} itkVNLRoundProfileTest1)
 ADD_TEST(itkMathRoundProfileTest1 ${COMMON_TESTS2} itkMathRoundProfileTest1)
@@ -546,6 +547,7 @@ itkOrientedImageProfileTest2.cxx
 itkOrientedImageProfileTest3.cxx
 itkVNLRoundProfileTest1.cxx
 itkMathRoundTest.cxx
+itkMathRoundTest2.cxx
 itkMathRoundProfileTest1.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
