@@ -429,6 +429,17 @@ ADD_TEST(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
         24 10000 0
 )
 
+ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
+  ImageRegistration4Test
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
+        ${TEMP}/ImageRegistration4Test3.png 0
+        ${TEMP}/ImageRegistration4BeforeTest3.png
+        ${TEMP}/ImageRegistration4AfterTest3.png
+        2 10000 0
+)
+
+
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test1PixelCentered.png

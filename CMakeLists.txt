@@ -289,6 +289,9 @@ MARK_AS_ADVANCED(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION)
 # ITK_INSTALL_NO_RUNTIME       - do not install runtime files
 # ITK_INSTALL_NO_DOCUMENTATION - do not install documentation files
 
+OPTION(ITK_USE_FLAT_DIRECTORY_INSTALL  "When ON, ITK will install all the header files in a single directory. This reduces the number of directories that must be searched for headers in projects based on ITK" OFF)
+MARK_AS_ADVANCED(ITK_USE_FLAT_DIRECTORY_INSTALL)
+
 IF(NOT ITK_INSTALL_BIN_DIR)
   # Solaris: unlike libraries, 64 bit executables should be installed in "bin${sun64}" only
   # if the 32 version is installed in  "bin/sparcv7" or "bin/i86", and a isaexec
