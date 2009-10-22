@@ -107,18 +107,21 @@ itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
 itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp);
 
 // \brief Define TReturn itk::Math::Round<TReturn,TInput>(TInput x) 
-// Round towards nearest integer
+// Round towards nearest integer (This is a synonym for RoundHalfIntegerUp)
 //
-//         halfway cases such as 0.5 may be rounded either up or down
-//         so as to maximize the efficiency, e.g.
-//         Round( 1.5) ==  1 or  2
-//         Round(-1.5) == -2 or -1
-//         Round( 2.5) ==  2 or  3
-//         Round( 3.5) ==  3 or  4
+//         halfway cases are rounded upward, e.g.
+//         RoundHalfIntegerUp( 1.5) ==  2
+//         RoundHalfIntegerUp(-1.5) == -1
+//         RoundHalfIntegerUp( 2.5) ==  3
 //
 // The behavior of overflow is undefined due to numerous implementations.
 //
-// \sa RoundHalfIntegerToEven
+// \warning argument absolute value must be less than INT_MAX/2
+// for RoundHalfIntegerUp to be guaranteed to work.
+// We also assume that the rounding mode is not changed from the default
+// one (or at least that it is always restored to the default one).
+//
+// \sa RoundHalfIntegerUp
 template <typename TReturn, typename TInput>
 inline TReturn Round(TInput x) { return RoundHalfIntegerUp<TReturn,TInput>(x); }
 
