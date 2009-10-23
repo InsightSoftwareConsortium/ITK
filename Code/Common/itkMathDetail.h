@@ -32,16 +32,17 @@
 #else
 # define USE_SSE2_32IMPL 0
 #endif
-// Turn on 64-bit sse2 impl on 64-bit architectures if asked for
-#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined(__SSE2__) && \
-  ( (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__) ) )
-//&&
-//    (!defined(__GNUC__) || ( defined(__GNUC__) && (__GNUC__>=4 ) )))
-// intrinsics of 64-bit sse are not correctly defined for older versions
-// of gcc, perhaps it would be better to use a comple test for this?
-# define USE_SSE2_64IMPL 1
-#else
+// Turn on 64-bit sse2 impl only on 64-bit architectures and if asked for
 # define USE_SSE2_64IMPL 0
+#if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined(__SSE2__) && \
+  ( defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__) )
+// _mm_cvtsd_si64 and _mm_cvtss_si64 are not defined in gcc prior to 4.0
+// of gcc, we have opted not to use a compile test for this due to
+// complication with universal binaries on apple
+#if (!defined(__GNUC__) || ( defined(__GNUC__) && (__GNUC__>=4 ) ))
+# undef USE_SSE2_64IMPL
+# define USE_SSE2_64IMPL 1
+#endif
 #endif
 
 // Turn on 32-bit and 64-bit asm impl when using GCC on x86 platform with the following exception:
@@ -205,9 +206,6 @@ inline vxl_int_32 Ceil_32(float  x) { return Ceil_base<vxl_int_32,float>(x); }
 ////////////////////////////////////////
 // 64 bits versions
 #if VXL_HAS_INT_64
-
-
-// Figure out when the fast implementation can be used
 
 #if USE_SSE2_64IMPL // sse2 implementation
 
