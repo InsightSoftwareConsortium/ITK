@@ -34,8 +34,8 @@
 #endif
 // Turn on 64-bit sse2 impl on 64-bit architectures if asked for
 #if VNL_CONFIG_ENABLE_SSE2_ROUNDING && defined(__SSE2__) && \
-  ( (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__))
-//&&                                                                    \
+  ( (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64)) && (!defined(__GCCXML__) ) )
+//&&
 //    (!defined(__GNUC__) || ( defined(__GNUC__) && (__GNUC__>=4 ) )))
 // intrinsics of 64-bit sse are not correctly defined for older versions
 // of gcc, perhaps it would be better to use a comple test for this?
