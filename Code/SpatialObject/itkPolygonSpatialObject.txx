@@ -29,6 +29,11 @@ PolygonGroupOrientation
 PolygonSpatialObject<TDimension>
 ::Plane() const
 {
+  if (Self::ObjectDimension == 2)
+    {
+    return Axial;
+    }
+
   PolygonGroupOrientation plane;
   // local typedef to shut up the compiler...
   
