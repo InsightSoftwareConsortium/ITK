@@ -158,6 +158,8 @@ public:
   typedef typename Superclass::WeightsValueType         WeightsValueType;
   typedef typename Superclass::IndexValueType           IndexValueType;
 
+  typedef typename FixedImageType::OffsetValueType      OffsetValueType;
+
   /** The moving image dimension. */
   itkStaticConstMacro( MovingImageDimension, unsigned int,
                        MovingImageType::ImageDimension );
@@ -183,9 +185,12 @@ public:
                               MeasureType & Value,
                               DerivativeType & Derivative ) const;
 
-  /** Number of bins to used in the histogram. Typical value is 50. */
+  /** Number of bins to used in the histogram. Typical value is 50. The minimum
+   * value is 4 due to the padding required by the Parzen windowing with a
+   * cubic-BSpline kernel. Note that even if the metric is used on binary images,
+   * the number of bins should at least be equal to four. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
-                    1, NumericTraits<unsigned long>::max() );
+                    4, NumericTraits<unsigned long>::max() );
   itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
 
   /** This variable selects the method to be used for computing the Metric
