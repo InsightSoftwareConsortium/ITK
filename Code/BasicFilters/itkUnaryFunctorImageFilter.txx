@@ -62,6 +62,10 @@ UnaryFunctorImageFilter<TInputImage,TOutputImage,TFunction>
     return;
     }
 
+  // Copy information from input to output. If input and output are of
+  // different dimensions, Region information will not be copied.
+  outputPtr->CopyInformation( inputPtr );
+
   // Set the output image largest possible region.  Use a RegionCopier
   // so that the input and output images can be different dimensions.
   OutputImageRegionType outputLargestPossibleRegion;
