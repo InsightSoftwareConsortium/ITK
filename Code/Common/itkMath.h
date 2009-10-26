@@ -26,12 +26,45 @@
 #include "vnl/vnl_math.h"
 #include "itkMathDetail.h"
 
-// note: including Macro.h here will need some thought, which comes first?
 
 namespace itk 
 {
 namespace Math 
 {
+
+// These constants originate from VXL's vnl_math.h. They have been
+// moved here to improve visibility, and to ensure that the constants
+// are available during compile time ( as opposed to static const
+// member vaiables).
+
+// \f[e] The base of the natural logarithm or Euler's number
+static const double e                = 2.7182818284590452354;
+// \f[ \log_2 e \f]
+static const double log2e            = 1.4426950408889634074;
+// \f[ \log_10 e \f]
+static const double log10e           = 0.43429448190325182765;
+// \f[ \log_e 2 \f]
+static const double ln2              = 0.69314718055994530942;
+// \f[ \log_e 10 \f]
+static const double ln10             = 2.30258509299404568402;
+// \f[ \pi ] 
+static const double pi               = 3.14159265358979323846;
+// \f[ \frac{\pi}{2} \f] 
+static const double pi_over_2        = 1.57079632679489661923;
+// \f[ \frac{\pi}{4} \f] 
+static const double pi_over_4        = 0.78539816339744830962;
+// \f[ \frac{1}{\pi} \f] 
+static const double one_over_pi      = 0.31830988618379067154;
+// \f[ \frac{2}{\pi} \f] 
+static const double two_over_pi      = 0.63661977236758134308;
+// \f[ \frac{2}{\sqrt{\pi}} \f] 
+static const double two_over_sqrtpi  = 1.12837916709551257390;
+// \f[ \frac{2}{\sqrt{2\pi}} \f] 
+static const double one_over_sqrt2pi = 0.39894228040143267794;
+// \f[ \sqrt{2} \f] 
+static const double sqrt2            = 1.41421356237309504880;
+// \f[ \sqrt{ \frac{1}{2}} \f]
+static const double sqrt1_2          = 0.70710678118654752440;
 
 
 // A useful macro to generate a template floating point to integer conversion
@@ -151,7 +184,7 @@ itkTemplateFloatingToIntegerMacro(Ceil);
 #undef  itkTemplateFloatingToIntegerMacro
 
 
-#if !defined(ITK_LEGACY_REMOVE) && !(defined(_MSC_VER) && (_MSC_VER <= 1300))
+#if !defined(ITK_LEGACY_REMOVE) && !VCL_TEMPLATE_MATCHES_TOO_OFTEN
 /**
  * These methods have been deprecated as of ITK 3.16
  * Please use the templated method
