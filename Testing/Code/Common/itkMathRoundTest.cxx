@@ -18,8 +18,11 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMacro.h"
+#include "itkMath.h"
 #include <math.h>
+#include <string>
+#include <iostream>
+#include "itkIndex.h"
 
 bool math_test_helper(std::string str, bool test)
 {
@@ -34,135 +37,155 @@ int itkMathRoundTest( int, char *[] )
 {
   bool ok = true;
   
-  ok &= math_test_helper("rnd(-8.4999)  == -8", itk::Math::Round(-8.4999)  == -8);
-  ok &= math_test_helper("rnd(-8.4999f) == -8", itk::Math::Round(-8.4999f) == -8);
-  ok &= math_test_helper("rnd(-8.50)    == -8", itk::Math::Round(-8.50)    == -8);
-  ok &= math_test_helper("rnd(-8.50f)   == -8", itk::Math::Round(-8.50f)   == -8);
-  ok &= math_test_helper("rnd(-8.5001)  == -9", itk::Math::Round(-8.5001)  == -9);
-  ok &= math_test_helper("rnd(-8.5001f) == -9", itk::Math::Round(-8.5001f) == -9);
-  ok &= math_test_helper("rnd(8.4999)   ==  8", itk::Math::Round(8.4999)   ==  8);
-  ok &= math_test_helper("rnd(8.4999f)  ==  8", itk::Math::Round(8.4999f)  ==  8);
-  ok &= math_test_helper("rnd(8.50)     ==  9", itk::Math::Round(8.50)     ==  9);
-  ok &= math_test_helper("rnd(8.50f)    ==  9", itk::Math::Round(8.50f)    ==  9);
-  ok &= math_test_helper("rnd(8.5001)   ==  9", itk::Math::Round(8.5001)   ==  9);
-  ok &= math_test_helper("rnd(8.5001f)  ==  9", itk::Math::Round(8.5001f)  ==  9);
+  typedef itk::Index<3>::IndexValueType IndexValueType;
 
+  ok &= math_test_helper("rnd(-8.4999)  == -8", itk::Math::Round<IndexValueType>(-8.4999)  == -8);
+  ok &= math_test_helper("rnd(-8.4999f) == -8", itk::Math::Round<IndexValueType>(-8.4999f) == -8);
+  ok &= math_test_helper("rnd(-8.50)    == -8", itk::Math::Round<IndexValueType>(-8.50)    == -8);
+  ok &= math_test_helper("rnd(-8.50f)   == -8", itk::Math::Round<IndexValueType>(-8.50f)   == -8);
+  ok &= math_test_helper("rnd(-8.5001)  == -9", itk::Math::Round<IndexValueType>(-8.5001)  == -9);
+  ok &= math_test_helper("rnd(-8.5001f) == -9", itk::Math::Round<IndexValueType>(-8.5001f) == -9);
+  ok &= math_test_helper("rnd(8.4999)   ==  8", itk::Math::Round<IndexValueType>(8.4999)   ==  8);
+  ok &= math_test_helper("rnd(8.4999f)  ==  8", itk::Math::Round<IndexValueType>(8.4999f)  ==  8);
+  ok &= math_test_helper("rnd(8.50)     ==  9", itk::Math::Round<IndexValueType>(8.50)     ==  9);
+  ok &= math_test_helper("rnd(8.50f)    ==  9", itk::Math::Round<IndexValueType>(8.50f)    ==  9);
+  ok &= math_test_helper("rnd(8.5001)   ==  9", itk::Math::Round<IndexValueType>(8.5001)   ==  9);
+  ok &= math_test_helper("rnd(8.5001f)  ==  9", itk::Math::Round<IndexValueType>(8.5001f)  ==  9);
+
+  ok &= math_test_helper("rnd(-9.4999)  == -9 ", itk::Math::Round<IndexValueType>(-9.4999)   == -9);
+  ok &= math_test_helper("rnd(-9.4999f) == -9 ", itk::Math::Round<IndexValueType>(-9.4999f)  == -9);
+  ok &= math_test_helper("rnd(-9.50)    == -9 ", itk::Math::Round<IndexValueType>(-9.50)     == -9);
+  ok &= math_test_helper("rnd(-9.50f)   == -9 ", itk::Math::Round<IndexValueType>(-9.50f)    == -9);
+  ok &= math_test_helper("rnd(-9.5001)  == -10", itk::Math::Round<IndexValueType>(-9.5001)   == -10);
+  ok &= math_test_helper("rnd(-9.5001f) == -10", itk::Math::Round<IndexValueType>(-9.5001f)  == -10);
+  ok &= math_test_helper("rnd(9.4999)   ==  9 ", itk::Math::Round<IndexValueType>(9.4999)    ==  9);
+  ok &= math_test_helper("rnd(9.4999f)  ==  9 ", itk::Math::Round<IndexValueType>(9.4999f)   ==  9);
+  ok &= math_test_helper("rnd(9.50)     ==  10", itk::Math::Round<IndexValueType>(9.50)      ==  10);
+  ok &= math_test_helper("rnd(9.50f)    ==  10", itk::Math::Round<IndexValueType>(9.50f)     ==  10);
+  ok &= math_test_helper("rnd(9.5001)   ==  10", itk::Math::Round<IndexValueType>(9.5001)    ==  10);
+  ok &= math_test_helper("rnd(9.5001f)  ==  10", itk::Math::Round<IndexValueType>(9.5001f)   ==  10);
+
+  ok &= math_test_helper("rnd_halfinttoeven(-8.4999)  == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999) == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.4999f) == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.4999f)== -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.50)    == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50)   == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.50f)   == -8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.50f)  == -8);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.5001)  == -9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001) == -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-8.5001f) == -9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-8.5001f)== -9);
+  ok &= math_test_helper("rnd_halfinttoeven(8.4999)   ==  8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999)  ==  8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.4999f)  ==  8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.4999f) ==  8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.50)     ==  8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50)    ==  8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.50f)    ==  8", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.50f)   ==  8);
+  ok &= math_test_helper("rnd_halfinttoeven(8.5001)   ==  9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001)  ==  9);
+  ok &= math_test_helper("rnd_halfinttoeven(8.5001f)  ==  9", itk::Math::RoundHalfIntegerToEven<IndexValueType>(8.5001f) ==  9);
+
+  ok &= math_test_helper("rnd_halfinttoeven(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999) == -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.4999f)== -9);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.50)    == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50)   == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.50f)   == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.50f)  == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.5001)  == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001) == -10);
+  ok &= math_test_helper("rnd_halfinttoeven(-9.5001f) == -10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(-9.5001f)== -10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999)  ==  9);
+  ok &= math_test_helper("rnd_halfinttoeven(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.4999f) ==  9);
+  ok &= math_test_helper("rnd_halfinttoeven(9.50)     ==  10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50)    ==  10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.50f)    ==  10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.50f)   ==  10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.5001)   ==  10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001)  ==  10);
+  ok &= math_test_helper("rnd_halfinttoeven(9.5001f)  ==  10", itk::Math::RoundHalfIntegerToEven<IndexValueType>(9.5001f) ==  10);
+
+  ok &= math_test_helper("rnd_halfintup(-8.4999)  == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.4999) == -8);
+  ok &= math_test_helper("rnd_halfintup(-8.4999f) == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.4999f)== -8);
+  ok &= math_test_helper("rnd_halfintup(-8.50)    == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.50)   == -8);
+  ok &= math_test_helper("rnd_halfintup(-8.50f)   == -8", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.50f)  == -8);
+  ok &= math_test_helper("rnd_halfintup(-8.5001)  == -9", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.5001) == -9);
+  ok &= math_test_helper("rnd_halfintup(-8.5001f) == -9", itk::Math::RoundHalfIntegerUp<IndexValueType>(-8.5001f)== -9);
+  ok &= math_test_helper("rnd_halfintup(8.4999)   ==  8", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.4999)  ==  8);
+  ok &= math_test_helper("rnd_halfintup(8.4999f)  ==  8", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.4999f) ==  8);
+  ok &= math_test_helper("rnd_halfintup(8.50)     ==  9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.50)    ==  9);
+  ok &= math_test_helper("rnd_halfintup(8.50f)    ==  9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.50f)   ==  9);
+  ok &= math_test_helper("rnd_halfintup(8.5001)   ==  9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.5001)  ==  9);
+  ok &= math_test_helper("rnd_halfintup(8.5001f)  ==  9", itk::Math::RoundHalfIntegerUp<IndexValueType>(8.5001f) ==  9);
+
+  ok &= math_test_helper("rnd_halfintup(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.4999) == -9);
+  ok &= math_test_helper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.4999f)== -9);
+  ok &= math_test_helper("rnd_halfintup(-9.50)    == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.50)   == -9);
+  ok &= math_test_helper("rnd_halfintup(-9.50f)   == -9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.50f)  == -9);
+  ok &= math_test_helper("rnd_halfintup(-9.5001)  == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001) == -10);
+  ok &= math_test_helper("rnd_halfintup(-9.5001f) == -10", itk::Math::RoundHalfIntegerUp<IndexValueType>(-9.5001f)== -10);
+  ok &= math_test_helper("rnd_halfintup(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.4999)  ==  9);
+  ok &= math_test_helper("rnd_halfintup(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.4999f) ==  9);
+  ok &= math_test_helper("rnd_halfintup(9.50)     ==  10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.50)    ==  10);
+  ok &= math_test_helper("rnd_halfintup(9.50f)    ==  10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.50f)   ==  10);
+  ok &= math_test_helper("rnd_halfintup(9.5001)   ==  10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.5001)  ==  10);
+  ok &= math_test_helper("rnd_halfintup(9.5001f)  ==  10", itk::Math::RoundHalfIntegerUp<IndexValueType>(9.5001f) ==  10);
+
+  ok &= math_test_helper("floor(8.0)      ==  8", itk::Math::Floor<IndexValueType>(8.0)      ==  8);
+  ok &= math_test_helper("floor(8.0f)     ==  8", itk::Math::Floor<IndexValueType>(8.0f)     ==  8);
+  ok &= math_test_helper("floor(8.9999)   ==  8", itk::Math::Floor<IndexValueType>(8.9999)   ==  8);
+  ok &= math_test_helper("floor(8.9999f)  ==  8", itk::Math::Floor<IndexValueType>(8.9999f)  ==  8);
+  ok &= math_test_helper("floor(8.0001)   ==  8", itk::Math::Floor<IndexValueType>(8.0001)   ==  8);
+  ok &= math_test_helper("floor(8.0001f)  ==  8", itk::Math::Floor<IndexValueType>(8.0001f)  ==  8);
+  ok &= math_test_helper("floor(-8.0)     == -8", itk::Math::Floor<IndexValueType>(-8.0)     == -8);
+  ok &= math_test_helper("floor(-8.0f)    == -8", itk::Math::Floor<IndexValueType>(-8.0f)    == -8);
+  ok &= math_test_helper("floor(-8.9999)  == -9", itk::Math::Floor<IndexValueType>(-8.9999)  == -9);
+  ok &= math_test_helper("floor(-8.9999f) == -9", itk::Math::Floor<IndexValueType>(-8.9999f) == -9);
+  ok &= math_test_helper("floor(-8.0001)  == -9", itk::Math::Floor<IndexValueType>(-8.0001)  == -9);
+  ok &= math_test_helper("floor(-8.0001f) == -9", itk::Math::Floor<IndexValueType>(-8.0001f) == -9);
+
+  ok &= math_test_helper("floor(9.0)      ==  9 ", itk::Math::Floor<IndexValueType>(9.0)      ==  9);
+  ok &= math_test_helper("floor(9.0f)     ==  9 ", itk::Math::Floor<IndexValueType>(9.0f)     ==  9);
+  ok &= math_test_helper("floor(9.9999)   ==  9 ", itk::Math::Floor<IndexValueType>(9.9999)   ==  9);
+  ok &= math_test_helper("floor(9.9999f)  ==  9 ", itk::Math::Floor<IndexValueType>(9.9999f)  ==  9);
+  ok &= math_test_helper("floor(9.0001)   ==  9 ", itk::Math::Floor<IndexValueType>(9.0001)   ==  9);
+  ok &= math_test_helper("floor(9.0001f)  ==  9 ", itk::Math::Floor<IndexValueType>(9.0001f)  ==  9);
+  ok &= math_test_helper("floor(-9.0)     == -9 ", itk::Math::Floor<IndexValueType>(-9.0)     == -9);
+  ok &= math_test_helper("floor(-9.0f)    == -9 ", itk::Math::Floor<IndexValueType>(-9.0f)    == -9);
+  ok &= math_test_helper("floor(-9.9999)  == -10", itk::Math::Floor<IndexValueType>(-9.9999)  == -10);
+  ok &= math_test_helper("floor(-9.9999f) == -10", itk::Math::Floor<IndexValueType>(-9.9999f) == -10);
+  ok &= math_test_helper("floor(-9.0001)  == -10", itk::Math::Floor<IndexValueType>(-9.0001)  == -10);
+  ok &= math_test_helper("floor(-9.0001f) == -10", itk::Math::Floor<IndexValueType>(-9.0001f) == -10);
+
+  ok &= math_test_helper("ceil(8.0)      ==  8", itk::Math::Ceil<IndexValueType>(8.0)      ==  8);
+  ok &= math_test_helper("ceil(8.0f)     ==  8", itk::Math::Ceil<IndexValueType>(8.0f)     ==  8);
+  ok &= math_test_helper("ceil(8.9999)   ==  9", itk::Math::Ceil<IndexValueType>(8.9999)   ==  9);
+  ok &= math_test_helper("ceil(8.9999f)  ==  9", itk::Math::Ceil<IndexValueType>(8.9999f)  ==  9);
+  ok &= math_test_helper("ceil(8.0001)   ==  9", itk::Math::Ceil<IndexValueType>(8.0001)   ==  9);
+  ok &= math_test_helper("ceil(8.0001f)  ==  9", itk::Math::Ceil<IndexValueType>(8.0001f)  ==  9);
+  ok &= math_test_helper("ceil(-8.0)     == -8", itk::Math::Ceil<IndexValueType>(-8.0)     == -8);
+  ok &= math_test_helper("ceil(-8.0f)    == -8", itk::Math::Ceil<IndexValueType>(-8.0f)    == -8);
+  ok &= math_test_helper("ceil(-8.9999)  == -8", itk::Math::Ceil<IndexValueType>(-8.9999)  == -8);
+  ok &= math_test_helper("ceil(-8.9999f) == -8", itk::Math::Ceil<IndexValueType>(-8.9999f) == -8);
+  ok &= math_test_helper("ceil(-8.0001)  == -8", itk::Math::Ceil<IndexValueType>(-8.0001)  == -8);
+  ok &= math_test_helper("ceil(-8.0001f) == -8", itk::Math::Ceil<IndexValueType>(-8.0001f) == -8);
+
+  ok &= math_test_helper("ceil(9.0)      ==  9 ", itk::Math::Ceil<IndexValueType>(9.0)      ==  9);
+  ok &= math_test_helper("ceil(9.0f)     ==  9 ", itk::Math::Ceil<IndexValueType>(9.0f)     ==  9);
+  ok &= math_test_helper("ceil(9.9999)   ==  10", itk::Math::Ceil<IndexValueType>(9.9999)   ==  10);
+  ok &= math_test_helper("ceil(9.9999f)  ==  10", itk::Math::Ceil<IndexValueType>(9.9999f)  ==  10);
+  ok &= math_test_helper("ceil(9.0001)   ==  10", itk::Math::Ceil<IndexValueType>(9.0001)   ==  10);
+  ok &= math_test_helper("ceil(9.0001f)  ==  10", itk::Math::Ceil<IndexValueType>(9.0001f)  ==  10);
+  ok &= math_test_helper("ceil(-9.0)     == -9 ", itk::Math::Ceil<IndexValueType>(-9.0)     == -9);
+  ok &= math_test_helper("ceil(-9.0f)    == -9 ", itk::Math::Ceil<IndexValueType>(-9.0f)    == -9);
+  ok &= math_test_helper("ceil(-9.9999)  == -9 ", itk::Math::Ceil<IndexValueType>(-9.9999)  == -9);
+  ok &= math_test_helper("ceil(-9.9999f) == -9 ", itk::Math::Ceil<IndexValueType>(-9.9999f) == -9);
+  ok &= math_test_helper("ceil(-9.0001)  == -9 ", itk::Math::Ceil<IndexValueType>(-9.0001)  == -9);
+  ok &= math_test_helper("ceil(-9.0001f) == -9 ", itk::Math::Ceil<IndexValueType>(-9.0001f) == -9);
+
+
+#if !defined(ITK_LEGACY_REMOVE) && !VCL_TEMPLATE_MATCHES_TOO_OFTEN
   ok &= math_test_helper("rnd(-9.4999)  == -9 ", itk::Math::Round(-9.4999)   == -9);
   ok &= math_test_helper("rnd(-9.4999f) == -9 ", itk::Math::Round(-9.4999f)  == -9);
-  ok &= math_test_helper("rnd(-9.50)    == -9 ", itk::Math::Round(-9.50)     == -9);
-  ok &= math_test_helper("rnd(-9.50f)   == -9 ", itk::Math::Round(-9.50f)    == -9);
-  ok &= math_test_helper("rnd(-9.5001)  == -10", itk::Math::Round(-9.5001)   == -10);
-  ok &= math_test_helper("rnd(-9.5001f) == -10", itk::Math::Round(-9.5001f)  == -10);
-  ok &= math_test_helper("rnd(9.4999)   ==  9 ", itk::Math::Round(9.4999)    ==  9);
-  ok &= math_test_helper("rnd(9.4999f)  ==  9 ", itk::Math::Round(9.4999f)   ==  9);
-  ok &= math_test_helper("rnd(9.50)     ==  10", itk::Math::Round(9.50)      ==  10);
-  ok &= math_test_helper("rnd(9.50f)    ==  10", itk::Math::Round(9.50f)     ==  10);
-  ok &= math_test_helper("rnd(9.5001)   ==  10", itk::Math::Round(9.5001)    ==  10);
-  ok &= math_test_helper("rnd(9.5001f)  ==  10", itk::Math::Round(9.5001f)   ==  10);
-
-  ok &= math_test_helper("rnd_halfinttoeven(-8.4999)  == -8", itk::Math::RoundHalfIntegerToEven(-8.4999) == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.4999f) == -8", itk::Math::RoundHalfIntegerToEven(-8.4999f)== -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.50)    == -8", itk::Math::RoundHalfIntegerToEven(-8.50)   == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.50f)   == -8", itk::Math::RoundHalfIntegerToEven(-8.50f)  == -8);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.5001)  == -9", itk::Math::RoundHalfIntegerToEven(-8.5001) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-8.5001f) == -9", itk::Math::RoundHalfIntegerToEven(-8.5001f)== -9);
-  ok &= math_test_helper("rnd_halfinttoeven(8.4999)   ==  8", itk::Math::RoundHalfIntegerToEven(8.4999)  ==  8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.4999f)  ==  8", itk::Math::RoundHalfIntegerToEven(8.4999f) ==  8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.50)     ==  8", itk::Math::RoundHalfIntegerToEven(8.50)    ==  8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.50f)    ==  8", itk::Math::RoundHalfIntegerToEven(8.50f)   ==  8);
-  ok &= math_test_helper("rnd_halfinttoeven(8.5001)   ==  9", itk::Math::RoundHalfIntegerToEven(8.5001)  ==  9);
-  ok &= math_test_helper("rnd_halfinttoeven(8.5001f)  ==  9", itk::Math::RoundHalfIntegerToEven(8.5001f) ==  9);
-
+  
   ok &= math_test_helper("rnd_halfinttoeven(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerToEven(-9.4999) == -9);
   ok &= math_test_helper("rnd_halfinttoeven(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerToEven(-9.4999f)== -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.50)    == -10", itk::Math::RoundHalfIntegerToEven(-9.50)   == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.50f)   == -10", itk::Math::RoundHalfIntegerToEven(-9.50f)  == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.5001)  == -10", itk::Math::RoundHalfIntegerToEven(-9.5001) == -10);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.5001f) == -10", itk::Math::RoundHalfIntegerToEven(-9.5001f)== -10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerToEven(9.4999)  ==  9);
-  ok &= math_test_helper("rnd_halfinttoeven(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerToEven(9.4999f) ==  9);
-  ok &= math_test_helper("rnd_halfinttoeven(9.50)     ==  10", itk::Math::RoundHalfIntegerToEven(9.50)    ==  10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.50f)    ==  10", itk::Math::RoundHalfIntegerToEven(9.50f)   ==  10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.5001)   ==  10", itk::Math::RoundHalfIntegerToEven(9.5001)  ==  10);
-  ok &= math_test_helper("rnd_halfinttoeven(9.5001f)  ==  10", itk::Math::RoundHalfIntegerToEven(9.5001f) ==  10);
-
-  ok &= math_test_helper("rnd_halfintup(-8.4999)  == -8", itk::Math::RoundHalfIntegerUp(-8.4999) == -8);
-  ok &= math_test_helper("rnd_halfintup(-8.4999f) == -8", itk::Math::RoundHalfIntegerUp(-8.4999f)== -8);
-  ok &= math_test_helper("rnd_halfintup(-8.50)    == -8", itk::Math::RoundHalfIntegerUp(-8.50)   == -8);
-  ok &= math_test_helper("rnd_halfintup(-8.50f)   == -8", itk::Math::RoundHalfIntegerUp(-8.50f)  == -8);
-  ok &= math_test_helper("rnd_halfintup(-8.5001)  == -9", itk::Math::RoundHalfIntegerUp(-8.5001) == -9);
-  ok &= math_test_helper("rnd_halfintup(-8.5001f) == -9", itk::Math::RoundHalfIntegerUp(-8.5001f)== -9);
-  ok &= math_test_helper("rnd_halfintup(8.4999)   ==  8", itk::Math::RoundHalfIntegerUp(8.4999)  ==  8);
-  ok &= math_test_helper("rnd_halfintup(8.4999f)  ==  8", itk::Math::RoundHalfIntegerUp(8.4999f) ==  8);
-  ok &= math_test_helper("rnd_halfintup(8.50)     ==  9", itk::Math::RoundHalfIntegerUp(8.50)    ==  9);
-  ok &= math_test_helper("rnd_halfintup(8.50f)    ==  9", itk::Math::RoundHalfIntegerUp(8.50f)   ==  9);
-  ok &= math_test_helper("rnd_halfintup(8.5001)   ==  9", itk::Math::RoundHalfIntegerUp(8.5001)  ==  9);
-  ok &= math_test_helper("rnd_halfintup(8.5001f)  ==  9", itk::Math::RoundHalfIntegerUp(8.5001f) ==  9);
-
+  
   ok &= math_test_helper("rnd_halfintup(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerUp(-9.4999) == -9);
   ok &= math_test_helper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp(-9.4999f)== -9);
-  ok &= math_test_helper("rnd_halfintup(-9.50)    == -9 ", itk::Math::RoundHalfIntegerUp(-9.50)   == -9);
-  ok &= math_test_helper("rnd_halfintup(-9.50f)   == -9 ", itk::Math::RoundHalfIntegerUp(-9.50f)  == -9);
-  ok &= math_test_helper("rnd_halfintup(-9.5001)  == -10", itk::Math::RoundHalfIntegerUp(-9.5001) == -10);
-  ok &= math_test_helper("rnd_halfintup(-9.5001f) == -10", itk::Math::RoundHalfIntegerUp(-9.5001f)== -10);
-  ok &= math_test_helper("rnd_halfintup(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerUp(9.4999)  ==  9);
-  ok &= math_test_helper("rnd_halfintup(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerUp(9.4999f) ==  9);
-  ok &= math_test_helper("rnd_halfintup(9.50)     ==  10", itk::Math::RoundHalfIntegerUp(9.50)    ==  10);
-  ok &= math_test_helper("rnd_halfintup(9.50f)    ==  10", itk::Math::RoundHalfIntegerUp(9.50f)   ==  10);
-  ok &= math_test_helper("rnd_halfintup(9.5001)   ==  10", itk::Math::RoundHalfIntegerUp(9.5001)  ==  10);
-  ok &= math_test_helper("rnd_halfintup(9.5001f)  ==  10", itk::Math::RoundHalfIntegerUp(9.5001f) ==  10);
-
-  ok &= math_test_helper("floor(8.0)      ==  8", itk::Math::Floor(8.0)      ==  8);
-  ok &= math_test_helper("floor(8.0f)     ==  8", itk::Math::Floor(8.0f)     ==  8);
-  ok &= math_test_helper("floor(8.9999)   ==  8", itk::Math::Floor(8.9999)   ==  8);
-  ok &= math_test_helper("floor(8.9999f)  ==  8", itk::Math::Floor(8.9999f)  ==  8);
-  ok &= math_test_helper("floor(8.0001)   ==  8", itk::Math::Floor(8.0001)   ==  8);
-  ok &= math_test_helper("floor(8.0001f)  ==  8", itk::Math::Floor(8.0001f)  ==  8);
-  ok &= math_test_helper("floor(-8.0)     == -8", itk::Math::Floor(-8.0)     == -8);
-  ok &= math_test_helper("floor(-8.0f)    == -8", itk::Math::Floor(-8.0f)    == -8);
-  ok &= math_test_helper("floor(-8.9999)  == -9", itk::Math::Floor(-8.9999)  == -9);
-  ok &= math_test_helper("floor(-8.9999f) == -9", itk::Math::Floor(-8.9999f) == -9);
-  ok &= math_test_helper("floor(-8.0001)  == -9", itk::Math::Floor(-8.0001)  == -9);
-  ok &= math_test_helper("floor(-8.0001f) == -9", itk::Math::Floor(-8.0001f) == -9);
-
+  
   ok &= math_test_helper("floor(9.0)      ==  9 ", itk::Math::Floor(9.0)      ==  9);
   ok &= math_test_helper("floor(9.0f)     ==  9 ", itk::Math::Floor(9.0f)     ==  9);
-  ok &= math_test_helper("floor(9.9999)   ==  9 ", itk::Math::Floor(9.9999)   ==  9);
-  ok &= math_test_helper("floor(9.9999f)  ==  9 ", itk::Math::Floor(9.9999f)  ==  9);
-  ok &= math_test_helper("floor(9.0001)   ==  9 ", itk::Math::Floor(9.0001)   ==  9);
-  ok &= math_test_helper("floor(9.0001f)  ==  9 ", itk::Math::Floor(9.0001f)  ==  9);
-  ok &= math_test_helper("floor(-9.0)     == -9 ", itk::Math::Floor(-9.0)     == -9);
-  ok &= math_test_helper("floor(-9.0f)    == -9 ", itk::Math::Floor(-9.0f)    == -9);
-  ok &= math_test_helper("floor(-9.9999)  == -10", itk::Math::Floor(-9.9999)  == -10);
-  ok &= math_test_helper("floor(-9.9999f) == -10", itk::Math::Floor(-9.9999f) == -10);
-  ok &= math_test_helper("floor(-9.0001)  == -10", itk::Math::Floor(-9.0001)  == -10);
-  ok &= math_test_helper("floor(-9.0001f) == -10", itk::Math::Floor(-9.0001f) == -10);
-
-  ok &= math_test_helper("ceil(8.0)      ==  8", itk::Math::Ceil(8.0)      ==  8);
-  ok &= math_test_helper("ceil(8.0f)     ==  8", itk::Math::Ceil(8.0f)     ==  8);
-  ok &= math_test_helper("ceil(8.9999)   ==  9", itk::Math::Ceil(8.9999)   ==  9);
-  ok &= math_test_helper("ceil(8.9999f)  ==  9", itk::Math::Ceil(8.9999f)  ==  9);
-  ok &= math_test_helper("ceil(8.0001)   ==  9", itk::Math::Ceil(8.0001)   ==  9);
-  ok &= math_test_helper("ceil(8.0001f)  ==  9", itk::Math::Ceil(8.0001f)  ==  9);
-  ok &= math_test_helper("ceil(-8.0)     == -8", itk::Math::Ceil(-8.0)     == -8);
-  ok &= math_test_helper("ceil(-8.0f)    == -8", itk::Math::Ceil(-8.0f)    == -8);
-  ok &= math_test_helper("ceil(-8.9999)  == -8", itk::Math::Ceil(-8.9999)  == -8);
-  ok &= math_test_helper("ceil(-8.9999f) == -8", itk::Math::Ceil(-8.9999f) == -8);
-  ok &= math_test_helper("ceil(-8.0001)  == -8", itk::Math::Ceil(-8.0001)  == -8);
-  ok &= math_test_helper("ceil(-8.0001f) == -8", itk::Math::Ceil(-8.0001f) == -8);
-
+  
   ok &= math_test_helper("ceil(9.0)      ==  9 ", itk::Math::Ceil(9.0)      ==  9);
   ok &= math_test_helper("ceil(9.0f)     ==  9 ", itk::Math::Ceil(9.0f)     ==  9);
-  ok &= math_test_helper("ceil(9.9999)   ==  10", itk::Math::Ceil(9.9999)   ==  10);
-  ok &= math_test_helper("ceil(9.9999f)  ==  10", itk::Math::Ceil(9.9999f)  ==  10);
-  ok &= math_test_helper("ceil(9.0001)   ==  10", itk::Math::Ceil(9.0001)   ==  10);
-  ok &= math_test_helper("ceil(9.0001f)  ==  10", itk::Math::Ceil(9.0001f)  ==  10);
-  ok &= math_test_helper("ceil(-9.0)     == -9 ", itk::Math::Ceil(-9.0)     == -9);
-  ok &= math_test_helper("ceil(-9.0f)    == -9 ", itk::Math::Ceil(-9.0f)    == -9);
-  ok &= math_test_helper("ceil(-9.9999)  == -9 ", itk::Math::Ceil(-9.9999)  == -9);
-  ok &= math_test_helper("ceil(-9.9999f) == -9 ", itk::Math::Ceil(-9.9999f) == -9);
-  ok &= math_test_helper("ceil(-9.0001)  == -9 ", itk::Math::Ceil(-9.0001)  == -9);
-  ok &= math_test_helper("ceil(-9.0001f) == -9 ", itk::Math::Ceil(-9.0001f) == -9);
+#endif // end of ITK_LEGACY_REMOVE
 
   if (!ok)
     {
