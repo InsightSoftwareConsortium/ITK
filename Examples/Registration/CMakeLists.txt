@@ -429,8 +429,6 @@ ADD_TEST(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
         24 10000 0
 )
 
-IF( FIXED_MATTES_MI_FOR_BINARY_IMAGES_BUG_9475 )
-
 ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
   ImageRegistration4Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
@@ -440,8 +438,6 @@ ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration4AfterTest3.png
         2 10000 0
 )
-
-ENDIF( FIXED_MATTES_MI_FOR_BINARY_IMAGES_BUG_9475 )
 
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
