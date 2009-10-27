@@ -21,6 +21,7 @@
 #include "itkCommand.h"
 #include "itkEventObject.h"
 #include "itkExceptionObject.h"
+#include "itkMath.h"
 
 #include "vnl/vnl_math.h"
 

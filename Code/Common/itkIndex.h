@@ -21,6 +21,7 @@
 #include "itkOffset.h"
 #include "itkSize.h"
 #include "itkFixedArray.h"
+#include "itkMath.h"
 
 #include <memory>
 

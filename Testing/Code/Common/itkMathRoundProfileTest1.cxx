@@ -19,6 +19,7 @@
 #endif
 
 #include "itkMacro.h"
+#include "itkMath.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "vnl/vnl_math.h"
 #include <math.h>

@@ -970,24 +970,6 @@ private:
 #endif
 
 
-namespace itk
-{
-namespace Math
-{
-inline int RoundHalfIntegerUp(float   x) { return vnl_math_rnd_halfintup(x); }
-inline int RoundHalfIntegerUp(double  x) { return vnl_math_rnd_halfintup(x); }
-inline int RoundHalfIntegerToEven(float   x) { return vnl_math_rnd_halfinttoeven(x); }
-inline int RoundHalfIntegerToEven(double  x) { return vnl_math_rnd_halfinttoeven(x); }
-inline int Round(float   x) { return RoundHalfIntegerUp(x); }
-inline int Round(double  x) { return RoundHalfIntegerUp(x); }
-inline int Floor(float   x) { return vnl_math_floor(x); }
-inline int Floor(double  x) { return vnl_math_floor(x); }
-inline int Ceil(float   x) { return vnl_math_ceil(x); }
-inline int Ceil(double  x) { return vnl_math_ceil(x); }
-} // end namespace Math
-} // end namespace itk
-
-
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops unrolling
