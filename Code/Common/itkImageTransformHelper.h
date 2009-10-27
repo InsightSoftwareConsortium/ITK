@@ -32,16 +32,16 @@ template <unsigned int NImageDimension, unsigned int R, unsigned int C>
 class ImageTransformHelper
 {
 public:
-  typedef ImageBase<NImageDimension>                       ImageType;
-  typedef typename ImageType::IndexType                    IndexType;
-  typedef typename IndexType::IndexValueType               IndexValueType;
-  typedef typename ImageType::SpacingType                  SpacingType;
-  typedef Matrix<double, NImageDimension, NImageDimension> MatrixType;
-  typedef typename ImageType::PointType                    OriginType;
-  typedef Point<double, NImageDimension>                   DoublePoint;
-  typedef Point<float, NImageDimension>                    FloatPoint;
-  typedef Concept::Detail::UniqueType_bool<false>          UniqueTypeBoolFalse;
-  typedef Concept::Detail::UniqueType_bool<true>           UniqueTypeBoolTrue;
+  typedef ImageBase<NImageDimension>                          ImageType;
+  typedef typename ImageType::IndexType                       IndexType;
+  typedef typename ImageBase<NImageDimension>::IndexValueType IndexValueType;
+  typedef typename ImageType::SpacingType                     SpacingType;
+  typedef Matrix<double, NImageDimension, NImageDimension>    MatrixType;
+  typedef typename ImageType::PointType                       OriginType;
+  typedef Point<double, NImageDimension>                      DoublePoint;
+  typedef Point<float, NImageDimension>                       FloatPoint;
+  typedef Concept::Detail::UniqueType_bool<false>             UniqueTypeBoolFalse;
+  typedef Concept::Detail::UniqueType_bool<true>              UniqueTypeBoolTrue;
 
   //
   // Methods with DoublePoint
