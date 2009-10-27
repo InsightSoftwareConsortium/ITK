@@ -34,6 +34,7 @@ class ImageTransformHelper
 public:
   typedef ImageBase<NImageDimension>                       ImageType;
   typedef typename ImageType::IndexType                    IndexType;
+  typedef typename IndexType::IndexValueType               IndexValueType;
   typedef typename ImageType::SpacingType                  SpacingType;
   typedef Matrix<double, NImageDimension, NImageDimension> MatrixType;
   typedef typename ImageType::PointType                    OriginType;
@@ -175,9 +176,9 @@ public:
     const UniqueTypeBoolTrue& )
     {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      index[R] = Math::RoundHalfIntegerUp<typename IndexType::IndexValueType>( rindex[R] );
+      index[R] = Math::RoundHalfIntegerUp<IndexValueType>( rindex[R] );
 #else
-      index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
+      index[R] = static_cast<IndexValueType>(rindex[R]);
 #endif
     }
 
@@ -314,9 +315,9 @@ public:
     const UniqueTypeBoolTrue& )
     {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-    index[R] = Math::RoundHalfIntegerUp<typename IndexType::IndexValueType>(rindex[R]);
+    index[R] = Math::RoundHalfIntegerUp<IndexValueType>(rindex[R]);
 #else
-    index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
+    index[R] = static_cast<IndexValueType>(rindex[R]);
 #endif
     }
 

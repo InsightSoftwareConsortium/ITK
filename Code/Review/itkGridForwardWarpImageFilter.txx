@@ -97,6 +97,8 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
   // Bresenham line iterator
   typedef LineIterator<OutputImageType> LineIteratorType;
 
+  typedef typename IndexType::IndexValueType IndexValueType;
+
   IndexType index, refIndex, targetIndex;
   ContinuousIndex<float, ImageDimension> contindex;
   DisplacementType displacement;
@@ -129,7 +131,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
           inside = false;
           break;
           }
-        refIndex[j] = Math::Round<typename IndexType::IndexValueType>(contindex[j]);
+        refIndex[j] = Math::Round<IndexValueType>(contindex[j]);
         }
 
       if( inside )
@@ -156,7 +158,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
                 targetIn = false;
                 break;
                 }
-              targetIndex[j] = Math::Round<typename IndexType::IndexValueType>(contindex[j]);
+              targetIndex[j] = Math::Round<IndexValueType>(contindex[j]);
               }
 
             if( targetIn ) 
