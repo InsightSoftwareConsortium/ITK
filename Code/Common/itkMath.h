@@ -184,7 +184,7 @@ itkTemplateFloatingToIntegerMacro(Ceil);
 #undef  itkTemplateFloatingToIntegerMacro
 
 
-#if !defined(ITK_LEGACY_REMOVE) && !VCL_TEMPLATE_MATCHES_TOO_OFTEN
+#if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
 /**
  * These methods have been deprecated as of ITK 3.16
  * Please use the templated method
