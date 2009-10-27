@@ -20,6 +20,7 @@
 #include "itkBSplineInterpolationWeightFunction.h"
 #include "itkImage.h"
 #include "itkMatrix.h"
+#include "itkMath.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
