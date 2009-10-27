@@ -175,7 +175,7 @@ public:
     const UniqueTypeBoolTrue& )
     {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      index[R] = static_cast<typename IndexType::IndexValueType>( itk::Math::RoundHalfIntegerUp( rindex[R] ) );
+      index[R] = Math::RoundHalfIntegerUp<typename IndexType::IndexValueType>( rindex[R] );
 #else
       index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
 #endif
@@ -314,8 +314,7 @@ public:
     const UniqueTypeBoolTrue& )
     {
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-    index[R] = static_cast<typename IndexType::IndexValueType>(
-                     itk::Math::RoundHalfIntegerUp(rindex[R]) );
+    index[R] = Math::RoundHalfIntegerUp<typename IndexType::IndexValueType>(rindex[R]);
 #else
     index[R] = static_cast<typename IndexType::IndexValueType>(rindex[R]);
 #endif

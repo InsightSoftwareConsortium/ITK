@@ -22,7 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNonThreadedShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
-
+#include "itkMath.h"
 
 int itkNonThreadedShrinkImageTest(int, char* [] )
 {
@@ -119,11 +119,11 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
  for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    short col = itk::Math::RoundHalfIntegerUp(shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+    short col = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                               (shrink->GetShrinkFactors()[0]-1.0) / 2.0);
     col += colOffset;
 
-    short row = itk::Math::RoundHalfIntegerUp(shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+    short row = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
                                               (shrink->GetShrinkFactors()[1] - 1.0) / 2.0);
     row += rowOffset;
     short trueValue = col + region.GetSize()[0] * row;
@@ -237,9 +237,9 @@ int itkNonThreadedShrinkImageTest(int, char* [] )
 
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     short trueValue =
-       itk::Math::RoundHalfIntegerUp((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+      itk::Math::RoundHalfIntegerUp<short>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                       (shrink->GetShrinkFactors()[0] - 1.0) / 2.0)) +
-       (region.GetSize()[0] * itk::Math::RoundHalfIntegerUp((shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+      (region.GetSize()[0] * itk::Math::RoundHalfIntegerUp<short>((shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
                                                             (shrink->GetShrinkFactors()[1] - 1.0) / 2.0)));
     if ( iterator2.Get() != trueValue )
       {

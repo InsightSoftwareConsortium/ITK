@@ -877,10 +877,8 @@ BMPImageIO
   // The specification calls for a signed integer, but
   // here we force it to be an unsigned integer to avoid
   // dealing with directions in a subterraneous way.
-  const unsigned int horizontalResolution = 
-    static_cast<unsigned int>( Math::Round( 1000.0 / m_Spacing[0] ) );
-  const unsigned int verticalResolution =
-    static_cast<unsigned int>( Math::Round( 1000.0 / m_Spacing[1] ) );
+  const unsigned int horizontalResolution = Math::Round<unsigned int>( 1000.0 / m_Spacing[0] );
+  const unsigned int verticalResolution = Math::Round<unsigned int>( 1000.0 / m_Spacing[1] );
 
   this->Write32BitsInteger( horizontalResolution );
   this->Write32BitsInteger( verticalResolution );

@@ -23,7 +23,7 @@
 #include "itkExceptionObject.h"
 #include "itkMath.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -350,7 +350,7 @@ void SPSAOptimizer
   for ( unsigned int j = 0; j < spaceDimension; j++ )
     {
     /** Generate randomly -1 or 1. */
-    m_Delta[ j ] = 2 * Math::Round( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
+    m_Delta[ j ] = 2 * Math::Round<int>( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
 
     /**
      * Take scales into account. The perturbation of a parameter that has a

@@ -102,14 +102,14 @@ int itkImportImageTest(int, char* [] )
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     if ( iterator2.Get() != 
-         itk::Math::RoundHalfIntegerUp(
+         itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                  shrink->GetShrinkFactors()[0]/2) +
             (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1]/2) +
                                     (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1]))))))
       {
          std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() <<  " " << iterator2.Get()
-                   << " compare value " << itk::Math::RoundHalfIntegerUp(
+                   << " compare value " << itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                  shrink->GetShrinkFactors()[0]/2) +
             (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1]/2) +

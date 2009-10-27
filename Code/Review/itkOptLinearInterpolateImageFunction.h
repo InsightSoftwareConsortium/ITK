@@ -118,7 +118,7 @@ private:
     {
     IndexType basei;
 
-    basei[0] = Math::Floor(index[0]);
+    basei[0] = Math::Floor<typename IndexType::IndexValueType>(index[0]);
     if( basei[0] < this->m_StartIndex[0] )
       {
       basei[0] = this->m_StartIndex[0];
@@ -148,14 +148,14 @@ private:
     {
     IndexType basei;
 
-    basei[0] = Math::Floor(index[0]);
+    basei[0] = Math::Floor<typename IndexType::IndexValueType>(index[0]);
     if( basei[0] < this->m_StartIndex[0] )
       {
       basei[0] = this->m_StartIndex[0];
       }
     const double distance0 = index[0] - static_cast<double>(basei[0]);
 
-    basei[1] = Math::Floor(index[1]);
+    basei[1] = Math::Floor<typename IndexType::IndexValueType>(index[1]);
     if( basei[1] < this->m_StartIndex[1] )
       {
       basei[1] = this->m_StartIndex[1];
@@ -226,21 +226,21 @@ private:
     {
     IndexType basei;
 
-    basei[0] = Math::Floor(index[0]);
+    basei[0] = Math::Floor<typename IndexType::IndexValueType>(index[0]);
     if( basei[0] < this->m_StartIndex[0] )
       {
       basei[0] = this->m_StartIndex[0];
       }
     const double distance0 = index[0] - static_cast<double>(basei[0]);
  
-    basei[1] = Math::Floor(index[1]);
+    basei[1] = Math::Floor<typename IndexType::IndexValueType>(index[1]);
     if( basei[1] < this->m_StartIndex[1] )
       {
       basei[1] = this->m_StartIndex[1];
       }
     const double distance1 = index[1] - static_cast<double>(basei[1]);
  
-    basei[2] = Math::Floor(index[2]);
+    basei[2] = Math::Floor<typename IndexType::IndexValueType>(index[2]);
     if( basei[2] < this->m_StartIndex[2] )
       {
       basei[2] = this->m_StartIndex[2];

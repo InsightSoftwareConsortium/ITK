@@ -21,7 +21,7 @@
 #include "itkMacro.h"
 #include "itkMath.h"
 #include "itkTimeProbesCollectorBase.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <math.h>
 
 int itkMathRoundTestHelperFunction( double x )
@@ -180,7 +180,7 @@ int itkMathRoundProfileTest1( int, char *[] )
 
     while( inpItr != inputEnd )
       {
-      *outItr++ = itk::Math::Round( *inpItr++ );
+      *outItr++ = itk::Math::Round<int>( *inpItr++ );
       }
 
     chronometer.Stop("itk::Math::Round");

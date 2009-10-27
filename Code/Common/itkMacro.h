@@ -39,7 +39,6 @@
 #include <cassert>
 #endif
 
-#include "vnl/vnl_math.h"
 
 // Determine type of string stream to use.
 #if !defined(CMAKE_NO_ANSI_STRING_STREAM)
@@ -999,7 +998,7 @@ private:
 #define itkForLoopRoundingAndAssignmentMacro(DestinationType,Sourcrnd_halfintup,DestinationElementType,DestinationArray,SourceArray,NumberOfIterations) \
     for(unsigned int i=0;i < NumberOfIterations; ++i) \
       { \
-      DestinationArray[i] = static_cast< DestinationElementType >( itk::Math::Round( SourceArray[i] ) ); \
+      DestinationArray[i] = itk::Math::Round< DestinationElementType >( SourceArray[i] ); \
       }
 
 #endif
@@ -1025,5 +1024,12 @@ private:
      msgstr << message;      \
      itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
      }
+
+// This is included for itk rounding methods, it must be at the end of
+// this file so that Math can utilize the macros defined here.
+// One day this should be removed.
+#ifndef ITK_LEGACY_REMOVE
+#include "itkMath.h"
+#endif //  ITK_LEGACY_REMOVE  
 
 #endif //end of itkMacro.h

@@ -129,7 +129,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
           inside = false;
           break;
           }
-        refIndex[j] = Math::Round(contindex[j]);
+        refIndex[j] = Math::Round<typename IndexType::IndexValueType>(contindex[j]);
         }
 
       if( inside )
@@ -156,7 +156,7 @@ GridForwardWarpImageFilter<TDeformationField,TOutputImage>
                 targetIn = false;
                 break;
                 }
-              targetIndex[j] = Math::Round(contindex[j]);
+              targetIndex[j] = Math::Round<typename IndexType::IndexValueType>(contindex[j]);
               }
 
             if( targetIn ) 

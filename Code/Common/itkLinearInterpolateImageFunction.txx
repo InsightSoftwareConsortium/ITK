@@ -88,7 +88,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = Math::Floor( index[dim] );
+    baseIndex[dim] = Math::Floor< signed long >( index[dim] );
     distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
   

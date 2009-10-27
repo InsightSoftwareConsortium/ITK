@@ -456,9 +456,8 @@ MRFImageFilter<TInputImage, TClassifiedImage>
     totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[ i ]);
     }
 
-  int maxNumPixelError = 
-    static_cast<int>( Math::Round( m_ErrorTolerance * 
-                      m_TotalNumberOfValidPixelsInOutputImage) );
+  int maxNumPixelError = Math::Round<int>( m_ErrorTolerance * 
+                      m_TotalNumberOfValidPixelsInOutputImage);
 
   m_NumberOfIterations = 0;
   do

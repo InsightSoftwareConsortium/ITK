@@ -70,8 +70,8 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   point[1] = 3.25;
   value = function->Evaluate( point );
 
-  trueValue = itk::Math::Round( point[0] ) +
-    ( itk::Math::Round( point[1] ) )  * static_cast<double>( imageSize[0] );
+  trueValue = itk::Math::Round<int>( point[0] ) +
+    ( itk::Math::Round<int>( point[1] ) )  * static_cast<double>( imageSize[0] );
 
   std::cout << "Point: " << point << " Value: " << value << std::endl;
   if ( value != trueValue )
@@ -86,7 +86,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   point[1] = 8.0;
   value = function->Evaluate( point );
 
-  trueValue = itk::Math::Round( point[0] ) +
+  trueValue = itk::Math::Round<int>( point[0] ) +
     ( 6.0 )  * static_cast<double>( imageSize[0] );
 
   std::cout << "Point: " << point << " Value: " << value << std::endl;

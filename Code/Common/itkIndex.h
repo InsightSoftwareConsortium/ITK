@@ -270,7 +270,7 @@ public:
 #else
     for(unsigned int i=0;i < VIndexDimension; ++i)
       {
-      m_Index[i] = static_cast< IndexValueType>( itk::Math::Round( point[i] ) );
+      m_Index[i] = Math::Round<IndexValueType>( point[i] );
       }
 #endif
     }

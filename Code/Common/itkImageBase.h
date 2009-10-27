@@ -387,7 +387,7 @@ public:
         sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
         }
 #ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      index[i] = static_cast< IndexValueType>( itk::Math::RoundHalfIntegerUp( sum ) );
+      index[i] = Math::RoundHalfIntegerUp< IndexValueType>( sum );
 #else
       index[i] = static_cast< IndexValueType>( sum );
 #endif

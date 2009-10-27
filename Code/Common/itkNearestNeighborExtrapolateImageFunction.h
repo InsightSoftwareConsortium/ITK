@@ -78,11 +78,11 @@ public:
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const
     {
-    typedef typename IndexType::IndexValueType ValueType;
+    typedef typename IndexType::IndexValueType IndexValueType;
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      nindex[j] = static_cast<ValueType>( itk::Math::RoundHalfIntegerUp( index[j] ) );
+      nindex[j] = Math::RoundHalfIntegerUp<IndexValueType>( index[j] );
       if ( nindex[j] < this->GetStartIndex()[j] ) 
         { 
         nindex[j] = this->GetStartIndex()[j]; 

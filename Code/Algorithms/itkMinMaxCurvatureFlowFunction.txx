@@ -285,15 +285,15 @@ MinMaxCurvatureFlowFunction<TImage>
 
 
   // Compute first perpendicular point
-  position[0] = Math::Round( (double)(m_StencilRadius - gradient[1]) );
-  position[1] = Math::Round( (double)(m_StencilRadius + gradient[0]) );
+  position[0] = Math::Round<unsigned long>( (double)(m_StencilRadius - gradient[1]) );
+  position[1] = Math::Round<unsigned long>( (double)(m_StencilRadius + gradient[0]) );
 
   
   threshold = it.GetPixel( position[0] + stride * position[1] );
 
   // Compute second perpendicular point
-  position[0] = Math::Round( (double)(m_StencilRadius + gradient[1]) );
-  position[1] = Math::Round( (double)(m_StencilRadius - gradient[0]) );
+  position[0] = Math::Round<unsigned long>( (double)(m_StencilRadius + gradient[1]) );
+  position[1] = Math::Round<unsigned long>( (double)(m_StencilRadius - gradient[0]) );
 
 
   threshold += it.GetPixel( position[0] + stride * position[1] );
@@ -393,32 +393,32 @@ MinMaxCurvatureFlowFunction<TImage>
   double rCosPhi         = m_StencilRadius * cosPhi;
 
   // Point 1: angle = 0;
-  position[0] = Math::Round( m_StencilRadius + rCosThetaCosPhi );
-  position[1] = Math::Round( m_StencilRadius + rCosThetaSinPhi );
-  position[2] = Math::Round( m_StencilRadius - rSinTheta );
+  position[0] = Math::Round<unsigned long>( m_StencilRadius + rCosThetaCosPhi );
+  position[1] = Math::Round<unsigned long>( m_StencilRadius + rCosThetaSinPhi );
+  position[2] = Math::Round<unsigned long>( m_StencilRadius - rSinTheta );
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 2: angle = 90;
-  position[0] = Math::Round( m_StencilRadius - rSinPhi );
-  position[1] = Math::Round( m_StencilRadius + rCosPhi );
+  position[0] = Math::Round<unsigned long>( m_StencilRadius - rSinPhi );
+  position[1] = Math::Round<unsigned long>( m_StencilRadius + rCosPhi );
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 3: angle = 180;
-  position[0] = Math::Round( m_StencilRadius - rCosThetaCosPhi );
-  position[1] = Math::Round( m_StencilRadius - rCosThetaSinPhi );
-  position[2] = Math::Round( m_StencilRadius + rSinTheta );
+  position[0] = Math::Round<unsigned long>( m_StencilRadius - rCosThetaCosPhi );
+  position[1] = Math::Round<unsigned long>( m_StencilRadius - rCosThetaSinPhi );
+  position[2] = Math::Round<unsigned long>( m_StencilRadius + rSinTheta );
 
   threshold += it.GetPixel( position[0] + 
                             strideY * position[1] + strideZ * position[2] );
 
   // Point 4: angle = 270;
-  position[0] = Math::Round( m_StencilRadius + rSinPhi );
-  position[1] = Math::Round( m_StencilRadius - rCosPhi );
+  position[0] = Math::Round<unsigned long>( m_StencilRadius + rSinPhi );
+  position[1] = Math::Round<unsigned long>( m_StencilRadius - rCosPhi );
   position[2] = m_StencilRadius;
 
   threshold += it.GetPixel( position[0] + 
