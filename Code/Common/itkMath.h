@@ -103,7 +103,7 @@ static const double sqrt1_2          = 0.70710678118654752440;
       return static_cast<TReturn>(Detail::name##_base<TReturn,TInput>(x)); \
       }                                                                 \
    }
-#endif
+#endif // end VXL_HAS_INT_64
 
 // \brief Define TReturn itk::Math::RoundHalfIntegerToEven<TReturn,TInput>(TInput x) 
 // Round towards nearest integer
@@ -184,7 +184,11 @@ itkTemplateFloatingToIntegerMacro(Ceil);
 #undef  itkTemplateFloatingToIntegerMacro
 
 
-#if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
+#if !defined(ITK_LEGACY_REMOVE) &&  !VCL_TEMPLATE_MATCHES_TOO_OFTEN
+// VCL_TEMPLATE_MATCHES_TOO_OFTEN is used here because some compilers
+// can not handle function overloading with templated and
+// non-templated methods, ie the templated functions matches too often
+
 /**
  * These methods have been deprecated as of ITK 3.16
  * Please use the templated method
