@@ -1025,11 +1025,4 @@ private:
      itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
      }
 
-// This is included for itk rounding methods, it must be at the end of
-// this file so that Math can utilize the macros defined here.
-// One day this should be removed.
-#ifndef ITK_LEGACY_REMOVE
-#include "itkMath.h"
-#endif //  ITK_LEGACY_REMOVE  
-
 #endif //end of itkMacro.h
