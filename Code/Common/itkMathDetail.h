@@ -22,7 +22,7 @@
 #define __itkMathDetail_h
 
 #include "vnl/vnl_math.h"
-
+#include "itkNumericTraits.h"
 
 // Figure out when the fast implementations can be used
 //
@@ -81,7 +81,7 @@ namespace Detail
 template <typename TReturn, typename TInput>
 inline TReturn RoundHalfIntegerToEven_base(TInput x)
 {
-  if ( x >= static_cast<TInput>( 0 ) ) 
+  if ( NumericTraits<TInput>::IsNonnegative( x ) ) 
     {
     x += static_cast<TInput>( 0.5 );
     }
@@ -99,27 +99,27 @@ inline TReturn RoundHalfIntegerUp_base(TInput x)
 {
   x += static_cast<TInput>( 0.5 );
   const TReturn r = static_cast<TReturn>( x );
-  return ( r >= static_cast<TReturn>( 0 ) ) ?
+  return ( NumericTraits<TReturn>::IsNonnegative( r ) ) ?
     r :
-    ( x == static_cast<TInput>( r ) ? r : r - static_cast<TReturn>( 1 ) );
+    ( x == static_cast<TInput>( r ) ? r : r - NumericTraits<TReturn>::One );
 }
 
 template <typename TReturn, typename TInput>
 inline TReturn Floor_base(TInput x)
 {
   const TReturn r = static_cast<TReturn>( x );
-  return ( x >=static_cast<TInput>( 0 ) ) ?
+  return ( NumericTraits<TInput>::IsNonnegative( x ) ) ?
     r :
-    ( x == static_cast<TInput>( r ) ? r : r - static_cast<TReturn>( 1 ) );
+    ( x == static_cast<TInput>( r ) ? r : r - NumericTraits<TReturn>::One );
 }
 
 template <typename TReturn, typename TInput>
 inline TReturn Ceil_base(TInput x)
 {
   const TReturn r = static_cast<TReturn>( x );
-  return ( x < static_cast<TInput>( 0 ) ) ?
+  return ( NumericTraits<TInput>::IsNegative( x ) ) ?
     r :
-    ( x == static_cast<TInput>( r ) ? r : r + static_cast<TReturn>( 1 ) );
+    ( x == static_cast<TInput>( r ) ? r : r + NumericTraits<TReturn>::One );
 }
 
 ////////////////////////////////////////
@@ -152,20 +152,22 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 {
   vxl_int_32 r;
-  __asm {
+  __asm 
+    {
     fld x
     fistp r
-  }
+    }
   return r;
 }
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 {
   vxl_int_32 r;
-  __asm {
+  __asm 
+    {
     fld x
     fistp r
-  }
+    }
   return r;
 }
 
