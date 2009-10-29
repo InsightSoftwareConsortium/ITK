@@ -72,19 +72,19 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
    * Compute base index = closest index below point
    * Compute distance from point to base index
    */
-  signed long baseIndex[ImageDimension];
+  IndexType baseIndex;
   IndexType neighIndex;
   double distance[ImageDimension];
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = (long) vcl_floor(index[dim] );
+    baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
 
     if( baseIndex[dim] >=  this->m_StartIndex[dim] )
       {
       if( baseIndex[dim] <  this->m_EndIndex[dim] )
         {
-        distance[dim] = index[dim] - double( baseIndex[dim] );
+        distance[dim] = index[dim] - static_cast<double>( baseIndex[dim] );
         }
       else
         {

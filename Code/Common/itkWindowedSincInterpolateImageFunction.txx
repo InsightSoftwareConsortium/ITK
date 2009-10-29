@@ -200,31 +200,15 @@ WindowedSincInterpolateImageFunction<TInputImage,VRadius,
   const ContinuousIndexType& index) const
 {
   unsigned int dim;
-  Index<ImageDimension> baseIndex;
+  IndexType baseIndex;
   double distance[ImageDimension];
 
   // Compute the integer index based on the continuous one by 
   // 'flooring' the index
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    // The following "if" block is equivalent to the following line without
-    // having to call floor.
-    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
-    if (index[dim] >= 0.0)
-      {
-      baseIndex[dim] = (long) index[dim];
-      }
-    else
-      {
-      long tIndex = (long) index[dim];
-      if (double(tIndex) != index[dim])
-        {
-        tIndex--;
-        }
-      baseIndex[dim] = tIndex;
-      }
-    
-    distance[dim] = index[dim] - double( baseIndex[dim] );
+    baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
+    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
   
   // cout << "Sampling at index " << index << " discrete " << baseIndex << endl;

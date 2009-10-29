@@ -70,7 +70,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::IndexValueType  IndexValueType;
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;

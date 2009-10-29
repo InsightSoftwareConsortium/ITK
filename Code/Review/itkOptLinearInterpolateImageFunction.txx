@@ -75,12 +75,12 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    * Compute base index = closet index below point
    * Compute distance from point to base index
    */
-  signed long baseIndex[ImageDimension];
+  IndexType baseIndex;
   double distance[ImageDimension];
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = Math::Floor<signed long>( index[dim] );
+    baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
     distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
   

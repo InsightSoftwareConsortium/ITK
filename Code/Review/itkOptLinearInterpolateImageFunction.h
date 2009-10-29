@@ -73,7 +73,7 @@ public:
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType       IndexType;
-  typedef typename TInputImage::IndexValueType IndexValueType;
+  typedef typename Superclass::IndexValueType  IndexValueType;
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;

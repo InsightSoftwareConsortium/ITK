@@ -72,29 +72,13 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
    * Compute base index = closet index below point
    * Compute distance from point to base index
    */
-  signed long baseIndex[ImageDimension];
+  IndexType baseIndex;
   double distance[ImageDimension];
-  long tIndex;
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    // The following "if" block is equivalent to the following line without
-    // having to call floor.
-    //    baseIndex[dim] = (long) vcl_floor(index[dim] );
-    if (index[dim] >= 0.0)
-      {
-      baseIndex[dim] = (long) index[dim];
-      }
-    else
-      {
-      tIndex = (long) index[dim];
-      if (double(tIndex) != index[dim])
-        {
-        tIndex--;
-        }
-      baseIndex[dim] = tIndex;
-      }
-    distance[dim] = index[dim] - double( baseIndex[dim] );
+    baseIndex[dim] = Math::Floor< IndexValueType >( index[dim] );
+    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
   
   /**

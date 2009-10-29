@@ -94,7 +94,8 @@ public:
   typedef TCoordRep CoordRepType;
 
   /** Index Type. */
-  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::IndexType      IndexType;
+  typedef typename InputImageType::IndexValueType IndexValueType;
 
   /** ContinuousIndex Type. */
   typedef ContinuousIndex<TCoordRep,itkGetStaticConstMacro(ImageDimension)>
