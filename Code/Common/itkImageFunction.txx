@@ -70,7 +70,6 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 
   if ( ptr )
     {
-    typedef typename IndexType::IndexValueType IndexValueType;
     typename InputImageType::SizeType size = ptr->GetBufferedRegion().GetSize();
     m_StartIndex = ptr->GetBufferedRegion().GetIndex();
 

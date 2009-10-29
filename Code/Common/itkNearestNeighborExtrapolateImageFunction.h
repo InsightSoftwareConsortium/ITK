@@ -63,7 +63,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
 
   /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
@@ -78,7 +79,6 @@ public:
   virtual OutputType EvaluateAtContinuousIndex( 
     const ContinuousIndexType & index ) const
     {
-    typedef typename IndexType::IndexValueType IndexValueType;
     IndexType nindex;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
