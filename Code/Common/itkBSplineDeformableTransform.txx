@@ -341,10 +341,12 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
   // expected number of parameters
   if ( parameters.Size() != this->GetNumberOfParameters() )
     {
-    itkExceptionMacro(<<"Mismatched between parameters size "
-                      << parameters.size()
-                      << " and region size "
-                      << m_GridRegion.GetNumberOfPixels() );
+    itkExceptionMacro(<<"Mismatch between parameters size "
+                      << parameters.Size()
+                      << " and expected number of parameters "
+                      << this->GetNumberOfParameters()
+                      << (m_GridRegion.GetNumberOfPixels() == 0 ?
+                          ". \nSince the size of the grid region is 0, perhaps you forgot to SetGridRegion or SetFixedParameters before setting the Parameters." : ""));
     }
 
   // Clean up buffered parameters
