@@ -76,27 +76,27 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  os << indent << "Alpha = " << m_Alpha << std::endl;
-  os << indent << "Beta = " << m_Beta << std::endl;
-  os << indent << "Gamma = " << m_Gamma << std::endl;
-  os << indent << "Rigidity = " << m_Rigidity << std::endl;
-  os << indent << "Iterations = " << m_Iterations << std::endl;
-  os << indent << "Step = " << m_Step << std::endl;
-  os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
-  if( this->m_Gradient.IsNotNull() )
+  os << indent << "Alpha = " << this->GetAlpha() << std::endl;
+  os << indent << "Beta = " << this->GetBeta() << std::endl;
+  os << indent << "Gamma = " << this->GetGamma() << std::endl;
+  os << indent << "Rigidity = " << this->GetRigidity() << std::endl;
+  os << indent << "Iterations = " << this->GetIterations() << std::endl;
+  os << indent << "Step = " << this->GetStep() << std::endl;
+  os << indent << "ImageDepth = " << this->GetImageDepth() << std::endl;
+  if( this->GetGradient().IsNotNull() )
     {
-    os << indent << "Gradient = " << this->m_Gradient << std::endl;
+    os << indent << "Gradient = " << this->GetGradient() << std::endl;
     }
   else
     {
     os << indent << "Gradient = " << "(None)" << std::endl;
     }
-  os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
-  os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
-  os << indent << "Damping = " << m_Damping << std::endl;
+  os << indent << "ImageHeight = " << this->GetImageHeight() << std::endl;
+  os << indent << "ImageWidth = " << this->GetImageWidth() << std::endl;
+  os << indent << "Damping = " << this->GetDamping() << std::endl;
   if( this->m_Data.IsNotNull() )
     {
-    os << indent << "Data = " << this->m_Data << std::endl;
+    os << indent << "Data = " << this->GetData() << std::endl;
     }
   else
     {

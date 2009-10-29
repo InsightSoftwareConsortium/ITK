@@ -189,7 +189,7 @@ public:
   itkGetConstMacro(Rigidity, unsigned int);
 
   itkSetObjectMacro(Data, GeometryMapType );
-  itkGetObjectMacro(Data, GeometryMapType );
+  itkGetConstObjectMacro(Data, GeometryMapType );
      
   /** Width, height and depth of image */
   itkGetConstMacro(ImageWidth,int);
