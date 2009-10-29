@@ -70,8 +70,8 @@ GridImageSource<TOutputImage>
       It.SetDirection( i );  
 
       /** Add two extra functions in the front and one in the back to ensure coverage */
-      unsigned int numberOfGaussians = static_cast<unsigned int>( 
-        vcl_ceil( this->m_Size[i]*this->m_Spacing[i]/this->m_GridSpacing[i] ) + 4 );
+      unsigned int numberOfGaussians = Math::Ceil<unsigned int>(
+         this->m_Size[i]*this->m_Spacing[i]/this->m_GridSpacing[i] ) + 4u;
       for ( It.GoToBegin(); !It.IsAtEndOfLine(); ++It )
         {
         typename ImageType::IndexType index = It.GetIndex();

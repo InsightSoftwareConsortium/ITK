@@ -188,7 +188,8 @@ template< class TInputPixelType, class TOutputPixelType >
   typename InputImageType::IndexType inputROIStart = inputROI.GetIndex();
   
   // the number of projections needed to cover 180 degrees
-  const unsigned int alpha_size = static_cast< unsigned int >( vcl_floor( ( 180 * ( inputROISize[m_AlphaDirection] ) ) / m_AlphaRange ) );
+  const unsigned int alpha_size = Math::Floor< unsigned int >(
+     ( 180 * ( inputROISize[m_AlphaDirection] ) ) / m_AlphaRange );
   const double last_alpha_size = 1 + ( 180.0 * ( inputROISize[m_AlphaDirection] ) ) / m_AlphaRange - alpha_size;
   inputROIStart[m_AlphaDirection] += ( inputROISize[m_AlphaDirection] - alpha_size ) / 2;
   inputROISize[m_AlphaDirection] = alpha_size;
@@ -363,7 +364,7 @@ template< class TInputPixelType, class TOutputPixelType >
       FFTLineType::PixelType out;
     
       // radial BSpline / linear angle interpolation
-      a_lo = static_cast< unsigned int >( vcl_floor( alpha ) );
+      a_lo = Math::Floor< unsigned int >( alpha );
     
       if ( a_lo < alpha_size - 1 ) // no date-line crossing
         {

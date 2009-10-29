@@ -301,7 +301,7 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage,TMovingImage,TDeformationField
       unsigned int numiter = 0;
       if ( numiterfloat > 0.0 )
         {
-        numiter = static_cast<unsigned int>( vcl_ceil(numiterfloat) );
+        numiter = Math::Ceil<unsigned int>( numiterfloat );
         }
       
       m_Exponentiator->AutomaticNumberOfIterationsOff();

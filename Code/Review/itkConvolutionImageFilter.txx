@@ -60,8 +60,8 @@ ConvolutionImageFilter<TInputImage, TOutputImage>
   RadiusType radius;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    radius[i] = static_cast< SizeValueType >( vcl_floor( 0.5 *
-      this->GetImageKernelInput()->GetLargestPossibleRegion().GetSize()[i] ) );
+    radius[i] = Math::Floor< SizeValueType >( 0.5 *
+      this->GetImageKernelInput()->GetLargestPossibleRegion().GetSize()[i] );
     }
 
   double scalingFactor = 1.0;
