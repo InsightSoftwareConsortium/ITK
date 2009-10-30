@@ -370,7 +370,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(tubeN1);
-  writer->SetFileName("Objects.meta");
+  writer->SetFileName(argv[1]);
   writer->SetBinaryPoints(false);
   if(writer->GetBinaryPoints())
     {
@@ -378,7 +378,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  if((argc>1) && (!strcmp(argv[1],"binary")))
+  if((argc>2) && (!strcmp(argv[2],"binary")))
     {
     writer->SetBinaryPoints(true);
     }
@@ -389,13 +389,13 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   std::cout<<"Testing Reading SceneSpatialObject: ";
 
   ReaderType::Pointer reader = ReaderType::New();
-  if((argc>1) && (strcmp(argv[1],"binary")))
+  if((argc>2) && (strcmp(argv[2],"binary")))
     {
-    reader->SetFileName(argv[1]);
+    reader->SetFileName(argv[2]);
     }
   else
     {
-    reader->SetFileName("Objects.meta");
+    reader->SetFileName(argv[1]);
     }
   reader->Update();
 

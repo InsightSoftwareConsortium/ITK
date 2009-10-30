@@ -124,12 +124,12 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(meshSO);
-  if((argc > 1) && (!strcmp(argv[1],"binary")))
+  if((argc > 2) && (!strcmp(argv[2],"binary")))
     {
     std::cout << "Writing binary points" << std::endl;
     writer->SetBinaryPoints(true);
     }
-  writer->SetFileName("metamesh.txt");
+  writer->SetFileName(argv[1]);
   writer->Update();
   std::cout<<"[PASSED]"<<std::endl;
 
@@ -137,13 +137,13 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<"Testing Reading MeshSpatialObject: ";
   typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  if((argc > 1) && (strcmp(argv[1],"binary")))
+  if((argc > 2) && (strcmp(argv[2],"binary")))
     {
-    reader->SetFileName(argv[1]);
+    reader->SetFileName(argv[2]);
     }
   else
     {
-    reader->SetFileName("metamesh.txt");
+    reader->SetFileName(argv[1]);
     }
   reader->Update();
   ReaderType::ScenePointer myScene = reader->GetScene();
