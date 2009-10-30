@@ -582,25 +582,11 @@ ADD_TEST( SmoothingRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES2}
         ${TEMP}/SmoothingRecursiveGaussianImageFilter2.png
         3
 )
-ADD_TEST( ThresholdAboveImageFilterTest ${FILTERING_EXAMPLES2}
+ADD_TEST( ThresholdAboveBelowOutsideImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdAboveImageFilter.png
             ${TEMP}/ThresholdAboveImageFilter.png
-  ThresholdImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ThresholdBelowImageFilter.png
-        ${TEMP}/ThresholdAboveImageFilter.png
-        ${TEMP}/ThresholdOutsideImageFilter.png
-)
-ADD_TEST( ThresholdBelowImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdBelowImageFilter.png
             ${TEMP}/ThresholdBelowImageFilter.png
-  ThresholdImageFilterTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ThresholdBelowImageFilter.png
-        ${TEMP}/ThresholdAboveImageFilter.png
-        ${TEMP}/ThresholdOutsideImageFilter.png
-)
-ADD_TEST( ThresholdOutsideImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ThresholdOutsideImageFilter.png
             ${TEMP}/ThresholdOutsideImageFilter.png
   ThresholdImageFilterTest
