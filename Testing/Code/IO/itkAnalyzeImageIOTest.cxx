@@ -387,27 +387,31 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
       AugmentName="Nifti";
       }
 
+    // copy ac and av in another var so we can reuse it in the second step of the loop
+    int ac2 = ac;
+    char** av2 = av;
+
     //
     // first argument is passing in the writable directory to do all testing
-    if(ac > 1)
+    if(ac2 > 1)
       {
-      char *testdir = *++av;
-      --ac;
+      char *testdir = *++av2;
+      --ac2;
       itksys::SystemTools::ChangeDirectory(testdir);
       }
 
-    if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
+    if(ac2 > 1) //This is a mechanism for reading unsigned char images for testing.
       {
       typedef itk::Image<unsigned char, 3> ImageType;
       ImageType::Pointer input;
       itk::ImageFileReader<ImageType>::Pointer imageReader =
         itk::ImageFileReader<ImageType>::New();
-      for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
+      for(int imagenameindex=1; imagenameindex < ac2; imagenameindex++)
         {
-        //std::cout << "Attempting to read " << av[imagenameindex] << std::endl;
+        //std::cout << "Attempting to read " << av2[imagenameindex] << std::endl;
         try
           {
-          imageReader->SetFileName(av[imagenameindex]);
+          imageReader->SetFileName(av2[imagenameindex]);
           imageReader->Update();
           input=imageReader->GetOutput();
           }
