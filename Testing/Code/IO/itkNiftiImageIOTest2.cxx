@@ -24,7 +24,7 @@ PURPOSE.  See the above copyright notices for more information.
 template <class RGBPixelType>
 int RGBTest(int ac, char *av[])
 {
-  if(ac > 1) 
+  if(ac > 2) 
     {
     char *testdir = *++av;
     itksys::SystemTools::ChangeDirectory(testdir);
@@ -33,6 +33,7 @@ int RGBTest(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
+  char * tmpImage = *++av;
   int success(EXIT_SUCCESS);
   typedef typename itk::Image<RGBPixelType,3> RGBImageType;
   typename RGBImageType::RegionType imageRegion;
@@ -66,8 +67,8 @@ int RGBTest(int ac, char *av[])
   typename RGBImageType::Pointer im2;
   try
     {
-    WriteImage<RGBImageType>(im,std::string("RGBImage.nii.gz"));
-    im2 = ReadImage<RGBImageType>(std::string("RGBImage.nii.gz"));
+    WriteImage<RGBImageType>(im,std::string(tmpImage));
+    im2 = ReadImage<RGBImageType>(std::string(tmpImage));
     }
   catch(itk::ExceptionObject &err)
     {
@@ -88,7 +89,7 @@ int RGBTest(int ac, char *av[])
       break;
       }
     }
-  Remove("RGBImage.nii.gz");
+  Remove(tmpImage);
   return success;
 }
 

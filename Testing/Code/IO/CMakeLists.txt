@@ -472,10 +472,10 @@ ADD_TEST(itkGiplImageIOTest ${IO_TESTS}
             ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
 ADD_TEST(itkGiplImageIOGzTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/ramp.mhd
-            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd
+            ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd
   itkGiplImageIOTest 
             ${ITK_DATA_ROOT}/Input/ramp.gipl.gz
-            ${ITK_TEST_OUTPUT_DIR}/ramp.mhd)
+            ${ITK_TEST_OUTPUT_DIR}/ramp-gz.mhd)
 ADD_TEST(itkLSMImageIOTest ${IO_TESTS} 
   --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
             ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
@@ -806,7 +806,7 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
  ADD_TEST(itkNiftiIOShouldFail ${IO_TESTS} itkNiftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
                                  false ${ITK_DATA_ROOT}/Input/ramp.gipl)
  ADD_TEST(itkNiftiIOShouldSucceed ${IO_TESTS} itkNiftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
-                                 true ${ITK_TEST_OUTPUT_DIR}/NiftiLittleEndian.hdr)
+                                 true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
 
 ADD_TEST(itkNiftiVectorImageTest ${IO_TESTS} itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
 
@@ -815,9 +815,9 @@ ADD_TEST(itkNiftiSlopeInterceptTest ${IO_TESTS} itkNiftiImageIOTest5 ${ITK_TEST_
 ADD_TEST(itkNiftiVectorImageTest2 ${IO_TESTS} itkNiftiImageIOTest6 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiDiffusionTensor3dImageTest ${IO_TESTS} itkNiftiImageIOTest7 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiSymmetricSecondRankTensorImageTest ${IO_TESTS} itkNiftiImageIOTest8 ${ITK_TEST_OUTPUT_DIR} )
-ADD_TEST(itkNiftiRGBImageTest ${IO_TESTS} itkNiftiImageIOTest9 ${ITK_TEST_OUTPUT_DIR})
-ADD_TEST(itkNiftiRGBAImageTest ${IO_TESTS} itkNiftiImageIOTest10 ${ITK_TEST_OUTPUT_DIR})
-ADD_TEST(itkNiftiDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} 
+ADD_TEST(itkNiftiRGBImageTest ${IO_TESTS} itkNiftiImageIOTest9 ${ITK_TEST_OUTPUT_DIR} RGBImage.nii.gz)
+ADD_TEST(itkNiftiRGBAImageTest ${IO_TESTS} itkNiftiImageIOTest10 ${ITK_TEST_OUTPUT_DIR} RGBAImage.nii.gz)
+ADD_TEST(itkNiftiDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR}
 SizeFailure.nii.gz )
 
 ADD_TEST(itkGE4 ${IO_TESTS}
