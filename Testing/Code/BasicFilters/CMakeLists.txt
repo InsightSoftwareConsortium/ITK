@@ -441,10 +441,10 @@ ADD_TEST(itkConnectedComponentImageFilterTest3 ${BASIC_FILTERS_TESTS}
 
 ADD_TEST(itkConnectedComponentImageFilterTestRGB ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png
-            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png
   itkConnectedComponentImageFilterTestRGB
             ${ITK_DATA_ROOT}/Input/cthead1.png
-            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png 130 145)
+            ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png 130 145)
 
 ADD_TEST(itkMaskConnectedComponentImageFilterTest ${BASIC_FILTERS_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskConnectedComponentImageFilterTest.png ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
