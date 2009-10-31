@@ -194,7 +194,7 @@ ADD_TEST(itkRawImageIOTest ${IO_TESTS} itkRawImageIOTest
                            ${TEMP}/raw1.raw ${TEMP}/raw2.raw
 )
 ADD_TEST(itkRawImageIOTest3 ${IO_TESTS} itkRawImageIOTest3
-                           ${TEMP}/raw1.raw ${TEMP}/raw2.raw
+                           ${TEMP}/raw3.raw ${TEMP}/raw4.raw
 )
 ADD_TEST(itkRawImageIOTest4 ${IO_TESTS} itkRawImageIOTest4
                            ${TEMP}/bigendian.raw ${TEMP}/littleendian.raw
