@@ -758,8 +758,6 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
 
 
 ##Analyze Test Suite
-  ADD_TEST(itkAnalyzeImageIOTest ${IO_TESTS}
-    itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR})
   ADD_TEST(itkAnalyzeIOBigEndianCompressed.hdr ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
            ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
   ADD_TEST(itkAnalyzeIOBigEndianCompressed.img ${IO_TESTS} itkAnalyzeImageIOTest ${ITK_TEST_OUTPUT_DIR}
@@ -788,8 +786,6 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
   ADD_TEST(itkAnalyzeDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11
   ${ITK_TEST_OUTPUT_DIR} SizeFailure.img.gz )
 ##Nifti Test Suite
- ADD_TEST(itkNiftiImageIOTest ${IO_TESTS}
-   itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR})
  ADD_TEST(itkNiftiIOBigEndianCompressed.hdr ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
           ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
  ADD_TEST(itkNiftiIOBigEndianCompressed.img ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
