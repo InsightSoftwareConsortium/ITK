@@ -786,22 +786,30 @@ ADD_TEST(itkImageReadDICOMSeriesWriteWithDirection003Test ${IO_TESTS}
   ADD_TEST(itkAnalyzeDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11
   ${ITK_TEST_OUTPUT_DIR} SizeFailure.img.gz )
 ##Nifti Test Suite
- ADD_TEST(itkNiftiIOBigEndianCompressed.hdr ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOBigEndianCompressed.hdr ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.hdr
           ${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr)
- ADD_TEST(itkNiftiIOBigEndianCompressed.img ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOBigEndianCompressed.img ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img
           ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img)
- ADD_TEST(itkNiftiIOBigEndianCompressed.img.gz ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOBigEndianCompressed.img.gz ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.img.gz
           ${ITK_DATA_ROOT}/Input/BigEndianCompressed.img.gz)
- ADD_TEST(itkNiftiIOBigEndian ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOBigEndian ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndian
           ${ITK_DATA_ROOT}/Input/BigEndian.hdr)
- ADD_TEST(itkNiftiIOLittleEndianCompressed ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOLittleEndianCompressed ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiImageIOTest
           ${ITK_DATA_ROOT}/Input/LittleEndianCompressed.hdr)
- ADD_TEST(itkNiftiIOLittleEndian ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOLittleEndian ${IO_TESTS} itkNiftiImageIOTest
+          ${ITK_TEST_OUTPUT_DIR} itkNiftiIOLittleEndian
           ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
  ADD_TEST(itkNiftiIOInternalTests ${IO_TESTS} itkNiftiImageIOTest ${ITK_TEST_OUTPUT_DIR} )
- ADD_TEST(itkNiftiIOShouldFail ${IO_TESTS} itkNiftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOShouldFail ${IO_TESTS} itkNiftiImageIOTest2
+                                 ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldFail
                                  false ${ITK_DATA_ROOT}/Input/ramp.gipl)
- ADD_TEST(itkNiftiIOShouldSucceed ${IO_TESTS} itkNiftiImageIOTest2 ${ITK_TEST_OUTPUT_DIR}
+ ADD_TEST(itkNiftiIOShouldSucceed ${IO_TESTS} itkNiftiImageIOTest2
+                                 ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed
                                  true ${ITK_DATA_ROOT}/Input/LittleEndian.hdr)
 
 ADD_TEST(itkNiftiVectorImageTest ${IO_TESTS} itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
@@ -813,8 +821,7 @@ ADD_TEST(itkNiftiDiffusionTensor3dImageTest ${IO_TESTS} itkNiftiImageIOTest7 ${I
 ADD_TEST(itkNiftiSymmetricSecondRankTensorImageTest ${IO_TESTS} itkNiftiImageIOTest8 ${ITK_TEST_OUTPUT_DIR} )
 ADD_TEST(itkNiftiRGBImageTest ${IO_TESTS} itkNiftiImageIOTest9 ${ITK_TEST_OUTPUT_DIR} RGBImage.nii.gz)
 ADD_TEST(itkNiftiRGBAImageTest ${IO_TESTS} itkNiftiImageIOTest10 ${ITK_TEST_OUTPUT_DIR} RGBAImage.nii.gz)
-ADD_TEST(itkNiftiDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR}
-SizeFailure.nii.gz )
+ADD_TEST(itkNiftiDimensionLimitsTest ${IO_TESTS} itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
 
 ADD_TEST(itkGE4 ${IO_TESTS}
   --compare ${ITK_DATA_ROOT}/Baseline/IO/19771.002.001.mha

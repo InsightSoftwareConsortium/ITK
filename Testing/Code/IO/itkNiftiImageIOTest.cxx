@@ -21,17 +21,17 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkNiftiImageIOTest.h"
 
 
-static void RemoveByteSwapTestFiles(void)
+static void RemoveByteSwapTestFiles(std::string prefix)
 {
-  Remove("NiftiLittleEndian.hdr");
-  Remove("NiftiLittleEndian.img");
-  Remove("NiftiBigEndian.hdr");
-  Remove("NiftiBigEndian.img");
+  Remove((prefix+"NiftiLittleEndian.hdr").c_str());
+  Remove((prefix+"NiftiLittleEndian.img").c_str());
+  Remove((prefix+"NiftiBigEndian.hdr").c_str());
+  Remove((prefix+"NiftiBigEndian.img").c_str());
 }
 
 //The WriteTestFiles function writes binary data to disk to ensure that both big and little endian files are available.
 //This allows all the data necessary to create the images to be stored in source files rather than have separate reference images.
-static int WriteTestFiles(void)
+static int WriteTestFiles(std::string prefix)
 {
 #include "LittleEndian_hdr.h"
     struct nifti_1_header NiftiLittleEndian;
@@ -48,23 +48,23 @@ static int WriteTestFiles(void)
     strncpy(NiftiBigEndian.magic,"ni1\0",4);
 #include "BigEndian_img.h"
     //Force to be Nifti-compliant
-  std::ofstream little_hdr("NiftiLittleEndian.hdr", std::ios::binary | std::ios::out);
+  std::ofstream little_hdr((prefix+"NiftiLittleEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if(!little_hdr.is_open())
     return EXIT_FAILURE;
   std::cout << "NiftiLittleEndian written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(LittleEndian_hdr),sizeof(LittleEndian_hdr));
   little_hdr.close();
-  std::ofstream little_img("NiftiLittleEndian.img", std::ios::binary | std::ios::out);
+  std::ofstream little_img((prefix+"NiftiLittleEndian.img").c_str(), std::ios::binary | std::ios::out);
   if(!little_img.is_open())
     return EXIT_FAILURE;
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img),sizeof(LittleEndian_img));
   little_img.close();
-  std::ofstream big_hdr("NiftiBigEndian.hdr", std::ios::binary | std::ios::out);
+  std::ofstream big_hdr((prefix+"NiftiBigEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if(!big_hdr.is_open())
     return EXIT_FAILURE;
   big_hdr.write(reinterpret_cast<const char *>(BigEndian_hdr),sizeof(BigEndian_hdr));
   big_hdr.close();
-  std::ofstream big_img("NiftiBigEndian.img", std::ios::binary | std::ios::out);
+  std::ofstream big_img((prefix+"NiftiBigEndian.img").c_str(), std::ios::binary | std::ios::out);
   if(!big_img.is_open())
     return EXIT_FAILURE;
   big_img.write(reinterpret_cast<const char *>(BigEndian_img),sizeof(BigEndian_img));
@@ -72,11 +72,11 @@ static int WriteTestFiles(void)
   return EXIT_SUCCESS;
 }
 
-static int TestByteSwap(void)
+static int TestByteSwap(std::string prefix)
 {
   int rval;
   typedef itk::Image<double, 3> ImageType ;
-  if(WriteTestFiles() == -1)
+  if(WriteTestFiles(prefix) == -1)
     {
       return EXIT_FAILURE;
     }
@@ -86,8 +86,8 @@ static int TestByteSwap(void)
 
   try
     {
-    little = ReadImage<ImageType>(std::string("NiftiLittleEndian.hdr"), false);
-    const std::string fname("NiftiBigEndian.hdr");
+    little = ReadImage<ImageType>(prefix+"NiftiLittleEndian.hdr", false);
+    const std::string fname(prefix+"NiftiBigEndian.hdr");
     big = ReadImage<ImageType>(fname, false);
     std::cout << "Printing Dictionary" << std::endl;
     big->GetMetaDataDictionary().Print(std::cout);
@@ -95,7 +95,7 @@ static int TestByteSwap(void)
   catch (itk::ExceptionObject &e)
     {
     e.Print(std::cerr) ;
-    RemoveByteSwapTestFiles();
+    RemoveByteSwapTestFiles(prefix);
     return EXIT_FAILURE;
     }
   rval = 0;
@@ -121,7 +121,7 @@ static int TestByteSwap(void)
       rval= -1;
     }
 
-  RemoveByteSwapTestFiles();
+  RemoveByteSwapTestFiles(prefix);
   return rval;
 }
 
@@ -137,6 +137,11 @@ int itkNiftiImageIOTest(int ac, char* av[])
     char *testdir = *++av;
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
+  }
+  std::string prefix = "";
+  if(ac > 1) {
+    prefix = *++av;
+    --ac;
   }
   static bool firstTime = true;
   if(firstTime) 
@@ -209,7 +214,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
           std::cerr << "Error writing Nifti file type double" << std::endl;
           rval += cur_return;
         }
-      rval += TestByteSwap();
+      rval += TestByteSwap(prefix);
 #endif
     }
   //Tests added to increase code coverage.
@@ -229,15 +234,16 @@ int itkNiftiImageIOTest2(int ac, char* av[])
     --ac;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
-  if(ac != 3)
+  if(ac != 4)
     return EXIT_FAILURE;
   char *arg1 = av[1];
   char *arg2 = av[2];
+  char *prefix = av[3];
   int test_success = 0;
   typedef itk::Image<signed short, 3> ImageType ;
   typedef ImageType::Pointer ImagePointer ;
 
-  if((strcmp(arg1, "true") == 0) && WriteTestFiles() == -1)
+  if((strcmp(arg1, "true") == 0) && WriteTestFiles(prefix) == -1)
     {
       return EXIT_FAILURE;
     }
