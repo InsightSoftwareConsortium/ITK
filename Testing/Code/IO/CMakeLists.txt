@@ -67,6 +67,7 @@ itkIOPluginTest.cxx
 itkImageFileReaderTest1.cxx
 itkImageFileReaderDimensionsTest.cxx
 itkImageFileReaderStreamingTest.cxx
+itkImageFileReaderStreamingTest2.cxx
 itkImageFileWriterTest.cxx
 itkImageFileWriterTest2.cxx
 itkImageFileWriterPastingTest1.cxx

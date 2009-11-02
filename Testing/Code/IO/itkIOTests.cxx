@@ -46,6 +46,7 @@ void RegisterTests()
   REGISTER_TEST(itkAnalyzeImageIORGBImageTest);
   REGISTER_TEST(itkGiplImageIOTest);
   REGISTER_TEST(itkImageFileReaderStreamingTest);
+  REGISTER_TEST(itkImageFileReaderStreamingTest2);
   REGISTER_TEST(itkImageFileReaderTest1);
   REGISTER_TEST(itkImageFileReaderDimensionsTest);
   REGISTER_TEST(itkImageFileWriterTest);
