@@ -436,7 +436,7 @@ ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration4Test3.png 0
         ${TEMP}/ImageRegistration4BeforeTest3.png
         ${TEMP}/ImageRegistration4AfterTest3.png
-        2 10000 0
+        5 10000 0
 )
 
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)

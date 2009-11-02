@@ -185,12 +185,13 @@ public:
                               MeasureType & Value,
                               DerivativeType & Derivative ) const;
 
-  /** Number of bins to used in the histogram. Typical value is 50. The minimum
-   * value is 4 due to the padding required by the Parzen windowing with a
-   * cubic-BSpline kernel. Note that even if the metric is used on binary images,
-   * the number of bins should at least be equal to four. */
+  /** Number of bins to used in the histogram. Typical value is
+   * 50. The minimum value is 5 due to the padding required by the Parzen
+   * windowing with a cubic-BSpline kernel. Note that even if the metric
+   * is used on binary images, the number of bins should at least be
+   * equal to five. */
   itkSetClampMacro( NumberOfHistogramBins, unsigned long,
-                    4, NumericTraits<unsigned long>::max() );
+                    5, NumericTraits<unsigned long>::max() );
   itkGetConstReferenceMacro( NumberOfHistogramBins, unsigned long);   
 
   /** This variable selects the method to be used for computing the Metric
