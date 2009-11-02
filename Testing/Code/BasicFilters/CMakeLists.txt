@@ -39,6 +39,7 @@ ADD_TEST(itkApproximateSignedDistanceMapImageFilterTest ${BASIC_FILTERS_TESTS3}
              ${TEMP}/itkApproximateSignedDistanceMapImageFilterTest.png)
 ADD_TEST(itkAsinImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAsinImageFilterAndAdaptorTest)
 ADD_TEST(itkAtanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkAtanImageFilterAndAdaptorTest)
+ADD_TEST(itkAtan2ImageFilterTest ${BASIC_FILTERS_TESTS} itkAtan2ImageFilterTest)
 ADD_TEST(itkBSplineDecompositionImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineDecompositionImageFilterTest)
 ADD_TEST(itkBSplineInterpolateImageFunctionTest ${BASIC_FILTERS_TESTS} itkBSplineInterpolateImageFunctionTest)
 ADD_TEST(itkBSplineResampleImageFilterTest ${BASIC_FILTERS_TESTS} itkBSplineResampleImageFilterTest)
@@ -1023,6 +1024,7 @@ itkAddImageFilterTest.cxx
 itkAndImageFilterTest.cxx
 itkAsinImageFilterAndAdaptorTest.cxx
 itkAtanImageFilterAndAdaptorTest.cxx
+itkAtan2ImageFilterTest.cxx
 itkBSplineDecompositionImageFilterTest.cxx
 itkBSplineInterpolateImageFunctionTest.cxx
 itkBSplineResampleImageFilterTest.cxx

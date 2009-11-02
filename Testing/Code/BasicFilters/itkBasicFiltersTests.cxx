@@ -36,6 +36,7 @@ void RegisterTests()
   REGISTER_TEST(itkAndImageFilterTest );
   REGISTER_TEST(itkAsinImageFilterAndAdaptorTest );
   REGISTER_TEST(itkAtanImageFilterAndAdaptorTest );
+  REGISTER_TEST(itkAtan2ImageFilterTest );
   REGISTER_TEST(itkBSplineDecompositionImageFilterTest );
   REGISTER_TEST(itkBSplineInterpolateImageFunctionTest );
   REGISTER_TEST(itkBSplineResampleImageFilterTest );
