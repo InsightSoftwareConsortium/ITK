@@ -33,13 +33,13 @@
 
 typedef unsigned char            PixelType;
 typedef itk::Image<PixelType,3>  ImageType;
-
+typedef ImageType::ConstPointer  ImageConstPointer;
 
 namespace { // local namespace
 
 // test is a sub region of the base line,
 // just the region defined by the test image is used to compare
-bool SameRegionImage( ImageType::ConstPointer test, ImageType::ConstPointer baseline )
+bool SameRegionImage( ImageConstPointer test, ImageConstPointer baseline )
 {
   
   PixelType intensityTolerance = 0;
