@@ -99,8 +99,7 @@ ImageRegionMultidimensionalSplitter<VImageDimension>
     else
       {
       splits[j] = (unsigned int) splitsPerDimension;
-      pixelsPerSplit[j] = (unsigned int) vcl_ceil(regionSize[j]
-                                              / (double) splits[j]);
+      pixelsPerSplit[j] = Math::Ceil<unsigned int>( regionSize[j] / (double) splits[j] );
       numPieces *= (unsigned int) splitsPerDimension;
       }
     }
