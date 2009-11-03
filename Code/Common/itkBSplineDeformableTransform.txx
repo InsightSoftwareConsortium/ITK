@@ -188,7 +188,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     // when spline order is even.
     // The valid interval for evaluation is [start+offset, last-offset)
     // when spline order is odd.
-    // Where offset = vcl_floor(spline / 2 ).
+    // Where offset = floor(spline / 2 ).
     // Note that the last pixel is not included in the valid region
     // with odd spline orders.
     typename RegionType::SizeType size = m_GridRegion.GetSize();
