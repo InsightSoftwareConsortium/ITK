@@ -736,6 +736,165 @@ NiftiImageIO
   return false;
 }
 
+// This method adds the available header information to the
+// metadata dictionary.
+void NiftiImageIO::SetImageIOMetadataFromNIfTI()
+{
+  int swap = 0;
+  nifti_1_header *header = nifti_read_header(this->GetFileName(), &swap, true);
+  if (header)
+    {
+    // Encapsulate as many header information as possible.
+    MetaDataDictionary &thisDic = this->GetMetaDataDictionary();
+
+    std::ostringstream dim_info;
+    dim_info << header->dim_info;
+    EncapsulateMetaData<std::string>(thisDic, "dim_info", dim_info.str());
+
+    for (int idx = 0; idx < 8; idx++)
+      {
+      std::ostringstream dim;
+      dim << header->dim[idx];
+      std::ostringstream dimKey;
+      dimKey << "dim[" << idx << "]";
+      EncapsulateMetaData<std::string>(thisDic, dimKey.str(), dim.str());
+      }
+
+    std::ostringstream intent_p1;
+    intent_p1 << header->intent_p1;
+    EncapsulateMetaData<std::string>(thisDic, "intent_p1", intent_p1.str());
+
+    std::ostringstream intent_p2;
+    intent_p2 << header->intent_p2;
+    EncapsulateMetaData<std::string>(thisDic, "intent_p2", intent_p2.str());
+
+    std::ostringstream intent_p3;
+    intent_p3 << header->intent_p3;
+    EncapsulateMetaData<std::string>(thisDic, "intent_p3", intent_p3.str());
+
+    std::ostringstream intent_code;
+    intent_code << header->intent_code;
+    EncapsulateMetaData<std::string>(thisDic, "intent_code", intent_code.str());
+
+    std::ostringstream datatype;
+    datatype << header->datatype;
+    EncapsulateMetaData<std::string>(thisDic, "datatype", datatype.str());
+
+    std::ostringstream bitpix;
+    bitpix << header->bitpix;
+    EncapsulateMetaData<std::string>(thisDic, "bitpix", bitpix.str());
+
+    std::ostringstream slice_start;
+    slice_start << header->slice_start;
+    EncapsulateMetaData<std::string>(thisDic, "slice_start", slice_start.str());
+
+    for (int idx = 0; idx < 8; idx++)
+      {
+      std::ostringstream pixdim;
+      pixdim << header->pixdim[idx];
+      std::ostringstream pixdimKey;
+      pixdimKey << "pixdim[" << idx << "]";
+      EncapsulateMetaData<std::string>(thisDic, pixdimKey.str(), pixdim.str());
+      }
+
+    std::ostringstream vox_offset;
+    vox_offset << header->vox_offset;
+    EncapsulateMetaData<std::string>(thisDic, "vox_offset", vox_offset.str());
+
+    std::ostringstream scl_slope;
+    scl_slope << header->scl_slope;
+    EncapsulateMetaData<std::string>(thisDic, "scl_slope", scl_slope.str());
+
+    std::ostringstream scl_inter;
+    scl_inter << header->scl_inter;
+    EncapsulateMetaData<std::string>(thisDic, "scl_inter", scl_inter.str());
+
+    std::ostringstream slice_end;
+    slice_end << header->slice_end;
+    EncapsulateMetaData<std::string>(thisDic, "slice_end", slice_end.str());
+
+    std::ostringstream slice_code;
+    slice_code << header->slice_code;
+    EncapsulateMetaData<std::string>(thisDic, "slice_code", slice_code.str());
+
+    std::ostringstream xyzt_units;
+    xyzt_units << header->xyzt_units;
+    EncapsulateMetaData<std::string>(thisDic, "xyzt_units", xyzt_units.str());
+
+    std::ostringstream cal_max;
+    cal_max << header->cal_max;
+    EncapsulateMetaData<std::string>(thisDic, "cal_max", cal_max.str());
+
+    std::ostringstream cal_min;
+    cal_min << header->cal_min;
+    EncapsulateMetaData<std::string>(thisDic, "cal_min", cal_min.str());
+
+    std::ostringstream slice_duration;
+    slice_duration << header->slice_duration;
+    EncapsulateMetaData<std::string>(thisDic, "slice_duration", slice_duration.str());
+
+    std::ostringstream toffset;
+    toffset << header->toffset;
+    EncapsulateMetaData<std::string>(thisDic, "toffset", toffset.str());
+
+    std::ostringstream descrip;
+    descrip << header->descrip;
+    EncapsulateMetaData<std::string>(thisDic, "descrip", descrip.str());
+
+    std::ostringstream aux_file;
+    aux_file << header->aux_file;
+    EncapsulateMetaData<std::string>(thisDic, "aux_file", aux_file.str());
+
+    std::ostringstream qform_code;
+    qform_code << header->qform_code;
+    EncapsulateMetaData<std::string>(thisDic, "qform_code", qform_code.str());
+
+    std::ostringstream sform_code;
+    sform_code << header->sform_code;
+    EncapsulateMetaData<std::string>(thisDic, "sform_code", sform_code.str());
+
+    std::ostringstream quatern_b;
+    quatern_b << header->quatern_b;
+    EncapsulateMetaData<std::string>(thisDic, "quatern_b", quatern_b.str());
+
+    std::ostringstream quatern_c;
+    quatern_c << header->quatern_c;
+    EncapsulateMetaData<std::string>(thisDic, "quatern_c", quatern_c.str());
+
+    std::ostringstream quatern_d;
+    quatern_d << header->quatern_d;
+    EncapsulateMetaData<std::string>(thisDic, "quatern_d", quatern_d.str());
+
+    std::ostringstream qoffset_x;
+    qoffset_x << header->qoffset_x;
+    EncapsulateMetaData<std::string>(thisDic, "qoffset_x", qoffset_x.str());
+
+    std::ostringstream qoffset_y;
+    qoffset_y << header->qoffset_y;
+    EncapsulateMetaData<std::string>(thisDic, "qoffset_y", qoffset_y.str());
+
+    std::ostringstream qoffset_z;
+    qoffset_z << header->qoffset_z;
+    EncapsulateMetaData<std::string>(thisDic, "qoffset_z", qoffset_z.str());
+
+    std::ostringstream srow_x;
+    srow_x << header->srow_x[0] << " " << header->srow_x[1] << " " << header->srow_x[2] << " " << header->srow_x[3];
+    EncapsulateMetaData<std::string>(thisDic, "srow_x", srow_x.str());
+
+    std::ostringstream srow_y;
+    srow_y << header->srow_y[0] << " " << header->srow_y[1] << " " << header->srow_y[2] << " " << header->srow_y[3];
+    EncapsulateMetaData<std::string>(thisDic, "srow_y", srow_y.str());
+
+    std::ostringstream srow_z;
+    srow_z << header->srow_z[0] << " " << header->srow_z[1] << " " << header->srow_z[2] << " " << header->srow_z[3];
+    EncapsulateMetaData<std::string>(thisDic, "srow_z", srow_z.str());
+
+    std::ostringstream intent_name;
+    intent_name << header->intent_name;
+    EncapsulateMetaData<std::string>(thisDic, "intent_name", intent_name.str());
+    }
+}
+
 void
 NiftiImageIO
 ::ReadImageInformation()
@@ -1112,6 +1271,9 @@ NiftiImageIO
     }
   // set the image orientation
   this->SetImageIOOrientationFromNIfTI(dims);
+
+  // Set the metadata.
+  this->SetImageIOMetadataFromNIfTI();
 
   //Important hist fields
   std::string description(this->m_NiftiImage->descrip);

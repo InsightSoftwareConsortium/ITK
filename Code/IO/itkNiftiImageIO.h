@@ -114,6 +114,7 @@ private:
   void  DefineHeaderObjectDataType();
   void  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
   void  SetImageIOOrientationFromNIfTI(unsigned short int dims);
+  void  SetImageIOMetadataFromNIfTI();
 
   nifti_image *     m_NiftiImage;
   double            m_RescaleSlope;
