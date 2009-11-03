@@ -52,6 +52,7 @@ public:
   typedef typename Superclass::ImagePointer           ImagePointer;
   typedef typename Superclass::IndexType              IndexType;
   typedef typename Superclass::RegionType             RegionType;
+  typedef typename Superclass::SizeType               SizeType;
   typedef typename Superclass::TransformType          TransformType;
   typedef typename Superclass::PointType              PointType;
   typedef typename Superclass::BoundingBoxType        BoundingBoxType;
