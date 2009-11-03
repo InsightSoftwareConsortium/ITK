@@ -965,8 +965,8 @@ ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int number
   
   // determine the actual number of pieces that will be generated
   ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
-  int valuesPerPiece = (int)vcl_ceil(range/double(numberOfRequestedSplits));
-  int maxPieceUsed = (int)vcl_ceil(range/double(valuesPerPiece)) - 1;
+  int valuesPerPiece = Math::Ceil<int>(range/double(numberOfRequestedSplits));
+  int maxPieceUsed = Math::Ceil<int>(range/double(valuesPerPiece)) - 1;
   
   return maxPieceUsed+1;
 }
@@ -1024,8 +1024,8 @@ ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int ithPiece,
 
   // determine the actual number of pieces that will be generated
   ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
-  int valuesPerPiece = (int)vcl_ceil(range/(double)numberOfActualSplits);
-  int maxPieceUsed = (int)vcl_ceil(range/(double)valuesPerPiece) - 1;
+  int valuesPerPiece = Math::Ceil<int>(range/(double)numberOfActualSplits);
+  int maxPieceUsed = Math::Ceil<int>(range/(double)valuesPerPiece) - 1;
 
   // Split the region
   if ((int) ithPiece < maxPieceUsed)
