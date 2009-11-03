@@ -23,151 +23,128 @@
 #include <iostream>
 #include <cstdlib>
 
+#define RoundTestHelperMacro( rndname, input, output )             \
+  if ( rndname( (input) ) != (output))                              \
+    {                                                               \
+    std::cout << "Failure! " <<  #rndname << "(" << (input) << ") expected "  \
+              << (output) << " but got " <<  rndname( (input) )     \
+                << std::endl;                                       \
+      ok = false;                                                   \
+    }
+
 namespace 
 {
-bool MathTestHelper(std::string str, bool test)
-{
-  if (!test)
-    {
-    std::cout<<"test ("<<str<<") failed"<<std::endl;
-    }
-  return test;
-}
+
+
 
 template <class T>
 bool TemplatedRoundTest( void )
 {
    bool ok = true;
 
-  ok &= MathTestHelper("rnd(-8.4999)  == -8", itk::Math::Round<T>(-8.4999)  == -8);
-  ok &= MathTestHelper("rnd(-8.4999f) == -8", itk::Math::Round<T>(-8.4999f) == -8);
-  ok &= MathTestHelper("rnd(-8.50)    == -8", itk::Math::Round<T>(-8.50)    == -8);
-  ok &= MathTestHelper("rnd(-8.50f)   == -8", itk::Math::Round<T>(-8.50f)   == -8);
-  ok &= MathTestHelper("rnd(-8.5001)  == -9", itk::Math::Round<T>(-8.5001)  == -9);
-  ok &= MathTestHelper("rnd(-8.5001f) == -9", itk::Math::Round<T>(-8.5001f) == -9);
-  ok &= MathTestHelper("rnd(8.4999)   ==  8", itk::Math::Round<T>(8.4999)   ==  8);
-  ok &= MathTestHelper("rnd(8.4999f)  ==  8", itk::Math::Round<T>(8.4999f)  ==  8);
-  ok &= MathTestHelper("rnd(8.50)     ==  9", itk::Math::Round<T>(8.50)     ==  9);
-  ok &= MathTestHelper("rnd(8.50f)    ==  9", itk::Math::Round<T>(8.50f)    ==  9);
-  ok &= MathTestHelper("rnd(8.5001)   ==  9", itk::Math::Round<T>(8.5001)   ==  9);
-  ok &= MathTestHelper("rnd(8.5001f)  ==  9", itk::Math::Round<T>(8.5001f)  ==  9);
+   const unsigned int numberOfElements = 15;
+   
+  // input data for rounding methods
+  float input[] =  {-8.4999, -8.50, -8.5001, 
+                     8.4999,  8.50,  8.5001, 
+                    -9.4999, -9.50, -9.5001, 
+                    9.4999,  9.50,  9.5001,
+                    -0.4999, -.50, -.5001};
 
-  ok &= MathTestHelper("rnd(-9.4999)  == -9 ", itk::Math::Round<T>(-9.4999)   == -9);
-  ok &= MathTestHelper("rnd(-9.4999f) == -9 ", itk::Math::Round<T>(-9.4999f)  == -9);
-  ok &= MathTestHelper("rnd(-9.50)    == -9 ", itk::Math::Round<T>(-9.50)     == -9);
-  ok &= MathTestHelper("rnd(-9.50f)   == -9 ", itk::Math::Round<T>(-9.50f)    == -9);
-  ok &= MathTestHelper("rnd(-9.5001)  == -10", itk::Math::Round<T>(-9.5001)   == -10);
-  ok &= MathTestHelper("rnd(-9.5001f) == -10", itk::Math::Round<T>(-9.5001f)  == -10);
-  ok &= MathTestHelper("rnd(9.4999)   ==  9 ", itk::Math::Round<T>(9.4999)    ==  9);
-  ok &= MathTestHelper("rnd(9.4999f)  ==  9 ", itk::Math::Round<T>(9.4999f)   ==  9);
-  ok &= MathTestHelper("rnd(9.50)     ==  10", itk::Math::Round<T>(9.50)      ==  10);
-  ok &= MathTestHelper("rnd(9.50f)    ==  10", itk::Math::Round<T>(9.50f)     ==  10);
-  ok &= MathTestHelper("rnd(9.5001)   ==  10", itk::Math::Round<T>(9.5001)    ==  10);
-  ok &= MathTestHelper("rnd(9.5001f)  ==  10", itk::Math::Round<T>(9.5001f)   ==  10);
+  T roundOutput[] = { -8, -8, -9,
+                       8,  9,  9,
+                      -9, -9, -10,
+                      9, 10,  10,
+                      0, 0, -1};
 
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.4999)  == -8", itk::Math::RoundHalfIntegerToEven<T>(-8.4999) == -8);
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.4999f) == -8", itk::Math::RoundHalfIntegerToEven<T>(-8.4999f)== -8);
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.50)    == -8", itk::Math::RoundHalfIntegerToEven<T>(-8.50)   == -8);
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.50f)   == -8", itk::Math::RoundHalfIntegerToEven<T>(-8.50f)  == -8);
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.5001)  == -9", itk::Math::RoundHalfIntegerToEven<T>(-8.5001) == -9);
-  ok &= MathTestHelper("rnd_halfinttoeven(-8.5001f) == -9", itk::Math::RoundHalfIntegerToEven<T>(-8.5001f)== -9);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.4999)   ==  8", itk::Math::RoundHalfIntegerToEven<T>(8.4999)  ==  8);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.4999f)  ==  8", itk::Math::RoundHalfIntegerToEven<T>(8.4999f) ==  8);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.50)     ==  8", itk::Math::RoundHalfIntegerToEven<T>(8.50)    ==  8);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.50f)    ==  8", itk::Math::RoundHalfIntegerToEven<T>(8.50f)   ==  8);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.5001)   ==  9", itk::Math::RoundHalfIntegerToEven<T>(8.5001)  ==  9);
-  ok &= MathTestHelper("rnd_halfinttoeven(8.5001f)  ==  9", itk::Math::RoundHalfIntegerToEven<T>(8.5001f) ==  9);
 
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerToEven<T>(-9.4999) == -9);
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerToEven<T>(-9.4999f)== -9);
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.50)    == -10", itk::Math::RoundHalfIntegerToEven<T>(-9.50)   == -10);
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.50f)   == -10", itk::Math::RoundHalfIntegerToEven<T>(-9.50f)  == -10);
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.5001)  == -10", itk::Math::RoundHalfIntegerToEven<T>(-9.5001) == -10);
-  ok &= MathTestHelper("rnd_halfinttoeven(-9.5001f) == -10", itk::Math::RoundHalfIntegerToEven<T>(-9.5001f)== -10);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerToEven<T>(9.4999)  ==  9);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerToEven<T>(9.4999f) ==  9);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.50)     ==  10", itk::Math::RoundHalfIntegerToEven<T>(9.50)    ==  10);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.50f)    ==  10", itk::Math::RoundHalfIntegerToEven<T>(9.50f)   ==  10);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.5001)   ==  10", itk::Math::RoundHalfIntegerToEven<T>(9.5001)  ==  10);
-  ok &= MathTestHelper("rnd_halfinttoeven(9.5001f)  ==  10", itk::Math::RoundHalfIntegerToEven<T>(9.5001f) ==  10);
+  T halftoevenOutput[] = { -8, -8, -9,
+                            8,  8,  9,
+                           -9, -10, -10,
+                           9, 10,  10,
+                           0, 0, -1};
 
-  ok &= MathTestHelper("rnd_halfintup(-8.4999)  == -8", itk::Math::RoundHalfIntegerUp<T>(-8.4999) == -8);
-  ok &= MathTestHelper("rnd_halfintup(-8.4999f) == -8", itk::Math::RoundHalfIntegerUp<T>(-8.4999f)== -8);
-  ok &= MathTestHelper("rnd_halfintup(-8.50)    == -8", itk::Math::RoundHalfIntegerUp<T>(-8.50)   == -8);
-  ok &= MathTestHelper("rnd_halfintup(-8.50f)   == -8", itk::Math::RoundHalfIntegerUp<T>(-8.50f)  == -8);
-  ok &= MathTestHelper("rnd_halfintup(-8.5001)  == -9", itk::Math::RoundHalfIntegerUp<T>(-8.5001) == -9);
-  ok &= MathTestHelper("rnd_halfintup(-8.5001f) == -9", itk::Math::RoundHalfIntegerUp<T>(-8.5001f)== -9);
-  ok &= MathTestHelper("rnd_halfintup(8.4999)   ==  8", itk::Math::RoundHalfIntegerUp<T>(8.4999)  ==  8);
-  ok &= MathTestHelper("rnd_halfintup(8.4999f)  ==  8", itk::Math::RoundHalfIntegerUp<T>(8.4999f) ==  8);
-  ok &= MathTestHelper("rnd_halfintup(8.50)     ==  9", itk::Math::RoundHalfIntegerUp<T>(8.50)    ==  9);
-  ok &= MathTestHelper("rnd_halfintup(8.50f)    ==  9", itk::Math::RoundHalfIntegerUp<T>(8.50f)   ==  9);
-  ok &= MathTestHelper("rnd_halfintup(8.5001)   ==  9", itk::Math::RoundHalfIntegerUp<T>(8.5001)  ==  9);
-  ok &= MathTestHelper("rnd_halfintup(8.5001f)  ==  9", itk::Math::RoundHalfIntegerUp<T>(8.5001f) ==  9);
 
-  ok &= MathTestHelper("rnd_halfintup(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerUp<T>(-9.4999) == -9);
-  ok &= MathTestHelper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp<T>(-9.4999f)== -9);
-  ok &= MathTestHelper("rnd_halfintup(-9.50)    == -9 ", itk::Math::RoundHalfIntegerUp<T>(-9.50)   == -9);
-  ok &= MathTestHelper("rnd_halfintup(-9.50f)   == -9 ", itk::Math::RoundHalfIntegerUp<T>(-9.50f)  == -9);
-  ok &= MathTestHelper("rnd_halfintup(-9.5001)  == -10", itk::Math::RoundHalfIntegerUp<T>(-9.5001) == -10);
-  ok &= MathTestHelper("rnd_halfintup(-9.5001f) == -10", itk::Math::RoundHalfIntegerUp<T>(-9.5001f)== -10);
-  ok &= MathTestHelper("rnd_halfintup(9.4999)   ==  9 ", itk::Math::RoundHalfIntegerUp<T>(9.4999)  ==  9);
-  ok &= MathTestHelper("rnd_halfintup(9.4999f)  ==  9 ", itk::Math::RoundHalfIntegerUp<T>(9.4999f) ==  9);
-  ok &= MathTestHelper("rnd_halfintup(9.50)     ==  10", itk::Math::RoundHalfIntegerUp<T>(9.50)    ==  10);
-  ok &= MathTestHelper("rnd_halfintup(9.50f)    ==  10", itk::Math::RoundHalfIntegerUp<T>(9.50f)   ==  10);
-  ok &= MathTestHelper("rnd_halfintup(9.5001)   ==  10", itk::Math::RoundHalfIntegerUp<T>(9.5001)  ==  10);
-  ok &= MathTestHelper("rnd_halfintup(9.5001f)  ==  10", itk::Math::RoundHalfIntegerUp<T>(9.5001f) ==  10);
+  T *halfupOutput = roundOutput;
+  
+  
+  ////////
+  // input data for floor and ceil methods
+  float fcinput[] = { 8.0,  8.9999,  8.0001,
+                     -8.0, -8.9999, -8.0001,
+                      9.0,  9.9999,  9.0001,
+                      -9.0, -9.9999, -9.0001,
+                      -1.0, -0.9999, -1.0001};
 
-  ok &= MathTestHelper("floor(8.0)      ==  8", itk::Math::Floor<T>(8.0)      ==  8);
-  ok &= MathTestHelper("floor(8.0f)     ==  8", itk::Math::Floor<T>(8.0f)     ==  8);
-  ok &= MathTestHelper("floor(8.9999)   ==  8", itk::Math::Floor<T>(8.9999)   ==  8);
-  ok &= MathTestHelper("floor(8.9999f)  ==  8", itk::Math::Floor<T>(8.9999f)  ==  8);
-  ok &= MathTestHelper("floor(8.0001)   ==  8", itk::Math::Floor<T>(8.0001)   ==  8);
-  ok &= MathTestHelper("floor(8.0001f)  ==  8", itk::Math::Floor<T>(8.0001f)  ==  8);
-  ok &= MathTestHelper("floor(-8.0)     == -8", itk::Math::Floor<T>(-8.0)     == -8);
-  ok &= MathTestHelper("floor(-8.0f)    == -8", itk::Math::Floor<T>(-8.0f)    == -8);
-  ok &= MathTestHelper("floor(-8.9999)  == -9", itk::Math::Floor<T>(-8.9999)  == -9);
-  ok &= MathTestHelper("floor(-8.9999f) == -9", itk::Math::Floor<T>(-8.9999f) == -9);
-  ok &= MathTestHelper("floor(-8.0001)  == -9", itk::Math::Floor<T>(-8.0001)  == -9);
-  ok &= MathTestHelper("floor(-8.0001f) == -9", itk::Math::Floor<T>(-8.0001f) == -9);
+   T floorOutput[] =  {  8,  8,  8,
+                        -8, -9, -9,
+                         9,  9,  9,
+                         -9,-10,-10, 
+                         -1,-1, -2};
 
-  ok &= MathTestHelper("floor(9.0)      ==  9 ", itk::Math::Floor<T>(9.0)      ==  9);
-  ok &= MathTestHelper("floor(9.0f)     ==  9 ", itk::Math::Floor<T>(9.0f)     ==  9);
-  ok &= MathTestHelper("floor(9.9999)   ==  9 ", itk::Math::Floor<T>(9.9999)   ==  9);
-  ok &= MathTestHelper("floor(9.9999f)  ==  9 ", itk::Math::Floor<T>(9.9999f)  ==  9);
-  ok &= MathTestHelper("floor(9.0001)   ==  9 ", itk::Math::Floor<T>(9.0001)   ==  9);
-  ok &= MathTestHelper("floor(9.0001f)  ==  9 ", itk::Math::Floor<T>(9.0001f)  ==  9);
-  ok &= MathTestHelper("floor(-9.0)     == -9 ", itk::Math::Floor<T>(-9.0)     == -9);
-  ok &= MathTestHelper("floor(-9.0f)    == -9 ", itk::Math::Floor<T>(-9.0f)    == -9);
-  ok &= MathTestHelper("floor(-9.9999)  == -10", itk::Math::Floor<T>(-9.9999)  == -10);
-  ok &= MathTestHelper("floor(-9.9999f) == -10", itk::Math::Floor<T>(-9.9999f) == -10);
-  ok &= MathTestHelper("floor(-9.0001)  == -10", itk::Math::Floor<T>(-9.0001)  == -10);
-  ok &= MathTestHelper("floor(-9.0001f) == -10", itk::Math::Floor<T>(-9.0001f) == -10);
+ 
+  T ceilOutput[] =  {  8,  9,  9,
+                      -8, -8, -8,
+                       9, 10, 10,
+                       -9, -9, -9,
+                       -1, 0, -1};
 
-  ok &= MathTestHelper("ceil(8.0)      ==  8", itk::Math::Ceil<T>(8.0)      ==  8);
-  ok &= MathTestHelper("ceil(8.0f)     ==  8", itk::Math::Ceil<T>(8.0f)     ==  8);
-  ok &= MathTestHelper("ceil(8.9999)   ==  9", itk::Math::Ceil<T>(8.9999)   ==  9);
-  ok &= MathTestHelper("ceil(8.9999f)  ==  9", itk::Math::Ceil<T>(8.9999f)  ==  9);
-  ok &= MathTestHelper("ceil(8.0001)   ==  9", itk::Math::Ceil<T>(8.0001)   ==  9);
-  ok &= MathTestHelper("ceil(8.0001f)  ==  9", itk::Math::Ceil<T>(8.0001f)  ==  9);
-  ok &= MathTestHelper("ceil(-8.0)     == -8", itk::Math::Ceil<T>(-8.0)     == -8);
-  ok &= MathTestHelper("ceil(-8.0f)    == -8", itk::Math::Ceil<T>(-8.0f)    == -8);
-  ok &= MathTestHelper("ceil(-8.9999)  == -8", itk::Math::Ceil<T>(-8.9999)  == -8);
-  ok &= MathTestHelper("ceil(-8.9999f) == -8", itk::Math::Ceil<T>(-8.9999f) == -8);
-  ok &= MathTestHelper("ceil(-8.0001)  == -8", itk::Math::Ceil<T>(-8.0001)  == -8);
-  ok &= MathTestHelper("ceil(-8.0001f) == -8", itk::Math::Ceil<T>(-8.0001f) == -8);
+  
+  // Round
+  for (unsigned int i = 0; i < numberOfElements; ++i) 
+    {
+    
+    RoundTestHelperMacro( itk::Math::Round<T>, (float)input[i], roundOutput[i] );
 
-  ok &= MathTestHelper("ceil(9.0)      ==  9 ", itk::Math::Ceil<T>(9.0)      ==  9);
-  ok &= MathTestHelper("ceil(9.0f)     ==  9 ", itk::Math::Ceil<T>(9.0f)     ==  9);
-  ok &= MathTestHelper("ceil(9.9999)   ==  10", itk::Math::Ceil<T>(9.9999)   ==  10);
-  ok &= MathTestHelper("ceil(9.9999f)  ==  10", itk::Math::Ceil<T>(9.9999f)  ==  10);
-  ok &= MathTestHelper("ceil(9.0001)   ==  10", itk::Math::Ceil<T>(9.0001)   ==  10);
-  ok &= MathTestHelper("ceil(9.0001f)  ==  10", itk::Math::Ceil<T>(9.0001f)  ==  10);
-  ok &= MathTestHelper("ceil(-9.0)     == -9 ", itk::Math::Ceil<T>(-9.0)     == -9);
-  ok &= MathTestHelper("ceil(-9.0f)    == -9 ", itk::Math::Ceil<T>(-9.0f)    == -9);
-  ok &= MathTestHelper("ceil(-9.9999)  == -9 ", itk::Math::Ceil<T>(-9.9999)  == -9);
-  ok &= MathTestHelper("ceil(-9.9999f) == -9 ", itk::Math::Ceil<T>(-9.9999f) == -9);
-  ok &= MathTestHelper("ceil(-9.0001)  == -9 ", itk::Math::Ceil<T>(-9.0001)  == -9);
-  ok &= MathTestHelper("ceil(-9.0001f) == -9 ", itk::Math::Ceil<T>(-9.0001f) == -9);
+    RoundTestHelperMacro( itk::Math::Round<T>, (double)input[i], roundOutput[i] );
+    
+    }
+
+  // RoundHalfIntegerToEven
+  for (unsigned int i = 0; i < numberOfElements; ++i) 
+    {
+
+  
+    RoundTestHelperMacro( itk::Math::RoundHalfIntegerToEven<T>, (float)input[i], halftoevenOutput[i] );
+
+    RoundTestHelperMacro( itk::Math::RoundHalfIntegerToEven<T>, (double)input[i], halftoevenOutput[i] );
+
+    }
+
+  // RoundHalfIntegerUp
+  for (unsigned int i = 0; i < numberOfElements; ++i) 
+    {
+
+    RoundTestHelperMacro( itk::Math::RoundHalfIntegerUp<T>, (float)input[i], halfupOutput[i] );
+
+    RoundTestHelperMacro( itk::Math::RoundHalfIntegerUp<T>, (double)input[i], halfupOutput[i] );
+
+    }
+
+
+
+  // Floor
+  for (unsigned int i = 0; i < numberOfElements; ++i) 
+    {
+
+    RoundTestHelperMacro( itk::Math::Floor<T>, (float)fcinput[i], floorOutput[i] );
+
+    RoundTestHelperMacro( itk::Math::Floor<T>, (double)fcinput[i], floorOutput[i] );
+
+    }
+  
+ 
+
+  // Ceil
+  for (unsigned int i = 0; i < numberOfElements; ++i) 
+    {
+
+    RoundTestHelperMacro( itk::Math::Ceil<T>, (float)fcinput[i], ceilOutput[i] );
+
+    RoundTestHelperMacro( itk::Math::Ceil<T>, (double)fcinput[i], ceilOutput[i] );
+
+    }
+  
 
   return ok;
 }
@@ -177,11 +154,16 @@ int itkMathRoundTest2( int, char *[] )
 {
   bool ok = true;
 
-  ok &= TemplatedRoundTest<char>();
+  std::cout << "Testing char type" << std::endl;
+  ok &= TemplatedRoundTest<signed char>();
+  std::cout << "Testing short type" << std::endl;
   ok &= TemplatedRoundTest<short>();
+  std::cout << "Testing int type" << std::endl;
   ok &= TemplatedRoundTest<int>();
+  std::cout << "Testing long type" << std::endl;
   ok &= TemplatedRoundTest<long>();
 #if VXL_HAS_INT_64
+  std::cout << "Testing vxl_int_64 type" << std::endl;
   ok &= TemplatedRoundTest<vxl_int_64>();
 #endif
   
