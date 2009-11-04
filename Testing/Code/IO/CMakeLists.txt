@@ -316,6 +316,10 @@ ADD_TEST(itkImageFileReaderStreamingTest_3 ${IO_TESTS}
      ${ITK_DATA_ROOT}/Input/vol-ascii.nrrd 0 0
   )
 
+ADD_TEST(itkImageFileReaderStreamingTest2_MHD ${IO_TESTS}
+  itkImageFileReaderStreamingTest2 
+     ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+  )
 
 ADD_TEST(itkImageFileWriterStreamingPastingCompressingTest_MHA ${IO_TESTS} 
   itkImageFileWriterStreamingPastingCompressingTest1
