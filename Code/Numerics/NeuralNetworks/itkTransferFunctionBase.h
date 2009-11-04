@@ -32,10 +32,10 @@ class TransferFunctionBase : public FunctionBase<ScalarType, ScalarType>
 public:
 
   /** Standard class typedefs. */
-  typedef TransferFunctionBase             Self;
-  typedef FunctionBase<ScalarType, double> Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef TransferFunctionBase                 Self;
+  typedef FunctionBase<ScalarType, ScalarType> Superclass;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransferFunctionBase, FunctionBase);
