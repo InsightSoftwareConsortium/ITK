@@ -222,6 +222,13 @@ ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest ${TEMP})
 ADD_TEST(itkImageFileWriterTest ${IO_TESTS} itkImageFileWriterTest ${TEMP}/test.png)
 
+###
+# will be moved to a common test driver after the file is determined to be portable
+###
+ADD_EXECUTABLE(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+ADD_TEST(itkUnicodeIOTest ${CXX_TEST_PATH}/itkUnicodeIOTest)
+###
+
 
 ADD_EXECUTABLE(itkIOHeaderTest itkIOHeaderTest.cxx)
 ADD_EXECUTABLE(itkIOTests itkIOTests.cxx ${IOTest_SRCS})
