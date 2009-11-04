@@ -223,10 +223,11 @@ ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpat
 ADD_TEST(itkImageFileWriterTest ${IO_TESTS} itkImageFileWriterTest ${TEMP}/test.png)
 
 ###
-# will be moved to a common test driver after the file is determined to be portable
+# Will be moved to a common test driver after the file is determined to be portable
+# Currently commented out for the dashboard fest
 ###
-ADD_EXECUTABLE(itkUnicodeIOTest itkUnicodeIOTest.cxx)
-ADD_TEST(itkUnicodeIOTest ${CXX_TEST_PATH}/itkUnicodeIOTest)
+#ADD_EXECUTABLE(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+#ADD_TEST(itkUnicodeIOTest ${CXX_TEST_PATH}/itkUnicodeIOTest)
 ###
 
 
