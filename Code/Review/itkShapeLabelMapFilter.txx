@@ -384,7 +384,8 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   labelObject->SetEquivalentEllipsoidSize( ellipsoidSize );
   labelObject->SetBinaryFlatness( flatness );
 
-  if( m_ComputeFeretDiameter )
+  // Don't compute the Feret Diameter on the 0 label!
+  if( m_ComputeFeretDiameter && labelObject->GetLabel() != 0 )
     {
     this->ComputeFeretDiameter( labelObject );
     }
