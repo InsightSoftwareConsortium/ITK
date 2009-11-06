@@ -744,6 +744,7 @@ ADD_TEST( FFTImageFilterTest ${FILTERING_EXAMPLES7}
         ${ITK_SOURCE_DIR}/Examples/Data/FatMRISlice.png
         ${TEMP}/FFTImageFilterReal.png
         ${TEMP}/FFTImageFilterImaginary.png
+        ${TEMP}/FFTImageFilterComplex.mhd
 )
 ADD_TEST( FFTDirectInverseTest ${FILTERING_EXAMPLES6}
   --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png
@@ -767,12 +768,14 @@ ADD_TEST( FFTImageFilterTest2 ${FILTERING_EXAMPLES7}
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png
         ${TEMP}/FFTImageFilterCenteredDCReal.png
         ${TEMP}/FFTImageFilterCenteredDCImaginary.png
+        ${TEMP}/FFTImageFilterComplex2.mhd
 )
 ADD_TEST( FFTImageFilterTest3 ${FILTERING_EXAMPLES7}
   FFTImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcorneredDC.png
         ${TEMP}/FFTImageFilterCorneredDCReal.png
         ${TEMP}/FFTImageFilterCorneredDCImaginary.png
+        ${TEMP}/FFTImageFilterComplex3.mhd
 )
 ADD_TEST( RGBToGrayscaleTest ${FILTERING_EXAMPLES7}
   --compare ${BASELINE}/RGBToGrayscale.png

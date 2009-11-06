@@ -72,9 +72,9 @@
 
 int main( int argc, char * argv [] )
 {
-  if( argc < 4 )
+  if( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0] << " inputScalarImage  outputRealPartOfComplexImage outputRealImaginaryPartOfComplexImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputScalarImage  outputRealPartOfComplexImage outputRealImaginaryPartOfComplexImage outputComplex" << std::endl;
     }
 
 
@@ -162,7 +162,7 @@ int main( int argc, char * argv [] )
   typedef itk::ImageFileWriter< ComplexImageType > ComplexWriterType;
 
   ComplexWriterType::Pointer complexWriter = ComplexWriterType::New();
-  complexWriter->SetFileName("complexImage.mhd");
+  complexWriter->SetFileName( argv[4] );
 
   complexWriter->SetInput( fftFilter->GetOutput() );
 // Software Guide : EndCodeSnippet
@@ -325,7 +325,7 @@ int main( int argc, char * argv [] )
   
   ComplexReaderType::Pointer complexReader = ComplexReaderType::New();
 
-  complexReader->SetFileName("complexImage.mhd");
+  complexReader->SetFileName( argv[4] );
   complexReader->Update();
   // Software Guide : EndCodeSnippet
 
