@@ -19,12 +19,24 @@
 
 #include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
 
+#include <stdio.h> // Borland needs this (cstdio doesn't work)
 #include <fcntl.h>
 #include <iostream>
 #include <string>
 #include <sys/stat.h>
 
-#if defined(WIN32) || defined(_WIN32) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+
+#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+// cygwin has NO _wopen an NO _wfopen
+// If you really need unicode filenames on cygwin, just use cygwin >= 1.7 for now
+// Alternatively, we should try and use pure win32 functions such as
+// CreateFileW and convert the win32 file handle using _open_osfhandle and _fdopen
+# define LOCAL_USE_WIN32_WOPEN 1
+#else
+# define LOCAL_USE_WIN32_WOPEN 0
+#endif
+
+#if LOCAL_USE_WIN32_WOPEN
 #  include <windows.h>
 #  include <winnls.h>
 #endif
@@ -35,7 +47,7 @@ namespace itk
 namespace Utf8
 {
 
-#if defined(WIN32) || defined(_WIN32) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
  
 // Check if the string is really encoded in utf-8 using windows API
 inline bool IsValidUtf8(const std::string & str)
@@ -56,11 +68,11 @@ inline std::wstring Utf8StringToWString( const std::string & str )
   const int utf16_size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), 0, 0);
 
   // Now do the conversion
-  wchar_t wchars[utf16_size+1];
-  wchars[utf16_size] = 0;
-  MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), wchars, utf16_size);
-
-  return std::wstring(wchars);
+  std::wstring wstr;
+  wstr.resize(utf16_size);
+  MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), &wstr[0], utf16_size);
+  
+  return wstr;
 }
 
 #endif
@@ -69,9 +81,9 @@ inline std::wstring Utf8StringToWString( const std::string & str )
 // without specifying any specific permissions
 inline int utf8open( const std::string & str, const int & flags )
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wopen but mingw has
-  // If you really need uncode filenames on cygwin, just use cygwin >= 1.7
+  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString( str );
   return _wopen(str_utf16.c_str(), flags);
@@ -83,9 +95,9 @@ inline int utf8open( const std::string & str, const int & flags )
 // Get a file descriptor from a utf8 encoded filename
 inline int utf8open( const std::string & str, const int & flags, const int & mode )
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wopen but mingw has
-  // If you really need uncode filenames on cygwin, just use cygwin >= 1.7
+  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString( str );
   return _wopen(str_utf16.c_str(), flags, mode);
@@ -97,7 +109,7 @@ inline int utf8open( const std::string & str, const int & flags, const int & mod
 // Reading wrapper around utf8open to avoid explicitely specifying the flags
 inline int utf8openforreading( const std::string & str )
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   ///\todo check if cygwin has and needs the O_BINARY flag
   return utf8open(str, _O_RDONLY | _O_BINARY );
 #else
@@ -108,7 +120,7 @@ inline int utf8openforreading( const std::string & str )
 // Writting wrapper around utf8open to avoid explicitely specifying the flags
 inline int utf8openforwritting( const std::string & str, const bool append = false )
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   ///\todo check if cygwin has and needs the O_BINARY flag
   if (!append) return utf8open(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE );
   else return utf8open(str, _O_WRONLY | _O_CREAT | _O_APPEND | _O_BINARY, _S_IREAD | _S_IWRITE );
@@ -121,9 +133,9 @@ inline int utf8openforwritting( const std::string & str, const bool append = fal
 // Get a FILE * pointer from a utf8 encoded filename
 inline FILE * utf8fopen( const std::string & str, const std::string & mode )
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wfopen but mingw has
-  // If you really need uncode filenames on cygwin, just use cygwin >= 1.7
+  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   // Convert to utf16
   const std::wstring str_utf16 = Utf8StringToWString( str );
   const std::wstring mode_utf16 = Utf8StringToWString( mode );
@@ -144,9 +156,9 @@ inline FILE * utf8fopen( const std::string & str, const std::string & mode )
 // and fopen with a UTF-8 char * otherwise
 bool checkAlphaExists()
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wfopen but mingw has
-  // If you really need uncode filenames on cygwin, just use cygwin >= 1.7
+  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   const std::wstring wstr( L"\u03B1.txt" );
   FILE * tmp = _wfopen(wstr.c_str(), L"r");
 #else
@@ -169,9 +181,9 @@ bool checkAlphaExists()
 // and unlink with UTF-8 char * otherwise
 bool removeAlpha()
 {
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wunlink but mingw has
-  // If you really need uncode filenames on cygwin, just use cygwin >= 1.7
+  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
   const std::wstring wstr( L"\u03B1.txt" );
   return (_wunlink(wstr.c_str())!=-1);
 #else
@@ -202,7 +214,7 @@ int main( int , char * [] )
   utf8_str.push_back(0xB1);
   utf8_str += ".txt";
 
-#if defined(WIN32) || defined(_WIN32) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
+#if LOCAL_USE_WIN32_WOPEN
   if ( !itk::Utf8::IsValidUtf8(utf8_str) )
     {
     std::cout << "Wrongly detected invalid utf8 string." << std::endl;

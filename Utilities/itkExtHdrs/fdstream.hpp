@@ -36,7 +36,7 @@
 
 
 // low-level read and write functions
-#ifdef _MSC_VER
+#if (defined(WIN32) || defined(_WIN32))
 # include <io.h>
 #else
 # include <unistd.h>
