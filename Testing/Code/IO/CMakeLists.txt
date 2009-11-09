@@ -224,10 +224,9 @@ ADD_TEST(itkImageFileWriterTest ${IO_TESTS} itkImageFileWriterTest ${TEMP}/test.
 
 ###
 # Will be moved to a common test driver after the file is determined to be portable
-# Currently commented out for the dashboard fest
 ###
-#ADD_EXECUTABLE(itkUnicodeIOTest itkUnicodeIOTest.cxx)
-#ADD_TEST(itkUnicodeIOTest ${CXX_TEST_PATH}/itkUnicodeIOTest)
+ADD_EXECUTABLE(itkUnicodeIOTest itkUnicodeIOTest.cxx)
+ADD_TEST(itkUnicodeIOTest ${CXX_TEST_PATH}/itkUnicodeIOTest)
 ###
 
 
