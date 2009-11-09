@@ -215,9 +215,20 @@ int main( int , char * [] )
   utf8_str += ".txt";
 
 #if LOCAL_USE_WIN32_WOPEN
+  // Check if we actually find it is a valid utf-8 string
   if ( !itk::Utf8::IsValidUtf8(utf8_str) )
     {
     std::cout << "Wrongly detected invalid utf8 string." << std::endl;
+    ++nberror;
+    }
+
+  // Check that the conversion worked
+  const std::wstring utf16_str( L"\u03B1.txt" );
+  const std::wstring fromutf8_utf16_str = itk::Utf8::Utf8StringToWString( utf8_str );
+
+  if ( fromutf8_utf16_str != utf16_str )
+    {
+    std::cout << "Utf-8 to utf-16 conversion failed" << std::endl;
     ++nberror;
     }
 
@@ -227,6 +238,7 @@ int main( int , char * [] )
   bad_utf8_str.push_back(0xC0);
   bad_utf8_str += ".txt";
 
+  // Check if we actually find it is a non-valid utf-8 string
   if ( itk::Utf8::IsValidUtf8(bad_utf8_str) )
     {
     std::cout << "Did not detect invalid utf8 string using windows API." << std::endl;
