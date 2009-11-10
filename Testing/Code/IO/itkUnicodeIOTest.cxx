@@ -159,7 +159,10 @@ bool checkAlphaExists()
 #if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wfopen but mingw has
   // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  const std::wstring wstr( L"\u03B1.txt" );
+  // Borland does not understand L"\u03B1.txt"
+  std::wstring wstr;
+  wstr.push_back((wchar_t)(0x03B1));
+  wstr += L".txt";
   FILE * tmp = _wfopen(wstr.c_str(), L"r");
 #else
   std::string utf8_str;
@@ -184,7 +187,10 @@ bool removeAlpha()
 #if LOCAL_USE_WIN32_WOPEN
   // cygwin has NO _wunlink but mingw has
   // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  const std::wstring wstr( L"\u03B1.txt" );
+  // Borland does not understand L"\u03B1.txt"
+  std::wstring wstr;
+  wstr.push_back((wchar_t)(0x03B1));
+  wstr += L".txt";
   return (_wunlink(wstr.c_str())!=-1);
 #else
   std::string utf8_str;
@@ -223,7 +229,10 @@ int main( int , char * [] )
     }
 
   // Check that the conversion worked
-  const std::wstring utf16_str( L"\u03B1.txt" );
+  // Borland does not understand L"\u03B1.txt"
+  std::wstring utf16_str;
+  utf16_str.push_back((wchar_t)(0x03B1));
+  utf16_str += L".txt";
   const std::wstring fromutf8_utf16_str = itk::Utf8::Utf8StringToWString( utf8_str );
 
   if ( fromutf8_utf16_str != utf16_str )
