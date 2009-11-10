@@ -106,9 +106,9 @@ class fdinbuf : public std::streambuf {
      * - at most, pbSize characters in putback area plus
      * - at most, bufSize characters in ordinary read buffer
      */
-    static const int pbSize = 4;        // size of putback area
-    static const int bufSize = 1024;    // size of the data buffer
-    char buffer[bufSize+pbSize];        // data buffer
+    static const ptrdiff_t pbSize = 4;     // size of putback area
+    static const ptrdiff_t bufSize = 1024; // size of the data buffer
+    char buffer[bufSize+pbSize];           // data buffer
 
   public:
     /* constructor
@@ -139,7 +139,7 @@ class fdinbuf : public std::streambuf {
          * - use number of characters read
          * - but at most size of putback area
          */
-        int numPutback;
+        ptrdiff_t numPutback;
         numPutback = gptr() - eback();
         if (numPutback > pbSize) {
             numPutback = pbSize;
