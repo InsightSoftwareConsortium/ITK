@@ -214,7 +214,54 @@
   fun:malloc
   fun:Tcl_Alloc
   fun:TclAllocateFreeObjects
-  fun:Tcl_NewObj 
+}
+
+{
+  CrazyTclError11
+  Memcheck:Leak
+  fun:malloc
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_Export
+}
+
+{
+  CrazyTclError12
+  Memcheck:Leak
+  fun:malloc
+  ...
+  fun:getpwuid_r
+  fun:getpwuid
+  ...
+  fun:Tcl_CreateInterp
+}
+
+{
+  CrazyTclError13
+  Memcheck:Leak
+  fun:calloc
+  ...
+  fun:getpwuid_r
+  fun:getpwuid
+  ...
+  fun:Tcl_CreateInterp
+}
+
+{
+  CrazyTclError14
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_Export
+}
+
+{
+  CrazyTclError15
+  Memcheck:Leak
+  fun:malloc
+  ...
+  fun:Tcl_ListObjIndex
+  fun:Tcl_SetEnsembleMappingDict
 }
 
 {
@@ -419,6 +466,6 @@
    dlopen leak2
    Memcheck:Leak
    fun:calloc
-   obj:/lib/libdl-2.3.?.so
+   obj:/lib/libdl-2.?.?.so
    fun:dlopen*
 }
