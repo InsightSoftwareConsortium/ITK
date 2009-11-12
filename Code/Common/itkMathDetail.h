@@ -24,6 +24,10 @@
 #include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"
 
+#ifdef HAVE_FENV_H
+#include <fenv.h>
+#endif
+
 // Figure out when the fast implementations can be used
 //
 // Turn on 32-bit sse2 impl if asked for
@@ -128,13 +132,28 @@ inline TReturn Ceil_base(TInput x)
 
 #if USE_SSE2_32IMPL // sse2 implementation
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(double x) { return _mm_cvtsd_si32(_mm_set_sd(x)); }
-inline vxl_int_32 RoundHalfIntegerToEven_32(float  x) { return _mm_cvtss_si32(_mm_set_ss(x)); }
+inline vxl_int_32 RoundHalfIntegerToEven_32(double x) 
+{
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
+  return _mm_cvtsd_si32(_mm_set_sd(x)); 
+}
+inline vxl_int_32 RoundHalfIntegerToEven_32(float  x)
+{ 
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
+  return _mm_cvtss_si32(_mm_set_ss(x));
+}
 
 #elif GCC_USE_ASM_32IMPL // gcc asm implementation
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_32 r;
   __asm__ __volatile__( "fistpl %0" : "=m"(r) : "t"(x) : "st" );
   return r;
@@ -142,6 +161,9 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_32 r;
   __asm__ __volatile__( "fistpl %0" : "=m"(r) : "t"(x) : "st" );
   return r;
@@ -151,6 +173,9 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_32 r;
   __asm 
     {
@@ -162,6 +187,9 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_32 r;
   __asm 
     {
@@ -211,13 +239,28 @@ inline vxl_int_32 Ceil_32(float  x) { return Ceil_base<vxl_int_32,float>(x); }
 
 #if USE_SSE2_64IMPL // sse2 implementation
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(double x) { return _mm_cvtsd_si64(_mm_set_sd(x)); }
-inline vxl_int_64 RoundHalfIntegerToEven_64(float  x) { return _mm_cvtss_si64(_mm_set_ss(x)); }
+inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
+{
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE)  && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
+  return _mm_cvtsd_si64(_mm_set_sd(x)); 
+}
+inline vxl_int_64 RoundHalfIntegerToEven_64(float  x)
+{
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
+  return _mm_cvtss_si64(_mm_set_ss(x));
+}
 
 #elif GCC_USE_ASM_64IMPL // gcc asm implementation
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_64 r;
   __asm__ __volatile__( "fistpll %0" : "=m"(r) : "t"(x) : "st" );
   return r;
@@ -225,6 +268,9 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_64 r;
   __asm__ __volatile__( "fistpll %0" : "=m"(r) : "t"(x) : "st" );
   return r;
@@ -234,6 +280,9 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_64 r;
   __asm 
     {
@@ -245,6 +294,9 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 {
+  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  assert( fegetround() == FE_TONEAREST );
+  #endif
   vxl_int_64 r;
   __asm 
     {
