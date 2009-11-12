@@ -15,9 +15,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "fdstream.hpp"
-
 #include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
+#include <cstring> // for strcmp
 
 #include <stdio.h> // Borland needs this (cstdio doesn't work)
 #include <fcntl.h>
@@ -25,20 +24,37 @@
 #include <string>
 #include <sys/stat.h>
 
+// Find out how to handle unicode filenames:
+// * VS>=8.0 has _wopen and _wfopen and can open a (i/o)fstream using a wide string
+// * cygwin has NO _wopen an NO _wfopen. If you really need unicode
+//   filenames on cygwin, just use cygwin >= 1.7 for now, it works with utf8
+//   natively. Alternatively, we could try and use pure win32 functions such as
+//   CreateFileW and convert the win32 file handle using _open_osfhandle and _fdopen
+// * VS6.0 has _wopen and _wfopen but cannot open a (i/o)fstream using a wide string
+//   nor can it compile fdstream => disable unicode filename support
+// * Borland c++, VS7.x and MinGW have _wopen and _wfopen but cannot open a
+//   (i/o)fstream using a wide string. They can however compile fdstream
 
-#if (defined(WIN32) || defined(_WIN32)) && (!(defined(__CYGWIN__) || defined(__CYGWIN32__)))
-// cygwin has NO _wopen an NO _wfopen
-// If you really need unicode filenames on cygwin, just use cygwin >= 1.7 for now
-// Alternatively, we should try and use pure win32 functions such as
-// CreateFileW and convert the win32 file handle using _open_osfhandle and _fdopen
+#if (defined(WIN32) || defined(_WIN32)) \
+  && (!(defined(__CYGWIN__) || defined(__CYGWIN32__))) \
+    && (!(defined(_MSC_VER) && (_MSC_VER <= 1200)))
 # define LOCAL_USE_WIN32_WOPEN 1
+# include <windows.h>
+# include <winnls.h>
 #else
 # define LOCAL_USE_WIN32_WOPEN 0
+# if (defined(_MSC_VER) && (_MSC_VER <= 1200))
+#  include <io.h>
+# endif
 #endif
 
-#if LOCAL_USE_WIN32_WOPEN
-#  include <windows.h>
-#  include <winnls.h>
+#if (defined(_MSC_VER) && ((_MSC_VER <= 1200)||(_MSC_VER >= 1400))) \
+  || (!LOCAL_USE_WIN32_WOPEN)
+# define LOCAL_USE_FDSTREAM 0
+# include <fstream>
+#else
+# define LOCAL_USE_FDSTREAM 1
+# include "fdstream.hpp"
 #endif
 
 
@@ -113,9 +129,9 @@ inline int utf8open( const std::string & str, const int & flags, const int & mod
 inline int utf8openforreading( const std::string & str )
 {
 #if LOCAL_USE_WIN32_WOPEN
-  ///\todo check if cygwin has and needs the O_BINARY flag
   return utf8open(str, _O_RDONLY | _O_BINARY );
 #else
+  ///\todo check if cygwin has and needs the O_BINARY flag
   return utf8open(str, O_RDONLY );
 #endif
 }
@@ -124,10 +140,10 @@ inline int utf8openforreading( const std::string & str )
 inline int utf8openforwritting( const std::string & str, const bool append = false )
 {
 #if LOCAL_USE_WIN32_WOPEN
-  ///\todo check if cygwin has and needs the O_BINARY flag
   if (!append) return utf8open(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE );
   else return utf8open(str, _O_WRONLY | _O_CREAT | _O_APPEND | _O_BINARY, _S_IREAD | _S_IWRITE );
 #else
+  ///\todo check if cygwin has and needs the O_BINARY flag
   if (!append) return utf8open(str, O_WRONLY | O_CREAT, S_IREAD | S_IWRITE );
   else return utf8open(str, O_WRONLY | O_CREAT | O_APPEND, S_IREAD | S_IWRITE );
 #endif
@@ -147,6 +163,85 @@ inline FILE * utf8fopen( const std::string & str, const std::string & mode )
   return fopen(str.c_str(), mode.c_str());
 #endif
 }
+
+#if LOCAL_USE_FDSTREAM
+class utf8ofstream : public std::ostream 
+{
+public:
+  utf8ofstream( const char * str, 
+    std::ios_base::openmode mode = std::ios_base::out )
+    : std::ostream(0)
+    , m_fd( utf8openforwritting( str, (mode & std::ios::app)?true:false ) )
+    , m_buf( m_fd )
+    {
+    ///\todo better handle mode flag
+    this->rdbuf(&m_buf);
+    }
+
+  ~utf8ofstream() { this->close(); }
+
+  bool is_open() { return (m_fd!=-1); }
+
+  void close()
+  {
+    if ( m_fd!=-1 ) ::close( m_fd );
+    m_fd = -1;
+  }
+
+private:
+  int m_fd;
+  boost::fdoutbuf m_buf;
+};
+
+class utf8ifstream : public std::istream 
+{
+public:
+  utf8ifstream( const char * str, 
+    std::ios_base::openmode mode = std::ios_base::in )
+    : std::istream(0)
+    , m_fd( utf8openforreading( str ) )
+    , m_buf( m_fd )
+    {
+    ///\todo better handle mode flag
+    this->rdbuf(&m_buf);
+    }
+
+  ~utf8ifstream() { this->close(); }
+
+  bool is_open() { return (m_fd!=-1); }
+
+  void close()
+  {
+    if ( m_fd!=-1 ) ::close( m_fd );
+    m_fd = -1;
+  }
+
+private:
+  int m_fd;
+  boost::fdinbuf m_buf;
+};
+#elif LOCAL_USE_WIN32_WOPEN
+class utf8ofstream : public std::ofstream
+{
+public:
+  utf8ofstream( const char * str, std::ios_base::openmode mode = std::ios_base::out )
+    : std::ofstream( Utf8StringToWString(str).c_str(), mode )
+  {
+  }
+};
+
+class utf8ifstream : public std::ifstream
+{
+public:
+  utf8ifstream( const char * str, std::ios_base::openmode mode = std::ios_base::in )
+    : std::ifstream( Utf8StringToWString(str).c_str(), mode )
+  {
+  }
+};
+#else
+typedef std::ofstream utf8ofstream;
+typedef std::ifstream utf8ifstream;
+#endif
 
 } // end namespace
 } // end namespace
@@ -169,8 +264,8 @@ bool checkAlphaExists()
   FILE * tmp = _wfopen(wstr.c_str(), L"r");
 #else
   std::string utf8_str;
-  utf8_str.push_back((char)(0xCE));
-  utf8_str.push_back((char)(0xB1));
+  utf8_str.append(1, (char)(0xCE));
+  utf8_str.append(1, (char)(0xB1));
   utf8_str += ".txt";
   FILE * tmp = fopen(utf8_str.c_str(), "r");
 #endif
@@ -197,8 +292,8 @@ bool removeAlpha()
   return (_wunlink(wstr.c_str())!=-1);
 #else
   std::string utf8_str;
-  utf8_str.push_back((char)(0xCE));
-  utf8_str.push_back((char)(0xB1));
+  utf8_str.append(1,(char)(0xCE));
+  utf8_str.append(1,(char)(0xB1));
   utf8_str += ".txt";
   return (unlink(utf8_str.c_str())!=-1);
 #endif
@@ -219,8 +314,8 @@ int main( int , char * [] )
    
   // Put alpha.txt encoded in utf8 within a std::string
   std::string utf8_str;
-  utf8_str.push_back((char)(0xCE));
-  utf8_str.push_back((char)(0xB1));
+  utf8_str.append(1, (char)(0xCE));
+  utf8_str.append(1, (char)(0xB1));
   utf8_str += ".txt";
 
 #if LOCAL_USE_WIN32_WOPEN
@@ -321,55 +416,54 @@ int main( int , char * [] )
 
 
   // Create alpha.txt using open and write to it using streams
-  const int wfd = itk::Utf8::utf8openforwritting(utf8_str);
-  
+  itk::Utf8::utf8ofstream wstream(utf8_str.c_str(), std::ios::binary | std::ios::out );
   if (!checkAlphaExists())
     {
-    std::cout << "alpha.txt does not exist after utf8openforwritting." << std::endl;
+    std::cout << "alpha.txt does not exist after utf8ofstream creation." << std::endl;
     ++nberror;
     }
 
-  if (wfd!=-1)
+  if (wstream.is_open())
     {
-    boost::fdostream wstream(wfd);
-    wstream << "test2" << std::flush;
-    close(wfd);
+    wstream << "teststream" << std::flush;
     }
   else
     {
-    std::cout << "wfd is equal to -1." << std::endl;
+    std::cout << "wstream is not open." << std::endl;
     ++nberror;
     }
-
+  wstream.close();
   
-  const int rfd = itk::Utf8::utf8openforreading(utf8_str);
 
-  if (rfd!=-1)
+  itk::Utf8::utf8ifstream rstream(utf8_str.c_str(), std::ios::binary | std::ios::in );
+
+  if (rstream.is_open())
     {
-    boost::fdistream rstream(rfd);
-    std::string teststring2;
-    std::getline(rstream, teststring2);std::cout << "teststring2=" << teststring2 <<std::endl;
+    std::string teststring;
+    std::getline(rstream, teststring);
+    std::cout << "teststring=" << teststring <<std::endl;
     
-    if ( teststring2 != std::string("test2") )
+    if ( teststring != std::string("teststream") )
       {
-      std::cout << "teststring2 is not equal to test2." << std::endl;
+      std::cout << "teststring is not equal to teststream." << std::endl;
       ++nberror;
       }
-    
-    close(rfd);
+
+    rstream.close();
     }
   else
     {
-    std::cout << "rfd is equal to -1." << std::endl;
+    std::cout << "rstream is not open." << std::endl;
     ++nberror;
     }
+
 
   if (!removeAlpha())
     {
-    std::cout << "Could not remove alpha.txt after utf8open." << std::endl;
+    std::cout << "Could not remove alpha.txt after utf8ofstreamcreation." << std::endl;
     ++nberror;
     }
-  
+
 
   // Check number of errors
   if ( nberror > 0 ) 
