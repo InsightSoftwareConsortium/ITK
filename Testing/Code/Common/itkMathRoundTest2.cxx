@@ -45,11 +45,11 @@ bool TemplatedRoundTest( void )
    const unsigned int numberOfElements = 15;
    
   // input data for rounding methods
-  float input[] =  {-8.4999, -8.50, -8.5001, 
-                     8.4999,  8.50,  8.5001, 
-                    -9.4999, -9.50, -9.5001, 
-                    9.4999,  9.50,  9.5001,
-                    -0.4999, -.50, -.5001};
+  float input[] =  {-8.4999f, -8.50f, -8.5001f, 
+                     8.4999f,  8.50f,  8.5001f, 
+                    -9.4999f, -9.50f, -9.5001f, 
+                    9.4999f,  9.50f,  9.5001f,
+                    -0.4999f, -.50f, -.5001f};
 
   T roundOutput[] = { -8, -8, -9,
                        8,  9,  9,
@@ -70,11 +70,11 @@ bool TemplatedRoundTest( void )
   
   ////////
   // input data for floor and ceil methods
-  float fcinput[] = { 8.0,  8.9999,  8.0001,
-                     -8.0, -8.9999, -8.0001,
-                      9.0,  9.9999,  9.0001,
-                      -9.0, -9.9999, -9.0001,
-                      -1.0, -0.9999, -1.0001};
+  float fcinput[] = { 8.0f,  8.9999f,  8.0001f,
+                     -8.0f, -8.9999f, -8.0001f,
+                      9.0f,  9.9999f,  9.0001f,
+                      -9.0f, -9.9999f, -9.0001f,
+                      -1.0f, -0.9999f, -1.0001f};
 
    T floorOutput[] =  {  8,  8,  8,
                         -8, -9, -9,
