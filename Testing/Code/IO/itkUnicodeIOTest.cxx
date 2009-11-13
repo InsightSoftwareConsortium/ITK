@@ -393,7 +393,7 @@ int main( int , char * [] )
       {
       std::cout << "teststring=" << teststring <<std::endl;
 
-      if ( std::strcmp( teststring, "test" ) != 0 )
+      if ( strcmp( teststring, "test" ) != 0 )
         {
         std::cout << "teststring is not equal to test." << std::endl;
         ++nberror;
