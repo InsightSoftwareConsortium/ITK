@@ -18,7 +18,11 @@
 #include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
 #include <cstring> // for strcmp
 
-#include <stdio.h> // Borland needs this (cstdio doesn't work)
+#if !(defined(WIN32) || defined(_WIN32))
+# include <unistd.h> // for unlink
+#endif
+
+#include <stdio.h> // Borland needs this (cstdio does not work easy)
 #include <fcntl.h>
 #include <iostream>
 #include <string>
@@ -389,7 +393,7 @@ int main( int , char * [] )
       {
       std::cout << "teststring=" << teststring <<std::endl;
 
-      if ( strcmp( teststring, "test" ) != 0 )
+      if ( std::strcmp( teststring, "test" ) != 0 )
         {
         std::cout << "teststring is not equal to test." << std::endl;
         ++nberror;
