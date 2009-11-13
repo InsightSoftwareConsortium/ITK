@@ -25,9 +25,14 @@
 
 
 #include <metaUtils.h>
+#include <itksys/SystemTools.hxx>
 
-int testMetaUtils(int , char * [])
-  {
+int testMetaUtils(int argc, char * argv[])
+{
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   if(MET_SystemByteOrderMSB())
     {
@@ -266,4 +271,4 @@ int testMetaUtils(int , char * [])
 
   std::cout << "[DONE]" << std::endl;
   return EXIT_SUCCESS;
-  }
+}

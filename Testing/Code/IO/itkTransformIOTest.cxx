@@ -24,6 +24,7 @@
 #include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineDeformableTransform.h"
+#include <itksys/SystemTools.hxx>
 
 static int oneTest(const char *goodname,const char *badname)
 {
@@ -164,8 +165,12 @@ static int oneTest(const char *goodname,const char *badname)
   return EXIT_SUCCESS;
 }
 
-int itkTransformIOTest(int itkNotUsed(ac), char* itkNotUsed(av)[])
+int itkTransformIOTest(int argc, char* argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
   int result1 =  oneTest("Transforms.txt", "TransformsBad.txt" );
   int result2 =  oneTest("Transforms.mat", "TransformsBad.mat" );
   return !(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);

@@ -26,6 +26,7 @@
 #include <metaScene.h>
 #include <math.h>
 #include <vcl_cmath.h>
+#include <itksys/SystemTools.hxx>
 
 
 bool TestingMetaMesh(MetaMesh* _mesh)
@@ -166,8 +167,12 @@ bool TestingMetaMesh(MetaMesh* _mesh)
 
 
 /** Main */
-int testMetaMesh(int , char * [])
+int testMetaMesh(int argc, char * argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   MetaScene myScene = MetaScene(3);
   

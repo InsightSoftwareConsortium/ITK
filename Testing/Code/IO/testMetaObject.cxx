@@ -25,9 +25,15 @@
 #include <metaObject.h>
 #include <metaUtils.h>
 #include "itkNumericTraits.h"
+#include <itksys/SystemTools.hxx>
 
-int testMetaObject(int , char *[])
+int testMetaObject(int argc, char *argv[])
   {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
+
   MetaObject tObj;
 
   tObj.InitializeEssential(3);

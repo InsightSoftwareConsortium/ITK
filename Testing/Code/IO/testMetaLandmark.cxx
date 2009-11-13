@@ -22,9 +22,14 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaLandmark.h>
+#include <itksys/SystemTools.hxx>
 
-int testMetaLandmark(int , char * [])
+int testMetaLandmark(int argc, char * argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   std::cout << "Creating test file ..." << std::endl;
   MetaLandmark Landmark0;

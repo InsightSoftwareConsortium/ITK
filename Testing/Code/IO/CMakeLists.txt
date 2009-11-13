@@ -142,18 +142,18 @@ ADD_TEST(itkIOCommonTest ${IO_TESTS} itkIOCommonTest)
 ADD_TEST(itkIOPrintTest ${IO_TESTS} itkIOPrintTest)
 ADD_TEST(itkConvertBufferTest2 ${IO_TESTS} itkConvertBufferTest2)
 ADD_TEST(itkConvertBufferTest ${IO_TESTS} itkConvertBufferTest)
-ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils)
-ADD_TEST(testMetaArray ${IO_TESTS} testMetaArray)
-ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup)
-ADD_TEST(testMetaObject ${IO_TESTS} testMetaObject)
+ADD_TEST(testMetaUtils ${IO_TESTS} testMetaUtils ${TEMP})
+ADD_TEST(testMetaArray ${IO_TESTS} testMetaArray ${TEMP})
+ADD_TEST(testMetaGroup ${IO_TESTS} testMetaGroup ${TEMP})
+ADD_TEST(testMetaObject ${IO_TESTS} testMetaObject ${TEMP})
 ADD_TEST(testMetaImage ${IO_TESTS} testMetaImage)
-ADD_TEST(testMetaTube ${IO_TESTS} testMetaTube)
-ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob)
-ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface)
-ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine)
-ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark)
-ADD_TEST(testMetaMesh ${IO_TESTS} testMetaMesh )
-ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene)
+ADD_TEST(testMetaTube ${IO_TESTS} testMetaTube ${TEMP})
+ADD_TEST(testMetaBlob ${IO_TESTS} testMetaBlob ${TEMP})
+ADD_TEST(testMetaSurface ${IO_TESTS} testMetaSurface ${TEMP})
+ADD_TEST(testMetaLine ${IO_TESTS} testMetaLine ${TEMP})
+ADD_TEST(testMetaLandmark ${IO_TESTS} testMetaLandmark ${TEMP})
+ADD_TEST(testMetaMesh ${IO_TESTS} testMetaMesh ${TEMP})
+ADD_TEST(testMetaScene ${IO_TESTS} testMetaScene ${TEMP})
 
 ADD_TEST( MetaCommandRequiredOptionsWithMultipleStrings ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7)
 ADD_TEST( MetaCommandRequiredOptionsWithMultipleStringsAtEnd ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r2_ri 7 -r1c_rs StringValue1 StringValue2 StringValue3)
@@ -170,21 +170,21 @@ ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing  ${IO_TESTS}
 
 ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
 ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
-ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest Objects.meta)
-ADD_TEST(itkReadWriteSpatialObjectTest1 ${IO_TESTS} itkReadWriteSpatialObjectTest Objects1.meta binary)
-ADD_TEST(itkReadWriteSpatialObjectTest2 ${IO_TESTS} itkReadWriteSpatialObjectTest Objects2.meta 
+ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects.meta)
+ADD_TEST(itkReadWriteSpatialObjectTest1 ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects1.meta binary)
+ADD_TEST(itkReadWriteSpatialObjectTest2 ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects2.meta 
                                                     ${ITK_DATA_ROOT}/Input/SpatialObjects.meta)
 
 ADD_TEST(itkMatrixImageWriteReadTest ${IO_TESTS} 
          itkMatrixImageWriteReadTest
          ${TEMP}/testMatrix1.mha)
 
-ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest metamesh.txt)
-ADD_TEST(itkMeshSpatialObjectIOTest1 ${IO_TESTS} itkMeshSpatialObjectIOTest metamesh1.txt binary)
-ADD_TEST(itkMeshSpatialObjectIOTest2 ${IO_TESTS} itkMeshSpatialObjectIOTest metamesh2.txt
+ADD_TEST(itkMeshSpatialObjectIOTest ${IO_TESTS} itkMeshSpatialObjectIOTest ${TEMP}/metameshIOTest.txt)
+ADD_TEST(itkMeshSpatialObjectIOTest1 ${IO_TESTS} itkMeshSpatialObjectIOTest ${TEMP}/metameshIOTest1.txt binary)
+ADD_TEST(itkMeshSpatialObjectIOTest2 ${IO_TESTS} itkMeshSpatialObjectIOTest ${TEMP}/metameshIOTest2.txt
                                                 ${ITK_DATA_ROOT}/Input/metamesh.txt)
 
-ADD_TEST(itkTransformIOTest ${IO_TESTS} itkTransformIOTest)
+ADD_TEST(itkTransformIOTest ${IO_TESTS} itkTransformIOTest ${TEMP})
 
 ADD_TEST(itkVTKImageIOTest ${IO_TESTS} itkVTKImageIOTest
                            ${TEMP}/test1.vtk ${TEMP}/test2.vtk)
@@ -741,10 +741,12 @@ ADD_TEST(itkDicomDifficultFile ${IO_TESTS} itkDicomImageIOTest
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 
 ADD_TEST(itkPNGImageIOTest1 ${IO_TESTS} itkPNGImageIOTest
-         ${ITK_DATA_ROOT}/Input/cthead1.png)
+         ${ITK_DATA_ROOT}/Input/cthead1.png
+         ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1.png)
 
 ADD_TEST(itkPNGImageIOTest2 ${IO_TESTS} itkPNGImageIOTest
-         ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png)
+         ${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png
+         ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2.png)
 
 ADD_TEST(itkImageReadDICOMSeriesWriteTest ${IO_TESTS} 
   itkImageReadDICOMSeriesWriteTest

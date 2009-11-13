@@ -22,9 +22,14 @@
 #include <ctype.h>
 #include <metaBlob.h>
 #include <cstdlib>
+#include <itksys/SystemTools.hxx>
 
-int testMetaBlob(int , char * [])
+int testMetaBlob(int argc, char * argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   std::cout << "Testing default constructor ..." <<  std::endl;
   MetaBlob blob1;

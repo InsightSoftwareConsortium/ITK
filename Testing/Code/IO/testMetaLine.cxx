@@ -22,9 +22,14 @@
 #include <ctype.h>
 #include <cstdlib>
 #include <metaLine.h>
+#include <itksys/SystemTools.hxx>
 
-int testMetaLine(int , char * [])
+int testMetaLine(int argc, char * argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   std::cout << "Creating test file ...";
   MetaLine line0;

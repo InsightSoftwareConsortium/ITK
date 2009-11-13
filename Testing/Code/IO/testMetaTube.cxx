@@ -25,9 +25,14 @@
 #include <metaTube.h>
 #include <metaScene.h>
 #include <metaEllipse.h>
+#include <itksys/SystemTools.hxx>
 
-int testMetaTube(int , char * [])
+int testMetaTube(int argc, char * argv[])
 {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
 
   std::cout << "Initializing scene ..." << std::endl;
   MetaScene myScene = MetaScene(3);

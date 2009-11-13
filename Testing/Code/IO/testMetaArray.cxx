@@ -24,9 +24,15 @@
 #include <itkVariableLengthVector.h>
 #include <itkMetaArrayWriter.h>
 #include <itkMetaArrayReader.h>
+#include <itksys/SystemTools.hxx>
 
-int testMetaArray(int , char * [])
+int testMetaArray(int argc, char * argv[])
   {
+  if (argc > 1)
+    {
+    itksys::SystemTools::ChangeDirectory(argv[1]);
+    }
+
   std::cout << "Array" << std::endl;
   itk::Array<short> arr;
   arr.SetSize(5);

@@ -27,9 +27,9 @@ int itkPNGImageIOTest(int argc, char * argv[])
 {
   // This test is usually run with the data file
   // Insight/Testing/Data/Input/cthead1.png
-  if( argc < 2)
+  if( argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " filename\n";
+    std::cerr << "Usage: " << argv[0] << " input output\n";
     return EXIT_FAILURE;
     }
 
@@ -50,7 +50,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   itk::ImageFileWriter<RGBImageType>::Pointer writer;
   writer = itk::ImageFileWriter<RGBImageType>::New();
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName("junk.png");
+  writer->SetFileName(argv[2]);
   writer->SetImageIO(io);
   writer->Write();
 
@@ -85,7 +85,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
 
   typedef itk::ImageFileWriter< ImageType3D > WriterType3D;
   WriterType3D::Pointer writer3D = WriterType3D::New();
-  writer3D->SetFileName( "itkPNGImageIOTestImage.png" );
+  writer3D->SetFileName( argv[2] );
   writer3D->SetInput( volume );
   try 
     {
@@ -107,7 +107,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   degenerateVolume->Allocate();
   degenerateVolume->FillBuffer( 0 );
 
-  writer3D->SetFileName( "itkPNGImageIOTestImage.png" );
+  writer3D->SetFileName( argv[2] );
   writer3D->SetInput( degenerateVolume );
   try 
     {
@@ -136,7 +136,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
 
   typedef itk::ImageFileWriter< ImageType2D > WriterType2D;
   WriterType2D::Pointer writer2D = WriterType2D::New();
-  writer2D->SetFileName( "itkPNGImageIOTestImage.png" );
+  writer2D->SetFileName( argv[2] );
   writer2D->SetInput( image );
   try 
     {
@@ -158,7 +158,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
   degenerateImage->Allocate();
   degenerateImage->FillBuffer( 0 );
 
-  writer2D->SetFileName( "itkPNGImageIOTestImage.png" );
+  writer2D->SetFileName( argv[2] );
   writer2D->SetInput( degenerateImage );
   try 
     {
@@ -186,7 +186,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
 
   typedef itk::ImageFileWriter< ImageType1D > WriterType1D;
   WriterType1D::Pointer writer1D = WriterType1D::New();
-  writer1D->SetFileName( "itkPNGImageIOTestImage.png" );
+  writer1D->SetFileName( argv[2] );
   writer1D->SetInput( line );
   try 
     {
