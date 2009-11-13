@@ -120,6 +120,21 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     itk::Image<short, 3>::Pointer dummy;
     return DoIt<itk::Image<short, 3> >( argc, argv, dummy);
     }
+  else if (dimension == 4 && pixelType == 1)
+    {
+    itk::Image<unsigned char, 4>::Pointer dummy;
+    return DoIt<itk::Image<unsigned char, 4> >( argc, argv, dummy);
+    }
+  else if (dimension == 4 && pixelType == 2)
+    {
+    itk::Image<unsigned short, 4>::Pointer dummy;
+    return DoIt<itk::Image<unsigned short, 4> >( argc, argv, dummy);
+    }
+  else if (dimension == 4 && pixelType == 3)
+    {
+    itk::Image<short, 4>::Pointer dummy;
+    return DoIt<itk::Image<short, 4> >( argc, argv, dummy);
+    }
   else
     {
     std::cerr << "Usage: " << argv[0] 
