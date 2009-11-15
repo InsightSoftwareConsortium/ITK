@@ -26,6 +26,7 @@
 #include <fcntl.h>
 #include <iostream>
 #include <string>
+#include <string.h> // needed for Sun CC ??
 #include <sys/stat.h>
 
 // Find out how to handle unicode filenames:
