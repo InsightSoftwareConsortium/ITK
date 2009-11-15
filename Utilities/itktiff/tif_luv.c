@@ -875,7 +875,7 @@ LogLuv24toXYZ(uint32 p, float XYZ[3])
           /* decode luminance */
   L = LogL10toY(p>>14 & 0x3ff);
   if (L <= 0.) {
-    XYZ[0] = XYZ[1] = XYZ[2] = 0.;
+    XYZ[0] = XYZ[1] = XYZ[2] = (float)(0.0);
     return;
   }
           /* decode color */
@@ -1015,7 +1015,7 @@ LogLuv32toXYZ(uint32 p, float XYZ[3])
           /* decode luminance */
   L = LogL16toY((int)p >> 16);
   if (L <= 0.) {
-    XYZ[0] = XYZ[1] = XYZ[2] = 0.;
+    XYZ[0] = XYZ[1] = XYZ[2] = (float)(0.0);
     return;
   }
           /* decode color */

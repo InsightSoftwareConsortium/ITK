@@ -110,7 +110,7 @@ static void
 _tiffUnmapProc(thandle_t fd, tdata_t base, toff_t size)
 {
   (void) fd;
-  (void) munmap(base, (off_t) size);
+  (void) munmap(base, (size_t) size);
 }
 #else /* !HAVE_MMAP */
 static int
