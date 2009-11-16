@@ -134,14 +134,14 @@ inline TReturn Ceil_base(TInput x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x) 
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtsd_si32(_mm_set_sd(x)); 
 }
 inline vxl_int_32 RoundHalfIntegerToEven_32(float  x)
 { 
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtss_si32(_mm_set_ss(x));
@@ -151,7 +151,7 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float  x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_32 r;
@@ -161,7 +161,7 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_32 r;
@@ -173,7 +173,7 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_32 r;
@@ -187,7 +187,7 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
 
 inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_32 r;
@@ -241,14 +241,14 @@ inline vxl_int_32 Ceil_32(float  x) { return Ceil_base<vxl_int_32,float>(x); }
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE)  && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE)  && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtsd_si64(_mm_set_sd(x)); 
 }
 inline vxl_int_64 RoundHalfIntegerToEven_64(float  x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtss_si64(_mm_set_ss(x));
@@ -258,7 +258,7 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(float  x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_64 r;
@@ -268,7 +268,7 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_64 r;
@@ -280,7 +280,7 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_64 r;
@@ -294,7 +294,7 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
 
 inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 {
-  #if defined(VNL_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
+  #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   vxl_int_64 r;
@@ -342,10 +342,16 @@ inline vxl_int_64 Ceil_64(float  x) { return Ceil_base<vxl_int_64,float>(x); }
 
 #endif // VXL_HAS_INT_64
 
-
 } // end namespace Detail
 } // end namespace Math
 
+// move to itkConceptChecking?
+namespace Concept 
+{
+template< typename T> struct FloatOrDouble;
+template<> struct FloatOrDouble<float>{};
+template<> struct FloatOrDouble<double>{};
+} // end namespace Concept
 
 } // end namespace itk
 
