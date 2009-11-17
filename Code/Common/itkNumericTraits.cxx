@@ -57,17 +57,26 @@ const double NumericTraits<double>::One = 1.0;
 
 const long double NumericTraits<long double>::Zero = 0.0;
 const long double NumericTraits<long double>::One = 1.0;
-  
-#ifdef _WIN64
-typedef std::string::size_type size_type;
-const size_type NumericTraits<size_type>::Zero = 0.0;
-const size_type NumericTraits<size_type>::One = 1.0;
-#endif
 
 const std::complex<float>  NumericTraits< std::complex<float> >::Zero = std::complex<float>(0.0f,0.0f);
 const std::complex<float>  NumericTraits< std::complex<float> >::One  = std::complex<float>(1.0f,0.0f);
 
 const std::complex<double>  NumericTraits< std::complex<double> >::Zero = std::complex<double>(0.0,0.0);
 const std::complex<double>  NumericTraits< std::complex<double> >::One  = std::complex<double>(1.0,0.0);
+
+
+#ifdef ITK_TYPE_USE_LONG_LONG
+const long long NumericTraits<long long>::Zero = 0;
+const long long NumericTraits<long long>::One = 1;
+const unsigned long long NumericTraits<unsigned long long>::Zero = 0;
+const unsigned long long NumericTraits<unsigned long long>::One = 1;
+#endif 
+
+#ifdef ITK_TYPE_USE___INT64
+const __int64 NumericTraits<__int64>::Zero = 0;
+const __int64 NumericTraits<__int64>::One = 1;
+const unsigned __int64 NumericTraits<unsigned __int64>::Zero = 0;
+const unsigned __int64 NumericTraits<unsigned __int64>::One = 1;
+#endif 
 
 } // end namespace itk
