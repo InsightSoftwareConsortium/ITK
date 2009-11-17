@@ -92,7 +92,22 @@
 #cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_TEMPLATE_ARGUMENTS
 #cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS
 #cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING
+
+/*
+ * Check Include files defines
+ */
 #cmakedefine HAVE_FENV_H
+#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine HAVE_STDINT_H
+#cmakedefine HAVE_STDDEF_H
+
+/*
+ * Enable ITK usage of __int64 and long long if it is a unique
+ * fundamental type and is convertable to other types in the expected
+ * ways.
+ */
+#cmakedefine ITK_TYPE_USE___INT64
+#cmakedefine ITK_TYPE_USE_LONG_LONG
 
 #define ITK_VERSION_MAJOR @ITK_VERSION_MAJOR@
 #define ITK_VERSION_MINOR @ITK_VERSION_MINOR@

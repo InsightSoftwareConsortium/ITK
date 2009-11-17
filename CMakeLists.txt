@@ -653,75 +653,8 @@ ENDIF(QNANHIBIT_VALUE)
 
 INCLUDE(CheckTypeSize)
 
-CHECK_TYPE_SIZE("long long" ITK_SIZEOF_LONG_LONG)
-CHECK_TYPE_SIZE("__int64"   ITK_SIZEOF___INT64)
+INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestTypes.cmake)
 
-IF(ITK_SIZEOF___INT64)
-  IF("ITK_TYPE_SAME_LONG_AND___INT64" MATCHES "^ITK_TYPE_SAME_LONG_AND___INT64$")
-    MESSAGE(STATUS "Checking whether long and __int64 are the same type")
-    TRY_COMPILE(ITK_TYPE_SAME_LONG_AND___INT64
-      ${ITK_BINARY_DIR}/CMakeTmp
-      ${ITK_SOURCE_DIR}/CMake/itkTestCompareTypes.cxx
-      COMPILE_DEFINITIONS
-      -DITK_TEST_COMPARE_TYPE_1=long
-      -DITK_TEST_COMPARE_TYPE_2=__int64
-      OUTPUT_VARIABLE OUTPUT)
-    IF(ITK_TYPE_SAME_LONG_AND___INT64)
-      MESSAGE(STATUS "Checking whether long and __int64 are the same type -- yes")
-      SET(ITK_TYPE_SAME_LONG_AND___INT64 1 CACHE INTERNAL "Whether long and __int64 are the same type")
-    ELSE(ITK_TYPE_SAME_LONG_AND___INT64)
-      MESSAGE(STATUS "Checking whether long and __int64 are the same type -- no")
-      SET(ITK_TYPE_SAME_LONG_AND___INT64 0 CACHE INTERNAL "Whether long and __int64 are the same type")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
-        "Determining whether long and __int64 are the same type "
-        "failed with the following output:\n"
-        "${OUTPUT}\n" APPEND)
-    ENDIF(ITK_TYPE_SAME_LONG_AND___INT64)
-  ENDIF("ITK_TYPE_SAME_LONG_AND___INT64" MATCHES "^ITK_TYPE_SAME_LONG_AND___INT64$")
-ENDIF(ITK_SIZEOF___INT64)
-
-IF(ITK_SIZEOF_LONG_LONG)
-  CONFIGURE_FILE(${ITK_SOURCE_DIR}/CMake/itkTestStreamLongLong.cxx.in
-    ${ITK_BINARY_DIR}/CMake/itkTestStreamLongLong.cxx @ONLY IMMEDIATE)
-  IF("ITK_OSTREAM_SUPPORTS_LONG_LONG" MATCHES "^ITK_OSTREAM_SUPPORTS_LONG_LONG$")
-    MESSAGE(STATUS "Checking if ostream supports long long")
-    TRY_COMPILE(ITK_OSTREAM_SUPPORTS_LONG_LONG
-      ${ITK_BINARY_DIR}
-      ${ITK_BINARY_DIR}/CMake/itkTestStreamLongLong.cxx
-      COMPILE_DEFINITIONS -DITK_TEST_OSTREAM_LONG_LONG
-      OUTPUT_VARIABLE OUTPUT)
-    IF(ITK_OSTREAM_SUPPORTS_LONG_LONG)
-      MESSAGE(STATUS "Checking if ostream supports long long -- yes")
-      SET(ITK_OSTREAM_SUPPORTS_LONG_LONG 1 CACHE INTERNAL "Whether ostream supports long long")
-    ELSE(ITK_OSTREAM_SUPPORTS_LONG_LONG)
-      MESSAGE(STATUS "Checking if ostream supports long long -- no")
-      SET(ITK_OSTREAM_SUPPORTS_LONG_LONG 0 CACHE INTERNAL "Whether ostream supports long long")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
-        "Determining if ostream supports long long "
-        "failed with the following output:\n"
-        "${OUTPUT}\n" APPEND)
-    ENDIF(ITK_OSTREAM_SUPPORTS_LONG_LONG)
-  ENDIF("ITK_OSTREAM_SUPPORTS_LONG_LONG" MATCHES "^ITK_OSTREAM_SUPPORTS_LONG_LONG$")
-  IF("ITK_ISTREAM_SUPPORTS_LONG_LONG" MATCHES "^ITK_ISTREAM_SUPPORTS_LONG_LONG$")
-    MESSAGE(STATUS "Checking if istream supports long long")
-    TRY_COMPILE(ITK_ISTREAM_SUPPORTS_LONG_LONG
-      ${ITK_BINARY_DIR}
-      ${ITK_BINARY_DIR}/CMake/itkTestStreamLongLong.cxx
-      COMPILE_DEFINITIONS -DITK_TEST_ISTREAM_LONG_LONG
-      OUTPUT_VARIABLE OUTPUT)
-    IF(ITK_ISTREAM_SUPPORTS_LONG_LONG)
-      MESSAGE(STATUS "Checking if istream supports long long -- yes")
-      SET(ITK_ISTREAM_SUPPORTS_LONG_LONG 1 CACHE INTERNAL "Whether istream supports long long")
-    ELSE(ITK_ISTREAM_SUPPORTS_LONG_LONG)
-      MESSAGE(STATUS "Checking if istream supports long long -- no")
-      SET(ITK_ISTREAM_SUPPORTS_LONG_LONG 0 CACHE INTERNAL "Whether istream supports long long")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
-        "Determining if istream supports long long "
-        "failed with the following output:\n"
-        "${OUTPUT}\n" APPEND)
-    ENDIF(ITK_ISTREAM_SUPPORTS_LONG_LONG)
-  ENDIF("ITK_ISTREAM_SUPPORTS_LONG_LONG" MATCHES "^ITK_ISTREAM_SUPPORTS_LONG_LONG$")
-ENDIF(ITK_SIZEOF_LONG_LONG)
 
 #
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro

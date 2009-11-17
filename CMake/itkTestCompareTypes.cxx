@@ -14,6 +14,21 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+
+#ifdef HAVE_SYS_TYPES_H
+#  include <sys/types.h>
+#endif /* HAVE_SYS_TYPES_H */
+
+#ifdef HAVE_STDINT_H
+#  include <stdint.h>
+#endif /* HAVE_STDINT_H */
+
+#ifdef HAVE_STDDEF_H
+#  include <stddef.h>
+#endif /* HAVE_STDDEF_H */
+
+#define TYPE_LONG_LONG long long
+
 typedef ITK_TEST_COMPARE_TYPE_1 Type1;
 typedef ITK_TEST_COMPARE_TYPE_2 Type2;
 
