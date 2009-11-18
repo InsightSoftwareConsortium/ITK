@@ -22,7 +22,7 @@
 #undef max
 
 #ifdef ITK_TYPE_USE___INT64
-// One of these include may be needed for the definition of __int65
+// One of these includes may be needed for the definition of __int64
 #ifdef HAVE_SYS_TYPES_H
 #  include <sys/types.h>
 #endif /* HAVE_SYS_TYPES_H */
@@ -641,7 +641,8 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits< __int64 >  {
+class NumericTraits< __int64 >  
+: public vcl_numeric_limits< __int64 > {
 public:
   typedef __int64               TheType;
   typedef __int64               ValueType;
@@ -670,7 +671,8 @@ public:
  * \ingroup DataRepresentation
  */
 template <>
-class NumericTraits< unsigned __int64 >  {
+class NumericTraits< unsigned __int64 >
+  : public vcl_numeric_limits< unsigned __int64 >  {
 public:
 
   typedef unsigned __int64      ValueType;
