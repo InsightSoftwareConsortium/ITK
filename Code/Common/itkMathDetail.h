@@ -25,6 +25,9 @@
 #include "itkNumericTraits.h"
 
 #ifdef HAVE_FENV_H
+// The Sun Studio CC compiler seems to have a bug where if cstdio is
+// included stdio.h must also be included before fenv.h
+#include <stdio.h>
 #include <fenv.h>
 #endif
 
