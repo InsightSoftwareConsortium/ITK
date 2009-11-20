@@ -82,7 +82,7 @@ typedef  signed char int8;  /* NB: non-ANSI compilers may not grok */
 typedef  unsigned char uint8;
 typedef  short int16;
 typedef  unsigned short uint16;  /* sizeof (uint16) must == 2 */
-#if defined(__alpha) || (defined(_MIPS_SZLONG) && _MIPS_SZLONG == 64) || defined(__LP64__) || defined(__arch64__)
+#if defined(__amd64) || defined(__alpha) || (defined(_MIPS_SZLONG) && _MIPS_SZLONG == 64) || defined(__LP64__) || defined(__arch64__)
 typedef  int int32;
 typedef  unsigned int uint32;  /* sizeof (uint32) must == 4 */
 #else
