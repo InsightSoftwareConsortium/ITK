@@ -36,6 +36,7 @@ DeformationFieldSource<TOutputImage>
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
+  m_OutputDirection.SetIdentity();
   
   typedef ThinPlateSplineKernelTransform< 
               double, 
@@ -61,6 +62,7 @@ DeformationFieldSource<TOutputImage>
   os << indent << "OutputRegion:    " << m_OutputRegion << std::endl;
   os << indent << "OutputSpacing:   " << m_OutputSpacing << std::endl;
   os << indent << "OutputOrigin:    " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "Source Landmarks: " << m_SourceLandmarks.GetPointer() << std::endl;
   os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << std::endl;
@@ -221,6 +223,7 @@ DeformationFieldSource<TOutputImage>
   // Set spacing and origin
   outputPtr->SetSpacing( m_OutputSpacing );
   outputPtr->SetOrigin( m_OutputOrigin );
+  outputPtr->SetDirection( m_OutputDirection );
 
   return;
 }

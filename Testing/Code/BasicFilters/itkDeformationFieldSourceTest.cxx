@@ -74,11 +74,14 @@ int itkDeformationFieldSourceTest( int argc, char * argv[] )
   region.SetSize( size );
   region.SetIndex( start );
 
+  DeformationFieldType::DirectionType direction;
+  direction.SetIdentity();
 
 
   filter->SetOutputSpacing( spacing );
   filter->SetOutputOrigin( origin );
   filter->SetOutputRegion( region );
+  filter->SetOutputDirection( direction );
 
 
 
