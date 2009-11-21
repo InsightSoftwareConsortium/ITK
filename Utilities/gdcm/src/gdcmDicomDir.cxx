@@ -739,7 +739,7 @@ void DicomDir::Initialize()
    ProgressArg             = NULL;
    EndArg                  = NULL;
 
-   Progress = 0.0;
+   Progress = 0.0f;
    Abort = false;
 
    MetaElems = NULL;   

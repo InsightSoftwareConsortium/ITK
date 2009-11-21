@@ -162,7 +162,7 @@ bool Document::DoTheLoadingDocumentJob(  )
 
    // Computes the total length of the file
    Fp->seekg(0, std::ios::end);  // Once per Document !
-   long lgt = Fp->tellg();       // Once per Document !   
+   std::streampos lgt = Fp->tellg();       // Once per Document !   
    Fp->seekg(0, std::ios::beg);  // Once per Document !
 
    // CheckSwap returns a boolean 
@@ -175,13 +175,13 @@ bool Document::DoTheLoadingDocumentJob(  )
       return false;      
     }
 
-   long beg = Fp->tellg();      // just after DICOM preamble (if any)
+   std::streampos beg = Fp->tellg();      // just after DICOM preamble (if any)
 
    lgt -= beg;                  // remaining length to parse    
 
    // Recursive call.
    // Loading is done during parsing
-   ParseDES( this, beg, lgt, false); // delim_mode is first defaulted to false
+   ParseDES( this, (long)beg, (long)lgt, false); // delim_mode is first defaulted to false
 
    if ( IsEmpty() )
    { 
@@ -798,7 +798,7 @@ void Document::LoadDocEntrySafe(DocEntry *entry)
 {
    if ( Fp )
    {
-      long PositionOnEntry = Fp->tellg();
+      std::streampos PositionOnEntry = Fp->tellg();
       LoadDocEntry(entry);
       Fp->seekg(PositionOnEntry, std::ios::beg);
    }
@@ -1144,7 +1144,7 @@ void Document::ParseDES(DocEntrySet *set, long offset,
                      if( sscanf( strLgrGroup.c_str(), "%ud", &lgrGroup) == 1 )
                        {
                        gdcmDebugMacro( "Skipping: " << lgrGroup << " bytes" );
-                       long startpos = Fp->tellg();
+                       std::streampos startpos = Fp->tellg();
                        Fp->seekg(lgrGroup, std::ios::cur);
                        // Let's detect some easy case: when value is larger than file size:
                        Fp->peek();
@@ -1295,7 +1295,7 @@ void Document::ParseSQ( SeqEntry *seqEntry,
 {
    int SQItemNumber = 0;
    bool dlm_mod;
-   long offsetStartCurrentSQItem = offset;
+   std::streampos offsetStartCurrentSQItem = offset;
 
    while (true)
    {
@@ -1337,7 +1337,7 @@ void Document::ParseSQ( SeqEntry *seqEntry,
       delete newDocEntry;
       // fill up the current SQItem, starting at the beginning of fff0,e000
 
-      ParseDES(itemSQ, offsetStartCurrentSQItem, l+8, dlm_mod);
+      ParseDES(itemSQ, (long)offsetStartCurrentSQItem, l+8, dlm_mod);
 
       offsetStartCurrentSQItem = Fp->tellg();
  
@@ -1640,14 +1640,14 @@ void Document::FindDocEntryLength( DocEntry *entry, std::string vr )
                gdcmWarningMacro( " Computing the length failed for " << 
                                    entry->GetKey() <<" in " <<GetFileName());
 
-               long currentPosition = Fp->tellg(); // Only for gdcm-JPEG-LossLess3a.dcm-like
+               std::streampos currentPosition = Fp->tellg(); // Only for gdcm-JPEG-LossLess3a.dcm-like
                Fp->seekg(0L,std::ios::end);        // Only for gdcm-JPEG-LossLess3a.dcm-like
 
-               long lengthUntilEOF = (long)(Fp->tellg())-currentPosition; // Only for gdcm-JPEG-LossLess3a.dcm-like
+               std::streamoff lengthUntilEOF = Fp->tellg()-currentPosition; // Only for gdcm-JPEG-LossLess3a.dcm-like
                Fp->seekg(currentPosition, std::ios::beg);                 // Only for gdcm-JPEG-LossLess3a.dcm-like
 
-               entry->SetReadLength(lengthUntilEOF);
-               entry->SetLength(lengthUntilEOF);
+               entry->SetReadLength( (uint32_t)lengthUntilEOF );
+               entry->SetLength( (uint32_t)lengthUntilEOF );
                return;
             }
             entry->SetReadLength(lengthOB);
@@ -1697,7 +1697,7 @@ uint32_t Document::FindDocEntryLengthOBOrOW()
    throw( FormatUnexpected )
 {
    // See PS 3.5-2001, section A.4 p. 49 on encapsulation of encoded pixel data.
-   long positionOnEntry = Fp->tellg(); // Only for OB,OW DataElements
+   std::streampos positionOnEntry = Fp->tellg(); // Only for OB,OW DataElements
 
    bool foundSequenceDelimiter = false;
    uint32_t totalLength = 0;
@@ -1756,7 +1756,7 @@ std::string Document::FindDocEntryVR()
    if ( Filetype != ExplicitVR )
       return GDCM_UNKNOWN;
 
-   long positionOnEntry = Fp->tellg();
+   std::streampos positionOnEntry = Fp->tellg();
    // Warning: we believe this is explicit VR (Value Representation) because
    // we used a heuristic that found "UL" in the first tag. Alas this
    // doesn't guarantee that all the tags will be in explicit VR. In some
@@ -2066,7 +2066,7 @@ bool Document::IsDocEntryAnInteger(DocEntry *entry)
          // test is useless (and might even look a bit paranoid), when we
          // encounter such an ill-formed image, we simply display a warning
          // message and proceed on parsing (while crossing fingers).
-         long filePosition = Fp->tellg(); // Only when elem 0x0000 length is not 4 (?!?)
+         std::streampos filePosition = Fp->tellg(); // Only when elem 0x0000 length is not 4 (?!?)
          (void)filePosition;
          gdcmWarningMacro( "Erroneous Group Length element length  on : ("
            << std::hex << group << " , " << elem
@@ -2405,9 +2405,9 @@ DocEntry *Document::ReadNextDocEntry()
          if ( newEntry->GetGroup() != 0xfffe )
          {
             std::string msg;
-            int offset = Fp->tellg();
+            std::streampos offset = Fp->tellg();
             msg = Util::Format("Entry (%04x,%04x) at 0x(%x) should be Explicit VR\n", 
-                          newEntry->GetGroup(), newEntry->GetElement(), offset );
+                          newEntry->GetGroup(), newEntry->GetElement(), (size_t)offset );
             gdcmWarningMacro( msg.c_str() );
           }
       }
@@ -2425,7 +2425,7 @@ DocEntry *Document::ReadNextDocEntry()
       return 0;
    }
 
-   newEntry->SetOffset(Fp->tellg());  // for each DocEntry
+   newEntry->SetOffset( (size_t)( Fp->tellg() ) );  // for each DocEntry
 
    return newEntry;
 }
