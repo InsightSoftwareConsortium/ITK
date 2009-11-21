@@ -1465,7 +1465,7 @@ mat44 nifti_quatern_to_mat44( float qb, float qc, float qd,
 
    /* last row is always [ 0 0 0 1 ] */
 
-   R.m[3][0]=R.m[3][1]=R.m[3][2] = (float)(0.0) ; R.m[3][3]= (float)(1.0) ;
+   R.m[3][0]=R.m[3][1]=R.m[3][2] = 0.0f ; R.m[3][3]= 1.0f ;
 
    /* compute a parameter from b,c,d */
 
