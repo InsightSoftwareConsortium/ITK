@@ -114,6 +114,7 @@ int main( int argc, char * argv[] )
   deformer->SetOutputSpacing( fixedImage->GetSpacing() );
   deformer->SetOutputOrigin(  fixedImage->GetOrigin() );
   deformer->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
+  deformer->SetOutputDirection( fixedImage->GetDirection() );
 
 
 

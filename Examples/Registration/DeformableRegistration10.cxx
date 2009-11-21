@@ -177,6 +177,7 @@ int main( int argc, char *argv[] )
   warper->SetInterpolator( interpolator );
   warper->SetOutputSpacing( fixedImage->GetSpacing() );
   warper->SetOutputOrigin( fixedImage->GetOrigin() );
+  warper->SetOutputDirection( fixedImage->GetDirection() );
   warper->SetDeformationField( multires->GetOutput() );
 
   // Write warped image out to file

@@ -111,6 +111,7 @@ int main( int argc, char * argv[] )
   filter->SetOutputSpacing( fixedImage->GetSpacing() );
   filter->SetOutputOrigin(  fixedImage->GetOrigin() );
   filter->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
+  filter->SetOutputDirection( fixedImage->GetDirection() );
 
 
 

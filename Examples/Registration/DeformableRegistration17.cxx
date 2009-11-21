@@ -309,6 +309,7 @@ int main( int argc, char * argv [] )
   warper->SetInterpolator( interpolator ); 
   warper->SetOutputSpacing( targetImage->GetSpacing() ); 
   warper->SetOutputOrigin( targetImage->GetOrigin() );
+  warper->SetOutputDirection( targetImage->GetDirection() );
   warper->SetDeformationField( multires->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType >  WriterType;
