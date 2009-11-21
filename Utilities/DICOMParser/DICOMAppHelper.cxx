@@ -139,15 +139,15 @@ DICOMAppHelper::DICOMAppHelper()
   this->FileCount = 0;
   this->BitsAllocated = 8;
   this->ByteSwapData = false;
-  this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0;
+  this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0f;
   this->Dimensions[0] = this->Dimensions[1] = 0;
   this->Width = this->Height = 0;
   this->PhotometricInterpretation = NULL;
   this->TransferSyntaxUID = NULL;
   this->CurrentSeriesUID = "";
   this->InstanceUID = "";
-  this->RescaleOffset = 0.0;
-  this->RescaleSlope = 1.0;
+  this->RescaleOffset = 0.0f;
+  this->RescaleSlope = 1.0f;
   this->ImageData = NULL;
   this->ImageDataLengthInBytes = 0;
 
@@ -980,9 +980,9 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *,
     else
       {
       // no actual position specified, default to the origin
-      ord.ImagePositionPatient[0] = 0.0;
-      ord.ImagePositionPatient[1] = 0.0;
-      ord.ImagePositionPatient[2] = 0.0;
+      ord.ImagePositionPatient[0] = 0.0f;
+      ord.ImagePositionPatient[1] = 0.0f;
+      ord.ImagePositionPatient[2] = 0.0f;
       }
       
     // insert into the map
@@ -1005,9 +1005,9 @@ void DICOMAppHelper::ImagePositionPatientCallback(DICOMParser *,
     else
       {
       // no actual position specified, default to the origin
-      (*it).second.ImagePositionPatient[0] = 0.0;
-      (*it).second.ImagePositionPatient[1] = 0.0;
-      (*it).second.ImagePositionPatient[2] = 0.0;
+      (*it).second.ImagePositionPatient[0] = 0.0f;
+      (*it).second.ImagePositionPatient[1] = 0.0f;
+      (*it).second.ImagePositionPatient[2] = 0.0f;
       }
     
     // cache the value
@@ -1044,12 +1044,12 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *,
     else
       {
       // no orientation defined, default to an standard axial orientation
-      ord.ImageOrientationPatient[0] = 1.0;
-      ord.ImageOrientationPatient[1] = 0.0;
-      ord.ImageOrientationPatient[2] = 0.0;
-      ord.ImageOrientationPatient[3] = 0.0;
-      ord.ImageOrientationPatient[4] = 1.0;
-      ord.ImageOrientationPatient[5] = 0.0;
+      ord.ImageOrientationPatient[0] = 1.0f;
+      ord.ImageOrientationPatient[1] = 0.0f;
+      ord.ImageOrientationPatient[2] = 0.0f;
+      ord.ImageOrientationPatient[3] = 0.0f;
+      ord.ImageOrientationPatient[4] = 1.0f;
+      ord.ImageOrientationPatient[5] = 0.0f;
       }
     
     // insert into the map
@@ -1071,12 +1071,12 @@ void DICOMAppHelper::ImageOrientationPatientCallback(DICOMParser *,
     else
       {
       // no orientation defined, default to an standard axial orientation
-      (*it).second.ImageOrientationPatient[0] = 1.0;
-      (*it).second.ImageOrientationPatient[1] = 0.0;
-      (*it).second.ImageOrientationPatient[2] = 0.0;
-      (*it).second.ImageOrientationPatient[3] = 0.0;
-      (*it).second.ImageOrientationPatient[4] = 1.0;
-      (*it).second.ImageOrientationPatient[5] = 0.0;
+      (*it).second.ImageOrientationPatient[0] = 1.0f;
+      (*it).second.ImageOrientationPatient[1] = 0.0f;
+      (*it).second.ImageOrientationPatient[2] = 0.0f;
+      (*it).second.ImageOrientationPatient[3] = 0.0f;
+      (*it).second.ImageOrientationPatient[4] = 1.0f;
+      (*it).second.ImageOrientationPatient[5] = 0.0f;
       }
     }
 }
@@ -1180,7 +1180,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
 
   if (group == 0x0028 && element == 0x0030)
     {
-    float fval = 1.0; // defaul of 1mm
+    float fval = 1.0f; // defaul of 1mm
     if (len > 0)
       {
       fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
@@ -1205,7 +1205,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser *parser,
     }
   else if (group == 0x0018 && element == 0x0050)
     {
-    float fval = 1.0; // defaul of 1mm
+    float fval = 1.0f; // defaul of 1mm
     if (len > 0)
       {
       fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
@@ -1664,7 +1664,7 @@ void DICOMAppHelper::RescaleOffsetCallback( DICOMParser *parser,
                                             unsigned char* val,
                                             quadbyte len)
 {
-  float fval = 0.0;
+  float fval = 0.0f;
 
   if (len > 0)
     {
@@ -1684,7 +1684,7 @@ void DICOMAppHelper::RescaleSlopeCallback(DICOMParser *parser,
                                           unsigned char* val,
                                           quadbyte len)
 {
-  float fval = 1.0;
+  float fval = 1.0f;
 
   if (len > 0)
     {

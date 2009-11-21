@@ -142,7 +142,7 @@ quadbyte DICOMSource::ReadNBytes(int len)
 
 float DICOMSource::ReadAsciiFloat(int len) 
 {
-  float ret=0.0;
+  float ret=0.0f;
 
 
   char* val = new char[len+1];
