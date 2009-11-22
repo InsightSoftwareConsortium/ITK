@@ -2262,7 +2262,7 @@ bool PhilipsPAR::GetLabelTypesASL(std::string parFile,
     int aslLabelNumber = -1;
     int lineIncrement = 101;
 
-     try
+    try
       {
       this->ReadPAR(parFile, &tempPar);
       }
