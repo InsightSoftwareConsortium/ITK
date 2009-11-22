@@ -205,9 +205,9 @@ public:
   
 #ifdef ITK_USE_SPROC
   static bool GetInitialized()
-  { return m_Initialized; }
+    { return m_Initialized; }
   static usptr_t * GetThreadArena()
-  { return m_ThreadArena; }
+    { return m_ThreadArena; }
 
   static void Initialize();
 #endif

@@ -92,16 +92,16 @@ public:
 
   /** returns the eigen vectors in a 2D array */
   EigenVectorArrayType* GetEigenVectors()
-  { return &m_EigenVectors; } 
+    { return &m_EigenVectors; } 
 
   /** returns the eigen values in an 1D array */
   EigenValueArrayType* GetEigenValues()
-  { return &m_EigenValues; }
+    { return &m_EigenValues; }
 
   /** dummy method that calls the GenerateData method to 
    * produce the eigen vectors and values. */
   void Update()
-  { this->GenerateData(); }
+    { this->GenerateData(); }
 
 protected:
   SymmetricEigenSystem();

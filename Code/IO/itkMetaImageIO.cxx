@@ -1450,7 +1450,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
       itkDebugMacro("Requested streaming and compression");
       itkDebugMacro("Meta IO is not streaming now!");
       }
-     return 1;
+    return 1;
     }
 
   if (!itksys::SystemTools::FileExists( m_FileName.c_str() )) 
