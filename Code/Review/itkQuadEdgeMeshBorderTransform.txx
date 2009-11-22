@@ -75,6 +75,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     }
 
   this->m_Border.resize( i );
+  delete list;
 }
 
 
@@ -95,7 +96,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::
 ComputeLongestBorder( )
 {
   BoundaryRepresentativeEdgesPointer
-        boundaryRepresentativeEdges = BoundaryRepresentativeEdgesType::New( );
+    boundaryRepresentativeEdges = BoundaryRepresentativeEdgesType::New( );
 
   InputMeshConstPointer input = this->GetInput( );
 
@@ -134,7 +135,7 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >::
 ComputeLargestBorder( )
 {
   BoundaryRepresentativeEdgesPointer
-            boundaryRepresentativeEdges = BoundaryRepresentativeEdgesType::New( );
+    boundaryRepresentativeEdges = BoundaryRepresentativeEdgesType::New( );
 
   InputMeshConstPointer input = this->GetInput( );
     
@@ -164,8 +165,9 @@ ComputeLargestBorder( )
       oborder_it = b_it;
       }
     }
-  return oborder_it;
 
+  delete list;
+  return oborder_it;
 }
 
 
@@ -433,6 +435,8 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
     pt[1] = - this->m_Radius + ( Length[i] - 3.0 * EdgeLength );
     this->m_Border[ i++ ] = pt;
     }
+
+  delete list;
 }
 
 

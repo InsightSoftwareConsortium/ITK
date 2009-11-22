@@ -56,7 +56,10 @@ QuadEdgeMeshTopologyChecker< TMesh >
   // Number of USED faces
   unsigned long numFaces  = m_Mesh->ComputeNumberOfFaces( );
   // Number of Boundaries
-  unsigned long numBounds = boundaryEdges->Evaluate( (*m_Mesh) )->size( );
+  typename BoundaryEdges::OutputType 
+    listOfBoundaries = boundaryEdges->Evaluate( (*m_Mesh) );
+  unsigned long numBounds = listOfBoundaries->size( );
+  delete listOfBoundaries;
 
   /**
    * Number of points
