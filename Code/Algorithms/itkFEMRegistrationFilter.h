@@ -211,7 +211,8 @@ public:
   /** Writes the displacement field to a file as a single volume with multiple components. */
   int       WriteDisplacementFieldMultiComponent();
 
-  /** One can set the reference file names to read images from files */
+  /** One can set the reference file names to read images from files.
+   \deprecated  This method currently doesn't have any effect. */
   void      SetMovingFile(const char* r)
     {
     m_MovingFileName=r;
@@ -222,6 +223,7 @@ public:
     return m_MovingFileName;
     }
   
+  /** \deprecated  This method doesn't have any effect */
   void      SetFixedFile(const char* t) {m_FixedFileName=t;}
   
   std::string GetFixedFile() {return m_FixedFileName;}
@@ -556,8 +558,8 @@ private:
     
   std::string      m_ConfigFileName;
   std::string      m_ResultsFileName;
-  std::string      m_MovingFileName;  
-  std::string      m_FixedFileName;
+  std::string      m_MovingFileName;   // This variable is currently not being used.
+  std::string      m_FixedFileName;    // This variable is currently not being used.
   std::string      m_LandmarkFileName;
   std::string      m_DisplacementsFileName;
   std::string      m_MeshFileName;
