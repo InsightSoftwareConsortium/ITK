@@ -253,7 +253,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
     // NOTE: The scale factors are converted to whole numbers for
     // precision
     ptrdiff_t diff = inputNumberOfComponents - 4;
-    InputPixelType* endInput = inputData + size*inputNumberOfComponents;
+    InputPixelType* endInput = inputData + size * (size_t)inputNumberOfComponents;
     while(inputData != endInput)
       {
       double tempval = 
@@ -382,7 +382,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   else
     {
     ptrdiff_t diff = inputNumberOfComponents - 3;
-    InputPixelType* endInput = inputData + size * inputNumberOfComponents;
+    InputPixelType* endInput = inputData + size * (size_t)inputNumberOfComponents;
     while(inputData != endInput)
       {
       OutputConvertTraits::SetNthComponent(0, *outputData, 
@@ -520,7 +520,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
   else
     {
     ptrdiff_t diff = inputNumberOfComponents - 4;
-    InputPixelType* endInput = inputData + size * inputNumberOfComponents;
+    InputPixelType* endInput = inputData + size * (size_t)inputNumberOfComponents;
     while(inputData != endInput)
       {
       OutputConvertTraits::SetNthComponent(0, *outputData, 
@@ -662,7 +662,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
                               size_t size)
 {
   ptrdiff_t diff = inputNumberOfComponents - 2;
-  InputPixelType* endInput = inputData + size * inputNumberOfComponents;
+  InputPixelType* endInput = inputData + size * (size_t)inputNumberOfComponents;
   while(inputData != endInput)
     {
       OutputConvertTraits::SetNthComponent(0, *outputData, 
@@ -687,7 +687,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>
                      int inputNumberOfComponents, 
                      OutputPixelType* outputData , size_t size)
 {
-  size_t length = static_cast< size_t >(size* inputNumberOfComponents);
+  size_t length = size* (size_t)inputNumberOfComponents;
   for( size_t i=0; i< length; i++ )
     {
     OutputConvertTraits::SetNthComponent( 0, *outputData, 
