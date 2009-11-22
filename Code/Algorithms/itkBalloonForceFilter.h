@@ -34,9 +34,9 @@ namespace itk
  * \brief
  *
  * BalloonForceFilter is used to apply balloon force and the potential
- * force onto the 2D deformable model. For 3D (multi-slices) segmentation
- * please use BalloonForce3DFilter
- * The balloon force is vertical to the surface of the model. The potential
+ * force onto the 2D surface model embedded in a 3D space.
+ *
+ * The balloon force is normal to the surface of the model. The potential
  * force is given out by the estimated boundary points. These two will meet
  * a balance at the boundary, thus the deformable model will fit to the
  * boundary.
