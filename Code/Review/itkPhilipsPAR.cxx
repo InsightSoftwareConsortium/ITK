@@ -2203,7 +2203,7 @@ bool PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string parFile,
         lineIncrement = 101;
       }
 
-     try
+    try
       {
       this->ReadPAR(parFile, &tempPar);
       }
