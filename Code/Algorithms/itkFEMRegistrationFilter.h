@@ -479,7 +479,7 @@ public:
   ~FEMRegistrationFilter(); 
 
 // HELPER FUNCTIONS
-protected :
+protected:
 
   
   /** \class A non-templated class to access FEMObjectFactory
@@ -547,7 +547,7 @@ protected :
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-private :
+private:
 
   void InitializeField();
 
