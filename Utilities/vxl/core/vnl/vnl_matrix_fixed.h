@@ -497,9 +497,12 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
+#ifdef NDEBUG
+  void assert_size(unsigned, unsigned ) const
+  {
+#else
   void assert_size(unsigned nr_rows, unsigned nr_cols) const
   {
-#ifndef NDEBUG
     assert_size_internal(nr_rows, nr_cols);
 #endif
   }
