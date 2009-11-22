@@ -108,8 +108,7 @@ public:
   
   /** \class Iterator
    * \brief The non-const iterator type for the map. */
-  class Iterator
-  {
+  class Iterator {
   public:
     Iterator() {}
     Iterator( const MapIterator& i ): m_Iter(i) {}
