@@ -892,6 +892,7 @@ void NiftiImageIO::SetImageIOMetadataFromNIfTI()
     std::ostringstream intent_name;
     intent_name << header->intent_name;
     EncapsulateMetaData<std::string>(thisDic, "intent_name", intent_name.str());
+    free(header);
     }
 }
 
