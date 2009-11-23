@@ -10,7 +10,7 @@
 
 #if defined(VCL_VC) || defined(__MINGW32__)
 // I don't think we need this, because <ieeefp.h> is available -- fsm
-# include <Float.h> // for 'isnan' and 'finite'
+# include <float.h> // for 'isnan' and 'finite'
 // # define isnan _isnan
 # define finite _finite
 # define finitef _finite
