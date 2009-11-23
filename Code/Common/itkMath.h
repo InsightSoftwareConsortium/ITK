@@ -75,7 +75,6 @@ static const double sqrt1_2          = 0.70710678118654752440;
   template <typename TReturn,typename TInput>                           \
   inline TReturn name(TInput x)                                         \
   {                                                                     \
-    enum { ConceptCheck = sizeof Concept::FloatOrDouble<TInput> };      \
                                                                         \
     if (sizeof(TReturn) <= 4)                                           \
       {                                                                 \
