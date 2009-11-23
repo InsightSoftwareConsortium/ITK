@@ -95,23 +95,34 @@
 
 
 /*
+ * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is
+ * to remap these values to 0 and 1
+ */
+#define ITK_CMAKEDEFINE_VAR_1 1
+#define ITK_CMAKEDEFINE_VAR_ 0
+
+/*
  * Check Include files defines. We use the CMake standard names in the
  * cmake files to reduce extra calls for checking header, but then
  * conditionally defined them here with an ITK_ prefix to prevent
  * collisions and re defined warnings.
  */
-#if @HAVE_FENV_H@
-#define ITK_HAVE_FENV_H
-#endif /* @HAVE_FENV_H@ */
-#if @HAVE_SYS_TYPES_H@
-#define ITK_HAVE_SYS_TYPES_H
-#endif  /* @HAVE_SYS_TYPES_H@ */
-#if @HAVE_STDINT_H@
-#define ITK_HAVE_STDINT_H
-#endif  /* @HAVE_STDINT_H@ */
-#if @HAVE_STDDEF_H@
-#define ITK_HAVE_STDDEF_H
-#endif /* @HAVE_STDDEF_H@ */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_FENV_H@
+# define ITK_HAVE_FENV_H
+#endif /* HAVE_FENV_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_SYS_TYPES_H@
+# define ITK_HAVE_SYS_TYPES_H
+#endif  /* HAVE_SYS_TYPES_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_STDINT_H@
+# define ITK_HAVE_STDINT_H
+#endif  /* HAVE_STDINT_H */
+#if ITK_CMAKEDEFINE_VAR_@HAVE_STDDEF_H@
+# define ITK_HAVE_STDDEF_H
+#endif /* HAVE_STDDEF_H */
+
+#undef ITK_CMAKEDEFINE_VAR_1 
+#undef ITK_CMAKEDEFINE_VAR_ 
+
 
 /*
  * Enable ITK usage of __int64 and long long if it is a unique
