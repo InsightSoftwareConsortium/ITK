@@ -24,12 +24,12 @@
 #include "vnl/vnl_math.h"
 #include "itkNumericTraits.h"
 
-#ifdef HAVE_FENV_H
+#ifdef ITK_HAVE_FENV_H
 // The Sun Studio CC compiler seems to have a bug where if cstdio is
 // included stdio.h must also be included before fenv.h
 #include <stdio.h>
 #include <fenv.h>
-#endif
+#endif /* ITK_HAVE_FENV_H */
 
 // Figure out when the fast implementations can be used
 //
@@ -115,6 +115,7 @@ template <typename TReturn, typename TInput>
 inline TReturn Floor_base(TInput x)
 {
   const TReturn r = static_cast<TReturn>( x );
+
   return ( NumericTraits<TInput>::IsNonnegative( x ) ) ?
     r :
     ( x == static_cast<TInput>( r ) ? r : r - static_cast<TReturn>(1) );

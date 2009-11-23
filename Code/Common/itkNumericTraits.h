@@ -23,15 +23,15 @@
 
 #ifdef ITK_TYPE_USE___INT64
 // One of these includes may be needed for the definition of __int64
-#ifdef HAVE_SYS_TYPES_H
+#ifdef ITK_HAVE_SYS_TYPES_H
 #  include <sys/types.h>
-#endif /* HAVE_SYS_TYPES_H */
-#ifdef HAVE_STDINT_H
+#endif /* ITK_HAVE_SYS_TYPES_H */
+#ifdef ITK_HAVE_STDINT_H
 #  include <stdint.h>
-#endif /* HAVE_STDINT_H */
-#ifdef HAVE_STDDEF_H
+#endif /* ITK_HAVE_STDINT_H */
+#ifdef ITK_HAVE_STDDEF_H
 #  include <stddef.h>
-#endif /* HAVE_STDDEF_H */
+#endif /* ITK_HAVE_STDDEF_H */
 #endif /* ITK_TYPE_USE___INT64 */
 
 #define itkNUMERIC_TRAITS_MIN_MAX_MACRO() \

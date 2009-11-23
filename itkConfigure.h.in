@@ -93,13 +93,25 @@
 #cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS
 #cmakedefine ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING
 
+
 /*
- * Check Include files defines
+ * Check Include files defines. We use the CMake standard names in the
+ * cmake files to reduce extra calls for checking header, but then
+ * conditionally defined them here with an ITK_ prefix to prevent
+ * collisions and re defined warnings.
  */
-#cmakedefine HAVE_FENV_H
-#cmakedefine HAVE_SYS_TYPES_H
-#cmakedefine HAVE_STDINT_H
-#cmakedefine HAVE_STDDEF_H
+#if @HAVE_FENV_H@
+#define ITK_HAVE_FENV_H
+#endif /* @HAVE_FENV_H@ */
+#if @HAVE_SYS_TYPES_H@
+#define ITK_HAVE_SYS_TYPES_H
+#endif  /* @HAVE_SYS_TYPES_H@ */
+#if @HAVE_STDINT_H@
+#define ITK_HAVE_STDINT_H
+#endif  /* @HAVE_STDINT_H@ */
+#if @HAVE_STDDEF_H@
+#define ITK_HAVE_STDDEF_H
+#endif /* @HAVE_STDDEF_H@ */
 
 /*
  * Enable ITK usage of __int64 and long long if it is a unique
