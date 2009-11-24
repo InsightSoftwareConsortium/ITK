@@ -27,10 +27,10 @@ template <unsigned int VDimension, typename TInput>
 FiniteCylinderSpatialFunction<VDimension, TInput>
 ::FiniteCylinderSpatialFunction()
 {
-  m_Orientation.Fill(1.0);
-  m_AxisLength = 1.0;   // Length of cylinder axis.
-  m_Radius = 1.0;   // Radius of cylinder.
-  m_Center.Fill(0.0); // Origin of cylinder
+  m_Orientation.Fill(1.0f);
+  m_AxisLength = 1.0f;   // Length of cylinder axis.
+  m_Radius = 1.0f;   // Radius of cylinder.
+  m_Center.Fill(0.0f); // Origin of cylinder
 }
 
 template <unsigned int VDimension, typename TInput >

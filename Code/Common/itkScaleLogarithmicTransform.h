@@ -61,12 +61,14 @@ public:
 
   /** Parameters type. */
   typedef typename Superclass::ParametersType  ParametersType;
+  typedef typename ParametersType::ValueType   ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
 
   /** Standard vector type for this class. */
   typedef typename Superclass::ScaleType              ScaleType;
+  typedef typename ScaleType::ValueType               ScalesValueType;
 
   /** Standard vector type for this class. */
   typedef typename Superclass::InputVectorType          InputVectorType;

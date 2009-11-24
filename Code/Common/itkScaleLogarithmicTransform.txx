@@ -51,7 +51,7 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
   ScaleType scales;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    scales[i] = vcl_exp(parameters[i] );
+    scales[i] = Math::CastWithRangeCheck<ScalesValueType,ParametersValueType>( vcl_exp(parameters[i] ) );
     }
   this->m_Parameters = parameters;
   this->SetScale( scales );

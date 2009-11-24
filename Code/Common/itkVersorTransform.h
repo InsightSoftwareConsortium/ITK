@@ -94,6 +94,8 @@ public:
   typedef Versor<TScalarType>                   VersorType;
   typedef typename VersorType::VectorType       AxisType;
   typedef typename VersorType::ValueType        AngleType;
+  typedef typename AxisType::ValueType          AxisValueType;
+  typedef typename ParametersType::ValueType    ParameterValueType;
 
   /**
    * Set the transformation from a container of parameters

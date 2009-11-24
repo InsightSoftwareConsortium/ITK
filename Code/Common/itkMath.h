@@ -212,6 +212,11 @@ inline int Ceil(float  x) { return Detail::Ceil_32(x); }
 
 #endif // end of ITK_LEGACY_REMOVE
 
+template <typename TReturn,typename TInput>
+inline TReturn CastWithRangeCheck(TInput x)
+{
+  return static_cast<TReturn>( x );
+}
 
 } // end namespace Math
 } // end namespace itk

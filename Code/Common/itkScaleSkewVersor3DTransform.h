@@ -96,6 +96,11 @@ public:
                                                       ScaleVectorType;
   typedef Vector<TScalarType, 6 >                     SkewVectorType;
 
+  typedef typename ScaleVectorType::ValueType         ScaleVectorValueType;
+  typedef typename SkewVectorType::ValueType          SkewVectorValueType;
+  typedef typename TranslationType::ValueType         TranslationValueType;
+
+
  /** Directly set the matrix of the transform.
   *
   * \sa MatrixOffsetTransformBase::SetMatrix() */

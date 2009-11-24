@@ -18,6 +18,7 @@
 #define __itkScaleTransform_txx
 
 #include "itkScaleTransform.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -49,9 +50,10 @@ void
 ScaleTransform<ScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
+  typedef typename ParametersType::ValueType ParameterValueType;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    m_Scale[i] = parameters[i];
+    m_Scale[i] = Math::CastWithRangeCheck<ScalarType, ParameterValueType>( parameters[i] );
     }
   this->m_Parameters = parameters;
 

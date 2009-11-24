@@ -28,7 +28,7 @@ SphereSpatialFunction<VImageDimension,TInput>
 {
   m_Radius = 1.0;
 
-  m_Center.Fill(0.0);
+  m_Center.Fill(0.0f);
 }
 
 template <unsigned int VImageDimension,typename TInput>

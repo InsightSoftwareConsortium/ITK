@@ -21,6 +21,7 @@
 #include "itkVector.h" 
 #include "itkNumericTraits.h" 
 #include "itkExceptionObject.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -720,15 +721,15 @@ Versor<T>
   const ValueType yw = m_Y * m_W;
   const ValueType zw = m_Z * m_W;
 
-  matrix[0][0] = 1.0 - 2.0 * ( yy + zz );
-  matrix[1][1] = 1.0 - 2.0 * ( xx + zz );
-  matrix[2][2] = 1.0 - 2.0 * ( xx + yy );
-  matrix[0][1] = 2.0 * ( xy - zw );
-  matrix[0][2] = 2.0 * ( xz + yw );
-  matrix[1][0] = 2.0 * ( xy + zw );
-  matrix[2][0] = 2.0 * ( xz - yw );
-  matrix[2][1] = 2.0 * ( yz + xw );
-  matrix[1][2] = 2.0 * ( yz - xw );
+  matrix[0][0] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( yy + zz ) );
+  matrix[1][1] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( xx + zz ) );
+  matrix[2][2] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( xx + yy ) );
+  matrix[0][1] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xy - zw ) );
+  matrix[0][2] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xz + yw ) );
+  matrix[1][0] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xy + zw ) );
+  matrix[2][0] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xz - yw ) );
+  matrix[2][1] = Math::CastWithRangeCheck<T,double>( 2.0 * ( yz + xw ) );
+  matrix[1][2] = Math::CastWithRangeCheck<T,double>( 2.0 * ( yz - xw ) );
     
   return matrix;
 }

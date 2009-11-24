@@ -18,6 +18,7 @@
 #define __itkTranslationTransform_txx
 
 #include "itkTranslationTransform.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -58,12 +59,13 @@ void
 TranslationTransform<TScalarType, NDimensions>
 ::SetParameters( const ParametersType & parameters )
 {
+  typedef typename ParametersType::ValueType  ParameterValueType;
   bool modified = false;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
     if (m_Offset[i] != parameters[i])
       {
-      m_Offset[i] = parameters[i];
+      m_Offset[i] = Math::CastWithRangeCheck<TScalarType,ParameterValueType>( parameters[i] );
       modified = true;
       }
     }

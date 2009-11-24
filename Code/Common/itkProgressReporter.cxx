@@ -50,7 +50,7 @@ ProgressReporter::ProgressReporter(ProcessObject* filter, int threadId,
   
   // Calculate the interval for updates.
   m_PixelsPerUpdate = static_cast<unsigned long>(numPixels/numUpdates);
-  m_InverseNumberOfPixels = 1.0 / numPixels;
+  m_InverseNumberOfPixels = 1.0f / numPixels;
   
   // Only thread 0 should update progress. (But all threads need to
   // count pixels so they can check the abort flag.)

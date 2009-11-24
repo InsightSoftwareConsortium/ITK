@@ -28,7 +28,7 @@ LightProcessObject
 ::LightProcessObject()
 {
   m_AbortGenerateData = false;
-  m_Progress = 0.0;
+  m_Progress = 0.0f;
 }
 
 
@@ -84,7 +84,7 @@ LightProcessObject
    * before we start to execute is 0.0.
    */
   m_AbortGenerateData = 0;
-  m_Progress = 0.0;
+  m_Progress = 0.0f;
 
   this->GenerateData();
 
@@ -94,7 +94,7 @@ LightProcessObject
    */
   if ( !m_AbortGenerateData )
     {
-    this->UpdateProgress(1.0);
+    this->UpdateProgress(1.0f);
     }
 
   // Notify end event observers

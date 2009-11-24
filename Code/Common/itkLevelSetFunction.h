@@ -284,7 +284,7 @@ public:
 protected:
   LevelSetFunction()
     {
-    m_EpsilonMagnitude = 1.0e-5;
+    m_EpsilonMagnitude = static_cast<ScalarValueType>( 1.0e-5 );
     m_AdvectionWeight = m_PropagationWeight 
       = m_CurvatureWeight = m_LaplacianSmoothingWeight 
       = NumericTraits<ScalarValueType>::Zero;

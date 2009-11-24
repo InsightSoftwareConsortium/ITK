@@ -28,8 +28,8 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>
 ::EllipsoidInteriorExteriorSpatialFunction()
 {
   m_Orientations = NULL;
-  m_Axes.Fill(1.0);   // Lengths of ellipsoid axes.
-  m_Center.Fill(0.0); // Origin of ellipsoid
+  m_Axes.Fill(1.0f);   // Lengths of ellipsoid axes.
+  m_Center.Fill(0.0f); // Origin of ellipsoid
 }
 
 template <unsigned int VDimension, typename TInput >

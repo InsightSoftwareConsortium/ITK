@@ -20,6 +20,7 @@
 #include "itkNumericTraits.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -313,9 +314,11 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 {
   this->m_FixedParameters = fp;
   InputPointType c;
+  typedef typename InputPointType::ValueType InputPointValueType;
+  typedef typename ParametersType::ValueType ParameterValueType;
   for ( unsigned int i = 0; i < NInputDimensions; i++ )
     {
-    c[i] = this->m_FixedParameters[i];
+    c[i] = Math::CastWithRangeCheck< InputPointValueType, ParameterValueType>( this->m_FixedParameters[i] );
     }
   this->SetCenter ( c );
 }

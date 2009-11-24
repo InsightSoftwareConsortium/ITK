@@ -74,7 +74,7 @@ ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record
       }
     
     std::string token;
-    int lastPos = in.tellg();
+    std::streampos lastPos = in.tellg();
     // a token is defined with the following expression: "token: N kB" 
     while ( std::getline(in,token,':').good() )
       {
