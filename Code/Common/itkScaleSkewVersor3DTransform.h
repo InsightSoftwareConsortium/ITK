@@ -100,6 +100,9 @@ public:
   typedef typename SkewVectorType::ValueType          SkewVectorValueType;
   typedef typename TranslationType::ValueType         TranslationValueType;
 
+  typedef typename Superclass::AxisValueType          AxisValueType;
+  typedef typename Superclass::ParameterValueType     ParameterValueType;
+
 
  /** Directly set the matrix of the transform.
   *

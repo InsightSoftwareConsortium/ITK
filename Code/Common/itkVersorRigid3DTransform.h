@@ -91,9 +91,9 @@ public:
   typedef typename Superclass::AxisType               AxisType;
   typedef typename Superclass::AngleType              AngleType;
   
-  typedef typename AxisType::ValueType            AxisValueType;
-  typedef typename TranslationType::ValueType     TranslationValueType;
-  typedef typename ParametersType::ValueType      ParameterValueType;
+  typedef typename Superclass::AxisValueType          AxisValueType;
+  typedef typename Superclass::TranslationValueType   TranslationValueType;
+  typedef typename Superclass::ParameterValueType     ParameterValueType;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.

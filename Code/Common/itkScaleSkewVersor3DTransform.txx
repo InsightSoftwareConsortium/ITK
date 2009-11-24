@@ -81,9 +81,6 @@ ScaleSkewVersor3DTransform<TScalarType>
   
   AxisType axis;
 
-  typedef typename AxisType::ValueType          AxisValueType;
-  typedef typename ParametersType::ValueType    ParameterValueType;
-
   double norm = parameters[0]*parameters[0];
   axis[0] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[0] );
   norm += parameters[1]*parameters[1];
