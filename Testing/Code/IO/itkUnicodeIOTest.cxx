@@ -15,18 +15,21 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
-#include <cstring> // for strcmp
+#include "itkConfigure.h"
 
-#if !(defined(WIN32) || defined(_WIN32))
+#include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
+#include <string.h> // for strcmp (cstring cannot be used on both Sun and VS6)
+
+#ifdef ITK_HAVE_UNISTD_H
 # include <unistd.h> // for unlink
+#else
+# include <io.h>
 #endif
 
 #include <stdio.h> // Borland needs this (cstdio does not work easy)
 #include <fcntl.h>
 #include <iostream>
 #include <string>
-#include <string.h> // needed for Sun CC ??
 #include <sys/stat.h>
 
 // Find out how to handle unicode filenames:
@@ -40,21 +43,17 @@
 // * Borland c++, VS7.x and MinGW have _wopen and _wfopen but cannot open a
 //   (i/o)fstream using a wide string. They can however compile fdstream
 
-#if (defined(WIN32) || defined(_WIN32)) \
-  && (!(defined(__CYGWIN__) || defined(__CYGWIN32__))) \
-    && (!(defined(_MSC_VER) && (_MSC_VER <= 1200)))
+#if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) \
+   && ( defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS) || defined(ITK_SUPPORTS_FDSTREAM_HPP) )
 # define LOCAL_USE_WIN32_WOPEN 1
-# include <windows.h>
-# include <winnls.h>
+# include <windows.h> // required by winnls.h
+# include <winnls.h> // for MultiByteToWideChar
 #else
 # define LOCAL_USE_WIN32_WOPEN 0
-# if (defined(_MSC_VER) && (_MSC_VER <= 1200))
-#  include <io.h>
-# endif
 #endif
 
-#if (defined(_MSC_VER) && ((_MSC_VER <= 1200)||(_MSC_VER >= 1400))) \
-  || (!LOCAL_USE_WIN32_WOPEN)
+#if (LOCAL_USE_WIN32_WOPEN && defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS)) \
+   || (!LOCAL_USE_WIN32_WOPEN)
 # define LOCAL_USE_FDSTREAM 0
 # include <fstream>
 #else

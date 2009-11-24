@@ -36,14 +36,10 @@
 
 
 // low-level read and write functions
-#if (defined(WIN32) || defined(_WIN32))
-# include <io.h>
-#else
+#ifdef ITK_HAVE_UNISTD_H
 # include <unistd.h>
-//extern "C" {
-//    int write (int fd, const char* buf, int num);
-//    int read (int fd, char* buf, int num);
-//}
+#else
+# include <io.h>
 #endif
 
 

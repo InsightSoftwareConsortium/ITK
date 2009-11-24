@@ -665,6 +665,9 @@ INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestTypes.cmake)
 INCLUDE(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(fenv.h HAVE_FENV_H)
 
+#-----------------------------------------------------------------------------
+# check if the platform has some widely used header files
+CHECK_INCLUDE_FILES("unistd.h" HAVE_UNISTD_H)
 
 #
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
@@ -685,6 +688,39 @@ TRY_COMPILE(ITK_SUPPORTS_TEMPLATE_PARTIAL_SPECIALIZATION
 # of a templated class.
 #
 INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestFriendTemplatedFunction.cmake)
+
+
+#-----------------------------------------------------------------------------
+# check if the platform has c style IO functions that uses wchar_t * filenames
+# For some reason I can't manage to get a usable result from CHECK_FUNCTION_EXISTS
+TRY_COMPILE(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO
+      ${ITK_BINARY_DIR}/CMakeTmp
+      ${ITK_SOURCE_DIR}/CMake/itkTestCStyleIOWCharFilename.cxx
+      OUTPUT_VARIABLE ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO_OUTPUT)
+
+#-----------------------------------------------------------------------------
+# check if the platform has IO streams constructors that uses wchar_t * filenames
+TRY_COMPILE(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS
+      ${ITK_BINARY_DIR}/CMakeTmp
+      ${ITK_SOURCE_DIR}/CMake/itkTestIOStreamsWCharFilenameConstructors.cxx
+      OUTPUT_VARIABLE ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS_OUTPUT)
+
+#-----------------------------------------------------------------------------
+# check if the platform can compile fdstream.hpp
+IF(HAVE_UNISTD_H)
+  TRY_COMPILE(ITK_SUPPORTS_FDSTREAM_HPP
+    ${ITK_BINARY_DIR}/CMakeTmp
+    ${ITK_SOURCE_DIR}/CMake/itkTestFDStream.cxx
+    CMAKE_FLAGS -DINCLUDE_DIRECTORIES:STRING=${ITK_SOURCE_DIR}/Utilities/itkExtHdrs
+    COMPILE_DEFINITIONS -DITK_HAVE_UNISTD_H=${HAVE_UNISTD_H}
+    OUTPUT_VARIABLE ITK_SUPPORTS_FDSTREAM_HPP_OUTPUT)
+ELSE(HAVE_UNISTD_H)
+  TRY_COMPILE(ITK_SUPPORTS_FDSTREAM_HPP
+    ${ITK_BINARY_DIR}/CMakeTmp
+    ${ITK_SOURCE_DIR}/CMake/itkTestFDStream.cxx
+    CMAKE_FLAGS -DINCLUDE_DIRECTORIES:STRING=${ITK_SOURCE_DIR}/Utilities/itkExtHdrs
+    OUTPUT_VARIABLE ITK_SUPPORTS_FDSTREAM_HPP_OUTPUT)
+ENDIF(HAVE_UNISTD_H)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
