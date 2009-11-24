@@ -24,12 +24,12 @@
 #include <cstdlib>
 
 #define RoundTestHelperMacro( rndname, input, output )             \
-  std::cout << #rndname << "(" << (input) << ") expected "          \
-  << (output) << " got " <<  rndname( (input) ) << std::endl;       \
+  std::cout << #rndname << "(" << int (input) << ") expected "          \
+  << int (output) << " got " <<  (int) rndname( (input) ) << std::endl;  \
   if ( rndname( (input) ) != (output))                              \
     {                                                               \
-    std::cout << "Failure! " <<  #rndname << "(" << (input) << ") expected "  \
-              << (output) << " but got " <<  rndname( (input) )     \
+    std::cout << "Failure! " <<  #rndname << "(" << (int)(input) << ") expected "  \
+              << (int)(output) << " but got " <<  (int)rndname( (input) )     \
                 << std::endl;                                       \
       ok = false;                                                   \
     }
