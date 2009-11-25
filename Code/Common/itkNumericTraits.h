@@ -644,17 +644,16 @@ template <>
 class NumericTraits< __int64 >  
 : public vcl_numeric_limits< __int64 > {
 public:
-  typedef __int64               TheType;
   typedef __int64               ValueType;
-  typedef TheType               PrintType;
+  typedef __int64               PrintType;
   typedef unsigned __int64      AbsType;
-  typedef TheType               AccumulateType;
+  typedef __int64               AccumulateType;
   typedef double                RealType;
   typedef double                ScalarRealType;
   typedef double                FloatType;
 
-  static const TheType ITKCommon_EXPORT Zero;
-  static const TheType ITKCommon_EXPORT One;
+  static const __int64 ITKCommon_EXPORT Zero;
+  static const __int64 ITKCommon_EXPORT One;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ValueType NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
