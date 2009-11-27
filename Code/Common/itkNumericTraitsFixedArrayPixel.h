@@ -1115,6 +1115,127 @@ public:
   typedef FixedArray<float, 9>                    FloatType;
 };
 
+template <> class NumericTraits<FixedArray<unsigned char, 10 > > {
+public:
+  typedef unsigned char                           ValueType;
+  typedef FixedArray<unsigned char, 10>           PrintType;
+  typedef FixedArray<unsigned char, 10>           AbsType;
+  typedef FixedArray<unsigned short, 10>          AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<signed char, 10> > {
+public:
+  typedef signed char                             ValueType;
+  typedef FixedArray<signed char, 10>             PrintType;
+  typedef FixedArray<unsigned char, 10>           AbsType;
+  typedef FixedArray<short, 10>                   AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<char, 10> > {
+public:
+  typedef char                                    ValueType;
+  typedef FixedArray<char, 10>                    PrintType;
+  typedef FixedArray<unsigned char, 10>           AbsType;
+  typedef FixedArray<short, 10>                   AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<short, 10> > {
+public:
+  typedef short                                   ValueType;
+  typedef FixedArray<short, 10>                   PrintType;
+  typedef FixedArray<unsigned short, 10>          AbsType;
+  typedef FixedArray<int, 10>                     AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<unsigned short, 10> > {
+public:
+  typedef unsigned short                          ValueType;
+  typedef FixedArray<unsigned short, 10>          PrintType;
+  typedef FixedArray<unsigned short, 10>          AbsType;
+  typedef FixedArray<unsigned int, 10>            AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<int, 10> > {
+public:
+  typedef int                                     ValueType;
+  typedef FixedArray<int, 10>                     PrintType;
+  typedef FixedArray<unsigned int, 10>            AbsType;
+  typedef FixedArray<long, 10>                    AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<unsigned int, 10> > {
+public:
+  typedef unsigned int                            ValueType;
+  typedef FixedArray<unsigned int, 10>            PrintType;
+  typedef FixedArray<unsigned int, 10>            AbsType;
+  typedef FixedArray<unsigned long, 10>           AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<long, 10> > {
+public:
+  typedef long                                    ValueType;
+  typedef FixedArray<long, 10>                    PrintType;
+  typedef FixedArray<unsigned long, 10>           AbsType;
+  typedef FixedArray<long, 10>                    AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<unsigned long, 10> > {
+public:
+  typedef unsigned long                           ValueType;
+  typedef FixedArray<unsigned long, 10>           PrintType;
+  typedef FixedArray<unsigned long, 10>           AbsType;
+  typedef FixedArray<unsigned long, 10>           AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<float, 10> > {
+public:
+  typedef float                                   ValueType;
+  typedef FixedArray<float, 10>                   PrintType;
+  typedef FixedArray<float, 10>                   AbsType;
+  typedef FixedArray<double, 10>                  AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<double, 10> > {
+public:
+  typedef double                                  ValueType;
+  typedef FixedArray<double, 10>                  PrintType;
+  typedef FixedArray<double, 10>                  AbsType;
+  typedef FixedArray<long double, 10>             AccumulateType;
+  typedef FixedArray<double, 10>                  RealType;
+  typedef double                                  ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+template <> class NumericTraits<FixedArray<long double, 10> > {
+public:
+  typedef long double                             ValueType;
+  typedef FixedArray<long double, 10>             PrintType;
+  typedef FixedArray<long double, 10>             AbsType;
+  typedef FixedArray<long double, 10>             AccumulateType;
+  typedef FixedArray<long double, 10>             RealType;
+  typedef long double                             ScalarRealType;
+  typedef FixedArray<float, 10>                   FloatType;
+};
+
 } // end namespace itk
 
 #endif // __itkNumericTraitsFixedArrayPixel_h  
