@@ -18,5 +18,15 @@
 
 namespace itk
 {
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 1);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 2);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 3);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 4);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 5);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 6);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 7);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 8);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 9);
+itkStaticNumericTraitsGenericArrayScalarsMacro( FixedArray, 10);
 
 } // end namespace itk

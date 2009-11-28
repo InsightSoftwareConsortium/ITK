@@ -140,6 +140,7 @@ public:
   /** Constructors */
   FixedArray();
   FixedArray(const ValueType r[VLength]);
+  FixedArray(const ValueType& r);
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< class TFixedArrayValueType >

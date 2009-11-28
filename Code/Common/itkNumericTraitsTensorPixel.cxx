@@ -18,8 +18,15 @@
 
 namespace itk
 {
-const SymmetricSecondRankTensor<double , 2>  
-  NumericTraits<SymmetricSecondRankTensor<double, 2> >::Zero = 
-  SymmetricSecondRankTensor<double , 2>( NumericTraits<double >::Zero ); 
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 1);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 2);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 3);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 4);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 5);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 6);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 7);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 8);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 9);
+itkStaticNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 10);
 
 } // end namespace itk
