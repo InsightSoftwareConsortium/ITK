@@ -51,16 +51,18 @@ Similarity2DTransform<TScalarType>
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set scale
-  this->SetVarScale( parameters[0] );
+  const TScalarType scale = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[0] );
+  this->SetVarScale( scale );
  
   // Set angle
-  this->SetVarAngle( parameters[1] );
+  const TScalarType angle = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[1] );
+  this->SetVarAngle( angle );
 
   // Set translation
   OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    translation[i] = parameters[i+2];
+    translation[i] = Math::CastWithRangeCheck< OffsetValueType, ParametersValueType>( parameters[i+2] );
     }
   this->SetVarTranslation( translation );
 
@@ -121,8 +123,8 @@ Similarity2DTransform<TScalarType>
   const double cc = vcl_cos(angle );
   const double ss = vcl_sin(angle );
 
-  const double ca = cc * m_Scale;
-  const double sa = ss * m_Scale;
+  const MatrixValueType ca = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( cc * m_Scale );
+  const MatrixValueType sa = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( ss * m_Scale );
 
   MatrixType matrix;
   matrix[0][0]= ca; matrix[0][1]=-sa;
@@ -236,7 +238,7 @@ GetInverse( Self* inverse) const
     }
 
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
-  inverse->SetScale( 1.0 / this->GetScale() );
+  inverse->SetScale( Math::CastWithRangeCheck< ScalarType, double >( NumericTraits<double>::One / this->GetScale() ) );
   inverse->SetAngle( -this->GetAngle() );
   inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
   
@@ -250,7 +252,11 @@ Similarity2DTransform<TScalarType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  if( this->GetInverse(inv) )
+    {
+    return inv.GetPointer();
+    }
+  return NULL;
 }
 
 // Create and return a clone of the transformation

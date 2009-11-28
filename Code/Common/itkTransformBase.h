@@ -46,7 +46,8 @@ public:
   typedef SmartPointer< const Self >  ConstPointer;
 
   /** Type of the input parameters. */
-  typedef  Array< double >           ParametersType;
+  typedef  double                          ParametersValueType;
+  typedef  Array< ParametersValueType >    ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( TransformBase, Object );

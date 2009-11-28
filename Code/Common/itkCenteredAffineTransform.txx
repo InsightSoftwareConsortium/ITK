@@ -102,7 +102,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      matrix[row][col] = this->m_Parameters[par];
+      matrix[row][col] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType >( this->m_Parameters[par] );
       ++par;
       }
     }
@@ -111,18 +111,20 @@ SetParameters( const ParametersType & parameters )
 
   // Transfer the rotation center 
   InputPointType center;
+  typedef typename InputPointType::ValueType  InputPointValueType;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    center[i] = this->m_Parameters[par];
+    center[i] = Math::CastWithRangeCheck< InputPointValueType, ParametersValueType>( this->m_Parameters[par] );
     ++par;
     }
   this->SetCenter(center);
   
   // Transfer the translation
   OutputVectorType translation;
+  typedef typename OutputVectorType::ValueType  OutputVectorValueType;
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    translation[k] = this->m_Parameters[par];
+    translation[k] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );
     ++par;
     }
   this->SetTranslation(translation);

@@ -119,14 +119,14 @@ Rigid3DTransform<TScalarType>
     {
     for(unsigned int col=0; col<3; col++) 
       {
-      matrix[row][col] = this->m_Parameters[par];
+      matrix[row][col] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( this->m_Parameters[par] );
       ++par;
       }
     }
 
   for( unsigned int dim = 0; dim < 3; dim++ )
     {
-    translation[dim] = this->m_Parameters[par];
+    translation[dim] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );
     ++par;
     }
   

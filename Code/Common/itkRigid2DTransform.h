@@ -80,16 +80,19 @@ public:
   typedef typename Superclass::ScalarType  ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
+  typedef typename Superclass::ParametersType       ParametersType;
+  typedef typename Superclass::ParametersValueType  ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
 
   /// Standard matrix type for this class
-  typedef typename Superclass::MatrixType MatrixType;
+  typedef typename Superclass::MatrixType         MatrixType;
+  typedef typename Superclass::MatrixValueType    MatrixValueType;
 
   /// Standard vector type for this class
-  typedef typename Superclass::OffsetType OffsetType;
+  typedef typename Superclass::OffsetType         OffsetType;
+  typedef typename Superclass::OffsetValueType    OffsetValueType;
 
   /// Standard vector type for this class
   typedef typename Superclass::InputVectorType  InputVectorType;

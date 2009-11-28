@@ -222,8 +222,8 @@ void
 Rigid2DTransform<TScalarType>
 ::ComputeMatrix( void )
 {
-  const double ca = vcl_cos(m_Angle );
-  const double sa = vcl_sin(m_Angle );
+  const MatrixValueType ca = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( vcl_cos(m_Angle) );
+  const MatrixValueType sa = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( vcl_sin(m_Angle) );
 
   MatrixType rotationMatrix;
   rotationMatrix[0][0]= ca; rotationMatrix[0][1]=-sa;
@@ -242,13 +242,15 @@ SetParameters( const ParametersType & parameters )
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set angle
-  this->SetVarAngle( parameters[0] );
+  const TScalarType angle = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[0] );
+  this->SetVarAngle( angle );
  
   // Set translation
   OutputVectorType translation;
+  typedef typename OutputVectorType::ValueType OutputVectorValueType;
   for(unsigned int i=0; i < OutputSpaceDimension; i++) 
     {
-    translation[i] = parameters[i+1];
+    translation[i] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( parameters[i+1] );
     }
   this->SetVarTranslation( translation );
 

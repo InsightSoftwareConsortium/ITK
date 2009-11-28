@@ -93,6 +93,7 @@ public:
 
   /** Type of the input parameters. */
   typedef  typename Superclass::ParametersType         ParametersType;
+  typedef  typename Superclass::ParametersValueType    ParametersValueType;
 
   /** Type of the Jacobian matrix. */
   typedef  Array2D< double >                           JacobianType;

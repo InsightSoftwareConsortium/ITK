@@ -81,16 +81,16 @@ Euler3DTransform<TScalarType>
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set angles with parameters
-  m_AngleX = parameters[0];
-  m_AngleY = parameters[1];
-  m_AngleZ = parameters[2];
+  m_AngleX = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[0] );
+  m_AngleY = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[1] );
+  m_AngleZ = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[2] );
   this->ComputeMatrix();
 
   // Transfer the translation part
   OutputVectorType newTranslation;
-  newTranslation[0] = parameters[3];
-  newTranslation[1] = parameters[4];
-  newTranslation[2] = parameters[5];
+  newTranslation[0] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[3] );
+  newTranslation[1] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[4] );
+  newTranslation[2] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[5] );
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
@@ -158,17 +158,17 @@ Euler3DTransform<TScalarType>
       {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
-      m_AngleX = vcl_atan2(y,x);
+      m_AngleX = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
       x = this->GetMatrix()[0][0] / C;
       y = this->GetMatrix()[1][0] / C;
-      m_AngleZ = vcl_atan2(y,x);
+      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
       }
     else
       {
-      m_AngleX = 0;
+      m_AngleX = NumericTraits< ScalarType >::Zero;
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
-      m_AngleZ = vcl_atan2(y,x);
+      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
       }
     }
   else
@@ -179,18 +179,18 @@ Euler3DTransform<TScalarType>
       {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;
-      m_AngleY = vcl_atan2(y,x);
+      m_AngleY = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
 
       x = this->GetMatrix()[1][1] / A;
       y = -this->GetMatrix()[0][1] / A;
-      m_AngleZ = vcl_atan2(y,x);
+      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
       }
     else
       {
-      m_AngleZ = 0;
+      m_AngleZ = NumericTraits< ScalarType >::Zero;
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
-      m_AngleY = vcl_atan2(y,x);
+      m_AngleY = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
       }
     }
   this->ComputeMatrix();
@@ -204,29 +204,31 @@ Euler3DTransform<TScalarType>
 ::ComputeMatrix( void )
 {
   // need to check if angles are in the right order
-  const double cx = vcl_cos(m_AngleX);
-  const double sx = vcl_sin(m_AngleX);
-  const double cy = vcl_cos(m_AngleY);
-  const double sy = vcl_sin(m_AngleY); 
-  const double cz = vcl_cos(m_AngleZ);
-  const double sz = vcl_sin(m_AngleZ);
+  const ScalarType cx = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleX) );
+  const ScalarType sx = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleX) );
+  const ScalarType cy = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleY) );
+  const ScalarType sy = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleY) );
+  const ScalarType cz = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleZ) );
+  const ScalarType sz = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleZ) );
+  const ScalarType one = NumericTraits< ScalarType >::One;
+  const ScalarType zero = NumericTraits< ScalarType >::Zero;
 
   Matrix<TScalarType,3,3> RotationX;
-  RotationX[0][0]=1;RotationX[0][1]=0;RotationX[0][2]=0;
-  RotationX[1][0]=0;RotationX[1][1]=cx;RotationX[1][2]=-sx;
-  RotationX[2][0]=0;RotationX[2][1]=sx;RotationX[2][2]=cx;
+  RotationX[0][0]=one;  RotationX[0][1]=zero; RotationX[0][2]=zero;
+  RotationX[1][0]=zero; RotationX[1][1]=cx;   RotationX[1][2]=-sx;
+  RotationX[2][0]=zero; RotationX[2][1]=sx;   RotationX[2][2]=cx;
 
 
   Matrix<TScalarType,3,3> RotationY;
-  RotationY[0][0]=cy;RotationY[0][1]=0;RotationY[0][2]=sy;
-  RotationY[1][0]=0;RotationY[1][1]=1;RotationY[1][2]=0;
-  RotationY[2][0]=-sy;RotationY[2][1]=0;RotationY[2][2]=cy;
+  RotationY[0][0]=cy;   RotationY[0][1]=zero; RotationY[0][2]=sy;
+  RotationY[1][0]=zero; RotationY[1][1]=one;  RotationY[1][2]=zero;
+  RotationY[2][0]=-sy;  RotationY[2][1]=zero; RotationY[2][2]=cy;
 
   
   Matrix<TScalarType,3,3> RotationZ;
-  RotationZ[0][0]=cz;RotationZ[0][1]=-sz;RotationZ[0][2]=0;
-  RotationZ[1][0]=sz;RotationZ[1][1]=cz;RotationZ[1][2]=0;
-  RotationZ[2][0]=0;RotationZ[2][1]=0;RotationZ[2][2]=1;
+  RotationZ[0][0]=cz;   RotationZ[0][1]=-sz;  RotationZ[0][2]=zero;
+  RotationZ[1][0]=sz;   RotationZ[1][1]=cz;   RotationZ[1][2]=zero;
+  RotationZ[2][0]=zero; RotationZ[2][1]=zero; RotationZ[2][2]=one;
 
   /** Aply the rotation first around Y then X then Z */
   if(m_ComputeZYX)

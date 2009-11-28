@@ -181,19 +181,20 @@ ScalableAffineTransform<TScalarType, NDimensions>
   if ( i < NDimensions ) 
     { 
     MatrixType mat;
+    typename MatrixType::InternalMatrixType imat = mat.GetVnlMatrix();
     for (i=0; i<NDimensions; i++)
       {
       if(m_MatrixScale[i] != 0 && m_Scale[i] != 0)
         {
-        mat.GetVnlMatrix().put(i, i, m_Scale[i]/m_MatrixScale[i]
-                                     * this->GetMatrix()[i][i]);
-        m_MatrixScale[i] = m_Scale[i];
+        imat.put(i, i, Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( 
+          m_Scale[i]/m_MatrixScale[i] * this->GetMatrix()[i][i]) );
+        m_MatrixScale[i] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( m_Scale[i] );
         }
       else
         {
         m_Scale[i] = 1;
         m_MatrixScale[i] = 1;
-        mat.GetVnlMatrix().put(i, i, this->GetMatrix()[i][i]);
+        imat.put(i, i, Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( this->GetMatrix()[i][i]) );
         }
       }
     Superclass::SetVarMatrix(mat);

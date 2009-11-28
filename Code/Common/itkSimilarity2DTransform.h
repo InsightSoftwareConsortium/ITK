@@ -87,16 +87,19 @@ public:
   typedef          TScalarType             ScaleType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
+  typedef typename Superclass::ParametersType         ParametersType;
+  typedef typename Superclass::ParametersValueType    ParametersValueType;
 
   /** Jacobian type. */
   typedef typename Superclass::JacobianType  JacobianType;
   
   /** Offset type. */
-  typedef typename Superclass::OffsetType  OffsetType;
+  typedef typename Superclass::OffsetType       OffsetType;
+  typedef typename Superclass::OffsetValueType  OffsetValueType;
 
   /** Matrix type. */
-  typedef typename Superclass::MatrixType MatrixType;
+  typedef typename Superclass::MatrixType       MatrixType;
+  typedef typename Superclass::MatrixValueType  MatrixValueType;
 
   /** Point type. */
   typedef typename Superclass::InputPointType   InputPointType;

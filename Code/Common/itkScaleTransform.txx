@@ -195,7 +195,7 @@ GetInverse(Self* inverse) const
 
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    inverse->m_Scale[i] = 1.0 / m_Scale[i];
+    inverse->m_Scale[i] = Math::CastWithRangeCheck< ScalarType, double >( NumericTraits< double >::One / m_Scale[i] );
     }
 
   return true;
@@ -208,7 +208,11 @@ ScaleTransform<ScalarType, NDimensions>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  if( this->GetInverse(inv) )
+    {
+    return inv.GetPointer();
+    }
+  return NULL;
 }
 
 

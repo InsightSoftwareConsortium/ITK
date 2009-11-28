@@ -79,12 +79,12 @@ Rigid3DPerspectiveTransform<TScalarType>
   AxisType axis;
 
   double norm = parameters[0]*parameters[0];
-  axis[0] = parameters[0];
+  axis[0] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[0] );
   norm += parameters[1]*parameters[1];
-  axis[1] = parameters[1];
+  axis[1] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[1] );
   norm += parameters[2]*parameters[2];
-  axis[2] = parameters[2];
-  if( norm > 0)
+  axis[2] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[2] );
+  if( norm > NumericTraits<double>::Zero )
     {
     norm = vcl_sqrt(norm);
     }
@@ -103,7 +103,7 @@ Rigid3DPerspectiveTransform<TScalarType>
   OffsetType offset;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     { 
-    offset[i] = parameters[i+3];
+    offset[i] = Math::CastWithRangeCheck< OffsetValueType, ParameterValueType>( parameters[i+3] );
     }
 
   this->SetOffset( offset );

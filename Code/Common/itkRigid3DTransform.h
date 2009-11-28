@@ -70,10 +70,12 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 12);
 
   typedef typename Superclass::ParametersType             ParametersType;
+  typedef typename Superclass::ParametersValueType        ParametersValueType;
   typedef typename Superclass::JacobianType               JacobianType;
   typedef typename Superclass::ScalarType                 ScalarType;
   typedef typename Superclass::InputVectorType            InputVectorType;
   typedef typename Superclass::OutputVectorType           OutputVectorType;
+  typedef typename Superclass::OutputVectorValueType      OutputVectorValueType;
   typedef typename Superclass::InputCovariantVectorType  
                                                           InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType  
@@ -84,6 +86,7 @@ public:
   typedef typename Superclass::OutputPointType            OutputPointType;
   typedef typename Superclass::MatrixType                 MatrixType;
   typedef typename Superclass::InverseMatrixType          InverseMatrixType;
+  typedef typename Superclass::MatrixValueType            MatrixValueType;
   typedef typename Superclass::CenterType                 CenterType;
   typedef typename Superclass::TranslationType            TranslationType;
   typedef typename Superclass::OffsetType                 OffsetType;

@@ -52,23 +52,26 @@ CenteredSimilarity2DTransform<TScalarType>
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set scale
-  this->SetVarScale(parameters[0]);
+  const TScalarType scale = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[0] );
+  this->SetVarScale( scale );
  
   // Set angle
-  this->SetVarAngle( parameters[1] );
+  const TScalarType angle = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[1] );
+  this->SetVarAngle( angle );
 
   InputPointType center;
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    center[j] = parameters[j+2];
+    center[j] = Math::CastWithRangeCheck< InputPointValueType, ParametersValueType>( parameters[j+2] );
     }
   this->SetVarCenter( center );
 
   // Set translation
   OffsetType translation;
+  typedef typename OffsetType::ValueType    OffsetValueType;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    translation[i] = parameters[i+4];
+    translation[i] = Math::CastWithRangeCheck< OffsetValueType, ParametersValueType>( parameters[i+4] );
     }
 
   this->SetVarTranslation( translation );
@@ -209,10 +212,9 @@ GetInverse( Self* inverse) const
     }
 
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
-  inverse->SetScale( 1.0 / this->GetScale() );
+  inverse->SetScale( Math::CastWithRangeCheck< ScalarType, double >( ( NumericTraits<double>::One / this->GetScale() ) ) );
   inverse->SetAngle( -this->GetAngle() );
-  inverse->SetTranslation( -( this->GetInverseMatrix() 
-                                                  * this->GetTranslation() ) );
+  inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
   return true;
 }
 
@@ -223,7 +225,11 @@ CenteredSimilarity2DTransform<TScalarType>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  if( this->GetInverse(inv) )
+    {
+    return inv.GetPointer();
+    }
+  return NULL;
 }
 
 // Create and return a clone of the transformation

@@ -140,9 +140,9 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 {
   m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();
-  m_Offset.Fill( 0.0 );
-  m_Translation.Fill( 0.0 );
-  m_Center.Fill( 0.0 );
+  m_Offset.Fill( NumericTraits< OutputVectorValueType >::Zero );
+  m_Translation.Fill( NumericTraits< OutputVectorValueType >::Zero );
+  m_Center.Fill( NumericTraits< InputPointValueType >::Zero );
   m_Singular = false;
   m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
@@ -400,7 +400,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     {
     for(unsigned int col=0; col<NInputDimensions; col++) 
       {
-      m_Matrix[row][col] = this->m_Parameters[par];
+      m_Matrix[row][col] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( this->m_Parameters[par] );
       ++par;
       }
     }
@@ -408,7 +408,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   // Transfer the constant part
   for(unsigned int i=0; i<NOutputDimensions; i++) 
     {
-    m_Translation[i] = this->m_Parameters[par];
+    m_Translation[i] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );
     ++par;
     }
 
