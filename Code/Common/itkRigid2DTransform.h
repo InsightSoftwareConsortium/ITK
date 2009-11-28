@@ -111,7 +111,7 @@ public:
   typedef typename Superclass::OutputPointType OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
-   * concrete inverse transform type or inheritance would be lost.*/
+   * concrete inverse transform type or inheritance would be lost. */
   typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
