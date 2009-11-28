@@ -292,7 +292,8 @@ void Solver::AssembleK()
       {
       l3->AssignToElement(&el);
       Element::Pointer ep = const_cast<Element*>( l3->el[0] );
-      this->AssembleLandmarkContribution( ep , l3->eta );
+      this->AssembleLandmarkContribution( ep , 
+        Math::CastWithRangeCheck< float, double>( l3->eta ) );
       }
     }
 
@@ -619,7 +620,7 @@ void Solver::UpdateDisplacements()
 
 Solver::Float Solver::GetDeformationEnergy(unsigned int SolutionIndex)
 {
-  float U=0.0;
+  Solver::Float U = 0.0f;
   Element::MatrixType LocalSolution;
 
   for(ElementArray::iterator e=el.begin(); e != el.end(); e++)
