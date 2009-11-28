@@ -19,6 +19,7 @@
 
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_sample.h"
+#include "itkMath.h"
 
 namespace itk {
 
@@ -276,9 +277,9 @@ CellBase
  
   SetMaximumGenerationLimit( 40 ); // it should use Teleomeres for implementing this
 
-  WellNourishedColor.Set(    0.0, 0.0, 1.0 );
-  HopefullColor.Set(         0.0, 1.0, 0.0 );
-  StarvingColor.Set(         1.0, 0.0, 0.0 );
+  WellNourishedColor.Set(    0.0f, 0.0f, 1.0f );
+  HopefullColor.Set(         0.0f, 1.0f, 0.0f );
+  StarvingColor.Set(         1.0f, 0.0f, 0.0f );
 
   SetDefaultColor( HopefullColor );
 
@@ -574,9 +575,9 @@ void
 CellBase
 ::SecreteProducts(void) 
 {
-  m_Color.SetRed(    m_Genome->GetExpressionLevel( RedGene   ) );
-  m_Color.SetGreen(  m_Genome->GetExpressionLevel( GreenGene ) );
-  m_Color.SetBlue(   m_Genome->GetExpressionLevel( BlueGene  ) );
+  m_Color.SetRed(   Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( RedGene   ) ) );
+  m_Color.SetGreen( Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( GreenGene ) ) );
+  m_Color.SetBlue(  Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( BlueGene  ) ) );
 }
 
 /**
