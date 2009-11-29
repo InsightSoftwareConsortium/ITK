@@ -253,7 +253,7 @@ public:
   typedef std::streamoff SizeType;
 
   /** Type for representing size of bytes, and or positions along a memory buffer */
-  typedef std::size_t    BufferSizeType;
+  typedef size_t    BufferSizeType;
 
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1]; 
