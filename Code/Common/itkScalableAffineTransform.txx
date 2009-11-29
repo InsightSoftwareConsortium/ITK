@@ -181,7 +181,7 @@ ScalableAffineTransform<TScalarType, NDimensions>
   if ( i < NDimensions ) 
     { 
     MatrixType mat;
-    typename MatrixType::InternalMatrixType imat = mat.GetVnlMatrix();
+    typename MatrixType::InternalMatrixType & imat = mat.GetVnlMatrix();
     for (i=0; i<NDimensions; i++)
       {
       if(m_MatrixScale[i] != 0 && m_Scale[i] != 0)
