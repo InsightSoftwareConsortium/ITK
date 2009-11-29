@@ -114,7 +114,7 @@ private:
   InverseOrientationMap     m_InverseOrientationMap;
 
   // Method to swap bytes in read buffer
-  void SwapBytesIfNecessary(void *buffer, unsigned long numberOfBytes);
+  void SwapBytesIfNecessary(void *buffer, BufferSizeType numberOfBytes);
 
   // Strings used in VoxBo files
   static const char * m_VB_IDENTIFIER_SYSTEM;

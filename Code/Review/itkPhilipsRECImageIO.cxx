@@ -450,9 +450,13 @@ void PhilipsRECImageIO::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-int PhilipsRECImageIO::GetSliceIndex(int index)
+PhilipsRECImageIO::IndexValueType 
+PhilipsRECImageIO::GetSliceIndex(IndexValueType index) const
 {
-  if( (index < 0) || (index > (int)(this->m_SliceIndex->size()-1)) )
+  IndexValueType maximumSliceNumber =
+    Math::CastWithRangeCheck< IndexValueType, size_t >( this->m_SliceIndex->size() ) - 1;
+
+  if( (index < 0) || (index > maximumSliceNumber ) )
     {
     return -1;
     }
@@ -501,12 +505,13 @@ void PhilipsRECImageIO::Read(void* buffer)
     }
   
   // read image a slice at a time (sorted).
-  unsigned int imageSliceSizeInBytes = this->GetImageSizeInBytes()
-    /(this->m_Dimensions[2]*this->m_Dimensions[3]);
-  for(unsigned int slice=0; slice<this->m_Dimensions[2]*this->m_Dimensions[3]; 
-    slice++)
+  const SizeType numberOfPixelsInOneSlice = this->m_Dimensions[2]*this->m_Dimensions[3]; // BUG ?
+
+  SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfPixelsInOneSlice;
+
+  for( IndexValueType slice=0; slice < numberOfPixelsInOneSlice; slice++)
     {
-    int realIndex = this->GetSliceIndex((int)slice);
+    IndexValueType realIndex = this->GetSliceIndex((int)slice);
     if( realIndex < 0 )
       {
       OStringStream message;
@@ -519,8 +524,10 @@ void PhilipsRECImageIO::Read(void* buffer)
                                 ITK_LOCATION);
       throw exception;
       }
-    ::gzseek( file_p, (unsigned int)realIndex*imageSliceSizeInBytes, SEEK_SET );
-    ::gzread( file_p, p+(slice*imageSliceSizeInBytes), imageSliceSizeInBytes);
+    const z_off_t offset =  Math::CastWithRangeCheck< z_off_t, SizeType >( realIndex * imageSliceSizeInBytes );
+    ::gzseek( file_p, offset, SEEK_SET );
+    ::gzread( file_p, p+(slice*imageSliceSizeInBytes), 
+      Math::CastWithRangeCheck< unsigned int, SizeType >( imageSliceSizeInBytes) );
     }
   gzclose( file_p );
   SwapBytesIfNecessary( buffer, numberOfPixels );
@@ -580,7 +587,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   PhilipsPAR::Pointer philipsPAR = PhilipsPAR::New();
   try
     {
-   philipsPAR->ReadPAR( HeaderFileName, &par);
+    philipsPAR->ReadPAR( HeaderFileName, &par);
     }
   catch(itk::ExceptionObject &err)
     {

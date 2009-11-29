@@ -53,9 +53,11 @@ public:
   GenericCUBFileAdaptor() {}
   virtual ~GenericCUBFileAdaptor() {}
 
+  typedef ImageIOBase::SizeType     SizeType;
+
   virtual unsigned char ReadByte() = 0;
-  virtual void ReadData(void *data, unsigned long bytes) = 0;
-  virtual void WriteData(const void *data, unsigned long bytes) = 0;
+  virtual void ReadData(void *data, SizeType bytes) = 0;
+  virtual void WriteData(const void *data, SizeType bytes) = 0;
 
   std::string ReadHeader()
     {
@@ -128,7 +130,7 @@ public:
     return static_cast<unsigned char>(byte);
     }
 
-  void ReadData(void *data, unsigned long bytes)
+  void ReadData(void *data, SizeType bytes)
     {
     if(m_GzFile == NULL)
       {
@@ -137,7 +139,8 @@ public:
       throw exception;
       }
 
-    size_t bread = ::gzread(m_GzFile, data, bytes);
+    unsigned int numberOfBytesToRead = Math::CastWithRangeCheck< unsigned int, SizeType >( bytes );
+    SizeType bread = ::gzread(m_GzFile, data, numberOfBytesToRead );
     if( bread != bytes )
       {
       itksys_ios::ostringstream oss;
@@ -151,7 +154,7 @@ public:
       }
     }
 
-  void WriteData(const void *data, unsigned long bytes)
+  void WriteData(const void *data, SizeType bytes)
     {
     if(m_GzFile == NULL)
       {
@@ -160,7 +163,8 @@ public:
       throw exception;
       }
 
-    size_t bwritten = ::gzwrite(m_GzFile, const_cast<void *>(data), bytes);
+    unsigned int numberOfBytesToWrite = Math::CastWithRangeCheck< unsigned int, SizeType >( bytes );
+    SizeType bwritten = ::gzwrite(m_GzFile, const_cast<void *>(data), numberOfBytesToWrite);
     if( bwritten != bytes )
       {
       ExceptionObject exception;
@@ -215,7 +219,7 @@ public:
     return static_cast<unsigned char>(byte);
     }
 
-  void ReadData(void *data, unsigned long bytes)
+  void ReadData(void *data, SizeType bytes)
     {
     if(m_File == NULL)
       {
@@ -224,7 +228,8 @@ public:
       throw exception;
       }
 
-    size_t bread = fread(data, 1, bytes, m_File);
+    const size_t numberOfBytesToRead =  Math::CastWithRangeCheck< size_t, SizeType >( bytes );
+    SizeType bread = fread(data, NumericTraits<size_t>::One, numberOfBytesToRead, m_File);
     if( bread != bytes )
       {
       itksys_ios::ostringstream oss;
@@ -238,7 +243,7 @@ public:
       }
     }
 
-  void WriteData(const void *data, unsigned long bytes)
+  void WriteData(const void *data, SizeType bytes)
     {
     if(m_File == NULL)
       {
@@ -247,7 +252,8 @@ public:
       throw exception;
       }
 
-    size_t bwritten = fwrite(data, 1, bytes, m_File);
+    const size_t numberOfBytesToWrite =  Math::CastWithRangeCheck< size_t, SizeType >( bytes );
+    SizeType bwritten = fwrite(data, NumericTraits<size_t>::One, numberOfBytesToWrite, m_File);
     if( bwritten != bytes )
       {
       ExceptionObject exception;
@@ -272,9 +278,11 @@ template<typename TPixel>
 class VoxBoCUBImageIOSwapHelper
 {
 public:
-  typedef ImageIOBase::ByteOrder ByteOrder;
+  typedef ImageIOBase::ByteOrder       ByteOrder;
+  typedef ImageIOBase::BufferSizeType  BufferSizeType;
+
   static void SwapIfNecessary(
-    void *buffer, unsigned long numberOfBytes, ByteOrder dataByteOrder)
+    void *buffer, BufferSizeType numberOfBytes, ByteOrder dataByteOrder)
     {
     if ( dataByteOrder == ImageIOBase::LittleEndian )
       {
@@ -444,8 +452,10 @@ void VoxBoCUBImageIO::Read(void* buffer)
     throw exception;
     }
 
-  m_Reader->ReadData(buffer, GetImageSizeInBytes());
-  this->SwapBytesIfNecessary(buffer, GetImageSizeInBytes());
+  BufferSizeType numberOfBytesToRead =
+    Math::CastWithRangeCheck< BufferSizeType, SizeType >( this->GetImageSizeInBytes() );
+  m_Reader->ReadData( buffer, numberOfBytesToRead );
+  this->SwapBytesIfNecessary(buffer, numberOfBytesToRead );
 }
 
 /**
@@ -725,7 +735,7 @@ VoxBoCUBImageIO
 {
   m_Writer = CreateWriter(m_FileName.c_str());
   WriteImageInformation();
-  m_Writer->WriteData(buffer, GetImageSizeInBytes());
+  m_Writer->WriteData(buffer, this->GetImageSizeInBytes());
   delete m_Writer;
   m_Writer=NULL;
 }
@@ -829,7 +839,7 @@ VoxBoCUBImageIO
 
 void
 VoxBoCUBImageIO
-::SwapBytesIfNecessary(void *buffer, unsigned long numberOfBytes)
+::SwapBytesIfNecessary(void *buffer, BufferSizeType numberOfBytes)
 {
   if(m_ComponentType == CHAR)
     {

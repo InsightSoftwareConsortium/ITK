@@ -81,7 +81,8 @@ public:
    * 4 = Special/Processed. */
   typedef vnl_vector_fixed< int, 8 >              ImageTypesType;
   typedef vnl_vector_fixed< int, 8 >              ScanningSequencesType;
-  typedef std::vector< int >                      SliceIndexType;
+  typedef Superclass::IndexValueType              IndexValueType;
+  typedef std::vector< IndexValueType >           SliceIndexType;
   typedef vnl_vector_fixed< double, 3 >           ImageTypeRescaleValuesType;
   
   typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType >
@@ -151,7 +152,7 @@ private:
   PhilipsRECImageIO(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
-  int GetSliceIndex(int index);
+  IndexValueType GetSliceIndex(IndexValueType index) const;
 
   SliceIndexType *          m_SliceIndex;
   ImageIOBase::ByteOrder    m_MachineByteOrder;

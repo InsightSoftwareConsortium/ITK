@@ -70,6 +70,10 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
+  /** Types for managing image size and image index components. */
+  typedef   long              IndexValueType;
+  typedef   unsigned long     SizeValueType;
+
   /**
    * \class UnknownType
    * Used to return information when types are unknown.
@@ -247,6 +251,9 @@ public:
 
   /** Type for representing size of bytes, and or positions along a file */
   typedef std::streamoff SizeType;
+
+  /** Type for representing size of bytes, and or positions along a memory buffer */
+  typedef std::size_t    BufferSizeType;
 
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1]; 
@@ -436,7 +443,7 @@ protected:
   ImageIORegion m_IORegion;
 
   /** The array which stores the number of pixels in the x, y, z directions. */
-  std::vector<unsigned int> m_Dimensions;
+  std::vector< SizeValueType > m_Dimensions;
 
   /** The array which stores the spacing of pixels in the 
    * x, y, z directions. */

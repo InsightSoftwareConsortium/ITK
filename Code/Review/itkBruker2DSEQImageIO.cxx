@@ -258,8 +258,8 @@ void Bruker2DSEQImageIO::Read(void* buffer)
   itksys::SystemTools::ConvertToUnixSlashes(file2Dseq);
   /* Try to open the file */
   std::ifstream   twodseq_InputStream;
-  twodseq_InputStream.open( file2Dseq.c_str(),
-                            std::ios::in | std::ios::binary );
+  twodseq_InputStream.open( file2Dseq.c_str(), std::ios::in | std::ios::binary );
+
   if( twodseq_InputStream.fail() )
     {
     OStringStream message;
@@ -271,7 +271,9 @@ void Bruker2DSEQImageIO::Read(void* buffer)
                               ITK_LOCATION);
     throw exception;
     }
-  twodseq_InputStream.read(p, this->GetImageSizeInBytes());
+
+  twodseq_InputStream.read(p, Math::CastWithRangeCheck< std::streamsize, SizeType >( this->GetImageSizeInBytes() ) );
+
   if( twodseq_InputStream.fail() )
     {
     OStringStream message;
