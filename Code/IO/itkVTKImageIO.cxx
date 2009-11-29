@@ -367,8 +367,6 @@ void VTKImageIO::Read(void* buffer)
 {
   std::ifstream file;
 
-  typedef ::size_t   BufferSizeType;
-
   this->InternalReadImageInformation(file);
   
   //We are positioned at the data. The data is read depending on whether 
@@ -506,7 +504,7 @@ void VTKImageIO::Write(const void* buffer)
   else //binary
     {
     int size = this->GetComponentSize();
-    typedef ::size_t   BufferSizeType;
+
     const BufferSizeType numbytes = static_cast<BufferSizeType>( this->GetImageSizeInBytes() );
     char * tempmemory=new char[numbytes];
     memcpy(tempmemory,buffer,numbytes);

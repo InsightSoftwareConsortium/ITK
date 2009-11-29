@@ -1333,7 +1333,6 @@ AnalyzeImageIO
 
   // Check for image dimensions to be smaller enough to fit in
   // a short int. First generate the number that is the maximum allowable.
-  typedef itk::Size<3>::SizeValueType   SizeValueType;
   const SizeValueType maximumNumberOfPixelsAllowedInOneDimension =
     itk::NumericTraits<unsigned short>::max() - 1;
 
