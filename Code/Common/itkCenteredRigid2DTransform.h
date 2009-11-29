@@ -85,12 +85,14 @@ public:
   typedef typename Superclass::OffsetType  OffsetType;
 
   /** Point type. */
-  typedef typename Superclass::InputPointType   InputPointType;
-  typedef typename Superclass::OutputPointType  OutputPointType;
+  typedef typename Superclass::InputPointType         InputPointType;
+  typedef typename Superclass::OutputPointType        OutputPointType;
+  typedef typename Superclass::InputPointValueType    InputPointValueType;
   
   /** Vector type. */
-  typedef typename Superclass::InputVectorType   InputVectorType;
-  typedef typename Superclass::OutputVectorType  OutputVectorType;
+  typedef typename Superclass::InputVectorType        InputVectorType;
+  typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::OutputVectorValueType  OutputVectorValueType;
   
   /** CovariantVector type. */
   typedef typename Superclass::InputCovariantVectorType   

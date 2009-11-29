@@ -68,7 +68,7 @@ CenteredSimilarity2DTransform<TScalarType>
 
   // Set translation
   OffsetType translation;
-  typedef typename OffsetType::ValueType    OffsetValueType;
+
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
     translation[i] = Math::CastWithRangeCheck< OffsetValueType, ParametersValueType>( parameters[i+4] );

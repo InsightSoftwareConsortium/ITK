@@ -247,7 +247,7 @@ SetParameters( const ParametersType & parameters )
  
   // Set translation
   OutputVectorType translation;
-  typedef typename OutputVectorType::ValueType OutputVectorValueType;
+
   for(unsigned int i=0; i < OutputSpaceDimension; i++) 
     {
     translation[i] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( parameters[i+1] );

@@ -89,7 +89,6 @@ CenteredEuler3DTransform<TScalarType>
   this->ComputeMatrix();
 
   TranslationType newTranslation;
-  typedef typename TranslationType::ValueType   TranslationValueType;
   newTranslation[0] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[6] );
   newTranslation[1] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[7] );
   newTranslation[2] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[8] );

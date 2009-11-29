@@ -72,6 +72,8 @@ public:
   typedef typename Superclass::InputVnlVectorType           InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType          OutputVnlVectorType;
   typedef typename Superclass::InputPointType               InputPointType;
+  typedef typename Superclass::InputPointValueType          InputPointValueType;
+  typedef typename Superclass::OutputVectorValueType        OutputVectorValueType;
   typedef typename Superclass::OutputPointType              OutputPointType;
   typedef typename Superclass::MatrixType                   MatrixType;
   typedef typename Superclass::MatrixValueType              MatrixValueType;

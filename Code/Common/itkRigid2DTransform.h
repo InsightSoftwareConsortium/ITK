@@ -95,8 +95,9 @@ public:
   typedef typename Superclass::OffsetValueType    OffsetValueType;
 
   /// Standard vector type for this class
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  typedef typename Superclass::InputVectorType        InputVectorType;
+  typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::OutputVectorValueType  OutputVectorValueType;
 
   /// Standard covariant vector type for this class
   typedef typename Superclass::InputCovariantVectorType InputCovariantVectorType;

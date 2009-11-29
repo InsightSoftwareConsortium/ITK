@@ -111,7 +111,6 @@ SetParameters( const ParametersType & parameters )
 
   // Transfer the rotation center 
   InputPointType center;
-  typedef typename InputPointType::ValueType  InputPointValueType;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
     center[i] = Math::CastWithRangeCheck< InputPointValueType, ParametersValueType>( this->m_Parameters[par] );
@@ -121,7 +120,6 @@ SetParameters( const ParametersType & parameters )
   
   // Transfer the translation
   OutputVectorType translation;
-  typedef typename OutputVectorType::ValueType  OutputVectorValueType;
   for(unsigned int k=0; k<NDimensions; k++) 
     {
     translation[k] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );

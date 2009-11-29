@@ -314,7 +314,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 {
   this->m_FixedParameters = fp;
   InputPointType c;
-  typedef typename InputPointType::ValueType InputPointValueType;
   typedef typename ParametersType::ValueType ParameterValueType;
   for ( unsigned int i = 0; i < NInputDimensions; i++ )
     {

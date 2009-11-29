@@ -88,6 +88,7 @@ public:
   
   /** Offset type. */
   typedef typename Superclass::OffsetType       OffsetType;
+  typedef typename Superclass::OffsetValueType  OffsetValueType;
 
   /** Point type. */
   typedef typename Superclass::InputPointType   InputPointType;

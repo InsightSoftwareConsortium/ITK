@@ -97,8 +97,6 @@ QuaternionRigidTransform<TScalarType>
 {
   OutputVectorType   translation; 
 
-  typedef typename OutputVectorType::ValueType  OutputVectorValueType;
-
   // Transfer the quaternion part
   unsigned int par = 0;
 

@@ -76,6 +76,7 @@ public:
   typedef typename Superclass::OutputPointType        OutputPointType;
   typedef typename Superclass::InputVectorType        InputVectorType;
   typedef typename Superclass::OutputVectorType       OutputVectorType;
+  typedef typename Superclass::OutputVectorValueType  OutputVectorValueType;
   typedef typename Superclass::InputVnlVectorType     InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType    OutputVnlVectorType;
   typedef typename Superclass::InputCovariantVectorType 
