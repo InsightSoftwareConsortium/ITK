@@ -219,7 +219,7 @@ _nrrdStrcatSpaceVector(char *str, int spaceDim,
     strcat(str, "(");
     for (dd=0; dd<spaceDim; dd++) {
       strcpy(buff, "");
-      airSinglePrintf(NULL, buff, "%lg", val[dd]);
+      airSinglePrintf(NULL, buff, "%.17lg", val[dd]);
       strcat(str, buff);
       sprintf(buff, "%s", dd < spaceDim-1 ? "," : ")");
       strcat(str, buff);
@@ -476,7 +476,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].spacing);
+      airSinglePrintf(NULL, buff, " %.17lg", nrrd->axis[ii].spacing);
       strcat(*strP, buff);
     }
     break;
@@ -484,7 +484,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].thickness);
+      airSinglePrintf(NULL, buff, " %.17lg", nrrd->axis[ii].thickness);
       strcat(*strP, buff);
     }
     break;
