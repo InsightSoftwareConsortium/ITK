@@ -85,11 +85,6 @@ int itkNumericTraitsTest(int, char* [] )
   CheckTraits("unsigned long long", static_cast<unsigned long long>(0));
 #endif 
 
-#ifdef ITK_TYPE_USE___INT64
-  CheckTraits("__int64", static_cast<__int64>(0));
-  CheckTraits("unsigned __int64", static_cast<unsigned __int64>(0));
-#endif 
-
   CheckTraits("float", static_cast<float>(0));
   CheckTraits("double", static_cast<double>(0));
   CheckTraits("long double", static_cast<double>(0));

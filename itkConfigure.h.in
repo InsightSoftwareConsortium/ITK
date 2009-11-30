@@ -131,14 +131,12 @@
 
 
 /*
- * Enable ITK usage of __int64 and long long if it is a unique
- * fundamental type and is convertable to other types in the expected
- * ways.
+ * Enable ITK usage of and long long 
  */
-#cmakedefine ITK_TYPE_USE___INT64
 #cmakedefine ITK_TYPE_USE_LONG_LONG
 
 #define ITK_VERSION_MAJOR @ITK_VERSION_MAJOR@
 #define ITK_VERSION_MINOR @ITK_VERSION_MINOR@
 #define ITK_VERSION_PATCH @ITK_VERSION_PATCH@
 #define ITK_VERSION_STRING "@ITK_VERSION_STRING@"
+

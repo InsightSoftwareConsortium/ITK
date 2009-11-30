@@ -21,19 +21,6 @@
 #undef min
 #undef max
 
-#ifdef ITK_TYPE_USE___INT64
-// One of these includes may be needed for the definition of __int64
-#ifdef ITK_HAVE_SYS_TYPES_H
-#  include <sys/types.h>
-#endif /* ITK_HAVE_SYS_TYPES_H */
-#ifdef ITK_HAVE_STDINT_H
-#  include <stdint.h>
-#endif /* ITK_HAVE_STDINT_H */
-#ifdef ITK_HAVE_STDDEF_H
-#  include <stddef.h>
-#endif /* ITK_HAVE_STDDEF_H */
-#endif /* ITK_TYPE_USE___INT64 */
-
 #define itkNUMERIC_TRAITS_MIN_MAX_MACRO() \
   static ValueType min() { return vcl_numeric_limits<ValueType>::min(); } \
   static ValueType max() { return vcl_numeric_limits<ValueType>::max(); } \
@@ -633,70 +620,6 @@ public:
   static ValueType OneValue() { return One; }
 };
 #endif /* #ifdef ITK_TYPE_USE_LONG_LONG */
-
-
-#ifdef ITK_TYPE_USE___INT64
-/** \class NumericTraits< __int64 >
- * \brief Define traits for type __int64
- * \ingroup DataRepresentation
- */
-template <>
-class NumericTraits< __int64 >  
-: public vcl_numeric_limits< __int64 > {
-public:
-  typedef __int64               ValueType;
-  typedef __int64               PrintType;
-  typedef unsigned __int64      AbsType;
-  typedef __int64               AccumulateType;
-  typedef double                RealType;
-  typedef double                ScalarRealType;
-  typedef double                FloatType;
-
-  static const __int64 ITKCommon_EXPORT Zero;
-  static const __int64 ITKCommon_EXPORT One;
-
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static ValueType NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
-  static bool IsPositive(ValueType val) { return val > Zero; }
-  static bool IsNonpositive(ValueType val) { return val <= Zero; }
-  static bool IsNegative(ValueType val) { return val < Zero; }
-  static bool IsNonnegative(ValueType val) {return val >= Zero; }
-  static ValueType  ZeroValue() { return Zero; }
-  static ValueType  OneValue() { return One; }
-};
-
-/** \class NumericTraits< unsigned __int64 >
- * \brief Define traits for type unsigned __int64
- * \ingroup DataRepresentation
- */
-template <>
-class NumericTraits< unsigned __int64 >
-  : public vcl_numeric_limits< unsigned __int64 >  {
-public:
-
-  typedef unsigned __int64      ValueType;
-  typedef ValueType             PrintType;
-  typedef unsigned __int64      AbsType;
-  typedef ValueType             AccumulateType;
-  typedef double                RealType;
-  typedef double                ScalarRealType;
-  typedef float                 FloatType;
-
-  static const ValueType ITKCommon_EXPORT Zero;
-  static const ValueType ITKCommon_EXPORT One;
-
-  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static ValueType NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
-  static bool IsPositive(ValueType val) { return val != Zero; }
-  static bool IsNonpositive(ValueType val) { return val == Zero; }
-  static bool IsNegative(ValueType) { return false; }
-  static bool IsNonnegative(ValueType) {return true; }
-  static ValueType ZeroValue() { return Zero; }
-  static ValueType OneValue() { return One; }
-};
-
-#endif /* ITK_TYPE_USE___INT64 */
-
 
 } // end namespace itk
 
