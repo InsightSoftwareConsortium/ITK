@@ -55,6 +55,9 @@ namespace Statistics {
  * \c MeasurementVectorSize  has been removed to allow the length of a measurement
  * vector to be specified at run time. The \c typedef for \c CentroidType has
  * been changed from Array to FixedArray.
+ * 
+ * \warning This class has been reported as not being thread safe. See 
+ * http://www.itk.org/pipermail/insight-users/2009-November/034247.html
  *
  * \sa KdTreeNonterminalNode, KdTreeWeightedCentroidNonterminalNode,
  * KdTreeTerminalNode
