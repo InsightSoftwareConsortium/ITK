@@ -20,22 +20,38 @@
 #include "itkNumericTraitsFixedArrayPixel.h"
 #include "itkCovariantVector.h"
 
-// This file defines numeric traits for vector pixels types in itk
-// TODO: Add doxygen tags..
-
 namespace itk
 {
 
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 1);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 2);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 3);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 4);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 5);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 6);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 7);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 8);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 9);
-itkNumericTraitsGenericArrayScalarsMacro( CovariantVector, 10);
+
+//
+// Instantiate the macros to declare the NumericTraits for the
+// CovariantVector types.
+//
+#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayScalarsDimensionsMacro( CovariantVector );
+
+#else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, char );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned char );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, signed char );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, short );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned short );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, int );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned int );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, float );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, double );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long long );
+itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
+
+#endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 
 } // end namespace itk
 

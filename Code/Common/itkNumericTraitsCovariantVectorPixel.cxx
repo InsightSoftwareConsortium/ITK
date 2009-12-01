@@ -18,15 +18,22 @@
 
 namespace itk
 {
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 1);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 2);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 3);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 4);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 5);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 6);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 7);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 8);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 9);
-itkStaticNumericTraitsGenericArrayScalarsMacro( CovariantVector, 10);
+
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, signed char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, short );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned short );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, int );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned int );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, float );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, double );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk

@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
   Module:    itkNumericTraitsVectorPixel.h
@@ -20,21 +20,39 @@
 #include "itkNumericTraitsFixedArrayPixel.h"
 #include "itkVector.h"
 
-// This file defines numeric traits for vector pixels types in itk
-// TODO: Add doxygen tags..
 
 namespace itk
 {
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 1);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 2);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 3);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 4);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 5);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 6);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 7);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 8);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 9);
-itkNumericTraitsGenericArrayScalarsMacro( Vector, 10);
+
+
+//
+// Instantiate the macros to declare the NumericTraits for the
+// Vector types.
+//
+#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayScalarsDimensionsMacro( Vector );
+
+#else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, char );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned char );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, signed char );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, short );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned short );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, int );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned int );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, long );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, float );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, double );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, long long );
+itkNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
+
+#endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 
 } // end namespace itk
 

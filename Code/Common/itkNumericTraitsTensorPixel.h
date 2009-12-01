@@ -25,16 +25,36 @@
 
 namespace itk
 {
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 1);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 2);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 3);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 4);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 5);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 6);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 7);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 8);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 9);
-itkNumericTraitsGenericArrayScalarsMacro( SymmetricSecondRankTensor, 10);
+
+
+//
+// Instantiate the macros to declare the NumericTraits for the
+// SymmetricSecondRankTensor types.
+//
+#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayScalarsDimensionsMacro( SymmetricSecondRankTensor );
+
+#else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, char );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned char );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, signed char );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, short );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned short );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, int );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned int );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, float );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, double );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long long );
+itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
+
+#endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 
 } // end namespace itk
 

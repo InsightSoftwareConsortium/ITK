@@ -18,15 +18,22 @@
 
 namespace itk
 {
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 1);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 2);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 3);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 4);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 5);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 6);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 7);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 8);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 9);
-itkStaticNumericTraitsGenericArrayScalarsMacro( Vector, 10);
+
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, signed char );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, short );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned short );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, int );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned int );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, float );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, double );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, long long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk
