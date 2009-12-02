@@ -70,7 +70,7 @@ public: \
     } \
   static const Self NonpositiveMin() \
     {  \
-      return Self ( NumericTraits< Self >::NonpositiveMin() );   \
+      return Self ( NumericTraits< ValueType >::NonpositiveMin() );   \
     } \
   static const Self ZeroValue() \
   {  \
