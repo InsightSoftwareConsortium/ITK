@@ -66,6 +66,7 @@ VTKPolyDataReader<TOutputMesh>
                       << "inputFilename= " << m_FileName );
     }
 
+  inputFile.imbue(std::locale::classic());
   std::string line;
 
   // The first line must be "# vtk DataFile Version x.x" where x.x can
