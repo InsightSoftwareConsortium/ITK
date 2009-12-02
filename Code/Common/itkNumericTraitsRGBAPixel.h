@@ -52,45 +52,33 @@ public: \
  \
   typedef ElementRealType ScalarRealType; \
  \
-  static const Self max( const Self & a ) \
+  static const Self max( const Self & ) \
     {  \
-      Self b;  \
-      b.Fill( NumericTraits< T >::max() ); \
-      return b; \
+      return Self( NumericTraits< T >::max() );      \
     } \
-  static const Self min( const Self & a ) \
+  static const Self min( const Self & ) \
     {  \
-      Self b;  \
-      b.Fill( NumericTraits< T >::min() ); \
-      return b; \
+      return Self( NumericTraits< T >::min() );      \
     } \
   static const Self max() \
     {  \
-      Self b;  \
-      b.Fill( NumericTraits< T >::max() ); \
-      return b; \
+      return Self( NumericTraits< T >::max() );      \
     } \
   static const Self min() \
     {  \
-      Self b;  \
-      b.Fill( NumericTraits< T >::min() ); \
-      return b; \
+      return Self( NumericTraits< T >::min() );      \
     } \
   static const Self NonpositiveMin() \
     {  \
-      return NumericTraits< Self >::min(); \
+      return Self ( NumericTraits< Self >::NonpositiveMin() );   \
     } \
   static const Self ZeroValue() \
   {  \
-    Self b; \
-    b.Fill( NumericTraits< T >::Zero ); \
-    return b; \
+    return Self( NumericTraits< T >::Zero );         \
   } \
   static const Self OneValue() \
   {  \
-    Self b; \
-    b.Fill( NumericTraits< T >::One ); \
-    return b; \
+    return Self( NumericTraits< T >::One );          \
   } \
   static const Self ITKCommon_EXPORT Zero; \
   static const Self ITKCommon_EXPORT One; \
