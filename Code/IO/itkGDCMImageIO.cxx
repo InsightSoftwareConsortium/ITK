@@ -1492,24 +1492,24 @@ void GDCMImageIO::Write(const void* buffer)
     {
     str.str("");
     str << m_Direction[0][0] << "\\"
-      << m_Direction[1][0] << "\\";
+      << m_Direction[0][1] << "\\";
     /*
      * This is where the 3rd component of the direction is being lost
      * ITK mechanism does not support 2D image, placed in 3D world...
      */
     if( m_Direction.size() == 3 )
       {
-      str << m_Direction[2][0] << "\\";
+      str << m_Direction[0][2] << "\\";
       }
     else
       {
       str << 0. << "\\";
       }
-    str << m_Direction[0][1] << "\\"
+    str << m_Direction[1][0] << "\\"
       << m_Direction[1][1] << "\\";
     if( m_Direction.size() == 3 )
       {
-      str << m_Direction[2][1];
+      str << m_Direction[1][2];
       }
     else
       {
@@ -1967,6 +1967,16 @@ void GDCMImageIO::Write(const void* buffer)
     image.SetNumberOfDimensions( 3 );
     image.SetDimension(2, m_Dimensions[2] );
     }
+
+  // Do the direction now:
+  image.SetDirectionCosines(0,m_Direction[0][0]);
+  image.SetDirectionCosines(1,m_Direction[0][1]);
+  image.SetDirectionCosines(2,m_Direction[0][2]);
+  image.SetDirectionCosines(3,m_Direction[1][0]);
+  image.SetDirectionCosines(4,m_Direction[1][1]);
+  image.SetDirectionCosines(5,m_Direction[1][2]);
+
+
   gdcm::PixelFormat pixeltype = gdcm::PixelFormat::UNKNOWN;
   switch (this->GetComponentType())
     {
