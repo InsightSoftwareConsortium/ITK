@@ -63,11 +63,11 @@ PolygonSpatialObject<TDimension>
     }
   else if(min[0] != max[0] && min[1] == max[1] && min[2] != max[2])
     {
-    plane = Axial;
+    plane = Coronal;
     }
   else if(min[0] != max[0] && min[1] != max[1] && min[2] == max[2])
     {
-    plane = Coronal;
+    plane = Axial;
     }
   else
     {
@@ -154,10 +154,10 @@ PolygonSpatialObject<TDimension>
       X = 1; Y = 2;
       break;
     case Axial:
-      X = 0; Y = 2;
+      X = 0; Y = 1;
       break;
     case Coronal:
-      X = 0; Y = 1;
+      X = 0; Y = 2;
       break;
     default:
       ExceptionObject exception(__FILE__, __LINE__);
