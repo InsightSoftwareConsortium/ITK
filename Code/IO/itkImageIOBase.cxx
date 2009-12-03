@@ -172,7 +172,8 @@ void ImageIOBase::SetDirection(unsigned int i, vnl_vector<double> &direction)
     }
   this->Modified();
   std::vector<double> v;
-  v.resize(m_Direction.size());
+  //v.resize(m_Direction.size());
+  v.resize(direction.size());
   for (unsigned int j=0; j < v.size(); j++)
     {
     v[j] = direction[j];

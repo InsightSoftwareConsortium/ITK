@@ -1399,6 +1399,9 @@ void GDCMImageIO::Write(const void* buffer)
         m_GlobalNumberOfDimensions = numberOfDimensions;
         m_Origin.resize( m_GlobalNumberOfDimensions );
         m_Spacing.resize( m_GlobalNumberOfDimensions );
+        m_Direction.resize( m_GlobalNumberOfDimensions );
+        for(unsigned int i = 0; i<m_GlobalNumberOfDimensions; i++)
+          m_Direction[i].resize( m_GlobalNumberOfDimensions );
         }
       else if( key == ITK_Origin )
         {
@@ -1418,7 +1421,7 @@ void GDCMImageIO::Write(const void* buffer)
         m_Spacing[1] = spacingArray[1];
         m_Spacing[2] = spacingArray[2];
         }
-      else if( key == ITK_Direction )
+      else if( key == ITK_ZDirection )
         {
         typedef Matrix< double > DoubleMatrixType;
         DoubleMatrixType directionMatrix;
@@ -1949,6 +1952,9 @@ void GDCMImageIO::Write(const void* buffer)
         m_GlobalNumberOfDimensions = numberOfDimensions;
         m_Origin.resize( m_GlobalNumberOfDimensions );
         m_Spacing.resize( m_GlobalNumberOfDimensions );
+        m_Direction.resize( m_GlobalNumberOfDimensions );
+        for(unsigned int i = 0; i<m_GlobalNumberOfDimensions; i++)
+          m_Direction[i].resize( m_GlobalNumberOfDimensions );
         }
       else if( key == ITK_Origin )
         {
@@ -1968,7 +1974,7 @@ void GDCMImageIO::Write(const void* buffer)
         m_Spacing[1] = spacingArray[1];
         m_Spacing[2] = spacingArray[2];
         }
-      else if( key == ITK_Direction )
+      else if( key == ITK_XDirection )
         {
         typedef Matrix< double > DoubleMatrixType;
         DoubleMatrixType directionMatrix;

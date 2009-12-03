@@ -372,7 +372,7 @@ ImageSeriesWriter<TInputImage,TOutputImage>
             directionMatrix[i][j]  = direction2[i][j];
             }
           }
-        EncapsulateMetaData< DoubleMatrixType >( dictionary, ITK_Direction, directionMatrix );
+        EncapsulateMetaData< DoubleMatrixType >( dictionary, ITK_ZDirection, directionMatrix );
         }
       }
     

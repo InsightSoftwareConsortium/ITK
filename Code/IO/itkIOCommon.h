@@ -110,7 +110,7 @@ extern const char *const ITK_CoordinateOrientation;
 #endif
 extern const char *const ITK_Origin;
 extern const char *const ITK_Spacing;
-extern const char *const ITK_Direction;
+extern const char *const ITK_ZDirection;
 extern const char *const ITK_FileOriginator;
 extern const char *const ITK_OriginationDate;
 extern const char *const ITK_PatientID;
