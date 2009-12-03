@@ -1418,6 +1418,15 @@ void GDCMImageIO::Write(const void* buffer)
         m_Spacing[1] = spacingArray[1];
         m_Spacing[2] = spacingArray[2];
         }
+      else if( key == ITK_Direction )
+        {
+        typedef Matrix< double > DoubleMatrixType;
+        DoubleMatrixType directionMatrix;
+        ExposeMetaData< DoubleMatrixType >( dict, key, directionMatrix );
+        for(int i = 0; i<3; i++)
+            for(int j = 0; j<3; j++)
+                m_Direction[i][j]=directionMatrix[i][j];
+        }
       else
         {
         itkDebugMacro(
@@ -1958,6 +1967,15 @@ void GDCMImageIO::Write(const void* buffer)
         m_Spacing[0] = spacingArray[0];
         m_Spacing[1] = spacingArray[1];
         m_Spacing[2] = spacingArray[2];
+        }
+      else if( key == ITK_Direction )
+        {
+        typedef Matrix< double > DoubleMatrixType;
+        DoubleMatrixType directionMatrix;
+        ExposeMetaData< DoubleMatrixType >( dict, key, directionMatrix );
+        for(int i = 0; i<3; i++)
+            for(int j = 0; j<3; j++)
+                m_Direction[i][j]=directionMatrix[i][j];
         }
       else
         {
