@@ -56,6 +56,18 @@ namespace itk
                                                                         \
     typedef ElementRealType                         ScalarRealType;     \
                                                                         \
+    static const Self max()                                             \
+    {                                                                   \
+      return Self( NumericTraits< T >::max() );                         \
+    }                                                                   \
+    static const Self min()                                             \
+    {                                                                   \
+      return Self( NumericTraits< T >::min() );                         \
+    }                                                                   \
+    static const Self NonpositiveMin()                                  \
+    {                                                                   \
+      return Self( NumericTraits< T >::NonpositiveMin() );              \
+    }                                                                   \
     static const Self ZeroValue()                                       \
     {                                                                   \
       return Self( NumericTraits<T>::ZeroValue() );                     \
