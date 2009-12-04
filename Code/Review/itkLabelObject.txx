@@ -105,8 +105,6 @@ void
 LabelObject<TLabel, VImageDimension>::
 AddIndex( const IndexType & idx ) 
 {
-  itkAssertOrThrowMacro( (!this->HasIndex( idx )), "Index out of range" );
-
   if( !m_LineContainer.empty() )
     {
     // can we use the last line to add that index ?
@@ -141,7 +139,6 @@ void
 LabelObject<TLabel, VImageDimension>::
 AddLine( const LineType & line )
 {
-  // TODO: add an assert to be sure that some indexes in the line are not already stored here
   m_LineContainer.push_back( line );
 }
   
