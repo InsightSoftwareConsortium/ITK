@@ -1,15 +1,6 @@
 PROJECT(PatentedExamples)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
 
-ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
-
-ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
-
-ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
-
 ADD_EXECUTABLE(FuzzyConnectednessImageFilter FuzzyConnectednessImageFilter.cxx )
 TARGET_LINK_LIBRARIES(FuzzyConnectednessImageFilter ITKNumerics ITKIO)
 
@@ -35,24 +26,6 @@ ADD_TEST(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
         ${TEMP}/FuzzyConnectednessVWEyeBinaryTest.png
         ${TEMP}/FuzzyConnectednessVWEyeTest.png
         64 66 3.0
-)
-
-ADD_TEST(IterativeClosestPoint1Test ${PATENTED_EXAMPLES}
-  IterativeClosestPoint1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
-)
-
-ADD_TEST(IterativeClosestPoint2Test ${PATENTED_EXAMPLES}
-  IterativeClosestPoint2Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
-)
-
-ADD_TEST(IterativeClosestPoint3Test ${PATENTED_EXAMPLES}
-  IterativeClosestPoint3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
 ENDIF(BUILD_TESTING)

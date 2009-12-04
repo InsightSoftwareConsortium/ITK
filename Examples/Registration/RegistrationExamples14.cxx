@@ -33,6 +33,9 @@
 void RegisterTests()
 {
   REGISTER_TEST(DeformableRegistration15Test);
+  REGISTER_TEST(IterativeClosestPoint1Test);
+  REGISTER_TEST(IterativeClosestPoint2Test);
+  REGISTER_TEST(IterativeClosestPoint3Test);
 }
 
 #undef main
@@ -40,4 +43,22 @@ void RegisterTests()
 #undef CommandIterationUpdate
 #define CommandIterationUpdate CommandIterationUpdate15
 #include "DeformableRegistration15.cxx"
+
+#undef main
+#define main  IterativeClosestPoint1Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdateICP1
+#include "IterativeClosestPoint1.cxx"
+
+#undef main
+#define main  IterativeClosestPoint2Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdateICP2
+#include "IterativeClosestPoint2.cxx"
+
+#undef main
+#define main  IterativeClosestPoint3Test
+#undef CommandIterationUpdate
+#define CommandIterationUpdate CommandIterationUpdateICP3
+#include "IterativeClosestPoint3.cxx"
 

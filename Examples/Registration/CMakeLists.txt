@@ -190,6 +190,17 @@ IF(NOT BORLAND)
 
 ENDIF(NOT BORLAND)
 
+
+ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
+TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 IF(BUILD_TESTING)
@@ -1442,6 +1453,24 @@ ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES10}
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png  12 12
 )
 
+
+ADD_TEST(IterativeClosestPoint1Test ${REGISTRATION_EXAMPLES14}
+  IterativeClosestPoint1Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
+)
+
+ADD_TEST(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES14}
+  IterativeClosestPoint2Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
+)
+
+ADD_TEST(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES14}
+  IterativeClosestPoint3Test
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
+        ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
+)
 
 
 ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )

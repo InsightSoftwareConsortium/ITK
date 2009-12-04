@@ -27,9 +27,6 @@
 void RegisterTests()
 {
   REGISTER_TEST(FuzzyConnectednessImageFilterTest);
-  REGISTER_TEST(IterativeClosestPoint1Test);
-  REGISTER_TEST(IterativeClosestPoint2Test);
-  REGISTER_TEST(IterativeClosestPoint3Test);
 }
 
 #undef main
