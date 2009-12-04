@@ -32,21 +32,3 @@ void RegisterTests()
 #undef main
 #define main FuzzyConnectednessImageFilterTest
 #include "FuzzyConnectednessImageFilter.cxx"
-
-#undef main
-#define main  IterativeClosestPoint1Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate12
-#include "IterativeClosestPoint1.cxx"
-
-#undef main
-#define main  IterativeClosestPoint2Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate13
-#include "IterativeClosestPoint2.cxx"
-
-#undef main
-#define main  IterativeClosestPoint3Test
-#undef CommandIterationUpdate
-#define CommandIterationUpdate CommandIterationUpdate14
-#include "IterativeClosestPoint3.cxx"
