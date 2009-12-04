@@ -231,8 +231,10 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
   if( joinVertex->Evaluate( IsolatedLineCell->GetQEGeom( ) ) )
     {
     std::cout << "FAILED." << std::endl;
+    delete IsolatedLineCell;
     return EXIT_FAILURE;
     }
+  delete IsolatedLineCell;
   std::cout << "OK" << std::endl;
 
 #ifndef NDEBUG
