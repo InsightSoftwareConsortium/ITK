@@ -61,7 +61,7 @@ void
 LabelMap<TLabelObject>
 ::Initialize()
 {
-  m_LabelObjectContainer.clear();
+  this->ClearLabels();
 }
 
 
@@ -420,7 +420,11 @@ void
 LabelMap<TLabelObject>
 ::ClearLabels()
 {
-  m_LabelObjectContainer.clear();
+  if( this->GetNumberOfLabelObjects() != 0 )
+    {
+    m_LabelObjectContainer.clear();
+    this->Modified();
+    }
 }
 
 
