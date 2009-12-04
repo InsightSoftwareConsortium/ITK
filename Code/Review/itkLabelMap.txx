@@ -420,7 +420,7 @@ void
 LabelMap<TLabelObject>
 ::ClearLabels()
 {
-  if( this->GetNumberOfLabelObjects() != 0 )
+  if( !m_LabelObjectContainer.empty() )
     {
     m_LabelObjectContainer.clear();
     this->Modified();
