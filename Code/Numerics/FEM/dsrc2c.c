@@ -302,15 +302,24 @@ int jcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, d
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+      {
+      timj1 = (real)( dsrc_timer_((real*)0) );
+      }
 
     if (itcom1_1.level < 3)
-        echout_(iparm, rparm, &c__1);
+      {
+      echout_(iparm, rparm, &c__1);
+      }
     else
-        echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
+      {
+      echall_(n, ia, ja, a, rhs, iparm, rparm, &c__1);
+      }
+
     temp = itcom3_1.drelpr * 500.;
     if (itcom3_1.zeta < temp)
-        itcom3_1.zeta = temp;
+      {
+      itcom3_1.zeta = temp;
+      }
 
     time1 = rparm[8];
     time2 = rparm[9];
@@ -381,7 +390,9 @@ L170:
         goto L370;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+      {
+      timi1 = (real)( dsrc_timer_((real*)0) );
+      }
 
     /* ... COMPUTE INITIAL PSEUDO-RESIDUAL */
 
@@ -424,7 +435,7 @@ L240:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 13;
@@ -437,7 +448,7 @@ L240:
 
 L280:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -482,7 +493,7 @@ L340:
 
     iparm[7] -= (itcom1_1.itmax - itcom1_1.in) << 1;
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     if (itcom1_1.isym != 0)
@@ -650,7 +661,7 @@ int jsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, d
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        timj1 = (real)( dsrc_timer_((real*)0) );
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__2);
@@ -724,7 +735,9 @@ L170:
         goto L360;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        {
+        timi1 = (real)( dsrc_timer_((real*)0) );
+        }
 
     /* ... ITERATION SEQUENCE */
 
@@ -761,7 +774,7 @@ L230:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 23;
@@ -774,7 +787,7 @@ L230:
 
 L270:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -818,7 +831,7 @@ L330:
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     if (iparm[2] == 0) {
@@ -980,7 +993,9 @@ int sor_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, d
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        {
+        timj1 = (real)( dsrc_timer_((real*)0) );
+        }
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__3);
@@ -1055,7 +1070,7 @@ L170:
         goto L360;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        timi1 = (real)( dsrc_timer_((real*)0) );
 
     /* ... ITERATION SEQUENCE */
 
@@ -1076,7 +1091,7 @@ L170:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 33;
@@ -1089,7 +1104,7 @@ L170:
 
 L270:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -1128,7 +1143,7 @@ L330:
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     if (iparm[2] == 0) {
@@ -1301,7 +1316,7 @@ int ssorcg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        timj1 = (real)( dsrc_timer_((real*)0) );
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__4);
@@ -1383,7 +1398,7 @@ L170:
         goto L390;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        timi1 = (real)( dsrc_timer_((real*)0) );
 
     /* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
 
@@ -1442,7 +1457,7 @@ L260:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 43;
@@ -1455,7 +1470,7 @@ L260:
 
 L300:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -1499,7 +1514,7 @@ L360:
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     iparm[7] -= (itcom1_1.itmax - itcom1_1.in) << 1;
@@ -1675,7 +1690,7 @@ int ssorsi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        timj1 = (real)( dsrc_timer_((real*)0) );
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__5);
@@ -1750,7 +1765,7 @@ L170:
         goto L380;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        timi1 = (real)( dsrc_timer_((real*)0) );
 
     /* ... SPECIAL PROCEDURE FOR FULLY ADAPTIVE CASE. */
 
@@ -1802,7 +1817,7 @@ L250:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 53;
@@ -1815,7 +1830,7 @@ L250:
 
 L290:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -1859,7 +1874,7 @@ L350:
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     if (iparm[2] == 0) {
@@ -2030,7 +2045,7 @@ int rscg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        timj1 = (real)( dsrc_timer_((real*)0) );
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__6);
@@ -2122,7 +2137,7 @@ int rscg_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
         goto L430;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        timi1 = (real)( dsrc_timer_((real*)0) );
 
     /* ... INITIALIZE FORWARD PSEUDO-RESIDUAL */
 
@@ -2171,7 +2186,7 @@ L290:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 63;
@@ -2184,7 +2199,7 @@ L290:
 
 L330:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -2233,7 +2248,7 @@ L400:
         /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     iparm[7] -= (itcom1_1.itmax - itcom1_1.in) << 1;
@@ -2402,7 +2417,7 @@ int rssi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
         return 0;
 
     if (iparm[10] == 0)
-        timj1 = dsrc_timer_((real*)0);
+        timj1 = (real)( dsrc_timer_((real*)0) );
 
     if (itcom1_1.level < 3)
         echout_(iparm, rparm, &c__7);
@@ -2487,7 +2502,7 @@ int rssi_(integer *n, integer *ia, integer *ja, doublereal *a, doublereal *rhs, 
         goto L420;
 
     if (iparm[10] == 0)
-        timi1 = dsrc_timer_((real*)0);
+        timi1 = (real)( dsrc_timer_((real*)0) );
 
     /* ... ITERATION SEQUENCE */
 
@@ -2528,7 +2543,7 @@ L280:
     /* ... ITMAX HAS BEEN REACHED */
 
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
     ier = 73;
@@ -2541,7 +2556,7 @@ L280:
 
 L320:
     if (iparm[10] == 0) {
-        timi2 = dsrc_timer_((real*)0);
+        timi2 = (real)( dsrc_timer_((real*)0) );
         time1 = (doublereal) (timi2 - timi1);
     }
 
@@ -2590,7 +2605,7 @@ L390:
     /* ... SET RETURN PARAMETERS IN IPARM AND RPARM */
 
     if (iparm[10] == 0) {
-        timj2 = dsrc_timer_((real*)0);
+        timj2 = (real)( dsrc_timer_((real*)0) );
         time2 = (doublereal) (timj2 - timj1);
     }
     if (iparm[2] == 0) {
