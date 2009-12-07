@@ -107,7 +107,7 @@ StreamingImageFilter<TInputImage,TOutputImage>
   // we don't call GenerateInputRequestedRegion since the requested
   // regions are manage when the pipeline is execute
   
-  // we don't call inputs PopafateRequestedRegion either
+  // we don't call inputs PropagateRequestedRegion either
   // because the pipeline managed later
 }
 
