@@ -269,6 +269,7 @@ SET(ReviewTest4_SRCS
   itkLabelStatisticsOpeningImageFilterTest1.cxx
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
+  itkLabelGeometryImageFilterTest.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -2269,6 +2270,17 @@ ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
   128   # Number Of Bins
   )
 ENDIF(NOT BORLAND)
+
+ADD_TEST(itkLabelGeometryImageFilterTest2
+  ${REVIEW_TESTS4}
+  --compare ${BASELINE}/itkLabelGeometryImageFilterTest2Image.png
+            ${TEMP}/itkLabelGeometryImageFilterTest2Image.png
+  itkLabelGeometryImageFilterTest
+  ${INPUTDATA}/BinaryImageWithVariousShapes01.png
+  ${TEMP}/itkLabelGeometryImageFilterTest2Image.png 2 
+  ${INPUTDATA}/GrayscaleImageWithVariousShapes01.png
+  )
+
 
 #
 # Functor colormaps
