@@ -60,7 +60,7 @@ public:
   static bool SystemIsLE () { return SystemIsLittleEndian(); }
     
   /** Generic swap method handles type T. The swapping is
-   * done in-place. Either 2-byte or 4-byte swapping
+   * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
@@ -71,7 +71,7 @@ public:
   typedef  ::size_t      BufferSizeType;
 
   /** Generic swap method handles type T. The swapping is
-   * done in-place. Either 2-byte or 4-byte swapping
+   * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
@@ -80,7 +80,7 @@ public:
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
    * given. A total of num values of type T are written
-   * and swapped. Either 2-byte or 4-byte swapping
+   * and swapped. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
@@ -88,14 +88,14 @@ public:
                                                   OStreamType *fp);
   
   /** Generic swap method handles type T. The swapping is
-   * done in-place. Either 2-byte or 4-byte swapping
+   * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
   static void SwapFromSystemToLittleEndian(T *p);
 
   /** Generic swap method handles type T. The swapping is
-   * done in-place. Either 2-byte or 4-byte swapping
+   * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
@@ -104,7 +104,7 @@ public:
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
    * given. A total of num values of type T are written
-   * and swapped. Either 2-byte or 4-byte swapping
+   * and swapped. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
@@ -140,7 +140,7 @@ protected:
   /** Swap 8 bytes. */
   static void Swap8(void *p);
 
-  /** Swap a range of four-byte words. Num is the number of four-byte words 
+  /** Swap a range of 8-byte words. Num is the number of four-byte words 
    * to swap. */
   static void Swap8Range(void *p, BufferSizeType num);
 
