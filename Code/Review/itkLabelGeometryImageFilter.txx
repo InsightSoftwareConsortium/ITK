@@ -1074,6 +1074,11 @@ LabelGeometryImageFilter<TImage, TLabelImage>
     os << "\t Oriented bounding box volume: " << (*mapIt).second.m_OrientedBoundingBoxVolume;
     os << "\t Oriented bounding box size: " << (*mapIt).second.m_OrientedBoundingBoxSize;
     // Rotation matrix
+    os << std::endl;
+    os << "\t Calculate oriented intensity regions: " << m_CalculateOrientedIntensityRegions;
+    os << "\t Calculate pixel indices: " << m_CalculatePixelIndices;
+    os << "\t Calculate oriented bounding box: " << m_CalculateOrientedBoundingBox;
+    os << "\t Calculate oriented label regions: " << m_CalculateOrientedLabelRegions;
     os << "\n\n";
     }
 
