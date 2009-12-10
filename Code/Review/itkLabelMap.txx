@@ -504,6 +504,21 @@ LabelMap<TLabelObject>
     }
 }
 
+
+template<class TLabelObject >
+void 
+LabelMap<TLabelObject>
+::Optimize()
+{
+  for( typename LabelObjectContainerType::const_iterator it = m_LabelObjectContainer.begin();
+    it != m_LabelObjectContainer.end();
+    it++ )
+    {
+    itkAssertOrThrowMacro( (it->second.IsNotNull()), "Null label" );
+    it->second->Optimize();
+    }
+}
+
 } // end namespace itk
 
 #endif

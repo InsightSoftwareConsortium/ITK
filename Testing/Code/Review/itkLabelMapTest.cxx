@@ -176,6 +176,8 @@ int itkLabelMapTest(int argc, char * argv[])
 
   map->PrintLabelObjects();
 
+  map->Optimize();
+
   map->RemoveLabelObject( lo );
   map->RemoveLabel(2);
   itkAssertOrThrowMacro ( (map->GetNumberOfLabelObjects() == 1), "Remove LabelObject/Label failed");

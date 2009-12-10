@@ -268,6 +268,11 @@ public:
     this->PrintLabelObjects( std::cerr );
     }
 
+  /**
+   * Optimize the line representation of all the lable objects referenced in the LabelMap
+   */
+  void Optimize();
+
 protected:
   LabelMap();
   virtual ~LabelMap() {};
