@@ -77,7 +77,7 @@ ScalarImageToHistogramGenerator< TImage >
 {
   typedef typename GeneratorType::HistogramMeasurementVectorType     MeasurementVectorType;
   MeasurementVectorType minVector;
-  minVector.SetLength(1);
+  MeasurementVectorTraits::SetLength(minVector,1);
   minVector[0] = minimumValue;
   m_HistogramGenerator->SetHistogramBinMinimum( minVector );
 }
@@ -90,7 +90,7 @@ ScalarImageToHistogramGenerator< TImage >
 {
   typedef typename GeneratorType::HistogramMeasurementVectorType     MeasurementVectorType;
   MeasurementVectorType maxVector;
-  maxVector.SetLength(1);
+  MeasurementVectorTraits::SetLength(maxVector,1);
   maxVector[0] = maximumValue;
   m_HistogramGenerator->SetHistogramBinMaximum( maxVector );
 }
