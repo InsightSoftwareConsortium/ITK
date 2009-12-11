@@ -26,6 +26,9 @@ ADD_TEST(itkImageToHistogramFilterTest ${STATISTICS_TESTS} itkImageToHistogramFi
 ADD_TEST(itkImageToHistogramFilterTest2 ${STATISTICS_TESTS} itkImageToHistogramFilterTest2
    ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
    ${TEMP}/itkImageToHistogramFilterTest2.txt)
+ADD_TEST(itkImageToHistogramFilterTest3 ${STATISTICS_TESTS} itkImageToHistogramFilterTest3
+   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+   ${TEMP}/itkImageToHistogramFilterTest3.txt)
 ADD_TEST(itkImageToListSampleFilterTest ${STATISTICS_TESTS} itkImageToListSampleFilterTest)
 ADD_TEST(itkImageToListSampleFilterTest2 ${STATISTICS_TESTS} itkImageToListSampleFilterTest2)
 ADD_TEST(itkImageToListSampleFilterTest3 ${STATISTICS_TESTS} itkImageToListSampleFilterTest3)
@@ -181,6 +184,7 @@ SET(Statistics_SRCS
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
+  itkImageToHistogramFilterTest3.cxx
   itkImageToListSampleFilterTest.cxx
   itkImageToListSampleFilterTest2.cxx
   itkImageToListSampleFilterTest3.cxx
