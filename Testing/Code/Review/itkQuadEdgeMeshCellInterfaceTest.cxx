@@ -348,16 +348,17 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
   // ITK QuadEdgeMesh CELLS - Standard cell API test
   
   typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
+  QEPolygonCellType* tempQEPolygon = new QEPolygonCellType;
   status = TestCellInterface("QuadEdgePolygonCell with 0 vertices",
-                             new QEPolygonCellType());
+                             tempQEPolygon);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
+  tempQEPolygon = new QEPolygonCellType(5);
   status = TestCellInterface("QuadEdgePolygonCell with 5 vertices",
-                             new QEPolygonCellType(5));
+                             tempQEPolygon);
   if (status != 0)
     {
     return EXIT_FAILURE;
@@ -373,22 +374,31 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
   // ITK QuadEdgeMesh CELLS - Specific QEcell API test
   
   typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> QEPolygonCellType;
+  tempQEPolygon = new QEPolygonCellType();
+
   status = TestQECellInterface("QuadEdgePolygonCell with 0 vertices",
-                             new QEPolygonCellType());
+                             tempQEPolygon);
+  delete tempQEPolygon;
+
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
+  tempQEPolygon = new QEPolygonCellType(5);
   status = TestQECellInterface("QuadEdgePolygonCell with 5 vertices",
-                             new QEPolygonCellType(5));
+                             tempQEPolygon);
+  delete tempQEPolygon;
+
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
+  QELineCellType* tempQELine = new QELineCellType;
+  status = TestQECellInterface("QuadEdgeLineCell", tempQELine);
+  delete tempQELine;
 
-  status = TestQECellInterface("QuadEdgeLineCell", new QELineCellType());
   if (status != 0)
     {
     return EXIT_FAILURE;
