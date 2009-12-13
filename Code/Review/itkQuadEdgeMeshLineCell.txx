@@ -75,16 +75,22 @@ QuadEdgeMeshLineCell< TCellInterface >
         else
           {
           FoundNullPointer = true;
+          delete m_QuadEdgeGeom->GetRot( )->GetRot( );            //e2
+          delete m_QuadEdgeGeom->GetRot( );                       //e1
+          delete m_QuadEdgeGeom;
           }
         }
       else
         {
         FoundNullPointer = true;
+        delete m_QuadEdgeGeom->GetRot( );                       //e1
+        delete m_QuadEdgeGeom;
         }
       }
     else
       {
       FoundNullPointer = true;
+      delete m_QuadEdgeGeom;
       }
     }
   else
