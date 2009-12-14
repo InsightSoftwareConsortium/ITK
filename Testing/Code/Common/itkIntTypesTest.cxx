@@ -60,7 +60,7 @@ bool CheckTraits( bool issigned )
 
 
 template<typename T>
-bool CheckType( size_t size, bool exactSize, bool issigned, const std::string &name)
+bool CheckType( size_t size, bool exactSize, bool issigned, const char * name )
 {
   bool ret = true;
   
@@ -121,7 +121,7 @@ int itkIntTypesTest( int, char *[] )
   pass &= CHECKTYPE( itk::int_fast32_t, 4, false, true );
   pass &= CHECKTYPE( itk::uint_fast32_t, 4, false, false );
 
-#ifndef ITK_NO_INT64
+#ifndef ITK_NO_INT_64
 
   pass &= CHECKTYPE( itk::int64_t, 8, true, true );
   pass &= CHECKTYPE( itk::uint64_t, 8, true, false );
@@ -132,7 +132,7 @@ int itkIntTypesTest( int, char *[] )
   pass &= CHECKTYPE( itk::int_fast64_t, 8, false, true );
   pass &= CHECKTYPE( itk::uint_fast64_t, 8, false, false );
 
-#endif // ITK_NO_INT64
+#endif // ITK_NO_INT_64
 
   
   pass &= CHECKTYPE( itk::intmax_t, 4, false, true );
