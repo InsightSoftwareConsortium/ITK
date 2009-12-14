@@ -19,7 +19,6 @@
 #endif
 
 #include "itkIntTypes.h"
-
 #include "itkNumericTraits.h"
 
 namespace 
@@ -61,11 +60,11 @@ bool CheckTraits( bool issigned )
 
 
 template<typename T>
-bool CheckType( size_t size, bool exact, bool issigned, const std::string &name)
+bool CheckType( size_t size, bool exactSize, bool issigned, const std::string &name)
 {
   bool ret = true;
   
-  if ( exact )
+  if ( exactSize )
     ret &= CheckSize<T>( size );
   else 
     ret &= CheckAtleastSize<T>( size );
@@ -92,55 +91,55 @@ int itkIntTypesTest( int, char *[] )
 {
   bool pass = true; 
   // fixed width types
-  pass &= CHECKTYPE( int16_t, 1, true, true );
-  pass &= CHECKTYPE( uint8_t, 1, true, false );
+  pass &= CHECKTYPE( itk::int16_t, 1, true, true );
+  pass &= CHECKTYPE( itk::uint8_t, 1, true, false );
 
-  pass &= CHECKTYPE( int16_t, 2, true, true );
-  pass &= CHECKTYPE( uint16_t, 2, true, false );
+  pass &= CHECKTYPE( itk::int16_t, 2, true, true );
+  pass &= CHECKTYPE( itk::uint16_t, 2, true, false );
 
-  pass &= CHECKTYPE( int32_t, 4, true, true );
-  pass &= CHECKTYPE( uint32_t, 4, true, false );
+  pass &= CHECKTYPE( itk::int32_t, 4, true, true );
+  pass &= CHECKTYPE( itk::uint32_t, 4, true, false );
 
 
   // least types
-  pass &= CHECKTYPE( int_least8_t, 1, false, true );
-  pass &= CHECKTYPE( uint_least8_t, 1, false, false );
+  pass &= CHECKTYPE( itk::int_least8_t, 1, false, true );
+  pass &= CHECKTYPE( itk::uint_least8_t, 1, false, false );
 
-  pass &= CHECKTYPE( int_least16_t, 2, false, true );
-  pass &= CHECKTYPE( uint_least16_t, 2, false, false );
+  pass &= CHECKTYPE( itk::int_least16_t, 2, false, true );
+  pass &= CHECKTYPE( itk::uint_least16_t, 2, false, false );
 
-  pass &= CHECKTYPE( int_least32_t, 4, false, true );
-  pass &= CHECKTYPE( uint_least32_t, 4, false, false );
+  pass &= CHECKTYPE( itk::int_least32_t, 4, false, true );
+  pass &= CHECKTYPE( itk::uint_least32_t, 4, false, false );
 
   // fast types
-  pass &= CHECKTYPE( int_fast8_t, 1, false, true );
-  pass &= CHECKTYPE( uint_fast8_t, 1, false, false );
+  pass &= CHECKTYPE( itk::int_fast8_t, 1, false, true );
+  pass &= CHECKTYPE( itk::uint_fast8_t, 1, false, false );
   
-  pass &= CHECKTYPE( int_fast16_t, 2, false, true );
-  pass &= CHECKTYPE( uint_fast16_t, 2, false, false );
+  pass &= CHECKTYPE( itk::int_fast16_t, 2, false, true );
+  pass &= CHECKTYPE( itk::uint_fast16_t, 2, false, false );
 
-  pass &= CHECKTYPE( int_fast32_t, 4, false, true );
-  pass &= CHECKTYPE( uint_fast32_t, 4, false, false );
+  pass &= CHECKTYPE( itk::int_fast32_t, 4, false, true );
+  pass &= CHECKTYPE( itk::uint_fast32_t, 4, false, false );
 
 #ifndef ITK_NO_INT64
 
-  pass &= CHECKTYPE( int64_t, 8, true, true );
-  pass &= CHECKTYPE( uint64_t, 8, true, false );
+  pass &= CHECKTYPE( itk::int64_t, 8, true, true );
+  pass &= CHECKTYPE( itk::uint64_t, 8, true, false );
 
-  pass &= CHECKTYPE( int_least64_t, 8, false, true );
-  pass &= CHECKTYPE( uint_least64_t, 8, false, false );
+  pass &= CHECKTYPE( itk::int_least64_t, 8, false, true );
+  pass &= CHECKTYPE( itk::uint_least64_t, 8, false, false );
 
-  pass &= CHECKTYPE( int_fast64_t, 8, false, true );
-  pass &= CHECKTYPE( uint_fast64_t, 8, false, false );
+  pass &= CHECKTYPE( itk::int_fast64_t, 8, false, true );
+  pass &= CHECKTYPE( itk::uint_fast64_t, 8, false, false );
 
 #endif // ITK_NO_INT64
 
   
-  pass &= CHECKTYPE( intmax_t, 4, false, true );
-  pass &= CHECKTYPE( uintmax_t, 4, false, false );
+  pass &= CHECKTYPE( itk::intmax_t, 4, false, true );
+  pass &= CHECKTYPE( itk::uintmax_t, 4, false, false );
 
-  pass &= CHECKTYPE( intptr_t, sizeof(void *), false, true );
-  pass &= CHECKTYPE( uintptr_t, sizeof(void *), false, false );
+  pass &= CHECKTYPE( itk::intptr_t, sizeof(void *), false, true );
+  pass &= CHECKTYPE( itk::uintptr_t, sizeof(void *), false, false );
 
 
   if ( pass )
