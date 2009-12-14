@@ -557,6 +557,15 @@ public:
    * origin, etc. */
   virtual void UpdateOutputInformation();
 
+  /** Overriden from base class to check if the requested image region
+   * has zero pixels.
+   *
+   * This is needed so that filters can set an input's requested
+   * region to zero, to indicate that it does not need to be updated
+   * or executed.
+   */
+  virtual void UpdateOutputData();
+
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution
    * (i.e. not streaming) on the next call to Update(). */
