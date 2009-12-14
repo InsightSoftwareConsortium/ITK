@@ -118,17 +118,17 @@ public:
   typedef SimpleDataObjectDecorator<RealType> RealObjectType;
 
   /** Bounding Box-related typedefs */
-  typedef itk::FixedArray<typename LabelIndexType::IndexValueType,ImageDimension*2> BoundingBoxType;
-  typedef itk::FixedArray< float,ImageDimension*2> BoundingBoxFloatType;
+  typedef itk::FixedArray<typename LabelIndexType::IndexValueType,itkGetStaticConstMacro(ImageDimension)*2> BoundingBoxType;
+  typedef itk::FixedArray< float,itkGetStaticConstMacro(ImageDimension)*2> BoundingBoxFloatType;
 
-  //typedef itk::FixedArray< LabelPointType,vcl_pow(2.0,ImageDimension)> BoundingBoxVerticesType;
+  //typedef itk::FixedArray< LabelPointType,vcl_pow(2.0,itkGetStaticConstMacro(ImageDimension))> BoundingBoxVerticesType;
   typedef std::vector< LabelPointType > BoundingBoxVerticesType;
 
   /** Axes Length-related typedefs */
-  typedef itk::FixedArray<RealType,ImageDimension> AxesLengthType;
+  typedef itk::FixedArray<RealType,itkGetStaticConstMacro(ImageDimension)> AxesLengthType;
 
   /** Index array typedefs */
-  typedef itk::FixedArray< typename LabelIndexType::IndexValueType, ImageDimension > IndexArrayType;
+  typedef itk::FixedArray< typename LabelIndexType::IndexValueType, itkGetStaticConstMacro(ImageDimension) > IndexArrayType;
 
   /** vector of labels */
   typedef std::vector< LabelPixelType > LabelsType;
@@ -217,7 +217,7 @@ public:
     MatrixType m_SecondOrderCentralMoments;
     VectorType m_Eigenvalues;
     MatrixType m_Eigenvectors;
-    itk::FixedArray<float,ImageDimension> m_AxesLength;
+    FixedArray<float,itkGetStaticConstMacro(ImageDimension)> m_AxesLength;
     RealType m_Eccentricity;
     RealType m_Elongation;
     RealType m_Orientation;
@@ -467,9 +467,6 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   bool CalculateOrientedBoundingBoxVertices(vnl_symmetric_eigensystem<double> eig, LabelGeometry & m_LabelGeometry);
-  template<class TGenericImage>
-  bool CalculateOrientedImage(vnl_symmetric_eigensystem<double> eig, LabelGeometry & m_LabelGeometry, bool useLabelImage = true);
-  MatrixType CalculateRotationMatrix(vnl_symmetric_eigensystem<double> eig);
 
   bool m_CalculatePixelIndices;
   bool m_CalculateOrientedBoundingBox;
@@ -483,6 +480,16 @@ private:
   SimpleFastMutexLock m_Mutex;
 
 }; // end of class
+
+template<class TLabelImage, class TIntensityImage>
+typename LabelGeometryImageFilter<TLabelImage,TIntensityImage>::MatrixType CalculateRotationMatrix(vnl_symmetric_eigensystem<double> eig);
+
+template<class TLabelImage, class TIntensityImage, class TGenericImage>
+bool CalculateOrientedImage(
+  LabelGeometryImageFilter<TLabelImage, TIntensityImage>  *filter,
+  vnl_symmetric_eigensystem<double> eig,
+  typename LabelGeometryImageFilter<TLabelImage,TIntensityImage>::LabelGeometry & labelGeometry,
+  bool useLabelImage = true);
 
 } // end namespace itk
   
