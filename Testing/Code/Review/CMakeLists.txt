@@ -2276,7 +2276,7 @@ ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
 ENDIF(NOT BORLAND)
 
 ADD_TEST(itkLabelGeometryImageFilterTest2
-  ${REVIEW_TESTS4}
+  ${REVIEW_TESTS5}
   --compare ${BASELINE}/itkLabelGeometryImageFilterTest2Image.png
             ${TEMP}/itkLabelGeometryImageFilterTest2Image.png
   itkLabelGeometryImageFilterTest
