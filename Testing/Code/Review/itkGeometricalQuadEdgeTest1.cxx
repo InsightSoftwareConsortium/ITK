@@ -88,6 +88,11 @@ int itkGeometricalQuadEdgeTest1( int , char* [] )
   qe->GetInvRnext();
   qe->GetInvDnext();
   qe->IsInLnextRing( 0 );
+
+  delete qe->GetRot()->GetRot()->GetRot();
+  delete qe->GetRot()->GetRot();
+  delete qe->GetRot();
+  delete qe;
  
   return EXIT_SUCCESS;
 }
