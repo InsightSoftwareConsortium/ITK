@@ -91,7 +91,7 @@ int itkIntTypesTest( int, char *[] )
 {
   bool pass = true; 
   // fixed width types
-  pass &= CHECKTYPE( itk::int16_t, 1, true, true );
+  pass &= CHECKTYPE( itk::int8_t, 1, true, true );
   pass &= CHECKTYPE( itk::uint8_t, 1, true, false );
 
   pass &= CHECKTYPE( itk::int16_t, 2, true, true );
