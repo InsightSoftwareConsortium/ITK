@@ -111,7 +111,7 @@ public:
   typedef SmartPointer<Self>                    Pointer;
   typedef SmartPointer<const Self>              ConstPointer;
 
-  typedef ITK_UINT32 IntegerType;
+  typedef uint32_t IntegerType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MersenneTwisterRandomVariateGenerator, 

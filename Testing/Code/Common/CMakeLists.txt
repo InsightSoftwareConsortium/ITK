@@ -310,6 +310,7 @@ ADD_TEST(itkNeighborhoodIteratorTest ${COMMON_TESTS2} itkNeighborhoodIteratorTes
 ADD_TEST(itkNeighborhoodOperatorImageFunctionTest ${COMMON_TESTS2} itkNeighborhoodOperatorImageFunctionTest)
 ADD_TEST(itkNeighborhoodOperatorTest ${COMMON_TESTS2} itkNeighborhoodOperatorTest)
 ADD_TEST(itkNumericTraitsTest ${COMMON_TESTS2} itkNumericTraitsTest)
+ADD_TEST(itkIntTypesTest ${COMMON_TESTS2} itkIntTypesTest)
 ADD_TEST(itkOctreeTest ${COMMON_TESTS2} itkOctreeTest)
 ADD_TEST(itkObjectFactoryTest ${COMMON_TESTS2} itkObjectFactoryTest)
 IF(ITK_BUILD_SHARED_LIBS)
@@ -535,6 +536,7 @@ itkNeighborhoodIteratorTest.cxx
 itkNeighborhoodOperatorImageFunctionTest.cxx
 itkNeighborhoodOperatorTest.cxx
 itkNumericTraitsTest.cxx
+itkIntTypesTest.cxx
 itkObjectFactoryTest.cxx
 itkObjectFactoryTest2.cxx
 itkObjectStoreTest.cxx

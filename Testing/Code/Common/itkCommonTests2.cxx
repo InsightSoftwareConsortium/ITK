@@ -32,6 +32,7 @@ REGISTER_TEST(itkNeighborhoodIteratorTest );
 REGISTER_TEST(itkNeighborhoodOperatorImageFunctionTest);
 REGISTER_TEST(itkNeighborhoodOperatorTest );
 REGISTER_TEST(itkNumericTraitsTest );
+REGISTER_TEST(itkIntTypesTest);
 REGISTER_TEST(itkObjectStoreTest );
 REGISTER_TEST(itkObjectFactoryTest );
 REGISTER_TEST(itkObjectFactoryTest2 );
