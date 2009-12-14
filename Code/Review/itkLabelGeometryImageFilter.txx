@@ -371,10 +371,18 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>
       {
       // Normalize the centroid sum by the count to get the centroid.
       (*mapIt).second.m_Centroid[i] = static_cast<typename LabelPointType::ValueType>((*mapIt).second.m_FirstOrderRawMoments[i]) / (*mapIt).second.m_ZeroOrderMoment;
+
       // This is the weighted sum.  It only calculates correctly if
       // the intensity image is defined.
-      (*mapIt).second.m_WeightedCentroid[i] = static_cast<typename LabelPointType::ValueType>((*mapIt).second.m_FirstOrderWeightedRawMoments[i]) / (*mapIt).second.m_Sum;
-    }
+      if (!intensityImage)
+        {
+        (*mapIt).second.m_WeightedCentroid[i] = 0.0;
+        }
+      else
+        {
+        (*mapIt).second.m_WeightedCentroid[i] = static_cast<typename LabelPointType::ValueType>((*mapIt).second.m_FirstOrderWeightedRawMoments[i]) / (*mapIt).second.m_Sum;
+        }
+      }
 
     // Using the raw moments, we can calculate the central moments.
     MatrixType normalizedSecondOrderCentralMoments(ImageDimension,ImageDimension,0);
