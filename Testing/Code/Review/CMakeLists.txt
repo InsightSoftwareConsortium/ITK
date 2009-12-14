@@ -12,6 +12,7 @@ SET(REVIEW_TESTS ${CXX_TEST_PATH}/itkReviewTests)
 SET(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
 SET(REVIEW_TESTS3 ${CXX_TEST_PATH}/itkReviewTests3)
 SET(REVIEW_TESTS4 ${CXX_TEST_PATH}/itkReviewTests4)
+SET(REVIEW_TESTS5 ${CXX_TEST_PATH}/itkReviewTests5)
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
@@ -269,6 +270,9 @@ SET(ReviewTest4_SRCS
   itkLabelStatisticsOpeningImageFilterTest1.cxx
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
+)
+
+SET(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
 )
 
@@ -2351,6 +2355,14 @@ SET(ReviewTest4_LIBS
   )
 TARGET_LINK_LIBRARIES(itkReviewTests4 ${ReviewTest4_LIBS})
 ENDIF(NOT BORLAND)
+
+ADD_EXECUTABLE(itkReviewTests5 itkReviewTests5.cxx ${ReviewTest5_SRCS})
+
+SET(ReviewTest5_LIBS
+  ITKIO
+  ITKStatistics
+  )
+TARGET_LINK_LIBRARIES(itkReviewTests5 ${ReviewTest5_LIBS})
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}
