@@ -451,10 +451,8 @@ void JPEGImageIO::WriteImageInformation(void)
 
 void JPEGImageIO::Write(const void* buffer)
 {
-  ImageIORegion ioRegion = this->GetIORegion();
-
-  // Make sure the region to be written is 2D
-  if ( ioRegion.GetRegionDimension() != 2 )
+  // the IORegion is not requred to be set so we must use GetNumberOfDimensions
+  if ( this->GetNumberOfDimensions() != 2 )
     {
     itkExceptionMacro(<<"JPEG Writer can only write 2-dimensional images");
     }
