@@ -251,6 +251,22 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
 }
 
 
+/** 
+  * Set the prior image
+  */
+template < class TInputVectorImage, class TLabelsType, 
+           class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+void 
+BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
+                              TPosteriorsPrecisionType, TPriorsPrecisionType >
+::SetPriors( PriorsImageType * priors ) 
+{
+  this->SetInput( 1, priors );
+  this->m_UserProvidedPriors = true;
+  this->Modified();
+}
+
+
 /**
  * Normalize the posteriors and smooth them using an user-provided.
  */
