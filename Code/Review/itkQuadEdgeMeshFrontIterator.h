@@ -128,7 +128,7 @@ protected:
   typedef FrontType*                   FrontTypePointer;
 
   /** Whether an Origin (i.e. a vertex or a face since we either deal with
-   *  primal or dual edges) was allready visited.
+   *  primal or dual edges) was already visited.
    */
   typedef MapContainer< QEOriginType, bool >       IsVisitedContainerType;
   typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
@@ -138,7 +138,7 @@ public:
   QuadEdgeMeshFrontBaseIterator( MeshType* mesh  = (MeshType*)0,
                                  bool      start = true,
                                  QEType*   seed  = (QEType*)0 );
-  virtual ~QuadEdgeMeshFrontBaseIterator( ) { }
+  virtual ~QuadEdgeMeshFrontBaseIterator( );
 
   Self& operator=( const Self& r )
     {

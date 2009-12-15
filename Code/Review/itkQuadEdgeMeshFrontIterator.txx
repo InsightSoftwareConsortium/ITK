@@ -56,6 +56,17 @@ QuadEdgeMeshFrontBaseIterator( MeshType* mesh,
 
 // ---------------------------------------------------------------------
 template< class TMesh, class TQE >
+QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
+~QuadEdgeMeshFrontBaseIterator( )
+{
+  if( m_Front )
+    {
+    delete m_Front;
+    }
+}
+
+// ---------------------------------------------------------------------
+template< class TMesh, class TQE >
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >&
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
 operator++( )
