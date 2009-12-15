@@ -894,17 +894,26 @@ void MetaImageIO::Read(void* buffer)
     
     delete [] indexMin;
     delete [] indexMax;
+
+    
+    m_MetaImage.ElementByteOrderFix( m_IORegion.GetNumberOfPixels() );
+    
     }
-  else if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
+  else 
     {
-    itkExceptionMacro("File cannot be read: "
-                      << this->GetFileName() << " for reading."
-                      << std::endl
-                      << "Reason: "
-                      << itksys::SystemTools::GetLastSystemError());
+    if(!m_MetaImage.Read(m_FileName.c_str(), true, buffer))
+      {
+      itkExceptionMacro("File cannot be read: "
+                        << this->GetFileName() << " for reading."
+                        << std::endl
+                        << "Reason: "
+                        << itksys::SystemTools::GetLastSystemError());
+      }
+
+    // since we are not streaming m_IORegion may not be set, so 
+    m_MetaImage.ElementByteOrderFix( this->GetImageSizeInPixels() );
     }
 
-  m_MetaImage.ElementByteOrderFix( m_IORegion.GetNumberOfPixels() );
 } 
 
 MetaImage * MetaImageIO::GetMetaImagePointer(void)
@@ -1547,7 +1556,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
     {
     // we are going be streaming
     
-    // need to remove the file incase the file doesn't match out
+    // need to remove the file incase the file doesn't match our
     // current header/meta data information
     if (!itksys::SystemTools::RemoveFile(m_FileName.c_str()))
       itkExceptionMacro("Unable to remove file for streaming: " << m_FileName);
