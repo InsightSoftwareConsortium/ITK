@@ -197,7 +197,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType,
     
     while( !itrMembershipImage.IsAtEnd() )
       {
-      PosteriorsPixelType posteriors;
+      PosteriorsPixelType posteriors(numberOfClasses);
       const PriorsPixelType      priors      = itrPriorsImage.Get();
       const MembershipPixelType  memberships = itrMembershipImage.Get();
       for( unsigned int i=0; i<numberOfClasses; i++)
