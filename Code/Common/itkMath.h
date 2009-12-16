@@ -23,7 +23,7 @@
 
 
 #include "itkConfigure.h"
-#include "vnl/vnl_math.h"
+#include "itkIntTypes.h"
 #include "itkMathDetail.h"
 
 
@@ -67,10 +67,10 @@ static const double sqrt2            = 1.41421356237309504880;
 static const double sqrt1_2          = 0.70710678118654752440;
 
 
+#ifdef ITK_HAS_INT_64
 // A useful macro to generate a template floating point to integer conversion
 // templated on the return type and using either the 32 bit, the 64 bit or
 // the vanilla version
-#if VXL_HAS_INT_64
 #define itkTemplateFloatingToIntegerMacro(name)                         \
   template <typename TReturn,typename TInput>                           \
   inline TReturn name(TInput x)                                         \
@@ -103,7 +103,7 @@ static const double sqrt1_2          = 0.70710678118654752440;
       return static_cast<TReturn>(Detail::name##_base<TReturn,TInput>(x)); \
       }                                                                 \
    }
-#endif // end VXL_HAS_INT_64
+#endif // end ITK_HAS_INT_64
 
 // \brief Define TReturn itk::Math::RoundHalfIntegerToEven<TReturn,TInput>(TInput x) 
 // Round towards nearest integer

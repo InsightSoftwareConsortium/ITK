@@ -28,7 +28,7 @@
 // The Sun Studio CC compiler seems to have a bug where if cstdio is
 // included stdio.h must also be included before fenv.h
 #include <stdio.h>
-#include <fenv.h>
+#include <fenv.h> // should this be cfenv?
 #endif /* ITK_HAVE_FENV_H */
 
 // Figure out when the fast implementations can be used
@@ -136,14 +136,14 @@ inline TReturn Ceil_base(TInput x)
 
 #if USE_SSE2_32IMPL // sse2 implementation
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(double x) 
+inline int32_t RoundHalfIntegerToEven_32(double x) 
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtsd_si32(_mm_set_sd(x)); 
 }
-inline vxl_int_32 RoundHalfIntegerToEven_32(float  x)
+inline int32_t RoundHalfIntegerToEven_32(float  x)
 { 
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
@@ -153,34 +153,34 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float  x)
 
 #elif GCC_USE_ASM_32IMPL // gcc asm implementation
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
+inline int32_t RoundHalfIntegerToEven_32(double x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_32 r;
+  int32_t r;
   __asm__ __volatile__( "fistpl %0" : "=m"(r) : "t"(x) : "st" );
   return r;
 }
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
+inline int32_t RoundHalfIntegerToEven_32(float x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_32 r;
+  int32_t r;
   __asm__ __volatile__( "fistpl %0" : "=m"(r) : "t"(x) : "st" );
   return r;
 }
 
 #elif VC_USE_ASM_32IMPL // msvc asm implementation
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
+inline int32_t RoundHalfIntegerToEven_32(double x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_32 r;
+  int32_t r;
   __asm 
     {
     fld x
@@ -189,12 +189,12 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(double x)
   return r;
 }
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
+inline int32_t RoundHalfIntegerToEven_32(float x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_32 r;
+  int32_t r;
   __asm 
     {
     fld x
@@ -205,52 +205,52 @@ inline vxl_int_32 RoundHalfIntegerToEven_32(float x)
 
 #else // Base implementation
 
-inline vxl_int_32 RoundHalfIntegerToEven_32(double x) { return RoundHalfIntegerToEven_base<vxl_int_32,double>(x); }
-inline vxl_int_32 RoundHalfIntegerToEven_32(float  x) { return RoundHalfIntegerToEven_base<vxl_int_32,float>(x); }
+inline int32_t RoundHalfIntegerToEven_32(double x) { return RoundHalfIntegerToEven_base<int32_t,double>(x); }
+inline int32_t RoundHalfIntegerToEven_32(float  x) { return RoundHalfIntegerToEven_base<int32_t,float>(x); }
 
 #endif
 
 
 #if USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
 
-inline vxl_int_32 RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerToEven_32(2*x+0.5)>>1; }
-inline vxl_int_32 RoundHalfIntegerUp_32(float  x) { return RoundHalfIntegerToEven_32(2*x+0.5f)>>1; }
+inline int32_t RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerToEven_32(2*x+0.5)>>1; }
+inline int32_t RoundHalfIntegerUp_32(float  x) { return RoundHalfIntegerToEven_32(2*x+0.5f)>>1; }
 
 
-inline vxl_int_32 Floor_32(double x) { return RoundHalfIntegerToEven_32(2*x-0.5)>>1; }
-inline vxl_int_32 Floor_32(float  x) { return RoundHalfIntegerToEven_32(2*x-0.5f)>>1; }
+inline int32_t Floor_32(double x) { return RoundHalfIntegerToEven_32(2*x-0.5)>>1; }
+inline int32_t Floor_32(float  x) { return RoundHalfIntegerToEven_32(2*x-0.5f)>>1; }
 
-inline vxl_int_32 Ceil_32(double x) { return -(RoundHalfIntegerToEven_32(-0.5-2*x)>>1); }
-inline vxl_int_32 Ceil_32(float  x) { return -(RoundHalfIntegerToEven_32(-0.5f-2*x)>>1); }
+inline int32_t Ceil_32(double x) { return -(RoundHalfIntegerToEven_32(-0.5-2*x)>>1); }
+inline int32_t Ceil_32(float  x) { return -(RoundHalfIntegerToEven_32(-0.5f-2*x)>>1); }
 
 #else // Base implementation
 
-inline vxl_int_32 RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerUp_base<vxl_int_32,double>(x); }
-inline vxl_int_32 RoundHalfIntegerUp_32(float  x) { return RoundHalfIntegerUp_base<vxl_int_32,float>(x); }
+inline int32_t RoundHalfIntegerUp_32(double x) { return RoundHalfIntegerUp_base<int32_t,double>(x); }
+inline int32_t RoundHalfIntegerUp_32(float  x) { return RoundHalfIntegerUp_base<int32_t,float>(x); }
 
-inline vxl_int_32 Floor_32(double x) { return Floor_base<vxl_int_32,double>(x); }
-inline vxl_int_32 Floor_32(float  x) { return Floor_base<vxl_int_32,float>(x); }
+inline int32_t Floor_32(double x) { return Floor_base<int32_t,double>(x); }
+inline int32_t Floor_32(float  x) { return Floor_base<int32_t,float>(x); }
 
-inline vxl_int_32 Ceil_32(double x) { return Ceil_base<vxl_int_32,double>(x); }
-inline vxl_int_32 Ceil_32(float  x) { return Ceil_base<vxl_int_32,float>(x); }
+inline int32_t Ceil_32(double x) { return Ceil_base<int32_t,double>(x); }
+inline int32_t Ceil_32(float  x) { return Ceil_base<int32_t,float>(x); }
 
 #endif // USE_SSE2_32IMPL || GCC_USE_ASM_32IMPL || VC_USE_ASM_32IMPL
 
 
 ////////////////////////////////////////
 // 64 bits versions
-#if VXL_HAS_INT_64
+#ifdef ITK_HAS_INT_64
 
 #if USE_SSE2_64IMPL // sse2 implementation
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
+inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE)  && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
   return _mm_cvtsd_si64(_mm_set_sd(x)); 
 }
-inline vxl_int_64 RoundHalfIntegerToEven_64(float  x)
+inline int64_t RoundHalfIntegerToEven_64(float  x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
@@ -260,34 +260,34 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(float  x)
 
 #elif GCC_USE_ASM_64IMPL // gcc asm implementation
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
+inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_64 r;
+  int64_t r;
   __asm__ __volatile__( "fistpll %0" : "=m"(r) : "t"(x) : "st" );
   return r;
 }
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
+inline int64_t RoundHalfIntegerToEven_64(float x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_64 r;
+  int64_t r;
   __asm__ __volatile__( "fistpll %0" : "=m"(r) : "t"(x) : "st" );
   return r;
 }
 
 #elif VC_USE_ASM_64IMPL // msvc asm implementation
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
+inline int64_t RoundHalfIntegerToEven_64(double x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_64 r;
+  int64_t r;
   __asm 
     {
     fld x
@@ -296,12 +296,12 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(double x)
   return r;
 }
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
+inline int64_t RoundHalfIntegerToEven_64(float x)
 {
   #if defined(ITK_CHECK_FPU_ROUNDING_MODE) && defined(HAVE_FENV_H)
   assert( fegetround() == FE_TONEAREST );
   #endif
-  vxl_int_64 r;
+  int64_t r;
   __asm 
     {
     fld x
@@ -312,35 +312,35 @@ inline vxl_int_64 RoundHalfIntegerToEven_64(float x)
 
 #else // Base implementation
 
-inline vxl_int_64 RoundHalfIntegerToEven_64(double x) { return RoundHalfIntegerToEven_base<vxl_int_64,double>(x); }
-inline vxl_int_64 RoundHalfIntegerToEven_64(float  x) { return RoundHalfIntegerToEven_base<vxl_int_64,float>(x); }
+inline int64_t RoundHalfIntegerToEven_64(double x) { return RoundHalfIntegerToEven_base<int64_t,double>(x); }
+inline int64_t RoundHalfIntegerToEven_64(float  x) { return RoundHalfIntegerToEven_base<int64_t,float>(x); }
 
 #endif
 
 
 #if USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
 
-inline vxl_int_64 RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerToEven_64(2*x+0.5)>>1; }
-inline vxl_int_64 RoundHalfIntegerUp_64(float  x) { return RoundHalfIntegerToEven_64(2*x+0.5f)>>1; }
+inline int64_t RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerToEven_64(2*x+0.5)>>1; }
+inline int64_t RoundHalfIntegerUp_64(float  x) { return RoundHalfIntegerToEven_64(2*x+0.5f)>>1; }
 
-inline vxl_int_64 Floor_64(double x) { return RoundHalfIntegerToEven_64(2*x-0.5)>>1; }
-inline vxl_int_64 Floor_64(float  x) { return RoundHalfIntegerToEven_64(2*x-0.5f)>>1; }
+inline int64_t Floor_64(double x) { return RoundHalfIntegerToEven_64(2*x-0.5)>>1; }
+inline int64_t Floor_64(float  x) { return RoundHalfIntegerToEven_64(2*x-0.5f)>>1; }
 
 
-inline vxl_int_64 Ceil_64(double x) { return -(RoundHalfIntegerToEven_64(-0.5-2*x)>>1); }
-inline vxl_int_64 Ceil_64(float  x) { return -(RoundHalfIntegerToEven_64(-0.5f-2*x)>>1); }
+inline int64_t Ceil_64(double x) { return -(RoundHalfIntegerToEven_64(-0.5-2*x)>>1); }
+inline int64_t Ceil_64(float  x) { return -(RoundHalfIntegerToEven_64(-0.5f-2*x)>>1); }
 
 
 #else // Base implementation
 
-inline vxl_int_64 RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerUp_base<vxl_int_64,double>(x); }
-inline vxl_int_64 RoundHalfIntegerUp_64(float  x) { return RoundHalfIntegerUp_base<vxl_int_64,float>(x); }
+inline int64_t RoundHalfIntegerUp_64(double x) { return RoundHalfIntegerUp_base<int64_t,double>(x); }
+inline int64_t RoundHalfIntegerUp_64(float  x) { return RoundHalfIntegerUp_base<int64_t,float>(x); }
 
-inline vxl_int_64 Floor_64(double x) { return Floor_base<vxl_int_64,double>(x); }
-inline vxl_int_64 Floor_64(float  x) { return Floor_base<vxl_int_64,float>(x); }
+inline int64_t Floor_64(double x) { return Floor_base<int64_t,double>(x); }
+inline int64_t Floor_64(float  x) { return Floor_base<int64_t,float>(x); }
 
-inline vxl_int_64 Ceil_64(double x) { return Ceil_base<vxl_int_64,double>(x); }
-inline vxl_int_64 Ceil_64(float  x) { return Ceil_base<vxl_int_64,float>(x); }
+inline int64_t Ceil_64(double x) { return Ceil_base<int64_t,double>(x); }
+inline int64_t Ceil_64(float  x) { return Ceil_base<int64_t,float>(x); }
 
 #endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
 
