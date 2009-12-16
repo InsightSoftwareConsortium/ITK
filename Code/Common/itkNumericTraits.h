@@ -140,8 +140,8 @@ public:
   static bool NonpositiveMin() { return false; }
   static bool IsPositive(bool val) { return val; }
   static bool IsNonpositive(bool val) { return !val; }
-  static bool IsNegative(bool /* val */) { return false; }
-  static bool IsNonnegative(bool /*val*/) {return true; }
+  static bool IsNegative(bool val) { return val ? false : false; }
+  static bool IsNonnegative(bool val) {return val ? true : true; }
   static bool ZeroValue() { return Zero; }
   static bool OneValue() { return One; }
 };
@@ -239,8 +239,8 @@ public:
   static unsigned char NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static bool IsPositive(unsigned char val) { return val != Zero; }
   static bool IsNonpositive(unsigned char val) { return val == Zero; }
-  static bool IsNegative(unsigned char /* val */) { return false; }
-  static bool IsNonnegative(unsigned char /*val */) {return true; }
+  static bool IsNegative(unsigned char val ) { return val ? false : false; }
+  static bool IsNonnegative(unsigned char val) {return val ? true : true; }
   static unsigned char  ZeroValue() { return Zero; }
   static unsigned char OneValue() { return One; }
 };
@@ -294,8 +294,8 @@ public:
   static unsigned short NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
   static unsigned short IsPositive(unsigned short val) { return val != Zero; }
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
-  static bool IsNegative(unsigned short/* val*/) { return false; }
-  static bool IsNonnegative(unsigned short /*val*/) {return true; }
+  static bool IsNegative(unsigned short val) { return val ? false : false; }
+  static bool IsNonnegative(unsigned short val) {return val ? true : true; }
   static unsigned short  ZeroValue() { return Zero; }
   static unsigned short OneValue() { return One; }
 };
@@ -352,8 +352,8 @@ public:
   static unsigned int NonpositiveMin() { return 0; }
   static bool IsPositive(unsigned int val) { return val != Zero; }
   static bool IsNonpositive(unsigned int val) { return  val == Zero; }
-  static bool IsNegative(unsigned int /*val*/) { return false; }
-  static bool IsNonnegative(unsigned int /*val*/) {return true; }
+  static bool IsNegative(unsigned int val) { return val ? false : false; }
+  static bool IsNonnegative(unsigned int val) {return val ? true : true; }
   static unsigned int  ZeroValue() { return Zero; }
   static unsigned int OneValue() { return One; }
 };
