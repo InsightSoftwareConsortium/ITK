@@ -162,7 +162,7 @@ int itkMathRoundTest2( int, char *[] )
   ok &= TemplatedRoundTest<int>();
   std::cout << "Testing long type" << std::endl;
   ok &= TemplatedRoundTest<long>();
-#if VXL_HAS_INT_64
+#ifdef ITK_HAS_INT_64
   std::cout << "Testing vxl_int_64 type" << std::endl;
   ok &= TemplatedRoundTest<vxl_int_64>();
 #endif
