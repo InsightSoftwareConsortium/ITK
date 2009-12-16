@@ -25,20 +25,20 @@ namespace
 {
 
 template <typename T>
-bool CheckSize( size_t size ) 
+bool CheckSize( size_t size, T* = 0 ) 
 {
   return ( sizeof( T ) == size );
 }
 
 template <typename T>
-bool CheckAtleastSize( size_t size )
+bool CheckAtleastSize( size_t size, T* = 0 )
 {
   return ( sizeof( T ) >= size );
 }
 
 
 template <typename T>
-bool CheckTraits( bool issigned ) 
+bool CheckTraits( bool issigned, T* = 0 ) 
 {
   // make sure that we have a specialized NumericTraits
   T t0 = itk::NumericTraits<T>::Zero;
@@ -60,7 +60,7 @@ bool CheckTraits( bool issigned )
 
 
 template<typename T>
-bool CheckType( size_t size, bool exactSize, bool issigned, const char * name )
+bool CheckType( size_t size, bool exactSize, bool issigned, const char * name, T* = 0 )
 {
   bool ret = true;
   

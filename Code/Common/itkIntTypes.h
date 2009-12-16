@@ -21,6 +21,7 @@
 
 #if defined(ITK_HAVE_STDINT_H)
 #include <stdint.h>
+#define ITK_HAS_INT_64
 #else
 // the system doesn't have the C or C++ version of stdint so lets use
 // itksys's types for fixed widths
@@ -30,8 +31,8 @@
 #include <stddef.h>
 #endif //ITK_HAVE_STDDEF_H
 
-#if !defined(itksys_CAN_CONVERT_UI64_TO_DOUBLE) || ( itksys_SIZEOF_LONG != 8 || itksys_USE_LONG_LONG != 8 )
-#define ITK_NO_INT_64
+#if defined(itksys_CAN_CONVERT_UI64_TO_DOUBLE) && ( itksys_SIZEOF_LONG == 8 || itksys_USE_LONG_LONG == 8 )
+#define ITK_HAS_INT_64
 #endif
 
 #endif // ITK_HAVE_CSTDINT
@@ -42,7 +43,7 @@
 extern "C" {
 #endif
 
-  /** Convenient and more descriptive integer types. */
+  /* Incorrect integer types which should NOT be used */
   typedef char      ITK_INT8;
   typedef int       ITK_INT32;
 
@@ -142,12 +143,12 @@ typedef uint16_t uint_fast16_t;
 typedef int32_t  int_fast32_t;
 typedef uint32_t uint_fast32_t;
 
-#ifdef ITK_NO_INT_64
+#ifndef ITK_HAS_INT_64
 
 typedef int32_t  intmax_t;
 typedef uint32_t uintmax_t;
 
-#else // ITK_NO_INT_64
+#else // ITK_HAS_INT_64
 
 typedef ::itksysFundamentalType_Int64  int64_t;
 typedef ::itksysFundamentalType_UInt64 uint64_t;
@@ -159,7 +160,7 @@ typedef uint64_t                       uint_fast64_t;
 typedef int64_t  intmax_t;
 typedef uint64_t uintmax_t;
 
-#endif // ITK_NO_INT_64
+#endif // ITK_HAS_INT_64
 
 typedef ::ptrdiff_t intptr_t;
 typedef ::size_t    uintptr_t;
