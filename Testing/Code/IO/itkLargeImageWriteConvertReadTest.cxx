@@ -40,12 +40,15 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
   typedef itk::ImageFileWriter< OutputImageType >   WriterType;
   typedef itk::ImageFileReader< InputImageType >   ReaderType;
 
+  
+  itk::TimeProbesCollectorBase chronometer;
+  
+  { // begin write block 
   OutputImageType::Pointer image = OutputImageType::New();
   OutputImageType::RegionType region;
   OutputImageType::IndexType index;
   OutputImageType::SizeType size;
   
-  itk::TimeProbesCollectorBase chronometer;
 
   const size_t numberOfPixelsInOneDimension = atol( av[2] );
  
@@ -92,6 +95,8 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
+  
+  } // end writing block so data is freed
 
   std::cout << "Trying to read the image back from disk" << std::endl;
   ReaderType::Pointer reader = ReaderType::New();
