@@ -101,6 +101,13 @@ IF(ITK_VISIBLEHUMAN_DATA_ROOT)
     VisibleHumanPasteWriteTest
     ${TEMP}/VisibleHumanStreamReadWrite.mha
     ${TEMP}/VisibleHumanPasteWrite.mha)
+  # this test must be run sequentially, be cause the output of the first is used by the second
+  SET_TESTS_PROPERTIES(
+    VisibleHumanStreamReadWriteTest
+    VisibleHumanPasteWriteTest
+    PROPERTIES
+    RUN_SERIAL 1
+    )
 ENDIF(ITK_VISIBLEHUMAN_DATA_ROOT)
 
 IF(NOT BORLAND)
