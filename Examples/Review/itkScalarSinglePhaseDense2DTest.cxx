@@ -57,10 +57,12 @@
 #include "itkImage.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 
-using namespace itk;
 
 int main(int argc, char**argv)
 {
+  
+  using namespace itk;
+
   if( argc < 6 )
     {
     std::cerr << "Missing arguments" << std::endl;
