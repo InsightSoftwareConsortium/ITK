@@ -21,8 +21,6 @@
 #include "itkQuadEdgeMeshDiscreteMinCurvatureEstimator.h"
 #include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshMinCurvatureTest( int argc, char* argv[] )
 {
   if( argc < 2 )
@@ -36,7 +34,7 @@ int itkQuadEdgeMeshMinCurvatureTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
   typedef double CoordType;
 
-  typedef QuadEdgeMeshExtendedTraits <
+  typedef itk::QuadEdgeMeshExtendedTraits <
     CoordType,
     Dimension,
     2,
@@ -46,11 +44,11 @@ int itkQuadEdgeMeshMinCurvatureTest( int argc, char* argv[] )
     bool,
     bool > Traits;
 
-  typedef QuadEdgeMesh< CoordType, Dimension, Traits > MeshType;
-  typedef QuadEdgeMeshDiscreteMinCurvatureEstimator<MeshType,MeshType>
+  typedef itk::QuadEdgeMesh< CoordType, Dimension, Traits > MeshType;
+  typedef itk::QuadEdgeMeshDiscreteMinCurvatureEstimator<MeshType,MeshType>
     CurvatureFilterType;
 
-  typedef VTKPolyDataReader< MeshType > ReaderType;
+  typedef itk::VTKPolyDataReader< MeshType > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New( );
   reader->SetFileName( argv[1] );
@@ -73,7 +71,7 @@ int itkQuadEdgeMeshMinCurvatureTest( int argc, char* argv[] )
 
   MeshType::Pointer output = min_curvature->GetOutput();
 
-  typedef QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
+  typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( output );
   writer->SetFileName( "min_curvature.vtk" );

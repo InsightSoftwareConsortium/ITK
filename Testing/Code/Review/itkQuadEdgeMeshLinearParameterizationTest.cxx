@@ -30,8 +30,6 @@
 
 #include "itkQuadEdgeMeshParam.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
@@ -57,16 +55,16 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
   // ** TYPEDEF **
   typedef double Coord;
 
-  typedef QuadEdgeMesh< Coord, 3 >                                MeshType;
-  typedef VTKPolyDataReader< MeshType >                           ReaderType;
-  typedef VTKPolyDataWriter< MeshType >                           WriterType;
-  typedef QuadEdgeMeshBorderTransform< MeshType, MeshType >       BorderTransformType;
+  typedef itk::QuadEdgeMesh< Coord, 3 >                                MeshType;
+  typedef itk::VTKPolyDataReader< MeshType >                           ReaderType;
+  typedef itk::VTKPolyDataWriter< MeshType >                           WriterType;
+  typedef itk::QuadEdgeMeshBorderTransform< MeshType, MeshType >       BorderTransformType;
 #ifdef QuadEdgePARAM_TAUCS
   typedef TAUCSSolverTraits< Coord >                              SolverTraits;
 #else
   typedef VNLIterativeSparseSolverTraits< Coord >                 SolverTraits;
 #endif
-  typedef QuadEdgeMeshParam< MeshType, MeshType, SolverTraits >   ParametrizationType;
+  typedef itk::QuadEdgeMeshParam< MeshType, MeshType, SolverTraits >   ParametrizationType;
 
 
   // ** READ THE FILE IN **
@@ -114,11 +112,11 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
   std::cout << std::endl;
 
   // ** CHOOSE AND SET BARYCENTRIC WEIGHTS **
-  OnesMatrixCoefficients< MeshType >                     coeff0;
-  InverseEuclideanDistanceMatrixCoefficients< MeshType > coeff1;
-  ConformalMatrixCoefficients< MeshType >                coeff2;
-  AuthalicMatrixCoefficients< MeshType >                 coeff3;
-  HarmonicMatrixCoefficients< MeshType >                 coeff4;
+  itk::OnesMatrixCoefficients< MeshType >                     coeff0;
+  itk::InverseEuclideanDistanceMatrixCoefficients< MeshType > coeff1;
+  itk::ConformalMatrixCoefficients< MeshType >                coeff2;
+  itk::AuthalicMatrixCoefficients< MeshType >                 coeff3;
+  itk::HarmonicMatrixCoefficients< MeshType >                 coeff4;
 
   ParametrizationType::Pointer param = ParametrizationType::New( );
   param->SetInput( mesh );

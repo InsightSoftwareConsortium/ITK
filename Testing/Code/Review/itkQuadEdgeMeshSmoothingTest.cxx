@@ -24,8 +24,6 @@
 #include "itkQuadEdgeMeshSmoothing.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
@@ -44,9 +42,9 @@ int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
   typedef float Coord;
   const unsigned int Dimension = 3;
 
-  typedef QuadEdgeMesh< Coord, Dimension >  MeshType;
-  typedef VTKPolyDataReader< MeshType >     ReaderType;
-  typedef VTKPolyDataWriter< MeshType >     WriterType;
+  typedef itk::QuadEdgeMesh< Coord, Dimension >  MeshType;
+  typedef itk::VTKPolyDataReader< MeshType >     ReaderType;
+  typedef itk::VTKPolyDataWriter< MeshType >     WriterType;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -76,9 +74,9 @@ int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  OnesMatrixCoefficients< MeshType > coeff0;
+  itk::OnesMatrixCoefficients< MeshType > coeff0;
 
-  typedef QuadEdgeMeshSmoothing< MeshType, MeshType > SmoothingType;
+  typedef itk::QuadEdgeMeshSmoothing< MeshType, MeshType > SmoothingType;
   SmoothingType::Pointer filter = SmoothingType::New( );
   filter->SetInput( mesh );
   filter->SetNumberOfIterations( nb_iter );

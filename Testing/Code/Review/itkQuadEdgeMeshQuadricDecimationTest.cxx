@@ -23,8 +23,6 @@
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkQuadEdgeMeshQuadricDecimation.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
@@ -41,9 +39,9 @@ int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
   typedef double        CoordType;
   const unsigned int    Dimension = 3;
 
-  typedef QuadEdgeMesh< CoordType, Dimension >      MeshType;
-  typedef VTKPolyDataReader< MeshType >             ReaderType;
-  typedef VTKPolyDataWriter< MeshType >             WriterType;
+  typedef itk::QuadEdgeMesh< CoordType, Dimension >      MeshType;
+  typedef itk::VTKPolyDataReader< MeshType >             ReaderType;
+  typedef itk::VTKPolyDataWriter< MeshType >             WriterType;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -61,9 +59,9 @@ int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  typedef NumberOfFacesCriterion< MeshType > CriterionType;
-  typedef QuadEdgeMeshQuadricDecimation< MeshType, MeshType, CriterionType >
-    DecimationType;
+  typedef itk::NumberOfFacesCriterion< MeshType > CriterionType;
+  typedef itk::QuadEdgeMeshQuadricDecimation< 
+    MeshType, MeshType, CriterionType > DecimationType;
 
   long N;
   std::stringstream ssout( argv[2] );

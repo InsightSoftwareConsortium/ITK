@@ -17,23 +17,19 @@
 #include <vnl/vnl_random.h>
 #include "itkPriorityQueueContainer.h"
 
-using namespace itk;
-
-int itkPriorityQueueTest( int argc, char* argv[] )
+int itkPriorityQueueTest( int, char * [] )
 {
-  (void) argc;
-  (void) argv;
-  typedef MinPriorityQueueElementWrapper< int, double, int > MinPQElementType;
-  typedef MaxPriorityQueueElementWrapper< int, double, int > MaxPQElementType;
+  typedef itk::MinPriorityQueueElementWrapper< int, double, int > MinPQElementType;
+  typedef itk::MaxPriorityQueueElementWrapper< int, double, int > MaxPQElementType;
 
-  typedef PriorityQueueContainer< MinPQElementType, MinPQElementType, double, int >
-    MinPQType;
+  typedef itk::PriorityQueueContainer< 
+    MinPQElementType, MinPQElementType, double, int > MinPQType;
   MinPQType::Pointer min_priority_queue = MinPQType::New( );
 
   std::cout << min_priority_queue->GetNameOfClass() << std::endl;
 
-  typedef PriorityQueueContainer< MaxPQElementType, MaxPQElementType, double, int >
-      MaxPQType;
+  typedef itk::PriorityQueueContainer< 
+    MaxPQElementType, MaxPQElementType, double, int > MaxPQType;
   MaxPQType::Pointer max_priority_queue = MaxPQType::New( );
 
   std::list< double > sequence;

@@ -23,8 +23,6 @@
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkQuadEdgeMeshSquaredEdgeLengthDecimation.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshSquaredEdgeLengthDecimationTest( int argc, char* argv[] )
 {
   // ** ERROR MESSAGE AND HELP ** //
@@ -41,9 +39,9 @@ int itkQuadEdgeMeshSquaredEdgeLengthDecimationTest( int argc, char* argv[] )
   typedef double                              CoordType;
   const unsigned int                          Dimension = 3;
 
-  typedef QuadEdgeMesh< CoordType, Dimension >    MeshType;
-  typedef VTKPolyDataReader< MeshType >           ReaderType;
-  typedef VTKPolyDataWriter< MeshType >           WriterType;
+  typedef itk::QuadEdgeMesh< CoordType, Dimension >    MeshType;
+  typedef itk::VTKPolyDataReader< MeshType >           ReaderType;
+  typedef itk::VTKPolyDataWriter< MeshType >           WriterType;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -61,13 +59,14 @@ int itkQuadEdgeMeshSquaredEdgeLengthDecimationTest( int argc, char* argv[] )
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  typedef NumberOfFacesCriterion< MeshType > CriterionType;
-  typedef QuadEdgeMeshSquaredEdgeLengthDecimation< MeshType,
-    MeshType, CriterionType > DecimationType;
+  typedef itk::NumberOfFacesCriterion< MeshType > CriterionType;
+
+  typedef itk::QuadEdgeMeshSquaredEdgeLengthDecimation< 
+    MeshType, MeshType, CriterionType > DecimationType;
 
   long N;
   std::stringstream ssout( argv[2] );
-  ssout >>N;
+  ssout >> N;
 
   CriterionType::Pointer criterion = CriterionType::New();
   criterion->SetTopologicalChange( true );

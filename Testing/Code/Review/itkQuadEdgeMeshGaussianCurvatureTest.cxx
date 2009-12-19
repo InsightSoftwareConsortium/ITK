@@ -22,8 +22,6 @@
 #include "itkQuadEdgeMeshDiscreteGaussianCurvatureEstimator.h"
 #include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 
-using namespace itk;
-
 int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
 {
   if( argc < 2 )
@@ -37,7 +35,7 @@ int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
   typedef double CoordType;
 
-  typedef QuadEdgeMeshExtendedTraits <
+  typedef itk::QuadEdgeMeshExtendedTraits <
     CoordType,
     Dimension,
     2,
@@ -47,11 +45,11 @@ int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
     bool,
     bool > Traits;
 
-  typedef QuadEdgeMesh< CoordType, Dimension, Traits > MeshType;
-  typedef QuadEdgeMeshDiscreteGaussianCurvatureEstimator<MeshType,MeshType>
-    CurvatureFilterType;
+  typedef itk::QuadEdgeMesh< CoordType, Dimension, Traits > MeshType;
+  typedef itk::QuadEdgeMeshDiscreteGaussianCurvatureEstimator<
+    MeshType, MeshType > CurvatureFilterType;
 
-  typedef VTKPolyDataReader< MeshType > ReaderType;
+  typedef itk::VTKPolyDataReader< MeshType > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New( );
   reader->SetFileName( argv[1] );
@@ -74,7 +72,7 @@ int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
 
   MeshType::Pointer output = gaussian_curvature->GetOutput();
 
-  typedef QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
+  typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( output );
   writer->SetFileName( "gaussian_curvature.vtk" );
