@@ -735,6 +735,12 @@ void AnalyzeImageIO::Read(void* buffer)
   //          m_dataSize);
   // ::gzseek( file_p, total_offset, SEEK_SET );
 
+  // Apply the offset if any.
+  if (m_Hdr.dime.vox_offset > 0)
+    {
+    ::gzseek(file_p, m_Hdr.dime.vox_offset, SEEK_SET);
+    }
+
   // read image in
   ::gzread( file_p, p, static_cast< unsigned >( this->GetImageSizeInBytes() ) );
   gzclose( file_p );
