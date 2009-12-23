@@ -329,8 +329,12 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   ImageIOAdaptor::Convert( m_ActualIORegion, streamableRegion, largestRegion.GetIndex() );
   
   // Check whether the imageRequestedRegion is fully contained inside the
-  // streamable region
-  if( !streamableRegion.IsInside( imageRequestedRegion ) )
+  // streamable region. Since, ImageRegion::IsInside regards zero
+  // sized regions, as not being inside any other region, we must
+  // specially check this condition to enable zero sized regions to
+  // pass the region propagation phase of the pipeline.
+  if( !streamableRegion.IsInside( imageRequestedRegion ) 
+      && imageRequestedRegion.GetNumberOfPixels() != 0)
     {
     // we must use a InvalidRequestedRegionError since
     // DataObject::PropagateRequestedRegion() has an exception
@@ -387,7 +391,7 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 
   itkDebugMacro (<< "Setting imageIO IORegion to: " << m_ActualIORegion ); 
   m_ImageIO->SetIORegion( m_ActualIORegion );
-  
+
   char *loadBuffer = 0;
   // the size of the buffer is computed based on the actual number of
   // pixels to be read and the actual size of the pixels to be read
