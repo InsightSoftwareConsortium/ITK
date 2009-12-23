@@ -152,7 +152,13 @@ protected:
    * It should create the named itk object or return 0 if that object
    * is not supported by the factory implementation. */
   virtual LightObject::Pointer CreateObject(const char* itkclassname );
-  
+
+  /** This method creates all the objects with the class overide of
+   * itkclass name, which are provide by this object 
+   */
+  virtual std::list<LightObject::Pointer>
+  CreateAllObject(const char* itkclassname);  
+
   ObjectFactoryBase();
   virtual ~ObjectFactoryBase();
 
