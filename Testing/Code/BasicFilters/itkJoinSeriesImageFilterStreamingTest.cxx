@@ -53,7 +53,7 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
   reader->UpdateOutputInformation();
 
   
-  const ImageType::SizeValueType numberOfSlices = reader->GetOutput()->GetLargestPossibleRegion().GetSize(2);
+  const unsigned int numberOfSlices = itk::Math::CastWithRangeCheck<unsigned int>(reader->GetOutput()->GetLargestPossibleRegion().GetSize(2));
   
   
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor1 = itk::PipelineMonitorImageFilter<ImageType>::New();
@@ -85,8 +85,11 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
     }
 
 
+  itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor2 = itk::PipelineMonitorImageFilter<ImageType>::New();
+  monitor2->SetInput( joinSeries->GetOutput() ) ;
+
   ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
-  writer->SetInput( joinSeries->GetOutput() );
+  writer->SetInput( monitor2->GetOutput() );
   writer->SetFileName( outputFileName );
   writer->SetNumberOfStreamDivisions( numberOfSlices );
 
@@ -97,11 +100,28 @@ int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
     } 
   catch (...) 
     {
+    std::cerr << "Exception while trying to stream write file." << std::endl;
     throw;
     }
 
-
   std::cout << "Number of Updates: " << monitor1->GetNumberOfUpdates() << std::endl;
+  std::cout << "Verifying ImageFileReader to ExtractImageFilter pipeline interaction" << std::endl;
+
+  // We can not use one of the standard verify all methods due to
+  // multiple filters connected to the output of the reader
+  if ( !(monitor1->VerifyInputFilterExecutedStreaming( numberOfSlices ) && 
+        monitor1->VerifyInputFilterMatchedUpdateOutputInformation()) )
+    {
+    std::cerr << monitor1;
+    return EXIT_FAILURE;
+    }
+
+  std::cout << "Verifying JoinSeriesImageFilter to ImageFileWriter pipeline interaction" << std::endl;
+  if ( !monitor2->VerifyAllInputCanStream( numberOfSlices ) )
+    {
+    std::cerr << monitor2;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }

@@ -217,6 +217,13 @@ ADD_TEST(itkInterpolateImageFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImag
 ADD_TEST(itkInterpolateImagePointsFilterTest ${BASIC_FILTERS_TESTS} itkInterpolateImagePointsFilterTest )
 ADD_TEST(itkJoinImageFilterTest ${BASIC_FILTERS_TESTS} itkJoinImageFilterTest)
 ADD_TEST(itkJoinSeriesImageFilterTest ${BASIC_FILTERS_TESTS2} itkJoinSeriesImageFilterTest)
+ADD_TEST(itkJoinSeriesImageFilterStreamingTest ${BASIC_FILTERS_TESTS2} 
+  --compare ${INPUTDATA}/HeadMRVolume.mhd 
+            ${TEMP}/itkJoinSeriesImageFilterStreamingTest.mha
+  itkJoinSeriesImageFilterStreamingTest
+            ${INPUTDATA}/HeadMRVolume.mhd 
+            ${TEMP}/itkJoinSeriesImageFilterStreamingTest.mha
+   )
 ADD_TEST(itkLaplacianImageFilterTest ${BASIC_FILTERS_TESTS} itkLaplacianImageFilterTest)
 ADD_TEST(itkLog10ImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLog10ImageFilterAndAdaptorTest)
 ADD_TEST(itkLogImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS} itkLogImageFilterAndAdaptorTest)
