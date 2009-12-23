@@ -736,9 +736,14 @@ void AnalyzeImageIO::Read(void* buffer)
   // ::gzseek( file_p, total_offset, SEEK_SET );
 
   // Apply the offset if any.
-  if (m_Hdr.dime.vox_offset > 0)
+  // From itkAnalyzeDbh.h: 
+  // Byte offset in the .img file at which voxels start. 
+  // If value is negative specifies that the absolute value is 
+  // applied for every image in the file.
+  long int byteOffset = static_cast<long int>(fabs(m_Hdr.dime.vox_offset));
+  if (byteOffset > 0)
     {
-    ::gzseek(file_p, m_Hdr.dime.vox_offset, SEEK_SET);
+    ::gzseek(file_p, byteOffset, SEEK_SET);
     }
 
   // read image in
