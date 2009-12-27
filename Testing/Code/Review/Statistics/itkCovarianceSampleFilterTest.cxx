@@ -137,9 +137,9 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   std::cout << "Mean:   " << mean << std::endl;
   CovarianceSampleFilterType::MeasurementVectorType    mean2 = covarianceFilter->GetMean();
 
-  if ( ( vcl_fabs( mean[0] - mean[0]) > epsilon )  || 
-       ( vcl_fabs( mean[1] - mean[1]) > epsilon)  || 
-       ( vcl_fabs( mean[2] - mean[2]) > epsilon) ) 
+  if ( ( vcl_fabs( mean[0] - mean2[0]) > epsilon )  || 
+       ( vcl_fabs( mean[1] - mean2[1]) > epsilon)  || 
+       ( vcl_fabs( mean[2] - mean2[2]) > epsilon) ) 
     {
     std::cerr << "Mean parameter value retrieved using GetMean() and the decorator\
                   are not the same:: " <<  mean << "," << mean2 << std::endl;
