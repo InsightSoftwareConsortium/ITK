@@ -469,3 +469,280 @@
    obj:/lib/libdl-2.?.?.so
    fun:dlopen*
 }
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_GetThreadData
+   fun:Tcl_InitNotifier
+   fun:TclInitNotifier
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateChannel
+   fun:Tcl_MakeFileChannel
+   fun:TclpGetDefaultStdChannel
+   fun:Tcl_GetStdChannel
+   fun:Tcl_GetChannel
+   fun:Tcl_PutsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_MutexLock
+   fun:TclInitObjSubsystem
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateHashEntry
+   fun:Tcl_RegisterObjType
+   fun:TclInitObjSubsystem
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_Gets
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_SetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_NewStringObj
+   fun:Tcl_EvalTokensStandard
+   fun:Tcl_EvalEx
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_SetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateChannel
+   fun:Tcl_MakeFileChannel
+   fun:TclpGetDefaultStdChannel
+   fun:Tcl_GetStdChannel
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetChannel
+   fun:Tcl_PutsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_AttemptRealloc
+   fun:Tcl_AttemptSetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_EvalTokensStandard
+   fun:Tcl_EvalEx
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+}
