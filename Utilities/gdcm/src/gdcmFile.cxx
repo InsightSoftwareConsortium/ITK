@@ -759,6 +759,11 @@ float File::GetZSpacing()
 float File::GetXOrigin()
 {
    float xImPos, yImPos, zImPos;  
+   if ( GetOriginFromSequence(xImPos, yImPos, zImPos) )
+   {
+   return xImPos;
+   }
+
    std::string strImPos = GetEntryValue(0x0020,0x0032);
 
    if ( strImPos == GDCM_UNFOUND )
@@ -780,6 +785,68 @@ float File::GetXOrigin()
    return xImPos;
 }
 
+// Special case:
+//  ts["1.2.840.10008.5.1.4.1.1.4.1"] = "Enhanced MR Image Storage"; 
+bool File::GetOriginFromSequence(float &xorigin, float &yorigin, float &zorigin)
+{
+
+  xorigin = yorigin = zorigin = 0.0;
+
+   TS *ts = Global::GetTS();
+   std::string sopclassuid_used;
+   // D 0002|0002 [UI] [Media Storage SOP Class UID]
+   const std::string &mediastoragesopclassuid_str = GetEntryValue(0x0002,0x0002);
+   const std::string &mediastoragesopclassuid = ts->GetValue(mediastoragesopclassuid_str);
+   //D 0008|0016 [UI] [SOP Class UID]
+   const std::string &sopclassuid_str = GetEntryValue(0x0008,0x0016);
+   const std::string &sopclassuid = ts->GetValue(sopclassuid_str);
+   if ( mediastoragesopclassuid == GDCM_UNFOUND && sopclassuid == GDCM_UNFOUND )
+     {
+     return false;
+     }
+   else
+     {
+     if( mediastoragesopclassuid == sopclassuid )
+       {
+       sopclassuid_used = mediastoragesopclassuid;
+       }
+     else
+       {
+       gdcmWarningMacro( "Inconsistant SOP Class UID: "
+         << mediastoragesopclassuid << " and " << sopclassuid );
+       return false;
+       }
+     }
+   // ok we have now the correct SOP Class UID
+   if( sopclassuid_used == "Enhanced MR Image Storage" )
+     {
+     SeqEntry *PerframeFunctionalGroupsSequence = GetSeqEntry(0x5200,0x9230);
+     unsigned int n = PerframeFunctionalGroupsSequence->GetNumberOfSQItems();
+     if( !n ) return false;
+     SQItem *item1 = PerframeFunctionalGroupsSequence->GetFirstSQItem();
+     DocEntry *p = item1->GetDocEntry(0x0020,0x9113);
+     if( !p ) return false;
+     SeqEntry *seq = dynamic_cast<SeqEntry*>(p);
+     unsigned int n1 = seq->GetNumberOfSQItems();
+     if( !n1 ) return false;
+     SQItem *item2 = seq->GetFirstSQItem();
+     // D 0020|0032 [DS] [Image Position Patient] [3]
+     DocEntry *p2 = item2->GetDocEntry(0x0020,0x0032);
+     if( !p2 ) return false;
+     ContentEntry *entry = dynamic_cast<ContentEntry *>(p2);
+     std::string origin = entry->GetValue();
+      if ( sscanf( origin.c_str(), "%f \\ %f \\%f ", 
+          &xorigin, &yorigin, &zorigin) != 3 )
+      {
+         gdcmWarningMacro( "wrong Image Position Patient (0020,0032). "
+                        << "Less than 3 values were found." );
+         return false;
+      }
+     return true;
+     }
+  return false;
+}
+
 /**
  * \brief gets the info from 0020,0032 : Image Position Patient
  *                 else from 0020,0030 : Image Position (RET)
@@ -789,6 +856,11 @@ float File::GetXOrigin()
 float File::GetYOrigin()
 {
    float xImPos, yImPos, zImPos;
+   if ( GetOriginFromSequence(xImPos, yImPos, zImPos) )
+   {
+   return yImPos;
+   }
+
    std::string strImPos = GetEntryValue(0x0020,0x0032);
 
    if ( strImPos == GDCM_UNFOUND)
@@ -821,6 +893,11 @@ float File::GetYOrigin()
 float File::GetZOrigin()
 {
    float xImPos, yImPos, zImPos; 
+   if ( GetOriginFromSequence(xImPos, yImPos, zImPos) )
+   {
+   return zImPos;
+   }
+
    std::string strImPos = GetEntryValue(0x0020,0x0032);
 
    if ( strImPos != GDCM_UNFOUND )
@@ -885,6 +962,69 @@ float File::GetZOrigin()
    return 0.; // Hopeless
 }
 
+// Special case:
+//  ts["1.2.840.10008.5.1.4.1.1.4.1"] = "Enhanced MR Image Storage"; 
+bool File::GetImageOrientationFromSequence(float io[6])
+{
+   //io is supposed to be float[6]
+   io[0] = io[4] = 1.;
+   io[1] = io[2] = io[3] = io[5] = 0.;
+
+   TS *ts = Global::GetTS();
+   std::string sopclassuid_used;
+   // D 0002|0002 [UI] [Media Storage SOP Class UID]
+   const std::string &mediastoragesopclassuid_str = GetEntryValue(0x0002,0x0002);
+   const std::string &mediastoragesopclassuid = ts->GetValue(mediastoragesopclassuid_str);
+   //D 0008|0016 [UI] [SOP Class UID]
+   const std::string &sopclassuid_str = GetEntryValue(0x0008,0x0016);
+   const std::string &sopclassuid = ts->GetValue(sopclassuid_str);
+   if ( mediastoragesopclassuid == GDCM_UNFOUND && sopclassuid == GDCM_UNFOUND )
+     {
+     return false;
+     }
+   else
+     {
+     if( mediastoragesopclassuid == sopclassuid )
+       {
+       sopclassuid_used = mediastoragesopclassuid;
+       }
+     else
+       {
+       gdcmWarningMacro( "Inconsistant SOP Class UID: "
+         << mediastoragesopclassuid << " and " << sopclassuid );
+       return false;
+       }
+     }
+   // ok we have now the correct SOP Class UID
+   if( sopclassuid_used == "Enhanced MR Image Storage" )
+     {
+     SeqEntry *PerframeFunctionalGroupsSequence = GetSeqEntry(0x5200,0x9230);
+     unsigned int n = PerframeFunctionalGroupsSequence->GetNumberOfSQItems();
+     if( !n ) return false;
+     SQItem *item1 = PerframeFunctionalGroupsSequence->GetFirstSQItem();
+     DocEntry *p = item1->GetDocEntry(0x0020,0x9116);
+     if( !p ) return false;
+     SeqEntry *seq = dynamic_cast<SeqEntry*>(p);
+     unsigned int n1 = seq->GetNumberOfSQItems();
+     if( !n1 ) return false;
+     SQItem *item2 = seq->GetFirstSQItem();
+     // D 0020|0037 [DS] [ImageOrientation] [6]
+     DocEntry *p2 = item2->GetDocEntry(0x0020,0x0037);
+     if( !p2 ) return false;
+     ContentEntry *entry = dynamic_cast<ContentEntry *>(p2);
+     std::string orientation = entry->GetValue();
+      if ( sscanf( orientation.c_str(), "%f \\ %f \\%f \\%f \\%f \\%f ", 
+          &io[0], &io[1], &io[2], &io[3], &io[4], &io[5]) != 6 )
+      {
+         gdcmWarningMacro( "wrong Image Orientation Patient (0020,0037). "
+                        << "Less than 6 values were found." );
+         return false;
+      }
+     return true;
+     }
+  return false;
+}
+
 /**
   * \brief gets the info from 0020,0037 : Image Orientation Patient
   *                   or from 0020 0035 : Image Orientation (RET)
@@ -895,6 +1035,11 @@ float File::GetZOrigin()
   */
 bool File::GetImageOrientationPatient( float iop[6] )
 {
+  if ( GetImageOrientationFromSequence(iop) )
+    {
+    return true;
+    }
+
    std::string strImOriPat;
    //iop is supposed to be float[6]
    iop[0] = iop[4] = 1.;

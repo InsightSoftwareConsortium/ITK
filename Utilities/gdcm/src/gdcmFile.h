@@ -137,8 +137,10 @@ public:
    float GetXOrigin();
    float GetYOrigin();
    float GetZOrigin();
+   bool GetOriginFromSequence(float &xorigin, float &yorigin, float &zorigin);
 
    bool GetImageOrientationPatient( float iop[6] );
+   bool GetImageOrientationFromSequence( float iop[6] );
 
    int GetBitsStored();
    int GetBitsAllocated();
