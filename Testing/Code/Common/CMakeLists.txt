@@ -315,6 +315,8 @@ ADD_TEST(itkOctreeTest ${COMMON_TESTS2} itkOctreeTest)
 ADD_TEST(itkObjectFactoryTest ${COMMON_TESTS2} itkObjectFactoryTest)
 IF(ITK_BUILD_SHARED_LIBS)
 ADD_TEST(itkObjectFactoryTest2 ${COMMON_TESTS2} itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
+SET_TESTS_PROPERTIES(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
+
 ENDIF(ITK_BUILD_SHARED_LIBS)
 ADD_TEST(itkOrthogonallyCorrected2DParametricPathTest ${COMMON_TESTS2} itkOrthogonallyCorrected2DParametricPathTest)
 ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS2} itkPathFunctionsTest)
