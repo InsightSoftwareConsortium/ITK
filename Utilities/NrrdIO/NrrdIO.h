@@ -142,7 +142,7 @@ enum {
   airEndianLast
 };
 /* endianAir.c */
-TEEM_API /* MUSTBE const*/ airEnum *airEndian;
+TEEM_API const airEnum *const airEndian;
 TEEM_API const int airMyEndian;
 
 /* array.c: poor-man's dynamically resizable arrays */
