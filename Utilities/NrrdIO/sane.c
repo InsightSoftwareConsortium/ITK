@@ -1,25 +1,23 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "NrrdIO.h"
@@ -99,6 +97,19 @@ airSanity(void) {
   if (AIR_QNANHIBIT != (int)mant) {
     return airInsane_QNaNHiBit;
   }
+  if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
+         && airFP_QNAN == airFPClass_f(AIR_QNAN)
+#if !defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
+         && airFP_SNAN == airFPClass_f(AIR_SNAN) 
+#endif
+         && airFP_QNAN == airFPClass_d(AIR_NAN)
+         && airFP_QNAN == airFPClass_d(AIR_QNAN) )) {
+    /* we don't bother checking for 
+       airFP_SNAN == airFPClass_d(AIR_SNAN) because
+       on some platforms the signal-ness of the NaN
+       is not preserved in double-float conversion */
+    return airInsane_AIR_NAN;
+  }
   if (!(airFP_QNAN == airFPClass_f(nanF)
         && airFP_POS_INF == airFPClass_f(pinfF)
         && airFP_NEG_INF == airFPClass_f(ninfF))) {
@@ -140,6 +151,7 @@ _airInsaneErr[AIR_INSANE_MAX+1][AIR_STRLEN_MED] = {
   "AIR_EXISTS(NaN) was true",
   "air_FPClass_f() wrong after double->float assignment",
   "TEEM_QNANHIBIT is wrong",
+  "airFPClass(AIR_QNAN,AIR_SNAN) wrong",
   "TEEM_DIO has invalid value",
   "TEEM_32BIT is wrong",
   "unsigned char isn't 8 bits",
