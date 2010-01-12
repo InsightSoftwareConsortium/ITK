@@ -120,12 +120,12 @@ typedef struct {
                   NULL. */
   int sense;   /* require case matching on strings */
 } airEnum;
-TEEM_API int airEnumUnknown(airEnum *enm);
-TEEM_API int airEnumValCheck(airEnum *enm, int val);
-TEEM_API const char *airEnumStr(airEnum *enm, int val);
-TEEM_API const char *airEnumDesc(airEnum *enm, int val);
-TEEM_API int airEnumVal(airEnum *enm, const char *str);
-TEEM_API char *airEnumFmtDesc(airEnum *enm, int val, int canon,
+TEEM_API int airEnumUnknown(const airEnum *enm);
+TEEM_API int airEnumValCheck(const airEnum *enm, int val);
+TEEM_API const char *airEnumStr(const airEnum *enm, int val);
+TEEM_API const char *airEnumDesc(const airEnum *enm, int val);
+TEEM_API int airEnumVal(const airEnum *enm, const char *str);
+TEEM_API char *airEnumFmtDesc(const airEnum *enm, int val, int canon,
                               const char *fmt);
 
 /*
@@ -293,7 +293,7 @@ enum {
 /* parseAir.c */
 TEEM_API double airAtod(const char *str);
 TEEM_API int airSingleSscanf(const char *str, const char *fmt, void *ptr);
-TEEM_API /*MUSTBE const*/ airEnum *airBool;
+TEEM_API const airEnum *const airBool;
 TEEM_API unsigned int airParseStrB(int *out, const char *s,
                                    const char *ct, unsigned int n, 
                                    ... /* (nothing used) */);
