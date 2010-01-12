@@ -1313,6 +1313,7 @@ enum {
                                          space */
   nrrdSpacingStatusLast
 };
+#define NRRD_SPACING_STATUS_MAX          4
 
 /*
 ******** nrrdOriginStatus* enum
@@ -1843,13 +1844,13 @@ TEEM_API int nrrdStateKindNoop;
 ** name is best used for the airEnums here
 */
 /* enumsNrrd.c */
-TEEM_API airEnum *nrrdFormatType;
-TEEM_API airEnum *nrrdType;
-TEEM_API airEnum *nrrdEncodingType;
-TEEM_API airEnum *nrrdCenter;
-TEEM_API airEnum *nrrdKind;
-TEEM_API airEnum *nrrdField;
-TEEM_API airEnum *nrrdSpace;
+TEEM_API const airEnum *const nrrdFormatType;
+TEEM_API const airEnum *const nrrdType;
+TEEM_API const airEnum *const nrrdEncodingType;
+TEEM_API const airEnum *const nrrdCenter;
+TEEM_API const airEnum *const nrrdKind;
+TEEM_API const airEnum *const nrrdField;
+TEEM_API const airEnum *const nrrdSpace;
 
 /******** arrays of things (poor-man's functions/predicates) */
 /* arraysNrrd.c */
