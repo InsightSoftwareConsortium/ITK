@@ -32,10 +32,10 @@
 #include <float.h>
 
 #define TEEM_VERSION_MAJOR    1       /* 1 digit */
-#define TEEM_VERSION_MINOR    9       /* 1 or 2 digits */
+#define TEEM_VERSION_MINOR   11       /* 1 or 2 digits */
 #define TEEM_VERSION_RELEASE  0       /* 1 or 2 digits */
-#define TEEM_VERSION          10900   /* can be compared numerically */
-#define TEEM_VERSION_STRING  "1.9.0"  /* cannot be compared numerically */
+#define TEEM_VERSION      11100       /* can be compared numerically */
+#define TEEM_VERSION_STRING  "1.11.0"  /* cannot be compared numerically */
 
 /* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
    This header mangles the symbols in the NrrdIO library, preventing
@@ -85,7 +85,7 @@ typedef unsigned long long airULLong;
 
 /* enum.c: enum value <--> string conversion utility */  
 typedef struct {
-  char name[AIR_STRLEN_SMALL];
+  const char *name;
                /* what are these things? */
   unsigned int M;
                /* If "val" is NULL, the the valid enum values are from 1 
@@ -95,15 +95,16 @@ typedef struct {
                   represented by strings str[1] through str[M]), and the
                   unknown/invalid value is val[0].  In both cases, str[0]
                   is the string to represent an unknown/invalid value */
-  char (*str)[AIR_STRLEN_SMALL]; 
+  const char **str; 
                /* "canonical" textual representation of the enum values */
-  int *val;    /* non-NULL iff valid values in the enum are not [1..M], and/or
+  const int *val;
+               /* non-NULL iff valid values in the enum are not [1..M], and/or
                   if value for unknown/invalid is not zero */
-  char (*desc)[AIR_STRLEN_MED];
+  const char **desc;
                /* desc[i] is a short description of the enum values represented
                   by str[i] (thereby starting with the unknown value), to be
                   used to by things like hest */
-  char (*strEqv)[AIR_STRLEN_SMALL];  
+  const char **strEqv;  
                /* All the variations in strings recognized in mapping from
                   string to value (the values in valEqv).  This **MUST** be
                   terminated by a zero-length string ("") so as to signify
@@ -111,7 +112,7 @@ typedef struct {
                   for unknown/invalid.  If "strEqv" is NULL, then mapping
                   from string to value is done by traversing "str", and 
                   "valEqv" is ignored. */
-  int *valEqv; /* The values corresponding to the strings in strEqv; there
+  const int *valEqv; /* The values corresponding to the strings in strEqv; there
                   should be one integer for each non-zero-length string in
                   strEqv: strEqv[i] is a valid string representation for
                   value valEqv[i]. This should not contain the value for
@@ -141,7 +142,7 @@ enum {
   airEndianLast
 };
 /* endianAir.c */
-TEEM_API airEnum *airEndian;
+TEEM_API /* MUSTBE const*/ airEnum *airEndian;
 TEEM_API const int airMyEndian;
 
 /* array.c: poor-man's dynamically resizable arrays */
@@ -278,20 +279,21 @@ enum {
   airTypeBool,      /*  1 */
   airTypeInt,       /*  2 */
   airTypeUInt,      /*  3 */
-  airTypeSize_t,    /*  4 */
-  airTypeFloat,     /*  5 */
-  airTypeDouble,    /*  6 */
-  airTypeChar,      /*  7 */
-  airTypeString,    /*  8 */
-  airTypeEnum,      /*  9 */
-  airTypeOther,     /* 10 */
+  airTypeLongInt,   /*  4 */
+  airTypeSize_t,    /*  5 */
+  airTypeFloat,     /*  6 */
+  airTypeDouble,    /*  7 */
+  airTypeChar,      /*  8 */
+  airTypeString,    /*  9 */
+  airTypeEnum,      /* 10 */
+  airTypeOther,     /* 11 */
   airTypeLast
 };
-#define AIR_TYPE_MAX   10
+#define AIR_TYPE_MAX   11
 /* parseAir.c */
 TEEM_API double airAtod(const char *str);
 TEEM_API int airSingleSscanf(const char *str, const char *fmt, void *ptr);
-TEEM_API airEnum *airBool;
+TEEM_API /*MUSTBE const*/ airEnum *airBool;
 TEEM_API unsigned int airParseStrB(int *out, const char *s,
                                    const char *ct, unsigned int n, 
                                    ... /* (nothing used) */);
@@ -353,13 +355,14 @@ enum {
   airInsane_FltDblFPClass, /*  5: double -> float assignment messed up the
                                airFPClass_f() of the value */
   airInsane_QNaNHiBit,     /*  6: airMyQNaNHiBit is wrong */
-  airInsane_dio,           /*  7: airMyDio set to something invalid */
-  airInsane_32Bit,         /*  8: airMy32Bit is wrong */
-  airInsane_UCSize,        /*  9: unsigned char isn't 8 bits */
-  airInsane_FISize,        /* 10: sizeof(float), sizeof(int) not 4 */
-  airInsane_DLSize         /* 11: sizeof(double), sizeof(airLLong) not 8 */
+  airInsane_AIR_NAN,       /*  7: airFPClass_f(AIR_QNAN,AIR_SNAN) wrong */
+  airInsane_dio,           /*  8: airMyDio set to something invalid */
+  airInsane_32Bit,         /*  9: airMy32Bit is wrong */
+  airInsane_UCSize,        /* 10: unsigned char isn't 8 bits */
+  airInsane_FISize,        /* 11: sizeof(float), sizeof(int) not 4 */
+  airInsane_DLSize         /* 12: sizeof(double), sizeof(airLLong) not 8 */
 };
-#define AIR_INSANE_MAX        11
+#define AIR_INSANE_MAX        12
 TEEM_API const char *airInsaneErr(int insane);
 TEEM_API int airSanity(void);
 
@@ -420,7 +423,7 @@ typedef struct {
   int when;          /* from the airMopWhen enum */
 } airMop;
 TEEM_API airArray *airMopNew(void);
-TEEM_API void airMopAdd(airArray *arr, void *ptr, airMopper mop, int when);
+TEEM_API /*MUSTBE int*/ void airMopAdd(airArray *arr, void *ptr, airMopper mop, int when);
 TEEM_API void airMopSub(airArray *arr, void *ptr, airMopper mop);
 TEEM_API void airMopMem(airArray *arr, void *_ptrP, int when);
 TEEM_API void airMopUnMem(airArray *arr, void *_ptrP);
@@ -443,6 +446,24 @@ TEEM_API void airMopDebug(airArray *arr);
 ** C's "error: parameter name omitted"
 */
 #define AIR_UNUSED(x) (void)(x)
+   
+/*
+******** AIR_CAST
+**
+** just a cast, but with the added ability to grep for it more easily,
+** since casts should probably always be revisited and reconsidered.
+*/
+#define AIR_CAST(t, v) ((t)(v))
+
+/*
+******** AIR_CALLOC
+**
+** slightly simpler wrapper around cast and calloc
+**
+** HEY note that "T" is not guarded by parentheses in its first usage,
+** as arguments in Teem macros normally are
+*/
+#define AIR_CALLOC(N, T) (T*)(calloc((N), sizeof(T)))
 
 /*
 ******** AIR_ENDIAN, AIR_QNANHIBIT, AIR_DIO
@@ -516,7 +537,7 @@ TEEM_API void airMopDebug(airArray *arr);
 ** The reason for using airExists_d and not airExists_f is for
 ** doubles > FLT_MAX: airExists_f would say these are infinity.
 */
-#if 1
+#if defined(_WIN32) || defined(__ECC) /* NrrdIO-hack-002 */
 #define AIR_EXISTS(x) (airExists(x))
 #else
 #define AIR_EXISTS(x) (!((x) - (x)))
@@ -530,7 +551,7 @@ TEEM_API void airMopDebug(airArray *arr);
 */
 #define AIR_MAX(a,b) ((a) > (b) ? (a) : (b))
 #define AIR_MIN(a,b) ((a) < (b) ? (a) : (b))
-#define AIR_ABS(a) ((a) > 0 ? (a) : -(a))
+#define AIR_ABS(a) ((a) > 0.0f ? (a) : -(a))
 
 /*
 ******** AIR_COMPARE(a,b)
@@ -633,40 +654,44 @@ TEEM_API void airMopDebug(airArray *arr);
 /*
 ******** _AIR_SIZE_T_CNV, _AIR_PTRDIFF_T_CNV, 
 **
-** Conversion sequence to use when printf/fprintf/sprintf-ing a value of
+** Format specifiers to use when printf/fprintf/sprintf-ing a value of
 ** type size_t or ptrdiff_t.  In C99, this is done with "%z" and "%t",
-** respecitvely.
+** respectively.
 **
-** This is not a useful macro for the world at large- only for teem
+** This is not a useful macro for the world at large- only for Teem
 ** source files.  Why: we need to leave this as a bare string, so that
 ** we can exploit C's implicit string concatenation in forming a
 ** format string.  Therefore, unlike the definition of AIR_ENDIAN,
-** AIR_DIO, etc, AIR_SIZE_T_CNV can NOT just refer to a const variable
+** AIR_DIO, etc, _AIR_SIZE_T_CNV can NOT just refer to a const variable
 ** (like airMyEndian).  Therefore, TEEM_32BIT has to be defined for
-** ALL source files which want to use AIR_SIZE_T_CNV, and to be
-** conservative, that's all teem files.  The converse is, since there is
-** no expectation that other projects which use teem will be defining
-** TEEM_32BIT, this is not useful outside teem, thus the leading _.
+** ALL source files which want to use _AIR_SIZE_T_CNV, and to be safe,
+** that's all Teem files.  The converse is, since there is no
+** expectation that other projects which use Teem will be defining
+** TEEM_32BIT, this is not useful outside Teem, thus the leading _.
+**
+** http://www.viva64.com/art-1-2-710804781.html for size conventions.
+**
+** It appears that 32 bit APPLE uses ld for size_t and int for ptrdiff.
 */
-#ifdef __APPLE__
-#  define _AIR_SIZE_T_CNV "%lu"
-#  define _AIR_PTRDIFF_T_CNV "%d"
-#else
-#  if TEEM_32BIT == 0
-#    ifdef _WIN64
-#      define _AIR_SIZE_T_CNV "%I64u"
-#      define _AIR_PTRDIFF_T_CNV "%I64d"
-#    else
-#      define _AIR_SIZE_T_CNV "%lu"
-#      define _AIR_PTRDIFF_T_CNV "%ld"
-#    endif
-#  elif TEEM_32BIT == 1
-#    define _AIR_SIZE_T_CNV "%u"
+#if TEEM_32BIT == 0
+#  ifdef _WIN64
+#    define _AIR_SIZE_T_CNV "%I64u"
+#    define _AIR_PTRDIFF_T_CNV "%I64d"
+#  else
+#    define _AIR_SIZE_T_CNV "%lu"
+#    define _AIR_PTRDIFF_T_CNV "%ld"
+#  endif
+#elif TEEM_32BIT == 1
+#  ifdef __APPLE__
+#    define _AIR_SIZE_T_CNV "%lu"
 #    define _AIR_PTRDIFF_T_CNV "%d"
 #  else
-#    define _AIR_SIZE_T_CNV "(no _AIR_SIZE_T_CNV w/out TEEM_32BIT %*d)"
-#    define _AIR_PTRDIFF_T_CNV "(no _AIR_PTRDIFF_T_CNV w/out TEEM_32BIT %*d)"
+#    define _AIR_SIZE_T_CNV "%u"
+#    define _AIR_PTRDIFF_T_CNV "%d"
 #  endif
+#else
+#  define _AIR_SIZE_T_CNV "(no _AIR_SIZE_T_CNV w/out TEEM_32BIT %*d)"
+#  define _AIR_PTRDIFF_T_CNV "(no _AIR_PTRDIFF_T_CNV w/out TEEM_32BIT %*d)"
 #endif
 
 #ifdef __cplusplus
