@@ -423,7 +423,7 @@ typedef struct {
   int when;          /* from the airMopWhen enum */
 } airMop;
 TEEM_API airArray *airMopNew(void);
-TEEM_API /*MUSTBE int*/ void airMopAdd(airArray *arr, void *ptr, airMopper mop, int when);
+TEEM_API int  airMopAdd(airArray *arr, void *ptr, airMopper mop, int when);
 TEEM_API void airMopSub(airArray *arr, void *ptr, airMopper mop);
 TEEM_API void airMopMem(airArray *arr, void *_ptrP, int when);
 TEEM_API void airMopUnMem(airArray *arr, void *_ptrP);
