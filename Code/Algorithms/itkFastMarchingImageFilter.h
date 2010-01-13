@@ -162,7 +162,7 @@ public:
    * away points; TrialPoints represent points within a narrowband of the
    * propagating front; and AlivePoints represent points which have already
    * been processed. */
-  enum LabelType { FarPoint, AlivePoint, TrialPoint };
+  enum LabelType { FarPoint, AlivePoint, TrialPoint, InitialTrialPoint };
 
   /** LabelImage typedef support. */
   typedef Image<unsigned char, itkGetStaticConstMacro(SetDimension)> LabelImageType;
