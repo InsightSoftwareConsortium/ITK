@@ -658,7 +658,7 @@ IF(ITK_BUILD_SHARED_LIBS)
 ## Create a library to test ITK loadable factories
 SET(FactoryTest_Source itkFactoryTestLib.cxx)
 SET(LIBRARY_OUTPUT_PATH "${ITKTesting_BINARY_DIR}/Temporary")
-ADD_LIBRARY(FactoryTestLib MODULE ${FactoryTest_Source})
+ADD_LIBRARY(FactoryTestLib SHARED ${FactoryTest_Source})
 TARGET_LINK_LIBRARIES (FactoryTestLib ITKCommon)
 ADD_DEPENDENCIES(itkCommonTests2 FactoryTestLib)
 ENDIF(ITK_BUILD_SHARED_LIBS)
