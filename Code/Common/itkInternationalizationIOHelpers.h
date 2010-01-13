@@ -23,6 +23,7 @@
 // This should help better dealing with internationalization (a.k.a i18n)
 
 #include "itkConfigure.h"
+#include "itkMacro.h"
 
 #ifdef ITK_HAVE_UNISTD_H
 # include <unistd.h> // for unlink
