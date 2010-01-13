@@ -72,19 +72,22 @@ namespace i18n
 {
 
 // Check if the string is correctly encoded
+#if LOCAL_USE_WIN32_WOPEN
 inline bool IsStringEncodingValid(const std::string & str)
 {
-#if LOCAL_USE_WIN32_WOPEN
   // Check if the string is really encoded in utf-8 using windows API
   // MultiByteToWideChar returns 0 if there was a problem during conversion
   // when given the MB_ERR_INVALID_CHARS flag
   const int utf16_size = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(),
                                              static_cast<int>(str.length()), 0, 0);
   return (utf16_size != 0);
-#else
-  return true;
-#endif
 }
+#else
+inline bool IsStringEncodingValid(const std::string & itkNotUsed( str ) )
+{
+  return true;
+}
+#endif
 
 #if LOCAL_USE_WIN32_WOPEN
 // Convert a utf8 encoded std::string to a utf16 encoded wstring on windows
