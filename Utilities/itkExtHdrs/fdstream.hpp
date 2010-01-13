@@ -23,8 +23,14 @@
  *                fdinbuf::underflow(): cast for return statements
  *  Aug 05, 2001: first public version
  */
-#ifndef BOOST_FDSTREAM_HPP
-#define BOOST_FDSTREAM_HPP
+/* Modifications by Tom Vercauteren:
+ *     Use cmake to check for unistd.h
+ *     Borland needs io.h
+ *     Replaced int by ptrdiff_t when it makes sense
+ *     Use itk namespace instead of boost
+ */
+#ifndef __fdstream_hpp
+#define __fdstream_hpp
 
 #include <istream>
 #include <ostream>
@@ -43,8 +49,8 @@
 #endif
 
 
-// BEGIN namespace BOOST
-namespace boost {
+// BEGIN namespace
+namespace itk {
 
 
 /************************************************************
@@ -175,6 +181,6 @@ class fdistream : public std::istream {
 };
 
 
-} // END namespace boost
+} // END namespace
 
-#endif /*BOOST_FDSTREAM_HPP*/
+#endif /*include guard*/

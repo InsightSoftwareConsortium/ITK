@@ -15,244 +15,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkConfigure.h"
+#include "itkInternationalizationIOHelpers.h"
 
 #include <cstdlib> // for EXIT_FAILURE and EXIT_SUCCESS
 #include <string.h> // for strcmp (cstring cannot be used on both Sun and VS6)
 
-#ifdef ITK_HAVE_UNISTD_H
-# include <unistd.h> // for unlink
-#else
-# include <io.h>
-#endif
-
-#include <stdio.h> // Borland needs this (cstdio does not work easy)
-#include <fcntl.h>
-#include <iostream>
-#include <string>
-#include <sys/stat.h>
-
-// Find out how to handle unicode filenames:
-// * VS>=8.0 has _wopen and _wfopen and can open a (i/o)fstream using a wide string
-// * cygwin has NO _wopen an NO _wfopen. If you really need unicode
-//   filenames on cygwin, just use cygwin >= 1.7 for now, it works with utf8
-//   natively. Alternatively, we could try and use pure win32 functions such as
-//   CreateFileW and convert the win32 file handle using _open_osfhandle and _fdopen
-// * VS6.0 has _wopen and _wfopen but cannot open a (i/o)fstream using a wide string
-//   nor can it compile fdstream => disable unicode filename support
-// * Borland c++, VS7.x and MinGW have _wopen and _wfopen but cannot open a
-//   (i/o)fstream using a wide string. They can however compile fdstream
-
+// Some utility functions for the test
 #if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) \
    && ( defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS) || defined(ITK_SUPPORTS_FDSTREAM_HPP) )
 # define LOCAL_USE_WIN32_WOPEN 1
-# include <windows.h> // required by winnls.h
-# include <winnls.h> // for MultiByteToWideChar
 #else
 # define LOCAL_USE_WIN32_WOPEN 0
 #endif
-
-#if (LOCAL_USE_WIN32_WOPEN && defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS)) \
-   || (!LOCAL_USE_WIN32_WOPEN)
-# define LOCAL_USE_FDSTREAM 0
-# include <fstream>
-#else
-# define LOCAL_USE_FDSTREAM 1
-# include "fdstream.hpp"
-#endif
-
-
-namespace itk
-{
-namespace Utf8
-{
-
-#if LOCAL_USE_WIN32_WOPEN
- 
-// Check if the string is really encoded in utf-8 using windows API
-inline bool IsValidUtf8(const std::string & str)
-{
-  // MultiByteToWideChar returns 0 if there was a problem during conversion
-  // when given the MB_ERR_INVALID_CHARS flag
-  const int utf16_size = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, str.c_str(),
-                                             static_cast<int>(str.length()), 0, 0);
-  return (utf16_size != 0);
-}
-
-// Convert a utf8 encoded std::string to a utf16 encoded wstring on windows
-inline std::wstring Utf8StringToWString( const std::string & str )
-{
-  // We do not set the MB_ERR_INVALID_CHARS to do an approximate conversion when non
-  // utf8 characters are found. An alternative would be to throw an exception
-
-  // First get the size
-  const int utf16_size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(),
-                                             static_cast<int>(str.length()), 0, 0);
-
-  // Now do the conversion
-  std::wstring wstr;
-  wstr.resize(utf16_size);
-  MultiByteToWideChar(CP_UTF8, 0, str.c_str(),
-                      static_cast<int>(str.length()), &wstr[0], utf16_size);
-  
-  return wstr;
-}
-
-#endif
-
-// Get a file descriptor from a utf8 encoded filename
-// without specifying any specific permissions
-inline int utf8open( const std::string & str, const int & flags )
-{
-#if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  // Convert to utf16
-  const std::wstring str_utf16 = Utf8StringToWString( str );
-  return _wopen(str_utf16.c_str(), flags);
-#else
-  return open(str.c_str(), flags);
-#endif
-}
-
-// Get a file descriptor from a utf8 encoded filename
-inline int utf8open( const std::string & str, const int & flags, const int & mode )
-{
-#if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  // Convert to utf16
-  const std::wstring str_utf16 = Utf8StringToWString( str );
-  return _wopen(str_utf16.c_str(), flags, mode);
-#else
-  return open(str.c_str(), flags, mode);
-#endif
-}
-
-// Reading wrapper around utf8open to avoid explicitely specifying the flags
-inline int utf8openforreading( const std::string & str )
-{
-#if LOCAL_USE_WIN32_WOPEN
-  return utf8open(str, _O_RDONLY | _O_BINARY );
-#else
-  ///\todo check if cygwin has and needs the O_BINARY flag
-  return utf8open(str, O_RDONLY );
-#endif
-}
-
-// Writting wrapper around utf8open to avoid explicitely specifying the flags
-inline int utf8openforwritting( const std::string & str, const bool append = false )
-{
-#if LOCAL_USE_WIN32_WOPEN
-  if (!append) return utf8open(str, _O_WRONLY | _O_CREAT | _O_BINARY, _S_IREAD | _S_IWRITE );
-  else return utf8open(str, _O_WRONLY | _O_CREAT | _O_APPEND | _O_BINARY, _S_IREAD | _S_IWRITE );
-#else
-  ///\todo check if cygwin has and needs the O_BINARY flag
-  if (!append) return utf8open(str, O_WRONLY | O_CREAT, S_IREAD | S_IWRITE );
-  else return utf8open(str, O_WRONLY | O_CREAT | O_APPEND, S_IREAD | S_IWRITE );
-#endif
-}
-
-// Get a FILE * pointer from a utf8 encoded filename
-inline FILE * utf8fopen( const std::string & str, const std::string & mode )
-{
-#if LOCAL_USE_WIN32_WOPEN
-  // cygwin has NO _wfopen but mingw has
-  // If you really need unicode filenames on cygwin, just use cygwin >= 1.7
-  // Convert to utf16
-  const std::wstring str_utf16 = Utf8StringToWString( str );
-  const std::wstring mode_utf16 = Utf8StringToWString( mode );
-  return _wfopen(str_utf16.c_str(), mode_utf16.c_str());
-#else
-  return fopen(str.c_str(), mode.c_str());
-#endif
-}
-
-#if LOCAL_USE_FDSTREAM
-class utf8ofstream : public std::ostream 
-{
-public:
-  utf8ofstream( const char * str, 
-    std::ios_base::openmode mode = std::ios_base::out )
-    : std::ostream(0)
-    , m_fd( utf8openforwritting( str, (mode & std::ios::app)?true:false ) )
-    , m_buf( m_fd )
-    {
-    ///\todo better handle mode flag
-    this->rdbuf(&m_buf);
-    }
-
-  ~utf8ofstream() { this->close(); }
-
-  bool is_open() { return (m_fd!=-1); }
-
-  void close()
-  {
-    if ( m_fd!=-1 ) ::close( m_fd );
-    m_fd = -1;
-  }
-
-private:
-  int m_fd;
-  boost::fdoutbuf m_buf;
-};
-
-class utf8ifstream : public std::istream 
-{
-public:
-  utf8ifstream( const char * str, 
-    std::ios_base::openmode mode = std::ios_base::in )
-    : std::istream(0)
-    , m_fd( utf8openforreading( str ) )
-    , m_buf( m_fd )
-    {
-    ///\todo better handle mode flag
-    this->rdbuf(&m_buf);
-    }
-
-  ~utf8ifstream() { this->close(); }
-
-  bool is_open() { return (m_fd!=-1); }
-
-  void close()
-  {
-    if ( m_fd!=-1 ) ::close( m_fd );
-    m_fd = -1;
-  }
-
-private:
-  int m_fd;
-  boost::fdinbuf m_buf;
-};
-#elif LOCAL_USE_WIN32_WOPEN
-class utf8ofstream : public std::ofstream
-{
-public:
-  utf8ofstream( const char * str, std::ios_base::openmode mode = std::ios_base::out )
-    : std::ofstream( Utf8StringToWString(str).c_str(), mode )
-  {
-  }
-};
-
-class utf8ifstream : public std::ifstream
-{
-public:
-  utf8ifstream( const char * str, std::ios_base::openmode mode = std::ios_base::in )
-    : std::ifstream( Utf8StringToWString(str).c_str(), mode )
-  {
-  }
-};
-#else
-typedef std::ofstream utf8ofstream;
-typedef std::ifstream utf8ifstream;
-#endif
-
-} // end namespace
-} // end namespace
-
-
-
-// Some utility functions for the test
 
 // Check if alpha.txt exists using _wfopen with a wstring on MSVC and mingw
 // and fopen with a UTF-8 char * otherwise
@@ -321,21 +95,21 @@ int main( int , char * [] )
   utf8_str.append(1, (char)(0xCE));
   utf8_str.append(1, (char)(0xB1));
   utf8_str += ".txt";
-
-#if LOCAL_USE_WIN32_WOPEN
-  // Check if we actually find it is a valid utf-8 string
-  if ( !itk::Utf8::IsValidUtf8(utf8_str) )
+  
+  // Check if we actually find it is a valid string
+  if ( !itk::i18n::IsStringEncodingValid(utf8_str) )
     {
     std::cout << "Wrongly detected invalid utf8 string." << std::endl;
     ++nberror;
     }
 
-  // Check that the conversion worked
+#if LOCAL_USE_WIN32_WOPEN
+  // Check that the string to wide string conversion works
   // Borland does not understand L"\u03B1.txt"
   std::wstring utf16_str;
   utf16_str.push_back((wchar_t)(0x03B1));
   utf16_str += L".txt";
-  const std::wstring fromutf8_utf16_str = itk::Utf8::Utf8StringToWString( utf8_str );
+  const std::wstring fromutf8_utf16_str = itk::i18n::Utf8StringToWString( utf8_str );
 
   if ( fromutf8_utf16_str != utf16_str )
     {
@@ -350,7 +124,7 @@ int main( int , char * [] )
   bad_utf8_str += ".txt";
 
   // Check if we actually find it is a non-valid utf-8 string
-  if ( itk::Utf8::IsValidUtf8(bad_utf8_str) )
+  if ( itk::i18n::IsStringEncodingValid(bad_utf8_str) )
     {
     std::cout << "Did not detect invalid utf8 string using windows API." << std::endl;
     ++nberror;
@@ -364,7 +138,7 @@ int main( int , char * [] )
 
   
   // Create alpha.txt using utf8fopen
-  FILE * wfile = itk::Utf8::utf8fopen(utf8_str, "wb");
+  FILE * wfile = itk::i18n::I18nFopen(utf8_str, "wb");
   
   if (!checkAlphaExists())
     {
@@ -383,7 +157,7 @@ int main( int , char * [] )
     ++nberror;
     }
 
-  FILE * rfile = itk::Utf8::utf8fopen(utf8_str, "rb");
+  FILE * rfile = itk::i18n::I18nFopen(utf8_str, "rb");
 
   if (rfile!=NULL)
     {
@@ -401,7 +175,7 @@ int main( int , char * [] )
       }
     else
       {
-      std::cout << "Could not read from file after utf8fopen." << std::endl;
+      std::cout << "Could not read from file after I18nFopen." << std::endl;
       ++nberror;
       }
     fclose(rfile);
@@ -414,16 +188,16 @@ int main( int , char * [] )
 
   if (!removeAlpha())
     {
-    std::cout << "Could not remove alpha.txt after utf8fopen." << std::endl;
+    std::cout << "Could not remove alpha.txt after I18nFopen." << std::endl;
     ++nberror;
     }
 
 
   // Create alpha.txt using open and write to it using streams
-  itk::Utf8::utf8ofstream wstream(utf8_str.c_str(), std::ios::binary | std::ios::out );
+  itk::i18n::I18nOfstream wstream(utf8_str.c_str(), std::ios::binary | std::ios::out );
   if (!checkAlphaExists())
     {
-    std::cout << "alpha.txt does not exist after utf8ofstream creation." << std::endl;
+    std::cout << "alpha.txt does not exist after I18nOfstream creation." << std::endl;
     ++nberror;
     }
 
@@ -439,7 +213,7 @@ int main( int , char * [] )
   wstream.close();
   
 
-  itk::Utf8::utf8ifstream rstream(utf8_str.c_str(), std::ios::binary | std::ios::in );
+  itk::i18n::I18nIfstream rstream(utf8_str.c_str(), std::ios::binary | std::ios::in );
 
   if (rstream.is_open())
     {
@@ -464,7 +238,7 @@ int main( int , char * [] )
 
   if (!removeAlpha())
     {
-    std::cout << "Could not remove alpha.txt after utf8ofstreamcreation." << std::endl;
+    std::cout << "Could not remove alpha.txt after I18nOfstream creation." << std::endl;
     ++nberror;
     }
 
