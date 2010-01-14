@@ -495,6 +495,24 @@
 }
 
 {
+    CrazyTclError30
+    Memcheck:Leak
+    fun:malloc
+    fun:TclpAlloc
+    fun:Tcl_Alloc
+    obj:/usr/lib/libtcl8.4.so.0
+    obj:/usr/lib/libtcl8.4.so.0
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:Tcl_GetsObj
+    fun:Tcl_Gets
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:Tcl_SetSystemEncoding
+    fun:TclpSetInitialEncodings
+    obj:/usr/lib/libtcl8.4.so.0
+}
+
+
+{
    <insert a suppression name here>
    Memcheck:Leak
    fun:malloc
