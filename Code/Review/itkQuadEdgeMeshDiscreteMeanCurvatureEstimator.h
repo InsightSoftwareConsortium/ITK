@@ -30,7 +30,6 @@ namespace itk
  * authors: Mark Meyer, Mathieu Desbrun, Peter Schroder, Alan H. Barr
  * conference: VisMath '02
  * location: Berlin (Germany)
- * \author: Arnaud Gelas, Alexandre Gouaillard
  */
 template< class TInputMesh, class TOutputMesh >
 class QuadEdgeMeshDiscreteMeanCurvatureEstimator :
@@ -57,7 +56,7 @@ public:
   typedef typename Superclass::OutputQEType                                   OutputQEType;
   typedef typename Superclass::OutputMeshTraits                               OutputMeshTraits;
   typedef typename Superclass::OutputCurvatureType                            OutputCurvatureType;
-  
+
   typedef typename Superclass::TriangleType                                   TriangleType;
 
   /** Run-time type information (and related methods).   */
@@ -79,40 +78,72 @@ protected:
     OutputQEType* qe = iP.GetEdge( );
 
     OutputCurvatureType oH( 0. );
+
     OutputVectorType Laplace;
     Laplace.Fill( 0. );
-    
+
+    OutputCurvatureType area( 0. );
+    OutputVectorType normal;
+    normal.Fill( 0. );
+
     if( qe != 0 )
       {
-      CoefficientType coefficent;
-
-      OutputQEType* qe_it = qe;
-      OutputQEType* qe_it2;
-      OutputCurvatureType area( 0. );
-      OutputPointType q0, q1;
-      OutputVectorType u;
-
-      if( qe_it != qe_it->GetOnext() )
+      if( qe != qe->GetOnext() )
         {
-        qe_it = qe;
+        CoefficientType coefficent;
+
+        OutputQEType* qe_it = qe;
+        OutputQEType* qe_it2;
+
+        OutputCurvatureType temp_area;
+        OutputCoordType temp_coeff;
+
+        OutputPointType q0, q1;
+        OutputVectorType face_normal;
+
         do
           {
           qe_it2 = qe_it->GetOnext();
           q0 = output->GetPoint( qe_it->GetDestination() );
-          Laplace += coefficent( output, qe_it ) * ( iP - q0 );
-          area += ComputeMixedArea( qe_it, qe_it2 );
+          q1 = output->GetPoint( qe_it2->GetDestination() );
+
+          temp_coeff = coefficent( output, qe_it );
+          Laplace += temp_coeff * ( iP - q0 );
+
+          temp_area = ComputeMixedArea( qe_it, qe_it2 );
+          area += temp_area;
+
+          face_normal = TriangleType::ComputeNormal( q0, iP, q1 );
+          normal += face_normal;
+
           qe_it = qe_it2;
           } while( qe_it != qe );
-        Laplace *= ( area > 1e-6 ? 0.25 /area : 0. );
-        oH = Laplace.GetNorm();
+
+        if( area < 1e-6 )
+          {
+          oH = 0.;
+          }
+        else
+          {
+          if( normal.GetSquaredNorm() > 0. )
+            {
+            normal.Normalize();
+            Laplace *= 0.25 / area;
+            oH = Laplace * normal;
+            }
+          else
+            {
+            oH = 0.;
+            }
+          }
         }
       }
     return oH;
     }
 
 private:
-  QuadEdgeMeshDiscreteMeanCurvatureEstimator( const Self& ); // purposely not implemented 
-  void operator = ( const Self& ); // purposely not implemented 
+  QuadEdgeMeshDiscreteMeanCurvatureEstimator( const Self& ); // purposely not implemented
+  void operator = ( const Self& ); // purposely not implemented
 
 };
 

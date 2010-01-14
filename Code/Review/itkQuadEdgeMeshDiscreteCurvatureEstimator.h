@@ -120,12 +120,15 @@ protected:
     OutputMeshPointer output = this->GetOutput();
 
     OutputPointsContainerPointer points = output->GetPoints();
+    OutputPointsContainerIterator p_it = points->Begin();
 
-    for( OutputPointsContainerIterator p_it = points->Begin();
-        p_it != points->End();
-        p_it++ )
+    OutputCurvatureType curvature;
+
+    while( p_it != points->End() )
       {
-      output->SetPointData( p_it->Index(), EstimateCurvature( p_it->Value() ) );
+      curvature = EstimateCurvature( p_it->Value() );
+      output->SetPointData( p_it->Index(), curvature );
+      ++p_it;
       }
     }
 
