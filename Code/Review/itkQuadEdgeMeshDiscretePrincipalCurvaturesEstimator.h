@@ -69,7 +69,7 @@ protected:
 
   OutputCurvatureType               m_Gaussian;
   OutputCurvatureType               m_Mean;
-  
+
   void ComputeMeanAndGaussianCurvatures( const OutputPointType& iP )
     {
     OutputMeshPointer output = this->GetOutput();
@@ -77,50 +77,70 @@ protected:
     OutputQEType* qe = iP.GetEdge( );
     m_Mean = 0.;
     m_Gaussian = 0.;
-    
+
     if( qe != 0 )
       {
       OutputVectorType Laplace;
       Laplace.Fill( 0. );
-      
-      CoefficientType coefficent;
 
       OutputQEType* qe_it = qe;
-      OutputQEType* qe_it2;
+
       OutputCurvatureType area( 0. ), sum_theta( 0. );
-      OutputPointType q0, q1;
-      OutputVectorType u;
 
       if( qe_it != qe_it->GetOnext() )
         {
         qe_it = qe;
+        OutputQEType* qe_it2;
+
+        OutputPointType q0, q1;
+        OutputVectorType face_normal;
+
+        OutputVectorType normal;
+        normal.Fill( 0. );
+
+        OutputCurvatureType temp_area;
+        OutputCoordType temp_coeff;
+
+        CoefficientType coefficent;
+
         do
           {
           qe_it2 = qe_it->GetOnext();
           q0 = output->GetPoint( qe_it->GetDestination() );
           q1 = output->GetPoint( qe_it2->GetDestination() );
-          
-          Laplace += coefficent( output, qe_it ) * ( iP - q0 );
+
+          temp_coeff = coefficent( output, qe_it );
+          Laplace += temp_coeff * ( iP - q0 );
+
           // Compute Angle;
           sum_theta += static_cast< OutputCurvatureType >(
             TriangleType::ComputeAngle( q0, iP, q1 ) );
-            
-          area += ComputeMixedArea( qe_it, qe_it2 );
+
+          temp_area = ComputeMixedArea( qe_it, qe_it2 );
+          area += temp_area;
+
+          face_normal = TriangleType::ComputeNormal( q0, iP, q1 );
+          normal += face_normal;
+
           qe_it = qe_it2;
           } while( qe_it != qe );
-        area = ( area > 1e-10 ? ( 1. / area ) : 0. );
-        Laplace *= 0.25 * area;
-        m_Mean = Laplace.GetNorm();
-        m_Gaussian = ( 2. * vnl_math::pi - sum_theta ) * area;
+
+        if( area > 1e-10 )
+          {
+          area = 1. / area;
+          Laplace *= 0.25 * area;
+          m_Mean = Laplace * normal;
+          m_Gaussian = ( 2. * vnl_math::pi - sum_theta ) * area;
+          }
         }
       }
     }
-    
+
   virtual OutputCurvatureType ComputeDelta( )
     {
     return  vnl_math_max( 0., m_Mean * m_Mean - m_Gaussian );
     }
-    
+
 private:
   QuadEdgeMeshDiscretePrincipalCurvaturesEstimator( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented
