@@ -1248,7 +1248,7 @@ ENDIF( DART_TESTING_TIMEOUT GREATER 3000 )
 
 ADD_TEST(ChangeInformationTest1 
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
-        ${TEMP}/BSplineWarping2Test.mhd
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
         1.05 
         1.0 2.0 0.0
