@@ -1357,6 +1357,18 @@ ADD_TEST(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
+# Due to the large memory requirements this tests must be run one by one
+SET_TESTS_PROPERTIES(
+  DeformableRegistration8Test5
+  DeformableRegistration8Test6
+  DeformableRegistration8Test7
+  DeformableRegistration8Test8
+  DeformableRegistration8Test9
+  DeformableRegistration8Test10    
+  PROPERTIES
+  RUN_SERIAL 1
+  )
+
 IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
 ADD_TEST(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
@@ -1385,6 +1397,13 @@ ADD_TEST(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
+# Due to the large memory requirements this tests must be run one by one
+  SET_TESTS_PROPERTIES(
+    DeformableRegistration8Test11
+    DeformableRegistration8Test12   
+    PROPERTIES
+    RUN_SERIAL 1
+    )
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
