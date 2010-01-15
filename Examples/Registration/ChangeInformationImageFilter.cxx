@@ -29,7 +29,7 @@
 //  leaves intact the pixel data of the image. This filter should be used
 //  with extreme caution, since it can easily change information that is
 //  critical for the safety of many medical image analysis tasks, such as
-//  measurement the volume of a tumor, of providing guidance for surgery.
+//  measurement the volume of a tumor, or providing guidance for surgery.
 //
 //  The following example illustrates the use of the ChangeInformation image
 //  filter in the context of generating synthetic inputs for image registration
