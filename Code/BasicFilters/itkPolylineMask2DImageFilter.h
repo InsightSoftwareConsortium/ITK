@@ -34,6 +34,11 @@ namespace itk
  * value of pixels outside the masked region will be set to zero.
  * 
  * \warning The Polygon represented by the input Polyline must be a convex polygon.
+ * \warning The Polygon's inside is defined by the standard clock-wise
+ * convention. That is, when walking along the polygon, the inside of the
+ * polygon is at the right-hand side. Note also that this must be interpreted
+ * in the natural coordinate system used by ITK, not the one used in computer
+ * graphics.
  * 
  * \ingroup ImageToImageFilter
  * \sa  PolylineMaskImageFilter
