@@ -376,29 +376,29 @@ get_dac (j_decompress_ptr cinfo)
 /* Process a DAC marker */
 {
   INT32 length;
-  int index, val;
+  int cindex, val;
   INPUT_VARS(cinfo);
 
   INPUT_2BYTES(cinfo, length, return FALSE);
   length -= 2;
   
   while (length > 0) {
-    INPUT_BYTE(cinfo, index, return FALSE);
+    INPUT_BYTE(cinfo, cindex, return FALSE);
     INPUT_BYTE(cinfo, val, return FALSE);
 
     length -= 2;
 
-    TRACEMS2(cinfo, 1, JTRC_DAC, index, val);
+    TRACEMS2(cinfo, 1, JTRC_DAC, cindex, val);
 
-    if (index < 0 || index >= (2*NUM_ARITH_TBLS))
-      ERREXIT1(cinfo, JERR_DAC_INDEX, index);
+    if (cindex < 0 || cindex >= (2*NUM_ARITH_TBLS))
+      ERREXIT1(cinfo, JERR_DAC_INDEX, cindex);
 
-    if (index >= NUM_ARITH_TBLS) { /* define AC table */
-      cinfo->arith_ac_K[index-NUM_ARITH_TBLS] = (UINT8) val;
+    if (cindex >= NUM_ARITH_TBLS) { /* define AC table */
+      cinfo->arith_ac_K[cindex-NUM_ARITH_TBLS] = (UINT8) val;
     } else {      /* define DC table */
-      cinfo->arith_dc_L[index] = (UINT8) (val & 0x0F);
-      cinfo->arith_dc_U[index] = (UINT8) (val >> 4);
-      if (cinfo->arith_dc_L[index] > cinfo->arith_dc_U[index])
+      cinfo->arith_dc_L[cindex] = (UINT8) (val & 0x0F);
+      cinfo->arith_dc_U[cindex] = (UINT8) (val >> 4);
+      if (cinfo->arith_dc_L[cindex] > cinfo->arith_dc_U[cindex])
   ERREXIT1(cinfo, JERR_DAC_VALUE, val);
     }
   }
@@ -424,7 +424,7 @@ get_dht (j_decompress_ptr cinfo)
   INT32 length;
   UINT8 bits[17];
   UINT8 huffval[256];
-  int i, index, count;
+  int i, cindex, count;
   JHUFF_TBL **htblptr;
   INPUT_VARS(cinfo);
 
@@ -432,9 +432,9 @@ get_dht (j_decompress_ptr cinfo)
   length -= 2;
   
   while (length > 16) {
-    INPUT_BYTE(cinfo, index, return FALSE);
+    INPUT_BYTE(cinfo, cindex, return FALSE);
 
-    TRACEMS1(cinfo, 1, JTRC_DHT, index);
+    TRACEMS1(cinfo, 1, JTRC_DHT, cindex);
       
     bits[0] = 0;
     count = 0;
@@ -463,15 +463,15 @@ get_dht (j_decompress_ptr cinfo)
 
     length -= count;
 
-    if (index & 0x10) {    /* AC table definition */
-      index -= 0x10;
-      htblptr = &cinfo->ac_huff_tbl_ptrs[index];
+    if (cindex & 0x10) {    /* AC table definition */
+      cindex -= 0x10;
+      htblptr = &cinfo->ac_huff_tbl_ptrs[cindex];
     } else {      /* DC table definition */
-      htblptr = &cinfo->dc_huff_tbl_ptrs[index];
+      htblptr = &cinfo->dc_huff_tbl_ptrs[cindex];
     }
 
-    if (index < 0 || index >= NUM_HUFF_TBLS)
-      ERREXIT1(cinfo, JERR_DHT_INDEX, index);
+    if (cindex < 0 || cindex >= NUM_HUFF_TBLS)
+      ERREXIT1(cinfo, JERR_DHT_INDEX, cindex);
 
     if (*htblptr == NULL)
       *htblptr = jpeg_alloc_huff_table((j_common_ptr) cinfo);

@@ -387,18 +387,18 @@ jinit_c_diff_controller (j_compress_ptr cinfo, boolean need_full_buffer)
 #ifdef FULL_SAMP_BUFFER_SUPPORTED
     /* Allocate a full-image virtual array for each component, */
     /* padded to a multiple of samp_factor differences in each direction. */
-    int ci;
-    jpeg_component_info *compptr;
+    int cix;
+    jpeg_component_info *compptr2;
 
-    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
-   ci++, compptr++) {
-      diff->whole_image[ci] = (*cinfo->mem->request_virt_sarray)
+    for (cix = 0, compptr2 = cinfo->comp_info; cix < cinfo->num_components;
+   cix++, compptr2++) {
+      diff->whole_image[cix] = (*cinfo->mem->request_virt_sarray)
   ((j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
-   (JDIMENSION) jround_up((long) compptr->width_in_data_units,
-        (long) compptr->h_samp_factor),
-   (JDIMENSION) jround_up((long) compptr->height_in_data_units,
-        (long) compptr->v_samp_factor),
-   (JDIMENSION) compptr->v_samp_factor);
+   (JDIMENSION) jround_up((long) compptr2->width_in_data_units,
+        (long) compptr2->h_samp_factor),
+   (JDIMENSION) jround_up((long) compptr2->height_in_data_units,
+        (long) compptr2->v_samp_factor),
+   (JDIMENSION) compptr2->v_samp_factor);
     }
 #else
     ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
