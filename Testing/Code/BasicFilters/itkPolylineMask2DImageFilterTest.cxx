@@ -18,45 +18,56 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
-#include <itkImageRegionIteratorWithIndex.h>
-#include <itkPolylineMask2DImageFilter.h>
-#include <itkPolyLineParametricPath.h>
-#include <itkImageFileWriter.h>
+#include "itkImage.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkPolylineMask2DImageFilter.h"
+#include "itkPolyLineParametricPath.h"
+#include "itkImageFileWriter.h"
 
-int itkPolylineMask2DImageFilterTest(int , char* [] ) 
+int itkPolylineMask2DImageFilterTest(int argc, char * argv [] ) 
 {
 
- // Declare the types of the images
-  typedef itk::Image<unsigned char, 2>     inputImageType;
-  typedef itk::Image<unsigned char, 2>     outputImageType;
-  typedef itk::PolyLineParametricPath<2>     inputPolylineType;
+  if( argc < 2 )
+    {
+    std::cerr << "Error: missing arguments" << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " outputFilename " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Declare the types of the images
+  const unsigned int Dimension = 2;
+  typedef unsigned char PixelType;
+
+  typedef itk::Image<PixelType, Dimension>        InputImageType;
+  typedef itk::Image<PixelType, Dimension>        OutputImageType;
+  typedef itk::PolyLineParametricPath<Dimension>  InputPolylineType;
 
   // Declare the type of the index to access images
-  typedef inputImageType::IndexType         inputIndexType;
+  typedef InputImageType::IndexType         InputIndexType;
 
   // Declare the type of the size 
-  typedef inputImageType::SizeType          inputSizeType;
+  typedef InputImageType::SizeType          InputSizeType;
 
   // Declare the type of the Region
-  typedef inputImageType::RegionType         inputRegionType;
+  typedef InputImageType::RegionType         InputRegionType;
 
   // Create images
-  inputImageType::Pointer inputImage    = inputImageType::New();
+  InputImageType::Pointer inputImage    = InputImageType::New();
  
   // Create polyline
-  inputPolylineType::Pointer inputPolyline   = inputPolylineType::New();
+  InputPolylineType::Pointer inputPolyline   = InputPolylineType::New();
 
   // Define their size, and start index
-  inputSizeType size;
+  InputSizeType size;
   size[0] = 512;
   size[1] = 512;
 
-  inputIndexType start;
+  InputIndexType start;
   start[0] = 0;
   start[1] = 0;
 
-  inputRegionType region;
+  InputRegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -67,11 +78,11 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
   inputImage->Allocate();
   inputImage->FillBuffer(0);
 
-  inputImageType::SpacingType spacing; spacing.Fill(.1);
+  InputImageType::SpacingType spacing; spacing.Fill(.1);
   inputImage->SetSpacing(spacing);
 
   // Declare Iterator types apropriated for each image 
-  typedef itk::ImageRegionIteratorWithIndex<inputImageType>  inputIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex<InputImageType>  inputIteratorType;
 
   // Create one iterator for Image A (this is a light object)
   inputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
@@ -87,43 +98,59 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
     }
 
   // Initialize the polyline 
-  typedef inputPolylineType::VertexType VertexType;
+  typedef InputPolylineType::VertexType VertexType;
     
   // Add vertices to the polyline
-  VertexType v;
-  v[0] = 12.8;
-  v[1] = 25.6;
-  inputPolyline->AddVertex(v);
+  VertexType v0;
+  v0[0] = 12.8;
+  v0[1] = 25.6;
+  inputPolyline->AddVertex(v0);
   
-  v[0] = 25.6;
-  v[1] = 39.4;
-  inputPolyline->AddVertex(v);
+  VertexType v1;
+  v1[0] = 25.6;
+  v1[1] = 39.4;
+  inputPolyline->AddVertex(v1);
   
-  v[0] = 39.4;
-  v[1] = 25.6;
-  inputPolyline->AddVertex(v);
+  VertexType v2;
+  v2[0] = 39.4;
+  v2[1] = 25.6;
+  inputPolyline->AddVertex(v2);
 
-  v[0] = 25.6;
-  v[1] = 12.8;
-  inputPolyline->AddVertex(v);
+  VertexType v3;
+  v3[0] = 25.6;
+  v3[1] = 12.8;
+  inputPolyline->AddVertex(v3);
   
+  // Close the polygon
+  inputPolyline->AddVertex(v0);
+
   // Declare the type for the Mask image filter
   typedef itk::PolylineMask2DImageFilter<
-                           inputImageType, inputPolylineType,   
-                           outputImageType  >     inputFilterType;
+                           InputImageType, InputPolylineType,   
+                           OutputImageType  >     InputFilterType;
             
 
   // Create a mask  Filter                                
-  inputFilterType::Pointer filter = inputFilterType::New();
+  InputFilterType::Pointer filter = InputFilterType::New();
 
   // Connect the input image
   filter->SetInput1    ( inputImage ); 
  
   // Connect the Polyline 
   filter->SetInput2    ( inputPolyline ); 
+
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  std::cout << "Output filename = " << argv[1] << std::endl;
+
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( argv[1] );
+
   try
     {
-    filter->Update();
+    writer->Update();
     }
   catch( itk::ExceptionObject & err )
     {
@@ -133,9 +160,10 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
     }
   
   // Now cause and exception
-  v[0] = 256.0;
-  v[1] = 12.8;
-  inputPolyline->AddVertex(v);
+  VertexType ve;
+  ve[0] = 256.0;
+  ve[1] = 12.8;
+  inputPolyline->AddVertex(ve);
   
   try
     {
@@ -150,7 +178,4 @@ int itkPolylineMask2DImageFilterTest(int , char* [] )
   return EXIT_FAILURE;
 
 }
-
-
-
 
