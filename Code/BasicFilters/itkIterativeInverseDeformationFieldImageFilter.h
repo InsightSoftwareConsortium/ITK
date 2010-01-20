@@ -103,8 +103,6 @@ public:
   itkSetMacro(StopValue, double);
   itkGetConstMacro(StopValue, double);
 
-  char* GetReport() {return this->m_Report;}
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(OutputHasNumericTraitsCheck,
@@ -117,7 +115,6 @@ protected:
   ~IterativeInverseDeformationFieldImageFilter() {}
 
   void PrintSelf(std::ostream& os, Indent indent) const;
-  void MakeReport();
 
   void GenerateData( );
 
