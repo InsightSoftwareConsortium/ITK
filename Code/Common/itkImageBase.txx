@@ -279,15 +279,15 @@ ImageBase<VImageDimension>
     {
     this->Superclass::UpdateOutputData();
     }
-#if !defined(ITK_LEGACY_REMOVE)
+#if !defined(ITK_LEGACY_SILENT)  || !defined(ITK_LEGACY_REMOVE)
   // Let us try to give a warning of this change in behavior if the
-  // user is compiling with using legacy functionality.
+  // user is compiling with using legacy warnings.
   else 
     {
     itkWarningMacro(<<"Not executing UpdateOutputData due to zero pixel condition RequestedRegion:" 
                     <<  this->GetRequestedRegion() << " BufferedRegion: " << this->GetBufferedRegion());
     }
-#endif // ITK_LEGACY_REMOVE
+#endif // !ITK_LEGACY_SILENT || !ITK_LEGACY_REMOVE
 }
 
 //----------------------------------------------------------------------------
