@@ -22,16 +22,17 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPolylineMask2DImageFilter.h"
 #include "itkPolyLineParametricPath.h"
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 int itkPolylineMask2DImageFilterTest(int argc, char * argv [] ) 
 {
 
-  if( argc < 2 )
+  if( argc < 3 )
     {
     std::cerr << "Error: missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " outputFilename " << std::endl;
+    std::cerr << argv[0] << " inputFilename outputFilename " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -43,82 +44,54 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
   typedef itk::Image<PixelType, Dimension>        OutputImageType;
   typedef itk::PolyLineParametricPath<Dimension>  InputPolylineType;
 
-  // Declare the type of the index to access images
-  typedef InputImageType::IndexType         InputIndexType;
+  // Read input image
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();
 
-  // Declare the type of the size 
-  typedef InputImageType::SizeType          InputSizeType;
+  std::cout << "Input filename = " << argv[1] << std::endl;
 
-  // Declare the type of the Region
-  typedef InputImageType::RegionType         InputRegionType;
+  reader->SetFileName( argv[1] );
 
-  // Create images
-  InputImageType::Pointer inputImage    = InputImageType::New();
+  try
+    {
+    reader->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "Caught an unexpected exception. " << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  InputImageType::ConstPointer inputImage    = reader->GetOutput();
  
   // Create polyline
   InputPolylineType::Pointer inputPolyline   = InputPolylineType::New();
 
-  // Define their size, and start index
-  InputSizeType size;
-  size[0] = 512;
-  size[1] = 512;
-
-  InputIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
-  InputRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-
-  // Initialize input image
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
-  inputImage->Allocate();
-  inputImage->FillBuffer(0);
-
-  InputImageType::SpacingType spacing; spacing.Fill(.1);
-  inputImage->SetSpacing(spacing);
-
-  // Declare Iterator types apropriated for each image 
-  typedef itk::ImageRegionIteratorWithIndex<InputImageType>  inputIteratorType;
-
-  // Create one iterator for Image A (this is a light object)
-  inputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
-  it.GoToBegin();
-  while( !it.IsAtEnd() ) 
-    {
-    /* fill in only the upper part of the image */
-    if(it.GetIndex()[1] > 256)
-      {
-      it.Set( 255 );
-      }
-    ++it;
-    }
+  // We expect as input an image of 256 x 256 pixels with spacing 1,1.
 
   // Initialize the polyline 
   typedef InputPolylineType::VertexType VertexType;
     
   // Add vertices to the polyline
   VertexType v0;
-  v0[0] = 12.8;
-  v0[1] = 25.6;
+  v0[0] =  64.0;
+  v0[1] = 128.0;
   inputPolyline->AddVertex(v0);
   
   VertexType v1;
-  v1[0] = 25.6;
-  v1[1] = 39.4;
+  v1[0] = 128.0;
+  v1[1] = 192.0;
   inputPolyline->AddVertex(v1);
   
   VertexType v2;
-  v2[0] = 39.4;
-  v2[1] = 25.6;
+  v2[0] = 192.0;
+  v2[1] = 128.0;
   inputPolyline->AddVertex(v2);
 
   VertexType v3;
-  v3[0] = 25.6;
-  v3[1] = 12.8;
+  v3[0] = 128.0;
+  v3[1] =  64.0;
   inputPolyline->AddVertex(v3);
   
   // Close the polygon
@@ -143,10 +116,10 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
 
   WriterType::Pointer writer = WriterType::New();
 
-  std::cout << "Output filename = " << argv[1] << std::endl;
+  std::cout << "Output filename = " << argv[2] << std::endl;
 
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[1] );
+  writer->SetFileName( argv[2] );
 
   try
     {
@@ -158,11 +131,15 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
+
+  std::cout << "Output image has been saved" << std::endl;
+  std::cout << std::endl;
   
   // Now cause and exception
+  // Put a vertex outside of the image
   VertexType ve;
-  ve[0] = 256.0;
-  ve[1] = 12.8;
+  ve[0] = 1000.0;
+  ve[1] = 128.0;
   inputPolyline->AddVertex(ve);
   
   try

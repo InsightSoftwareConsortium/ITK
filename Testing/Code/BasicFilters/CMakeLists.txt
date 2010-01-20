@@ -233,7 +233,8 @@ ADD_TEST(itkPolylineMaskImageFilterTest ${BASIC_FILTERS_TESTS3} itkPolylineMaskI
 
 ADD_TEST(itkPolylineMask2DImageFilterTest 
   ${BASIC_FILTERS_TESTS3} itkPolylineMask2DImageFilterTest
-  ${TEMP}/itkPolylineMask2DImageFilterTest.mha
+  ${INPUTDATA}/cthead1.png
+  ${TEMP}/itkPolylineMask2DImageFilterTest.png
   )
 
 ADD_TEST(itkMaskNegatedImageFilterTest ${BASIC_FILTERS_TESTS} itkMaskNegatedImageFilterTest)
