@@ -1,23 +1,25 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
+  NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
@@ -46,8 +48,8 @@
 
 /* ------------------------ nrrdFormat ------------------------- */
 
-const char *
-_nrrdFormatTypeStr[NRRD_FORMAT_TYPE_MAX+1] = {
+char
+_nrrdFormatTypeStr[NRRD_FORMAT_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_format)",
   "nrrd",
   "pnm",
@@ -57,8 +59,8 @@ _nrrdFormatTypeStr[NRRD_FORMAT_TYPE_MAX+1] = {
   "eps",
 };
 
-const char *
-_nrrdFormatTypeDesc[NRRD_FORMAT_TYPE_MAX+1] = {
+char
+_nrrdFormatTypeDesc[NRRD_FORMAT_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "unknown_format",
   "native format for nearly raw raster data",
   "Portable aNy Map: includes PGM for grayscale and PPM for color",
@@ -68,8 +70,8 @@ _nrrdFormatTypeDesc[NRRD_FORMAT_TYPE_MAX+1] = {
   "Encapsulated PostScript images",
 };
 
-const char *
-_nrrdFormatTypeStrEqv[] = {
+char
+_nrrdFormatTypeStrEqv[][AIR_STRLEN_SMALL] = {
   "nrrd",
   "pnm",
   "png",
@@ -79,7 +81,7 @@ _nrrdFormatTypeStrEqv[] = {
   ""
 };
 
-const int
+int
 _nrrdFormatTypeValEqv[] = {
   nrrdFormatTypeNRRD,
   nrrdFormatTypePNM,
@@ -98,13 +100,13 @@ _nrrdFormatType = {
   _nrrdFormatTypeStrEqv, _nrrdFormatTypeValEqv,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdFormatType = &_nrrdFormatType;
 
 /* ------------------------ nrrdType ------------------------- */
 
-const char *
-_nrrdTypeStr[NRRD_TYPE_MAX+1] = {
+char 
+_nrrdTypeStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_type)",
   "signed char",
   "unsigned char",
@@ -119,8 +121,8 @@ _nrrdTypeStr[NRRD_TYPE_MAX+1] = {
   "block",
 };
 
-const char *
-_nrrdTypeDesc[NRRD_TYPE_MAX+1] = {
+char 
+_nrrdTypeDesc[NRRD_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "unknown type",
   "signed 1-byte integer",
   "unsigned 1-byte integer",
@@ -147,8 +149,8 @@ _nrrdTypeDesc[NRRD_TYPE_MAX+1] = {
 #define ntDB nrrdTypeDouble
 #define ntBL nrrdTypeBlock
 
-const char *
-_nrrdTypeStrEqv[] = {
+char
+_nrrdTypeStrEqv[][AIR_STRLEN_SMALL] = {
   "signed char", /* but NOT just "char" */ "int8", "int8_t",
   "uchar", "unsigned char", "uint8", "uint8_t", 
   "short", "short int", "signed short", "signed short int", "int16", "int16_t",
@@ -165,7 +167,7 @@ _nrrdTypeStrEqv[] = {
   ""
 };
 
-const int
+int
 _nrrdTypeValEqv[] = {
   ntCH, ntCH, ntCH,
   ntUC, ntUC, ntUC, ntUC,
@@ -189,13 +191,13 @@ _nrrdType = {
   _nrrdTypeStrEqv, _nrrdTypeValEqv,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdType = &_nrrdType;
 
 /* ------------------------ nrrdEncodingType ------------------------- */
 
-const char *
-_nrrdEncodingTypeStr[NRRD_ENCODING_TYPE_MAX+1] = {
+char
+_nrrdEncodingTypeStr[NRRD_ENCODING_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_encoding)",
   "raw",
   "ascii",
@@ -204,8 +206,8 @@ _nrrdEncodingTypeStr[NRRD_ENCODING_TYPE_MAX+1] = {
   "bz2",
 };
 
-const char *
-_nrrdEncodingTypeDesc[NRRD_ENCODING_TYPE_MAX+1] = {
+char
+_nrrdEncodingTypeDesc[NRRD_ENCODING_TYPE_MAX+1][AIR_STRLEN_MED] = {
   "unknown encoding",
   "file is byte-for-byte same as memory representation",
   "values written out in ASCII",
@@ -214,8 +216,8 @@ _nrrdEncodingTypeDesc[NRRD_ENCODING_TYPE_MAX+1] = {
   "bzip2 compression of binary encoding",
 };
 
-const char *
-_nrrdEncodingTypeStrEqv[] = {
+char
+_nrrdEncodingTypeStrEqv[][AIR_STRLEN_SMALL] = {
   "(unknown_encoding)",
   "raw",
   "txt", "text", "ascii",
@@ -225,7 +227,7 @@ _nrrdEncodingTypeStrEqv[] = {
   ""
 };
 
-const int
+int
 _nrrdEncodingTypeValEqv[] = {
   nrrdEncodingTypeUnknown,
   nrrdEncodingTypeRaw,
@@ -244,20 +246,20 @@ _nrrdEncodingType = {
   _nrrdEncodingTypeStrEqv, _nrrdEncodingTypeValEqv,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdEncodingType = &_nrrdEncodingType;
 
 /* ------------------------ nrrdCenter ------------------------- */
 
-const char *
-_nrrdCenterStr[NRRD_CENTER_MAX+1] = {
+char
+_nrrdCenterStr[NRRD_CENTER_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_center)",
   "node",
   "cell",
 };
 
-const char *
-_nrrdCenterDesc[NRRD_CENTER_MAX+1] = {
+char
+_nrrdCenterDesc[NRRD_CENTER_MAX+1][AIR_STRLEN_MED] = {
   "unknown centering",
   "samples are at boundaries between elements along axis",
   "samples are at centers of elements along axis",
@@ -272,7 +274,7 @@ _nrrdCenter_enum = {
   NULL, NULL,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdCenter = &_nrrdCenter_enum;
 
 /* ------------------------ nrrdKind ------------------------- */
@@ -305,7 +307,7 @@ nrrdCenter = &_nrrdCenter_enum;
   nrrdKind3Gradient,         * 20: 3-component covariant vector *
   nrrdKind3Normal,           * 21: 3-component covector, assumed normalized *
   nrrdKind4Vector,           * 22: 4-component vector *
-  nrrdKindQuaternion,        * 23: (w,x,y,z), not necessarily normalized *
+  nrrdKindQuaternion,        * 23: (x,y,z,w), not necessarily normalized *
   nrrdKind2DSymMatrix,       * 24: Mxx Mxy Myy *
   nrrdKind2DMaskedSymMatrix, * 25: mask Mxx Mxy Myy *
   nrrdKind2DMatrix,          * 26: Mxx Mxy Myx Myy *
@@ -316,8 +318,8 @@ nrrdCenter = &_nrrdCenter_enum;
   nrrdKind3DMaskedMatrix,    * 31: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz *
 */
 
-const char *
-_nrrdKindStr[NRRD_KIND_MAX+1] = {
+char
+_nrrdKindStr[NRRD_KIND_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_kind)",
   "domain",
   "space",
@@ -352,8 +354,8 @@ _nrrdKindStr[NRRD_KIND_MAX+1] = {
   "3D-masked-matrix",
 };
 
-const char *
-_nrrdKindDesc[NRRD_KIND_MAX+1] = {
+char
+_nrrdKindDesc[NRRD_KIND_MAX+1][AIR_STRLEN_MED] = {
   "unknown kind",
   "a domain variable of the function which the nrrd samples",
   "a spatial domain, like the axes of a measured volume image",
@@ -388,8 +390,8 @@ _nrrdKindDesc[NRRD_KIND_MAX+1] = {
   "mask plus 9 elements of general 3D matrix: mask Mxx Mxy Mxz Myx Myy Myz Mzx Mzy Mzz",
 };
 
-const char *
-_nrrdKindStr_Eqv[] = {
+char
+_nrrdKindStr_Eqv[][AIR_STRLEN_SMALL] = {
   "domain",
   "space",
   "time",
@@ -484,13 +486,13 @@ _nrrdKind_enum = {
   _nrrdKindStr_Eqv, _nrrdKindVal_Eqv,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdKind = &_nrrdKind_enum;
 
 /* ------------------------ nrrdField ------------------------- */
 
-const char *
-_nrrdFieldStr[NRRD_FIELD_MAX+1] = {
+char
+_nrrdFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL] = {
   "Ernesto \"Che\" Guevara",
   "#",
   "content",
@@ -526,8 +528,8 @@ _nrrdFieldStr[NRRD_FIELD_MAX+1] = {
   "data file",
 };
 
-const char *
-_nrrdFieldDesc[NRRD_FIELD_MAX+1] = {
+char
+_nrrdFieldDesc[NRRD_FIELD_MAX+1][AIR_STRLEN_MED] = {
   "unknown field identifier",
   "comment",
   "short description of whole array and/or its provenance",
@@ -563,8 +565,8 @@ _nrrdFieldDesc[NRRD_FIELD_MAX+1] = {
   "with detached headers, where is data to be found",
 };
 
-const char *
-_nrrdFieldStrEqv[] = {
+char
+_nrrdFieldStrEqv[][AIR_STRLEN_SMALL]  = {
   "#",
   "content",
   "number",
@@ -600,7 +602,7 @@ _nrrdFieldStrEqv[] = {
   ""
 };
 
-const int
+int
 _nrrdFieldValEqv[] = {
   nrrdField_comment,
   nrrdField_content,
@@ -645,7 +647,7 @@ _nrrdField = {
   _nrrdFieldStrEqv, _nrrdFieldValEqv, 
   AIR_FALSE  /* field identifiers not case sensitive */
 };
-const airEnum *const
+airEnum *
 nrrdField = &_nrrdField;
 
 /* ------------------------ nrrdSpace ------------------------- */
@@ -667,8 +669,8 @@ nrrdField = &_nrrdField;
   nrrdSpaceLast
 */
 
-const char *
-_nrrdSpaceStr[NRRD_SPACE_MAX+1] = {
+char
+_nrrdSpaceStr[NRRD_SPACE_MAX+1][AIR_STRLEN_SMALL] = {
   "(unknown_space)",
   "right-anterior-superior",
   "left-anterior-superior",
@@ -684,8 +686,8 @@ _nrrdSpaceStr[NRRD_SPACE_MAX+1] = {
   "3D-left-handed-time",
 };
 
-const char *
-_nrrdSpaceDesc[NRRD_SPACE_MAX+1] = {
+char
+_nrrdSpaceDesc[NRRD_SPACE_MAX+1][AIR_STRLEN_MED] = {
   "unknown space",
   "right-anterior-superior (used in NIFTI-1 and SPL's 3D Slicer)",
   "left-anterior-superior (used in Analyze 7.5)",
@@ -701,8 +703,8 @@ _nrrdSpaceDesc[NRRD_SPACE_MAX+1] = {
   "3D-left-handed-time",
 };
 
-const char *
-_nrrdSpaceStrEqv[] = {
+char
+_nrrdSpaceStrEqv[][AIR_STRLEN_SMALL] = {
   "(unknown_space)",
   "right-anterior-superior", "right anterior superior",
       "rightanteriorsuperior", "RAS",
@@ -727,7 +729,7 @@ _nrrdSpaceStrEqv[] = {
   ""
 };
 
-const int
+int
 _nrrdSpaceValEqv[] = {
   nrrdSpaceUnknown,
   nrrdSpaceRightAnteriorSuperior, nrrdSpaceRightAnteriorSuperior,
@@ -761,39 +763,6 @@ _nrrdSpace = {
   _nrrdSpaceStrEqv, _nrrdSpaceValEqv,
   AIR_FALSE
 };
-const airEnum *const
+airEnum *
 nrrdSpace = &_nrrdSpace;
-
-/* ------------------------ nrrdSpacingStatus ------------------------- */
-
-const char *
-_nrrdSpacingStatusStr[NRRD_SPACING_STATUS_MAX+1] = {
-  "(unknown_status)",
-  "none",
-  "scalarNoSpace",
-  "scalarWithSpace",
-  "direction",
-};
-
-const char *
-_nrrdSpacingStatusDesc[NRRD_BOUNDARY_MAX+1] = {
-  "unknown spacing status behavior",
-  "neither axis->spacing nor axis->spaceDirection set",
-  "axis->spacing set normally",
-  "axis->spacing set, with surround space (?)",
-  "axis->spaceDirection set normally",
-};
-
-airEnum
-_nrrdSpacingStatus = {
-  "spacing status",
-  NRRD_SPACING_STATUS_MAX,
-  _nrrdSpacingStatusStr, NULL,
-  _nrrdSpacingStatusDesc,
-  NULL, NULL,
-  AIR_FALSE
-};
-const airEnum *const
-nrrdSpacingStatus = &_nrrdSpacingStatus;
-
 

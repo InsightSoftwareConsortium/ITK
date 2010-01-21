@@ -1,24 +1,27 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
+  NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
+
 
 #include "NrrdIO.h"
 
@@ -69,7 +72,7 @@ airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
     return NULL;
   }
   
-  a = AIR_CALLOC(1, airArray);
+  a = (airArray *)calloc(1, sizeof(airArray));
   if (!a) {
     return NULL;
   }
@@ -138,7 +141,6 @@ airArrayPointerCB(airArray *a,
 */
 void
 airArrayLenPreSet(airArray *a, unsigned int newlen) {
-  /* char me[]="airArrayLenPreSet"; */
   unsigned int newsize;
   void *newdata;
 
@@ -151,35 +153,22 @@ airArrayLenPreSet(airArray *a, unsigned int newlen) {
     a->noReallocWhenSmaller = AIR_FALSE;
   } else {
     newsize = (newlen-1)/a->incr + 1;
-    /*
-    fprintf(stderr, "!%s: newlen = %u, incr = %u -> newsize = %u\n", me,
-            newlen, a->incr, newsize);
-    fprintf(stderr, "!%s: a->size = %u, a->len = %u, a->unit = %u\n", me,
-            a->size, a->len, a->unit);
-    */
     if (newsize > a->size) {
       newdata = calloc(newsize*a->incr, a->unit);
-      /*
-      fprintf(stderr, "!%s: a->data = %p, newdata = %p\n", me, 
-              a->data, newdata);
-      */
       if (!newdata) {
         free(a->data);
         _airSetData(a, NULL);
         return;
       }
-      if (a->data) {
-        memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
-                                         newsize*a->incr*a->unit));
-        free(a->data);
-      }
+      memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
+                                       newsize*a->incr*a->unit));
+      free(a->data);
       _airSetData(a, newdata);
       a->size = newsize;
     }
     a->noReallocWhenSmaller = AIR_TRUE;
   }
 
-  /* fprintf(stderr, "!%s: returning data %p\n", me, a->data); */
   return;
 }
 
@@ -202,8 +191,8 @@ airArrayLenPreSet(airArray *a, unsigned int newlen) {
 */
 void
 airArrayLenSet(airArray *a, unsigned int newlen) {
-  /* char me[]="airArrayLenSet"; */
-  unsigned int ii, newsize;
+  unsigned int newsize;
+  int ii;
   void *addr, *newdata;
   
   if (!a) {
@@ -217,10 +206,8 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
   }
 
   /* call freeCB/doneCB on all the elements which are going bye-bye */
-  /* Wed Sep 12 14:40:45 EDT 2007: the order in which these called is
-     now ascending, instead of descending (as was the way before) */
   if (newlen < a->len && (a->freeCB || a->doneCB)) {
-    for (ii=newlen; ii<a->len; ii++) {
+    for (ii=a->len-1; ii>=(int)newlen; ii--) {
       addr = (char*)(a->data) + ii*a->unit;
       if (a->freeCB) {
         (a->freeCB)(*((void**)addr));
@@ -261,7 +248,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 
   /* call allocCB/initCB on newly created elements */
   if (newlen > a->len && (a->allocCB || a->initCB)) {
-    for (ii=a->len; ii<newlen; ii++) {
+    for (ii=newlen; ii<(int)(a->len); ii++) {
       addr = (char*)(a->data) + ii*a->unit;
       if (a->allocCB) {
         *((void**)addr) = (a->allocCB)();
@@ -285,14 +272,9 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 **  no error, delta > 0: return index of 1st element in newly allocated
 **                       segment (a->len before length was increased)
 ** no error, delta <= 0: return 0, and a->data unchanged
-**
-** HEY: it is apparently not clear how to do error checking (aside from
-** looking at a->data) when there was NO data previously allocated, and the
-** first index of the newly allocated data is zero...
 */
 unsigned int
 airArrayLenIncr(airArray *a, int delta) {
-  /* char me[]="airArrayLenIncr"; */
   unsigned int oldlen, ret;
 
   if (!a) {

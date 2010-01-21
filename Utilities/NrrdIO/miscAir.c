@@ -1,27 +1,30 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
+  NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
 
+
 #include "NrrdIO.h"
-#include <teem32bit.h>
+#include "teem32bit.h"
 /* timer functions */
 #ifdef _WIN32
 #include <io.h>
@@ -36,13 +39,13 @@
 ******** airTeemReleaseDate
 **
 ** updated with each release to contain a string representation of 
-** the Teem version number and release date.  Originated in version 1.5;
+** the teem version number and release date.  Originated in version 1.5;
 ** use of TEEM_VERSION #defines started in 1.9
 */
 const char *
 airTeemVersion = TEEM_VERSION_STRING;
 const char *
-airTeemReleaseDate = "late 2009 or early 2010";
+airTeemReleaseDate = "26 August 2005";
 
 double
 _airSanityHelper(double val) {
@@ -154,16 +157,16 @@ airFclose(FILE *file) {
 */
 int
 airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
-  char *fmt, buff[AIR_STRLEN_LARGE];
-  double val=0, gVal, fVal;
+  char *fmt;
+  float valF=0;
+  double valD=0;
   int ret, isF, isD, cls;
   char *conv=NULL, *p0, *p1, *p2, *p3, *p4, *p5;
   va_list ap;
   
   va_start(ap, _fmt);
   fmt = airStrdup(_fmt);
-
-  /* this is needlessly complicated; the "l" modifier is a no-op */
+  
   p0 = strstr(fmt, "%e");
   p1 = strstr(fmt, "%f");
   p2 = strstr(fmt, "%g");
@@ -172,9 +175,6 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
   p5 = strstr(fmt, "%lg");
   isF = p0 || p1 || p2;
   isD = p3 || p4 || p5;
-  /* the code here says "isF" and "isD" as if it means "is float" or 
-     "is double".  It really should be "is2" or "is3", as in, 
-     "is 2-character conversion sequence, or "is 3-character..." */
   if (isF) {
     conv = p0 ? p0 : (p1 ? p1 : p2);
   }
@@ -182,10 +182,16 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     conv = p3 ? p3 : (p4 ? p4 : p5);
   }
   if (isF || isD) {
-    /* use "double" instead of "float" because var args are _always_
-       subject to old-style C type promotions: float promotes to double */
-    val = va_arg(ap, double);
-    cls = airFPClass_d(val);
+    if (isF) {
+      /* use "double" instead of "float" because var args are _always_
+         subject to old-style C type promotions: float promotes to double */
+      valF = (float)(va_arg(ap, double));
+      cls = airFPClass_f(valF);
+    }
+    else {
+      valD = va_arg(ap, double);
+      cls = airFPClass_d(valD);
+    }
     switch (cls) {
     case airFP_SNAN:
     case airFP_QNAN:
@@ -193,7 +199,8 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     case airFP_NEG_INF:
       if (isF) {
         memcpy(conv, "%s", 2);
-      } else {
+      }
+      else {
         /* this sneakiness allows us to replace a 3-character conversion
            sequence for a double (such as %lg) with a 3-character conversion
            for a string, which we know has at most 4 characters */
@@ -214,26 +221,16 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
       ret = PRINT(file, str, fmt, "-inf");
       break;
     default:
-      if (p2 || p5) {
-        /* got "%g" or "%lg", see if it would be better to use "%f" */
-        sprintf(buff, "%f", val);
-        sscanf(buff, "%lf", &fVal);
-        sprintf(buff, "%g", val);
-        sscanf(buff, "%lf", &gVal);
-        if (fVal != gVal) {
-          /* using %g (or %lg) lost precision!! Use %f (or %lf) instead */
-          if (p2) {
-            memcpy(conv, "%f", 2);
-          } else {
-            memcpy(conv, "%lf", 3);
-          }
-        }
+      if (isF) {
+        ret = PRINT(file, str, fmt, valF);
       }
-      ret = PRINT(file, str, fmt, val);
+      else {
+        ret = PRINT(file, str, fmt, valD);
+      }
       break;
     }
-  } else {
-    /* conversion sequence is neither for float nor double */
+  }
+  else {
     ret = file ? vfprintf(file, fmt, ap) : vsprintf(str, fmt, ap);
   }
   
@@ -247,4 +244,5 @@ const int airMy32Bit = 1;
 #else
 const int airMy32Bit = 0;
 #endif
+
 

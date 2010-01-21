@@ -1,29 +1,32 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
+  NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
+
 
 #include "NrrdIO.h"
 #include "privateAir.h"
-#include <teemEndian.h>
-#include <teemQnanhibit.h>
+#include "teemEndian.h"
+#include "teemQnanhibit.h"
 
 /*
 ** all this is based on a reading of
@@ -259,13 +262,13 @@ airFPGen_d(int cls) {
 int
 airFPClass_f(float val) {
   _airFloat f;
-  unsigned int sign, exponent, mant;
-  int indexvalue, ret = 0;
+  unsigned int sign, exp, mant;
+  int index, ret = 0;
 
   f.v = val;
-  FP_GET_F(sign, exponent, mant, f);
-  indexvalue = ((!!sign) << 2) | ((!!exponent) << 1) | (!!mant);
-  switch(indexvalue) {
+  FP_GET_F(sign, exp, mant, f);
+  index = ((!!sign) << 2) | ((!!exp) << 1) | (!!mant);
+  switch(index) {
   case 0: 
     /* all fields are zero */
     ret = airFP_POS_ZERO;   
@@ -276,7 +279,7 @@ airFPClass_f(float val) {
     break;
   case 2: 
     /* only exponent field is non-zero */
-    if (0xff == exponent) {
+    if (0xff == exp) {
       ret = airFP_POS_INF;
     } else {
       ret = airFP_POS_NORM;
@@ -284,7 +287,7 @@ airFPClass_f(float val) {
     break;
   case 3:
     /* exponent and mantissa fields are non-zero */
-    if (0xff == exponent) {
+    if (0xff == exp) {
       if (TEEM_QNANHIBIT == mant >> 22) {
         ret = airFP_QNAN;
       } else {
@@ -304,7 +307,7 @@ airFPClass_f(float val) {
     break;
   case 6:
     /* sign and exponent fields are non-zero */
-    if (0xff > exponent) {
+    if (0xff > exp) {
       ret = airFP_NEG_NORM;
     } else {
       ret = airFP_NEG_INF;
@@ -312,7 +315,7 @@ airFPClass_f(float val) {
     break;
   case 7:
     /* all fields are non-zero */
-    if (0xff > exponent) {
+    if (0xff > exp) {
       ret = airFP_NEG_NORM;
     } else {
       if (TEEM_QNANHIBIT == mant >> 22) {
@@ -343,20 +346,20 @@ int
 airFPClass_d(double val) {
   _airDouble f;
   unsigned int sign, expo, mant0, mant1;
-  int hibit, indexvalue, ret=0;
+  int hibit, index, ret=0;
 
   f.v = val;
   sign = f.c.sign; 
-  expo = f.c.expo; /* this seems to be a WIN32 bug: on a quiet-NaN, f.c.exp
-                      should be non-zero, but it was completely zero, so 
-                      that this function returned airFP_NEG_DENORM instead
-                      of airFP_QNAN */
+  expo = f.c.expo;  /* this seems to be a WIN32 bug: on a quiet-NaN, f.c.exp
+                       should be non-zero, but it was completely zero, so that
+                       this function returned airFP_NEG_DENORM instead of
+                       airFP_QNAN */
   mant0 = f.c.mant0;
   mant1 = f.c.mant1;
-  hibit = mant0 >> 19;
+  hibit = mant0 >> 20;
 
-  indexvalue = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
-  switch(indexvalue) {
+  index = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
+  switch(index) {
   case 0: 
     /* all fields are zero */
     ret = airFP_POS_ZERO;   
