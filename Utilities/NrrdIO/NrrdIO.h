@@ -355,14 +355,13 @@ enum {
   airInsane_FltDblFPClass, /*  5: double -> float assignment messed up the
                                airFPClass_f() of the value */
   airInsane_QNaNHiBit,     /*  6: airMyQNaNHiBit is wrong */
-  airInsane_AIR_NAN,       /*  7: airFPClass_f(AIR_QNAN,AIR_SNAN) wrong */
-  airInsane_dio,           /*  8: airMyDio set to something invalid */
-  airInsane_32Bit,         /*  9: airMy32Bit is wrong */
-  airInsane_UCSize,        /* 10: unsigned char isn't 8 bits */
-  airInsane_FISize,        /* 11: sizeof(float), sizeof(int) not 4 */
-  airInsane_DLSize         /* 12: sizeof(double), sizeof(airLLong) not 8 */
+  airInsane_dio,           /*  7: airMyDio set to something invalid */
+  airInsane_32Bit,         /*  8: airMy32Bit is wrong */
+  airInsane_UCSize,        /*  9: unsigned char isn't 8 bits */
+  airInsane_FISize,        /* 10: sizeof(float), sizeof(int) not 4 */
+  airInsane_DLSize         /* 11: sizeof(double), sizeof(airLLong) not 8 */
 };
-#define AIR_INSANE_MAX        12
+#define AIR_INSANE_MAX        11
 TEEM_API const char *airInsaneErr(int insane);
 TEEM_API int airSanity(void);
 
