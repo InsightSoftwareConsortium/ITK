@@ -94,8 +94,6 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
   v3[1] =  64.0;
   inputPolyline->AddVertex(v3);
   
-  // Close the polygon
-  inputPolyline->AddVertex(v0);
 
   // Declare the type for the Mask image filter
   typedef itk::PolylineMask2DImageFilter<
