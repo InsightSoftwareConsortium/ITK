@@ -54,7 +54,7 @@ Subsample< TSample >
 }
 
 template< class TSample >
-inline typename Subsample< TSample >::MeasurementVectorType
+inline const typename Subsample< TSample >::MeasurementVectorType &
 Subsample< TSample >
 ::GetMeasurementVectorByIndex(int index) const
 {

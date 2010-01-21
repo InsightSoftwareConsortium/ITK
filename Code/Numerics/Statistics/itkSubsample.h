@@ -130,7 +130,7 @@ public:
   
   void Swap(int index1, int index2);
   
-  MeasurementVectorType GetMeasurementVectorByIndex(int index) const;
+  const MeasurementVectorType & GetMeasurementVectorByIndex(int index) const;
 
   FrequencyType GetFrequencyByIndex(int index) const;
 
