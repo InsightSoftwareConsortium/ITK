@@ -154,7 +154,6 @@ public:
 
 
 protected:
-
   PointListType     m_Points;
   int               m_ParentPoint;
   unsigned int      m_EndType;
@@ -171,7 +170,11 @@ protected:
   /** TimeStamps */
   mutable unsigned long m_OldMTime;
   mutable unsigned long m_IndexToWorldTransformMTime;
-  
+
+private:
+  TubeSpatialObject(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+
 };
 
 } // end namespace itk
