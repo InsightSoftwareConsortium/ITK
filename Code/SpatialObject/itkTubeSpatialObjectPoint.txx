@@ -175,6 +175,14 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
+unsigned short int
+TubeSpatialObjectPoint< TPointDimension >
+::GetNumDimensions( void ) const
+{
+  return m_NumDimensions;
+}
+
+template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
 ::PrintSelf( std::ostream & os, Indent indent) const
