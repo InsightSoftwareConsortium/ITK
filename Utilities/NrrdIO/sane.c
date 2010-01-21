@@ -34,9 +34,9 @@
 */
 int
 airSanity(void) {
-  double nan, pinf, ninf;
-  float nanF, pinfF, ninfF;
-  unsigned int sign, exp, mant;
+  double nanvalue, pinf, ninf;
+  float nanvalueF, pinfF, ninfF;
+  unsigned int sign, exponent, mant;
   int tmpI, size;
   char endian;
   unsigned char uc0, uc1;
@@ -87,19 +87,19 @@ airSanity(void) {
   if (AIR_EXISTS(ninf)) {
     return airInsane_nInfExists;
   }
-  nan = pinf / pinf;
-  if (AIR_EXISTS(nan)) {
+  nanvalue = pinf / pinf;
+  if (AIR_EXISTS(nanvalue)) {
     return airInsane_NaNExists;
   }
-  nanF = (float)nan;
+  nanvalueF = (float)nanvalue;
   pinfF = (float)pinf;
   ninfF = (float)ninf;
-  airFPValToParts_f(&sign, &exp, &mant, nanF);
+  airFPValToParts_f(&sign, &exponent, &mant, nanvalueF);
   mant >>= 22;
   if (AIR_QNANHIBIT != (int)mant) {
     return airInsane_QNaNHiBit;
   }
-  if (!(airFP_QNAN == airFPClass_f(nanF)
+  if (!(airFP_QNAN == airFPClass_f(nanvalueF)
         && airFP_POS_INF == airFPClass_f(pinfF)
         && airFP_NEG_INF == airFPClass_f(ninfF))) {
     /* really, this is verifying that assigning from a double to a 
