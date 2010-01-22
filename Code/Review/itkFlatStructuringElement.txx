@@ -163,7 +163,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType PP;
+      LType PP(0.0);
       FacetType Fc;
       b /= 2.0;
       c /= 2.0;
@@ -335,7 +335,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType PP;
+      LType PP(0.0);
       FacetType Fc;
   
       PP[0]=0;PP[1]=b;PP[2]=-a;
@@ -535,7 +535,7 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       FacetArray.resize( facets );
       
       // original corners of octahedron
-      LType P0, P1, P2, P3, P4, P5; 
+      LType P0(0.0), P1(0.0), P2(0.0), P3(0.0), P4(0.0), P5(0.0); 
       P0[0]=0;         P0[1]=0;       P0[2]=1;
       P1[0]=0;         P1[1]=0;       P1[2]=-1;
       P2[0]=-1.0/sqrt2;P2[1]=-1/sqrt2;P2[2]=0;
