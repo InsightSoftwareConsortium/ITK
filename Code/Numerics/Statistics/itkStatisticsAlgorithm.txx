@@ -548,8 +548,11 @@ inline void InsertSort(TSubsample* sample,
     backwardIndex = backwardSearchBegin;
     while (backwardIndex > beginIndex) 
       {
-      if (sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension] < 
-          sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension])
+      typedef typename TSubsample::MeasurementType MeasurementType;
+      const MeasurementType value1 = sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension];
+      const MeasurementType value2 = sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension];
+
+      if( value1 < value2 )
         {
         sample->Swap(backwardIndex, backwardIndex - 1);
         }
