@@ -151,7 +151,7 @@ public:
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine if the file can be written with this ImageIO implementation.
-       * \param FileNameToWrite The name of the file to test for writing.
+       * FileNameToWrite The name of the file to test for writing.
        * \author Don C. Bigler
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
