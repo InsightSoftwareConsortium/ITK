@@ -77,7 +77,7 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem<double> eig)
   // If it is, then the vectors do not follow the right-hand rule.  We
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
-  float matrixDet;
+  float matrixDet = 0.0f;
   if( TLabelImage::ImageDimension == 2 )
     {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
@@ -873,7 +873,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>
     {
     // label does not exist, return a default value
     LabelSizeType emptySize;
-    emptySize.Fill( NumericTraits<typename LabelSizeType::ValueType>::Zero);
+    emptySize.Fill( NumericTraits<typename LabelSizeType::SizeValueType>::Zero);
     return emptySize;
     }
   else
@@ -896,7 +896,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>
     LabelPointType emptyPoint;
     emptyPoint.Fill( 0 );
     BoundingBoxVerticesType emptyVertices;
-    emptyVertices.resize(std::pow(2,ImageDimension),emptyPoint);
+    emptyVertices.resize(std::pow(2,(int)ImageDimension),emptyPoint);
     return emptyVertices;
     }
   else
@@ -1006,7 +1006,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>
     IndexType index;
     SizeType size;
 
-    unsigned int dimension = bbox.size() / 2;
+    unsigned int dimension = bbox.Size() / 2;
 
     for (unsigned int i = 0; i < dimension; i++)
       {
