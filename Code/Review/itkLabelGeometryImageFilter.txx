@@ -77,7 +77,7 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem<double> eig)
   // If it is, then the vectors do not follow the right-hand rule.  We
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
-  float matrixDet = 0.0f;
+  float matrixDet;
   if( TLabelImage::ImageDimension == 2 )
     {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
@@ -88,6 +88,7 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem<double> eig)
     }
   else
     {
+    matrixDet = 0.0f;
     std::cerr << "ERROR: Determinant cannot be calculated for this dimension!" << std::endl;
     }
     
