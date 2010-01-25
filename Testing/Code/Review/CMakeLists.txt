@@ -256,6 +256,8 @@ SET(ReviewTest3_SRCS
   itkScaleVersor3DTransformTest.cxx
 
   itkGaborImageSourceTest.cxx
+
+  itkDiscreteGaussianDerivativeImageFilterTest
 )
 
 SET(ReviewTest4_SRCS
@@ -1678,6 +1680,15 @@ ADD_TEST(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
   2.0
   0.01
   20
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest01.png
+  0    # orderX
+  1    # orderY
+  3.0  # sigma
 )
 
 ADD_TEST(itkBinaryContourImageFilterTest0 ${REVIEW_TESTS}
