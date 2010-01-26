@@ -32,7 +32,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 
-int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* [] argv )
+int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
 {
   // Verify the number of parameters in the command line
   if( argc < 6 )
