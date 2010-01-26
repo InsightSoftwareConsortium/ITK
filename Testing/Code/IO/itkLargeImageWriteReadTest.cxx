@@ -25,56 +25,56 @@
 #include "itkImageRegionIterator.h"
 #include "itkTimeProbesCollectorBase.h"
 
-int itkLargeImageWriteReadTest(int ac, char* av[])
+
+namespace {
+
+template <typename TImageType>
+int ActualTest( std::string filename, typename TImageType::SizeType size ) 
 {
+  typedef TImageType ImageType;
+  typedef typename ImageType::PixelType PixelType;
 
-  if (ac < 3)
-    {
-    std::cout << "usage: itkIOTests itkLargeImageWriteReadTest outputFileName numberOfPixelsInOneDimension" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef unsigned short  PixelType;
-  typedef itk::Image<PixelType,2> ImageType;
 
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;
 
-  ImageType::Pointer image = ImageType::New();
-  ImageType::RegionType region;
-  ImageType::IndexType index;
-  ImageType::SizeType size;
+  typename ImageType::Pointer image = ImageType::New();
+  typename ImageType::RegionType region;
+  typename ImageType::IndexType index;
 
   itk::TimeProbesCollectorBase chronometer;
 
-  const unsigned long numberOfPixelsInOneDimension = atol( av[2] );
  
-  size.Fill( numberOfPixelsInOneDimension );
+  
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
   
   image->SetRegions(region);
+  
+  size_t numberOfPixels = 1;
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+    {
+    numberOfPixels *= region.GetSize( i );
+    }
+         
+  const unsigned long sizeInMegaBytes = static_cast< unsigned long >(
+    ( sizeof(PixelType) * numberOfPixels ) / ( 1024.0 * 1024.0 ) );
 
-  const unsigned long sizeInMegaBytes =
-    static_cast< unsigned long >(
-      ( sizeof(PixelType) * numberOfPixelsInOneDimension * numberOfPixelsInOneDimension ) /
-      ( 1024.0 * 1024.0 ) );
-
-
+  
   std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl; 
-
+  
   chronometer.Start("Allocate");
   image->Allocate();
   chronometer.Stop("Allocate");
-
+  
   std::cout << "Initializing pixel values " << std::endl;
   typedef itk::ImageRegionIterator< ImageType >  IteratorType;
   typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
-
+  
   IteratorType itr( image, region );
   itr.GoToBegin();
-
+  
   PixelType pixelValue = itk::NumericTraits< PixelType >::Zero;
 
   chronometer.Start("Initializing");
@@ -89,9 +89,9 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   std::cout << "Trying to write the image to disk" << std::endl;
   try
     {
-    WriterType::Pointer writer = WriterType::New();
+    typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
-    writer->SetFileName(av[1]);
+    writer->SetFileName( filename );
     chronometer.Start("Write");
     writer->Update();
     chronometer.Stop("Write");
@@ -103,8 +103,8 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
     }
 
   std::cout << "Trying to read the image back from disk" << std::endl;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( filename );
 
   try
     {
@@ -118,7 +118,7 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  ImageType::ConstPointer readImage = reader->GetOutput();
+  typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr( readImage, region );
   IteratorType oitr( image, region );
@@ -154,5 +154,48 @@ int itkLargeImageWriteReadTest(int ac, char* av[])
   std::cout << "Test PASSED !" << std::endl;
 
   return EXIT_SUCCESS;
+}
+
+}
+
+int itkLargeImageWriteReadTest(int ac, char* argv[])
+{
+
+  if (ac < 3)
+    {
+    std::cout << "usage: itkIOTests itkLargeImageWriteReadTest outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  const std::string filename = argv[1];
+        
+  if ( ac == 3 )
+    {
+    const unsigned int Dimension = 2;
+    
+    typedef unsigned short PixelType;
+    typedef itk::Image< PixelType, Dimension> ImageType;
+
+    ImageType::SizeType size;
+    
+    size.Fill( atol( argv[2] ) );
+    
+    return ActualTest< ImageType >( filename, size );
+    
+    }
+  else
+    {    
+    const unsigned int Dimension = 3;
+
+    typedef unsigned short PixelType;
+    typedef itk::Image< PixelType, Dimension> ImageType;
+
+    ImageType::SizeType size;
+    
+    size.Fill( atol( argv[2] ) );
+    size[2] = atol( argv[3] );
+    
+    return ActualTest< ImageType >( filename, size );
+    }
 
 }
