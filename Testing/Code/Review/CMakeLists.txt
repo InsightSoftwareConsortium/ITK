@@ -1683,11 +1683,101 @@ ADD_TEST(itkDiscreteHessianGaussianImageFunctionTest01 ${REVIEW_TESTS}
 )
 
 ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest01 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest01.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest01.png
   itkDiscreteGaussianDerivativeImageFilterTest
   ${INPUTDATA}/whiteSpot.png
   ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest01.png
   0    # orderX
   1    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest10 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest10.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest10.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest10.png
+  1    # orderX
+  0    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest11 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest11.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest11.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest11.png
+  1    # orderX
+  1    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest20 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest20.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest20.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest20.png
+  2    # orderX
+  0    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest02 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest02.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest02.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest02.png
+  0    # orderX
+  2    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest21 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest21.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest21.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest21.png
+  2    # orderX
+  1    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest12 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest12.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest12.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest12.png
+  1    # orderX
+  2    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest30 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest30.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest30.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest30.png
+  3    # orderX
+  0    # orderY
+  3.0  # sigma
+)
+
+ADD_TEST(itkDiscreteGaussianDerivativeImageFilterTest03 ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkDiscreteGaussianDerivativeImageFilterTest03.png
+            ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest03.png
+  itkDiscreteGaussianDerivativeImageFilterTest
+  ${INPUTDATA}/whiteSpot.png
+  ${TEMP}/itkDiscreteGaussianDerivativeImageFilterTest03.png
+  0    # orderX
+  3    # orderY
   3.0  # sigma
 )
 
