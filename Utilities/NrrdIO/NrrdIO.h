@@ -83,7 +83,8 @@ typedef unsigned long long airULLong;
 #define AIR_STRLEN_LARGE (512+1)
 #define AIR_STRLEN_HUGE  (1024+1)
 
-/* enum.c: enum value <--> string conversion utility */  
+/* enum.c: enum value <--> string conversion utility */
+#if 0
 typedef struct {
   char name[AIR_STRLEN_SMALL];
                /* what are these things? */
@@ -119,9 +120,8 @@ typedef struct {
                   NULL. */
   int sense;   /* require case matching on strings */
 } airEnum;
+#endif
    
-#if 0
-   FIXME will be...
 /* enum.c: enum value <--> string conversion utility */  
 typedef struct {
   const char *name;
@@ -159,13 +159,12 @@ typedef struct {
                   NULL. */
   int sense;   /* require case matching on strings */
 } airEnum;
-#endif   
-TEEM_API int airEnumUnknown(/*FIXME will be const*/ airEnum *enm);
-TEEM_API int airEnumValCheck(/*FIXME will be const */airEnum *enm, int val);
-TEEM_API const char *airEnumStr(/*FIXME will be const*/ airEnum *enm, int val);
-TEEM_API const char *airEnumDesc(/*FIXME will be const*/ airEnum *enm, int val);
-TEEM_API int airEnumVal(/*FIXME will be const */ airEnum *enm, const char *str);
-TEEM_API char *airEnumFmtDesc(/*FIXME will be const */ airEnum *enm, int val, int canon,
+TEEM_API int airEnumUnknown(const airEnum *enm);
+TEEM_API int airEnumValCheck(const airEnum *enm, int val);
+TEEM_API const char *airEnumStr(const airEnum *enm, int val);
+TEEM_API const char *airEnumDesc(const airEnum *enm, int val);
+TEEM_API int airEnumVal(const airEnum *enm, const char *str);
+TEEM_API char *airEnumFmtDesc(const airEnum *enm, int val, int canon,
                                  const char *fmt);
 
 /*
@@ -182,7 +181,7 @@ enum {
   airEndianLast
 };
 /* endianAir.c */
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be const*/ airEndian;
+TEEM_API const airEnum *const airEndian;
 TEEM_API const int airMyEndian;
 
 /* array.c: poor-man's dynamically resizable arrays */
@@ -333,7 +332,7 @@ enum {
 /* parseAir.c */
 TEEM_API double airAtod(const char *str);
 TEEM_API int airSingleSscanf(const char *str, const char *fmt, void *ptr);
-   TEEM_API /*FIXME will be const*/ airEnum */* FIXME const*/ airBool;
+TEEM_API const airEnum *const airBool;
 TEEM_API unsigned int airParseStrB(int *out, const char *s,
                                    const char *ct, unsigned int n, 
                                    ... /* (nothing used) */);
@@ -1883,13 +1882,13 @@ TEEM_API int nrrdStateKindNoop;
 ** name is best used for the airEnums here
 */
 /* enumsNrrd.c */
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdFormatType;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdType;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdEncodingType;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdCenter;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdKind;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdField;
-TEEM_API /*FIXME will be const*/ airEnum */*FIXME will be *const*/ nrrdSpace;
+TEEM_API const airEnum *const nrrdFormatType;
+TEEM_API const airEnum *const nrrdType;
+TEEM_API const airEnum *const nrrdEncodingType;
+TEEM_API const airEnum *const nrrdCenter;
+TEEM_API const airEnum *const nrrdKind;
+TEEM_API const airEnum *const nrrdField;
+TEEM_API const airEnum *const nrrdSpace;
 
 /******** arrays of things (poor-man's functions/predicates) */
 /* arraysNrrd.c */

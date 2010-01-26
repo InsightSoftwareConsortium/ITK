@@ -1,25 +1,23 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "NrrdIO.h"
@@ -30,12 +28,27 @@
 ** return the value representing "unknown" in an enum
 */
 int
-airEnumUnknown(airEnum *enm) {
+airEnumUnknown(const airEnum *enm) {
   
   if (enm && enm->val) {
     return enm->val[0];
   } else {
     return 0;
+  }
+}
+
+/*
+******** airEnumLast
+**
+** return the highest value representing a known value
+*/
+int
+airEnumLast(const airEnum *enm) {
+  
+  if (enm && enm->val) {
+    return enm->val[enm->M];
+  } else {
+    return enm->M;
   }
 }
 
@@ -47,7 +60,7 @@ airEnumUnknown(airEnum *enm) {
 ** given an invalid enum value, we return zero.
 */
 unsigned int
-_airEnumIndex(airEnum *enm, int val) {
+_airEnumIndex(const airEnum *enm, int val) {
   unsigned int ii, ret;
 
   ret = 0;
@@ -64,14 +77,18 @@ _airEnumIndex(airEnum *enm, int val) {
   return ret;
 }
 
+/*
+** returns non-zero if there is an error: given "val" is *not* 
+** a valid value of the airEnum "enm"
+*/
 int
-airEnumValCheck(airEnum *enm, int val) {
+airEnumValCheck(const airEnum *enm, int val) {
 
   return (0 == _airEnumIndex(enm, val));
 }
 
 const char *
-airEnumStr(airEnum *enm, int val) {
+airEnumStr(const airEnum *enm, int val) {
   int idx;
 
   idx = _airEnumIndex(enm, val);
@@ -79,7 +96,7 @@ airEnumStr(airEnum *enm, int val) {
 }
 
 const char *
-airEnumDesc(airEnum *enm, int val) {
+airEnumDesc(const airEnum *enm, int val) {
   int idx;
 
   idx = _airEnumIndex(enm, val);
@@ -87,7 +104,7 @@ airEnumDesc(airEnum *enm, int val) {
 }
 
 int 
-airEnumVal(airEnum *enm, const char *str) {
+airEnumVal(const airEnum *enm, const char *str) {
   char *strCpy, test[AIR_STRLEN_SMALL];
   unsigned int ii;
 
@@ -101,6 +118,8 @@ airEnumVal(airEnum *enm, const char *str) {
   }
 
   if (enm->strEqv) {
+    /* want strlen and not airStrlen here because the strEqv array
+       should be terminated by a non-null empty string */
     for (ii=0; strlen(enm->strEqv[ii]); ii++) {
       strncpy(test, enm->strEqv[ii], AIR_STRLEN_SMALL);
       test[AIR_STRLEN_SMALL-1] = '\0';
@@ -146,8 +165,9 @@ airEnumVal(airEnum *enm, const char *str) {
 ** when there is a strEqv[]/valEqv[] pair defining a shorter string)
 */
 char *
-airEnumFmtDesc(airEnum *enm, int val, int canon, const char *fmt) {
-  char *buff, *desc, ident[AIR_STRLEN_SMALL];
+airEnumFmtDesc(const airEnum *enm, int val, int canon, const char *fmt) {
+  const char *desc;
+  char *buff, ident[AIR_STRLEN_SMALL];
   const char *_ident;
   int i;
   size_t len;
@@ -160,28 +180,89 @@ airEnumFmtDesc(airEnum *enm, int val, int canon, const char *fmt) {
   }
   _ident = airEnumStr(enm, val);
   if (!canon && enm->strEqv) {
-    len = strlen(_ident);
-    for (i=0; strlen(enm->strEqv[i]); i++) {
+    len = airStrlen(_ident);
+    for (i=0; airStrlen(enm->strEqv[i]); i++) {
       if (val != enm->valEqv[i]) {
         /* this isn't a string representing the value we care about */
         continue;
       }
-      if (strlen(enm->strEqv[i]) < len) {
+      if (airStrlen(enm->strEqv[i]) < len) {
         /* this one is shorter */
-        len = strlen(enm->strEqv[i]);
+        len = airStrlen(enm->strEqv[i]);
         _ident = enm->strEqv[i];
       }
     }
   }
-  strcpy(ident, _ident);
+  strncpy(ident, _ident, AIR_STRLEN_SMALL);
+  ident[AIR_STRLEN_SMALL-1] = '\0';
   if (!enm->sense) {
     airToLower(ident);
   }
   desc = enm->desc[_airEnumIndex(enm, val)];
-  buff = (char *)calloc(strlen(fmt) + strlen(ident) + strlen(desc) + 1,
-                        sizeof(char));
+  buff = AIR_CALLOC(airStrlen(fmt) + airStrlen(ident) +
+                    airStrlen(desc) + 1, char);
   if (buff) {
     sprintf(buff, fmt, ident, desc);
   }
   return buff;
+}
+
+static void
+_enumPrintVal(FILE *file, const airEnum *enm, int ii) {
+
+  if (enm->desc) {
+    fprintf(file, "desc: %s\n", enm->desc[ii]);
+  }
+  if (enm->strEqv) {
+    unsigned int jj;
+    fprintf(file, "eqv:"); fflush(file);
+    jj = 0;
+    while (airStrlen(enm->strEqv[jj])) {
+      if (enm->valEqv[jj] == (enm->val
+                              ? enm->val[ii]
+                              : ii)) {
+        fprintf(file, " \"%s\"", enm->strEqv[jj]);
+      }
+      jj++;
+    }
+    fprintf(file, "\n");
+  }
+}
+
+void
+airEnumPrint(FILE *file, const airEnum *enm) {
+  int ii; /* this should arguable be unsigned int, but 
+             airEnum values were kept as "int", even after
+             the great unsigned conversion */
+
+  if (!(file && enm)) {
+    return;
+  }
+
+  if (airStrlen(enm->name)) {
+    fprintf(file, "airEnum \"%s\":\n", enm->name);
+  } else {
+    fprintf(file, "airEnum (NO NAME!):\n");
+  }
+  fprintf(file, "(%s case sensitive)\n", (enm->sense ? "yes, is" : "is not"));
+  if (enm->val) {
+    fprintf(file, "Values (%u valid) given explicitly\n", enm->M);
+    fprintf(file, "--- (0) %d: \"%s\"\n", enm->val[0], enm->str[0]);
+    for (ii=1; ii<=AIR_CAST(int, enm->M); ii++) {
+      fprintf(file, "--- (%d) %d: \"%s\" == \"%s\"\n", ii,
+              enm->val[ii], enm->str[ii],
+              airEnumStr(enm, enm->val[ii]));
+      _enumPrintVal(file, enm, ii);
+    }
+  } else {
+    /* enm->val NULL */
+    fprintf(file, "Values implicit; [1,%u] valid\n", enm->M);
+    fprintf(file, "--- 0: \"%s\"\n", enm->str[0]);
+    for (ii=1; ii<=AIR_CAST(int, enm->M); ii++) {
+      fprintf(file, "--- %d: %s == %s\n", ii, enm->str[ii],
+              airEnumStr(enm, ii));
+      _enumPrintVal(file, enm, ii);
+    }
+  }
+  return;
 }

@@ -1,65 +1,62 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
-*/
 
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 #include "NrrdIO.h"
 
-char
-_airBoolStr[][AIR_STRLEN_SMALL] = {
+const char *
+_airBoolStr[] = {
   "(unknown bool)",
   "false",
   "true"
 };
 
-char
-_airBoolDesc[][AIR_STRLEN_MED] = {
+const char *
+_airBoolDesc[] = {
   "unknown boolean",
   "false",
   "true"
 };
 
-int
+const int
 _airBoolVal[] = {
   -1,
   AIR_FALSE,
   AIR_TRUE
 };
 
-char
-_airBoolStrEqv[][AIR_STRLEN_SMALL] = {
+const char *
+_airBoolStrEqv[] = {
   "0", "no", "n", "false", "f", "off", "nope",
   "1", "yes", "y", "true", "t", "on", "yea",
   ""
 };
 
-int
+const int
 _airBoolValEqv[] = {
   AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE,
   AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE
 };
 
-airEnum
+const airEnum
 _airBool = {
   "boolean",
   2,
@@ -71,7 +68,7 @@ _airBool = {
   AIR_FALSE
 };
 
-airEnum *
+const airEnum *const
 airBool = &_airBool;
 
 double
@@ -117,7 +114,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     }
     else {
       /* we were given a float pointer */
-      *((float *)(ptr)) = (float)val;
+      *((float *)(ptr)) = AIR_CAST(float, val);
     }
     free(tmp);
     return 1;
@@ -178,6 +175,9 @@ airParseStrI(_PARSE_STR_ARGS(int))           { _PARSE_STR_BODY("%d") }
 
 unsigned int
 airParseStrUI(_PARSE_STR_ARGS(unsigned int)) { _PARSE_STR_BODY("%u") }
+
+unsigned int
+airParseStrLI(_PARSE_STR_ARGS(long int)) { _PARSE_STR_BODY("%ld") }
 
 unsigned int
 airParseStrZ(_PARSE_STR_ARGS(size_t))     { _PARSE_STR_BODY(_AIR_SIZE_T_CNV) }
@@ -352,6 +352,8 @@ unsigned int
                     unsigned int, ...))airParseStrI,
   (unsigned int (*)(void *, const char *, const char *,
                     unsigned int, ...))airParseStrUI,
+  (unsigned int (*)(void *, const char *, const char *,
+                    unsigned int, ...))airParseStrLI,
   (unsigned int (*)(void *, const char *, const char *,
                     unsigned int, ...))airParseStrZ,
   (unsigned int (*)(void *, const char *, const char *,
