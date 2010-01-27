@@ -178,7 +178,7 @@ private:
 
 AnalyzeImageIO(const Self&); //purposely not implemented
 void operator=(const Self&); //purposely not implemented
-void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
+void SwapBytesIfNecessary(void * buffer, SizeType numberOfPixels);
 /**
  * \author Hans J. Johnson
  * Performs byte swapping of the Analyze Image header if necessary.

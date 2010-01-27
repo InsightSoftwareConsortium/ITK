@@ -72,6 +72,9 @@ const short int DataTypeKey[12] =
   SPMANALYZE_DT_UNSIGNED_INT
 };
 
+// due to gzip and other io limitations this is the maximum size to
+// read at one time
+const unsigned int ANALYZE_MAXIMUM_IO_CHUNK = itk::NumericTraits<unsigned int>::max()/4;
 
 static std::string
 GetExtension( const std::string& filename )
@@ -135,8 +138,10 @@ static std::string GetImageFileName( const std::string& filename )
 
 void
 AnalyzeImageIO::SwapBytesIfNecessary( void* buffer,
-                                      unsigned long numberOfPixels )
+                                      SizeType _numberOfPixels )
 {
+  // todo check for overflow error
+  size_t numberOfPixels = static_cast<size_t>( _numberOfPixels );
   if ( m_ByteOrder == LittleEndian )
     {
     switch(m_ComponentType)
@@ -680,15 +685,7 @@ void  AnalyzeImageIO::DefineHeaderObjectDataType()
 
 void AnalyzeImageIO::Read(void* buffer)
 {
-  unsigned int dim;
-  const unsigned int dimensions = this->GetNumberOfDimensions();
-  unsigned int numberOfPixels = 1;
-  for(dim=0; dim< dimensions; dim++ )
-    {
-    numberOfPixels *= m_Dimensions[ dim ];
-    }
-
-  char * const p = static_cast<char *>(buffer);
+ 
   //4 cases to handle
   //1: given .hdr and image is .img
   //2: given .img
@@ -699,57 +696,95 @@ void AnalyzeImageIO::Read(void* buffer)
 
   /* Returns proper name for cases 1,2,3 */
   std::string ImageFileName = GetImageFileName( m_FileName );
-  //NOTE: gzFile operations act just like FILE * operations when the files
-  // are not in gzip fromat.
-  // This greatly simplifies the following code, and gzFile types are used
-  // everywhere.
-  // In addition, it has the added benifit of reading gzip compressed image
-  // files that do not have a .gz ending.
+  // NOTE: gzFile operations act just like FILE * operations when the
+  // files are not in gzip fromat.This greatly simplifies the
+  // following code, and gzFile types are used everywhere. In
+  // addition, it has the added benifit of reading gzip compressed
+  // image files that do not have a .gz ending. 
+  ///
+
   gzFile file_p = ::gzopen( ImageFileName.c_str(), "rb" );
-  if( file_p == NULL )
+  try  // try block to ensure we close the file
     {
-    /* Do a separate check to take care of case #4 */
-    ImageFileName += ".gz";
-    file_p = ::gzopen( ImageFileName.c_str(), "rb" );
     if( file_p == NULL )
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string message =
-        "Analyze Data File can not be read:"
-        " The following files were attempted:\n ";
-      message += GetImageFileName( m_FileName );
-      message += '\n';
-      message += ImageFileName;
-      message += '\n';
-      exception.SetDescription(message.c_str());
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
+      /* Do a separate check to take care of case #4 */
+      ImageFileName += ".gz";
+      file_p = ::gzopen( ImageFileName.c_str(), "rb" );
+      if( file_p == NULL )
+        {
+        itkExceptionMacro( <<"Analyze Data File can not be read: "
+                           << " The following files were attempted:\n "
+                           << GetImageFileName( m_FileName ) << "\n"
+                           << ImageFileName << "\n" );
+        }
       }
+
+    // Apply the offset if any.
+    // From itkAnalyzeDbh.h: 
+    // Byte offset in the .img file at which voxels start. 
+    // If value is negative specifies that the absolute value is 
+    // applied for every image in the file.
+    z_off_t byteOffset = static_cast<z_off_t>(fabs(m_Hdr.dime.vox_offset));
+    if (byteOffset > 0)
+      {
+      if ( ::gzseek(file_p, byteOffset, SEEK_SET) == -1 )
+        {
+        itkExceptionMacro ( << "Analyze Data File can not be read: "
+                            << " Unable to seek to the vox_offset: " 
+                            << byteOffset << "\n" );
+        }
+      }
+
+    
+    // CAVEAT: gzread in particular only accepts "unsigned int" for the
+    // number of bytes to read, thus limiting the amount which may be
+    // read in a single operation on some platforms to a different limit
+    // than the corresponding fread operation. 
+    
+    //size of the maximum chunk to read , if the file is larger than this it will be read as several chunks.
+    //This is due to the limitation of 'unsigned int' in  the gzread()  function.
+    static const unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+  
+    char * p = static_cast<char *>(buffer);
+
+    SizeType bytesRemaining = this->GetImageSizeInBytes(); 
+    while ( bytesRemaining )
+      { 
+      unsigned int bytesToRead = bytesRemaining > static_cast<SizeType>(maxChunk) 
+        ? maxChunk : static_cast<unsigned int>(bytesRemaining);
+      
+      int retval = ::gzread( file_p, p,  bytesToRead );  
+    
+      //
+      // check for error from gzread
+      // careful .. due to unsigned/signed conversion the 
+      // real return value could be -1 if a chunk equal to 2^32-1 is allowed! 
+      //
+      if( retval != static_cast<int>(bytesToRead) )
+        {
+        itkExceptionMacro( << "Analyze Data File : gzread returned bad value: "
+                           << retval << "\n" );
+       
+        }
+
+      p += bytesToRead;
+      bytesRemaining -= bytesToRead;
+      }
+
+    gzclose( file_p );
+    file_p = NULL;
+    SwapBytesIfNecessary( buffer, this->GetImageSizeInPixels() );
     }
-
-  // Seek through the file to the correct position, This is only necessary
-  // when readin in sub-volumes
-  // const long int total_offset = static_cast<long int>(tempX * tempY *
-  //                                start_slice * m_dataSize)
-  //    + static_cast<long int>(tempX * tempY * total_z * start_time *
-  //          m_dataSize);
-  // ::gzseek( file_p, total_offset, SEEK_SET );
-
-  // Apply the offset if any.
-  // From itkAnalyzeDbh.h: 
-  // Byte offset in the .img file at which voxels start. 
-  // If value is negative specifies that the absolute value is 
-  // applied for every image in the file.
-  long int byteOffset = static_cast<long int>(fabs(m_Hdr.dime.vox_offset));
-  if (byteOffset > 0)
+  catch (...)
     {
-    ::gzseek(file_p, byteOffset, SEEK_SET);
+    // close file and rethrow
+    if ( file_p != NULL ) 
+      {
+      gzclose( file_p );
+      }
+    throw;
     }
-
-  // read image in
-  ::gzread( file_p, p, static_cast< unsigned >( this->GetImageSizeInBytes() ) );
-  gzclose( file_p );
-  SwapBytesIfNecessary( buffer, numberOfPixels );
 }
 
 
@@ -764,7 +799,7 @@ bool AnalyzeImageIO::CanReadFile( const char* FileNameToRead )
   if(filenameext != std::string(".hdr")
      && filenameext != std::string(".img.gz")
      && filenameext != std::string(".img")
-     )
+    )
     {
     return false;
     }
@@ -860,6 +895,10 @@ void AnalyzeImageIO::ReadImageInformation()
       if (this->m_Hdr.dime.dim[idx] > 0)
         {
         numberOfDimensions++;
+        }
+      else
+        {
+        itkWarningMacro( "AnalyzeImageIO is ignoring dimension " << idx << " with value " <<  this->m_Hdr.dime.dim[idx] );
         }
       }
     }
@@ -1345,13 +1384,13 @@ AnalyzeImageIO
   // Check for image dimensions to be smaller enough to fit in
   // a short int. First generate the number that is the maximum allowable.
   const SizeValueType maximumNumberOfPixelsAllowedInOneDimension =
-    itk::NumericTraits<unsigned short>::max() - 1;
+    itk::NumericTraits<short>::max();
 
   for( dim=0; dim< this->GetNumberOfDimensions(); dim++ )
     {
     const SizeValueType numberOfPixelsAlongThisDimension = m_Dimensions[ dim ];
     
-    if( numberOfPixelsAlongThisDimension >= maximumNumberOfPixelsAllowedInOneDimension )
+    if( numberOfPixelsAlongThisDimension > maximumNumberOfPixelsAllowedInOneDimension )
       {
       itkExceptionMacro("Number of pixels along dimension " << dim 
          << " is " << numberOfPixelsAlongThisDimension << 
@@ -1512,33 +1551,53 @@ AnalyzeImageIO
   //      "const voidp" is "void* const", not "const void*".
   voidp p = const_cast<voidp>(buffer);
   const std::string ImageFileName = GetImageFileName( m_FileName );
-  const std::string fileExt=GetExtension( m_FileName );
+  const std::string fileExt = GetExtension( m_FileName );
   // Check case where image is acually a compressed image
-  if(!fileExt.compare( ".gz" ))
+
+  if(!fileExt.compare( ".img.gz" ))
     {
     // Open the *.img.gz file for writing.
     gzFile  file_p = ::gzopen( ImageFileName.c_str(), "wb" );
     if( file_p==NULL )
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage="Error, Can not write compressed image file for ";
-      ErrorMessage += m_FileName;
-      exception.SetDescription(ErrorMessage.c_str());
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
+      itkExceptionMacro( << "Error, Can not write compressed image file for " << m_FileName );
+      }
+    
+    try // try block to ensure file gets closed 
+      {
+      // CAVEAT: gzwrite in particular only accepts "unsigned int" for the
+      // number of bytes to read, thus limiting the amount which may be
+      // read in a single operation on some platforms to a different limit
+      // than the corresponding fread operation. 
+
+      static const unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+      
+      SizeType bytesRemaining = this->GetImageSizeInBytes();
+      while ( bytesRemaining )
+        { 
+        unsigned int bytesToWrite = bytesRemaining > static_cast<SizeType>(maxChunk) 
+          ? maxChunk : static_cast<unsigned int>(bytesRemaining);
+        
+        if( ::gzwrite(file_p, p, bytesToWrite ) != static_cast<int>(bytesToWrite) )
+          {
+          itkExceptionMacro( << "Error, Can not write compressed image file for "<< m_FileName );
+          }
+        p = static_cast<char *>( p ) + bytesToWrite;
+        bytesRemaining -= bytesToWrite;
+        }
+      ::gzclose( file_p );
+      file_p = NULL;
+      } 
+    catch (...) 
+      {
+      // close file and rethrow exception
+      if ( file_p != NULL )
+        {
+        ::gzclose( file_p );
+        }
+      throw;
       }
 
-    if(::gzwrite(file_p,p,
-                 static_cast< unsigned >(this->GetImageSizeInBytes())) == -1)
-      {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage="Error, Can not write compressed image file for ";
-      ErrorMessage += m_FileName;
-      exception.SetDescription(ErrorMessage.c_str());
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
-      }
-    ::gzclose( file_p );
     //RemoveFile FileNameToRead.img so that it does not get confused with
     //FileNameToRead.img.gz
     //The following is a hack that can be used to remove ambiguity when an
@@ -1546,7 +1605,7 @@ AnalyzeImageIO
     //This results in one *.hdr file being assosiated with a *.img and a
     // *.img.gz image file.
     //DEBUG -- Will this work under windows?
-    std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
+    std::string unusedbaseimgname = GetRootName(GetHeaderFileName(m_FileName));
     unusedbaseimgname += ".img";
     itksys::SystemTools::RemoveFile(unusedbaseimgname.c_str());
     }
@@ -1557,31 +1616,23 @@ AnalyzeImageIO
     local_OutputStream.open( ImageFileName.c_str(), std::ios::out | std::ios::binary );
     if( !local_OutputStream )
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage="Error opening image data file for writing.";
-      ErrorMessage += m_FileName;
-      exception.SetDescription(ErrorMessage.c_str());
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
+      itkExceptionMacro( << "Error opening image data file for writing."
+                         << m_FileName );
       }
     local_OutputStream.write((const char *)p, static_cast< std::streamsize >( this->GetImageSizeInBytes() ) );
     bool success = !local_OutputStream.bad();
     local_OutputStream.close();
     if( !success )
       {
-      ExceptionObject exception(__FILE__, __LINE__);
-      std::string ErrorMessage="Error writing image data.";
-      ErrorMessage += m_FileName;
-      exception.SetDescription(ErrorMessage.c_str());
-      exception.SetLocation(ITK_LOCATION);
-      throw exception;
+      itkExceptionMacro( << "Error writing image data."
+                         << m_FileName );
       }
     //RemoveFile FileNameToRead.img.gz so that it does not get confused with FileNameToRead.img
     //The following is a hack that can be used to remove ambiguity when an
     //uncompressed image is read, and then written as compressed.
     //This results in one *.hdr file being assosiated with a *.img and a *.img.gz image file.
     //DEBUG -- Will this work under windows?
-    std::string unusedbaseimgname= GetRootName(GetHeaderFileName(m_FileName));
+    std::string unusedbaseimgname = GetRootName(GetHeaderFileName(m_FileName));
     unusedbaseimgname += ".img.gz";
     itksys::SystemTools::RemoveFile(unusedbaseimgname.c_str());
     }
