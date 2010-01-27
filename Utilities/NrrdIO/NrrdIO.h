@@ -385,6 +385,7 @@ TEEM_API unsigned int airOneLine(FILE *file, char *line, int size);
 ** reasons for why airSanity() failed (specifically, the possible
 ** return values for airSanity()
 */
+#if 0   
 enum {
   airInsane_not,           /*  0: actually, all sanity checks passed */
   airInsane_endian,        /*  1: airMyEndian is wrong */
@@ -401,6 +402,25 @@ enum {
   airInsane_DLSize         /* 11: sizeof(double), sizeof(airLLong) not 8 */
 };
 #define AIR_INSANE_MAX        11
+#else
+enum {
+  airInsane_not,           /*  0: actually, all sanity checks passed */
+  airInsane_endian,        /*  1: airMyEndian is wrong */
+  airInsane_pInfExists,    /*  2: AIR_EXISTS(positive infinity) was true */
+  airInsane_nInfExists,    /*  3: AIR_EXISTS(negative infinity) was true */
+  airInsane_NaNExists,     /*  4: AIR_EXISTS(NaN) was true */
+  airInsane_FltDblFPClass, /*  5: double -> float assignment messed up the
+                               airFPClass_f() of the value */
+  airInsane_QNaNHiBit,     /*  6: airMyQNaNHiBit is wrong */
+  airInsane_AIR_NAN,       /*  7: airFPClass_f(AIR_QNAN,AIR_SNAN) wrong */
+  airInsane_dio,           /*  8: airMyDio set to something invalid */
+  airInsane_32Bit,         /*  9: airMy32Bit is wrong */
+  airInsane_UCSize,        /* 10: unsigned char isn't 8 bits */
+  airInsane_FISize,        /* 11: sizeof(float), sizeof(int) not 4 */
+  airInsane_DLSize         /* 12: sizeof(double), sizeof(airLLong) not 8 */
+};
+#define AIR_INSANE_MAX        12
+#endif
 TEEM_API const char *airInsaneErr(int insane);
 TEEM_API int airSanity(void);
 
