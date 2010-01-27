@@ -271,13 +271,23 @@ IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 12 )
 
   # Image of 9.12 Gigabytes (pixels size is 16bits)
   ADD_TEST(itkLargeImageWriteReadTest3 ${IO_TESTS} itkLargeImageWriteReadTest
-           ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd  70000L )
+    ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd  70000L )
+
+  # Image of 5.99 Gigabytes (pixels size is 16bits)
+  ADD_TEST(itkLargeImageWriteReadTest_IMG ${IO_TESTS} itkLargeImageWriteReadTest
+    ${ITK_TEST_OUTPUT_DIR}/LargeImage.img  32767L 3 )
+
+  # Image of 5.99 Gigabytes (pixels size is 16bits)
+  ADD_TEST(itkLargeImageWriteReadTest_IMG_GZ ${IO_TESTS} itkLargeImageWriteReadTest
+    ${ITK_TEST_OUTPUT_DIR}/LargeImage.img.gz  32766L 3 )
 
   # Due to the large memory requirements this tests must be run one by one
   SET_TESTS_PROPERTIES(itkLargeImageWriteReadTest3
-                       PROPERTIES
-                       RUN_SERIAL 1
-                      )
+    itkLargeImageWriteReadTest_IMG
+    itkLargeImageWriteReadTest_IMG_GZ
+    PROPERTIES
+    RUN_SERIAL 1
+    )
 
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 12 )
 
