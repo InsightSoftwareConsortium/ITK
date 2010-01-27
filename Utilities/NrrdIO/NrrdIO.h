@@ -30,6 +30,7 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include <float.h>
+#include "itk_NrrdIO_mangle.h"
 
 #define TEEM_VERSION_MAJOR    1       /* 1 digit */
 #define TEEM_VERSION_MINOR   11       /* 1 or 2 digits */
@@ -40,7 +41,6 @@
 /* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.
    This header mangles the symbols in the NrrdIO library, preventing
    conflicts in applications linked against two versions of NrrdIO. */
-#include "itk_NrrdIO_mangle.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -84,44 +84,6 @@ typedef unsigned long long airULLong;
 #define AIR_STRLEN_HUGE  (1024+1)
 
 /* enum.c: enum value <--> string conversion utility */
-#if 0
-typedef struct {
-  char name[AIR_STRLEN_SMALL];
-               /* what are these things? */
-  unsigned int M;
-               /* If "val" is NULL, the the valid enum values are from 1 
-                  to M (represented by strings str[1] through str[M]), and
-                  the unknown/invalid value is 0.  If "val" is non-NULL, the
-                  valid enum values are from val[1] to val[M] (but again, 
-                  represented by strings str[1] through str[M]), and the
-                  unknown/invalid value is val[0].  In both cases, str[0]
-                  is the string to represent an unknown/invalid value */
-  char (*str)[AIR_STRLEN_SMALL]; 
-               /* "canonical" textual representation of the enum values */
-  int *val;    /* non-NULL iff valid values in the enum are not [1..M], and/or
-                  if value for unknown/invalid is not zero */
-  char (*desc)[AIR_STRLEN_MED];
-               /* desc[i] is a short description of the enum values represented
-                  by str[i] (thereby starting with the unknown value), to be
-                  used to by things like hest */
-  char (*strEqv)[AIR_STRLEN_SMALL];  
-               /* All the variations in strings recognized in mapping from
-                  string to value (the values in valEqv).  This **MUST** be
-                  terminated by a zero-length string ("") so as to signify
-                  the end of the list.  This should not contain the string
-                  for unknown/invalid.  If "strEqv" is NULL, then mapping
-                  from string to value is done by traversing "str", and 
-                  "valEqv" is ignored. */
-  int *valEqv; /* The values corresponding to the strings in strEqv; there
-                  should be one integer for each non-zero-length string in
-                  strEqv: strEqv[i] is a valid string representation for
-                  value valEqv[i]. This should not contain the value for
-                  unknown/invalid.  This "valEqv" is ignored if "strEqv" is
-                  NULL. */
-  int sense;   /* require case matching on strings */
-} airEnum;
-#endif
-   
 /* enum.c: enum value <--> string conversion utility */  
 typedef struct {
   const char *name;
@@ -1747,6 +1709,7 @@ typedef struct NrrdEncoding_t {
 ** after the nrrd has been read, it is a potentially useful record of what
 ** it took to read it in.
 */
+
 typedef struct NrrdIoState_t {
   char *path,               /* allows us to remember the directory
                                from whence this nrrd was "load"ed, or
@@ -1766,11 +1729,22 @@ typedef struct NrrdIoState_t {
                                style format string, not in the sense of a 
                                file format.  This may need header-relative
                                path processing. */
-    **dataFN;               /* ON READ + WRITE: array of data filenames. These
+    **dataFN,               /* ON READ + WRITE: array of data filenames. These
                                are not passed directly to fopen, they may need
                                header-relative path processing. Like the
                                cmtArr in the Nrrd, this array is not NULL-
                                terminated */
+    *headerStringWrite;     /* ON WRITE: string from to which the header can
+                               be written.  On write, it is assumed allocated
+                               for as long as it needs to be (probably via a
+                               first pass with learningHeaderStrlen). NOTE:
+                               It is the non-NULL-ity of this which signifies
+                               the intent to do string-based writing */
+  const char
+    *headerStringRead;      /* ON READ: like headerStringWrite, but for
+                               reading the header from.  NOTE: It is the
+                               non-NULL-ity of this which signifies the
+                               intent to do string-based reading */
   airArray *dataFNArr;      /* for managing the above */
 
   FILE *headerFile,         /* if non-NULL, the file from which the NRRD
@@ -1795,13 +1769,21 @@ typedef struct NrrdIoState_t {
                                something with the formatting, then
                                what is the max number of values to
                                write on a line */
-    lineSkip;               /* if dataFile non-NULL, the number of
+    lineSkip,               /* if dataFile non-NULL, the number of
                                lines in dataFile that should be
                                skipped over (so as to bypass another
                                form of ASCII header preceeding raw
                                data) */
-  int dataFNMin,            /* used with dataFNFormat to identify ...*/
-    dataFNMax,              /* ... all the multiple detached datafiles */
+    headerStrlen,           /* ON WRITE, for NRRDs, if learningHeaderStrlen,
+                               the learned strlen of the header so far */
+    headerStrpos;           /* ON READ, for NRRDs, if headerStringRead is
+                               non-NULL, the current location of reading
+                               in the header */
+  long int byteSkip;        /* exactly like lineSkip, but bytes
+                               instead of lines.  First the lines are
+                               skipped, then the bytes */
+  int dataFNMin,            /* used with dataFNFormat to identify .. */
+    dataFNMax,              /* .. all the multiple detached datafiles */
     dataFNStep,             /* how to step from max to min */
     dataFNIndex,            /* which of the data files are being read */
     pos,                    /* line[pos] is beginning of stuff which
@@ -1809,9 +1791,6 @@ typedef struct NrrdIoState_t {
     endian,                 /* endian-ness of the data in file, for
                                those encoding/type combinations for
                                which it matters (from nrrdEndian) */
-    byteSkip,               /* exactly like lineSkip, but bytes
-                               instead of lines.  First the lines are
-                               skipped, then the bytes */
     seen[NRRD_FIELD_MAX+1], /* for error checking in header parsing */
     detachedHeader,         /* ON WRITE: request for file (NRRD format only)
                                to be split into distinct header and data. 
@@ -1844,9 +1823,12 @@ typedef struct NrrdIoState_t {
     zlibStrategy,           /* zlib compression strategy, can be one
                                of the nrrdZlibStrategy enums, default is
                                nrrdZlibStrategyDefault. */
-    bzip2BlockSize;         /* block size used for compression, 
+    bzip2BlockSize,         /* block size used for compression, 
                                roughly equivalent to better but slower
                                (1-9, -1 for default[9]). */
+    learningHeaderStrlen;   /* ON WRITE, for nrrds, learn and save the total
+                               length of header into headerStrlen. This is
+                               used to allocate a buffer for header */
   void *oldData;            /* ON READ: if non-NULL, pointer to space that 
                                has already been allocated for oldDataSize */
   size_t oldDataSize;       /* ON READ: size of mem pointed to by oldData */
@@ -1858,22 +1840,31 @@ typedef struct NrrdIoState_t {
   const NrrdEncoding *encoding;
 } NrrdIoState;
 
-
 /******** defaults (nrrdDef..) and state (nrrdState..) */
 /* defaultsNrrd.c */
-TEEM_API const NrrdEncoding *nrrdDefWriteEncoding;
-TEEM_API int nrrdDefWriteBareText;
-TEEM_API int nrrdDefWriteCharsPerLine;
-TEEM_API int nrrdDefWriteValsPerLine;
-TEEM_API int nrrdDefCenter;
-TEEM_API double nrrdDefSpacing;
+TEEM_API int nrrdDefaultWriteEncodingType;
+TEEM_API int nrrdDefaultWriteBareText;
+TEEM_API unsigned int nrrdDefaultWriteCharsPerLine;
+TEEM_API unsigned int nrrdDefaultWriteValsPerLine;
+TEEM_API int nrrdDefaultCenter;
+TEEM_API double nrrdDefaultSpacing;
 TEEM_API int nrrdStateVerboseIO;
+TEEM_API int nrrdStateKeyValuePairsPropagate;
 TEEM_API int nrrdStateAlwaysSetContent;
 TEEM_API int nrrdStateDisableContent;
 TEEM_API char *nrrdStateUnknownContent;
 TEEM_API int nrrdStateGrayscaleImage3D;
 TEEM_API int nrrdStateKeyValueReturnInternalPointers;
 TEEM_API int nrrdStateKindNoop;
+   
+/*FIXME old stuff: to delete... */
+TEEM_API const NrrdEncoding *nrrdDefWriteEncoding;
+TEEM_API int nrrdDefWriteBareText;
+TEEM_API int nrrdDefWriteCharsPerLine;
+TEEM_API int nrrdDefWriteValsPerLine;
+TEEM_API int nrrdDefCenter;
+TEEM_API double nrrdDefSpacing;
+
 
 /******** all the airEnums used through-out nrrd */
 /* 
@@ -1952,16 +1943,23 @@ TEEM_API void nrrdAxisInfoIdxRange(double *loP, double *hiP,
 TEEM_API void nrrdAxisInfoSpacingSet(Nrrd *nrrd, unsigned int ax);
 TEEM_API void nrrdAxisInfoMinMaxSet(Nrrd *nrrd, unsigned int ax,
                                     int defCenter);
-TEEM_API unsigned int nrrdDomainAxesGet(Nrrd *nrrd,
+TEEM_API unsigned int nrrdDomainAxesGet(const Nrrd *nrrd,
                                         unsigned int axisIdx[NRRD_DIM_MAX]);
-TEEM_API unsigned int nrrdRangeAxesGet(Nrrd *nrrd,
+TEEM_API unsigned int nrrdRangeAxesGet(const Nrrd *nrrd,
                                        unsigned int axisIdx[NRRD_DIM_MAX]);
+TEEM_API unsigned int nrrdSpatialAxesGet(const Nrrd *nrrd,
+                                            unsigned int
+                                            axisIdx[NRRD_DIM_MAX]);
+TEEM_API unsigned int nrrdNonSpatialAxesGet(const Nrrd *nrrd,
+                                               unsigned int
+                                               axisIdx[NRRD_DIM_MAX]);
 TEEM_API int nrrdSpacingCalculate(const Nrrd *nrrd, unsigned int ax,
                                   double *spacing,
                                   double vector[NRRD_SPACE_DIM_MAX]);
 
 /******** simple things */
 /* simple.c */
+#if 0
 TEEM_API const char *nrrdBiffKey;
 TEEM_API unsigned int nrrdSpaceDimension(int space);
 TEEM_API int nrrdSpaceSet(Nrrd *nrrd, int space);
@@ -1987,6 +1985,45 @@ TEEM_API size_t nrrdElementNumber(const Nrrd *nrrd);
 TEEM_API int nrrdSanity(void);
 TEEM_API int nrrdSameSize(const Nrrd *n1, const Nrrd *n2, int useBiff);
 
+#else
+
+TEEM_API const char *nrrdBiffKey;
+TEEM_API unsigned int nrrdSpaceDimension(int space);
+TEEM_API int nrrdSpaceSet(Nrrd *nrrd, int space);
+TEEM_API int nrrdSpaceDimensionSet(Nrrd *nrrd, unsigned int spaceDim);
+TEEM_API unsigned int nrrdSpaceOriginGet(const Nrrd *nrrd,
+                                            double vector[NRRD_SPACE_DIM_MAX]);
+TEEM_API int nrrdSpaceOriginSet(Nrrd *nrrd,
+                                   double vector[NRRD_SPACE_DIM_MAX]);
+TEEM_API int nrrdOriginCalculate(const Nrrd *nrrd,
+                                    unsigned int *axisIdx,
+                                    unsigned int axisIdxNum,
+                                    int defaultCenter, double *origin);
+TEEM_API int nrrdContentSet_va(Nrrd *nout, const char *func,
+                                  const Nrrd *nin, const char *format,
+                                  ... /* printf-style arg list */ );
+TEEM_API void nrrdDescribe(FILE *file, const Nrrd *nrrd);
+TEEM_API int nrrdCheck(const Nrrd *nrrd);
+TEEM_API int _nrrdCheck(const Nrrd *nrrd, int checkData, int useBiff);
+TEEM_API size_t nrrdElementSize(const Nrrd *nrrd);
+TEEM_API size_t nrrdElementNumber(const Nrrd *nrrd);
+TEEM_API int nrrdSanity(void);
+TEEM_API int nrrdSameSize(const Nrrd *n1, const Nrrd *n2, int useBiff);
+TEEM_API void nrrdSpaceVecCopy(double dst[NRRD_SPACE_DIM_MAX], 
+                                  const double src[NRRD_SPACE_DIM_MAX]);
+TEEM_API void nrrdSpaceVecScaleAdd2(double sum[NRRD_SPACE_DIM_MAX], 
+                                       double sclA, 
+                                       const double vecA[NRRD_SPACE_DIM_MAX],
+                                       double sclB, 
+                                       const double vecB[NRRD_SPACE_DIM_MAX]);
+TEEM_API void nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX], 
+                                   double scl, 
+                                   const double vec[NRRD_SPACE_DIM_MAX]);
+TEEM_API double nrrdSpaceVecNorm(int sdim,
+                                    const double vec[NRRD_SPACE_DIM_MAX]);
+TEEM_API void nrrdSpaceVecSetNaN(double vec[NRRD_SPACE_DIM_MAX]);
+#endif
+   
 /******** comments related */
 /* comment.c */
 TEEM_API int nrrdCommentAdd(Nrrd *nrrd, const char *str);

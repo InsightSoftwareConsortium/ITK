@@ -1,30 +1,27 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "NrrdIO.h"
 #include "privateNrrd.h"
-#include "teem32bit.h"
 
 /*
   #include <sys/types.h>
@@ -32,17 +29,17 @@
 */
 
 int
-nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
-  char me[]="nrrdIoStateSet", err[AIR_STRLEN_MED];
+nrrdIoStateSet(NrrdIoState *nio, int parm, int value) {
+  static const char me[]="nrrdIoStateSet";
   
   if (!nio) {
-    sprintf(err, "%s: got NULL pointer", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
   }
   if (!( AIR_IN_OP(nrrdIoStateUnknown, parm, nrrdIoStateLast) )) {
-    sprintf(err, "%s: identifier %d not in valid range [%d,%d]", me,
-            parm, nrrdIoStateUnknown+1, nrrdIoStateLast-1);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: identifier %d not in valid range [%d,%d]", me,
+             parm, nrrdIoStateUnknown+1, nrrdIoStateLast-1);
+    return 1;
   }
   switch (parm) {
   case nrrdIoStateDetachedHeader:
@@ -53,15 +50,15 @@ nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
     break;
   case nrrdIoStateCharsPerLine:
     if (value < 40) {
-      sprintf(err, "%s: %d charsPerLine is awfully small", me, value);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: %d charsPerLine is awfully small", me, value);
+      return 1;
     }
     nio->charsPerLine = value;
     break;
   case nrrdIoStateValsPerLine:
     if (value < 4) {
-      sprintf(err, "%s: %d valsPerLine is awfully small", me, value);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: %d valsPerLine is awfully small", me, value);
+      return 1;
     }
     nio->valsPerLine = value;
     break;
@@ -73,22 +70,22 @@ nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
     break;
   case nrrdIoStateZlibLevel:
     if (!( AIR_IN_CL(-1, value, 9) )) {
-      sprintf(err, "%s: zlibLevel %d invalid", me, value);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: zlibLevel %d invalid", me, value);
+      return 1;
     }
     nio->zlibLevel = value;
     break;
   case nrrdIoStateZlibStrategy:
     if (!( AIR_IN_OP(nrrdZlibStrategyUnknown, value, nrrdZlibStrategyLast) )) {
-      sprintf(err, "%s: zlibStrategy %d invalid", me, value);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: zlibStrategy %d invalid", me, value);
+      return 1;
     }
     nio->zlibStrategy = value;
     break;
   case nrrdIoStateBzip2BlockSize:
     if (!( AIR_IN_CL(-1, value, 9) )) {
-      sprintf(err, "%s: bzip2BlockSize %d invalid", me, value);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: bzip2BlockSize %d invalid", me, value);
+      return 1;
     }
     nio->bzip2BlockSize = value;
     break;
@@ -100,41 +97,42 @@ nrrdIoStateSet (NrrdIoState *nio, int parm, int value) {
 }
 
 int
-nrrdIoStateEncodingSet (NrrdIoState *nio, const NrrdEncoding *encoding) {
-  char me[]="nrrdIoStateEncodingSet", err[AIR_STRLEN_MED];
+nrrdIoStateEncodingSet(NrrdIoState *nio, const NrrdEncoding *encoding) {
+  static const char me[]="nrrdIoStateEncodingSet";
 
   if (!( nio && encoding )) {
-    sprintf(err, "%s: got NULL pointer", me);
     if (nio) {
       nio->encoding = nrrdEncodingUnknown;
     }
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
   }
   if (!encoding->available()) {
-    sprintf(err, "%s: %s encoding isn't actually available", me,
-            encoding->name);
     nio->encoding = nrrdEncodingUnknown;
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: %s encoding isn't actually available", me,
+             encoding->name);
+    return 1;
   }
   nio->encoding = encoding;
   return 0;
 }
 
 int
-nrrdIoStateFormatSet (NrrdIoState *nio, const NrrdFormat *format) {
-  char me[]="nrrdIoStateFormatSet", err[AIR_STRLEN_MED];
+nrrdIoStateFormatSet(NrrdIoState *nio, const NrrdFormat *format) {
+  static const char me[]="nrrdIoStateFormatSet";
 
   if (!( nio && format )) {
-    sprintf(err, "%s: got NULL pointer", me);
     if (nio) {
       nio->format = nrrdFormatUnknown;
     }
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
   }
   if (!format->available()) {
-    sprintf(err, "%s: %s format isn't actually available", me, format->name);
     nio->format = nrrdFormatUnknown;
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: %s format isn't actually available", me,
+             format->name);
+    return 1;
   }
   nio->format = format;
   return 0;
@@ -144,8 +142,8 @@ nrrdIoStateFormatSet (NrrdIoState *nio, const NrrdFormat *format) {
 ** no biff
 */
 int
-nrrdIoStateGet (NrrdIoState *nio, int parm) {
-  char me[]="nrrdIoStateGet";
+nrrdIoStateGet(NrrdIoState *nio, int parm) {
+  static const char me[]="nrrdIoStateGet";
   int value;
   
   if (!nio) {
@@ -195,7 +193,7 @@ nrrdIoStateGet (NrrdIoState *nio, int parm) {
 ** no biff
 */
 const NrrdEncoding *
-nrrdIoStateEncodingGet (NrrdIoState *nio) {
+nrrdIoStateEncodingGet(NrrdIoState *nio) {
 
   return nio ? nio->encoding : nrrdEncodingUnknown;
 }
@@ -204,7 +202,7 @@ nrrdIoStateEncodingGet (NrrdIoState *nio) {
 ** no biff
 */
 const NrrdFormat *
-nrrdIoStateFormatGet (NrrdIoState *nio) {
+nrrdIoStateFormatGet(NrrdIoState *nio) {
 
   return nio ? nio->format : nrrdFormatUnknown;
 }
@@ -231,7 +229,7 @@ _nrrdStrcatSpaceVector(char *str, int spaceDim,
 }
 
 int
-_nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
+_nrrdFieldInteresting(const Nrrd *nrrd, NrrdIoState *nio, int field) {
   int ret;
   unsigned int ai;
   
@@ -354,7 +352,7 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
        being printed explicity), so they are never "interesting" */
     break;
   case nrrdField_sample_units:
-    ret = (int)airStrlen(nrrd->sampleUnits);
+    ret = !!airStrlen(nrrd->sampleUnits);
     break;
   case nrrdField_space_units:
     for (ai=0; ai<nrrd->spaceDim; ai++) {
@@ -398,19 +396,20 @@ _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio, int field) {
 ** the per-axis information), but many only make sense in NRRD files.
 ** This is just one example of NRRD-format-specific stuff that is not
 ** in formatNRRD.c
-**
-** HEY: the use of "10", "20", and "30" as stand-ins for "maximum
-** number of characters that might be used for printing this integral
-** value" is getting pretty tiresome...
 */
 void
-_nrrdSprintFieldInfo (char **strP, char *prefix,
-                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
-  char me[]="_nrrdSprintFieldInfo", buff[AIR_STRLEN_MED], *fnb;
+_nrrdSprintFieldInfo(char **strP, char *prefix,
+                     const Nrrd *nrrd, NrrdIoState *nio, int field) {
+  static const char me[]="_nrrdSprintFieldInfo";
+  char buff[AIR_STRLEN_MED], *fnb;
   double colvec[NRRD_SPACE_DIM_MAX];
   const char *fs;
-  unsigned int ii, dd;
-  int fslen, fdlen, endi, maxl;
+  unsigned int ii, dd,
+    uintStrlen = 11,
+    size_tStrlen = 33,
+    doubleStrlen = 513;
+  size_t fslen, fdlen, maxl;
+  int endi;
   
   if (!( strP && prefix
          && nrrd 
@@ -423,7 +422,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   }
   
   fs = airEnumStr(nrrdField, field);
-  fslen = (int)(strlen(prefix) + strlen(fs) + strlen(": ") + 1);
+  fslen = strlen(prefix) + strlen(fs) + strlen(": ") + 1;
   switch (field) {
   case nrrdField_comment:
   case nrrdField_keyvalue:
@@ -437,7 +436,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s: %s", prefix, fs, nrrd->content);
     break;
   case nrrdField_number:
-    *strP = (char *)calloc(fslen + 30, sizeof(char));
+    *strP = (char *)calloc(fslen + size_tStrlen, sizeof(char));
     sprintf(*strP, "%s%s: " _AIR_SIZE_T_CNV, prefix, fs, 
             nrrdElementNumber(nrrd));
     break;
@@ -447,11 +446,11 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s: %s", prefix, fs, airEnumStr(nrrdType, nrrd->type));
     break;
   case nrrdField_block_size:
-    *strP = (char *)calloc(fslen + 20, sizeof(char));
+    *strP = (char *)calloc(fslen + size_tStrlen, sizeof(char));
     sprintf(*strP, "%s%s: " _AIR_SIZE_T_CNV, prefix, fs, nrrd->blockSize);
     break;
   case nrrdField_dimension:
-    *strP = (char *)calloc(fslen + 10, sizeof(char));
+    *strP = (char *)calloc(fslen + uintStrlen, sizeof(char));
     sprintf(*strP, "%s%s: %d", prefix, fs, nrrd->dim);
     break;
   case nrrdField_space:
@@ -460,12 +459,12 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s: %s", prefix, fs, airEnumStr(nrrdSpace, nrrd->space));
     break;
   case nrrdField_space_dimension:
-    *strP = (char *)calloc(fslen + 10, sizeof(char));
+    *strP = (char *)calloc(fslen + uintStrlen, sizeof(char));
     sprintf(*strP, "%s%s: %d", prefix, fs, nrrd->spaceDim);
     break;
     /* ---- begin per-axis fields ---- */
   case nrrdField_sizes:
-    *strP = (char *)calloc(fslen + nrrd->dim*10, sizeof(char));
+    *strP = (char *)calloc(fslen + nrrd->dim*(size_tStrlen + 1), sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
       sprintf(buff, " " _AIR_SIZE_T_CNV, nrrd->axis[ii].size);
@@ -473,7 +472,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     }
     break;
   case nrrdField_spacings:
-    *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
+    *strP = (char *)calloc(fslen + nrrd->dim*(doubleStrlen + 1), sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
       airSinglePrintf(NULL, buff, " %.17lg", nrrd->axis[ii].spacing);
@@ -481,7 +480,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     }
     break;
   case nrrdField_thicknesses:
-    *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
+    *strP = (char *)calloc(fslen + nrrd->dim*(doubleStrlen + 1), sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
       airSinglePrintf(NULL, buff, " %.17lg", nrrd->axis[ii].thickness);
@@ -489,24 +488,25 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     }
     break;
   case nrrdField_axis_mins:
-    *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
+    *strP = (char *)calloc(fslen + nrrd->dim*(doubleStrlen + 1), sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].min);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].min);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_axis_maxs:
-    *strP = (char *)calloc(fslen + nrrd->dim*30, sizeof(char));
+    *strP = (char *)calloc(fslen + nrrd->dim*(doubleStrlen + 1), sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
-      airSinglePrintf(NULL, buff, " %lg", nrrd->axis[ii].max);
+      airSinglePrintf(NULL, buff, " %g", nrrd->axis[ii].max);
       strcat(*strP, buff);
     }
     break;
   case nrrdField_space_directions:
     *strP = (char *)calloc(fslen + 
-                           nrrd->dim*nrrd->spaceDim*(30 + strlen("(,) ")),
+                           nrrd->dim*nrrd->spaceDim*(doubleStrlen 
+                                                     + strlen("(,) ")),
                            sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
     for (ii=0; ii<nrrd->dim; ii++) {
@@ -520,7 +520,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_centers:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += 1 + (int)airStrlen(nrrd->axis[ii].center 
+      fdlen += 1 + airStrlen(nrrd->axis[ii].center 
                              ? airEnumStr(nrrdCenter, nrrd->axis[ii].center)
                              : NRRD_UNKNOWN);
     }
@@ -537,7 +537,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_kinds:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += 1 + (int)airStrlen(nrrd->axis[ii].kind
+      fdlen += 1 + airStrlen(nrrd->axis[ii].kind
                              ? airEnumStr(nrrdKind, nrrd->axis[ii].kind)
                              : NRRD_UNKNOWN);
     }
@@ -554,7 +554,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_labels:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += (int)airStrlen(nrrd->axis[ii].label) + 4;
+      fdlen += airStrlen(nrrd->axis[ii].label) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
@@ -569,7 +569,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_units:
     fdlen = 0;
     for (ii=0; ii<nrrd->dim; ii++) {
-      fdlen += (int)airStrlen(nrrd->axis[ii].units) + 4;
+      fdlen += airStrlen(nrrd->axis[ii].units) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
@@ -585,20 +585,20 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_min:
   case nrrdField_max:
     /* we're basically a no-op, now that these fields became meaningless */
-    *strP = (char *)calloc(fslen + 30, sizeof(char));
+    *strP = (char *)calloc(fslen + doubleStrlen, sizeof(char));
     sprintf(*strP, "%s%s: 0.0", prefix, fs);
     strcat(*strP, buff);
     break;
   case nrrdField_old_min:
-    *strP = (char *)calloc(fslen + 30, sizeof(char));
+    *strP = (char *)calloc(fslen + doubleStrlen, sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
-    airSinglePrintf(NULL, buff, "%lg", nrrd->oldMin);
+    airSinglePrintf(NULL, buff, "%g", nrrd->oldMin);
     strcat(*strP, buff);
     break;
   case nrrdField_old_max:
-    *strP = (char *)calloc(fslen + 30, sizeof(char));
+    *strP = (char *)calloc(fslen + doubleStrlen, sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
-    airSinglePrintf(NULL, buff, "%lg", nrrd->oldMax);
+    airSinglePrintf(NULL, buff, "%g", nrrd->oldMax);
     strcat(*strP, buff);
     break;
   case nrrdField_endian:
@@ -622,12 +622,12 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     sprintf(*strP, "%s%s: %s", prefix, fs, nio->encoding->name);
     break;
   case nrrdField_line_skip:
-    *strP = (char *)calloc(fslen + 20, sizeof(char));
+    *strP = (char *)calloc(fslen + uintStrlen, sizeof(char));
     sprintf(*strP, "%s%s: %d", prefix, fs, nio->lineSkip);
     break;
   case nrrdField_byte_skip:
-    *strP = (char *)calloc(fslen + 20, sizeof(char));
-    sprintf(*strP, "%s%s: %d", prefix, fs, nio->byteSkip);
+    *strP = (char *)calloc(fslen + uintStrlen, sizeof(char));
+    sprintf(*strP, "%s%s: %ld", prefix, fs, nio->byteSkip);
     break;
   case nrrdField_sample_units:
     airOneLinify(nrrd->sampleUnits);
@@ -637,7 +637,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
   case nrrdField_space_units:
     fdlen = 0;
     for (ii=0; ii<nrrd->spaceDim; ii++) {
-      fdlen += (int)airStrlen(nrrd->spaceUnits[ii]) + 4;
+      fdlen += airStrlen(nrrd->spaceUnits[ii]) + 4;
     }
     *strP = (char *)calloc(fslen + fdlen, sizeof(char));
     sprintf(*strP, "%s%s:", prefix, fs);
@@ -650,14 +650,16 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     }
     break;
   case nrrdField_space_origin:
-    *strP = (char *)calloc(fslen + nrrd->spaceDim*(30 + strlen("(,) ")),
+    *strP = (char *)calloc(fslen + nrrd->spaceDim*(doubleStrlen 
+                                                   + strlen("(,) ")),
                            sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
     _nrrdStrcatSpaceVector(*strP, nrrd->spaceDim, nrrd->spaceOrigin);
     break;
   case nrrdField_measurement_frame:
     *strP = (char *)calloc(fslen + (nrrd->spaceDim*
-                                    nrrd->spaceDim*(30 + strlen("(,) "))),
+                                    nrrd->spaceDim*(doubleStrlen 
+                                                    + strlen("(,) "))),
                            sizeof(char));
     sprintf(*strP, "%s%s: ", prefix, fs);
     for (dd=0; dd<nrrd->spaceDim; dd++) {
@@ -677,8 +679,7 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
        the filenames */
     /* error checking elsewhere: assumes there is data file info */
     if (nio->dataFNFormat) {
-      *strP = (char *)calloc(fslen + strlen(nio->dataFNFormat) 
-                             + 10 + 10 + 10 + 10,
+      *strP = (char *)calloc(fslen + strlen(nio->dataFNFormat) + 4*uintStrlen,
                              sizeof(char));
       if (nio->dataFileDim == nrrd->dim-1) {
         sprintf(*strP, "%s%s: %s %d %d %d", prefix, fs, nio->dataFNFormat, 
@@ -691,12 +692,13 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
     } else if (nio->dataFNArr->len > 1) {
       maxl = 0;
       for (ii=0; ii<nio->dataFNArr->len; ii++) {
-        maxl = AIR_MAX(maxl, (int)strlen(nio->dataFN[ii]));
+        maxl = AIR_MAX(maxl, strlen(nio->dataFN[ii]));
       }
-      *strP = (char *)calloc(fslen + strlen(NRRD_LIST_FLAG) + 10 
-                             + nio->dataFNArr->len * (maxl + 1),
+      *strP = (char *)calloc(fslen + strlen(NRRD_LIST_FLAG) 
+                             + uintStrlen + nio->dataFNArr->len * (maxl + 1),
                              sizeof(char));
-      fnb = (char *)calloc(fslen + strlen(NRRD_LIST_FLAG) + 10 + maxl + 1,
+      fnb = (char *)calloc(fslen + strlen(NRRD_LIST_FLAG) 
+                           + uintStrlen + maxl + 1,
                            sizeof(char));
       if (nio->dataFileDim == nrrd->dim-1) {
         sprintf(*strP, "%s%s: LIST\n", prefix, fs);
@@ -739,8 +741,8 @@ _nrrdSprintFieldInfo (char **strP, char *prefix,
 ** a file.  Same caveats here: use _nrrdFieldInteresting
 */
 void
-_nrrdFprintFieldInfo (FILE *file, char *prefix,
-                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
+_nrrdFprintFieldInfo(FILE *file, char *prefix,
+                     const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char *line=NULL;
 
   _nrrdSprintFieldInfo(&line, prefix, nrrd, nio, field);
@@ -753,19 +755,23 @@ _nrrdFprintFieldInfo (FILE *file, char *prefix,
 
 int
 _nrrdEncodingMaybeSet(NrrdIoState *nio) {
-  char me[]="_nrrdEncodingMaybeSet", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdEncodingMaybeSet";
 
+  if (!nio) {
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
+  }
   if (!nio->encoding) {
-    sprintf(err, "%s: invalid (NULL) encoding", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: invalid (NULL) encoding", me);
+    return 1;
   }
   if (nrrdEncodingUnknown == nio->encoding) {
-    nio->encoding = nrrdDefWriteEncoding;
+    nio->encoding = nrrdEncodingArray[nrrdDefaultWriteEncodingType];
   }
   if (!nio->encoding->available()) {
-    sprintf(err, "%s: %s encoding not available in this teem build", 
-            me, nio->encoding->name);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: %s encoding not available in this Teem build", 
+             me, nio->encoding->name);
+    return 1;
   }
   return 0;
 }
@@ -777,14 +783,15 @@ _nrrdEncodingMaybeSet(NrrdIoState *nio) {
 ** we must set nio->format to something useful/non-trivial
 */
 int
-_nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
-                       const char *filename) {
-  char me[]="_nrrdFormatMaybeGuess", err[AIR_STRLEN_MED], mesg[AIR_STRLEN_MED];
+_nrrdFormatMaybeGuess(const Nrrd *nrrd, NrrdIoState *nio,
+                      const char *filename) {
+  static const char me[]="_nrrdFormatMaybeGuess";
+  char mesg[AIR_STRLEN_MED];
   int fi, guessed, available, fits;
 
   if (!nio->format) {
-    sprintf(err, "%s: got invalid (NULL) format", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: got invalid (NULL) format", me);
+    return 1;
   }
   if (nrrdFormatUnknown == nio->format) {
     for (fi = nrrdFormatTypeUnknown+1; 
@@ -809,7 +816,7 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
   if (!( available && fits )) {
     sprintf(mesg, "can not use %s format: %s", nio->format->name,
             (!available 
-             ? "not available in this teem build"
+             ? "not available in this Teem build"
              : "array doesn\'t fit"));
     if (guessed) {
       if (1 <= nrrdStateVerboseIO) {
@@ -818,8 +825,8 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
       nio->format = nrrdFormatNRRD;
     } else {
       /* problem: this was the format someone explicitly requested */
-      sprintf(err, "%s: %s", me, mesg);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: %s", me, mesg);
+      return 1;
     }
   }
 
@@ -828,71 +835,139 @@ _nrrdFormatMaybeGuess (const Nrrd *nrrd, NrrdIoState *nio,
 
 int
 _nrrdFormatMaybeSet(NrrdIoState *nio) {
-  char me[]="_nrrdFormatMaybeSet", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdFormatMaybeSet";
 
   if (!nio->format) {
-    sprintf(err, "%s: invalid (NULL) format", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: invalid (NULL) format", me);
+    return 1;
   }
   if (nrrdFormatUnknown == nio->format) {
     nio->format = nrrdFormatNRRD;
   }
   if (!nio->format->available()) {
-    sprintf(err, "%s: %s format not available in this teem build", 
-            me, nio->format->name);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: %s format not available in this Teem build", 
+             me, nio->format->name);
+    return 1;
   }
+  return 0;
+}
+
+/*
+** _nrrdWrite
+**
+** Write a nrrd to given file or string (allocated by nrrd), using the
+** format and and encoding indicated in nio.  Cleverness should be
+** isolated and collected here: by the time nio->format->write() is
+** called, all writing parameters must be given explicitly, and their
+** appropriateness is explicitly tested
+*/
+int
+_nrrdWrite(FILE *file, char **stringP, const Nrrd *nrrd, NrrdIoState *_nio) {
+  static const char me[]="_nrrdWrite";
+  NrrdIoState *nio;
+  airArray *mop;
+
+  if (!((file || stringP) && nrrd)) {
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
+  }
+  if (file && stringP) {
+    biffAddf(NRRD, "%s: can't write to both file and string", me);
+    return 1;
+  }
+  if (nrrdCheck(nrrd)) {
+    biffAddf(NRRD, "%s:", me);
+    return 1;
+  }
+  mop = airMopNew();
+  if (_nio) {
+    nio = _nio;
+  } else {
+    nio = nrrdIoStateNew();
+    if (!nio) {
+      biffAddf(NRRD, "%s: couldn't alloc local NrrdIoState", me);
+      airMopError(mop); return 1;
+    }
+    airMopAdd(mop, nio, (airMopper)nrrdIoStateNix, airMopAlways);
+  }
+  if (_nrrdEncodingMaybeSet(nio)
+      || _nrrdFormatMaybeSet(nio)) {
+    biffAddf(NRRD, "%s: ", me);
+    airMopError(mop); return 1;
+  }
+  if (nio->byteSkip || nio->lineSkip) {
+    /* NOTE: unu make bypasses this by calling nrrdFormatNRRD->write()
+       directly */
+    biffAddf(NRRD, "%s: can't generate line or byte skips on data write", me);
+    airMopError(mop); return 1;
+  }
+  
+  if (stringP) {
+    if (nrrdFormatNRRD != nio->format) {
+      biffAddf(NRRD, "%s: sorry, can only write %s files to strings (not %s)",
+               me, nrrdFormatNRRD->name, nio->format->name);
+      airMopError(mop); return 1;
+    }
+    /* we do this in two passes; first see how much room is needed
+       for the header, then allocate, then write the header */
+    nio->learningHeaderStrlen = AIR_TRUE;
+    if (nio->format->write(NULL, nrrd, nio)) {
+      biffAddf(NRRD, "%s:", me);
+      airMopError(mop); return 1;
+    }
+    *stringP = (char*)malloc(nio->headerStrlen + 1);
+    if (!*stringP) {
+      biffAddf(NRRD, "%s: couldn't allocate header string (%u len )",
+               me, nio->headerStrlen);
+      airMopError(mop); return 1;
+    }
+    nio->learningHeaderStrlen = AIR_FALSE;
+    nio->headerStringWrite = *stringP;
+    if (nio->format->write(NULL, nrrd, nio)) {
+      biffAddf(NRRD, "%s:", me);
+      airMopError(mop); return 1;
+    }
+  } else {
+    /* call the writer appropriate for the format */
+    if (nio->format->write(file, nrrd, nio)) {
+      biffAddf(NRRD, "%s:", me);
+      airMopError(mop); return 1;
+    }
+  }
+  
+  airMopOkay(mop);
   return 0;
 }
 
 /*
 ******** nrrdWrite
 **
-** Write a nrrd to given file, using the format and and encoding indicated
-** in nio.  There is no cleverness from this point on: all writing parameters
-** must be given explicitly, and their appropriateness is explicitly tested
+** wrapper around _nrrdWrite; writes to a FILE*
 */
 int
-nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="nrrdWrite", err[AIR_STRLEN_MED];
-  airArray *mop;
+nrrdWrite(FILE *file, const Nrrd *nrrd, NrrdIoState *_nio) {
+  static const char me[]="nrrdWrite";
 
-  if (!(file && nrrd)) {
-    sprintf(err, "%s: got NULL pointer", me);
-    biffAdd(NRRD, err); return 1;
+  if (_nrrdWrite(file, NULL, nrrd, _nio)) {
+    biffAddf(NRRD, "%s: trouble", me);
+    return 1;
   }
-  if (nrrdCheck(nrrd)) {
-    sprintf(err, "%s:", me);
-    biffAdd(NRRD, err); return 1;
-  }
-  mop = airMopNew();
-  if (!nio) {
-    nio = nrrdIoStateNew();
-    if (!nio) {
-      sprintf(err, "%s: couldn't alloc local NrrdIoState", me);
-      biffAdd(NRRD, err); airMopError(mop); return 1;
-    }
-    airMopAdd(mop, nio, (airMopper)nrrdIoStateNix, airMopAlways);
-  }
-  if (_nrrdEncodingMaybeSet(nio)
-      || _nrrdFormatMaybeSet(nio)) {
-    sprintf(err, "%s: ", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
-  }
-  if (nio->byteSkip || nio->lineSkip) {
-    /* NOTE: unu make bypasses this by calling nrrdFormatNRRD->write()
-       directly */
-    sprintf(err, "%s: can't generate line or byte skips on data write", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
-  }
+  return 0;
+}
+ 
+/*
+******** nrrdStringWrite
+**
+** wrapper around _nrrdWrite; *allocates* and writes to a string
+*/
+int
+nrrdStringWrite(char **stringP, const Nrrd *nrrd, NrrdIoState *_nio) {
+  static const char me[]="nrrdStringWrite";
 
-  /* call the writer appropriate for the format */
-  if (nio->format->write(file, nrrd, nio)) {
-    sprintf(err, "%s:", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
+  if (_nrrdWrite(NULL, stringP, nrrd, _nio)) {
+    biffAddf(NRRD, "%s: trouble", me);
+    return 1;
   }
-  
-  airMopOkay(mop); 
   return 0;
 }
  
@@ -907,30 +982,30 @@ nrrdWrite (FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 ** game, the data file is ALWAYS header relative.
 */
 int
-nrrdSave (const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="nrrdSave", err[AIR_STRLEN_MED];
+nrrdSave(const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
+  static const char me[]="nrrdSave";
   FILE *file;
   airArray *mop;
 
   if (!(nrrd && filename)) {
-    sprintf(err, "%s: got NULL pointer", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
   }
   mop = airMopNew();
   if (!nio) {
     nio = nrrdIoStateNew();
     if (!nio) {
-      sprintf(err, "%s: couldn't alloc local NrrdIoState", me);
-      biffAdd(NRRD, err); return 1;
+      biffAddf(NRRD, "%s: couldn't alloc local NrrdIoState", me);
+      return 1;
     }
     airMopAdd(mop, nio, (airMopper)nrrdIoStateNix, airMopAlways);
   }
   if (_nrrdEncodingMaybeSet(nio)
       || _nrrdFormatMaybeGuess(nrrd, nio, filename)) {
-    sprintf(err, "%s: ", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
+    biffAddf(NRRD, "%s: ", me);
+    airMopError(mop); return 1;
   }
-
+  
   if (nrrdFormatNRRD == nio->format 
       && airEndsWith(filename, NRRD_EXT_NHDR)) {
     nio->detachedHeader = AIR_TRUE;
@@ -943,15 +1018,61 @@ nrrdSave (const char *filename, const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   if (!( file = airFopen(filename, stdout, "wb") )) {
-    sprintf(err, "%s: couldn't fopen(\"%s\",\"wb\"): %s", 
-            me, filename, strerror(errno));
-    biffAdd(NRRD, err); airMopError(mop); return 1;
+    biffAddf(NRRD, "%s: couldn't fopen(\"%s\",\"wb\"): %s", 
+             me, filename, strerror(errno));
+    airMopError(mop); return 1;
   }
   airMopAdd(mop, file, (airMopper)airFclose, airMopAlways);
 
   if (nrrdWrite(file, nrrd, nio)) {
-    sprintf(err, "%s:", me);
-    biffAdd(NRRD, err); airMopError(mop); return 1;
+    biffAddf(NRRD, "%s:", me);
+    airMopError(mop); return 1;
+  }
+  
+  airMopOkay(mop);
+  return 0;
+}
+
+int
+nrrdSaveMulti(const char *fnameFormat, const Nrrd *const *nin,
+              unsigned int ninLen, unsigned int numStart, NrrdIoState *nio) {
+  static const char me[]="nrrdSaveMulti";
+  char *fname;
+  airArray *mop;
+  unsigned int nii; 
+
+  if (!( fnameFormat && nin )) {
+    biffAddf(NRRD, "%s: got NULL pointer", me);
+    return 1;
+  }
+  if (!( _nrrdContainsPercentThisAndMore(fnameFormat, 'u') )) {
+    biffAddf(NRRD, "%s: given format \"%s\" doesn't seem to "
+             "have the \"%%u\" conversion specification to sprintf "
+             "an unsigned int\n", me, fnameFormat);
+    return 1;
+  }
+
+  mop = airMopNew();
+  /* should be big enough for the number replacing the format sequence */
+  fname = AIR_CAST(char *, malloc(strlen(fnameFormat) + 128));
+  if (!(fname)) {
+    biffAddf(NRRD, "%s: couldn't allocate local fname buffer", me);
+    airMopError(mop); return 1;
+  }
+  airMopAdd(mop, fname, airFree, airMopAlways);
+
+  for (nii=0; nii<ninLen; nii++) {
+    unsigned int num;
+    num = numStart + nii;
+    sprintf(fname, fnameFormat, num);
+    if (nrrdSave(fname, nin[nii], nio)) {
+      biffAddf(NRRD, "%s: trouble saving nin[%u] to %s", me, nii, fname);
+      airMopError(mop); return 1;
+    }
+    /* HEY: GLK hopes that the nio doesn't have any state that needs
+       resetting, but we can't call nrrdIoStateInit() because that
+       would negate the purpose of sending in the nio for all but the
+       first saved nrrd */
   }
 
   airMopOkay(mop);
