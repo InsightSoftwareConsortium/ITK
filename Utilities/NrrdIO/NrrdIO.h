@@ -710,7 +710,19 @@ extern "C" {
                                the null termination) */
 
 TEEM_API void biffAdd(const char *key, const char *err);
+TEEM_API void biffAddVL(const char *key, const char *errfmt, va_list args);
+TEEM_API void biffAddf(const char *key, const char *errfmt, ...)
+#ifdef __GNUC__
+  __attribute__ ((format(printf,2,3)))
+#endif
+;
 TEEM_API void biffMaybeAdd(const char *key, const char *err, int useBiff);
+TEEM_API void biffMaybeAddf(int useBiff, const char *key,
+                               const char *errfmt, ... )
+#ifdef __GNUC__
+__attribute__ ((format(printf,3,4)))
+#endif
+;
 TEEM_API int biffCheck(const char *key);
 TEEM_API void biffDone(const char *key);
 TEEM_API void biffMove(const char *destKey, const char *err,
@@ -720,7 +732,16 @@ TEEM_API int biffGetStrlen(const char *key);
 TEEM_API void biffSetStr(char *str, const char *key);
 TEEM_API char *biffGetDone(const char *key);
 TEEM_API void biffSetStrDone(char *str, const char *key);
-
+TEEM_API void biffMoveVL(const char *destKey, const char *srcKey,
+                            const char *errfmt, va_list args);
+TEEM_API void biffMovef(const char *destKey, const char *srcKey,
+                            const char *errfmt, ...)
+#ifdef __GNUC__
+__attribute__ ((format(printf,3,4)))
+#endif
+;
+TEEM_API char *biffGetDone(const char *key);
+TEEM_API void biffSetStrDone(char *str, const char *key);
 #ifdef __cplusplus
 }
 #endif
@@ -2072,9 +2093,14 @@ TEEM_API const NrrdEncoding *
    parsing a "data file: " field which identifies a LIST must then
    read in all the data filenames from the same file */
 TEEM_API int (*nrrdFieldInfoParse[NRRD_FIELD_MAX+1])(FILE *file, Nrrd *nrrd,
-                                                     NrrdIoState *nio,
-                                                     int useBiff);
+                                                        NrrdIoState *nio,
+                                                        int useBiff);
+TEEM_API unsigned int _nrrdDataFNNumber(NrrdIoState *nio);
+TEEM_API int _nrrdContainsPercentThisAndMore(const char *str, char thss);
+TEEM_API int _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff);
+
 /* read.c */
+TEEM_API int _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file);
 TEEM_API int nrrdLineSkip(FILE *dataFile, NrrdIoState *nio);
 TEEM_API int nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio);
 TEEM_API int nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio);
