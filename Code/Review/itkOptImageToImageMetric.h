@@ -570,7 +570,7 @@ protected:
   /** Synchronizes the threader transforms with the transform
    *   member variable.
    */
-  void SynchronizeTransforms() const;
+  virtual void SynchronizeTransforms() const;
 
 private:
   ImageToImageMetric(const Self&); //purposely not implemented
