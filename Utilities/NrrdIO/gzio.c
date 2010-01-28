@@ -1,25 +1,23 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 /* 
   This file is a modified version of the 'gzio.c' and 'zutil.h' source
@@ -120,17 +118,12 @@ static const char *_nrrdGzErrMsg[10] = {
 
 #define _NRRD_GZ_ERR_MSG(err) _nrrdGzErrMsg[Z_NEED_DICT-(err)]
 
-static int  _nrrdGzGetByte (_NrrdGzStream *s);
-static void _nrrdGzCheckHeader (_NrrdGzStream *s);
-static int _nrrdGzDestroy (_NrrdGzStream *s);
-static int _nrrdGzDoFlush (gzFile file, int flush);
-static void _nrrdGzPutLong (FILE *file, uLong x);
-static uLong _nrrdGzGetLong (_NrrdGzStream *s);
-
-gzFile _nrrdGzOpen (FILE* fd, const char *mode);
-int _nrrdGzClose (gzFile file);
-int _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read);
-int _nrrdGzWrite (gzFile file, const voidp buf, unsigned int len, unsigned int* written);
+/* some forward declarations for things in this file */
+static void _nrrdGzCheckHeader(_NrrdGzStream *s);
+static int _nrrdGzDestroy(_NrrdGzStream *s);
+static int _nrrdGzDoFlush(gzFile file, int flush);
+static void _nrrdGzPutLong(FILE *file, uLong x);
+static uLong _nrrdGzGetLong(_NrrdGzStream *s);
 
 /*
 ** _nrrdGzOpen()
@@ -163,7 +156,7 @@ int _nrrdGzWrite (gzFile file, const voidp buf, unsigned int len, unsigned int* 
 */
 gzFile
 _nrrdGzOpen(FILE* fd, const char* mode) {
-  char me[] = "_nrrdGzOpen", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdGzOpen";
   int error;
   int level = Z_DEFAULT_COMPRESSION; /* compression level */
   int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
@@ -173,15 +166,13 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   char *m = fmode;
     
   if (!mode) {
-    sprintf(err, "%s: no file mode specified", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: no file mode specified", me);
     return Z_NULL;
   }
   /* allocate stream struct */
   s = (_NrrdGzStream *)calloc(1, sizeof(_NrrdGzStream));
   if (!s) {
-    sprintf(err, "%s: failed to allocate stream buffer", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: failed to allocate stream buffer", me);
     return Z_NULL;
   }
   /* initialize stream struct */
@@ -213,11 +204,10 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
     }
   } while (*p++ && m != fmode + sizeof(fmode));
   if (s->mode == '\0') {
-    sprintf(err, "%s: invalid file mode", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid file mode", me);
     return _nrrdGzDestroy(s), (gzFile)Z_NULL;
   }
-    
+  
   if (s->mode == 'w') {
     error = deflateInit2(&(s->stream), level,
                          Z_DEFLATED, -MAX_WBITS, _NRRD_DEF_MEM_LEVEL, 
@@ -226,8 +216,7 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
 
     s->stream.next_out = s->outbuf = (Byte*)calloc(1, _NRRD_Z_BUFSIZE);
     if (error != Z_OK || s->outbuf == Z_NULL) {
-      sprintf(err, "%s: stream init failed", me);
-      biffAdd(NRRD, err);
+      biffAddf(NRRD, "%s: stream init failed", me);
       return _nrrdGzDestroy(s), (gzFile)Z_NULL;
     }
   } else {
@@ -241,8 +230,7 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
      * present after the compressed stream.
      */
     if (error != Z_OK || s->inbuf == Z_NULL) {
-      sprintf(err, "%s: stream init failed", me);
-      biffAdd(NRRD, err);
+      biffAddf(NRRD, "%s: stream init failed", me);
       return _nrrdGzDestroy(s), (gzFile)Z_NULL;
     }
   }
@@ -250,8 +238,7 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   errno = 0;
   s->file = fd;
   if (s->file == NULL) {
-    sprintf(err, "%s: null file pointer", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: null file pointer", me);
     return _nrrdGzDestroy(s), (gzFile)Z_NULL;
   }
   if (s->mode == 'w') {
@@ -282,22 +269,19 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
 ** and deallocates the (de)compression state.
 */
 int
-_nrrdGzClose (gzFile file)
-{
-  char me[] = "_nrrdGzClose", err[AIR_STRLEN_MED];
+_nrrdGzClose (gzFile file) {
+  static const char me[]="_nrrdGzClose";
   int error;
   _NrrdGzStream *s = (_NrrdGzStream*)file;
 
   if (s == NULL) {
-    sprintf(err, "%s: invalid stream", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid stream", me);
     return 1;
   }
   if (s->mode == 'w') {
     error = _nrrdGzDoFlush(file, Z_FINISH);
     if (error != Z_OK) {
-      sprintf(err, "%s: failed to flush pending data", me);
-      biffAdd(NRRD, err);
+      biffAddf(NRRD, "%s: failed to flush pending data", me);
       return _nrrdGzDestroy((_NrrdGzStream*)file);
     }
     _nrrdGzPutLong(s->file, s->crc);
@@ -313,22 +297,20 @@ _nrrdGzClose (gzFile file)
 ** Returns the number of bytes actually read (0 for end of file).
 */
 int
-_nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
-  char me[] = "_nrrdGzRead", err[AIR_STRLEN_MED];
+_nrrdGzRead(gzFile file, voidp buf, unsigned int len, unsigned int* read) {
+  static const char me[]="_nrrdGzRead";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
   Bytef *start = (Bytef*)buf; /* starting point for crc computation */
   Byte  *next_out; /* == stream.next_out but not forced far (for MSDOS) */
 
   if (s == NULL || s->mode != 'r') {
-    sprintf(err, "%s: invalid stream or file mode", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid stream or file mode", me);
     *read = 0;
     return 1;
   }
 
   if (s->z_err == Z_DATA_ERROR || s->z_err == Z_ERRNO) {
-    sprintf(err, "%s: data read error", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: data read error", me);
     *read = 0;
     return 1;
   }
@@ -357,8 +339,8 @@ _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
         s->stream.avail_in  -= n;
       }
       if (s->stream.avail_out > 0) {
-        s->stream.avail_out -= 
-         (uInt)fread(next_out, 1, s->stream.avail_out, s->file);
+        s->stream.avail_out -= (uInt)fread(next_out, 1, s->stream.avail_out,
+                                           s->file);
       }
       len -= s->stream.avail_out;
       s->stream.total_in  += len;
@@ -422,14 +404,13 @@ _nrrdGzRead (gzFile file, voidp buf, unsigned int len, unsigned int* read) {
 ** Returns the number of bytes actually written (0 in case of error).
 */
 int
-_nrrdGzWrite (gzFile file, const voidp buf, unsigned int len,
-              unsigned int* written) {
-  char me[] = "_nrrdGzWrite", err[AIR_STRLEN_MED];
+_nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
+             unsigned int* written) {
+  static const char me[]="_nrrdGzWrite";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
 
   if (s == NULL || s->mode != 'w') {
-    sprintf(err, "%s: invalid stream or file mode", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid stream or file mode", me);
     *written = 0;
     return 1;
   }
@@ -442,8 +423,7 @@ _nrrdGzWrite (gzFile file, const voidp buf, unsigned int len,
       s->stream.next_out = s->outbuf;
       if (fwrite(s->outbuf, 1, _NRRD_Z_BUFSIZE, s->file) != _NRRD_Z_BUFSIZE) {
         s->z_err = Z_ERRNO;
-        sprintf(err, "%s: failed to write to file", me);
-        biffAdd(NRRD, err);
+        biffAddf(NRRD, "%s: failed to write to file", me);
         break;
       }
       s->stream.avail_out = _NRRD_Z_BUFSIZE;
@@ -466,7 +446,7 @@ _nrrdGzWrite (gzFile file, const voidp buf, unsigned int len,
 */
 static int
 _nrrdGzGetByte(_NrrdGzStream *s) {
-  char me[] = "_nrrdGzGetByte", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdGzGetByte";
 
   if (s->z_eof) return EOF;
   if (s->stream.avail_in == 0) {
@@ -475,8 +455,7 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
     if (s->stream.avail_in == 0) {
       s->z_eof = 1;
       if (ferror(s->file)) {
-        sprintf(err, "%s: failed to read from file", me);
-        biffAdd(NRRD, err);
+        biffAddf(NRRD, "%s: failed to read from file", me);
         s->z_err = Z_ERRNO;
       }
       return EOF;
@@ -500,7 +479,7 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
 */
 static void
 _nrrdGzCheckHeader(_NrrdGzStream *s) {
-  char me[] = "_nrrdGzCheckHeader", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdGzCheckHeader";
   int method; /* method byte */
   int flags;  /* flags byte */
   uInt len;
@@ -522,8 +501,7 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
   method = _nrrdGzGetByte(s);
   flags = _nrrdGzGetByte(s);
   if (method != Z_DEFLATED || (flags & _NRRD_RESERVED) != 0) {
-    sprintf(err, "%s: gzip compression method is not deflate", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: gzip compression method is not deflate", me);
     s->z_err = Z_DATA_ERROR;
     return;
   }
@@ -558,12 +536,11 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
 */
 static int
 _nrrdGzDestroy(_NrrdGzStream *s) {
-  char me[] = "_nrrdGzDestroy", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdGzDestroy";
   int error = Z_OK;
 
   if (s == NULL) {
-    sprintf(err, "%s: invalid stream", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid stream", me);
     return 1;
   }
   s->msg = (char *)airFree(s->msg);
@@ -575,17 +552,15 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
     }
   }
   if (error != Z_OK) {
-    sprintf(err, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
   }
   if (s->z_err < 0) error = s->z_err;
   if (error != Z_OK) {
-    sprintf(err, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
   }
   s->inbuf = (Byte *)airFree(s->inbuf);
   s->outbuf = (Byte *)airFree(s->outbuf);
-  airFree(s);
+  airFree(s);   /* avoiding unused value warnings, no NULL set */
   return error != Z_OK;
 }
 
@@ -596,19 +571,17 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
 ** flush is the same as in the deflate() function.
 */
 static int
-_nrrdGzDoFlush(gzFile file, int flush)
-{
-  char me[] = "_nrrdGzDoFlush", err[AIR_STRLEN_MED];
+_nrrdGzDoFlush(gzFile file, int flush) {
+  static const char me[]="_nrrdGzDoFlush";
   uInt len;
   int done = 0;
   _NrrdGzStream *s = (_NrrdGzStream*)file;
 
   if (s == NULL || s->mode != 'w') {
-    sprintf(err, "%s: invalid stream or file mode", me);
-    biffAdd(NRRD, err);
+    biffAddf(NRRD, "%s: invalid stream or file mode", me);
     return Z_STREAM_ERROR;
   }
-
+  
   s->stream.avail_in = 0; /* should be zero already anyway */
 
   for (;;) {
