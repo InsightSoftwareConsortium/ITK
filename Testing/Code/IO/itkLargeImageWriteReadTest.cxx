@@ -38,14 +38,18 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;
 
-  typename ImageType::Pointer image = ImageType::New();
+  typedef itk::ImageRegionIterator< ImageType >  IteratorType;
+  typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
+
   typename ImageType::RegionType region;
   typename ImageType::IndexType index;
 
+  PixelType pixelValue;
+
   itk::TimeProbesCollectorBase chronometer;
 
- 
-  
+  { // begin write block
+  typename ImageType::Pointer image = ImageType::New();
   index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
@@ -69,13 +73,11 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   chronometer.Stop("Allocate");
   
   std::cout << "Initializing pixel values " << std::endl;
-  typedef itk::ImageRegionIterator< ImageType >  IteratorType;
-  typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
   
   IteratorType itr( image, region );
   itr.GoToBegin();
   
-  PixelType pixelValue = itk::NumericTraits< PixelType >::Zero;
+  pixelValue = itk::NumericTraits< PixelType >::Zero;
 
   chronometer.Start("Initializing");
   while( !itr.IsAtEnd() )
@@ -101,6 +103,7 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
     std::cout << ex << std::endl;
     return EXIT_FAILURE;
     }
+  } // end write block to free the memory
 
   std::cout << "Trying to read the image back from disk" << std::endl;
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -121,10 +124,10 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   typename ImageType::ConstPointer readImage = reader->GetOutput();
 
   ConstIteratorType ritr( readImage, region );
-  IteratorType oitr( image, region );
+  // IteratorType oitr( image, region );
 
   ritr.GoToBegin();
-  oitr.GoToBegin();
+  // oitr.GoToBegin();
 
   std::cout << "Comparing the pixel values.. :" << std::endl;
 
@@ -133,17 +136,18 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   chronometer.Start("Compare");
   while( !ritr.IsAtEnd() )
     {
-    if( ( oitr.Get() != ritr.Get() ) || ( oitr.Get() != pixelValue ) )
+    // if( ( oitr.Get() != ritr.Get() ) || ( oitr.Get() != pixelValue ) )
+    if( ritr.Get() != pixelValue )
       {
-      std::cerr << "Pixel comparison failed at index = " << oitr.GetIndex() << std::endl;
+      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << std::endl;
       std::cerr << "Expected pixel value " << pixelValue << std::endl;
-      std::cerr << "Original Image pixel value " << oitr.Get() << std::endl;
+      // std::cerr << "Original Image pixel value " << oitr.Get() << std::endl;
       std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
       return EXIT_FAILURE;
       }
 
     ++pixelValue;
-    ++oitr;
+    // ++oitr;
     ++ritr;
     }
   chronometer.Stop("Compare");
