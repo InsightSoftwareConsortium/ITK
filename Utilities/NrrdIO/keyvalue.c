@@ -1,25 +1,23 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "NrrdIO.h"
@@ -140,6 +138,8 @@ nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
 **
 ** This will COPY the given strings, and so does not depend on
 ** them existing past the return of this function
+**
+** does NOT use BIFF
 */
 int
 nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
@@ -172,6 +172,8 @@ nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
 ** "inside" the nrrd struct (pointers which you had better not free()!)
 ** is controlled by nrrdStateKeyValueReturnInternalPointers, which defaults
 ** to AIR_FALSE
+**
+** does NOT use BIFF
 */
 char *
 nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
@@ -195,19 +197,33 @@ nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
 }
 
 void
-_nrrdFwriteEscaped(FILE *file, const char *str) {
-  size_t ci;
+_nrrdWriteEscaped(FILE *file, char *dst, const char *str) {
+  size_t ci, sl;
 
   for (ci=0; ci<strlen(str); ci++) {
     switch(str[ci]) {
     case '\n':
-      fprintf(file, "\\n");
+      if (file) {
+        fprintf(file, "\\n");
+      } else {
+        strcat(dst, "\\n");
+      }
       break;
     case '\\':
-      fprintf(file, "\\\\");
+      if (file) {
+        fprintf(file, "\\\\");
+      } else {
+        strcat(dst, "\\\\");
+      }
       break;
     default:
-      fputc(str[ci], file);
+      if (file) {
+        fputc(str[ci], file);
+      } else {
+        sl = strlen(dst);
+        dst[sl++] = str[ci];
+        dst[sl] = '\0';
+      }
       break;
     }
   }
@@ -215,25 +231,44 @@ _nrrdFwriteEscaped(FILE *file, const char *str) {
 }
 
 /*
-** _nrrdKeyValueFwrite
+** _nrrdKeyValueWrite
 **
 ** writes a given key and value to a file, starting with the given
 ** prefix (if non-NULL), and ending with "\n"
 */
 int
-_nrrdKeyValueFwrite(FILE *file, const char *prefix, 
-                    const char *key, const char *value) {
+_nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix, 
+                   const char *key, const char *value) {
   
-  if (!( file && key && value )) {
+  if (!( (file || stringP) && key && value )) {
     return 1;
   }
-  if (prefix) {
-    fprintf(file, "%s", prefix);
+  if (stringP) {
+    /* 2*strlen() because at worst all characters will be escaped */
+    *stringP = (char *)malloc(airStrlen(prefix) + 2*airStrlen(key)
+                              + strlen(":=") + 2*airStrlen(value)
+                              + strlen("\n") + 1);
+    /* HEY error checking */
+    strcpy(*stringP, "");
   }
-  _nrrdFwriteEscaped(file, key);
-  fprintf(file, ":=");
-  _nrrdFwriteEscaped(file, value);
-  fprintf(file, "\n");
+  if (prefix) {
+    if (file) {
+      fprintf(file, "%s", prefix);
+    } else {
+      strcat(*stringP, prefix);
+    }
+  }
+  if (file) {
+    _nrrdWriteEscaped(file, NULL, key);
+    fprintf(file, ":=");
+    _nrrdWriteEscaped(file, NULL, value);
+    fprintf(file, "\n");
+  } else {
+    _nrrdWriteEscaped(NULL, *stringP, key);
+    strcat(*stringP, ":=");
+    _nrrdWriteEscaped(NULL, *stringP, value);
+    strcat(*stringP, "\n");
+  }
   return 0;
 }
 
