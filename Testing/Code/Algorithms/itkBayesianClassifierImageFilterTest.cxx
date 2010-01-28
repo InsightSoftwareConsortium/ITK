@@ -160,5 +160,18 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
   filter->Print( std::cout );
   std::cout << "Test passed." << std::endl;
 
+  typedef ClassifierFilterType::PriorsImageType   PriorsImageType;
+
+  const InputImageType * inputImage = reader->GetOutput();
+
+  PriorsImageType::Pointer priorsImage = PriorsImageType::New();
+  priorsImage->CopyInformation( inputImage );
+  priorsImage->SetRegions( inputImage->GetLargestPossibleRegion() );
+  priorsImage->SetNumberOfComponentsPerPixel(5);
+  priorsImage->Allocate();
+
+  filter->SetPriors( priorsImage );
+
+
   return EXIT_SUCCESS;
 }
