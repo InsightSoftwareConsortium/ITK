@@ -1,4 +1,27 @@
+/*
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
+  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+#ifndef NRRD_PRIVATE_HAS_BEEN_INCLUDED
+#define NRRD_PRIVATE_HAS_BEEN_INCLUDED
 
 #ifdef _WIN32
 #include <io.h>
@@ -10,7 +33,6 @@ extern "C" {
 #endif
 
 #define _NRRD_TEXT_INCR 1024
-
 
 /*
 ** _NRRD_SPACING
@@ -41,8 +63,8 @@ typedef union {
 } _nrrdAxisInfoGetPtrs;
 
 /* keyvalue.c */
-extern int _nrrdKeyValueFwrite(FILE *file, const char *prefix,
-                               const char *key, const char *value);
+extern int _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix,
+                              const char *key, const char *value);
 
 /* formatXXX.c */
 extern const char *_nrrdFormatURLLine0;
@@ -64,8 +86,7 @@ extern const NrrdEncoding _nrrdEncodingGzip;
 extern const NrrdEncoding _nrrdEncodingBzip2;
 
 /* read.c */
-extern int _nrrdOneLine (unsigned int *lenP, NrrdIoState *nio, FILE *file);
-extern int _nrrdCalloc (Nrrd *nrrd, NrrdIoState *nio, FILE *file);
+extern int _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file);
 extern char _nrrdFieldSep[];
 
 /* arrays.c */
@@ -80,24 +101,12 @@ extern char *_nrrdContentGet(const Nrrd *nin);
 extern int _nrrdContentSet_nva(Nrrd *nout, const char *func,
                                char *content, const char *format,
                                va_list arg);
-extern int _nrrdContentSet(Nrrd *nout, const char *func,
-                           char *content, const char *format, ...);
+extern int _nrrdContentSet_va(Nrrd *nout, const char *func,
+                              char *content, const char *format, ...);
 extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, int useBiff);
 extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, 
                             Nrrd *nrrd, unsigned int listDim);
-extern void _nrrdSpaceVecScaleAdd2(double sum[NRRD_SPACE_DIM_MAX], 
-                                   double sclA, 
-                                   const double vecA[NRRD_SPACE_DIM_MAX],
-                                   double sclB, 
-                                   const double vecB[NRRD_SPACE_DIM_MAX]);
-extern void _nrrdSpaceVecScale(double out[NRRD_SPACE_DIM_MAX], 
-                               double scl, 
-                               const double vec[NRRD_SPACE_DIM_MAX]);
-extern double _nrrdSpaceVecNorm(int sdim,
-                                const double vec[NRRD_SPACE_DIM_MAX]);
-extern void _nrrdSpaceVecSetNaN(double vec[NRRD_SPACE_DIM_MAX]);
-
 
 /* axis.c */
 extern int _nrrdKindAltered(int kindIn, int resampling);
@@ -110,6 +119,7 @@ extern int _nrrdCenter2(int center, int def);
 
 /* convert.c */
 extern void (*_nrrdConv[][NRRD_TYPE_MAX+1])(void *, const void *, size_t);
+extern void (*_nrrdClampConv[][NRRD_TYPE_MAX+1])(void *, const void *, size_t);
 
 /* read.c */
 extern char _nrrdFieldStr[NRRD_FIELD_MAX+1][AIR_STRLEN_SMALL];
@@ -130,10 +140,7 @@ extern void _nrrdFprintFieldInfo(FILE *file, char *prefix,
                                  int field);
 
 /* parseNrrd.c */
-extern int _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff);
-extern int _nrrdContainsPercentDAndMore(char *str);
 extern int _nrrdReadNrrdParseField(NrrdIoState *nio, int useBiff);
-extern unsigned int _nrrdDataFNNumber(NrrdIoState *nio);
 
 /* methodsNrrd.c */
 extern void nrrdPeripheralInit(Nrrd *nrrd);
@@ -154,8 +161,8 @@ extern int _nrrdGzWrite(gzFile file, const voidp buf, unsigned int len,
                         unsigned int* written);
 #endif
 
-
 #ifdef __cplusplus
 }
 #endif
 
+#endif /* NRRD_PRIVATE_HAS_BEEN_INCLUDED */
