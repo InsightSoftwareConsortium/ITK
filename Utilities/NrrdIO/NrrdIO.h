@@ -2152,6 +2152,7 @@ TEEM_API int nrrdAxesPermute(Nrrd *nout, const Nrrd *nin,
                              const unsigned int *axes);
 TEEM_API int nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
                          const size_t *perm);
+TEEM_API int nrrdAxesDelete(Nrrd *nout, const Nrrd *nin, unsigned int ax);
 
 /******** sampling, slicing, cropping */
 /* subset.c */
