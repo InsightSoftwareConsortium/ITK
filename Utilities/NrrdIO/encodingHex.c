@@ -1,25 +1,23 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Teem: Tools to process and visualize scientific data and images              
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any
-  damages arising from the use of this software.
- 
-  Permission is granted to anyone to use this software for any
-  purpose, including commercial applications, and to alter it and
-  redistribute it freely, subject to the following restrictions:
- 
-  1. The origin of this software must not be misrepresented; you must
-     not claim that you wrote the original software. If you use this
-     software in a product, an acknowledgment in the product
-     documentation would be appreciated but is not required.
- 
-  2. Altered source versions must be plainly marked as such, and must
-     not be misrepresented as being the original software.
- 
-  3. This notice may not be removed or altered from any source distribution.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public License
+  (LGPL) as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  The terms of redistributing and/or modifying this software also
+  include exceptions to the LGPL that facilitate static linking.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 #include "NrrdIO.h"
@@ -64,7 +62,7 @@ _nrrdEncodingHex_available(void) {
 int
 _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
                       Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdEncodingHex_read", err[AIR_STRLEN_MED];
+  static const char me[]="_nrrdEncodingHex_read";
   size_t nibIdx, nibNum;
   unsigned char *data;
   int car=0, nib;
@@ -74,8 +72,8 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
   nibIdx = 0;
   nibNum = 2*elNum*nrrdElementSize(nrrd);
   if (nibNum/elNum != 2*nrrdElementSize(nrrd)) {
-    sprintf(err, "%s: size_t can't hold 2*(#bytes in array)\n", me);
-    biffAdd(NRRD, err); return 1;
+    biffAddf(NRRD, "%s: size_t can't hold 2*(#bytes in array)\n", me);
+    return 1;
   }
   while (nibIdx < nibNum) {
     car = fgetc(file);
@@ -89,21 +87,21 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
       /* its white space */
       continue;
     }
-    *data += (unsigned char)(nib << (4*(1-(nibIdx & 1))));
+    *data += AIR_CAST(unsigned int, nib << (4*(1-(nibIdx & 1))));
     data += nibIdx & 1;
     nibIdx++;
   }
   if (nibIdx != nibNum) {
     if (EOF == car) {
-      sprintf(err, "%s: hit EOF getting "
-              "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
-              me, nibIdx/2, nibNum/2);
+      biffAddf(NRRD, "%s: hit EOF getting "
+               "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
+               me, nibIdx/2, nibNum/2);
     } else {
-      sprintf(err, "%s: hit invalid character ('%c') getting "
-              "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
-              me, car, nibIdx/2, nibNum/2);
+      biffAddf(NRRD, "%s: hit invalid character ('%c') getting "
+               "byte " _AIR_SIZE_T_CNV " of " _AIR_SIZE_T_CNV,
+               me, car, nibIdx/2, nibNum/2);
     }
-    biffAdd(NRRD, err); return 1;
+    return 1;
   }
   return 0;
 }
@@ -111,21 +109,25 @@ _nrrdEncodingHex_read(FILE *file, void *_data, size_t elNum,
 int
 _nrrdEncodingHex_write(FILE *file, const void *_data, size_t elNum,
                        const Nrrd *nrrd, NrrdIoState *nio) {
-  /* char me[]="_nrrdEncodingHex_write", err[AIR_STRLEN_MED]; */
+  /* static const char me[]="_nrrdEncodingHex_write"; */
   unsigned char *data;
   size_t byteIdx, byteNum;
+  unsigned int bytesPerLine;
 
-  AIR_UNUSED(nio);
+  bytesPerLine = AIR_MAX(1, nio->charsPerLine/2);
   data = (unsigned char*)_data;
   byteNum = elNum*nrrdElementSize(nrrd);
   for (byteIdx=0; byteIdx<byteNum; byteIdx++) {
     fprintf(file, "%c%c",
             _nrrdWriteHexTable[(*data)>>4],
             _nrrdWriteHexTable[(*data)&15]);
-    if (34 == byteIdx%35)
+    if (bytesPerLine-1 == byteIdx % bytesPerLine) {
       fprintf(file, "\n");
+    }
     data++;
   }
+  /* just to be sure, we always end with a carraige return */
+  fprintf(file, "\n");
   return 0;
 }
 
