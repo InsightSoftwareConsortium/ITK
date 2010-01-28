@@ -1462,15 +1462,21 @@ do {                                           \
 ** and dimension "dim", calculates the linear index, and stores it in
 ** "I".
 */
-#define NRRD_INDEX_GEN(I, coord, size, dim)   \
-do {                                          \
-  int d;                                      \
-  for (d=(dim)-1, (I)=(coord)[d--];           \
-       d >= 0;                                \
-       d--) {                                 \
-    (I) = (coord)[d] + (size)[d]*(I);         \
-  }                                           \
-} while (0)
+#define NRRD_INDEX_GEN(I, coord, size, dim)     \
+{                                               \
+  int d;                                        \
+  d = (dim) - 1;                                \
+  if ( (d) >= 0 )                               \
+  {                                             \
+    (I) = (coord)[d];                           \
+    d--;                                        \
+    while( d >= 0 )                             \
+    {                                           \
+    (I) = (coord)[d] + (size)[d] * (I);         \
+    d--;                                        \
+    }                                           \
+  }                                             \
+}
 
 /*
 ******** NRRD_COORD_GEN
