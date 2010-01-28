@@ -125,90 +125,30 @@ public:
    *  to the same values. */
   void SetOrder (const typename OrderArrayType::ValueType v)
     {
-    m_Order.Fill(v);
+    OrderArrayType a;
+    a.Fill(v);
+    this->SetOrder(a);
     }
 
   void SetVariance (const typename ArrayType::ValueType v)
     {
-    m_Variance.Fill(v);
+    ArrayType a;
+    a.Fill(v);
+    this->SetVariance(a);
     }
 
   void SetMaximumError (const typename ArrayType::ValueType v)
     {
-    m_MaximumError.Fill(v);
+    ArrayType a;
+    a.Fill(v);
+    this->SetMaximumError(a);
     }
-
-  void SetOrder (const unsigned int *v)
-    {
-    OrderArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-      {
-      dv[i] = v[i];
-      }
-    this->SetOrder(dv);
-    }
-
-  void SetVariance (const double *v)
-    {
-    ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-      {
-      dv[i] = v[i];
-      }
-    this->SetVariance(dv);
-    }
-
-  void SetVariance (const float *v)
-    {
-    ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-      {
-      dv[i] = v[i];
-      }
-    this->SetVariance(dv);
-    }
-
-  void SetMaximumError (const double *v)
-    {
-    ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-      {
-      dv[i] = v[i];
-      }
-    this->SetMaximumError(dv);
-    }
-
-  void SetMaximumError (const float *v)
-    {
-    ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
-      {
-      dv[i] = v[i];
-      }
-    this->SetMaximumError(dv);
-    }
-
-  /** Use the image spacing information in calculations. Use this option if you
-   *  want to specify Gaussian variance in real world units.  Default is
-   *   ImageSpacingOn. */
-  void SetUseImageSpacingOn() { this->SetUseImageSpacing(true); }
-
-  /** Ignore the image spacing. Use this option if you want to specify Gaussian
-      variance in pixels.  Default is ImageSpacingOn. */
-  void SetUseImageSpacingOff() { this->SetUseImageSpacing(false); }
 
   /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
+      image in its calculations. Default is ImageSpacingOn. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-
-  /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
-   * than the output requested region (larger by the size of the
-   * Gaussian kernel).  As such, DiscreteGaussianDerivativeImageFilter needs to
-   * provide an implementation for GenerateInputRequestedRegion() in
-   * order to inform the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  itkBooleanMacro(UseImageSpacing);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -229,6 +169,14 @@ protected:
     }
   virtual ~DiscreteGaussianDerivativeImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
+
+  /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
+   * than the output requested region (larger by the size of the
+   * Gaussian kernel).  As such, DiscreteGaussianDerivativeImageFilter needs to
+   * provide an implementation for GenerateInputRequestedRegion() in
+   * order to inform the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
