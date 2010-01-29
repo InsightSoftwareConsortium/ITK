@@ -172,6 +172,48 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   filter->SetPriors( priorsImage );
 
+///TEST valid image type combinations.  I have a hypothesis that the vector element type for
+//TestInitialLabelImageType must be the same as for TestPriorType
+    {
+    const unsigned int TestDimension = 2;
+    typedef unsigned char  TestLabelType;
+    typedef float          TestPosteriorType;
+
+    typedef float          TestPriorType;
+    typedef itk::VectorImage< TestPriorType ,TestDimension > TestInitialLabelImageType;
+
+    typedef itk::BayesianClassifierImageFilter<
+      TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
+    TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    }
+#if 0
+    {
+    const unsigned int TestDimension = 2;
+    typedef unsigned char  TestLabelType;
+    typedef float          TestPosteriorType;
+
+    //This is a failing test case!!!
+    typedef float          TestPriorType; 
+    typedef itk::VectorImage< double ,TestDimension > TestInitialLabelImageType; //The element type MUST be the PriorType
+
+    typedef itk::BayesianClassifierImageFilter<
+      TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
+    TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    }
+#endif
+    {
+    const unsigned int TestDimension = 2;
+    typedef unsigned char  TestLabelType;
+    typedef float          TestPosteriorType;
+
+    typedef double          TestPriorType;
+    typedef itk::VectorImage< TestPriorType ,TestDimension > TestInitialLabelImageType; //The element type MUST be the PriorType
+
+    typedef itk::BayesianClassifierImageFilter<
+      TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
+    TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
+    }
+
 
   return EXIT_SUCCESS;
 }
