@@ -35,7 +35,6 @@ IF(NETLIB_FOUND)
     test_rank.cxx
     test_real_eigensystem.cxx
     test_rnpoly_roots.cxx
-    test_rpoly_roots.cxx
     test_sparse_matrix.cxx
     test_svd.cxx
     #test_symmetric_eigensystem.cxx # Removing for ITK: needs vul
@@ -72,7 +71,6 @@ IF(NETLIB_FOUND)
   ADD_TEST( vnl_test_rank                     ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_rank                    )
   ADD_TEST( vnl_test_real_eigensystem         ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_real_eigensystem        )
   ADD_TEST( vnl_test_rnpoly_roots             ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_rnpoly_roots            )
-  ADD_TEST( vnl_test_rpoly_roots              ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_rpoly_roots             )
   ADD_TEST( vnl_test_integral                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_integral                )
   ADD_TEST( vnl_test_solve_qp                 ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_solve_qp                )
   ADD_TEST( vnl_test_sparse_lu                ${EXECUTABLE_OUTPUT_PATH}/vnl_algo_test_all test_sparse_lu               )

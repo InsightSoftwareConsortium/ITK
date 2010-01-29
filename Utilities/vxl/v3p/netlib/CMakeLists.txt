@@ -320,9 +320,6 @@ SET(V3P_NETLIB_opt_SOURCES
 SET(V3P_NETLIB_linalg_SOURCES
      linalg/lsqr.c linalg/lsqr.h
    )
-SET(V3P_NETLIB_toms_SOURCES
-     toms/rpoly.c toms/rpoly.h
-   )
 SET(V3P_NETLIB_datapac_SOURCES
      datapac/camsun.c datapac/camsun.h
    )
@@ -357,7 +354,6 @@ SET(v3p_netlib_sources
      ${V3P_NETLIB_minpack_SOURCES}
      ${V3P_NETLIB_opt_SOURCES}
      ${V3P_NETLIB_linalg_SOURCES}
-     ${V3P_NETLIB_toms_SOURCES}
      ${V3P_NETLIB_datapac_SOURCES}
      ${V3P_NETLIB_mathews_SOURCES}
      ${V3P_NETLIB_sparse_SOURCES}
