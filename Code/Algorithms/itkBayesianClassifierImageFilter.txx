@@ -259,9 +259,9 @@ template < class TInputVectorImage, class TLabelsType,
 void 
 BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, 
                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::SetPriors( PriorsImageType * priors ) 
+::SetPriors( const PriorsImageType * priors ) 
 {
-  this->SetInput( 1, priors );
+  this->ProcessObject::SetNthInput(1, const_cast< PriorsImageType * >( priors ) );
   this->m_UserProvidedPriors = true;
   this->Modified();
 }

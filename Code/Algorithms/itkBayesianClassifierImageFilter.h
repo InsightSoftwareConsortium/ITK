@@ -171,7 +171,7 @@ public:
   itkGetConstMacro( SmoothingFilter, SmoothingFilterPointer );
 
   /** Set the priors **/
-  virtual void SetPriors( PriorsImageType * );
+  virtual void SetPriors( const PriorsImageType * );
 
   /** Number of iterations to apply the smoothing filter */
   itkSetMacro( NumberOfSmoothingIterations, unsigned int );

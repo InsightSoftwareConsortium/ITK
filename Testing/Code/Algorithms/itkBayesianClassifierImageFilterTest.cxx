@@ -186,13 +186,12 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
       TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
     TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
     }
-#if 0
+
     {
     const unsigned int TestDimension = 2;
     typedef unsigned char  TestLabelType;
     typedef float          TestPosteriorType;
 
-    //This is a failing test case!!!
     typedef float          TestPriorType; 
     typedef itk::VectorImage< double ,TestDimension > TestInitialLabelImageType; //The element type MUST be the PriorType
 
@@ -200,7 +199,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
       TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType >   TestClassifierFilterType;
     TestClassifierFilterType::Pointer test=TestClassifierFilterType::New();
     }
-#endif
+
     {
     const unsigned int TestDimension = 2;
     typedef unsigned char  TestLabelType;
