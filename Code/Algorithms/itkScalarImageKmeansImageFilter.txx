@@ -29,16 +29,16 @@
 namespace itk
 {
 
-template <class TInputImage>
-ScalarImageKmeansImageFilter<TInputImage>
+template <class TInputImage, class TOutputImage>
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage>
 ::ScalarImageKmeansImageFilter()
 {
   m_UseNonContiguousLabels = false;
   m_ImageRegionDefined = false;
 }
 
-template <class TInputImage>
-void ScalarImageKmeansImageFilter<TInputImage>
+template <class TInputImage, class TOutputImage>
+void ScalarImageKmeansImageFilter<TInputImage, TOutputImage>
 ::SetImageRegion( const ImageRegionType & region )
 {
   m_ImageRegion = region;
@@ -47,9 +47,9 @@ void ScalarImageKmeansImageFilter<TInputImage>
 
 
   
-template< class TInputImage >
+template< class TInputImage, class TOutputImage >
 void
-ScalarImageKmeansImageFilter< TInputImage >
+ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   typename AdaptorType::Pointer adaptor = AdaptorType::New();
@@ -242,9 +242,9 @@ ScalarImageKmeansImageFilter< TInputImage >
  * Add a new class for the classifier. This requires to explicitly set the
  * initial mean value for that class.
  */
-template <class TInputImage >
+template <class TInputImage, class TOutputImage >
 void
-ScalarImageKmeansImageFilter<TInputImage >
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage >
 ::AddClassWithInitialMean( RealPixelType mean )
 {
   this->m_InitialMeans.push_back( mean );
@@ -254,9 +254,9 @@ ScalarImageKmeansImageFilter<TInputImage >
 /**
  * Standard "PrintSelf" method
  */
-template <class TInputImage >
+template <class TInputImage, class TOutputImage >
 void
-ScalarImageKmeansImageFilter<TInputImage >
+ScalarImageKmeansImageFilter<TInputImage, TOutputImage >
 ::PrintSelf(
   std::ostream& os, 
   Indent indent) const
