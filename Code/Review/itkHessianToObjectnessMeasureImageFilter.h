@@ -32,7 +32,7 @@ namespace itk
  * images, with M<N.  
  * The filter takes an image of a Hessian pixels ( SymmetricSecondRankTensor pixels
  * pixels ) and produces an enhanced image. The Hessian input image can be produced 
- * using itkHessianSmoothedRecursiveGaussianImageFilter. 
+ * using itk::HessianRecursiveGaussianImageFilter. 
  *  
  *
  * \par References
