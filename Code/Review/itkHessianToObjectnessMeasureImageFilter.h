@@ -85,6 +85,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Runtime information support. */
+  itkTypeMacro( HessianToObjectnessMeasureImageFilter, ImageToImageFilter );
+   
   /** Set/Get Alpha, the weight corresponding to R_A 
    * (the ratio of the smallest eigenvalue that has to be large to the larger ones). 
    * Smaller values lead to increased sensitivity to the object dimensionality. */
