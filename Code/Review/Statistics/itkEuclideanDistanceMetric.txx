@@ -35,15 +35,17 @@ EuclideanDistanceMetric< TVector >
   MeasurementVectorTraits::Assert( this->GetOrigin(), measurementVectorSize, 
     "EuclideanDistanceMetric::Evaluate Origin and input vector have different lengths");
   
-  double temp, distance = NumericTraits< double >::Zero;
-  
+  double sumOfSquares = NumericTraits< double >::Zero;
+ 
   for(unsigned int i = 0; i < measurementVectorSize; i++)
     {
-    temp = this->GetOrigin()[i] - x[i];
-    distance += temp * temp;
+    const double temp = this->GetOrigin()[i] - x[i];
+    sumOfSquares += temp * temp;
     }
   
-  return vcl_sqrt(distance);
+  const double distance = vcl_sqrt( sumOfSquares );
+
+  return distance;
 }
 
 template< class TVector >
@@ -57,14 +59,17 @@ EuclideanDistanceMetric< TVector >
     itkExceptionMacro( << "The two measurement vectors have unequal size" );
     }
   
-  double temp, distance = NumericTraits< double >::Zero;
+  double sumOfSquares = NumericTraits< double >::Zero;
+
   for(unsigned int i = 0; i < measurementVectorSize; i++)
     {
-    temp = x1[i] - x2[i];
-    distance += temp * temp;
+    const double temp = x1[i] - x2[i];
+    sumOfSquares += temp * temp;
     }
-  
-  return vcl_sqrt(distance);
+
+  const double distance = vcl_sqrt( sumOfSquares );
+
+  return distance;
 }
 
 template< class TVector >
@@ -72,8 +77,8 @@ inline double
 EuclideanDistanceMetric< TVector >
 ::Evaluate(const ValueType &a, const ValueType &b) const
 {
-  double temp = a - b;
-  return vcl_sqrt(temp * temp);
+  const double temp = a - b;
+  return vcl_abs( temp );
 }
 
 } // end of namespace Statistics 
