@@ -21,7 +21,6 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/algo/vnl_svd.h"
-#include <vnl/algo/vnl_lsqr.h>
 #include <vector>
 
 
