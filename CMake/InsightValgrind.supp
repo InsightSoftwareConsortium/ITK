@@ -511,6 +511,72 @@
     obj:/usr/lib/libtcl8.4.so.0
 }
 
+{
+  CrazyTclError31
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileWhileCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+}
+
+{
+  CrazyTclError32
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:TclExpandCodeArray
+  fun:TclCompileIncrCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileWhileCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+}
+
+{
+  CrazyTclError33
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:Tcl_CreateHashEntry
+  fun:TclLookupArrayElement
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+  fun:TclEvalObjvInternal
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+}
+
+{
+  CrazyTclError34
+  Memcheck:Leak
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewStringObj
+  fun:TclpNativeSplitPath
+  fun:Tcl_FSSplitPath
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclFSEnsureEpochOk
+  fun:Tcl_FSGetFileSystemForPath
+  fun:Tcl_FSAccess
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FileObjCmd
+}
 
 {
    <insert a suppression name here>
