@@ -579,6 +579,24 @@
 }
 
 {
+  CrazyTclError35
+  Memcheck:Leak
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewStringObj
+  fun:TclpNativeSplitPath
+  fun:Tcl_FSSplitPath
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FSGetNormalizedPath
+  fun:TclFSEnsureEpochOk
+  fun:Tcl_FSGetFileSystemForPath
+  fun:Tcl_FSAccess
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FileObjCmd
+}
+
+
+{
    <insert a suppression name here>
    Memcheck:Leak
    fun:malloc
