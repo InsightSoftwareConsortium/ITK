@@ -60,6 +60,8 @@ public:
   /** Standard typedefs */
   typedef DistanceMetric                    Self;
   typedef MembershipFunctionBase< TVector > Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
   typedef typename Superclass::MeasurementVectorSizeType
                                              MeasurementVectorSizeType;
 

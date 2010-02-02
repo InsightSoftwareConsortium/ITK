@@ -51,6 +51,8 @@ public:
   /** Standard class typedef. */
   typedef ListSampleBase               Self;
   typedef Sample< TMeasurementVector > Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer<const Self>     ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(ListSampleBase, Sample);
