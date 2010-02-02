@@ -21,6 +21,7 @@
 #include "itkRegionBasedLevelSetFunction.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk {
 
