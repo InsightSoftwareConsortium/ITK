@@ -19,9 +19,6 @@
 #endif
 
 #include "itkScalarChanAndVeseDenseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunction.h"
-#include "itkScalarChanAndVeseLevelSetFunctionData.h"
-#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
@@ -58,17 +55,8 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   typedef itk::Image< ScalarPixelType, Dimension > LevelSetImageType;
   typedef itk::Image< ScalarPixelType, Dimension > FeatureImageType;
 
-  typedef itk::ScalarChanAndVeseLevelSetFunctionData< LevelSetImageType, FeatureImageType >
-    DataHelperType;
-
-  typedef itk::ConstrainedRegionBasedLevelSetFunctionSharedData< LevelSetImageType, FeatureImageType, DataHelperType >
-    SharedDataHelperType;
-
-  typedef itk::ScalarChanAndVeseLevelSetFunction< LevelSetImageType,
-    FeatureImageType, SharedDataHelperType > LevelSetFunctionType;
-
   typedef itk::ScalarChanAndVeseDenseLevelSetImageFilter< LevelSetImageType,
-    FeatureImageType, LevelSetImageType, LevelSetFunctionType, SharedDataHelperType > MultiLevelSetType;
+    FeatureImageType, LevelSetImageType > MultiLevelSetType;
 
   typedef itk::ImageFileReader< LevelSetImageType >     LevelSetReaderType;
   typedef itk::ImageFileReader< FeatureImageType >      FeatureReaderType;
@@ -99,14 +87,15 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   levelSetFilter->SetUseImageSpacing( 0 );
   levelSetFilter->SetInPlace( false );
 
-  levelSetFilter->GetDifferenceFunction(0)->SetDomainFunction( domainFunction );
-  levelSetFilter->GetDifferenceFunction(0)->SetCurvatureWeight( curvature_weight );
-  levelSetFilter->GetDifferenceFunction(0)->SetAreaWeight( area_weight );
-  levelSetFilter->GetDifferenceFunction(0)->SetReinitializationSmoothingWeight( reinitialization_weight );
-  levelSetFilter->GetDifferenceFunction(0)->SetVolumeMatchingWeight( volume_weight );
-  levelSetFilter->GetDifferenceFunction(0)->SetVolume( volume );
-  levelSetFilter->GetDifferenceFunction(0)->SetLambda1( l1 );
-  levelSetFilter->GetDifferenceFunction(0)->SetLambda2( l2 );
+  MultiLevelSetType::FunctionType * function = levelSetFilter->GetDifferenceFunction(0);
+  function->SetDomainFunction( domainFunction );
+  function->SetCurvatureWeight( curvature_weight );
+  function->SetAreaWeight( area_weight );
+  function->SetReinitializationSmoothingWeight( reinitialization_weight );
+  function->SetVolumeMatchingWeight( volume_weight );
+  function->SetVolume( volume );
+  function->SetLambda1( l1 );
+  function->SetLambda2( l2 );
 
 
   levelSetFilter->Update();

@@ -20,6 +20,7 @@
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
+#include "itkScalarChanAndVeseLevelSetFunction.h"
 
 /** \class ScalarChanAndVeseSparseLevelSetImageFilter
  * \brief Sparse implementation of the Chan and Vese multiphase level set image filter.
@@ -54,8 +55,10 @@
  */
 namespace itk
 {
-template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-  class TSharedData, typename TIdCell = unsigned int >
+template < class TInputImage, class TFeatureImage, class TOutputImage,
+     class TFunction=ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+     class TSharedData=typename TFunction::SharedDataType,
+     typename TIdCell = unsigned int >
 class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter :
 public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   TOutputImage, TFunction, TIdCell >

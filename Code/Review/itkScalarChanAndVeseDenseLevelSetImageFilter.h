@@ -20,7 +20,7 @@
 
 #include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
-
+#include "itkScalarChanAndVeseLevelSetFunction.h"
 
 /** \class ScalarChanAndVeseDenseLevelSetImageFilter
  * \brief Dense implementation of the Chan and Vese multiphase level set image filter.
@@ -55,8 +55,9 @@
  */
 namespace itk
 {
-template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-  class TSharedData >
+template < class TInputImage, class TFeatureImage, class TOutputImage,
+     class TFunction=ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+     class TSharedData=typename TFunction::SharedDataType >
 class ITK_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
   public MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
   TFunction >
