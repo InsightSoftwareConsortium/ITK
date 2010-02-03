@@ -163,9 +163,6 @@ protected:
   HoughTransform2DCirclesImageFilter();
   virtual ~HoughTransform2DCirclesImageFilter() {};
 
-  HoughTransform2DCirclesImageFilter(const Self&) {}
-  void operator=(const Self&) {}
-
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** HoughTransform2DCirclesImageFilter needs the entire input. Therefore
@@ -180,6 +177,9 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
   
 private:
+
+  HoughTransform2DCirclesImageFilter(const Self&);
+  void operator=(const Self&);
 
   float  m_SweepAngle;
   double m_MinimumRadius;
