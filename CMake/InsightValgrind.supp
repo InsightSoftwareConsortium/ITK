@@ -595,6 +595,22 @@
   fun:Tcl_FileObjCmd
 }
 
+{
+  CrazyTclError36
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewLongObj
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_ExprObj
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+  fun:TclEvalObjvInternal
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+}
+
 
 {
    <insert a suppression name here>
