@@ -40,15 +40,34 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
   typedef itk::TransformFileWriter        TransformWriterType;
 
   typedef itk::AffineTransform<double, 3> AffineTransformType;
-
-  typedef AffineTransformType::Pointer AffineTransformPointer;
+  typedef AffineTransformType::Pointer    AffineTransformPointer;
 
   TransformReaderType::Pointer transformReader = TransformReaderType::New();
   TransformWriterType::Pointer transformWriter = TransformWriterType::New();
 
+  std::cout << "Reader class = "
+            << transformReader->GetNameOfClass()
+            << " Writer class = "
+            << transformWriter->GetNameOfClass()
+            << "Reader base = "
+            << dynamic_cast<TransformReaderType::Superclass *>(transformReader.GetPointer())->GetNameOfClass()
+            << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass()
+            << std::endl;
   std::cout << "Loading Transform: " << argv[1] << std::endl;
 
+  try
+    {
+    // first try, to trigger exception
+    transformReader->Update();
+    }
+  catch(itk::ExceptionObject &excp)
+    {
+    std::cerr << "Expected exception (no filename)" << std::endl
+              << excp << std::endl;
+    }
+
   transformReader->SetFileName( argv[1] );
+  std::cout << "Filename: " << transformReader->GetFileName() << std::endl;
   transformReader->Update();
   
   typedef TransformReaderType::TransformListType * TransformListType;
@@ -69,6 +88,7 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
       {
       std::cout << "Successful Read" << std::endl;
       }
+
     else
       {
       std::cerr << "Error reading Affine Transform" << std::endl;
@@ -79,8 +99,28 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
   //
   // Now Write the transform:
   //
-  transformWriter->SetFileName( argv[2] );
+  try
+    {
+    // first try, to trigger exception
+    transformWriter->Update();
+    }
+  catch(itk::ExceptionObject &excp)
+    {
+    std::cerr << "Expected exception (no filename)" << std::endl
+              << excp << std::endl;
+    }
 
+  transformWriter->SetFileName( argv[2] );
+  std::cout << "Filename: " << transformWriter->GetFileName() << std::endl;
+  unsigned int precision(transformWriter->GetPrecision());
+  std::cout << "transform writer precision " << precision;
+  transformWriter->SetPrecision(precision);
+  bool appendMode = transformWriter->GetAppendMode();
+  std::cout << " Append mode " << appendMode;
+  transformWriter->SetAppendOn();
+  transformWriter->SetAppendOff();
+  transformWriter->SetAppendMode(appendMode);
+  
   transformWriter->SetInput( affine_transform1 );
 
   transformWriter->Update();

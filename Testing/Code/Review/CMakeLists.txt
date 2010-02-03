@@ -294,6 +294,11 @@ IF(ITK_USE_TRANSFORM_IO_FACTORIES)
     ${INPUTDATA}/itkAffineTransform01.txt
     ${TEMP}/itkTransformFileReaderWriterTest1.txt
     )
+  ADD_TEST(itkTransformFileReaderWriterTest2
+    ${REVIEW_TESTS} itkTransformFileReaderWriterTest
+    ${INPUTDATA}/itkAffineTransform01.txt
+    ${TEMP}/itkTransformFileReaderWriterTest1.mat
+    )
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 

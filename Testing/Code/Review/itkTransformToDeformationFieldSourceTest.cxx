@@ -150,10 +150,23 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
   /** Create an setup deformation field generator. */
   DeformationFieldGeneratorType::Pointer defGenerator
     = DeformationFieldGeneratorType::New();
+  std::cout << "Name of Class: " << defGenerator->GetNameOfClass()
+            << std::endl;
   defGenerator->SetOutputSize( size );
   defGenerator->SetOutputSpacing( spacing );
   defGenerator->SetOutputOrigin( origin );
   defGenerator->SetOutputIndex( index );
+  //
+  // for coverage, exercise access methods
+  spacing  = defGenerator->GetOutputSpacing();
+  origin = defGenerator->GetOutputOrigin();
+  DeformationFieldGeneratorType::DirectionType
+    direction = defGenerator->GetOutputDirection();
+  std::cout << "Spacing " << spacing
+            << " Origin " << origin
+            << std::endl << "Direction "
+            << direction
+            << std::endl;
   //defGenerator->SetOutputDirection( direction );
   if ( transformName == "Affine" )
     {
@@ -163,7 +176,12 @@ int itkTransformToDeformationFieldSourceTest( int argc, char * argv [] )
     {
     defGenerator->SetTransform( bSplineTransform );
     }
-
+  std::cout << "Transform: " << defGenerator->GetTransform()
+            << std::endl;
+  DeformationFieldGeneratorType::OutputImageRegionType
+    outputRegion = defGenerator->GetOutputRegion();
+  defGenerator->SetOutputRegion(outputRegion);
+  
   /** Write deformation field to disk. */
   WriterType::Pointer writer
     = WriterType::New();
