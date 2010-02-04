@@ -217,7 +217,10 @@ struct KdTreeWeightedCentroidNonterminalNode: public KdTreeNode< TSample >
                                          Superclass* right,
                                          CentroidType &centroid,
                                          unsigned int size);
-  virtual ~KdTreeWeightedCentroidNonterminalNode() {}
+  virtual ~KdTreeWeightedCentroidNonterminalNode()
+    {
+    }
+
 
   virtual bool IsTerminal() const
     { return false; }
@@ -292,7 +295,10 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
 
   KdTreeTerminalNode() {}
 
-  virtual ~KdTreeTerminalNode() {}
+  virtual ~KdTreeTerminalNode()
+    { 
+    this->m_InstanceIdentifiers.clear();
+    }
 
   bool IsTerminal() const
     { return true; }
@@ -506,7 +512,13 @@ public:
   /** Sets the root node of the KdTree that is a result of
    * KdTreeGenerator or WeightedCentroidKdTreeGenerator. */
   void SetRoot(KdTreeNodeType* root)
-    { m_Root = root; }
+    { 
+    if( this->m_Root )
+      {
+      this->DeleteNode( this->m_Root );
+      }
+    this->m_Root = root;
+    }
 
   /** Returns the pointer to the root node. */
   KdTreeNodeType* GetRoot()
