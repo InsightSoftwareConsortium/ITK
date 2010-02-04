@@ -98,6 +98,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
+  /** Runtime information support. */
+  itkTypeMacro(MultiScaleHessianBasedMeasureImageFilter, 
+                 ImageToImageFilter);
+  
   /** Set/Get macros for SigmaMin */
   itkSetMacro(SigmaMinimum, double);
   itkGetConstMacro(SigmaMinimum, double);
