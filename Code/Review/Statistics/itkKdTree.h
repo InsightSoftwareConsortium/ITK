@@ -326,7 +326,10 @@ struct KdTreeTerminalNode: public KdTreeNode< TSample >
 
   KdTreeTerminalNode() {}
 
-  virtual ~KdTreeTerminalNode() {}
+  virtual ~KdTreeTerminalNode()
+    { 
+    this->m_InstanceIdentifiers.clear();
+    }
 
   bool IsTerminal() const
     {
@@ -574,7 +577,11 @@ public:
    * KdTreeGenerator or WeightedCentroidKdTreeGenerator. */
   void SetRoot(KdTreeNodeType* root)
     {
-    m_Root = root;
+    if( this->m_Root )
+      {
+      this->DeleteNode( this->m_Root );
+      }
+    this->m_Root = root;
     }
 
   /** Returns the pointer to the root node. */
@@ -682,7 +689,7 @@ public:
     {
     ConstIterator iter = m_Sample->End();
     return iter;
-    } 
+    }
 
 protected:
   /** Constructor */
