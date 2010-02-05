@@ -238,14 +238,14 @@ public:
   itkBooleanMacro(UseHistograms);
   
   /** Set the label image */
-  void SetLabelInput(TLabelImage *input)
+  void SetLabelInput(const TLabelImage *input)
     {
       // Process object is not const-correct so the const casting is required.
       this->SetNthInput(1, const_cast<TLabelImage *>(input) );
     }
 
   /** Get the label image */
-  LabelImageType * GetLabelInput()
+  const LabelImageType * GetLabelInput() const
     {
       return static_cast<LabelImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
     }
