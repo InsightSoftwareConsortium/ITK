@@ -13,6 +13,7 @@ SET(REVIEW_TESTS2 ${CXX_TEST_PATH}/itkReviewTests2)
 SET(REVIEW_TESTS3 ${CXX_TEST_PATH}/itkReviewTests3)
 SET(REVIEW_TESTS4 ${CXX_TEST_PATH}/itkReviewTests4)
 SET(REVIEW_TESTS5 ${CXX_TEST_PATH}/itkReviewTests5)
+SET(REVIEW_TESTS6 ${CXX_TEST_PATH}/itkReviewTests6)
 SET(REVIEW_PRINT_TEST ${CXX_TEST_PATH}/itkReviewPrintTest)
 SET(REVIEW_HEADER_TESTS ${CXX_TEST_PATH}/itkReviewHeaderTest)
 
@@ -211,14 +212,6 @@ SET(ReviewTest2_SRCS
   itkRegionBasedLevelSetFunctionTest.cxx
   itkScalarRegionBasedLevelSetFunctionTest.cxx
   itkScalarToRGBColormapImageFilterTest.cxx
-  itkScalarChanAndVeseLevelSetFunctionTest1.cxx
-  itkScalarChanAndVeseLevelSetFunctionTest2.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest3.cxx
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest4.cxx
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest1.cxx
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
   itkStochasticFractalDimensionImageFilterTest.cxx
   itkSinRegularizedHeavisideStepFunctionTest1.cxx
 )
@@ -278,6 +271,17 @@ SET(ReviewTest4_SRCS
 
 SET(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
+)
+
+SET(ReviewTest6_SRCS
+  itkScalarChanAndVeseLevelSetFunctionTest1.cxx
+  itkScalarChanAndVeseLevelSetFunctionTest2.cxx
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest3.cxx
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest4.cxx
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest1.cxx
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest2.cxx
 )
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
@@ -442,70 +446,6 @@ ADD_TEST(itkRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkRegionBasedLevelSetFunctionTest)
 ADD_TEST(itkScalarRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkScalarRegionBasedLevelSetFunctionTest)
-ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest1 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseLevelSetFunctionTest1)
-ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest2 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseLevelSetFunctionTest2)
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest1 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest1)
-ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest1)
-ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS2}
-  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
-            ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
-  itkScalarChanAndVeseSparseLevelSetImageFilterTest2
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
-)
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS2}
-  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
-            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
-  1 1 0 0 0 
-)
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS2}
-  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
-            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
-  1 1 1 1 200 
-)
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS2}
-  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
-            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
-  0 0 1 0 0 
-)
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha
-  0 0 0 0 0 
-)
-
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest3 ${REVIEW_TESTS2}
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest3)
-
-ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS2}
-  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
-            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
-  itkScalarChanAndVeseDenseLevelSetImageFilterTest4
-  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
-  1 1 0 0 0 
-)
-
 ADD_TEST(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
   itkQuadEdgeMeshCountingCellsTest)
 ADD_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
@@ -2406,6 +2346,70 @@ ADD_TEST(itkLabelGeometryImageFilterTest2
   ${INPUTDATA}/GrayscaleImageWithVariousShapes01.png
   )
 
+ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest1 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseLevelSetFunctionTest1)
+ADD_TEST(itkScalarChanAndVeseLevelSetFunctionTest2 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseLevelSetFunctionTest2)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest1 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest1)
+ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest1 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest1)
+ADD_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2 ${REVIEW_TESTS6}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+            ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+  itkScalarChanAndVeseSparseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseSparseLevelSetImageFilterTest2.mha
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0 ${REVIEW_TESTS6}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
+  1 1 0 0 0 
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1 ${REVIEW_TESTS6}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_1.mha
+  1 1 1 1 200 
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2 ${REVIEW_TESTS6}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_2.mha
+  0 0 1 0 0 
+)
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest2
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_3.mha
+  0 0 0 0 0 
+)
+
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest3 ${REVIEW_TESTS6}
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest3)
+
+ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
+  --compare ${BASELINE_ROOT}/Review/itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0.mha
+            ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
+  itkScalarChanAndVeseDenseLevelSetImageFilterTest4
+  ${BASELINE_ROOT}/Segmentation/ShapeDetectionLevelSetLeftVentricleTest.png
+  ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+  ${TEMP}/itkScalarChanAndVeseDenseLevelSetImageFilterTest4.mha
+  1 1 0 0 0 
+)
+
 
 #
 # Functor colormaps
@@ -2484,6 +2488,14 @@ SET(ReviewTest5_LIBS
   ITKStatistics
   )
 TARGET_LINK_LIBRARIES(itkReviewTests5 ${ReviewTest5_LIBS})
+
+ADD_EXECUTABLE(itkReviewTests6 itkReviewTests6.cxx ${ReviewTest6_SRCS})
+
+SET(ReviewTest6_LIBS
+  ITKIO
+  ITKStatistics
+  )
+TARGET_LINK_LIBRARIES(itkReviewTests6 ${ReviewTest6_LIBS})
 
 IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 SET(ReviewTest_LIBS ${ReviewTest_LIBS}

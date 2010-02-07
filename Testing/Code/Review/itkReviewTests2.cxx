@@ -91,14 +91,6 @@ void RegisterTests()
   REGISTER_TEST(itkAtanRegularizedHeavisideStepFunctionTest1);
   REGISTER_TEST(itkRegionBasedLevelSetFunctionTest);
   REGISTER_TEST(itkScalarRegionBasedLevelSetFunctionTest);
-  REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest1);
-  REGISTER_TEST(itkScalarChanAndVeseLevelSetFunctionTest2);
-  REGISTER_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest1);
-  REGISTER_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest2);
-  REGISTER_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest3);
-  REGISTER_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4);
-  REGISTER_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest1);
-  REGISTER_TEST(itkScalarChanAndVeseSparseLevelSetImageFilterTest2);
   REGISTER_TEST(itkScalarToRGBColormapImageFilterTest);
   REGISTER_TEST(itkStochasticFractalDimensionImageFilterTest);
   REGISTER_TEST(itkSinRegularizedHeavisideStepFunctionTest1);
