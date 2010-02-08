@@ -248,3 +248,19 @@ const int airMy32Bit = 1;
 const int airMy32Bit = 0;
 #endif
 
+/*
+******** airTime()
+**
+** returns current time in seconds (with millisecond resolution) as a double
+*/
+double
+airTime() {
+#ifdef _WIN32
+  return (double)clock()/CLOCKS_PER_SEC;
+#else
+  struct timeval tv;
+
+  gettimeofday(&tv, NULL);
+  return((double)(tv.tv_sec + tv.tv_usec/1000000.0));
+#endif
+}
