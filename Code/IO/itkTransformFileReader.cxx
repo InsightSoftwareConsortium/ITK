@@ -108,10 +108,21 @@ void TransformFileReader
   bool haveFixedParameters = false;
   bool haveParameters = false;
  
+  //
+  // check for line end convention
+  std::string line_end("\n");
+  if(data.find('\n') == std::string::npos)
+    {
+    if(data.find('\r') == std::string::npos)
+      {
+      itkExceptionMacro ( "No line ending character found, not a valid ITK Transform TXT file" );
+      }
+    line_end = "\r";
+    }
   while ( position < data.size() )
     {
     // Find the next string
-    std::string::size_type end = data.find ( "\n", position );
+    std::string::size_type end = data.find ( line_end, position );
     std::string line = trim ( data.substr ( position, end - position ) );
     position = end+1;
     itkDebugMacro ("Found line: \"" << line << "\"" );
