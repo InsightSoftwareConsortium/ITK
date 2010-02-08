@@ -1954,10 +1954,10 @@ TEEM_API unsigned int nrrdKindSize(int kind);
 TEEM_API int nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin,
                               const int *axmap, int excludeBitflag);
 TEEM_API void nrrdAxisInfoSet_nva(Nrrd *nin, int axInfo, const void *info);
-TEEM_API void nrrdAxisInfoSet(Nrrd *nin, int axInfo,
+TEEM_API void nrrdAxisInfoSet_va(Nrrd *nin, int axInfo,
                               ... /* const void* */);
 TEEM_API void nrrdAxisInfoGet_nva(const Nrrd *nrrd, int axInfo, void *info);
-TEEM_API void nrrdAxisInfoGet(const Nrrd *nrrd, int axInfo,
+TEEM_API void nrrdAxisInfoGet_va(const Nrrd *nrrd, int axInfo,
                               ... /* void* */);
 TEEM_API double nrrdAxisInfoPos(const Nrrd *nrrd, unsigned int ax, double idx);
 TEEM_API double nrrdAxisInfoIdx(const Nrrd *nrrd, unsigned int ax, double pos);
