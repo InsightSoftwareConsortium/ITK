@@ -20,7 +20,7 @@
 
 #include "itkTransformFileReader.h"
 #include "itkTransformFileWriter.h"
-
+#include "itkTransformIOFactory.h"
 #include "itkAffineTransform.h"
 
 
@@ -35,7 +35,13 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
- 
+  
+  itk::TransformIOBase::Pointer transformIO =
+    itk::TransformIOFactory::CreateTransformIO(argv[1],itk::TransformIOFactory::ReadMode);
+  transformIO->Print(std::cout,0);
+  transformIO = itk::TransformIOFactory::CreateTransformIO(argv[1],itk::TransformIOFactory::WriteMode);
+  transformIO->Print(std::cout,0);
+
   typedef itk::TransformFileReader        TransformReaderType;
   typedef itk::TransformFileWriter        TransformWriterType;
 
@@ -65,7 +71,18 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     std::cerr << "Expected exception (no filename)" << std::endl
               << excp << std::endl;
     }
-
+  transformReader->SetFileName("transform.garbage");
+  try
+    {
+    // first try, trigger exception for transformio not found
+    transformReader->Update();
+    }
+  catch(itk::ExceptionObject &excp)
+    {
+    std::cerr << "Expected exception (no transformio that can read file)"
+              << excp << std::endl;
+    }
+  
   transformReader->SetFileName( argv[1] );
   std::cout << "Filename: " << transformReader->GetFileName() << std::endl;
   transformReader->Update();
@@ -107,6 +124,17 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
   catch(itk::ExceptionObject &excp)
     {
     std::cerr << "Expected exception (no filename)" << std::endl
+              << excp << std::endl;
+    }
+  transformWriter->SetFileName("transform.garbage");
+  try
+    {
+    // first try, trigger exception for transformio not found
+    transformWriter->Update();
+    }
+  catch(itk::ExceptionObject &excp)
+    {
+    std::cerr << "Expected exception (no transformio that can write file)"
               << excp << std::endl;
     }
 
