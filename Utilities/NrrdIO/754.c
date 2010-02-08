@@ -259,13 +259,13 @@ airFPGen_d(int cls) {
 int
 airFPClass_f(float val) {
   _airFloat f;
-  unsigned int sign, exp, mant;
-  int index, ret = 0;
+  unsigned int sign, expo, mant;
+  int indexAirFP, ret = 0;
 
   f.v = val;
-  FP_GET_F(sign, exp, mant, f);
-  index = ((!!sign) << 2) | ((!!exp) << 1) | (!!mant);
-  switch(index) {
+  FP_GET_F(sign, expo, mant, f);
+  indexAirFP = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant);
+  switch(indexAirFP) {
   case 0: 
     /* all fields are zero */
     ret = airFP_POS_ZERO;   
@@ -276,7 +276,7 @@ airFPClass_f(float val) {
     break;
   case 2: 
     /* only exponent field is non-zero */
-    if (0xff == exp) {
+    if (0xff == expo) {
       ret = airFP_POS_INF;
     } else {
       ret = airFP_POS_NORM;
@@ -284,7 +284,7 @@ airFPClass_f(float val) {
     break;
   case 3:
     /* exponent and mantissa fields are non-zero */
-    if (0xff == exp) {
+    if (0xff == expo) {
       if (TEEM_QNANHIBIT == mant >> 22) {
         ret = airFP_QNAN;
       } else {
@@ -304,7 +304,7 @@ airFPClass_f(float val) {
     break;
   case 6:
     /* sign and exponent fields are non-zero */
-    if (0xff > exp) {
+    if (0xff > expo) {
       ret = airFP_NEG_NORM;
     } else {
       ret = airFP_NEG_INF;
@@ -312,7 +312,7 @@ airFPClass_f(float val) {
     break;
   case 7:
     /* all fields are non-zero */
-    if (0xff > exp) {
+    if (0xff > expo) {
       ret = airFP_NEG_NORM;
     } else {
       if (TEEM_QNANHIBIT == mant >> 22) {
@@ -343,7 +343,7 @@ int
 airFPClass_d(double val) {
   _airDouble f;
   unsigned int sign, expo, mant0, mant1;
-  int hibit, index, ret=0;
+  int hibit, indexAirFP, ret=0;
 
   f.v = val;
   sign = f.c.sign; 
@@ -355,8 +355,8 @@ airFPClass_d(double val) {
   mant1 = f.c.mant1;
   hibit = mant0 >> 19;
 
-  index = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
-  switch(index) {
+  indexAirFP = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
+  switch(indexAirFP) {
   case 0: 
     /* all fields are zero */
     ret = airFP_POS_ZERO;   
