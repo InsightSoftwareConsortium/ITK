@@ -192,16 +192,17 @@ static int RunTest(int argc, char * argv [] )
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
   bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
-
+ 
   typedef itk::Similarity2DTransform<CoordinateRepType> BulkTransformType;
   BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
+  bulkTransform->SetIdentity();
 
-  BulkTransformType::ParametersType bulkParameters(4);
+  BulkTransformType::ParametersType bulkParameters = bulkTransform->GetParameters();
   bulkParameters[0]= 0.5; //half the scale. 
   bulkTransform->SetParameters( bulkParameters ); 
   std::cout << " parameters " << bulkTransform->GetParameters() << "\n";  
   bsplineTransform->SetBulkTransform( bulkTransform );
-
+  
   typedef typename TransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
@@ -306,54 +307,42 @@ static int RunTest(int argc, char * argv [] )
 int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
 {
 
-  if( argc < 5 )
+  if( argc < 7 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField][spline order 2,3]" << std::endl;
+    std::cerr << "[deformationField][multithreader use #threads]" << std::endl;
     return EXIT_FAILURE;
     }
 
-   unsigned int splineOrder = 3;
-
-   int numberOfThreads = 0;
+ int numberOfThreads = atoi( argv[6] );
    
-   int status = 0;
-   while (numberOfThreads<3)
+ int status = 0;
+ switch( numberOfThreads )
    {
-   switch( numberOfThreads )
+   case 0:
      {
-     case 0:
-       {
-       //Don't invoke MultiThreader at all. 
-       status |= BSplineDeformableTransformTest3Helper< 0 >::RunTest( argc, argv ); 
-       break;
-       }
-     case 1:
-       {
-       //Use MultiThreader with 1 thread
-       itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
-       itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
-       status |= BSplineDeformableTransformTest3Helper< 2 >::RunTest( argc, argv ); 
-       break;
-       }
-     case 2:
-       {
-       //Use MultiThreader with 2 threads
-       itk::MultiThreader::SetGlobalDefaultNumberOfThreads(2);
-       itk::MultiThreader::SetGlobalMaximumNumberOfThreads(2);
-       status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv ); 
-       break;
-       }
+     //Don't invoke MultiThreader at all. 
+     status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv ); 
+     break;
      }
-     numberOfThreads++; 
+   default:
+     {
+     //Use MultiThreader with argv[6] threads
+     itk::MultiThreader::SetGlobalDefaultNumberOfThreads(numberOfThreads);
+     itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numberOfThreads);
+     status |= BSplineDeformableTransformTest3Helper< 3 >::RunTest( argc, argv ); 
+     break;
+     }
    }
-   if( status )
-    {
-    return EXIT_FAILURE;
-    }
+ numberOfThreads++;
+     
+ if( status )
+   {
+   return EXIT_FAILURE;
+   }
 
-   return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
