@@ -213,6 +213,10 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   initializer->ComputeRotationOn();
   initializer->InitializeTransform();
 
+  std::cout << "Initialized Transform is" << std::endl;
+
+  transform->Print( std::cout );
+
   TransformType::InputPointType mappedOrigin = transform->TransformPoint( fixedOrigin );
   TransformType::InputPointType expectedPoint;
   expectedPoint[0] = 29.0; 
