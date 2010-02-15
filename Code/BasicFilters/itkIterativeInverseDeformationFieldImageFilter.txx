@@ -118,7 +118,6 @@ void IterativeInverseDeformationFieldImageFilter<TInputImage, TOutputImage>
       }
 
     ProgressReporter progress(this, 0,
-                              m_NumberOfIterations *
                               inputPtr->GetLargestPossibleRegion().GetNumberOfPixels());
     OutputIterator OutputIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
     FieldInterpolatorPointer inputFieldInterpolator = FieldInterpolatorType::New();
