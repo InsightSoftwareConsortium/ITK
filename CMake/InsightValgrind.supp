@@ -611,8 +611,209 @@
   fun:TclCompEvalObj
   fun:TclObjInterpProc
 }
-
-
+{
+   CrazyTclError37
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError38
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError39
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError40
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError41
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError42
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_AttemptRealloc
+   fun:Tcl_AttemptSetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_AppendObjToObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+}
+{
+   CrayTclError43
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError44
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError45
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError46
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError47
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError48
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError49
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
 {
    <insert a suppression name here>
    Memcheck:Leak
