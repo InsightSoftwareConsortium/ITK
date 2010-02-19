@@ -85,8 +85,8 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=( const ValueType r[VPointDimension] )
 {
   this->Superclass::operator=( r );
-    this->Initialize( );
-    return( *this );
+  this->Initialize( );
+  return( *this );
 }
 
 template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
@@ -152,6 +152,19 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 { 
   return(m_Edge); 
 }
+
+
+/** Set Point Coordinates
+ *  
+ */
+template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+void
+QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
+::SetPoint( const Superclass & point ) 
+{ 
+  this->Superclass::operator=( point );
+}
+
 
 } 
 

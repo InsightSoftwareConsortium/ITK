@@ -76,7 +76,21 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
 
   PointType pp = ps;
 
+  if( pp.EuclideanDistanceTo( ps ) > 1e-6 )
+    {
+    std::cerr << "Error in the array constructor" << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  PointType pp2;
+  pp2.SetPoint( ps );
+
+  if( pp2.EuclideanDistanceTo( ps ) > 1e-6 )
+    {
+    std::cerr << "Error in the array constructor" << std::endl;
+    return EXIT_FAILURE;
+    }
+ 
   PointType::ValueArrayType cc;
   cc[0] =  17.7;
   cc[1] =  39.7;

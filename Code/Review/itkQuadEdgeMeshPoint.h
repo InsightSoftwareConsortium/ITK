@@ -73,6 +73,9 @@ public:
   /** Accessor on m_Edge */
   void SetEdge( TQuadEdge * inputEdge );
 
+  /** Set the coordinates from a standard itk::Point */
+  void SetPoint( const Superclass & point );
+
   /** Accessor on m_Edge */
   TQuadEdge * GetEdge();
   TQuadEdge * GetEdge() const;
