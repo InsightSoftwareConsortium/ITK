@@ -14,7 +14,7 @@ enumsNrrd.c arraysNrrd.c methodsNrrd.c reorder.c axis.c simple.c comment.c
 keyvalue.c endianNrrd.c parseNrrd.c gzio.c read.c write.c format.c 
 formatNRRD.c encoding.c encodingRaw.c encodingAscii.c encodingHex.c 
 encodingGzip.c subset.c encodingBzip2.c formatEPS.c formatPNG.c 
-formatPNM.c formatText.c formatVTK.c )
+formatPNM.c formatText.c formatVTK.c randMT.c )
 
 # Turn on TEEM_BUILD so that the proper dll export def's are 
 # used on windows builds.

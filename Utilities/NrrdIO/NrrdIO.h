@@ -268,6 +268,30 @@ TEEM_API int airIsInf_d(double d);
 TEEM_API int airExists(double d);
 
 
+#define AIR_RANDMT_N 624
+typedef struct {
+  /* These need to be at least 32 bits */
+  unsigned int state[AIR_RANDMT_N], /* internal state */
+    *pNext,                         /* next value to get from state */
+    left;                           /* number of values left before
+                                       reload needed */
+} airRandMTState;
+/* randMT.c */
+TEEM_API airRandMTState *airRandMTStateGlobal;
+TEEM_API void airRandMTStateGlobalInit(void);
+TEEM_API airRandMTState *airRandMTStateNew(unsigned int seed);
+TEEM_API airRandMTState *airRandMTStateNix(airRandMTState *state);
+TEEM_API void airSrandMT_r(airRandMTState *state, unsigned int seed);
+TEEM_API double airDrandMT_r(airRandMTState *state);       /* [0,1] */
+TEEM_API unsigned int airUIrandMT_r(airRandMTState *state);
+TEEM_API double airDrandMT53_r(airRandMTState *state);     /* [0,1) */
+TEEM_API unsigned int airRandInt(unsigned int N);
+TEEM_API unsigned int airRandInt_r(airRandMTState *state, unsigned int N);
+TEEM_API void airSrandMT(unsigned int seed);
+TEEM_API double airDrandMT();
+TEEM_API double airTime();
+
+
 /*
 ******** airType
 **
@@ -2161,6 +2185,7 @@ TEEM_API int nrrdSlice(Nrrd *nout, const Nrrd *nin,
 TEEM_API int nrrdCrop(Nrrd *nout, const Nrrd *nin,
                       size_t *min, size_t *max);
 
+   
 #ifdef __cplusplus
 }
 #endif
