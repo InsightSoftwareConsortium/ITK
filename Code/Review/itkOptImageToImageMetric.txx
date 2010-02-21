@@ -388,7 +388,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     // Take all the pixels within the fixed image region)
     // to create the sample points list.
     // 
-    SampleFullFixedImageDomain( m_FixedImageSamples );
+    SampleFullFixedImageRegion( m_FixedImageSamples );
     }
   else
     {
@@ -406,7 +406,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       // Uniformly sample the fixed image (within the fixed image region)
       // to create the sample points list.
       // 
-      SampleFixedImageDomain( m_FixedImageSamples );
+      SampleFixedImageRegion( m_FixedImageSamples );
       }
     }
 
@@ -570,7 +570,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFixedImageDomain( FixedImageSampleContainer & samples ) const
+::SampleFixedImageRegion( FixedImageSampleContainer & samples ) const
 {
   if( samples.size() != m_NumberOfFixedImageSamples )
     {
@@ -686,7 +686,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 ImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFullFixedImageDomain( FixedImageSampleContainer& samples ) const
+::SampleFullFixedImageRegion( FixedImageSampleContainer& samples ) const
 {
 
   if( samples.size() != m_NumberOfFixedImageSamples )

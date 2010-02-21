@@ -358,13 +358,13 @@ protected:
   typedef std::vector<FixedImageSamplePoint> FixedImageSampleContainer;
 
   /** Uniformly select a sample set from the fixed image domain. */
-  virtual void SampleFixedImageDomain( FixedImageSampleContainer & samples) const;
+  virtual void SampleFixedImageRegion( FixedImageSampleContainer & samples) const;
 
   virtual void SampleFixedImageIndexes( FixedImageSampleContainer & 
                                            samples) const;
 
   /** Gather all the pixels from the fixed image domain. */
-  virtual void SampleFullFixedImageDomain( FixedImageSampleContainer & 
+  virtual void SampleFullFixedImageRegion( FixedImageSampleContainer & 
                                            samples) const;
 
   /** Container to store a set of points and fixed image values. */
