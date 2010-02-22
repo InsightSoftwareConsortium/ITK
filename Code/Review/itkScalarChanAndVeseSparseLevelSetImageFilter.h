@@ -22,6 +22,8 @@
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
 
+namespace itk
+{
 /** \class ScalarChanAndVeseSparseLevelSetImageFilter
  * \brief Sparse implementation of the Chan and Vese multiphase level set image filter.
  *
@@ -30,7 +32,7 @@
  *
  *        "An active contour model without edges"
  *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
+ *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
@@ -53,8 +55,6 @@
  *      http://hdl.handle.net/1926/1533
  *
  */
-namespace itk
-{
 template < class TInputImage, class TFeatureImage, class TOutputImage,
      class TFunction=ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
      class TSharedData=ITK_TYPENAME TFunction::SharedDataType,

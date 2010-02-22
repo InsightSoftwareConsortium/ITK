@@ -72,6 +72,14 @@ protected:
 
 } // end namespace Functor 
 
+/** \class VectorConnectedComponentImageFilter
+ *
+ *  \brief A connected components filter that labels the
+ *         objects in a vector image.  Two vectors are pointing
+ *         similar directions if one minus their dot product is less than a
+ *         threshold.  Vectors that are 180 degrees out of phase
+ *         are similar.  Assumes that vectors are normalized.
+ */
 template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage>
 class ITK_EXPORT VectorConnectedComponentImageFilter :
     public ConnectedComponentFunctorImageFilter<TInputImage,TOutputImage,
