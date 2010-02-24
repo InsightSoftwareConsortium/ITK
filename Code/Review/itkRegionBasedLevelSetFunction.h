@@ -188,7 +188,7 @@ public:
   TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
   /** Compute the equation value. */
-  PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
+  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
     void *globalData, const FloatOffsetType& = FloatOffsetType(0.0));
 
   void SetInitialImage(InputImageType *f)
