@@ -188,11 +188,15 @@ public:
   /** End concept checking */
 #endif
 
+  itkSetMacro( ReinitializeCounter, unsigned int );
+  itkGetMacro( ReinitializeCounter, unsigned int );
+
 protected:
   MultiphaseDenseFiniteDifferenceImageFilter()
     {
     this->m_ReinitializeCounter = 1;
-    this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
+    // FIXME: this->m_UpdateCounter really used?
+    // this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
     }
 
   ~MultiphaseDenseFiniteDifferenceImageFilter() {}
@@ -209,7 +213,7 @@ protected:
   virtual void ApplyUpdate(TimeStepType dt);
 
   unsigned int m_ReinitializeCounter;  // FIXME: Should this be a boolean ?
-  unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
+  // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
 
 private:
   MultiphaseDenseFiniteDifferenceImageFilter(const Self&);

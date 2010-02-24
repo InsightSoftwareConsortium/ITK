@@ -86,6 +86,62 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   this->m_BoundsCheckingActive = false;
 }
 
+template<class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+void
+MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
+::CopyInputToOutput()
+{
+  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+    {
+    InputImagePointer input = this->m_LevelSet[i];
+
+    // This is used as a temporary buffer
+    InputImagePointer tempImage = InputImageType::New();
+    tempImage->SetRegions( input->GetRequestedRegion() );
+    tempImage->CopyInformation( input );
+    tempImage->Allocate();
+
+    // Compute Heaviside of input image
+    // Copy input to temp
+    InputRegionType region = input->GetRequestedRegion();
+    ImageRegionIterator< InputImageType > lIt( input, region );
+    ImageRegionIterator< InputImageType > tIt( tempImage, region );
+
+    lIt.GoToBegin();
+    tIt.GoToBegin();
+
+    while( !lIt.IsAtEnd() )
+      {
+      tIt.Set( lIt.Get() );
+      ++tIt;
+      ++lIt;
+      }
+
+    // TODO: Can the zeroCrossingFilter have the same input and output?
+    ZeroCrossingFilterPointer zeroCrossingFilter = ZeroCrossingFilterType::New();
+    zeroCrossingFilter->SetInput( tempImage );
+    zeroCrossingFilter->SetBackgroundValue( m_ValueOne );
+    zeroCrossingFilter->SetForegroundValue( m_ValueZero );
+    zeroCrossingFilter->Update();
+
+    // The levelset image has a 0 where the zero contour exists and + outside and - inside
+    ImageRegionIterator< InputImageType > zIt( zeroCrossingFilter->GetOutput(), region );
+
+    lIt.GoToBegin();
+    zIt.GoToBegin();
+
+    while( !lIt.IsAtEnd() )
+      {
+      if ( zIt.Get() == 0 )
+        {
+        lIt.Set( 0 );
+        }
+      ++zIt;
+      ++lIt;
+      }
+    }
+}
+
 template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
 typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 TOutputImage, TFunction, TIdCell >::TimeStepType
@@ -899,62 +955,6 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
         sparsePtr->m_Layers[promote]->PushFront ( node );
         statusIt.SetCenterPixel ( promote );
         }
-      }
-    }
-}
-
-template<class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
-void
-MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
-::CopyInputToOutput()
-{
-  for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
-    {
-    InputImagePointer input = this->m_LevelSet[i];
-
-    // This is used as a temporary buffer
-    InputImagePointer tempImage = InputImageType::New();
-    tempImage->SetRegions( input->GetRequestedRegion() );
-    tempImage->CopyInformation( input );
-    tempImage->Allocate();
-
-    // Compute Heaviside of input image
-    // Copy input to temp
-    InputRegionType region = input->GetRequestedRegion();
-    ImageRegionIterator< InputImageType > lIt( input, region );
-    ImageRegionIterator< InputImageType > tIt( tempImage, region );
-
-    lIt.GoToBegin();
-    tIt.GoToBegin();
-
-    while(  !lIt.IsAtEnd() )
-      {
-      tIt.Set( lIt.Get() );
-      ++tIt;
-      ++lIt;
-      }
-
-    // TODO: Can the zeroCrossingFilter have the same input and output?
-    ZeroCrossingFilterPointer zeroCrossingFilter = ZeroCrossingFilterType::New();
-    zeroCrossingFilter->SetInput( tempImage );
-    zeroCrossingFilter->SetBackgroundValue( m_ValueOne );
-    zeroCrossingFilter->SetForegroundValue( m_ValueZero );
-    zeroCrossingFilter->Update();
-
-    // The levelset image has a 0 where the zero contour exists and + outside and - inside
-    ImageRegionIterator< InputImageType > zIt( zeroCrossingFilter->GetOutput(), region );
-
-    lIt.GoToBegin();
-    zIt.GoToBegin();
-
-    while(  !lIt.IsAtEnd() )
-      {
-      if ( zIt.Get() == 0 )
-        {
-        lIt.Set( 0 );
-        }
-      ++zIt;
-      ++lIt;
       }
     }
 }

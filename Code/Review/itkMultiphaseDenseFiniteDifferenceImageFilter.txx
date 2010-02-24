@@ -31,6 +31,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 ::CopyInputToOutput()
 {
   OutputImagePointer output = this->GetOutput();
+  output->FillBuffer( 0 );
 
   for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {
@@ -66,10 +67,6 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       if( in.Get() < 0 )
         {
         out.Value() =  p;
-        }
-      else
-        {
-        out.Value() = 0;
         }
       ++in;
       ++out;
@@ -192,6 +189,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   double rms_change_accumulator = 0;
   double den = 0;
   IdCellType i;
+  InputPixelType val = 0;
 
   for( i = 0;  i < this->m_FunctionCount; i++ )
     {
@@ -212,15 +210,17 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     // it is this->m_LevelSet[i]->GetLargestPossibleRegion()
     InputRegionType region = this->m_LevelSet[i]->GetRequestedRegion();
 
-    ImageRegionIterator< InputImageType > u ( m_UpdateBuffers[i], region );
-    ImageRegionIterator< InputImageType >  o ( this->m_LevelSet[i], region );
+    ImageRegionIterator< InputImageType > u( m_UpdateBuffers[i], region );
+    ImageRegionIterator< InputImageType >  o( this->m_LevelSet[i], region );
 
     u.GoToBegin();
     o.GoToBegin();
 
     while( !u.IsAtEnd() )
       {
-      u.Set( o.Value() + static_cast< InputPixelType > ( dt ) * u.Get() );
+      val = static_cast< InputPixelType > ( dt ) * u.Get();
+      o.Set( o.Value() + val );
+      rms_change_accumulator += static_cast<double> ( vnl_math_sqr( val ) );
       ++u;
       ++o;
       }
@@ -232,7 +232,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       thresh->SetUpperThreshold( 0 );
       thresh->SetInsideValue( 1 );
       thresh->SetOutsideValue( 0 );
-      thresh->SetInput( m_UpdateBuffers[i] );
+      thresh->SetInput( this->m_LevelSet[i] );
       thresh->Update();
 
       MaurerPointer maurer = MaurerType::New();
@@ -244,10 +244,10 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
       ImageRegionIterator< InputImageType >  it ( maurer->GetOutput(), region );
 
+      rms_change_accumulator = 0;
+      
       o.GoToBegin();
       it.GoToBegin();
-
-      InputPixelType val;
 
       while( !o.IsAtEnd() )
         {
