@@ -189,7 +189,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   double rms_change_accumulator = 0;
   double den = 0;
   IdCellType i;
-  InputPixelType val = 0;
+  InputPixelType val;
 
   for( i = 0;  i < this->m_FunctionCount; i++ )
     {
