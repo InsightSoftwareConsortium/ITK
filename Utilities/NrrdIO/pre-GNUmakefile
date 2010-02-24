@@ -1,6 +1,6 @@
 #  
 # NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2005  Gordon Kindlmann
+# Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
 # This software is provided 'as-is', without any express or implied
@@ -28,7 +28,7 @@
 ###
 ### for the NrrdIO in ITK:
 ###
-###    cvs update
+###    svn update
 ###    rm -f itk_NrrdIO_mangle.h
 ###    touch itk_NrrdIO_mangle.h
 ###    make -f pre-GNUmakefile clean
@@ -41,7 +41,7 @@
 ###
 ### for the NrrdIO in Teem:
 ###
-###    cvs update
+###    svn update
 ###    make -f pre-GNUmakefile clean
 ###    make -f pre-GNUmakefile
 ###    make -f sample-GNUmakefile
@@ -80,7 +80,7 @@ TEEM_HDRS = $(addprefix teem/, \
 NEED_AIR = $(addprefix air/, \
   754.c mop.c array.c parseAir.c dio.c \
   sane.c endianAir.c string.c enum.c miscAir.c)
-NEED_BIFF = biff/biffbiff.c
+NEED_BIFF = $(addprefix biff/, biffbiff.c biffmsg.c)
 NEED_NRRD = $(addprefix nrrd/, \
   accessors.c defaultsNrrd.c enumsNrrd.c arraysNrrd.c methodsNrrd.c \
   reorder.c axis.c simple.c comment.c keyvalue.c endianNrrd.c \
@@ -101,8 +101,13 @@ all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) NrrdIO.h NrrdIO_Srcs.txt
 ### NrrdIO.h is basically the result of cat'ing together all the 
 ### teem headers in $(NEED_HDRS), but we do need to "unteem" them.
 ###
-$(NEED_PUB_HDRS) $(NEED_PRIV_HDRS):
-	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
+$(NEED_PUB_HDRS):
+	tail --lines=+22 $(TEEM_SRC_ROOT)/src/$@ \
+         | perl unteem.pl \
+         | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
+$(NEED_PRIV_HDRS):
+	tail --lines=+22 $(TEEM_SRC_ROOT)/src/$@ \
+         | cat preamble.c - \
          | perl unteem.pl \
          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
 NrrdIO.h: $(NEED_PUB_HDRS)
@@ -118,7 +123,7 @@ NrrdIO_Srcs.txt:
 ### The teem*.h headers: we need only change the pre-amble here
 ###
 teem/%.h: 
-	tail +20 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
+	tail --lines=+22 $(TEEM_SRC_ROOT)/include/$(notdir $@) \
           | cat preamble.c - > $(notdir $@)
 
 ### The rest: by design, these targets have the library names as part
@@ -126,7 +131,7 @@ teem/%.h:
 ### source file without any VPATH games
 ###
 %.h %.c:
-	tail +20 $(TEEM_SRC_ROOT)/src/$@ \
+	tail --lines=+22 $(TEEM_SRC_ROOT)/src/$@ \
           | cat preamble.c - \
           | perl unteem.pl \
           | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
