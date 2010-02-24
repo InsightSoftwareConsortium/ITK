@@ -581,7 +581,7 @@ ImageIOBase
 ::ReadBufferAsBinary(std::istream& is, void *buffer, ImageIOBase::SizeType num)
 {
 
-  const std::streamsize numberOfBytesToBeRead = static_cast< std::streamsize>( num );
+  const std::streamsize numberOfBytesToBeRead = Math::CastWithRangeCheck< std::streamsize>( num );
 
   is.read( static_cast<char *>( buffer ), numberOfBytesToBeRead );
 
@@ -751,10 +751,12 @@ template <class TComponent>
 void WriteBuffer(std::ostream& os, const TComponent *buffer, ImageIOBase::SizeType num)
 {
   const TComponent *ptr = buffer;
+  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
   for (ImageIOBase::SizeType i=0; i < num; i++)
     {
-    if ( !(i%6) && i ) os << "\n";
-    os << *ptr++ << " ";
+    if ( !(i%6) && i ) 
+      os << "\n";
+    os << PrintType(*ptr++) << " ";
     }
 }
 }
@@ -853,10 +855,14 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream& os, const void *buffer,
 template <class TComponent>
 void ReadBuffer(std::istream& is, TComponent *buffer, ImageIOBase::SizeType num)
 {
+
+  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
+  PrintType temp;
   TComponent *ptr = buffer;
   for( ImageIOBase::SizeType i=0; i < num; i++, ptr++ )
     {
-    is >> *ptr;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
     }
 }
 
