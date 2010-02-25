@@ -108,7 +108,7 @@ public:
   /** Standard class typedefs */
   typedef MultiphaseDenseFiniteDifferenceImageFilter        Self;
   typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
-    TFeatureImage, TOutputImage, TFunction >                Superclass;
+    TFeatureImage, TOutputImage, TFunction, TIdCell >       Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
 
@@ -200,6 +200,8 @@ protected:
     }
 
   ~MultiphaseDenseFiniteDifferenceImageFilter() {}
+
+  virtual void PrintSelf( std::ostream&, Indent indent ) const;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts

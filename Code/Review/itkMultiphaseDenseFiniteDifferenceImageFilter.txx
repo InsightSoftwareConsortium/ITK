@@ -25,6 +25,18 @@ namespace itk
 
 template < class TInputImage, class TFeatureImage, class TOutputImage,
   class TFunction, typename TIdCell >
+void 
+MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+  TOutputImage, TFunction, TIdCell >
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+
+  os << indent << "m_ReinitializeCounter: " <<m_ReinitializeCounter <<std::endl;
+}
+
+template < class TInputImage, class TFeatureImage, class TOutputImage,
+  class TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   TOutputImage, TFunction, TIdCell >
