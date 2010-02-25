@@ -1,23 +1,25 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
+  NrrdIO: stand-alone code for basic nrrd functionality
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
@@ -37,7 +39,7 @@ _nrrdEncodingRaw_read(FILE *file, void *data, size_t elementNum,
   int fd, dio, car;
   long savePos;
   char *data_c;
-  size_t elementSize, maxChunkSize, readRemainder, chunkSize;
+  size_t elementSize, maxChunkSize, remainder, chunkSize;
   size_t retTmp;
 
   bsize = nrrdElementSize(nrrd)*elementNum;
@@ -77,22 +79,22 @@ _nrrdEncodingRaw_read(FILE *file, void *data, size_t elementNum,
     elementSize = nrrdElementSize(nrrd);
     maxChunkSize = 1024 * 1024 * 1024 / elementSize;
     while(ret < elementNum) {
-      readRemainder = elementNum-ret;
-      if (readRemainder < maxChunkSize) {
-        chunkSize = readRemainder;
+      remainder = elementNum-ret;
+      if (remainder < maxChunkSize) {
+  chunkSize = remainder;
       } else {
-        chunkSize = maxChunkSize;
+  chunkSize = maxChunkSize;
       }
       retTmp = 
-        fread(&(data_c[ret*elementSize]), elementSize, chunkSize, file);
+  fread(&(data_c[ret*elementSize]), elementSize, chunkSize, file);
       ret += retTmp;
       if (retTmp != chunkSize) {
-        biffAddf(NRRD, "%s: fread got read only "
+  biffAddf(NRRD, "%s: fread got read only "
                  _AIR_SIZE_T_CNV " " _AIR_SIZE_T_CNV "-sized things, not "
                  _AIR_SIZE_T_CNV " (%g%% of expected)", me,
                  ret, nrrdElementSize(nrrd), elementNum,
                  100.0*ret/elementNum);
-        return 1;
+  return 1;
       }
     }
     /* HEY: Here's the old version of the above code. 
@@ -133,7 +135,7 @@ _nrrdEncodingRaw_write(FILE *file, const void *data, size_t elementNum,
   int fd, dio;
   size_t ret, bsize;
   char *data_c;
-  size_t elementSize, maxChunkSize, writeRemainder, chunkSize;
+  size_t elementSize, maxChunkSize, remainder, chunkSize;
   size_t retTmp;
   
   bsize = nrrdElementSize(nrrd)*elementNum;
@@ -173,22 +175,22 @@ _nrrdEncodingRaw_write(FILE *file, const void *data, size_t elementNum,
     elementSize = nrrdElementSize(nrrd);
     maxChunkSize = 1024 * 1024 * 1024 / elementSize;
     while(ret < elementNum) {
-      writeRemainder = elementNum-ret;
-      if (writeRemainder < maxChunkSize) {
-        chunkSize = writeRemainder;
+      remainder = elementNum-ret;
+      if (remainder < maxChunkSize) {
+  chunkSize = remainder;
       } else {
-        chunkSize = maxChunkSize;
+  chunkSize = maxChunkSize;
       }
       retTmp = 
-        fwrite(&(data_c[ret*elementSize]), elementSize, chunkSize, file);
+  fwrite(&(data_c[ret*elementSize]), elementSize, chunkSize, file);
       ret += retTmp;
       if (retTmp != chunkSize) {
-        biffAddf(NRRD, "%s: fwrite wrote only "
+  biffAddf(NRRD, "%s: fwrite wrote only "
                  _AIR_SIZE_T_CNV " " _AIR_SIZE_T_CNV "-sized things, not "
                  _AIR_SIZE_T_CNV " (%g%% of expected)", me,
                  ret, nrrdElementSize(nrrd), elementNum,
                  100.0*ret/elementNum);
-        return 1;
+  return 1;
       }
     }
     /* HEY: Here's the old version of the above code.

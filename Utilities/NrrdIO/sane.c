@@ -1,6 +1,6 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2005  Gordon Kindlmann
+  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
  
   This software is provided 'as-is', without any express or implied
@@ -34,9 +34,9 @@
 */
 int
 airSanity(void) {
-  double nanD, pinfD, ninfD;
+  double nan, pinf, ninf;
   float nanF, pinfF, ninfF;
-  unsigned int sign, expo, mant;
+  unsigned int sign, exp, mant;
   int tmpI, size;
   char endian;
   unsigned char uc0, uc1;
@@ -76,28 +76,41 @@ airSanity(void) {
   }
 
   /* run-time NaN checks */
-  pinfD = DBL_MAX;
-  pinfD = _airSanityHelper(pinfD);
-  pinfD = _airSanityHelper(pinfD);
-  pinfD = _airSanityHelper(pinfD);
-  if (AIR_EXISTS(pinfD)) {
+  pinf = DBL_MAX;
+  pinf = _airSanityHelper(pinf);
+  pinf = _airSanityHelper(pinf);
+  pinf = _airSanityHelper(pinf);
+  if (AIR_EXISTS(pinf)) {
     return airInsane_pInfExists;
   }
-  ninfD = -pinfD;
-  if (AIR_EXISTS(ninfD)) {
+  ninf = -pinf;
+  if (AIR_EXISTS(ninf)) {
     return airInsane_nInfExists;
   }
-  nanD = pinfD / pinfD;
-  if (AIR_EXISTS(nanD)) {
+  nan = pinf / pinf;
+  if (AIR_EXISTS(nan)) {
     return airInsane_NaNExists;
   }
-  nanF = (float)nanD;
-  pinfF = (float)pinfD;
-  ninfF = (float)ninfD;
-  airFPValToParts_f(&sign, &expo, &mant, nanF);
+  nanF = (float)nan;
+  pinfF = (float)pinf;
+  ninfF = (float)ninf;
+  airFPValToParts_f(&sign, &exp, &mant, nanF);
   mant >>= 22;
   if (AIR_QNANHIBIT != (int)mant) {
     return airInsane_QNaNHiBit;
+  }
+  if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
+         && airFP_QNAN == airFPClass_f(AIR_QNAN)
+#if !defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
+         && airFP_SNAN == airFPClass_f(AIR_SNAN) 
+#endif
+         && airFP_QNAN == airFPClass_d(AIR_NAN)
+         && airFP_QNAN == airFPClass_d(AIR_QNAN) )) {
+    /* we don't bother checking for 
+       airFP_SNAN == airFPClass_d(AIR_SNAN) because
+       on some platforms the signal-ness of the NaN
+       is not preserved in double-float conversion */
+    return airInsane_AIR_NAN;
   }
   if (!(airFP_QNAN == airFPClass_f(nanF)
         && airFP_POS_INF == airFPClass_f(pinfF)
@@ -140,6 +153,7 @@ _airInsaneErr[AIR_INSANE_MAX+1][AIR_STRLEN_MED] = {
   "AIR_EXISTS(NaN) was true",
   "air_FPClass_f() wrong after double->float assignment",
   "TEEM_QNANHIBIT is wrong",
+  "airFPClass(AIR_QNAN,AIR_SNAN) wrong",
   "TEEM_DIO has invalid value",
   "TEEM_32BIT is wrong",
   "unsigned char isn't 8 bits",

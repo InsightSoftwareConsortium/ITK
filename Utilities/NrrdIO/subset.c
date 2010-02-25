@@ -1,23 +1,25 @@
 /*
-  Teem: Tools to process and visualize scientific data and images              
+  NrrdIO: stand-alone code for basic nrrd functionality
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public License
-  (LGPL) as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-  The terms of redistributing and/or modifying this software also
-  include exceptions to the LGPL that facilitate static linking.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this library; if not, write to Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ 
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any
+  damages arising from the use of this software.
+ 
+  Permission is granted to anyone to use this software for any
+  purpose, including commercial applications, and to alter it and
+  redistribute it freely, subject to the following restrictions:
+ 
+  1. The origin of this software must not be misrepresented; you must
+     not claim that you wrote the original software. If you use this
+     software in a product, an acknowledgment in the product
+     documentation would be appreciated but is not required.
+ 
+  2. Altered source versions must be plainly marked as such, and must
+     not be misrepresented as being the original software.
+ 
+  3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
@@ -257,7 +259,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   }
   for (ai=0; ai<nin->dim; ai++) {
     nrrdAxisInfoPosRange(&(nout->axis[ai].min), &(nout->axis[ai].max),
-                         nin, ai, AIR_CAST(double, min[ai]),
+                         nin, ai, AIR_CAST(double, min[ai]), 
                          AIR_CAST(double, max[ai]));
     /* do the safe thing first */
     nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
@@ -329,7 +331,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     if (AIR_EXISTS(nin->axis[ai].spaceDirection[0])) {
       nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                             1.0, nout->spaceOrigin,
-                            AIR_CAST(double, min[ai]),
+                            AIR_CAST(double, min[ai]), 
                             nin->axis[ai].spaceDirection);
     }
   }
@@ -338,100 +340,3 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   return 0;
 }
 
-/* ---- BEGIN non-NrrdIO */
-
-/*
-******** nrrdSample_nva()
-**
-** given coordinates within a nrrd, copies the 
-** single element into given *val
-*/
-int
-nrrdSample_nva(void *val, const Nrrd *nrrd, const size_t *coord) {
-  static const char me[]="nrrdSample_nva";
-  size_t I, size[NRRD_DIM_MAX], typeSize;
-  unsigned int ai;
-  
-  if (!(nrrd && coord && val)) {
-    biffAddf(NRRD, "%s: got NULL pointer", me);
-    return 1;
-  }
-  /* this shouldn't actually be necessary .. */
-  if (!nrrdElementSize(nrrd)) {
-    biffAddf(NRRD, "%s: nrrd reports zero element size!", me);
-    return 1;
-  }
-  
-  typeSize = nrrdElementSize(nrrd);
-  nrrdAxisInfoGet_nva(nrrd, nrrdAxisInfoSize, size);
-  for (ai=0; ai<nrrd->dim; ai++) {
-    if (!( coord[ai] < size[ai] )) {
-      biffAddf(NRRD, "%s: coordinate " _AIR_SIZE_T_CNV 
-               " on axis %d out of bounds (0 to " _AIR_SIZE_T_CNV  ")", 
-               me, coord[ai], ai, size[ai]-1);
-      return 1;
-    }
-  }
-
-  NRRD_INDEX_GEN(I, coord, size, nrrd->dim);
-
-  memcpy(val, (char*)(nrrd->data) + I*typeSize, typeSize);
-  return 0;
-}
-
-/*
-******** nrrdSample_va()
-**
-** var-args version of nrrdSample_nva()
-*/
-int
-nrrdSample_va(void *val, const Nrrd *nrrd, ...) {
-  static const char me[]="nrrdSample_va";
-  unsigned int ai;
-  size_t coord[NRRD_DIM_MAX];
-  va_list ap;
-  
-  if (!(nrrd && val)) {
-    biffAddf(NRRD, "%s: got NULL pointer", me);
-    return 1;
-  }
-  
-  va_start(ap, nrrd);
-  for (ai=0; ai<nrrd->dim; ai++) {
-    coord[ai] = va_arg(ap, size_t);
-  }
-  va_end(ap);
-  
-  if (nrrdSample_nva(val, nrrd, coord)) {
-    biffAddf(NRRD, "%s:", me);
-    return 1;
-  }
-  return 0;
-}
-
-/*
-******** nrrdSimpleCrop()
-**
-*/
-int
-nrrdSimpleCrop(Nrrd *nout, const Nrrd *nin, unsigned int crop) {
-  static const char me[]="nrrdSimpleCrop";
-  unsigned int ai;
-  size_t min[NRRD_DIM_MAX], max[NRRD_DIM_MAX];
-
-  if (!(nout && nin)) {
-    biffAddf(NRRD, "%s: got NULL pointer", me);
-    return 1;
-  }
-  for (ai=0; ai<nin->dim; ai++) {
-    min[ai] = crop;
-    max[ai] = nin->axis[ai].size-1 - crop;
-  }
-  if (nrrdCrop(nout, nin, min, max)) {
-    biffAddf(NRRD, "%s:", me);
-    return 1;
-  }
-  return 0;
-}
-
-/* ---- END non-NrrdIO */
