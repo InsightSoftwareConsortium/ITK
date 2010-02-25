@@ -119,12 +119,7 @@ public:
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
    */
-  void SetUseSeriesDetails( bool useSeriesDetails)
-    {
-    m_UseSeriesDetails = useSeriesDetails;
-    m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
-    m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
-    }
+  void SetUseSeriesDetails( bool useSeriesDetails);
 
   /** Returns true if using additional series information such as ProtocolName
    *   and SeriesName to identify when a single SeriesUID contains

@@ -299,6 +299,14 @@ void GDCMSeriesFileNames::PrintSelf(std::ostream& os, Indent indent) const
     os << indent << "OutputFilenames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
     }
 }
+
+void GDCMSeriesFileNames::SetUseSeriesDetails( bool useSeriesDetails)
+{
+  m_UseSeriesDetails = useSeriesDetails;
+  m_SerieHelper->SetUseSeriesDetails( m_UseSeriesDetails );
+  m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
+}
+
 } //namespace ITK
 
 #endif
