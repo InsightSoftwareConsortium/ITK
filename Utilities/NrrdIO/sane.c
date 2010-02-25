@@ -99,6 +99,14 @@ airSanity(void) {
   if (AIR_QNANHIBIT != (int)mant) {
     return airInsane_QNaNHiBit;
   }
+     printf(" airFP_QNAN %d airFPClass_f(AIR_NAN) %d ", airFP_QNAN, airFPClass_f(AIR_NAN));
+     printf(" airFP_QNAN %d airFPClass_f(AIR_QNAN) %d ", airFP_QNAN, airFPClass_f(AIR_QNAN));
+#if !defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
+     printf("!ifdef airFP_SNAN %d airFPClass_f(AIR_NAN) %d ", airFP_SNAN, airFPClass_f(AIR_SNAN));
+#endif
+     printf(" airFP_QNAN %d airFPClass_f(AIR_NAN) %d ", airFP_QNAN, airFPClass_d(AIR_NAN));
+     printf(" airFP_QNAN %d airFPClass_f(AIR_QNAN) %d ", airFP_QNAN, airFPClass_d(AIR_QNAN));
+
   if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
          && airFP_QNAN == airFPClass_f(AIR_QNAN)
 #if !defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
@@ -110,6 +118,7 @@ airSanity(void) {
        airFP_SNAN == airFPClass_d(AIR_SNAN) because
        on some platforms the signal-ness of the NaN
        is not preserved in double-float conversion */
+
     return airInsane_AIR_NAN;
   }
   if (!(airFP_QNAN == airFPClass_f(nanF)
