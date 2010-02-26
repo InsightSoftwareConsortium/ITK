@@ -23,6 +23,7 @@
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkImageRegionIterator.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -40,6 +41,10 @@ GenerateData()
     {
     return;
     }
+
+  // we don't have a nice progress to report, but at least this simple line
+  // reports the begining and the end of the process
+  ProgressReporter progress(this, 0, 1);
 
   // allocate output buffer memory
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
