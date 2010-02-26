@@ -103,12 +103,9 @@ airSanity(void) {
   if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
          && airFP_QNAN == airFPClass_f(AIR_QNAN)
 
-//Temporarily disabled for all platforms, because of cross-compiled Mac problem.          
-#if 0         
-#if !defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
+#if !defined(__APPLE__) || defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
          && airFP_SNAN == airFPClass_f(AIR_SNAN) 
 #endif
-#endif         
          && airFP_QNAN == airFPClass_d(AIR_NAN)
          && airFP_QNAN == airFPClass_d(AIR_QNAN) )) {
     /* we don't bother checking for 
