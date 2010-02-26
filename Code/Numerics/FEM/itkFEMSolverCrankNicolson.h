@@ -44,20 +44,22 @@ namespace fem {
  * This is the main class used for solving FEM time-dependent problems. 
  * It solves the following problem:
  *
- *      ( M + alpha*dt* K )*U_t=(M - (1.- alpha)*dt* K)* U_{t-1} + dt*(alpha*f_{n+1} + (1-alpha)*f_n) 
+ * \f[
+ *      ( M + \alpha*dt* K )*U_t=(M - (1.- \alpha)*dt* K)* U_{t-1} + dt*(\alpha*f_{n+1} + (1-\alpha)*f_n) 
+ * \f]
  *
- * which is the Crank-Nicolson formulation of the static problem if alpha=0.5.  
+ * which is the Crank-Nicolson formulation of the static problem if \f$\alpha=0.5\f$.  
  * The static solution is gained if :
- *      rho = 0.0;   alpha = 1.0;  dt = 1.0;  
+ *      \f$\rho = 0.0\f$;   \f$\alpha = 1.0\f$;  \f$dt = 1.0\f$;  
  * Practically, it is good to set rho to something small (for the itpack solver).
- * The advantage of choosing alpha=0.5 is that the solution is then stable for any
+ * The advantage of choosing \f$\alpha=0.5\f$ is that the solution is then stable for any
  * choice of time step, dt.  This class inherits and uses most of the Solver class
  * functionality.  One must call AssembleKandM instead of AssembleK and 
  * AssembleFforTimeStep instead of AssembleF.  
  * FIXMEs:  1) Members should be privatized, etc.
  * 2) We should also account for the contribution to the force from essential BCs.
- * Basically there are terms involving   M * (\dot g_b)  and   K * g_b  
- * where g_b is the essential BC vector.
+ * Basically there are terms involving  \f$ M * (\dot g_b) \f$  and  \f$ K * g_b \f$ 
+ * where\f$ g_b\f$ is the essential BC vector.
  */
 class SolverCrankNicolson : public Solver
 {

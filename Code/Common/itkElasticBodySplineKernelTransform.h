@@ -24,6 +24,8 @@ namespace itk
 {
 
 /** \class ElasticBodySplineKernelTransform
+ * \brief This class defines the elastic body spline (EBS) transformation.
+ * 
  * This class defines the elastic body spline (EBS) transformation.
  * It is implemented in as straightforward a manner as possible from
  * the IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
@@ -112,7 +114,7 @@ protected:
   itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
 
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
-   * \$\alpha = 12 ( 1 - \nu ) - 1\f$
+   * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
   TScalarType m_Alpha;
 

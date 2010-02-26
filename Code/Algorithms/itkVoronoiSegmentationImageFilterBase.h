@@ -26,7 +26,7 @@ namespace itk
 {
 
 /** \class VoronoiSegmentationImageFilterBase
- * /brief Base class for VoronoiSegmentationImageFilter
+ * \brief Base class for VoronoiSegmentationImageFilter
  * 
  * Voronoi SegmentationImageFilter is a class of segmenation algorithms that 
  * works on 2D image. 

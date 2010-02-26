@@ -33,12 +33,13 @@ namespace itk {
  * applied a NeighborhoodIterator using the NeighborhoodInnerProduct
  * method. To create the operator:
  * 
- * 1) Set the direction by calling  \code{SetDirection}
- * 2) call \code{CreateOperator()}
+ * 1) Set the direction by calling  \code SetDirection \endcode
+ * 2) call \code CreateOperator() \endcode
  * 3) You may optionally scale the coefficients of this operator using the
- * \code{ScaleCoefficients} method.  This is useful if you want to take the
- * spacing of the image into account when computing the edge strength.  Apply
- * the scaling only after calling to \code{CreateOperator}.
+ * \code ScaleCoefficients \endcode method.  This is useful if you
+ * want to take the spacing of the image into account when computing
+ * the edge strength.  Apply the scaling only after calling to 
+ * \code CreateOperator \endcode.
  *
  * The Sobel Operator in vertical direction for 2 dimensions is
  * \verbatim
@@ -71,8 +72,8 @@ namespace itk {
  *    x-1       x     x+1
  * \endverbatim
  *
- * The \code{x} kernel is just rotated as required to obtain the kernel in the
- * \code{y} and \code{z} directions.
+ * The \c x kernel is just rotated as required to obtain the kernel in the
+ * \c y and \c z directions.
  * 
  * \sa NeighborhoodOperator
  * \sa Neighborhood
