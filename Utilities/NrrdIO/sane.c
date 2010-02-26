@@ -103,7 +103,7 @@ airSanity(void) {
   if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
          && airFP_QNAN == airFPClass_f(AIR_QNAN)
 
-#if !defined(__APPLE__) || defined(_MSC_VER) || _MSC_VER < 1400 /* VS2005 converts SNAN to QNAN */
+#if !defined(__APPLE__) && ( defined(_MSC_VER) || _MSC_VER < 1400 ) /* VS2005 converts SNAN to QNAN */
          && airFP_SNAN == airFPClass_f(AIR_SNAN) 
 #endif
          && airFP_QNAN == airFPClass_d(AIR_NAN)
