@@ -25,6 +25,8 @@
 #include <map>
 #include "itkProgressReporter.h"
 #include "itkBarrier.h"
+#include "itkLabelMap.h"
+#include "itkLabelObject.h"
 
 namespace itk
 {
