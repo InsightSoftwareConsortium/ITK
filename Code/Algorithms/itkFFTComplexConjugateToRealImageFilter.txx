@@ -163,5 +163,14 @@ GenerateInputRequestedRegion()
     }
 }
 
+template <class TPixel, unsigned int VDimension>
+void
+FFTComplexConjugateToRealImageFilter<TPixel,VDimension>::
+EnlargeOutputRequestedRegion(DataObject *)
+{
+  this->GetOutput()
+    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+}
+
 }
 #endif

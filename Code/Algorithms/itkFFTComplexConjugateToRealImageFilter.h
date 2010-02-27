@@ -84,6 +84,7 @@ public:
 protected:
   FFTComplexConjugateToRealImageFilter() : m_ActualXDimensionIsOdd(false) {}
   virtual ~FFTComplexConjugateToRealImageFilter(){}
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));  
 
 private:
   bool m_ActualXDimensionIsOdd;
