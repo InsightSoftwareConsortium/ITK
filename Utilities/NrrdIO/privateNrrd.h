@@ -154,6 +154,9 @@ extern void _nrrdTraverse(Nrrd *nrrd);
 #if TEEM_VTK_MANGLE
 #include "vtk_zlib_mangle.h"
 #endif
+//The procedure to checkout this file from NrrdIO repository has
+//#include <zlib.h> instead, but this line must be edited as below
+//for ITK to build without turning on ITK_USE_SYSTEM_ZLIB. 
 #include "itk_zlib.h"
    
 /* gzio.c */
