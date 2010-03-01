@@ -1,6 +1,6 @@
 #  
 # NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2005  Gordon Kindlmann
+# Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
 # This software is provided 'as-is', without any express or implied
@@ -45,12 +45,12 @@
 PLATFORM_DEFS = \
   -DTEEM_DIO=0 \
   -DTEEM_32BIT=1 \
-  -DTEEM_ENDIAN=4321 \
+  -DTEEM_ENDIAN=1234 \
   -DTEEM_QNANHIBIT=1
 
 ### Any architecture-specific flags to cc
 ###
-CCFLAGS = -O3 -ffloat-store -W -Wall
+CCFLAGS = -O3 -ffloat-store -W -Wall -I$(ITK_BIN_ROOT)/Utilities -I$(ITK_SRC_ROOT)/Utilities
 
 ### This also has to be set per-architecture- whether or not we need to
 ### run ranlib on libraries created via ar
@@ -62,11 +62,11 @@ RANLIB = ranlib
 ### find the zlib includes and libraries
 ###
 ZLIB_IPATH =
-ZLIB_LPATH =
+ZLIB_LPATH =$(ITK_BIN_ROOT)/bin/libitkzlib.a
 
 ### We'll build the static libNrrdIO library, and one test program
 ###
-ALL = libNrrdIO.a sampleIO
+ALL = libNrrdIO.a sampleIO 
 all: $(ALL)
 
 ### The libNrrdIO library is built from the objects from the source files

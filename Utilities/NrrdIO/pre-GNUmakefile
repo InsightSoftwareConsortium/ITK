@@ -96,7 +96,7 @@ NEED_PRIV_HDRS = air/privateAir.h nrrd/privateNrrd.h
 ### from air, biff, and nrrd
 ###
 .PHONY: all
-all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) NrrdIO.h NrrdIO_Srcs.txt
+all: $(TEEM_HDRS) $(NEED_SRCS) $(NEED_PRIV_HDRS) NrrdIO.h $(ITK_SRC_ROOT)/Utilities/itk_zlib.h NrrdIO_Srcs.txt
 
 ### NrrdIO.h is basically the result of cat'ing together all the 
 ### teem headers in $(NEED_HDRS), but we do need to "unteem" them.
