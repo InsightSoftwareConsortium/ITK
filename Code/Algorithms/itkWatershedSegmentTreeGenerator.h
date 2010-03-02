@@ -31,7 +31,7 @@ namespace watershed
 {
  
 /**
- * \class WatershedSegmentTreeGenerator
+ * \class SegmentTreeGenerator
  * This filter is a process object class that implements a step in the N-d
  * watershed segmentation algorithm.  It produces an ordered list (SegmentTree)
  * of binary merges between segments at increasing saliency levels. This

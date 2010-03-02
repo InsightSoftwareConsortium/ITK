@@ -26,10 +26,10 @@
 namespace itk {
 
 /**
-* \class AnchorUtilities 
- * \brief functionality in common for anchor openings/closings and
- * erosions/dilation
- *
+* AnchorUtilities 
+* functionality in common for anchor openings/closings and
+* erosions/dilation
+*
 **/
 #if 0
 template <class TImage, class TBres, class TLine>

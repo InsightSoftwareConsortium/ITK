@@ -26,7 +26,10 @@
 
 namespace itk
 {
-  
+
+namespace Functor 
+{  
+
 /** \class SimilarVectorsFunctor
  *
  *  \brief A connected components filter that labels the
@@ -35,8 +38,6 @@ namespace itk
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
  */
-
-namespace Functor {  
   
 template<class TInput>
 class SimilarVectorsFunctor

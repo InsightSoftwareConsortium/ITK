@@ -31,7 +31,7 @@ namespace itk
 {
 namespace watershed
 {
-/** \class WatershedSegmenter
+/** \class Segmenter
  *
  * This filter implements the first step in the N-d watershed segmentation 
  * algorithm.  It produces a segmented, labeled image from a scalar-valued

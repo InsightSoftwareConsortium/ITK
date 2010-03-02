@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- * \class tAdaptiveHistogramEqualizationImageFilter
+ * \class AdaptiveHistogramEqualizationImageFilter
  * \brief Power Law Adaptive Histogram Equalization
  *
  * Histogram equalization modifies the contrast in an image. The

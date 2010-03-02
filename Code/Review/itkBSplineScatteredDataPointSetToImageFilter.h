@@ -30,7 +30,7 @@
 namespace itk
 {
 
-/** \class BSplineScatteredDataPointSetToImageFilter.h
+/** \class BSplineScatteredDataPointSetToImageFilter
  * \brief Image filter which provides a B-spline output approximation.
  *
  * Given an n-D image with scattered data, this filter finds
