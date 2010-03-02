@@ -137,6 +137,20 @@ public:
   itkGetConstReferenceMacro( NumberOfControlPoints, ArrayType );
   itkGetConstReferenceMacro( CurrentNumberOfControlPoints, ArrayType );
 
+  /** This array of 0/1 values defines whether a particular dimension of the
+   * parametric space is to be considered periodic or not. For example, if you
+   * are using interpolating along a 1D closed curve, the array type will have
+   * size 1, and you should set the first element of this array to the value
+   * "1". In the case that you were interpolating in a planar surface with
+   * cylindrical topology, the array type will have two components, and you
+   * should set to "1" the component that goes around the cylinder, and set to
+   * "0" the component that goes from the top of the cylinder to the bottom.
+   * This will indicate the periodity of that parameter to the filter.
+   * Internally, in order to make periodic the domain of the parameter, the
+   * filter will reuse some of the points at the beginning of the domain as if
+   * they were also located at the end of the domain. The number of points to
+   * be reused will depend on the spline order. As a user, you don't need to
+   * replicate the points, the filter will do this for you. */
   itkSetMacro( CloseDimension, ArrayType );
   itkGetConstReferenceMacro( CloseDimension, ArrayType );
 
