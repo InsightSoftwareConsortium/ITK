@@ -54,7 +54,10 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryMorphologicalOpeningImageFilterTest);
 
   REGISTER_TEST(itkOptImageToImageMetricsTest);
+
+#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   REGISTER_TEST(itkOptImageToImageMetricsTest2);
+#endif
   
   REGISTER_TEST(itkOptMattesMutualInformationImageToImageMetricThreadsTest1);
   REGISTER_TEST(itkTimeAndMemoryProbeTest);
