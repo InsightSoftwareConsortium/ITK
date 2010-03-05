@@ -161,7 +161,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 ::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
-  Self::Pointer copyPtr = Self::New().GetPointer();
+  Pointer copyPtr = Self::New().GetPointer();
 
   copyPtr->m_BulkTransform =  this->GetBulkTransform(); 
   
