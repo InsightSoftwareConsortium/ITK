@@ -119,7 +119,11 @@ public:
   typedef SmartPointer<const Self>                           ConstPointer;
       
   /** New macro for creation of through the object factory. */
-  itkNewMacro( Self );
+  static Pointer New(void);
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineDeformableTransform, Transform );

@@ -66,6 +66,7 @@ SET(ReviewTest_SRCS
   itkBinaryMorphologicalOpeningImageFilterTest.cxx
 
   itkOptImageToImageMetricsTest.cxx
+  itkOptImageToImageMetricsTest2.cxx
   itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 
   itkTimeAndMemoryProbeTest.cxx
@@ -331,6 +332,12 @@ ADD_TEST(itkOptImageToImageMetricsTest03
   itkOptImageToImageMetricsTest
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+  )
+
+ADD_TEST(itkOptImageToImageMetricsTest04
+  ${REVIEW_TESTS} itkOptImageToImageMetricsTest2
+  ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
+  ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Common/itkBSplineDeformableTransformTest4.png
   )
 
 ADD_TEST(itkOptMattesImageToImageMetricsTest01

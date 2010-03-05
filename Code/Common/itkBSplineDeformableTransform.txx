@@ -136,6 +136,40 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+typename BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>::Pointer
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
+::New(void) 
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+    {
+    smartPtr = static_cast<Pointer>(new Self);
+    }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+::itk::LightObject::Pointer
+BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
+::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Self::Pointer copyPtr = Self::New().GetPointer();
+
+  copyPtr->m_BulkTransform =  this->GetBulkTransform(); 
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+
+  return smartPtr;
+}
+
 // Get the number of parameters
 template<class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int
