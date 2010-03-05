@@ -319,6 +319,14 @@ public:
   itkSetMacro(UseCachingOfBSplineWeights,bool);
   itkGetConstReferenceMacro(UseCachingOfBSplineWeights,bool);
   itkBooleanMacro(UseCachingOfBSplineWeights);
+      
+  typedef MultiThreader               MultiThreaderType;
+  /** Get the Threader. */
+  itkGetConstObjectMacro( Threader, MultiThreaderType );
+  const TransformPointer* GetThreaderTransform()
+    {
+    return m_ThreaderTransform;
+    }
 
 protected:
   ImageToImageMetric();
@@ -506,8 +514,6 @@ protected:
   /**
    * Types and variables related to multi-threading
    */
-
-  typedef MultiThreader               MultiThreaderType;
 
   struct MultiThreaderParameterType
     {
