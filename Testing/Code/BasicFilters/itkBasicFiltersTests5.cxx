@@ -24,6 +24,8 @@
 void RegisterTests()
 {
   vnl_sample_reseed(8775070);
+  REGISTER_TEST(itkBSplineDownsampleImageFilterTest);
+  REGISTER_TEST(itkBSplineUpsampleImageFilterTest);
   REGISTER_TEST(itkSumProjectionImageFilterTest);
   REGISTER_TEST(itkMaximumProjectionImageFilterTest);
   REGISTER_TEST(itkMaximumProjectionImageFilterTest2);

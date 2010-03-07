@@ -1026,6 +1026,21 @@ ADD_TEST(itkWarpImageFilterTest2 ${BASIC_FILTERS_TESTS5} itkWarpImageFilterTest2
          
 ADD_TEST(itkSimplexMeshWithFloatCoordRepTest ${BASIC_FILTERS_TESTS5} itkSimplexMeshWithFloatCoordRepTest)
 
+ADD_TEST(itkBSplineDownsampleImageFilterTest  
+  ${BASIC_FILTERS_TESTS5} itkBSplineDownsampleImageFilterTest
+  ${INPUTDATA}/HeadMRVolume.mhd
+  ${TEMP}/itkBSplineDownsampleImageFilterTest1.mha
+  3  # Spline order
+  )
+
+ADD_TEST(itkBSplineUpsampleImageFilterTest  
+  ${BASIC_FILTERS_TESTS5} itkBSplineUpsampleImageFilterTest
+  ${INPUTDATA}/HeadMRVolume.mhd
+  ${TEMP}/itkBSplineUpsampleImageFilterTest1.mha
+  3  # Spline order
+  )
+
+
 SET(BasicFilters_SRCS
 itkAcosImageFilterAndAdaptorTest.cxx
 itkAbsImageFilterAndAdaptorTest.cxx
@@ -1317,6 +1332,8 @@ SET(BasicFilters5_SRCS
   itkSimplexMeshWithFloatCoordRepTest.cxx
   itkReleaseDataFilterTest.cxx
   itkWarpImageFilterTest2.cxx
+  itkBSplineDownsampleImageFilterTest.cxx
+  itkBSplineUpsampleImageFilterTest.cxx
 )
 
 IF(ITK_OBJCXX_COMPILER_WORKS)
