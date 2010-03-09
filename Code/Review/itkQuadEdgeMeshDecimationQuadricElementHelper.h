@@ -42,10 +42,6 @@ public:
   itkStaticConstMacro(NumberOfCoefficients, unsigned int,
     PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
 
-//    static const unsigned int PointDimension = PointType::PointDimension;
-//    static const unsigned int NumberOfCoefficients = 
-//      PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1;
-  
   typedef typename PointType::VectorType                VectorType;
   typedef vnl_matrix< CoordType >                       VNLMatrixType;
   typedef vnl_vector_fixed< CoordType,
@@ -58,7 +54,9 @@ public:
   QuadEdgeMeshDecimationQuadricElementHelper():
     m_Coefficients( itk::NumericTraits< CoordType >::Zero ),
     m_A( PointDimension, PointDimension, itk::NumericTraits< CoordType >::Zero ),
-    m_B( itk::NumericTraits< CoordType >::Zero )
+    m_B( itk::NumericTraits< CoordType >::Zero ),
+    m_SVDAbsoluteThreshold( 1e-6 ),
+    m_SVDRelativeThreshold( 1e-3 )
     {
     this->m_Rank = PointDimension;
     }
@@ -66,7 +64,9 @@ public:
   QuadEdgeMeshDecimationQuadricElementHelper( const CoefficientVectorType& iCoefficients ):
     m_Coefficients( iCoefficients ),
     m_A( PointDimension, PointDimension, itk::NumericTraits< CoordType >::Zero ),
-    m_B( itk::NumericTraits< CoordType >::Zero )
+    m_B( itk::NumericTraits< CoordType >::Zero ),
+    m_SVDAbsoluteThreshold( 1e-6 ),
+    m_SVDRelativeThreshold( 1e-3 )
     {
     this->m_Rank = PointDimension;
     this->ComputeAMatrixAndBVector();
@@ -98,26 +98,25 @@ public:
     }
   
   ///TODO this method should be really optimized!!!
-  inline CoordType ComputeError( const PointType& iP )
+  inline CoordType ComputeError( const PointType& iP ) const
     {
     CoordType oError( 0. );
     
     std::vector< CoordType > pt( PointDimension + 1, 1. );
 
-    unsigned int dim1 = 0;
-    unsigned int k =0;
+    unsigned int dim1( 0 ), dim2( 0 ), k( 0 );
 
     while( dim1 < PointDimension )
       {
       pt[dim1] = iP[dim1];
-      dim1++;
+      ++dim1;
       }
     
-    for( dim1 = 0; dim1 < PointDimension + 1; dim1++ )
+    for( dim1 = 0; dim1 < PointDimension + 1; ++dim1 )
       {
       oError += this->m_Coefficients[k++] * pt[dim1] * pt[dim1];
       
-      for( unsigned int dim2 = dim1 + 1; dim2 < PointDimension + 1; dim2++ )
+      for( dim2 = dim1 + 1; dim2 < PointDimension + 1; ++dim2 )
         {
         oError += 2. * this->m_Coefficients[k++] * pt[dim1] * pt[dim2];
         }
@@ -128,21 +127,26 @@ public:
   ///TODO this method should be really optimized!!!
   inline CoordType ComputeErrorAtOptimalLocation()
   {
-    return ComputeError( ComputeOptimalLocation() );
+    PointType optimal_location = ComputeOptimalLocation();
+    return ComputeError( optimal_location );
   }
   
   PointType ComputeOptimalLocation()
   {
     ComputeAMatrixAndBVector();
-    vnl_svd< CoordType > svd( m_A );
-    svd.zero_out_relative( 1e-10 );
+    
+    vnl_svd< CoordType > svd( m_A, m_SVDAbsoluteThreshold );
+    svd.zero_out_relative( m_SVDRelativeThreshold );
+    
     m_Rank = svd.rank();
     
     VNLVectorType location = svd.solve( m_B.as_vector() );
     PointType oP;
     
     for( unsigned int dim = 0; dim < PointDimension; dim++ )
+      {
       oP[dim] = location[dim];
+      }
     
     return oP;
   }
@@ -153,42 +157,43 @@ public:
   {
   }
 
-  PointType ComputeOptimalLocation( 
-    const CoordType& iValue )
-  {
-    ComputeAMatrixAndBVector();
-    vnl_svd< CoordType > svd( m_A );
-    svd.zero.zero_out_relative( iValue );
-    m_Rank = svd.rank();
-    
-    VNLVectorType location = svd.solve( m_B );
-    PointType oP;
-    
-    for( unsigned int dim = 0; dim < PointDimension; dim++ )
-      oP[dim] = location[dim];
-    
-    return oP;
-  }
+//   PointType ComputeOptimalLocation( 
+//     const CoordType& iValue )
+//   {
+//     ComputeAMatrixAndBVector();
+//     vnl_svd< CoordType > svd( m_A );
+//     svd.zero.zero_out_relative( iValue );
+//     m_Rank = svd.rank();
+//
+//     VNLVectorType location = svd.solve( m_B );
+//     PointType oP;
+//
+//     for( unsigned int dim = 0; dim < PointDimension; dim++ )
+//       oP[dim] = location[dim];
+//
+//     return oP;
+//   }
 
   void AddTriangle( const PointType& iP1, 
                     const PointType& iP2, 
                     const PointType& iP3,
                     const CoordType& iWeight = static_cast< CoordType >( 1. ) ) 
     {
-    AddPoint( iP1, TriangleType::ComputeNormal( iP1, iP2, iP3 ), iWeight );
+    VectorType N = TriangleType::ComputeNormal( iP1, iP2, iP3 );
+    AddPoint( iP1, N, iWeight );
     }
   
   void AddPoint( const PointType& iP, 
                  const VectorType& iN, 
                  const CoordType& iWeight = static_cast< CoordType >( 1. ) )
     {
-    unsigned int k = 0;
+    unsigned int k( 0 ), dim1( 0 ), dim2( 0 );
     
     CoordType d = -iN * iP.GetVectorFromOrigin();
     
-    for( unsigned int dim1 = 0; dim1 < PointDimension; dim1++ )
+    for( dim1 = 0; dim1 < PointDimension; ++dim1 )
       {
-      for( unsigned int dim2 = dim1; dim2 < PointDimension; dim2++ )
+      for( dim2 = dim1; dim2 < PointDimension; ++dim2 )
         {
         this->m_Coefficients[k++] += iWeight * iN[dim1] * iN[dim2];
         }
@@ -249,14 +254,16 @@ protected:
   VNLMatrixType               m_A;
   VNLVectorType               m_B;
   unsigned int                m_Rank;
+  CoordType                   m_SVDAbsoluteThreshold;
+  CoordType                   m_SVDRelativeThreshold;
   
   void ComputeAMatrixAndBVector()
     {
-    unsigned int k = 0;
+    unsigned int k( 0 ), dim1( 0 ), dim2( 0 );
     
-    for( unsigned int dim1 = 0; dim1 < PointDimension; dim1++ )
+    for( dim1 = 0; dim1 < PointDimension; ++dim1 )
       {
-      for( unsigned int dim2 = dim1; dim2 < PointDimension; dim2++ )
+      for( dim2 = dim1; dim2 < PointDimension; ++dim2 )
         {
         m_A[dim1][dim2] = m_A[dim2][dim1] = m_Coefficients[k++];
         }
