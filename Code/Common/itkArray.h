@@ -57,7 +57,7 @@ public:
   Array(); 
 
   /** Constructor with size. Size can only be changed by assignment */
-  Array(unsigned int dimension);
+  explicit Array(unsigned int dimension);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
