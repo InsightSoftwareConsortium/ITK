@@ -972,6 +972,7 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/BSplineWarping1Test.png
         ${TEMP}/BSplineWarping1TestDeformationField.mhd
+        ${TEMP}/BSplineWarping1TestTransform.txt
 )
 
 ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES13}
@@ -1103,6 +1104,7 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
         ${TEMP}/BSplineWarping2TestDeformationField.mhd
+        ${TEMP}/BSplineWarping2TestTransform.txt
 )
 
 SET(NUMBER_OF_BSPLINE_GRID_NODES 5)
