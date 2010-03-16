@@ -75,6 +75,9 @@ TARGET_LINK_LIBRARIES(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration19 ImageRegistration19.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration19 ITKStatistics ITKIO ITKNumerics)
 
+ADD_EXECUTABLE(ImageRegistration20 ImageRegistration20.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration20 ITKStatistics ITKIO ITKNumerics)
+
 ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
 TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKIO ITKNumerics)
 
@@ -551,6 +554,16 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/ImageRegistration8DifferenceAfter.png
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
+ADD_TEST(ImageRegistration20Test 
+  ${CXX_TEST_PATH}/ImageRegistration20
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
+        ${TEMP}/ImageRegistration20Output.mhd
+        ${TEMP}/ImageRegistration20DifferenceBefore.mhd
+        ${TEMP}/ImageRegistration20DifferenceAfter.mhd
+        0.1  # Step length
+        300  # maximum number of iterations
+)
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
@@ -826,7 +839,6 @@ ADD_TEST(ImageRegistration19Test
         ${TEMP}/ImageRegistration19DifferenceTest.png 
         2.0 2.0 # Initial translation parameters
 )
-
 
 ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
