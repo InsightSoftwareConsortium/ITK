@@ -38,6 +38,8 @@
 #include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
+#include "itkTransformFileWriter.h"
+
 //  Software Guide : EndCodeSnippet
 
 #include <fstream>
@@ -83,7 +85,7 @@ int main( int argc, char * argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField]" << std::endl;
+    std::cerr << "[deformationField] [transformFile]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -392,8 +394,24 @@ int main( int argc, char * argv[] )
       }
     }
 
-
-
+  if( argc >= 7 )
+    {
+    fieldWriter->SetFileName( argv[6] );
+    try
+      { 
+      typedef itk::TransformFileWriter    TransformWriterType;
+      TransformWriterType::Pointer transformWriter = TransformWriterType::New();
+      transformWriter->AddTransform( bsplineTransform );
+      transformWriter->SetFileName( argv[6] );
+      transformWriter->Update();
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Exception thrown " << std::endl;
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
 
   return EXIT_SUCCESS;
 }
