@@ -93,7 +93,7 @@ public:
   void SetParameters( const ParametersType & parameters );
 
   /** Get the parameters that uniquely define the transform
-   * This is typically used by optimizers. There are six parameters. The first
+   * This is typically used by optimizers. There are nine parameters. The first
    * three represent the angles of rotation (in radians) around each one of the
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
