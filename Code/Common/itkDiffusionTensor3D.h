@@ -105,12 +105,25 @@ public:
   DiffusionTensor3D(const Superclass& r);
   DiffusionTensor3D(const ComponentType& r);
   DiffusionTensor3D(const ComponentArrayType r);
+  
+ /** Constructor to enable casting...  */
+  template < typename TCoordRepB >
+  DiffusionTensor3D( const DiffusionTensor3D<TCoordRepB> & pa )
+    :SymmetricSecondRankTensor<TComponent,3>(pa) { }
 
   /** Pass-through assignment operator for the Array base class. */
   Self& operator= (const Self& r);
   Self& operator= (const Superclass & r);
   Self& operator= (const ComponentType& r);
   Self& operator= (const ComponentArrayType r);
+
+  /** Templated Pass-through assignment  for the Array base class. */
+  template < typename TCoordRepB >
+  Self& operator= ( const DiffusionTensor3D<TCoordRepB> & pa )
+  {
+    SymmetricSecondRankTensor<TComponent,3>::operator=(pa);
+    return *this;
+  }
 
   /** Get Trace value */
   AccumulateValueType GetTrace() const;
@@ -127,6 +140,7 @@ public:
 };
 
 } // end namespace itk
+#include "itkNumericTraitsDiffusionTensor3DPixel.h"
 
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_DiffusionTensor3D(_, EXPORT, x, y) namespace itk { \

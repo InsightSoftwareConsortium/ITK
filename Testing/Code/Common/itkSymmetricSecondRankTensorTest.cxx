@@ -435,6 +435,42 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   } // end of Matrix * SymmetricSecondRankTensor test
 
+  //Test casting constructors
+  {  
+    typedef itk::SymmetricSecondRankTensor<int,3>     Int3DTensorType;
+    typedef itk::SymmetricSecondRankTensor<float,3>   Float3DTensorType;
+    
+    Int3DTensorType intTensor;
+    intTensor[0] =   1;
+    intTensor[1] =  -2; 
+    intTensor[2] =   3;
+    intTensor[3] =   4;
+    intTensor[4] =   5; 
+    intTensor[5] =   6;
+    
+    //Test constructors
+    Float3DTensorType floatTensor(intTensor);
+    
+    //test Assignment
+    Float3DTensorType floatTensor2 = intTensor;
+    
+    //Test casting
+    Float3DTensorType floatTensor3 = static_cast<Float3DTensorType>(intTensor);
+
+    //Check that all floatTensors have are the same
+    float precision = 1e-6;
+    for (unsigned int i=0;i<Float3DTensorType::InternalDimension;++i)
+    {
+      float intVal = static_cast<float>(intTensor[i]);
+      if ( (floatTensor[i] - intVal) > precision ||
+          (floatTensor2[i] - intVal) > precision ||
+          (floatTensor3[i] - intVal) > precision )
+      {
+        std::cerr << "Error failed casting/templated Constructor Test" << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }
