@@ -65,7 +65,7 @@ public:
     m_Coefficients( iCoefficients ),
     m_A( PointDimension, PointDimension, itk::NumericTraits< CoordType >::Zero ),
     m_B( itk::NumericTraits< CoordType >::Zero ),
-    m_SVDAbsoluteThreshold( 1e-6 ),
+    m_SVDAbsoluteThreshold( 1e-3 ),
     m_SVDRelativeThreshold( 1e-3 )
     {
     this->m_Rank = PointDimension;
@@ -104,7 +104,7 @@ public:
     
     std::vector< CoordType > pt( PointDimension + 1, 1. );
 
-    unsigned int dim1( 0 ), dim2( 0 ), k( 0 );
+    unsigned int dim1( 0 ), dim2, k( 0 );
 
     while( dim1 < PointDimension )
       {
@@ -187,7 +187,7 @@ public:
                  const VectorType& iN, 
                  const CoordType& iWeight = static_cast< CoordType >( 1. ) )
     {
-    unsigned int k( 0 ), dim1( 0 ), dim2( 0 );
+    unsigned int k( 0 ), dim1, dim2;
     
     CoordType d = -iN * iP.GetVectorFromOrigin();
     
@@ -259,7 +259,7 @@ protected:
   
   void ComputeAMatrixAndBVector()
     {
-    unsigned int k( 0 ), dim1( 0 ), dim2( 0 );
+    unsigned int k( 0 ), dim1, dim2;
     
     for( dim1 = 0; dim1 < PointDimension; ++dim1 )
       {
