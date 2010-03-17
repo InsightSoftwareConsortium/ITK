@@ -32,17 +32,19 @@ namespace itk
 // the implementation for both partial specialization and total
 // specializaion by defining certain macros.
 //
+#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
 #define itkNumericTraitsDiffusionTensor3DMacro(GENERIC_ARRAY, T)        \
   template < typename T >                                               \
   class NumericTraits<GENERIC_ARRAY< T > >                              \
   {                                                                     \
   private:                                                              \
                                                                         \
-    typedef  ITK_NUMERIC_TRAITS_TYPENAME NumericTraits<T>::AbsType        ElementAbsType; \
-    typedef  ITK_NUMERIC_TRAITS_TYPENAME NumericTraits<T>::AccumulateType ElementAccumulateType; \
-    typedef  ITK_NUMERIC_TRAITS_TYPENAME NumericTraits<T>::FloatType      ElementFloatType; \
-    typedef  ITK_NUMERIC_TRAITS_TYPENAME NumericTraits<T>::PrintType      ElementPrintType; \
-    typedef  ITK_NUMERIC_TRAITS_TYPENAME NumericTraits<T>::RealType       ElementRealType; \
+    typedef typename NumericTraits<T>::AbsType        ElementAbsType; \
+    typedef typename NumericTraits<T>::AccumulateType ElementAccumulateType; \
+    typedef typename NumericTraits<T>::FloatType      ElementFloatType; \
+    typedef typename NumericTraits<T>::PrintType      ElementPrintType; \
+    typedef typename NumericTraits<T>::RealType       ElementRealType; \
                                                                         \
   public:                                                               \
                                                                         \
@@ -81,11 +83,59 @@ namespace itk
     static const Self ITKCommon_EXPORT One;                             \
 };
 
-#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 
 itkNumericTraitsDiffusionTensor3DMacro(DiffusionTensor3D, T)
 
 #else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+
+#define itkNumericTraitsDiffusionTensor3DMacro(GENERIC_ARRAY, T)        \
+template< >                                                             \
+  class NumericTraits<GENERIC_ARRAY< T > >                              \
+  {                                                                     \
+  private:                                                              \
+                                                                        \
+    typedef  NumericTraits<T>::AbsType        ElementAbsType; \
+    typedef  NumericTraits<T>::AccumulateType ElementAccumulateType; \
+    typedef  NumericTraits<T>::FloatType      ElementFloatType; \
+    typedef  NumericTraits<T>::PrintType      ElementPrintType; \
+    typedef  NumericTraits<T>::RealType       ElementRealType; \
+                                                                        \
+  public:                                                               \
+                                                                        \
+    typedef T                                       ValueType;          \
+    typedef GENERIC_ARRAY<T>                        Self;               \
+                                                                        \
+    typedef GENERIC_ARRAY<ElementAbsType>           AbsType;            \
+    typedef GENERIC_ARRAY<ElementAccumulateType>    AccumulateType;     \
+    typedef GENERIC_ARRAY<ElementFloatType>         FloatType;          \
+    typedef GENERIC_ARRAY<ElementPrintType>         PrintType;          \
+    typedef GENERIC_ARRAY<ElementRealType>          RealType;           \
+                                                                        \
+    typedef ElementRealType                         ScalarRealType;     \
+                                                                        \
+    static const Self max()                                             \
+    {                                                                   \
+      return Self( NumericTraits< T >::max() );                         \
+    }                                                                   \
+    static const Self min()                                             \
+    {                                                                   \
+      return Self( NumericTraits< T >::min() );                         \
+    }                                                                   \
+    static const Self NonpositiveMin()                                  \
+    {                                                                   \
+      return Self( NumericTraits< T >::NonpositiveMin() );              \
+    }                                                                   \
+    static const Self ZeroValue()                                       \
+    {                                                                   \
+      return Self( NumericTraits<T>::ZeroValue() );                     \
+    }                                                                   \
+    static const Self OneValue()                                        \
+    {                                                                   \
+      return Self( NumericTraits<T>::OneValue() );                      \
+    }                                                                   \
+    static const Self ITKCommon_EXPORT Zero;                            \
+    static const Self ITKCommon_EXPORT One;                             \
+};
 
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, char );
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, unsigned char );
