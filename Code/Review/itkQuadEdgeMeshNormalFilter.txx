@@ -169,8 +169,11 @@ QuadEdgeMeshNormalFilter< TInputMesh, TOutputMesh >
           {
           default:
           case GOURAUD:
+            {
             return static_cast< OutputVertexNormalComponentType >( 1. );
+            }
           case THURMER:
+            {
             // this implementation may be included inside itkTriangle
             switch( internal_id )
               {
@@ -187,11 +190,27 @@ QuadEdgeMeshNormalFilter< TInputMesh, TOutputMesh >
                 v = pt[1] - pt[2];
                 break;
               }
+            typename OutputVectorType::RealValueType norm2_u = u.GetSquaredNorm();
+            if( norm2_u > vnl_math::eps )
+              {
+              norm2_u = 1. / norm2_u;
+              u *= norm2_u;
+              }
+
+            typename OutputVectorType::RealValueType norm2_v = v.GetSquaredNorm();
+            if( norm2_v > vnl_math::eps )
+              {
+              norm2_v = 1. / norm2_v;
+              v *= norm2_v;
+              }
             return static_cast< OutputVertexNormalComponentType >(
               vcl_acos( u * v ) );
+            }
           case AREA:
+            {
             return static_cast< OutputVertexNormalComponentType >(
               TriangleType::ComputeArea( pt[0], pt[1], pt[2] ) );
+            }
           }
         }
       else
