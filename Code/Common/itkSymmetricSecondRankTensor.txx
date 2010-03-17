@@ -23,18 +23,6 @@
 namespace itk
 {
 
-/**
- * Assignment Operator
- */
-template<class T,unsigned int NDimension>
-SymmetricSecondRankTensor<T,NDimension>&
-SymmetricSecondRankTensor<T,NDimension>
-::operator= (const Self& r)
-{
-  BaseArray::operator=(r);
-  return *this;
-}
-
 
 /**
  * Assignment Operator from a scalar constant

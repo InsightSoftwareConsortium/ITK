@@ -101,7 +101,6 @@ public:
   DiffusionTensor3D();
 
   /** Constructor with initialization. */
-  DiffusionTensor3D(const Self& r);
   DiffusionTensor3D(const Superclass& r);
   DiffusionTensor3D(const ComponentType& r);
   DiffusionTensor3D(const ComponentArrayType r);
@@ -112,7 +111,6 @@ public:
     :SymmetricSecondRankTensor<TComponent,3>(pa) { }
 
   /** Pass-through assignment operator for the Array base class. */
-  Self& operator= (const Self& r);
   Self& operator= (const Superclass & r);
   Self& operator= (const ComponentType& r);
   Self& operator= (const ComponentArrayType r);

@@ -116,7 +116,6 @@ public:
   typedef ComponentType ComponentArrayType[ itkGetStaticConstMacro(InternalDimension) ];
 
   /** Pass-through constructor for the Array base class. */
-  SymmetricSecondRankTensor(const Self& r): BaseArray(r) {}
   SymmetricSecondRankTensor(const ComponentArrayType r): BaseArray(r) {}
 
   /** Templated Pass-through assignment  for the Array base class. */
@@ -128,7 +127,6 @@ public:
   }
 
   /** Pass-through assignment operator for the Array base class. */
-  Self& operator= (const Self& r);
   Self& operator= (const ComponentType& r);
   Self& operator= (const ComponentArrayType r);
 

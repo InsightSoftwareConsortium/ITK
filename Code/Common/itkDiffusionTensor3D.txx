@@ -39,16 +39,6 @@ DiffusionTensor3D<T>
  */
 template<class T>
 DiffusionTensor3D<T>
-::DiffusionTensor3D( const Self & r ):SymmetricSecondRankTensor<T,3>(r)
-{
-}
-
-
-/**
- * Constructor with initialization
- */
-template<class T>
-DiffusionTensor3D<T>
 ::DiffusionTensor3D( const Superclass & r ):SymmetricSecondRankTensor<T,3>(r)
 {
 }
@@ -71,19 +61,6 @@ template<class T>
 DiffusionTensor3D<T>
 ::DiffusionTensor3D( const ComponentArrayType r ):SymmetricSecondRankTensor<T,3>(r)
 {
-}
-
-
-/**
- * Assignment Operator
- */
-template<class T>
-DiffusionTensor3D<T>&
-DiffusionTensor3D<T>
-::operator= (const Self& r)
-{
-  Superclass::operator=(r);
-  return *this;
 }
 
 
