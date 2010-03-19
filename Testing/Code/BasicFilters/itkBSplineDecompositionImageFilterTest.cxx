@@ -122,6 +122,12 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
 
     }
 
+  /** Instanciation test with a std::complex pixel */
+  typedef std::complex<float> ComplexPixelType;
+  typedef itk::Image<ComplexPixelType,ImageDimension> ComplexImageType;
+  typedef itk::BSplineDecompositionImageFilter<ComplexImageType,ComplexImageType> ComplexFilterType;
+  ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
+
   return EXIT_SUCCESS;
 
 }

@@ -182,8 +182,8 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
 {
   /* begining InitialCausalCoefficient */
   /* See Unser, 1999, Box 2 for explaination */
-
-  double  sum, zn, z2n, iz;
+  CoeffType sum;
+  double zn, z2n, iz;
   unsigned long  horizon;
 
   /* this initialization corresponds to mirror boundaries */
@@ -340,7 +340,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>
   unsigned long j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {
-    m_Scratch[j] = static_cast<double>( Iter.Get() );
+    m_Scratch[j] = static_cast<CoeffType>( Iter.Get() );
     ++Iter;
     ++j;
     }

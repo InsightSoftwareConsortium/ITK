@@ -85,6 +85,8 @@ public:
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   typedef typename Superclass::OutputImagePointer     OutputImagePointer;
 
+  typedef typename itk::NumericTraits<typename TOutputImage::PixelType>::RealType CoeffType;
+
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -102,10 +104,6 @@ public:
   /** Begin concept checking */
   itkConceptMacro(DimensionCheck,
     (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TInputImage::PixelType, double>));
-  itkConceptMacro(OutputConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TOutputImage::PixelType, double>));
   itkConceptMacro(InputConvertibleToOutputCheck,
      (Concept::Convertible<typename TInputImage::PixelType,
                            typename TOutputImage::PixelType>));
@@ -128,7 +126,7 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject *output ); 
 
   /** These are needed by the smoothing spline routine. */
-  std::vector<double>              m_Scratch;       // temp storage for processing of Coefficients
+  std::vector<CoeffType>           m_Scratch;       // temp storage for processing of Coefficients
   typename TInputImage::SizeType   m_DataLength;  // Image size
 
   unsigned int              m_SplineOrder;   // User specified spline order (3rd or cubic is the default)
