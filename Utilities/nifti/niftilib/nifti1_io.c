@@ -3192,7 +3192,7 @@ static int fileext_compare(const char * test_ext, const char * known_ext)
 
    /* if here, strings are different but need to check upper-case */
 
-   for(c = 0; c < len; c++ ) caps[c] = toupper(known_ext[c]);
+   for(c = 0; c < len; c++ ) caps[c] = toupper((int) known_ext[c]);
    caps[c] = '\0';
 
    return strcmp(test_ext, caps);
@@ -3217,7 +3217,7 @@ static int fileext_n_compare(const char * test_ext,
    if( len > 7 ) return cmp;
 
    /* if here, strings are different but need to check upper-case */
-   for(c = 0; c < len; c++ ) caps[c] = toupper(known_ext[c]);
+   for(c = 0; c < len; c++ ) caps[c] = toupper((int) known_ext[c]);
    caps[c] = '\0';
 
    return strncmp(test_ext, caps, maxlen);
@@ -3232,8 +3232,8 @@ static int is_uppercase(const char * str)
    if( !str || !*str ) return 0;
 
    for(c = 0; c < strlen(str); c++ ) {
-      if( islower(str[c]) ) return 0;
-      if( !hasupper && isupper(str[c]) ) hasupper = 1;
+     if( islower((int) str[c]) ) return 0;
+     if( !hasupper && isupper((int) str[c]) ) hasupper = 1;
    }
 
    return hasupper;
@@ -3248,8 +3248,8 @@ static int is_mixedcase(const char * str)
    if( !str || !*str ) return 0;
 
    for(c = 0; c < strlen(str); c++ ) {
-      if( !haslower && islower(str[c]) ) haslower = 1;
-      if( !hasupper && isupper(str[c]) ) hasupper = 1;
+     if( !haslower && islower((int) str[c]) ) haslower = 1;
+     if( !hasupper && isupper((int) str[c]) ) hasupper = 1;
 
       if( haslower && hasupper ) return 1;
    }
@@ -3265,7 +3265,7 @@ static int make_uppercase(char * str)
    if( !str || !*str ) return 0;
 
    for(c = 0; c < strlen(str); c++ )
-      if( islower(str[c]) ) str[c] = toupper(str[c]);
+     if( islower((int) str[c]) ) str[c] = toupper((int) str[c]);
 
    return 0;
 }
@@ -3277,7 +3277,7 @@ static int make_lowercase(char * str)
    if( !str || !*str ) return 0;
 
    for(c = 0; c < strlen(str); c++ )
-      if( isupper(str[c]) ) str[c] = tolower(str[c]);
+     if( isupper((int) str[c]) ) str[c] = tolower((int) str[c]);
 
    return 0;
 }
@@ -5942,7 +5942,7 @@ static int unescape_string( char *str )
 
         else if( ii+3 < ll        &&
                  str[ii+1] == '#' &&
-                 isdigit(str[ii+2]) ){   /* &#dec; */
+                 isdigit((int) str[ii+2]) ){   /* &#dec; */
 
            unsigned int val='?' ; int kk=ii+3 ;
            while( kk < ll && kk != ';' ) kk++ ;
@@ -5953,7 +5953,7 @@ static int unescape_string( char *str )
         else if( ii+4 < ll        &&
                  str[ii+1] == '#' &&
                  str[ii+2] == 'x' &&
-                 isxdigit(str[ii+3]) ){   /* &#hex; */
+                 isxdigit((int) str[ii+3]) ){   /* &#hex; */
 
            unsigned int val='?' ; int kk=ii+4 ;
            while( kk < ll && kk != ';' ) kk++ ;

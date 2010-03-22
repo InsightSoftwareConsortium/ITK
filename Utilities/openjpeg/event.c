@@ -111,7 +111,7 @@ bool opj_event_msg(opj_common_ptr cinfo, int event_type, const char *fmt, ...) {
     for (i = 0, j = 0; i < str_length; ++i) {
       if (fmt[i] == '%') {
         if (i + 1 < str_length) {
-          switch(tolower(fmt[i + 1])) {
+          switch(tolower((int) fmt[i + 1])) {
             case '%' :
               message[j++] = '%';
               break;
