@@ -42,13 +42,16 @@ QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
     {
     edge = m_PriorityQueue->Peek()->m_Element;
     m_PriorityQueue->Pop();
-    delete m_QueueMapper[edge];
-    m_QueueMapper.erase( edge );
+
+    QueueMapIterator it = m_QueueMapper.find( edge );
+    delete it->second;
+    m_QueueMapper.erase( it );
     }
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 FillPriorityQueue()
 {
   OutputMeshPointer output = this->GetOutput();
@@ -61,7 +64,9 @@ FillPriorityQueue()
 
   while( it != end )
     {
-    if ( ( edge = dynamic_cast< OutputEdgeCellType* >( it.Value( ) ) ) )
+    edge = dynamic_cast< OutputEdgeCellType* >( it.Value( ) );
+
+    if ( edge )
       {
       PushElement( edge->GetQEGeom( ) );
       }
@@ -70,7 +75,8 @@ FillPriorityQueue()
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 PushElement( OutputQEType* iEdge )
 {
   OutputPointIdentifier id_org = iEdge->GetOrigin();
@@ -87,7 +93,8 @@ PushElement( OutputQEType* iEdge )
 }
 
 template< class TInput, class TOutput, class TCriterion >
-bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+bool
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 #ifdef NDEBUG
 IsEdgeOKToBeProcessed( OutputQEType* iEdge )
 #else
@@ -148,7 +155,8 @@ IsEdgeOKToBeProcessed( OutputQEType* )
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 Extract()
 {
   OutputMeshPointer output = this->GetOutput();
@@ -159,13 +167,15 @@ Extract()
     m_Priority = m_PriorityQueue->Peek( )->m_Priority;
 
     m_PriorityQueue->Pop();
-    delete m_QueueMapper[m_Element];
-    m_QueueMapper.erase( m_Element );
+    QueueMapIterator it = m_QueueMapper.find( m_Element );
+    delete it->second;
+    m_QueueMapper.erase( it );
     } while ( !IsEdgeOKToBeProcessed( m_Element ) );
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 DeleteElement( OutputQEType* iEdge )
 {
   if ( iEdge ) // this test can be removed
@@ -187,7 +197,8 @@ DeleteElement( OutputQEType* iEdge )
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 PushOrUpdateElement( OutputQEType* iEdge )
 {
   OutputQEType* temp = iEdge;
@@ -219,7 +230,8 @@ PushOrUpdateElement( OutputQEType* iEdge )
 
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 JoinVertexFailed( )
 {
   typename OperatorType::EdgeStatusType
@@ -277,7 +289,8 @@ this->m_Iteration );
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 DeletePoint( const OutputPointIdentifier& iIdToBeDeleted,
   const OutputPointIdentifier& iRemaining )
 {
@@ -286,7 +299,8 @@ DeletePoint( const OutputPointIdentifier& iIdToBeDeleted,
 }
 
 template< class TInput, class TOutput, class TCriterion >
-bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+bool
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 ProcessWithoutAnyTopologicalGuarantee()
 {
   OutputMeshPointer output = this->GetOutput();
@@ -299,16 +313,22 @@ ProcessWithoutAnyTopologicalGuarantee()
   bool to_be_processed( true );
 
   if ( m_Relocate )
+    {
     pt = Relocate( m_Element );
+    }
   else
+    {
     pt = output->GetPoint( idx );
+    }
 
 ///TODO use CheckOrientation!!!
 //   if( m_CheckOrientation )
 //     to_be_processed = CheckOrientation( m_Element, idx, pt );
 
   if( !to_be_processed )
+    {
     return false;
+    }
 
   std::list< OutputQEType* > list_qe_to_be_deleted;
   OutputQEType* temp = m_Element->GetOnext();
@@ -326,21 +346,24 @@ ProcessWithoutAnyTopologicalGuarantee()
     temp = temp->GetOnext();
     }
 
-  for( typename std::list< OutputQEType* >::iterator
-         it = list_qe_to_be_deleted.begin();
-         it != list_qe_to_be_deleted.end();
-         ++it )
+  typename std::list< OutputQEType* >::iterator
+    it = list_qe_to_be_deleted.begin();
+
+  while( it != list_qe_to_be_deleted.end() )
     {
     DeleteElement( *it );
+    ++it;
     }
 
   if ( !m_JoinVertexFunction->Evaluate( m_Element ) )
     {
-    for( typename std::list< OutputQEType* >::iterator
-         it = list_qe_to_be_deleted.begin();
-         it != list_qe_to_be_deleted.end();
-         ++it )
+    it = list_qe_to_be_deleted.begin();
+
+    while( it != list_qe_to_be_deleted.end() )
+      {
       PushOrUpdateElement( *it );
+      ++it;
+      }
 
     JoinVertexFailed();
     }
@@ -378,8 +401,8 @@ ProcessWithoutAnyTopologicalGuarantee()
 
 
 template< class TInput, class TOutput, class TCriterion >
-unsigned int QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion
->::
+unsigned int
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 CheckQEProcessingStatus( )
 {
   OutputQEType* qe = m_Element;
@@ -467,7 +490,8 @@ CheckQEProcessingStatus( )
 }
 
 template< class TInput, class TOutput, class TCriterion >
-bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+bool
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 ProcessWithTopologicalGuarantee()
 {
   if( m_Priority.first )
@@ -480,7 +504,8 @@ ProcessWithTopologicalGuarantee()
 }
 
 template< class TInput, class TOutput, class TCriterion >
-size_t QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+size_t
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 NumberOfCommonVerticesIn0Ring( )
 {
   OutputQEType* qe = m_Element;
@@ -514,7 +539,8 @@ NumberOfCommonVerticesIn0Ring( )
 
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 RemoveSamosa()
 {
   DeleteElement( m_Element->GetLnext( ) );
@@ -524,7 +550,8 @@ RemoveSamosa()
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 TagElementOut( OutputQEType* iEdge )
 {
   QueueMapIterator map_it = m_QueueMapper.find( iEdge );
@@ -546,7 +573,8 @@ TagElementOut( OutputQEType* iEdge )
 }
 
 template< class TInput, class TOutput, class TCriterion >
-void QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+void
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 RemoveEye()
 {
   OutputQEType* qe = m_Element;
@@ -564,7 +592,8 @@ RemoveEye()
 }
 
 template< class TInput, class TOutput, class TCriterion >
-bool QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
+bool
+QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >::
 IsCriterionSatisfied()
 {
   if( m_PriorityQueue->Empty() )

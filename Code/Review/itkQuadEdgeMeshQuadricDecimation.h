@@ -132,7 +132,7 @@ protected:
       {
       p[i] = output->GetPoint( id[i] );
       }
-      
+    
     oQ.AddTriangle( p[0], p[1], p[2] );
     }
   
@@ -146,14 +146,27 @@ protected:
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
     QuadricElementType Q = m_Quadric[ id_org ] + m_Quadric[ id_dest ];
-    return static_cast< MeasureType >( Q.ComputeErrorAtOptimalLocation() );
+    
+    OutputMeshPointer output = this->GetOutput();
+    
+    OutputPointType org = output->GetPoint( id_org );
+    OutputPointType dest = output->GetPoint( id_dest );
+    
+    OutputPointType mid;
+    mid.SetToMidPoint( org, dest );
+    OutputPointType p = Q.ComputeOptimalLocation( mid );
+    
+    return static_cast< MeasureType >( Q.ComputeError( p ) );
     }
   
   virtual void DeletePoint( const OutputPointIdentifier& iIdToBeDeleted,
     const OutputPointIdentifier& iRemaining )
     {
     Superclass::DeletePoint( iIdToBeDeleted, iRemaining );
-    m_Quadric[iRemaining] += m_Quadric[iIdToBeDeleted];
+
+    QuadricElementMapIterator it = m_Quadric.find( iIdToBeDeleted );
+    m_Quadric[iRemaining] += it->second;
+    m_Quadric.erase( it );
     }
 
   /**
@@ -166,7 +179,16 @@ protected:
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
     QuadricElementType Q = m_Quadric[ id_org ] + m_Quadric[ id_dest ];
-    return Q.ComputeOptimalLocation();
+    
+    OutputMeshPointer output = this->GetOutput();
+    
+    OutputPointType org = output->GetPoint( id_org );
+    OutputPointType dest = output->GetPoint( id_dest );
+    
+    OutputPointType mid;
+    mid.SetToMidPoint( org, dest );
+    
+    return Q.ComputeOptimalLocation( mid );
     }
 
 private:

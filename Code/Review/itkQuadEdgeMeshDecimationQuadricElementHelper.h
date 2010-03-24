@@ -55,8 +55,8 @@ public:
     m_Coefficients( itk::NumericTraits< CoordType >::Zero ),
     m_A( PointDimension, PointDimension, itk::NumericTraits< CoordType >::Zero ),
     m_B( itk::NumericTraits< CoordType >::Zero ),
-    m_SVDAbsoluteThreshold( 1e-6 ),
-    m_SVDRelativeThreshold( 1e-3 )
+    m_SVDAbsoluteThreshold( static_cast< CoordType >( 1e-6 ) ),
+    m_SVDRelativeThreshold( static_cast< CoordType >( 1e-3 ) )
     {
     this->m_Rank = PointDimension;
     }
@@ -65,8 +65,8 @@ public:
     m_Coefficients( iCoefficients ),
     m_A( PointDimension, PointDimension, itk::NumericTraits< CoordType >::Zero ),
     m_B( itk::NumericTraits< CoordType >::Zero ),
-    m_SVDAbsoluteThreshold( 1e-3 ),
-    m_SVDRelativeThreshold( 1e-3 )
+    m_SVDAbsoluteThreshold( static_cast< CoordType >( 1e-3 ) ),
+    m_SVDRelativeThreshold( static_cast< CoordType >( 1e-3 ) )
     {
     this->m_Rank = PointDimension;
     this->ComputeAMatrixAndBVector();
@@ -100,8 +100,15 @@ public:
   ///TODO this method should be really optimized!!!
   inline CoordType ComputeError( const PointType& iP ) const
     {
+    //     ComputeAMatrixAndBVector();
+    vnl_svd< CoordType > svd( m_A, m_SVDAbsoluteThreshold );
+    svd.zero_out_relative( m_SVDRelativeThreshold );
+    CoordType oError = inner_product( iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector() );
+
+    return this->m_Coefficients[ this->m_Coefficients.size() - 1] - oError;
+    /* 
     CoordType oError( 0. );
-    
+     
     std::vector< CoordType > pt( PointDimension + 1, 1. );
 
     unsigned int dim1( 0 ), dim2, k( 0 );
@@ -121,18 +128,20 @@ public:
         oError += 2. * this->m_Coefficients[k++] * pt[dim1] * pt[dim2];
         }
       }
-    return oError;
+    oError += this->m_Coefficients[k++];
+
+    return oError;*/
     }
   
   ///TODO this method should be really optimized!!!
-  inline CoordType ComputeErrorAtOptimalLocation()
-  {
-    PointType optimal_location = ComputeOptimalLocation();
+  inline CoordType ComputeErrorAtOptimalLocation( const PointType& iP )
+    {
+    PointType optimal_location = ComputeOptimalLocation( iP );
     return ComputeError( optimal_location );
-  }
+    }
   
-  PointType ComputeOptimalLocation()
-  {
+  PointType ComputeOptimalLocation( const PointType& iP )
+    {
     ComputeAMatrixAndBVector();
     
     vnl_svd< CoordType > svd( m_A, m_SVDAbsoluteThreshold );
@@ -140,16 +149,18 @@ public:
     
     m_Rank = svd.rank();
     
-    VNLVectorType location = svd.solve( m_B.as_vector() );
+    VNLVectorType y = m_B.as_vector() - m_A * iP.GetVnlVector();
+    
+    VNLVectorType displacement = svd.solve( y );
     PointType oP;
     
     for( unsigned int dim = 0; dim < PointDimension; dim++ )
       {
-      oP[dim] = location[dim];
+      oP[dim] = iP[dim] + displacement[dim];
       }
     
     return oP;
-  }
+    }
   
   ///TODO to be implemented!!!
   PointType ComputeOptimalLocation( 
@@ -256,6 +267,7 @@ protected:
   unsigned int                m_Rank;
   CoordType                   m_SVDAbsoluteThreshold;
   CoordType                   m_SVDRelativeThreshold;
+  //bool                        m_MatrixFilled;
   
   void ComputeAMatrixAndBVector()
     {
@@ -269,6 +281,7 @@ protected:
         }
       m_B[dim1] = - m_Coefficients[k++];
       }
+    //m_MatrixFilled = true;
     }
   
 };
