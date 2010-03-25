@@ -564,6 +564,7 @@ ADD_TEST(ImageRegistration20Test
         0.1  # Step length
         300  # maximum number of iterations
 )
+SET_TESTS_PROPERTIES(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
