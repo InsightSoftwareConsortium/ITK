@@ -1114,8 +1114,8 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   std::numeric_limits" \
                "ITK_TYPENAME= \
                   typename" \
-               "itkTemplateFloatingToIntegerMacro= \
-                  template <TReturn, typename TInput> name( TInput x )" \                                                 
+               "itkTemplateFloatingToIntegerMacro(name)= \
+                  template <TReturn, typename TInput> name( TInput x )" \
                "FEM_ABSTRACT_CLASS(thisClass,parentClass)= \
                   public:                                               \
                     /** Standard "Self" typedef.*/                      \
@@ -1141,7 +1141,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                     static Self::Pointer New()                          \
                       { return new Self(); }                            \
                   private:"                                             \
-		"FREEVERSION" "ERROR_CHECKING"                          \
+                  "FREEVERSION" "ERROR_CHECKING"                        \     
                 "HAS_TIFF" "HAS_JPEG" "HAS_NETLIB" "HAS_PNG" "HAS_ZLIB" \
                 "HAS_GLUT" "HAS_QT"                                     \
                "VCL_USE_NATIVE_STL=1" "VCL_USE_NATIVE_COMPLEX=1"        \
