@@ -105,6 +105,18 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     delete [] m_ThreaderTransform;
     }
   m_ThreaderTransform = NULL;
+
+  if( this->m_ThreaderBSplineTransformWeights != NULL )
+    {
+    delete [] this->m_ThreaderBSplineTransformWeights;
+    }
+  this->m_ThreaderBSplineTransformWeights = NULL;
+  
+  if( this->m_ThreaderBSplineTransformIndices != NULL )
+    {
+    delete [] this->m_ThreaderBSplineTransformIndices;
+    }
+  this->m_ThreaderBSplineTransformIndices = NULL;
 }
 
 /**
@@ -489,11 +501,13 @@ ImageToImageMetric<TFixedImage,TMovingImage>
       {
       delete [] this->m_ThreaderBSplineTransformWeights;
       }
-
+    this->m_ThreaderBSplineTransformWeights = NULL;
+    
     if( this->m_ThreaderBSplineTransformIndices != NULL )
       {
       delete [] this->m_ThreaderBSplineTransformIndices;
       }
+    this->m_ThreaderBSplineTransformIndices = NULL;
 
     if( this->m_UseCachingOfBSplineWeights )
       {
