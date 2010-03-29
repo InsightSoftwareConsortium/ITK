@@ -60,17 +60,32 @@ print "This uses nm to list all text (T), data (D) symbols, as well\n";
 print "read-only (R) things (seen on Linux) and \"other\" (S) things\n";
 print "(seen on Mac).  On Macs, the preceeding underscore is removed.\n";
 print "*/\n";
+print "Also ensures that a few others starting with nrrd are included, and\n";
+print "prevents variables ending with .N* where N is some number, from inclusion.\n";
 print "\n";
 open(NM, "nm libNrrdIO.a |");
 while (<NM>) {
-    if (m/ [TDRS] /) {
-        s|.* [TDRS] (.*)|$1|g;
+    if (m/.* .* .*\.[0-9]/) {
+        next;
+    }
+    if (m/ [TBDRStb] /) {
+        s|.* [TBDRStb] (.*)|$1|g;
         if ($mac) {
             s|^_||g;
         }
         chop;
         $sym = $_;
         print "#define ${sym} ${prefix}_${sym}\n";
+    } else {
+      if (m/nrrd/) {
+          s|.* . (.*nrrd*)|$1|g;
+          if ($mac) {
+            s|^_||g;
+          }
+          chop;
+          $sym = $_;
+          print "#define ${sym} ${prefix}_${sym}\n";
+        }
     }
 }
 close(NM);
