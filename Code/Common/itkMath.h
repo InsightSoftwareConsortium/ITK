@@ -192,7 +192,7 @@ itkTemplateFloatingToIntegerMacro(Ceil);
 
 
 //@{
-/// \deprecated These methods have been precated as of ITK 3.16. Please
+/// \deprecated These methods have been deprecated as of ITK 3.16. Please
 /// use the templated methods of the form
 /// itk::Math::XXX<TReturn,TINput(TInput x) instead.
 ///
