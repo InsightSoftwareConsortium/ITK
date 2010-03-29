@@ -67,6 +67,9 @@ void ImageSeriesReader<TOutputImage>
     {
     os << indent << "ImageIO: (null)" << "\n";
     }
+
+  os << indent << "MetaDataDictionaryArrayMTime: " <<  m_MetaDataDictionaryArrayMTime  << std::endl;
+  os << indent << "MetaDataDictionaryArrayUpdate: " << m_MetaDataDictionaryArrayUpdate << std::endl;
 }
 
 
@@ -114,7 +117,8 @@ void ImageSeriesReader<TOutputImage>
   origin.Fill(0.0);
 
   std::string key("ITK_ImageOrigin");
-  // Clear the eventual previous content of the MetaDictionary array
+
+  // Clear the previous content of the MetaDictionary array
   if( m_MetaDataDictionaryArray.size() )
     {
     for(unsigned int i=0; i<m_MetaDataDictionaryArray.size(); i++)
@@ -132,7 +136,7 @@ void ImageSeriesReader<TOutputImage>
 
 
   const int numberOfFiles = static_cast<int>(m_FileNames.size());
-  for ( int i = 0; i != numberOfFiles; ++i )
+  for ( int i = 0; i < 2 && i < numberOfFiles; ++i )
     {
     const int iFileName = ( m_ReverseOrder ? numberOfFiles - i - 1: i );
 
@@ -146,15 +150,6 @@ void ImageSeriesReader<TOutputImage>
     // update the MetaDataDictionary and output information
     reader->UpdateOutputInformation();
 
-    // Deep copy the MetaDataDictionary into the array
-    if ( reader->GetImageIO() )
-      {
-      DictionaryRawPointer newDictionary = new DictionaryType;
-      *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
-      m_MetaDataDictionaryArray.push_back( newDictionary );
-      }
-      
-    
     if (m_FileNames.size() == 1)
       {
       // ----------------------------
@@ -314,18 +309,15 @@ void ImageSeriesReader<TOutputImage>
                             requestedRegion.GetNumberOfPixels(),
                             100 );
 
+  // We utilize the modified time of the output information to
+  // know when the meta array needs to be updated, when the output
+  // information is updated so should the meta array.
+  // Each file can not be read in the UpdateOutputInformation methods
+  // due to the poor performance of reading each file a second time there.
+  bool needToUpdateMetaDataDictionaryArray = 
+    this->m_OutputInformationMTime > this->m_MetaDataDictionaryArrayMTime &&
+     m_MetaDataDictionaryArrayUpdate;
 
-  // Clear the eventual previous content of the MetaDictionary array
-  // shouldn't this be done in the generate output info?
-  if( m_MetaDataDictionaryArray.size() )
-    {
-    for(unsigned int i=0; i<m_MetaDataDictionaryArray.size(); i++)
-      {
-      // each element is a raw pointer, delete them.
-      delete m_MetaDataDictionaryArray[i];
-      }
-    }
-  m_MetaDataDictionaryArray.clear();
 
   ImageRegionIterator<TOutputImage> ot (output, requestedRegion );
   IndexType sliceStartIndex = requestedRegion.GetIndex();
@@ -338,14 +330,17 @@ void ImageSeriesReader<TOutputImage>
       sliceStartIndex[this->m_NumberOfDimensionsInImage] = i;
       }
 
-    // if this slice in not in the requested region then skip this file
-    if( !requestedRegion.IsInside(sliceStartIndex) ) 
+    const bool insideRequestedRegion = requestedRegion.IsInside(sliceStartIndex);
+    const int iFileName = ( m_ReverseOrder ? numberOfFiles - i - 1: i );
+
+    // check if we need this slice
+    if( !insideRequestedRegion && !needToUpdateMetaDataDictionaryArray ) 
       {
       continue;
       }
     
-    const int iFileName = ( m_ReverseOrder ? numberOfFiles - i - 1: i );
 
+    // configure reader 
     typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( m_FileNames[iFileName].c_str() );
     if ( m_ImageIO )
@@ -354,16 +349,31 @@ void ImageSeriesReader<TOutputImage>
       }
     reader->SetUseStreaming( m_UseStreaming );
     reader->GetOutput()->SetRequestedRegion( sliceRegionToRequest );
-    reader->Update();
+
+    // update the data or info
+    if( !insideRequestedRegion ) 
+      {
+      reader->UpdateOutputInformation();
+      }
+    else
+      {
+      reader->Update();
+      }
 
     // Deep copy the MetaDataDictionary into the array
-    if ( reader->GetImageIO() )
+    if ( reader->GetImageIO() &&  needToUpdateMetaDataDictionaryArray )
       {
       DictionaryRawPointer newDictionary = new DictionaryType;
       *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
       m_MetaDataDictionaryArray.push_back( newDictionary );
       }
 
+    // if we only needed the info continue to next slice
+    if ( !insideRequestedRegion )
+      {
+      continue;
+      }
+    
     if ( reader->GetOutput()->GetLargestPossibleRegion().GetSize() != validSize )
       {
       itkExceptionMacro(<< "Size mismatch! The size of  " 
@@ -374,8 +384,8 @@ void ImageSeriesReader<TOutputImage>
                         << validSize
                         << " from file " 
                         << m_FileNames[m_ReverseOrder ? m_FileNames.size()-1 : 0].c_str());
-      }
-
+        }
+    
     
     // set the iterator for this slice
     ot.SetIndex( sliceStartIndex );
@@ -390,6 +400,12 @@ void ImageSeriesReader<TOutputImage>
       progress.CompletedPixel();
       }
     }
+
+  // update the time if we modified the meta array
+  if ( needToUpdateMetaDataDictionaryArray )
+    {
+    m_MetaDataDictionaryArrayMTime.Modified();
+    }
 }
 
 
@@ -399,6 +415,12 @@ ImageSeriesReader<TOutputImage>::DictionaryArrayRawPointer
 ImageSeriesReader<TOutputImage>
 ::GetMetaDataDictionaryArray() const
 {
+  // this warning has been introduced in 3.17 due to a change in
+  // behavior. It may be removed in the future.
+  if (this->m_OutputInformationMTime > this->m_MetaDataDictionaryArrayMTime )
+    {
+    itkWarningMacro( "The MetaDataDictionaryArray is not up to date. This is no longer updated in the UpdateOutputInformation method but in GenerateData.") 
+    }
   return & m_MetaDataDictionaryArray;
 }
 

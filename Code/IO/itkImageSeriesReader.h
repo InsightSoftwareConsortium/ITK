@@ -124,6 +124,19 @@ public:
   itkSetObjectMacro(ImageIO,ImageIOBase);
   itkGetObjectMacro(ImageIO,ImageIOBase);
 
+  /** \brief Set/Get MetaDataDictionaryArrayUpdate enables the updating of
+   * the MetaDataDictionaryArray. 
+   *
+   * By default this is enabled. It may be advantageous to disable
+   * this feature when streaming, if this array is not need, as it may
+   * redure the number of times each file is read.
+   * 
+   * /sa GetMetaDataDictionaryArray()
+   */
+  itkSetMacro(MetaDataDictionaryArrayUpdate,bool);
+  itkGetConstMacro(MetaDataDictionaryArrayUpdate,bool);
+  itkBooleanMacro(MetaDataDictionaryArrayUpdate);
+
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
   virtual void GenerateOutputInformation(void);
@@ -135,7 +148,8 @@ public:
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
   
-  /** Get access to the Array of MetaDataDictionaries */
+  /** Get access to the Array of MetaDataDictionaries which are
+* updated in the GenerateData methods */
   DictionaryArrayRawPointer GetMetaDataDictionaryArray() const;
 
   /** Set the stream On or Off */
@@ -144,7 +158,8 @@ public:
   itkBooleanMacro(UseStreaming);
   
 protected:
-  ImageSeriesReader() : m_ImageIO(0), m_ReverseOrder(false), m_UseStreaming(true) {};
+  ImageSeriesReader() : m_ImageIO(0), m_ReverseOrder(false), 
+    m_UseStreaming(true), m_MetaDataDictionaryArrayUpdate(true) {};
   ~ImageSeriesReader();
   void PrintSelf(std::ostream& os, Indent indent) const;
   
@@ -180,6 +195,14 @@ private:
   typedef ImageFileReader<TOutputImage> ReaderType;
 
   int ComputeMovingDimensionIndex( ReaderType * reader );
+
+  
+
+  /** Modified time of the MetaDataDictionaryArray */
+  TimeStamp m_MetaDataDictionaryArrayMTime;
+
+  /** Indicated if the MMDA should be updated */
+  bool m_MetaDataDictionaryArrayUpdate;
 };
 
 } //namespace ITK
