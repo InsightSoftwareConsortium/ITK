@@ -81,16 +81,16 @@ Euler3DTransform<TScalarType>
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set angles with parameters
-  m_AngleX = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[0] );
-  m_AngleY = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[1] );
-  m_AngleZ = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[2] );
+  m_AngleX = parameters[0];
+  m_AngleY = parameters[1];
+  m_AngleZ = parameters[2];
   this->ComputeMatrix();
 
   // Transfer the translation part
   OutputVectorType newTranslation;
-  newTranslation[0] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[3] );
-  newTranslation[1] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[4] );
-  newTranslation[2] = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[5] );
+  newTranslation[0] = parameters[3];
+  newTranslation[1] = parameters[4];
+  newTranslation[2] = parameters[5];
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 
@@ -158,17 +158,17 @@ Euler3DTransform<TScalarType>
       {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
-      m_AngleX = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleX = vcl_atan2(y,x);
       x = this->GetMatrix()[0][0] / C;
       y = this->GetMatrix()[1][0] / C;
-      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleZ = vcl_atan2(y,x);
       }
     else
       {
       m_AngleX = NumericTraits< ScalarType >::Zero;
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
-      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleZ = vcl_atan2(y,x);
       }
     }
   else
@@ -179,18 +179,18 @@ Euler3DTransform<TScalarType>
       {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;
-      m_AngleY = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleY = vcl_atan2(y,x);
 
       x = this->GetMatrix()[1][1] / A;
       y = -this->GetMatrix()[0][1] / A;
-      m_AngleZ = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleZ = vcl_atan2(y,x);
       }
     else
       {
       m_AngleZ = NumericTraits< ScalarType >::Zero;
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
-      m_AngleY = Math::CastWithRangeCheck< ScalarType, double >( vcl_atan2(y,x) );
+      m_AngleY = vcl_atan2(y,x);
       }
     }
   this->ComputeMatrix();
@@ -204,12 +204,12 @@ Euler3DTransform<TScalarType>
 ::ComputeMatrix( void )
 {
   // need to check if angles are in the right order
-  const ScalarType cx = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleX) );
-  const ScalarType sx = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleX) );
-  const ScalarType cy = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleY) );
-  const ScalarType sy = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleY) );
-  const ScalarType cz = Math::CastWithRangeCheck< ScalarType, double >( vcl_cos(m_AngleZ) );
-  const ScalarType sz = Math::CastWithRangeCheck< ScalarType, double >( vcl_sin(m_AngleZ) );
+  const ScalarType cx = vcl_cos(m_AngleX);
+  const ScalarType sx = vcl_sin(m_AngleX);
+  const ScalarType cy = vcl_cos(m_AngleY);
+  const ScalarType sy = vcl_sin(m_AngleY);
+  const ScalarType cz = vcl_cos(m_AngleZ);
+  const ScalarType sz = vcl_sin(m_AngleZ);
   const ScalarType one = NumericTraits< ScalarType >::One;
   const ScalarType zero = NumericTraits< ScalarType >::Zero;
 

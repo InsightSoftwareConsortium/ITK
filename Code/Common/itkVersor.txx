@@ -403,38 +403,38 @@ Versor<T>
   if( trace > epsilon)
     {
     const double s = 0.5 / vcl_sqrt(trace);
-    m_W = Math::CastWithRangeCheck< ValueType, double >( 0.25 / s );
-    m_X = Math::CastWithRangeCheck< ValueType, double >( (m(2,1) - m(1,2)) * s );
-    m_Y = Math::CastWithRangeCheck< ValueType, double >( (m(0,2) - m(2,0)) * s );
-    m_Z = Math::CastWithRangeCheck< ValueType, double >( (m(1,0) - m(0,1)) * s );
+    m_W = 0.25 / s;
+    m_X = (m(2,1) - m(1,2)) * s;
+    m_Y = (m(0,2) - m(2,0)) * s;
+    m_Z = (m(1,0) - m(0,1)) * s;
     }
   else
     {
     if( m(0,0) > m(1,1) && m(0,0) > m(2,2) )
       {
       const double s = 2.0 * vcl_sqrt(1.0 + m(0,0) - m(1,1) - m(2,2));
-      m_X = Math::CastWithRangeCheck< ValueType, double >( 0.25 * s );
-      m_Y = Math::CastWithRangeCheck< ValueType, double >( (m(0,1) + m(1,0)) / s );
-      m_Z = Math::CastWithRangeCheck< ValueType, double >( (m(0,2) + m(2,0)) / s );
-      m_W = Math::CastWithRangeCheck< ValueType, double >( (m(1,2) - m(2,1)) / s );
+      m_X =0.25 * s;
+      m_Y = (m(0,1) + m(1,0)) / s;
+      m_Z = (m(0,2) + m(2,0)) / s;
+      m_W = (m(1,2) - m(2,1)) / s;
       }
     else
       {
       if( m(1,1) > m(2,2) )
         {
         const double s = 2.0 * vcl_sqrt(1.0 + m(1,1) - m(0,0) - m(2,2));
-        m_X = Math::CastWithRangeCheck< ValueType, double >( (m(0,1) + m(1,0)) / s );
-        m_Y = Math::CastWithRangeCheck< ValueType, double >( 0.25 * s );
-        m_Z = Math::CastWithRangeCheck< ValueType, double >( (m(1,2) + m(2,1)) / s );
-        m_W = Math::CastWithRangeCheck< ValueType, double >( (m(0,2) - m(2,0)) / s );
+        m_X = (m(0,1) + m(1,0)) / s;
+        m_Y = 0.25 * s;
+        m_Z = (m(1,2) + m(2,1)) / s;
+        m_W = (m(0,2) - m(2,0)) / s;
         }
       else
         {
         const double s = 2.0 * vcl_sqrt(1.0 + m(2,2) - m(0,0) - m(1,1));
-        m_X = Math::CastWithRangeCheck< ValueType, double >((m(0,2) + m(2,0)) / s );
-        m_Y = Math::CastWithRangeCheck< ValueType, double >((m(1,2) + m(2,1)) / s );
-        m_Z = Math::CastWithRangeCheck< ValueType, double >(0.25 * s );
-        m_W = Math::CastWithRangeCheck< ValueType, double >((m(0,1) - m(1,0)) / s );
+        m_X = (m(0,2) + m(2,0)) / s;
+        m_Y = (m(1,2) + m(2,1)) / s;
+        m_Z = 0.25 * s;
+        m_W = (m(0,1) - m(1,0)) / s;
         }
       }
     }
@@ -449,7 +449,7 @@ Versor<T>
 ::Set( const VectorType & axis )
 {
   typedef typename VectorType::RealValueType  VectorRealValueType;
-  const ValueType sinangle2 =  Math::CastWithRangeCheck< ValueType, VectorRealValueType>( axis.GetNorm() );
+  const ValueType sinangle2 =  axis.GetNorm();
   if( sinangle2 > NumericTraits<ValueType>::One )
     {
     ExceptionObject exception;
@@ -459,8 +459,7 @@ Versor<T>
     throw exception;
     }
   
-  const ValueType cosangle2 =  
-    Math::CastWithRangeCheck< ValueType, double >( vcl_sqrt( NumericTraits<double>::One - sinangle2 * sinangle2 ) );
+  const ValueType cosangle2 =  vcl_sqrt( NumericTraits<double>::One - sinangle2 * sinangle2 );
   
   m_X = axis[0];
   m_Y = axis[1];
@@ -722,15 +721,15 @@ Versor<T>
   const ValueType yw = m_Y * m_W;
   const ValueType zw = m_Z * m_W;
 
-  matrix[0][0] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( yy + zz ) );
-  matrix[1][1] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( xx + zz ) );
-  matrix[2][2] = Math::CastWithRangeCheck<T,double>( 1.0 - 2.0 * ( xx + yy ) );
-  matrix[0][1] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xy - zw ) );
-  matrix[0][2] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xz + yw ) );
-  matrix[1][0] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xy + zw ) );
-  matrix[2][0] = Math::CastWithRangeCheck<T,double>( 2.0 * ( xz - yw ) );
-  matrix[2][1] = Math::CastWithRangeCheck<T,double>( 2.0 * ( yz + xw ) );
-  matrix[1][2] = Math::CastWithRangeCheck<T,double>( 2.0 * ( yz - xw ) );
+  matrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  matrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  matrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  matrix[0][1] = 2.0 * ( xy - zw );
+  matrix[0][2] = 2.0 * ( xz + yw );
+  matrix[1][0] = 2.0 * ( xy + zw );
+  matrix[2][0] = 2.0 * ( xz - yw );
+  matrix[2][1] = 2.0 * ( yz + xw );
+  matrix[1][2] = 2.0 * ( yz - xw );
     
   return matrix;
 }

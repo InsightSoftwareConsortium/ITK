@@ -66,11 +66,11 @@ VersorRigid3DTransform<TScalarType>
   AxisType axis;
 
   double norm = parameters[0]*parameters[0];
-  axis[0] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[0] );
+  axis[0] = parameters[0];
   norm += parameters[1]*parameters[1];
-  axis[1] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[1] );
+  axis[1] = parameters[1];
   norm += parameters[2]*parameters[2];
-  axis[2] = Math::CastWithRangeCheck< AxisValueType, ParameterValueType>( parameters[2] );
+  axis[2] = parameters[2];
   if( norm > 0)
     {
     norm = vcl_sqrt(norm);
@@ -91,9 +91,9 @@ VersorRigid3DTransform<TScalarType>
    
   // Transfer the translation part
   TranslationType newTranslation;
-  newTranslation[0] = Math::CastWithRangeCheck< TranslationValueType, ParameterValueType>( parameters[3] );
-  newTranslation[1] = Math::CastWithRangeCheck< TranslationValueType, ParameterValueType>( parameters[4] );
-  newTranslation[2] = Math::CastWithRangeCheck< TranslationValueType, ParameterValueType>( parameters[5] );
+  newTranslation[0] = parameters[3];
+  newTranslation[1] = parameters[4];
+  newTranslation[2] = parameters[5];
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 

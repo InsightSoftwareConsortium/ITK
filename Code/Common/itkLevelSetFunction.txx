@@ -311,7 +311,7 @@ LevelSetFunction< TImageType >
 
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
-  gd->m_GradMagSqr = Math::CastWithRangeCheck<ScalarValueType,double>( 1.0e-6 );
+  gd->m_GradMagSqr = 1.0e-6;
   for( i = 0; i < ImageDimension; i++)
     {
     const unsigned int positionA = 
@@ -319,13 +319,11 @@ LevelSetFunction< TImageType >
     const unsigned int positionB = 
       static_cast<unsigned int>( m_Center - m_xStride[i]);
 
-    gd->m_dx[i] = Math::CastWithRangeCheck<ScalarValueType,double>(
-                  0.5 * (it.GetPixel( positionA ) - 
-                         it.GetPixel( positionB ) ) * neighborhoodScales[i] ); 
-    gd->m_dxy[i][i] = Math::CastWithRangeCheck<ScalarValueType,double>(
-                      ( it.GetPixel( positionA )
-                      + it.GetPixel( positionB ) - 2.0 * center_value ) *
-                                            vnl_math_sqr(neighborhoodScales[i]) );
+    gd->m_dx[i] = 0.5 * (it.GetPixel( positionA ) - 
+                         it.GetPixel( positionB ) ) * neighborhoodScales[i]; 
+    gd->m_dxy[i][i] = ( it.GetPixel( positionA )
+                        + it.GetPixel( positionB ) - 2.0 * center_value ) *
+                        vnl_math_sqr(neighborhoodScales[i]);
 
     gd->m_dx_forward[i]  = ( it.GetPixel( positionA ) - center_value ) * neighborhoodScales[i];
 

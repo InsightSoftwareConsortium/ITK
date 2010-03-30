@@ -102,7 +102,7 @@ QuaternionRigidTransform<TScalarType>
 
   for(unsigned int j=0; j < 4; j++) 
     {
-    m_Rotation[j] = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[par] );
+    m_Rotation[j] = parameters[par];
     ++par;
     }
   this->ComputeMatrix();
@@ -110,7 +110,7 @@ QuaternionRigidTransform<TScalarType>
   // Transfer the constant part
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    translation[i] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( parameters[par] );
+    translation[i] = parameters[par];
     ++par;
     }
   this->SetVarTranslation( translation );

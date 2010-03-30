@@ -155,8 +155,7 @@ void SolverCrankNicolson::AssembleKandM()
       Element::Pointer ep = const_cast<Element*>( l3->el[0] );
 
       Element::MatrixType Le;
-      ep->GetLandmarkContributionMatrix( 
-        Math::CastWithRangeCheck< float, double>( l3->eta ), Le );
+      ep->GetLandmarkContributionMatrix( l3->eta, Le );
       
       int Ne = ep->GetNumberOfDegreesOfFreedom();
       

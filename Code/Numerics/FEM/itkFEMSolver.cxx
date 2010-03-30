@@ -292,8 +292,7 @@ void Solver::AssembleK()
       {
       l3->AssignToElement(&el);
       Element::Pointer ep = const_cast<Element*>( l3->el[0] );
-      this->AssembleLandmarkContribution( ep , 
-        Math::CastWithRangeCheck< float, double>( l3->eta ) );
+      this->AssembleLandmarkContribution( ep , l3->eta );
       }
     }
 

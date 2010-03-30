@@ -51,18 +51,18 @@ Similarity2DTransform<TScalarType>
   itkDebugMacro( << "Setting parameters " << parameters );
 
   // Set scale
-  const TScalarType scale = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[0] );
+  const TScalarType scale = parameters[0];
   this->SetVarScale( scale );
  
   // Set angle
-  const TScalarType angle = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[1] );
+  const TScalarType angle = parameters[1];
   this->SetVarAngle( angle );
 
   // Set translation
   OffsetType translation;
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    translation[i] = Math::CastWithRangeCheck< OffsetValueType, ParametersValueType>( parameters[i+2] );
+    translation[i] = parameters[i+2];
     }
   this->SetVarTranslation( translation );
 
@@ -123,8 +123,8 @@ Similarity2DTransform<TScalarType>
   const double cc = vcl_cos(angle );
   const double ss = vcl_sin(angle );
 
-  const MatrixValueType ca = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( cc * m_Scale );
-  const MatrixValueType sa = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( ss * m_Scale );
+  const MatrixValueType ca = cc * m_Scale;
+  const MatrixValueType sa = ss * m_Scale;
 
   MatrixType matrix;
   matrix[0][0]= ca; matrix[0][1]=-sa;
@@ -238,7 +238,7 @@ GetInverse( Self* inverse) const
     }
 
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
-  inverse->SetScale( Math::CastWithRangeCheck< ScalarType, double >( NumericTraits<double>::One / this->GetScale() ) );
+  inverse->SetScale( NumericTraits<double>::One / this->GetScale() );
   inverse->SetAngle( -this->GetAngle() );
   inverse->SetTranslation( -( this->GetInverseMatrix() * this->GetTranslation() ) );
   

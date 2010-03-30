@@ -102,7 +102,7 @@ SetParameters( const ParametersType & parameters )
     {
     for(unsigned int col=0; col<NDimensions; col++) 
       {
-      matrix[row][col] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType >( this->m_Parameters[par] );
+      matrix[row][col] = this->m_Parameters[par];
       ++par;
       }
     }
@@ -113,7 +113,7 @@ SetParameters( const ParametersType & parameters )
   InputPointType center;
   for(unsigned int i=0; i<NDimensions; i++) 
     {
-    center[i] = Math::CastWithRangeCheck< InputPointValueType, ParametersValueType>( this->m_Parameters[par] );
+    center[i] = this->m_Parameters[par];
     ++par;
     }
   this->SetCenter(center);
@@ -122,7 +122,7 @@ SetParameters( const ParametersType & parameters )
   OutputVectorType translation;
   for(unsigned int k=0; k<NDimensions; k++) 
     {
-    translation[k] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );
+    translation[k] = this->m_Parameters[par];
     ++par;
     }
   this->SetTranslation(translation);

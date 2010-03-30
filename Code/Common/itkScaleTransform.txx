@@ -53,7 +53,7 @@ ScaleTransform<ScalarType, NDimensions>
   typedef typename ParametersType::ValueType ParameterValueType;
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    m_Scale[i] = Math::CastWithRangeCheck<ScalarType, ParameterValueType>( parameters[i] );
+    m_Scale[i] = parameters[i];
     }
   this->m_Parameters = parameters;
 
@@ -195,7 +195,7 @@ GetInverse(Self* inverse) const
 
   for( unsigned int i=0; i<SpaceDimension; i++ )
     {
-    inverse->m_Scale[i] = Math::CastWithRangeCheck< ScalarType, double >( NumericTraits< double >::One / m_Scale[i] );
+    inverse->m_Scale[i] = NumericTraits< double >::One / m_Scale[i];
     }
 
   return true;

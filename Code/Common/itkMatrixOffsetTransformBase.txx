@@ -317,7 +317,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   typedef typename ParametersType::ValueType ParameterValueType;
   for ( unsigned int i = 0; i < NInputDimensions; i++ )
     {
-    c[i] = Math::CastWithRangeCheck< InputPointValueType, ParameterValueType>( this->m_FixedParameters[i] );
+    c[i] = this->m_FixedParameters[i];
     }
   this->SetCenter ( c );
 }
@@ -399,7 +399,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     {
     for(unsigned int col=0; col<NInputDimensions; col++) 
       {
-      m_Matrix[row][col] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( this->m_Parameters[par] );
+      m_Matrix[row][col] = this->m_Parameters[par];
       ++par;
       }
     }
@@ -407,7 +407,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
   // Transfer the constant part
   for(unsigned int i=0; i<NOutputDimensions; i++) 
     {
-    m_Translation[i] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( this->m_Parameters[par] );
+    m_Translation[i] = this->m_Parameters[par];
     ++par;
     }
 

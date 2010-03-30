@@ -82,11 +82,11 @@ ScaleSkewVersor3DTransform<TScalarType>
   AxisType axis;
 
   double norm = parameters[0]*parameters[0];
-  axis[0] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[0] );
+  axis[0] = parameters[0];
   norm += parameters[1]*parameters[1];
-  axis[1] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[1] );
+  axis[1] = parameters[1];
   norm += parameters[2]*parameters[2];
-  axis[2] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[2] );
+  axis[2] = parameters[2];
   if( norm > 0)
     {
     norm = vcl_sqrt(norm);
@@ -105,22 +105,22 @@ ScaleSkewVersor3DTransform<TScalarType>
   
   // Matrix must be defined before translation so that offset can be computed
   // from translation
-  m_Scale[0] = Math::CastWithRangeCheck<ScaleVectorValueType, ParameterValueType>( parameters[6] );
-  m_Scale[1] = Math::CastWithRangeCheck<ScaleVectorValueType, ParameterValueType>( parameters[7] );
-  m_Scale[2] = Math::CastWithRangeCheck<ScaleVectorValueType, ParameterValueType>( parameters[8] );
+  m_Scale[0] = parameters[6];
+  m_Scale[1] = parameters[7];
+  m_Scale[2] = parameters[8];
 
-  m_Skew[0] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[9]  );
-  m_Skew[1] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[10] );
-  m_Skew[2] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[11] );
-  m_Skew[3] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[12] );
-  m_Skew[4] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[13] );
-  m_Skew[5] = Math::CastWithRangeCheck<SkewVectorValueType,ParameterValueType>( parameters[14] );
+  m_Skew[0] = parameters[9];
+  m_Skew[1] = parameters[10];
+  m_Skew[2] = parameters[11];
+  m_Skew[3] = parameters[12];
+  m_Skew[4] = parameters[13];
+  m_Skew[5] = parameters[14];
 
   // Transfer the translation part
   TranslationType newTranslation;
-  newTranslation[0] = Math::CastWithRangeCheck<TranslationValueType,ParameterValueType>( parameters[3] );
-  newTranslation[1] = Math::CastWithRangeCheck<TranslationValueType,ParameterValueType>( parameters[4] );
-  newTranslation[2] = Math::CastWithRangeCheck<TranslationValueType,ParameterValueType>( parameters[5] );
+  newTranslation[0] = parameters[3];
+  newTranslation[1] = parameters[4];
+  newTranslation[2] = parameters[5];
 
   this->SetVarTranslation(newTranslation);
   this->ComputeMatrix();
@@ -228,15 +228,15 @@ ScaleSkewVersor3DTransform<TScalarType>
   const TScalarType zw = vz * vw;
 
   MatrixType newMatrix;
-  newMatrix[0][0] = Math::CastWithRangeCheck<TScalarType,double>( m_Scale[0] - 2.0 * ( yy + zz ) );
-  newMatrix[1][1] = Math::CastWithRangeCheck<TScalarType,double>( m_Scale[1] - 2.0 * ( xx + zz ) );
-  newMatrix[2][2] = Math::CastWithRangeCheck<TScalarType,double>( m_Scale[2] - 2.0 * ( xx + yy ) );
-  newMatrix[0][1] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( xy - zw )  + ( m_Skew[0] ) );
-  newMatrix[0][2] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( xz + yw )  + ( m_Skew[1] ) );
-  newMatrix[1][0] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( xy + zw )  + ( m_Skew[2] ) );
-  newMatrix[1][2] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( yz - xw )  + ( m_Skew[3] ) );
-  newMatrix[2][0] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( xz - yw )  + ( m_Skew[4] ) );
-  newMatrix[2][1] = Math::CastWithRangeCheck<TScalarType,double>( 2.0 * ( yz + xw )  + ( m_Skew[5] ) );
+  newMatrix[0][0] = m_Scale[0] - 2.0 * ( yy + zz );
+  newMatrix[1][1] = m_Scale[1] - 2.0 * ( xx + zz );
+  newMatrix[2][2] = m_Scale[2] - 2.0 * ( xx + yy );
+  newMatrix[0][1] = 2.0 * ( xy - zw )  + ( m_Skew[0] );
+  newMatrix[0][2] = 2.0 * ( xz + yw )  + ( m_Skew[1] );
+  newMatrix[1][0] = 2.0 * ( xy + zw )  + ( m_Skew[2] );
+  newMatrix[1][2] = 2.0 * ( yz - xw )  + ( m_Skew[3] );
+  newMatrix[2][0] = 2.0 * ( xz - yw )  + ( m_Skew[4] );
+  newMatrix[2][1] = 2.0 * ( yz + xw )  + ( m_Skew[5] );
   this->SetVarMatrix ( newMatrix );
 }
 

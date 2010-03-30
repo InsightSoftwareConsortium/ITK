@@ -75,23 +75,23 @@ CenteredEuler3DTransform<TScalarType>
 {
   itkDebugMacro( << "Setting parameters " << parameters );
 
-  const ScalarType angleX = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[0] );
-  const ScalarType angleY = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[1] );
-  const ScalarType angleZ = Math::CastWithRangeCheck< ScalarType, ParametersValueType>( parameters[2] );
+  const ScalarType angleX = parameters[0];
+  const ScalarType angleY = parameters[1];
+  const ScalarType angleZ = parameters[2];
   this->SetVarRotation( angleX, angleY, angleZ );
 
   CenterType newCenter;
   typedef typename CenterType::ValueType  CenterValueType;
-  newCenter[0] = Math::CastWithRangeCheck< CenterValueType, ParametersValueType>( parameters[3] );
-  newCenter[1] = Math::CastWithRangeCheck< CenterValueType, ParametersValueType>( parameters[4] );
-  newCenter[2] = Math::CastWithRangeCheck< CenterValueType, ParametersValueType>( parameters[5] );
+  newCenter[0] = parameters[3];
+  newCenter[1] = parameters[4];
+  newCenter[2] = parameters[5];
   this->SetVarCenter(newCenter);
   this->ComputeMatrix();
 
   TranslationType newTranslation;
-  newTranslation[0] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[6] );
-  newTranslation[1] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[7] );
-  newTranslation[2] = Math::CastWithRangeCheck< TranslationValueType, ParametersValueType>( parameters[8] );
+  newTranslation[0] = parameters[6];
+  newTranslation[1] = parameters[7];
+  newTranslation[2] = parameters[8];
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
 

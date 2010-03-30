@@ -65,7 +65,7 @@ TranslationTransform<TScalarType, NDimensions>
     {
     if (m_Offset[i] != parameters[i])
       {
-      m_Offset[i] = Math::CastWithRangeCheck<TScalarType,ParameterValueType>( parameters[i] );
+      m_Offset[i] = parameters[i];
       modified = true;
       }
     }

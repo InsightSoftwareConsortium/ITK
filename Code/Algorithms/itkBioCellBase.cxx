@@ -575,9 +575,11 @@ void
 CellBase
 ::SecreteProducts(void) 
 {
-  m_Color.SetRed(   Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( RedGene   ) ) );
-  m_Color.SetGreen( Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( GreenGene ) ) );
-  m_Color.SetBlue(  Math::CastWithRangeCheck< float, double >( m_Genome->GetExpressionLevel( BlueGene  ) ) );
+  typedef ColorType::ValueType ColorValueType;
+
+  m_Color.SetRed(   ColorValueType( m_Genome->GetExpressionLevel( RedGene   ) ) );
+  m_Color.SetGreen( ColorValueType( m_Genome->GetExpressionLevel( GreenGene ) ) );
+  m_Color.SetBlue(  ColorValueType( m_Genome->GetExpressionLevel( BlueGene  ) ) );
 }
 
 /**

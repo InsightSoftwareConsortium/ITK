@@ -62,9 +62,9 @@ VersorTransform<TScalarType>
   // Transfer the versor part
   AxisType rightPart;
 
-  rightPart[0] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[0] );
-  rightPart[1] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[1] );
-  rightPart[2] = Math::CastWithRangeCheck<AxisValueType,ParameterValueType>( parameters[2] );
+  rightPart[0] = parameters[0];
+  rightPart[1] = parameters[1];
+  rightPart[2] = parameters[2];
 
   // The versor will compute the scalar part.
   m_Versor.Set( rightPart ); 
@@ -153,15 +153,15 @@ VersorTransform<TScalarType>
   const TScalarType zw = vz * vw;
 
   MatrixType newMatrix;
-  newMatrix[0][0] = Math::CastWithRangeCheck< TScalarType, double >( 1.0 - 2.0 * ( yy + zz ) );
-  newMatrix[1][1] = Math::CastWithRangeCheck< TScalarType, double >( 1.0 - 2.0 * ( xx + zz ) );
-  newMatrix[2][2] = Math::CastWithRangeCheck< TScalarType, double >( 1.0 - 2.0 * ( xx + yy ) );
-  newMatrix[0][1] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( xy - zw ) );
-  newMatrix[0][2] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( xz + yw ) );
-  newMatrix[1][0] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( xy + zw ) );
-  newMatrix[2][0] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( xz - yw ) );
-  newMatrix[2][1] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( yz + xw ) );
-  newMatrix[1][2] = Math::CastWithRangeCheck< TScalarType, double >( 2.0 * ( yz - xw ) );
+  newMatrix[0][0] = 1.0 - 2.0 * ( yy + zz );
+  newMatrix[1][1] = 1.0 - 2.0 * ( xx + zz );
+  newMatrix[2][2] = 1.0 - 2.0 * ( xx + yy );
+  newMatrix[0][1] = 2.0 * ( xy - zw );
+  newMatrix[0][2] = 2.0 * ( xz + yw );
+  newMatrix[1][0] = 2.0 * ( xy + zw );
+  newMatrix[2][0] = 2.0 * ( xz - yw );
+  newMatrix[2][1] = 2.0 * ( yz + xw );
+  newMatrix[1][2] = 2.0 * ( yz - xw );
   this->SetVarMatrix(newMatrix);
 }
 

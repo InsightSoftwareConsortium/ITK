@@ -186,15 +186,14 @@ ScalableAffineTransform<TScalarType, NDimensions>
       {
       if(m_MatrixScale[i] != 0 && m_Scale[i] != 0)
         {
-        imat.put(i, i, Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( 
-          m_Scale[i]/m_MatrixScale[i] * this->GetMatrix()[i][i]) );
-        m_MatrixScale[i] = Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( m_Scale[i] );
+        imat.put(i, i, m_Scale[i]/m_MatrixScale[i] * this->GetMatrix()[i][i]);
+        m_MatrixScale[i] = m_Scale[i];
         }
       else
         {
         m_Scale[i] = 1;
         m_MatrixScale[i] = 1;
-        imat.put(i, i, Math::CastWithRangeCheck< MatrixValueType, ParametersValueType>( this->GetMatrix()[i][i]) );
+        imat.put(i, i, this->GetMatrix()[i][i]);
         }
       }
     Superclass::SetVarMatrix(mat);

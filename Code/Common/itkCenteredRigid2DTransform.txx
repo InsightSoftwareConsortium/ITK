@@ -60,14 +60,14 @@ CenteredRigid2DTransform<TScalarType>
   this->m_Parameters = parameters;
 
   // Set the angle
-  const TScalarType angle = Math::CastWithRangeCheck< TScalarType, ParametersValueType>( parameters[0] );
+  const TScalarType angle = parameters[0];
   this->SetVarAngle( angle );
   // Set the center
   InputPointType center;
 
   for(unsigned int i=0; i < SpaceDimension; i++) 
     {
-    center[i] = Math::CastWithRangeCheck< InputPointValueType, ParametersValueType>( parameters[i+1] );
+    center[i] = parameters[i+1];
     }
   this->SetVarCenter( center );
   
@@ -76,7 +76,7 @@ CenteredRigid2DTransform<TScalarType>
 
   for(unsigned int j=0; j < SpaceDimension; j++) 
     {
-    translation[j] = Math::CastWithRangeCheck< OutputVectorValueType, ParametersValueType>( parameters[j+1+SpaceDimension] );
+    translation[j] = parameters[j+1+SpaceDimension];
     }
   this->SetVarTranslation( translation );
 
