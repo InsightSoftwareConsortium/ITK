@@ -43,17 +43,17 @@
 extern "C" {
 #endif
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::int8_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::int8_t instead. */
   typedef char      ITK_INT8;
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::int32_8 instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::int32_8 instead. */
   typedef int       ITK_INT32;
 
 #ifndef _WIN32
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::int64_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::int64_t instead. */
   typedef long long   ITK_INT64;
 #endif
 
@@ -62,21 +62,21 @@ extern "C" {
   typedef long      ITK_INT64;
 #endif
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::uint8_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::uint8_t instead. */
   typedef unsigned char   ITK_UINT8;
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::uint16_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   * value, please use itk::uint16_t instead. */
   typedef unsigned short  ITK_UINT16;
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::uint32_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   * value, please use itk::uint32_t instead. */
   typedef unsigned        ITK_UINT32;
 
 #ifndef _WIN32
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::uint64_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   * value, please use itk::uint64_t instead. */
   typedef unsigned long long  ITK_UINT64;
 #endif
 
@@ -85,12 +85,12 @@ extern "C" {
   typedef unsigned long ITK_UINT64;
 #endif
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::intptr_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::intptr_t instead. */
   typedef int       ITK_INTPTR;
 
-  /// \deprecated This type have been deprecated due to erroneous
-  /// value, please use itk::uintptr_t instead.
+  /** \deprecated This type have been deprecated due to erroneous
+   *  value, please use itk::uintptr_t instead. */
   typedef unsigned  ITK_UINTPTR;
 
 #ifdef __cplusplus
@@ -145,7 +145,7 @@ typedef ::uintptr_t uintptr_t;
 
 #else // ITK_HAVE_STDINT_H || ITK_HAVE_CSTDINT
 
-/// Fixed width interger types.
+/** Fixed width interger types. */
 typedef ::itksysFundamentalType_Int8   int8_t;
 typedef ::itksysFundamentalType_UInt8  uint8_t;
 typedef ::itksysFundamentalType_Int16  int16_t;
@@ -153,8 +153,8 @@ typedef ::itksysFundamentalType_UInt16 uint16_t;
 typedef ::itksysFundamentalType_Int32  int32_t;
 typedef ::itksysFundamentalType_UInt32 uint32_t;
 
-/// Types which are at least a certain size, these are prefered over
-/// fixed width.
+/** Types which are at least a certain size, these are prefered over
+ *  fixed width. */
 typedef int8_t   int_least8_t;
 typedef uint8_t  uint_least8_t;
 typedef int16_t  int_least16_t;
@@ -162,8 +162,8 @@ typedef uint16_t uint_least16_t;
 typedef int32_t  int_least32_t;
 typedef uint32_t uint_least32_t;
 
-/// Types which are at least a certain size but may be greater if
-/// performace benifits, these are prefered over fixed width.
+/** Types which are at least a certain size but may be greater if
+ *  performace benifits, these are prefered over fixed width. */
 typedef int8_t   int_fast8_t;
 typedef uint8_t  uint_fast8_t;
 typedef int16_t  int_fast16_t;
@@ -178,9 +178,9 @@ typedef uint32_t uintmax_t;
 
 #else // ITK_HAS_INT_64
 
-/// Optional 64-bit sized types. As not all systems have 64-bit
-/// integers, usage of these types must conditional on the
-/// preprocessor definition of ITK_HAS_INT_64.
+/** Optional 64-bit sized types. As not all systems have 64-bit
+ *  integers, usage of these types must conditional on the
+ * preprocessor definition of ITK_HAS_INT_64. */
 typedef ::itksysFundamentalType_Int64  int64_t;
 typedef ::itksysFundamentalType_UInt64 uint64_t;
 typedef int64_t                        int_least64_t;
@@ -188,7 +188,7 @@ typedef uint64_t                       uint_least64_t;
 typedef int64_t                        int_fast64_t;
 typedef uint64_t                       uint_fast64_t;
 
-/// Types which contain the largest represetable integer.
+/** Types which contain the largest represetable integer. */
 typedef int64_t  intmax_t;
 typedef uint64_t uintmax_t;
 
