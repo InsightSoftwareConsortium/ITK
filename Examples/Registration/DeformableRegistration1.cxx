@@ -266,18 +266,36 @@ int main(int argc, char *argv[])
 
   itk::ImageFileWriter<ImageType>::Pointer writer;
   writer = itk::ImageFileWriter<ImageType>::New();
-  std::string ofn="fixed.hdr";
+  std::string ofn="fixed.mha";
   writer->SetFileName(ofn.c_str());
   writer->SetInput(registrationFilter->GetFixedImage() ); 
-  writer->Write();
 
-  ofn="moving.hdr";
+  try
+    {
+    writer->Write();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ofn="moving.mha";
   itk::ImageFileWriter<ImageType>::Pointer writer2;
   writer2 =  itk::ImageFileWriter<ImageType>::New();
   writer2->SetFileName(ofn.c_str());
   writer2->SetInput(registrationFilter->GetMovingImage() ); 
-  writer2->Write();
  
+  try
+    {
+    writer2->Write();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
 
 
 
