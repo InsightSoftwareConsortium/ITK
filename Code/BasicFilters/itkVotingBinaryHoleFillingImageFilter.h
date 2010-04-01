@@ -69,7 +69,8 @@ public:
   typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
+  typedef typename InputImageType::SizeType       InputSizeType;
+  typedef typename InputImageType::SizeValueType  SizeValueType;
 
 
   /** Majority threshold. It is the number of pixels over 50% that will decide
@@ -83,7 +84,7 @@ public:
 
 
   /** Returns the number of pixels that changed when the filter was executed. */
-  itkGetConstReferenceMacro( NumberOfPixelsChanged, unsigned int );
+  itkGetConstReferenceMacro( NumberOfPixelsChanged, SizeValueType );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -130,12 +131,12 @@ private:
   VotingBinaryHoleFillingImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  unsigned int m_MajorityThreshold;
+  unsigned int            m_MajorityThreshold;
 
-  unsigned int m_NumberOfPixelsChanged;
+  SizeValueType           m_NumberOfPixelsChanged;
 
   // Auxiliary array for multi-threading
-  Array<unsigned int>     m_Count;
+  Array<SizeValueType>    m_Count;
 };
   
 } // end namespace itk
