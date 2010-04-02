@@ -37,10 +37,11 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
+#include <itkSpatialObjectToImageFilter.h>
 #include <itkMeshSpatialObject.h>
 #include <itkSpatialObjectReader.h>
 #include <itkSpatialObjectWriter.h>
-#include <itkSpatialObjectToImageFilter.h>
+
 // Software Guide : EndCodeSnippet
 
 int main(int, char * [] ) 
