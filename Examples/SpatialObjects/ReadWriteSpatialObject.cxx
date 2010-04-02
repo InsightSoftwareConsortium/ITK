@@ -32,11 +32,14 @@
 //
 // Software Guide : EndLatex 
 
-#include "itkEllipseSpatialObject.h"
+// The following include to make Visual Studio 6 happy
+#include "itkImageHelper.h"
 
 // Software Guide : BeginCodeSnippet
-#include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
+#include "itkSpatialObjectWriter.h"
+#include "itkEllipseSpatialObject.h"
+
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )
