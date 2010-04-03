@@ -17,6 +17,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
+#include "itkImageHelper.h"
 #include "itkMeshSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
