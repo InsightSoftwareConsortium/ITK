@@ -37,42 +37,6 @@
 #include <stdio.h>
 
 template < const unsigned int NDimension >
-int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName);
-
-
-int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
-{
-  if( argc < 3 )
-    {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " binaryImage outputLabeledImage dimension [intensityImage]" << std::endl;
-    return EXIT_FAILURE;
-    }
-    
-  const char * labelImageName  = argv[1];
-  const char * outputImageName = argv[2];
-  unsigned int dimension = atoi(argv[3]);
-  const char * intensityImageName = "";
-
-  if( argc == 5 )
-    {
-    intensityImageName = argv[4];
-    }
-
-  if( dimension == 2 )
-    {
-    LabelGeometryImageFilterTest<2>(labelImageName,outputImageName,intensityImageName);
-    }
-  else if( dimension == 3 )
-    {
-    LabelGeometryImageFilterTest<3>(labelImageName,outputImageName,intensityImageName);
-    }
-
-  return EXIT_SUCCESS;
-}
-
-
-template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName)
 {
   typedef unsigned short   LabelPixelType; 
@@ -113,8 +77,14 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   labelGeometryFilter->CalculateOrientedBoundingBoxOn();
   labelGeometryFilter->CalculateOrientedLabelRegionsOn();
 
-  labelGeometryFilter->Update();
-
+  try 
+    {
+    labelGeometryFilter->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
   std::cout << "\n\nRUNNING THE FILTER WITHOUT AN INTENSITY IMAGE..." << std::endl;
   labelGeometryFilter->Print(std::cout);
   
@@ -178,7 +148,14 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
 
   labelGeometryFilter2->SetIntensityInput( intensityReader->GetOutput() );
 
-  labelGeometryFilter2->Update();
+  try 
+    {
+    labelGeometryFilter2->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
 
   std::cout << "RUNNING THE FILTER WITH AN INTENSITY IMAGE..." << std::endl;
   labelGeometryFilter2->Print(std::cout);
@@ -188,8 +165,14 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   typename LabelWriterType::Pointer labelWriter = LabelWriterType::New();
   labelWriter->SetFileName( outputImageName );
   labelWriter->SetInput( caster->GetOutput() );
-  labelWriter->Update();
-
+  try 
+    {
+    labelWriter->Update();
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    std::cerr << e << std::endl;
+    }
 
   // Print out the rotation matrix.
   typename LabelGeometryType::MatrixType matrix = labelGeometryFilter2->GetRotationMatrix(1);
@@ -248,5 +231,35 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
       }
     }
 
+  return EXIT_SUCCESS;
+}
+
+int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
+{
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " binaryImage outputLabeledImage dimension [intensityImage]" << std::endl;
+    return EXIT_FAILURE;
+    }
+    
+  const char * labelImageName  = argv[1];
+  const char * outputImageName = argv[2];
+  unsigned int dimension = atoi(argv[3]);
+  const char * intensityImageName = "";
+
+  if( argc == 5 )
+    {
+    intensityImageName = argv[4];
+    }
+
+  if( dimension == 2 )
+    {
+    LabelGeometryImageFilterTest<2>(labelImageName,outputImageName,intensityImageName);
+    }
+  else if( dimension == 3 )
+    {
+    LabelGeometryImageFilterTest<3>(labelImageName,outputImageName,intensityImageName);
+    }
   return EXIT_SUCCESS;
 }
