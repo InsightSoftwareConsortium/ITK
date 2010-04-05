@@ -360,6 +360,8 @@ ADD_TEST(itkMathRoundTest2 ${COMMON_TESTS2} itkMathRoundTest2)
 ADD_TEST(itkVNLRoundProfileTest1 ${COMMON_TESTS2} itkVNLRoundProfileTest1)
 ADD_TEST(itkMathRoundProfileTest1 ${COMMON_TESTS2} itkMathRoundProfileTest1)
 
+ADD_TEST(itkMathCastWithRangeCheckTest ${COMMON_TESTS2} itkMathCastWithRangeCheckTest )
+
 ADD_TEST(itkMedianImageFunctionTest ${COMMON_TESTS2} itkMedianImageFunctionTest)
 ADD_TEST(itkMedialNodeCorrespondencesTest ${COMMON_TESTS2} itkMedialNodeCorrespondencesTest)
 
@@ -626,6 +628,7 @@ itkVNLRoundProfileTest1.cxx
 itkMathRoundTest.cxx
 itkMathRoundTest2.cxx
 itkMathRoundProfileTest1.cxx
+itkMathCastWithRangeCheck.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx
