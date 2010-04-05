@@ -69,7 +69,7 @@ namespace
 template < typename T1, typename T2 >
 bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
 {
-  T1 ret = 0;
+  T1 ret;
   // tying to convert T2 to T1
   try 
     {
@@ -77,7 +77,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
     // value should match
     if ( double(ret) != double(value) )
       {
-      std::cout << "casting error with input value: " << typename itk::NumericTraits<T2>::PrintType(value) << " output value: " << typename itk::NumericTraits<T1>::PrintType(ret) << std::endl;
+      std::cout << "casting error with input value: " << static_cast<typename itk::NumericTraits<T2>::PrintType>(value) << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
       return false;
       }
     }
@@ -139,9 +139,10 @@ bool DoCastWithRangeCheckTestForTypes( const T1* = 0 )
   pass &= DoCastWithRangeCheckTest<T1, signed int>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned long>(); 
   pass &= DoCastWithRangeCheckTest<T1, signed long>();
+#ifdef ITK_USE_LONG_LONG
   pass &= DoCastWithRangeCheckTest<T1, unsigned long long>();
   pass &= DoCastWithRangeCheckTest<T1, signed long long>();
-
+#endif
   return pass;
 }
  
@@ -179,9 +180,10 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
   pass &= DoCastWithRangeCheckTestForTypes<signed int>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned long>();
   pass &= DoCastWithRangeCheckTestForTypes<signed long>();
+#ifdef ITK_USE_LONG_LONG
   pass &= DoCastWithRangeCheckTestForTypes<unsigned long long>();
   pass &= DoCastWithRangeCheckTestForTypes<signed long long>();
-
+#endif
 
   if (pass)
     return EXIT_SUCCESS;
