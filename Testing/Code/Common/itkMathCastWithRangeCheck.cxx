@@ -30,7 +30,7 @@
 
 
 template <typename TReturn,typename TInput>
-inline TReturn CastWithRangeCheck(TInput x)
+inline TReturn CastWithRangeCheck(TInput x) 
 {
   itkConceptMacro( OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>) );
   itkConceptMacro( OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>) );
@@ -42,10 +42,17 @@ inline TReturn CastWithRangeCheck(TInput x)
     // interger to an unsigned interger then we have no problems
     return ret;
     }
+  else if ( sizeof (TReturn) >= sizeof(TInput) )
+    {
+    if ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) )
+     {
+     itk::RangeError _e(__FILE__, __LINE__);
+     throw _e;
+     }
+    }
   else if ( static_cast<TInput>(ret) != x ||
             ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) ) )
     {
-    // this should likely be a new exception class
     itk::RangeError _e(__FILE__, __LINE__);
     throw _e;
     }
@@ -68,7 +75,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
     {
     ret = ::CastWithRangeCheck<T1>( value );
     // value should match
-    if ( sin(double(ret)) != sin(double(value)) )
+    if ( double(ret) != double(value) )
       {
       std::cout << "casting error with input value: " << typename itk::NumericTraits<T2>::PrintType(value) << " output value: " << typename itk::NumericTraits<T1>::PrintType(ret) << std::endl;
       return false;
@@ -144,6 +151,17 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
 {
   bool pass = true;
   
+   try 
+    {
+    ::CastWithRangeCheck<short, int>( int(itk::NumericTraits<short>::max())+10 );
+    pass = false;
+    std::cout << "failed to through exception with " <<  int(itk::NumericTraits<short>::max())+10 << " to int ";
+    }
+   catch( ... )
+     {
+     std::cout << "caught exception as expected" << std::endl;
+     }
+
   
   DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
   DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
