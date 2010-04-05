@@ -292,7 +292,7 @@ public:
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static unsigned short NonpositiveMin() { return vcl_numeric_limits<ValueType>::min(); }
-  static unsigned short IsPositive(unsigned short val) { return val != Zero; }
+  static bool IsPositive(unsigned short val) { return val != Zero; }
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
   static bool IsNegative(unsigned short val) { return val ? false : false; }
   static bool IsNonnegative(unsigned short val) {return val ? true : true; }
