@@ -224,7 +224,32 @@ inline int Ceil(float  x) { return Detail::Ceil_32(x); }
 template <typename TReturn,typename TInput>
 inline TReturn CastWithRangeCheck(TInput x)
 {
-  return static_cast<TReturn>( x );
+  itkConceptMacro( OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>) );
+  itkConceptMacro( OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>) );
+
+  TReturn ret = static_cast<TReturn>(x);
+  if ( sizeof (TReturn) > sizeof(TInput) && 
+       !( !itk::NumericTraits<TReturn>::is_signed &&  itk::NumericTraits<TInput>::is_signed ) )
+    { 
+    // if the output type is bigger and we are not converting a signed
+    // interger to an unsigned interger then we have no problems
+    return ret;
+    }
+  else if ( sizeof (TReturn) >= sizeof(TInput) )
+    {
+    if ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) )
+     {
+     itk::RangeError _e(__FILE__, __LINE__);
+     throw _e;
+     }
+    }
+  else if ( static_cast<TInput>(ret) != x ||
+            ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) ) )
+    {
+    itk::RangeError _e(__FILE__, __LINE__);
+    throw _e;
+    }
+  return ret;
 }
 
 } // end namespace Math

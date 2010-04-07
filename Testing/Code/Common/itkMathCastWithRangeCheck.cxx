@@ -28,37 +28,6 @@
 #include <cstdlib>
 
 
-
-template <typename TReturn,typename TInput>
-inline TReturn CastWithRangeCheck(TInput x) 
-{
-  itkConceptMacro( OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>) );
-  itkConceptMacro( OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>) );
-  TReturn ret = static_cast<TReturn>(x);
-  if ( sizeof (TReturn) > sizeof(TInput) && 
-       !( !itk::NumericTraits<TReturn>::is_signed &&  itk::NumericTraits<TInput>::is_signed ) )
-    { 
-    // if the output type is bigger and we are not converting a signed
-    // interger to an unsigned interger then we have no problems
-    return ret;
-    }
-  else if ( sizeof (TReturn) >= sizeof(TInput) )
-    {
-    if ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) )
-     {
-     itk::RangeError _e(__FILE__, __LINE__);
-     throw _e;
-     }
-    }
-  else if ( static_cast<TInput>(ret) != x ||
-            ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) ) )
-    {
-    itk::RangeError _e(__FILE__, __LINE__);
-    throw _e;
-    }
-  return ret;
-}
-
 namespace 
 {
 
@@ -73,7 +42,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
   // tying to convert T2 to T1
   try 
     {
-    ret = ::CastWithRangeCheck<T1>( value );
+    ret = itk::Math::CastWithRangeCheck<T1>( value );
     // value should match
     if ( double(ret) != double(value) )
       {
@@ -120,7 +89,7 @@ bool DoCastWithRangeCheckTest( const T1* = 0, const T2* = 0 )
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::max() );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::Zero );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::One );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::One*-1 );
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::One*-1) );
 
   return pass;
 }
@@ -154,7 +123,7 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
   
    try 
     {
-    ::CastWithRangeCheck<short, int>( int(itk::NumericTraits<short>::max())+10 );
+    itk::Math::CastWithRangeCheck<short, int>( int(itk::NumericTraits<short>::max())+10 );
     pass = false;
     std::cout << "failed to through exception with " <<  int(itk::NumericTraits<short>::max())+10 << " to int ";
     }
