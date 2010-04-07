@@ -224,8 +224,11 @@ inline int Ceil(float  x) { return Detail::Ceil_32(x); }
 template <typename TReturn,typename TInput>
 inline TReturn CastWithRangeCheck(TInput x)
 {
+
+#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro( OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>) );
   itkConceptMacro( OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>) );
+#endif // ITK_USE_CONCEPT_CHECKING
 
   TReturn ret = static_cast<TReturn>(x);
   if ( sizeof (TReturn) > sizeof(TInput) && 
