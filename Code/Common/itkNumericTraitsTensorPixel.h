@@ -19,7 +19,6 @@
 
 #include "itkNumericTraitsFixedArrayPixel.h"
 #include "itkSymmetricSecondRankTensor.h"
-#include "itkDiffusionTensor3D.h"
 
 // This file is meant to define numeric traits for tensor pixels types in itk
 
