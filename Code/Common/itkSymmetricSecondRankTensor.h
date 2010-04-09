@@ -111,7 +111,7 @@ public:
   /** Constructor to enable casting...  */
   template < typename TCoordRepB >
   SymmetricSecondRankTensor( const SymmetricSecondRankTensor<TCoordRepB,NDimension> & pa ):
-    BaseArray(pa) { };
+    BaseArray(pa) { }
 
   typedef ComponentType ComponentArrayType[ itkGetStaticConstMacro(InternalDimension) ];
 
