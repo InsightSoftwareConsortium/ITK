@@ -284,7 +284,7 @@ public:
 protected:
   Image();
   void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual ~Image() {};
+  virtual ~Image() {}
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
