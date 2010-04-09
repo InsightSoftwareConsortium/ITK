@@ -22,7 +22,7 @@
 #undef DiffusionTensor3D
 #endif
 
-#include <itkSymmetricSecondRankTensor.h>
+#include "itkSymmetricSecondRankTensor.h"
 
 
 namespace itk
