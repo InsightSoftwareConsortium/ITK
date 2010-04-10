@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNumericTraitsFixedArrayPixel.cxx
+  Module:    itkNumericTraitsFixedArrayPixel2.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -19,22 +19,21 @@
 namespace itk
 {
 
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, char );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned char );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, signed char );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, short );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned short );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, int );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned int );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long );
-
 //
-//    Subsequent Types can be found in 
-//  
-//               itkNumericTraitsFixedArrayPixel2.cxx
+//    Previous Types can be found in the file
+//
+//                itkNumericTraitsFixedArrayPixel.cxx
 //
 //    This was split in two files in order to help the Sun CC 5.6 compiler to
 //    manage the size of the compilation unit.
 //
+
+itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, float );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, double );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long double );
+#ifdef ITK_TYPE_USE_LONG_LONG
+itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long long );
+itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long long );
+#endif // ITK_TYPE_USE_LONG_LONG
+
 } // end namespace itk

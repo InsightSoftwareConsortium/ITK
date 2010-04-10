@@ -28,12 +28,14 @@ itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, in
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned int );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, float );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, double );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
-itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long long );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
+
+//
+//    Subsequent Types can be found in the file
+//
+//                itkNumericTraitsTensorPixel2.cxx
+//
+//    This was split in two files in order to help the Sun CC 5.6 compiler to
+//    manage the size of the compilation unit.
+//
 
 } // end namespace itk

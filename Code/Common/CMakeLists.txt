@@ -43,8 +43,10 @@ SET(ITKCommon_SRCS
   itkNumericTraitsRGBAPixel.cxx
   itkNumericTraitsVectorPixel.cxx
   itkNumericTraitsTensorPixel.cxx
+  itkNumericTraitsTensorPixel2.cxx
   itkNumericTraitsDiffusionTensor3DPixel.cxx
   itkNumericTraitsFixedArrayPixel.cxx
+  itkNumericTraitsFixedArrayPixel2.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx
