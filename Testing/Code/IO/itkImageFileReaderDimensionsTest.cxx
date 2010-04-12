@@ -37,9 +37,11 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
   typedef itk::Image<short, 2> Image2DType;
   typedef itk::Image<short, 3> Image3DType;
   typedef itk::Image<short, 4> Image4DType;
-  typedef itk::ImageFileReader<Image2DType> Reader2DType;
-  typedef itk::ImageFileReader<Image3DType> Reader3DType;
-  typedef itk::ImageFileReader<Image4DType> Reader4DType;
+  typedef itk::Image<char, 2>  CharImage2DType;
+  typedef itk::ImageFileReader<Image2DType>     Reader2DType;
+  typedef itk::ImageFileReader<Image3DType>     Reader3DType;
+  typedef itk::ImageFileReader<Image4DType>     Reader4DType;
+  typedef itk::ImageFileReader<CharImage2DType> CharReader2DType;
 
   typedef itk::ImageFileWriter<Image3DType> Writer3DType;
   typedef itk::ImageFileWriter<Image4DType> Writer4DType;
@@ -188,6 +190,23 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   
+  // regression test of bug #10529
+  // we expect the filename to be 2 or 3 dimensions
+  // and reading it into a 4D
+  std::cout << "testing reading to char 2D image" << std::endl;
+  try
+    {
+    CharReader2DType::Pointer reader = CharReader2DType::New();
+    reader->SetFileName(argv[1]);
+    reader->Update();
+    }
+  catch (itk::ExceptionObject &ex)
+    {
+    std::cout << ex;
+    return EXIT_FAILURE;
+    }
+
+
 
   return EXIT_SUCCESS;
 

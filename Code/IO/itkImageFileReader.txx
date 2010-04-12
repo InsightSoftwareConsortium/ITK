@@ -361,7 +361,6 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
 {
 
   typename TOutputImage::Pointer output = this->GetOutput();  
-  typename TOutputImage::RegionType requestedRegion = output->GetRequestedRegion();
 
   itkDebugMacro ( << "ImageFileReader::GenerateData() \n" 
                   << "Allocating the buffer with the EnlargedRequestedRegion \n" 
@@ -415,10 +414,13 @@ void ImageFileReader<TOutputImage, ConvertPixelTraits>
       loadBuffer = new char[ sizeOfActualIORegion ];
       m_ImageIO->Read( static_cast< void *>(loadBuffer) );
       
-      this->DoConvertBuffer(static_cast< void *>(loadBuffer), m_ActualIORegion.GetNumberOfPixels() );
+      // See note below as to why the buffered region is needed and
+      // not actualIOregion
+      this->DoConvertBuffer(static_cast< void *>(loadBuffer), output->GetBufferedRegion().GetNumberOfPixels() );
       }
-    else if ( m_ActualIORegion.GetNumberOfPixels() != requestedRegion.GetNumberOfPixels() ) 
+    else if ( m_ActualIORegion.GetNumberOfPixels() != output->GetBufferedRegion().GetNumberOfPixels() ) 
       {
+      // NOTE:
       // for the number of pixels read and the number of pixels
       // requested to not match, the dimensions of the two regions may
       // be different, therefore we buffer and copy the pixels
