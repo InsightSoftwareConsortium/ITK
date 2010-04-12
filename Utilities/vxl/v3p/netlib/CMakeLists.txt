@@ -318,7 +318,7 @@ SET(V3P_NETLIB_opt_SOURCES
      opt/lbfgsb.c opt/lbfgsb.h
    )
 SET(V3P_NETLIB_linalg_SOURCES
-     linalg/lsqr.c linalg/lsqr.h
+     linalg/lsqrBase.cxx linalg/lsqrBase.h
    )
 SET(V3P_NETLIB_datapac_SOURCES
      datapac/camsun.c datapac/camsun.h

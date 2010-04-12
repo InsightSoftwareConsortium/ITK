@@ -26,7 +26,10 @@ IF(NETLIB_FOUND)
 # vnl_svd_economy                  csvdc_ dsvdc_ ssvdc_ zsvdc_
 # vnl_symmetric_eigensystem        rs_
 
-  INCLUDE_DIRECTORIES( ${NETLIB_INCLUDE_DIR} )
+  INCLUDE_DIRECTORIES( 
+    ${NETLIB_INCLUDE_DIR}
+    ${NETLIB_INCLUDE_DIR}/linalg
+    )
 
   SET( vnl_algo_sources
     vnl_algo_fwd.h
