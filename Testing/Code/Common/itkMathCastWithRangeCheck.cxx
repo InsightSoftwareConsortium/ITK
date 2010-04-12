@@ -83,13 +83,15 @@ bool DoCastWithRangeCheckTestExulstive( const T1* = 0, const T2* = 0 )
 template < typename T1, typename T2 >
 bool DoCastWithRangeCheckTest( const T1* = 0, const T2* = 0 )
 {
+  int minus_one = -1;
+
   // test convert T2 to T1
   bool pass = true;
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::NonpositiveMin() );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::max() );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::Zero );
   pass &= DoCastWithRangeCheckTestVerify<T1, T2>( itk::NumericTraits<T2>::One );
-  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::One*-1) );
+  pass &= DoCastWithRangeCheckTestVerify<T1, T2>( static_cast<T2>(itk::NumericTraits<T2>::One*minus_one) );
 
   return pass;
 }
