@@ -187,7 +187,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
         }
       }
 
-    if( min_dist < result_dist )
+    if( min_dist < result_dist && result != min_point)
       {
       std::cerr << "Problem found " << std::endl;
       std::cerr << "Query point " << queryPoint << std::endl;
