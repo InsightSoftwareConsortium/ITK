@@ -90,9 +90,13 @@ lsqrBase::lsqrBase()
   this->rnorm = 0.0;
   this->Arnorm = 0.0;
   this->xnorm = 0.0;
+  this->bnorm = 0.0;
+  this->dxmax = 0.0;
+  this->maxdx = 0;
   this->wantse = false;
   this->se = NULL;
   this->damp = 0.0;
+  this->damped = false;
 }
 
 
@@ -304,13 +308,13 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     (*this->nout) << this->btol << ", " << this->itnlim << std::endl; 
     }
 
-  const bool damped = ( this->damp > zero );
+  this->damped = ( this->damp > zero );
 
   this->itn = 0;
   this->istop = 0;
   
   unsigned int nstop = 0;
-  unsigned int maxdx = 0;
+  this->maxdx = 0;
 
   double ctol = zero;
   if( this->conlim > zero )
@@ -322,7 +326,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   this->Acond = zero;
 
   double dnorm = zero;
-  double dxmax = zero;
+  this->dxmax = zero;
   double res2 = zero;
   double psi = zero;
 
@@ -343,6 +347,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   //-------------------------------------------------------------------
   CopyVector( m, b, u );
   AssignScalarValueToVectorElements( 0, n, zero, v );
+  AssignScalarValueToVectorElements( 0, n, zero, w );
   AssignScalarValueToVectorElements( 0, n, zero, x );
 
   if( this->wantse )
@@ -364,58 +369,64 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   if( alpha > zero )
     {
     this->Scale( n, ( one / alpha ), v );
+    CopyVector( n, v, w );
     }
-
-  // NOT IN THE ORIGINAL: 
-  CopyVector( n, v, w );  // In the original w is only initialized to v if alpha > zero.
-
 
   this->Arnorm = alpha * beta;
 
+  if ( this->Arnorm == zero )
+    {
+    this->TerminationPrintOut();
+
+    // Release locally allocated arrays.
+    delete [] u;
+    delete [] v;
+    delete [] w;
+
+    return;
+    }
+  
   double rhobar = alpha;
   double phibar = beta;
-  double bnorm = beta;
 
+  this->bnorm = beta;
   this->rnorm = beta;
 
   double test1 = 0.0;
   double test2 = 0.0;
+  
 
-
-  if ( this->Arnorm != zero )
+  if ( this->nout )
     {
-
-    if ( this->nout )
+    if ( damped )
       {
-      if ( damped )
-        {
-        (*this->nout) << " Itn       x(0)           Function"\
-        "     Compatible   LS     Norm Abar Cond Abar alfa_opt" << std::endl;
-        }
-      else
-        {
-        (*this->nout) << " Itn       x(0)           Function"\
-        "     Compatible   LS        Norm A    Cond A" << std::endl;
-        }
-
-      test1 = one;
-      test2 = alpha / beta;
-
-      this->nout->width(6);
-      (*this->nout) << this->itn;
-      this->nout->precision(9);
-      this->nout->precision(17);
-      (*this->nout) << x[0] << " ";
-      this->nout->precision(2);
-      this->nout->precision(10);
-      (*this->nout) << rnorm << " ";
-      this->nout->precision(1);
-      this->nout->precision(9);
-      (*this->nout) << test1 << " ";
-      (*this->nout) << test2 << " ";
-      (*this->nout) << std::endl;
+      (*this->nout) << " Itn       x(0)           Function"\
+      "     Compatible   LS     Norm Abar Cond Abar alfa_opt" << std::endl;
       }
+    else
+      {
+      (*this->nout) << " Itn       x(0)           Function"\
+      "     Compatible   LS        Norm A    Cond A" << std::endl;
+      }
+
+    test1 = one;
+    test2 = alpha / beta;
+
+    this->nout->width(6);
+    (*this->nout) << this->itn;
+    this->nout->precision(9);
+    this->nout->width(17);
+    (*this->nout) << x[0] << " ";
+    this->nout->precision(2);
+    this->nout->width(10);
+    (*this->nout) << rnorm << " ";
+    this->nout->precision(1);
+    this->nout->width(9);
+    (*this->nout) << test1 << " ";
+    (*this->nout) << test2 << " ";
+    (*this->nout) << std::endl;
     }
+
 
   double temp;
   double test3;
@@ -532,10 +543,10 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     dknorm = sqrt( dknorm );
     dnorm  = this->D2Norm( dnorm, dknorm );
     double dxk  = fabs( phi* dknorm );
-    if (dxmax < dxk)
+    if ( this->dxmax < dxk)
       {
-      dxmax  = dxk;
-      maxdx  = this->itn;
+      this->dxmax  = dxk;
+      this->maxdx  = this->itn;
       }
 
 
@@ -690,9 +701,121 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
       }
     }
 
+  this->TerminationPrintOut();
+
   // Release locally allocated arrays.
   delete [] u;
   delete [] v;
   delete [] w;
 }
 
+
+void lsqrBase::
+TerminationPrintOut()
+{
+  // Decide if istop = 2 or 3.
+  if ( this->damped && this->istop == 2)
+    {
+    this->istop = 3;
+    }
+
+  if ( this->nout )
+    {
+    std::string exitt = " Exit LSQR. ";
+
+    (*this->nout) << exitt;
+    (*this->nout) << "istop = ";
+    this->nout->width(6);
+    (*this->nout) << istop;
+
+    (*this->nout) << " itn = ";
+    this->nout->width(15);
+    (*this->nout) << this->itn;
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+    (*this->nout) << "Anorm = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->Anorm;
+
+    (*this->nout) << "Acond = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->Acond;
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+    (*this->nout) << "bnorm = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->bnorm;
+
+    (*this->nout) << "xnorm = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->xnorm;
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+    (*this->nout) << "rnorm = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->rnorm;
+
+    (*this->nout) << "Arnorm = ";
+    this->nout->precision(5);
+    this->nout->width(12);
+    (*this->nout) << this->Arnorm;
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+    (*this->nout) << "max dx = ";
+    this->nout->precision(1);
+    this->nout->width(8);
+    (*this->nout) << this->dxmax;
+
+    (*this->nout) << " occurred at itn = ";
+    this->nout->width(8);
+    (*this->nout) << this->maxdx;
+    this->nout->precision(1);
+    this->nout->width(8);
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+    (*this->nout) << this->dxmax / (this->xnorm+1.0e-30);
+
+    (*this->nout) << std::endl;
+
+    (*this->nout) << exitt;
+
+    switch( this->istop )
+      {
+      case 0:
+        (*this->nout) << "The exact solution is  x = 0 " << std::endl;
+        break;
+      case 1:
+        (*this->nout) << "'A solution to Ax = b was found, given atol, btol " << std::endl;
+        break;
+      case 2:
+        (*this->nout) << "'A least-squares solution was found, given atol " << std::endl;
+        break;
+      case 3:
+        (*this->nout) << " 'A damped least-squares solution was found, given atol " << std::endl;
+        break;
+      case 4:
+        (*this->nout) << " 'Cond(Abar) seems to be too large, given conlim " << std::endl;
+        break;
+      case 5:
+        (*this->nout) << " 'The iteration limit was reached " << std::endl;
+        break;
+      }
+
+    }
+
+}

@@ -297,14 +297,19 @@ public:
   void Solve( unsigned int m, unsigned int n, const double * b, double * x );
 
 private:
+
+  void TerminationPrintOut();
+
   double    *  wm;  // work vector
   double    *  wn;  // work vector
 
   double Anorm;
   double Acond;
+  double bnorm;
   double rnorm;
   double Arnorm;
   double xnorm;
+  double dxmax;
 
   double atol;
   double btol;
@@ -312,11 +317,14 @@ private:
 
   double eps;
   double damp;
+  bool   damped;
 
   unsigned int itnlim;
   unsigned int itn;
 
   unsigned int istop;
+
+  unsigned int maxdx;
 
   std::ostream * nout;
 
