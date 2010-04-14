@@ -364,8 +364,11 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   if( alpha > zero )
     {
     this->Scale( n, ( one / alpha ), v );
-    CopyVector( n, v, w );
     }
+
+  // NOT IN THE ORIGINAL: 
+  CopyVector( n, v, w );  // In the original w is only initialized to v if alpha > zero.
+
 
   this->Arnorm = alpha * beta;
 
@@ -496,7 +499,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     double t3     =     one / rho;
     double dknorm =    zero;
 
-    if ( wantse ) 
+    if ( this->wantse ) 
       {
       for ( unsigned int i = 0; i < n; i++ )
         {
