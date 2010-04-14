@@ -318,7 +318,6 @@ SET(V3P_NETLIB_opt_SOURCES
      opt/lbfgsb.c opt/lbfgsb.h
    )
 SET(V3P_NETLIB_linalg_SOURCES
-     linalg/lsqrBase.cxx linalg/lsqrBase.h
    )
 SET(V3P_NETLIB_datapac_SOURCES
      datapac/camsun.c datapac/camsun.h
@@ -436,3 +435,5 @@ ENDIF(NOT VXL_INSTALL_NO_LIBRARIES)
 IF(NOT VXL_INSTALL_NO_DEVELOPMENT)
   INSTALL_NOBASE_HEADER_FILES(${VXL_INSTALL_ROOT}/v3p/netlib ${v3p_netlib_sources})
 ENDIF(NOT VXL_INSTALL_NO_DEVELOPMENT)
+
+SUBDIRS(linalg)
