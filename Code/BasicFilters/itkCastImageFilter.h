@@ -30,13 +30,8 @@ namespace itk
  * This filter is templated over the input image type
  * and the output image type.
  * 
- * CastImageFilter allows the input and output image to be different
- * dimensions.  This is useful if you want to cast an 2D image to
- * 3D image.  The resulting 3D image will have a single slice. If you
- * attempt to cast an image to a lower dimension, the first "slice"
- * (or line or volume) will be extracted.  If you want to convert
- * an image to a lower dimension and specify the subspace (i.e. which
- * slice of a volume, etc.) then you should use ExtractImageFilter.
+ * If you need to perform a dimensionaly reduction, you may want 
+ * to use the ExtractImageFilter instead of the CastImageFilter.
  *
  * \ingroup IntensityImageFilters  Multithreaded
  * \sa UnaryFunctorImageFilter
