@@ -28,13 +28,6 @@
 
 #include "itkImagePCAShapeModelEstimator.h"
 
-//Data definitions 
-#define   IMGWIDTH            2
-#define   IMGHEIGHT           2
-#define   NDIMENSION          2
-#define   NUMTRAINIMAGES      3
-#define   NUMLARGESTPC        2
-
 // class to support progress feeback
 
 
@@ -51,6 +44,12 @@ public:
 
 int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 {
+  //Data definitions 
+  int IMGWIDTH          = 2;
+  int IMGHEIGHT         = 2;
+  const int NDIMENSION  = 2;
+  int NUMTRAINIMAGES    = 3;
+  int NUMLARGESTPC      = 2;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
@@ -87,9 +86,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   region.SetSize( inputImageSize );
   region.SetIndex( index );
 
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
   // Set up Image 1 first
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
 
   image1->SetLargestPossibleRegion( region );
   image1->SetBufferedRegion( region );
@@ -98,9 +97,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   // setup the iterators
   InputImageIterator image1It( image1, image1->GetBufferedRegion() );
 
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
   // Set up Image 2 first
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
 
   image2->SetLargestPossibleRegion( region );
   image2->SetBufferedRegion( region );
@@ -109,9 +108,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   // setup the iterators
   InputImageIterator image2It( image2, image2->GetBufferedRegion() );
 
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
   // Set up Image 3 first
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
 
   image3->SetLargestPossibleRegion( region );
   image3->SetBufferedRegion( region );
@@ -120,9 +119,9 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   // setup the iterators
   InputImageIterator image3It( image3, image3->GetBufferedRegion() );
 
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
   //Manually create and store each vector
-  //--------------------------------------------------------------------------
+  //------------------------------------------------------------------------
   //Image no. 1
   for( int i = 0; i< 4; i++ )
     {
