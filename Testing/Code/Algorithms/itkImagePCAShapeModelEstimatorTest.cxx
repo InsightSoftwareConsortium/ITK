@@ -48,8 +48,8 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   int IMGWIDTH          = 2;
   int IMGHEIGHT         = 2;
   const int NDIMENSION  = 2;
-  int NUMTRAINIMAGES    = 3;
-  int NUMLARGESTPC      = 2;
+  unsigned int NUMTRAINIMAGES = 3;
+  unsigned int NUMLARGESTPC = 2;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
@@ -189,7 +189,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() << 
     " largest eigen values are:" << std::endl;
 
-  for(unsigned int i= 0; i< vnl_math_min( numEigVal, (unsigned int)NUMLARGESTPC ); i++ )
+  for(unsigned int i= 0; i< vnl_math_min( numEigVal, NUMLARGESTPC ); i++ )
     {
     std::cout << eigenValues[ i ] << std::endl; 
     }  
