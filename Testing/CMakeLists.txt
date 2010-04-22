@@ -4,6 +4,10 @@ PROJECT(ITKTesting)
 # normal ITK build or as a stand-alone project.  This design is useful
 # for testing the installation tree of ITK.
 
+IF(ITK_CSWIG_JAVA)
+  FIND_PACKAGE(Java)
+ENDIF(ITK_CSWIG_JAVA)
+
 MAKE_DIRECTORY(${ITKTesting_BINARY_DIR}/Temporary)
 IF(ITK_BINARY_DIR)
   # We are building inside the tree.
@@ -66,9 +70,6 @@ ELSE(ITK_BINARY_DIR)
         )
       MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
     ENDIF(ITK_CSWIG_PYTHON)
-    IF(ITK_CSWIG_JAVA)
-      FIND_PACKAGE(Java)
-    ENDIF(ITK_CSWIG_JAVA)
   ELSE(ITK_FOUND)
     MESSAGE("ITK not found.  Please set ITK_DIR")
   ENDIF(ITK_FOUND)
