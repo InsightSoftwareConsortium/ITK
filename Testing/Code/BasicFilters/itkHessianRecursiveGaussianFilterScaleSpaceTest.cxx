@@ -89,7 +89,7 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
     while(!it.IsAtEnd()) 
       {
       inputImage->TransformIndexToPhysicalPoint(it.GetIndex(),point);
-      double value = exp(-point[0]*point[0] / (2.0*objectSize*objectSize));
+      double value = vcl_exp(-point[0]*point[0] / (2.0*objectSize*objectSize));
       it.Set(value);
       ++it;
       }
