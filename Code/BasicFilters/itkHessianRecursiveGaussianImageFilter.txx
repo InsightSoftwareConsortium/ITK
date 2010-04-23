@@ -109,12 +109,6 @@ HessianRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 
   m_NormalizeAcrossScale = normalize;
 
-  unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
-
-  for( unsigned int i = 0; i<numberOfSmoothingFilters; i++ )
-    {
-    m_SmoothingFilters[ i ]->SetNormalizeAcrossScale( normalize );
-    }
   m_DerivativeFilterA->SetNormalizeAcrossScale( normalize );
   m_DerivativeFilterB->SetNormalizeAcrossScale( normalize );
 
