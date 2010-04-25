@@ -114,8 +114,14 @@ void TkImageViewer2D::Draw()
   // Setup the size 
   Tk_PhotoHandle photo =
     Tk_FindPhoto(m_Interpreter, const_cast<char*>(m_ImageName.c_str()));
+
+
+#if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION < 5)
   Tk_PhotoSetSize(photo, width, height);
-  
+#else  
+  Tk_PhotoSetSize(m_Interpreter, photo, width, height);
+#endif
+
   OStringStream command;
   command << m_CanvasName.c_str() << " configure -scrollregion \"1 1 "
           << width << " " << height << "\"";
@@ -142,8 +148,13 @@ void TkImageViewer2D::Draw()
 #if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION < 4)
   Tk_PhotoPutBlock(photo, &block, 0, 0, size[0], size[1]);
 #else
+#if (TK_MAJOR_VERSION == 8) && (TK_MINOR_VERSION < 5)
   Tk_PhotoPutBlock(photo, &block, 0, 0, size[0], size[1],
                    TK_PHOTO_COMPOSITE_SET);
+#else
+  Tk_PhotoPutBlock(m_Interpreter, photo, &block, 0, 0, size[0], size[1],
+                    TK_PHOTO_COMPOSITE_SET);
+#endif
 #endif
 }
 
