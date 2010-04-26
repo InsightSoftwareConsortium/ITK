@@ -757,6 +757,14 @@ private:
 #endif
 #endif
 #endif
+// THIS IS A TEMPORARY PATCH FOR Visual Studio 10. The correct solution must
+// be implemented in Insight/CMake/itkTestFriendTemplatedFunction.cxx
+#if ( defined (_MSC_VER) && ( _MSC_VER >= 1600 ) )
+#ifdef  ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT
+#undef  ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT
+#endif
+#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
+#endif
 
 
 //=============================================================================
