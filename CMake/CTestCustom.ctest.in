@@ -1,6 +1,54 @@
+#
+# Note that the Insight/CMakeLists.txt file creates a file
+#
+#           ${ITK_BINARY_DIR}/CTestCustom.cmake
+# 
+# than includes the content of 
+#
+#   "INCLUDE(\"${ITK_BINARY_DIR}/CMake/CTestCustom.ctest\")\n")
+#
+# In other words, the content of this current file 
+#
+#               CTestCustom.ctest.in
+#
+# ends up being included in the file 
+#
+#       ${ITK_BINARY_DIR}/CTestCustom.cmake
+#
+#
+#----------------------------------------------------------------------
+#
+# For further details regarding this file, 
+# see http://www.vtk.org/Wiki/CMake_Testing_With_CTest#Customizing_CTest
+#
+# and
+# http://www.kitware.com/blog/home/post/27
+#
+#----------------------------------------------------------------------
+
 SET(CTEST_CUSTOM_MAXIMUM_PASSED_TEST_OUTPUT_SIZE 1000000)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 1000)
 SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
+
+SET(CTEST_EXTRA_COVERAGE_GLOB 
+  Source/.*/*.h
+  Source/.*/*.txx
+  Source/.*/*.cxx
+  )
+
+SET(CTEST_CUSTOM_COVERAGE_EXCLUDE
+ ${CTEST_CUSTOM_COVERAGE_EXCLUDE}
+
+ # Exclude try_compile sources from coverage results:
+ "/CMakeFiles/CMakeTmp/"
+
+ # Exclude files from the Testing directories
+ ".*/Testing/.*"
+
+ # Exclude files from the Wrapping directories
+ ".*/Wrapping/.*"
+ )
+
 SET(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning LNK4221.*no public symbols found"
