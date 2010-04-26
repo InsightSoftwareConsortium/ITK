@@ -24,6 +24,7 @@
 #include "itkObjectFactory.h"
 #include "itkProcessObject.h"
 #include <algorithm>
+#include <iterator>
 
 namespace itk
 {
