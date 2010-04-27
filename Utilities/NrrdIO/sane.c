@@ -102,15 +102,15 @@ airSanity(void) {
 
   if (!( airFP_QNAN == airFPClass_f(AIR_NAN)
          && airFP_QNAN == airFPClass_f(AIR_QNAN)
-//
-// Exclude the following platforms from the airFP_SNAN test.
-//
-// 1) APPLE builds due to a cross-compilation problem, and
-// 2) Visual Studio builds for version newer than 2005 (not included)
-//    when building in 32bits. 
-//
+/*
+  Exclude the following platforms from the airFP_SNAN test.
+
+ 1) APPLE builds due to a cross-compilation problem, and
+ 2) Visual Studio builds for version newer than 2005 (not included)
+ when building in 32bits. */
+
 #if defined(__APPLE__) || ( defined(_MSC_VER) && _MSC_VER >= 1400 ) 
-         // don't compare airFP_SNAN
+         /* don't compare airFP_SNAN */
 #else
          && airFP_SNAN == airFPClass_f(AIR_SNAN) 
 #endif
