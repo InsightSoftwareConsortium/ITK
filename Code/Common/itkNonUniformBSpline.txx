@@ -266,7 +266,7 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
        iter++)
     {
     PointType pt = (*iter);
-    for (int i = 0; i < dim; i++)
+    for (unsigned int i = 0; i < dim; i++)
       {
       data_matrix(rr, i) = pt.GetVnlVector()[i];
       }
@@ -319,14 +319,13 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
 
   m_ControlPoints.clear();
 
-  int j = 0;
-  for (j = 0; j < B.rows(); j++)
+  for ( unsigned int j = 0; j < B.rows(); j++ )
     {
     vnl_vector<double> v = B.get_row(j);
     itk::Vector<double> iv;
     iv.SetVnlVector(v);
     itk::Point<double, TDimension> pt;
-    for (int d = 0; d < dim; d++)
+    for ( unsigned int d = 0; d < dim; d++ )
       {
       pt[d] = v(d);
       }
@@ -371,7 +370,7 @@ NonUniformBSpline< TDimension >
     }
 
   double array[TDimension];
-  for (int d = 0; d < TDimension; d++)
+  for ( unsigned int d = 0; d < TDimension; d++ )
     {
     array[d] = result[d];
     }

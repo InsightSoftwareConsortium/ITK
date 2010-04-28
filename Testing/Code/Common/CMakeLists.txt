@@ -394,6 +394,7 @@ SET_TESTS_PROPERTIES(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
 ENDIF(ITK_BUILD_SHARED_LIBS)
 ADD_TEST(itkOrthogonallyCorrected2DParametricPathTest ${COMMON_TESTS2} itkOrthogonallyCorrected2DParametricPathTest)
 ADD_TEST(itkPathFunctionsTest ${COMMON_TESTS2} itkPathFunctionsTest)
+ADD_TEST(itkNonUniformBSplineTest ${COMMON_TESTS2} itkNonUniformBSplineTest)
 ADD_TEST(itkPathIteratorTest ${COMMON_TESTS2} itkPathIteratorTest)
 ADD_TEST(itkPCAShapeSignedDistanceFunctionTest ${COMMON_TESTS2} itkPCAShapeSignedDistanceFunctionTest)
 ADD_TEST(itkPeriodicBoundaryConditionTest ${COMMON_TESTS2} itkPeriodicBoundaryConditionTest)
@@ -629,6 +630,7 @@ itkMathRoundTest.cxx
 itkMathRoundTest2.cxx
 itkMathRoundProfileTest1.cxx
 itkMathCastWithRangeCheck.cxx
+itkNonUniformBSplineTest.cxx
 itkPathFunctionsTest.cxx
 itkPathIteratorTest.cxx
 itkPCAShapeSignedDistanceFunctionTest.cxx

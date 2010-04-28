@@ -26,6 +26,7 @@
 
 #include "itkPoint.h"
 #include "itkObject.h"
+#include "itkObjectFactory.h"
 #include "itkArray.h"
 
 namespace itk {
@@ -91,7 +92,7 @@ public:
   /**
    * Get the knot vector.
    */
-  KnotListType& GetKnots();
+  itkGetConstReferenceMacro( Knots, KnotListType );
 
   /**
    * Computes the chord lengths based on the points.

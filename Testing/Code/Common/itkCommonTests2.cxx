@@ -16,6 +16,7 @@ REGISTER_TEST(itkImageTransformTest);
 REGISTER_TEST(itkLinearInterpolateImageFunctionTest);
 REGISTER_TEST(itkMaximumDecisionRuleTest );
 REGISTER_TEST(itkMaximumRatioDecisionRuleTest );
+REGISTER_TEST(itkNonUniformBSplineTest );
 REGISTER_TEST(itkDifferenceImageFilterTest );
 REGISTER_TEST(itkMeanImageFunctionTest );
 REGISTER_TEST(itkMedialNodeCorrespondencesTest );
