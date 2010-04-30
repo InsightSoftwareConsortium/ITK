@@ -81,7 +81,7 @@ public:
   /**
    * Get the points the spline is trying to interpolate.
    */
-  itkGetConstReferenceMacro( Points, PointListType );
+  const PointListType & GetPoints() const;
 
   /**
    * Set the knot vector. Knots may be nonuniformly spaced.
@@ -92,7 +92,7 @@ public:
   /**
    * Get the knot vector.
    */
-  itkGetConstReferenceMacro( Knots, KnotListType );
+  const KnotListType & GetKnots() const;
 
   /**
    * Computes the chord lengths based on the points.
@@ -119,7 +119,7 @@ public:
   /**
    * Get the control points for the spline
    */
-  itkGetConstReferenceMacro( ControlPoints, ControlPointListType );
+  const ControlPointListType & GetControlPoints() const;
 
   /**
    * Evaluate the basis functions directly. 

@@ -243,6 +243,34 @@ NonUniformBSpline< TDimension >
   this->Modified();
 }
 
+
+template< unsigned int TDimension >
+const typename
+NonUniformBSpline< TDimension >::ControlPointListType &
+NonUniformBSpline< TDimension >::GetControlPoints() const
+{
+  return this->m_ControlPoints;
+}
+
+
+template< unsigned int TDimension >
+const typename
+NonUniformBSpline< TDimension >::KnotListType &
+NonUniformBSpline< TDimension >::GetKnots() const
+{
+  return this->m_Knots;
+}
+
+
+template< unsigned int TDimension >
+const typename
+NonUniformBSpline< TDimension >::PointListType &
+NonUniformBSpline< TDimension >::GetPoints() const
+{
+  return this->m_Points;
+}
+
+
 template< unsigned int TDimension >
 void
 NonUniformBSpline< TDimension >::ComputeControlPoints() 
