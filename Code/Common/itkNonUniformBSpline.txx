@@ -26,7 +26,8 @@
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/algo/vnl_lsqr.h"
+#include "vnl/vnl_linear_system.h"
 
 
 // #define DEBUG_SPLINE
@@ -310,7 +311,15 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
   std::cout << N_matrix << std::endl;
 #endif
 
-  vnl_matrix<double> B = vnl_matrix_inverse<double>(N_matrix.transpose() * N_matrix) * N_matrix.transpose() * data_matrix;
+//FIXME: Use the LSQR linear solver here:
+  vnl_matrix<double> B;
+
+// = vnl_matrix_inverse<double>(N_matrix.transpose() * N_matrix) * N_matrix.transpose() * data_matrix;
+
+//  vnl_linear_system ls( N_matrix.rows(), N_matrix.cols() );
+
+//  vnl_lsqr solver( ls );
+
 
 //#ifdef DEBUG_SPLINE
   std::cout << "Control point matrix : " << std::endl;
