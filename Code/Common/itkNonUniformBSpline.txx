@@ -386,8 +386,6 @@ typename NonUniformBSpline<TDimension>::PointType
 NonUniformBSpline< TDimension >
 ::EvaluateSpline(double t) const
 {
-  double N = 0.0;
-
   int i = 0;
 
   vnl_vector<double> result(TDimension);
@@ -400,7 +398,7 @@ NonUniformBSpline< TDimension >
     ControlPointType pt = *cpiter;
     vnl_vector<double> v = pt.GetVnlVector();
 
-    N =  this->NonUniformBSplineFunctionRecursive(m_SplineOrder, i, t);
+    const double N =  this->NonUniformBSplineFunctionRecursive(m_SplineOrder, i, t);
     result = result + N * v;
 
     i++;
