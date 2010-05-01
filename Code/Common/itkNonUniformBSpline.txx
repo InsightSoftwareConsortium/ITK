@@ -399,7 +399,11 @@ NonUniformBSpline< TDimension >
     vnl_vector<double> v = pt.GetVnlVector();
 
     const double N =  this->NonUniformBSplineFunctionRecursive(m_SplineOrder, i, t);
-    result = result + N * v;
+
+    for( unsigned j = 0; j < TDimension; j++ )
+      {
+      result[j] += N * v[j];
+      }
 
     i++;
     }
