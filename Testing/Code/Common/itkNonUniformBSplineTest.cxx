@@ -68,8 +68,8 @@ int itkNonUniformBSplineTest(int, char* [] )
   PointType point;
 
   const unsigned int numberOfPoints = 10;
-  const unsigned int Zorigin  = 0.0;
-  const unsigned int Zspacing = 1.5;
+  const double Zorigin  = 0.0;
+  const double Zspacing = 1.5;
 
   for(unsigned int i = 0; i < numberOfPoints; i++ )
     {
@@ -171,8 +171,8 @@ int itkNonUniformBSplineTest(int, char* [] )
   // Purposely set them between 0.0 and 1.0 so that 
   // they don't get to be rescaled.
   const unsigned int numberOfControlPoints = 5;
-  const unsigned int Corigin  = 0.0;
-  const unsigned int Cspacing = 1.5;
+  const double Corigin  = 0.0;
+  const double Cspacing = 1.5;
 
   for(unsigned int i = 0; i < numberOfControlPoints; i++ )
     {
