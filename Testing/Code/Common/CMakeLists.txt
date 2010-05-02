@@ -235,6 +235,7 @@ ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
 ADD_TEST(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
+ADD_TEST(itkImageToImageFilterTest ${COMMON_TESTS2} itkImageToImageFilterTest)
 ADD_TEST(itkRGBInterpolateImageFunctionTest ${COMMON_TESTS2} itkRGBInterpolateImageFunctionTest)
 ADD_TEST(itkImageDuplicatorTest ${COMMON_TESTS} itkImageDuplicatorTest)
 ADD_TEST(itkImageIteratorTest ${COMMON_TESTS} itkImageIteratorTest)
@@ -594,6 +595,7 @@ itkBSplineDeformableTransformTest2.cxx
 itkBSplineDeformableTransformTest3.cxx 
 itkCellInterfaceTest.cxx
 itkImageTransformTest.cxx
+itkImageToImageFilterTest.cxx
 itkLinearInterpolateImageFunctionTest.cxx
 itkMaximumDecisionRuleTest.cxx
 itkMaximumRatioDecisionRuleTest.cxx
