@@ -18,6 +18,12 @@
 #define __itkTestingMacros_h
 
 
+#define EXERCISE_BASIC_OBJECT_METHODS( object ) \
+    object->Print( std::cout );  \
+    std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
+    std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;
+
+
 #define TRY_EXPECT_EXCEPTION( command ) \
   try \
     {  \
