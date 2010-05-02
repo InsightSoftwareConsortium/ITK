@@ -58,6 +58,8 @@ int itkImageToImageFilterTest(int, char* [] )
   InputImageType::Pointer inputImage4 = InputImageType::New();
 
   FilterType::Pointer filter = FilterType::New();
+  
+  typedef FilterType::Superclass   Superclass;
 
   filter->Print( std::cout );
   std::cout << "Name of Class = " << filter->GetNameOfClass() << std::endl;
