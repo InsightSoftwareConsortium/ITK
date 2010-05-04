@@ -612,7 +612,7 @@ void tcd_init_encode(opj_tcd_t *tcd, opj_image_t * image, opj_cp_t * cp, int cur
 
 void tcd_malloc_decode(opj_tcd_t *tcd, opj_image_t * image, opj_cp_t * cp) {
   int tileno, compno, resno, bandno, precno, cblkno, i, j, p, q;
-  unsigned int x0 = 0, y0 = 0, x1 = 0, y1 = 0, w, h;
+  unsigned int x0 = 0, y0v = 0, x1 = 0, y1v = 0, w, h;
 
   tcd->image = image;
   tcd->cp = cp;
@@ -794,22 +794,22 @@ void tcd_malloc_decode(opj_tcd_t *tcd, opj_image_t * image, opj_cp_t * cp) {
       tileno = cp->tileno[j];
       x0 = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].x0 : int_min(x0,
         (unsigned int) tcd->tcd_image->tiles[tileno].comps[i].x0);
-      y0 = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].y0 : int_min(y0,
+      y0v = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].y0 : int_min(y0v,
         (unsigned int) tcd->tcd_image->tiles[tileno].comps[i].y0);
       x1 = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].x1 : int_max(x1,
         (unsigned int) tcd->tcd_image->tiles[tileno].comps[i].x1);
-      y1 = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].y1 : int_max(y1, 
+      y1v = j == 0 ? tcd->tcd_image->tiles[tileno].comps[i].y1 : int_max(y1v, 
         (unsigned int) tcd->tcd_image->tiles[tileno].comps[i].y1);
     }
     
     w = x1 - x0;
-    h = y1 - y0;
+    h = y1v - y0v;
     
     image->comps[i].data = (int *) opj_malloc(w * h * sizeof(int));
     image->comps[i].w = w;
     image->comps[i].h = h;
     image->comps[i].x0 = x0;
-    image->comps[i].y0 = y0;
+    image->comps[i].y0 = y0v;
   }
 }
 

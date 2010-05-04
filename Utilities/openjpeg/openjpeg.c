@@ -244,13 +244,13 @@ void OPJ_CALLCONV opj_setup_encoder(opj_cinfo_t *cinfo, opj_cparameters_t *param
   }
 }
 
-bool OPJ_CALLCONV opj_encode(opj_cinfo_t *cinfo, opj_cio_t *cio, opj_image_t *image, char *index) {
+bool OPJ_CALLCONV opj_encode(opj_cinfo_t *cinfo, opj_cio_t *cio, opj_image_t *image, char *indexv) {
   if(cinfo && cio && image) {
     switch(cinfo->codec_format) {
       case CODEC_J2K:
-        return j2k_encode((opj_j2k_t*)cinfo->j2k_handle, cio, image, index);
+        return j2k_encode((opj_j2k_t*)cinfo->j2k_handle, cio, image, indexv);
       case CODEC_JP2:
-        return jp2_encode((opj_jp2_t*)cinfo->jp2_handle, cio, image, index);
+        return jp2_encode((opj_jp2_t*)cinfo->jp2_handle, cio, image, indexv);
       case CODEC_JPT:
       case CODEC_UNKNOWN:
       default:

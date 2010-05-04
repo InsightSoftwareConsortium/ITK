@@ -189,7 +189,7 @@ static int t2_encode_packet(opj_tcd_tile_t * tile, opj_tcp_t * tcp, opj_pi_itera
       opj_tcd_layer_t *layer = &cblk->layers[layno];
       int increment = 0;
       int nump = 0;
-      int len = 0, passno;
+      int lenv = 0, passno;
       /* cblk inclusion bits */
       if (!cblk->numpasses) {
         tgt_encode(bio, prc->incltree, cblkno, layno + 1);
@@ -212,10 +212,10 @@ static int t2_encode_packet(opj_tcd_tile_t * tile, opj_tcp_t * tcp, opj_pi_itera
       for (passno = cblk->numpasses; passno < cblk->numpasses + layer->numpasses; passno++) {
         opj_tcd_pass_t *pass = &cblk->passes[passno];
         nump++;
-        len += pass->len;
+        lenv += pass->len;
         if (pass->term || passno == (cblk->numpasses + layer->numpasses) - 1) {
-          increment = int_max(increment, int_floorlog2(len) + 1 - (cblk->numlenbits + int_floorlog2(nump)));
-          len = 0;
+          increment = int_max(increment, int_floorlog2(lenv) + 1 - (cblk->numlenbits + int_floorlog2(nump)));
+          lenv = 0;
           nump = 0;
         }
       }
@@ -228,10 +228,10 @@ static int t2_encode_packet(opj_tcd_tile_t * tile, opj_tcp_t * tcp, opj_pi_itera
       for (passno = cblk->numpasses; passno < cblk->numpasses + layer->numpasses; passno++) {
         opj_tcd_pass_t *pass = &cblk->passes[passno];
         nump++;
-        len += pass->len;
+        lenv += pass->len;
         if (pass->term || passno == (cblk->numpasses + layer->numpasses) - 1) {
-          bio_write(bio, len, cblk->numlenbits + int_floorlog2(nump));
-          len = 0;
+          bio_write(bio, lenv, cblk->numlenbits + int_floorlog2(nump));
+          lenv = 0;
           nump = 0;
         }
       }

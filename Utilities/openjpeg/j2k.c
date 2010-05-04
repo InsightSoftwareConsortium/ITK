@@ -1575,16 +1575,16 @@ Create an index file
 @param index Index filename
 @return Returns 1 if successful, returns 0 otherwise
 */
-static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *image_info, char *index) {
+static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *image_info, char *indexv) {
   int tileno, compno, layno, resno, precno, pack_nb, x, y;
   FILE *stream = NULL;
   double total_disto = 0;
 
   image_info->codestream_size = cio_tell(cio) + j2k->pos_correction;  /* Correction 14/4/03 suite rmq de Patrick */
 
-  stream = fopen(index, "w");
+  stream = fopen(indexv, "w");
   if (!stream) {
-    opj_event_msg(j2k->cinfo, EVT_ERROR, "failed to open %s for writing\n", index);
+    opj_event_msg(j2k->cinfo, EVT_ERROR, "failed to open %s for writing\n", indexv);
     return 0;
   }
   
@@ -1672,10 +1672,10 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
       for (resno = 0; resno < image_info->decomposition + 1; resno++) {
         /* I suppose components have same XRsiz, YRsiz */
         int x0 = image_info->tile_Ox + tileno - (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tw * image_info->tile_x;
-        int y0 = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
+        int y0v = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
         int x1 = x0 + image_info->tile_x;
-        int y1 = y0 + image_info->tile_y;
-        for(y = y0; y < y1; y++) {
+        int y1v = y0v + image_info->tile_y;
+        for(y = y0v; y < y1v; y++) {
           for(x = x0; x < x1; x++) {
             for (compno = 0; compno < image_info->comp; compno++) {
               int prec_max = image_info->tile[tileno].pw[resno] * image_info->tile[tileno].ph[resno];
@@ -1701,19 +1701,19 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
               } /* precno */
             } /* compno */
           } /* x = x0..x1 */
-        } /* y = y0..y1 */
+        } /* y = y0v..y1v */
       } /* resno */
     } /* RPCL */
     else if (image_info->prog == PCRL) {  /* PCRL */
       /* I suppose components have same XRsiz, YRsiz */
       int x0 = image_info->tile_Ox + tileno - (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tw * image_info->tile_x;
-      int y0 = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
+      int y0v = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
       int x1 = x0 + image_info->tile_x;
-      int y1 = y0 + image_info->tile_y;
+      int y1v = y0v + image_info->tile_y;
       /*
       fprintf(stream, "\npack_nb tileno precno compno resno layno start_pos  end_pos   disto\n"); 
       */
-      for(y = y0; y < y1; y++) {
+      for(y = y0v; y < y1v; y++) {
         for(x = x0; x < x1; x++) {
           for (compno = 0; compno < image_info->comp; compno++) {
             for (resno = 0; resno < image_info->decomposition + 1; resno++) {
@@ -1741,7 +1741,7 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
             } /* resno */
           } /* compno */
         } /* x = x0..x1 */
-      } /* y = y0..y1 */
+      } /* y = y0v..y1v */
     } /* PCRL */
     else {  /* CPRL */
       /*
@@ -1750,10 +1750,10 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
       for (compno = 0; compno < image_info->comp; compno++) {
         /* I suppose components have same XRsiz, YRsiz */
         int x0 = image_info->tile_Ox + tileno - (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tw * image_info->tile_x;
-        int y0 = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
+        int y0v = image_info->tile_Ox + (int)floor( (float)tileno/(float)image_info->tw ) * image_info->tile_y;
         int x1 = x0 + image_info->tile_x;
-        int y1 = y0 + image_info->tile_y;
-        for(y = y0; y < y1; y++) {
+        int y1v = y0v + image_info->tile_y;
+        for(y = y0v; y < y1v; y++) {
           for(x = x0; x < x1; x++) {
             for (resno = 0; resno < image_info->decomposition + 1; resno++) {
               int prec_max = image_info->tile[tileno].pw[resno] * image_info->tile[tileno].ph[resno];
@@ -1779,7 +1779,7 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
               } /* precno */
             } /* resno */
           } /* x = x0..x1 */
-        } /* y = y0..y1 */
+        } /* y = y0v..y1v */
       } /* comno */
     } /* CPRL */   
   } /* tileno */
@@ -1791,7 +1791,7 @@ static int j2k_create_index(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_info_t *im
   return 1;
 }
 
-bool j2k_encode(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_t *image, char *index) {
+bool j2k_encode(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_t *image, char *indexv) {
   int tileno, compno;
   opj_image_info_t *image_info = NULL;
   opj_cp_t *cp = NULL;
@@ -1913,8 +1913,8 @@ bool j2k_encode(opj_j2k_t *j2k, opj_cio_t *cio, opj_image_t *image, char *index)
   
   /* Creation of the index file */
   if(image_info && image_info->index_on) {
-    if(!j2k_create_index(j2k, cio, image_info, index)) {
-      opj_event_msg(j2k->cinfo, EVT_ERROR, "failed to create index file %s\n", index);
+    if(!j2k_create_index(j2k, cio, image_info, indexv)) {
+      opj_event_msg(j2k->cinfo, EVT_ERROR, "failed to create index file %s\n", indexv);
       return false;
     }
   }

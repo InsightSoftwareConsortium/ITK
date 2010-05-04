@@ -80,7 +80,7 @@ static bool pi_next_cprl(opj_pi_iterator_t * pi);
 static bool pi_next_lrcp(opj_pi_iterator_t * pi) {
   opj_pi_comp_t *comp = NULL;
   opj_pi_resolution_t *res = NULL;
-  long index = 0;
+  long indexv = 0;
   
   if (!pi->first) {
     comp = &pi->comps[pi->compno];
@@ -100,9 +100,9 @@ static bool pi_next_lrcp(opj_pi_iterator_t * pi) {
         }
         res = &comp->resolutions[pi->resno];
         for (pi->precno = 0; pi->precno < res->pw * res->ph; pi->precno++) {
-          index = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
-          if (!pi->include[index]) {
-            pi->include[index] = 1;
+          indexv = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
+          if (!pi->include[indexv]) {
+            pi->include[indexv] = 1;
             return true;
           }
 LABEL_SKIP:;
@@ -117,7 +117,7 @@ LABEL_SKIP:;
 static bool pi_next_rlcp(opj_pi_iterator_t * pi) {
   opj_pi_comp_t *comp = NULL;
   opj_pi_resolution_t *res = NULL;
-  long index = 0;
+  long indexv = 0;
 
   if (!pi->first) {
     comp = &pi->comps[pi->compno];
@@ -136,9 +136,9 @@ static bool pi_next_rlcp(opj_pi_iterator_t * pi) {
         }
         res = &comp->resolutions[pi->resno];
         for (pi->precno = 0; pi->precno < res->pw * res->ph; pi->precno++) {
-          index = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
-          if (!pi->include[index]) {
-            pi->include[index] = 1;
+          indexv = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
+          if (!pi->include[indexv]) {
+            pi->include[indexv] = 1;
             return true;
           }
 LABEL_SKIP:;
@@ -153,7 +153,7 @@ LABEL_SKIP:;
 static bool pi_next_rpcl(opj_pi_iterator_t * pi) {
   opj_pi_comp_t *comp = NULL;
   opj_pi_resolution_t *res = NULL;
-  long index = 0;
+  long indexv = 0;
 
   if (!pi->first) {
     goto LABEL_SKIP;
@@ -213,9 +213,9 @@ static bool pi_next_rpcl(opj_pi_iterator_t * pi) {
              - int_floordivpow2(try0, res->pdy);
           pi->precno = prci + prcj * res->pw;
           for (pi->layno = 0; pi->layno < pi->poc.layno1; pi->layno++) {
-            index = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
-            if (!pi->include[index]) {
-              pi->include[index] = 1;
+            indexv = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
+            if (!pi->include[indexv]) {
+              pi->include[indexv] = 1;
               return true;
             }
 LABEL_SKIP:;
@@ -231,7 +231,7 @@ LABEL_SKIP:;
 static bool pi_next_pcrl(opj_pi_iterator_t * pi) {
   opj_pi_comp_t *comp = NULL;
   opj_pi_resolution_t *res = NULL;
-  long index = 0;
+  long indexv = 0;
 
   if (!pi->first) {
     comp = &pi->comps[pi->compno];
@@ -289,9 +289,9 @@ static bool pi_next_pcrl(opj_pi_iterator_t * pi) {
              - int_floordivpow2(try0, res->pdy);
           pi->precno = prci + prcj * res->pw;
           for (pi->layno = 0; pi->layno < pi->poc.layno1; pi->layno++) {
-            index = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
-            if (!pi->include[index]) {
-              pi->include[index] = 1;
+            indexv = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
+            if (!pi->include[indexv]) {
+              pi->include[indexv] = 1;
               return true;
             }  
 LABEL_SKIP:;
@@ -307,7 +307,7 @@ LABEL_SKIP:;
 static bool pi_next_cprl(opj_pi_iterator_t * pi) {
   opj_pi_comp_t *comp = NULL;
   opj_pi_resolution_t *res = NULL;
-  long index = 0;
+  long indexv = 0;
 
   if (!pi->first) {
     comp = &pi->comps[pi->compno];
@@ -362,9 +362,9 @@ static bool pi_next_cprl(opj_pi_iterator_t * pi) {
              - int_floordivpow2(try0, res->pdy);
           pi->precno = prci + prcj * res->pw;
           for (pi->layno = 0; pi->layno < pi->poc.layno1; pi->layno++) {
-            index = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
-            if (!pi->include[index]) {
-              pi->include[index] = 1;
+            indexv = pi->layno * pi->step_l + pi->resno * pi->step_r + pi->compno * pi->step_c + pi->precno * pi->step_p;
+            if (!pi->include[indexv]) {
+              pi->include[indexv] = 1;
               return true;
             }
 LABEL_SKIP:;

@@ -81,7 +81,7 @@ Read the FTYP box - File type box
 @return Returns true if successful, returns false otherwise
 */
 static bool jp2_read_ftyp(opj_jp2_t *jp2, opj_cio_t *cio);
-static int jp2_write_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *index);
+static int jp2_write_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *indexv);
 static bool jp2_read_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, unsigned int *j2k_codestream_length, unsigned int *j2k_codestream_offset);
 static void jp2_write_jp(opj_cio_t *cio);
 /**
@@ -414,7 +414,7 @@ static bool jp2_read_ftyp(opj_jp2_t *jp2, opj_cio_t *cio) {
   return true;
 }
 
-static int jp2_write_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *index) {
+static int jp2_write_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *indexv) {
   unsigned int j2k_codestream_offset, j2k_codestream_length;
   opj_jp2_box_t box;
 
@@ -426,7 +426,7 @@ static int jp2_write_jp2c(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, ch
 
   /* J2K encoding */
   j2k_codestream_offset = cio_tell(cio);
-  if(!j2k_encode(j2k, cio, image, index)) {
+  if(!j2k_encode(j2k, cio, image, indexv)) {
     opj_event_msg(j2k->cinfo, EVT_ERROR, "Failed to encode image\n");
     return 0;
   }
@@ -680,7 +680,7 @@ void jp2_setup_encoder(opj_jp2_t *jp2, opj_cparameters_t *parameters, opj_image_
 
 }
 
-bool jp2_encode(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *index) {
+bool jp2_encode(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *indexv) {
 
   /* JP2 encoding */
 
@@ -693,7 +693,7 @@ bool jp2_encode(opj_jp2_t *jp2, opj_cio_t *cio, opj_image_t *image, char *index)
 
   /* J2K encoding */
 
-  if(!jp2_write_jp2c(jp2, cio, image, index)) {
+  if(!jp2_write_jp2c(jp2, cio, image, indexv)) {
     opj_event_msg(jp2->cinfo, EVT_ERROR, "Failed to encode image\n");
     return false;
   }
