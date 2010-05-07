@@ -140,7 +140,7 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   double btol = 0;
   double conlim = 0;
   long nout = -1;
-  double anorm, acond, rnorm, arnorm, xnorm;
+  double anorm, arnorm;
 
   vnl_vector<double> rhs(m);
   ls_->get_rhs(rhs);
@@ -158,6 +158,7 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   solver.Solve( m, n, rhs.data_block(), result.data_block() );
 
 #ifdef THIS_CODE_IS_DISABLED_BECAUSE_THE_LSQR_CODE_FROM_NETLIB_WAS_COPYRIGHTED_BY_ACM
+  double acond, rnorm, xnorm;
   v3p_netlib_lsqr_(
         &m, &n, aprod_, &damp, &leniw, &lenrw, iw, &rw[0],
         rhs.data_block(), &v[0], &w[0], result.data_block(), &se[0],
