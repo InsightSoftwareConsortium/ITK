@@ -489,13 +489,13 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
         ** Custom tag support.
         */
         {
-            int  i;
+            int ii;
             short count;
 
             count = (short) TIFFGetTagListCount( tif );
-            for( i = 0; i < count; i++ )
+            for( ii = 0; ii < count; ii++ )
             {
-                ttag_t  tag = TIFFGetTagListEntry( tif, i );
+                ttag_t  tag = TIFFGetTagListEntry( tif, ii );
                 const TIFFFieldInfo *fld;
 
                 fld = TIFFFieldWithTag( tif, tag );

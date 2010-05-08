@@ -292,11 +292,8 @@ extern  int TIFFInitPixarLog(TIFF*, int);
 #ifdef LOGLUV_SUPPORT
 extern  int TIFFInitSGILog(TIFF*, int);
 #endif
-#ifdef VMS
+
 extern  const TIFFCodec _TIFFBuiltinCODECS[];
-#else
-extern  TIFFCodec _TIFFBuiltinCODECS[];
-#endif
 
 #if defined(__cplusplus)
 }

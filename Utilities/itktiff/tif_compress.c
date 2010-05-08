@@ -32,7 +32,7 @@
 #include "tiffiop.h"
 
 static int
-TIFFNoEncode(TIFF* tif, char* method)
+TIFFNoEncode(TIFF* tif, const char* method)
 {
   const TIFFCodec* c = TIFFFindCODEC(tif->tif_dir.td_compression);
 
@@ -69,7 +69,7 @@ _TIFFNoTileEncode(TIFF* tif, tidata_t pp, tsize_t cc, tsample_t s)
 }
 
 static int
-TIFFNoDecode(TIFF* tif, char* method)
+TIFFNoDecode(TIFF* tif, const char* method)
 {
   const TIFFCodec* c = TIFFFindCODEC(tif->tif_dir.td_compression);
 
