@@ -1185,14 +1185,14 @@ void *XML_GetBuffer(XML_Parser parser, int len)
       bufferLim = newBuf + bufferSize;
 #ifdef XML_CONTEXT_BYTES
       if (bufferPtr) {
-        int keep = bufferPtr - buffer;
-        if (keep > XML_CONTEXT_BYTES)
-          keep = XML_CONTEXT_BYTES;
-        memcpy(newBuf, &bufferPtr[-keep], bufferEnd - bufferPtr + keep);
+        int keepnumber = bufferPtr - buffer;
+        if (keepnumber > XML_CONTEXT_BYTES)
+          keepnumber = XML_CONTEXT_BYTES;
+        memcpy(newBuf, &bufferPtr[-keepnumber], bufferEnd - bufferPtr + keepnumber);
         FREE(buffer);
         buffer = newBuf;
-        bufferEnd = buffer + (bufferEnd - bufferPtr) + keep;
-        bufferPtr = buffer + keep;
+        bufferEnd = buffer + (bufferEnd - bufferPtr) + keepnumber;
+        bufferPtr = buffer + keepnumber;
       }
       else {
         bufferEnd = newBuf + (bufferEnd - bufferPtr);
@@ -2711,7 +2711,7 @@ doProlog(XML_Parser parser,
     case XML_ROLE_ATTRIBUTE_NOTATION_VALUE:
       if (attlistDeclHandler)
       {
-        char *prefix;
+        const char *prefix;
         if (declAttributeType) {
           prefix = "|";
         }
