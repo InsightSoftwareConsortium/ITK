@@ -401,7 +401,7 @@ _nrrdFieldInteresting(const Nrrd *nrrd, NrrdIoState *nio, int field) {
 ** in formatNRRD.c
 */
 void
-_nrrdSprintFieldInfo(char **strP, char *prefix,
+_nrrdSprintFieldInfo(char **strP, const char *prefix,
                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
   static const char me[]="_nrrdSprintFieldInfo";
   char buff[AIR_STRLEN_MED], *fnb;
@@ -744,7 +744,7 @@ _nrrdSprintFieldInfo(char **strP, char *prefix,
 ** a file.  Same caveats here: use _nrrdFieldInteresting
 */
 void
-_nrrdFprintFieldInfo(FILE *file, char *prefix,
+_nrrdFprintFieldInfo(FILE *file, const char *prefix,
                      const Nrrd *nrrd, NrrdIoState *nio, int field) {
   char *line=NULL;
 

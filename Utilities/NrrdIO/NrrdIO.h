@@ -1945,7 +1945,7 @@ NRRDIO_EXPORT int nrrdStateVerboseIO;
 NRRDIO_EXPORT int nrrdStateKeyValuePairsPropagate;
 NRRDIO_EXPORT int nrrdStateAlwaysSetContent;
 NRRDIO_EXPORT int nrrdStateDisableContent;
-NRRDIO_EXPORT char *nrrdStateUnknownContent;
+NRRDIO_EXPORT const char *nrrdStateUnknownContent;
 NRRDIO_EXPORT int nrrdStateGrayscaleImage3D;
 NRRDIO_EXPORT int nrrdStateKeyValueReturnInternalPointers;
 NRRDIO_EXPORT int nrrdStateKindNoop;

@@ -54,7 +54,7 @@ int nrrdStateVerboseIO = 0;
 int nrrdStateKeyValuePairsPropagate = AIR_FALSE;
 int nrrdStateAlwaysSetContent = AIR_TRUE;
 int nrrdStateDisableContent = AIR_FALSE;
-char *nrrdStateUnknownContent = NRRD_UNKNOWN;
+const char *nrrdStateUnknownContent = NRRD_UNKNOWN;
 int nrrdStateGrayscaleImage3D = AIR_FALSE;
 /* there is no sane reason to change this initialization */
 int nrrdStateKeyValueReturnInternalPointers = AIR_FALSE;

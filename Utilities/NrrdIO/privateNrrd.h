@@ -133,10 +133,10 @@ extern void _nrrdSplitName(char **dirP, char **baseP, const char *name);
 /* write.c */
 extern int _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio,
                                   int field);
-extern void _nrrdSprintFieldInfo(char **strP, char *prefix,
+extern void _nrrdSprintFieldInfo(char **strP, const char *prefix,
                                  const Nrrd *nrrd, NrrdIoState *nio,
                                  int field);
-extern void _nrrdFprintFieldInfo(FILE *file, char *prefix,
+extern void _nrrdFprintFieldInfo(FILE *file, const char *prefix,
                                  const Nrrd *nrrd, NrrdIoState *nio,
                                  int field);
 
