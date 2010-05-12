@@ -76,7 +76,6 @@ LBFGSBOptimizer
   m_MaximumNumberOfEvaluations      = 500;
   m_MaximumNumberOfCorrections      = 5;
   m_CurrentIteration                = 0;
-  m_Value                           = 0.0;
   m_InfinityNormOfProjectedGradient = 0.0;
   m_StopConditionDescription.str("");
  
@@ -133,7 +132,7 @@ LBFGSBOptimizer
     m_CurrentIteration << std::endl;
 
   os << indent << "Value: " <<
-    m_Value << std::endl;
+    this->GetValue() << std::endl;
 
   os << indent << "InfinityNormOfProjectedGradient: " <<
     m_InfinityNormOfProjectedGradient << std::endl;
@@ -194,6 +193,16 @@ LBFGSBOptimizer
 {
   return m_LowerBound;
 } 
+
+/** 
+ * Return Current Value
+ */
+LBFGSBOptimizer::MeasureType
+LBFGSBOptimizer
+::GetValue() const
+{
+  return this->GetCachedValue();
+}
 
 /**
  * Set upper bound

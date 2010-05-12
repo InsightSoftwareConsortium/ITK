@@ -204,15 +204,35 @@ int itkLBFGSBOptimizerTest(int, char *[])
   // check results to see if it is within range
   //
   bool pass = true;
+  std::string errorIn;
+
   double trueParameters[2] = { 4.0/3.0, -1.0 };
   for( unsigned int j = 0; j < 2; j++ )
     {
     if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+      {
       pass = false;
+      errorIn = "solution";
+      }
+    }
+
+  if( vnl_math_abs( itkOptimizer->GetValue() - -7.66667 ) > 0.01 )
+    {
+    pass = false;
+    errorIn = "final function value";
+    }
+  
+
+  if( vnl_math_abs( itkOptimizer->GetInfinityNormOfProjectedGradient()
+      -  1.77636e-15 ) > 0.01 )
+    {
+    pass = false;
+    errorIn = "infinity norm of projected gradient";
     }
 
   if( !pass )
     {
+    std::cout << "\nError in " << errorIn << ".\n";
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;
     }

@@ -160,7 +160,7 @@ public:
   itkGetConstReferenceMacro( CurrentIteration, unsigned int );
 
   /** Get the current cost function value. */
-  itkGetConstReferenceMacro( Value, MeasureType );
+  MeasureType GetValue() const;
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
@@ -199,7 +199,6 @@ private:
   unsigned int             m_MaximumNumberOfCorrections;
 
   unsigned int             m_CurrentIteration;
-  MeasureType              m_Value;
   double                   m_InfinityNormOfProjectedGradient;
 
 };
