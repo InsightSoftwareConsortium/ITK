@@ -128,11 +128,11 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   std::vector< ParametersType > initialParameters(numberOfClasses);
   ParametersType params(2);
   params[0] = 8.0;
-  params[1] = 2.1;
+  params[1] = 0.1;
   initialParameters[0] = params;
 
   params[0] = 170.0;
-  params[1] = 10.0;
+  params[1] = 2.0;
   initialParameters[1] = params;
 
   typedef ComponentType::Pointer ComponentPointer;
