@@ -44,7 +44,6 @@ void RegisterTests()
   REGISTER_TEST(itkPadLabelMapFilterTest1);  
   REGISTER_TEST(itkRegionFromReferenceLabelMapFilterTest1);
   REGISTER_TEST(itkRelabelLabelMapFilterTest1);
-  REGISTER_TEST(itkScaleVersor3DTransformTest);
   REGISTER_TEST(itkShapeKeepNObjectsLabelMapFilterTest1);
   REGISTER_TEST(itkShapeLabelObjectAccessorsTest1);
   REGISTER_TEST(itkShapeOpeningLabelMapFilterTest1);

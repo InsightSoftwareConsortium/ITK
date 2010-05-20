@@ -248,8 +248,6 @@ SET(ReviewTest3_SRCS
   itkLabelShapeOpeningImageFilterTest1.cxx
   itkShapeUniqueLabelMapFilterTest1.cxx
 
-  itkScaleVersor3DTransformTest.cxx
-
   itkGaborImageSourceTest.cxx
 
   itkDiscreteGaussianDerivativeImageFilterTest
@@ -2274,11 +2272,6 @@ ADD_TEST(itkShapeLabelObjectAccessorsTest1
   ${REVIEW_TESTS3}
   itkShapeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
-  )
-
-ADD_TEST(itkScaleVersor3DTransformTest 
-  ${REVIEW_TESTS3}
-  itkScaleVersor3DTransformTest
   )
 
 ADD_TEST(itkGridImageSourceTest1
