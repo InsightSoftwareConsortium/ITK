@@ -212,7 +212,10 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
            componentIndex++)
         {
         temp = tempWeights[componentIndex];
-        temp /= densitySum;
+        if (densitySum != 0)
+          {
+          temp /= densitySum;
+          }
         m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
                                                      temp); 
         }
