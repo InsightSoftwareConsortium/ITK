@@ -579,6 +579,24 @@ int itkScaleVersor3DTransformTest(int, char* [] )
       }
     }
 
+    { 
+    std::cout << "Exercise SetParameters with Versor norm > 1.0 - epsilon" << std::endl;
+
+    TransformType::Pointer transform = TransformType::New();
+
+    const unsigned int np = transform->GetNumberOfParameters();
+
+    ParametersType parameters( np ); // Number of parameters
+    parameters.Fill( 0.0 );
+
+    parameters[0] = 1.0;  // Set the Versor to norm 1.0
+    parameters[1] = 0.0;
+    parameters[2] = 0.0;
+
+    transform->SetParameters( parameters );
+    }
+
+
   std::cout << std::endl << "Test PASSED ! " << std::endl;
 
   return EXIT_SUCCESS;
