@@ -31,6 +31,14 @@ ScaleVersor3DTransform<TScalarType>
   m_Scale.Fill( 1.0 );
 }
 
+// Destructor 
+template <class TScalarType>
+ScaleVersor3DTransform<TScalarType>
+::~ScaleVersor3DTransform()
+{
+
+}
+
 
 // Constructor with arguments
 template<class TScalarType>
@@ -231,7 +239,7 @@ ScaleVersor3DTransform<TScalarType>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Scale:       " << m_Scale        << std::endl;
+  os << indent << "Scales:       " << m_Scale        << std::endl;
 }
 
 

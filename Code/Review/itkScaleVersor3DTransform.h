@@ -17,7 +17,6 @@
 #ifndef __itkScaleVersor3DTransform_h
 #define __itkScaleVersor3DTransform_h
 
-#include <iostream>
 #include "itkVersorRigid3DTransform.h"
 
 namespace itk
@@ -33,7 +32,7 @@ namespace itk
  * rotation, translation and uniform scaling. In this current transform we can
  * do rotation, translation and anisotropic scaling.
  *
- * \author Johnson H.J., Harris G., Williams K. University of Iow Carver
+ * \author Johnson H.J., Harris G., Williams K. University of Iowa Carver
  * College of Medicine, Department of Psychiatry NeuroImaging Center
  * 
  * This implementation was taken from the Insight Journal paper:
@@ -105,9 +104,13 @@ public:
   virtual void SetParameters( const ParametersType & parameters );
   virtual const ParametersType& GetParameters(void) const;
 
+  /** Set/Get the scale vector. These scale factors are associated to the axis
+   * of coordinates. */
   void SetScale( const ScaleVectorType & scale );
   itkGetConstReferenceMacro( Scale, ScaleVectorType );
 
+  /** Set the internal parameters of the transform in order to represent an
+   * Identity transform. */
   void SetIdentity();
 
   /** This method computes the Jacobian matrix of the transformation.
@@ -122,9 +125,7 @@ protected:
     const OutputVectorType &offset);
   ScaleVersor3DTransform(unsigned int outputDims,
     unsigned int paramDims);
-  ~ScaleVersor3DTransform()
-    {
-    };
+  ~ScaleVersor3DTransform();
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
