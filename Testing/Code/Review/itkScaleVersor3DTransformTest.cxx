@@ -107,6 +107,23 @@ int itkScaleVersor3DTransformTest(int, char* [] )
     MatrixType matrix = transform->GetRotationMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout <<    matrix   << std::endl;
+
+    MatrixType identity;
+    identity.SetIdentity();
+
+    try
+      {
+      // SetMatrix is not fully implemented, and it is expected
+      // to throw an exception at this point.
+      transform->SetMatrix( identity );
+      std::cerr << "ERROR: Missed expected exception when calling SetMatrix() " << std::endl;
+      return EXIT_FAILURE;
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cerr << "Got Normal expected exception when calling SetMatrix() " << std::endl;
+      }
+    
     }
 
 
