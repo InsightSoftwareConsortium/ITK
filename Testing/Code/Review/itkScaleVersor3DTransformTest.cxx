@@ -21,6 +21,28 @@
 #include "itkScaleVersor3DTransform.h"
 #include <iostream>
 
+class TransformHelperType : public itk::ScaleVersor3DTransform< double >
+{
+public:
+
+  typedef TransformHelperType                    Self;
+  typedef itk::ScaleVersor3DTransform< double >  Superclass;
+  typedef itk::SmartPointer<Self>                Pointer;
+  typedef itk::SmartPointer<const Self>          ConstPointer;
+
+  /** New macro for creation of through a Smart Pointer. */
+  itkNewMacro( Self );
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( TransformHelperType, ScaleVersor3DTransform );
+
+
+  void TriggerExceptionFromComputeMatrixParameters()
+    {
+    this->ComputeMatrixParameters();
+    }
+};
+
 int itkScaleVersor3DTransformTest(int, char* [] )
 {
   typedef   double          ValueType;
@@ -41,6 +63,10 @@ int itkScaleVersor3DTransformTest(int, char* [] )
     std::cout << "Test default constructor... ";
 
     TransformType::Pointer transform = TransformType::New();
+
+    std::cout << transform->GetNameOfClass() << std::endl;
+   
+    transform->Print( std::cout );
 
     VectorType axis(1.5);
 
@@ -68,8 +94,10 @@ int itkScaleVersor3DTransformTest(int, char* [] )
       std::cout << "Error ! " << std::endl;
       return EXIT_FAILURE;
       }
-    std::cout << " PASSED !" << std::endl;
 
+    transform->Print( std::cout );
+
+    std::cout << " PASSED !" << std::endl;
     }
 
 
@@ -512,6 +540,26 @@ int itkScaleVersor3DTransformTest(int, char* [] )
         }
       }
     std::cout << "Input/Output parameter check Passed !"  << std::endl;
+    }
+
+
+    { // Exercise exceptions 
+    std::cout << " Exercise Exceptions " << std::endl;
+
+    TransformHelperType::Pointer transform = TransformHelperType::New();
+
+    // At this point the method ComputeMatrixParameters() is expected to throw
+    // an exception.
+    try
+      {
+      transform->TriggerExceptionFromComputeMatrixParameters();
+      std::cerr << "ERROR: Missed an expected exceptions from ComputeMatrixParameters() " << std::endl;
+      return EXIT_FAILURE;
+      }
+    catch( itk::ExceptionObject & excp )
+      {
+      std::cout << "Got Correct expected exception from ComputeMatrixParameters() " << std::endl;
+      }
     }
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;
