@@ -22,6 +22,18 @@ ADD_TEST(itkCovarianceSampleFilterTest2 ${STATISTICS_TESTS} itkCovarianceSampleF
 ADD_TEST(itkCovarianceSampleFilterTest3 ${STATISTICS_TESTS} itkCovarianceSampleFilterTest3)
 ADD_TEST(itkHistogramToTextureFeaturesFilterTest ${STATISTICS_TESTS} itkHistogramToTextureFeaturesFilterTest)
 ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
+ADD_TEST(itkHistogramToEntropyImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToEntropyImageFilterTest1
+   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+   ${TEMP}/itkHistogramToEntropyImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToIntensityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToIntensityImageFilterTest1
+   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+   ${TEMP}/itkHistogramToIntensityImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToLogProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToLogProbabilityImageFilterTest1
+   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+   ${TEMP}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToProbabilityImageFilterTest1
+   ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
+   ${TEMP}/itkHistogramToProbabilityImageFilterTest1.mhd)
 ADD_TEST(itkImageToHistogramFilterTest ${STATISTICS_TESTS} itkImageToHistogramFilterTest)
 ADD_TEST(itkImageToHistogramFilterTest2 ${STATISTICS_TESTS} itkImageToHistogramFilterTest2
    ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
@@ -185,6 +197,10 @@ SET(Statistics_SRCS
   itkCovarianceSampleFilterTest3.cxx
   itkHistogramTest.cxx
   itkHistogramToTextureFeaturesFilterTest.cxx
+  itkHistogramToEntropyImageFilterTest1.cxx
+  itkHistogramToIntensityImageFilterTest1.cxx
+  itkHistogramToLogProbabilityImageFilterTest1.cxx
+  itkHistogramToProbabilityImageFilterTest1.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
   itkImageToHistogramFilterTest3.cxx
