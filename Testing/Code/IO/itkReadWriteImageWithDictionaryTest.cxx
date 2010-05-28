@@ -22,12 +22,14 @@
 #include "itkSpatialOrientationAdapter.h"
 
 // This is a copy of the initial NATIVE_TYPE_METADATAPRINT macro
-// from itkMetaDataObject.h. The only difference is that it does not
+// from itkMetaDataObject.h. The first difference is that it does not
 // automatically specialize the Print function for the corresponding
 // const type. Indeed this does not compile on MSVC (error C2758)
+// The second difference is that it introduces an inline keyword
+// to avoid link problems on MSVC (error LNK2005)
 #define NATIVE_TYPE_METADATAPRINT_NOCONST(TYPE_NAME) \
 template <> \
-void \
+inline void \
   itk::MetaDataObject< TYPE_NAME > \
   ::Print(std::ostream& os) const \
 { \
