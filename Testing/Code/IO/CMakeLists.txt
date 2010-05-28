@@ -109,6 +109,7 @@ itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
 itkRawImageIOTest4.cxx
 itkRawImageIOTest5.cxx
+itkReadWriteImageWithDictionaryTest.cxx
 itkReadWriteSpatialObjectTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkSymmetricSecondRankTensorImageReadTest.cxx
@@ -170,6 +171,8 @@ ADD_TEST( MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing  ${IO_TESTS}
 
 ADD_TEST(itkNrrdImageIOTest1 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nrrd)
 ADD_TEST(itkNrrdImageIOTest2 ${IO_TESTS} itkNrrdImageIOTest ${ITK_TEST_OUTPUT_DIR}/testNrrd.nhdr)
+ADD_TEST(itkReadWriteImageWithDictionaryTest ${IO_TESTS} itkReadWriteImageWithDictionaryTest ${TEMP}/test.hdr)
+ADD_TEST(itkReadWriteImageWithDictionaryTest1 ${IO_TESTS} itkReadWriteImageWithDictionaryTest ${TEMP}/test.mha)
 ADD_TEST(itkReadWriteSpatialObjectTest ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects.meta)
 ADD_TEST(itkReadWriteSpatialObjectTest1 ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects1.meta binary)
 ADD_TEST(itkReadWriteSpatialObjectTest2 ${IO_TESTS} itkReadWriteSpatialObjectTest ${TEMP}/Objects2.meta 

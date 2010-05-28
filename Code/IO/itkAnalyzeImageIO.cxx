@@ -1182,7 +1182,7 @@ void AnalyzeImageIO::ReadImageInformation()
      std::string(this->m_Hdr.hist.exp_date,10));
   itk::EncapsulateMetaData<std::string>
     (thisDic,ITK_ExperimentTime,
-     std::string(this->m_Hdr.hist.exp_date,10));
+     std::string(this->m_Hdr.hist.exp_time,10));
 
   itk::EncapsulateMetaData<int>
     (thisDic,ANALYZE_O_MAX,
@@ -1386,7 +1386,7 @@ AnalyzeImageIO
 
   if(itk::ExposeMetaData<std::string>(thisDic,ITK_ExperimentTime,temp))
     {
-    strncpy(this->m_Hdr.hist.exp_date,temp.c_str(),10);
+    strncpy(this->m_Hdr.hist.exp_time,temp.c_str(),10);
     }
 
   itk::ExposeMetaData<int>(thisDic,ANALYZE_O_MAX,this->m_Hdr.hist.omax);
