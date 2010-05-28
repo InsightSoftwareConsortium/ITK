@@ -89,7 +89,8 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_VoxelUnits, metadatastr ) )
     {
-      if ( metadatastr != voxelunitstr )
+      // MetaIO is rather strict on the format of ITK_VoxelUnits but for our purpose "mm"=="mm. "
+      if ( !( metadatastr==voxelunitstr || (metadatastr=="mm" && voxelunitstr=="mm. ") ) )
       {
       std::cout<<"voxelunitstr.size()="<<voxelunitstr.size()<<std::endl;
       std::cout<<"metadatastr.size()="<<metadatastr.size()<<std::endl;
@@ -100,6 +101,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
   else
     {
+    std::cout<<"Missing ITK_VoxelUnits"<<std::endl;
     ++numMissingMetaData;
     }
   
@@ -116,6 +118,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
   else
     {
+    std::cout<<"Missing ITK_ExperimentDate"<<std::endl;
     ++numMissingMetaData;
     }
   
@@ -132,6 +135,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
   else
     {
+    std::cout<<"Missing ITK_ExperimentTime"<<std::endl;
     ++numMissingMetaData;
     }
   
@@ -148,11 +152,12 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
   else
     {
+    std::cout<<"Missing ITK_PatientID"<<std::endl;
     ++numMissingMetaData;
     }
 
-  std::cout<<"Number of missing metadata = "<<numMissingMetaData<<std::endl;
-  std::cout<<"Number of wrong metadata = "<<numWrongMetaData<<std::endl;
+  std::cout<<std::endl<<"Number of missing metadata = "<<numMissingMetaData<<std::endl;
+  std::cout<<"Number of wrong metadata = "<<numWrongMetaData<<std::endl<<std::endl;
 
   // Perform a weaker but more exhaustive test
   int numMissingMetaData2 = 0;
@@ -164,6 +169,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     {
     if ( !outputDictionary.HasKey( it->first ) )
       {
+      std::cout<<"Missing "<<it->first<<std::endl;
       ++numMissingMetaData2;
       }
     else
@@ -188,9 +194,9 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
       }
     }
 
-  std::cout<<"(weak but exhaustive) Number of missing metadata = "<<numMissingMetaData2<<std::endl;
+  std::cout<<std::endl<<"(weak but exhaustive) Number of missing metadata = "<<numMissingMetaData2<<std::endl;
   std::cout<<"(weak but exhaustive) Number of wrong metadata = "<<numWrongMetaData2<<std::endl;
-  std::cout<<"(weak but exhaustive) Number of added metadata = "<<numAddedMetaData2<<std::endl;
+  std::cout<<"(weak but exhaustive) Number of added metadata = "<<numAddedMetaData2<<std::endl<<std::endl;
 
   // Do not consider added metadata as errors since this may just indicate file format information
   if ( numMissingMetaData!=0 || numWrongMetaData!=0 ||
