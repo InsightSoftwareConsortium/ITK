@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,7 @@
 
 int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
 {
-  //Data definitions 
+  //Data definitions
   const unsigned int  HISTOGRAM_AXIS_LEN =  25;
 
 
@@ -54,22 +54,22 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   upperBound[0] = HISTOGRAM_AXIS_LEN + 1;
   upperBound[1] = HISTOGRAM_AXIS_LEN + 1;
 
-  histogram->Initialize(size, lowerBound, upperBound ); 
+  histogram->Initialize(size, lowerBound, upperBound );
 
   HistogramType::IndexType                  index( measurementVectorSize );
 
   HistogramType::AbsoluteFrequencyType      frequency;
   HistogramType::InstanceIdentifier         identifier;
-  
+
   index[0] = 0;
   index[1] = 0;
-  frequency = 10; 
+  frequency = 10;
   identifier = histogram->GetInstanceIdentifier ( index );
   histogram->SetFrequency(identifier, frequency);
 
   index[0] = 3;
   index[1] = 3;
-  frequency = 50; 
+  frequency = 50;
   identifier = histogram->GetInstanceIdentifier ( index );
   histogram->SetFrequency(identifier, frequency);
 
@@ -106,14 +106,14 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   typedef itk::Statistics::HistogramToTextureFeaturesFilter<
     HistogramType > HistogramToTextureFeaturesFilterType;
 
-  HistogramToTextureFeaturesFilterType::Pointer filter = 
+  HistogramToTextureFeaturesFilterType::Pointer filter =
                       HistogramToTextureFeaturesFilterType::New();
 
   std::cout << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);
 
   bool passed = true;
-  //Invoke update before adding an input. An exception should be 
+  //Invoke update before adding an input. An exception should be
   //thrown.
   try
     {
@@ -131,7 +131,7 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
     }
 
   filter->ResetPipeline();
- 
+
   filter->SetInput( histogram );
   try
     {
@@ -141,8 +141,8 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
     {
     std::cerr << "Exception caught: " << excp << std::endl;
     return EXIT_FAILURE;
-    }   
-  
+    }
+
   double trueEnergy = 0.295;
   double trueEntropy = 2.26096;
   double trueCorrelation = 0.12819;
@@ -151,7 +151,7 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   double trueClusterShade = 139.1879;
   double trueClusterProminence = 2732.557;
   double trueHaralickCorrelation = 2264.549;
-  
+
   double energy = filter->GetEnergy();
   double entropy = filter->GetEntropy();
   double correlation = filter->GetCorrelation();
@@ -160,52 +160,52 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   double clusterShade = filter->GetClusterShade();
   double clusterProminence = filter->GetClusterProminence();
   double haralickCorrelation = filter->GetHaralickCorrelation();
-  
-  
+
+
   if( vnl_math_abs(energy - trueEnergy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " 
+    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: "
       << energy << std::endl;
     passed = false;
     }
-   
+
   if( vnl_math_abs(entropy - trueEntropy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "  
+    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "
       << entropy << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(correlation - trueCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << 
+    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation <<
       ", got: "  << correlation << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(inverseDifferenceMoment - trueInverseDifferenceMoment) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << 
+    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " <<
       trueInverseDifferenceMoment <<  ", got: "  << inverseDifferenceMoment << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(inertia - trueInertia) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " 
+    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: "
       << inertia << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(clusterShade - trueClusterShade) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << 
+    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade <<
       ", got: "  << clusterShade << std::endl;
     passed = false;
     }
@@ -213,11 +213,11 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   if( vnl_math_abs(clusterProminence - trueClusterProminence) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterProminence calculated wrong. Expected: " 
+    std::cerr << "ClusterProminence calculated wrong. Expected: "
       << trueClusterProminence << ", got: "  << clusterProminence << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(haralickCorrelation - trueHaralickCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
@@ -225,8 +225,8 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
       << trueHaralickCorrelation << ", got: "  << haralickCorrelation << std::endl;
     passed = false;
     }
- 
-  //Get the texture features using GetFeature() method  
+
+  //Get the texture features using GetFeature() method
   double energy2 = filter->GetFeature(
                       HistogramToTextureFeaturesFilterType::Energy);
 
@@ -250,51 +250,51 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
 
   double haralickCorrelation2 = filter->GetFeature(
                       HistogramToTextureFeaturesFilterType::HaralickCorrelation);
-  
+
   if( vnl_math_abs(energy2 - trueEnergy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: " 
+    std::cerr << "Energy calculated wrong. Expected: " << trueEnergy << ", got: "
       << energy2 << std::endl;
     passed = false;
     }
-   
+
   if( vnl_math_abs(entropy2 - trueEntropy) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "  
+    std::cerr << "Entropy calculated wrong. Expected: " << trueEntropy << ", got: "
       << entropy2 << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(correlation2 - trueCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation << 
+    std::cerr << "Correlation calculated wrong. Expected: " << trueCorrelation <<
       ", got: "  << correlation2 << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(inverseDifferenceMoment2 - trueInverseDifferenceMoment) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " << 
+    std::cerr << "InverseDifferenceMoment calculated wrong. Expected: " <<
       trueInverseDifferenceMoment <<  ", got: "  << inverseDifferenceMoment2 << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(inertia2 - trueInertia) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: " 
+    std::cerr << "Inertia calculated wrong. Expected: " << trueInertia << ", got: "
       << inertia2 << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(clusterShade2 - trueClusterShade) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade << 
+    std::cerr << "ClusterShade calculated wrong. Expected: " << trueClusterShade <<
       ", got: "  << clusterShade2 << std::endl;
     passed = false;
     }
@@ -302,11 +302,11 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   if( vnl_math_abs(clusterProminence2 - trueClusterProminence) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
-    std::cerr << "ClusterProminence calculated wrong. Expected: " 
+    std::cerr << "ClusterProminence calculated wrong. Expected: "
       << trueClusterProminence << ", got: "  << clusterProminence2 << std::endl;
     passed = false;
     }
-  
+
   if( vnl_math_abs(haralickCorrelation2 - trueHaralickCorrelation) > 0.001 )
     {
     std::cerr << "Error:" << std::endl;
@@ -317,15 +317,15 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
 
   //Test inquiry for invalid feature
 
-  if( filter->GetFeature( HistogramToTextureFeaturesFilterType::InvalidFeatureName ) ) 
+  if( filter->GetFeature( HistogramToTextureFeaturesFilterType::InvalidFeatureName ) )
     {
     std::cerr << "Error: " << std::endl;
     std::cerr << "GetFeature() is returing non-zero feature value: "
               << "for invalid feature request" << std::endl;
     passed = false;
     }
-    
-  
+
+
   if( !passed )
     {
     std::cerr << "Test failed" << std::endl;
