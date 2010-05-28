@@ -25,15 +25,31 @@ ADD_TEST(itkHistogramTest ${STATISTICS_TESTS} itkHistogramTest)
 ADD_TEST(itkHistogramToEntropyImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToEntropyImageFilterTest1
    ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
    ${TEMP}/itkHistogramToEntropyImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToEntropyImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToEntropyImageFilterTest2
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+   ${TEMP}/itkHistogramToEntropyImageFilterTest2.mhd)
 ADD_TEST(itkHistogramToIntensityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToIntensityImageFilterTest1
    ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
    ${TEMP}/itkHistogramToIntensityImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToIntensityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToIntensityImageFilterTest2
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+   ${TEMP}/itkHistogramToIntensityImageFilterTest2.mhd)
 ADD_TEST(itkHistogramToLogProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToLogProbabilityImageFilterTest1
    ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
    ${TEMP}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToLogProbabilityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToLogProbabilityImageFilterTest2
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+   ${TEMP}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
 ADD_TEST(itkHistogramToProbabilityImageFilterTest1 ${STATISTICS_TESTS} itkHistogramToProbabilityImageFilterTest1
    ${ITK_SOURCE_DIR}/Testing/Data/Input/cthead1.png
    ${TEMP}/itkHistogramToProbabilityImageFilterTest1.mhd)
+ADD_TEST(itkHistogramToProbabilityImageFilterTest2 ${STATISTICS_TESTS} itkHistogramToProbabilityImageFilterTest2
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
+   ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
+   ${TEMP}/itkHistogramToProbabilityImageFilterTest2.mhd)
 ADD_TEST(itkImageToHistogramFilterTest ${STATISTICS_TESTS} itkImageToHistogramFilterTest)
 ADD_TEST(itkImageToHistogramFilterTest2 ${STATISTICS_TESTS} itkImageToHistogramFilterTest2
    ${ITK_SOURCE_DIR}/Testing/Data/Input/VisibleWomanEyeSlice.png
@@ -198,9 +214,13 @@ SET(Statistics_SRCS
   itkHistogramTest.cxx
   itkHistogramToTextureFeaturesFilterTest.cxx
   itkHistogramToEntropyImageFilterTest1.cxx
+  itkHistogramToEntropyImageFilterTest2.cxx
   itkHistogramToIntensityImageFilterTest1.cxx
+  itkHistogramToIntensityImageFilterTest2.cxx
   itkHistogramToLogProbabilityImageFilterTest1.cxx
+  itkHistogramToLogProbabilityImageFilterTest2.cxx
   itkHistogramToProbabilityImageFilterTest1.cxx
+  itkHistogramToProbabilityImageFilterTest2.cxx
   itkImageToHistogramFilterTest.cxx
   itkImageToHistogramFilterTest2.cxx
   itkImageToHistogramFilterTest3.cxx
