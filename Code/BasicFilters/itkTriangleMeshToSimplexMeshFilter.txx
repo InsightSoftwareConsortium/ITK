@@ -94,7 +94,7 @@ void TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>
       }
     if (!input->GetPoint( tp[2],&v3 ))
       {
-      itkExceptionMacro ("Point with id " << tp[0] <<
+      itkExceptionMacro ("Point with id " << tp[2] <<
                          " does not exist in the input mesh");
       }
     
