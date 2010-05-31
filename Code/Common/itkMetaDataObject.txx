@@ -22,24 +22,26 @@
 
 #include "itkMetaDataObject.h"
 
+namespace itk
+{
+
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(void)
 {
   //Nothing to do, m_MetaDataObjectValue takes this types default value.
 }
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::~MetaDataObject(void)
 {
-  //std::cout << "                            MetaDataObject Deleteing: " << this << std::endl;
   //Nothing to do here.
 }
 
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObjectType InitializerValue)
   :m_MetaDataObjectValue(InitializerValue)
 {
@@ -47,7 +49,7 @@ itk::MetaDataObject<MetaDataObjectType>
 }
 
 template<class MetaDataObjectType>
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObject<MetaDataObjectType> &TemplateObject)
   :m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
@@ -56,7 +58,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const char *
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectTypeName(void) const
 {
   return typeid(MetaDataObjectType).name();
@@ -64,7 +66,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const std::type_info &
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectTypeInfo(void) const
 {
   return typeid(MetaDataObjectType);
@@ -72,7 +74,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 const MetaDataObjectType &
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::GetMetaDataObjectValue(void) const
 {
   return m_MetaDataObjectValue;
@@ -80,7 +82,7 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 void
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::SetMetaDataObjectValue(const MetaDataObjectType & NewValue )
 {
   m_MetaDataObjectValue=NewValue;
@@ -88,11 +90,39 @@ itk::MetaDataObject<MetaDataObjectType>
 
 template<class MetaDataObjectType>
 void
-itk::MetaDataObject<MetaDataObjectType>
+MetaDataObject<MetaDataObjectType>
 ::Print(std::ostream& os) const
 {
-  //  os << "[UNKNOWN PRINT CHARACTERISTICS]" << std::endl;
   Superclass::Print(os);
 }
+
+// Define a specialization of the Print function
+// for some basic types. We don't use the initial
+// NATIVE_TYPE_METADATAPRINT macro because it lacks
+// the inline keyword and it tries to specialize
+// for const types which does not compile on MSVC
+#define NATIVE_TYPE_METADATAPRINT_NOCONST(TYPE_NAME)   \
+template <> \
+inline void MetaDataObject< TYPE_NAME > \
+::Print(std::ostream& os) const \
+{ \
+  os << this->m_MetaDataObjectValue << std::endl; \
+}
+
+NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned char )
+NATIVE_TYPE_METADATAPRINT_NOCONST( short )
+NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned short )
+NATIVE_TYPE_METADATAPRINT_NOCONST( int )
+NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned int )
+NATIVE_TYPE_METADATAPRINT_NOCONST( long )
+NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned long )
+NATIVE_TYPE_METADATAPRINT_NOCONST( float )
+NATIVE_TYPE_METADATAPRINT_NOCONST( double )
+NATIVE_TYPE_METADATAPRINT_NOCONST( std::string )
+
+// undef the macro to clean up things
+#undef NATIVE_TYPE_METADATAPRINT_NOCONST
+
+} // end namespace itk
 
 #endif

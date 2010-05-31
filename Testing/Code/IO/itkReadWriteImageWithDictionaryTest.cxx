@@ -21,31 +21,14 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 
-// This is a copy of the initial NATIVE_TYPE_METADATAPRINT macro
-// from itkMetaDataObject.h. The first difference is that it does not
-// automatically specialize the Print function for the corresponding
-// const type. Indeed this does not compile on MSVC (error C2758)
-// The second difference is that it introduces an inline keyword
-// to avoid link problems on MSVC (error LNK2005)
-#define NATIVE_TYPE_METADATAPRINT_NOCONST(TYPE_NAME) \
-template <> \
-inline void \
-  itk::MetaDataObject< TYPE_NAME > \
-  ::Print(std::ostream& os) const \
-{ \
-  os << this->m_MetaDataObjectValue << std::endl; \
-}
-
-namespace itk {
-NATIVE_TYPE_METADATAPRINT_NOCONST( short )
-NATIVE_TYPE_METADATAPRINT_NOCONST( int )
-NATIVE_TYPE_METADATAPRINT_NOCONST( float )
-NATIVE_TYPE_METADATAPRINT_NOCONST( std::string )
-NATIVE_TYPE_METADATAPRINT_NOCONST( SpatialOrientation::ValidCoordinateOrientationFlags )
-}
-
 int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
 {
+  if( argc != 2 )
+    {
+    std::cerr << "Usage: " << argv[0] << " Input\n";
+    return EXIT_FAILURE;
+    }
+  
   typedef itk::Image< unsigned char, 3 > ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
