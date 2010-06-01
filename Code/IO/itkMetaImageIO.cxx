@@ -846,17 +846,18 @@ void MetaImageIO::ReadImageInformation()
   // Read some metadata
   //
   MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
-  std::string metaDataStr;
 
   // Look at default metaio fields
   if ( m_MetaImage.DistanceUnits() != MET_DISTANCE_UNITS_UNKNOWN )
     {
-    EncapsulateMetaData<std::string>( metaDict, ITK_VoxelUnits, m_MetaImage.DistanceUnitsName() );
+    EncapsulateMetaData<std::string>(
+      metaDict, ITK_VoxelUnits, std::string(m_MetaImage.DistanceUnitsName()) );
     }
 
   if ( strlen( m_MetaImage.AcquisitionDate() ) > 0 )
     {
-    EncapsulateMetaData<std::string>( metaDict, ITK_ExperimentDate, m_MetaImage.AcquisitionDate() );
+    EncapsulateMetaData<std::string>(
+      metaDict, ITK_ExperimentDate, std::string(m_MetaImage.AcquisitionDate()) );
     } 
 } 
 
