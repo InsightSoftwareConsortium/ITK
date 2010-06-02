@@ -42,6 +42,7 @@ template <class TImage>
 void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::IndexType index;
+  index.Fill( 0 );
   const typename TImage::IndexType &bufferedRegionIndex = image->GetBufferedRegion().GetIndex();
   const typename TImage::OffsetValueType *offsetTable = image->GetOffsetTable();
   
@@ -50,9 +51,9 @@ void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
     for (unsigned int i = 0; i < count; i++)
       {
       itk::ImageHelper<TImage::ImageDimension,TImage::ImageDimension>::ComputeIndex(bufferedRegionIndex,
-                                                                                    i,
-                                                                                    offsetTable,
-                                                                                    index);
+        i,
+        offsetTable,
+        index);
       }
     }
   std::cout << "Last index: " << index << std::endl;
