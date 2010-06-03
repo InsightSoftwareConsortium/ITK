@@ -1353,3 +1353,12 @@
    obj:*
    obj:*
 }
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+}
