@@ -129,10 +129,10 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     // First, update the axes that are not 0
     for( int i=1; i<ImageDimension; i++ )
       {
-      centroid[i] += length * idx[i];
+      centroid[i] += (long)length * idx[i];
       }
     // Then, update the axis 0
-    centroid[0] += idx[0] * length + ( length * ( length - 1 ) ) / 2.0;
+    centroid[0] += idx[0] * (long)length + ( length * ( length - 1 ) ) / 2.0;
 
     // Update the mins and maxs
     for( int i=0; i<ImageDimension; i++)
