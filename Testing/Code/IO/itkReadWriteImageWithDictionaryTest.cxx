@@ -1,17 +1,17 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkReadWriteImageWithDictionaryTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkReadWriteImageWithDictionaryTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
@@ -48,11 +48,12 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   inputImage->FillBuffer( 0 );
 
   inputImage->SetDirection(
-     itk::SpatialOrientationAdapter().ToDirectionCosines(
-        itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP ) );
+    itk::SpatialOrientationAdapter().ToDirectionCosines(
+      itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP ) );
 
   // Add some metadata in the dictionary
-  itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();
+  itk::MetaDataDictionary & inputDictionary =
+    inputImage->GetMetaDataDictionary();
   std::string voxelunitstr = "mm. "; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary,itk::ITK_VoxelUnits,voxelunitstr);
   std::string datestr = "26-05-2010"; // try to follow analyze format (length matters)
@@ -81,14 +82,15 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   int numMissingMetaData = 0;
   int numWrongMetaData = 0;
   
-  itk::MetaDataDictionary & outputDictionary = outputImage->GetMetaDataDictionary();
+  itk::MetaDataDictionary & outputDictionary =
+    outputImage->GetMetaDataDictionary();
   
   std::string metadatastr;
   
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_VoxelUnits, metadatastr ) )
     {
-      // MetaIO is rather strict on the format of ITK_VoxelUnits but for our purpose "mm"=="mm. "
-      if ( !( metadatastr==voxelunitstr || (metadatastr=="mm" && voxelunitstr=="mm. ") ) )
+    // MetaIO is rather strict on the format of ITK_VoxelUnits but for our purpose "mm"=="mm. "
+    if ( !( metadatastr==voxelunitstr || (metadatastr=="mm" && voxelunitstr=="mm. ") ) )
       {
       std::cout<<"voxelunitstr.size()="<<voxelunitstr.size()<<std::endl;
       std::cout<<"metadatastr.size()="<<metadatastr.size()<<std::endl;
@@ -105,7 +107,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_ExperimentDate, metadatastr ) )
     {
-      if ( metadatastr != datestr )
+    if ( metadatastr != datestr )
       {
       std::cout<<"datestr.size()="<<datestr.size()<<std::endl;
       std::cout<<"metadatastr.size()="<<metadatastr.size()<<std::endl;
@@ -122,7 +124,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_ExperimentTime, metadatastr ) )
     {
-      if ( metadatastr != timestr )
+    if ( metadatastr != timestr )
       {
       std::cout<<"timestr.size()="<<timestr.size()<<std::endl;
       std::cout<<"metadatastr.size()="<<metadatastr.size()<<std::endl;
@@ -139,7 +141,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   
   if ( itk::ExposeMetaData<std::string>( outputDictionary, itk::ITK_PatientID, metadatastr ) )
     {
-      if ( metadatastr != patientstr )
+    if ( metadatastr != patientstr )
       {
       std::cout<<"patientstr.size()="<<patientstr.size()<<std::endl;
       std::cout<<"metadatastr.size()="<<metadatastr.size()<<std::endl;
@@ -157,6 +159,11 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   std::cout<<std::endl<<"Number of missing metadata = "<<numMissingMetaData<<std::endl;
   std::cout<<"Number of wrong metadata = "<<numWrongMetaData<<std::endl<<std::endl;
 
+  /** the visual studio 6 compiler cannot dereference iterator outside
+   * of the dll */
+#if defined(_MSC_VER) && (_MSC_VER <= 1300) && !defined(ITKSTATIC)
+  return EXIT_SUCCESS;
+#else
   // Perform a weaker but more exhaustive test
   int numMissingMetaData2 = 0;
   int numWrongMetaData2 = 0;
@@ -205,4 +212,5 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
   
   return EXIT_SUCCESS;
+#endif
 }
