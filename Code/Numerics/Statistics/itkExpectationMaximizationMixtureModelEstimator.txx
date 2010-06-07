@@ -28,6 +28,8 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::ExpectationMaximizationMixtureModelEstimator()
 {
   m_TerminationCode = NOT_CONVERGED;
+  m_MaxIteration = 10; 
+  m_CurrentIteration = 0;
 }
  
 template< class TSample >
@@ -36,6 +38,9 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << "Maximum number of iterations = " << m_MaxIteration << std::endl;
+  os << "Termination code = " << m_TerminationCode << std::endl;
+  os << "Current iteration = " << m_CurrentIteration << std::endl;
 }
 
 
