@@ -27,4 +27,5 @@ void RegisterTests()
   REGISTER_TEST(itkCylinderSpatialObjectTest);
   REGISTER_TEST(itkEllipseSpatialObjectTest);
   REGISTER_TEST(itkGaussianSpatialObjectTest);
+  REGISTER_TEST(itkMetaArrowConverterTest);
 }
