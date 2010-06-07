@@ -51,6 +51,8 @@ int itkImageFileWriterTest2(int ac, char* av[])
   
   image->SetRegions(region);
   image->Allocate();
+
+  image->FillBuffer(0);
   
 
   image->TransformIndexToPhysicalPoint(index, originalPoint);
