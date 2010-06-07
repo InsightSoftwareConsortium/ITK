@@ -70,10 +70,10 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   NeighborsListType* neighbors = 0;
   
   for (int i=0; i < 7; i++)
-  {  
-    itk::TimeProbe * timeProbe = new itk::TimeProbe(); 
+    {  
+    itk::TimeProbe timeProbe;
     
-    timeProbe->Start();
+    timeProbe.Start();
     unsigned int lastIndex = simplexMesh->GetPoints()->Size();
     for (unsigned int pointIndex = 0; pointIndex < lastIndex; pointIndex++)
       {
@@ -83,12 +83,12 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
         delete neighbors;
         }
       }
-    timeProbe->Stop();
+    timeProbe.Stop();
     std::cout << "Rigidity: " << i << ", neighbor list size: " << neighbors->size() << std::endl;
  
-    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe->GetMeanTime() << std::endl;
+    std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMeanTime() << std::endl;
     delete neighbors;
-  }
+    }
 
     
   
