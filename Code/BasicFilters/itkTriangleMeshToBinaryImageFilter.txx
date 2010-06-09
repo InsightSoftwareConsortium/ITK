@@ -430,17 +430,15 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   PointSetType::Pointer NewPointSet = PointSetType::New();
   PointSetType::PointType newpoint;
 
-  InputPointType point;
-  ContinuousIndex<double, 3> ind;
-
+  // the index value type must match the point value type
+  ContinuousIndex<typename PointType::ValueType, 3> ind;
   unsigned int pointId = 0;
+
   while( points != myPoints->End() ) 
     {
-    point = points.Value();
-    
-    OutputImage->TransformPhysicalPointToContinuousIndex<double>(point, ind);
-    newpoint.CastFrom(ind);
-    NewPoints->InsertElement(pointId++, newpoint);
+    PointType p = points.Value();
+    OutputImage->TransformPhysicalPointToContinuousIndex(p, ind);
+    NewPoints->InsertElement(pointId++, ind);
     
     points++;
     }
