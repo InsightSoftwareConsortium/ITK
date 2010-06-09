@@ -50,8 +50,11 @@ bool CheckFileNameParsing(const std::string fileName,
     itksys::SystemTools::GetFilenameLastExtension(fileName);
   // NB: remove the period (kwsys leaves it on, ITK precedent was to
   // remove it)
-  char* extension = new char[extensionString.size()];
-  strcpy(extension, extensionString.c_str() + 1);
+  char* extension = new char[extensionString.size()+1];
+  if (extensionString.length()>0)
+    strcpy(extension, extensionString.c_str()+1);
+  else
+    extension[0]=0;
   std::cout << "path...";
   std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
 #ifdef _WIN32
