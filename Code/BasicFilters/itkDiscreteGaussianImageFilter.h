@@ -183,6 +183,18 @@ public:
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
+
+  /** \brief Set/Get number of pieces to divide the input for the
+   * internal composite pipeline. The upstream pipeline will not be
+   * effected.  
+   *
+   * The default value is $ImageDimension^2$.
+   *
+   * This parameter was introduced to reduce the memory used by images
+   * internally, at the cost of performance. 
+   */
+  itkSetMacro(InternalNumberOfStreamDivisions,unsigned int);
+  itkGetConstReferenceMacro(InternalNumberOfStreamDivisions,unsigned int);
   
   /** DiscreteGaussianImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
@@ -207,6 +219,7 @@ protected:
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
+    m_InternalNumberOfStreamDivisions = ImageDimension*ImageDimension;
     }
   virtual ~DiscreteGaussianImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -240,8 +253,12 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
-};
   
+  /** Number of pieces to divide the input on the internal composite
+  pipeline. The upstream pipeline will not be effected. */
+  unsigned int m_InternalNumberOfStreamDivisions;
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

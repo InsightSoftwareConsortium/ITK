@@ -192,8 +192,12 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   unsigned int i;
   for (i = 0; i < filterDimensionality; ++i)
     {
+    // we reverse the direction to minimize computation while, because
+    // the largest dimension will be split slice wise for streaming 
+    unsigned int reverse_i = filterDimensionality - i - 1;
+
     // Set up the operator for this dimension
-    oper[i].SetDirection(i);
+    oper[reverse_i].SetDirection(i);
     if (m_UseImageSpacing == true)
       {
       if (localInput->GetSpacing()[i] == 0.0)
@@ -205,17 +209,17 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
         // convert the variance from physical units to pixels
         double s = localInput->GetSpacing()[i];
         s = s*s;
-        oper[i].SetVariance(m_Variance[i] / s);
+        oper[reverse_i].SetVariance(m_Variance[i] / s);
         }
       }
     else
       {
-      oper[i].SetVariance(m_Variance[i]);
+      oper[reverse_i].SetVariance(m_Variance[i]);
       }
 
-    oper[i].SetMaximumKernelWidth(m_MaximumKernelWidth);
-    oper[i].SetMaximumError(m_MaximumError[i]);
-    oper[i].CreateDirectional();
+    oper[reverse_i].SetMaximumKernelWidth(m_MaximumKernelWidth);
+    oper[reverse_i].SetMaximumError(m_MaximumError[i]);
+    oper[reverse_i].CreateDirectional();
     }
 
   // Create a chain of filters
@@ -247,8 +251,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     {
     // Setup a full mini-pipeline and stream the data through the
     // pipeline.
-    unsigned int numberOfDivisions = ImageDimension*ImageDimension;
-    unsigned int numberOfStages = filterDimensionality*numberOfDivisions + 1;
+    unsigned int numberOfStages = filterDimensionality*this->GetInternalNumberOfStreamDivisions() + 1;
     
     // First filter convolves and changes type from input type to real type
     FirstFilterPointer firstFilter = FirstFilterType::New();
@@ -300,7 +303,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
     // in chunks to minimize memory usage
     StreamingFilterPointer streamingFilter = StreamingFilterType::New();
     streamingFilter->SetInput( lastFilter->GetOutput() );
-    streamingFilter->SetNumberOfStreamDivisions( numberOfDivisions );
+    streamingFilter->SetNumberOfStreamDivisions( this->GetInternalNumberOfStreamDivisions()  );
     progress->RegisterInternalFilter(streamingFilter,1.0f / numberOfStages);
     
     // Graft this filters output onto the mini-pipeline so the mini-pipeline
@@ -331,6 +334,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "FilterDimensionality: " << m_FilterDimensionality << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "InternalNumberOfStreamDivisions: " << m_InternalNumberOfStreamDivisions << std::endl;
 }
 
 } // end namespace itk
