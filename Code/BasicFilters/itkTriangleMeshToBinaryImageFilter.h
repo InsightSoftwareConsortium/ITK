@@ -79,12 +79,13 @@ public:
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
 
-  typedef typename TOutputImage::IndexType      IndexType;
-  typedef typename TOutputImage::SizeType       SizeType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::ValueType   ValueType;
-  typedef typename OutputImageType::SpacingType SpacingType;
+  typedef typename TOutputImage::IndexType        IndexType;
+  typedef typename TOutputImage::SizeType         SizeType;
+  typedef TOutputImage                            OutputImageType;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
+  typedef typename OutputImageType::ValueType     ValueType;
+  typedef typename OutputImageType::SpacingType   SpacingType;
+  typedef typename OutputImageType::DirectionType DirectionType;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -136,6 +137,12 @@ public:
   virtual void SetSpacing( const double spacing[3] );
   virtual void SetSpacing( const float spacing[3] );
   itkGetConstReferenceMacro(Spacing, SpacingType);
+
+  /** The Direction is a matix of direction cosines
+   *  that specify the direction between samples.
+   * */
+  itkSetMacro(Direction, DirectionType);
+  itkGetConstMacro(Direction, DirectionType);
 
   /** Set/Get the value for pixels inside the spatial object. 
   * By default, this filter will return an image
@@ -208,6 +215,7 @@ protected:
   double           m_Tolerance;
   ValueType        m_InsideValue;
   ValueType        m_OutsideValue;
+  DirectionType    m_Direction;
 
   StencilIndexVector m_StencilIndex;
 

@@ -42,6 +42,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 
   m_InsideValue = NumericTraits<ValueType>::One;
   m_OutsideValue = NumericTraits<ValueType>::Zero;
+  m_Direction.GetVnlMatrix().set_identity();
   
   m_Tolerance = 1e-5;
   m_InfoImage = NULL; 
@@ -192,6 +193,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     OutputImage->SetRequestedRegion( region );          //
     OutputImage->SetSpacing(m_Spacing);         // set spacing
     OutputImage->SetOrigin(m_Origin);   //   and origin
+    OutputImage->SetDirection(m_Direction); // direction cosines
     }
   else
     {
@@ -203,6 +205,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
     m_Index = m_InfoImage->GetLargestPossibleRegion().GetIndex();
     m_Spacing = m_InfoImage->GetSpacing();
     m_Origin = m_InfoImage->GetOrigin();
+    m_Direction = m_InfoImage->GetDirection();
     }
 
   OutputImage->Allocate();   // allocate the image
@@ -420,29 +423,23 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   extent[4] = m_Index[2];
   extent[5] = m_Size[2] - 1;
   
-  // Only divide once
-  double invspacing[3];
-  invspacing[0] = 1.0/m_Spacing[0];
-  invspacing[1] = 1.0/m_Spacing[1];
-  invspacing[2] = 1.0/m_Spacing[2];
+  OutputImagePointer OutputImage = this->GetOutput();
 
-  // need to translate points and create new points
+  // need to transform points from physical to index coordinates
   PointsContainer::Pointer NewPoints = PointsContainer::New();
   PointSetType::Pointer NewPointSet = PointSetType::New();
   PointSetType::PointType newpoint;
 
   InputPointType point;
+  ContinuousIndex<double, 3> ind;
 
   unsigned int pointId = 0;
   while( points != myPoints->End() ) 
     {
-   
     point = points.Value();
     
-    newpoint[0] = (point[0]-m_Origin[0]) * invspacing[0];
-    newpoint[1] = (point[1]-m_Origin[1]) * invspacing[1];
-    newpoint[2] = (point[2]-m_Origin[2]) * invspacing[2];
-
+    OutputImage->TransformPhysicalPointToContinuousIndex<double>(point, ind);
+    newpoint.CastFrom(ind);
     NewPoints->InsertElement(pointId++, newpoint);
     
     points++;
