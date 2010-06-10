@@ -6,18 +6,6 @@
   Date:      $Date$
   Version:   $Revision$
   
-  Author: Gabe Hart
-
-  This test creates a sample ArrowSpatialObject and a sample MetaArrow and
-  Converts between the two, testing for conversion completeness.  At the 
-  moment, this means testing to make sure length and color are properly 
-  converted, but it may also include testing direction and position.  The 
-  test also runs the read and write methods to test them.
-  
-  Notes: Parent cannot be converted from MetaObject to SpatialObject since
-         MetaObject only holds a parent id rather than a parent object.  
-         Only the ParentID can be properly converted.
-  
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
@@ -31,13 +19,25 @@
 #include "itkMetaArrowConverter.h"
 #include "itkGroupSpatialObject.h"
 #include <iostream>
+//#include <iomanip>
 
 /**
- * This is a test file for the itkitkMetaArrowConverter class.
+ * This is a test file for the itkMetaArrowConverter class.
+ * 
+ * 
+ * This test creates a sample ArrowSpatialObject and a sample MetaArrow and
+ * Converts between the two, testing for conversion completeness.  At the 
+ * moment, this means testing to make sure length and color are properly 
+ * converted, but it may also include testing direction and position.  The 
+ * test also runs the read and write methods to test them.
+ * 
+ * Notes: Parent cannot be converted from MetaObject to SpatialObject since
+ *        MetaObject only holds a parent id rather than a parent object.  
+ *        Only the ParentID can be properly converted.
  */
 int itkMetaArrowConverterTest(int ac, char* av[])
 {
-  
+    
   // check number of arguments
   if (ac != 2)
     {
@@ -111,6 +111,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   metaArrow->Color((const float*)color);
   metaArrow->ParentID(itkParent->GetId());
   
+  // precision limit for comparing floats and doubles
+  double precisionLimit = .000001;
   
   
   //
@@ -120,7 +122,17 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check length
   double metaLength = newMetaArrow->Length();
-  if (metaLength != (float)length)
+  
+  //DEBUG
+  /*std::cout << std::setprecision(16);
+  std::cout << "converted length = " << metaLength << " correct length = " << length << std::endl;
+  double testDbl = 2.0 + precisionLimit;
+  float testFlt = 2.0f + precisionLimit;
+  std::cout << "Precision testing-> double = " << testDbl << " float = " << testFlt << " difference = " << fabs(testDbl-testFlt) << std::endl;
+  */
+  
+  //if (metaLength != (float)length)
+  if (fabs(metaLength - length) > precisionLimit)
     {
     std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -147,8 +159,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   const double* metaPosition = newMetaArrow->Position();
-  if (metaPosition[0] != (double)position[0] || metaPosition[1] != (double)position[1] 
-     || metaPosition[2] != (double)position[2])
+  //if (metaPosition[0] != (double)position[0] || metaPosition[1] != (double)position[1] 
+  //   || metaPosition[2] != (double)position[2])
+  if (fabs(metaPosition[0] - position[0]) > precisionLimit ||
+      fabs(metaPosition[1] - position[1]) > precisionLimit || 
+      fabs(metaPosition[2] - position[2]) > precisionLimit)
     {
     std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -165,11 +180,9 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   newMetaDirectionNorm[2] = newMetaOrientation[2];
   newMetaDirectionNorm.Normalize();
   
-  double precisionLimit = .000001;
-  
-  if (fabs((double)newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit
-      || fabs((double)newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit
-      || fabs((double)newMetaDirectionNorm[2] - directionNorm[2])  > precisionLimit)
+  if (fabs(newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit
+      || fabs(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit
+      || fabs(newMetaDirectionNorm[2] - directionNorm[2])  > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -183,7 +196,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(metaArrow);
   
   // check length
-  if ((float)newItkArrow->GetLength() != metaArrow->Length())
+  //if ((float)newItkArrow->GetLength() != metaArrow->Length())
+  if (fabs(newItkArrow->GetLength() - metaArrow->Length()) > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -211,8 +225,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   SpatialObjectType::PointType itkPosition = newItkArrow->GetPosition();
-  if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
-     || (double)itkPosition[2] != mPosition[2])
+  //if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
+  //   || (double)itkPosition[2] != mPosition[2])
+  if (fabs(itkPosition[0] - mPosition[0]) > precisionLimit || 
+      fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
+      fabs(itkPosition[2] - mPosition[2]) > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -228,9 +245,9 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   mDirectionNorm[2] = mDirection[2];
   mDirectionNorm.Normalize();
   
-  if (fabs((double)itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit
-      || fabs((double)itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
-      || fabs((double)itkDirectionNorm[2] - mDirectionNorm[2])  > precisionLimit)
+  if (fabs(itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit
+      || fabs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
+      || fabs(itkDirectionNorm[2] - mDirectionNorm[2])  > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -256,7 +273,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   SpatialObjectType::Pointer reLoad = converter->ReadMeta(av[1]);
   
   // check length
-  if (reLoad->GetLength() != (float)length)
+  //if (reLoad->GetLength() != (float)length)
+  if (fabs(reLoad->GetLength() - length) > precisionLimit)
     {
     std::cout << "Didn't read length properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -284,8 +302,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   itkPosition = reLoad->GetPosition();
-  if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
-     || (double)itkPosition[2] != mPosition[2])
+  //if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
+  //   || (double)itkPosition[2] != mPosition[2])
+  if (fabs(itkPosition[0] - mPosition[0]) > precisionLimit || 
+      fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
+      fabs(itkPosition[2] - mPosition[2]) > precisionLimit)
     {
     std::cout << "Didn't read position properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -311,15 +332,3 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   return EXIT_SUCCESS;
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
