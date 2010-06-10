@@ -162,10 +162,17 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
   // Set up the operators
   unsigned int i;
   for (i = 0; i < ImageDimension; ++i)
-    {
+    { 
+    // we reverse the direction to minimize computation while, because
+    // the largest dimension will be split slice wise for streaming. 
+    //
+    // This is to say oper[0] = Z, oper[1] = Y, oper[2] = X for the
+    // 3D case.
+    unsigned int reverse_i = ImageDimension - i - 1;
+
     // Set up the operator for this dimension
-    oper[i].SetDirection(i);
-    oper[i].SetOrder(m_Order[i]);
+    oper[reverse_i].SetDirection(i);
+    oper[reverse_i].SetOrder(m_Order[i]);
     if (m_UseImageSpacing == true)
       {
       if (localInput->GetSpacing()[i] == 0.0)
@@ -177,17 +184,17 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
         // convert the variance from physical units to pixels
         double s = localInput->GetSpacing()[i];
         s = s*s;
-        oper[i].SetVariance(m_Variance[i] / s);
+        oper[reverse_i].SetVariance(m_Variance[i] / s);
         }
       }
     else
       {
-      oper[i].SetVariance(m_Variance[i]);
+      oper[reverse_i].SetVariance(m_Variance[i]);
       }
 
-    oper[i].SetMaximumKernelWidth(m_MaximumKernelWidth);
-    oper[i].SetMaximumError(m_MaximumError[i]);
-    oper[i].CreateDirectional();
+    oper[reverse_i].SetMaximumKernelWidth(m_MaximumKernelWidth);
+    oper[reverse_i].SetMaximumError(m_MaximumError[i]);
+    oper[reverse_i].CreateDirectional();
     }
 
   // Create a chain of filters
@@ -216,8 +223,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
     {
     // Setup a full mini-pipeline and stream the data through the
     // pipeline.
-    unsigned int numberOfDivisions = ImageDimension*ImageDimension;
-    unsigned int numberOfStages = ImageDimension*numberOfDivisions + 1;
+    unsigned int numberOfStages = ImageDimension*this->GetInternalNumberOfStreamDivisions() + 1;
 
     // First filter convolves and changes type from input type to real type
     FirstFilterPointer firstFilter = FirstFilterType::New();
@@ -268,7 +274,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
     // in chunks to minimize memory usage
     StreamingFilterPointer streamingFilter = StreamingFilterType::New();
     streamingFilter->SetInput( lastFilter->GetOutput() );
-    streamingFilter->SetNumberOfStreamDivisions( numberOfDivisions );
+    streamingFilter->SetNumberOfStreamDivisions( this->GetInternalNumberOfStreamDivisions() );
     progress->RegisterInternalFilter(streamingFilter,1.0f / numberOfStages);
 
     // Graft this filters output onto the mini-pipeline so the mini-pipeline
@@ -299,6 +305,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
   os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "InternalNumberOfStreamDivisions: " << m_InternalNumberOfStreamDivisions << std::endl;
 }
 
 } // end namespace itk
