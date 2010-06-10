@@ -429,7 +429,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   PointSetType::PointType newpoint;
 
   // the index value type must match the point value type
-  ContinuousIndex<typename PointType::ValueType, 3> ind;
+  ContinuousIndex<PointType::ValueType, 3> ind;
   unsigned int pointId = 0;
 
   while( points != myPoints->End() ) 
