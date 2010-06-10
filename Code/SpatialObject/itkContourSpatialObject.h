@@ -133,7 +133,10 @@ public:
   itkGetConstMacro(AttachedToSlice,int);
 
   /** Returns true if the Contour is evaluable at the requested point, 
-   *  false otherwise. */
+   *  false otherwise. 
+   *
+   * Note: For this class, this will always return false. -GH
+   */
   bool IsEvaluableAt( const PointType & point, 
                       unsigned int depth=0, char *name = NULL ) const;
 

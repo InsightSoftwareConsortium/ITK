@@ -200,39 +200,18 @@ ContourSpatialObject< TDimension >
 
 /** Test whether a point is inside or outside the object 
  *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */ 
+ *  check the name of the class and the current depth. Since a contour is
+ *  considered to be a 1D object, IsInside will always return false. */ 
 template< unsigned int TDimension >
 bool
 ContourSpatialObject< TDimension >
 ::IsInside( const PointType & itkNotUsed(point) ) const
 {
-  /*
-  typename ControlPointListType::const_iterator it = m_ControlPoints.begin();
-  typename ControlPointListType::const_iterator itEnd = m_ControlPoints.end();
-    
-  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
-  PointType transformedPoint = 
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    while(it != itEnd)
-      {
-      if((*it).GetPosition() == transformedPoint)
-        {
-        return true;
-        }
-      it++;
-      }
-    }*/
   return false;
 }
 
-/** Test if the given point is inside the blob
+/** Test if the given point is inside the blob. Since a contour is
+ *  considered to be a 1D object, IsInside will always return false.
  *  Note: ComputeBoundingBox should be called before. */
 template< unsigned int TDimension >
 bool 
@@ -241,22 +220,7 @@ ContourSpatialObject< TDimension >
 {
   itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
  
-  if(name == NULL)
-    {
-    if(IsInside(point))
-      {
-      return true;
-      }
-    }
-  else if(strstr(typeid(Self).name(), name))
-    {
-    if(IsInside(point))
-      {
-      return true;
-      }
-    }
-  
-  return Superclass::IsInside(point, depth, name);
+  return false;
 } 
 
 /** Return true if the blob is evaluable at a given point 
@@ -280,24 +244,11 @@ ContourSpatialObject< TDimension >
            char * name ) const
 {
   itkDebugMacro( "Getting the value of the blob at " << point );
-  if( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else
-    {
-    if( Superclass::IsEvaluableAt(point, depth, name) )
-      {
-      Superclass::ValueAt(point, value, depth, name);
-      return true;
-      }
-    else
-      {
-      value = this->GetDefaultOutsideValue();
-      return false;
-      }
-    }
+  
+  
+  value = this->GetDefaultOutsideValue(); // cannot be inside of a 1d contour
+  return IsInside(point,0,name);          // so will always return false
+  
 }
 
 } // end namespace itk 

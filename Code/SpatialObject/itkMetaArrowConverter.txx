@@ -46,7 +46,22 @@ MetaArrowConverter<NDimensions>
     {
     spacing[i]=arrow->ElementSpacing()[i];
     }
-
+  
+  
+  // convert position and direction/orientation
+  const double* metaPosition = arrow->Position();
+  const double* metaOrientation = arrow->Orientation();
+  typename SpatialObjectType::PointType position;
+  typename SpatialObjectType::VectorType direction;
+  for (unsigned int i = 0; i < NDimensions; i++)
+    {
+    position[i] = metaPosition[i];
+    direction[i] = metaOrientation[i];
+    }
+  spatialObject->SetPosition(position);
+  spatialObject->SetDirection(direction);
+  
+  // convert the other fields
   spatialObject->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   spatialObject->SetLength(length);
   spatialObject->GetProperty()->SetName(arrow->Name());
@@ -56,7 +71,7 @@ MetaArrowConverter<NDimensions>
   spatialObject->GetProperty()->SetGreen(arrow->Color()[1]);
   spatialObject->GetProperty()->SetBlue(arrow->Color()[2]);
   spatialObject->GetProperty()->SetAlpha(arrow->Color()[3]);
-
+  
   return spatialObject;
 }
 
@@ -67,13 +82,28 @@ MetaArrowConverter<NDimensions>
 ::ArrowSpatialObjectToMetaArrow(SpatialObjectType * spatialObject)
 { 
   MetaArrow* arrow = new MetaArrow(NDimensions);
-
+  
   float length = spatialObject->GetLength();
 
   if(spatialObject->GetParent())
     {
     arrow->ParentID(spatialObject->GetParent()->GetId());
     }
+  
+  // convert position and orientation
+  double position[NDimensions];
+  double orientation[NDimensions];
+  typename SpatialObjectType::PointType spPosition = spatialObject->GetPosition();
+  typename SpatialObjectType::VectorType spDirection = spatialObject->GetDirection();
+  for (unsigned int i = 0; i < NDimensions; i++)
+    {
+    position[i] = spPosition[i];
+    orientation[i] = spDirection[i];
+    }
+  arrow->Position(position);
+  arrow->Orientation(orientation);
+  
+  // convert the rest of the parameters
   arrow->Length(length);
   arrow->ID(spatialObject->GetId());
 
