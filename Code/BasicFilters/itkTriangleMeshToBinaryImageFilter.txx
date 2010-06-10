@@ -406,8 +406,6 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
 ::RasterizeTriangles()
 {
-//try to print my small mesh
-  
   InputMeshPointer input = this->GetInput(0);
   
   InputPointsContainerPointer      myPoints = input->GetPoints();
@@ -599,6 +597,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Direction: " << std::endl << m_Direction << std::endl;
   os << indent << "Index: " << m_Index << std::endl;
 }
 
