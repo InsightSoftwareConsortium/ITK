@@ -32,7 +32,6 @@ ADD_TEST( itkImageMaskSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpa
 ADD_TEST( itkImageMaskSpatialObjectTest2 ${SPATIAL_OBJECT_TESTS4} itkImageMaskSpatialObjectTest2 )
 ADD_TEST( itkImageSpatialObjectTest ${SPATIAL_OBJECT_TESTS4} itkImageSpatialObjectTest )
 
-ADD_TEST( itkMetaArrowConverterTest ${SPATIAL_OBJECT_TESTS5} itkMetaArrowConverterTest ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha)
 ADD_TEST( itkMeshSpatialObjectTest ${SPATIAL_OBJECT_TESTS3} itkMeshSpatialObjectTest )
 ADD_TEST( itkPlaneSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPlaneSpatialObjectTest )
 ADD_TEST( itkPolygonGroupSpatialObjectTest ${SPATIAL_OBJECT_TESTS2} itkPolygonGroupSpatialObjectTest )
@@ -48,6 +47,10 @@ ADD_TEST( itkSpatialObjectDuplicatorTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObje
 ADD_TEST( itkSpatialObjectPrintTest ${SPATIAL_OBJECT_TESTS3} itkSpatialObjectPrintTest)
 ADD_TEST( itkSpatialObjectHeaderTest ${SPATIAL_OBJECT_HEADER_TEST})
 
+ADD_TEST( itkMetaArrowConverterTest ${SPATIAL_OBJECT_TESTS5} itkMetaArrowConverterTest 
+  ${ITK_TEST_OUTPUT_DIR}/MetaArrowConverterTestFile.mha)
+ADD_TEST( itkContourSpatialObjectTest ${SPATIAL_OBJECT_TESTS5} itkContourSpatialObjectTest)
+
 SET(SpatialObject_SRCS
   itkAffineGeometryFrameTest.cxx
   itkArrowSpatialObjectTest.cxx
@@ -59,6 +62,7 @@ SET(SpatialObject_SRCS5
   itkEllipseSpatialObjectTest.cxx
   itkGaussianSpatialObjectTest.cxx
   itkMetaArrowConverterTest.cxx
+  itkContourSpatialObjectTest.cxx
 )
 
 SET(SpatialObject_SRCS4

@@ -5,7 +5,19 @@
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
+  
+  Author: Gabe Hart
 
+  This test creates a sample ArrowSpatialObject and a sample MetaArrow and
+  Converts between the two, testing for conversion completeness.  At the 
+  moment, this means testing to make sure length and color are properly 
+  converted, but it may also include testing direction and position.  The 
+  test also runs the read and write methods to test them.
+  
+  Notes: Parent cannot be converted from MetaObject to SpatialObject since
+         MetaObject only holds a parent id rather than a parent object.  
+         Only the ParentID can be properly converted.
+  
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
@@ -17,6 +29,7 @@
 
 
 #include "itkMetaArrowConverter.h"
+#include "itkGroupSpatialObject.h"
 #include <iostream>
 
 /**
@@ -34,8 +47,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   
   // typedefs
-  typedef itk::ArrowSpatialObject<> SpatialObjectType;
-  typedef itk::MetaArrowConverter<> ConverterType;
+  const unsigned int Dimensions = 3;
+  typedef itk::ArrowSpatialObject<Dimensions> SpatialObjectType;
+  typedef itk::GroupSpatialObject<Dimensions> SpatialObjectParentType;
+  typedef itk::MetaArrowConverter<Dimensions> ConverterType;
   
   // instantiate new converter and object (I don't think I'm supposed to do it like this in ITK!!!)
   ConverterType* converter = new ConverterType();
@@ -44,106 +59,183 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   //
   // create the test data
   //
-  SpatialObjectType::Pointer itkArrow = SpatialObjectType::New();
+  
+  // direction
   SpatialObjectType::VectorType direction;
   direction[0] = 0;
   direction[1] = 1;
   direction[2] = 2;
+  double mDirection[3];
+  mDirection[0] = 0;
+  mDirection[1] = 1;
+  mDirection[2] = 2;
+  
+  // position
   SpatialObjectType::PointType position;
   position[0] = -1;
   position[1] = -2;
   position[2] = -3;
-  float length = 2.3;
+  double mPosition[3];
+  mPosition[0] = -1;
+  mPosition[1] = -2;
+  mPosition[2] = -3;
+  
+  // length
+  double length = 2.3;
+  
+  // color
+  float color[4];
+  color[0] = 1;
+  color[1] = .5;
+  color[2] = .25;
+  color[3] = 1;
+  
+  // set up itkArrow
+  SpatialObjectType::Pointer itkArrow = SpatialObjectType::New();
   itkArrow->SetDirection(direction);
   itkArrow->SetPosition(position);
   itkArrow->SetLength(length);
+  itkArrow->GetProperty()->SetRed(color[0]);
+  itkArrow->GetProperty()->SetGreen(color[1]);
+  itkArrow->GetProperty()->SetBlue(color[2]);
+  itkArrow->GetProperty()->SetAlpha(color[3]);
+  SpatialObjectParentType::Pointer itkParent = SpatialObjectParentType::New();
+  itkParent->SetId(1);
+  itkParent->AddSpatialObject(itkArrow);
+  
+  // set up metaArrow
+  MetaArrow* metaArrow = new MetaArrow(Dimensions);
+  metaArrow->Length((float)length);
+  metaArrow->Position((const double*)mPosition);
+  metaArrow->Orientation((const double*)mDirection);
+  metaArrow->Color((const float*)color);
+  metaArrow->ParentID(itkParent->GetId());
   
   
   
   //
   // test itk to metaArrow (assuming that Orientation should correspond to Direction)
   //
-  MetaArrow* metaArrow = converter->ArrowSpatialObjectToMetaArrow(itkArrow);
+  MetaArrow* newMetaArrow = converter->ArrowSpatialObjectToMetaArrow(itkArrow);
   
   // check length
-  double metaLength = metaArrow->Length();
-  if (metaLength != length)
+  double metaLength = newMetaArrow->Length();
+  if (metaLength != (float)length)
     {
     std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: length" << std::endl;
   
-  /*
+  // check color
+  const float* newMetaColor = newMetaArrow->Color();
+  if (newMetaColor[0] != color[0] || newMetaColor[1] != color[1] || 
+      newMetaColor[2] != color[2] || newMetaColor[3] != color[3])
+    {
+    std::cout << "Conversion to MetaArrow failed to convert color [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] SpatialObject -> MetaObject: color" << std::endl;
+  
+  // check parent id
+  if (newMetaArrow->ParentID() != itkArrow->GetParent()->GetId())
+    {
+    std::cout << "Conversion to MetaArrow failed to convert parent [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] SpatialObject -> MetaObject: parent id" << std::endl;
+  
   // check position
-  const double* metaPosition = metaArrow->Position();
+  const double* metaPosition = newMetaArrow->Position();
   if (metaPosition[0] != (double)position[0] || metaPosition[1] != (double)position[1] 
      || metaPosition[2] != (double)position[2])
     {
     std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED] SpatialObject -> MetaObject: position" << std::endl;
   
-  // check direction
-  const double* metaOrientation = metaArrow->Orientation();
-  if (metaOrientation[0] != (double)direction[0] || metaOrientation[1] != (double)direction[1] 
-     || metaOrientation[2] != (double)direction[2])
-    {
-    std::cout << "Conversion to MetaArrow failed to convert direction [FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED]" << std::endl;
-  */
+  // check direction (note: need to normalize before comparing)
+  SpatialObjectType::VectorType directionNorm = direction;
+  directionNorm.Normalize();
+  const double* newMetaOrientation = newMetaArrow->Orientation();
+  SpatialObjectType::VectorType newMetaDirectionNorm;
+  newMetaDirectionNorm[0] = newMetaOrientation[0];
+  newMetaDirectionNorm[1] = newMetaOrientation[1];
+  newMetaDirectionNorm[2] = newMetaOrientation[2];
+  newMetaDirectionNorm.Normalize();
   
+  double precisionLimit = .000001;
   
-  //
-  // test metaArrow to itk (assuming that Orientation should correspond to Direction)
-  //
-  MetaArrow* newMetaArrow = new MetaArrow(3);
-  newMetaArrow->Length((float)length);
-  double newMetaPosition[3];
-  newMetaPosition[0] = position[0];
-  newMetaPosition[1] = position[1];
-  newMetaPosition[2] = position[2];
-  newMetaArrow->Position((const double*)newMetaPosition);
-  double newMetaOrientation[3];
-  newMetaOrientation[0] = position[0];
-  newMetaOrientation[1] = position[1];
-  newMetaOrientation[2] = position[2];
-  newMetaArrow->Orientation((const double*)newMetaOrientation);
-  
-  SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(newMetaArrow);
-  
-  // check length
-  if (newItkArrow->GetLength() != newMetaArrow->Length())
-    {
-    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED]" << std::endl;
-  
-  /*
-  // check position
-  SpatialObjectType::PointType itkPosition = newItkArrow->GetPosition();
-  if ((double)itkPosition[0] != newMetaPosition[0] || (double)itkPosition[1] != newMetaPosition[1] 
-     || (double)itkPosition[2] != newMetaPosition[2])
-    {
-    std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED]" << std::endl;
-  
-  // check direction
-  SpatialObjectType::VectorType itkDirection = newItkArrow->GetDirection();
-  if ((double)itkDirection[0] != newMetaOrientation[0] || (double)itkDirection[1] != newMetaOrientation[1] 
-     || (double)itkDirection[2] != newMetaOrientation[2])
+  if (fabs((double)newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit
+      || fabs((double)newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit
+      || fabs((double)newMetaDirectionNorm[2] - directionNorm[2])  > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED]" << std::endl;
-  */
+  std::cout << "[PASSED] SpatialObject -> MetaObject: direction" << std::endl;
+  
+  
+  //
+  // test metaArrow to itk (assuming that Orientation should correspond to Direction)
+  //  
+  SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(metaArrow);
+  
+  // check length
+  if ((float)newItkArrow->GetLength() != metaArrow->Length())
+    {
+    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] MetaObject -> SpatialObject: length" << std::endl;
+  
+  // check color
+  if (newItkArrow->GetProperty()->GetRed() != color[0] || 
+      newItkArrow->GetProperty()->GetGreen() != color[1] || 
+      newItkArrow->GetProperty()->GetBlue() != color[2] || 
+      newItkArrow->GetProperty()->GetAlpha() != color[3])
+    {
+    std::cout << "Conversion to SpatialObject failed to convert color [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] MetaObject -> SpatialObject: color" << std::endl;
+  
+  // check parent id
+  if (newItkArrow->GetParentId() != itkParent->GetId())
+    {
+    std::cout << "Conversion to SpatialObject failed to convert parent id [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] MetaObject -> SpatialObject: parent id" << std::endl;
+  
+  // check position
+  SpatialObjectType::PointType itkPosition = newItkArrow->GetPosition();
+  if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
+     || (double)itkPosition[2] != mPosition[2])
+    {
+    std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] MetaObject -> SpatialObject: position" << std::endl;
+  
+  // check direction (note: need to normalize before comparing)
+  SpatialObjectType::VectorType itkDirectionNorm = newItkArrow->GetDirection();
+  itkDirectionNorm.Normalize();
+  SpatialObjectType::VectorType mDirectionNorm = newItkArrow->GetDirection();
+  mDirectionNorm[0] = mDirection[0];
+  mDirectionNorm[1] = mDirection[1];
+  mDirectionNorm[2] = mDirection[2];
+  mDirectionNorm.Normalize();
+  
+  if (fabs((double)itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit
+      || fabs((double)itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
+      || fabs((double)itkDirectionNorm[2] - mDirectionNorm[2])  > precisionLimit)
+    {
+    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] MetaObject -> SpatialObject: direction" << std::endl;
   
   
   //
@@ -154,7 +246,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     std::cout << "Didn't write properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED] SpatialObject write as MetaObject" << std::endl;
   
   
   
@@ -164,28 +256,54 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   SpatialObjectType::Pointer reLoad = converter->ReadMeta(av[1]);
   
   // check length
-  if (reLoad->GetLength() != length)
+  if (reLoad->GetLength() != (float)length)
     {
     std::cout << "Didn't read length properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "[PASSED] Reading: length" << std::endl;
   
-  /*
-  // check direction  
-  if (reLoad->GetDirection() != direction)
+  // check color
+  if (reLoad->GetProperty()->GetRed() != color[0] || 
+      reLoad->GetProperty()->GetGreen() != color[1] || 
+      reLoad->GetProperty()->GetBlue() != color[2] || 
+      reLoad->GetProperty()->GetAlpha() != color[3])
     {
-    std::cout << "Didn't read direction properly [FAILED]" << std::endl;
+    std::cout << "Didn't read color properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "[PASSED] Reading: color" << std::endl;
   
-  // check position  
-  if (reLoad->GetPosition() != position)
+  // check parent id
+  if (reLoad->GetParentId() != itkParent->GetId())
+    {
+    std::cout << "Didn't read parent id properly [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] Reading: parent id" << std::endl;
+  
+  // check position
+  itkPosition = reLoad->GetPosition();
+  if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
+     || (double)itkPosition[2] != mPosition[2])
     {
     std::cout << "Didn't read position properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
-  */
+  std::cout << "[PASSED] Reading: position" << std::endl;
+  
+  // check direction (note: need to normalize before comparing)
+  SpatialObjectType::VectorType reLoadDirectionNorm = reLoad->GetDirection();
+  reLoadDirectionNorm.Normalize();
+  
+  if (fabs(reLoadDirectionNorm[0] - directionNorm[0]) > precisionLimit
+      || fabs(reLoadDirectionNorm[1] - directionNorm[1]) > precisionLimit
+      || fabs(reLoadDirectionNorm[2] - directionNorm[2])  > precisionLimit)
+    {
+    std::cout << "Didn't read direction properly [FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]  Reading: direction" << std::endl;
   
   
   
