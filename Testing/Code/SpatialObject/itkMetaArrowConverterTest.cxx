@@ -19,7 +19,6 @@
 #include "itkMetaArrowConverter.h"
 #include "itkGroupSpatialObject.h"
 #include <iostream>
-//#include <iomanip>
 
 /**
  * This is a test file for the itkMetaArrowConverter class.
@@ -123,14 +122,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // check length
   double metaLength = newMetaArrow->Length();
   
-  //DEBUG
-  /*std::cout << std::setprecision(16);
-  std::cout << "converted length = " << metaLength << " correct length = " << length << std::endl;
-  double testDbl = 2.0 + precisionLimit;
-  float testFlt = 2.0f + precisionLimit;
-  std::cout << "Precision testing-> double = " << testDbl << " float = " << testFlt << " difference = " << fabs(testDbl-testFlt) << std::endl;
-  */
-  
   //if (metaLength != (float)length)
   if (fabs(metaLength - length) > precisionLimit)
     {
@@ -159,8 +150,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   const double* metaPosition = newMetaArrow->Position();
-  //if (metaPosition[0] != (double)position[0] || metaPosition[1] != (double)position[1] 
-  //   || metaPosition[2] != (double)position[2])
   if (fabs(metaPosition[0] - position[0]) > precisionLimit ||
       fabs(metaPosition[1] - position[1]) > precisionLimit || 
       fabs(metaPosition[2] - position[2]) > precisionLimit)
@@ -196,7 +185,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(metaArrow);
   
   // check length
-  //if ((float)newItkArrow->GetLength() != metaArrow->Length())
   if (fabs(newItkArrow->GetLength() - metaArrow->Length()) > precisionLimit)
     {
     std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
@@ -225,8 +213,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   SpatialObjectType::PointType itkPosition = newItkArrow->GetPosition();
-  //if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
-  //   || (double)itkPosition[2] != mPosition[2])
   if (fabs(itkPosition[0] - mPosition[0]) > precisionLimit || 
       fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       fabs(itkPosition[2] - mPosition[2]) > precisionLimit)
@@ -273,7 +259,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   SpatialObjectType::Pointer reLoad = converter->ReadMeta(av[1]);
   
   // check length
-  //if (reLoad->GetLength() != (float)length)
   if (fabs(reLoad->GetLength() - length) > precisionLimit)
     {
     std::cout << "Didn't read length properly [FAILED]" << std::endl;
@@ -302,8 +287,6 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check position
   itkPosition = reLoad->GetPosition();
-  //if ((double)itkPosition[0] != mPosition[0] || (double)itkPosition[1] != mPosition[1] 
-  //   || (double)itkPosition[2] != mPosition[2])
   if (fabs(itkPosition[0] - mPosition[0]) > precisionLimit || 
       fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       fabs(itkPosition[2] - mPosition[2]) > precisionLimit)

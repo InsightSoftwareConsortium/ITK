@@ -27,7 +27,7 @@
  * is unclear whether this is done intentionally to indicate that nothing can
  * be inside the contour or whether this is a bug that needs fixing.
  */
-int itkContourSpatialObjectTest(int ac, char* av[])
+int itkContourSpatialObjectTest(int, char* [])
 {
   
   //
