@@ -50,13 +50,13 @@ MetaArrowConverter<NDimensions>
   
   // convert position and direction/orientation
   const double* metaPosition = arrow->Position();
-  const double* metaOrientation = arrow->Orientation();
+  const double* metaDirection = arrow->Direction();
   typename SpatialObjectType::PointType position;
   typename SpatialObjectType::VectorType direction;
   for (unsigned int i = 0; i < NDimensions; i++)
     {
     position[i] = metaPosition[i];
-    direction[i] = metaOrientation[i];
+    direction[i] = metaDirection[i];
     }
   spatialObject->SetPosition(position);
   spatialObject->SetDirection(direction);
@@ -90,18 +90,18 @@ MetaArrowConverter<NDimensions>
     arrow->ParentID(spatialObject->GetParent()->GetId());
     }
   
-  // convert position and orientation
+  // convert position and direction
   double position[NDimensions];
-  double orientation[NDimensions];
+  double direction[NDimensions];
   typename SpatialObjectType::PointType spPosition = spatialObject->GetPosition();
   typename SpatialObjectType::VectorType spDirection = spatialObject->GetDirection();
   for (unsigned int i = 0; i < NDimensions; i++)
     {
     position[i] = spPosition[i];
-    orientation[i] = spDirection[i];
+    direction[i] = spDirection[i];
     }
   arrow->Position(position);
-  arrow->Orientation(orientation);
+  arrow->Direction(direction);
   
   // convert the rest of the parameters
   arrow->Length(length);
