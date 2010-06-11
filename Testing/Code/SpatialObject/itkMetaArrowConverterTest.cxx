@@ -106,7 +106,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   MetaArrow* metaArrow = new MetaArrow(Dimensions);
   metaArrow->Length((float)length);
   metaArrow->Position((const double*)mPosition);
-  metaArrow->Orientation((const double*)mDirection);
+  metaArrow->Direction((const double*)mDirection);
   metaArrow->Color((const float*)color);
   metaArrow->ParentID(itkParent->GetId());
   
@@ -229,7 +229,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   mDirectionNorm[0] = mDirection[0];
   mDirectionNorm[1] = mDirection[1];
   mDirectionNorm[2] = mDirection[2];
-  mDirectionNorm.Normalize();
+  mDirectionNorm.Normalize();  
   
   if (fabs(itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit
       || fabs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
