@@ -212,15 +212,12 @@ ContourSpatialObject< TDimension >
 
 /** Test if the given point is inside the blob. Since a contour is
  *  considered to be a 1D object, IsInside will always return false.
- *  Note: removed names of second and third arguments since they
- *  are no longer used. */
+ *  Note: removed names of arguments since they are no longer used. */
 template< unsigned int TDimension >
 bool 
 ContourSpatialObject< TDimension >  
-::IsInside( const PointType & point, unsigned int, char * ) const
-{
-  itkDebugMacro( "Checking the point [" << point << "] is inside the blob" );
- 
+::IsInside( const PointType &, unsigned int, char * ) const
+{ 
   return false;
 } 
 
