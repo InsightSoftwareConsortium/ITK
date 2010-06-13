@@ -68,6 +68,7 @@ itkFEMSolverCrankNicolson.h InternalVariables Disable
 itkFEMSolver.h InternalVariables Disable
 itkFEMSolverHyperbolic.h InternalVariables Disable
 itkFEMUtility.h InternalVariables Disable
+itkGenericUtilities.h InternalVariables Disable
 itk_alloc.h Typedefs Disable
 itk_alloc.h Namespace Disable
 itk_hash_map.h Typedefs Disable
