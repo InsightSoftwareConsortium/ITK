@@ -10,6 +10,10 @@ SET(ITKIOReview_SRCS
   itkVoxBoCUBImageIO.cxx
   itkVoxBoCUBImageIOFactory.cxx
   itkGaborKernelFunction.cxx
+  itkMRCHeaderObject.cxx
+  itkMRCImageIO.cxx
+  itkStreamingImageIOBase.cxx
+  itkVTKImageIO2.cxx
   )
  
 ADD_LIBRARY(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
