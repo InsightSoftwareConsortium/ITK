@@ -445,9 +445,11 @@ void VTKImageIO2::Read(void* buffer)
         case 4:
           ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)buffer, this->GetImageSizeInComponents() );
           break;
+#ifdef ITK_HAS_INT_64
         case 8:
           ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian((uint64_t *)buffer, this->GetImageSizeInComponents() );
           break;
+#endif
         default:
           itkExceptionMacro(<< "Unknown component size");
         }
@@ -661,9 +663,11 @@ void VTKImageIO2::Write(const void* buffer)
           case 4:
             ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
             break;
+#ifdef ITK_HAS_INT_64
           case 8:
             ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian((uint64_t *)(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
             break;
+#endif
           }
 
         // write the image
