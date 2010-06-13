@@ -21,8 +21,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 StreamingImageIOBase::StreamingImageIOBase()
   : ImageIOBase()
@@ -478,5 +476,4 @@ bool StreamingImageIOBase::RequestedToStream( void ) const
   return (largestRegion != ioregion);
 }
 
-} // namespace Local
 } // namespace itk

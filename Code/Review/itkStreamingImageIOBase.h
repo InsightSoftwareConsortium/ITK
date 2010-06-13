@@ -23,8 +23,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 /** \class StreamingImageIOBase
  *
@@ -178,7 +176,6 @@ private:
 
 };
 
-} // namespace Local
 } // namespace itk
 
 
