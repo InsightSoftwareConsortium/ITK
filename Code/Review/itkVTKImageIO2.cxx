@@ -173,12 +173,12 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream& file)
 
   // set values in case we don't find them
   this->SetNumberOfDimensions(3);
-  this->SetSpacing( 1.0, 0 );
-  this->SetSpacing( 1.0, 1 );
-  this->SetSpacing( 1.0, 2 );
-  this->SetOrigin( 0.0, 0 );
-  this->SetOrigin( 0.0, 1 );
-  this->SetOrigin( 0.0, 2 );
+  this->SetSpacing( 0, 1.0 );
+  this->SetSpacing( 1, 1.0 );
+  this->SetSpacing( 2, 1.0 );
+  this->SetOrigin( 0, 0.0 );
+  this->SetOrigin( 1, 0.0 );
+  this->SetOrigin( 2, 0.0 );
 
   if ( text.find("DIMENSIONS") < text.length() ||
        text.find("dimensions") < text.length() )
