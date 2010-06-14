@@ -52,6 +52,7 @@
  * @param st Superclass type.
  * @param pt Primal edge type.
  * @param dt Dual edge type.
+ * \todo Should this macro be added to doxygen macros?
  */
 #define itkQEAccessorsMacro( st, pt, dt )                               \
    pt* GetOnext()                                                       \
@@ -401,8 +402,8 @@ public:
   unsigned int GetOrder() const;
 
 private: 
-  Self* m_Onext; /// Onext ring
-  Self* m_Rot;   /// Rot ring
+  Self* m_Onext; /**< Onext ring */
+  Self* m_Rot;   /**< Rot ring */
 };
 
 } 

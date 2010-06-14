@@ -72,8 +72,8 @@ public:
                         PrimalDataType, DualDataType > QEPrimal;
   //typedef QEPrimal QEType;
   typedef typename QEPrimal::DualType             QEDual;
-  /// FOR LEO typedef typename QEPrimal::Superclass     QEType;
-  /// FOR LEO typedef typename QEPrimal::Dual           QEDual;
+  // FOR LEO typedef typename QEPrimal::Superclass     QEType;
+  // FOR LEO typedef typename QEPrimal::Dual           QEDual;
   typedef typename QEPrimal::OriginRefType     VertexRefType;
   typedef typename QEPrimal::DualOriginRefType FaceRefType;
 
