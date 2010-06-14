@@ -513,19 +513,19 @@ void MRCImageIO
     case 0:
       {
       // scalar unsigned char
-      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned char*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean<unsigned char>(static_cast<const unsigned char*>(bufferBegin));
       break;
       }
     case 1:
       {
       // scalar short
-      this->UpdateHeaderWithMinMaxMean(static_cast<const short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean<short>(static_cast<const short*>(bufferBegin));
       break;
       }
     case 2:
       {
       // scalar float
-      this->UpdateHeaderWithMinMaxMean(static_cast<const float*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean<float>(static_cast<const float*>(bufferBegin));
       break;
       }
     case 3:
@@ -553,7 +553,7 @@ void MRCImageIO
     case 6:
       {
       // scalar unsigned short
-      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean<unsigned short>(static_cast<const unsigned short*>(bufferBegin));
       break;
       }
     case 16:
