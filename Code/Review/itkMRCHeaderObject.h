@@ -28,7 +28,7 @@ namespace itk
 namespace Local
 {
 
-/// \fixme This is a very easy way to declare a string constant
+/** \fixme This is a very easy way to declare a string constant */
 const char * const magicMAP = "MAP ";
 
 
@@ -64,67 +64,62 @@ public:
    */
   struct Header
     {
-    int32_t nx;            ///< Number of Columns
-    int32_t ny;            ///< Number of Rows
-    int32_t nz;            ///< Number of Sections
+    int32_t nx;            /**< Number of Columns */
+    int32_t ny;            /**< Number of Rows */
+    int32_t nz;            /**< Number of Sections */
 
-    /// Types of pixel in image.  Values used by IMOD:
-    /// 0 = unsigned bytes,
-    /// 1 = signed short integers (16 bits),
-    /// 2 = float,
-    /// 3 = short * 2, (used for complex data)
-    /// 4 = float * 2, (used for complex data)
-    /// 6 = unsigned 16-bit integers (non-standard)
-    /// 16 = unsigned char * 3 (for rgb data, non-standard)
+    /** Types of pixel in image.  Values used by IMOD:
+     * 0 = unsigned bytes,
+     * 1 = signed short integers (16 bits),
+     * 2 = float,
+     * 3 = short * 2, (used for complex data)
+     * 4 = float * 2, (used for complex data)
+     * 6 = unsigned 16-bit integers (non-standard)
+     * 16 = unsigned char * 3 (for rgb data, non-standard)
+    */
     int32_t mode;
 
-    //@{
-    /// Starting point of sub image. (ignored)
+    /**  Starting point of sub image. (ignored) */
     int32_t nxstart;
     int32_t nystart;
     int32_t nzstart;
-    //@}
 
-    //@{
-    /// Grid size in X, Y, and Z
+
+    /** Grid size in X, Y, and Z */
     int32_t mx;
     int32_t my;
     int32_t mz;
-    //@}
 
-    //@{
-    /// Cell size; pixel spacing = xlen/mx
+    /** Cell size; pixel spacing = xlen/mx */
     float   xlen;
     float   ylen;
     float   zlen;
-    ///@}
 
-    //@{
-    ///cell angles (ignored)
+
+    /**cell angles (ignored) */
     float   alpha;
     float   beta;
     float   gamma;
-    //@}
 
 
-    int32_t     mapc;       ///< map column  1=x,2=y,3=z. (ignored)
-    int32_t     mapr;       ///< map row     1=x,2=y,3=z. (ignored)
-    int32_t     maps;       ///< map section 1=x,2=y,3=z. (ignored)
+    int32_t     mapc;       /**< map column  1=x,2=y,3=z. (ignored)  */
+    int32_t     mapr;       /**< map row     1=x,2=y,3=z. (ignored)  */
+    int32_t     maps;       /**< map section 1=x,2=y,3=z. (ignored)  */
 
 
     // These need to be set for proper scaling of
     // non byte data.
-    float   amin;             ///< Minimum pixel value.
-    float   amax;             ///< Maximum pixel value.
-    float   amean;            ///< Mean pixel value.
+    float   amin;             /**< Minimum pixel value.  */
+    float   amax;             /**< Maximum pixel value.  */
+    float   amean;            /**< Mean pixel value.  */
 
-    int16_t   ispg;         ///< image type
-    int16_t   nsymbt;       ///< space group number
+    int16_t   ispg;         /**< image type  */
+    int16_t   nsymbt;       /**< space group number  */
 
-    int32_t   next;         ///< number of bytes in extended header
-    int16_t   creatid;      ///< Creator ID
+    int32_t   next;         /**< number of bytes in extended header */
+    int16_t   creatid;      /**< Creator ID  */
 
-    int8_t notused1[30];     ///<     extra data (not used)
+    int8_t notused1[30];     /**<     extra data (not used)  */
 
     // These two values specify the structure of data in the
     // extended header; their meaning depend on whether the
@@ -138,7 +133,7 @@ public:
     int16_t   nint;        // Number of integers per section (Agard format) or
                            // number of bytes per section (SerialEM format)
     int16_t   nreal;       // Number of reals per section (Agard format) or
-    // flags for which types of short data (SerialEM format):
+      // flags for which types of short data (SerialEM format):
     // 1 = tilt angle * 100  (2 bytes)
     // 2 = piece coordinates for montage  (6 bytes)
     // 4 = Stage position * 25    (4 bytes)
@@ -151,13 +146,13 @@ public:
     // not add up to the value in nint, then nint and nreal
     // are interpreted as ints and reals per section
 
-    /// extra data (not used)
+    /** extra data (not used) */
     int8_t    notused2[28];
 
     // Explanation of type of data.
     int16_t   idtype;      // ( 0 = mono, 1 = tilt, 2 = tilts, 3 = lina, 4 = lins)
     int16_t   lens;
-    int16_t   nd1;       // for idtype = 1, nd1 = axis (1, 2, or 3)
+    int16_t   nd1;         // for idtype = 1, nd1 = axis (1, 2, or 3)
     int16_t   nd2;
     int16_t   vd1;         // vd1 = 100. * tilt increment
     int16_t   vd2;         // vd2 = 100. * starting angle
@@ -172,32 +167,32 @@ public:
     float   zorg;
 
 
-    char    cmap[4];         ///< Contains "MAP "
-    char    stamp[4];        ///< First byte has 17 for big- or 68 for little-endian
+    char    cmap[4];         /**< Contains "MAP "  */
+    char    stamp[4];        /**< First byte has 17 for big- or 68 for little-endian  */
     float   rms;
 
     // ALL HEADERS:
-    int32_t nlabl;         ///< Number of labels with useful data.
-    char label[10][80];      ///< 10 labels of 80 charactors.
+    int32_t nlabl;         /**< Number of labels with useful data.  */
+    char label[10][80];    /**< 10 labels of 80 charactors.  */
     };
 
   /** Fei/Agard extended header */
   struct FeiExtendedHeader
     {
-    float atilt;        ///< alpha tilt
-    float btilt;        ///< beta tilt
-    float xstage;       ///< Stage x position  (unit=m, huh if > 1)
-    float ystage;       ///< Stage y position  (unit=m, huh if > 1)
-    float zstage;       ///< Stage z position  (unit=m, huh if > 1)
-    float xshift;       ///< Image shift x (unit=m, huh if > 1)
-    float yshift;       ///< Image shift y (unit=m, huh if > 1)
-    float defocus;      ///< (unit=m, huh if > 1)
-    float exptime;      ///< time is seconds
-    float meanint;      ///< mean value
-    float tiltaxis;     ///< tilt axis in degree
-    float pixelsize;    ///< pixel size (unit=m, huh if > 1)
-    float magnification; //
-    char  notused[76];  ///< fill up 128 bytes
+    float atilt;        /**< alpha tilt  */
+    float btilt;        /**< beta tilt  */
+    float xstage;       /**< Stage x position  (unit=m, huh if > 1)  */
+    float ystage;       /**< Stage y position  (unit=m, huh if > 1)  */
+    float zstage;       /**< Stage z position  (unit=m, huh if > 1)  */
+    float xshift;       /**< Image shift x (unit=m, huh if > 1)  */
+    float yshift;       /**< Image shift y (unit=m, huh if > 1)  */
+    float defocus;      /**< (unit=m, huh if > 1)  */
+    float exptime;      /**< time is seconds  */
+    float meanint;      /**< mean value  */
+    float tiltaxis;     /**< tilt axis in degree  */
+    float pixelsize;    /**< pixel size (unit=m, huh if > 1)  */
+    float magnification; 
+    char  notused[76];  /**< fill up 128 bytes  */
     };
 
   /** pixel type enumeration */
