@@ -115,7 +115,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   
   //
-  // test itk to metaArrow (assuming that Orientation should correspond to Direction)
+  // test itk to metaArrow
   //
   MetaArrow* newMetaArrow = converter->ArrowSpatialObjectToMetaArrow(itkArrow);
   
@@ -162,12 +162,17 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType directionNorm = direction;
   directionNorm.Normalize();
-  const double* newMetaOrientation = newMetaArrow->Orientation();
+  const double* newMetaDirection = newMetaArrow->Direction();
   SpatialObjectType::VectorType newMetaDirectionNorm;
-  newMetaDirectionNorm[0] = newMetaOrientation[0];
-  newMetaDirectionNorm[1] = newMetaOrientation[1];
-  newMetaDirectionNorm[2] = newMetaOrientation[2];
-  newMetaDirectionNorm.Normalize();
+  newMetaDirectionNorm[0] = newMetaDirection[0];
+  newMetaDirectionNorm[1] = newMetaDirection[1];
+  newMetaDirectionNorm[2] = newMetaDirection[2];
+  
+  // normalize if the vector isn't all zeros
+  if (newMetaDirection[0] != 0 || newMetaDirection[1] != 0 || newMetaDirection[2] != 0)
+    {
+    newMetaDirectionNorm.Normalize();
+    }
   
   if (vcl_fabs(newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit
       || vcl_fabs(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit
@@ -180,7 +185,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   
   //
-  // test metaArrow to itk (assuming that Orientation should correspond to Direction)
+  // test metaArrow to itk
   //  
   SpatialObjectType::Pointer newItkArrow = converter->MetaArrowToArrowSpatialObject(metaArrow);
   
@@ -229,7 +234,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   mDirectionNorm[0] = mDirection[0];
   mDirectionNorm[1] = mDirection[1];
   mDirectionNorm[2] = mDirection[2];
-  mDirectionNorm.Normalize();  
+  if (mDirection[0] != 0 || mDirection[1] != 0 || mDirection[2] != 0)
+    {
+    mDirectionNorm.Normalize();  
+    }
   
   if (vcl_fabs(itkDirectionNorm[0] - mDirectionNorm[0]) > precisionLimit
       || vcl_fabs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
@@ -298,7 +306,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   
   // check direction (note: need to normalize before comparing)
   SpatialObjectType::VectorType reLoadDirectionNorm = reLoad->GetDirection();
-  reLoadDirectionNorm.Normalize();
+  if (reLoadDirectionNorm[0] != 0 || reLoadDirectionNorm[1] != 0 || reLoadDirectionNorm[2] != 0)
+    {
+    reLoadDirectionNorm.Normalize();
+    }
   
   if (vcl_fabs(reLoadDirectionNorm[0] - directionNorm[0]) > precisionLimit
       || vcl_fabs(reLoadDirectionNorm[1] - directionNorm[1]) > precisionLimit
