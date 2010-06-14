@@ -16,6 +16,7 @@
 =========================================================================*/
 
 #include "itkMRCHeaderObject.h"
+#include <string.h>
 
 namespace itk
 {
