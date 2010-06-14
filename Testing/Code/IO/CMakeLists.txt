@@ -113,6 +113,7 @@ itkReadWriteImageWithDictionaryTest.cxx
 itkReadWriteSpatialObjectTest.cxx
 itkRegularExpressionSeriesFileNamesTest.cxx
 itkSymmetricSecondRankTensorImageReadTest.cxx
+itkSymmetricSecondRankTensorImageWriteReadTest.cxx
 itkStimulateImageIOTest.cxx
 itkStimulateImageIOTest2.cxx
 itkTIFFImageIOTest.cxx
@@ -218,8 +219,11 @@ ADD_TEST(itkStimulateImageIOTest ${IO_TESTS} itkStimulateImageIOTest
 
 ADD_TEST(itkSymmetricSecondRankTensorImageReadTest ${IO_TESTS} 
          itkSymmetricSecondRankTensorImageReadTest
-         ${TEMP}/testSymmetricTensor1.nrrd 
-         ${TEMP}/testSymmetricTensor2.nrrd)
+         ${TEMP}/testSymmetricTensor.nrrd)
+
+ADD_TEST(itkSymmetricSecondRankTensorImageWriteReadTest ${IO_TESTS} 
+         itkSymmetricSecondRankTensorImageWriteReadTest
+         ${TEMP}/testSymmetricTensorWriteRead.mha)
 
 ADD_TEST(itkIOHeaderTest ${IO_HEADER_TEST})
 ADD_TEST(itkPolygonGroupSpatialObjectXMLFileTest ${IO_TESTS} itkPolygonGroupSpatialObjectXMLFileTest ${TEMP})

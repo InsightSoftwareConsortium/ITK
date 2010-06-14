@@ -348,6 +348,13 @@ itkSetPixelType(ImageIOBase *This,
     This->SetComponentType(ntype);
     return true;
     }
+  else if ( ptype == typeid(SymmetricSecondRankTensor<T,2>) )
+    {
+    This->SetNumberOfComponents(3);
+    This->SetPixelType(ImageIOBase::SYMMETRICSECONDRANKTENSOR);
+    This->SetComponentType(ntype);
+    return true;
+    }
   else if ( ptype == typeid(SymmetricSecondRankTensor<T,3>) )
     {
     This->SetNumberOfComponents(6);
