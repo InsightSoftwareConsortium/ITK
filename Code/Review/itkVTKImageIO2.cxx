@@ -476,7 +476,7 @@ bool VTKImageIO2::CanWriteFile( const char* name )
   return false;
 }
 
-void VTKImageIO2::WriteImageInformation(const void* buffer)
+void VTKImageIO2::WriteImageInformation(const void* itkNotUsed(buffer))
 {
 
   std::ofstream file;
