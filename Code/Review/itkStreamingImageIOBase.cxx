@@ -68,9 +68,9 @@ bool StreamingImageIOBase
     size_t subDimensionQuantity = 1;
     for ( unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i )
       {
-      seekPos += static_cast<std::streamoff> (subDimensionQuantity *
-                                              this->GetPixelSize() *
-                                              currentIndex[i]);
+      seekPos = seekPos + static_cast<std::streamoff> (subDimensionQuantity *
+                                                       this->GetPixelSize() *
+                                                       currentIndex[i]);
       subDimensionQuantity *= this->GetDimensions(i);
       }
 
@@ -199,9 +199,9 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream& file, const v
     size_t subDimensionQuantity = 1;
     for ( unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i )
       {
-      seekPos += static_cast<std::streamoff> (subDimensionQuantity *
-                                              this->GetPixelSize() *
-                                              currentIndex[i]);
+      seekPos = seekPos + static_cast<std::streamoff> (subDimensionQuantity *
+                                                       this->GetPixelSize() *
+                                                       currentIndex[i]);
       subDimensionQuantity *= this->GetDimensions(i);
       }
 
