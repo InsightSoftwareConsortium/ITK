@@ -90,7 +90,7 @@ protected:
   void Initialize();
 
 protected:
-  TQuadEdge * m_Edge; /// Entry edge for this point into an Onext ring
+  TQuadEdge * m_Edge; /**< Entry edge for this point into an Onext ring */
 };
 
 } // end namespace itk

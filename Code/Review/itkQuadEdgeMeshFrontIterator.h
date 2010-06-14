@@ -190,17 +190,17 @@ protected:
   virtual CoordRepType GetCost( QEType* edge ){ (void)edge; return( 1 ); }
 
 protected:
-  /// Mesh on which we propagate the front
+  /** Mesh on which we propagate the front */
   MeshType* m_Mesh;
-  /// Initial seed of the front
+  /** Initial seed of the front */
   QEType* m_Seed;
-  /// Whether the iterator is active
+  /** Whether the iterator is active */
   bool m_Start;
-  /// The active front
+  /** The active front */
   FrontTypePointer m_Front;
-  /// The already visited points
+  /** The already visited points */
   IsVisitedPointerType m_IsPointVisited;
-  /// The current edge at this stage of iteration
+  /** The current edge at this stage of iteration */
   QEType* m_CurrentEdge;
 };
 
