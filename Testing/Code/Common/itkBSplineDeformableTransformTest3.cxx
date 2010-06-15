@@ -317,7 +317,7 @@ int itkBSplineDeformableTransformTest3( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
- const unsigned int numberOfThreads = atoi( argv[6] );
+ const int numberOfThreads = atoi( argv[6] );
    
  int status = 0;
  switch( numberOfThreads )
