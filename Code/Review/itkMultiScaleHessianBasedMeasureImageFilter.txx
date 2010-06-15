@@ -175,6 +175,14 @@ MultiScaleHessianBasedMeasureImageFilter
 
   this->m_HessianFilter->SetNormalizeAcrossScale(true);
 
+  // Create a process accumulator for tracking the progress of this
+  // minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+  progress->RegisterInternalFilter( this->m_HessianFilter, .5/ m_NumberOfSigmaSteps  );
+  progress->RegisterInternalFilter( this->m_HessianToMeasureFilter, .5/ m_NumberOfSigmaSteps );
+
   double sigma = m_SigmaMinimum;
 
   int scaleLevel = 1;
@@ -199,6 +207,10 @@ MultiScaleHessianBasedMeasureImageFilter
     sigma  = this->ComputeSigmaValue( scaleLevel );
 
     scaleLevel++;
+
+    // reset the progress accumulator after each pass to continue
+    // addtion of progress for the next pass
+    progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     if ( m_NumberOfSigmaSteps == 1 )
       {
