@@ -554,17 +554,23 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/ImageRegistration8DifferenceAfter.png
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
-ADD_TEST(ImageRegistration20Test 
-  ${CXX_TEST_PATH}/ImageRegistration20
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
-        ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
-        ${TEMP}/ImageRegistration20Output.mhd
-        ${TEMP}/ImageRegistration20DifferenceBefore.mhd
-        ${TEMP}/ImageRegistration20DifferenceAfter.mhd
-        0.1  # Step length
-        300  # maximum number of iterations
-)
-SET_TESTS_PROPERTIES(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
+
+IF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+  # This test is computationally demanding. 
+  # Therefore we only run it in a Release build
+  ADD_TEST(ImageRegistration20Test 
+    ${CXX_TEST_PATH}/ImageRegistration20
+      ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
+      ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
+      ${TEMP}/ImageRegistration20Output.mhd
+      ${TEMP}/ImageRegistration20DifferenceBefore.mhd
+      ${TEMP}/ImageRegistration20DifferenceAfter.mhd
+      0.1  # Step length
+      300  # maximum number of iterations
+    )
+  SET_TESTS_PROPERTIES(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
+ENDIF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
 IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
