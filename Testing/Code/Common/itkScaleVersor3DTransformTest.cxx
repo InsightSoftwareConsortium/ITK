@@ -18,6 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkMacro.h"
 #include "itkScaleVersor3DTransform.h"
 #include <iostream>
 
@@ -119,7 +120,7 @@ int itkScaleVersor3DTransformTest(int, char* [] )
       std::cerr << "ERROR: Missed expected exception when calling SetMatrix() " << std::endl;
       return EXIT_FAILURE;
       }
-    catch( itk::ExceptionObject & excp )
+    catch( itk::ExceptionObject & itkNotUsed( excp ) )
       {
       std::cerr << "Got Normal expected exception when calling SetMatrix() " << std::endl;
       }
@@ -573,7 +574,7 @@ int itkScaleVersor3DTransformTest(int, char* [] )
       std::cerr << "ERROR: Missed an expected exceptions from ComputeMatrixParameters() " << std::endl;
       return EXIT_FAILURE;
       }
-    catch( itk::ExceptionObject & excp )
+    catch( itk::ExceptionObject & itkNotUsed( excp ) )
       {
       std::cout << "Got Correct expected exception from ComputeMatrixParameters() " << std::endl;
       }
