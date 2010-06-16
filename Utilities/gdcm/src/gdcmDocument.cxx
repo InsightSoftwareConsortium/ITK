@@ -1596,9 +1596,7 @@ void Document::LoadDocEntry(DocEntry *entry, bool forceLoad)
    }
    else
    {
-      gdcmWarningMacro("Should have a ValEntry, here ! " << valEntry->GetKey() 
-                          << " lgt : " << valEntry->GetReadLength() 
-                          << " at " << std::hex << valEntry->GetOffset());
+      gdcmWarningMacro("Should have a ValEntry, here !");
    }
 }
 
