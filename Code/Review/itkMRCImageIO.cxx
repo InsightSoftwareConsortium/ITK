@@ -438,12 +438,12 @@ void MRCImageIO::UpdateHeaderFromImageIO( void )
   header.nzstart = 0;
   
   header.xlen = m_Spacing[0]*float(header.mx);
-  header.ylen = m_Spacing[1]*float(header.my);
-  header.zlen = m_Spacing[2]*float(header.mz);
+  header.ylen = ( this->GetNumberOfDimensions() >= 2 ) ? m_Spacing[1]*float(header.my) : 0;
+  header.zlen = ( this->GetNumberOfDimensions() >= 3 ) ? m_Spacing[2]*float(header.mz) : 0;
   
   header.xorg = m_Origin[0];
-  header.yorg = m_Origin[1];
-  header.zorg = m_Origin[2];
+  header.yorg = ( this->GetNumberOfDimensions() >= 2 ) ? m_Origin[1] : 0;
+  header.zorg = ( this->GetNumberOfDimensions() >= 3 ) ? m_Origin[2] : 0;
 
   // the SetHeader method is used to set the all the internal variable
   // of the header object correctly, and the data is verified
