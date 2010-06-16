@@ -269,6 +269,7 @@ SET(ReviewTest4_SRCS
 
 SET(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
+  itkMRCImageIOTest.cxx
 )
 
 SET(ReviewTest6_SRCS
@@ -307,7 +308,6 @@ IF(ITK_USE_TRANSFORM_IO_FACTORIES)
     ${TEMP}/itkBSplineTransform00.mat
     )
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
-
 
 ADD_TEST(itkOptImageToImageMetricsTest01
   ${REVIEW_TESTS} itkOptImageToImageMetricsTest
@@ -2418,6 +2418,9 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
   1 1 0 0 0 
 )
 
+ADD_TEST(itkMRCImageIOTest ${REVIEW_TESTS5} itkMRCImageIOTest ${TEMP})
+
+
 
 #
 # Functor colormaps
@@ -2492,8 +2495,8 @@ ENDIF(NOT BORLAND)
 ADD_EXECUTABLE(itkReviewTests5 itkReviewTests5.cxx ${ReviewTest5_SRCS})
 
 SET(ReviewTest5_LIBS
-  ITKIO
   ITKStatistics
+  ITKIOReview
   )
 TARGET_LINK_LIBRARIES(itkReviewTests5 ${ReviewTest5_LIBS})
 

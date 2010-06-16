@@ -25,5 +25,6 @@ void RegisterTests()
 {
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkLabelGeometryImageFilterTest);
+  REGISTER_TEST(itkMRCImageIOTest);
 
 }

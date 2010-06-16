@@ -25,8 +25,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 /** \fixme This is a very easy way to declare a string constant */
 const char * const magicMAP = "MAP ";
@@ -286,7 +284,6 @@ private:
 
 };
 
-} // namespace Local
 } // namespace itk
 
 #endif

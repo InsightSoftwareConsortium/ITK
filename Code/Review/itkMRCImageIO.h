@@ -23,8 +23,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 /** \class MRCImageIO
  *
@@ -66,7 +64,7 @@ public:
   itkTypeMacro(MRCImageIO, ImageIOBase);
 
 
-  // we don't use this methods
+  // we don't use this method
   virtual void WriteImageInformation( void ) {};
 
   //-------- This part of the interface deals with reading data. ------ 
@@ -136,7 +134,6 @@ private:
 };
 
 
-} // namespace Local
 } // namespace itk
 
 

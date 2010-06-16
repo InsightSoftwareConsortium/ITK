@@ -20,8 +20,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 void MRCHeaderObject::DeepCopy(ConstPointer h)
 {
@@ -449,5 +447,4 @@ void MRCHeaderObject::PrintSelf(std::ostream& os, Indent indent) const
 }
 
 
-} // namespace Local
 } // namespace itk

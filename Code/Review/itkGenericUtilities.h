@@ -21,9 +21,6 @@
 namespace itk
 {
 
-namespace Local
-{
-
 
 ///////////////////////////////////////////////////
 
@@ -131,7 +128,6 @@ std::pair<TInputIter, TInputIter> min_max_element(TInputIter first, TInputIter l
   return result;
 }
 
-} // end local namespace
 } // end itk namespace
 
 #endif //__itkGenericUtilities_h

@@ -30,8 +30,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 /** \class VTKImageIO2
  *
@@ -105,7 +103,6 @@ private:
   SizeType m_HeaderSize;
 };
 
-} // end namespace Local
 } // end namespace itk
 
 #endif // __itkVTKImageIO2_h

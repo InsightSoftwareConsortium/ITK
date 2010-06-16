@@ -32,8 +32,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 
 const char *MRCImageIO::m_MetaDataHeaderName = "MRCHeader";
@@ -435,20 +433,17 @@ void MRCImageIO::UpdateHeaderFromImageIO( void )
       );
     }
 
-
   header.nxstart = 0;
   header.nystart = 0;
   header.nzstart = 0;
-
+  
   header.xlen = m_Spacing[0]*float(header.mx);
   header.ylen = m_Spacing[1]*float(header.my);
   header.zlen = m_Spacing[2]*float(header.mz);
-
-
+  
   header.xorg = m_Origin[0];
   header.yorg = m_Origin[1];
   header.zorg = m_Origin[2];
-
 
   // the SetHeader method is used to set the all the internal variable
   // of the header object correctly, and the data is verified
@@ -662,5 +657,4 @@ void MRCImageIO
 
 }
 
-} // namespace Local
 } // namespace itk

@@ -26,8 +26,6 @@
 
 namespace itk
 {
-namespace Local
-{
 
 VTKImageIO2::VTKImageIO2()
 {
@@ -694,5 +692,4 @@ void VTKImageIO2::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespac Local
 } // end namespace itk
