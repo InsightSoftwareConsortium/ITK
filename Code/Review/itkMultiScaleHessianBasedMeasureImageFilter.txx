@@ -180,8 +180,13 @@ MultiScaleHessianBasedMeasureImageFilter
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter( this->m_HessianFilter, .5/ m_NumberOfSigmaSteps  );
-  progress->RegisterInternalFilter( this->m_HessianToMeasureFilter, .5/ m_NumberOfSigmaSteps );
+
+  // prevent a divide by zero
+  if ( m_NumberOfSigmaSteps > 0 )
+    {
+    progress->RegisterInternalFilter( this->m_HessianFilter, .5/m_NumberOfSigmaSteps  );
+    progress->RegisterInternalFilter( this->m_HessianToMeasureFilter, .5/m_NumberOfSigmaSteps );
+    }
 
   double sigma = m_SigmaMinimum;
 
@@ -211,6 +216,7 @@ MultiScaleHessianBasedMeasureImageFilter
     // reset the progress accumulator after each pass to continue
     // addtion of progress for the next pass
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
+
 
     if ( m_NumberOfSigmaSteps == 1 )
       {
