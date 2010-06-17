@@ -468,33 +468,7 @@ void MRCImageIO::WriteImageInformation( const void * buffer )
   // write the header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
   file.write(static_cast<const char*>((void*)&(header)), 1024);
-
-
 }
-
-
-template<typename TPixelType>
-void MRCImageIO::UpdateHeaderWithMinMaxMean( const TPixelType * bufferBegin)
-{
-  typedef TPixelType         PixelType;
-  typedef TPixelType*        PixelPointer;
-  typedef const PixelType    ConstPixelType;
-  typedef const TPixelType*  ConstPixelPointer;
-
-
-  ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
-
-  // this could be replaced with std::min_element and
-  // std::max_element, but that is slighlty less efficient
-  std::pair<ConstPixelPointer, ConstPixelPointer> mm = min_max_element(bufferBegin, bufferEnd);
-
-  double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) ) / std::distance( bufferBegin, bufferEnd );
-
-  m_MRCHeader->m_Header.amin = float(*mm.first);
-  m_MRCHeader->m_Header.amax = float(*mm.second);
-  m_MRCHeader->m_Header.amean = float(mean);
-}
-
 
 void MRCImageIO
 ::UpdateHeaderWithMinMaxMean( const void * bufferBegin )
@@ -508,19 +482,19 @@ void MRCImageIO
     case 0:
       {
       // scalar unsigned char
-      this->UpdateHeaderWithMinMaxMean<unsigned char>(static_cast<const unsigned char*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned char*>(bufferBegin));
       break;
       }
     case 1:
       {
       // scalar short
-      this->UpdateHeaderWithMinMaxMean<short>(static_cast<const short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean(static_cast<const short*>(bufferBegin));
       break;
       }
     case 2:
       {
       // scalar float
-      this->UpdateHeaderWithMinMaxMean<float>(static_cast<const float*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean(static_cast<const float*>(bufferBegin));
       break;
       }
     case 3:
@@ -548,7 +522,7 @@ void MRCImageIO
     case 6:
       {
       // scalar unsigned short
-      this->UpdateHeaderWithMinMaxMean<unsigned short>(static_cast<const unsigned short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned short*>(bufferBegin));
       break;
       }
     case 16:
