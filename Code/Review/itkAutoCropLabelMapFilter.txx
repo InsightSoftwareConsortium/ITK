@@ -126,7 +126,7 @@ AutoCropLabelMapFilter<TInputImage>
   const InputImageType * input = this->GetInput();
 
   // prefetch image region and size
-  InputImageRegionType cropRegion = input->GetLargestPossibleRegion();
+  this->m_CropRegion = input->GetLargestPossibleRegion();
 
   // final computation
   SizeType regionSize;
@@ -134,16 +134,16 @@ AutoCropLabelMapFilter<TInputImage>
     {
     regionSize[i] = this->m_MaxIndex[i] - this->m_MinIndex[i] + 1;
     }
-  cropRegion.SetIndex( this->m_MinIndex );
-  cropRegion.SetSize( regionSize );
+  this->m_CropRegion.SetIndex( this->m_MinIndex );
+  this->m_CropRegion.SetSize( regionSize );
   
   // pad the crop border while ensuring border is not larger than the largest
   // possible region of the input image
-  cropRegion.PadByRadius( m_CropBorder );
-  cropRegion.Crop( input->GetLargestPossibleRegion() );
+  this->m_CropRegion.PadByRadius( m_CropBorder );
+  this->m_CropRegion.Crop( input->GetLargestPossibleRegion() );
 
   // finally set that region as the largest output region
-  this->SetRegion(cropRegion);
+  this->SetRegion(this->m_CropRegion);
   m_CropTimeStamp.Modified();
   
   Superclass::GenerateOutputInformation();
@@ -162,6 +162,7 @@ AutoCropLabelMapFilter<TImage>
   os << indent << "Crop Time Stamp: "  << m_CropTimeStamp << std::endl;
   os << indent << "Min Indexes : "  << m_MinIndex << std::endl;
   os << indent << "Max Indexes : "  << m_MaxIndex << std::endl;
+  os << indent << "Crop Region : " << m_CropRegion << std::endl;
 }
 
 } // end namespace itk

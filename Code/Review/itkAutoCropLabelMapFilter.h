@@ -90,6 +90,10 @@ public:
    */
   itkSetMacro(CropBorder, SizeType);
   itkGetConstReferenceMacro(CropBorder, SizeType);
+  
+  itkGetMacro(MinIndex, IndexType);
+  itkGetMacro(MaxIndex, IndexType);
+  itkGetMacro(CropRegion, InputImageRegionType);
 
 protected:
   AutoCropLabelMapFilter();
@@ -111,6 +115,8 @@ private:
 
   IndexType     m_MinIndex;
   IndexType     m_MaxIndex;
+  
+  InputImageRegionType m_CropRegion;
 };
 
 } // end namespace itk
