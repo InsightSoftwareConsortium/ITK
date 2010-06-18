@@ -270,6 +270,7 @@ SET(ReviewTest4_SRCS
 SET(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
   itkMRCImageIOTest.cxx
+  itkVTKImageIO2Test.cxx
 )
 
 SET(ReviewTest6_SRCS
@@ -2419,6 +2420,7 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
 )
 
 ADD_TEST(itkMRCImageIOTest ${REVIEW_TESTS5} itkMRCImageIOTest ${TEMP})
+ADD_TEST(itkVTKImageIO2Test ${REVIEW_TESTS5} itkVTKImageIO2Test ${TEMP})
 
 
 
