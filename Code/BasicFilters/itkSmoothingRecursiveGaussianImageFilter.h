@@ -22,6 +22,7 @@
 #include "itkImage.h"
 #include "itkPixelTraits.h"
 #include "itkCommand.h"
+#include "itkFixedArray.h"
 
 
 namespace itk
@@ -68,6 +69,11 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
+  /** Define the type for the sigma array */
+  typedef FixedArray< ScalarRealType, 
+          itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+  
+
   /** Define the image type for internal computations 
       RealType is usually 'double' in NumericTraits. 
       Here we prefer float in order to save memory.  */
@@ -110,9 +116,14 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
+  /** Set Sigma value. Sigma is measured in the units of image spacing. You 
+    may use the method SetSigma to set the same value across each axis or
+    use the method SetSigmaArray if you need different values along each
+    axis. */
+  void SetSigmaArray( const SigmaArrayType & sigmas );
   void SetSigma( ScalarRealType sigma );
-  itkGetConstMacro(Sigma, ScalarRealType);
+  SigmaArrayType GetSigmaArray() const;
+  ScalarRealType GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian */
   void SetNormalizeAcrossScale( bool normalizeInScaleSpace );
@@ -157,7 +168,7 @@ private:
   bool m_NormalizeAcrossScale; 
 
   /** Standard deviation of the gaussian used for smoothing */
-  ScalarRealType                        m_Sigma;
+  SigmaArrayType                        m_Sigma;
 };
 
 } // end namespace itk

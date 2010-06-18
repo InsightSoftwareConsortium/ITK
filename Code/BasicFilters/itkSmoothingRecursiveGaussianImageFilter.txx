@@ -66,7 +66,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   // filters with the default scale.  However, m_Sigma must first be
   // initialized (it is used inside SetSigma) and it must be different
   // from 1.0 or the call will be ignored.
-  this->m_Sigma = 0.0;
+  this->m_Sigma.Fill(0.0);
   this->SetSigma( 1.0 );
 }
 
@@ -86,26 +86,57 @@ SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
- * Set value of Sigma
- */
+// Set value of Sigma (isotropic)
+
 template <typename TInputImage, typename TOutputImage>
 void 
 SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::SetSigma( ScalarRealType sigma )
 {
-  if (sigma != this->m_Sigma)
+  SigmaArrayType sigmas(sigma);
+  this->SetSigmaArray(sigmas);
+}
+
+
+// Set value of Sigma (an-isotropic)
+
+template <typename TInputImage, typename TOutputImage>
+void 
+SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::SetSigmaArray( const SigmaArrayType & sigma )
+{
+  if (this->m_Sigma != sigma)
     {
     this->m_Sigma = sigma;
     for( unsigned int i = 0; i<ImageDimension-1; i++ )
       {
-      m_SmoothingFilters[ i ]->SetSigma( sigma );
+      m_SmoothingFilters[ i ]->SetSigma( m_Sigma[i+1] );
       }
-    m_FirstSmoothingFilter->SetSigma( sigma );
+    m_FirstSmoothingFilter->SetSigma( m_Sigma[0] );
     
     this->Modified();
     }
+}
 
+
+// Get the sigma array.
+template <typename TInputImage, typename TOutputImage>
+typename SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>::SigmaArrayType
+SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::GetSigmaArray() const
+{
+  return m_Sigma;
+}
+
+
+// Get the sigma scalar. If the sigma is anisotropic, we will just
+// return the sigma along the first dimension.
+template <typename TInputImage, typename TOutputImage>
+typename SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>::ScalarRealType
+SmoothingRecursiveGaussianImageFilter<TInputImage,TOutputImage>
+::GetSigma() const
+{
+  return m_Sigma[0];
 }
 
 
