@@ -22,8 +22,10 @@
 #include "itkMRCImageIO.h"
 
 
-namespace MRCImageIOTest {
+static unsigned int m_CallNumber = 0;
 
+
+template <typename TImageType>
 class MRCImageIOTester
 {
   
@@ -32,22 +34,17 @@ public:
   
   virtual ~MRCImageIOTester(){};
   
-protected:
+  static bool Write( const std::string &filePrefix, std::string &outputPath );
   
-  static unsigned int m_CallNumber;
-
-  template <typename TImageType>
-  bool WriteMRCImage( const std::string &filePrefix, std::string &outputPath );
-  
-  template <typename TImageType>
-  bool ReadMRCImage( const std::string &filePrefix, 
-                     std::string &outputPath, 
-                     unsigned int index );
+  static bool Read( const std::string &filePrefix, 
+                    std::string &outputPath, 
+                    unsigned int index );
 };
 
 template <typename TImageType>
-bool MRCImageIOTester::WriteMRCImage( const std::string &filePrefix, std::string &outputPath )  
-  {
+bool MRCImageIOTester<TImageType>
+::Write( const std::string &filePrefix, std::string &outputPath )  
+{
   try 
     {
     ++m_CallNumber;
@@ -146,9 +143,10 @@ bool MRCImageIOTester::WriteMRCImage( const std::string &filePrefix, std::string
 }
 
 template <typename TImageType>
-bool MRCImageIOTester::ReadMRCImage( const std::string &filePrefix, 
-                                       std::string &outputPath, 
-                                       unsigned int index )
+bool MRCImageIOTester<TImageType>
+::Read( const std::string &filePrefix, 
+        std::string &outputPath, 
+        unsigned int index )
 {
   try
     {
@@ -279,7 +277,8 @@ bool MRCImageIOTester::ReadMRCImage( const std::string &filePrefix,
 }
 
 
-int MRCImageIOTester::Test(int argc, char* argv[] )
+// int MRCImageIOTester::Test(int argc, char* argv[] )
+int itkMRCImageIOTest(int argc, char* argv[])
 {
   
   if( argc < 2 )
@@ -297,13 +296,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // unsigned char
   typedef itk::Image<unsigned char, 3> ImageTypeUnsignedChar3;
-  if (!(this->WriteMRCImage< ImageTypeUnsignedChar3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (unsighed char)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsighed char)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeUnsignedChar3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (unsighed char)" << std::endl;
     return EXIT_FAILURE;
@@ -312,13 +311,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // short
   typedef itk::Image<short, 3> ImageTypeShort3;
-  if (!(this->WriteMRCImage< ImageTypeShort3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeShort3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (short)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (short)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeShort3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeShort3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (short)" << std::endl;
     return EXIT_FAILURE;
@@ -327,13 +326,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // float
   typedef itk::Image<float, 3> ImageTypeFloat3;
-  if (!(this->WriteMRCImage< ImageTypeFloat3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeFloat3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (float)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (float)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeFloat3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeFloat3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (float)" << std::endl;
     return EXIT_FAILURE;
@@ -342,13 +341,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // unsigned short
   typedef itk::Image<unsigned short, 3> ImageTypeUnsignedShort3;
-  if (!(this->WriteMRCImage< ImageTypeUnsignedShort3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedShort3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (unsighed short)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsighed short)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeUnsignedShort3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedShort3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (unsighed short)" << std::endl;
     return EXIT_FAILURE;
@@ -358,13 +357,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   // RGBPixel<unsigned char>
   typedef itk::RGBPixel<unsigned char>  PixelTypeRGB;
   typedef itk::Image<PixelTypeRGB, 3>   ImageTypeRGB3;
-  if (!(this->WriteMRCImage< ImageTypeRGB3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeRGB3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (RGBPixel<unsighed char>)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (RGBPixel<unsigned char>)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeRGB3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeRGB3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (RGBPixel<unsigned char>)" << std::endl;
     return EXIT_FAILURE;
@@ -374,13 +373,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   // complex<float>
   typedef std::complex<float>                   PixelTypeComplexFloat;
   typedef itk::Image<PixelTypeComplexFloat, 3>  ImageTypeComplexFloat3;
-  if (!(this->WriteMRCImage< ImageTypeComplexFloat3 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeComplexFloat3 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (complex<float>)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (complex<float>)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeComplexFloat3 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeComplexFloat3 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (complex<float>)" << std::endl;
     return EXIT_FAILURE;
@@ -394,13 +393,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // 1D
   typedef itk::Image<unsigned char, 1> ImageTypeUnsignedChar1;
-  if (!(this->WriteMRCImage< ImageTypeUnsignedChar1 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar1 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (1D)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (1D)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeUnsignedChar1 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar1 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (1D)" << std::endl;
     return EXIT_FAILURE;
@@ -409,13 +408,13 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   
   // 2D
   typedef itk::Image<unsigned char, 2> ImageTypeUnsignedChar2;
-  if (!(this->WriteMRCImage< ImageTypeUnsignedChar2 >(filePrefix, outputPath)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar2 >::Write(filePrefix, outputPath)))
     {
     std::cout << "[FAILED] writing (2D)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (2D)" << std::endl;
-  if (!(this->ReadMRCImage< ImageTypeUnsignedChar2 >(filePrefix, outputPath, m_CallNumber)))
+  if (!(MRCImageIOTester< ImageTypeUnsignedChar2 >::Read(filePrefix, outputPath, m_CallNumber)))
     {
     std::cout << "[FAILED] reading (2D)" << std::endl;
     return EXIT_FAILURE;
@@ -427,7 +426,7 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   // expect exceptions with the following
   //
   typedef itk::Image<double> ImageTypeDouble;
-  if (this->WriteMRCImage< ImageTypeDouble >(filePrefix, outputPath))
+  if (MRCImageIOTester< ImageTypeDouble >::Write(filePrefix, outputPath))
     {
     std::cout << "[FAILED] didn't throw exception (Image<double>)" 
               << std::endl;
@@ -436,7 +435,7 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   std::cout << "[PASSED] threw exception (Image<double>)" << std::endl;
   
   typedef itk::Image<int> ImageTypeInt;
-  if (this->WriteMRCImage< ImageTypeInt >(filePrefix, outputPath))
+  if (MRCImageIOTester< ImageTypeInt >::Write(filePrefix, outputPath))
     {
     std::cout << "[FAILED] didn't throw exception (Image<int>)" << std::endl;
     return EXIT_FAILURE;
@@ -444,7 +443,7 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   std::cout << "[PASSED] threw exception (Image<int>)" << std::endl;
   
   typedef itk::Image<unsigned long> ImageTypeUnsignedLong;
-  if (this->WriteMRCImage< ImageTypeUnsignedLong >(filePrefix, outputPath))
+  if (MRCImageIOTester< ImageTypeUnsignedLong >::Write(filePrefix, outputPath))
     {
     std::cout << "[FAILED] didn't throw exception (Image<unsigned long>)" 
               << std::endl;
@@ -457,7 +456,7 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   // test unusable dimensions
   //
   typedef itk::Image<unsigned char, 4> ImageTypeUnsignedChar4;
-  if (this->WriteMRCImage< ImageTypeUnsignedChar4 >(filePrefix, outputPath))
+  if (MRCImageIOTester< ImageTypeUnsignedChar4 >::Write(filePrefix, outputPath))
     {
     std::cout << "[FAILED] incorrectly returned true (4D)" << std::endl;
     return EXIT_FAILURE;
@@ -465,7 +464,7 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   std::cout << "[PASSED] threw exception (4D)" << std::endl;
   
   typedef itk::Image<unsigned char, 5> ImageTypeUnsignedChar5;
-  if (this->WriteMRCImage< ImageTypeUnsignedChar5 >(filePrefix, outputPath))
+  if (MRCImageIOTester< ImageTypeUnsignedChar5 >::Write(filePrefix, outputPath))
     {
     std::cout << "[FAILED] incorrectly returned true (5D)" << std::endl;
     return EXIT_FAILURE;
@@ -477,16 +476,4 @@ int MRCImageIOTester::Test(int argc, char* argv[] )
   // All tests succeeded
   //
   return EXIT_SUCCESS;
-}
-
-unsigned int MRCImageIOTester::m_CallNumber = 0;
-
-} // end namespace MRCImageIOTest
-
-
-int itkMRCImageIOTest(int argc, char* argv[])
-{
-
-  MRCImageIOTest::MRCImageIOTester test;
-  return test.Test(argc, argv);
 }
