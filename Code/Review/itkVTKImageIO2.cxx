@@ -449,7 +449,7 @@ void VTKImageIO2::Read(void* buffer)
           break;
 #endif
         default:
-          itkExceptionMacro(<< "Unknown component size");
+          itkExceptionMacro(<< "Unknown component size" << size);
         }
       }
     }

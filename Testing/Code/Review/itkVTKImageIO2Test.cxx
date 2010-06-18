@@ -32,6 +32,7 @@ template <typename TPixelType, unsigned int VImageDimension>
 class VTKImageIO2Tester
 {
 public:
+  
   virtual int Test(int argc, char* argv[] );
   
   virtual ~VTKImageIO2Tester(){};
@@ -39,7 +40,7 @@ public:
   static std::string SetupFileName( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
   
   static bool Write( const std::string &filePrefix, std::string &outputPath, bool ascii );
-  static bool Read( const std::string &filePrefix, std::string &outputPath, unsigned int index, bool ascii );
+  static bool Read( const std::string &filePrefix, std::string &outputPath, bool ascii );
   
   static bool CanReadFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
   static bool CanWriteFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
@@ -173,8 +174,7 @@ VTKImageIO2Tester<TPixelType,VImageDimension>
 template <typename TPixelType, unsigned int VImageDimension>
 bool 
 VTKImageIO2Tester<TPixelType,VImageDimension>
-::Read( const std::string &filePrefix, std::string &outputPath, 
-    unsigned int index, bool ascii )
+::Read( const std::string &filePrefix, std::string &outputPath, bool ascii )
 {
   try
     {
@@ -340,7 +340,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned char - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned char, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<unsigned char, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (unsigned char - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -354,7 +354,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned char - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned char, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<unsigned char, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (unsigned char - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -368,7 +368,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (char - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<char, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<char, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (char - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -382,7 +382,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (char - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<char, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<char, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (char - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -396,7 +396,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned short - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned short, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<unsigned short, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (unsigned short - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -410,7 +410,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned short - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned short, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<unsigned short, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (unsigned short - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -424,7 +424,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (short - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<short, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<short, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (short - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -438,7 +438,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (short - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<short, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<short, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] readting (short - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -452,7 +452,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned int - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned int, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<unsigned int, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (unsigned int - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -466,7 +466,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned int - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned int, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<unsigned int, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (unsigned int - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -480,7 +480,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (int - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<int, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<int, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (int - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -494,7 +494,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (int - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<int, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<int, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (int - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -508,7 +508,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned long - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned long, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<unsigned long, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (unsigned long - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -522,7 +522,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (unsigned long - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<unsigned long, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<unsigned long, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (unsigned long - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -536,7 +536,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (long - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<long, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<long, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (long - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -550,124 +550,12 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (long - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<long, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<long, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (long - binary)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] reading (long - binary)" << std::endl;
-
-  // RGBPixel<unsigned char> - ascii
-  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
-    {
-    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
-    {
-    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
-  
-  // RGBPixel<unsigned char> - binary
-  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
-    {
-    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
-    {
-    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
-  
-  // RGBAPixel<unsigned char> - ascii
-  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
-    {
-    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
-    {
-    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
-  
-  // RGBAPixel<unsigned char> - binary
-  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
-    {
-    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
-    {
-    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
-
-  // Vector<int> - ascii
-  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, true )))
-    {
-    std::cout << "[FAILED] writing (Vector<int> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (Vector<int> - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, m_CallNumber, true )))
-    {
-    std::cout << "[FAILED] reading (Vector<int> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (Vector<int> - ascii)" << std::endl;
-  
-  // Vector<int> - binary
-  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, false )))
-    {
-    std::cout << "[FAILED] writing (Vector<int> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (Vector<int> - binary)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, m_CallNumber, false )))
-    {
-    std::cout << "[FAILED] reading (Vector<int> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (Vector<int> - binary)" << std::endl;
-  
-  // Vector<double> - ascii
-  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, true )))
-    {
-    std::cout << "[FAILED] writing (Vector<double> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (Vector<double> - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, m_CallNumber, true )))
-    {
-    std::cout << "[FAILED] reading (Vector<double> - ascii)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (Vector<double> - ascii)" << std::endl;
-  
-  // Vector<double> - binary
-  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, false )))
-    {
-    std::cout << "[FAILED] writing (Vector<double> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] writing (Vector<double> - binary)" << std::endl;
-  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, m_CallNumber, false )))
-    {
-    std::cout << "[FAILED] reading (Vector<double> - binary)" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] reading (Vector<double> - binary)" << std::endl;
   
   // float - ascii
   if (!(VTKImageIO2Tester<float, 3>::Write( filePrefix, outputPath, true )))
@@ -676,7 +564,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (float - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<float, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<float, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (float - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -690,7 +578,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (float - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<float, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<float, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (float - binary)" << std::endl;
     return EXIT_FAILURE;
@@ -704,7 +592,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (double - ascii)" << std::endl;
-  if (!(VTKImageIO2Tester<double, 3>::Read( filePrefix, outputPath, m_CallNumber, true )))
+  if (!(VTKImageIO2Tester<double, 3>::Read( filePrefix, outputPath, true )))
     {
     std::cout << "[FAILED] reading (double - ascii)" << std::endl;
     return EXIT_FAILURE;
@@ -718,12 +606,124 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] writing (double - binary)" << std::endl;
-  if (!(VTKImageIO2Tester<double, 3>::Read( filePrefix, outputPath, m_CallNumber, false )))
+  if (!(VTKImageIO2Tester<double, 3>::Read( filePrefix, outputPath, false )))
     {
     std::cout << "[FAILED] reading (double - binary)" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] reading (double - binary)" << std::endl;
+  
+  // RGBPixel<unsigned char> - ascii
+  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
+  
+  // RGBPixel<unsigned char> - binary
+  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
+  
+  // RGBAPixel<unsigned char> - ascii
+  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
+  
+  // RGBAPixel<unsigned char> - binary
+  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
+
+  // Vector<int> - ascii
+  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (Vector<int> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (Vector<int> - ascii)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] reading (Vector<int> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (Vector<int> - ascii)" << std::endl;
+  
+  // Vector<int> - binary
+  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (Vector<int> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (Vector<int> - binary)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] reading (Vector<int> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (Vector<int> - binary)" << std::endl;
+  
+  // Vector<double> - ascii
+  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] writing (Vector<double> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (Vector<double> - ascii)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, true )))
+    {
+    std::cout << "[FAILED] reading (Vector<double> - ascii)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (Vector<double> - ascii)" << std::endl;
+  
+  // Vector<double> - binary
+  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] writing (Vector<double> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] writing (Vector<double> - binary)" << std::endl;
+  if (!(VTKImageIO2Tester< itk::Vector<double, TEST_VECTOR_PIXEL_DIM>, 3 >::Read( filePrefix, outputPath, false )))
+    {
+    std::cout << "[FAILED] reading (Vector<double> - binary)" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] reading (Vector<double> - binary)" << std::endl;
   
   
   //
