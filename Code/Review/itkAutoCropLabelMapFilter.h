@@ -91,9 +91,9 @@ public:
   itkSetMacro(CropBorder, SizeType);
   itkGetConstReferenceMacro(CropBorder, SizeType);
   
-  itkGetMacro(MinIndex, IndexType);
-  itkGetMacro(MaxIndex, IndexType);
-  itkGetMacro(CropRegion, InputImageRegionType);
+  itkGetConstReferenceMacro(MinIndex, IndexType);
+  itkGetConstReferenceMacro(MaxIndex, IndexType);
+  itkGetConstReferenceMacro(CropRegion, InputImageRegionType);
 
 protected:
   AutoCropLabelMapFilter();
