@@ -14,15 +14,13 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#include "itkVTKImageIO2.h"
+
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
-
-#include "itkVTKImageIO2.h"
-
 
 static unsigned int m_CallNumber;
 
@@ -37,284 +35,274 @@ public:
   
   virtual ~VTKImageIO2Tester(){};
   
-  static std::string SetupFileName( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
-  
-  static bool Write( const std::string &filePrefix, std::string &outputPath, bool ascii );
-  static bool Read( const std::string &filePrefix, std::string &outputPath, bool ascii );
-  
-  static bool CanReadFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
-  static bool CanWriteFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath );
-  
-};
-
-template <typename TPixelType, unsigned int VImageDimension>
-std::string 
-VTKImageIO2Tester<TPixelType,VImageDimension>
-::SetupFileName( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath )
-{
-  std::ostringstream m_NameWithIndex;
-  m_NameWithIndex << filePrefix << "_" << m_CallNumber << "." << fileExtension;
-  
-  std::ostringstream m_OutputFileName;
+  static std::string 
+  SetupFileName( const std::string &filePrefix,
+                 const std::string &fileExtension,
+                 std::string &outputPath )
+    {
+    std::ostringstream m_NameWithIndex;
+    m_NameWithIndex << filePrefix << "_" << m_CallNumber << "." << fileExtension;
+    
+    std::ostringstream m_OutputFileName;
   
 #if defined(WIN32) // windows
-  // if it ends in \\ just append the name
-  if (outputPath[outputPath.size()-1] == '\\')
-    {
-    m_OutputFileName << outputPath << m_NameWithIndex.str();
-    }
-  else
-    {
-    m_OutputFileName << outputPath << "\\" << m_NameWithIndex.str();
-    }
+    // if it ends in \\ just append the name
+    if (outputPath[outputPath.size()-1] == '\\')
+      {
+      m_OutputFileName << outputPath << m_NameWithIndex.str();
+      }
+    else
+      {
+      m_OutputFileName << outputPath << "\\" << m_NameWithIndex.str();
+      }
   
 #else /// POSIX UNIX
-  // if it ends in / just append the name
-  if (outputPath[outputPath.size()-1] == '/')
-    {
-    m_OutputFileName << outputPath << m_NameWithIndex.str();
-    }
-  // otherwise, add / and the name
-  else
-    {
-    m_OutputFileName << outputPath << "/" << m_NameWithIndex.str();
-    }
+    // if it ends in / just append the name
+    if (outputPath[outputPath.size()-1] == '/')
+      {
+      m_OutputFileName << outputPath << m_NameWithIndex.str();
+      }
+    // otherwise, add / and the name
+    else
+      {
+      m_OutputFileName << outputPath << "/" << m_NameWithIndex.str();
+      }
 #endif
   
-  return m_OutputFileName.str();
-  
-}
+    return m_OutputFileName.str();
+    }
 
-template <typename TPixelType, unsigned int VImageDimension>
-bool 
-VTKImageIO2Tester<TPixelType,VImageDimension>
-::Write( const std::string &filePrefix, std::string &outputPath, bool ascii )
-{
-  try 
+  static bool
+  Write( const std::string &filePrefix,
+         std::string &outputPath,
+         bool ascii )
     {
-    ++m_CallNumber;
+    try 
+      {
+      ++m_CallNumber;
 
-    typedef TPixelType                              PixelType;
-    typedef itk::Image<PixelType,VImageDimension>   ImageType;
+      typedef TPixelType                              PixelType;
+      typedef itk::Image<PixelType,VImageDimension>   ImageType;
     
     
-    // force use of VTKImageIO2
+      // force use of VTKImageIO2
+      typedef itk::VTKImageIO2 IOType;
+      IOType::Pointer vtkIO = IOType::New();
+      vtkIO->SetFileTypeToASCII();
+      if (ascii)
+        {
+        vtkIO->SetFileTypeToASCII();
+        }
+      else
+        {
+        vtkIO->SetFileTypeToBinary();
+        }
+  
+      typedef itk::ImageFileWriter<ImageType> ImageFileWriterType;
+      typename ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
+      writer->SetImageIO( vtkIO );
+    
+      // allocate an 10x10x10 image
+      typename ImageType::Pointer image = ImageType::New();
+      typename ImageType::SizeType imageSize;
+      imageSize.Fill(10);
+      image->SetRegions( imageSize );
+      image->Allocate();
+
+      unsigned int cnt = 0;
+      itk::ImageRegionIterator< ImageType > i( image, image->GetLargestPossibleRegion() );
+      i.GoToBegin();
+      while (! i.IsAtEnd() )
+        {
+        // fill the image switching between these pixels
+        switch (cnt%4) 
+          {
+          case 0:
+            i.Set( itk::NumericTraits<PixelType>::ZeroValue() );
+            break;
+          case 1:
+            i.Set( itk::NumericTraits<PixelType>::OneValue() );
+            break;
+          case 2:
+            i.Set( itk::NumericTraits<PixelType>::OneValue() );
+            break;
+          case 3:
+            i.Set( itk::NumericTraits<PixelType>::ZeroValue() );
+          }
+        ++cnt;
+        ++i;
+        }
+    
+      writer->SetInput( image );
+    
+      std::string m_OutputFileName = 
+        VTKImageIO2Tester<char,3>::SetupFileName(filePrefix, "vtk", outputPath);
+
+      writer->SetFileName( m_OutputFileName );
+      writer->Update();
+    
+      // test the CanWriteFile function after the fact (should always
+      // be true at this point)
+      if (!vtkIO->CanWriteFile(m_OutputFileName.c_str()))
+        {
+        return false;
+        }
+    
+      return true;
+      
+      } 
+    catch (itk::ExceptionObject &e) 
+      {
+      std::cout << e << std::endl;
+      return false;
+      }
+    }
+
+  static bool
+  Read( const std::string &filePrefix,
+        std::string &outputPath,
+        bool ascii )
+    {
+    try
+      {
+      typedef TPixelType                              PixelType;
+      typedef itk::Image<PixelType,VImageDimension>   ImageType;
+    
+      typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
+      typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+    
+      // force use of VTKImageIO2
+      typedef itk::VTKImageIO2 IOType;
+      IOType::Pointer vtkIO = IOType::New();
+      reader->SetImageIO(vtkIO);
+    
+      // set ascii or binary
+      if (ascii)
+        {
+        vtkIO->SetFileTypeToASCII();
+        }
+      else
+        {
+        vtkIO->SetFileTypeToBinary();
+        }
+    
+      std::string m_OutputFileName = VTKImageIO2Tester::SetupFileName( filePrefix, "vtk", outputPath );
+      reader->SetFileName( m_OutputFileName );
+    
+      // read the image
+      typename ImageType::Pointer image = reader->GetOutput();
+      reader->Update();
+    
+      // test the CanReadFile function after the fact (should always
+      // be true at this point)
+      if (!vtkIO->CanReadFile(m_OutputFileName.c_str()))
+        {
+        return false;
+        }
+    
+      // check the size
+      typename ImageType::RegionType region =
+        image->GetLargestPossibleRegion();
+      typename ImageType::SizeType size = region.GetSize();
+      bool sizeGood = true;
+      for (unsigned int i = 0; i < ImageType::GetImageDimension(); i++)
+        {
+        if (size[i] != 10)
+          {
+          sizeGood = false;
+          break;
+          }
+        }
+      if (!sizeGood)
+        {
+        std::cout << "Error: Size didn't read properly" << std::endl;
+        return false;
+        }
+    
+      // check each pixel
+      bool pixelsGood = true;
+      unsigned int cnt = 0;
+      itk::ImageRegionIterator< ImageType > iter( image, region );
+      iter.GoToBegin();
+    
+      while (! iter.IsAtEnd() && pixelsGood)
+        {
+        // check image switching between these pixels
+        switch (cnt%4) 
+          {
+          case 0:
+            if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
+              {
+              pixelsGood = false;
+              }
+            break;
+          case 1:
+            if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
+              {
+              pixelsGood = false;
+              }
+            break;
+          case 2:
+            if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
+              {
+              pixelsGood = false;
+              }
+            break;
+          case 3:
+            if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
+              {
+              pixelsGood = false;
+              }
+            break;
+          }
+        ++cnt;
+        ++iter;
+        }
+    
+      if (!pixelsGood)
+        {
+        std::cout << "Error: Pixels didn't read properly" << std::endl;
+        return false;
+        }
+
+      // reading successfull, so return true
+      return true;
+      }
+    catch(itk::ExceptionObject &e)
+      {
+      std::cout << e << std::endl;
+      return false;
+      }
+    }
+
+  static bool
+  CanReadFileTest( const std::string &filePrefix,
+                   const std::string &fileExtension,
+                   std::string &outputPath )
+    {
     typedef itk::VTKImageIO2 IOType;
     IOType::Pointer vtkIO = IOType::New();
-    vtkIO->SetFileTypeToASCII();
-    if (ascii)
-      {
-      vtkIO->SetFileTypeToASCII();
-      }
-    else
-      {
-      vtkIO->SetFileTypeToBinary();
-      }
   
-    typedef itk::ImageFileWriter<ImageType> ImageFileWriterType;
-    typename ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
-    writer->SetImageIO( vtkIO );
-    
-    // allocate an 10x10x10 image
-    typename ImageType::Pointer image = ImageType::New();
-    typename ImageType::SizeType imageSize;
-    imageSize.Fill(10);
-    image->SetRegions( imageSize );
-    image->Allocate();
-
-    unsigned int cnt = 0;
-    itk::ImageRegionIterator< ImageType > i( image, image->GetLargestPossibleRegion() );
-    i.GoToBegin();
-    while (! i.IsAtEnd() )
-      {
-      // fill the image switching between these pixels
-      switch (cnt%4) 
-        {
-        case 0:
-          i.Set( itk::NumericTraits<PixelType>::ZeroValue() );
-          break;
-        case 1:
-          i.Set( itk::NumericTraits<PixelType>::OneValue() );
-          break;
-        case 2:
-          i.Set( itk::NumericTraits<PixelType>::OneValue() );
-          break;
-        case 3:
-          i.Set( itk::NumericTraits<PixelType>::ZeroValue() );
-        }
-      ++cnt;
-      ++i;
-      }
-    
-    writer->SetInput( image );
-    
-    std::string m_OutputFileName = 
-      VTKImageIO2Tester<char,3>::SetupFileName(filePrefix, "vtk", outputPath);
-
-    writer->SetFileName( m_OutputFileName );
-    writer->Update();
-    
-    // test the CanWriteFile function after the fact (should always be true at this point)
-    if (!vtkIO->CanWriteFile(m_OutputFileName.c_str()))
-      {
-      return false;
-      }
-    
-    return true;
-    
-    } 
-  catch (itk::ExceptionObject &e) 
-    {
-    std::cout << e.GetDescription() << std::endl;
-    return false;
+    std::string fileName =
+      VTKImageIO2Tester::SetupFileName(filePrefix, fileExtension, outputPath);
+  
+    return vtkIO->CanReadFile( fileName.c_str() );
     }
-}
 
-
-template <typename TPixelType, unsigned int VImageDimension>
-bool 
-VTKImageIO2Tester<TPixelType,VImageDimension>
-::Read( const std::string &filePrefix, std::string &outputPath, bool ascii )
-{
-  try
+  static bool
+  CanWriteFileTest( const std::string &filePrefix,
+                    const std::string &fileExtension,
+                    std::string &outputPath )
     {
-    typedef TPixelType                              PixelType;
-    typedef itk::Image<PixelType,VImageDimension>   ImageType;
-    
-    typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
-    typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
-    
-    // force use of VTKImageIO2
     typedef itk::VTKImageIO2 IOType;
     IOType::Pointer vtkIO = IOType::New();
-    reader->SetImageIO(vtkIO);
-    
-    // set ascii or binary
-    if (ascii)
-      {
-      vtkIO->SetFileTypeToASCII();
-      }
-    else
-      {
-      vtkIO->SetFileTypeToBinary();
-      }
-    
-    std::string m_OutputFileName = VTKImageIO2Tester::SetupFileName( filePrefix, "vtk", outputPath );
-    reader->SetFileName( m_OutputFileName );
-    
-    // read the image
-    typename ImageType::Pointer image = reader->GetOutput();
-    reader->Update();
-    
-    // test the CanReadFile function after the fact (should always be true at this point)
-    if (!vtkIO->CanReadFile(m_OutputFileName.c_str()))
-      {
-      return false;
-      }
-    
-    // check the size
-    typename ImageType::RegionType region = image->GetLargestPossibleRegion();
-    typename ImageType::SizeType size = region.GetSize();
-    bool sizeGood = true;
-    for (unsigned int i = 0; i < ImageType::GetImageDimension(); i++)
-      {
-      if (size[i] != 10)
-        {
-        sizeGood = false;
-        break;
-        }
-      }
-    if (!sizeGood)
-      {
-      std::cout << "Error: Size didn't read properly" << std::endl;
-      return false;
-      }
-    
-    // check each pixel
-    bool pixelsGood = true;
-    unsigned int cnt = 0;
-    itk::ImageRegionIterator< ImageType > iter( image, region );
-    iter.GoToBegin();
-    
-    while (! iter.IsAtEnd() && pixelsGood)
-      {
-      // check image switching between these pixels
-      switch (cnt%4) 
-        {
-        case 0:
-          if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
-            {
-            pixelsGood = false;
-            }
-          break;
-        case 1:
-          if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
-            {
-            pixelsGood = false;
-            }
-          break;
-        case 2:
-          if (iter.Get() != itk::NumericTraits<PixelType>::OneValue())
-            {
-            pixelsGood = false;
-            }
-          break;
-        case 3:
-          if (iter.Get() != itk::NumericTraits<PixelType>::ZeroValue())
-            {
-            pixelsGood = false;
-            }
-          break;
-        }
-      ++cnt;
-      ++iter;
-      }
-    
-    if (!pixelsGood)
-      {
-      std::cout << "Error: Pixels didn't read properly" << std::endl;
-      return false;
-      }
-    
-
-    // reading successfull, so return true
-    return true;
-    
+  
+    std::string fileName =
+      VTKImageIO2Tester::SetupFileName(filePrefix, fileExtension, outputPath);
+  
+    return vtkIO->CanWriteFile( fileName.c_str() );
     }
-  catch(itk::ExceptionObject &e)
-    {
-    std::cout << e.GetDescription() << std::endl;
-    return false;
-    }
-}
-
-
-template <typename TPixelType, unsigned int VImageDimension>
-bool 
-VTKImageIO2Tester<TPixelType,VImageDimension>
-::CanReadFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath )
-{
-  typedef itk::VTKImageIO2 IOType;
-  IOType::Pointer vtkIO = IOType::New();
-  
-  std::string fileName = VTKImageIO2Tester::SetupFileName(filePrefix, fileExtension, outputPath);
-  
-  return vtkIO->CanReadFile( fileName.c_str() );
-}
-
-
-template <typename TPixelType, unsigned int VImageDimension>
-bool 
-VTKImageIO2Tester<TPixelType,VImageDimension>
-::CanWriteFileTest( const std::string &filePrefix, const std::string &fileExtension, std::string &outputPath )
-{
-  typedef itk::VTKImageIO2 IOType;
-  IOType::Pointer vtkIO = IOType::New();
-  
-  std::string fileName = VTKImageIO2Tester::SetupFileName(filePrefix, fileExtension, outputPath);
-  
-  return vtkIO->CanWriteFile( fileName.c_str() );
-}
+};
 
 
 int itkVTKImageIO2Test(int argc, char* argv[])
