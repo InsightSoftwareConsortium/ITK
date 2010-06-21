@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
+#include "itkMetaImageIO.h"
 
 int itkMetaImageIOTest(int ac, char* av[])
 {
@@ -39,6 +40,31 @@ int itkMetaImageIOTest(int ac, char* av[])
   itk::ImageFileReader<myImage>::Pointer reader 
                                   = itk::ImageFileReader<myImage>::New();
   
+  // force use of MetaIO
+  typedef itk::MetaImageIO IOType;
+  IOType::Pointer metaIO = IOType::New();
+  metaIO->SetDoublePrecision(8);  // Set manually for coverage
+  reader->SetImageIO(metaIO);
+  
+  // check usability of dimension (for coverage)
+  if (!metaIO->SupportsDimension(3))
+    {
+    std::cerr << "Did not support dimension 3" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
+  // test subsampling factor (change it then change it back)
+  unsigned int origSubSamplingFactor = metaIO->GetSubSamplingFactor();
+  unsigned int subSamplingFactor = 2;
+  metaIO->SetSubSamplingFactor(subSamplingFactor);
+  if (metaIO->GetSubSamplingFactor() != subSamplingFactor)
+    {
+    std::cerr << "Did not set/get Sub Sampling factor correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  metaIO->SetSubSamplingFactor(origSubSamplingFactor);
+  
+  // read the file
   reader->SetFileName(av[1]);
   try
     {
@@ -64,6 +90,7 @@ int itkMetaImageIOTest(int ac, char* av[])
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
+  writer->SetImageIO(metaIO);
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName( av[2] );
   writer->Update();

@@ -27,6 +27,7 @@
 #include "itkImageFileWriter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkMedianImageFilter.h"
+#include "itkMetaImageIO.h"
 
 int itkMetaImageStreamingIOTest(int ac, char* av[])
 {
@@ -40,6 +41,7 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::MetaImageIO                         IOType;
 
   typedef itk::MedianImageFilter< OutputImageType,
                                             OutputImageType > FilterType;
@@ -53,6 +55,10 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
+  
+  IOType::Pointer metaIO = IOType::New();
+  reader->SetImageIO(metaIO);
+  writer->SetImageIO(metaIO);
 
   const std::string inputFilename  = av[1];
   const std::string outputFilename = av[2];
@@ -73,7 +79,19 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   //filter->SetInput( reader->GetOutput() );
   streamer->SetInput( reader->GetOutput() );
   writer->SetInput( streamer->GetOutput() );
-
+  
+  // test streaming check methods
+  if (!metaIO->CanStreamRead())
+    {
+    std::cerr << "Failed stream read check" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if (!metaIO->CanStreamWrite())
+    {
+    std::cerr << "Failed stream write check" << std::endl;
+    return EXIT_FAILURE;
+    }
+  
   // By default we decide to use 4 pieces, but this value can
   // be changed from the command line.
   unsigned int numberOfDataPieces = 4;
