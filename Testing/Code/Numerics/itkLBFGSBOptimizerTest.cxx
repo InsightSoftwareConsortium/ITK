@@ -188,17 +188,26 @@ int itkLBFGSBOptimizerTest(int, char *[])
 
   const OptimizerType::ParametersType & finalPosition = itkOptimizer->GetCurrentPosition();
   
-  std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
+  std::cout << "Solution        = ("
+    << finalPosition[0] << ","
+    << finalPosition[1] << ")" << std::endl;  
 
-  std::cout << "Final Function Value = ";
-  std::cout << itkOptimizer->GetValue() << std::endl;
+  std::cout << "Final Function Value = "
+    << itkOptimizer->GetValue() << std::endl;
 
-  std::cout << "Infinity Norm of Projected Gradient = ";
-  std::cout << itkOptimizer->GetInfinityNormOfProjectedGradient() << std::endl;
-  
-  std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Infinity Norm of Projected Gradient = "
+    << itkOptimizer->GetInfinityNormOfProjectedGradient() << std::endl;
+  std::cout << "End condition   = "
+    << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Trace   = " << itkOptimizer->GetTrace() << std::endl;
+  std::cout << "CostFunctionConvergenceFactor   = "
+    << itkOptimizer->GetCostFunctionConvergenceFactor() << std::endl;
+  std::cout << "ProjectedGradientTolerance   = "
+    << itkOptimizer->GetProjectedGradientTolerance() << std::endl;
+  std::cout << "MaximumNumberOfIterations   = "
+    << itkOptimizer->GetMaximumNumberOfIterations() << std::endl;
+  std::cout << "MaximumNumberOfEvaluations   = "
+    << itkOptimizer->GetMaximumNumberOfEvaluations() << std::endl;
 
   //
   // check results to see if it is within range
