@@ -22,10 +22,12 @@
 #include "itkTransformFileWriter.h"
 #include "itkTransformIOFactory.h"
 #include "itkAffineTransform.h"
-
+#include "itkTransformFactory.h"
+#include "itkScaleVersor3DTransform.h"
 
 int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 {
+  itk::TransformFactory<itk::ScaleVersor3DTransform<float> >::RegisterTransform ();
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
