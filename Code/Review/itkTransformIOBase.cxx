@@ -62,7 +62,7 @@ CreateTransform(TransformPointer &ptr,
 
 void 
 TransformIOBase
-::OpenStream(std::ofstream &out, bool binary)
+::OpenStream(std::ofstream &outputStream, bool binary)
 {
 #ifdef __sgi
   // Create the file. This is required on some older sgi's
@@ -86,7 +86,14 @@ TransformIOBase
     {
     mode |= std::ios::app; 
     }
-  out.open(m_FileName.c_str(), mode);
+
+  outputStream.open(m_FileName.c_str(), mode);
+
+  if( outputStream.fail() )
+    {
+    outputStream.close();
+    itkExceptionMacro("Failed opening file" << m_FileName );
+    }
 }
 
 void TransformIOBase::SetTransformList(ConstTransformListType &transformList)
