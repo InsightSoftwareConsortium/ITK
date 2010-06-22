@@ -39,19 +39,14 @@ int main(int ac, char* av[])
 
 
   typedef short InputPixelType;
+  typedef itk::Image< InputPixelType, 2 >         InputImageType;
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
-  typedef itk::Image< InputPixelType, 2 > InputImageType;
-
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
-
-  ReaderType::Pointer reader = ReaderType::New();
-
-  reader->SetFileName( av[1] );
-  
-  typedef itk::GDCMImageIO        ImageIOType;
-
+  typedef itk::GDCMImageIO                        ImageIOType;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( av[1] );
   reader->SetImageIO( gdcmImageIO );
 
   try
@@ -65,17 +60,36 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
+  // Exercise the get methods
+  std::cout << "InternalComponentType: "
+    << gdcmImageIO->GetInternalComponentType() << std::endl;
+  std::cout << "RescaleSlope: "
+    << gdcmImageIO->GetRescaleSlope() << std::endl;
+  std::cout << "RescaleIntercept: "
+    << gdcmImageIO->GetRescaleIntercept() << std::endl;
+  std::cout << "UIDPrefix: "
+    << gdcmImageIO->GetUIDPrefix() << std::endl;
+  std::cout << "StudyInstanceUID: "
+    << gdcmImageIO->GetStudyInstanceUID() << std::endl;
+  std::cout << "SeriesInstanceUID: "
+    << gdcmImageIO->GetSeriesInstanceUID() << std::endl;
+  std::cout << "FrameOfReferenceInstanceUID: "
+    << gdcmImageIO->GetFrameOfReferenceInstanceUID() << std::endl;
+  std::cout << "KeepOriginalUID: "
+    << gdcmImageIO->GetKeepOriginalUID() << std::endl;
+  std::cout << "LoadSequences: "
+    << gdcmImageIO->GetLoadSequences() << std::endl;
+  std::cout << "LoadPrivateTags: "
+    << gdcmImageIO->GetLoadPrivateTags() << std::endl;
+  std::cout << "CompressionType: "
+    << gdcmImageIO->GetCompressionType() << std::endl;
+
   // Rewrite the image in DICOM format
   //
   typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
-
   Writer1Type::Pointer writer1 = Writer1Type::New();
-
   writer1->SetFileName( av[2] );
- 
-  
   writer1->SetInput( reader->GetOutput() );
-  
   writer1->SetImageIO( gdcmImageIO );
 
   try
@@ -91,25 +105,19 @@ int main(int ac, char* av[])
 
   // Rescale intensities and rewrite the image in another format
   //
-  typedef unsigned char WritePixelType;
-
+  typedef unsigned char                   WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
-
   typedef itk::RescaleIntensityImageFilter< 
-               InputImageType, WriteImageType > RescaleFilterType;
+    InputImageType, WriteImageType >      RescaleFilterType;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
-
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
+  rescaler->SetInput( reader->GetOutput() );
   
   typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
-
   Writer2Type::Pointer writer2 = Writer2Type::New();
-
   writer2->SetFileName( av[3] );
- 
-  rescaler->SetInput( reader->GetOutput() );
   writer2->SetInput( rescaler->GetOutput() );
 
   try
@@ -128,9 +136,7 @@ int main(int ac, char* av[])
   typedef itk::ImageFileWriter< WriteImageType >  Writer3Type;
 
   Writer3Type::Pointer writer3 = Writer3Type::New();
-
   writer3->SetFileName( av[4] );
- 
   writer3->SetInput( rescaler->GetOutput() );
   writer3->UseInputMetaDataDictionaryOff ();
   writer3->SetImageIO( gdcmImageIO );
@@ -146,7 +152,7 @@ int main(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  gdcmImageIO->Print(std::cout);
+  gdcmImageIO->Print( std::cout );
 
   return EXIT_SUCCESS;
 
