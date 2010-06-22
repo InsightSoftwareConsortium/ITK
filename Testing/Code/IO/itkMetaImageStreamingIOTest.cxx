@@ -56,10 +56,11 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
   
-  IOType::Pointer metaIO = IOType::New();
-  reader->SetImageIO(metaIO);
-  writer->SetImageIO(metaIO);
-
+  IOType::Pointer metaIn = IOType::New();
+  IOType::Pointer metaOut = IOType::New();
+  reader->SetImageIO(metaIn);
+  writer->SetImageIO(metaOut);
+  
   const std::string inputFilename  = av[1];
   const std::string outputFilename = av[2];
 
@@ -81,12 +82,12 @@ int itkMetaImageStreamingIOTest(int ac, char* av[])
   writer->SetInput( streamer->GetOutput() );
   
   // test streaming check methods
-  if (!metaIO->CanStreamRead())
+  if (!metaIn->CanStreamRead())
     {
     std::cerr << "Failed stream read check" << std::endl;
     return EXIT_FAILURE;
     }
-  if (!metaIO->CanStreamWrite())
+  if (!metaOut->CanStreamWrite())
     {
     std::cerr << "Failed stream write check" << std::endl;
     return EXIT_FAILURE;
