@@ -191,7 +191,6 @@ int itkLBFGSBOptimizerTest(int, char *[])
   std::cout << "Solution        = ("
     << finalPosition[0] << ","
     << finalPosition[1] << ")" << std::endl;  
-
   std::cout << "Final Function Value = "
     << itkOptimizer->GetValue() << std::endl;
 

@@ -65,8 +65,7 @@ public:
   }
 
   double GetValue( const ParametersType & position ) const
-  { 
-
+  {
     double x = position[0];
     double y = position[1];
 
@@ -84,7 +83,6 @@ public:
   void GetDerivative( const ParametersType & position,
                             DerivativeType  & derivative ) const
   {
-
     double x = position[0];
     double y = position[1];
 
@@ -98,7 +96,6 @@ public:
     std::cout << "(" ; 
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
-
   }
 
   
@@ -113,24 +110,18 @@ private:
 };
 
 
-
 int itkLBFGSOptimizerTest(int, char* [] ) 
 {
   std::cout << "LBFGS Optimizer Test \n \n";
 
   typedef  itk::LBFGSOptimizer  OptimizerType;
-
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
-
-  
   
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
-
-  // Declaration of the CostFunction adaptor
+  // Declaration of the CostFunction adapter
   LBFGSCostFunction::Pointer costFunction = LBFGSCostFunction::New();
-
 
   // Set some optimizer parameters
   itkOptimizer->SetTrace( false );
@@ -185,13 +176,11 @@ int itkLBFGSOptimizerTest(int, char* [] )
   catch( itk::ExceptionObject & e )
     {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization" << std::endl;
+    std::cout << "An error occurred during Optimization" << std::endl;
     std::cout << "Location    = " << e.GetLocation()    << std::endl;
     std::cout << "Description = " << e.GetDescription() << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   std::cout << "End condition   = " << vnlOptimizer->get_failure_code()    << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations()  << std::endl;
@@ -201,10 +190,21 @@ int itkLBFGSOptimizerTest(int, char* [] )
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
   
-  std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << "," ;
-  std::cout << finalPosition[1] << ")" << std::endl;  
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Solution        = ("
+    << finalPosition[0] << ","
+    << finalPosition[1] << ")" << std::endl;  
+
+  std::cout << "End condition   = "
+    << itkOptimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "Trace   = " << itkOptimizer->GetTrace() << std::endl;
+  std::cout << "LineSearchAccuracy   = "
+    << itkOptimizer->GetLineSearchAccuracy() << std::endl;
+  std::cout << "GradientConvergenceTolerance   = "
+    << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
+  std::cout << "DefaultStepLength   = "
+    << itkOptimizer->GetDefaultStepLength() << std::endl;
+  std::cout << "MaximumNumberOfFunctionEvaluations   = "
+    << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
 
   //
   // check results to see if it is within range
@@ -239,11 +239,4 @@ int itkLBFGSOptimizerTest(int, char* [] )
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
-
-
-
-
 }
-
-
-
