@@ -254,6 +254,8 @@ ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
 
+ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
+
 SET(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
 itkAntiAliasBinaryImageFilterTest.cxx
@@ -398,6 +400,7 @@ itkVoronoiPartitioningImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
+itkBinaryMedialNodeMetricTest.cxx
 )
 
 ADD_EXECUTABLE(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)

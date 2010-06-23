@@ -46,46 +46,55 @@ BinaryMedialNodeMetric<VDimensions>
   float smallest_value = 1.1;
   int smallest_index = 0;
   int smallest_key = 0;
-
-  for(int i = 0; i < VDimensions; i++)
-  {
-    if(m_EigenA[i] < smallest_value && m_EigenA[i] != EMPTY)
+  
+  for (int i = 0; i < VDimensions*2; i++)
     {
-      smallest_value = m_EigenA[i];
-      smallest_key = 1;
-      smallest_index = i;
-    }
-    if(m_EigenB[i] < smallest_value && m_EigenB[i] != EMPTY)
-    {
-      smallest_value = m_EigenB[i];
-      smallest_key = -1;
-      smallest_index = i;
-    }
-  }
-  //after the for loop we know the smallest value between the two arrays, its index, and
-  //which array it is from. now we remove that eigen value from its array, and put it in 
-  //combined_eigens
-
-  if(smallest_key == 1)
-  {
-    int j = 0;
-    while(m_CombinedEigenValues[j] != EMPTY){j++;}//gets next empty index of combined_eigens
+    // reset smallest trackers
+    smallest_value = 1.1;
+    smallest_index = 0;
+    smallest_key = 0;
     
-    m_CombinedEigenValues[j] = m_EigenA[smallest_index];
-    m_CombinedDistanceValues[j] = m_DistanceVectorA[smallest_index];
-    m_EigenA[smallest_index] = EMPTY;
-    m_CombinedEigensKey[j] = smallest_key;
-  }
-  else if(smallest_key == -1)
-  {
-    int j = 0;
-    while(m_CombinedEigenValues[j] != EMPTY){j++;}//gets next empty index of combined_eigens
+    // find the smallest remaining value
+    for(int j = 0; j < VDimensions; j++)
+      {
+      if(m_EigenA[j] < smallest_value)
+        {
+        smallest_value = m_EigenA[j];
+        smallest_key = 1;
+        smallest_index = j;
+        }
+      if(m_EigenB[j] < smallest_value)
+        {
+        smallest_value = m_EigenB[j];
+        smallest_key = -1;
+        smallest_index = j;
+        }
+      }
     
-    m_CombinedEigenValues[j] = m_EigenB[smallest_index];
-    m_CombinedDistanceValues[j] = m_DistanceVectorB[smallest_index];
-    m_EigenB[smallest_index] = EMPTY;
-    m_CombinedEigensKey[j] = smallest_key;
-  }
+    // now put that smallest value in the combined array and remove it from
+    // the original array
+    if(smallest_key == 1)
+      {
+      int k = 0;
+      while(m_CombinedEigenValues[k] != EMPTY){k++;}//gets next empty index of combined_eigens
+      
+      m_CombinedEigenValues[k] = m_EigenA[smallest_index];
+      m_CombinedDistanceValues[k] = m_DistanceVectorA[smallest_index];
+      m_EigenA[smallest_index] = EMPTY;
+      m_CombinedEigensKey[k] = smallest_key;
+      }
+    else if(smallest_key == -1)
+      {
+      int k = 0;
+      while(m_CombinedEigenValues[k] != EMPTY){k++;}//gets next empty index of combined_eigens
+      
+      m_CombinedEigenValues[k] = m_EigenB[smallest_index];
+      m_CombinedDistanceValues[k] = m_DistanceVectorB[smallest_index];
+      m_EigenB[smallest_index] = EMPTY;
+      m_CombinedEigensKey[k] = smallest_key;
+      }
+    
+    }
 }
 
 /**

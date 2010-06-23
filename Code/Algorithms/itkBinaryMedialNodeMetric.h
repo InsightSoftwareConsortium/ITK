@@ -17,6 +17,7 @@
 #ifndef __itkBinaryMedialNodeMetric_h
 #define __itkBinaryMedialNodeMetric_h
 
+#include "itkObjectFactory.h"
 #include "itkLightObject.h"
 #include "itkBloxCoreAtomPixel.h"
 
