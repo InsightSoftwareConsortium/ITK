@@ -44,7 +44,7 @@ class ITK_EXPORT VTKImageIO2
 public:
   /** Standard class typedefs. */
   typedef VTKImageIO2                 Self;
-  typedef ImageIOBase                 Superclass;
+  typedef StreamingImageIOBase        Superclass;
   typedef SmartPointer<Self>          Pointer;
   typedef SmartPointer<const Self>    ConstPointer;
   
@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageIO2, Superclass);
+  itkTypeMacro(VTKImageIO2, StreamingImageIOBase);
 
   /*-------- This part of the interface deals with reading data. ------ */
 

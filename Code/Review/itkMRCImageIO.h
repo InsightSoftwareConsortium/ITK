@@ -54,15 +54,15 @@ class ITK_EXPORT MRCImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef MRCImageIO         Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef MRCImageIO           Self;
+  typedef StreamingImageIOBase Superclass;
+  typedef SmartPointer<Self>   Pointer;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MRCImageIO, ImageIOBase);
+  itkTypeMacro(MRCImageIO, StreamingImageIOBase);
 
 
   // we don't use this method
