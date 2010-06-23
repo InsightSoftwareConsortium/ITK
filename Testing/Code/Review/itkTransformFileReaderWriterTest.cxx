@@ -24,10 +24,13 @@
 #include "itkAffineTransform.h"
 #include "itkTransformFactory.h"
 #include "itkScaleVersor3DTransform.h"
+#include "itkBSplineDeformableTransform.h"
 
 int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 {
   itk::TransformFactory<itk::ScaleVersor3DTransform<float> >::RegisterTransform ();
+  itk::TransformFactory<itk::AffineTransform<double> >::RegisterTransform ();
+  itk::TransformFactory<itk::BSplineDeformableTransform<double> >::RegisterTransform ();
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
@@ -84,6 +87,10 @@ int itkTransformFileReaderWriterTest( int argc, char *argv[] )
     std::cerr << "Expected exception (no transformio that can read file)"
               << excp << std::endl;
     }
+  
+  //DEBUG
+  std::cout << "Reading " << argv[1] << std::endl;
+  
   
   transformReader->SetFileName( argv[1] );
   std::cout << "Filename: " << transformReader->GetFileName() << std::endl;
