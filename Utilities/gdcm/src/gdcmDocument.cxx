@@ -2361,8 +2361,21 @@ DocEntry *Document::ReadNextDocEntry()
    if ( HasDCMPreamble )
       HandleOutOfGroup0002(group, elem);
 
-   std::string vr = FindDocEntryVR();
-   std::string realVR = vr;
+   std::string vr, realVR;
+   if (group == 0xfffe && (elem == 0xe000 || elem == 0xe00d || elem == 0xe0dd))
+   {
+      // DICOM PS 3.6-2009, page 117 states:
+      // The VR for Data Elements, Item (FFFE,E000), Item Delimitation 
+      // Item (FFFE,E00D), and Sequence Delimitation Item (FFFE,E0DD) 
+      // do not exist. See PS 3.5 for explanation.
+      vr = GDCM_UNKNOWN;
+      realVR = GDCM_UNKNOWN;
+   }
+   else
+   {
+      vr = FindDocEntryVR();
+      realVR = vr;
+   }
 
    if ( vr == GDCM_UNKNOWN )
    {
