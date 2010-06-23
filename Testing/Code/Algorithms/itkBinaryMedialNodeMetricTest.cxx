@@ -208,6 +208,17 @@ int itkBinaryMedialNodeMetricTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
   
+  // Test printing
+  std::cout << "Printing Metric" << std::endl << medialBinaryMetric << std::endl;
+  
+  // Test type name
+  if (strcmp(medialBinaryMetric->GetNameOfClass(),"BinaryMedialNodeMetric"))
+    {
+    std::cout << "[FAILED] Class info not reported correctly" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "Metric Type Info: " << medialBinaryMetric->GetNameOfClass() << std::endl;
+  
   // finished successfully
   return EXIT_SUCCESS;
 }
