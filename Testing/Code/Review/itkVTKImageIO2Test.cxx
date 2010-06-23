@@ -21,6 +21,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 static unsigned int m_CallNumber;
 
@@ -743,6 +744,14 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
   
   
+  //
+  // use print methods
+  //
+  typedef itk::VTKImageIO2 IOType;
+  IOType::Pointer vtkIO = IOType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( vtkIO );
+
+
   //
   // All tests successful
   //

@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMRCImageIO.h"
+#include "itkTestingMacros.h"
 
 
 static unsigned int m_CallNumber = 0;
@@ -471,6 +472,14 @@ int itkMRCImageIOTest(int argc, char* argv[])
     }
   std::cout << "[PASSED] threw exception (5D)" << std::endl;
   
+
+  
+  //
+  // use print methods
+  //
+  typedef itk::MRCImageIO IOType;
+  IOType::Pointer mrcIO = IOType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( mrcIO );
   
   //
   // All tests succeeded
