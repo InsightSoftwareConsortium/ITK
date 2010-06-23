@@ -18,12 +18,13 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkSliceBySliceImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkMedianImageFilter.h"
-#include "itkSliceBySliceImageFilter.h"
+
 #include "itkCommand.h"
 
 

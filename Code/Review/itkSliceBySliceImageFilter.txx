@@ -19,6 +19,7 @@
 #define __itkSliceBySliceImageFilter_txx
 
 #include "itkSliceBySliceImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
