@@ -438,8 +438,8 @@ void MRCImageIO::UpdateHeaderFromImageIO( void )
   header.nzstart = 0;
   
   header.xlen = m_Spacing[0]*float(header.mx);
-  header.ylen = ( this->GetNumberOfDimensions() >= 2 ) ? m_Spacing[1]*float(header.my) : 0;
-  header.zlen = ( this->GetNumberOfDimensions() >= 3 ) ? m_Spacing[2]*float(header.mz) : 0;
+  header.ylen = ( this->GetNumberOfDimensions() >= 2 ) ? m_Spacing[1]*float(header.my) : 1;
+  header.zlen = ( this->GetNumberOfDimensions() >= 3 ) ? m_Spacing[2]*float(header.mz) : 1;
   
   header.xorg = m_Origin[0];
   header.yorg = ( this->GetNumberOfDimensions() >= 2 ) ? m_Origin[1] : 0;
