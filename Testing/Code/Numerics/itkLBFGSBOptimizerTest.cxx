@@ -207,6 +207,8 @@ int itkLBFGSBOptimizerTest(int, char *[])
     << itkOptimizer->GetMaximumNumberOfIterations() << std::endl;
   std::cout << "MaximumNumberOfEvaluations   = "
     << itkOptimizer->GetMaximumNumberOfEvaluations() << std::endl;
+  std::cout << "MaximumNumberOfCorrections   = "
+    << itkOptimizer->GetMaximumNumberOfCorrections() << std::endl;
 
   //
   // check results to see if it is within range
