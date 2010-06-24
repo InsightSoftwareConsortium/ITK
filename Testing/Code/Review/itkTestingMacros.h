@@ -18,11 +18,16 @@
 #define __itkTestingMacros_h
 
 
+#ifndef __BORLANDC__
 #define EXERCISE_BASIC_OBJECT_METHODS( object ) \
     object->Print( std::cout );  \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
     std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;
-
+#else
+#define EXERCISE_BASIC_OBJECT_METHODS( object ) \
+    object->Print( std::cout );  \
+    std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;
+#endif
 
 #define TRY_EXPECT_EXCEPTION( command ) \
   try \
