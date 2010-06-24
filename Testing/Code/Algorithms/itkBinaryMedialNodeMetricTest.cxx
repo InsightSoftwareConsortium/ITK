@@ -32,7 +32,7 @@
 // 
 // Main Executable Test Function
 //
-int itkBinaryMedialNodeMetricTest(int ac, char* av[])
+int itkBinaryMedialNodeMetricTest(int, char* [])
 {
   
   //
