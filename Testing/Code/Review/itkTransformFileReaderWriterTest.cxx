@@ -28,9 +28,8 @@
 
 int itkTransformFileReaderWriterTest( int argc, char *argv[] )
 {
+  itk::TransformFactory<itk::ScaleVersor3DTransform<float> >::RegisterDefaultTransforms();
   itk::TransformFactory<itk::ScaleVersor3DTransform<float> >::RegisterTransform ();
-  itk::TransformFactory<itk::AffineTransform<double> >::RegisterTransform ();
-  itk::TransformFactory<itk::BSplineDeformableTransform<double> >::RegisterTransform ();
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
