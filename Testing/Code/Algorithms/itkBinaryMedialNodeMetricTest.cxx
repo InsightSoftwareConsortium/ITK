@@ -202,9 +202,10 @@ int itkBinaryMedialNodeMetricTest(int, char* [])
     }
   
   // check to make sure the metric measured the images as the same
-  if ( totalDistance != 0 )
+  double precision = 0.0000001;
+  if ( totalDistance > precision )
     {
-    std::cout << "[FAILED] Metric did not identify two identical images" << std::endl;
+    std::cout << "[FAILED] Metric did not identify two identical images. Total distance = " << totalDistance << std::endl;
     return EXIT_FAILURE;
     }
   

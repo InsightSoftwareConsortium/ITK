@@ -107,9 +107,23 @@ BinaryMedialNodeMetric<VDimensions>
 {
   //itkDebugMacro(<< "itkBinaryMedialNodeMetric::Initialize() called");
   m_Result = 0.0;
-
-  //initialize combined_eigens to EMPTY
-  for(int i =0;i<VDimensions*2;i++){m_CombinedEigenValues[i] = EMPTY;}
+  
+  //initialize individual lists to EMPTY
+  for(int i =0;i<VDimensions;i++)
+    {
+    m_EigenA[i] = EMPTY;
+    m_EigenB[i] = EMPTY;
+    m_DistanceVectorA[i] = EMPTY;
+    m_DistanceVectorB[i] = EMPTY;
+    }
+  
+  //initialize combined lists to EMPTY
+  for(int i =0;i<VDimensions*2;i++)
+    {
+    m_CombinedEigenValues[i] = EMPTY;
+    m_CombinedDistanceValues[i] = EMPTY;
+    m_CombinedEigensKey[i] = EMPTY;
+    }
   
   //Get eigen values from first nodes
   m_EigenA = m_NodeA1->GetVotedEigenvalues();
