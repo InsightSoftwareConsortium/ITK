@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,43 +18,46 @@
 #define __itkHessianToObjectnessMeasureImageFilter_h
 
 #include "itkSymmetricSecondRankTensor.h"
-#include "itkSymmetricEigenAnalysisImageFilter.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
+
 /** \class HessianToObjectnessMeasureImageFilter
- * \brief A filter to enhance M-dimensional objects in N-dimensional images 
- * 
+ * \brief A filter to enhance M-dimensional objects in N-dimensional images
+ *
  * The objectness measure is a generalization of Frangi's vesselness measure,
  * which is based on the analysis of the the Hessian eigen system. The filter
- * can enhance blob-like structures (M=0), vessel-like structures (M=1), 2D 
- * plate-like structures (M=2), hyper-plate-like structures (M=3) in N-dimensional 
- * images, with M<N.  
+ * can enhance blob-like structures (M=0), vessel-like structures (M=1), 2D
+ * plate-like structures (M=2), hyper-plate-like structures (M=3) in N-dimensional
+ * images, with M<N.
  * The filter takes an image of a Hessian pixels ( SymmetricSecondRankTensor pixels
- * pixels ) and produces an enhanced image. The Hessian input image can be produced 
- * using itk::HessianRecursiveGaussianImageFilter. 
- *  
+ * pixels ) and produces an enhanced image. The Hessian input image can be produced
+ * using itk::HessianRecursiveGaussianImageFilter.
+ *
  *
  * \par References
- * Frangi, AF, Niessen, WJ, Vincken, KL, & Viergever, MA (1998). Multiscale Vessel 
- * Enhancement Filtering. In Wells, WM, Colchester, A, & Delp, S, Editors, MICCAI '98 
- * Medical Image Computing and Computer-Assisted Intervention, Lecture Notes in Computer 
+ * Frangi, AF, Niessen, WJ, Vincken, KL, & Viergever, MA (1998). Multiscale Vessel
+ * Enhancement Filtering. In Wells, WM, Colchester, A, & Delp, S, Editors, MICCAI '98
+ * Medical Image Computing and Computer-Assisted Intervention, Lecture Notes in Computer
  * Science, pages 130-137, Springer Verlag, 1998.
- * 
+ *
+ * Additional information can be from in the Insight Journal:
+ * http://hdl.handle.net/1926/576
+ *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
- * 
- * \sa MultiScaleHessianBasedMeasureImageFilter 
+ *
+ * \sa MultiScaleHessianBasedMeasureImageFilter
  * \sa Hessian3DToVesselnessMeasureImageFilter
- * \sa HessianSmoothedRecursiveGaussianImageFilter 
+ * \sa HessianSmoothedRecursiveGaussianImageFilter
  * \sa SymmetricEigenAnalysisImageFilter
  * \sa SymmetricSecondRankTensor
- * 
+ *
  * \ingroup IntensityImageFilters TensorObjects
  *
  */
-  
-template < typename TInputImage, typename TOutputImage > 
+template < typename TInputImage, typename TOutputImage >
 class ITK_EXPORT HessianToObjectnessMeasureImageFilter : public
 ImageToImageFilter< TInputImage,TOutputImage>
 {
@@ -66,51 +69,49 @@ public:
 
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
-  
+
   typedef typename Superclass::InputImageType   InputImageType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename InputImageType::PixelType    InputPixelType;
   typedef typename OutputImageType::PixelType   OutputPixelType;
-  
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+
   /** Image dimension */
   itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension<InputImageType>::ImageDimension);
 
-  typedef double                                                    EigenValueType;
+  typedef double                                                                      EigenValueType;
   typedef itk::FixedArray< EigenValueType, itkGetStaticConstMacro( ImageDimension ) > EigenValueArrayType;
-  typedef itk::Image< EigenValueArrayType, itkGetStaticConstMacro( ImageDimension ) > EigenValueImageType;
 
-  typedef SymmetricEigenAnalysisImageFilter< 
-    InputImageType, EigenValueImageType >                           EigenAnalysisFilterType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro( HessianToObjectnessMeasureImageFilter, ImageToImageFilter );
-   
-  /** Set/Get Alpha, the weight corresponding to R_A 
-   * (the ratio of the smallest eigenvalue that has to be large to the larger ones). 
+
+  /** Set/Get Alpha, the weight corresponding to R_A
+   * (the ratio of the smallest eigenvalue that has to be large to the larger ones).
    * Smaller values lead to increased sensitivity to the object dimensionality. */
   itkSetMacro(Alpha,double);
   itkGetConstMacro(Alpha,double);
 
-  /** Set/Get Beta, the weight corresponding to R_B 
-   * (the ratio of the largest eigenvalue that has to be small to the larger ones). 
+  /** Set/Get Beta, the weight corresponding to R_B
+   * (the ratio of the largest eigenvalue that has to be small to the larger ones).
    * Smaller values lead to increased sensitivity to the object dimensionality. */
   itkSetMacro(Beta,double);
   itkGetConstMacro(Beta,double);
 
-  /** Set/Get Gamma, the weight corresponding to S 
+  /** Set/Get Gamma, the weight corresponding to S
    * (the Frobenius norm of the Hessian matrix, or second-order structureness) */
   itkSetMacro(Gamma,double);
   itkGetConstMacro(Gamma,double);
 
-  /** Toggle scaling the objectness measure with the magnitude of the largest absolute eigenvalue */ 
+  /** Toggle scaling the objectness measure with the magnitude of the largest absolute eigenvalue */
   itkSetMacro(ScaleObjectnessMeasure,bool);
   itkGetConstMacro(ScaleObjectnessMeasure,bool);
   itkBooleanMacro(ScaleObjectnessMeasure);
 
-  /** Set/Get the dimensionality of the object (0: points (blobs), 
+  /** Set/Get the dimensionality of the object (0: points (blobs),
    * 1: lines (vessels), 2: planes (plate-like structures), 3: hyper-planes.
    * ObjectDimension must be smaller than ImageDimension. */
   itkSetMacro(ObjectDimension,unsigned int);
@@ -119,26 +120,34 @@ public:
   /** Enhance bright structures on a dark background if true, the opposite if false. */
   itkSetMacro(BrightObject,bool);
   itkGetConstMacro(BrightObject,bool);
+  itkBooleanMacro(BrightObject);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(DoubleConvertibleToOutputCheck,(Concept::Convertible<double, OutputPixelType>));
   /** End concept checking */
 #endif
-  
+
 protected:
   HessianToObjectnessMeasureImageFilter();
   ~HessianToObjectnessMeasureImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
-  
-  /** Generate Data */
-  void GenerateData(void);
+
+  void BeforeThreadedGenerateData( void );
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId);
 
 private:
   HessianToObjectnessMeasureImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;
+  // functor used to sort eigen values
+  struct AbsCompare
+    {
+    bool operator()( EigenValueType a, EigenValueType b )
+      {
+      return vnl_math_abs(a) > vnl_math_abs(b);
+      }
+    };
 
   double                 m_Alpha;
   double                 m_Beta;
@@ -153,5 +162,5 @@ private:
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHessianToObjectnessMeasureImageFilter.txx"
 #endif
-  
+
 #endif
