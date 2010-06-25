@@ -193,12 +193,12 @@ int itkAdaptImageFilterTest(int, char* [] ) {
   std::cout << std::endl;
   if (passed)
     {
-    std::cout << "AdaptImageFilterTest passed" << std::endl;
+    std::cerr << "AdaptImageFilterTest passed." << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
-    std::cout << "AdaptImageFilterTest passed" << std::endl;
+    std::cerr << "AdaptImageFilterTest failed." << std::endl;
     return EXIT_FAILURE;
     }
 }
