@@ -304,6 +304,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
 
     if ( currentValue > m_StoppingValue )
       {
+      this->UpdateProgress( 1.0 );
       break;
       }
 
