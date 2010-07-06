@@ -437,6 +437,7 @@ ADD_TEST(itkThreadDefsTest ${COMMON_TESTS2} itkThreadDefsTest)
 ADD_TEST(itkThreadLoggerTest ${COMMON_TESTS2} itkThreadLoggerTest ${TEMP}/test_threadLogger.txt)
 ADD_TEST(itkTimeProbesTest ${COMMON_TESTS2} itkTimeProbesTest)
 ADD_TEST(itkTransformTest ${COMMON_TESTS2} itkTransformTest)
+ADD_TEST(itkTransformFactoryBaseTest ${COMMON_TESTS2} itkTransformFactoryBaseTest)
 ADD_TEST(itkTransformsSetParametersTest ${COMMON_TESTS2} itkTransformsSetParametersTest)
 ADD_TEST(itkTranslationTransformTest ${COMMON_TESTS2} itkTranslationTransformTest)
 ADD_TEST(itkTreeContainerTest ${COMMON_TESTS2} itkTreeContainerTest)
@@ -678,6 +679,7 @@ itkThreadLoggerTest.cxx
 itkTimeProbesTest.cxx
 itkTimeStampTest.cxx
 itkTransformTest.cxx
+itkTransformFactoryBaseTest.cxx
 itkTransformsSetParametersTest.cxx
 itkTranslationTransformTest.cxx
 itkTreeContainerTest.cxx
