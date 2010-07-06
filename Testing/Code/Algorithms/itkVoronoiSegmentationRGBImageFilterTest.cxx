@@ -201,6 +201,7 @@ int TestNoPrior(ImageType::Pointer inputImage)
   filter->SetInput(inputImage);
   
   // explicitly set mean and std
+  std::cout << "Setting up mean and std for filter" << std::endl;
   double mean[6];
   mean[0] = fgMean;
   mean[1] = fgMean;
@@ -222,6 +223,7 @@ int TestNoPrior(ImageType::Pointer inputImage)
   filter->SetMaxValueOfRGB(255);
   
   // test GetMaxValueOfRGB
+  std::cout << "Checking GetMaxValueOfRGB" << std::endl;
   if (filter->GetMaxValueOfRGB() != 255)
     {
     std::cout << "[FAILED] Didn't set max RGB correctly" << std::endl;
@@ -229,9 +231,11 @@ int TestNoPrior(ImageType::Pointer inputImage)
     }
   
   // run the filter
+  std::cout << "Running the filter" << std::endl;
   filter->Update();
   
   // check the results
+  std::cout << "Checking the filter results" << std::endl;
   double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
     {
@@ -250,10 +254,12 @@ int TestNoPrior(ImageType::Pointer inputImage)
 int TestWithPrior(ImageType::Pointer inputImage)
 {
   // set up the filter
+  std::cout << "Setting up the filter and image" << std::endl;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(inputImage);
   
   // set up the prior
+  std::cout << "Setting up the prior image" << std::endl;
   BinaryObjectImage::Pointer prior = BinaryObjectImage::New();
   BinaryObjectImage::SizeType size = {{width,height}};
   BinaryObjectImage::RegionType region;
@@ -301,9 +307,11 @@ int TestWithPrior(ImageType::Pointer inputImage)
   filter->TakeAPrior(prior);
   
   // run the filter
+  std::cout << "Running the filter" << std::endl;
   filter->Update();
   
   // check the results
+  std::cout << "Checking the results of the filter" << std::endl;
   double percentCorrect = CheckResults(filter->GetOutput());
   if (percentCorrect <= minCorrectRate)
     {
@@ -327,7 +335,7 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
   ImageType::Pointer inputImage = VoronoiSegRGBTest::SetUpInputImage();
   
   // test without prior
-  std::cout << "Running test without prior" << std::endl;
+  std::cout << "[Running test without prior]" << std::endl;
   int noPriorTestResult = VoronoiSegRGBTest::TestNoPrior(inputImage);
   if (noPriorTestResult == EXIT_FAILURE)
     {
@@ -337,7 +345,7 @@ int itkVoronoiSegmentationRGBImageFilterTest(int, char* [] )
   std::cout << std::endl;
   
   // test with prior
-  std::cout << "Running test with prior" << std::endl;
+  std::cout << "[Running test with prior]" << std::endl;
   int priorTestResult = VoronoiSegRGBTest::TestWithPrior(inputImage);
   if (priorTestResult == EXIT_FAILURE)
     {
