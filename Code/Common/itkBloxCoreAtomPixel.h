@@ -108,9 +108,6 @@ public:
    */
   void CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel);
 
-  /** Calculate mean intensity os the pixel based on its core atoms. */
-  void CalcMeanCoreAtomIntensity();
-
   /** Returns the calculated voted location */
   PositionType GetVotedLocation();
 

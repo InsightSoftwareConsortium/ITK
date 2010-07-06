@@ -53,35 +53,6 @@ BloxCoreAtomPixel<NDimensions>
   // The default destructor walks the pixel and deletes all bloxitems
 }
 
-
-//REMOVED: Boundary points dont know their intensities...profiles do!
-template <unsigned int NDimensions>
-void 
-BloxCoreAtomPixel<NDimensions>
-::CalcMeanCoreAtomIntensity()
-{
-  /*
-  double temp_intensity = 0.0;
-  int num_core_atoms = 0;
-
-  itk::BloxCoreAtomPixel<NDimensions>::iterator bpiterator;
-
-  for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
-    {
-    // Get the pointer of the core atom
-    CoreAtomItemType* pCoreAtom = *bpiterator;
-
-    //get mean intensity for this core atom
-    temp_intensity = (pCoreAtom->GetBoundaryPointA()->GetValue() 
-                      + pCoreAtom->GetBoundaryPointB()->GetValue())/2;
-
-    m_MeanCoreAtomIntensity += temp_intensity;
-    num_core_atoms++;
-    }
-  m_MeanCoreAtomIntensity /= num_core_atoms;
-  */
-}
-
 template <unsigned int NDimensions>
 void 
 BloxCoreAtomPixel<NDimensions>

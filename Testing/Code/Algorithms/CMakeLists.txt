@@ -254,8 +254,10 @@ ADD_TEST(itkPointSetToSpatialObjectDemonsRegistrationTest ${ALGORITHMS_TESTS2}  
 ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
 
-# Test disabled while underlying Blox code is tested for the source of failures
-#ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
+# Metric fails when centered pixel coordinates not in use
+IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+  ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
+ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 SET(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
