@@ -196,8 +196,11 @@ double CheckResults(SegmentationType::Pointer outputImage)
 int TestNoPrior(ImageType::Pointer inputImage)
 { 
   
+  std::cout << "Beginning no-prior test" << std::endl;
+  
   // set up the filter
   FilterType::Pointer filter = FilterType::New();
+  std::cout << "Setting filter input" << std::endl;
   filter->SetInput(inputImage);
   
   // explicitly set mean and std
