@@ -144,8 +144,15 @@ VoronoiSegmentationRGBImageFilter <TInputImage,TOutputImage>
     L = 116*Y - 16;
     a = 500*(X - Y);
     b = 200*(Y - Z);
-  
-    wpixel[3] = vcl_atan(b/a);     //H
+
+    if (b != 0.0)
+      {
+      wpixel[3] = vcl_atan2(b,a);     //H
+      }
+    else
+      {
+      wpixel[3] = 0;
+      }
     wpixel[4] = vcl_sqrt(a*a+b*b); //C
     wpixel[5] = L;             //V 
     wit.Set(wpixel);
