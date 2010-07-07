@@ -93,7 +93,6 @@ public:
   
   itkGetConstReferenceMacro(MinIndex, IndexType);
   itkGetConstReferenceMacro(MaxIndex, IndexType);
-  itkGetConstReferenceMacro(CropRegion, InputImageRegionType);
 
 protected:
   AutoCropLabelMapFilter();

@@ -90,11 +90,11 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   const IndexType & minIndex = change->GetMinIndex();
   const IndexType & maxIndex = change->GetMaxIndex();
 
-  const InputImageRegionType & cropRegion = change->GetCropRegion();
+  const InputImageRegionType & cropRegion = change->GetRegion();
 
   std::cout << "GetMinIndex() = " << minIndex << std::endl;
   std::cout << "GetMaxIndex() = " << maxIndex << std::endl;
-  std::cout << "GetCropRegion() = " << cropRegion << std::endl;
+  std::cout << "GetRegion() = " << cropRegion << std::endl;
 
   return EXIT_SUCCESS;
 }
