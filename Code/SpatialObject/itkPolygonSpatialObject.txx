@@ -320,6 +320,10 @@ bool
 PolygonSpatialObject<TDimension>
 ::ReplacePoint( const PointType & oldpoint, const PointType & newPoint )
 {
+  if (oldpoint == newPoint)
+    {
+    return true;
+    }
   PointListType &points = this->GetPoints();
   typename PointListType::iterator it = points.begin();
   typename PointListType::iterator itend = points.end();
