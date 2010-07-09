@@ -343,8 +343,10 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   bool preamble;
   if( gdcm::Document::CanReadFile(file, preamble) )
     {
-    // By default only support DICOM with preamble (DICM magic number):
-    return preamble;
+    itkWarningMacro(<< "The DICOM file: "
+                    << filename
+                    << " does not have a preamble.");
+    return true;
     }
 #else
   gdcm::ImageReader reader;
