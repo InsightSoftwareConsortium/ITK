@@ -127,6 +127,16 @@ private:
   /** \class FortuneSite
    * Small data structures for Fortune's Method
    * and some public variables/methods not for external access. */ 
+  class FortuneSite;
+  class FortuneEdge;
+  class FortuneHalfEdge;
+  
+  /** All private nested classes must be friend classes to work with SunOS-CC compiler.
+   * If not, the private nested classes will not be able to access each other. */
+  friend class FortuneSite;
+  friend class FortuneEdge;
+  friend class FortuneHalfEdge;
+  
   class FortuneSite
     {
     public:
