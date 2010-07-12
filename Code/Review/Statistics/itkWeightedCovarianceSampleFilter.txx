@@ -9,20 +9,20 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkWeightedCovarianceSampleFilter_txx
 #define __itkWeightedCovarianceSampleFilter_txx
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 template< class TSample >
 WeightedCovarianceSampleFilter< TSample >
-::WeightedCovarianceSampleFilter()  
+::WeightedCovarianceSampleFilter()
 {
   this->ProcessObject::SetNthInput(1, NULL );
 }
@@ -30,7 +30,7 @@ WeightedCovarianceSampleFilter< TSample >
 
 template< class TSample >
 WeightedCovarianceSampleFilter< TSample >
-::~WeightedCovarianceSampleFilter()  
+::~WeightedCovarianceSampleFilter()
 {
 }
 
@@ -50,43 +50,43 @@ WeightedCovarianceSampleFilter< TSample >
 template< class TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
-::GenerateData() 
+::GenerateData()
 {
   // if weighting function is specifed, use it to compute the mean
-  const  InputWeightingFunctionObjectType * functionObject = 
+  const  InputWeightingFunctionObjectType * functionObject =
                                          this->GetWeightingFunctionInput();
 
-  if ( functionObject != NULL ) 
+  if ( functionObject != NULL )
     {
-    this->ComputeCovarianceMatrixWithWeightingFunction(); 
+    this->ComputeCovarianceMatrixWithWeightingFunction();
     return;
     }
 
   // if weight array is specified use it to compute the covariance
-  const  InputWeightArrayObjectType * weightArrayObject = 
+  const  InputWeightArrayObjectType * weightArrayObject =
                                          this->GetWeightsInput();
 
   if ( weightArrayObject != NULL )
     {
-    this->ComputeCovarianceMatrixWithWeights(); 
+    this->ComputeCovarianceMatrixWithWeights();
     return;
     }
- 
-  // Otherwise compute the regular covariance matrix ( without weight coefficients) 
+
+  // Otherwise compute the regular covariance matrix ( without weight coefficients)
   Superclass::GenerateData();
   return;
-} 
+}
 
 template< class TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
-::ComputeCovarianceMatrixWithWeightingFunction() 
+::ComputeCovarianceMatrixWithWeightingFunction()
 {
   const SampleType *input = this->GetInput();
 
-  MeasurementVectorSizeType measurementVectorSize = 
+  MeasurementVectorSizeType measurementVectorSize =
                              input->GetMeasurementVectorSize();
- 
+
   MatrixDecoratedType * decoratedOutput =
             static_cast< MatrixDecoratedType * >(
               this->ProcessObject::GetOutput(0));
@@ -101,20 +101,23 @@ WeightedCovarianceSampleFilter< TSample >
   output.Fill(0.0);
 
   MeasurementVectorType mean;
+  MeasurementVectorTraits::SetLength( mean, measurementVectorSize );
   mean.Fill(0.0);
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();
 
   MeasurementVectorType diff;
+  MeasurementVectorTraits::SetLength( diff, measurementVectorSize );
   MeasurementVectorType measurements;
+  MeasurementVectorTraits::SetLength( measurements, measurementVectorSize );
 
   double weight;
   double totalWeight = 0.0;
   double sumSquaredWeight=0.0;
 
   // if weighting function is specifed, use it to compute the mean
-  const  InputWeightingFunctionObjectType * functionObject = 
+  const  InputWeightingFunctionObjectType * functionObject =
                                          this->GetWeightingFunctionInput();
 
   const  WeightingFunctionType * weightFunction = functionObject->Get();
@@ -164,13 +167,13 @@ WeightedCovarianceSampleFilter< TSample >
     ++iter;
     }
 
-  // fills the upper triangle using the lower triangle  
+  // fills the upper triangle using the lower triangle
   for( unsigned int row = 1; row < measurementVectorSize; row++)
     {
     for( unsigned int col = 0; col < row; col++)
       {
       output(col, row) = output(row, col);
-      } 
+      }
     }
 
   output /= ( totalWeight - ( sumSquaredWeight / totalWeight ) );
@@ -182,13 +185,13 @@ WeightedCovarianceSampleFilter< TSample >
 template< class TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
-::ComputeCovarianceMatrixWithWeights() 
+::ComputeCovarianceMatrixWithWeights()
 {
   const SampleType *input = this->GetInput();
 
-  MeasurementVectorSizeType measurementVectorSize = 
+  MeasurementVectorSizeType measurementVectorSize =
                              input->GetMeasurementVectorSize();
- 
+
   MatrixDecoratedType * decoratedOutput =
             static_cast< MatrixDecoratedType * >(
               this->ProcessObject::GetOutput(0));
@@ -203,13 +206,16 @@ WeightedCovarianceSampleFilter< TSample >
   output.Fill(0.0);
 
   MeasurementVectorType mean;
+  MeasurementVectorTraits::SetLength( mean, measurementVectorSize );
   mean.Fill(0.0);
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();
 
   MeasurementVectorType diff;
+  MeasurementVectorTraits::SetLength( diff, measurementVectorSize );
   MeasurementVectorType measurements;
+  MeasurementVectorTraits::SetLength( measurements, measurementVectorSize );
 
   double weight;
   double totalWeight = 0.0;
@@ -217,7 +223,7 @@ WeightedCovarianceSampleFilter< TSample >
 
   const  InputWeightArrayObjectType * weightArrayObject = this->GetWeightsInput();
   const  WeightArrayType weightArray = weightArrayObject->Get();
- 
+
   //Compute the mean first
   unsigned int measurementVectorIndex = 0;
   while (iter != end)
@@ -240,7 +246,7 @@ WeightedCovarianceSampleFilter< TSample >
     mean[i] = mean[i] / totalWeight;
     }
 
-   decoratedMeanOutput->Set( mean );
+  decoratedMeanOutput->Set( mean );
 
   //reset iterator
   iter = input->Begin();
@@ -250,7 +256,7 @@ WeightedCovarianceSampleFilter< TSample >
     {
     weight = iter.GetFrequency() * (weightArray)[measurementVectorIndex];
     measurements = iter.GetMeasurementVector();
- 
+
     for ( unsigned int i = 0; i < measurementVectorSize; ++i )
       {
       diff[i] = measurements[i] - mean[i];
@@ -268,13 +274,13 @@ WeightedCovarianceSampleFilter< TSample >
     ++measurementVectorIndex;
     }
 
-  // fills the upper triangle using the lower triangle  
+  // fills the upper triangle using the lower triangle
   for( unsigned int row = 1; row < measurementVectorSize; row++)
     {
     for( unsigned int col = 0; col < row; col++)
       {
       output(col, row) = output(row, col);
-      } 
+      }
     }
 
   output /= ( totalWeight - ( sumSquaredWeight / totalWeight ) );
@@ -282,7 +288,7 @@ WeightedCovarianceSampleFilter< TSample >
   decoratedOutput->Set( output );
 }
 
-} // end of namespace Statistics 
+} // end of namespace Statistics
 } // end of namespace itk
 
 #endif
