@@ -110,6 +110,7 @@ ADD_TEST(itkStatisticsAlgorithmTest ${STATISTICS_TESTS} itkStatisticsAlgorithmTe
 ADD_TEST(itkStatisticsAlgorithmTest2 ${STATISTICS_TESTS} itkStatisticsAlgorithmTest2)
 ADD_TEST(itkWeightedMeanSampleFilterTest ${STATISTICS_TESTS} itkWeightedMeanSampleFilterTest)
 ADD_TEST(itkWeightedCovarianceSampleFilterTest ${STATISTICS_TESTS} itkWeightedCovarianceSampleFilterTest)
+ADD_TEST(itkWeightedCovarianceSampleFilterTest2 ${STATISTICS_TESTS} itkWeightedCovarianceSampleFilterTest2)
 ADD_TEST(itkImageToListSampleAdaptorTest ${STATISTICS_TESTS} itkImageToListSampleAdaptorTest)
 ADD_TEST(itkImageToListSampleAdaptorTest2 ${STATISTICS_TESTS} itkImageToListSampleAdaptorTest2)
 ADD_TEST(itkJointDomainImageToListSampleAdaptorTest ${STATISTICS_TESTS} itkJointDomainImageToListSampleAdaptorTest)
@@ -270,6 +271,7 @@ SET(Statistics_SRCS
   itkSubsampleTest3.cxx
   itkWeightedMeanSampleFilterTest.cxx
   itkWeightedCovarianceSampleFilterTest.cxx
+  itkWeightedCovarianceSampleFilterTest2.cxx
   itkImageToListSampleAdaptorTest.cxx
   itkImageToListSampleAdaptorTest2.cxx
   itkJointDomainImageToListSampleAdaptorTest.cxx
