@@ -456,7 +456,11 @@ void NiftiImageIO::Read(void* buffer)
     // sizes = x y z t vecsize
     _size[4] = numComponents;
     }
-
+  // Free memory if any was occupied already (incase of re-using the IO filter).
+  if (this->m_NiftiImage != NULL)
+    {
+      nifti_image_free(this->m_NiftiImage);
+    }
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(this->GetFileName(),false);
