@@ -69,25 +69,25 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
   typedef typename LabelObjectType::HistogramType HistogramType;
 
   typename HistogramType::SizeType histogramSize;
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   histogramSize.SetSize(1);
 #endif
   histogramSize.Fill( m_NumberOfBins );
 
   typename HistogramType::MeasurementVectorType featureImageMin;
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   featureImageMin.SetSize(1);
 #endif
   featureImageMin.Fill( m_Minimum );
 
   typename HistogramType::MeasurementVectorType featureImageMax;
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   featureImageMax.SetSize(1);
 #endif
   featureImageMax.Fill( m_Maximum );
 
   typename HistogramType::Pointer histogram = HistogramType::New();
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   histogram->SetMeasurementVectorSize(1);
 #endif
   histogram->SetClipBinsAtEnds( false );
@@ -122,7 +122,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     unsigned long length = lit->GetLength();
 
     typename HistogramType::MeasurementVectorType mv;
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
     mv.SetSize(1);
 #endif
     long endIdx0 = firstIdx[0] + length;
@@ -169,7 +169,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     }
 
   // final computations
-#ifdef ITK_USE_REVIEW_STATISTICS
+#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
 #else
   const typename HistogramType::FrequencyType & totalFreq = histogram->GetTotalFrequency();
