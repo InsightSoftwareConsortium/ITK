@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,12 @@
 #define ITK_VERSION ITK_VERSION_TO_STRING(ITK_VERSION_MAJOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_MINOR) "." \
                     ITK_VERSION_TO_STRING(ITK_VERSION_PATCH)
-#define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", itk source $Revision: 1.3444 $, $Date: 2010-07-12 02:00:10 $ (GMT)"
+#if ITK_MINOR_VERSION & 1
+# include <itksys/DateStamp.h> // For date stamp
+# define ITK_SOURCE_VERSION "itk version " ITK_VERSION ", Date: " itksys_DATE_STAMP_STRING
+#else
+# define ITK_SOURCE_VERSION "itk version " ITK_VERSION
+#endif
 
 namespace itk
 {
@@ -44,7 +49,7 @@ namespace itk
  * \ingroup ITKSystemObjects
  */
 
-class ITKCommon_EXPORT Version : public Object 
+class ITKCommon_EXPORT Version : public Object
 {
 public:
   /** Standard class typedefs. */
@@ -52,9 +57,9 @@ public:
   typedef Object                    Superclass;
   typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
-  
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Standard part of every itk Object. */
   itkTypeMacro(Version,Object);
@@ -67,7 +72,7 @@ public:
   static int GetITKMinorVersion();
   static int GetITKBuildVersion();
   static const char *GetITKSourceVersion();
-    
+
 protected:
   Version();
   ~Version();
@@ -80,4 +85,4 @@ private:
 
 } // end namespace itk
 
-#endif 
+#endif
