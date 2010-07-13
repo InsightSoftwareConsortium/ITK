@@ -30,7 +30,7 @@ namespace itk
  * eigen values \f$ \lambda_3 \f$ close to 0 and \f$\lambda_2\f$ and \f$\lambda_1\f$ as
  * large negative values. (for bright tubular structures).
  * 
- * \f[ \lambda_1 < \lambda_2 < \lambda_3 \f]
+ * \f[ | \lambda_1 | < | \lambda_2 | < | \lambda_3 | \f]
  *
  * \par Notes:
  * The filter takes into account that the eigen values play a crucial role in 
