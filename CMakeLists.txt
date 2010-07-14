@@ -490,6 +490,11 @@ IF(BUILD_DOXYGEN)
   FIND_PACKAGE(Doxygen)
 ENDIF(BUILD_DOXYGEN)
 
+OPTION(ITK_USE_FLOATINGPOINTEXCEPTIONS 
+"Enable Floating Point Exceptions for Testing"
+OFF)
+MARK_AS_ADVANCED(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
 SUBDIRS(Utilities Code)

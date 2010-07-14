@@ -43,6 +43,8 @@
 #include "itkImageRegion.h"
 #include "itksys/SystemTools.hxx"
 
+#include "itkFloatingPointExceptions.h"
+
 #define ITK_TEST_DIMENSION_MAX 6
 
 typedef int (*MainFuncPointer)(int , char* [] );
@@ -77,6 +79,8 @@ void PrintAvailableTests()
 
 int main(int ac, char* av[] )
 {
+  itk::FloatingPointExceptions::Enable();
+
   double intensityTolerance  = 2.0;
   unsigned int numberOfPixelsTolerance = 0;
   unsigned int radiusTolerance = 0;
