@@ -26,6 +26,16 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
+#
+# Floating Point Exception Test depends on whether floating point
+# exceptions are enabled
+#
+if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+ SET_SOURCE_FILES_PROPERTIES(itkFloatingPointExceptionsTest.cxx
+ COMPILE_FLAGS -DITK_USE_FPE)
+endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
+
 ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
@@ -470,6 +480,37 @@ IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
   ADD_TEST(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
 
+#
+# this test depends on being able to raise C++ exceptions from
+# the signal handler. This is apparently not something that
+# works properly
+if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
+
+add_test(itkFloatingPointExceptionsTest1 ${COMMON_TESTS2} 
+itkFloatingPointExceptionsTest DivByZero)
+
+add_test(itkFloatingPointExceptionsTest2 ${COMMON_TESTS2} 
+itkFloatingPointExceptionsTest ZeroDivByZero)
+
+add_test(itkFloatingPointExceptionsTest3 ${COMMON_TESTS2} 
+itkFloatingPointExceptionsTest FPOverFlow)
+
+add_test(itkFloatingPointExceptionsTest4 ${COMMON_TESTS2} 
+itkFloatingPointExceptionsTest FPUnderFlow)
+
+add_test(itkFloatingPointExceptionsTest5 ${COMMON_TESTS2} 
+itkFloatingPointExceptionsTest IntDivByZero)
+
+set_tests_properties(
+itkFloatingPointExceptionsTest1
+itkFloatingPointExceptionsTest2
+itkFloatingPointExceptionsTest3
+itkFloatingPointExceptionsTest4
+itkFloatingPointExceptionsTest5
+PROPERTIES WILL_FAIL TRUE
+)
+
+endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
 
 IF(ITK_BINARY_DIR)
   SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
@@ -706,6 +747,7 @@ itkVariableSizeMatrixTest.cxx
 itkImportContainerTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 itkImageFillBufferTest.cxx
+itkFloatingPointExceptionsTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx
 
