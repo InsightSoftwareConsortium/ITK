@@ -262,7 +262,8 @@ void LinearSystemWrapperVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex
   delete (*m_Matrices)[ResultMatrixIndex];
   (*m_Matrices)[ResultMatrixIndex] = new vnl_sparse_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
 
-  ((*m_Matrices)[LeftMatrixIndex])->mult( *((*m_Matrices)[RightMatrixIndex]), *((*m_Matrices)[ResultMatrixIndex]) );
+  *((*m_Matrices)[ResultMatrixIndex]) =
+    *((*m_Matrices)[LeftMatrixIndex]) * ( *((*m_Matrices)[RightMatrixIndex])); 
 
 }
 
