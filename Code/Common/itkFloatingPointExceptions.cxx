@@ -400,7 +400,6 @@ FloatingPointExceptions
   fedisableexcept (FPE_INTDIV);
   fedisableexcept (FPE_INTOVF);
 }
+#endif // ITK_USE_FPE
 
 } // end of itk namespace
-
-#endif // ITK_USE_FPE
