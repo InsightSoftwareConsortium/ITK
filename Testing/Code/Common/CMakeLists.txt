@@ -480,38 +480,6 @@ IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
   ADD_TEST(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
 
-#
-# this test depends on being able to raise C++ exceptions from
-# the signal handler. This is apparently not something that
-# works properly
-if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
-
-add_test(itkFloatingPointExceptionsTest1 ${COMMON_TESTS2} 
-itkFloatingPointExceptionsTest DivByZero)
-
-add_test(itkFloatingPointExceptionsTest2 ${COMMON_TESTS2} 
-itkFloatingPointExceptionsTest ZeroDivByZero)
-
-add_test(itkFloatingPointExceptionsTest3 ${COMMON_TESTS2} 
-itkFloatingPointExceptionsTest FPOverFlow)
-
-add_test(itkFloatingPointExceptionsTest4 ${COMMON_TESTS2} 
-itkFloatingPointExceptionsTest FPUnderFlow)
-
-add_test(itkFloatingPointExceptionsTest5 ${COMMON_TESTS2} 
-itkFloatingPointExceptionsTest IntDivByZero)
-
-set_tests_properties(
-itkFloatingPointExceptionsTest1
-itkFloatingPointExceptionsTest2
-itkFloatingPointExceptionsTest3
-itkFloatingPointExceptionsTest4
-itkFloatingPointExceptionsTest5
-PROPERTIES WILL_FAIL TRUE
-)
-
-endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
-
 IF(ITK_BINARY_DIR)
   SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})
 ELSE(ITK_BINARY_DIR)
@@ -747,7 +715,6 @@ itkVariableSizeMatrixTest.cxx
 itkImportContainerTest.cxx
 itkZeroFluxBoundaryConditionTest.cxx
 itkImageFillBufferTest.cxx
-itkFloatingPointExceptionsTest.cxx
 )
 # itkQuaternionOrientationAdapterTest.cxx
 
