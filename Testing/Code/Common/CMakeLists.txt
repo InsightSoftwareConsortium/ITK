@@ -26,16 +26,6 @@ SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Common)
 SET(TEMP ${ITKTesting_BINARY_DIR}/Temporary)
 SET(EXAMPLES_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
-#
-# Floating Point Exception Test depends on whether floating point
-# exceptions are enabled
-#
-if(ITK_USE_FLOATINGPOINTEXCEPTIONS)
- SET_SOURCE_FILES_PROPERTIES(itkFloatingPointExceptionsTest.cxx
- COMPILE_FLAGS -DITK_USE_FPE)
-endif(ITK_USE_FLOATINGPOINTEXCEPTIONS)
-
-
 ADD_TEST(itkAnnulusOperatorTest ${COMMON_TESTS} itkAnnulusOperatorTest)
 ADD_TEST(itkChainCodePath2DTest ${COMMON_TESTS} itkChainCodePath2DTest)
 ADD_TEST(itkChainCodePathTest ${COMMON_TESTS} itkChainCodePathTest)
