@@ -23,7 +23,7 @@ namespace itk
 /** \class itkFloatingPointExceptions
  * Allows floating point exceptions to be caught during program execution.
  */
-class ITK_EXPORT FloatingPointExceptions
+class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
   /** defines what should happen when exceptions occur */
