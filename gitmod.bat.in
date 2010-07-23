@@ -1,0 +1,6 @@
+@echo off
+set GIT=@CTEST_GIT_COMMAND@
+call "%GIT%" %*
+if "%1" equ "pull" (
+  "%GIT%" submodule update
+)

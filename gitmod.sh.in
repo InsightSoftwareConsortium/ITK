@@ -1,0 +1,6 @@
+#!/bin/sh
+GIT="@CTEST_GIT_COMMAND@"
+"$GIT" "$@" &&
+if test "$1" == "pull"; then
+    "$GIT" submodule update
+fi
