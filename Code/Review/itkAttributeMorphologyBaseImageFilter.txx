@@ -26,6 +26,7 @@
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -57,6 +58,21 @@ void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::GenerateData()
 {
+  if( m_Lambda <= 0.0 )
+    {
+    // save some time - simply copy the input in the output
+    typedef CastImageFilter< TInputImage, TOutputImage> CastType;
+    typename CastType::Pointer cast = CastType::New();
+    cast->SetInput( this->GetInput() );
+    cast->SetNumberOfThreads( this->GetNumberOfThreads() );
+    cast->SetInPlace( false );
+    cast->GraftOutput( this->GetOutput() );
+    cast->Update();
+    this->GraftOutput( cast->GetOutput() );
+    return;
+    }
+
+  // the real stuff, for useful lambda values
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
   // Allocate the output
