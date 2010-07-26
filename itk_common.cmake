@@ -25,6 +25,7 @@
 # to configure it:
 #
 #   dashboard_model           = Nightly | Experimental | Continuous
+#   dashboard_loop            = Repeat until N seconds have elapsed
 #   dashboard_root_name       = Change name of "My Tests" directory
 #   dashboard_source_name     = Name of source directory (ITK)
 #   dashboard_binary_name     = Name of binary directory (ITK-build)
@@ -301,6 +302,13 @@ set(dashboard_continuous 0)
 if("${dashboard_model}" STREQUAL "Continuous")
   set(dashboard_continuous 1)
 endif()
+if(NOT DEFINED dashboard_loop)
+  if(dashboard_continuous)
+    set(dashboard_loop 43200)
+  else()
+    set(dashboard_loop 0)
+  endif()
+endif()
 
 # CTest 2.6 crashes with message() after ctest_test.
 macro(safe_message)
@@ -315,7 +323,7 @@ endif()
 
 set(dashboard_done 0)
 while(NOT dashboard_done)
-  if(dashboard_continuous)
+  if(dashboard_loop)
     set(START_TIME ${CTEST_ELAPSED_TIME})
   endif()
   set(ENV{HOME} "${dashboard_user_home}")
@@ -371,10 +379,10 @@ while(NOT dashboard_done)
     endif()
   endif()
 
-  if(dashboard_continuous)
+  if(dashboard_loop)
     # Delay until at least 5 minutes past START_TIME
     ctest_sleep(${START_TIME} 300 ${CTEST_ELAPSED_TIME})
-    if(${CTEST_ELAPSED_TIME} GREATER 43200)
+    if(${CTEST_ELAPSED_TIME} GREATER ${dashboard_loop})
       set(dashboard_done 1)
     endif()
   else()
