@@ -31,6 +31,7 @@
 #   dashboard_cache           = Initial CMakeCache.txt file content
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
+#   dashboard_no_clean        = True to skip build tree wipeout
 #   CTEST_UPDATE_COMMAND      = path to svn command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
@@ -290,7 +291,8 @@ endmacro(write_cache)
 
 # Start with a fresh build tree.
 file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
-if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}")
+if(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
+    AND NOT dashboard_no_clean)
   message("Clearing build tree...")
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 endif()
