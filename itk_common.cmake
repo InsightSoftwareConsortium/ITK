@@ -263,18 +263,19 @@ message("Dashboard script configuration:\n${vars}\n")
 
 # Git does not update submodules by default so they appear as local
 # modifications in the work tree.  CTest 2.8.2 does this automatically.
-# To support CTest 2.8.0 and 2.8.1 we wrap Git in a script.  Since
-# CTest 2.8.2 never uses "git pull" the scripts are a no-op for it.
-if(UNIX)
-  configure_file(${dashboard_self_dir}/gitmod.sh.in
-                 ${CTEST_DASHBOARD_ROOT}/gitmod.sh
-                 @ONLY)
-  set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.sh)
-else()
-  configure_file(${dashboard_self_dir}/gitmod.bat.in
-                 ${CTEST_DASHBOARD_ROOT}/gitmod.bat
-                 @ONLY)
-  set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.bat)
+# To support CTest 2.8.0 and 2.8.1 we wrap Git in a script.
+if(${CMAKE_VERSION} VERSION_LESS 2.8.2)
+  if(UNIX)
+    configure_file(${dashboard_self_dir}/gitmod.sh.in
+                   ${CTEST_DASHBOARD_ROOT}/gitmod.sh
+                   @ONLY)
+    set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.sh)
+  else()
+    configure_file(${dashboard_self_dir}/gitmod.bat.in
+                   ${CTEST_DASHBOARD_ROOT}/gitmod.bat
+                   @ONLY)
+    set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.bat)
+  endif()
 endif()
 
 # Avoid non-ascii characters in tool output.
