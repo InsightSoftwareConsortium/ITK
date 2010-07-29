@@ -47,6 +47,18 @@
 #   dashboard_git_branch   = Custom remote branch to track
 #   dashboard_git_crlf     = Value of core.autocrlf for repository
 #
+# The following macros will be invoked before the corresponding
+# step if they are defined:
+#
+#   dashboard_hook_init       = End of initialization, before loop
+#   dashboard_hook_start      = Start of loop body, before ctest_start
+#   dashboard_hook_build      = Before ctest_build
+#   dashboard_hook_test       = Before ctest_test
+#   dashboard_hook_coverage   = Before ctest_coverage
+#   dashboard_hook_memcheck   = Before ctest_memcheck
+#   dashboard_hook_submit     = Before ctest_submit
+#   dashboard_hook_end        = End of loop body, after ctest_submit
+#
 # For Makefile generators the script may be executed from an
 # environment already configured to use the desired compilers.
 # Alternatively the environment may be set at the top of the script:
