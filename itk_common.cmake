@@ -33,7 +33,6 @@
 #   dashboard_do_coverage     = True to enable coverage (ex: gcov)
 #   dashboard_do_memcheck     = True to enable memcheck (ex: valgrind)
 #   dashboard_no_clean        = True to skip build tree wipeout
-#   CTEST_PROJECT_NAME        = Insight or InsightApplications
 #   CTEST_UPDATE_COMMAND      = path to svn command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
@@ -70,9 +69,6 @@
 
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-if(NOT DEFINED CTEST_PROJECT_NAME)
-  set(CTEST_PROJECT_NAME Insight)
-endif()
 set(dashboard_user_home "$ENV{HOME}")
 
 get_filename_component(dashboard_self_dir ${CMAKE_CURRENT_LIST_FILE} PATH)
