@@ -176,8 +176,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   stRegion.PadByRadius( 1 ); // must pad the region by one because of the translation
   
   OffsetType centerOffset;
-  int i;
-  for( i=0; i<ImageDimension; i++)
+  for(unsigned int i=0; i<ImageDimension; i++)
     {
     centerOffset[i] = stRegion.GetSize()[i] / 2;
     }
@@ -211,7 +210,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   // iterator passes over the various dimensions.
   int *Steps = new int[ImageDimension];
   
-  for (i=0;i<ImageDimension;i++)
+  for (unsigned int i=0;i<ImageDimension;i++)
     {
     HistVec[i] = histogram->Clone();
     PrevLineStartVec[i] = InLineIt.GetIndex();
@@ -283,7 +282,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     // copy the updated histogram and line start entries to the
     // relevant directions. When updating direction 2, for example,
     // new copies of directions 0 and 1 should be made.
-    for (i=0;i<ImageDimension;i++) 
+    for (unsigned int i=0;i<ImageDimension;i++)
       {
       if (Steps[i] > Steps[LineDirection])
         {
@@ -294,7 +293,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
       }
     progress.CompletedPixel();
     }
-  for (i=0;i<ImageDimension;i++) 
+  for (unsigned int i=0;i<ImageDimension;i++)
     {
     delete(HistVec[i]);
     }

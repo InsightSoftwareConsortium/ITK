@@ -289,7 +289,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
       
       // check the index to be sure that we are still in the same line idx
       bool sameIdx = true;
-      for( int i=1; i<ImageDimension; i++ )
+      for( unsigned int i = 1; i < ImageDimension; i++ )
         {
         if( currentIdx[i] != idx[i] )
           {

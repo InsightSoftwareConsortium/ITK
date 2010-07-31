@@ -167,7 +167,7 @@ protected:
       
       bool newMainLine = false;
       // don't check dim 0!
-      for( int i=1; i<ImageDimension; i++ )
+      for( unsigned int i = 1; i < ImageDimension; i++ )
         {
         if( idx[i] != prevIdx[i] )
           {

@@ -95,7 +95,7 @@ AutoCropLabelMapFilter<TInputImage>
       IndexValueType length = lit->GetLength();
   
       // update the mins and maxs
-      for( int i=0; i<ImageDimension; i++)
+      for( unsigned int i = 0; i < ImageDimension; i++)
         {
         if( idx[i] < this->m_MinIndex[i] )
           {
@@ -130,7 +130,7 @@ AutoCropLabelMapFilter<TInputImage>
 
   // final computation
   SizeType regionSize;
-  for( int i=0; i<ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     regionSize[i] = this->m_MaxIndex[i] - this->m_MinIndex[i] + 1;
     }

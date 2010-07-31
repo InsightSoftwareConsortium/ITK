@@ -39,13 +39,13 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
   this->m_UseImageDirection = false;
 #endif
 
-  int imageDimensionMinus1 = static_cast<int>(ImageDimension)-1;
+  unsigned int imageDimensionMinus1 = ImageDimension-1;
   if( ImageDimension > 1)
     {
     m_SmoothingFilters.resize(imageDimensionMinus1);
     }
 
-  for( int i = 0; i<imageDimensionMinus1; i++ )
+  for( unsigned int i = 0; i<imageDimensionMinus1; i++ )
     {
     m_SmoothingFilters[ i ] = GaussianFilterType::New();
     m_SmoothingFilters[ i ]->SetOrder( GaussianFilterType::ZeroOrder );
@@ -64,7 +64,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
     m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
     }
 
-  for( int i = 1; i<imageDimensionMinus1; i++ )
+  for( unsigned int i = 1; i<imageDimensionMinus1; i++ )
     {
     m_SmoothingFilters[ i ]->SetInput( 
       m_SmoothingFilters[i-1]->GetOutput() );
@@ -173,8 +173,8 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
   // Compute the contribution of each filter to the total progress.
   const double weight = 1.0 / ( ImageDimension * ImageDimension );
 
-  int imageDimensionMinus1 = static_cast<int>(ImageDimension)-1;
-  for( int i = 0; i<imageDimensionMinus1; i++ )
+  unsigned int imageDimensionMinus1 = ImageDimension-1;
+  for( unsigned int i = 0; i<imageDimensionMinus1; i++ )
     {
     progress->RegisterInternalFilter( m_SmoothingFilters[i], weight );
     }

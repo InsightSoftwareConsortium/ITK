@@ -51,7 +51,7 @@ BoxMeanImageFilter<TInputImage, TOutputImage>
   typedef Image<AccPixType, TInputImage::ImageDimension>    AccumImageType;
 
   typename TInputImage::SizeType internalRadius;
-  for( int i=0; i<TInputImage::ImageDimension; i++ )
+  for(unsigned int i=0; i<TInputImage::ImageDimension; i++ )
     {
     internalRadius[i] = this->GetRadius()[i] + 1;
     }

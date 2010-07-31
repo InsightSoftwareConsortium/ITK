@@ -201,7 +201,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   // 1 non zero (positive) entry in LineOffset.
   // When moving between planes there will be some negative ones too.
   LineOffset = Changes = LineStart - PrevLineStart;
-  for (int y=0;y<ImageDimension;y++) 
+  for (unsigned int y=0;y<ImageDimension;y++)
     {
     if (LineOffset[y] > 0)
       {

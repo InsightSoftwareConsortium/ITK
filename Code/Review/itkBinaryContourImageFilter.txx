@@ -120,7 +120,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage>
   IndexType outputRegionIdx = output->GetRequestedRegion().GetIndex();
   IndexType outputRegionForThreadIdx = outputRegionForThread.GetIndex();
   int splitAxis = 0;
-  for( int i=0; i<ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if( outputRegionIdx[i] != outputRegionForThreadIdx[i] )
       {

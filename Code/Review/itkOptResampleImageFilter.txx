@@ -336,7 +336,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       // Therefore, the following routine uses a
       // precisionConstant that specifies the number of relevant bits,
       // and the value is truncated to this precision.
-      for (int i=0; i < ImageDimension; ++i)
+      for ( unsigned int i=0; i < ImageDimension; ++i)
         {
         long roundedInputIndex = (long)(inputIndex[i]);
         if(inputIndex[i]<0.0 && inputIndex[i]!=(double)roundedInputIndex)
@@ -401,7 +401,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       // Therefore, the following routine uses a
       // precisionConstant that specifies the number of relevant bits,
       // and the value is truncated to this precision.
-      for (int i=0; i < ImageDimension; ++i)
+      for( unsigned int i = 0; i < ImageDimension; ++i)
         {
         long roundedInputIndex = (long)(inputIndex[i]);
         if(inputIndex[i]<0.0 && inputIndex[i]!=(double)roundedInputIndex)
@@ -465,7 +465,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
       // Therefore, the following routine uses a
       // precisionConstant that specifies the number of relevant bits,
       // and the value is truncated to this precision.
-      for (int i=0; i < ImageDimension; ++i)
+      for( unsigned int i = 0; i < ImageDimension; ++i)
         {
         long roundedInputIndex = (long)(inputIndex[i]);
         if(inputIndex[i]<0.0 && inputIndex[i]!=(double)roundedInputIndex)
@@ -619,7 +619,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Therefore, the following routine uses a
   // precisionConstant that specifies the number of relevant bits,
   // and the value is truncated to this precision.
-  for (int i=0; i < ImageDimension; ++i)
+  for( unsigned int i = 0; i < ImageDimension; ++i)
     {
     long roundedInputIndex = (long)(inputIndex[i]);
     if(inputIndex[i]<0.0 && inputIndex[i]!=(double)roundedInputIndex)
@@ -659,7 +659,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Therefore, the following routine uses a
     // precisionConstant that specifies the number of relevant bits,
     // and the value is truncated to this precision.
-    for (int i=0; i < ImageDimension; ++i)
+    for( unsigned int i = 0; i < ImageDimension; ++i)
       {
       long roundedInputIndex = (long)(inputIndex[i]);
       if(inputIndex[i]<0.0 && inputIndex[i]!=(double)roundedInputIndex)

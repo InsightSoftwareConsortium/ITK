@@ -267,7 +267,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Therefore, the following routine uses a
     // precisionConstant that specifies the number of relevant bits,
     // and the value is truncated to this precision.
-    for (int i=0; i < ImageDimension; ++i)
+    for( unsigned int i = 0; i < ImageDimension; ++i)
       {
       double roundedInputIndex = vcl_floor(inputIndex[i]);
       double inputIndexFrac = inputIndex[i] - roundedInputIndex;
@@ -409,7 +409,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // Therefore, the following routine uses a
   // precisionConstant that specifies the number of relevant bits,
   // and the value is truncated to this precision.
-  for (int i=0; i < ImageDimension; ++i)
+  for( unsigned int i = 0; i < ImageDimension; ++i)
     {
     double roundedDelta = vcl_floor(delta[i]);
     double deltaFrac = delta[i] - roundedDelta;
@@ -443,7 +443,7 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
     // Therefore, the following routine uses a
     // precisionConstant that specifies the number of relevant bits,
     // and the value is truncated to this precision.
-    for (int i=0; i < ImageDimension; ++i)
+    for( unsigned int i = 0; i < ImageDimension; ++i)
       {
       double roundedInputIndex = vcl_floor(inputIndex[i]);
       double inputIndexFrac = inputIndex[i] - roundedInputIndex;

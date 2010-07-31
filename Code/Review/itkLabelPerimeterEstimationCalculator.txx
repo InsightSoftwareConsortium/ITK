@@ -51,7 +51,7 @@ LabelPerimeterEstimationCalculator<TInputImage>
   // reduce the region to avoid reading outside
   RegionType region = this->GetImage()->GetRequestedRegion();
   SizeType size = region.GetSize();
-  for( int i=0; i<ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     size[i]--;
     }
@@ -79,7 +79,7 @@ LabelPerimeterEstimationCalculator<TInputImage>
     {
     offset = iIt.GetOffset( d );
     bool deactivate = false;
-    for ( int j=0; j<ImageDimension && !deactivate; j++ )
+    for (unsigned int j=0; j<ImageDimension && !deactivate; j++ )
       {
       if( offset[j] < 0 )
         {
@@ -144,15 +144,15 @@ LabelPerimeterEstimationCalculator<TInputImage>
     }
 
   // compute the participation to the perimeter for all the configurations
-  double physicalSize = 1;
-  for( int i=0; i<ImageDimension; i++ )
+  double physicalSize = 1.0;
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     physicalSize *= this->GetImage()->GetSpacing()[i];
     }
   typedef typename std::map< unsigned long, double > ContributionMapType;
   ContributionMapType contributions;
-  int numberOfNeighbors = (int)vcl_pow( 2.0, ImageDimension );
-  int numberOfConfigurations = (int)vcl_pow( 2.0, numberOfNeighbors );
+  const unsigned int numberOfNeighbors      = static_cast<unsigned int>( vcl_pow( 2.0, static_cast<double>(ImageDimension) ) );
+  const unsigned int numberOfConfigurations = static_cast<unsigned int>( vcl_pow( 2.0, static_cast<double>(numberOfNeighbors) ) );
   // create an image to store the neighbors
   typedef typename itk::Image< bool, ImageDimension > ImageType;
   typename ImageType::Pointer neighborsImage = ImageType::New();
@@ -160,10 +160,10 @@ LabelPerimeterEstimationCalculator<TInputImage>
   size.Fill( 2 );
   neighborsImage->SetRegions( size );
   neighborsImage->Allocate();
-  for( int i=0; i<numberOfConfigurations; i++ )
+  for(unsigned int i=0; i<numberOfConfigurations; i++ )
     {
     neighborsImage->FillBuffer( false );
-    for( int j=0; j<numberOfNeighbors; j++ )
+    for(unsigned int j=0; j<numberOfNeighbors; j++ )
       {
       if( i & 1 << j )
         {
@@ -173,12 +173,12 @@ LabelPerimeterEstimationCalculator<TInputImage>
     // the image is created - we can now compute the contributions of the pixels
     // for that configuration
     contributions[i] = 0;
-    for( int j=0; j<numberOfNeighbors; j++ )
+    for(unsigned int j=0; j<numberOfNeighbors; j++ )
       {
       IndexType currentIdx = indexes[j];
       if( neighborsImage->GetPixel( currentIdx ) )
         {
-        for( int k=0; k<ImageDimension; k++ )
+        for(unsigned int k=0; k<ImageDimension; k++ )
           {
           IndexType idx = currentIdx;
           idx[k] = vcl_abs( idx[k] - 1 );

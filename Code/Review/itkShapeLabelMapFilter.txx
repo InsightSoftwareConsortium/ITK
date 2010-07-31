@@ -81,13 +81,13 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 
   // Compute the size per pixel, to be used later
   double sizePerPixel = 1;
-  for( int i=0; i<ImageDimension; i++ )
+  for(unsigned int i=0; i<ImageDimension; i++ )
     {
     sizePerPixel *= output->GetSpacing()[i];
     }
   
   typename std::vector< double > sizePerPixelPerDimension;
-  for( int i=0; i<ImageDimension; i++ )
+  for(unsigned int i=0; i<ImageDimension; i++ )
     {
     sizePerPixelPerDimension.push_back( sizePerPixel / output->GetSpacing()[i] );
     }
@@ -95,7 +95,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   // Compute the max the index on the border of the image
   IndexType borderMin = output->GetLargestPossibleRegion().GetIndex();
   IndexType borderMax = borderMin;
-  for( int i=0; i<ImageDimension; i++ )
+  for(unsigned int i=0; i<ImageDimension; i++ )
     {
     borderMax[i] += output->GetLargestPossibleRegion().GetSize()[i] - 1;
     }
@@ -127,7 +127,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 
     // Update the centroid - and report the progress
     // First, update the axes that are not 0
-    for( int i=1; i<ImageDimension; i++ )
+    for( unsigned int i = 1; i < ImageDimension; i++ )
       {
       centroid[i] += (long)length * idx[i];
       }
@@ -135,7 +135,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     centroid[0] += idx[0] * (long)length + ( length * ( length - 1 ) ) / 2.0;
 
     // Update the mins and maxs
-    for( int i=0; i<ImageDimension; i++)
+    for( unsigned int i = 0; i < ImageDimension; i++)
       {
       if( idx[i] < mins[i] )
         {
@@ -154,7 +154,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 
     // Object is on a border ?
     bool isOnBorder = false;
-    for( int i=1; i<ImageDimension; i++)
+    for(unsigned int i=1; i<ImageDimension; i++)
       {
       if( idx[i] == borderMin[i] || idx[i] == borderMax[i])
         {
@@ -202,7 +202,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
       physicalSizeOnBorder += sizePerPixelPerDimension[0];
       }
     // Then the other dimensions
-    for( int i=1; i<ImageDimension; i++ )
+    for( unsigned int i=1; i<ImageDimension; i++ )
       {
       if( idx[i] == borderMin[i] )
         {
@@ -247,13 +247,13 @@ ShapeLabelMapFilter<TImage, TLabelImage>
     centralMoments[0][0] += length * ( physicalPosition[0] * physicalPosition[0]
             + spacing[0] * ( length - 1 ) * ( ( spacing[0] * ( 2 * length - 1 ) ) / 6.0 + physicalPosition[0] ) );
     // the other ones
-    for( int i = 1; i < ImageDimension; i++ )
+    for( unsigned int i = 1; i < ImageDimension; i++ )
       {
       // do this one here to avoid the double assigment in the following loop
       // when i == j
       centralMoments[i][i] += length * physicalPosition[i] * physicalPosition[i];
      // central moments are symetrics, so avoid to compute them 2 times
-      for( int j = i + 1; j < ImageDimension; j++ )
+      for(unsigned int j = i + 1; j < ImageDimension; j++ )
         {
         // note that we won't use that code if the image dimension is less than 3
         // --> the tests should be in 3D at least
@@ -273,7 +273,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
   typename LabelObjectType::RegionType::SizeType regionSize;
   double minSize = NumericTraits< double >::max();
   double maxSize = NumericTraits< double >::NonpositiveMin();
-  for( int i = 0; i < ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     centroid[i] /= size;
     regionSize[i] = maxs[i] - mins[i] + 1;
@@ -468,7 +468,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
       {
       // Compute the length between the 2 indexes
       double length = 0;
-      for( int i = 0; i<ImageDimension; i++ )
+      for( unsigned int i = 0; i < ImageDimension; i++ )
         {
         const OffsetValueType indexDifference = ( iIt1->operator[]( i ) - iIt2->operator[]( i ) );
         length += vcl_pow( indexDifference * spacing[i], 2 );
@@ -560,7 +560,8 @@ double
 ShapeLabelMapFilter<TImage, TLabelImage>
 ::HyperSphereVolume( double radius )
 {
-  return vcl_pow( vnl_math::pi, ImageDimension / 2.0 ) * vcl_pow( radius, ImageDimension ) / GammaN2p1( ImageDimension );
+  const double dblImageDimension=static_cast<double>(ImageDimension);
+  return vcl_pow( vnl_math::pi, dblImageDimension / 2.0 ) * vcl_pow( radius, dblImageDimension ) / GammaN2p1( dblImageDimension );
 }
 
 

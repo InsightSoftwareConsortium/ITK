@@ -87,20 +87,20 @@ ChangeRegionLabelMapFilter<TInputImage>
   typename InputImageType::LabelObjectType::LineContainerType lineContainer = labelObject->GetLineContainer();
   labelObject->GetLineContainer().clear();
   
-  IndexType idxMin = m_Region.GetIndex();
+  const IndexType idxMin = m_Region.GetIndex();
   IndexType idxMax;
-  for( int i=0; i<ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     idxMax[i] = idxMin[i] + m_Region.GetSize()[i] - 1;
     }
 
   for( lit = lineContainer.begin(); lit != lineContainer.end(); lit++ )
     {
-    IndexType idx = lit->GetIndex();
-    unsigned long length = lit->GetLength();
+    const IndexType idx = lit->GetIndex();
+    const IndexValueType length = lit->GetLength();
     
     bool outside = false;
-    for( int i=1; i<ImageDimension; i++ )
+    for( unsigned int i = 1; i < ImageDimension; i++ )
       {
       if( idx[i] < idxMin[i] || idx[i] > idxMax[i] )
         {
@@ -110,12 +110,12 @@ ChangeRegionLabelMapFilter<TInputImage>
     // check the axis 0
     if( !outside )
       {
-      long lastIdx0 = idx[0] + length - 1;
+      const IndexValueType lastIdx0 = idx[0] + length - 1;
       if( !( ( idx[0] < idxMin[0] && lastIdx0 < idxMin[0] )
                || ( idx[0] > idxMax[0] && lastIdx0 > idxMax[0] ) ) )
         {
         IndexType newIdx = idx;
-        long newLength = length;
+        IndexValueType newLength = length;
         if( idx[0] < idxMin[0] )
           {
           newLength -= idxMin[0] - idx[0];
@@ -125,7 +125,6 @@ ChangeRegionLabelMapFilter<TInputImage>
           {
           newLength -= lastIdx0 - idxMax[0];
           }
-        
         labelObject->AddLine( newIdx, newLength );
         }
       }

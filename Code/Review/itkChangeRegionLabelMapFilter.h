@@ -69,6 +69,7 @@ public:
 
   typedef typename InputImageType::PixelType       PixelType;
   typedef typename InputImageType::IndexType       IndexType;
+  typedef typename InputImageType::IndexValueType  IndexValueType;
   typedef typename InputImageType::SizeType        SizeType;
   typedef typename InputImageType::RegionType      RegionType;
 

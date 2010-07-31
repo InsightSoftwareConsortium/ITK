@@ -132,7 +132,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeType outputRegionSize = output->GetRequestedRegion().GetSize();
   SizeType outputRegionForThreadSize = outputRegionForThread.GetSize();
   int splitAxis = 0;
-  for( int i=0; i<ImageDimension; i++ )
+  for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if( outputRegionSize[i] != outputRegionForThreadSize[i] )
       {

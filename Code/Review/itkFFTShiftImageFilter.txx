@@ -67,7 +67,7 @@ FFTShiftImageFilter<TInputImage, TOutputImage>
   
   // the center pixel is not computed the same way for the inverse shift in
   // case the size is odd, to restore the same image as before the shift
-  for( int i=0; i<ImageDimension; i++)
+  for( unsigned int i = 0; i < ImageDimension; i++)
     {
     if( oSize[i] % 2 == 1 )
       {
@@ -95,7 +95,7 @@ FFTShiftImageFilter<TInputImage, TOutputImage>
     {
     IndexType idx = oIt.GetIndex();
     
-    for( int i=0; i<ImageDimension; i++ )
+    for( unsigned int i = 0; i < ImageDimension; i++ )
       {
       if( idx[i] <  (int)(oIdx[i] + seg2Size[i]) )
         {
