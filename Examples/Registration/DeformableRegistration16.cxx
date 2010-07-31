@@ -89,7 +89,7 @@
 #include <cstdlib>
 
 // ITK IO includes
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

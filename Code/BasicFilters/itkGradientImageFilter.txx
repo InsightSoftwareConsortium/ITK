@@ -38,11 +38,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType>
 ::GradientImageFilter()
 {
   this->m_UseImageSpacing   = true;
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   this->m_UseImageDirection = true;
-#else
-  this->m_UseImageDirection = false;
-#endif
 }
 
 
@@ -207,7 +203,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
         gradient[i] = SIP(x_slice[i], nit, op[i]);
         }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
       if( this->m_UseImageDirection )
         {
         inputImage->TransformLocalVectorToPhysicalVector( gradient, it.Value() );
@@ -216,14 +211,9 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
         {
         it.Value() = gradient;
         }
-#else
-      it.Value() = gradient;
-#endif
-
       ++nit;
       ++it;
       progress.CompletedPixel();
-
       }
     }
 }

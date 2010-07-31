@@ -394,15 +394,10 @@ ESMDemonsRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     itkExceptionMacro(<<"Unknown gradient type");
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   CovariantVectorType usedGradientTimes2;
   this->GetFixedImage()->TransformLocalVectorToPhysicalVector(
      usedOrientFreeGradientTimes2, usedGradientTimes2);
-#else
-  CovariantVectorType usedGradientTimes2=usedOrientFreeGradientTimes2;
-#endif
 
-  
   /**
    * Compute Update.
    * We avoid the mismatch in units between the two terms. 

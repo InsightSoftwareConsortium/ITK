@@ -320,15 +320,13 @@ public:
   
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
-  
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+
   template<class TCoordRep>
   void TransformLocalVectorToPhysicalVector(
     const FixedArray<TCoordRep, 3> & inputGradient,
           FixedArray<TCoordRep, 3> & outputGradient ) const
     {
     }
-#endif
 protected:
   PhasedArray3DSpecialCoordinatesImage()
     {

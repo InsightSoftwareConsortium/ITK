@@ -50,11 +50,7 @@ MutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // calculating image derivatives
   this->SetComputeGradient(false); // don't use the default gradient for now
   m_DerivativeCalculator = DerivativeFunctionType::New();
-
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
-    m_DerivativeCalculator->UseImageDirectionOn();
-#endif
-
+  m_DerivativeCalculator->UseImageDirectionOn();
 }
 
 

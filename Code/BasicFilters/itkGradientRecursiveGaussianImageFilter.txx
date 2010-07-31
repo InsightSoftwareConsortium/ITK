@@ -33,11 +33,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage>
 ::GradientRecursiveGaussianImageFilter()
 {
   m_NormalizeAcrossScale = false;
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   this->m_UseImageDirection = true;
-#else
-  this->m_UseImageDirection = false;
-#endif
 
   unsigned int imageDimensionMinus1 = ImageDimension-1;
   if( ImageDimension > 1)
@@ -264,8 +260,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       }
 
     }
-  
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+
   // If the flag for using the input image direction is ON,
   // then we apply the direction correction to all the pixels
   // of the output gradient image.
@@ -285,8 +280,6 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
       ++itr;
       }
     }
-#endif
-
 }
 
 

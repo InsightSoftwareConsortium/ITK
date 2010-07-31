@@ -36,7 +36,7 @@
 //  Software Guide : EndLatex 
 
 
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkVersor.h"
@@ -79,7 +79,7 @@ int main( int argc, char * argv[] )
 
   const unsigned int Dimension = 3;
 
-  typedef itk::OrientedImage< PixelType,  Dimension >   ImageType;
+  typedef itk::Image< PixelType,  Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 
 

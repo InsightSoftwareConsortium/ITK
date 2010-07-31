@@ -50,11 +50,7 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
   m_SplineOrder = 0;
   unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   this->m_UseImageDirection = true;
-#else
-  this->m_UseImageDirection = false;
-#endif
 }
 
 template <class TImageType, class TCoordRep, class TCoefficientType>
@@ -279,14 +275,12 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     derivativeValue[n] /= spacing[n];
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   if( this->m_UseImageDirection )
     {
     CovariantVectorType orientedDerivative;
     inputImage->TransformLocalVectorToPhysicalVector( derivativeValue, orientedDerivative );
     return orientedDerivative;
     }
-#endif
 
   return(derivativeValue);
 #endif
@@ -941,14 +935,12 @@ BSplineInterpolateImageFunction<TImageType,TCoordRep,TCoefficientType>
     derivativeValue[n] /= spacing[n];
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   if( this->m_UseImageDirection )
     {
     CovariantVectorType orientedDerivative;
     inputImage->TransformLocalVectorToPhysicalVector( derivativeValue, orientedDerivative );
     return orientedDerivative;
     }
-#endif
 
   return(derivativeValue);
 }

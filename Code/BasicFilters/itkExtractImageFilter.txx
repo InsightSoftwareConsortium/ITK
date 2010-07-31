@@ -203,7 +203,7 @@ ExtractImageFilter<TInputImage,TOutputImage>
           }
         }
       }
-    // This is a temporary fix to get over the problems with using OrientedImages to
+    // This is a temporary fix to get over the problems with using the orientation of Images to
     // a non-degenerate extracted image to be created.  It still needs to be determined
     // how to compute the correct outputDirection from all possible input directions.
     if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)

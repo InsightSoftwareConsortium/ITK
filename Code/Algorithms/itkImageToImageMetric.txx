@@ -168,11 +168,7 @@ ImageToImageMetric<TFixedImage,TMovingImage>
     }
   gradientFilter->SetSigma( maximumSpacing );
   gradientFilter->SetNormalizeAcrossScale( true );
-
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   gradientFilter->SetUseImageDirection( true );
-#endif
-  
   gradientFilter->Update();
   
   m_GradientImage = gradientFilter->GetOutput();

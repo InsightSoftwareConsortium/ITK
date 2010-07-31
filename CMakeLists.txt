@@ -171,11 +171,6 @@ MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
 OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
 MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 
-#-----------------------------------------------------------------------------
-# Make the itk::Image assume the behavior of the itk::OrientedImage
-MARK_AS_ADVANCED(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
-OPTION(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE "Makes itk::Image behave like itk::OrientedImage" ON)
-
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
 MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
@@ -239,12 +234,6 @@ IF(ITK_USE_TRANSFORM_IO_FACTORIES)
     MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental transform IO factories.")
   ENDIF(NOT ITK_USE_REVIEW)
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
-
-#-----------------------------------------------------------------------------
-# ITK turn on the correct usage of oriented images in gradient computations and image registration.
-OPTION(ITK_USE_ORIENTED_IMAGE_DIRECTION "Turn on correct use of oriented images direction in gradient computation and image registration." ON)
-MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-
 
 #-----------------------------------------------------------------------------
 # ITK turn on the correct usage of centered-pixel coordinates.

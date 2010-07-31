@@ -148,9 +148,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
 
   DirectionType direction;
   direction.SetIdentity();
-#if ( defined(ITK_USE_ORIENTED_IMAGE_DIRECTION) && defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE) )
   direction(1,1)=-1;
-#endif
   
   ImageType::Pointer moving = ImageType::New();
   ImageType::Pointer fixed = ImageType::New();

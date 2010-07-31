@@ -135,12 +135,10 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
     }
   TImageType::DirectionType newDirection;
   newDirection.SetIdentity();
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   newDirection[0][0]=0;
   newDirection[0][1]=-1;
   newDirection[1][0]=1;
   newDirection[1][1]=0;
-#endif
   newOrigin=newDirection*newOrigin;
 
   TImageType::Pointer image=TImageType::New();

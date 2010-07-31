@@ -30,11 +30,7 @@ template <class TInputImage, class TCoordRep>
 CentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::CentralDifferenceImageFunction()
 {
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   this->m_UseImageDirection = true;
-#else
-  this->m_UseImageDirection = false;
-#endif
 }
 
 
@@ -94,14 +90,12 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
     neighIndex[dim] += 1;
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   if( this->m_UseImageDirection )
     {
     OutputType orientedDerivative;
     inputImage->TransformLocalVectorToPhysicalVector( derivative, orientedDerivative );
     return orientedDerivative;
     }
-#endif
 
   return ( derivative );
 }

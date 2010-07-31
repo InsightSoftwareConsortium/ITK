@@ -30,7 +30,7 @@ int itkOrientedImageProfileTest2( int, char *[] )
 
   //
   //  Yes, on purpose we are using here the itk::Image, so we can compare it
-  //  against the itk::OrientedImage used in itkOrientedImageProfileTest1.
+  //  against the itk::Image used in itkOrientedImageProfileTest1.
   //
   typedef itk::Image<PixelType, Dimension>            ImageType;
 

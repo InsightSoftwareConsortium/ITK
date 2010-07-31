@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -29,7 +29,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   const unsigned int               Dimension = 3;
   typedef itk::Index<Dimension>    PixelType;
 
-  typedef itk::OrientedImage< PixelType, 
+  typedef itk::Image< PixelType,
                       Dimension >   ImageType;
 
   typedef itk::RegionOfInterestImageFilter< 

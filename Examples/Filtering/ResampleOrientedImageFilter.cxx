@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMatrix.h"
@@ -38,8 +38,8 @@ int main( int argc, char * argv[] )
   const     unsigned int   Dimension = 2;
   typedef   unsigned char  InputPixelType;
   typedef   unsigned char  OutputPixelType;
-  typedef itk::OrientedImage< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::OrientedImage< OutputPixelType, Dimension >   OutputImageType;
+  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;

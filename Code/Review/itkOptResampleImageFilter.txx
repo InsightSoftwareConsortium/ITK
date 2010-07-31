@@ -582,9 +582,8 @@ ResampleImageFilter<TInputImage,TOutputImage,TInterpolatorPrecisionType>
   // to an index to trace line in the input image as we move
   // across the scanline of the output image.
   //
-  // We determine delta in this manner so that Images and
-  // OrientedImages are both handled properly (with the delta for
-  // OrientedImages taking into account the direction cosines).
+  // We determine delta in this manner so that Images
+  // are both handled properly (taking into account the direction cosines).
   //
   ++index[0];
   outputPtr->TransformIndexToPhysicalPoint( index, tmpOutputPoint );

@@ -31,11 +31,7 @@ template <class TInputImage, class TCoordRep>
 VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
 ::VectorCentralDifferenceImageFunction()
 {
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   this->m_UseImageDirection = true;
-#else
-  this->m_UseImageDirection = false;
-#endif
 }
 
 
@@ -105,7 +101,6 @@ VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
     neighIndex[dim] += 1;
     }
 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
   if( this->m_UseImageDirection )
     {
     OutputType orientedderivative;
@@ -128,7 +123,6 @@ VectorCentralDifferenceImageFunction<TInputImage,TCoordRep>
       }
     return orientedderivative;
     }
-#endif
 
   return ( derivative );
 

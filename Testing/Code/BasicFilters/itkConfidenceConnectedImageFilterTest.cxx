@@ -27,7 +27,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 
 int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {
@@ -41,7 +41,7 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
     }
 
   typedef unsigned char PixelType;
-  typedef itk::OrientedImage<PixelType, 2> myImage;
+  typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input 
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);

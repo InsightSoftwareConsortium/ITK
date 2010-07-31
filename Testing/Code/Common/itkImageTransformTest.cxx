@@ -19,7 +19,7 @@
 #endif
 
 #include "itkImage.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageRegion.h"
 #include "itkIndex.h"
 #include "itkSize.h"
@@ -31,10 +31,9 @@ template <unsigned int Dimension>
 void TestTransform()
 {
   typedef itk::Image<float,Dimension>         ImageType;
-  typedef itk::OrientedImage<float,Dimension> OrientedImageType;
 
-  typename ImageType::Pointer image =                 ImageType::New();
-  typename OrientedImageType::Pointer orientedImage = OrientedImageType::New();
+  typename ImageType::Pointer image =         ImageType::New();
+  typename ImageType::Pointer orientedImage = ImageType::New();
 
   typename ImageType::PointType origin;
 
@@ -61,14 +60,14 @@ void TestTransform()
 
   std::cout << "TransformIndexToPhysicalPoint..." << std::endl;
   orientedImage->TransformIndexToPhysicalPoint(index, point);
-  std::cout << "    OrientedImage: " << index << " -> " << point << std::endl;
+  std::cout << "    Image: " << index << " -> " << point << std::endl;
 
   image->TransformIndexToPhysicalPoint(index, point);
   std::cout << "    Image:         " << index << " -> " << point << std::endl;
 
   std::cout << "TransformPhysicalPointToIndex..." << std::endl;
   orientedImage->TransformPhysicalPointToIndex(point, index);
-  std::cout << "    OrientedImage: " << point << " -> " << index << std::endl;
+  std::cout << "    Image: " << point << " -> " << index << std::endl;
 
   image->TransformPhysicalPointToIndex(point, index);
   std::cout << "    Image:         " << point << " -> " << index << std::endl;
