@@ -65,11 +65,8 @@ namespace itk
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
 #error "MSC_VER <= 1300 not supported under ITKv4"
 #endif
-#if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x540)
-#error "__SUNPRO_CC <= 0x540 not supported under ITKv4"
-#endif
-#if defined(__SVR4) && !defined(__SUNPRO_CC)
-#error "__SRV4 __SUNPRO_CC <= 0x540 not supported under ITKv4"
+#if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x590)
+#error "__SUNPRO_CC < 0x590 not supported under ITKv4"
 #endif
 #if defined(__BORLANDC__)
 #error "The Borland C compiler is not supported in ITKv4 and above"
