@@ -79,6 +79,12 @@ namespace itk
 #endif
 #if defined(__GNUC__) && (__GNUC__ < 3 )
 #error "The __GNUC__ version 2.95 compiler is not supprted under ITKv4 and above"
+#if defined(__sgi)
+//This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
+//TODO: At some future point, it may be necessary to
+//define a minimum __sgi version that will work.
+#error "The __sgi compiler is not supprted under ITKv4 and above"
+#endif
 #endif
 
 #define itkStaticConstMacro(name,type,value) static const type name = value
@@ -756,9 +762,7 @@ private:
    hard to block the resulting warning because its stream headers
    re-enable it.  Therefore we just disable support for now.
 */
-#if defined(__sgi) && defined(_COMPILER_VERSION)
-# define ITK_TEMPLATE_DO_NOT_INSTANTIATE 1
-#elif defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 700
+#if defined(__INTEL_COMPILER) && __INTEL_COMPILER >= 700
 # define ITK_TEMPLATE_EXTERN 1
 #elif defined(__GNUC__) && __GNUC__ >= 3
 # define ITK_TEMPLATE_EXTERN 1

@@ -35,10 +35,6 @@ namespace itk
 #undef ITK_MAX_THREADS
 #define ITK_MAX_THREADS 1 
 #endif
-#if defined(__sgi) && defined(_COMPILER_VERSION) && _COMPILER_VERSION <= 730
-#undef ITK_MAX_THREADS
-#define ITK_MAX_THREADS 1 
-#endif
 #ifndef ITK_MAX_THREADS
 #define ITK_MAX_THREADS 1
 #endif

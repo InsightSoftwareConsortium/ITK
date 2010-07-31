@@ -1618,22 +1618,10 @@ public:
 
   static toff_t TIFFSeek(thandle_t fd, toff_t off, int whence)
     {
-#ifdef __sgi
-    int need;
-#endif
     std::ostream *out = reinterpret_cast<std::ostream *>(fd);
     switch (whence)
       {
       case SEEK_SET:
-#ifdef __sgi
-        out->seekp(0, std::ios::end);
-        need = static_cast<int>(off) - static_cast<int>(out->tellp());
-        if (need > 0)
-          {
-          char buf[1] = {'\0'};
-          for (int ii = 0; ii < need; ii++) out->write(buf,1);
-          }
-#endif
         out->seekp(off, std::ios::beg);
         break;
       case SEEK_END:

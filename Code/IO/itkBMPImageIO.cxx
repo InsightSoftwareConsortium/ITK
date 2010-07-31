@@ -738,12 +738,6 @@ BMPImageIO
     }
   
 
-#ifdef __sgi
-  // Create the file. This is required on some older sgi's
-  std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();
-#endif
-
   m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
   if( m_Ofstream.fail() )
     {

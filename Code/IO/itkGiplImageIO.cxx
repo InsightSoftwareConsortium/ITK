@@ -732,12 +732,6 @@ GiplImageIO
 
   unsigned int nDims = this->GetNumberOfDimensions();
 
-#ifdef __sgi
-  // Create the file. This is required on some older sgi's
-  std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-  tFile.close();
-#endif
-
   if (m_IsCompressed)
     {
     m_Internal->m_GzFile = ::gzopen( m_FileName.c_str(), "wb" );

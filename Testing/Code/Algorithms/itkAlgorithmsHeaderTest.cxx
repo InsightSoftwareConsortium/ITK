@@ -154,8 +154,6 @@
 #include "itkRegionGrowImageFilter.txx"
 #include "itkRegularSphereMeshSource.txx"
 #include "itkReinitializeLevelSetImageFilter.txx"
-#include "itkSCSLComplexConjugateToRealImageFilter.txx"
-#include "itkSCSLRealToComplexConjugateImageFilter.txx"
 #include "itkSTAPLEImageFilter.txx"
 #include "itkScalarImageKmeansImageFilter.txx"
 #include "itkSegmentationLevelSetImageFilter.txx"

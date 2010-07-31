@@ -51,10 +51,6 @@ void RegisterTests()
 #if defined(USE_FFTWD)
   REGISTER_TEST(itkCurvatureRegistrationFilterTest);
 #endif
-#if defined(USE_SCSL)
-  REGISTER_TEST(itkSCSLFFTTest);
-  REGISTER_TEST(itkVnlSCSL_FFTTest);
-#endif
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
   REGISTER_TEST(itkMeanReciprocalSquareDifferencePointSetToImageMetricTest );
   REGISTER_TEST(itkThresholdMaximumConnectedComponentsImageFilterTest );

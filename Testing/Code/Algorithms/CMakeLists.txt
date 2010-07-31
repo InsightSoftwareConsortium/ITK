@@ -237,12 +237,6 @@ IF(USE_FFTWD)
        ADD_TEST(itkCurvatureRegistrationFilterTest ${ALGORITHMS_TESTS4} itkCurvatureRegistrationFilterTest)
 ENDIF(USE_FFTWD)
 
-IF(USE_SCSL)
-       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS4} itkSCSLFFTTest)
-       ADD_TEST(itkVnlSCSL_FFTTest ${ALGORITHMS_TESTS4} itkVnlSCSL_FFTTest)
-ENDIF(USE_SCSL)
-
-
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkSymmetricForcesDemonsRegistrationFilterTest ${ALGORITHMS_TESTS2} itkSymmetricForcesDemonsRegistrationFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)

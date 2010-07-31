@@ -92,12 +92,6 @@ bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os,
   // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
-#ifdef __sgi
-  // Create the file. This is required on some older sgi's
-  std::ofstream tFile(filename,std::ios::out);
-  tFile.close();
-#endif
-
   // Actually open the file
   os.open( filename, std::ios::out | std::ios::binary );
 

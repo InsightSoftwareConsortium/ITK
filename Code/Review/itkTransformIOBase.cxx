@@ -64,19 +64,6 @@ void
 TransformIOBase
 ::OpenStream(std::ofstream &outputStream, bool binary)
 {
-#ifdef __sgi
-  // Create the file. This is required on some older sgi's
-  if (this->m_AppendMode)
-    {
-    std::ofstream tFile(m_FileName.c_str(),std::ios::out | std::ios::app);
-    tFile.close();   
-    }
-  else
-    {
-    std::ofstream tFile(m_FileName.c_str(),std::ios::out);
-    tFile.close(); 
-    }
-#endif
   std::ios::openmode mode(std::ios::out);
   if(binary) 
     {

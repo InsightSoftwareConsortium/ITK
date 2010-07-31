@@ -303,9 +303,7 @@ m_PThreadsSemaphoreRemoved = true;
     }
 #else
 
-#ifndef __sgi
 #ifndef __APPLE__
-  // IRIX pthreads implementation of sem_destroy is buggy
   if ( sem_destroy(&m_Sema) != 0 )
     {
     itkExceptionMacro( << "sem_destroy call failed. " );
@@ -321,7 +319,6 @@ m_PThreadsSemaphoreRemoved = true;
     {
     itkExceptionMacro( << "sem_unlink call failed. " );
     }
-#endif
 #endif
 
 #endif  // sun

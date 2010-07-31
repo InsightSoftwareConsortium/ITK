@@ -105,9 +105,8 @@ typedef int SemaphoreType;
  * re-Initialize() the object.
  *  
  * This class supports 3 types of semaphores on Unix systems, POSIX semaphores,
- * IPC semaphores, and IRIX semaphores from the SGI Sproc library.  On Windows
- * systems, POSIX semaphores and WIN32 thread library semaphores are supported.
- *
+ * and IPC semaphores.  On Windows systems, POSIX semaphores and WIN32 thread
+ * library semaphores are supported.
  */
 class ITKCommon_EXPORT Semaphore : public LightObject
 {

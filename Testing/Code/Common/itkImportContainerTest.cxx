@@ -236,8 +236,7 @@ int itkImportContainerTest(int , char * [] )
   // for NDEBUG will eliminate this code. Unfortunately, coverage is
   // also built debug, so the coverage report will show that the
   // exception after a refused allocation is not exercised.
-  // SGI's always say they can get you the memory you want.
-#if (!defined(__sgi) && defined(NDEBUG))
+#if (defined(NDEBUG))
   // Check the exception on the memory allocation
   bool caughtException = false;
   try
@@ -256,8 +255,7 @@ int itkImportContainerTest(int , char * [] )
   delete [] ptr1;
   delete [] myPtr;
 
-  // SGI's always say they can get you the memory you want.
-#if (!defined(__sgi) && defined(NDEBUG))
+#if (defined(NDEBUG))
   if (!caughtException && (sizeof(void *) != 8))
     {
     std::cout << "Failed to catch expected exception" << std::endl;
