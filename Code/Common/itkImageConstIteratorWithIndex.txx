@@ -82,14 +82,12 @@ ImageConstIteratorWithIndex<TImage>
   m_PositionIndex     = m_BeginIndex;
   m_Region            = region;
 
-#ifdef ITK_USE_REGION_VALIDATION_IN_ITERATORS
   if( region.GetNumberOfPixels() > 0 ) // If region is non-empty
     {
     const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
     itkAssertOrThrowMacro( (bufferedRegion.IsInside( m_Region )),
       "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
     }
-#endif
 
   memcpy(m_OffsetTable, m_Image->GetOffsetTable(),
          (ImageDimension+1)*sizeof(unsigned long));

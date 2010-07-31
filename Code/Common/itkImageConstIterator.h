@@ -174,14 +174,12 @@ public:
     m_Buffer = m_Image->GetBufferPointer();
     m_Region = region;
 
-#ifdef ITK_USE_REGION_VALIDATION_IN_ITERATORS
     if( region.GetNumberOfPixels() > 0 ) // If region is non-empty
       {
       const RegionType & bufferedRegion = m_Image->GetBufferedRegion();
       itkAssertOrThrowMacro( (bufferedRegion.IsInside( m_Region )),
         "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
       }
-#endif
 
     // Compute the start offset
     m_Offset = m_Image->ComputeOffset( m_Region.GetIndex() );
