@@ -987,12 +987,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
       
       for (i = 0; i < ImageDimension; ++i)
         {
-#if defined(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION)
-        offset[i] = (offset[i] * centerValue) * vcl_sqrt(ImageDimension +0.5) 
-                    / (norm_grad_phi_squared + MIN_NORM);
-#else
         offset[i] = (offset[i] * centerValue) / (norm_grad_phi_squared + MIN_NORM);
-#endif
         }
           
       m_UpdateBuffer.push_back( df->ComputeUpdate(outputIt, globalData, offset) );
