@@ -237,13 +237,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
         continue;
         }
 
-#ifdef ITK_USE_DEPRECATED_FAST_MARCHING
-      // make this a trial point
-      m_LabelImage->SetPixel( node.GetIndex(), TrialPoint );
-#else
       // make this an initial trial point
       m_LabelImage->SetPixel( node.GetIndex(), InitialTrialPoint );
-#endif
 
       outputPixel = node.GetValue();
       output->SetPixel( node.GetIndex(), outputPixel );
@@ -293,11 +288,7 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       } 
 
     // is this node already alive ?
-#ifdef ITK_USE_DEPRECATED_FAST_MARCHING
-    if ( m_LabelImage->GetPixel( node.GetIndex() ) != TrialPoint ) 
-#else
     if ( m_LabelImage->GetPixel( node.GetIndex() ) == AlivePoint )
-#endif
       {
       continue;
       }
@@ -358,12 +349,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       {
       neighIndex[j] = index[j] - 1;
       }
-#ifdef ITK_USE_DEPRECATED_FAST_MARCHING
-    if ( m_LabelImage->GetPixel( neighIndex ) != AlivePoint )
-#else
     unsigned char label = m_LabelImage->GetPixel( neighIndex );
     if ( label != AlivePoint && label != InitialTrialPoint )
-#endif
       {
       this->UpdateValue( neighIndex, speedImage, output );
       }
@@ -373,12 +360,8 @@ FastMarchingImageFilter<TLevelSet,TSpeedImage>
       {
       neighIndex[j] = index[j] + 1;
       }
-#ifdef ITK_USE_DEPRECATED_FAST_MARCHING
-    if ( m_LabelImage->GetPixel( neighIndex ) != AlivePoint )
-#else
     label = m_LabelImage->GetPixel( neighIndex );
     if ( label != AlivePoint && label != InitialTrialPoint )
-#endif
       {
       this->UpdateValue( neighIndex, speedImage, output );
       }

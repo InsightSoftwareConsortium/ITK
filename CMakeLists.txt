@@ -249,10 +249,6 @@ MARK_AS_ADVANCED(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
 OPTION(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION "Turn on the use of a sparse field level set surface interpolation method that has been deprecated since ITK 3.6. Turn this flag ON to exactly replicate the behavior of ITK<=3.4." OFF)
 MARK_AS_ADVANCED(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION)
 
-OPTION(ITK_USE_DEPRECATED_FAST_MARCHING "Turn on incorrect handling of TrialPoints in itk::FastMarchingImageFilter result of a bug fixed in ITK 3.18. Turn this flag ON to exactly replicate the behavior of ITK<=3.16." OFF)
-MARK_AS_ADVANCED(ITK_USE_DEPRECATED_FAST_MARCHING)
-
-
 #-----------------------------------------------------------------------------
 # Installation vars.
 # ITK_INSTALL_BIN_DIR          - binary dir (executables)
