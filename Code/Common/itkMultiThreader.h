@@ -23,29 +23,6 @@
 #include "itkObject.h"
 #include "itkMutexLock.h"
 
-#ifdef ITK_USE_SPROC
-#include <sys/types.h>
-#include <sys/resource.h>
-#include <sys/types.h>
-#include <sys/prctl.h>
-#include <wait.h>
-#include <errno.h>
-#include <ulocks.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/signal.h>
-#include <sys/sysmp.h>
-#include <sys/errno.h>
-#include <sys/syssgi.h>
-
-extern "C" {
-#include <sys/pmo.h>
-#include <fetchop.h>
-}
-#endif
-
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
 #endif
@@ -62,17 +39,10 @@ namespace itk
  *
  * \ingroup OSSystemObejcts
  *
- * \par Note
- * If ITK_USE_SPROC is defined, then sproc() will be used to create
- * multiple threads on an SGI. If ITK_USE_PTHREADS is defined, then
+ * If ITK_USE_PTHREADS is defined, then
  * pthread_create() will be used to create multiple threads (on
  * a sun, for example).
  */
-
-// The maximum number of threads allowed
-#ifdef ITK_USE_SPROC
-#define ITK_MAX_THREADS              128
-#endif
 
 #ifdef ITK_USE_PTHREADS
 #define ITK_MAX_THREADS              128
@@ -103,11 +73,7 @@ namespace itk
  * If ITK_USE_PTHREADS is defined, then the multithreaded
  * function is of type void *, and returns NULL
  * Otherwise the type is void which is correct for WIN32
- * and SPROC. */
-#ifdef ITK_USE_SPROC
-typedef int ThreadProcessIDType;
-#endif
-
+ */
 #ifdef ITK_USE_PTHREADS
 typedef void *(*ThreadFunctionType)(void *);
 typedef pthread_t ThreadProcessIDType;
@@ -196,16 +162,7 @@ public:
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
   void TerminateThread( int thread_id );
-  
-#ifdef ITK_USE_SPROC
-  static bool GetInitialized()
-    { return m_Initialized; }
-  static usptr_t * GetThreadArena()
-    { return m_ThreadArena; }
 
-  static void Initialize();
-#endif
-  
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
    * the SpawnThread method. It is passed in as a void *, and it is up
@@ -222,9 +179,6 @@ public:
 #endif
   struct ThreadInfoStruct
     {
-#ifdef ITK_USE_SPROC
-    char Pad1[128];
-#endif
     int                 ThreadID;
     int                 NumberOfThreads;
     int                 *ActiveFlag;
@@ -232,9 +186,6 @@ public:
     void                *UserData;
     ThreadFunctionType  ThreadFunction;
     enum {SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN} ThreadExitCode;
-#ifdef ITK_USE_SPROC
-    char Pad2[128];
-#endif
     };
   
 protected:
@@ -243,13 +194,6 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:
-  
-#ifdef ITK_USE_SPROC
-  static bool m_Initialized;
-  static usptr_t * m_ThreadArena;
-  static int m_DevzeroFd;
-#endif
-
   MultiThreader(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 

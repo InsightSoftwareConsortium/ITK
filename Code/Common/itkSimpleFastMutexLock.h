@@ -22,10 +22,6 @@
 
 #include "itkMacro.h"
 
-#ifdef ITK_USE_SPROC
-#include <abi_mutex.h>
-#endif
-
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
 #endif
@@ -36,12 +32,6 @@
 
 namespace itk
 {
-
-#ifdef ITK_USE_SPROC
-#include <abi_mutex.h>
-typedef abilock_t FastMutexType;
-#endif
-
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
 typedef pthread_mutex_t FastMutexType;
@@ -52,11 +42,9 @@ typedef pthread_mutex_t FastMutexType;
 typedef CRITICAL_SECTION FastMutexType;
 #endif
 
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
 #ifndef _WIN32
 typedef int FastMutexType;
-#endif
 #endif
 #endif
 

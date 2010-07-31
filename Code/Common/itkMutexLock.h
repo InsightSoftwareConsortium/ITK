@@ -23,10 +23,6 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 
-#ifdef ITK_USE_SPROC
-#include <abi_mutex.h>
-#endif
-
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
 #endif
@@ -37,11 +33,6 @@
 
 namespace itk
 {
-
-#ifdef ITK_USE_SPROC
-typedef abilock_t MutexType;
-#endif
-
 #ifdef ITK_USE_PTHREADS
 typedef pthread_mutex_t MutexType;
 #endif
@@ -50,11 +41,9 @@ typedef pthread_mutex_t MutexType;
 typedef HANDLE MutexType;
 #endif
 
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
 #ifndef ITK_USE_WIN32_THREADS
 typedef int MutexType;
-#endif
 #endif
 #endif
 

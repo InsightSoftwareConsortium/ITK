@@ -18,9 +18,6 @@
 
 namespace itk
 {
-#ifdef ITK_USE_SPROC
-#define ITK_MAX_THREADS              128
-#endif
 #ifdef ITK_USE_PTHREADS
 #define ITK_MAX_THREADS              128
 #endif
@@ -58,15 +55,7 @@ public:
     void SingleMethodExecute();
     void MultipleMethodExecute();
     void TerminateThread( int thread_id );
-    
-#ifdef ITK_USE_SPROC
-    static bool GetInitialized()
-      { return m_Initialized; }
-    static usptr_t * GetThreadArena()
-      { return m_ThreadArena; }
-    
-    static void Initialize();
-#endif
+
     friend class ProcessObject;
 private:
   int                        m_NumberOfThreads;

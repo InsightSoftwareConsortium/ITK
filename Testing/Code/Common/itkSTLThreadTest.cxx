@@ -136,9 +136,7 @@ ITK_THREAD_RETURN_TYPE Runner(void* infoIn)
     {
     itkSTLThreadTestImpl::Thread(tnum);
     }
-#ifndef ITK_USE_SPROC
   return EXIT_SUCCESS;
-#endif
 }
 
 int Thread(int tnum)

@@ -17,10 +17,6 @@
 #include "itkBarrier.h"
 #include "itkMacro.h"
 
-#ifdef ITK_USE_SPROC
-#include "itkMultiThreader.h"
-#endif
-
 namespace itk {
 
 #ifdef ITK_USE_FETCHOP_BARRIERS
@@ -32,11 +28,9 @@ int Barrier::m_MaxBarriers = 1024;
 Barrier::Barrier()
 {
   m_NumberExpected = 0;
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_FETCHOP_BARRIERS
   m_NumberArrived  = 0;
   m_ConditionVariable = ConditionVariable::New();
-#endif
 #endif
 }
 
@@ -53,14 +47,6 @@ Barrier::~Barrier()
     {
     atomic_free_reservoir(Barrier::m_Reservoir);
     Barrier::m_Reservoir = 0;
-    }
-#elif defined ITK_USE_SPROC
-  if (m_Barrier != 0)
-    {
-    // Note: free_barrier should be called here
-    // but is buggy and causes a seg fault. jc 7/29/03
-    
-    //    free_barrier( m_Barrier );
     }
 #endif
 }
@@ -88,13 +74,7 @@ void Barrier::Initialize( unsigned int n )
   m_FetchopFlag = 0;
   m_Pvar = atomic_alloc_variable(Barrier::m_Reservoir, 0);
   storeop_store(m_Pvar, 0);
-#elif defined ITK_USE_SPROC
-  if (MultiThreader::GetInitialized() == false)
-    {
-    MultiThreader::Initialize();
-    }
-  m_Barrier = new_barrier( MultiThreader::GetThreadArena() );
-#endif  
+#endif
 }
 
 void Barrier::Wait()
@@ -110,8 +90,6 @@ void Barrier::Wait()
   while (m_FetchopFlag == gen)
     { // spin
     }
-#elif defined ITK_USE_SPROC
-  barrier(m_Barrier, m_NumberExpected);
 #else
   m_Mutex.Lock();
   m_NumberArrived++;

@@ -32,10 +32,6 @@ SimpleMutexLock *SimpleMutexLock::New()
 // Construct a new MutexLock 
 SimpleMutexLock::SimpleMutexLock()
 {
-#ifdef ITK_USE_SPROC
-  init_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
   m_MutexLock = CreateMutex( NULL, FALSE, NULL ); 
 #endif
@@ -65,10 +61,6 @@ SimpleMutexLock::~SimpleMutexLock()
 // Lock the MutexLock
 void SimpleMutexLock::Lock()
 {
-#ifdef ITK_USE_SPROC
-  spin_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
   WaitForSingleObject( m_MutexLock, INFINITE );
 #endif
@@ -81,10 +73,6 @@ void SimpleMutexLock::Lock()
 // Unlock the MutexLock
 void SimpleMutexLock::Unlock()
 {
-#ifdef ITK_USE_SPROC
-  release_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
   ReleaseMutex( m_MutexLock );
 #endif

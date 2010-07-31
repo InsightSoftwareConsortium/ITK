@@ -28,12 +28,6 @@ extern "C" {
 }
 #endif
 
-#ifdef ITK_USE_SPROC
-extern "C" {
-#include <ulocks.h>
-}
-#endif
-
 namespace itk {
 
 /**
@@ -96,10 +90,6 @@ private:
   char pad1[128];              // Attempt to put
   volatile int m_FetchopFlag;  // m_Fetchop on its
   char pad2[128];              // own cache line.
-
-#elif defined ITK_USE_SPROC
-  barrier_t *m_Barrier;
-
 #else
   ConditionVariable::Pointer m_ConditionVariable;
   unsigned int               m_NumberArrived;

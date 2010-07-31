@@ -1163,25 +1163,6 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
     = (ParallelSparseFieldLevelSetThreadStruct *)
     (((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 
-
-#ifdef ITK_USE_SPROC
-  // Every thread should 'usadd' itself to the arena as the very first thing so
-  // as to detect errors (if any) early.
-  if (str->Filter->GetState() == Superclass::UNINITIALIZED)
-    {
-    if (MultiThreader::GetThreadArena() != 0)
-      {
-      int code= usadd (MultiThreader::GetThreadArena());
-      if (code != 0)
-        {
-        OStringStream message;
-        message << "Thread failed to join SGI arena: error";
-        throw ::itk::ExceptionObject(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
-        }
-      }
-    }
-#endif
-
   // allocate thread data: every thread allocates its own data
   // We do NOT assume here that malloc is thread safe: hence make threads
   // allocate data serially

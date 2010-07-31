@@ -32,10 +32,6 @@
 #endif
 
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifdef ITK_USE_SPROC
-#include "itkMultiThreader.h"
-#include <ulocks.h>
-#endif
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
 #include <synch.h>
@@ -56,9 +52,6 @@ typedef int SemaphoreType;
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifdef ITK_USE_SPROC
-typedef usema_t * SemaphoreType;
-#endif
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
 typedef sema_t SemaphoreType;
@@ -77,11 +70,9 @@ typedef HANDLE SemaphoreType;
 #endif
 
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
 #ifndef ITK_USE_WIN32_THREADS
 typedef int SemaphoreType;
-#endif
 #endif
 #endif
 #endif

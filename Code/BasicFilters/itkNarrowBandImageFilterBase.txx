@@ -119,22 +119,8 @@ ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase<TInputImage, TOutputImage>
 ::IterateThreaderCallback(void * arg)
 {
-
-#ifdef ITK_USE_SPROC
-  // Every thread should 'usadd' itself to the arena as the very first thing so
-  // as to detect errors (if any) early.
-  if (MultiThreader::GetThreadArena() != 0)
-    {
-    int code= usadd (MultiThreader::GetThreadArena());
-    if (code != 0)
-      {
-      throw ::itk::ExceptionObject(__FILE__, __LINE__, "Thread failed to join SGI arena: error", ITK_LOCATION);
-      }
-    }
-#endif
-
   unsigned int threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-      
+
   NarrowBandImageFilterBaseThreadStruct * str
     = (NarrowBandImageFilterBaseThreadStruct *)
     (((MultiThreader::ThreadInfoStruct *)(arg))->UserData);

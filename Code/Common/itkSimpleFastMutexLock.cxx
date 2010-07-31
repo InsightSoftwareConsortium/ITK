@@ -25,10 +25,6 @@ namespace itk
 // Construct a new SimpleMutexLock
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
-#ifdef ITK_USE_SPROC
-  init_lock( &m_FastMutexLock );
-#endif
-
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //this->MutexLock = CreateMutex( NULL, FALSE, NULL );
   InitializeCriticalSection(&m_FastMutexLock);
@@ -60,10 +56,6 @@ SimpleFastMutexLock::~SimpleFastMutexLock()
 // Lock the FastMutexLock
 void SimpleFastMutexLock::Lock() const
 {
-#ifdef ITK_USE_SPROC
-  spin_lock( &m_FastMutexLock );
-#endif
-
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //WaitForSingleObject( this->MutexLock, INFINITE );
   EnterCriticalSection(&m_FastMutexLock);
@@ -77,10 +69,6 @@ void SimpleFastMutexLock::Lock() const
 // Unlock the FastMutexLock
 void SimpleFastMutexLock::Unlock() const
 {
-#ifdef ITK_USE_SPROC
-  release_lock( &m_FastMutexLock );
-#endif
-
 #if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
   //ReleaseMutex( this->MutexLock );
   LeaveCriticalSection(&m_FastMutexLock);

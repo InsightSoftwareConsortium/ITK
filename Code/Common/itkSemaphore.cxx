@@ -65,14 +65,6 @@ Semaphore::Semaphore ()
   m_SemaphoreName = Semaphore::GetUniqueName();
 #endif
   
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
-
-#ifdef ITK_USE_SPROC
-  m_Sema = 0;
-#endif
-
-#endif
-  
 #ifdef ITK_USE_WIN32_THREADS
   m_Sema = 0;
 #endif
@@ -102,19 +94,6 @@ void Semaphore::Initialize(unsigned int value)
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
-#ifdef ITK_USE_SPROC
-  if (MultiThreader::GetInitialized() == false)
-    {
-      MultiThreader::Initialize();
-    }
-
-  m_Sema = usnewsema(MultiThreader::GetThreadArena(), static_cast<int>(value));
-  if ( ! m_Sema )
-    {
-    itkExceptionMacro( << " sem_init call failed with code " << m_Sema );
-    }
-  
-#endif
 #ifdef ITK_USE_PTHREADS
 
 m_PThreadsSemaphoreRemoved = false;
@@ -158,12 +137,6 @@ void Semaphore::Up()
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 
-#ifdef ITK_USE_SPROC
-  if (usvsema(m_Sema) == -1)
-    {
-      itkExceptionMacro( << "usvsema call failed." );
-    }
-#endif
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
   if ( sema_post(&m_Sema) != 0 )
@@ -202,12 +175,6 @@ void Semaphore::Down()
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-#ifdef ITK_USE_SPROC
-  if (uspsema(m_Sema) == -1)
-    {
-      itkExceptionMacro( << "uspsema call failed." );
-    }
-#endif
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
   if (sema_wait(&m_Sema) != 0)
@@ -249,12 +216,6 @@ Semaphore::~Semaphore()
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
-#ifdef ITK_USE_SPROC
-  if (m_Sema != 0)
-    {
-      this->Remove();
-    }
-#endif
 #ifdef ITK_USE_PTHREADS  
   if(!m_PThreadsSemaphoreRemoved)
     {
@@ -282,17 +243,6 @@ void Semaphore::Remove()
 #endif
   
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-
-#ifdef ITK_USE_SPROC
-  if (MultiThreader::GetThreadArena() != 0)
-    {
-    if (m_Sema != 0)
-      {
-      usfreesema(m_Sema, MultiThreader::GetThreadArena());
-      }
-    m_Sema = 0;
-    }
-#endif
 
 #ifdef ITK_USE_PTHREADS
 m_PThreadsSemaphoreRemoved = true;

@@ -34,15 +34,6 @@
 #include <process.h>
 #endif
 
-#ifdef ITK_USE_SPROC
-#include <sys/prctl.h>
-#include <wait.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <sys/resource.h>
-#endif
-
 #ifdef __APPLE__
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -144,12 +135,6 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
   if (m_GlobalDefaultNumberOfThreads <= 0)
     {
     int num;
-#ifdef ITK_USE_SPROC
-    // Default the number of threads to be the number of available
-    // processors if we are using sproc()
-    num = prctl( PR_MAXPPROCS );
-#endif
-    
 #ifdef ITK_USE_PTHREADS
     // Default the number of threads to be the number of available
     // processors if we are using pthreads()
@@ -174,13 +159,11 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 #endif
     
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
     // If we are not multithreading, the number of threads should
     // always be 1
     num = 1;
-#endif  
-#endif  
+#endif
 #endif
 
 #ifdef __APPLE__
@@ -218,30 +201,6 @@ int MultiThreader::GetGlobalDefaultNumberOfThreads()
 // Constructor. Default all the methods to NULL. Since the
 // ThreadInfoArray is static, the ThreadIDs can be initialized here
 // and will not change.
-#ifdef ITK_USE_SPROC
-bool      MultiThreader::m_Initialized = false;
-usptr_t * MultiThreader::m_ThreadArena= 0;
-int       MultiThreader::m_DevzeroFd  = -1;
-
-void MultiThreader::Initialize()
-{
-  usconfig(CONF_ARENATYPE, US_SHAREDONLY);
-  //  usconfig(CONF_INITSIZE, 256*1024*1024); // not to be used if we are auto growing the arena
-  usconfig(CONF_INITUSERS, (unsigned int) ITK_MAX_THREADS);
-  
-  usconfig(CONF_AUTOGROW, 1);
-  usconfig(CONF_AUTORESV, 1);
-  
-  MultiThreader::m_ThreadArena = usinit("/dev/zero");
-  
-  int code= usadd (MultiThreader::m_ThreadArena);
-  
-  MultiThreader::m_Initialized = true;
-  
-  MultiThreader::m_DevzeroFd= open("/dev/zero", O_RDWR);
-}
-#endif
-
 MultiThreader::MultiThreader()
 {
   for (int i = 0; i < ITK_MAX_THREADS; i++)
@@ -265,19 +224,6 @@ MultiThreader::MultiThreader()
 
 MultiThreader::~MultiThreader()
 {
-#ifdef ITK_USE_SPROC
-  if (MultiThreader::m_ThreadArena != 0)
-    {
-    // close the file
-    close (MultiThreader::m_DevzeroFd);
-    // unmap the arena
-    usdetach (MultiThreader::m_ThreadArena);
-    
-    MultiThreader::m_ThreadArena= 0;
-    MultiThreader::m_Initialized= false;
-    MultiThreader::m_DevzeroFd= -1;
-    }
-#endif
 }
 
 // Set the user defined method that will be run on NumberOfThreads threads
@@ -323,29 +269,6 @@ void MultiThreader::SingleMethodExecute()
     {
     m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
-  
-  // sproc needs special initialization logic prior to spawning
-  // threads
-#ifdef ITK_USE_SPROC
-  # define STACK_SIZE 8*1024*1024
-  // set up the arena by the parent process ONLY if going to use more
-  // than 1 threads
-  if (!MultiThreader::m_Initialized && m_NumberOfThreads > 1)
-    {
-    MultiThreader::Initialize();
-    }
-  
-  struct rlimit64 rlpOld;
-  int code= getrlimit64 (RLIMIT_STACK, &rlpOld);
-  if (code != 0) itkExceptionMacro("getrlimit failed in Multithreader");
-  
-  struct rlimit64 rlpNew;
-  rlpNew.rlim_cur= STACK_SIZE;
-  rlpNew.rlim_max= rlpOld.rlim_max;
-  code= setrlimit64 (RLIMIT_STACK, &rlpNew);
-  if (code != 0) itkExceptionMacro("setrlimit failed in Multithreader");
-#endif
-
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A
@@ -406,12 +329,6 @@ void MultiThreader::SingleMethodExecute()
         {
         }
       }
-    
-#ifdef ITK_USE_SPROC
-    // reset the resource limits if using sproc
-    code= setrlimit64 (RLIMIT_STACK, &rlpOld);
-#endif
-
     // rethrow
     throw excp;
     }
@@ -455,15 +372,6 @@ void MultiThreader::SingleMethodExecute()
       }
     }
 
-#ifdef ITK_USE_SPROC
-  // reset the resource limits if using sproc
-  code= setrlimit64 (RLIMIT_STACK, &rlpOld);
-  if (code != 0)
-    {
-    itkExceptionMacro("setrlimit failed in Multithreader");
-    }
-#endif
-  
   if (exceptionOccurred)
     {
     if( exceptionDetails.empty() )
@@ -485,12 +393,7 @@ void MultiThreader::MultipleMethodExecute()
   DWORD              threadId;
   HANDLE             process_id[ITK_MAX_THREADS];
 #endif
-  
-#ifdef ITK_USE_SPROC
-  siginfo_t          info_ptr;
-  int                process_id[ITK_MAX_THREADS];
-#endif
-  
+
 #ifdef ITK_USE_PTHREADS
   pthread_t          process_id[ITK_MAX_THREADS];
 #endif
@@ -561,63 +464,7 @@ void MultiThreader::MultipleMethodExecute()
     CloseHandle(process_id[thread_loop]);
     }
 #endif
-  
-#ifdef ITK_USE_SPROC
-  // Using sproc() on an SGI
-  //
-  // We want to use sproc to start m_NumberOfThreads - 1 additional
-  // threads which will be used to call the NumberOfThreads-1 methods
-  // defined in m_MultipleMethods[](). The parent thread
-  // will call m_MultipleMethods[NumberOfThreads-1]().  When it is done,
-  // it will wait for all the children to finish. 
-  //
-  // First, start up the m_NumberOfThreads-1 processes.  Keep track
-  // of their process ids for use later in the waitid call
-  
-  if (!MultiThreader::m_Initialized && m_NumberOfThreads > 1)
-    {
-    MultiThreader::Initialize();
-    }
-  
-  struct rlimit64 rlpOld;
-  int code= getrlimit64 (RLIMIT_STACK, &rlpOld);
-  if (code != 0) itkExceptionMacro("getrlimit failed in Multithreader");
-  
-# define STACK_SIZE 8*1024*1024
-  struct rlimit64 rlpNew;
-  rlpNew.rlim_cur= STACK_SIZE;
-  rlpNew.rlim_max= rlpOld.rlim_max;
-  code= setrlimit64 (RLIMIT_STACK, &rlpNew);
-  if (code != 0) itkExceptionMacro("setrlimit failed in Multithreader");
-  
-  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-      m_ThreadInfoArray[thread_loop].UserData = m_MultipleData[thread_loop];
-      m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
-      process_id[thread_loop] = sproc( m_MultipleMethod[thread_loop], PR_SALL, 
-               ( (void *)(&m_ThreadInfoArray[thread_loop]) ) );
-    }
-  
-  // Now, the parent thread calls the last method itself
-  m_ThreadInfoArray[0].UserData = m_MultipleData[0];
-  m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
-  (m_MultipleMethod[0])((void *)(&m_ThreadInfoArray[0]) );
-  
-  // The parent thread has finished its method - so now it
-  // waits for each of the other processes (created with sproc) to
-  // exit
-  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
-    {
-      waitid( P_PID, (id_t) process_id[thread_loop], &info_ptr, WEXITED );
-    }
-  
-  code= setrlimit64 (RLIMIT_STACK, &rlpOld);
-  if (code != 0)
-    {
-    itkExceptionMacro("setrlimit failed in Multithreader");
-    }
-#endif
-  
+
 #ifdef ITK_USE_PTHREADS
   // Using POSIX threads
   //
@@ -672,13 +519,11 @@ void MultiThreader::MultipleMethodExecute()
 #endif
   
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
   m_ThreadInfoArray[0].UserData    = m_MultipleData[0];
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
   (m_MultipleMethod[0])( (void *)(&m_ThreadInfoArray[0]) );
-#endif
 #endif
 #endif
 }
@@ -736,14 +581,7 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
     itkExceptionMacro("Error in thread creation !!!");
     } 
 #endif
-  
-#ifdef ITK_USE_SPROC
-  // Using sproc() on an SGI
-  //
-  m_SpawnedThreadProcessID[id] = sproc( f, PR_SADDR, ( (void *)(&m_SpawnedThreadInfoArray[id]) ) );
-  
-#endif
-  
+
 #ifdef ITK_USE_PTHREADS
   // Using POSIX threads
   //
@@ -771,14 +609,12 @@ int MultiThreader::SpawnThread( ThreadFunctionType f, void *UserData )
 #endif
   
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
   itkExceptionMacro( << "Cannot spawn thread in a single threaded environment!" );
   m_SpawnedThreadActiveFlagLock[id] = 0;
   id = -1;
-#endif
 #endif
 #endif
   
@@ -801,24 +637,15 @@ void MultiThreader::TerminateThread( int ThreadID )
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
 #endif
   
-#ifdef ITK_USE_SPROC
-  siginfo_t info_ptr;
-  
-  waitid( P_PID, (id_t) m_SpawnedThreadProcessID[ThreadID], 
-          &info_ptr, WEXITED );
-#endif
-  
 #ifdef ITK_USE_PTHREADS
   pthread_join( m_SpawnedThreadProcessID[ThreadID], 0 );
 #endif
   
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
   itkExceptionMacro(<< "Cannot terminate thread in single threaded environment!");
-#endif
 #endif
 #endif
   
@@ -886,12 +713,6 @@ MultiThreader
   CloseHandle(threadHandle);
 #endif
 
-#ifdef ITK_USE_SPROC
-  // Using sproc() on an SGI
-  siginfo_t          info_ptr;
-  waitid( P_PID, (id_t) threadHandle, &info_ptr, WEXITED );
-#endif
-
 #ifdef ITK_USE_PTHREADS
   // Using POSIX threads
   if ( pthread_join( threadHandle, 0 ) )
@@ -902,14 +723,12 @@ MultiThreader
 
 
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
     // No threading library specified.  Do nothing.  No joining or waiting
     // necessary.
 #endif
 #endif
-#endif
-    
+
 }
 
 ThreadProcessIDType
@@ -929,21 +748,6 @@ MultiThreader
   return threadHandle;
 #endif
 
-  
-#ifdef ITK_USE_SPROC
-  // Using sproc() on an SGI
-  pid_t threadHandle = 
-    sproc( this->SingleMethodProxy, PR_SALL, 
-           reinterpret_cast<void *>(threadInfo));
-  if ( threadHandle == -1)
-    {
-    itkExceptionMacro("sproc call failed. Code: " << errno << std::endl);
-    }
-  return threadHandle;
-#endif
-
-
-    
 #ifdef ITK_USE_PTHREADS
   // Using POSIX threads
   pthread_attr_t attr;
@@ -978,14 +782,11 @@ MultiThreader
 
 
 #ifndef ITK_USE_WIN32_THREADS
-#ifndef ITK_USE_SPROC
 #ifndef ITK_USE_PTHREADS
     // No threading library specified.  Do nothing.  The computation
     // will be run by the main execution thread.
 #endif
 #endif
-#endif
-    
 }
 
 
