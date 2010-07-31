@@ -80,7 +80,7 @@ int ImageSeriesReader<TOutputImage>
   // This method computes the the diminesion index which we are going
   // to be moving in for slices
 
-  int movingDimension = reader->GetImageIO()->GetNumberOfDimensions();
+  unsigned int movingDimension = reader->GetImageIO()->GetNumberOfDimensions();
 
   if (movingDimension > TOutputImage::ImageDimension - 1)
     {

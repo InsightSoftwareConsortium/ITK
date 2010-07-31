@@ -18,16 +18,16 @@
 #define __itkTestingMacros_h
 
 
-#if !defined(__SUNPRO_CC)
+//TEST REMOVE #if !defined(__SUNPRO_CC)
 #define EXERCISE_BASIC_OBJECT_METHODS( object ) \
     object->Print( std::cout );  \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
     std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;
-#else
-#define EXERCISE_BASIC_OBJECT_METHODS( object ) \
-    object->Print( std::cout );  \
-    std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;
-#endif
+//TEST REMOVE #else
+//TEST REMOVE #define EXERCISE_BASIC_OBJECT_METHODS( object ) \
+//TEST REMOVE     object->Print( std::cout );  \
+//TEST REMOVE     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;
+//TEST REMOVE #endif
 
 #define TRY_EXPECT_EXCEPTION( command ) \
   try \

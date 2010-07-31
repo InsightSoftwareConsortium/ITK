@@ -28,8 +28,8 @@
 #ifndef ITK_CONCEPT_NO_CHECKING
 #  if defined(_MSC_VER) && !defined(__ICL)
 #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-#  elif defined(__SUNPRO_CC)
-#    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
+//TEST_REMOVAL #  elif defined(__SUNPRO_CC)
+//TEST_REMOVAL #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
 #  else
 #    define ITK_CONCEPT_IMPLEMENTATION_STANDARD
 #  endif

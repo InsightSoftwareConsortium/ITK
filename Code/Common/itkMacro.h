@@ -39,8 +39,6 @@
 #include <cassert>
 #endif
 
-
-
 // Determine type of string stream to use.
 #if !defined(CMAKE_NO_ANSI_STRING_STREAM)
 #  include <sstream>
@@ -64,20 +62,6 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
-/** Macro to initialize static constants.  This is used frequently to replace
- * the use of enum's within a class.  Some compilers do not allow an enum of
- * one class to be passed as template argument to another class. Other
- * uses of this macro as possible.
- *
- * This is based (verbatim) on the BOOST_STATIC_CONSTANT macro. The original
- * Boost documentation is below.
- *
- * BOOST_STATIC_CONSTANT workaround --------------------------------------- //
- * On compilers which don't allow in-class initialization of static integral
- * constant members, we must use enums as a workaround if we want the constants
- * to be available at compile-time. This macro gives us a convenient way to
- * declare such constants.
- */
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
 #error "MSC_VER <= 1300 not supported under ITKv4"
 #endif
@@ -472,11 +456,13 @@ extern ITKCommon_EXPORT void OutputWindowDisplayGenericOutputText(const char*);
 extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 } // end namespace itk
 
+
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
  * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
-#if defined(ITK_LEAN_AND_MEAN) || defined(NDEBUG)
+#if defined(ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS) || defined(NDEBUG)
 #define itkDebugMacro(x)
+#define itkDebugStatement(x)
 #else
 #define itkDebugMacro(x) \
   { if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())   \
@@ -486,14 +472,19 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
              << "\n\n"; \
       ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());} \
 }
+
+//The itkDebugStatement is to be used ot protect code that is only
+//used in the itkDebugMacro
+#define itkDebugStatement(x) x
 #endif
 
 
 /** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro(<< "this is warning info" << this->SomeVariable); */
-#ifdef ITK_LEAN_AND_MEAN
+#ifdef ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS
 #define itkWarningMacro(x)
+#define itkWarningStatement(x)
 #else
 #define itkWarningMacro(x) \
 { if (::itk::Object::GetGlobalWarningDisplay()) \
@@ -503,6 +494,10 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
              << "\n\n"; \
       ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());} \
 }
+
+//The itkDebugStatement is to be used ot protect code that is only
+//used in the itkDebugMacro
+#define itkWarningStatement(x) x
 #endif
 
 namespace itk
@@ -591,7 +586,7 @@ private:
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
   }
 
-#ifdef ITK_LEAN_AND_MEAN
+#ifdef ITK_LEAN_AND_MEAN_TEST_RENAME_TO_INVESTIGATE_REMOVAL_OPTIONS
 #define itkGenericOutputMacro(x)
 #else
 #define itkGenericOutputMacro(x) \
