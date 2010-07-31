@@ -12,7 +12,6 @@ SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 IF(WIN32)
-  IF(NOT BORLAND)
     IF(NOT CYGWIN)
       IF(NOT MINGW)
         IF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
@@ -31,7 +30,6 @@ IF(WIN32)
         ENDIF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
       ENDIF(NOT MINGW)
     ENDIF(NOT CYGWIN)
-  ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
 
@@ -175,17 +173,10 @@ INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK turn on concept checking
-IF( NOT BORLAND )
-  OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
-  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
-  OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
-  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
-ELSE( NOT BORLAND )
-  SET(ITK_USE_CONCEPT_CHECKING OFF)
-  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
-  SET(ITK_USE_STRICT_CONCEPT_CHECKING OFF)
-  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
-ENDIF( NOT BORLAND )
+OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
+MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
+MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #-----------------------------------------------------------------------------
 # Make the itk::Image assume the behavior of the itk::OrientedImage
@@ -561,11 +552,6 @@ ENDIF(UNIX)
 #
 INCLUDE(TestForANSIStreamHeaders)
 
-
-IF(BORLAND)
-    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -w- -whid -waus -wpar")
-    SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w- -whid -waus -wpar")
-ENDIF(BORLAND)
 
 # Force the use of ansi cxx flags (i.e. -LANG:std on sgi )
 IF("x${CMAKE_ANSI_CXXFLAGS}" MATCHES "^x.*[^ ]")

@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to print out some patient information from the

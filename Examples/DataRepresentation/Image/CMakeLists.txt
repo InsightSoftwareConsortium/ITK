@@ -33,22 +33,20 @@ TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO IT
 ADD_EXECUTABLE(ImageExamples3 ImageExamples3.cxx )
 TARGET_LINK_LIBRARIES(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
-IF(NOT BORLAND)
-  ADD_EXECUTABLE(Image5 Image5.cxx )
-  TARGET_LINK_LIBRARIES(Image5 ITKIO)
+ADD_EXECUTABLE(Image5 Image5.cxx )
+TARGET_LINK_LIBRARIES(Image5 ITKIO)
 
-  ADD_EXECUTABLE(ImageAdaptor1 ImageAdaptor1.cxx )
-  TARGET_LINK_LIBRARIES(ImageAdaptor1 ITKIO)
+ADD_EXECUTABLE(ImageAdaptor1 ImageAdaptor1.cxx )
+TARGET_LINK_LIBRARIES(ImageAdaptor1 ITKIO)
 
-  ADD_EXECUTABLE(RGBImage RGBImage.cxx )
-  TARGET_LINK_LIBRARIES(RGBImage ITKIO) 
+ADD_EXECUTABLE(RGBImage RGBImage.cxx )
+TARGET_LINK_LIBRARIES(RGBImage ITKIO)
 
-  ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
-  TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
-  ADD_EXECUTABLE(ImageExamples4 ImageExamples4.cxx )
-  TARGET_LINK_LIBRARIES(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
-ENDIF(NOT BORLAND)
+ADD_EXECUTABLE(ImageExamples4 ImageExamples4.cxx )
+TARGET_LINK_LIBRARIES(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
 
 SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
@@ -81,38 +79,33 @@ ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
   ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
   )
 
-IF(NOT BORLAND)
+ADD_TEST(Image1Test ${IMAGE_EXAMPLES}
+  Image1Test
+)
 
-  ADD_TEST(Image1Test ${IMAGE_EXAMPLES}
-    Image1Test
-  )
+ADD_TEST(Image2Test ${IMAGE_EXAMPLES}
+  Image2Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+)
 
-  ADD_TEST(Image2Test ${IMAGE_EXAMPLES}
-    Image2Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
-  )
+ADD_TEST(Image3Test ${IMAGE_EXAMPLES}
+  Image3Test
+)
 
-  ADD_TEST(Image3Test ${IMAGE_EXAMPLES}
-    Image3Test
-  )
+ADD_TEST(Image4Test ${IMAGE_EXAMPLES}
+  Image4Test
+)
 
-  ADD_TEST(Image4Test ${IMAGE_EXAMPLES}
-    Image4Test
-  )
+ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
+   Image5Test ${TEMP}/Image5Test.mhd
+)
 
-  ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
-     Image5Test ${TEMP}/Image5Test.mhd
-  )
+ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
+  RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+)
 
-  ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
-    RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-  )
-
-  ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
-    VectorImageTest
-  )
-
-ENDIF(NOT BORLAND)
-
+ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
+  VectorImageTest
+)
 
 ENDIF(BUILD_TESTING)
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

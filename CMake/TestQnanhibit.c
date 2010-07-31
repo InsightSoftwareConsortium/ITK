@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <float.h>
 
-#if defined(__BORLANDC__)
-# include <math.h>
-# include <float.h>
-#endif
-
-
 int
 main(int argc, char *argv[])
 {
@@ -16,11 +10,6 @@ main(int argc, char *argv[])
      float flt32bit;
      int   int32bit;
    } qnan;
-
-#if defined(__BORLANDC__)
-   // Disable floating point exceptions in Borland
-   _control87(MCW_EM, MCW_EM);
-#endif // defined(__BORLANDC__)
 
    if (sizeof(float) != sizeof(int))
      {

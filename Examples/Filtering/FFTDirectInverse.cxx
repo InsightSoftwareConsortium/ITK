@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //
 // This example was originally contributed by Stephan in the users list
 //

@@ -168,31 +168,27 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 ADD_EXECUTABLE(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
 
-IF(NOT BORLAND)
 
-  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
 
-  IF (NOT ITK_USE_REVIEW_STATISTICS)
-    ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-    TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
-                          ITKIO ITKStatistics ITKNumerics)
-  ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
+IF (NOT ITK_USE_REVIEW_STATISTICS)
+  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter
+                        ITKIO ITKStatistics ITKNumerics)
+ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
 
-  ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-  ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-  TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
-
-ENDIF(NOT BORLAND)
-
+ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
 
 ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
 TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)

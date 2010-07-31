@@ -2311,7 +2311,6 @@ ADD_TEST(itkGaborImageSourceTest1
   ${TEMP}/GaborImageSourceTest1.mha
   itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest1.mha 1)
 
-IF(NOT BORLAND)
 ADD_TEST(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
   --compare ${BASELINE}/Spots-binaryimage-to-statisticslabel.mha
@@ -2343,7 +2342,6 @@ ADD_TEST(itkLabelImageToStatisticsLabelMapFilterTest1
   1     # Compute Histogram (bool)
   128   # Number Of Bins
   )
-ENDIF(NOT BORLAND)
 
 ADD_TEST(itkLabelGeometryImageFilterTest2
   ${REVIEW_TESTS5}
@@ -2484,7 +2482,6 @@ SET(ReviewTest3_LIBS
   )
 TARGET_LINK_LIBRARIES(itkReviewTests3 ${ReviewTest3_LIBS})
 
-IF(NOT BORLAND)
 ADD_EXECUTABLE(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
 
 SET(ReviewTest4_LIBS
@@ -2492,7 +2489,6 @@ SET(ReviewTest4_LIBS
   ITKStatistics
   )
 TARGET_LINK_LIBRARIES(itkReviewTests4 ${ReviewTest4_LIBS})
-ENDIF(NOT BORLAND)
 
 ADD_EXECUTABLE(itkReviewTests5 itkReviewTests5.cxx ${ReviewTest5_SRCS})
 

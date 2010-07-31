@@ -20,10 +20,6 @@
 #pragma warning ( disable : 4275 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to read and write an image of pixel type
