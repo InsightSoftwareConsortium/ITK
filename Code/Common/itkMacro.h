@@ -40,6 +40,7 @@
 #endif
 
 
+
 // Determine type of string stream to use.
 #if !defined(CMAKE_NO_ANSI_STRING_STREAM)
 #  include <sstream>
@@ -78,42 +79,27 @@ namespace itk
  * declare such constants.
  */
 #if defined(_MSC_VER) && (_MSC_VER <= 1300) 
-#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#error "MSC_VER <= 1300 not supported under ITKv4"
 #endif
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC <= 0x540)
-#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#error "__SUNPRO_CC <= 0x540 not supported under ITKv4"
 #endif
 #if defined(__SVR4) && !defined(__SUNPRO_CC)
-#   define ITK_NO_INCLASS_MEMBER_INITIALIZATION
+#error "__SRV4 __SUNPRO_CC <= 0x540 not supported under ITKv4"
+#endif
+#if defined(__BORLANDC__)
+#error "The Borland C compiler is not supported in ITKv4 and above"
+#endif
+#if defined(__MWERKS__)
+#error "The MetroWerks compiler is not supported in ITKv4 and above"
+#endif
+#if defined(__GNUC__) && (__GNUC__ < 3 )
+#error "The __GNUC__ version 2.95 compiler is not supprted under ITKv4 and above"
 #endif
 
-// A class template like this will not instantiate on GCC 2.95:
-//   template<class T> struct A
-//   {
-//     static const int N = 1;
-//     enum { S = sizeof(A::N) };
-//   };
-// We need to use enum for static constants instead.
-#if defined(__GNUC__)
-# define ITK_NO_SIZEOF_CONSTANT_LOOKUP
-#endif
+#define itkStaticConstMacro(name,type,value) static const type name = value
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1300) 
-#define ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
-#endif
-
-#if defined(ITK_NO_INCLASS_MEMBER_INITIALIZATION) || \
-    defined(ITK_NO_SIZEOF_CONSTANT_LOOKUP)
-#   define itkStaticConstMacro(name,type,value) enum { name = value }
-#else
-#   define itkStaticConstMacro(name,type,value) static const type name = value
-#endif
-
-#ifdef ITK_NO_SELF_AS_TRAIT_IN_TEMPLATE_ARGUMENTS
-#   define itkGetStaticConstMacro(name) name
-#else
-#   define itkGetStaticConstMacro(name) (Self::name)
-#endif
+#define itkGetStaticConstMacro(name) (Self::name)
 
 /** Set an input. This defines the Set"name"Input() method */
 #define itkSetInputMacro(name, type, number) \
@@ -489,7 +475,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
  * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
-#if defined(ITK_LEAN_AND_MEAN) || defined(__BORLANDC__) || defined(NDEBUG)
+#if defined(ITK_LEAN_AND_MEAN) || defined(NDEBUG)
 #define itkDebugMacro(x)
 #else
 #define itkDebugMacro(x) \
@@ -572,9 +558,7 @@ private:
 }//namespace itk
 
 #if defined(ITK_CPP_FUNCTION)
-  #if defined(__BORLANDC__)
-    #define ITK_LOCATION __FUNC__
-  #elif defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(CABLE_CONFIGURATION) && !defined(CSWIG)
+  #if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(CABLE_CONFIGURATION) && !defined(CSWIG)
     #define ITK_LOCATION __FUNCSIG__
   #elif defined(__GNUC__)
     #define ITK_LOCATION __PRETTY_FUNCTION__
@@ -968,14 +952,10 @@ private:
 //    that macro to avoid those warnings. GCC defines the attribute
 //    noreturn for versions 2.5 and higher.
 #if defined(__GNUC__)
-#  if (((__GNUC__ == 2) && (__GNUC_MINOR__ >= 5)) || (__GNUC__ >= 3))
-#    define ITK_NO_RETURN \
-       __attribute__ ((noreturn))
-#  endif
+#  define ITK_NO_RETURN  __attribute__ ((noreturn))
 #else
 #  define ITK_NO_RETURN
 #endif
-
 
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 //--------------------------------------------------------------------------------

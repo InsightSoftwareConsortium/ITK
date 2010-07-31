@@ -57,18 +57,10 @@ public:
   typedef FixedArray<TComponent, 4> Superclass;
 
   /** Dimension of the vector space. */
-#if defined(__BORLANDC__)
-  enum {Dimension = 4};
-#else
   itkStaticConstMacro(Dimension, unsigned int, 4);
-#endif
 
   /** Length of the pixel. */
-#if defined(__BORLANDC__)
-  enum {Length = 4};
-#else
   itkStaticConstMacro(Length, unsigned int, 4);
-#endif
 
   /** Convenience typedefs. */
   typedef FixedArray<TComponent, 4> BaseArray;

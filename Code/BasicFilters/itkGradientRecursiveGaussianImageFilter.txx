@@ -199,7 +199,7 @@ GradientRecursiveGaussianImageFilter<TInputImage,TOutputImage >
 
   m_DerivativeFilter->SetInput( inputImage );
 
-  for( int dim=0; dim < ImageDimension; dim++ )
+  for( unsigned int dim=0; dim < ImageDimension; dim++ )
     {
     int i=0; 
     int j=0;

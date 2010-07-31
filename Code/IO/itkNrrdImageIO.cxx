@@ -24,11 +24,6 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 
-#if defined(__BORLANDC__) 
-# include <math.h> 
-# include <float.h> // for _control87() 
-#endif // defined(__BORLANDC__) 
-
 namespace itk {
 
 #define KEY_PREFIX "NRRD_"
@@ -54,10 +49,6 @@ ImageIOBase::IOComponentType
 NrrdImageIO::
 NrrdToITKComponentType( const int nrrdComponentType ) const
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
   switch( nrrdComponentType )
     {
     case nrrdTypeUnknown:
@@ -112,10 +103,6 @@ int
 NrrdImageIO::
 ITKToNrrdComponentType( const ImageIOBase::IOComponentType itkComponentType ) const
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
   switch( itkComponentType )
     {
     case UNKNOWNCOMPONENTTYPE:
@@ -167,10 +154,6 @@ ITKToNrrdComponentType( const ImageIOBase::IOComponentType itkComponentType ) co
 
 bool NrrdImageIO::CanReadFile( const char* filename ) 
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
   // Check the extension first to avoid opening files that do not
   // look like nrrds.  The file must have an appropriate extension to be
   // recognized.
@@ -234,10 +217,6 @@ bool NrrdImageIO::CanReadFile( const char* filename )
 
 void NrrdImageIO::ReadImageInformation()
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
   // This method determines the following and sets the appropriate value in
   // the parent IO class:
   //
@@ -691,11 +670,6 @@ void NrrdImageIO::ReadImageInformation()
 
 void NrrdImageIO::Read(void* buffer)
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
-
   Nrrd *nrrd = nrrdNew();
   unsigned int baseDim;
   bool nrrdAllocated;
@@ -826,10 +800,6 @@ void NrrdImageIO::Read(void* buffer)
 
 bool NrrdImageIO::CanWriteFile( const char * name )
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
 
   std::string filename = name;
   if(  filename == "" )
@@ -856,21 +826,12 @@ bool NrrdImageIO::CanWriteFile( const char * name )
   
 void NrrdImageIO::WriteImageInformation(void)
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
-
   // Nothing needs doing here.
 }
 
 
 void NrrdImageIO::Write( const void* buffer) 
 {
-#if defined(__BORLANDC__) 
-// Disable floating point exceptions in Borland 
-  _control87(MCW_EM, MCW_EM); 
-#endif // defined(__BORLANDC__) 
 
   Nrrd *nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();

@@ -23,16 +23,11 @@
 #include "itkImage.h"
 #include "vnl/vnl_sample.h"
 #include <stdio.h>
-#ifdef __BORLANDC__
-#include <float.h>
-#endif
+
 int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   const int WIDTH = 256;
   const int HEIGHT = 256;
 
-#ifdef __BORLANDC__
-  _control87(MCW_EM,MCW_EM);
-#endif
   typedef itk::Image<unsigned short,2> UShortImage;
   typedef itk::Image<unsigned char,2>  PriorImage;
   typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage> VorSeg;

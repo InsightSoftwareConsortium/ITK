@@ -20,9 +20,9 @@
 #include "itkByteSwapper.h"
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
-#if !defined(_MSC_VER) || (_MSC_VER > 1300) 
+
 #include "itkSpatialOrientationAdapter.h"
-#endif
+
 #include <stdio.h>
 #include "itk_zlib.h"
 #include <time.h>
@@ -150,9 +150,6 @@ void Brains2MaskImageIO
   unsigned int octreeHdr[6];
   //Need to gobble up the end of line character here and move one more byte.
   //Except for Borland where the operator>> has already gobbled the endline char
-#if !defined(__BORLANDC__)
-  local_InputStream.ignore();
-#endif
   local_InputStream.read((char *)octreeHdr,6*sizeof(unsigned int));
   if(this->m_ByteOrder != this->m_MachineByteOrder)
     {
@@ -281,7 +278,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
       }
     EncapsulateMetaData<SpatialOrientation::ValidCoordinateOrientationFlags>
       (thisDic,ITK_CoordinateOrientation, coord_orient);
-#if !defined(_MSC_VER) || (_MSC_VER > 1300) 
+
     //An error was encountered in code that depends upon the valid coord_orientation.
     typedef SpatialOrientationAdapter OrientAdapterType;
     SpatialOrientationAdapter::DirectionType dir;
@@ -295,7 +292,7 @@ bool Brains2MaskImageIO::CanReadFile( const char* FileNameToRead )
     dirz[0] = dir[0][2];
     dirz[1] = dir[1][2];
     dirz[2] = dir[2][2];
-#endif
+
     for(unsigned i = 3; i < dims; i++)
       {
       dirx[i] = diry[i] = dirz[i] = 0;

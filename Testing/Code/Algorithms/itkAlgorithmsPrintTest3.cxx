@@ -122,7 +122,7 @@ int main(int , char* [])
   itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::Pointer VoronoiSegmentationImageFilterBaseObj =
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
-#if !defined(__BORLANDC__)
+
   itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
     itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
@@ -166,7 +166,7 @@ int main(int , char* [])
   itk::watershed::Segmenter<InputType>::Pointer WatershedSegmenterObj =
     itk::watershed::Segmenter<InputType>::New();
   std:: cout << "-------------WatershedSegmenter " << WatershedSegmenterObj;
-#endif
+
   itk::MRASlabIdentifier<InputType>::Pointer MRASlabIdentifierObj =
     itk::MRASlabIdentifier<InputType>::New();
   std:: cout << "-------------MRASlabIdentifier " << MRASlabIdentifierObj;

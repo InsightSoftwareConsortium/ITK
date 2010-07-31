@@ -177,10 +177,8 @@
 #include "itkUnsharpMaskLevelSetImageFilter.txx"
 #include "itkVectorThresholdSegmentationLevelSetFunction.txx"
 #include "itkVectorThresholdSegmentationLevelSetImageFilter.txx"
-#if !defined(_MSC_VER) || (_MSC_VER > 1300)
 #include "itkVnlFFTComplexConjugateToRealImageFilter.txx"
 #include "itkVnlFFTRealToComplexConjugateImageFilter.txx"
-#endif
 #include "itkVoronoiDiagram2D.txx"
 #include "itkVoronoiDiagram2DGenerator.txx"
 #include "itkVoronoiPartitioningImageFilter.txx"

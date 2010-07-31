@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkNiftiImageIOTest.h"
 
-
 static void RemoveByteSwapTestFiles(std::string prefix)
 {
   Remove((prefix+"NiftiLittleEndian.hdr").c_str());
@@ -194,7 +193,6 @@ int itkNiftiImageIOTest(int ac, char* av[])
           std::cerr << "Error writing Nifti file type unsigned short" << std::endl;
           rval += cur_return;
         }
-#ifndef __BORLANDC__
       cur_return = MakeNiftiImage<int>();
       if(cur_return != 0)
         {
@@ -215,7 +213,6 @@ int itkNiftiImageIOTest(int ac, char* av[])
           rval += cur_return;
         }
       rval += TestByteSwap(prefix);
-#endif
     }
   //Tests added to increase code coverage.
       {
@@ -278,8 +275,6 @@ int itkNiftiImageIOTest2(int ac, char* av[])
 
 }
 
-#ifndef __BORLANDC__
-#if defined(_MSC_VER) && _MSC_VER > 1300
 template <class ScalarType, unsigned VecLength, unsigned Dimension>
 int
 TestImageOfVectors(const std::string &fname)
@@ -518,8 +513,7 @@ TestImageOfVectors(const std::string &fname)
     }
   return same ? 0 : EXIT_FAILURE;
 }
-#endif
-#endif
+
 /** Test writing and reading a Vector Image
  */
 int itkNiftiImageIOTest3(int ac, char* av[])
@@ -536,16 +530,14 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     return EXIT_FAILURE;
     }
   int success(0);
-#ifndef __BORLANDC__
-#if defined(_MSC_VER) && _MSC_VER > 1300
+
   success |= TestImageOfVectors<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
   success |= TestImageOfVectors<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
   success |= TestImageOfVectors<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
   success |= TestImageOfVectors<float,4,3>(std::string("testVectorImage_float_4_3.nii.gz"));
   success |= TestImageOfVectors<float,4,4>(std::string("testVectorImage_float_4_4.nii.gz"));
   success |= TestImageOfVectors<double,3,3>(std::string("testVectorImage_double_3_3.nii.gz"));
-#endif
-#endif
+
   return success;
 }
 

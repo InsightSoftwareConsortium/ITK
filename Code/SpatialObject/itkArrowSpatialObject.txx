@@ -199,15 +199,14 @@ ArrowSpatialObject< TDimension >
 
   m_Direction.Normalize();
 
-#ifndef __BORLANDC__
-#if(TDimension == 3)
-  
+#if(TDimension == 3) //TODO: What shold happen if TDimension is not equal to 3
   typedef itk::Euler3DTransform<double> EulerTransformType;
   EulerTransformType::Pointer euler = EulerTransformType::New();
 
   double angley;
   double anglez = 0;
-    
+
+  //TODO:  SHOULD USE vnl_math::pi;
   #ifndef PI
   const double PI = 4.0 * vcl_atan(1.0 );
   #endif
@@ -238,8 +237,6 @@ ArrowSpatialObject< TDimension >
   euler->SetRotation(0,angley,anglez);
   this->GetObjectToParentTransform()->SetMatrix(euler->GetRotationMatrix());
 #endif
-#endif
-
   this->Modified();
 }
 

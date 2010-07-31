@@ -28,10 +28,6 @@
 #ifndef ITK_CONCEPT_NO_CHECKING
 #  if defined(_MSC_VER) && !defined(__ICL)
 #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-#  elif defined(__BORLANDC__) && (__BORLANDC__ <= 0x551)
-#    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
-#  elif defined(__MWERKS__) && (__MWERKS__ <= 0x3002)
-#    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
 #  elif defined(__SUNPRO_CC)
 #    define ITK_CONCEPT_IMPLEMENTATION_VTABLE
 #  else

@@ -1144,7 +1144,7 @@ void hashtable_base<Value, Alloc>::copy_from(const hashtable_base<Value, Alloc>&
 
 // A few compatability fixes.  Placed here for automatic include in
 // both the hash_set and the hash_map sources.
-# if (defined (_MSC_VER)&&(_MSC_VER < 1600 )) || defined(__BORLANDC__) || ((defined(__ICC)||defined(__ECC)) && defined(linux))
+# if (defined (_MSC_VER)&&(_MSC_VER < 1600 )) || ((defined(__ICC)||defined(__ECC)) && defined(linux))
 // This should be replaced with a try_compile that tests the availability of std::identity. FIXME
 namespace std
 {
@@ -1157,7 +1157,7 @@ public:
 
 #endif
 
-# if defined (_MSC_VER) || defined(__BORLANDC__) || ((defined(__ICC)||defined(__ECC)) && defined(linux))
+# if defined (_MSC_VER) || ((defined(__ICC)||defined(__ECC)) && defined(linux))
 // This should be replaced with a try_compile that tests the availability of std::select*. FIXME
 
 template <class _Pair>

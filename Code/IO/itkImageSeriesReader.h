@@ -180,7 +180,7 @@ protected:
    *  index for the output image. That is for reading a series of 2D
    *  images into  a 3D image, the moving dimension index is 2.
    */
-  int m_NumberOfDimensionsInImage;
+  unsigned int m_NumberOfDimensionsInImage;
 
   /** Array of MetaDataDictionaries. This allows to hold information from the
    * ImageIO objects after reading every sub image in the series */

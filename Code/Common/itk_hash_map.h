@@ -83,10 +83,6 @@ namespace itk
 
 
 // The following is required for CodeWarrior
-#if defined(__MWERKS__)
-#include "vcl_functional.h"
-#endif
-
 #include "vcl_compiler.h"
 
 

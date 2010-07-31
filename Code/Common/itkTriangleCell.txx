@@ -165,7 +165,7 @@ void
 TriangleCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int localId=0;
+  unsigned int localId=0;
   PointIdConstIterator ii(first);
   
   while( ( ii != last ) && ( localId < NumberOfPoints ) )

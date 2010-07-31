@@ -18,7 +18,7 @@
 #define __itkTestingMacros_h
 
 
-#if !defined(__BORLANDC__) && !defined(__SUNPRO_CC)
+#if !defined(__SUNPRO_CC)
 #define EXERCISE_BASIC_OBJECT_METHODS( object ) \
     object->Print( std::cout );  \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \

@@ -39,9 +39,6 @@
 #include <time.h>
 #include <assert.h>
 #include <vector>
-#ifdef __BORLANDC__
-#include <dxtmpl.h>
-#endif
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 

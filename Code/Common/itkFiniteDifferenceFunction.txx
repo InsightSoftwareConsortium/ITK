@@ -39,7 +39,7 @@ ComputeNeighborhoodScales() const
   NeighborhoodScalesType neighborhoodScales;
   neighborhoodScales.Fill(0.0);
   typedef typename NeighborhoodScalesType::ComponentType NeighborhoodScaleType;
-  for(int i=0; i<ImageDimension; i++)
+  for(unsigned int i=0; i<ImageDimension; i++)
     {
     if (this->m_Radius[i] > 0)
       {

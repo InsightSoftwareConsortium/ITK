@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 #include <stdio.h>
 #include <fstream>
 #include "itkImageFileReader.h"

@@ -19,10 +19,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 /** Example illustrating use of functions to convert between complex valued
  * voxels, magnitude and phase, and real and imaginary representations.
  *
