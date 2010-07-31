@@ -237,11 +237,6 @@ ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 #-----------------------------------------------------------------------------
 # ITK turn on the correct usage of centered-pixel coordinates.
-OPTION(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY "Turn on correct usage of centered-pixel coordinates." ON)
-MARK_AS_ADVANCED(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
-#-----------------------------------------------------------------------------
-# ITK turn on the correct usage of centered-pixel coordinates.
 OPTION(ITK_USE_REGION_VALIDATION_IN_ITERATORS "Turn on region validation in Iterator constructors." ON)
 MARK_AS_ADVANCED(ITK_USE_REGION_VALIDATION_IN_ITERATORS)
 

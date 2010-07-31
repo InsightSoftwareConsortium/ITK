@@ -697,13 +697,6 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
 {
   bool inside = true;
 
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  if( !m_ValidRegion.IsInside( index ) )
-    {
-    inside = false;
-    }
-#endif
-
   if ( inside && m_SplineOrderOdd )
     {
     typedef typename ContinuousIndexType::ValueType ValueType;
@@ -714,13 +707,11 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
         inside = false;
         break;
         }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       if ( index[j] < static_cast<ValueType>( m_ValidRegionFirst[j] ) )
         {
         inside = false;
         break;
         }
-#endif
       }
     }
 

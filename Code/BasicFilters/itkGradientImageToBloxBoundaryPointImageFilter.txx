@@ -183,7 +183,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 
   outputPtr->SetSpacing( outputSpacing );
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   // compute origin offset
   // The physical center's of the input and output should be the same
   ContinuousIndex<double, TOutputImage::ImageDimension> inputCenterIndex;
@@ -202,7 +201,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
   typename TOutputImage::PointType outputOrigin = outputPtr->GetOrigin();
   outputOrigin = outputOrigin + (inputCenterPoint - outputCenterPoint);
   outputPtr->SetOrigin(outputOrigin);
-#endif
 
   typename TOutputImage::RegionType outputLargestPossibleRegion;
   outputLargestPossibleRegion.SetSize( outputSize );
@@ -272,7 +270,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
       // Transform the physical location to a blox index
       outputPtr->TransformPhysicalPointToIndex( inputPosition, bloxIndex );
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       // check if it is inside of the output image.
       if( outputRequestedRegion.IsInside( bloxIndex )  )
         {
@@ -283,15 +280,6 @@ GradientImageToBloxBoundaryPointImageFilter< TInputImage >
 
         outputPtr->GetPixel(bloxIndex).push_back(pItem);
         }
-#else
-      // Create a new boundary point item and set its parameters
-      BloxBoundaryPointItem<NDimensions>* pItem = new BloxBoundaryPointItem<NDimensions>;
-      pItem->SetPhysicalPosition(inputPosition);
-      pItem->SetGradient( inputIt.Get() );
-
-      outputPtr->GetPixel(bloxIndex).push_back(pItem);
-#endif
-
       numBPadded++;
       }
 

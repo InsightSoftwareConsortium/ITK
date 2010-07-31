@@ -28,9 +28,7 @@ void RegisterTests()
   vnl_sample_reseed(8775070);
   REGISTER_TEST(itkCollidingFrontsImageFilterTest );
   REGISTER_TEST(itkBayesianClassifierImageFilterTest );
-#if defined(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
   REGISTER_TEST(itkBinaryMedialNodeMetricTest); //Test disabled when centerd coordinates not used
-#endif
   REGISTER_TEST(itkCurvesLevelSetImageFilterZeroSigmaTest );
   REGISTER_TEST(itkFastMarchingUpwindGradientTest );
   REGISTER_TEST(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest );

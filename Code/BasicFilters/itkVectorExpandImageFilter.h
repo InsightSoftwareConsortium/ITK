@@ -41,18 +41,6 @@ namespace itk
  * SetInterpolator(). Note that the input interpolator must derive
  * from base class VectorInterpolateImageFunction.
  *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is OFF.
- * When the LargestPossibleRegion is requested, the output image will
- * contain padding at the upper edge of each dimension. The width
- * of padding in the i'th dimension is (ExpandFactors[i] - 1). Users can
- * specify the padding value used by setting the EdgePaddingValue.
- *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON 
- * The output image will not contain any padding, and therefore the
- * EdgePaddingValue will not be used.
- *
  * This filter will produce an output with different pixel spacing
  * that its input image such that:
  *
@@ -146,12 +134,12 @@ public:
   const ExpandFactorsType * GetExpandFactors() const
     { return m_ExpandFactors; }
 
-  /** Set the edge padding value. The default is a vector of zero. */
-  virtual void SetEdgePaddingValue( const OutputPixelType& value );
-
-  /** Get the edge padding value. */
-  virtual const OutputPixelType& GetEdgePaddingValue()
-    { return m_EdgePaddingValue; }
+//TEST_RMV20100728  /** Set the edge padding value. The default is a vector of zero. */
+//TEST_RMV20100728  virtual void SetEdgePaddingValue( const OutputPixelType& value );
+//TEST_RMV20100728
+//TEST_RMV20100728  /** Get the edge padding value. */
+//TEST_RMV20100728  virtual const OutputPixelType& GetEdgePaddingValue()
+//TEST_RMV20100728    { return m_EdgePaddingValue; }
 
   /** VectorExpandImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input image.  As
@@ -205,7 +193,12 @@ private:
 
   ExpandFactorsType      m_ExpandFactors[ImageDimension];
   InterpolatorPointer    m_Interpolator;
-  OutputPixelType        m_EdgePaddingValue;
+//TEST_RMV20100728 * \warning: The following is valid only when the flag
+//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
+//TEST_RMV20100728 * The output image will not contain any padding, and therefore the
+//TEST_RMV20100728 * EdgePaddingValue will not be used.
+//TEST_RMV20100728 *
+//TEST_RMV20100728  OutputPixelType        m_EdgePaddingValue;
  
 };
 

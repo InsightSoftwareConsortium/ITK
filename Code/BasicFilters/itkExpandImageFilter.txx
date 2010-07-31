@@ -48,8 +48,8 @@ ExpandImageFilter<TInputImage,TOutputImage>
   m_Interpolator = static_cast<InterpolatorType*>(
     interp.GetPointer() );
 
-  // Set default padding value to zero
-  m_EdgePaddingValue = NumericTraits<OutputPixelType>::Zero;
+//TEST_RMV20100728   // Set default padding value to zero
+//TEST_RMV20100728   m_EdgePaddingValue = NumericTraits<OutputPixelType>::Zero;
 
 }
 
@@ -75,11 +75,11 @@ ExpandImageFilter<TInputImage,TOutputImage>
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
 
-  os << indent << "EdgePaddingValue: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
-     << std::endl;
-  os << indent << "EdgePaddingValue: ";
-  os << m_EdgePaddingValue << std::endl;
+//TEST_RMV20100728   os << indent << "EdgePaddingValue: "
+//TEST_RMV20100728      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
+//TEST_RMV20100728      << std::endl;
+//TEST_RMV20100728   os << indent << "EdgePaddingValue: ";
+//TEST_RMV20100728   os << m_EdgePaddingValue << std::endl;
 
 }
 
@@ -198,11 +198,7 @@ ExpandImageFilter<TInputImage,TOutputImage>
     // clamped to be minimum for 1.
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       inputIndex[j] = ( (double) outputIndex[j] + 0.5 ) / (double) m_ExpandFactors[j] - 0.5;
-#else
-      inputIndex[j] = (double) outputIndex[j] / (double) m_ExpandFactors[j];
-#endif
       }
     
     // interpolate value and write to output
@@ -213,7 +209,12 @@ ExpandImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      outIt.Set( m_EdgePaddingValue );
+      itkExceptionMacro(<< "Interpolator outside buffer should never occur ");
+//TEST_RMV20100728 * \warning: The following is valid only when the flag
+//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
+//TEST_RMV20100728 * The output image will not contain any padding, and therefore the
+//TEST_RMV20100728 * EdgePaddingValue will not be used.
+//TEST_RMV20100728       outIt.Set( m_EdgePaddingValue );
       }
     progress.CompletedPixel();
     } 
@@ -326,21 +327,14 @@ ExpandImageFilter<TInputImage,TOutputImage>
     outputSpacing[i] = inputSpacing[i] / (float) m_ExpandFactors[i];
     outputSize[i] = inputSize[i] * (unsigned long) m_ExpandFactors[i];
     outputStartIndex[i] = inputStartIndex[i] * (long) m_ExpandFactors[i];
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
     inputOriginShift[i] = - ( inputSpacing[i] / 2.0 ) * fraction;
-#endif
     }
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();
   const typename TOutputImage::SpacingType outputOriginShift = inputDirection * inputOriginShift;
 
   outputOrigin = inputOrigin + outputOriginShift;
-#else
-  outputOrigin = inputOrigin;
-#endif
-
 
   outputPtr->SetSpacing( outputSpacing );
   outputPtr->SetOrigin( outputOrigin );

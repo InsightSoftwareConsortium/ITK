@@ -48,11 +48,11 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   m_Interpolator = 
     static_cast<InterpolatorType*>( interp.GetPointer() );
 
-  // Set default padding value to zero
-  for( unsigned int k = 0; k < VectorDimension; k++ )
-    {
-    m_EdgePaddingValue[k] = NumericTraits<OutputValueType>::Zero;
-    }
+//TEST_RMV20100728   // Set default padding value to zero
+//TEST_RMV20100728   for( unsigned int k = 0; k < VectorDimension; k++ )
+//TEST_RMV20100728     {
+//TEST_RMV20100728     m_EdgePaddingValue[k] = NumericTraits<OutputValueType>::Zero;
+//TEST_RMV20100728     }
 
 }
 
@@ -78,9 +78,9 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
 
-  os << indent << "EdgePaddingValue: "
-     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
-     << std::endl;
+//TEST_RMV20100728  os << indent << "EdgePaddingValue: "
+//TEST_RMV20100728     << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_EdgePaddingValue)
+//TEST_RMV20100728     << std::endl;
 }
 
 
@@ -164,30 +164,30 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
 }
 
 
-/**
- * Set the edge padding value
- */
-template <class TInputImage, class TOutputImage>
-void
-VectorExpandImageFilter<TInputImage,TOutputImage>
-::SetEdgePaddingValue( const OutputPixelType& value )
-{
-  unsigned int i;
-  for( i = 0; i < OutputPixelType::Dimension; i++ )
-    {
-    if( value[i] != m_EdgePaddingValue[i] )
-      {
-      break;
-      }
-    }
-
-  if( i < OutputPixelType::Dimension )
-    {
-    this->Modified();
-    m_EdgePaddingValue = value;
-    }
-
-}
+//TEST_RMV20100728/**
+//TEST_RMV20100728 * Set the edge padding value
+//TEST_RMV20100728 */
+//TEST_RMV20100728template <class TInputImage, class TOutputImage>
+//TEST_RMV20100728void
+//TEST_RMV20100728VectorExpandImageFilter<TInputImage,TOutputImage>
+//TEST_RMV20100728::SetEdgePaddingValue( const OutputPixelType& value )
+//TEST_RMV20100728{
+//TEST_RMV20100728  unsigned int i;
+//TEST_RMV20100728  for( i = 0; i < OutputPixelType::Dimension; i++ )
+//TEST_RMV20100728    {
+//TEST_RMV20100728    if( value[i] != m_EdgePaddingValue[i] )
+//TEST_RMV20100728      {
+//TEST_RMV20100728      break;
+//TEST_RMV20100728      }
+//TEST_RMV20100728    }
+//TEST_RMV20100728
+//TEST_RMV20100728  if( i < OutputPixelType::Dimension )
+//TEST_RMV20100728    {
+//TEST_RMV20100728    this->Modified();
+//TEST_RMV20100728    m_EdgePaddingValue = value;
+//TEST_RMV20100728    }
+//TEST_RMV20100728
+//TEST_RMV20100728}
 
 
 /**
@@ -251,11 +251,7 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     // clamped to be minimum for 1.
     for(unsigned int j = 0; j < ImageDimension; j++ )
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       inputIndex[j] = ( (double) outputIndex[j] + 0.5 ) / (double) m_ExpandFactors[j] - 0.5;
-#else
-      inputIndex[j] = (double) outputIndex[j] / (double) m_ExpandFactors[j];
-#endif
       }
     
     // interpolate value and write to output
@@ -276,7 +272,12 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      outIt.Set( m_EdgePaddingValue );
+      itkExceptionMacro(<< "Interpolator outside buffer should never occur ");
+//TEST_RMV20100728 * \warning: The following is valid only when the flag
+//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
+//TEST_RMV20100728 * The output image will not contain any padding, and therefore the
+//TEST_RMV20100728 * EdgePaddingValue will not be used.
+//TEST_RMV20100728      outIt.Set( m_EdgePaddingValue );
       }
     ++outIt;
     progress.CompletedPixel();
@@ -411,19 +412,13 @@ VectorExpandImageFilter<TInputImage,TOutputImage>
     outputStartIndex[i] = (long)
       ((ExpandFactorsType)inputStartIndex[i] * m_ExpandFactors[i]+
        (ExpandFactorsType)0.5);
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
     inputOriginShift[i] = - ( inputSpacing[i] / 2.0 ) * fraction;
-#endif
     }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();
   const typename TOutputImage::SpacingType outputOriginShift = inputDirection * inputOriginShift;
 
   outputOrigin = inputOrigin + outputOriginShift;
-#else
-  outputOrigin = inputOrigin;
-#endif
 
   outputPtr->SetSpacing( outputSpacing );
   outputPtr->SetOrigin( outputOrigin );

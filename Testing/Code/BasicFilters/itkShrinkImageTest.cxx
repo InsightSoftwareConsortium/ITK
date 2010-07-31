@@ -116,7 +116,6 @@ int itkShrinkImageTest(int, char* [] )
     }
 
   bool passed = true;
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
  for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     short col = itk::Math::RoundHalfIntegerUp<short>(shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
@@ -137,29 +136,6 @@ int itkShrinkImageTest(int, char* [] )
                 << std::endl;
       }
     }
-
-#else
-  for (; !iterator2.IsAtEnd(); ++iterator2)
-    {
-    short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
-                 (shrink->GetShrinkFactors()[0] - 1) / 2);
-    col += colOffset;
-
-    short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
-                 (shrink->GetShrinkFactors()[1] - 1) / 2);
-    row += rowOffset;
-    short trueValue = col + region.GetSize()[0] * row;    
-    if ( iterator2.Get() != trueValue )
-      {
-      passed = false;
-      std::cout << "A) Pixel " << iterator2.GetIndex() 
-                << " expected " << trueValue
-                << " but got " << iterator2.Get()
-                << std::endl;
-      }
-    }
-#endif
-
 
   // Now test shrinking by 2x2
   std::cout << "Shrink the image by (2,2) instead." << std::endl;
@@ -234,7 +210,6 @@ int itkShrinkImageTest(int, char* [] )
               << std::endl;
     std::cout << std::flush;
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     short trueValue =
       itk::Math::RoundHalfIntegerUp<int>((shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                       (shrink->GetShrinkFactors()[0] - 1.0) / 2.0)) +
@@ -250,25 +225,6 @@ int itkShrinkImageTest(int, char* [] )
       }    
     }
 
-#else
-    short trueValue =
-      static_cast<short>(
-        (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
-         (shrink->GetShrinkFactors()[0] - 1) / 2)
-        + (region.GetSize()[0]
-           * (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
-              (shrink->GetShrinkFactors()[1] - 1) / 2)));
-    if ( iterator2.Get() != trueValue )
-      {
-      std::cout << "B) Pixel " << iterator2.GetIndex() 
-                << " expected " << trueValue
-                << " but got " << iterator2.Get()
-                << std::endl;
-      passed = false;
-      }
-    }
-#endif
-  
   std::cout << std::endl;
   std::cout << std::flush;
   if (passed)

@@ -428,20 +428,12 @@ BloxBoundaryPointImageToBloxBoundaryProfileImageFilter< TSourceImage >
           // Transform optimal boundary location to an index
           outputPtr->TransformPhysicalPointToIndex(optimalBoundaryLocation, boundaryProfilePosition);
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY 
           if( bufferedRegion.IsInside( boundaryProfilePosition ) )
             {
             // Store the new boundary profile in the correct spot in output image
             outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
             m_NumBoundaryProfiles++;
             }
-#else
-          // Store the new boundary profile in the correct spot in output image
-          outputPtr->GetPixel(boundaryProfilePosition).push_back(boundaryProfile);
-
-          m_NumBoundaryProfiles++;
-#endif
-
           }
         bpCount++;
         }

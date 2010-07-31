@@ -175,11 +175,7 @@ public:
     const DoublePoint &, DoublePoint &rindex, IndexType &index,
     const UniqueTypeBoolTrue& )
     {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       index[R] = Math::RoundHalfIntegerUp<IndexValueType>( rindex[R] );
-#else
-      index[R] = static_cast<IndexValueType>(rindex[R]);
-#endif
     }
 
   //
@@ -314,11 +310,7 @@ public:
     const FloatPoint &, FloatPoint &rindex, IndexType &index,
     const UniqueTypeBoolTrue& )
     {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     index[R] = Math::RoundHalfIntegerUp<IndexValueType>(rindex[R]);
-#else
-    index[R] = static_cast<IndexValueType>(rindex[R]);
-#endif
     }
 
 };

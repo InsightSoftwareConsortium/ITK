@@ -189,8 +189,7 @@ public:
     }
 
   /** Test if a continuous index is inside the region.
-   * If ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on,
-   * we take into account the fact that each voxel has its
+   * We take into account the fact that each voxel has its
    * center at the integer coordinate and extends half way
    * to the next integer coordinate. */
   template <typename TCoordRepType>
@@ -199,22 +198,13 @@ public:
     {
     for(unsigned int i=0; i<ImageDimension; i++)
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       if( Math::RoundHalfIntegerUp<IndexValueType>(index[i]) < static_cast<IndexValueType>( m_Index[i] ) )
-#else
-      if( index[i] < static_cast<TCoordRepType>( m_Index[i] ) )
-#endif
         {
         return false;
         }
       // bound is the last valid pixel location
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       const TCoordRepType bound = static_cast<TCoordRepType>(
          m_Index[i] + m_Size[i] - 0.5);
-#else
-      const TCoordRepType bound = static_cast<TCoordRepType>(
-         m_Index[i] + static_cast<IndexValueType>(m_Size[i]) - 1);
-#endif
 
       if( index[i] > bound )
         {

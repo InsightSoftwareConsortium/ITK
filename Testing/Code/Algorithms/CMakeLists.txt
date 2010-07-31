@@ -143,21 +143,12 @@ ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterWithResampleFilterTest2 ${
 ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterWithShrinkFilterTest2 ${ALGORITHMS_TESTS3} itkMultiResolutionPyramidImageFilterTest Shrink TestRecursive)
 
 ADD_TEST(itkMutualInformationHistogramImageToImageMetricTest ${ALGORITHMS_TESTS3} itkMutualInformationHistogramImageToImageMetricTest)
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
   --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
   --compareNumberOfPixelsTolerance 20
   itkMultiResolutionPDEDeformableRegistrationTest
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png)
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
-  --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTest.png
-            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png
-  --compareNumberOfPixelsTolerance 20
-  itkMultiResolutionPDEDeformableRegistrationTest
-            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest ${ALGORITHMS_TESTS3}   
 itkMultiResolutionImageRegistrationMethodTest  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_1 ${ALGORITHMS_TESTS3}   
@@ -250,9 +241,7 @@ ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
 
 # Metric fails when centered pixel coordinates not in use
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-  ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
 
 SET(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx

@@ -356,8 +356,6 @@ public:
 
   /** Get the index (discrete) of a voxel from a physical point.
    * Floating point index results are rounded to integers
-   * if ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on
-   * and truncated otherwise.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
@@ -386,11 +384,7 @@ public:
         {
         sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
         }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       index[i] = Math::RoundHalfIntegerUp< IndexValueType>( sum );
-#else
-      index[i] = static_cast< IndexValueType>( sum );
-#endif
       }
 
     // Now, check to see if the index is within allowed bounds

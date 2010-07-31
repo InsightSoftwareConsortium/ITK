@@ -128,8 +128,7 @@ public:
     const ContinuousIndexType & index ) const = 0;
 
   /** Check if an index is inside the image buffer.
-   * If ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on,
-   * we take into account the fact that each voxel has its
+   * We take into account the fact that each voxel has its
    * center at the integer coordinate and extends half way
    * to the next integer coordinate.
    * \warning For efficiency, no validity checking of
@@ -161,11 +160,7 @@ public:
         {
         return false;
         }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
       if( index[j] >= m_EndContinuousIndex[j] )
-#else
-      if( index[j] > m_EndContinuousIndex[j] )
-#endif
       {
         return false;
         }

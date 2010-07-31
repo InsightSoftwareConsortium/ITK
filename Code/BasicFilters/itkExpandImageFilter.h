@@ -40,18 +40,6 @@ namespace itk
  * SetInterpolator(). Note that the input interpolator must derive
  * from base class InterpolateImageFunction.
  *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is OFF.
- * When the LargestPossibleRegion is requested, the output image will contain
- * padding at the upper edge of each dimension. The width of padding in the
- * i'th dimension is (ExpandFactors[i] - 1). Users can specify the padding
- * value used by setting the EdgePaddingValue.
- *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON 
- * The output image will not contain any padding, and therefore the
- * EdgePaddingValue will not be used.
- *
  * This filter will produce an output with different pixel spacing
  * that its input image such that:
  *
@@ -129,11 +117,11 @@ public:
   virtual const unsigned int * GetExpandFactors() const
   { return m_ExpandFactors; }
 
-  /** Set the edge padding value. The default is zero. */
-  itkSetMacro( EdgePaddingValue, OutputPixelType );
-
-  /** Get the edge padding value */
-  itkGetConstMacro( EdgePaddingValue, OutputPixelType );
+//TEST_RMV20100728   /** Set the edge padding value. The default is zero. */
+//TEST_RMV20100728   itkSetMacro( EdgePaddingValue, OutputPixelType );
+//TEST_RMV20100728
+//TEST_RMV20100728   /** Get the edge padding value */
+//TEST_RMV20100728   itkGetConstMacro( EdgePaddingValue, OutputPixelType );
 
   /** ExpandImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
@@ -187,8 +175,13 @@ private:
 
   unsigned int           m_ExpandFactors[ImageDimension];
   InterpolatorPointer    m_Interpolator;
-  OutputPixelType        m_EdgePaddingValue;
- 
+//TEST_RMV20100728 * \warning: The following is valid only when the flag
+//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
+//TEST_RMV20100728 * The output image will not contain any padding, and therefore the
+//TEST_RMV20100728 * EdgePaddingValue will not be used.
+//TEST_RMV20100728 *
+//TEST_RMV20100728  OutputPixelType        m_EdgePaddingValue;
+
 };
 
 } // end namespace itk

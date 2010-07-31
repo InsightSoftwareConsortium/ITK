@@ -1675,7 +1675,7 @@ FEMRegistrationFilter<TMovingImage,TFixedImage>::ExpandVectorField( ExpandFactor
   m_FieldExpander->SetInput(field);
   m_FieldExpander->SetExpandFactors( expandFactors );
   // use default
-  m_FieldExpander->SetEdgePaddingValue( pad );
+//TEST_RMV20100728   m_FieldExpander->SetEdgePaddingValue( pad );
   m_FieldExpander->UpdateLargestPossibleRegion();
 
   m_FieldSize=m_FieldExpander->GetOutput()->GetLargestPossibleRegion().GetSize();
