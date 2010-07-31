@@ -8,12 +8,6 @@ SET(ITKIO_SRCS
   itkBioRadImageIOFactory.cxx
   itkBMPImageIO.cxx
   itkBMPImageIOFactory.cxx
-  itkBrains2HeaderBase.cxx
-  itkBrains2HeaderFactory.cxx
-  itkBrains2IPLHeaderInfo.cxx
-  itkBrains2MaskHeaderInfo.cxx
-  itkBrains2MaskImageIO.cxx
-  itkBrains2MaskImageIOFactory.cxx
   itkDICOMImageIO2.cxx
   itkDICOMImageIO2Factory.cxx
   itkDICOMSeriesFileNames.cxx

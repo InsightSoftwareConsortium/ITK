@@ -48,7 +48,6 @@ itkBMPImageIOTest.cxx
 itkBMPImageIOTest2.cxx
 itkBioRadImageIOTest.cxx
 itkLSMImageIOTest.cxx
-itkBrains2MaskImageIOTest.cxx
 itkConvertBufferTest.cxx
 itkConvertBufferTest2.cxx
 itkDICOMImageIO2Test.cxx
@@ -928,8 +927,6 @@ ADD_TEST(itkGE4 ${IO_TESTS}
 
 ADD_TEST(itkGiplImageIOTest2 ${IO_TESTS} itkGiplImageIOTest
          ${ITK_DATA_ROOT}/Input/ramp.gipl ${TEMP}/ramp.gipl)
-
-  ADD_TEST(itkBrains2MaskTest ${IO_TESTS} itkBrains2MaskTest  ${ITK_TEST_OUTPUT_DIR} )
 
   ADD_TEST(itkGE4FactoryTest ${IO_TESTS} itkGEImageIOFactoryTest 
         ${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001)
