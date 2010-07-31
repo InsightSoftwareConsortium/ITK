@@ -238,28 +238,6 @@ public:
     }
 };
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< unsigned int VDimension >
-void ImageIORegionAdaptor<VDimension>::Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion ) 
-{
-  itkGenericLegacyBodyMacro(ImageIORegionAdaptor::Convert, 4.0);
-  // the index argument is required
-  ImageIndexType index;
-  index.Fill(0);
-  ImageIORegionAdaptor<VDimension>::Convert(inImageRegion, outIORegion, index);
-}
-
-template< unsigned int VDimension >
-void ImageIORegionAdaptor<VDimension>::Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion )
-{
-  itkGenericLegacyBodyMacro(ImageIORegionAdaptor::Convert, 4.0);
-  // the index argument is required
-  ImageIndexType index;
-  index.Fill(0);
-  ImageIORegionAdaptor<VDimension>::Convert(inIORegion, outImageRegion, index);
-}
-#endif
-
 } // end namespace itk
 
 #endif

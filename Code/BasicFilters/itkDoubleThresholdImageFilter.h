@@ -105,16 +105,6 @@ public:
   itkGetConstMacro( Threshold3, InputPixelType );
   itkGetConstMacro( Threshold4, InputPixelType );
 
-  /** \deprecated
-   * Get the number of iterations used by the geodesic dilation to
-   * produce the current output. This method is scheduled for removal
-   * since the implementation now uses a noniterative solution. */
-  unsigned long GetNumberOfIterationsUsed()
-    { 
-    itkLegacyBodyMacro(itk::DoubleThresholdImageFilter::GetNumberOfIterationsUsed, 2.2);
-    return m_NumberOfIterationsUsed; 
-    };
-
   /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is

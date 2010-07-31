@@ -191,36 +191,6 @@ itkTemplateFloatingToIntegerMacro(Ceil);
 #undef  itkTemplateFloatingToIntegerMacro
 
 
-#if !defined(ITK_LEGACY_REMOVE) &&  !VCL_TEMPLATE_MATCHES_TOO_OFTEN
-// VCL_TEMPLATE_MATCHES_TOO_OFTEN is used here because some compilers
-// can not handle function overloading with templated and
-// non-templated methods, ie the templated functions matches too often
-
-
-/** @{ */
-/**  \deprecated These methods have been deprecated as of ITK 3.16. Please
- *  use the templated methods of the form
- *  itk::Math::XXX<TReturn,TINput(TInput x) instead.
- * 
- *  \sa RoundHalfIntegerUp<TReturn, TInput>() */
-inline int RoundHalfIntegerToEven(double x) { return Detail::RoundHalfIntegerToEven_32(x); }
-inline int RoundHalfIntegerToEven(float  x) { return Detail::RoundHalfIntegerToEven_32(x); }
-
-inline int RoundHalfIntegerUp(double x) { return Detail::RoundHalfIntegerUp_32(x); }
-inline int RoundHalfIntegerUp(float  x) { return Detail::RoundHalfIntegerUp_32(x); }
-
-inline int Round(double x) { return Detail::RoundHalfIntegerUp_32(x); }
-inline int Round(float  x) { return Detail::RoundHalfIntegerUp_32(x); }
-
-inline int Floor(double x) { return Detail::Floor_32(x); }
-inline int Floor(float  x) { return Detail::Floor_32(x); }
-
-inline int Ceil(double x) { return Detail::Ceil_32(x); }
-inline int Ceil(float  x) { return Detail::Ceil_32(x); }
-/** @} */
-
-#endif // end of ITK_LEGACY_REMOVE
-
 template <typename TReturn,typename TInput>
 inline TReturn CastWithRangeCheck(TInput x)
 {

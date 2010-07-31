@@ -37,67 +37,6 @@
 
 #endif // ITK_HAVE_CSTDINT
 
-
-#if !defined(ITK_LEGACY_REMOVE)
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::int8_t instead. */
-  typedef char      ITK_INT8;
-
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::int32_8 instead. */
-  typedef int       ITK_INT32;
-
-#ifndef _WIN32
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::int64_t instead. */
-  typedef long long   ITK_INT64;
-#endif
-
-#ifdef _WIN32
-
-  typedef long      ITK_INT64;
-#endif
-
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::uint8_t instead. */
-  typedef unsigned char   ITK_UINT8;
-
-  /** \deprecated This type have been deprecated due to erroneous
-   * value, please use itk::uint16_t instead. */
-  typedef unsigned short  ITK_UINT16;
-
-  /** \deprecated This type have been deprecated due to erroneous
-   * value, please use itk::uint32_t instead. */
-  typedef unsigned        ITK_UINT32;
-
-#ifndef _WIN32
-  /** \deprecated This type have been deprecated due to erroneous
-   * value, please use itk::uint64_t instead. */
-  typedef unsigned long long  ITK_UINT64;
-#endif
-
-#ifdef _WIN32
-
-  typedef unsigned long ITK_UINT64;
-#endif
-
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::intptr_t instead. */
-  typedef int       ITK_INTPTR;
-
-  /** \deprecated This type have been deprecated due to erroneous
-   *  value, please use itk::uintptr_t instead. */
-  typedef unsigned  ITK_UINTPTR;
-
-#ifdef __cplusplus
-}
-#endif
-#endif // ITK_LEGACY_REMOVE
-
 namespace itk
 {
 #if defined(ITK_HAVE_STDINT_H) 

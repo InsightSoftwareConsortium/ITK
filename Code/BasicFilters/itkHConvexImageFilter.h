@@ -82,16 +82,6 @@ public:
    * estimate of the local background. */
   itkSetMacro(Height, InputImagePixelType);
   itkGetConstMacro(Height, InputImagePixelType);
-  
-  /** \deprecated
-   * Get the number of iterations used to produce the current
-   * output. This method is scheduled for removal since the
-   * implementation use a noniterative solution. */
-  unsigned long GetNumberOfIterationsUsed()
-    { 
-    itkLegacyBodyMacro(itk::HConvexImageFilter::GetNumberOfIterationsUsed, 2.2);
-    return m_NumberOfIterationsUsed; 
-    };
 
   /**
    * Set/Get whether the connected components are defined strictly by

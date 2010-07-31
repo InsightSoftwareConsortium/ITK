@@ -23,15 +23,7 @@ ENDIF(ITK_USE_SYSTEM_GDCM)
 # Generate CMake lines that will define the ITK_SOURCE_DIR in the ITKConfig.cmake.
 # We want this to happen only in the ITKConfig.cmake of the build dir, not in the
 # installed or relocatable one.
-SET(ITK_CONFIG_CODE "
-# The ITK source tree.
-# For backward compatibility issues we still need to define this variable, although
-# it is highly probable that it will cause more harm than being useful. 
-# Use ITK_INCLUDE_DIRS instead, since ITK_SOURCE_DIR may point to non-existent directory
-IF(NOT ITK_LEGACY_REMOVE)
-  SET(ITK_SOURCE_DIR \"${ITK_SOURCE_DIR}\")
-ENDIF(NOT ITK_LEGACY_REMOVE)"
-)
+SET(ITK_CONFIG_CODE "")
 
 # The library dependencies file.
 SET(ITK_LIBRARY_DEPENDS_FILE  ${ITK_BINARY_DIR}/ITKLibraryDepends.cmake)

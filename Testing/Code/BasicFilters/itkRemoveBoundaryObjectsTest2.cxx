@@ -91,12 +91,6 @@ int itkRemoveBoundaryObjectsTest2( int argc, char * argv[] )
   writer->SetInput( xorfilter->GetOutput() );
   writer->Update();
 
-  // Output the number of iterations used
-  std::cout << "GrindPeak took " << grindpeak->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << grindpeak->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  
-
   return EXIT_SUCCESS;
-
 }
 

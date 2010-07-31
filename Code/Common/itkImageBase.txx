@@ -279,16 +279,6 @@ ImageBase<VImageDimension>
     {
     this->Superclass::UpdateOutputData();
     }
-// if ITK_LEGACY_SILENT or ITK_LEGACY_REMOVE is enabled then we don't
-// print the waring message
-#if !defined(ITK_LEGACY_SILENT)  && !defined(ITK_LEGACY_REMOVE)
-  else 
-    {
-    // Let us try to give a warning of this change in behavior.
-    itkWarningMacro(<<"Not executing UpdateOutputData due to zero pixel condition RequestedRegion:" 
-                    <<  this->GetRequestedRegion() << " BufferedRegion: " << this->GetBufferedRegion());
-    }
-#endif // !ITK_LEGACY_SILENT && !ITK_LEGACY_REMOVE
 }
 
 //----------------------------------------------------------------------------

@@ -80,16 +80,6 @@ public:
   /** Set/Get the seed pixel for the segmentation */
   itkSetMacro(Seed, InputImageIndexType);
   itkGetConstMacro(Seed, InputImageIndexType);
-  
-  /** \deprecated
-   * Get the number of iterations used to produce the current
-   * output. This method is scheduled for removal since the
-   * implementation now uses a noniterative solution. */
-  unsigned long GetNumberOfIterationsUsed()
-    { 
-    itkLegacyBodyMacro(itk::GrayscaleConnectedClosingImageFilter::GetNumberOfIterationsUsed, 2.2);
-    return m_NumberOfIterationsUsed; 
-    };
 
   /**
    * Set/Get whether the connected components are defined strictly by

@@ -105,12 +105,6 @@ int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
-  // Output the number of iterations used
-  std::cout << "Fillhole took " << fillhole->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << fillhole->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  
-
   return EXIT_SUCCESS;
-
 }
 

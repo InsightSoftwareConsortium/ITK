@@ -28,16 +28,6 @@ bool CheckFileNameParsing(const std::string fileName,
                           const std::string correctExtension,
                           const std::string correctPath)
 {
-#if !defined(ITK_LEGACY_REMOVE)
-  // the old, deprecated way...
-  std::cout << "(itk, deprecated) Extracting...file name...";
-  char* nameOnly  = itk::IOCommon::ExtractFileName(fileName.c_str());
-  std::cout << "extension...";
-  char* extension = itk::IOCommon::ExtractFileExtension(fileName.c_str());
-  std::cout << "path...";
-  char* path      = itk::IOCommon::ExtractFilePath(fileName.c_str());
-  std::cout << "DONE" << std::endl;
-#else
   // the current kwsys way...
   std::cout << "(kwsys) Extracting...file name...";
   std::string fileNameString =
@@ -79,7 +69,6 @@ bool CheckFileNameParsing(const std::string fileName,
   char* path = new char[pathString.size() + 1];
   strcpy(path, pathString.c_str());
   std::cout << "DONE" << std::endl;
-#endif
 
   std::cout << "Comparing...file name...";
   bool nameMatches;

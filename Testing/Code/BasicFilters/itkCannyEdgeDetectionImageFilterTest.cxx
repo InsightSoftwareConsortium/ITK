@@ -51,8 +51,7 @@ int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
   itk::SimpleFilterWatcher watcher(filter);
   filter->SetInput(input->GetOutput());
   filter->SetUpperThreshold(30);
-  filter->SetLowerThreshold(10);
-  filter->SetThreshold(30);
+  filter->SetLowerThreshold(15);
   filter->SetVariance(1.0f);
   filter->SetMaximumError(.01f);
 

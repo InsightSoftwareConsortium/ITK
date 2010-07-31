@@ -178,21 +178,6 @@ public:
         }
       }
     }
-  
-  /* Set the Threshold value for detected edges. */
-  void SetThreshold(const OutputImagePixelType th)
-    {
-    this->m_Threshold = th;
-    this->m_UpperThreshold = m_Threshold;
-    this->m_LowerThreshold = m_Threshold/2.0;
-    itkLegacyReplaceBodyMacro(SetThreshold, 2.2, SetUpperThreshold);
-    }
-  
-  OutputImagePixelType GetThreshold(OutputImagePixelType th) 
-    {
-    itkLegacyReplaceBodyMacro(GetThreshold, 2.2, GetUpperThreshold);
-    return this->m_Threshold; 
-    }
 
   ///* Set the Threshold value for detected edges. */
   itkSetMacro(UpperThreshold, OutputImagePixelType );
