@@ -198,10 +198,6 @@ public:
   /** Helper method to set the output parameters based on this image */
   void SetOutputParametersFromImage ( const ImageBaseType * image );
 
-  /** \deprecated in ITK 3.14, Please use SetOutputParametersFromImage().
-   * Helper method to set the output parameters based on this image. */
-  itkLegacyMacro( void SetOutputParametersFromConstImage ( const ImageBaseType * image ) );
-
   /** Set the start index of the output largest possible region. 
    * The default is an index of all zeros. */
   itkSetMacro( OutputStartIndex, IndexType );

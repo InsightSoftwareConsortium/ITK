@@ -174,8 +174,6 @@ public:
   typedef typename ImageRegionType::SizeType  ImageSizeType;
   typedef typename ImageRegionType::IndexType ImageIndexType;
 
-  itkLegacyMacro(static void Convert( const ImageRegionType & outImageRegion, ImageIORegionType & inIORegion) );
-
   static void Convert( const ImageRegionType & inImageRegion, ImageIORegionType & outIORegion, const ImageIndexType &largestRegionIndex)
     {
     //
@@ -208,9 +206,6 @@ public:
       outIORegion.SetIndex( k, 0 );
       }
     }
-
-  itkLegacyMacro(static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion) );
-  
 
   static void Convert( const ImageIORegionType & inIORegion, ImageRegionType & outImageRegion, const ImageIndexType &largestRegionIndex )
     {

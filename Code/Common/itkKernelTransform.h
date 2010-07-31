@@ -234,13 +234,6 @@ protected:
    *    Volume spline */
   virtual void ComputeG(const InputVectorType& landmarkVector, 
                         GMatrixType & gmatrix ) const;
-  /**
-   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
-   */
-  itkLegacyMacro( virtual const GMatrixType & ComputeG(
-                                  const InputVectorType & landmarkVector 
-                                  ) const );
-
 
   /** Compute a G(x) for a point to itself (i.e. for the block diagonal
    * elements of the matrix K. Parameter indicates for which landmark

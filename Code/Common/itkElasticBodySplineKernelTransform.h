@@ -108,10 +108,6 @@ protected:
    * I = identity matrix
    */
   virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
-  /**
-   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
-   */
-  itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
 
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
