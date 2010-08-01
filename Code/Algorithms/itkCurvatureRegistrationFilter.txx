@@ -47,7 +47,7 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   m_PlanBackwardDCT = m_PlanForwardDCT = NULL;
   m_DeformationFieldComponentImage = m_DeformationFieldComponentImageDCT = NULL;
 
-  for ( int dim = 0; dim < ImageDimension; ++dim )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     m_DiagonalElements[dim] = NULL;
     }
@@ -66,7 +66,7 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   if ( m_PlanBackwardDCT )
     fftw_destroy_plan( m_PlanBackwardDCT );
 
-  for ( int dim = 0; dim < ImageDimension; ++dim )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     if ( m_DiagonalElements[dim] )
       delete[] m_DiagonalElements[dim];
 }
@@ -119,7 +119,7 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   fftw_r2r_kind fftBackward[ImageDimension];
 
   int fixedImageDimensionsFFTW[ImageDimension];
-  for ( int dim = 0; dim < ImageDimension; ++dim )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     m_FixedImageDimensions[dim] = fixedImageDimensionsFFTW[ImageDimension-1-dim] = // reverse order for FFTW!
       this->GetFixedImage()->GetLargestPossibleRegion().GetSize( dim );
@@ -162,14 +162,14 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
       m_DeformationFieldComponentImage, fftBackward, FFTW_MEASURE | FFTW_DESTROY_INPUT ); 
 
   // compute components of diagonal matrix elements
-  for ( int dim = 0; dim < ImageDimension; ++dim )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     if ( m_DiagonalElements[dim] )
       {
       delete[] m_DiagonalElements[dim];
       }
     m_DiagonalElements[dim] = new RealTypeDFT[m_FixedImageDimensions[dim]];
-    for ( int idx = 0; idx < m_FixedImageDimensions[dim]; ++idx )
+    for ( unsigned int idx = 0; idx < m_FixedImageDimensions[dim]; ++idx )
       {
 #ifdef SLOW_DCT
       m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * idx / m_FixedImageDimensions[dim] );
@@ -241,7 +241,7 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
 #else
   1.0 / numberOfPixels; // norm factor for fw/bw DCT
 #endif
-  for ( int dim = 0; dim < ImageDimension; ++dim )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     normFactorDCT *= 0.5;
 
   for ( unsigned int l = 0; l < DeformationVectorDimension; ++l )
@@ -266,7 +266,7 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
       {
       typename TFixedImage::IndexType index = fixedImageIteratorWithIndex.GetIndex();
       RealTypeDFT d = 0;
-      for ( int dim = 0; dim < ImageDimension; ++dim )
+      for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
         {
         d += m_DiagonalElements[dim][ index[ dim ] ];
         }
