@@ -86,7 +86,7 @@ public:
     }
   const MutexType GetMutexLock() const
     {
-    return m_MutexLock;
+    return *(const_cast<MutexType*>(&m_MutexLock));
     }
   
 protected:
