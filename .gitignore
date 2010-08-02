@@ -1,0 +1,7 @@
+# back-up files
+*~
+*.bak
+
+# Binary directory
+BUILD/
+
