@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,7 @@
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_erf.h"
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 GaussianDistribution
@@ -36,22 +36,14 @@ double
 GaussianDistribution
 ::GetMean() const
 {
-  if (m_Parameters.GetSize() == 2)
+  if (m_Parameters.GetSize() != 2)
     {
-    return m_Parameters[0];
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
-    }
+  return m_Parameters[0];
 }
 
 void
@@ -59,7 +51,7 @@ GaussianDistribution
 ::SetMean(double mean)
 {
   bool modified=false;
-  
+
   if (m_Parameters.GetSize() > 0)
     {
     if (m_Parameters[0] != mean)
@@ -67,7 +59,7 @@ GaussianDistribution
       modified = true;
       }
     }
-  
+
   if (m_Parameters.GetSize() != 2)
     {
     bool cache = false;
@@ -108,22 +100,14 @@ double
 GaussianDistribution
 ::GetVariance() const
 {
-  if (m_Parameters.GetSize() == 2)
+  if (m_Parameters.GetSize() != 2)
     {
-    return m_Parameters[1];
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
-    }
+  return m_Parameters[1];
 }
 
 void
@@ -131,7 +115,7 @@ GaussianDistribution
 ::SetVariance(double variance)
 {
   bool modified = false;
-  
+
   if (m_Parameters.GetSize() > 1)
     {
     if (m_Parameters[1] != variance)
@@ -189,7 +173,7 @@ GaussianDistribution
 ::PDF(double x, double mean, double variance)
 {
   double xminusmean = x - mean;
-  
+
   return (vnl_math::one_over_sqrt2pi / vcl_sqrt(variance))
     * vcl_exp(-0.5*xminusmean*xminusmean / variance);
 }
@@ -205,15 +189,10 @@ GaussianDistribution
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "GaussianDistribution: "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
 }
 
@@ -231,7 +210,7 @@ GaussianDistribution
 {
   // convert to zero mean unit variance
   double u = (x - mean) / vcl_sqrt(variance);
-  
+
   return 0.5 * (vnl_erf(vnl_math::sqrt1_2 * u) + 1.0);
 }
 
@@ -240,23 +219,14 @@ double
 GaussianDistribution
 ::CDF(double x, const ParametersType& p)
 {
-  // verify the parameter vector length
-  if (p.GetSize() == 2)
+  if (p.GetSize() != 2)
     {
-    return GaussianDistribution::CDF(x, p[0], p[1]);
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "GaussianDistribution: "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
-    }
+  return GaussianDistribution::CDF(x, p[0], p[1]);
 }
 
 double
@@ -267,14 +237,14 @@ GaussianDistribution
   int    newt;
 
   dp = (p <= 0.5) ? (p) : (1.0-p);   /* make between 0 and 0.5 */
-  
+
   // if original value is invalid, return +infinity or -infinity
   // changed from original code to reflect the fact that the
   // the inverse of P(x) not Q(x) is desired.
   //
   // Original line: used for inverse of Q(x)
   // if( dp <= 0.0 ){ dx = 13.0;  return ( (p <= 0.5) ? (dx) : (-dx) ); }
-  
+
   // replaced with this if construct for the inverse of P(x)
   if (p <= 0.0)
     {
@@ -284,20 +254,20 @@ GaussianDistribution
     {
     return itk::NumericTraits<double>::max();
     }
-  
-  
+
+
   /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
-  
+
   dt = vcl_sqrt( -2.0 * vcl_log(dp) );
   dx = dt
     - ((.010328e+0*dt + .802853e+0)*dt + 2.515517e+0)
     /(((.001308e+0*dt + .189269e+0)*dt + 1.432788e+0)*dt + 1.e+0);
-  
+
   /**  Step 2:  do 3 Newton steps to improve this */
-  
+
   for( newt=0; newt < 3; newt++ )
     {
-    dq  = 0.5e+0 * vnl_erfc( dx * vnl_math::sqrt1_2 ) - dp;
+    dq  = 0.5e+0 * vnl_erfc( dx *vnl_math::sqrt1_2 ) - dp;
     ddq = vcl_exp( -0.5e+0 * dx * dx ) / 2.506628274631000e+0;
     dx  = dx + dq / ddq;
     }
@@ -320,34 +290,36 @@ GaussianDistribution
 {
   double x = GaussianDistribution::InverseCDF(p);
 
-  // apply the mean and variance to provide the value for the
-  // prescribed Gaussian
-  x = x*vcl_sqrt(variance) + mean;
-  
-  return x;
+  if (x == itk::NumericTraits<double>::NonpositiveMin())
+    {
+    return x;
+    }
+  else if (x == itk::NumericTraits<double>::max())
+    {
+    return x;
+    }
+  else
+    {
+    // apply the mean and variance to provide the value for the
+    // prescribed Gaussian
+    x = x*vcl_sqrt(variance) + mean;
+    return x;
+    }
 }
 
 double
 GaussianDistribution
 ::InverseCDF(double p, const ParametersType& params)
 {
-  // verify the parameter vector length
-  if (params.GetSize() == 2)
+
+  if (params.GetSize() != 2)
     {
-    return GaussianDistribution::InverseCDF(p, params[0], params[1]);
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << params.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "GaussianDistribution: "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
-    }
+  return GaussianDistribution::InverseCDF(p, params[0], params[1]);
 }
 
 double
@@ -360,20 +332,15 @@ GaussianDistribution
       {
       return GaussianDistribution::PDF(x);
       }
-    
+
     return GaussianDistribution::PDF(x, m_Parameters[0], m_Parameters[1]);
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -387,20 +354,15 @@ GaussianDistribution
       {
       return GaussianDistribution::PDF(x);
       }
-    
+
     return GaussianDistribution::PDF(x, p[0], p[1]);
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
     }
 }
 
@@ -412,7 +374,7 @@ GaussianDistribution
     {
     return GaussianDistribution::PDF(x);
     }
-    
+
   return GaussianDistribution::PDF(x, mean, variance);
 }
 
@@ -427,20 +389,15 @@ GaussianDistribution
       {
       return GaussianDistribution::CDF(x);
       }
-    
+
     return GaussianDistribution::CDF(x, m_Parameters[0], m_Parameters[1]);
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -454,21 +411,16 @@ GaussianDistribution
       {
       return GaussianDistribution::CDF(x);
       }
-    
+
     return GaussianDistribution::CDF(x, p[0], p[1]);
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
-    }
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << p.size()
+      << " parameters.");
+   }
 }
 
 double
@@ -479,7 +431,7 @@ GaussianDistribution
     {
     return GaussianDistribution::CDF(x);
     }
-  
+
   return GaussianDistribution::CDF(x, mean, variance);
 }
 
@@ -499,15 +451,10 @@ GaussianDistribution
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
 }
 
@@ -526,15 +473,10 @@ GaussianDistribution
     }
   else
     {
-    InvalidArgumentError excep(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excep.SetDescription(message.str());
-    excep.SetLocation(ITK_LOCATION);
-    throw excep;
-    return 0.0;
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+      << params.size()
+      << " parameters.");
     }
 }
 
@@ -550,7 +492,7 @@ GaussianDistribution
   return GaussianDistribution::InverseCDF(p,mean,variance);
 }
 
-void  
+void
 GaussianDistribution
 ::PrintSelf(std::ostream& os, Indent indent) const
 {

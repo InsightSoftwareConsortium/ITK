@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,14 +29,14 @@ namespace itk
  * is given by the equation
  *
  *    \f[  \frac{ H(A) + H(B) }{ H(A,B) }  \f]
- *    Where \$ H(A) \$ is the entropy of image \$ A \$, 
+ *    Where \$ H(A) \$ is the entropy of image \$ A \$,
  *           \$ H(B) \$ is the entropy of image \$ B \$,  and
- *           \$ H(A,B) \$ is the joing entropy of images \$ A \$ and \$ B \$.  
+ *           \$ H(A,B) \$ is the joing entropy of images \$ A \$ and \$ B \$.
  *
- *    Details of this implementation can be found in the book 
- *      "Medical Image Registration" by Hajnal, Hill and Hawkes. 
+ *    Details of this implementation can be found in the book
+ *      "Medical Image Registration" by Hajnal, Hill and Hawkes.
  *      The book is available online at
- *               http://www-ipg.umds.ac.uk/d.hill/hhh/ 
+ *               http://www-ipg.umds.ac.uk/d.hill/hhh/
  *    The implementation of this class corresponds to equation (30) in
  *    Chapter 3 of this book. Note that by slightly changing this class
  *    it will be trivial to compute the Normalized Mutual Information
@@ -81,11 +81,7 @@ public:
     MovingImageConstPointer;
 
   typedef typename Superclass::HistogramType            HistogramType;
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename HistogramType::AbsoluteFrequencyType         HistogramFrequencyType;
-#else
-  typedef typename HistogramType::FrequencyType         HistogramFrequencyType;
-#endif
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::MeasurementVectorType
     HistogramMeasurementVectorType;

@@ -1,6 +1,5 @@
-IF (NOT ITK_USE_REVIEW_STATISTICS)
-  SUBDIRS(Statistics)
-ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
+##TODO Need to update to new statistics framework  SUBDIRS(Statistics)
+
 SUBDIRS(FEM)
 SUBDIRS(NeuralNetworks)
 
@@ -8,7 +7,7 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 IF(ITK_BINARY_DIR)
   IF(TCL_TCLSH)
     ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
-             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl
              ${ITK_SOURCE_DIR}/Code/Numerics)
   ENDIF(TCL_TCLSH)
 ENDIF(ITK_BINARY_DIR)

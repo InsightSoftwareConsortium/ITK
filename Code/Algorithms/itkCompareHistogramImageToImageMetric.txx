@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,7 @@ namespace itk
 {
 template <class TFixedImage, class TMovingImage>
 CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::
-CompareHistogramImageToImageMetric() 
+CompareHistogramImageToImageMetric()
 {
   m_TrainingFixedImage        = 0; // has to be provided by the user.
   m_TrainingMovingImage       = 0; // has to be provided by the user.
@@ -34,7 +34,7 @@ CompareHistogramImageToImageMetric()
 }
 
 template <class TFixedImage, class TMovingImage>
-void 
+void
 CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 ::Initialize()  throw (ExceptionObject)
 {
@@ -47,7 +47,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 }
 
 template <class TFixedImage, class TMovingImage>
-void 
+void
 CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
 ::FormTrainingHistogram() throw (ExceptionObject)
 {
@@ -100,13 +100,8 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
   // Create the exact histogram structure as the one to be used
   // to evaluate the metric. This code is mostly copied
   // from itkHistogramImageToImageMetric
-  
   this->m_TrainingHistogram = HistogramType::New();
-
-#ifdef ITK_USE_REVIEW_STATISTICS
   this->m_TrainingHistogram->SetMeasurementVectorSize(2);
-#endif
-
   this->m_TrainingHistogram->Initialize(this->Superclass::m_HistogramSize,
                                         this->Superclass::m_LowerBound,
                                         this->Superclass::m_UpperBound);
@@ -126,7 +121,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
     index = ti.GetIndex();
     if (this->m_TrainingFixedImageRegion.IsInside(index) &&
         (!this->Superclass::GetUsePaddingValue() ||
-         (this->Superclass::GetUsePaddingValue() && 
+         (this->Superclass::GetUsePaddingValue() &&
           ti.Get() > this->Superclass::GetPaddingValue())))
       {
       typename Superclass::InputPointType inputPoint;
@@ -144,9 +139,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>
         NumberOfPixelsCounted++;
 
         typename HistogramType::MeasurementVectorType sample;
-#ifdef ITK_USE_REVIEW_STATISTICS
         sample.SetSize(2);
-#endif
         sample[0] = TrainingFixedValue;
         sample[1] = TrainingMovingValue;
         this->m_TrainingHistogram->IncreaseFrequency(sample, 1);

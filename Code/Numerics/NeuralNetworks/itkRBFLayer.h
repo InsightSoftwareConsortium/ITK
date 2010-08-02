@@ -22,11 +22,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkObject.h"
 #include "itkMacro.h"
 #include "itkRadialBasisFunctionBase.h"
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkEuclideanDistanceMetric.h"
-#else
-#include "itkEuclideanDistance.h"
-#endif
 
 namespace itk
 {
@@ -59,11 +55,7 @@ public:
   typedef typename Superclass::TransferFunctionInterfaceType TransferFunctionInterfaceType;
 
   //Distance Metric
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef EuclideanDistanceMetric<InternalVectorType> DistanceMetricType;
-#else
-  typedef EuclideanDistance<InternalVectorType> DistanceMetricType;
-#endif
   typedef typename DistanceMetricType::Pointer  DistanceMetricPointer;
   typedef RadialBasisFunctionBase<ValueType>    RBFType;
 
@@ -113,7 +105,7 @@ public:
 
   itkSetMacro(NumClasses,unsigned int);
   itkGetConstReferenceMacro(NumClasses,unsigned int);
-  
+
   void SetRBF(RBFType* f);
   itkGetObjectMacro(RBF, RBFType);
   itkGetConstObjectMacro(RBF, RBFType);
@@ -132,7 +124,7 @@ private:
   NodeVectorType   m_NodeOutputValues;
   NodeVectorType   m_InputErrorValues;
   NodeVectorType   m_OutputErrorValues;
-  
+
   typename DistanceMetricType::Pointer  m_DistanceMetric;
 
   std::vector<InternalVectorType>       m_Centers;  // ui....uc

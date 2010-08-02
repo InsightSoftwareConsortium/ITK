@@ -178,11 +178,8 @@ TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
 ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
 TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
 
-IF (NOT ITK_USE_REVIEW_STATISTICS)
-  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter
-                        ITKIO ITKStatistics ITKNumerics)
-ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
+#TODO needs updating to new statistics  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+#TODO needs updating to new statistics  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKIO ITKStatistics ITKNumerics)
 
 ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
 TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
@@ -387,7 +384,7 @@ ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
   ImageRegistration7Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17S12.png
-        ${TEMP}/ImageRegistration7TestPixelCentered.png 
+        ${TEMP}/ImageRegistration7TestPixelCentered.png
         ${TEMP}/ImageRegistration7BeforeTestPixelCentered.png
         ${TEMP}/ImageRegistration7AfterTestPixelCentered.png
         1.0   1.0  0.0
@@ -410,9 +407,9 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
 )
 
 IF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
-  # This test is computationally demanding. 
+  # This test is computationally demanding.
   # Therefore we only run it in a Release build
-  ADD_TEST(ImageRegistration20Test 
+  ADD_TEST(ImageRegistration20Test
     ${CXX_TEST_PATH}/ImageRegistration20
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
@@ -548,19 +545,19 @@ ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration17TestPixelCentered.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration18Test 
+ADD_TEST(ImageRegistration18Test
   ${CXX_TEST_PATH}/ImageRegistration18
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration18Test.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration19Test 
+ADD_TEST(ImageRegistration19Test
   ${CXX_TEST_PATH}/ImageRegistration19
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
-        ${TEMP}/ImageRegistration19Test.png 
-        ${TEMP}/ImageRegistration19DifferenceTest.png 
+        ${TEMP}/ImageRegistration19Test.png
+        ${TEMP}/ImageRegistration19DifferenceTest.png
         2.0 2.0 # Initial translation parameters
 )
 
@@ -572,8 +569,8 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration1Test.png 100
-        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png  
-        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png  
+        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png
+        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png
 )
 
 ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
@@ -584,8 +581,8 @@ ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration1Test2.png 100
-        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png  
-        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png  
+        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png
+        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png
         0
 )
 
@@ -598,8 +595,8 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration2Test.png  0
-        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest.png  
-        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest.png  
+        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest.png
+        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest.png
 )
 
 
@@ -610,9 +607,9 @@ ADD_TEST(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
   MultiResImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/MultiResImageRegistration2Test2.png 0 
-        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest2.png  
-        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest2.png  
+        ${TEMP}/MultiResImageRegistration2Test2.png 0
+        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest2.png
+        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest2.png
         0
 )
 
@@ -961,11 +958,11 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
 )
 ENDIF( DART_TESTING_TIMEOUT GREATER 3000 )
 
-ADD_TEST(ChangeInformationTest1 
+ADD_TEST(ChangeInformationTest1
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
-        1.05 
+        1.05
         1.0 2.0 0.0
         10.0
 )
@@ -1079,7 +1076,7 @@ SET_TESTS_PROPERTIES(
   DeformableRegistration8Test7
   DeformableRegistration8Test8
   DeformableRegistration8Test9
-  DeformableRegistration8Test10    
+  DeformableRegistration8Test10
   PROPERTIES
   RUN_SERIAL 1
   )
@@ -1115,7 +1112,7 @@ ADD_TEST(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
 # Due to the large memory requirements this tests must be run one by one
   SET_TESTS_PROPERTIES(
     DeformableRegistration8Test11
-    DeformableRegistration8Test12   
+    DeformableRegistration8Test12
     PROPERTIES
     RUN_SERIAL 1
     )

@@ -70,10 +70,10 @@ class ITK_EXPORT KdTreeGenerator : public Object
 {
 public:
   /** Standard class typedefs */
-  typedef KdTreeGenerator          Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef KdTreeGenerator             Self;
+  typedef Object                      Superclass;
+  typedef SmartPointer<Self>          Pointer;
+  typedef SmartPointer<const Self>    ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTreeGenerator, Object);
@@ -115,17 +115,18 @@ public:
 
   /** Returns the pointer to the generated k-d tree. */
   OutputPointer GetOutput()
-    { return m_Tree; }
+    {
+    return m_Tree;
+    }
 
   /** Runs this k-d tree construction algorithm. */
   void Update()
-    { this->GenerateData(); }
+    {
+    this->GenerateData();
+    }
 
   /** Runs this k-d tree construction algorithm. */
   void GenerateData();
-
-  /** The number of measurement vectors in an object of this class. */
-  unsigned int TotalInstance;
 
   /** Get macro to get the length of the measurement vectors that are being
    * held in the 'sample' that is passed to this class */
@@ -142,7 +143,9 @@ protected:
 
   /** Returns the smart pointer to the internal Subsample object. */
   SubsamplePointer GetSubsample()
-    { return m_Subsample; }
+    {
+    return m_Subsample;
+    }
 
   /** Nonterminal node generation routine */
   virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,

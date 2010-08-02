@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,29 +26,23 @@ PURPOSE.  See the above copyright notices for more information.
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
   typedef float MeasurementType ;
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::Histogram< MeasurementType > HistogramType ;
-#else
-  typedef itk::Statistics::Histogram< MeasurementType, 1 > HistogramType ;
-#endif
   HistogramType::Pointer histogram = HistogramType::New() ;
 
   // initialize histogram
   HistogramType::SizeType size;
   HistogramType::MeasurementVectorType lowerBound ;
   HistogramType::MeasurementVectorType upperBound ;
-#ifdef ITK_USE_REVIEW_STATISTICS
   lowerBound.SetSize(1);
   upperBound.SetSize(1);
   histogram->SetMeasurementVectorSize(1);
   size.SetSize(1);
-#endif
   lowerBound[0] = 0.0;
   upperBound[0] = 64.0;
   size.Fill(64);
 
   histogram->Initialize(size, lowerBound, upperBound ) ;
-  
+
   // create vector of values.
   typedef std::vector<MeasurementType> ValuesVectorType;
   ValuesVectorType values;
@@ -94,7 +88,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   otsuThresholdCalculator->Print (std::cout);
 
   OtsuMultipleThresholdCalculatorType::OutputType otsuThresholds = otsuThresholdCalculator->GetOutput();
-  
+
   bool passed = true;
 
   // Check if thresholds correctly separate values.

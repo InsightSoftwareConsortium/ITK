@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,12 +25,12 @@ namespace itk
 {
 
 /** \class HistogramMatchingImageFilter
- * \brief Normalize the grayscale values between two image by histogram 
+ * \brief Normalize the grayscale values between two image by histogram
  * matching.
  *
  * HistogramMatchingImageFilter normalizes the grayscale values of a source
- * image based on the grayscale values of a reference image. 
- * This filter uses a histogram matching technique where the histograms of the 
+ * image based on the grayscale values of a reference image.
+ * This filter uses a histogram matching technique where the histograms of the
  * two images are matched only at a specified number of quantile values.
  *
  * This filter was orginally designed to normalize MR images of the same
@@ -69,7 +69,7 @@ public:
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramMatchingImageFilter, ImageToImageFilter);
@@ -89,17 +89,13 @@ public:
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
   typedef typename Superclass::OutputImageType        OutputImageType;
   typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  
+
   /** Pixel related typedefs. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Histogram related typedefs. */
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef Statistics::Histogram<THistogramMeasurement >   HistogramType;
-#else
-  typedef Statistics::Histogram<THistogramMeasurement, 1> HistogramType;
-#endif
   typedef typename HistogramType::Pointer                 HistogramPointer;
 
   /** Set/Get the source image. */
@@ -213,11 +209,11 @@ private:
 
 };
 
-  
+
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHistogramMatchingImageFilter.txx"
 #endif
-  
+
 #endif

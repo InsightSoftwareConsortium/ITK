@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -60,19 +60,19 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
  *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
-void 
+void
 HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  
+
   os << indent << "NumberOfHistogramLevels: ";
   os << m_NumberOfHistogramLevels << std::endl;
   os << indent << "NumberOfMatchPoints: ";
   os << m_NumberOfMatchPoints << std::endl;
   os << indent << "ThresholdAtMeanIntensity: ";
   os << m_ThresholdAtMeanIntensity << std::endl;
-  
+
   os << indent << "SourceIntensityThreshold: ";
   os << m_SourceIntensityThreshold << std::endl;
   os << indent << "ReferenceIntensityThreshold: ";
@@ -100,11 +100,11 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
  *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
-void 
+void
 HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 ::SetReferenceImage( const InputImageType * reference )
 {
-  this->ProcessObject::SetNthInput(1, 
+  this->ProcessObject::SetNthInput(1,
                                    const_cast< InputImageType * >( reference ) );
 }
 
@@ -143,7 +143,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     {
     if ( this->GetInput(idx) )
       {
-      InputImagePointer image = 
+      InputImagePointer image =
         const_cast< InputImageType * >( this->GetInput(idx) );
       image->SetRequestedRegionToLargestPossibleRegion();
       }
@@ -152,7 +152,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
 
 /**
- * 
+ *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
 void
@@ -164,9 +164,9 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
   InputImageConstPointer  source    = this->GetSourceImage();
   InputImageConstPointer  reference = this->GetReferenceImage();
 
-  this->ComputeMinMaxMean( source, m_SourceMinValue, 
+  this->ComputeMinMaxMean( source, m_SourceMinValue,
                            m_SourceMaxValue, m_SourceMeanValue );
-  this->ComputeMinMaxMean( reference, m_ReferenceMinValue, 
+  this->ComputeMinMaxMean( reference, m_ReferenceMinValue,
                            m_ReferenceMaxValue, m_ReferenceMeanValue );
 
   if ( m_ThresholdAtMeanIntensity )
@@ -180,12 +180,12 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     m_ReferenceIntensityThreshold = static_cast<InputPixelType>(m_ReferenceMinValue);
     }
 
-  this->ConstructHistogram( source, m_SourceHistogram, 
+  this->ConstructHistogram( source, m_SourceHistogram,
                             m_SourceIntensityThreshold, m_SourceMaxValue );
-  this->ConstructHistogram( reference, m_ReferenceHistogram, 
+  this->ConstructHistogram( reference, m_ReferenceHistogram,
                             m_ReferenceIntensityThreshold,
                             m_ReferenceMaxValue );
-   
+
   // Fill in the quantile table.
   m_QuantileTable.set_size( 3, m_NumberOfMatchPoints + 2 );
   m_QuantileTable[0][0] = m_SourceIntensityThreshold;
@@ -193,27 +193,27 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
   m_QuantileTable[0][m_NumberOfMatchPoints + 1] = m_SourceMaxValue;
   m_QuantileTable[1][m_NumberOfMatchPoints + 1] = m_ReferenceMaxValue;
- 
+
   double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
 
   for ( j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
-    m_QuantileTable[0][j] = m_SourceHistogram->Quantile( 
+    m_QuantileTable[0][j] = m_SourceHistogram->Quantile(
       0, double(j) * delta );
     m_QuantileTable[1][j] = m_ReferenceHistogram->Quantile(
       0, double(j) * delta );
-    } 
+    }
 
   // Fill in the gradient array.
   m_Gradients.set_size( m_NumberOfMatchPoints + 1 );
   double denominator;
   for ( j = 0; j < m_NumberOfMatchPoints + 1; j++ )
     {
-    denominator = m_QuantileTable[0][j+1] - 
+    denominator = m_QuantileTable[0][j+1] -
       m_QuantileTable[0][j];
     if ( denominator != 0 )
       {
-      m_Gradients[j] = m_QuantileTable[1][j+1] - 
+      m_Gradients[j] = m_QuantileTable[1][j+1] -
         m_QuantileTable[1][j];
       m_Gradients[j] /= denominator;
       }
@@ -234,11 +234,11 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     m_LowerGradient = 0.0;
     }
 
-  denominator = m_QuantileTable[0][m_NumberOfMatchPoints+1] - 
+  denominator = m_QuantileTable[0][m_NumberOfMatchPoints+1] -
     m_SourceMaxValue;
   if ( denominator != 0 )
-    { 
-    m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints+1] - 
+    {
+    m_UpperGradient = m_QuantileTable[1][m_NumberOfMatchPoints+1] -
       m_ReferenceMaxValue;
     m_UpperGradient /= denominator;
     }
@@ -250,7 +250,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
 
 /**
- * 
+ *
  */
 template <class TInputImage, class TOutputImage, class THistogramMeasurement>
 void
@@ -260,7 +260,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
   OutputImagePointer  output    = this->GetOutput();
 
-  this->ComputeMinMaxMean( output, m_OutputMinValue, 
+  this->ComputeMinMaxMean( output, m_OutputMinValue,
     m_OutputMaxValue, m_OutputMeanValue );
 
   if ( m_ThresholdAtMeanIntensity )
@@ -272,21 +272,21 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     m_OutputIntensityThreshold    = static_cast<OutputPixelType>(m_OutputMinValue);
     }
 
-  this->ConstructHistogram( output, m_OutputHistogram, 
+  this->ConstructHistogram( output, m_OutputHistogram,
                             m_OutputIntensityThreshold, m_OutputMaxValue );
-   
+
   // Fill in the quantile table.
   m_QuantileTable[2][0] = m_OutputIntensityThreshold;
 
   m_QuantileTable[2][m_NumberOfMatchPoints + 1] = m_OutputMaxValue;
- 
+
   double delta = 1.0 / ( double(m_NumberOfMatchPoints) + 1.0 );
 
   for ( unsigned int j = 1; j < m_NumberOfMatchPoints + 1; j++ )
     {
-    m_QuantileTable[2][j] = m_OutputHistogram->Quantile( 
+    m_QuantileTable[2][j] = m_OutputHistogram->Quantile(
       0, double(j) * delta );
-    } 
+    }
 }
 
 
@@ -304,7 +304,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
   unsigned int j;
 
   // Get the input and output pointers;
-  InputImageConstPointer  input  = this->GetInput();  
+  InputImageConstPointer  input  = this->GetInput();
   OutputImagePointer      output = this->GetOutput();
 
 
@@ -390,7 +390,7 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
 
   double sum = 0.0;
   long int count = 0;
- 
+
   minValue = static_cast<THistogramMeasurement>( iter.Get() );
   maxValue = minValue;
 
@@ -429,12 +429,10 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     typename HistogramType::MeasurementVectorType lowerBound;
     typename HistogramType::MeasurementVectorType upperBound;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
     size.SetSize(1);
     lowerBound.SetSize(1);
     upperBound.SetSize(1);
     histogram->SetMeasurementVectorSize(1);
-#endif
 
     size[0] = m_NumberOfHistogramLevels;
     lowerBound.Fill(minValue);
@@ -446,11 +444,8 @@ HistogramMatchingImageFilter<TInputImage,TOutputImage,THistogramMeasurement>
     }
 
   typename HistogramType::MeasurementVectorType measurement;
-
-#ifdef ITK_USE_REVIEW_STATISTICS
   measurement.SetSize(1);
-#endif
-  
+
   typedef typename HistogramType::MeasurementType MeasurementType;
   measurement[0] = NumericTraits<MeasurementType>::Zero;
 

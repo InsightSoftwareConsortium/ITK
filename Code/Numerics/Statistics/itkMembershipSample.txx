@@ -9,41 +9,23 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMembershipSample_txx
 #define __itkMembershipSample_txx
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 template< class TSample >
 MembershipSample< TSample >
 ::MembershipSample()
 {
-  m_Sample = 0;
-  m_CurrentClassLabel = 0;
+  this->m_NumberOfClasses = 0;
 }
-
-template< class TSample >
-void 
-MembershipSample< TSample >
-::SetSample(const TSample* sample)
-{
-  m_Sample = sample; 
-  this->SetMeasurementVectorSize( sample->GetMeasurementVectorSize() );
-}
-
-template< class TSample >
-const TSample*
-MembershipSample< TSample >
-::GetSample() const
-{
-  return m_Sample; 
-} 
 
 template< class TSample >
 void
@@ -51,30 +33,20 @@ MembershipSample< TSample >
 ::SetNumberOfClasses(unsigned int numberOfClasses)
 {
   m_NumberOfClasses = numberOfClasses;
-  m_ClassSampleSizes.resize(m_NumberOfClasses);
   m_ClassSamples.resize(m_NumberOfClasses);
   for ( unsigned int i = 0; i < m_NumberOfClasses; i++ )
     {
     m_ClassSamples[i] = ClassSampleType::New();
     (m_ClassSamples[i])->SetSample(this->GetSample());
-    m_ClassSampleSizes[i] = 0;
     }
 }
 
 template< class TSample >
-unsigned int
+inline void
 MembershipSample< TSample >
-::GetNumberOfClasses() const
+::AddInstance(const ClassLabelType &classLabel, const InstanceIdentifier &id)
 {
-  return m_NumberOfClasses;
-}
-
-template< class TSample >
-inline void 
-MembershipSample< TSample >
-::AddInstance(const unsigned int &classLabel, const InstanceIdentifier &id) 
-{ 
-  m_ClassLabelHolder[id] = classLabel; 
+  m_ClassLabelHolder[id] = classLabel;
   int classIndex = this->GetInternalClassLabel(classLabel);
   if ( classIndex == -1 )
     {
@@ -82,13 +54,11 @@ MembershipSample< TSample >
     classIndex = m_UniqueClassLabels.size() - 1;
     }
 
-  m_ClassSampleSizes[classIndex] += 1;
-
   (m_ClassSamples[classIndex])->AddInstance(id);
 }
 
 template< class TSample >
-inline unsigned int 
+inline unsigned int
 MembershipSample< TSample >
 ::GetClassLabel(const InstanceIdentifier &id) const
 {
@@ -96,9 +66,9 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-inline int 
+inline int
 MembershipSample< TSample >
-::GetInternalClassLabel(const unsigned int classLabel) const
+::GetInternalClassLabel(const ClassLabelType classLabel) const
 {
   for ( unsigned int i = 0; i < m_UniqueClassLabels.size(); i++ )
     {
@@ -112,38 +82,28 @@ MembershipSample< TSample >
 }
 
 template< class TSample >
-unsigned int
+const typename MembershipSample< TSample>::ClassLabelHolderType
 MembershipSample< TSample >
-::GetClassSampleSize(const unsigned int &classLabel) const
+::GetClassLabelHolder() const
 {
-  int classIndex = this->GetInternalClassLabel(classLabel);
-  return m_ClassSampleSizes[classIndex];
+  return m_ClassLabelHolder;
 }
-
 
 template< class TSample >
 const typename MembershipSample< TSample >::ClassSampleType*
 MembershipSample< TSample >
-::GetClassSample(const unsigned int &classLabel) const
+::GetClassSample(const ClassLabelType &classLabel) const
 {
   int classIndex = this->GetInternalClassLabel(classLabel);
-  return m_ClassSamples[classIndex]; 
+  return m_ClassSamples[classIndex];
 }
 
-template< class TSample >
-inline unsigned int
-MembershipSample< TSample >
-::Size(void) const
-{
-  return m_Sample->Size(); 
-}
-  
 template< class TSample >
 inline const typename MembershipSample< TSample >::MeasurementVectorType &
 MembershipSample< TSample >
 ::GetMeasurementVector(const InstanceIdentifier &id) const
 {
-  return m_Sample->GetMeasurementVector(id); 
+  return m_Sample->GetMeasurementVector(id);
 }
 
 template< class TSample >
@@ -151,20 +111,20 @@ inline typename MembershipSample< TSample >::MeasurementType
 MembershipSample< TSample >
 ::GetMeasurement(const InstanceIdentifier &id,
                  const unsigned int &dimension)
-{ 
+{
   return m_Sample->GetMeasurement(id, dimension);
 }
 
 template< class TSample >
-inline typename MembershipSample< TSample >::FrequencyType
+inline typename MembershipSample< TSample >::AbsoluteFrequencyType
 MembershipSample< TSample >
 ::GetFrequency(const InstanceIdentifier &id) const
 {
-  return m_Sample->GetFrequency(id); 
+  return m_Sample->GetFrequency(id);
 }
-  
+
 template< class TSample >
-inline typename MembershipSample< TSample >::TotalFrequencyType
+inline typename MembershipSample< TSample >::TotalAbsoluteFrequencyType
 MembershipSample< TSample >
 ::GetTotalFrequency() const
 {
@@ -174,24 +134,37 @@ MembershipSample< TSample >
 template< class TSample >
 void
 MembershipSample< TSample >
+::Graft( const DataObject *thatObject )
+{
+  this->Superclass::Graft(thatObject);
+
+  // Most of what follows is really a deep copy, rather than grafting of
+  // output. Wish it were managed by pointers to bulk data. Sigh !
+
+  const Self *thatConst = dynamic_cast< const Self * >(thatObject);
+  if (thatConst)
+    {
+    Self *that = const_cast< Self * >(thatConst);
+    this->m_UniqueClassLabels = that->m_UniqueClassLabels;
+    this->m_ClassLabelHolder  = that->m_ClassLabelHolder;
+    this->m_ClassSamples      = that->m_ClassSamples;
+    this->m_Sample            = that->m_Sample;
+    this->m_NumberOfClasses   = that->m_NumberOfClasses;
+    }
+}
+
+template< class TSample >
+void
+MembershipSample< TSample >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-
-  os << indent << "Sample: ";
-  if ( m_Sample != 0 )
-    {
-    os << m_Sample << std::endl;
-    }
-  else
-    {
-    os << "not set." << std::endl;
-    }
-
-  os << indent << "CurrentClassLabel: " << m_CurrentClassLabel << std::endl;
-  os << indent << "ClassLabelHolder: " << &m_ClassLabelHolder << std::endl;
+  os << indent << "Sample: " << m_Sample.GetPointer() << std::endl;
+  os << indent << "NumberOfClasses: " << this->GetNumberOfClasses() << std::endl;
 }
-} // end of namespace Statistics 
+
+
+} // end of namespace Statistics
 } // end of namespace itk
 
 #endif

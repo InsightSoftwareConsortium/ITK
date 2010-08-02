@@ -9,8 +9,8 @@
     Copyright (c) Insight Software Consortium. All rights reserved.
     See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-       This software is distributed WITHOUT ANY WARRANTY; without even 
-       the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+       This software is distributed WITHOUT ANY WARRANTY; without even
+       the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
        PURPOSE.  See the above copyright notices for more information.
 
   =========================================================================*/
@@ -20,9 +20,7 @@
 #include "itkScalarImageKmeansImageFilter.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkDistanceToCentroidMembershipFunction.h"
-#endif
 
 #include "itkProgressReporter.h"
 
@@ -46,7 +44,7 @@ void ScalarImageKmeansImageFilter<TInputImage, TOutputImage>
 }
 
 
-  
+
 template< class TInputImage, class TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
@@ -59,7 +57,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   // safe...
   if( m_ImageRegionDefined )
     {
-    typename RegionOfInterestFilterType::Pointer regionOfInterestFilter 
+    typename RegionOfInterestFilterType::Pointer regionOfInterestFilter
       = RegionOfInterestFilterType::New();
     regionOfInterestFilter->SetRegionOfInterest( m_ImageRegion );
     regionOfInterestFilter->SetInput( this->GetInput() );
@@ -67,7 +65,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     adaptor->SetImage( regionOfInterestFilter->GetOutput() );
     }
   else
-    { 
+    {
     adaptor->SetImage( this->GetInput() );
     }
 
@@ -88,7 +86,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     }
 
   estimator->SetParameters( initialMeans );
-    
+
   estimator->SetKdTree( treeGenerator->GetOutput() );
   estimator->SetMaximumIteration( 200 );
   estimator->SetCentroidPositionChangesThreshold(0.0);
@@ -107,11 +105,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   typename ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( decisionRule.GetPointer() );
-#ifdef ITK_USE_REVIEW_STATISTICS
   classifier->SetInput( adaptor );
-#else
-  classifier->SetSample( adaptor );
-#endif
 
   classifier->SetNumberOfClasses( numberOfClasses  );
 
@@ -119,7 +113,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   ClassLabelVectorType classLabels;
   classLabels.resize( numberOfClasses );
 
-  // Spread the labels over the intensity range 
+  // Spread the labels over the intensity range
   unsigned int labelInterval = 1;
   if( m_UseNonContiguousLabels )
     {
@@ -127,11 +121,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     }
 
   unsigned int label = 0;
-
-
-#ifdef ITK_USE_REVIEW_STATISTICS
   MembershipFunctionVectorType membershipFunctions;
-#endif
 
   for(unsigned int k=0; k<numberOfClasses; k++)
     {
@@ -140,32 +130,22 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
     MembershipFunctionOriginType origin( adaptor->GetMeasurementVectorSize() );
     origin[0] = this->m_FinalMeans[k]; // A scalar image has a MeasurementVector of dimension 1
-#ifdef ITK_USE_REVIEW_STATISTICS
     membershipFunction->SetCentroid( origin );
     const MembershipFunctionType *constMembershipFunction = membershipFunction;
     membershipFunctions.push_back( constMembershipFunction );
-#else
-    membershipFunction->SetOrigin( origin );
-    classifier->AddMembershipFunction( membershipFunction.GetPointer() );
-#endif
     }
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typename ClassifierType::MembershipFunctionVectorObjectPointer membershipFunctionsObject =
     ClassifierType::MembershipFunctionVectorObjectType::New();
-  membershipFunctionsObject->Set(membershipFunctions); 
+  membershipFunctionsObject->Set(membershipFunctions);
   classifier->SetMembershipFunctions(membershipFunctionsObject);
 
   typedef typename ClassifierType::ClassLabelVectorObjectType ClassLabelVectorObjectType;
   typename ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
   classLabelsObject->Set(classLabels);
   classifier->SetClassLabels( classLabelsObject );
-#else
-  classifier->SetMembershipFunctionClassLabels( classLabels );
-#endif
 
   // Execute the actual classification
-
   classifier->Update();
 
   // Now classify the pixels
@@ -184,20 +164,15 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     {
     region = m_ImageRegion;
     }
-        
+
   ImageIterator pixel( outputPtr, region );
   pixel.GoToBegin();
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename ClassifierType::MembershipSampleType ClassifierOutputType;
-#else
-  typedef typename ClassifierType::OutputType  ClassifierOutputType;
-#endif
-      
   const ClassifierOutputType  * membershipSample = classifier->GetOutput();
 
   typedef typename ClassifierOutputType::ConstIterator LabelIterator;
-    
+
   LabelIterator iter = membershipSample->Begin();
   LabelIterator end  = membershipSample->End();
 
@@ -211,8 +186,8 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   if( m_ImageRegionDefined )
     {
     // If a region is defined to constrain classification to, we need to label
-    // pixels outside with numberOfClasses + 1. 
-    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType > 
+    // pixels outside with numberOfClasses + 1.
+    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType >
       ExclusionImageIteratorType;
     ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
     exIt.SetExclusionRegion( region );
@@ -258,7 +233,7 @@ template <class TInputImage, class TOutputImage >
 void
 ScalarImageKmeansImageFilter<TInputImage, TOutputImage >
 ::PrintSelf(
-  std::ostream& os, 
+  std::ostream& os,
   Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

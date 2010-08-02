@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -69,27 +69,19 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
   typedef typename LabelObjectType::HistogramType HistogramType;
 
   typename HistogramType::SizeType histogramSize;
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   histogramSize.SetSize(1);
-#endif
   histogramSize.Fill( m_NumberOfBins );
 
   typename HistogramType::MeasurementVectorType featureImageMin;
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   featureImageMin.SetSize(1);
-#endif
   featureImageMin.Fill( m_Minimum );
 
   typename HistogramType::MeasurementVectorType featureImageMax;
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   featureImageMax.SetSize(1);
-#endif
   featureImageMax.Fill( m_Maximum );
 
   typename HistogramType::Pointer histogram = HistogramType::New();
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   histogram->SetMeasurementVectorSize(1);
-#endif
   histogram->SetClipBinsAtEnds( false );
   histogram->Initialize( histogramSize, featureImageMin, featureImageMax );
 
@@ -122,9 +114,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     unsigned long length = lit->GetLength();
 
     typename HistogramType::MeasurementVectorType mv;
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
     mv.SetSize(1);
-#endif
     long endIdx0 = firstIdx[0] + length;
     for( IndexType idx = firstIdx; idx[0]<endIdx0; idx[0]++)
       {
@@ -155,7 +145,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
       output->TransformIndexToPhysicalPoint(idx, physicalPosition);
       for(unsigned int i=0; i<ImageDimension; i++)
         {
-        centerOfGravity[i] += physicalPosition[i] * v; 
+        centerOfGravity[i] += physicalPosition[i] * v;
         centralMoments[i][i] += v * physicalPosition[i] * physicalPosition[i];
         for(unsigned int j=i+1; j<ImageDimension; j++)
           {
@@ -169,24 +159,18 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
     }
 
   // final computations
-#ifdef ITK_USE_REVIEW_STATISTICS  //http://www.itk.org/Wiki/Proposals:Refactoring_Statistics_Framework_2007_Migration_Users_Guide
   const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
-#else
-  const typename HistogramType::FrequencyType & totalFreq = histogram->GetTotalFrequency();
-#endif
-  double mean = sum / totalFreq;
-  double variance = ( sum2 - ( vcl_pow( sum, 2 ) / totalFreq ) ) / ( totalFreq - 1 );
-  double sigma = vcl_sqrt( variance );
-  double mean2 = mean * mean;
-  double skewness = ( ( sum3 - 3.0 * mean * sum2) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
-  double kurtosis = ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2 * sum2) / totalFreq - 3.0 * mean2 * mean2 ) / ( variance * variance ) - 3.0;
+  const double mean = sum / totalFreq;
+  const double variance = ( sum2 - ( vcl_pow( sum, 2 ) / totalFreq ) ) / ( totalFreq - 1 );
+  const double sigma = vcl_sqrt( variance );
+  const double mean2 = mean * mean;
+  const double skewness = ( ( sum3 - 3.0 * mean * sum2) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
+  const double kurtosis = ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2 * sum2) / totalFreq - 3.0 * mean2 * mean2 ) / ( variance * variance ) - 3.0;
 
   // the median
   double median = 0;
   double count = 0;  // will not be fully set, so do not use later !
-  for( unsigned long i=0;
-    i<histogram->Size();
-    i++)
+  for( unsigned long i=0; i<histogram->Size(); i++)
     {
     count += histogram->GetFrequency( i );
 
@@ -210,7 +194,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
         centralMoments[i][j] /= sum;
         }
       }
-  
+
     // Center the second order moments
     for(unsigned int i=0; i<ImageDimension; i++)
       {
@@ -219,7 +203,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
         centralMoments[i][j] -= centerOfGravity[i] * centerOfGravity[j];
         }
       }
-  
+
     // the normalized second order central moment of a pixel
     for(unsigned int i=0; i<ImageDimension; i++)
       {
@@ -235,23 +219,23 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
       principalMoments[i] = pm(i,i);
       }
     principalAxes = eigen.V.transpose();
-  
+
     // Add a final reflection if needed for a proper rotation,
     // by multiplying the last row by the determinant
     vnl_real_eigensystem eigenrot( principalAxes.GetVnlMatrix() );
     vnl_diag_matrix< vcl_complex<double> > eigenval = eigenrot.D;
     vcl_complex<double> det( 1.0, 0.0 );
-  
+
     for(unsigned int i=0; i<ImageDimension; i++)
       {
       det *= eigenval( i, i );
       }
-  
+
     for(unsigned int i=0; i<ImageDimension; i++)
       {
       principalAxes[ ImageDimension-1 ][i] *= std::real( det );
       }
-  
+
     if( ImageDimension < 2 )
       {
       elongation = 1;
@@ -311,7 +295,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
-  
+
   os << indent << "ComputeHistogram: " << m_ComputeHistogram << std::endl;
   os << indent << "NumberOfBins: " << m_NumberOfBins << std::endl;
 }

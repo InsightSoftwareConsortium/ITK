@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,18 +22,18 @@
 
 namespace itk
 {
-/** \class HistogramImageToImageMetric 
+/** \class HistogramImageToImageMetric
     \brief Computes similarity between two objects to be registered
- 
+
   This class is templated over the type of the fixed and moving
   images to be compared.
- 
+
   The metric computes the similarity measure between pixels in the
   moving image and pixels in the fixed image using a histogram.
- 
+
   \ingroup RegistrationMetrics */
 template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT HistogramImageToImageMetric : 
+class ITK_EXPORT HistogramImageToImageMetric :
 public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
@@ -45,7 +45,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
- 
+
   /** Types transferred from the base class */
   typedef typename Superclass::RealType                   RealType;
   typedef typename Superclass::TransformType              TransformType;
@@ -71,11 +71,7 @@ public:
   /** Typedefs for histogram. This should have been defined as
       Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
       error with such declaration. */
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef Statistics::Histogram<double>                  HistogramType;
-#else
-  typedef Statistics::Histogram<double, 2>               HistogramType;
-#endif
 
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
@@ -106,11 +102,11 @@ public:
   /** Returns the padding value. */
   itkGetConstReferenceMacro( PaddingValue, FixedImagePixelType );
 
-  /** Return the joint histogram. This is updated during every call to the 
-   *  GetValue() method. The histogram can for instance be used by 
+  /** Return the joint histogram. This is updated during every call to the
+   *  GetValue() method. The histogram can for instance be used by
    *  itk::HistogramToImageFilter to plot the joint histogram. */
   itkGetConstReferenceMacro( Histogram, HistogramPointer );
-  
+
   /** Set whether the padding value should be used to determine which pixels
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
@@ -194,7 +190,7 @@ protected:
   /** Evaluates the similarity measure using the given histogram. All
       subclasses must reimplement this method. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
-  
+
   /** PrintSelf funtion */
   void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -216,10 +212,10 @@ private:
   /** The derivative step length scales. */
   ScalesType m_DerivativeStepLengthScales;
 
-  /** Pointer to the joint histogram. This is updated during every call to 
+  /** Pointer to the joint histogram. This is updated during every call to
    * GetValue() */
   HistogramPointer  m_Histogram;
-  
+
 };
 
 } // end namespace itk

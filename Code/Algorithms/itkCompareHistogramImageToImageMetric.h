@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,7 @@ namespace itk
  *   a Training Histogram.
  *
  *  This class is templated over the type of the fixed and moving
- *  images to be compared. 
+ *  images to be compared.
  *
  *  This metric computes the similarity between the histogram produced
  *  by two images overlapping and a training histogram.
@@ -87,11 +87,7 @@ public:
   typedef typename Superclass::HistogramSizeType        HistogramSizeType;
   typedef typename HistogramType::MeasurementVectorType
                                                         HistogramMeasurementVectorType;
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename HistogramType::AbsoluteFrequencyType HistogramAbsoluteFrequencyType;
-#else
-  typedef typename HistogramType::FrequencyType         HistogramAbsoluteFrequencyType;
-#endif
   typedef HistogramAbsoluteFrequencyType                HistogramFrequencyType;
 
   typedef typename HistogramType::Iterator              HistogramIteratorType;
@@ -100,7 +96,7 @@ public:
   typedef typename Superclass::InterpolatorType    InterpolatorType;
   typedef typename Superclass::InterpolatorPointer InterpolatorPointer;
 
-  typedef typename Superclass::FixedImageRegionType 
+  typedef typename Superclass::FixedImageRegionType
                                                          FixedImageRegionType;
 
   /** Set the histogram to be used in the metric calculation */
@@ -140,9 +136,9 @@ public:
   itkGetConstReferenceMacro( TrainingFixedImageRegion, FixedImageRegionType );
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const 
+  unsigned int GetNumberOfParameters(void) const
   { return this->GetTransform()->GetNumberOfParameters(); }
- 
+
   /** Forms the histogram of the training images to prepare to evaluate the
    * metric. Must set all parameters first. */
   void Initialize() throw (ExceptionObject);
@@ -157,7 +153,7 @@ protected:
   /** Form the Histogram for the Training data */
   void FormTrainingHistogram() throw (ExceptionObject);
 
-  /** Evaluates the comparison histogram metric. All sub-classes must 
+  /** Evaluates the comparison histogram metric. All sub-classes must
       re-implement method. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
 

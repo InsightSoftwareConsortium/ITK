@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -124,9 +124,7 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>
     for (unsigned int i = 0; i < this->m_HistogramSize[0]; i++)
       {
       typename HistogramType::IndexType index;
-#ifdef ITK_USE_REVIEW_STATISTICS
       index.SetSize(2);
-#endif
       index[0] = i;
       index[1] = j;
 
@@ -135,7 +133,7 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>
         (histogram.GetMeasurement(j, 1) - meanY);
       }
     }
-    
+
   var /= histogram.GetTotalFrequency();
 
   return var;

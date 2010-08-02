@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,17 +25,10 @@
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkEuclideanDistanceMetric.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkImageToListSampleAdaptor.h"
 #include "itkMinimumDecisionRule2.h"
-#else
-#include "itkMinimumDecisionRule.h"
-#include "itkEuclideanDistance.h"
-#include "itkSampleClassifier.h"
-#include "itkScalarImageToListAdaptor.h"
-#endif
 
 #include "itkImageRegion.h"
 #include "itkRegionOfInterestImageFilter.h"
@@ -52,7 +45,7 @@ namespace itk
  * filter is templated over the type of the input image. The output image is
  * predefined as having the same dimension of the input image and pixel type
  * unsigned char, under the assumption that the classifier will generate less
- * than 256 classes. 
+ * than 256 classes.
  *
  * You may want to look also at the RelabelImageFilter that may be used as a
  * postprocessing stage, in particular if you are interested in ordering the
@@ -62,8 +55,8 @@ namespace itk
  * \sa ImageKmeansModelEstimator
  * \sa KdTreeBasedKmeansEstimator, WeightedCentroidKdTreeGenerator, KdTree
  * \sa RelabelImageFilter
- * 
- * \ingroup ClassificationFilters 
+ *
+ * \ingroup ClassificationFilters
  */
 template <class TInputImage,
           class TOutputImage=Image<unsigned char, ::itk::GetImageDimension<TInputImage>::ImageDimension> >
@@ -90,53 +83,34 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageKmeansImageFilter, ImageToImageFilter);
-  
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Type used for representing the Mean values */
   typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
-  
+
   /** Create a List from the scalar image */
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::ImageToListSampleAdaptor< InputImageType > AdaptorType;
-#else
-  typedef itk::Statistics::ScalarImageToListAdaptor< 
-                                   InputImageType > AdaptorType;
-#endif  
 
   /** Define the Measurement vector type from the AdaptorType */
   typedef typename AdaptorType::MeasurementVectorType  MeasurementVectorType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
   typedef itk::Statistics::SampleClassifierFilter< AdaptorType > ClassifierType;
   typedef itk::Statistics::MinimumDecisionRule2                  DecisionRuleType;
-#else
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > MembershipFunctionType;
-  typedef itk::Statistics::SampleClassifier< AdaptorType > ClassifierType;
-  typedef itk::MinimumDecisionRule                         DecisionRuleType;
-#endif
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename ClassifierType::ClassLabelVectorType ClassLabelVectorType;
-#else
-  typedef std::vector< unsigned int > ClassLabelVectorType;
-#endif
-  
-#ifdef ITK_USE_REVIEW_STATISTICS
+
   typedef typename ClassifierType::MembershipFunctionVectorType MembershipFunctionVectorType;
   typedef typename MembershipFunctionType::CentroidType  MembershipFunctionOriginType;
-#else
-  typedef typename MembershipFunctionType::OriginType  MembershipFunctionOriginType;
-#endif
-  
+
   typedef typename MembershipFunctionType::Pointer     MembershipFunctionPointer;
-  
+
   /** Create the K-d tree structure */
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< 
-                                                      AdaptorType > 
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator<
+                                                      AdaptorType >
                                                                 TreeGeneratorType;
   typedef typename TreeGeneratorType::KdTreeType                TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
@@ -144,8 +118,8 @@ public:
   typedef typename EstimatorType::ParametersType ParametersType;
 
   typedef typename InputImageType::RegionType        ImageRegionType;
-  
-  typedef RegionOfInterestImageFilter< 
+
+  typedef RegionOfInterestImageFilter<
                                  InputImageType,
                                  InputImageType  > RegionOfInterestFilterType;
 
@@ -167,10 +141,10 @@ public:
 
   /** Set Region method to constrain classfication to a certain region */
   void SetImageRegion( const ImageRegionType & region );
-  
+
   /** Get the region over which the statistics will be computed */
   itkGetConstReferenceMacro( ImageRegion, ImageRegionType );
-  
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck,
@@ -186,7 +160,7 @@ protected:
   /** This method runs the statistical methods that identify the means of the
    * classes and the use the distances to those means in order to label the
    * image pixels.
-   * \sa ImageToImageFilter::GenerateData() 
+   * \sa ImageToImageFilter::GenerateData()
    */
   void GenerateData();
 
@@ -206,7 +180,7 @@ private:
 
   bool m_ImageRegionDefined;
 };
-  
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

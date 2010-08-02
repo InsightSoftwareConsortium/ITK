@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -215,9 +215,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 
   unsigned int nBins = 64;
   MetricType::HistogramType::SizeType histSize;
-#ifdef ITK_USE_REVIEW_STATISTICS
   histSize.SetSize(2);
-#endif
   histSize[0] = nBins;
   histSize[1] = nBins;
   metric->SetHistogramSize(histSize);
@@ -289,7 +287,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
   collector.Start("Loop");
 
   std::cout << "param[4]\tKullbackLeibler\tdKullbackLeibler/dparam[4]" << std::endl;
-  
+
   for( double trans = -10; trans <= 4; trans += 0.5 )
     {
     parameters[4] = trans;
@@ -310,7 +308,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //-------------------------------------------------------
   std::cout << "Name of class: " <<
     metric->GetNameOfClass() << std::endl;
-//  std::cout << "No. of samples used = " << 
+//  std::cout << "No. of samples used = " <<
 //    metric->GetNumberOfSpatialSamples() << std::endl;
 //  std::cout << "Fixed image std dev = " <<
 //    metric->GetFixedImageStandardDeviation() << std::endl;

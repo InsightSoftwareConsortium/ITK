@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,7 @@ namespace itk
  * images to be compared.
  *
  * This metric computes the similarity measure between pixels in the
- * moving image and pixels in the fixed images using a histogram. 
+ * moving image and pixels in the fixed images using a histogram.
  *
  *    \ingroup RegistrationMetrics */
 template <class TFixedImage, class TMovingImage>
@@ -66,11 +66,7 @@ public:
   typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
 
   typedef typename Superclass::HistogramType            HistogramType;
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename HistogramType::AbsoluteFrequencyType         HistogramFrequencyType;
-#else
-  typedef typename HistogramType::FrequencyType         HistogramFrequencyType;
-#endif
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
 
@@ -79,7 +75,7 @@ protected:
       create instances. */
   MeanSquaresHistogramImageToImageMetric(){}
   virtual ~MeanSquaresHistogramImageToImageMetric(){}
-  
+
   /** Evaluates the sum of squared differences from the histogram. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const;
 

@@ -79,7 +79,7 @@ WeightedCentroidKdTreeGenerator< TSample >
     }
 
   // find most widely spread dimension
-  FindSampleBoundAndMean< SubsampleType >(this->GetSubsample(),
+  Algorithm::FindSampleBoundAndMean< SubsampleType >(this->GetSubsample(),
                                           beginIndex, endIndex,
                                           m_TempLowerBound, m_TempUpperBound,
                                           m_TempMean);
@@ -103,11 +103,11 @@ WeightedCentroidKdTreeGenerator< TSample >
   // based on the STL implementation of the QuickSelect algorithm.
   //
   partitionValue =
-    NthElement< SubsampleType >(this->GetSubsample(),
+    Algorithm::NthElement< SubsampleType >(this->GetSubsample(),
                                  partitionDimension,
-                                 beginIndex, endIndex, 
+                                 beginIndex, endIndex,
                                  medianIndex);
-             
+
   medianIndex += beginIndex;
 
   // save bounds for cutting dimension
@@ -130,7 +130,7 @@ WeightedCentroidKdTreeGenerator< TSample >
   typedef KdTreeWeightedCentroidNonterminalNode< TSample >  KdTreeNonterminalNodeType;
 
   KdTreeNonterminalNodeType * nonTerminalNode =
-    new KdTreeNonterminalNodeType( partitionDimension, 
+    new KdTreeNonterminalNodeType( partitionDimension,
                                    partitionValue,
                                    left, right,
                                    weightedCentroid,

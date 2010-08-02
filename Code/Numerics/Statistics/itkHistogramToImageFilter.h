@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,16 +30,16 @@ namespace itk
 
 /** \class HistogramToImageFilter
  *  \brief This class takes a histogram as an input and returns an image of
- *  type specified by the functor. 
+ *  type specified by the functor.
  *
  *  The dimension of the image is equal to the size of each measurement
- *  vector of the histogram. The size in the image along each dimension will be 
+ *  vector of the histogram. The size in the image along each dimension will be
  *  equal to the number of bins along each dimension of the histogram.
  *
  *  The filter may be used in registration methods to plot the joint histogram
  *  after every iteration. A functor is used since it is customary to plot
- *  p log p    where p is the probability of each measurement vector 
- *  p is given by Number of occurances of the measurement vector / total number 
+ *  p log p    where p is the probability of each measurement vector
+ *  p is given by Number of occurances of the measurement vector / total number
  *  of occurances of all measurement vectors.
  *
  *  \sa HistogramToProbabilityImageFilter, HistogramToLogProbabilityImageFilter,
@@ -47,39 +47,32 @@ namespace itk
  *
  */
 
-template <class THistogram, class TFunction>
+template <class THistogram, unsigned int NDimension, class TFunction >
 class ITK_EXPORT HistogramToImageFilter :
-  public ImageSource<Image< typename TFunction::OutputPixelType , 
-  ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
+  public ImageSource<Image< typename TFunction::OutputPixelType, NDimension > >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef TFunction                             FunctorType;
-  typedef typename FunctorType::OutputPixelType OutputPixelType;
-  typedef HistogramToImageFilter                Self;
-  typedef ImageSource< Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
-    Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
-  
-  typedef Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension >
-    OutputImageType; 
-  typedef typename Superclass::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::SpacingType SpacingType;
-  typedef typename OutputImageType::PointType   PointType;
+  typedef TFunction                                             FunctorType;
+  typedef typename FunctorType::OutputPixelType                 OutputPixelType;
+  typedef HistogramToImageFilter                                Self;
+  typedef ImageSource< Image<OutputPixelType, NDimension > >    Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
-  
+  typedef Image<OutputPixelType, NDimension >       OutputImageType;
+  typedef typename Superclass::Pointer              OutputImagePointer;
+  typedef typename OutputImageType::SpacingType     SpacingType;
+  typedef typename OutputImageType::PointType       PointType;
+
+
   // Define an iterator to iterate through the image
-  typedef itk::ImageRegionIteratorWithIndex< Image<OutputPixelType, 
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension> >
-                                                             ImageIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > ImageIteratorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramToImageFilter,ImageSource);
 
@@ -90,42 +83,41 @@ public:
   typedef THistogram                                     HistogramType;
   typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
   typedef typename HistogramType::SizeType               HistogramSizeType;
-  typedef typename HistogramType::SizeType               SizeType;
+  typedef typename OutputImageType::SizeType             SizeType;
 
   /** Since histograms are not dataobjects, we use the decorator to push
-   *  them down the pipeline */ 
+   *  them down the pipeline */
   typedef SimpleDataObjectDecorator< HistogramType* > InputHistogramObjectType;
-  
+
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-    ::itk::Statistics::GetHistogramDimension<THistogram>::HistogramDimension );
-  
+  itkStaticConstMacro(ImageDimension, unsigned int, NDimension );
+
   /** Set/Get the input of this process object.  */
   virtual void SetInput( const HistogramType *histogram);
   virtual void SetInput( const InputHistogramObjectType *inputObject);
   const InputHistogramObjectType* GetInput(void);
 
-                      
-  /** Set the spacing (size of a pixel) of the image. 
+
+  /** Set the spacing (size of a pixel) of the image.
    *  \sa GetSpacing() */
   itkSetMacro(Spacing,SpacingType);
   virtual void SetSpacing(const double* values);
 
 
-  /** Get the spacing (size of a pixel) of the image. 
+  /** Get the spacing (size of a pixel) of the image.
    * For ImageBase and Image, the default data spacing is unity. */
   itkGetConstReferenceMacro(Spacing,SpacingType);
 
-  /** Set the origin of the image. 
+  /** Set the origin of the image.
    * \sa GetOrigin() */
   itkSetMacro(Origin,PointType);
   virtual void SetOrigin(const double* values);
- 
+
  /** Get the origin of the image.  */
   itkGetConstReferenceMacro(Origin,PointType);
 
   /** Get the size of the histogram. */
-  itkGetMacro(Size,HistogramSizeType);
+  itkGetMacro(Size,SizeType);
 
 
   /** Set the functor object.  This replaces the current Functor with a
@@ -145,25 +137,25 @@ public:
    * SmartPointer.) */
   FunctorType& GetFunctor() { return m_Functor; }
   const FunctorType& GetFunctor() const { return m_Functor; }
-  
-  void SetTotalFrequency( unsigned long n );
-  
 
-  
+  void SetTotalFrequency( unsigned long n );
+
+
+
 protected:
   HistogramToImageFilter();
   ~HistogramToImageFilter();
 
   virtual void GenerateOutputInformation();
   virtual void GenerateData();
-  
+
   FunctorType m_Functor;
-  
+
   SizeType        m_Size;
   SpacingType     m_Spacing;
   PointType       m_Origin;
 
-  
+
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
 private:

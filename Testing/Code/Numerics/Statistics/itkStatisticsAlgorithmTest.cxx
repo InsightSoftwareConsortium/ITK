@@ -1,199 +1,160 @@
 /*=========================================================================
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkStatisticsAlgorithmTest.cxx
-  Language:  C++
-  Date:      $Date$
-  Version:   $Revision$
+Program:   Insight Segmentation & Registration Toolkit
+Module:    itkStatisticsAlgorithmTest.cxx
+Language:  C++
+Date:      $Date$
+Version:   $Revision$
 
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+Copyright (c) Insight Software Consortium. All rights reserved.
+See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-     PURPOSE.  See the above copyright notices for more information.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageToListAdaptor.h"
-#include "itkSubsample.h"
+
+#include "itkArray.h"
+#include "itkVariableLengthVector.h"
+#include "itkListSample.h"
 #include "itkStatisticsAlgorithm.h"
 
-#include <vector>
-#include <algorithm>
-
-typedef itk::FixedArray< int, 3 > PixelType;
-typedef itk::Image< PixelType, 3 > ImageType;
-typedef itk::Statistics::ImageToListAdaptor< ImageType > SampleType;
-typedef itk::Statistics::Subsample< SampleType > SubsampleType;
-const unsigned int testDimension = 1;
-
-void resetData(::itk::Image<PixelType, 3>::Pointer image,  std::vector<int> &refVector)
+int itkStatisticsAlgorithmTest( int, char * [] )
 {
-  ImageType::IndexType index;
-  ImageType::SizeType size;
-  size = image->GetLargestPossibleRegion().GetSize();
+  std::cout << "StatisticsAlgorithm Test \n \n";
 
-  unsigned long x;
-  unsigned long y;
-  unsigned long z;
-  PixelType temp;
+  const unsigned int measurementVectorSize = 2;
 
-  // fill the image with random values
-  for( z = 0; z < size[2]; z++ )
+  typedef itk::Array< float > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+
+  SampleType::Pointer sample = SampleType::New();
+
+  SampleType::MeasurementVectorType lower( measurementVectorSize );
+  SampleType::MeasurementVectorType upper( measurementVectorSize );
+
+  const SampleType * constSample = sample.GetPointer();
+
+  // Testing the exception throwing for samples of measurement size = 0
+  sample->SetMeasurementVectorSize( 0 );
+
+  try
     {
-    index[2] = z;
-    temp[2] = rand();
-    for( y = 0; y < size[1]; y++ )
+    itk::Statistics::Algorithm::FindSampleBound(
+      constSample,
+      constSample->Begin(), constSample->End(),
+      lower, upper
+      );
+    std::cerr << "Failure to throw expected exception when " << std::endl;
+    std::cerr << " MeasurementVectorType() has been set to zero" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & )
+    {
+    std::cout << "Got Expected exception" << std::endl;
+    }
+
+  // Now set the correct measurement vector size
+  sample->SetMeasurementVectorSize( measurementVectorSize );
+
+  // Testing the equivalent of an empty sample by passing
+  // the Begin() iterator inlieu of the End() iterator.
+  //
+
+  try
+    {
+    itk::Statistics::Algorithm::FindSampleBound(
+      constSample,
+      constSample->Begin(), constSample->Begin(),
+      lower, upper
+      );
+    std::cerr << "Failure to throw expected exception when " << std::endl;
+    std::cerr << " attempting to compute bound of an empty sample list" << std::endl;
+    return EXIT_FAILURE;
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << excp << std::endl;
+    }
+
+
+  MeasurementVectorType measure( measurementVectorSize );
+
+  MeasurementVectorType realUpper( measurementVectorSize );
+  MeasurementVectorType realLower( measurementVectorSize );
+
+  const unsigned int numberOfSamples = 25;
+
+  realLower.Fill( 1000 );
+  realUpper.Fill(    0 );
+
+  // Force the first value not to be the min or max.
+  measure[0] = 13;
+  measure[1] = 39;
+
+  sample->PushBack( measure );
+
+  for( unsigned int i = 1; i < numberOfSamples; i++ )
+    {
+    float value = i + 3;
+    measure[0] = value;
+    measure[1] = value * value;
+    sample->PushBack( measure );
+
+    for(unsigned int j = 0; j < measurementVectorSize; j++ )
       {
-      index[1] = y;
-      temp[1] = rand();
-      for( x = 0; x < size[0]; x++ )
+      if( measure[j] < realLower[j] )
         {
-        index[0] = x;
-        temp[0] = rand();
-        image->SetPixel(index, temp);
+        realLower[j] = measure[j];
+        }
+      if( measure[j] > realUpper[j] )
+        {
+        realUpper[j] = measure[j];
         }
       }
     }
 
-  // fill the vector
-  itk::ImageRegionIteratorWithIndex< ImageType >
-    i_iter(image, image->GetLargestPossibleRegion());
-  i_iter.GoToBegin();
-  std::vector< int >::iterator viter;
 
-  refVector.resize(size[0] * size[1] * size[2]);
-  viter = refVector.begin();
-  while( viter != refVector.end() )
+  // Now testing the real algorithm
+  try
     {
-    *viter = i_iter.Get()[testDimension];
-    ++viter;
-    ++i_iter;
+    itk::Statistics::Algorithm::FindSampleBound(
+      constSample,
+      constSample->Begin(), constSample->End(),
+      lower, upper
+      );
     }
-
-  // sort result using stl vector for reference
-  std::sort( refVector.begin(), refVector.end() );
-}
-
-bool isSortedOrderCorrect(std::vector<int> &ref,
-                          ::itk::Statistics::Subsample<SampleType>::Pointer subsample)
-{
-  bool ret = true;
-  std::vector<int>::iterator viter = ref.begin();
-  SubsampleType::Iterator siter = subsample->Begin();
-  while( siter != subsample->End() )
+  catch( itk::ExceptionObject & excp )
     {
-    if( *viter != siter.GetMeasurementVector()[testDimension] )
-      {
-      ret = false;
-      }
-    ++siter;
-    ++viter;
-    }
-
-  return ret;
-}
-
-
-int itkStatisticsAlgorithmTest(int, char* [] )
-{
-  std::cout << "Statistics Algorithm Test \n \n";
-  bool pass = true;
-  std::string whereFail = "";
-
-  // creats an image and allocate memory
-  ImageType::Pointer image = ImageType::New();
-
-  ImageType::SizeType size;
-  size.Fill(5);
-
-  ImageType::IndexType index;
-  index.Fill(0);
-
-  ImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
-
-  image->SetLargestPossibleRegion(region);
-  image->SetBufferedRegion(region) ;
-  image->Allocate();
-
-  // creates an ImageToListAdaptor object
-  SampleType::Pointer sample = SampleType::New();
-  sample->SetImage(image);
-
-  // creates a Subsample obeject using the ImageToListAdaptor object
-  SubsampleType::Pointer subsample = SubsampleType::New();
-  subsample->SetSample(sample);
-
-  PixelType temp;
-
-  // each algorithm test will be compared with the sorted
-  // refVector
-  std::vector< int > refVector;
-
-  // creats a subsample with all instances in the image
-  subsample->InitializeWithAllInstances();
-
-  // InsertSort algorithm test
-
-  // fill the image with random values and fill and sort the
-  // refVector
-  resetData(image, refVector);
-
-  itk::Statistics::InsertSort< SubsampleType >(subsample, testDimension,
-                                    0, subsample->Size());
-  if( !isSortedOrderCorrect(refVector, subsample) )
-    {
-    pass = false;
-    whereFail = "InsertSort";
-    }
-
-  // HeapSort algorithm test
-  resetData(image, refVector);
-  itk::Statistics::HeapSort< SubsampleType >(subsample, testDimension,
-                                  0, subsample->Size());
-  if( !isSortedOrderCorrect(refVector, subsample) )
-    {
-    pass = false;
-    whereFail = "HeapSort";
-    }
-
-  // IntospectiveSort algortihm test
-  resetData(image, refVector);
-  itk::Statistics::IntrospectiveSort< SubsampleType >
-    (subsample, testDimension, 0, subsample->Size(), 16);
-  if( !isSortedOrderCorrect(refVector, subsample) )
-    {
-    pass = false;
-    whereFail = "IntrospectiveSort";
-    }
-
-  // QuickSelect algorithm test
-  resetData(image, refVector);
-  SubsampleType::MeasurementType median =
-    itk::Statistics::QuickSelect< SubsampleType >(subsample, testDimension,
-                                                  0, subsample->Size(),
-                                                  subsample->Size()/2);
-  if( refVector[subsample->Size()/2] != median )
-    {
-    pass = false;
-    whereFail = "QuickSelect";
-    }
-
-  if( !pass )
-    {
-    std::cerr << "Test failed in " << whereFail << "." << std::endl;
+    std::cout << excp << std::endl;
     return EXIT_FAILURE;
     }
 
 
+  const float epsilon = 1e-5;
+
+  for(unsigned int j = 0; j < measurementVectorSize; j++ )
+    {
+    if( vnl_math_abs( lower[j] - realLower[j] ) > epsilon )
+      {
+      std::cerr << "FindSampleBound() failed" << std::endl;
+      std::cerr << "Expected lower = " << realLower << std::endl;
+      std::cerr << "Computed lower = " << lower << std::endl;
+      return EXIT_FAILURE;
+      }
+    if( vnl_math_abs( upper[j] - realUpper[j] ) > epsilon )
+      {
+      std::cerr << "FindSampleBound() failed" << std::endl;
+      std::cerr << "Expected upper = " << realUpper << std::endl;
+      std::cerr << "Computed upper = " << upper << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
-

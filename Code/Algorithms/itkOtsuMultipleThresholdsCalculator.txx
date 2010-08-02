@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,7 +30,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
   m_Output.resize(m_NumberOfThresholds);
   std::fill(m_Output.begin(),m_Output.end(),NumericTraits<MeasurementType>::Zero);
 }
-                                                    
+
 template<class TInputHistogram>
 const typename OtsuMultipleThresholdsCalculator<TInputHistogram>::OutputType&
 OtsuMultipleThresholdsCalculator< TInputHistogram >
@@ -43,7 +43,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
  * Increment the thresholds of one position along the histogram
  */
 template<class TInputHistogram>
-bool 
+bool
 OtsuMultipleThresholdsCalculator<TInputHistogram>
 ::IncrementThresholds(InstanceIdentifierVectorType& thresholdIndexes, MeanType globalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency)
 {
@@ -69,9 +69,9 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
 
       meanOld = classMean[j];
       freqOld = classFrequency[j];
-      
+
       classFrequency[j] += histogram->GetFrequency(thresholdIndexes[j]);
-      
+
       if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
         {
         classMean[j] = (meanOld * static_cast<MeanType>(freqOld)
@@ -83,7 +83,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
         {
         classMean[j] = NumericTraits<MeanType>::Zero;
         }
-      
+
       // set higher thresholds adjacent to their previous ones, and update mean and frequency of the respective classes
       for (k=j+1; k<m_NumberOfThresholds; k++)
         {
@@ -98,7 +98,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
           classMean[k] = NumericTraits<MeanType>::Zero;
           }
         }
-      
+
       // update mean and frequency of the highest class
       classFrequency[numberOfClasses-1] = histogram->GetTotalFrequency();
       classMean[numberOfClasses-1] = globalMean * histogram->GetTotalFrequency();
@@ -147,11 +147,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
 
   // TODO: as an improvement, the class could accept multi-dimensional histograms
   // and the user could specify the dimension to apply the algorithm to.
-#ifdef ITK_USE_REVIEW_STATISTICS
   if (histogram->GetSize().Size() != 1)
-#else
-  if (histogram->GetSize().GetSizeDimension() != 1)
-#endif
     {
     itkExceptionMacro(<<"Histogram must be 1-dimensional.");
     }
@@ -191,7 +187,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
     freqSum += classFrequency[j];
     }
   classFrequency[numberOfClasses-1] = globalFrequency - freqSum;
-  
+
   MeanType meanSum = NumericTraits<MeanType>::Zero;
   MeanVectorType classMean(numberOfClasses);
   for (j=0; j < numberOfClasses-1; j++)
@@ -215,7 +211,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>
     {
     classMean[numberOfClasses-1] = NumericTraits<MeanType>::Zero;
     }
-  
+
   VarianceType maxVarBetween = NumericTraits<VarianceType>::Zero;
   for (j=0; j<numberOfClasses; j++)
     {

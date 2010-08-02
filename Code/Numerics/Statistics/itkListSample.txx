@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,7 @@
 
 #include "itkListSample.h"
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 template< class TMeasurementVector >
@@ -28,62 +28,124 @@ ListSample< TMeasurementVector >
 {
 }
 
+template< class TMeasurementVector >
+void
+ListSample< TMeasurementVector >
+::Resize( InstanceIdentifier newsize )
+{
+  this->m_InternalContainer.resize( newsize );
+}
+
+
+template< class TMeasurementVector >
+void
+ListSample< TMeasurementVector >
+::Clear()
+{
+  this->m_InternalContainer.clear();
+}
+
+template< class TMeasurementVector >
+void
+ListSample< TMeasurementVector >
+::PushBack( const MeasurementVectorType & mv )
+{
+  if( this->GetMeasurementVectorSize() != MeasurementVectorTraits::GetLength( mv ) )
+    {
+    itkExceptionMacro("MeasurementVector instance doesn't match MeasurementVectorSize");
+    }
+  this->m_InternalContainer.push_back( mv );
+}
+
+template< class TMeasurementVector >
+typename ListSample< TMeasurementVector >::InstanceIdentifier
+ListSample< TMeasurementVector >
+::Size() const
+{
+  return static_cast<InstanceIdentifier>(
+    this->m_InternalContainer.size() );
+}
+
+template< class TMeasurementVector >
+typename ListSample< TMeasurementVector >::TotalAbsoluteFrequencyType
+ListSample< TMeasurementVector >
+::GetTotalFrequency() const
+{
+  // Since the entries are unique, the total
+  // frequency is equal to the numbe of entries.
+  return this->Size();
+}
+
 
 template< class TMeasurementVector >
 const typename ListSample< TMeasurementVector >::MeasurementVectorType &
 ListSample< TMeasurementVector >
-::GetMeasurementVector(const InstanceIdentifier &identifier) const 
+::GetMeasurementVector(InstanceIdentifier instanceId) const
 {
-  if ( identifier < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    return m_InternalContainer[identifier];
+    return m_InternalContainer[instanceId];
     }
-  itkExceptionMacro("Identifier " << identifier 
-    << " is out of range 0:" << m_InternalContainer.size() ); 
+  itkExceptionMacro("MeasurementVector " << instanceId << " does not exist");
 }
 
 template< class TMeasurementVector >
-void 
+void
 ListSample< TMeasurementVector >
-::SetMeasurement(const InstanceIdentifier &identifier, 
-                 const unsigned int &dim,
-                 const MeasurementType &value)
+::SetMeasurement( InstanceIdentifier instanceId,
+                  unsigned int dim,
+                  const MeasurementType &value)
 {
-  if ( identifier < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    m_InternalContainer[identifier][dim] = value;
+    m_InternalContainer[instanceId][dim] = value;
     }
 }
 
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::SetMeasurementVector(const InstanceIdentifier &identifier, 
-                       const MeasurementVectorType &mv)
+::SetMeasurementVector( InstanceIdentifier instanceId,
+                        const MeasurementVectorType &mv)
 {
-  if ( identifier < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    m_InternalContainer[identifier] = mv;
+    m_InternalContainer[instanceId] = mv;
     }
 }
 
 template< class TMeasurementVector >
-typename ListSample< TMeasurementVector >::FrequencyType 
+typename ListSample< TMeasurementVector >::AbsoluteFrequencyType
 ListSample< TMeasurementVector >
-::GetFrequency(const InstanceIdentifier &identifier) const
+::GetFrequency( InstanceIdentifier instanceId ) const
 {
-  if ( identifier < m_InternalContainer.size() )
+  if ( instanceId < m_InternalContainer.size() )
     {
-    return 1.0;
+    return 1;
     }
   else
     {
-    return 0.0;
+    return 0;
     }
 }
 
 template< class TMeasurementVector >
-void 
+void
+ListSample< TMeasurementVector >
+::Graft( const DataObject *thatObject )
+{
+  this->Superclass::Graft(thatObject);
+
+  const Self *thatConst = dynamic_cast< const Self * >(thatObject);
+  if (thatConst)
+    {
+    Self *that = const_cast< Self * >(thatConst);
+    this->m_InternalContainer = that->m_InternalContainer;
+    }
+}
+
+template< class TMeasurementVector >
+void
 ListSample< TMeasurementVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
@@ -91,10 +153,10 @@ ListSample< TMeasurementVector >
 
   os << indent << "Internal Data Container: "
      << &m_InternalContainer << std::endl;
-  os << indent << "Number of samples: " 
+  os << indent << "Number of samples: "
      << this->m_InternalContainer.size() << std::endl;
 }
 } // end of namespace Statistics
-} // end of namespace itk 
+} // end of namespace itk
 
 #endif

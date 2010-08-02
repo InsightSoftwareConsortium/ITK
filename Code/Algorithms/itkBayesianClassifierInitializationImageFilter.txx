@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,11 +23,7 @@
 #include "itkBayesianClassifierInitializationImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkGaussianMembershipFunction.h"
-#else
-#include "itkGaussianDensityFunction.h"
-#endif
 
 namespace itk
 {
@@ -48,14 +44,14 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 // GenerateOutputInformation method. Here we force update on the entire input
 // image. It does not make sense having K-Means etc otherwise
 template <class TInputImage, class TProbabilityPrecisionType>
-void 
-BayesianClassifierInitializationImageFilter<TInputImage, 
+void
+BayesianClassifierInitializationImageFilter<TInputImage,
                                             TProbabilityPrecisionType>
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
-  
+
   // get pointers to the input and output
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
   if ( !outputPtr )
@@ -69,7 +65,7 @@ BayesianClassifierInitializationImageFilter<TInputImage,
 
   if( m_NumberOfClasses == 0 )
     {
-    itkExceptionMacro( 
+    itkExceptionMacro(
        << "Number of classes unspecified");
     }
   outputPtr->SetVectorLength( m_NumberOfClasses );
@@ -77,31 +73,27 @@ BayesianClassifierInitializationImageFilter<TInputImage,
 
 
 template <class TInputImage, class TProbabilityPrecisionType>
-void 
-BayesianClassifierInitializationImageFilter<TInputImage, 
+void
+BayesianClassifierInitializationImageFilter<TInputImage,
                                             TProbabilityPrecisionType>
 ::InitializeMembershipFunctions()
 {
   // Typedefs for the KMeans filter, Covariance calculator...
   typedef ScalarImageKmeansImageFilter< InputImageType > KMeansFilterType;
   typedef typename KMeansFilterType::OutputImageType     KMeansOutputImageType;
-  typedef ImageRegionConstIterator< 
+  typedef ImageRegionConstIterator<
                   KMeansOutputImageType >                ConstKMeansIteratorType;
   typedef Array< double >                                CovarianceArrayType;
   typedef Array< double >                                ClassCountArrayType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
-  typedef Statistics::GaussianMembershipFunction< 
-#else
-  typedef Statistics::GaussianDensityFunction< 
-#endif
+  typedef Statistics::GaussianMembershipFunction<
           MeasurementVectorType >                        GaussianMembershipFunctionType;
-  typedef VectorContainer< unsigned short, ITK_TYPENAME 
+  typedef VectorContainer< unsigned short, ITK_TYPENAME
     GaussianMembershipFunctionType::MeanType* >          MeanEstimatorsContainerType;
-  typedef VectorContainer< unsigned short, ITK_TYPENAME 
+  typedef VectorContainer< unsigned short, ITK_TYPENAME
     GaussianMembershipFunctionType::CovarianceType* >    CovarianceEstimatorsContainerType;
 
-  
+
   // Run k means to get the means from the input image
   typename KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput( this->GetInput() );
@@ -109,7 +101,7 @@ BayesianClassifierInitializationImageFilter<TInputImage,
 
   for( unsigned k=0; k < m_NumberOfClasses; k++ )
     {
-    const double userProvidedInitialMean = k;  
+    const double userProvidedInitialMean = k;
     //TODO: Choose more reasonable defaults for specifying the initial means
     //to the KMeans filter. We could also add this as an option of the filter.
     kmeansFilter->AddClassWithInitialMean( userProvidedInitialMean );
@@ -125,12 +117,12 @@ BayesianClassifierInitializationImageFilter<TInputImage,
     throw err;
     }
 
-  typename KMeansFilterType::ParametersType 
+  typename KMeansFilterType::ParametersType
           estimatedMeans = kmeansFilter->GetFinalMeans(); // mean of each class
 
   // find class covariances from the kmeans output to initialize the gaussian
   // density functions.
-  ConstKMeansIteratorType itrKMeansImage( kmeansFilter->GetOutput(), 
+  ConstKMeansIteratorType itrKMeansImage( kmeansFilter->GetOutput(),
                       kmeansFilter->GetOutput()->GetBufferedRegion() );
   CovarianceArrayType sumsOfSquares( m_NumberOfClasses );        // sum of the square intensities for each class
   CovarianceArrayType sums( m_NumberOfClasses );                 // sum of the intensities for each class
@@ -152,10 +144,10 @@ BayesianClassifierInitializationImageFilter<TInputImage,
   // find sumsOfSquares, sums, and classCount by indexing using the kmeans output labelmap
   while( !itrInputImage.IsAtEnd() )
     {
-    sumsOfSquares[(unsigned int)itrKMeansImage.Get()] 
+    sumsOfSquares[(unsigned int)itrKMeansImage.Get()]
       = sumsOfSquares[(unsigned int)itrKMeansImage.Get()] +
         itrInputImage.Get() * itrInputImage.Get();
-    sums[(unsigned int)itrKMeansImage.Get()] 
+    sums[(unsigned int)itrKMeansImage.Get()]
       = sums[(unsigned int)itrKMeansImage.Get()] + itrInputImage.Get();
     ++classCount[(unsigned int)itrKMeansImage.Get()];
     ++itrInputImage;
@@ -190,14 +182,14 @@ BayesianClassifierInitializationImageFilter<TInputImage,
   m_MembershipFunctionContainer->Initialize(); // Clear elements
   for ( unsigned int i = 0; i < m_NumberOfClasses; ++i )
     {
-    meanEstimatorsContainer->InsertElement( i, 
+    meanEstimatorsContainer->InsertElement( i,
          new typename GaussianMembershipFunctionType::MeanType(1) );
     covarianceEstimatorsContainer->
       InsertElement( i, new typename GaussianMembershipFunctionType::CovarianceType() );
-    typename GaussianMembershipFunctionType::MeanType*       meanEstimators = 
+    typename GaussianMembershipFunctionType::MeanType*       meanEstimators =
              const_cast< ITK_TYPENAME GaussianMembershipFunctionType::MeanType * >
                            (meanEstimatorsContainer->GetElement(i));
-    typename GaussianMembershipFunctionType::CovarianceType* covarianceEstimators = 
+    typename GaussianMembershipFunctionType::CovarianceType* covarianceEstimators =
               const_cast< ITK_TYPENAME GaussianMembershipFunctionType::CovarianceType * >
               (covarianceEstimatorsContainer->GetElement(i));
     meanEstimators->SetSize(1);
@@ -207,23 +199,17 @@ BayesianClassifierInitializationImageFilter<TInputImage,
     covarianceEstimators->Fill( estimatedCovariances[i] );
     typename GaussianMembershipFunctionType::Pointer gaussianDensityFunction
                                        = GaussianMembershipFunctionType::New();
-#ifdef ITK_USE_REVIEW_STATISTICS
     gaussianDensityFunction->SetMean( *(meanEstimatorsContainer->GetElement( i )) );
     gaussianDensityFunction->SetCovariance( *(covarianceEstimatorsContainer->GetElement( i )) );
-#else
-    gaussianDensityFunction->SetMean( meanEstimatorsContainer->GetElement( i ) );
-    gaussianDensityFunction->SetCovariance( covarianceEstimatorsContainer->GetElement( i ) );
-#endif
 
- 
-    m_MembershipFunctionContainer->InsertElement(i, 
+    m_MembershipFunctionContainer->InsertElement(i,
             dynamic_cast< MembershipFunctionType * >( gaussianDensityFunction.GetPointer() ) );
     }
 }
 
 
 template <class TInputImage, class TProbabilityPrecisionType>
-void 
+void
 BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionType>
 ::GenerateData()
 {
@@ -238,10 +224,10 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
     // find class means via kmeans classification
     this->InitializeMembershipFunctions();
     }
-  
+
   if( m_MembershipFunctionContainer->Size() != m_NumberOfClasses )
     {
-    itkExceptionMacro( 
+    itkExceptionMacro(
        << "Number of membership functions should be the same as the number of classes");
     }
 
@@ -249,11 +235,11 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
   // create vector image of membership probabilities
   OutputImageType *membershipImage = this->GetOutput();
-  
+
   MembershipImageIteratorType itrMembershipImage( membershipImage, imageRegion );
   MembershipPixelType membershipPixel( m_NumberOfClasses );
   MeasurementVectorType mv;
-  
+
   itrMembershipImage.GoToBegin();
   itrInputImage.GoToBegin();
   while ( !itrMembershipImage.IsAtEnd() )
@@ -271,7 +257,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 }
 
 template <class TInputImage, class TProbabilityPrecisionType>
-void 
+void
 BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionType>
 ::SetMembershipFunctions( MembershipFunctionContainerType *membershipFunction )
 {
@@ -279,7 +265,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
     {
     if( membershipFunction->Size() != m_NumberOfClasses )
       {
-      itkExceptionMacro( 
+      itkExceptionMacro(
           << "Number of membership functions should be the same as the number of classes");
       }
     }
@@ -287,7 +273,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
     {
     m_NumberOfClasses = membershipFunction->Size();
     }
-      
+
   this->m_MembershipFunctionContainer = membershipFunction;
   m_UserSuppliesMembershipFunctions = true;
   this->Modified();
@@ -295,7 +281,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
 
 template <class TInputImage, class TProbabilityPrecisionType>
-void 
+void
 BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionType>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
@@ -303,16 +289,16 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
   if( m_MembershipFunctionContainer )
     {
-    os << indent << "Membership function container:" 
-       << m_MembershipFunctionContainer << std::endl; 
+    os << indent << "Membership function container:"
+       << m_MembershipFunctionContainer << std::endl;
     }
   if( m_UserSuppliesMembershipFunctions )
     {
-    os << indent << "Membership functions provided" << std::endl; 
+    os << indent << "Membership functions provided" << std::endl;
     }
   else
     {
-    os << indent << "Membership functions not provided" << std::endl; 
+    os << indent << "Membership functions not provided" << std::endl;
     }
 }
 

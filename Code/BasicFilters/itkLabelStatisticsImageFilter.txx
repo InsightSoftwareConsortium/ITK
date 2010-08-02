@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,14 +25,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkProgressReporter.h"
 
 namespace itk {
-#if defined(__GNUC__) && (__GNUC__ <= 2) //NOTE: This class needs a mutex for gnu 2.95
-/** Used for mutex locking */
-#define LOCK_HASHMAP this->m_Mutex.Lock()
-#define UNLOCK_HASHMAP this->m_Mutex.Unlock()
-#else
-#define LOCK_HASHMAP
-#define UNLOCK_HASHMAP
-#endif
 
 template<class TInputImage, class TLabelImage>
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
@@ -40,9 +32,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 {
   this->SetNumberOfRequiredInputs(2);
   m_UseHistograms = false;
-#ifdef ITK_USE_REVIEW_STATISTICS
   m_NumBins.SetSize(1);
-#endif
   m_NumBins[0] = 20;
   m_LowerBound = static_cast<RealType>( NumericTraits<PixelType>::NonpositiveMin() );
   m_UpperBound = static_cast<RealType>( NumericTraits<PixelType>::max() );
@@ -115,7 +105,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 
   // Resize the thread temporaries
   m_LabelStatisticsPerThread.resize(numberOfThreads);
-  
+
   // Initialize the temporaries
   for (int i=0; i < numberOfThreads; ++i)
     {
@@ -153,12 +143,12 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         typedef typename MapType::value_type MapValueType;
         if (m_UseHistograms)
           {
-          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first, 
+          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first,
              LabelStatistics(m_NumBins[0], m_LowerBound, m_UpperBound)) ).first;
           }
         else
           {
-          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first, 
+          mapIt = m_LabelStatistics.insert( MapValueType((*threadIt).first,
               LabelStatistics()) ).first;
           }
         }
@@ -179,7 +169,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 
       //bounding box is min,max pairs
       int dimension = (*mapIt).second.m_BoundingBox.size() / 2;
-      for (int ii = 0; ii < (dimension * 2); ii += 2 ) 
+      for (int ii = 0; ii < (dimension * 2); ii += 2 )
          {
          if ((*mapIt).second.m_BoundingBox[ii] > (*threadIt).second.m_BoundingBox[ii])
            {
@@ -195,9 +185,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       if (m_UseHistograms)
         {
         typename HistogramType::IndexType index;
-#ifdef ITK_USE_REVIEW_STATISTICS
         index.SetSize(1);
-#endif
         for (unsigned int bin=0; bin<m_NumBins[0]; bin++)
           {
           index[0] = bin;
@@ -206,8 +194,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
         }
       } // end of thread map iterator loop
     } // end of thread loop
-  
-  // compute the remainder of the statistics 
+
+  // compute the remainder of the statistics
   for (mapIt = m_LabelStatistics.begin();
        mapIt != m_LabelStatistics.end();
        ++mapIt)
@@ -231,18 +219,18 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       (*mapIt).second.m_Variance = NumericTraits<RealType>::Zero;
       }
-    
+
     // sigma
     (*mapIt).second.m_Sigma = vcl_sqrt((*mapIt).second.m_Variance);
     }
-  
+
 }
 
 template<class TInputImage, class TLabelImage>
 void
 LabelStatisticsImageFilter<TInputImage, TLabelImage>
 ::ThreadedGenerateData(const RegionType& outputRegionForThread,
-         int threadId) 
+         int threadId)
 {
   RealType value;
   LabelPixelType label;
@@ -251,7 +239,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
   ImageRegionConstIterator<TLabelImage> labelIt (this->GetLabelInput(),
        outputRegionForThread);
   MapIterator mapIt;
-  
+
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId,
        outputRegionForThread.GetNumberOfPixels());
@@ -268,18 +256,16 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       {
       // create a new statistics object
       typedef typename MapType::value_type MapValueType;
-      LOCK_HASHMAP;
       if (m_UseHistograms)
         {
-        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
+        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label,
                LabelStatistics(m_NumBins[0], m_LowerBound, m_UpperBound)) ).first;
         }
       else
         {
-        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label, 
+        mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType(label,
                LabelStatistics()) ).first;
         }
-      UNLOCK_HASHMAP;
       }
 
     // update the values for this label and this thread
@@ -293,7 +279,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
       }
 
     // bounding box is min,max pairs
-    for( unsigned int i = 0; i < ( 2 * it.GetImageDimension()); i += 2 ) 
+    for( unsigned int i = 0; i < ( 2 * it.GetImageDimension()); i += 2 )
       {
       typename ImageRegionConstIteratorWithIndex<TInputImage>::IndexType index = it.GetIndex();
       if ((*mapIt).second.m_BoundingBox[i] > index[i/2])
@@ -314,15 +300,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     if (m_UseHistograms)
       {
       typename HistogramType::MeasurementVectorType meas;
-#ifdef ITK_USE_REVIEW_STATISTICS
       meas.SetSize(1);
-#endif
       meas[0] = value;
-#ifdef ITK_USE_REVIEW_STATISTICS
       (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1);
-#else
-      (*mapIt).second.m_Histogram->IncreaseFrequency(meas, 1.0F);
-#endif
       }
 
     ++it;
@@ -489,7 +469,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
     RegionType region;
     region.SetSize(size);
     region.SetIndex(index);
-    
+
     return region;
     }
 }
@@ -528,20 +508,14 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
   else
     {
 
-#ifdef ITK_USE_REVIEW_STATISTICS
     typename HistogramType::SizeValueType bin = 0;
-#else
-    typename HistogramType::SizeType::SizeValueType  bin = 0;
-#endif
 
     typename HistogramType::IndexType index;
-#ifdef ITK_USE_REVIEW_STATISTICS
     index.SetSize(1);
-#endif
     RealType total = 0;
 
     // count bins until just over half the distribution is counted
-    while (total <= ((*mapIt).second.m_Count/ 2) && (bin < m_NumBins[0])) 
+    while (total <= ((*mapIt).second.m_Count/ 2) && (bin < m_NumBins[0]))
       {
       index[0] = bin;
       total += (*mapIt).second.m_Histogram->GetFrequency(index);
@@ -578,7 +552,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>
 }
 
 template <class TImage, class TLabelImage>
-void 
+void
 LabelStatisticsImageFilter<TImage, TLabelImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {

@@ -137,7 +137,7 @@ KdTreeGenerator< TSample >
     }
 
   // find most widely spread dimension
-  FindSampleBoundAndMean< SubsampleType >(subsample,
+  Algorithm::FindSampleBoundAndMean< SubsampleType >(subsample,
                                           beginIndex, endIndex,
                                           m_TempLowerBound, m_TempUpperBound,
                                           m_TempMean);
@@ -161,9 +161,9 @@ KdTreeGenerator< TSample >
   // based on the STL implementation of the QuickSelect algorithm.
   //
   partitionValue =
-    NthElement< SubsampleType >(m_Subsample,
+    Algorithm::NthElement< SubsampleType >(m_Subsample,
                                 partitionDimension,
-                                beginIndex, endIndex, 
+                                beginIndex, endIndex,
                                 medianIndex);
 
   medianIndex += beginIndex;
@@ -187,13 +187,13 @@ KdTreeGenerator< TSample >
 
   typedef KdTreeNonterminalNode< TSample >  KdTreeNonterminalNodeType;
 
-  KdTreeNonterminalNodeType * nonTerminalNode = 
+  KdTreeNonterminalNodeType * nonTerminalNode =
     new KdTreeNonterminalNodeType( partitionDimension,
                                    partitionValue,
                                    left,
                                    right);
 
-  nonTerminalNode->AddInstanceIdentifier( 
+  nonTerminalNode->AddInstanceIdentifier(
     subsample->GetInstanceIdentifier( medianIndex ) );
 
   return nonTerminalNode;

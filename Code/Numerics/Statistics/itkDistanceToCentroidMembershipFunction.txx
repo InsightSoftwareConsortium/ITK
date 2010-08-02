@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,113 +18,80 @@
 #define __itkDistanceToCentroidMembershipFunction_txx
 
 #include "itkDistanceToCentroidMembershipFunction.h"
+#include "itkEuclideanDistanceMetric.h"
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 template < class TVector >
 DistanceToCentroidMembershipFunction< TVector >
-::DistanceToCentroidMembershipFunction():
-  m_NumberOfSamples(-1)
+::DistanceToCentroidMembershipFunction()
 {
-  this->m_MeasurementVectorSize = 0;
-  m_Centroid.fill( 0.0f );
+  // Initialize by default to an Euclidean distance. This default can be
+  // changed by calling SetDistanceMetric().
+  this->m_DistanceMetric = EuclideanDistanceMetric<TVector>::New();
 }
 
 template < class TVector >
-void 
+void
 DistanceToCentroidMembershipFunction< TVector >
-::SetCentroid(const vnl_vector< double > & centroid)
+::SetCentroid(const CentroidType & centroid)
 {
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    if( centroid.size() != this->m_MeasurementVectorSize )
-      {
-      itkExceptionMacro( << "Size of the centroid must be same as the length of"
-          << " each measurement vector.");
-      }
-    }
-  this->m_MeasurementVectorSize = centroid.size();
-  m_Centroid = centroid;
+  this->m_DistanceMetric->SetOrigin( centroid );
   this->Modified();
 }
 
 template< class TVector >
-void 
+void
 DistanceToCentroidMembershipFunction< TVector >
-::SetMeasurementVectorSize( const MeasurementVectorSizeType s )
+::SetMeasurementVectorSize( MeasurementVectorSizeType s )
 {
-  if( s == this->m_MeasurementVectorSize )
-    {
-    return;
-    }
-  
-  if( this->m_MeasurementVectorSize != 0 )
-    {  
-    itkWarningMacro( << "Destructively resizing paramters of the DistanceToCentroidMembershipFunction." );
-    }
-  this->m_MeasurementVectorSize = s;
-  m_Centroid.set_size( s );
+  this->Superclass::SetMeasurementVectorSize( s );
+  this->m_DistanceMetric->SetMeasurementVectorSize( s );
   this->Modified();
 }
 
 template < class TVector >
-const vnl_vector< double > &
+const typename DistanceToCentroidMembershipFunction< TVector >::CentroidType &
 DistanceToCentroidMembershipFunction< TVector >
 ::GetCentroid() const
 {
-  return m_Centroid;
+  return this->m_DistanceMetric->GetOrigin();
 }
 
 template < class TVector >
-double 
+double
 DistanceToCentroidMembershipFunction< TVector >
 ::Evaluate(const MeasurementVectorType &measurement) const
-{ 
-  // Assuming that measurement has the same length asthe centroid. 
-  
-  double temp =0;
-  double tempDistance;
-
-  // Compute |y - mean |   
-  for ( unsigned int i = 0; i < this->m_MeasurementVectorSize; i++ )
-    {
-    tempDistance = measurement[i] - m_Centroid[i];
-    temp += tempDistance * tempDistance;
-    }
-
-  temp = vcl_sqrt( temp );  
-  
-  return temp;
+{
+  return this->m_DistanceMetric->Evaluate( measurement );
 }
-  
+
 template < class TVector >
-void  
+typename DistanceToCentroidMembershipFunction< TVector >::Pointer
+DistanceToCentroidMembershipFunction< TVector >
+::Clone()
+{
+  Pointer  membershipFunction =
+          DistanceToCentroidMembershipFunction<TVector>::New();
+  membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
+  membershipFunction->SetCentroid( this->GetCentroid() );
+
+  return membershipFunction;
+}
+
+
+template < class TVector >
+void
 DistanceToCentroidMembershipFunction< TVector >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  unsigned int i;
   Superclass::PrintSelf(os,indent);
 
-  if ( this->m_MeasurementVectorSize && 
-       m_Centroid.size() == this->m_MeasurementVectorSize )
-    {
-    os << indent << "Centroid: [";
-    for (i=0; i+1 < m_Centroid.size(); i++)
-      {
-      os << m_Centroid[i] << ", ";
-      }
-    os << m_Centroid[i] << "]" << std::endl;
-    }
-  else
-    {
-    os <<  indent << "Centorid: not set or size doen't match." << std::endl;
-    }
-  
-  os << indent << "Number of Samples: " << m_NumberOfSamples << std::endl;
+  os << "Distance Metric: " << this->m_DistanceMetric.GetPointer() << std::endl;
+
 }
 
 } // end namespace Statistics
 } // end of namespace itk
-
 #endif

@@ -2,7 +2,7 @@
 # This is a recommended file for ITK dashboard submissions
 # The generated file will use the current settings in the CMakeCache.txt file
 # The file should be copied, edited if necessary and moved to another location
-# 
+#
 # This file was generated from
 # @ITK_SOURCE_DIR@/CMake/itkSampleBuildTest.cmake
 #
@@ -10,12 +10,12 @@
 ######################
 # Set the Dashboard to one of Nightly, Continuous or Experimental
 #
-SET(DASHBOARD Nightly) 
-SET(DASHBOARD Continuous) 
-SET(DASHBOARD Experimental) 
+SET(DASHBOARD Nightly)
+SET(DASHBOARD Continuous)
+SET(DASHBOARD Experimental)
 
 ######################
-# Set the Default Build Type to one of Release, Debug, RelWithDebInfo 
+# Set the Default Build Type to one of Release, Debug, RelWithDebInfo
 # or MinSizeRel
 #
 SET(DEFAULT_BUILD_TYPE "Debug")
@@ -110,7 +110,6 @@ BUILD_EXAMPLES:BOOL=@BUILD_EXAMPLES@
 
 ITK_USE_PATENTED:BOOL=@ITK_USE_PATENTED@
 ITK_USE_REVIEW:BOOL=@ITK_USE_REVIEW@
-ITK_USE_REVIEW_STATISTICS:BOOL=@ITK_USE_REVIEW_STATISTICS@
 ITK_USE_CONCEPT_CHECKING:BOOL=@ITK_USE_CONCEPT_CHECKING@
 ITK_USE_OPTIMIZED_REGISTRATION_METHODS:BOOL=@ITK_USE_OPTIMIZED_REGISTRATION_METHODS@
 ITK_USE_CONSOLIDATED_MORPHOLOGY:BOOL=@ITK_USE_CONSOLIDATED_MORPHOLOGY@

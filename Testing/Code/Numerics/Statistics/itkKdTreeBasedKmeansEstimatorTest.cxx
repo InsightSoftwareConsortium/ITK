@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,17 +28,17 @@
 
 #include "vnl/vnl_matrix.h"
 
-#include "itkPointSetToListAdaptor.h"
+#include "itkPointSetToListSampleAdaptor.h"
 #include "itkSubsample.h"
 #include "itkKdTree.h"
-#include "itkEuclideanDistance.h"
+#include "itkEuclideanDistanceMetric.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 
 int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 {
-  namespace stat = itk::Statistics ;
- 
+  namespace stat = itk::Statistics;
+
   if (argc < 4)
     {
     std::cerr << "Missing Arguments" << std::endl;
@@ -49,111 +49,133 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 
   unsigned int i;
   unsigned int j;
-  char* dataFileName = argv[1] ;
-  int dataSize = 2000 ;
-  int bucketSize = atoi( argv[3] ) ;
-  typedef itk::FixedArray< double, 2 > MeanType ;
+  char* dataFileName = argv[1];
+  int dataSize = 2000;
+  int bucketSize = atoi( argv[3] );
+  typedef itk::FixedArray< double, 2 > MeanType;
   double minStandardDeviation = atof( argv[2] );
 
-  itk::Array< double > trueMeans(4) ;
-  trueMeans[0] = 99.261 ;
-  trueMeans[1] = 100.078 ;
-  trueMeans[2] = 200.1 ;
-  trueMeans[3] = 201.3 ;
+  itk::Array< double > trueMeans(4);
+  trueMeans[0] = 99.261;
+  trueMeans[1] = 100.078;
+  trueMeans[2] = 200.1;
+  trueMeans[3] = 201.3;
 
-  itk::Array< double > initialMeans(4) ;
-  initialMeans[0] = 80.0 ;
-  initialMeans[1] = 80.0 ;
-  initialMeans[2] = 180.0 ;
-  initialMeans[3] = 180.0 ;
-  int maximumIteration = 200 ;
+  itk::Array< double > initialMeans(4);
+  initialMeans[0] = 80.0;
+  initialMeans[1] = 80.0;
+  initialMeans[2] = 180.0;
+  initialMeans[3] = 180.0;
+  int maximumIteration = 200;
 
   /* Loading point data */
-  typedef itk::PointSet< double, 2 > PointSetType ;
-  PointSetType::Pointer pointSet = PointSetType::New() ;
-  PointSetType::PointsContainerPointer pointsContainer = 
-    PointSetType::PointsContainer::New() ;
-  pointsContainer->Reserve(dataSize) ;
-  pointSet->SetPoints(pointsContainer.GetPointer()) ;
+  typedef itk::PointSet< double, 2 > PointSetType;
+  PointSetType::Pointer pointSet = PointSetType::New();
+  PointSetType::PointsContainerPointer pointsContainer =
+    PointSetType::PointsContainer::New();
+  pointsContainer->Reserve(dataSize);
+  pointSet->SetPoints(pointsContainer.GetPointer());
 
-  PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin() ;
-  PointSetType::PointType point ;
-  double temp ;
-  std::ifstream dataStream(dataFileName) ;
+  PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
+  PointSetType::PointType point;
+  double temp;
+  std::ifstream dataStream(dataFileName);
   while (p_iter != pointsContainer->End())
     {
-    for ( i = 0 ; i < PointSetType::PointDimension ; i++)
+    for ( i = 0; i < PointSetType::PointDimension; i++)
       {
-      dataStream >> temp ;
-      point[i] = temp ;
+      dataStream >> temp;
+      point[i] = temp;
       }
-    p_iter.Value() = point ;
-    ++p_iter ;
+    p_iter.Value() = point;
+    ++p_iter;
     }
 
-  dataStream.close() ;
-  
+  dataStream.close();
+
   /* Importing the point set to the sample */
-  typedef stat::PointSetToListAdaptor< PointSetType >
+  typedef stat::PointSetToListSampleAdaptor< PointSetType >
     DataSampleType;
 
   DataSampleType::Pointer sample =
-    DataSampleType::New() ;
-  
+    DataSampleType::New();
+
   sample->SetPointSet(pointSet);
 
   /* Creating k-d tree */
-  typedef stat::WeightedCentroidKdTreeGenerator< DataSampleType > Generator ;
-  Generator::Pointer generator = Generator::New() ;
-  
-  generator->SetSample(sample.GetPointer()) ;
-  generator->SetBucketSize(bucketSize) ;
-  generator->GenerateData() ;
+  typedef stat::WeightedCentroidKdTreeGenerator< DataSampleType > Generator;
+  Generator::Pointer generator = Generator::New();
+
+  generator->SetSample(sample.GetPointer());
+  generator->SetBucketSize(bucketSize);
+  generator->GenerateData();
 
   /* Searching kmeans */
-  typedef stat::KdTreeBasedKmeansEstimator< Generator::KdTreeType > Estimator ;
-  Estimator::Pointer estimator = Estimator::New() ;
+  typedef stat::KdTreeBasedKmeansEstimator< Generator::KdTreeType > Estimator;
+  Estimator::Pointer estimator = Estimator::New();
+  std::cout << estimator->GetNameOfClass() << std::endl;
+  estimator->Print( std::cout );
 
-  estimator->SetParameters(initialMeans) ;
-  estimator->SetMaximumIteration(maximumIteration) ;
-  estimator->SetKdTree(generator->GetOutput()) ;
-  estimator->SetCentroidPositionChangesThreshold(0.0) ;
-  estimator->StartOptimization() ;
-  Estimator::ParametersType estimatedMeans = estimator->GetParameters() ;
 
-  bool passed = true ;
-  int index ;
-  unsigned int numberOfMeasurements = DataSampleType::MeasurementVectorSize ;
-  unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements ;
-  for (i = 0 ; i < numberOfClasses ; i++)
+  //Set the initial means
+  estimator->SetParameters(initialMeans);
+
+  //Set the maximum iteration
+  estimator->SetMaximumIteration(maximumIteration);
+  if ( estimator->GetMaximumIteration() != maximumIteration )
     {
-    std::cout << "cluster[" << i << "] " << std::endl ;
-    double displacement = 0.0 ;
-    std::cout << "    true mean :" << std::endl ;
-    std::cout << "        " ;
-    index = numberOfMeasurements * i ;
-    for (j = 0 ; j < numberOfMeasurements ; j++)
-      {
-      std::cout << trueMeans[index] << " " ;
-      ++index ;
-      }
-    std::cout << std::endl ;
-    std::cout << "    estimated mean :" << std::endl ;
-    std::cout << "        "  ;
+    std::cerr << "Error in Set/GetMaximum Iteration" << std::endl;
+    return EXIT_FAILURE;
+    }
 
-    index = numberOfMeasurements * i ;
-    for (j = 0 ; j < numberOfMeasurements ; j++)
+  estimator->SetKdTree(generator->GetOutput());
+
+  //Set the centroid position change threshold
+  estimator->SetCentroidPositionChangesThreshold(0.0);
+  const double tolerance = 0.1;
+  if( vcl_fabs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance )
+    {
+    std::cerr << "Set/GetCentroidPositionChangesThreshold() " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  estimator->StartOptimization();
+  Estimator::ParametersType estimatedMeans = estimator->GetParameters();
+
+  bool passed = true;
+  int index;
+  unsigned int numberOfMeasurements = DataSampleType::MeasurementVectorSize;
+  unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
+  for (i = 0; i < numberOfClasses; i++)
+    {
+    std::cout << "cluster[" << i << "] " << std::endl;
+    double displacement = 0.0;
+    std::cout << "    true mean :" << std::endl;
+    std::cout << "        ";
+    index = numberOfMeasurements * i;
+    for (j = 0; j < numberOfMeasurements; j++)
       {
-      std::cout << estimatedMeans[index] << " " ;
-      temp = estimatedMeans[index] - trueMeans[index] ;
-      ++index ;
-      displacement += (temp * temp) ;
+      std::cout << trueMeans[index] << " ";
+      ++index;
       }
-    std::cout << std::endl ;
-    displacement = vcl_sqrt(displacement) ;
-    std::cout << "    Mean displacement: " << std::endl ;
-    std::cout << "        " << displacement 
-              << std::endl << std::endl ;
+    std::cout << std::endl;
+    std::cout << "    estimated mean :" << std::endl;
+    std::cout << "        ";
+
+    index = numberOfMeasurements * i;
+    for (j = 0; j < numberOfMeasurements; j++)
+      {
+      std::cout << estimatedMeans[index] << " ";
+      temp = estimatedMeans[index] - trueMeans[index];
+      ++index;
+      displacement += (temp * temp);
+      }
+    std::cout << std::endl;
+    displacement = vcl_sqrt(displacement);
+    std::cout << "    Mean displacement: " << std::endl;
+    std::cout << "        " << displacement
+              << std::endl << std::endl;
 
     double tolearancePercent = atof( argv[3] );
 
@@ -163,10 +185,10 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
       {
       std::cerr << "displacement is larger than tolerance ";
       std::cerr << minStandardDeviation * tolearancePercent << std::endl;
-      passed = false ;
+      passed = false;
       }
     }
-  
+
   if( !passed )
     {
     std::cout << "Test failed." << std::endl;
@@ -176,10 +198,3 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-

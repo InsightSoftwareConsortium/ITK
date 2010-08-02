@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,13 +30,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include <vector>
 #include <fstream>
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkSampleClassifierFilter.h"
 #include "itkEuclideanDistanceMetric.h"
-#else
-#include "itkSampleClassifier.h"
-#include "itkEuclideanDistance.h"
-#endif
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
@@ -63,12 +58,7 @@ RBFTest1(int argc, char* argv[])
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
   typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
-  typedef itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType> 
-#else
-  typedef itk::Statistics::EuclideanDistance<MeasurementVectorType> 
-#endif
-    DistanceMetricType; 
+  typedef itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType> DistanceMetricType;
 
   int num_train=1000;
   int num_test=200;
@@ -147,14 +137,14 @@ RBFTest1(int argc, char* argv[])
 
   treeGenerator->SetSample( trainsample );
   treeGenerator->SetBucketSize( 16 );
-  treeGenerator->Update(); 
+  treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
-  int m1 = rand() % num_train; 
-  int m2 = rand() % num_train; 
+  int m1 = rand() % num_train;
+  int m2 = rand() % num_train;
   MeasurementVectorType c1 = trainsample->GetMeasurementVector(m1);
   MeasurementVectorType c2 =  trainsample->GetMeasurementVector(m2);
 
@@ -163,7 +153,7 @@ RBFTest1(int argc, char* argv[])
     {
     initialMeans[i] = c1[i];
     }
-  for(int i=3; i<6; i++)   
+  for(int i=3; i<6; i++)
     {
     initialMeans[i] = c2[i-3];
     }
@@ -206,7 +196,7 @@ RBFTest1(int argc, char* argv[])
 
   TrainingFcnType::Pointer trainingfcn = TrainingFcnType::New();
   trainingfcn->SetIterations(500);
-  trainingfcn->SetThreshold(0.001); 
+  trainingfcn->SetThreshold(0.001);
   trainingfcn->Train(net1, trainsample, traintargets);
 
   //Network Simulation

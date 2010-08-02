@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,7 @@
 
 namespace itk {
 
-/** \class LabelStatisticsImageFilter 
+/** \class LabelStatisticsImageFilter
  * \brief Given an intensity image and a label map, compute min, max, variance and mean of the pixels associated with each label or segment
  *
  * LabelStatisticsImageFilter computes the minimum, maximum, sum,
@@ -52,7 +52,7 @@ namespace itk {
  * \ingroup MathematicalStatisticsImageFilters
  */
 template<class TInputImage, class TLabelImage>
-class ITK_EXPORT LabelStatisticsImageFilter : 
+class ITK_EXPORT LabelStatisticsImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
@@ -61,13 +61,13 @@ public:
   typedef ImageToImageFilter<TInputImage,TInputImage> Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
-  
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(LabelStatisticsImageFilter, ImageToImageFilter);
-  
+
   /** Image related typedefs. */
   typedef typename TInputImage::Pointer    InputImagePointer;
   typedef typename TInputImage::RegionType RegionType;
@@ -82,7 +82,7 @@ public:
   typedef typename TLabelImage::SizeType   LabelSizeType;
   typedef typename TLabelImage::IndexType  LabelIndexType;
   typedef typename TLabelImage::PixelType  LabelPixelType;
-  
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
         TInputImage::ImageDimension );
@@ -100,12 +100,7 @@ public:
   typedef std::vector<typename IndexType::IndexValueType> BoundingBoxType;
 
   /** Histogram-related typedefs */
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::Histogram<RealType> HistogramType;
-#else
-  typedef itk::Statistics::Histogram<RealType,1> HistogramType;
-#endif
-
   typedef typename HistogramType::Pointer        HistogramPointer;
 
   /** \class LabelStatistics
@@ -121,16 +116,16 @@ public:
       m_Count = 0;
       m_Sum = NumericTraits<RealType>::Zero;
       m_SumOfSquares = NumericTraits<RealType>::Zero;
-      
+
       // Set such that the first pixel encountered can be compared
       m_Minimum = NumericTraits<RealType>::max();
       m_Maximum = NumericTraits<RealType>::NonpositiveMin();
-      
+
       // Default these to zero
       m_Mean = NumericTraits<RealType>::Zero;
       m_Sigma = NumericTraits<RealType>::Zero;
       m_Variance = NumericTraits<RealType>::Zero;
-        
+
       unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension*2);
       for (unsigned int i = 0; i < imageDimension * 2; i += 2)
@@ -139,13 +134,13 @@ public:
         m_BoundingBox[i+1] = NumericTraits<ITK_TYPENAME IndexType::IndexValueType>::NonpositiveMin();
         }
       m_Histogram = 0;
-      
+
       }
 
       // constructor with histogram enabled
       LabelStatistics(int size, RealType lowerBound, RealType upperBound)
         {
-        
+
         // initialized to the default values
         m_Count = 0;
         m_Sum = NumericTraits<RealType>::Zero;
@@ -173,12 +168,10 @@ public:
         typename HistogramType::SizeType              hsize;
         typename HistogramType::MeasurementVectorType lb;
         typename HistogramType::MeasurementVectorType ub;
-#ifdef ITK_USE_REVIEW_STATISTICS
         hsize.SetSize(1);
         lb.SetSize(1);
         ub.SetSize(1);
         m_Histogram->SetMeasurementVectorSize(1);
-#endif
         hsize[0] = size;
         lb[0] = lowerBound;
         ub[0] = upperBound;
@@ -214,7 +207,7 @@ public:
         m_BoundingBox = l.m_BoundingBox;
         m_Histogram = l.m_Histogram;
         }
-      
+
       unsigned long m_Count;
       RealType m_Minimum;
       RealType m_Maximum;
@@ -226,7 +219,7 @@ public:
       BoundingBoxType m_BoundingBox;
       typename HistogramType::Pointer m_Histogram;
   };
-  
+
   /** Type of the map used to store data per label */
   typedef itk::hash_map<LabelPixelType, LabelStatistics> MapType;
   typedef typename itk::hash_map<LabelPixelType, LabelStatistics>::iterator MapIterator;
@@ -236,7 +229,7 @@ public:
   itkSetMacro(UseHistograms, bool);
   itkGetConstMacro(UseHistograms, bool);
   itkBooleanMacro(UseHistograms);
-  
+
   /** Set the label image */
   void SetLabelInput(const TLabelImage *input)
     {
@@ -267,7 +260,7 @@ public:
     return this->GetNumberOfObjects();
     }
 
-  
+
   /** Return the computed Minimum for a label. */
   RealType GetMinimum(LabelPixelType label) const;
 
@@ -322,12 +315,12 @@ protected:
 
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData ();
-  
+
   /** Do final mean and variance computation from data accumulated in threads. */
   void AfterThreadedGenerateData ();
-  
+
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const RegionType& 
+  void  ThreadedGenerateData (const RegionType&
          outputRegionForThread,
          int threadId);
 
@@ -354,7 +347,7 @@ private:
 }; // end of class
 
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLabelStatisticsImageFilter.txx"
 #endif

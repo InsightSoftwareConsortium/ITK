@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,19 +20,13 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
-#ifdef ITK_USE_REVIEW_STATISTICS
 #include "itkMeanSampleFilter.h"
 #include "itkCovarianceSampleFilter.h"
-#else
-#include "itkMeanCalculator.h"
-#include "itkCovarianceCalculator.h"
-#endif
-
 #include "itkImageMaskSpatialObject.h"
 
 namespace itk
-{ 
-    
+{
+
 /** Constructor */
 template<class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension>
 SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSampleDimension>
@@ -53,63 +47,30 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 
 /** Compute Statistics from the Sample vector */
 template<class TInputImage,class TInputSpatialObject, unsigned int TSampleDimension>
-bool 
+bool
 SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSampleDimension>
 ::ComputeStatistics()
 {
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
-#else
-  typedef itk::Statistics::MeanCalculator< SampleType > MeanAlgorithmType;
-#endif
-  
   typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
-
-#ifdef ITK_USE_REVIEW_STATISTICS
   meanAlgorithm->SetInput( m_Sample );
-#else
-  meanAlgorithm->SetInputSample( m_Sample );
-#endif
-
   meanAlgorithm->Update();
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typename MeanAlgorithmType::MeasurementVectorType mean = meanAlgorithm->GetMean();
-#else
-  typename MeanAlgorithmType::OutputType mean = 
-                                *(meanAlgorithm->GetOutput());
-#endif
 
   for( unsigned int i=0; i< SampleDimension; i++ )
     {
     m_Mean[i] = mean[i];
     }
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::CovarianceSampleFilter< SampleType > CovarianceAlgorithmType;
-#else
-  typedef itk::Statistics::CovarianceCalculator< SampleType >   CovarianceAlgorithmType;
-#endif
-  
-  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = 
+  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   covarianceAlgorithm->SetInput( m_Sample );
-#else
-  covarianceAlgorithm->SetInputSample( m_Sample );
-  covarianceAlgorithm->SetMean( meanAlgorithm->GetOutput() );
-#endif
-
   covarianceAlgorithm->Update();
-  
-#ifdef ITK_USE_REVIEW_STATISTICS
-  typename CovarianceAlgorithmType::MatrixType covarianceMatrix = covarianceAlgorithm->GetCovarianceMatrix();
-#else
-  typename CovarianceAlgorithmType::OutputType covarianceMatrix
-      = *(covarianceAlgorithm->GetOutput());
-#endif
 
+  typename CovarianceAlgorithmType::MatrixType covarianceMatrix = covarianceAlgorithm->GetCovarianceMatrix();
   for( unsigned int i=0; i< covarianceMatrix.Rows(); i++ )
     {
     for( unsigned int j=0; j< covarianceMatrix.Rows(); j++ )
@@ -136,7 +97,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
   // Update only if the image or the spatial object has been modified
   if((m_Image->GetMTime() == m_InternalImageTime)
      &&
-     (m_SpatialObject->GetMTime() == m_InternalSpatialObjectTime) 
+     (m_SpatialObject->GetMTime() == m_InternalSpatialObjectTime)
     )
     {
     return; // No need to update
@@ -144,10 +105,10 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
 
   m_InternalImageTime = m_Image->GetMTime();
   m_InternalSpatialObjectTime = m_SpatialObject->GetMTime();
-  
+
   m_Sample = SampleType::New();
   m_Sample->SetMeasurementVectorSize( SampleDimension );
-   
+
   m_NumberOfPixels = 0;
   m_Sum = 0;
 
@@ -157,8 +118,8 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     typedef Image<unsigned char,itkGetStaticConstMacro(ObjectDimension)> MaskImageType;
     typedef ImageMaskSpatialObject<itkGetStaticConstMacro(ObjectDimension)> MaskSOType;
 
-    // This apparently redundant construction is added here in order to 
-    // force the SGI CC compiler to instantiate the symbols of the 
+    // This apparently redundant construction is added here in order to
+    // force the SGI CC compiler to instantiate the symbols of the
     // ImageMaskSpatialObject class. Otherwise, there is no readon for calling New().
     typename MaskSOType::Pointer maskSpatialObject = MaskSOType::New();
 
@@ -195,7 +156,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
     typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
     m_SpatialObject->ComputeBoundingBox();
     boundingBox = m_SpatialObject->GetBoundingBox();
-    
+
     Point<double,itkGetStaticConstMacro(ObjectDimension)> pt;
     for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)
       {
@@ -203,7 +164,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage,TInputSpatialObject,TSample
       }
 
     IndexType index;
-    
+
     // We should remove the spacing and the origin of the image since the FloodFill iterator is
     // considering them.
     for(unsigned int i=0;i<itkGetStaticConstMacro(ObjectDimension);i++)

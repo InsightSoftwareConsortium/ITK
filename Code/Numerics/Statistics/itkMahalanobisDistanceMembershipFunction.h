@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,16 +28,16 @@
 #include "itkMembershipFunctionBase.h"
 
 
-namespace itk { 
+namespace itk {
 namespace Statistics {
 
 /** \class MahalanobisDistanceMembershipFunction
  * \brief MahalanobisDistanceMembershipFunction class represents MahalanobisDistance Density Function.
  *
  * This class keeps parameter to define MahalanobisDistance Density Function  and has
- * method to return the probability density 
+ * method to return the probability density
  * of an instance.  MeasurementVectorSize is the dimension of measurement space.
- * double is type of measurement. 
+ * double is type of measurement.
  */
 
 template< class TVector >
@@ -54,7 +54,7 @@ public:
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
   itkNewMacro(Self);
-  
+
   /** Typedef alias for the measurement vectors */
   typedef TVector MeasurementVectorType;
 
@@ -68,30 +68,30 @@ public:
   typedef vnl_matrix<double>  CovarianceMatrixType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize( const MeasurementVectorSizeType );
-  
+  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
+
   /** Method to set mean */
   void SetMean(const MeanVectorType &mean);
   void SetMean(const Array< double > &mean);
-  
+
   /** Method to get mean */
   const MeanVectorType & GetMean() const;
 
   /**
    * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of 
+   * Also, this function calculates inverse covariance and pre factor of
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetCovariance(const CovarianceMatrixType &cov); 
-  
+  void SetCovariance(const CovarianceMatrixType &cov);
+
   /** Method to get covariance matrix */
   itkGetConstReferenceMacro( Covariance, CovarianceMatrixType );
 
   /**
    * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of 
+   * Also, this function calculates inverse covariance and pre factor of
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetInverseCovariance(const CovarianceMatrixType &invcov); 
-  
+  void SetInverseCovariance(const CovarianceMatrixType &invcov);
+
   /** Method to get covariance matrix */
   itkGetConstReferenceMacro( InverseCovariance, CovarianceMatrixType );
 
@@ -99,13 +99,13 @@ public:
   itkSetMacro( NumberOfSamples, double );
 
   /** Method to get the number of samples */
-  itkGetMacro( NumberOfSamples, double );
+  itkGetConstMacro( NumberOfSamples, double );
 
   /**
    * Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
   double Evaluate(const MeasurementVectorType &measurement) const;
-  
+
 protected:
   MahalanobisDistanceMembershipFunction(void);
   virtual ~MahalanobisDistanceMembershipFunction(void) {}
@@ -115,22 +115,22 @@ private:
   MeanVectorType        m_Mean;              // mean
   CovarianceMatrixType  m_Covariance;        // covariance matrix
 
-  // inverse covariance matrix which is automatically calculated 
+  // inverse covariance matrix which is automatically calculated
   // when covariace matirx is set.  This speed up the GetProbability()
-  CovarianceMatrixType  m_InverseCovariance; 
+  CovarianceMatrixType  m_InverseCovariance;
 
   // Number of samples defining this density
   double m_NumberOfSamples;
-  // pre_factor which is automatically calculated 
-  // when covariace matirx is set.  This speeds up the GetProbability()  
+  // pre_factor which is automatically calculated
+  // when covariace matirx is set.  This speeds up the GetProbability()
   double       m_PreFactor;
   double       m_Epsilon;
   double       m_DoubleMax;
- 
+
   mutable vnl_matrix< double > m_TempVec;
   mutable vnl_matrix< double > m_TempMat;
 
-  void CalculateInverseCovariance(); 
+  void CalculateInverseCovariance();
 };
 
 } // end of namespace Statistics

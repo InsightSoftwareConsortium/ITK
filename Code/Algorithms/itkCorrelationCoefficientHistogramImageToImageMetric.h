@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -67,11 +67,7 @@ public:
 
   typedef typename Superclass::HistogramType    HistogramType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef typename HistogramType::AbsoluteFrequencyType HistogramAbsoluteFrequencyType;
-#else
-  typedef typename HistogramType::FrequencyType         HistogramAbsoluteFrequencyType;
-#endif
   typedef HistogramAbsoluteFrequencyType                HistogramFrequencyType;
 
   typedef typename HistogramType::Iterator      HistogramIteratorType;
@@ -83,7 +79,7 @@ protected:
       create instances. */
   CorrelationCoefficientHistogramImageToImageMetric(){}
   virtual ~CorrelationCoefficientHistogramImageToImageMetric(){}
-  
+
   /** Evaluates the sum of squared differences from the histogram. */
   virtual MeasureType EvaluateMeasure(HistogramType& histogram) const;
 
@@ -104,7 +100,7 @@ private:
   MeasureType Covariance(HistogramType& histogram) const;
 
   // Purposely not implemented.
-  CorrelationCoefficientHistogramImageToImageMetric(Self const&); 
+  CorrelationCoefficientHistogramImageToImageMetric(Self const&);
   void operator=(Self const&); // Purposely not implemented.
 };
 
