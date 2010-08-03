@@ -749,7 +749,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   //
   typedef itk::VTKImageIO2 IOType;
   IOType::Pointer vtkIO = IOType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( vtkIO );
+  EXERCISE_BASIC_OBJECT_METHODS( vtkIO, IOType );
 
 
   //

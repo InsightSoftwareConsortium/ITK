@@ -18,17 +18,12 @@
 #define __itkTestingMacros_h
 
 
-//TEST_RMV20100728 #if !defined(__SUNPRO_CC)
-#define EXERCISE_BASIC_OBJECT_METHODS( object ) \
+// object's Class must be specified to build on sun studio
+#define EXERCISE_BASIC_OBJECT_METHODS( object, Class ) \
     object->Print( std::cout );  \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
-    std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;
-/*TEST_RMV20100728 #else
- *TEST_RMV20100728 #define EXERCISE_BASIC_OBJECT_METHODS( object ) \
- *TEST_RMV20100728     object->Print( std::cout );  \
- *TEST_RMV20100728     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;
- *TEST_RMV20100728 #endif
- */
+    std::cout << "Name of Superclass = " << object->Class::Superclass::GetNameOfClass() << std::endl;
+
 
 #define TRY_EXPECT_EXCEPTION( command ) \
   try \
