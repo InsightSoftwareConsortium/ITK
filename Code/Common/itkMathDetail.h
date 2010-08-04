@@ -239,7 +239,6 @@ inline int32_t Ceil_32(float  x) { return Ceil_base<int32_t,float>(x); }
 
 ////////////////////////////////////////
 // 64 bits versions
-#ifdef ITK_HAS_INT_64
 
 #if USE_SSE2_64IMPL // sse2 implementation
 
@@ -343,8 +342,6 @@ inline int64_t Ceil_64(double x) { return Ceil_base<int64_t,double>(x); }
 inline int64_t Ceil_64(float  x) { return Ceil_base<int64_t,float>(x); }
 
 #endif // USE_SSE2_64IMPL || GCC_USE_ASM_64IMPL || VC_USE_ASM_64IMPL
-
-#endif // VXL_HAS_INT_64
 
 } // end namespace Detail
 } // end namespace Math

@@ -68,7 +68,6 @@ static const double sqrt2            = 1.41421356237309504880;
 static const double sqrt1_2          = 0.70710678118654752440;
 
 
-#ifdef ITK_HAS_INT_64
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
  *  bit, the 64 bit or the vanilla version */
@@ -90,21 +89,6 @@ static const double sqrt1_2          = 0.70710678118654752440;
       return static_cast<TReturn>(Detail::name##_base<TReturn,TInput>(x)); \
       }                                                                 \
    }
-#else
-#define itkTemplateFloatingToIntegerMacro(name)                         \
-  template <typename TReturn,typename TInput>                           \
-  inline TReturn name(TInput x)                                         \
-  {                                                                     \
-    if (sizeof(TReturn) <= 4)                                           \
-      {                                                                 \
-      return static_cast<TReturn>(Detail::name##_32(x));                \
-      }                                                                 \
-    else                                                                \
-      {                                                                 \
-      return static_cast<TReturn>(Detail::name##_base<TReturn,TInput>(x)); \
-      }                                                                 \
-   }
-#endif // end ITK_HAS_INT_64
 
 /** \brief Round towards nearest integer
  * 
