@@ -87,7 +87,7 @@ int itkNumericTraitsTest(int, char* [] )
 
   CheckTraits("float", static_cast<float>(0));
   CheckTraits("double", static_cast<double>(0));
-  CheckTraits("long double", static_cast<double>(0));
+  CheckTraits("long double", static_cast<long double>(0));
 
   // Check not fundamental types which we need
 
