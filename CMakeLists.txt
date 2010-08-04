@@ -589,12 +589,6 @@ INCLUDE(CheckTypeSize)
 
 
 #-----------------------------------------------------------------------------
-#
-# Check types such as long long and __int64
-INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestTypes.cmake)
-
-
-#-----------------------------------------------------------------------------
 # check if the platform has the header file "fenv.h" which has been added as part of the C99 standard
 INCLUDE(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(fenv.h HAVE_FENV_H)
