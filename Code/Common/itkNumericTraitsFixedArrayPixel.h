@@ -181,10 +181,8 @@ itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long );
 itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, float );
 itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, double );
 itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, long long );
 itkNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 #endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 

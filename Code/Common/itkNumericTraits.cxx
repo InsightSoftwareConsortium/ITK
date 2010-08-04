@@ -64,13 +64,11 @@ const std::complex<float>  NumericTraits< std::complex<float> >::One  = std::com
 const std::complex<double>  NumericTraits< std::complex<double> >::Zero = std::complex<double>(0.0,0.0);
 const std::complex<double>  NumericTraits< std::complex<double> >::One  = std::complex<double>(1.0,0.0);
 
-
-#ifdef ITK_TYPE_USE_LONG_LONG
 const long long NumericTraits<long long>::Zero = 0LL;
 const long long NumericTraits<long long>::One = 1LL;
+
 const unsigned long long NumericTraits<unsigned long long>::Zero = 0ULL;
 const unsigned long long NumericTraits<unsigned long long>::One = 1ULL;
-#endif 
 
 
 } // end namespace itk

@@ -148,10 +148,8 @@ itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, unsigned long );
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, float );
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, double );
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, long long );
 itkNumericTraitsDiffusionTensor3DMacro( DiffusionTensor3D, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 #endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 

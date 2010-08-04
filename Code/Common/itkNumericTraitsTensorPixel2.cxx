@@ -31,9 +31,7 @@ namespace itk
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, float );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, double );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk

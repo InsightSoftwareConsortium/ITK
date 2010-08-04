@@ -48,10 +48,8 @@ itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned
 itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, float );
 itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, double );
 itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long long );
 itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 #endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 

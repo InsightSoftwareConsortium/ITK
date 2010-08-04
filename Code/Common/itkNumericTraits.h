@@ -561,7 +561,6 @@ public:
   static TheType OneValue() { return One; }
 };
 
-#ifdef ITK_TYPE_USE_LONG_LONG
 /** \class NumericTraits<long long>
  * \brief Define traits for type long long.
  * \ingroup DataRepresentation
@@ -619,7 +618,6 @@ public:
   static ValueType ZeroValue() { return Zero; }
   static ValueType OneValue() { return One; }
 };
-#endif /* #ifdef ITK_TYPE_USE_LONG_LONG */
 
 } // end namespace itk
 
