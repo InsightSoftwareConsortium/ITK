@@ -121,8 +121,9 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   int fixedImageDimensionsFFTW[ImageDimension];
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
-    m_FixedImageDimensions[dim] = fixedImageDimensionsFFTW[ImageDimension-1-dim] = // reverse order for FFTW!
-      this->GetFixedImage()->GetLargestPossibleRegion().GetSize( dim );
+    const unsigned int currSize=this->GetFixedImage()->GetLargestPossibleRegion().GetSize( dim );
+    m_FixedImageDimensions[dim] = currSize;
+    fixedImageDimensionsFFTW[ImageDimension-1-dim] = static_cast<int>(currSize); // reverse order for FFTW!
 
 #ifdef SLOW_DCT
     fftForward[dim] = FFTW_REDFT00;

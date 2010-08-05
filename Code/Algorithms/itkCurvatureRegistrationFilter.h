@@ -185,7 +185,7 @@ private:
   CurvatureRegistrationFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  int m_FixedImageDimensions[ImageDimension];
+  unsigned int m_FixedImageDimensions[ImageDimension];
 
   RealTypeDFT* m_DeformationFieldComponentImage;
   RealTypeDFT* m_DeformationFieldComponentImageDCT;
