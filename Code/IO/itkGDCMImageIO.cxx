@@ -703,9 +703,6 @@ void GDCMImageIO::Read(void* pointer)
   assert( image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3 );
   unsigned long len = image.GetBufferLength();
 
-  const unsigned long numberOfBytesToBeRead = 
-    static_cast< unsigned long>( this->GetImageSizeInBytes() );
-
   // I think ITK only allow RGB image by pixel (and not by plane)
   if( image.GetPlanarConfiguration() == 1 )
     {
@@ -756,9 +753,13 @@ void GDCMImageIO::Read(void* pointer)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
     }
 
+#ifndef NDEBUG
   // \postcondition
   // Now that len was updated (after unpacker 12bits -> 16bits, rescale...) , can now check compat: 
+  const unsigned long numberOfBytesToBeRead =
+    static_cast< unsigned long>( this->GetImageSizeInBytes() );
   assert( numberOfBytesToBeRead == len ); // programmer error
+#endif
 
 }
 #endif
