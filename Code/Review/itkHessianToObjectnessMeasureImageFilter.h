@@ -140,12 +140,13 @@ private:
   HessianToObjectnessMeasureImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  // functor used to sort eigen values
-  struct AbsCompare
+  // functor used to sort the eigenvalues are to be sorted
+  // |e1|<=|e2|<=...<=|eN|
+  struct AbsLessEqualCompare
     {
     bool operator()( EigenValueType a, EigenValueType b )
       {
-      return vnl_math_abs(a) > vnl_math_abs(b);
+      return vnl_math_abs(a) <= vnl_math_abs(b);
       }
     };
 
