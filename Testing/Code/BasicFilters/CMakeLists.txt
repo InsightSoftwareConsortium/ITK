@@ -1377,7 +1377,7 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterTclTest.png 
-           5 0.125)
+           5 .0625 0.125)
 
   ADD_TEST(CastImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.tcl
@@ -1388,7 +1388,7 @@ IF(ITK_CSWIG_TCL)
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureFlowImageFilter.tcl
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilterTclTest.png 
-           5 0.125)
+           5 0.125 )
 
   ADD_TEST(CurvatureAnisotropicDiffusionImageFilterTcl ${ITKWISH_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CurvatureAnisotropicDiffusionImageFilter.tcl
@@ -1454,7 +1454,7 @@ IF(ITK_CSWIG_PYTHON)
            ${ITK_SOURCE_DIR}/Examples/Filtering/CannyEdgeDetectionImageFilter.py
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterPythonTest.png  
-           5 0.125)
+           5 .0625 0.125 )
 
   ADD_TEST(CastImageFilterPython ${PYTHON_EXECUTABLE}
            ${ITK_SOURCE_DIR}/Examples/Filtering/CastImageFilter.py
@@ -1593,7 +1593,7 @@ IF(ITK_CSWIG_JAVA AND ITK_BINARY_DIR)
            CannyEdgeDetectionImageFilter
            ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
            ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilterJavaTest.png 
-           5 0.125 )  
+           5 .0625 0.125 )
 
   ADD_TEST(CastImageFilterJava ${JAVA_RUNTIME} -classpath "${JAVACLASSPATH}"
            CastImageFilter

@@ -25,10 +25,12 @@ outputCast.SetOutputMinimum(    0  )
 outputCast.SetOutputMaximum(  255  )
 
 variance  = eval( argv[3] )
-threshold = eval( argv[4] )
+lowerThreshold = eval( argv[4] )
+upperThreshold = eval( argv[5] )
 
 filter.SetVariance(  variance  )
-filter.SetThreshold( threshold )
+filter.SetLowerThreshold( lowerThreshold )
+filter.SetUpperThreshold( upperThreshold )
 
 writer.Update()
 

@@ -23,14 +23,14 @@ $outputCast SetOutputMinimum     0
 $outputCast SetOutputMaximum   255
 
 set variance   [expr [lindex $argv 2]]
-set threshold  [expr [lindex $argv 3]]
+set lowerThreshold  [expr [lindex $argv 3]]
+set upperThreshold  [expr [lindex $argv 4]]
 
 $filter SetVariance     $variance
-$filter SetThreshold    $threshold
-
+$filter SetLowerThreshold    $lowerThreshold
+$filter SetUpperThreshold    $upperThreshold
 
 $writer Update
-
 
 exit
 

@@ -179,6 +179,15 @@ public:
       }
     }
 
+  /* TODO:  Document in the ITKv4 migration guide that
+   * the SetThreshold member function was removed from
+   * the CannyEdgeDetectionImageFilter, and that both
+   * UpperThreshold and LowerThreshold need to be set.
+   * To get the same results as with the SetThreshold method
+   * change "myfilter->SetThrehsold" to "myfilter->SetUpperThreshold",
+   * and add "myfilter->SetLowerThreshold(GetUpperThreshold()/2.0)"
+   */
+
   ///* Set the Threshold value for detected edges. */
   itkSetMacro(UpperThreshold, OutputImagePixelType );
   itkGetConstMacro(UpperThreshold, OutputImagePixelType);
