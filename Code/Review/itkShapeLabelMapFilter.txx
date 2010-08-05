@@ -515,7 +515,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 long
 ShapeLabelMapFilter<TImage, TLabelImage>
-::Factorial( long n )
+::Factorial( const long n )
 {
   if( n < 1 )
     {
@@ -528,7 +528,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 long
 ShapeLabelMapFilter<TImage, TLabelImage>
-::DoubleFactorial( long n )
+::DoubleFactorial( const long n )
 {
   if( n < 2 )
     {
@@ -541,9 +541,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::GammaN2p1( long n )
+::GammaN2p1( const long n )
 {
-  bool even = n % 2 == 0;
+  const bool even = n % 2 == 0;
   if( even )
     {
     return Factorial( n / 2 );
@@ -558,17 +558,17 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::HyperSphereVolume( double radius )
+::HyperSphereVolume( const double radius )
 {
   const double dblImageDimension=static_cast<double>(ImageDimension);
-  return vcl_pow( vnl_math::pi, dblImageDimension / 2.0 ) * vcl_pow( radius, dblImageDimension ) / GammaN2p1( dblImageDimension );
+  return vcl_pow( vnl_math::pi, dblImageDimension * 0.5 ) * vcl_pow( radius, dblImageDimension ) / GammaN2p1( ImageDimension );
 }
 
 
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::HyperSpherePerimeter( double radius )
+::HyperSpherePerimeter( const double radius )
 {
   return ImageDimension * HyperSphereVolume( radius ) / radius;
 }
@@ -577,9 +577,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>
 template<class TImage, class TLabelImage>
 double
 ShapeLabelMapFilter<TImage, TLabelImage>
-::HyperSphereRadiusFromVolume( double volume )
+::HyperSphereRadiusFromVolume( const double volume )
 {
-  return vcl_pow( volume * GammaN2p1( ImageDimension ) / vcl_pow( vnl_math::pi, ImageDimension / 2.0 ), 1.0 / ImageDimension );
+  return vcl_pow( volume * GammaN2p1( ImageDimension ) / vcl_pow( vnl_math::pi, ImageDimension * 0.5 ), 1.0 / ImageDimension );
 }
 
 }// end namespace itk
