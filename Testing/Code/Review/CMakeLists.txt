@@ -1893,12 +1893,18 @@ ADD_TEST(itkAreaClosingImageFilterTest0 ${REVIEW_TESTS}
 )
 
 ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest.mha
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+            --compareIntensityTolerance .01
   itkHessianToObjectnessMeasureImageFilterTest
   ${INPUTDATA}/DSA.png
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
   1 0)
 
 ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest2 ${REVIEW_TESTS}
+  --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest.mha
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+            --compareIntensityTolerance .01
   itkHessianToObjectnessMeasureImageFilterTest
   ${INPUTDATA}/DSA.png
   ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
