@@ -90,9 +90,10 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage>
     EigenValueArrayType eigenValues;
     eigenCalculator.ComputeEigenValues( it.Get(), eigenValues );
 
-    // Sort the eigenvalues by magnitude but retain their sign
+    // Sort the eigenvalues by magnitude but retain their sign.
+    // The eigenvalues are to be sorted |e1|<=|e2|<=...<=|eN|
     EigenValueArrayType sortedEigenValues = eigenValues;
-    std::sort( sortedEigenValues.Begin(), sortedEigenValues.End(), AbsCompare() );
+    std::sort( sortedEigenValues.Begin(), sortedEigenValues.End(), AbsLessEqualCompare() );
 
 
     // check whether eigenvalues have the right sign
