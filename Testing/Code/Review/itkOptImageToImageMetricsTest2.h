@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,22 +20,22 @@
 
 #include "itkTimeProbe.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
-#include "itkOptImageToImageMetric.h"
+#include "itkImageToImageMetric.h"
 namespace itk {
 
-template <typename FixedImageType, 
-          typename MovingImageType, 
+template <typename FixedImageType,
+          typename MovingImageType,
           typename InterpolatorType,
           typename TransformType,
-          typename MetricType, 
+          typename MetricType,
           typename MetricInitializerType >
-class OptImageToImageMetricsTest 
+class OptImageToImageMetricsTest
 {
 public:
 
   OptImageToImageMetricsTest() {}
 
-  void RunTest( FixedImageType* fixed, 
+  void RunTest( FixedImageType* fixed,
                MovingImageType* moving,
                InterpolatorType* interpolator,
                TransformType* transform,
@@ -76,14 +76,14 @@ public:
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 42 );
 
     // initialize the metric
-    // Samples are drawn here in metric->Initialize(), 
+    // Samples are drawn here in metric->Initialize(),
     // so we seed the random number generator
     // immediately before this call.
     metric->Initialize();
 
     //Verify that Initialize has properly called
     //MultiThreadingInitialize() and a series of CreateAnother();
-    
+
     typedef typename MetricType::TransformPointer TransformPointer;
     const TransformPointer *transformPtr= metric->GetThreaderTransform();
     if ((transformPtr==static_cast<const TransformPointer *>(NULL))||
@@ -91,14 +91,14 @@ public:
       {
       exit(EXIT_FAILURE);
       }
-        
+
     const TransformType *firstBSpline=
        static_cast<TransformType*>(transformPtr[0].GetPointer());
     typedef typename TransformType::BulkTransformPointer BulkTransformPointer;
     BulkTransformPointer firstBulkTransform = firstBSpline->GetBulkTransform();
-    ParametersType firstBulkParameters =  firstBulkTransform->GetParameters(); 
+    ParametersType firstBulkParameters =  firstBulkTransform->GetParameters();
     double firstBulkEntry = firstBulkParameters[0];
-  
+
     for ( int i=0; i<metric->GetThreader()->GetNumberOfThreads()-1; i++)
       {
         //Verify that BSpline transform pointer is being copied
@@ -111,7 +111,7 @@ public:
         const TransformType *loopBSpline=
            static_cast<TransformType*>(transformPtr[i].GetPointer());
         BulkTransformPointer loopBulkTransform = loopBSpline->GetBulkTransform();
-        ParametersType loopBulkParameters =  loopBulkTransform->GetParameters(); 
+        ParametersType loopBulkParameters =  loopBulkTransform->GetParameters();
         double loopBulkEntry = loopBulkParameters[0];
         double entryComparisonTolerance = 0.001;
 
@@ -130,7 +130,7 @@ template <typename FixedImageType, typename MovingImageType>
 class MeanSquaresMetricInitializer
 {
 public:
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, 
+  typedef itk::MeanSquaresImageToImageMetric< FixedImageType,
                                               MovingImageType> MetricType;
 
 
@@ -142,9 +142,7 @@ public:
   void Initialize()
     {
     // Do stuff on m_Metric
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
     m_Metric->UseAllPixelsOn();
-#endif 
     }
 
 protected:
@@ -153,11 +151,11 @@ protected:
 };
 
 
-template < class InterpolatorType, 
+template < class InterpolatorType,
             class TransformType,
             class FixedImageReaderType,
             class MovingImageReaderType >
-void BasicTest( FixedImageReaderType* fixedImageReader, 
+void BasicTest( FixedImageReaderType* fixedImageReader,
                 MovingImageReaderType* movingImageReader,
                 InterpolatorType* interpolator,
                 TransformType* transform
@@ -172,7 +170,7 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   typename FixedImageType::Pointer fixed = fixedImageReader->GetOutput();
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
-  // Mean squares 
+  // Mean squares
   typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
   typedef MeanSquaresMetricInitializer< FixedImageType, MovingImageType > MetricInitializerType;
   typename MetricType::Pointer msMetric = MetricType::New();
@@ -212,7 +210,7 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
 }
 
 template <class FixedImageReaderType, class MovingImageReaderType>
-void BSplineLinearTest( FixedImageReaderType* fixedImageReader, 
+void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
   typedef typename MovingImageReaderType::OutputImageType MovingImageType;
@@ -223,7 +221,7 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
   fixedImageReader->Update();
   movingImageReader->Update();
-  
+
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
   typename FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
@@ -231,16 +229,16 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
   typename FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
   typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
   typename FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
-  
+
   const unsigned int SpaceDimension = 2;
-  const unsigned int VSplineOrder = 3; 
+  const unsigned int VSplineOrder = 3;
   typedef double CoordinateRepType;
 
   typedef itk::BSplineDeformableTransform<
                             CoordinateRepType,
                             SpaceDimension,
                             VSplineOrder >     TransformType;
-  
+
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
   typedef typename TransformType::RegionType RegionType;
@@ -251,11 +249,11 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
   const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
-  const unsigned int numberOfGridNodes = 
+  const unsigned int numberOfGridNodes =
                         numberOfGridNodesInsideTheImageSupport +
                         numberOfGridNodesOutsideTheImageSupport;
 
-  const unsigned int numberOfGridCells = 
+  const unsigned int numberOfGridCells =
                         numberOfGridNodesInsideTheImageSupport - 1;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -274,12 +272,12 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
   origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
   origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-  
+
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );
   bsplineTransform->SetGridDirection( fixedImage->GetDirection() );
-  
+
   typedef typename TransformType::ParametersType     ParametersType;
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
@@ -294,4 +292,4 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
 } // end namespace itk
 
-#endif 
+#endif

@@ -9,38 +9,28 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMattesMutualInformationImageToImageMetric_txx
 #define __itkMattesMutualInformationImageToImageMetric_txx
 
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptMattesMutualInformationImageToImageMetric.txx"
-#else
-
-
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkCovariantVector.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
 #include "vnl/vnl_math.h"
-#include "itkBSplineDeformableTransform.h"
+#include "itkStatisticsImageFilter.h"
+
+#include "vnl/vnl_vector.txx"
+#include "vnl/vnl_c_vector.txx"
 
 namespace itk
 {
-
 
 /**
  * Constructor
@@ -49,49 +39,99 @@ template < class TFixedImage, class TMovingImage >
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MattesMutualInformationImageToImageMetric()
 {
-
-  m_NumberOfSpatialSamples = 500;
   m_NumberOfHistogramBins = 50;
 
   this->SetComputeGradient(false); // don't use the default gradient for now
-
-  m_InterpolatorIsBSpline = false;
-  m_TransformIsBSpline    = false;
 
   // Initialize PDFs to NULL
   m_JointPDF = NULL;
   m_JointPDFDerivatives = NULL;
 
-  m_UseExplicitPDFDerivatives = true;
-
-  typename BSplineTransformType::Pointer transformer =
-           BSplineTransformType::New();
-  this->SetTransform (transformer);
-
-  typename BSplineInterpolatorType::Pointer interpolator =
-           BSplineInterpolatorType::New();
-  this->SetInterpolator (interpolator);
-
   // Initialize memory
+  m_FixedImageMarginalPDF = NULL;
+  m_MovingImageMarginalPDF = NULL;
+
   m_MovingImageNormalizedMin = 0.0;
   m_FixedImageNormalizedMin = 0.0;
   m_MovingImageTrueMin = 0.0;
   m_MovingImageTrueMax = 0.0;
   m_FixedImageBinSize = 0.0;
   m_MovingImageBinSize = 0.0;
+
   m_CubicBSplineDerivativeKernel = NULL;
-  m_BSplineInterpolator = NULL;
-  m_DerivativeCalculator = NULL;
-  m_NumParametersPerDim = 0;
-  m_NumBSplineWeights = 0;
-  m_BSplineTransform = NULL;
-  m_NumberOfParameters = 0;
-  m_UseAllPixels = false;
-  m_ReseedIterator = false;
-  m_RandomSeed = -1;
-  m_UseCachingOfBSplineWeights = true;
+
+  // For multi-threading the metric
+  m_ThreaderFixedImageMarginalPDF = NULL;
+  m_ThreaderJointPDF = NULL;
+  m_ThreaderJointPDFDerivatives = NULL;
+  m_ThreaderJointPDFStartBin = NULL;
+  m_ThreaderJointPDFEndBin = NULL;
+  m_ThreaderJointPDFSum = NULL;
+  this->m_WithinThreadPreProcess = true;
+  this->m_WithinThreadPostProcess = false;
+
+  this->m_ThreaderMetricDerivative = NULL;
+  this->m_UseExplicitPDFDerivatives = true;
+  this->m_ImplicitDerivativesSecondPass = false;
 }
 
+template < class TFixedImage, class TMovingImage >
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::~MattesMutualInformationImageToImageMetric()
+{
+
+  if(m_FixedImageMarginalPDF != NULL)
+    {
+    delete [] m_FixedImageMarginalPDF;
+    }
+  m_FixedImageMarginalPDF = NULL;
+  if(m_MovingImageMarginalPDF != NULL)
+    {
+    delete [] m_MovingImageMarginalPDF;
+    }
+  m_MovingImageMarginalPDF = NULL;
+  if(m_ThreaderJointPDF != NULL)
+    {
+    delete [] m_ThreaderJointPDF;
+    }
+  m_ThreaderJointPDF = NULL;
+
+  if(m_ThreaderJointPDFDerivatives != NULL)
+    {
+    delete [] m_ThreaderJointPDFDerivatives;
+    }
+  m_ThreaderJointPDFDerivatives = NULL;
+
+  if(m_ThreaderFixedImageMarginalPDF != NULL)
+    {
+    delete [] m_ThreaderFixedImageMarginalPDF;
+    }
+  m_ThreaderFixedImageMarginalPDF = NULL;
+
+  if(m_ThreaderJointPDFStartBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFStartBin;
+    }
+  m_ThreaderJointPDFStartBin = NULL;
+
+  if(m_ThreaderJointPDFEndBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFEndBin;
+    }
+  m_ThreaderJointPDFEndBin = NULL;
+
+  if(m_ThreaderJointPDFSum != NULL)
+    {
+    delete [] m_ThreaderJointPDFSum;
+    }
+  m_ThreaderJointPDFSum = NULL;
+
+  if( this->m_ThreaderMetricDerivative != NULL )
+    {
+    delete [] this->m_ThreaderMetricDerivative;
+    }
+  this->m_ThreaderMetricDerivative = NULL;
+}
 
 /**
  * Print out internal information about this class
@@ -101,133 +141,84 @@ void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfSpatialSamples: ";
-  os << m_NumberOfSpatialSamples << std::endl;
   os << indent << "NumberOfHistogramBins: ";
-  os << m_NumberOfHistogramBins << std::endl;
-  os << indent << "UseAllPixels: ";
-  os << m_UseAllPixels << std::endl;
+  os << this->m_NumberOfHistogramBins << std::endl;
 
   // Debugging information
-  os << indent << "NumberOfParameters: ";
-  os << m_NumberOfParameters << std::endl;
   os << indent << "FixedImageNormalizedMin: ";
-  os << m_FixedImageNormalizedMin << std::endl;
+  os << this->m_FixedImageNormalizedMin << std::endl;
   os << indent << "MovingImageNormalizedMin: ";
-  os << m_MovingImageNormalizedMin << std::endl;
+  os << this->m_MovingImageNormalizedMin << std::endl;
   os << indent << "MovingImageTrueMin: ";
-  os << m_MovingImageTrueMin << std::endl;
+  os << this->m_MovingImageTrueMin << std::endl;
   os << indent << "MovingImageTrueMax: ";
-  os << m_MovingImageTrueMax << std::endl;
-  os << indent << "FixedImageBinSize: "; 
-  os << m_FixedImageBinSize << std::endl;
+  os << this->m_MovingImageTrueMax << std::endl;
+  os << indent << "FixedImageBinSize: ";
+  os << this->m_FixedImageBinSize << std::endl;
   os << indent << "MovingImageBinSize: ";
-  os << m_MovingImageBinSize << std::endl;
-  os << indent << "InterpolatorIsBSpline: ";
-  os << m_InterpolatorIsBSpline << std::endl;
-  os << indent << "TransformIsBSpline: ";
-  os << m_TransformIsBSpline << std::endl;
-  os << indent << "UseCachingOfBSplineWeights: ";
-  os << m_UseCachingOfBSplineWeights << std::endl;
+  os << this->m_MovingImageBinSize << std::endl;
   os << indent << "UseExplicitPDFDerivatives: ";
-  os << m_UseExplicitPDFDerivatives << std::endl;
-  
+  os << this->m_UseExplicitPDFDerivatives << std::endl;
+  os << indent << "ImplicitDerivativesSecondPass: ";
+  os << this->m_ImplicitDerivativesSecondPass << std::endl;
+
 }
 
 
 /**
  * Initialize
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::Initialize(void) throw ( ExceptionObject )
 {
   this->Superclass::Initialize();
-  
-  // Cache the number of transformation parameters
-  m_NumberOfParameters = this->m_Transform->GetNumberOfParameters();
+  this->Superclass::MultiThreadingInitialize();
 
-  /**
-   * Compute the minimum and maximum for the FixedImage over
-   * the FixedImageRegion.
-   *
-   * NB: We can't use StatisticsImageFilter to do this because
-   * the filter computes the min/max for the largest possible region
-   */
-  double fixedImageMin = NumericTraits<double>::max();
-  double fixedImageMax = NumericTraits<double>::NonpositiveMin();
+  typedef StatisticsImageFilter<FixedImageType> FixedImageStatisticsFilterType;
+  typename FixedImageStatisticsFilterType::Pointer fixedImageStats =
+                                         FixedImageStatisticsFilterType::New();
+  fixedImageStats->SetInput( this->m_FixedImage );
+  fixedImageStats->SetNumberOfThreads( this->m_NumberOfThreads );
+  fixedImageStats->Update();
 
-  typedef ImageRegionConstIterator<FixedImageType> FixedIteratorType;
-  FixedIteratorType fixedImageIterator( 
-    this->m_FixedImage, this->GetFixedImageRegion() );
+  m_FixedImageTrueMin = fixedImageStats->GetMinimum();
+  m_FixedImageTrueMax = fixedImageStats->GetMaximum();
+  double fixedImageMin = m_FixedImageTrueMin;
+  double fixedImageMax = m_FixedImageTrueMax;
 
-  for ( fixedImageIterator.GoToBegin(); 
-        !fixedImageIterator.IsAtEnd(); ++fixedImageIterator )
-    {
+  typedef StatisticsImageFilter<MovingImageType>
+                                                MovingImageStatisticsFilterType;
+  typename MovingImageStatisticsFilterType::Pointer movingImageStats =
+                                         MovingImageStatisticsFilterType::New();
+  movingImageStats->SetInput( this->m_MovingImage );
+  movingImageStats->SetNumberOfThreads( this->m_NumberOfThreads );
+  movingImageStats->Update();
 
-    double sample = static_cast<double>( fixedImageIterator.Get() );
+  m_MovingImageTrueMin = movingImageStats->GetMinimum();
+  m_MovingImageTrueMax = movingImageStats->GetMaximum();
+  double movingImageMin = m_MovingImageTrueMin;
+  double movingImageMax = m_MovingImageTrueMax;
 
-    if ( sample < fixedImageMin )
-      {
-      fixedImageMin = sample;
-      }
-
-    if ( sample > fixedImageMax )
-      {
-      fixedImageMax = sample;
-      }
-    }
-
-
-  /**
-   * Compute the minimum and maximum for the entire moving image
-   * in the buffer.
-   */
-  double movingImageMin = NumericTraits<double>::max();
-  double movingImageMax = NumericTraits<double>::NonpositiveMin();
-
-  typedef ImageRegionConstIterator<MovingImageType> MovingIteratorType;
-  MovingIteratorType movingImageIterator(
-    this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );
-
-  for ( movingImageIterator.GoToBegin(); 
-        !movingImageIterator.IsAtEnd(); ++movingImageIterator)
-    {
-    double sample = static_cast<double>( movingImageIterator.Get() );
-
-    if ( sample < movingImageMin )
-      {
-      movingImageMin = sample;
-      }
-
-    if ( sample > movingImageMax )
-      {
-      movingImageMax = sample;
-      }
-    }
-
-  m_MovingImageTrueMin = movingImageMin;
-  m_MovingImageTrueMax = movingImageMax;
-
-  itkDebugMacro( " FixedImageMin: " << fixedImageMin << 
+  itkDebugMacro( " FixedImageMin: " << fixedImageMin <<
                  " FixedImageMax: " << fixedImageMax << std::endl );
-  itkDebugMacro( " MovingImageMin: " << movingImageMin << 
+  itkDebugMacro( " MovingImageMin: " << movingImageMin <<
                  " MovingImageMax: " << movingImageMax << std::endl );
 
 
   /**
    * Compute binsize for the histograms.
    *
-   * The binsize for the image intensities needs to be adjusted so that 
-   * we can avoid dealing with boundary conditions using the cubic 
+   * The binsize for the image intensities needs to be adjusted so that
+   * we can avoid dealing with boundary conditions using the cubic
    * spline as the Parzen window.  We do this by increasing the size
-   * of the bins so that the joint histogram becomes "padded" at the 
-   * borders. Because we are changing the binsize, 
-   * we also need to shift the minimum by the padded amount in order to 
+   * of the bins so that the joint histogram becomes "padded" at the
+   * borders. Because we are changing the binsize,
+   * we also need to shift the minimum by the padded amount in order to
    * avoid minimum values filling in our padded region.
    *
    * Note that there can still be non-zero bin values in the padded region,
@@ -237,78 +228,78 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
    */
   const int padding = 2;  // this will pad by 2 bins
 
-  const double histogramWidth = 
-    static_cast<double>( static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 2 * padding );
+  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin )
+                        / static_cast<double>( m_NumberOfHistogramBins
+                                               - 2 * padding );
+  m_FixedImageNormalizedMin = fixedImageMin / m_FixedImageBinSize
+                              - static_cast<double>( padding );
 
-  m_FixedImageBinSize = ( fixedImageMax - fixedImageMin ) / histogramWidth;
-  m_FixedImageNormalizedMin = fixedImageMin / m_FixedImageBinSize - 
-    static_cast<double>( padding );
-
-  m_MovingImageBinSize = ( movingImageMax - movingImageMin ) / histogramWidth;
-  m_MovingImageNormalizedMin = movingImageMin / m_MovingImageBinSize -
-    static_cast<double>( padding );
-
+  m_MovingImageBinSize = ( movingImageMax - movingImageMin )
+                         / static_cast<double>( m_NumberOfHistogramBins
+                                                - 2 * padding );
+  m_MovingImageNormalizedMin = movingImageMin / m_MovingImageBinSize
+                               - static_cast<double>( padding );
 
   itkDebugMacro( "FixedImageNormalizedMin: " << m_FixedImageNormalizedMin );
   itkDebugMacro( "MovingImageNormalizedMin: " << m_MovingImageNormalizedMin );
   itkDebugMacro( "FixedImageBinSize: " << m_FixedImageBinSize );
   itkDebugMacro( "MovingImageBinSize; " << m_MovingImageBinSize );
-  
-  if( m_UseAllPixels )
-    {
-    m_NumberOfSpatialSamples = 
-              this->GetFixedImageRegion().GetNumberOfPixels();
-    }
-  
-  /**
-   * Allocate memory for the fixed image sample container.
-   */
-  m_FixedImageSamples.resize( m_NumberOfSpatialSamples );
 
 
   /**
    * Allocate memory for the marginal PDF and initialize values
    * to zero. The marginal PDFs are stored as std::vector.
    */
-  m_FixedImageMarginalPDF.resize( this->m_NumberOfHistogramBins, 0.0 );
-  m_MovingImageMarginalPDF.resize( this->m_NumberOfHistogramBins, 0.0 );
+  if(m_FixedImageMarginalPDF != NULL)
+    {
+    delete [] m_FixedImageMarginalPDF;
+    }
+  m_FixedImageMarginalPDF = new PDFValueType[m_NumberOfHistogramBins];
+  if(m_MovingImageMarginalPDF != NULL)
+    {
+    delete [] m_MovingImageMarginalPDF;
+    }
+  m_MovingImageMarginalPDF = new PDFValueType[m_NumberOfHistogramBins];
 
   /**
    * Allocate memory for the joint PDF and joint PDF derivatives.
    * The joint PDF and joint PDF derivatives are store as itk::Image.
    */
   m_JointPDF = JointPDFType::New();
+  m_JointPDFDerivatives = JointPDFDerivativesType::New();
 
   // Instantiate a region, index, size
-  JointPDFRegionType            jointPDFRegion;
+  JointPDFRegionType             jointPDFRegion;
   JointPDFIndexType              jointPDFIndex;
-  JointPDFSizeType              jointPDFSize;
+  JointPDFSizeType               jointPDFSize;
 
-  // Deallocate the memory that may have been allocated for 
+  // Deallocate the memory that may have been allocated for
   // previous runs of the metric.
   this->m_JointPDFDerivatives = NULL;  // by destroying the dynamic array
   this->m_PRatioArray.SetSize( 1, 1 ); // and by allocating very small the static ones
   this->m_MetricDerivative = DerivativeType( 1 );
-    
-  // 
+
+  JointPDFDerivativesRegionType  jointPDFDerivativesRegion;
+
+  //
   // Now allocate memory according to the user-selected method.
   //
   if( this->m_UseExplicitPDFDerivatives )
     {
     this->m_JointPDFDerivatives = JointPDFDerivativesType::New();
-    JointPDFDerivativesRegionType  jointPDFDerivativesRegion;
+
     JointPDFDerivativesIndexType  jointPDFDerivativesIndex;
     JointPDFDerivativesSizeType    jointPDFDerivativesSize;
 
-    // For the derivatives of the joint PDF define a region starting from {0,0,0} 
-    // with size {m_NumberOfParameters,m_NumberOfHistogramBins, 
+    // For the derivatives of the joint PDF define a region starting from {0,0,0}
+    // with size {m_NumberOfParameters,m_NumberOfHistogramBins,
     // m_NumberOfHistogramBins}. The dimension represents transform parameters,
     // fixed image parzen window index and moving image parzen window index,
-    // respectively. 
-    jointPDFDerivativesIndex.Fill( 0 ); 
-    jointPDFDerivativesSize[0] = m_NumberOfParameters;
-    jointPDFDerivativesSize[1] = m_NumberOfHistogramBins;
-    jointPDFDerivativesSize[2] = m_NumberOfHistogramBins;
+    // respectively.
+    jointPDFDerivativesIndex.Fill( 0 );
+    jointPDFDerivativesSize[0] = this->m_NumberOfParameters;
+    jointPDFDerivativesSize[1] = this->m_NumberOfHistogramBins;
+    jointPDFDerivativesSize[2] = this->m_NumberOfHistogramBins;
 
     jointPDFDerivativesRegion.SetIndex( jointPDFDerivativesIndex );
     jointPDFDerivativesRegion.SetSize( jointPDFDerivativesSize );
@@ -316,6 +307,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     // Set the regions and allocate
     m_JointPDFDerivatives->SetRegions( jointPDFDerivativesRegion );
     m_JointPDFDerivatives->Allocate();
+    m_JointPDFDerivativesBufferSize = jointPDFDerivativesSize[0]
+                                    * jointPDFDerivativesSize[1]
+                                    * jointPDFDerivativesSize[2]
+                                    * sizeof(JointPDFDerivativesValueType);
+
     }
   else
     {
@@ -327,12 +323,12 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     this->m_MetricDerivative = DerivativeType( this->GetNumberOfParameters() );
     }
 
-  // For the joint PDF define a region starting from {0,0} 
+  // For the joint PDF define a region starting from {0,0}
   // with size {m_NumberOfHistogramBins, m_NumberOfHistogramBins}.
   // The dimension represents fixed image parzen window index
   // and moving image parzen window index, respectively.
-  jointPDFIndex.Fill( 0 ); 
-  jointPDFSize.Fill( m_NumberOfHistogramBins ); 
+  jointPDFIndex.Fill( 0 );
+  jointPDFSize.Fill( m_NumberOfHistogramBins );
 
   jointPDFRegion.SetIndex( jointPDFIndex );
   jointPDFRegion.SetSize( jointPDFSize );
@@ -341,6 +337,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_JointPDF->SetRegions( jointPDFRegion );
   m_JointPDF->Allocate();
 
+  m_JointPDFBufferSize = jointPDFSize[0] * jointPDFSize[1] * sizeof(PDFValueType);
+
 
   /**
    * Setup the kernels used for the Parzen windows.
@@ -348,296 +346,102 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   m_CubicBSplineKernel = CubicBSplineFunctionType::New();
   m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 
-
-  if( m_UseAllPixels )
-    {
-    /** 
-     * Take all the pixels within the fixed image region)
-     * to create the sample points list.
-     */
-    this->SampleFullFixedImageDomain( m_FixedImageSamples );
-    }
-  else
-    {
-    /** 
-     * Uniformly sample the fixed image (within the fixed image region)
-     * to create the sample points list.
-     */
-    this->SampleFixedImageDomain( m_FixedImageSamples );
-    }
-
   /**
-   * Pre-compute the fixed image parzen window index for 
+   * Pre-compute the fixed image parzen window index for
    * each point of the fixed image sample points list.
    */
-  this->ComputeFixedImageParzenWindowIndices( m_FixedImageSamples );
-  
-  /**
-   * Check if the interpolator is of type BSplineInterpolateImageFunction.
-   * If so, we can make use of its EvaluateDerivatives method.
-   * Otherwise, we instantiate an external central difference
-   * derivative calculator.
-   *
-   * TODO: Also add it the possibility of using the default gradient
-   * provided by the superclass.
-   *
-   */
-  m_InterpolatorIsBSpline = true;
+  this->ComputeFixedImageParzenWindowIndices( this->m_FixedImageSamples );
 
-  BSplineInterpolatorType * testPtr = dynamic_cast<BSplineInterpolatorType *>(
-    this->m_Interpolator.GetPointer() );
-  if ( !testPtr )
+
+  if(m_ThreaderFixedImageMarginalPDF != NULL)
     {
-    m_InterpolatorIsBSpline = false;
+    delete [] m_ThreaderFixedImageMarginalPDF;
+    }
+  // Assumes number of threads doesn't change between calls to Initialize
+  m_ThreaderFixedImageMarginalPDF = new
+                                    PDFValueType[(this->m_NumberOfThreads-1)
+                                                 * m_NumberOfHistogramBins];
 
-    m_DerivativeCalculator = DerivativeFunctionType::New();
-    m_DerivativeCalculator->UseImageDirectionOn();
-
-    m_DerivativeCalculator->SetInputImage( this->m_MovingImage );
-
-    m_BSplineInterpolator = NULL;
-    itkDebugMacro( "Interpolator is not BSpline" );
-    } 
-  else
+  if(m_ThreaderJointPDF != NULL)
     {
-    m_BSplineInterpolator = testPtr;
-    m_BSplineInterpolator->UseImageDirectionOn();
+    delete [] m_ThreaderJointPDF;
+    }
+  m_ThreaderJointPDF = new typename
+                               JointPDFType::Pointer[this->m_NumberOfThreads-1];
 
-    m_DerivativeCalculator = NULL;
-    itkDebugMacro( "Interpolator is BSpline" );
+  if(m_ThreaderJointPDFStartBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFStartBin;
+    }
+  m_ThreaderJointPDFStartBin = new int[this->m_NumberOfThreads];
+
+  if(m_ThreaderJointPDFEndBin != NULL)
+    {
+    delete [] m_ThreaderJointPDFEndBin;
+    }
+  m_ThreaderJointPDFEndBin = new int[this->m_NumberOfThreads];
+
+  if(m_ThreaderJointPDFSum != NULL)
+    {
+    delete [] m_ThreaderJointPDFSum;
+    }
+  m_ThreaderJointPDFSum = new double[this->m_NumberOfThreads];
+
+  unsigned int threadID;
+
+  int binRange = m_NumberOfHistogramBins / this->m_NumberOfThreads;
+
+  for(threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++)
+    {
+    m_ThreaderJointPDF[threadID] = JointPDFType::New();
+    m_ThreaderJointPDF[threadID]->SetRegions( jointPDFRegion );
+    m_ThreaderJointPDF[threadID]->Allocate();
+
+    m_ThreaderJointPDFStartBin[threadID] = threadID * binRange;
+    m_ThreaderJointPDFEndBin[threadID] = (threadID + 1) * binRange - 1;
     }
 
-  /** 
-   * Check if the transform is of type BSplineDeformableTransform.
-   *
-   * If so, several speed up features are implemented.
-   * [1] Precomputing the results of bulk transform for each sample point.
-   * [2] Precomputing the BSpline weights for each sample point,
-   *     to be used later to directly compute the deformation vector
-   * [3] Precomputing the indices of the parameters within the 
-   *     the support region of each sample point.
-   */
-  m_TransformIsBSpline = true;
+  m_ThreaderJointPDFStartBin[this->m_NumberOfThreads-1] =
+    (this->m_NumberOfThreads - 1 ) * binRange;
 
-  BSplineTransformType * testPtr2 = dynamic_cast<BSplineTransformType *>(
-    this->m_Transform.GetPointer() );
-  if( !testPtr2 )
+  m_ThreaderJointPDFEndBin[this->m_NumberOfThreads-1] = m_NumberOfHistogramBins - 1;
+
+  // Release memory of arrays that may have been used for
+  // previous executions of this metric with different settings
+  // of the memory caching flags.
+  if(m_ThreaderJointPDFDerivatives != NULL)
     {
-    m_TransformIsBSpline = false;
-    m_BSplineTransform = NULL;
-    itkDebugMacro( "Transform is not BSplineDeformable" );
+    delete [] m_ThreaderJointPDFDerivatives;
     }
-  else
+  m_ThreaderJointPDFDerivatives = NULL;
+
+  if(m_ThreaderMetricDerivative != NULL)
     {
-    m_BSplineTransform = testPtr2;
-    m_NumParametersPerDim = 
-            m_BSplineTransform->GetNumberOfParametersPerDimension();
-    m_NumBSplineWeights = m_BSplineTransform->GetNumberOfWeights();
-    itkDebugMacro( "Transform is BSplineDeformable" );
+    delete [] m_ThreaderMetricDerivative;
     }
+  m_ThreaderMetricDerivative = NULL;
 
-  if( this->m_TransformIsBSpline )
+
+  if( this->m_UseExplicitPDFDerivatives )
     {
-    // First, deallocate memory that may have been used from previous run of the Metric
-    this->m_BSplineTransformWeightsArray.SetSize( 1, 1 );
-    this->m_BSplineTransformIndicesArray.SetSize( 1, 1 );
-    this->m_PreTransformPointsArray.resize( 1 );
-    this->m_WithinSupportRegionArray.resize( 1 );
-    this->m_Weights.SetSize( 1 );
-    this->m_Indices.SetSize( 1 );
+    m_ThreaderJointPDFDerivatives = new typename
+                      JointPDFDerivativesType::Pointer[this->m_NumberOfThreads-1];
 
-
-    if( this->m_UseCachingOfBSplineWeights )
+    for(threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++)
       {
-      m_BSplineTransformWeightsArray.SetSize( 
-        m_NumberOfSpatialSamples, m_NumBSplineWeights );
-      m_BSplineTransformIndicesArray.SetSize( 
-        m_NumberOfSpatialSamples, m_NumBSplineWeights );
-      m_PreTransformPointsArray.resize( m_NumberOfSpatialSamples );
-      m_WithinSupportRegionArray.resize( m_NumberOfSpatialSamples );
-
-      this->PreComputeTransformValues();
-      }
-    else
-      {
-      this->m_Weights.SetSize( this->m_NumBSplineWeights );
-      this->m_Indices.SetSize( this->m_NumBSplineWeights );
-      }
-
-    for ( unsigned int j = 0; j < FixedImageDimension; j++ )
-      {
-      m_ParametersOffset[j] = j * 
-        m_BSplineTransform->GetNumberOfParametersPerDimension(); 
+      m_ThreaderJointPDFDerivatives[threadID] = JointPDFDerivativesType::New();
+      m_ThreaderJointPDFDerivatives[threadID]->SetRegions(
+                                                   jointPDFDerivativesRegion );
+      m_ThreaderJointPDFDerivatives[threadID]->Allocate();
       }
     }
-
-}
-
-
-/**
- * Uniformly sample the fixed image domain using a random walk
- */
-template < class TFixedImage, class TMovingImage >
-void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFixedImageDomain( FixedImageSpatialSampleContainer& samples )
-{
-
-  // Set up a random interator within the user specified fixed image region.
-  typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
-  RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
-
-  randIter.SetNumberOfSamples( m_NumberOfSpatialSamples );
-  randIter.GoToBegin();
-
-  typename FixedImageSpatialSampleContainer::iterator iter;
-  typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
-
-  if( this->m_FixedImageMask )
+   else
     {
+    m_ThreaderMetricDerivative = new DerivativeType[this->m_NumberOfThreads-1];
 
-    InputPointType inputPoint;
-
-    iter=samples.begin();
-    int count = 0;
-    int samples_found = 0;
-    int maxcount = m_NumberOfSpatialSamples * 10;
-    while( iter != end )
+    for(threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++)
       {
-
-      if ( count > maxcount )
-        {
-#if 0
-        itkExceptionMacro( 
-                  "Drew too many samples from the mask (is it too small?): "
-                  << maxcount << std::endl );
-#else
-        samples.resize(samples_found);
-        //        this->SetNumberOfSpatialSamples(sample_found);
-        break;
-#endif
-        }
-      count++;
-      
-      // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
-      // Check if the Index is inside the mask, translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
-
-      // If not inside the mask, ignore the point
-      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
-        {
-        ++randIter; // jump to another random position
-        continue;
-        }
-
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = randIter.Get();
-      // Translate index to point
-      (*iter).FixedImagePointValue = inputPoint;
-      samples_found++;
-      // Jump to random position
-      ++randIter;
-      ++iter;
-      }
-    }
-  else
-    {
-    for( iter=samples.begin(); iter != end; ++iter )
-      {
-      // Get sampled index
-      FixedImageIndexType index = randIter.GetIndex();
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = randIter.Get();
-      // Translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
-                                                (*iter).FixedImagePointValue );
-      // Jump to random position
-      ++randIter;
-
-      }
-    }
-}
-
-/**
- * Sample the fixed image domain using all pixels in the Fixed image region
- */
-template < class TFixedImage, class TMovingImage >
-void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::SampleFullFixedImageDomain( FixedImageSpatialSampleContainer& samples )
-{
-
-  // Set up a region interator within the user specified fixed image region.
-  typedef ImageRegionConstIteratorWithIndex<FixedImageType> RegionIterator;
-  RegionIterator regionIter( this->m_FixedImage, this->GetFixedImageRegion() );
-
-  regionIter.GoToBegin();
-
-  typename FixedImageSpatialSampleContainer::iterator iter;
-  typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
-
-  if( this->m_FixedImageMask )
-    {
-    InputPointType inputPoint;
-
-    iter=samples.begin();
-    unsigned long nSamplesPicked = 0;
-
-    while( iter != end && !regionIter.IsAtEnd() )
-      {
-      // Get sampled index
-      FixedImageIndexType index = regionIter.GetIndex();
-      // Check if the Index is inside the mask, translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
-
-      // If not inside the mask, ignore the point
-      if( !this->m_FixedImageMask->IsInside( inputPoint ) )
-        {
-        ++regionIter; // jump to next pixel
-        continue;
-        }
-
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = regionIter.Get();
-      // Translate index to point
-      (*iter).FixedImagePointValue = inputPoint;
-
-      ++regionIter;
-      ++iter;
-      ++nSamplesPicked;
-      }
-
-    // If we picked fewer samples than the desired number, 
-    // resize the container
-    if (nSamplesPicked != this->m_NumberOfSpatialSamples)
-      {
-      this->m_NumberOfSpatialSamples = nSamplesPicked;
-      samples.resize(this->m_NumberOfSpatialSamples);
-      }
-    }
-  else // not restricting sample throwing to a mask
-    {
-
-    // cannot sample more than the number of pixels in the image region
-    if (  this->m_NumberOfSpatialSamples 
-        > this->GetFixedImageRegion().GetNumberOfPixels())
-      {
-      this->m_NumberOfSpatialSamples 
-        = this->GetFixedImageRegion().GetNumberOfPixels();
-      samples.resize(this->m_NumberOfSpatialSamples);
-      }
-      
-    for( iter=samples.begin(); iter != end; ++iter )
-      {
-      // Get sampled index
-      FixedImageIndexType index = regionIter.GetIndex();
-      // Get sampled fixed image value
-      (*iter).FixedImageValue = regionIter.Get();
-      // Translate index to point
-      this->m_FixedImage->TransformIndexToPhysicalPoint( index,
-                                               (*iter).FixedImagePointValue );
-      ++regionIter;
+      this->m_ThreaderMetricDerivative[threadID] = DerivativeType( this->GetNumberOfParameters() );
       }
     }
 }
@@ -648,263 +452,285 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::ComputeFixedImageParzenWindowIndices( 
-           FixedImageSpatialSampleContainer& samples )
+::ComputeFixedImageParzenWindowIndices(
+           FixedImageSampleContainer& samples )
 {
 
-  typename FixedImageSpatialSampleContainer::iterator iter;
-  typename FixedImageSpatialSampleContainer::const_iterator end=samples.end();
+  typename FixedImageSampleContainer::iterator iter;
+  typename FixedImageSampleContainer::const_iterator end=samples.end();
 
   for( iter=samples.begin(); iter != end; ++iter )
     {
 
-    // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).  
-    double windowTerm =
-      static_cast<double>( (*iter).FixedImageValue ) / m_FixedImageBinSize -
-        m_FixedImageNormalizedMin;
-
-    OffsetValueType pindex = static_cast< OffsetValueType >( vcl_floor(windowTerm ) );
+    // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
+    double windowTerm = static_cast<double>( (*iter).value )
+                        / m_FixedImageBinSize
+                        - m_FixedImageNormalizedMin;
+    OffsetValueType pindex = static_cast<OffsetValueType>( windowTerm );
 
     // Make sure the extreme values are in valid bins
     if ( pindex < 2 )
       {
       pindex = 2;
       }
-    else 
+    else
       {
-      const OffsetValueType nindex = 
+      const OffsetValueType nindex =
         static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
-      if ( pindex > nindex ) 
+      if ( pindex > nindex )
         {
         pindex = nindex;
         }
       }
 
-    (*iter).FixedImageParzenWindowIndex = pindex;
-
+    (*iter).valueIndex = pindex;
     }
 
 }
 
-/**
- * Get the match Measure
- */
+template < class TFixedImage, class TMovingImage  >
+inline void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueThreadPreProcess( unsigned int threadID,
+                            bool withinSampleThread ) const
+{
+
+  this->Superclass::GetValueThreadPreProcess( threadID, withinSampleThread );
+
+  if(threadID > 0)
+    {
+    memset( m_ThreaderJointPDF[threadID-1]->GetBufferPointer(),
+            0,
+            m_JointPDFBufferSize );
+    memset( &(m_ThreaderFixedImageMarginalPDF[(threadID-1)
+                                              *m_NumberOfHistogramBins]),
+            0,
+            m_NumberOfHistogramBins*sizeof(PDFValueType) );
+    }
+  else
+    {
+    // zero-th thread uses the variables directly
+    memset( m_JointPDF->GetBufferPointer(),
+            0,
+            m_JointPDFBufferSize );
+    memset( m_FixedImageMarginalPDF,
+            0,
+            m_NumberOfHistogramBins*sizeof(PDFValueType) );
+    }
+}
+
+template < class TFixedImage, class TMovingImage  >
+inline bool
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueThreadProcessSample( unsigned int threadID,
+                               unsigned long fixedImageSample,
+                               const MovingImagePointType & itkNotUsed(mappedPoint),
+                               double movingImageValue) const
+{
+  /**
+   * Compute this sample's contribution to the marginal and
+   * joint distributions.
+   *
+   */
+
+  if(movingImageValue < m_MovingImageTrueMin)
+    {
+    return false;
+    }
+  else if(movingImageValue > m_MovingImageTrueMax)
+    {
+    return false;
+    }
+
+  // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
+  double movingImageParzenWindowTerm = movingImageValue
+                                       / m_MovingImageBinSize
+                                       - m_MovingImageNormalizedMin;
+  // Same as floor
+  OffsetValueType movingImageParzenWindowIndex =
+    static_cast<OffsetValueType>( movingImageParzenWindowTerm );
+  if( movingImageParzenWindowIndex < 2 )
+    {
+    movingImageParzenWindowIndex = 2;
+    }
+  else
+    {
+    const OffsetValueType nindex =
+      static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+    if( movingImageParzenWindowIndex > nindex )
+      {
+      movingImageParzenWindowIndex = nindex;
+      }
+    }
+
+  unsigned int fixedImageParzenWindowIndex =
+                      this->m_FixedImageSamples[fixedImageSample].valueIndex;
+  if(threadID > 0)
+    {
+    m_ThreaderFixedImageMarginalPDF[(threadID-1)*m_NumberOfHistogramBins
+                                    + fixedImageParzenWindowIndex] += 1;
+    }
+  else
+    {
+    m_FixedImageMarginalPDF[fixedImageParzenWindowIndex] += 1;
+    }
+
+  // Pointer to affected bin to be updated
+  JointPDFValueType *pdfPtr;
+  if(threadID > 0)
+    {
+    pdfPtr = m_ThreaderJointPDF[threadID-1]->GetBufferPointer() +
+                               ( fixedImageParzenWindowIndex
+                                 * m_ThreaderJointPDF[threadID-1]
+                                    ->GetOffsetTable()[1] );
+    }
+  else
+    {
+    pdfPtr = m_JointPDF->GetBufferPointer() +
+                               ( fixedImageParzenWindowIndex
+                                 * m_JointPDF->GetOffsetTable()[1] );
+    }
+
+  // Move the pointer to the first affected bin
+  int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
+  pdfPtr += pdfMovingIndex;
+  int pdfMovingIndexMax = static_cast<int>(movingImageParzenWindowIndex) + 2;
+
+  double movingImageParzenWindowArg =
+                    static_cast<double>( pdfMovingIndex )
+                     - movingImageParzenWindowTerm;
+
+  while( pdfMovingIndex <= pdfMovingIndexMax )
+    {
+    *(pdfPtr++) += static_cast<PDFValueType>( m_CubicBSplineKernel
+                                              ->Evaluate(
+                                                movingImageParzenWindowArg ) );
+    movingImageParzenWindowArg += 1;
+    ++pdfMovingIndex;
+    }
+
+  return true;
+}
+
+template < class TFixedImage, class TMovingImage  >
+inline void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueThreadPostProcess( unsigned int threadID,
+                             bool itkNotUsed(withinSampleThread) ) const
+{
+    unsigned int t;
+    int i;
+    int maxI;
+    maxI = m_NumberOfHistogramBins
+           * ( m_ThreaderJointPDFEndBin[threadID]
+               - m_ThreaderJointPDFStartBin[threadID] + 1);
+    JointPDFValueType *pdfPtr;
+    JointPDFValueType *pdfPtrStart;
+    pdfPtrStart = m_JointPDF->GetBufferPointer()
+                  + ( m_ThreaderJointPDFStartBin[threadID]
+                      * m_JointPDF->GetOffsetTable()[1] );
+    JointPDFValueType *tPdfPtr;
+    JointPDFValueType *tPdfPtrEnd;
+    unsigned int       tPdfPtrOffset;
+    tPdfPtrOffset = ( m_ThreaderJointPDFStartBin[threadID]
+                      * m_JointPDF->GetOffsetTable()[1] );
+    for(t=0; t<this->m_NumberOfThreads-1; t++)
+      {
+      pdfPtr = pdfPtrStart;
+      tPdfPtr = m_ThreaderJointPDF[t]->GetBufferPointer() + tPdfPtrOffset;
+      tPdfPtrEnd = tPdfPtr + maxI;
+      //for(i=0; i < maxI; i++)
+      while(tPdfPtr < tPdfPtrEnd)
+        {
+        *(pdfPtr++) += *(tPdfPtr++);
+        }
+      for(i = m_ThreaderJointPDFStartBin[threadID];
+          i <= m_ThreaderJointPDFEndBin[threadID];
+          i++)
+        {
+        m_FixedImageMarginalPDF[i] += m_ThreaderFixedImageMarginalPDF[
+                                          (t*m_NumberOfHistogramBins) + i];
+        }
+      }
+    double jointPDFSum = 0.0;
+    pdfPtr = pdfPtrStart;
+    for(i = 0; i < maxI; i++)
+      {
+      jointPDFSum += *(pdfPtr++);
+      }
+    if(threadID > 0)
+      {
+      m_ThreaderJointPDFSum[threadID-1] = jointPDFSum;
+      }
+    else
+      {
+      m_JointPDFSum = jointPDFSum;
+      }
+}
+
 template < class TFixedImage, class TMovingImage  >
 typename MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 ::MeasureType
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValue( const ParametersType& parameters ) const
+::GetValue( const ParametersType & parameters ) const
 {
-
-  // Reset marginal pdf to all zeros.
-  // Assumed the size has already been set to NumberOfHistogramBins
-  // in Initialize().
-  for ( unsigned int j = 0; j < m_NumberOfHistogramBins; j++ )
-    {
-    m_FixedImageMarginalPDF[j]  = 0.0;
-    m_MovingImageMarginalPDF[j] = 0.0;
-    }
-
-  // Reset the joint pdfs to zero
-  m_JointPDF->FillBuffer( 0.0 );
-
   // Set up the parameters in the transform
   this->m_Transform->SetParameters( parameters );
+  this->m_Parameters = parameters;
 
+  // MUST BE CALLED TO INITIATE PROCESSING
+  this->GetValueMultiThreadedInitiate();
 
-  // Declare iterators for iteration over the sample container
-  typename FixedImageSpatialSampleContainer::const_iterator fiter;
-  typename FixedImageSpatialSampleContainer::const_iterator fend = 
-    m_FixedImageSamples.end();
+  // MUST BE CALLED TO INITIATE PROCESSING
+  this->GetValueMultiThreadedPostProcessInitiate();
 
-  unsigned long nSamples=0;
-  unsigned long nFixedImageSamples=0;
-
-
-  for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter )
+  for(unsigned int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
-
-    // Get moving image value
-    MovingImagePointType mappedPoint;
-    bool sampleOk;
-    double movingImageValue;
-
-    this->TransformPoint( nFixedImageSamples, parameters, mappedPoint, 
-                          sampleOk, movingImageValue );
-
-    ++nFixedImageSamples;
-    
-    if( sampleOk )
-      {
-
-      ++nSamples; 
-
-      /**
-       * Compute this sample's contribution to the marginal and 
-       * joint distributions.
-       *
-       */
-
-      // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
-      double movingImageParzenWindowTerm =
-        movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-
-      OffsetValueType movingImageParzenWindowIndex = 
-        static_cast<OffsetValueType>( vcl_floor(movingImageParzenWindowTerm ) );
-
-      // Make sure the extreme values are in valid bins
-      if ( movingImageParzenWindowIndex < 2 )
-        {
-        movingImageParzenWindowIndex = 2;
-        }
-      else
-        {
-        const OffsetValueType nindex = 
-          static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
-        if ( movingImageParzenWindowIndex > nindex ) 
-          {
-          movingImageParzenWindowIndex = nindex;
-          }
-        }
-
-      // Since a zero-order BSpline (box car) kernel is used for
-      // the fixed image marginal pdf, we need only increment the
-      // fixedImageParzenWindowIndex by value of 1.0.
-      m_FixedImageMarginalPDF[(*fiter).FixedImageParzenWindowIndex] += 
-        static_cast<PDFValueType>( 1 );
-        
-      /**
-       * The region of support of the parzen window determines which bins
-       * of the joint PDF are effected by the pair of image values.
-       * Since we are using a cubic spline for the moving image parzen
-       * window, four bins are affected.  The fixed image parzen window is
-       * a zero-order spline (box car) and thus effects only one bin.
-       *
-       *  The PDF is arranged so that moving image bins corresponds to the 
-       * zero-th (column) dimension and the fixed image bins corresponds
-       * to the first (row) dimension.
-       *
-       */
-      
-      // Pointer to affected bin to be updated
-      JointPDFValueType *pdfPtr = m_JointPDF->GetBufferPointer() +
-                                   ( (*fiter).FixedImageParzenWindowIndex 
-                                     * m_JointPDF->GetOffsetTable()[1] );
- 
-      // Move the pointer to the first affected bin
-      int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
-      pdfPtr += pdfMovingIndex;
-
-      for (; pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex )
-                                + 2;
-            pdfMovingIndex++, pdfPtr++ )
-        {
-
-        // Update PDF for the current intensity pair
-        double movingImageParzenWindowArg = 
-          static_cast<double>( pdfMovingIndex ) - 
-          static_cast<double>( movingImageParzenWindowTerm );
-
-        *(pdfPtr) += static_cast<PDFValueType>( 
-          m_CubicBSplineKernel->Evaluate( movingImageParzenWindowArg ) );
-
-        }  //end parzen windowing for loop
-
-      } //end if-block check sampleOk
-    } // end iterating over fixed image spatial sample container for loop
-
-  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: "
-                 << nSamples << " / " << m_NumberOfSpatialSamples
-                 << std::endl );
-
-  if( nSamples < m_NumberOfSpatialSamples / 16 )
-    {
-    itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << nSamples << " / " << m_NumberOfSpatialSamples 
-                       << std::endl );
+    m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
-
-  this->m_NumberOfPixelsCounted = nSamples;
-
-
-  /**
-   * Normalize the PDFs, compute moving image marginal PDF
-   *
-   */
-  typedef ImageRegionIterator<JointPDFType> JointPDFIteratorType;
-  JointPDFIteratorType jointPDFIterator ( m_JointPDF,
-                                          m_JointPDF->GetBufferedRegion() );
-
-  jointPDFIterator.GoToBegin();
-  
-  // Compute joint PDF normalization factor 
-  // (to ensure joint PDF sum adds to 1.0)
-  double jointPDFSum = 0.0;
-
-  while( !jointPDFIterator.IsAtEnd() )
-    {
-    jointPDFSum += jointPDFIterator.Get();
-    ++jointPDFIterator;
-    }
-
-  if ( jointPDFSum == 0.0 )
+  if ( m_JointPDFSum == 0.0 )
     {
     itkExceptionMacro( "Joint PDF summed to zero" );
     }
 
+  memset( m_MovingImageMarginalPDF,
+          0,
+          m_NumberOfHistogramBins*sizeof(PDFValueType) );
 
-  // Normalize the PDF bins
-  jointPDFIterator.GoToEnd();
-  while( !jointPDFIterator.IsAtBegin() )
+  JointPDFValueType * pdfPtr;
+  PDFValueType * movingMarginalPtr;
+  unsigned int i, j;
+  double fixedPDFSum = 0.0;
+  double nFactor = 1.0 / m_JointPDFSum;
+  pdfPtr = m_JointPDF->GetBufferPointer();
+  for(i=0; i<m_NumberOfHistogramBins; i++)
     {
-    --jointPDFIterator;
-    jointPDFIterator.Value() /= static_cast<PDFValueType>( jointPDFSum );
+    fixedPDFSum += m_FixedImageMarginalPDF[i];
+    movingMarginalPtr = m_MovingImageMarginalPDF;
+    for(j=0; j<m_NumberOfHistogramBins; j++)
+      {
+      *(pdfPtr) *= nFactor;
+      *(movingMarginalPtr++) += *(pdfPtr++);
+      }
     }
 
+  if( this->m_NumberOfPixelsCounted <
+      this->m_NumberOfFixedImageSamples / 16 )
+    {
+    itkExceptionMacro( "Too many samples map outside moving image buffer: "
+                       << this->m_NumberOfPixelsCounted << " / "
+                       << this->m_NumberOfFixedImageSamples
+                       << std::endl );
+    }
 
   // Normalize the fixed image marginal PDF
-  double fixedPDFSum = 0.0;
-  for( unsigned int bin = 0; bin < m_NumberOfHistogramBins; bin++ )
-    {
-    fixedPDFSum += m_FixedImageMarginalPDF[bin];
-    }
-
   if ( fixedPDFSum == 0.0 )
     {
     itkExceptionMacro( "Fixed image marginal PDF summed to zero" );
     }
-
   for( unsigned int bin=0; bin < m_NumberOfHistogramBins; bin++ )
     {
-    m_FixedImageMarginalPDF[bin] /= static_cast<PDFValueType>( fixedPDFSum );
-    }
-
-
-  // Compute moving image marginal PDF by summing over fixed image bins.
-  typedef ImageLinearIteratorWithIndex<JointPDFType> JointPDFLinearIterator;
-  JointPDFLinearIterator linearIter( m_JointPDF,
-                                     m_JointPDF->GetBufferedRegion() );
-
-  linearIter.SetDirection( 1 );
-  linearIter.GoToBegin();
-  unsigned int movingIndex1 = 0;
-
-  while( !linearIter.IsAtEnd() )
-    {
-
-    double sum = 0.0;
-
-    while( !linearIter.IsAtEndOfLine() )
-      {
-      sum += linearIter.Get();
-      ++linearIter;
-      }
-
-    m_MovingImageMarginalPDF[movingIndex1] = static_cast<PDFValueType>(sum);
-
-    linearIter.NextLine();
-    ++movingIndex1;
-
+    m_FixedImageMarginalPDF[bin] /= fixedPDFSum;
     }
 
   /**
@@ -914,21 +740,18 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // Setup pointer to point to the first bin
   JointPDFValueType * jointPDFPtr = m_JointPDF->GetBufferPointer();
 
-  // Initialze sum to zero
   double sum = 0.0;
 
   for( unsigned int fixedIndex = 0;
        fixedIndex < m_NumberOfHistogramBins;
        ++fixedIndex )
     {
-
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
 
     for( unsigned int movingIndex = 0;
-         movingIndex < m_NumberOfHistogramBins; 
+         movingIndex < m_NumberOfHistogramBins;
          ++movingIndex, jointPDFPtr++ )
       {
-
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       double jointPDFValue = *(jointPDFPtr);
 
@@ -951,283 +774,317 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
+template < class TFixedImage, class TMovingImage  >
+inline void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivativeThreadPreProcess( unsigned int threadID,
+                                         bool itkNotUsed(withinSampleThread) ) const
+{
+  if(threadID > 0)
+    {
+    memset( m_ThreaderJointPDF[threadID-1]->GetBufferPointer(),
+            0,
+            m_JointPDFBufferSize );
+
+    memset( &(m_ThreaderFixedImageMarginalPDF[(threadID-1)
+                                              * m_NumberOfHistogramBins]),
+            0,
+            m_NumberOfHistogramBins*sizeof(PDFValueType) );
+
+    if( this->m_UseExplicitPDFDerivatives )
+      {
+      memset( m_ThreaderJointPDFDerivatives[threadID-1]->GetBufferPointer(),
+              0,
+              m_JointPDFDerivativesBufferSize );
+      }
+    }
+  else
+    {
+    memset( m_JointPDF->GetBufferPointer(),
+            0,
+            m_JointPDFBufferSize );
+    memset( m_FixedImageMarginalPDF,
+            0,
+            m_NumberOfHistogramBins*sizeof(PDFValueType) );
+
+    if( this->m_UseExplicitPDFDerivatives )
+      {
+      memset( m_JointPDFDerivatives->GetBufferPointer(),
+              0,
+              m_JointPDFDerivativesBufferSize );
+      }
+    }
+}
+
+template < class TFixedImage, class TMovingImage  >
+inline bool
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivativeThreadProcessSample( unsigned int threadID,
+                         unsigned long fixedImageSample,
+                         const MovingImagePointType & itkNotUsed(mappedPoint),
+                         double movingImageValue,
+                         const ImageDerivativesType &
+                         movingImageGradientValue) const
+{
+  /**
+   * Compute this sample's contribution to the marginal
+   *   and joint distributions.
+   *
+   */
+  if(movingImageValue < m_MovingImageTrueMin)
+    {
+    return false;
+    }
+  else if(movingImageValue > m_MovingImageTrueMax)
+    {
+    return false;
+    }
+
+  unsigned int fixedImageParzenWindowIndex =
+                      this->m_FixedImageSamples[fixedImageSample].valueIndex;
+
+  // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
+  double movingImageParzenWindowTerm = movingImageValue
+                                       / m_MovingImageBinSize
+                                       - m_MovingImageNormalizedMin;
+  OffsetValueType movingImageParzenWindowIndex =
+    static_cast<OffsetValueType>( movingImageParzenWindowTerm );
+
+  // Make sure the extreme values are in valid bins
+  if ( movingImageParzenWindowIndex < 2 )
+    {
+    movingImageParzenWindowIndex = 2;
+    }
+  else
+    {
+    const OffsetValueType nindex =
+      static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
+    if ( movingImageParzenWindowIndex > nindex )
+      {
+      movingImageParzenWindowIndex = nindex;
+      }
+    }
+
+  // Since a zero-order BSpline (box car) kernel is used for
+  // the fixed image marginal pdf, we need only increment the
+  // fixedImageParzenWindowIndex by value of 1.0.
+  if(threadID > 0)
+    {
+    ++m_ThreaderFixedImageMarginalPDF[(threadID-1)*m_NumberOfHistogramBins
+                                      + fixedImageParzenWindowIndex];
+    }
+  else
+    {
+    ++m_FixedImageMarginalPDF[fixedImageParzenWindowIndex];
+    }
+
+  /**
+    * The region of support of the parzen window determines which bins
+    * of the joint PDF are effected by the pair of image values.
+    * Since we are using a cubic spline for the moving image parzen
+    * window, four bins are effected.  The fixed image parzen window is
+    * a zero-order spline (box car) and thus effects only one bin.
+    *
+    *  The PDF is arranged so that moving image bins corresponds to the
+    * zero-th (column) dimension and the fixed image bins corresponds
+    * to the first (row) dimension.
+    *
+    */
+
+  // Pointer to affected bin to be updated
+  JointPDFValueType *pdfPtr;
+  if(threadID > 0)
+    {
+    pdfPtr = m_ThreaderJointPDF[threadID-1]
+                               ->GetBufferPointer() +
+                               ( fixedImageParzenWindowIndex
+                                 * m_NumberOfHistogramBins );
+    }
+  else
+    {
+    pdfPtr = m_JointPDF->GetBufferPointer() +
+                               ( fixedImageParzenWindowIndex
+                                 * m_NumberOfHistogramBins );
+    }
+
+  // Move the pointer to the fist affected bin
+  int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
+  pdfPtr += pdfMovingIndex;
+  int pdfMovingIndexMax = static_cast<int>(movingImageParzenWindowIndex) + 2;
+
+  double movingImageParzenWindowArg = static_cast<double>( pdfMovingIndex )
+                          - static_cast<double>( movingImageParzenWindowTerm );
+
+  while( pdfMovingIndex <= pdfMovingIndexMax )
+    {
+    *(pdfPtr++) += static_cast<PDFValueType>( m_CubicBSplineKernel
+                                              ->Evaluate(
+                                                movingImageParzenWindowArg ) );
+
+    if( this->m_UseExplicitPDFDerivatives || this->m_ImplicitDerivativesSecondPass )
+      {
+      // Compute the cubicBSplineDerivative for later repeated use.
+      double cubicBSplineDerivativeValue =
+        m_CubicBSplineDerivativeKernel->Evaluate( movingImageParzenWindowArg );
+
+      // Compute PDF derivative contribution.
+      this->ComputePDFDerivatives( threadID,
+                                   fixedImageSample,
+                                   pdfMovingIndex,
+                                   movingImageGradientValue,
+                                   cubicBSplineDerivativeValue );
+       }
+
+    movingImageParzenWindowArg += 1;
+    ++pdfMovingIndex;
+    }
+
+  return true;
+}
+
+template < class TFixedImage, class TMovingImage  >
+inline void
+MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
+::GetValueAndDerivativeThreadPostProcess( unsigned int threadID,
+                                          bool withinSampleThread ) const
+{
+  this->GetValueThreadPostProcess( threadID, withinSampleThread );
+
+  if( this->m_UseExplicitPDFDerivatives )
+    {
+    const unsigned int rowSize = this->m_NumberOfParameters * m_NumberOfHistogramBins;
+
+    const unsigned int maxI =
+      rowSize * ( m_ThreaderJointPDFEndBin[threadID]
+                - m_ThreaderJointPDFStartBin[threadID] + 1 );
+
+    JointPDFDerivativesValueType *pdfDPtr;
+    JointPDFDerivativesValueType *pdfDPtrStart;
+    pdfDPtrStart = m_JointPDFDerivatives->GetBufferPointer()
+                   + ( m_ThreaderJointPDFStartBin[threadID] * rowSize );
+    JointPDFDerivativesValueType *tPdfDPtr;
+    JointPDFDerivativesValueType *tPdfDPtrEnd;
+    unsigned int tPdfDPtrOffset;
+    tPdfDPtrOffset = m_ThreaderJointPDFStartBin[threadID] *  rowSize;
+    for(unsigned int t=0; t<this->m_NumberOfThreads-1; t++)
+      {
+      pdfDPtr = pdfDPtrStart;
+      tPdfDPtr = m_ThreaderJointPDFDerivatives[t]->GetBufferPointer()
+                 + tPdfDPtrOffset;
+      tPdfDPtrEnd = tPdfDPtr + maxI;
+      // for(i = 0; i < maxI; i++)
+      while(tPdfDPtr < tPdfDPtrEnd)
+        {
+        *(pdfDPtr++) += *(tPdfDPtr++);
+        }
+      }
+
+    double nFactor = 1.0 / (m_MovingImageBinSize
+                            * this->m_NumberOfPixelsCounted);
+
+    pdfDPtr = pdfDPtrStart;
+    tPdfDPtrEnd = pdfDPtrStart + maxI;
+    //for(int i = 0; i < maxI; i++)
+    while(pdfDPtr < tPdfDPtrEnd)
+      {
+      *(pdfDPtr++) *= nFactor;
+      }
+    }
+}
+
 /**
  * Get the both Value and Derivative Measure
  */
 template < class TFixedImage, class TMovingImage  >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetValueAndDerivative(
-  const ParametersType& parameters,
-  MeasureType& value,
-  DerivativeType& derivative) const
+::GetValueAndDerivative( const ParametersType & parameters,
+                         MeasureType & value,
+                         DerivativeType & derivative) const
 {
-
   // Set output values to zero
   value = NumericTraits< MeasureType >::Zero;
 
   if( this->m_UseExplicitPDFDerivatives )
     {
-    m_JointPDFDerivatives->FillBuffer( 0.0 );
-    derivative = DerivativeType( this->GetNumberOfParameters() );
-    derivative.Fill( NumericTraits< MeasureType >::Zero );
+    // Set output values to zero
+    if(derivative.GetSize() != this->m_NumberOfParameters)
+      {
+      derivative = DerivativeType( this->m_NumberOfParameters );
+      }
+    memset( derivative.data_block(),
+            0,
+            this->m_NumberOfParameters * sizeof(double) );
     }
   else
     {
-    this->m_MetricDerivative.Fill( NumericTraits< MeasureType >::Zero );
     this->m_PRatioArray.Fill( 0.0 );
+    this->m_MetricDerivative.Fill( NumericTraits< MeasureType >::Zero );
+    for(unsigned int threadID = 0; threadID < this->m_NumberOfThreads-1; threadID++ )
+      {
+      this->m_ThreaderMetricDerivative[threadID].Fill( NumericTraits< MeasureType >::Zero );
+      }
+    this->m_ImplicitDerivativesSecondPass = false;
     }
-
-  // Reset marginal pdf to all zeros.
-  // Assumed the size has already been set to NumberOfHistogramBins
-  // in Initialize().
-  for ( unsigned int j = 0; j < m_NumberOfHistogramBins; j++ )
-    {
-    m_FixedImageMarginalPDF[j]  = 0.0;
-    m_MovingImageMarginalPDF[j] = 0.0;
-    }
-
-  // Reset the joint pdfs to zero
-  m_JointPDF->FillBuffer( 0.0 );
-
 
   // Set up the parameters in the transform
   this->m_Transform->SetParameters( parameters );
+  this->m_Parameters = parameters;
 
+  // MUST BE CALLED TO INITIATE PROCESSING ON SAMPLES
+  this->GetValueAndDerivativeMultiThreadedInitiate();
 
-  // Declare iterators for iteration over the sample container
-  typename FixedImageSpatialSampleContainer::const_iterator fiter;
-  typename FixedImageSpatialSampleContainer::const_iterator fend = 
-    m_FixedImageSamples.end();
+  // CALL IF DOING THREADED POST PROCESSING
+  this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
 
-  unsigned long nSamples=0;
-  unsigned long nFixedImageSamples=0;
-
-  for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter )
+  for(unsigned int threadID = 0; threadID<this->m_NumberOfThreads-1; threadID++)
     {
-
-    // Get moving image value
-    MovingImagePointType mappedPoint;
-    bool sampleOk;
-    double movingImageValue;
-
-    
-    this->TransformPoint( nFixedImageSamples, parameters, mappedPoint, 
-                          sampleOk, movingImageValue );
-    
-    if( sampleOk )
-      {
-      ++nSamples; 
-
-      // Get moving image derivative at the mapped position
-      ImageDerivativesType movingImageGradientValue;
-      this->ComputeImageDerivatives( mappedPoint, movingImageGradientValue );
-
-
-      /**
-       * Compute this sample's contribution to the marginal 
-       *   and joint distributions.
-       *
-       */
-
-      // Determine parzen window arguments (see eqn 6 of Mattes paper [2])
-      double movingImageParzenWindowTerm =
-        movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-
-      OffsetValueType movingImageParzenWindowIndex = 
-        static_cast<unsigned int>( vcl_floor(movingImageParzenWindowTerm ) );
-
-     // Make sure the extreme values are in valid bins
-      if ( movingImageParzenWindowIndex < 2 )
-        {
-        movingImageParzenWindowIndex = 2;
-        }
-      else 
-        {
-        const OffsetValueType nindex = 
-          static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
-        if ( movingImageParzenWindowIndex > nindex )
-          {
-          movingImageParzenWindowIndex = nindex;
-          }
-        }
-
-
-      // Since a zero-order BSpline (box car) kernel is used for
-      // the fixed image marginal pdf, we need only increment the
-      // fixedImageParzenWindowIndex by value of 1.0.
-     m_FixedImageMarginalPDF[(*fiter).FixedImageParzenWindowIndex] +=
-        static_cast<PDFValueType>( 1 );
-        
-      /**
-       * The region of support of the parzen window determines which bins
-       * of the joint PDF are effected by the pair of image values.
-       * Since we are using a cubic spline for the moving image parzen
-       * window, four bins are effected.  The fixed image parzen window is
-       * a zero-order spline (box car) and thus effects only one bin.
-       *
-       *  The PDF is arranged so that moving image bins corresponds to the 
-       * zero-th (column) dimension and the fixed image bins corresponds
-       * to the first (row) dimension.
-       *
-       */
-
-      // Pointer to affected bin to be updated
-      JointPDFValueType *pdfPtr = m_JointPDF->GetBufferPointer() +
-        ( (*fiter).FixedImageParzenWindowIndex * m_NumberOfHistogramBins );
- 
-      // Move the pointer to the fist affected bin
-      int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
-      pdfPtr += pdfMovingIndex;
-
-      for (; pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex )
-                                + 2;
-             pdfMovingIndex++, pdfPtr++ )
-        {
-        // Update PDF for the current intensity pair
-        double movingImageParzenWindowArg = 
-          static_cast<double>( pdfMovingIndex ) - 
-          static_cast<double>(movingImageParzenWindowTerm);
-
-        *(pdfPtr) += static_cast<PDFValueType>( 
-          m_CubicBSplineKernel->Evaluate( movingImageParzenWindowArg ) );
-
-        if( this->m_UseExplicitPDFDerivatives )
-          {
-          // Compute the cubicBSplineDerivative for later repeated use.
-          double cubicBSplineDerivativeValue = 
-            m_CubicBSplineDerivativeKernel->Evaluate( 
-                                                 movingImageParzenWindowArg );
-
-          // Compute PDF derivative contribution.
-          this->ComputePDFDerivatives( nFixedImageSamples,
-                                       pdfMovingIndex, 
-                                       movingImageGradientValue, 
-                                       cubicBSplineDerivativeValue );
-          }
-
-        }  //end parzen windowing for loop
-
-      } //end if-block check sampleOk
-
-    ++nFixedImageSamples;
-
-    } // end iterating over fixed image spatial sample container for loop
-
-  itkDebugMacro( "Ratio of voxels mapping into moving image buffer: " 
-                 << nSamples << " / " << m_NumberOfSpatialSamples 
-                 << std::endl );
-
-  if( nSamples < m_NumberOfSpatialSamples / 16 )
-    {
-    itkExceptionMacro( "Too many samples map outside moving image buffer: "
-                       << nSamples << " / " << m_NumberOfSpatialSamples 
-                       << std::endl );
+    m_JointPDFSum += m_ThreaderJointPDFSum[threadID];
     }
-
-  this->m_NumberOfPixelsCounted = nSamples;
-
-  /**
-   * Normalize the PDFs, compute moving image marginal PDF
-   *
-   */
-  typedef ImageRegionIterator<JointPDFType> JointPDFIteratorType;
-  JointPDFIteratorType jointPDFIterator ( m_JointPDF,
-                                          m_JointPDF->GetBufferedRegion() );
-
-  jointPDFIterator.GoToBegin();
-  
-
-  // Compute joint PDF normalization factor 
-  // (to ensure joint PDF sum adds to 1.0)
-  double jointPDFSum = 0.0;
-
-  while( !jointPDFIterator.IsAtEnd() )
-    {
-    jointPDFSum += jointPDFIterator.Get();
-    ++jointPDFIterator;
-    }
-
-  if ( jointPDFSum == 0.0 )
+  if ( m_JointPDFSum == 0.0 )
     {
     itkExceptionMacro( "Joint PDF summed to zero" );
     }
 
+  memset( m_MovingImageMarginalPDF,
+          0,
+          m_NumberOfHistogramBins*sizeof(PDFValueType) );
 
-  // Normalize the PDF bins
-  jointPDFIterator.GoToEnd();
-  while( !jointPDFIterator.IsAtBegin() )
+  JointPDFValueType * pdfPtr;
+  PDFValueType * movingMarginalPtr;
+  unsigned int i, j;
+  double fixedPDFSum = 0.0;
+  const double normalizationFactor = 1.0 / m_JointPDFSum;
+
+  pdfPtr = m_JointPDF->GetBufferPointer();
+  for(i=0; i<m_NumberOfHistogramBins; i++)
     {
-    --jointPDFIterator;
-    jointPDFIterator.Value() /= static_cast<PDFValueType>( jointPDFSum );
+    fixedPDFSum += m_FixedImageMarginalPDF[i];
+    movingMarginalPtr = m_MovingImageMarginalPDF;
+    for(j=0; j<m_NumberOfHistogramBins; j++)
+      {
+      *(pdfPtr) *= normalizationFactor;
+      *(movingMarginalPtr++) += *(pdfPtr++);
+      }
     }
 
+  if( this->m_NumberOfPixelsCounted <
+      this->m_NumberOfFixedImageSamples / 16 )
+    {
+    itkExceptionMacro( "Too many samples map outside moving image buffer: "
+                       << this->m_NumberOfPixelsCounted << " / "
+                       << this->m_NumberOfFixedImageSamples
+                       << std::endl );
+    }
 
   // Normalize the fixed image marginal PDF
-  double fixedPDFSum = 0.0;
-  for( unsigned int bin = 0; bin < m_NumberOfHistogramBins; bin++ )
-    {
-    fixedPDFSum += m_FixedImageMarginalPDF[bin];
-    }
-
   if ( fixedPDFSum == 0.0 )
     {
     itkExceptionMacro( "Fixed image marginal PDF summed to zero" );
     }
-
   for( unsigned int bin=0; bin < m_NumberOfHistogramBins; bin++ )
     {
-    m_FixedImageMarginalPDF[bin] /= static_cast<PDFValueType>( fixedPDFSum );
-    }
-
-
-  // Compute moving image marginal PDF by summing over fixed image bins.
-  typedef ImageLinearIteratorWithIndex<JointPDFType> JointPDFLinearIterator;
-  JointPDFLinearIterator linearIter( 
-    m_JointPDF, m_JointPDF->GetBufferedRegion() );
-
-  linearIter.SetDirection( 1 );
-  linearIter.GoToBegin();
-  unsigned int movingIndex1 = 0;
-
-  while( !linearIter.IsAtEnd() )
-    {
-
-    double sum = 0.0;
-
-    while( !linearIter.IsAtEndOfLine() )
-      {
-      sum += linearIter.Get();
-      ++linearIter;
-      }
-
-    m_MovingImageMarginalPDF[movingIndex1] = static_cast<PDFValueType>(sum);
-
-    linearIter.NextLine();
-    ++movingIndex1;
-
-    }
-
-  double nFactor = 1.0 / ( m_MovingImageBinSize 
-                           * static_cast<double>( nSamples ) );
-
-  if( this->m_UseExplicitPDFDerivatives )
-    {
-    // Normalize the joint PDF derivatives by the test image binsize and nSamples
-    typedef ImageRegionIterator<JointPDFDerivativesType> 
-                                                 JointPDFDerivativesIteratorType;
-    JointPDFDerivativesIteratorType jointPDFDerivativesIterator (
-                                      m_JointPDFDerivatives, 
-                                      m_JointPDFDerivatives->GetBufferedRegion() 
-                                      );
-
-    jointPDFDerivativesIterator.GoToBegin();
-    
-    while( !jointPDFDerivativesIterator.IsAtEnd() )
-      {
-      jointPDFDerivativesIterator.Value() *= nFactor;
-      ++jointPDFDerivativesIterator;
-      }
+    m_FixedImageMarginalPDF[bin] /= fixedPDFSum;
     }
 
   /**
@@ -1240,14 +1097,18 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
   // Initialize sum to zero
   double sum = 0.0;
 
+  const double nFactor = 1.0 / (m_MovingImageBinSize
+                            * this->m_NumberOfPixelsCounted);
+
   for( unsigned int fixedIndex = 0;
        fixedIndex < m_NumberOfHistogramBins;
        ++fixedIndex )
     {
     double fixedImagePDFValue = m_FixedImageMarginalPDF[fixedIndex];
 
-    for( unsigned int movingIndex = 0; movingIndex < m_NumberOfHistogramBins; 
-        ++movingIndex, jointPDFPtr++ )
+    for( unsigned int movingIndex = 0;
+         movingIndex < m_NumberOfHistogramBins;
+         ++movingIndex, jointPDFPtr++ )
       {
       double movingImagePDFValue = m_MovingImageMarginalPDF[movingIndex];
       double jointPDFValue = *(jointPDFPtr);
@@ -1266,14 +1127,16 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
         if( this->m_UseExplicitPDFDerivatives )
           {
           // move joint pdf derivative pointer to the right position
-          JointPDFValueType * derivPtr = m_JointPDFDerivatives->GetBufferPointer() 
-             + ( fixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] ) 
+          JointPDFValueType * derivPtr = m_JointPDFDerivatives->GetBufferPointer()
+             + ( fixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
              + ( movingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
 
-          for( unsigned int parameter=0; parameter < m_NumberOfParameters; ++parameter, derivPtr++ )
+          for( unsigned int parameter=0; parameter < this->m_NumberOfParameters; ++parameter, derivPtr++ )
             {
+
             // Ref: eqn 23 of Thevenaz & Unser paper [3]
             derivative[parameter] -= (*derivPtr) * pRatio;
+
             }  // end for-loop over parameters
           }
         else
@@ -1288,94 +1151,32 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
     {
     // Second pass: This one is done for accumulating the contributions
     //              to the derivative array.
+    //
+    this->m_ImplicitDerivativesSecondPass = true;
+    //
+    // MUST BE CALLED TO INITIATE PROCESSING ON SAMPLES
+    this->GetValueAndDerivativeMultiThreadedInitiate();
 
-    nFixedImageSamples = 0;
+    // CALL IF DOING THREADED POST PROCESSING
+    this->GetValueAndDerivativeMultiThreadedPostProcessInitiate();
 
-    for ( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter )
+    // Consolidate the contributions from each one of the threads to the total
+    // derivative.
+    for(unsigned int t = 0; t < this->m_NumberOfThreads-1; t++ )
       {
-
-      // Get moving image value
-      MovingImagePointType mappedPoint;
-      bool sampleOk;
-      double movingImageValue;
-
-      this->TransformPoint( nFixedImageSamples, parameters, mappedPoint, 
-                            sampleOk, movingImageValue );
-
-      if( sampleOk )
+      DerivativeType * source = &(this->m_ThreaderMetricDerivative[t]);
+      for(unsigned int pp=0; pp < this->m_NumberOfParameters; pp++ )
         {
-        // Get moving image derivative at the mapped position
-        ImageDerivativesType movingImageGradientValue;
-        this->ComputeImageDerivatives( mappedPoint, movingImageGradientValue );
+        this->m_MetricDerivative[pp] += (*source)[pp];
+        }
+      }
 
-
-        /**
-         * Compute this sample's contribution to the marginal 
-         *   and joint distributions.
-         *
-         */
-
-        // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
-        double movingImageParzenWindowTerm =
-          movingImageValue / m_MovingImageBinSize - m_MovingImageNormalizedMin;
-        OffsetValueType movingImageParzenWindowIndex = 
-          static_cast<OffsetValueType>( vcl_floor(movingImageParzenWindowTerm ) );
-
-       // Make sure the extreme values are in valid bins
-        if ( movingImageParzenWindowIndex < 2 )
-          {
-          movingImageParzenWindowIndex = 2;
-          }
-        else 
-          {
-          const OffsetValueType nindex = 
-            static_cast< OffsetValueType >( this->m_NumberOfHistogramBins ) - 3;
-          if ( movingImageParzenWindowIndex > nindex ) 
-            {
-            movingImageParzenWindowIndex = nindex;
-            }
-          }
-
-        // Move the pointer to the fist affected bin
-        int pdfMovingIndex = static_cast<int>( movingImageParzenWindowIndex ) - 1;
-
-        for (; pdfMovingIndex <= static_cast<int>( movingImageParzenWindowIndex )
-                                  + 2;
-               pdfMovingIndex++ )
-          {
-
-          // Update PDF for the current intensity pair
-          double movingImageParzenWindowArg = 
-            static_cast<double>( pdfMovingIndex ) - 
-            static_cast<double>(movingImageParzenWindowTerm);
-
-          // Compute the cubicBSplineDerivative for later repeated use.
-          double cubicBSplineDerivativeValue = 
-            m_CubicBSplineDerivativeKernel->Evaluate( 
-                                                 movingImageParzenWindowArg );
-
-          // Compute PDF derivative contribution.
-          this->ComputePDFDerivatives( nFixedImageSamples,
-                                       pdfMovingIndex, 
-                                       movingImageGradientValue, 
-                                       cubicBSplineDerivativeValue );
-
-
-          }  //end parzen windowing for loop
-
-        } //end if-block check sampleOk
-
-      ++nFixedImageSamples;
-
-      } // end iterating over fixed image spatial sample container for loop
-
-   
     derivative = this->m_MetricDerivative;
     }
-  
-  value = static_cast<MeasureType>( -1.0 * sum );
-}
 
+  value = static_cast<MeasureType>( -1.0 * sum );
+
+}
 
 /**
  * Get the match measure derivative
@@ -1383,7 +1184,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 template < class TFixedImage, class TMovingImage  >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::GetDerivative( const ParametersType& parameters,
+::GetDerivative( const ParametersType & parameters,
                  DerivativeType & derivative ) const
 {
   MeasureType value;
@@ -1393,180 +1194,92 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 
 
 /**
- * Compute image derivatives using a central difference function
- * if we are not using a BSplineInterpolator, which includes
- * derivatives.
- */
-template < class TFixedImage, class TMovingImage >
-void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::ComputeImageDerivatives( 
-  const MovingImagePointType& mappedPoint, 
-  ImageDerivativesType& gradient ) const
-{
-  
-  if( m_InterpolatorIsBSpline )
-    {
-    // Computed moving image gradient using derivative BSpline kernel.
-    gradient = m_BSplineInterpolator->EvaluateDerivative( mappedPoint );
-    }
-  else
-    {
-    // For all generic interpolator use central differencing.
-   gradient = m_DerivativeCalculator->Evaluate( mappedPoint );
-    }
-
-}
-
-
-/**
- * Transform a point from FixedImage domain to MovingImage domain.
- * This function also checks if mapped point is within support region. 
- */
-template < class TFixedImage, class TMovingImage >
-void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::TransformPoint( 
-  unsigned int sampleNumber, 
-  const ParametersType& parameters,
-  MovingImagePointType& mappedPoint,
-  bool& sampleOk,
-  double& movingImageValue ) const
-{
-
-  if ( !m_TransformIsBSpline )
-    {
-    // Use generic transform to compute mapped position
-    mappedPoint = this->m_Transform->TransformPoint( 
-      m_FixedImageSamples[sampleNumber].FixedImagePointValue );
-
-    // Check if mapped point inside image buffer
-    sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
-    }
-  else
-    {
-
-    if( this->m_UseCachingOfBSplineWeights )
-      {  
-      // If the transform is BSplineDeformable, we can use the precomputed
-      // weights and indices to obtained the mapped position
-      //
-      const WeightsValueType * weights = 
-                                   m_BSplineTransformWeightsArray[sampleNumber];
-      const IndexValueType   * indices = 
-                                   m_BSplineTransformIndicesArray[sampleNumber];
-      mappedPoint.Fill( 0.0 );
-
-      if ( m_WithinSupportRegionArray[sampleNumber] )
-        {
-        for ( unsigned int k = 0; k < m_NumBSplineWeights; k++ )
-          {
-          for ( unsigned int j = 0; j < FixedImageDimension; j++ )
-            {
-            mappedPoint[j] += weights[k] * 
-              parameters[ indices[k] + m_ParametersOffset[j] ];
-            }
-          }
-        }
-
-      for( unsigned int j = 0; j < FixedImageDimension; j++ )
-        {
-        mappedPoint[j] += m_PreTransformPointsArray[sampleNumber][j];
-        }
-
-      // Check if mapped point inside image buffer
-      sampleOk = this->m_Interpolator->IsInsideBuffer( mappedPoint );
-
-      // Check if mapped point is within the support region of a grid point.
-      // This is neccessary for computing the metric gradient
-      sampleOk = sampleOk && m_WithinSupportRegionArray[sampleNumber];
-      }
-    else
-      {
-      // If not caching values, we invoke the Transform to recompute the
-      // mapping of the point.
-      this->m_BSplineTransform->TransformPoint( 
-        this->m_FixedImageSamples[sampleNumber].FixedImagePointValue,
-        mappedPoint, this->m_Weights, this->m_Indices, sampleOk);
-
-      // Check if mapped point inside image buffer
-      sampleOk = sampleOk && this->m_Interpolator->IsInsideBuffer( mappedPoint );
-      }
-
-    }
-
-  // If user provided a mask over the Moving image
-  if ( this->m_MovingImageMask )
-    {
-    // Check if mapped point is within the support region of the moving image
-    // mask
-    sampleOk = sampleOk && this->m_MovingImageMask->IsInside( mappedPoint );
-    }
-
-
-  if ( sampleOk )
-    {
-    movingImageValue = this->m_Interpolator->Evaluate( mappedPoint );
-
-    if ( movingImageValue < m_MovingImageTrueMin || 
-         movingImageValue > m_MovingImageTrueMax )
-      {
-      // need to throw out this sample as it will not fall into a valid bin
-      sampleOk = false;
-      }
-    }
-}
-
-
-/**
  * Compute PDF derivatives contribution for each parameter
  */
 template < class TFixedImage, class TMovingImage >
 void
 MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::ComputePDFDerivatives( 
-  unsigned int sampleNumber, 
-  int pdfMovingIndex,
-  const ImageDerivativesType& movingImageGradientValue,
-  double cubicBSplineDerivativeValue ) const
+::ComputePDFDerivatives( unsigned int threadID,
+                         unsigned int sampleNumber,
+                         int pdfMovingIndex,
+                         const ImageDerivativesType & movingImageGradientValue,
+                         double cubicBSplineDerivativeValue ) const
 {
+  // Update bins in the PDF derivatives for the current intensity pair
+  // Could pre-compute
+  JointPDFDerivativesValueType * derivPtr;
 
-  const int pdfFixedIndex = 
-    m_FixedImageSamples[sampleNumber].FixedImageParzenWindowIndex;
-
-  JointPDFValueType * derivPtr = NULL;
   double precomputedWeight = 0.0;
+
+  const int pdfFixedIndex = this->m_FixedImageSamples[sampleNumber].valueIndex;
+
+  DerivativeType * derivativeHelperArray = NULL;
 
   if( this->m_UseExplicitPDFDerivatives )
     {
-    // Update bins in the PDF derivatives for the current intensity pair
-    derivPtr = m_JointPDFDerivatives->GetBufferPointer() +
-      ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] ) +
-      ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
+    if(threadID > 0)
+      {
+      derivPtr = m_ThreaderJointPDFDerivatives[threadID-1]->GetBufferPointer()
+        + ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
+        + ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
+      }
+    else
+      {
+      derivPtr = m_JointPDFDerivatives->GetBufferPointer()
+        + ( pdfFixedIndex  * m_JointPDFDerivatives->GetOffsetTable()[2] )
+        + ( pdfMovingIndex * m_JointPDFDerivatives->GetOffsetTable()[1] );
+      }
     }
   else
     {
+    derivPtr = 0;
     // Recover the precomputed weight for this specific PDF bin
     precomputedWeight = this->m_PRatioArray[pdfFixedIndex][pdfMovingIndex];
+    if(threadID > 0)
+      {
+      derivativeHelperArray = &(this->m_ThreaderMetricDerivative[threadID-1]);
+      }
+    else
+      {
+      derivativeHelperArray = &(this->m_MetricDerivative);
+      }
+
     }
 
-  if( !m_TransformIsBSpline )
+  if( !this->m_TransformIsBSpline )
     {
-
     /**
      * Generic version which works for all transforms.
      */
 
     // Compute the transform Jacobian.
+    // Should pre-compute
     typedef typename TransformType::JacobianType JacobianType;
-    const JacobianType& jacobian = 
-      this->m_Transform->GetJacobian( 
-        m_FixedImageSamples[sampleNumber].FixedImagePointValue );
 
-    for ( unsigned int mu = 0; mu < m_NumberOfParameters; mu++ )
+    // Need to use one of the threader transforms if we're
+    // not in thread 0.
+    //
+    // Use a raw pointer here to avoid the overhead of smart pointers.
+    // For instance, Register and UnRegister have mutex locks around
+    // the reference counts.
+    TransformType* transform;
+
+    if (threadID > 0)
+      {
+      transform = this->m_ThreaderTransform[threadID - 1];
+      }
+    else
+      {
+      transform = this->m_Transform;
+      }
+
+    const JacobianType& jacobian =
+      transform->GetJacobian( this->m_FixedImageSamples[sampleNumber].point );
+
+    for ( unsigned int mu = 0; mu < this->m_NumberOfParameters; mu++ )
       {
       double innerProduct = 0.0;
-      for ( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
+      for ( unsigned int dim = 0; dim < Superclass::FixedImageDimension; dim++ )
         {
         innerProduct += jacobian[dim][mu] * movingImageGradientValue[dim];
         }
@@ -1576,60 +1289,74 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
       if( this->m_UseExplicitPDFDerivatives )
         {
         *(derivPtr) -= derivativeContribution;
-        ++derivPtr; 
+        ++derivPtr;
         }
       else
         {
-        this->m_MetricDerivative[mu] += precomputedWeight * derivativeContribution;
+        (*derivativeHelperArray)[mu] += precomputedWeight * derivativeContribution;
         }
       }
-
     }
   else
     {
     const WeightsValueType * weights = NULL;
     const IndexValueType   * indices = NULL;
 
+
+    BSplineTransformWeightsType    * weightsHelper = NULL;
+    BSplineTransformIndexArrayType * indicesHelper = NULL;
+
     if( this->m_UseCachingOfBSplineWeights )
       {
-      /**
-       * If the transform is of type BSplineDeformableTransform,
-       * we can obtain a speed up by only processing the affected parameters.
-       * Note that these pointers are just pointing to pre-allocated rows
-       * of the caching arrays. There is therefore, no need to free this
-       * memory.
-       */
-      weights = m_BSplineTransformWeightsArray[sampleNumber];
-      indices = m_BSplineTransformIndicesArray[sampleNumber];
+      //
+      // If the transform is of type BSplineDeformableTransform, we can obtain
+      // a speed up by only processing the affected parameters.  Note that
+      // these pointers are just pointing to pre-allocated rows of the caching
+      // arrays. There is therefore, no need to free this memory.
+      //
+      weights = this->m_BSplineTransformWeightsArray[sampleNumber];
+      indices = this->m_BSplineTransformIndicesArray[sampleNumber];
       }
     else
       {
-      m_BSplineTransform->GetJacobian(  
-        m_FixedImageSamples[sampleNumber].FixedImagePointValue, m_Weights, m_Indices );
+      if( threadID > 0 )
+        {
+        weightsHelper = &(this->m_ThreaderBSplineTransformWeights[threadID-1]);
+        indicesHelper = &(this->m_ThreaderBSplineTransformIndices[threadID-1]);
+        }
+      else
+        {
+        weightsHelper = &(this->m_BSplineTransformWeights);
+        indicesHelper = &(this->m_BSplineTransformIndices);
+        }
+
+      this->m_BSplineTransform->GetJacobian(
+        this->m_FixedImageSamples[sampleNumber].point,
+        *weightsHelper, *indicesHelper );
       }
 
-    for( unsigned int dim = 0; dim < FixedImageDimension; dim++ )
+    for( unsigned int dim = 0; dim < Superclass::FixedImageDimension; dim++ )
       {
 
       double innerProduct;
       int parameterIndex;
 
-      for( unsigned int mu = 0; mu < m_NumBSplineWeights; mu++ )
+      for( unsigned int mu = 0; mu < this->m_NumBSplineWeights; mu++ )
         {
 
-        /* The array weights contains the Jacobian values in a 1-D array 
+        /* The array weights contains the Jacobian values in a 1-D array
          * (because for each parameter the Jacobian is non-zero in only 1 of the
-         * possible dimensions) which is multiplied by the moving image 
+         * possible dimensions) which is multiplied by the moving image
          * gradient. */
         if( this->m_UseCachingOfBSplineWeights )
           {
           innerProduct = movingImageGradientValue[dim] * weights[mu];
-          parameterIndex = indices[mu] + m_ParametersOffset[dim];
+          parameterIndex = indices[mu] + this->m_BSplineParametersOffset[dim];
           }
         else
           {
-          innerProduct = movingImageGradientValue[dim] * this->m_Weights[mu];
-          parameterIndex = this->m_Indices[mu] + this->m_ParametersOffset[dim];
+          innerProduct = movingImageGradientValue[dim] * (*weightsHelper)[mu];
+          parameterIndex = (*indicesHelper)[mu] + this->m_BSplineParametersOffset[dim];
           }
 
         const double derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
@@ -1641,7 +1368,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
           }
         else
           {
-          this->m_MetricDerivative[parameterIndex] += precomputedWeight * derivativeContribution;
+          (*derivativeHelperArray)[parameterIndex] += precomputedWeight * derivativeContribution;
           }
 
         } //end mu for loop
@@ -1652,73 +1379,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 
-// Method to reinitialize the seed of the random number generator
-template < class TFixedImage, class TMovingImage  > void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::ReinitializeSeed()
-{
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed();
-}
-
-// Method to reinitialize the seed of the random number generator
-template < class TFixedImage, class TMovingImage  > void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::ReinitializeSeed(int seed)
-{
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(
-                                                                         seed);
-}
-
-
-/**
- * Cache pre-transformed points, weights and indices. 
- * This method is only called if the flag UseCachingOfBSplineWeights is ON.
- */
-template < class TFixedImage, class TMovingImage >
-void
-MattesMutualInformationImageToImageMetric<TFixedImage,TMovingImage>
-::PreComputeTransformValues()
-{
-  // Create all zero dummy transform parameters
-  ParametersType dummyParameters( this->m_Transform->GetNumberOfParameters() );
-  dummyParameters.Fill( 0.0 );
-  this->m_Transform->SetParameters( dummyParameters );
-
-  // Cycle through each sampled fixed image point
-  BSplineTransformWeightsType weights( m_NumBSplineWeights );
-  BSplineTransformIndexArrayType indices( m_NumBSplineWeights );
-  bool valid;
-  MovingImagePointType mappedPoint;
-
-  // Declare iterators for iteration over the sample container
-  typename FixedImageSpatialSampleContainer::const_iterator fiter;
-  typename FixedImageSpatialSampleContainer::const_iterator fend = 
-    m_FixedImageSamples.end();
-  unsigned long counter = 0;
-
-  for( fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter, counter++ )
-    {
-    m_BSplineTransform->TransformPoint( 
-                            m_FixedImageSamples[counter].FixedImagePointValue,
-                            mappedPoint, weights, indices, valid );
-
-    for( unsigned long k = 0; k < m_NumBSplineWeights; k++ )
-      {
-      m_BSplineTransformWeightsArray[counter][k] = weights[k];
-      m_BSplineTransformIndicesArray[counter][k] = indices[k];
-      }
-
-    m_PreTransformPointsArray[counter]      = mappedPoint;
-    m_WithinSupportRegionArray[counter]     = valid;
-
-    }
-
-}
-
-
 } // end namespace itk
 
-
-#endif
 
 #endif

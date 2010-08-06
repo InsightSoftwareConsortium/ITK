@@ -9,22 +9,18 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMatchCardinalityImageToImageMetric_h
 #define __itkMatchCardinalityImageToImageMetric_h
 
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptMatchCardinalityImageToImageMetric.h"
-#else
+/**
+ *  TODO: This class needs to be more tightly integrated with the new
+ *  multi-threaded ImageToImageMetric.
+ */
 
 #include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
@@ -67,8 +63,8 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  */
-template < class TFixedImage, class TMovingImage > 
-class ITK_EXPORT MatchCardinalityImageToImageMetric : 
+template < class TFixedImage, class TMovingImage >
+class ITK_EXPORT MatchCardinalityImageToImageMetric :
     public ImageToImageMetric< TFixedImage, TMovingImage>
 {
 public:
@@ -81,11 +77,11 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
- 
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MatchCardinalityImageToImageMetric, ImageToImageMetric);
 
- 
+
   /** Types transferred from the base class */
   typedef typename Superclass::RealType                 RealType;
   typedef typename Superclass::TransformType            TransformType;
@@ -93,8 +89,6 @@ public:
   typedef typename Superclass::TransformParametersType  TransformParametersType;
   typedef typename Superclass::TransformJacobianType    TransformJacobianType;
   typedef typename Superclass::GradientPixelType        GradientPixelType;
-  typedef typename Superclass::InputPointType           InputPointType;
-  typedef typename Superclass::OutputPointType          OutputPointType;
 
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;
@@ -130,11 +124,7 @@ public:
   itkSetMacro(MeasureMatches, bool);
   itkBooleanMacro(MeasureMatches);
   itkGetConstMacro(MeasureMatches, bool);
-  
-  /** Get/Set the number of threads to create when executing. */
-  itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
-  itkGetConstReferenceMacro( NumberOfThreads, int );
-  
+
   /** Return the multithreader used by this class. */
   MultiThreader * GetMultiThreader()
     {return m_Threader;}
@@ -182,23 +172,19 @@ private:
   MatchCardinalityImageToImageMetric(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  bool                       m_MeasureMatches;
-  std::vector<MeasureType>   m_ThreadMatches;
-  std::vector<unsigned long> m_ThreadCounts;
-  
+  bool                          m_MeasureMatches;
+  std::vector<MeasureType>      m_ThreadMatches;
+  std::vector<unsigned long>    m_ThreadCounts;
+
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  MultiThreader::Pointer m_Threader;
-  int                    m_NumberOfThreads;
+  MultiThreader::Pointer        m_Threader;
 };
-
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMatchCardinalityImageToImageMetric.txx"
-#endif
-
 #endif
 
 #endif

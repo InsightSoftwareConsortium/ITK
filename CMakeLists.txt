@@ -174,26 +174,6 @@ MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
 OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
 MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 
-# ITK turn on experimental version of accelerated image registration
-OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
-MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-  IF(NOT ITK_USE_REVIEW)
-    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental optimized registration methods.")
-  ENDIF(NOT ITK_USE_REVIEW)
-  # Warn the user about the implications of turning optimized registration methods ON
-  SET(msg "Attention: You have chosen to enable the use of Optimized Registration Methods.")
-  SET(msg "${msg} These methods add multi-threading capabilities to several image metrics")
-  SET(msg "${msg} as well as some Transforms and Interpolators. In order to take full advantage")
-  SET(msg "${msg} of these new features you will have to also add some new calls to these components.")
-  SET(msg "${msg} Please look at the files in the Examples/Review directory for further details.")
-
-# display the message during the setup
-MESSAGE("${msg}")
-
-
-ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-
 #-----------------------------------------------------------------------------
 # ITK turn on experimental version of accelerated image registration
 OPTION(ITK_USE_CONSOLIDATED_MORPHOLOGY "Turn on the experimental consolidated morphology." OFF)

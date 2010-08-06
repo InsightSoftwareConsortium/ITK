@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -46,7 +46,7 @@
  */
 template< class TImage, class TInterpolator>
 int TestMattesMetricWithAffineTransform(
-  TInterpolator * interpolator, bool useSampling, 
+  TInterpolator * interpolator, bool useSampling,
   bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )
 {
 
@@ -300,7 +300,7 @@ int TestMattesMetricWithAffineTransform(
   typename MetricType::DerivativeType derivative( numberOfParameters );
 
   std::cout << "param[4]\tMI\tMI2\tdMI/dparam[4]" << std::endl;
-  
+
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
     parameters[4] = trans;
@@ -379,7 +379,7 @@ int TestMattesMetricWithAffineTransform(
 //-------------------------------------------------------
   std::cout << "Name of class: " <<
     metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of samples used = " << 
+  std::cout << "No. of samples used = " <<
     metric->GetNumberOfSpatialSamples() << std::endl;
   std::cout << "No. of histogram bin used = " <<
     metric->GetNumberOfHistogramBins() << std::endl;
@@ -599,7 +599,7 @@ int TestMattesMetricWithBSplineDeformableTransform(
 
   std::cout << "q = " << q << std::endl;
   std::cout << "param[q]\tMI\tMI2\tdMI/dparam[q]" << std::endl;
-  
+
   for( double trans = -10; trans <= 5; trans += 0.5 )
     {
    // parameters[q] = trans;
@@ -648,25 +648,10 @@ int TestMattesMetricWithBSplineDeformableTransform(
       }
 
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
     measurePlus = metric->GetValue( parametersPlus );
-    unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples(); 
+    const unsigned long numberPlusSamples= metric->GetNumberOfMovingImageSamples();
     measureMinus = metric->GetValue( parametersMinus );
-    unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples();
-    
-    //Test was failing due to some +-perturbed points viewed as
-    //"inside", while -=perturbed points were outside, and
-    //vice-versa. This logic ensures that such points are excluded
-    //from the test.
-    if ( numberPlusSamples!= numberMinusSamples)
-      {
-      continue; 
-      }
-#else
-    measurePlus = metric->GetValue( parametersPlus );
-    unsigned long numberPlusSamples= metric->GetNumberOfPixelsCounted(); 
-    measureMinus = metric->GetValue( parametersMinus );
-    unsigned long numberMinusSamples= metric->GetNumberOfPixelsCounted();
+    const unsigned long numberMinusSamples= metric->GetNumberOfMovingImageSamples();
 
     //Test was failing due to some +-perturbed points viewed as
     //"inside", while -=perturbed points were outside, and
@@ -674,10 +659,8 @@ int TestMattesMetricWithBSplineDeformableTransform(
     //from the test.
     if ( numberPlusSamples!= numberMinusSamples)
       {
-      continue; 
+      continue;
       }
-#endif
-    
     double approxDerivative = ( measurePlus - measureMinus ) / ( 2 * delta );
     double ratio = derivative[i]/approxDerivative;
 
@@ -734,13 +717,13 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   typedef itk::LinearInterpolateImageFunction< ImageType, double >
     LinearInterpolatorType;
 
-  LinearInterpolatorType::Pointer linearInterpolator 
+  LinearInterpolatorType::Pointer linearInterpolator
     = LinearInterpolatorType::New();
 
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
     linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
@@ -750,7 +733,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   failed = TestMattesMetricWithAffineTransform<ImageType,LinearInterpolatorType>(
     linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
@@ -770,7 +753,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
     bSplineInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
@@ -780,7 +763,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   failed = TestMattesMetricWithAffineTransform<ImageType,BSplineInterpolatorType>(
     bSplineInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
@@ -790,10 +773,10 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   // Test metric with BSpline deformable transform
   useSampling = true;
   failed = TestMattesMetricWithBSplineDeformableTransform<
-    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling, 
+    ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling,
         useExplicitJointPDFDerivatives, useCachingBSplineWeights );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
@@ -812,7 +795,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   failed = TestMattesMetricWithBSplineDeformableTransform<
     ImageType,BSplineInterpolatorType>( bSplineInterpolator, useSampling );
 
-  if ( failed ) 
+  if ( failed )
     {
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;

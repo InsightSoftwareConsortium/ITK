@@ -9,23 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMatchCardinalityImageToImageMetric_txx
 #define __itkMatchCardinalityImageToImageMetric_txx
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptMatchCardinalityImageToImageMetric.txx"
-#else
-
 
 #include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
@@ -36,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 ::MatchCardinalityImageToImageMetric()
 {
@@ -46,13 +36,12 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   m_MeasureMatches = true;  // default to measure percentage of pixel matches
 
   m_Threader = MultiThreader::New();
-  m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 }
 
 /*
  * Get the match Measure
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 typename MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 ::GetValue( const TransformParametersType & parameters ) const
@@ -63,15 +52,15 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 /**
  * Get the match Measure (non const version. spawns threads).
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 typename MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>::MeasureType
 MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
-::GetNonconstValue( const TransformParametersType & parameters ) 
+::GetNonconstValue( const TransformParametersType & parameters )
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 
   FixedImageConstPointer fixedImage = this->m_FixedImage;
-  if( !fixedImage ) 
+  if( !fixedImage )
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
@@ -105,15 +94,15 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   //
   ThreadStruct str;
   str.Metric = this;
-  
+
   this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
-  
+
   // multithread the execution
   //
   //
   this->GetMultiThreader()->SingleMethodExecute();
-  
+
   // Collect the contribution to the metric for each thread
   //
   //
@@ -137,19 +126,19 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   return measure;
 }
 
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 void
 MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 ::ThreadedGetValue( const FixedImageRegionType &regionForThread,
-                    int threadId ) 
+                    int threadId )
 {
   FixedImageConstPointer fixedImage = this->GetFixedImage();
-  if( !fixedImage ) 
+  if( !fixedImage )
     {
     itkExceptionMacro( << "Fixed image has not been assigned" );
     }
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
   typename FixedImageType::IndexType index;
   FixedIteratorType ti( fixedImage, regionForThread );
 
@@ -159,8 +148,8 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
   while(!ti.IsAtEnd())
     {
     index = ti.GetIndex();
-    
-    InputPointType inputPoint;
+
+    typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint( index, inputPoint );
 
     if( this->GetFixedImageMask() && !this->GetFixedImageMask()->IsInside( inputPoint ) )
@@ -169,7 +158,7 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
       continue;
       }
 
-    OutputPointType
+    typename Superclass::OutputPointType
       transformedPoint = this->GetTransform()->TransformPoint( inputPoint );
 
     if( this->GetMovingImageMask() && !this->GetMovingImageMask()->IsInside( transformedPoint ) )
@@ -183,9 +172,9 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
       const RealType movingValue= this->GetInterpolator()->Evaluate( transformedPoint );
       const RealType fixedValue = ti.Get();
       RealType diff;
-      
+
       threadNumberOfPixelsCounted++;
-      
+
       if (m_MeasureMatches)
         {
         diff = (movingValue == fixedValue); // count matches
@@ -205,13 +194,13 @@ MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 }
 
 //----------------------------------------------------------------------------
-template <class TFixedImage, class TMovingImage> 
-int 
+template <class TFixedImage, class TMovingImage>
+int
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
 ::SplitFixedRegion(int i, int num, FixedImageRegionType& splitRegion)
 {
   // Get the output pointer
-  const typename FixedImageRegionType::SizeType& fixedRegionSize 
+  const typename FixedImageRegionType::SizeType& fixedRegionSize
     = this->GetFixedImageRegion().GetSize();
 
   int splitAxis;
@@ -237,8 +226,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
 
   // determine the actual number of pieces that will be generated
   typename FixedImageRegionType::SizeType::SizeValueType range = fixedRegionSize[splitAxis];
-  int valuesPerThread = (int)vcl_ceil(range/(double)num);
-  int maxThreadIdUsed = (int)vcl_ceil(range/(double)valuesPerThread) - 1;
+  int valuesPerThread = Math::Ceil<int>(range/(double)num);
+  int maxThreadIdUsed = Math::Ceil<int>(range/(double)valuesPerThread) - 1;
 
   // Split the region
   if (i < maxThreadIdUsed)
@@ -252,7 +241,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
     // last thread needs to process the "rest" dimension being split
     splitSize[splitAxis] = splitSize[splitAxis] - i*valuesPerThread;
     }
-  
+
   // set the split region ivars
   splitRegion.SetIndex( splitIndex );
   splitRegion.SetSize( splitSize );
@@ -264,9 +253,9 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
 
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
-// thread. 
-template <class TFixedImage, class TMovingImage> 
-ITK_THREAD_RETURN_TYPE 
+// thread.
+template <class TFixedImage, class TMovingImage>
+ITK_THREAD_RETURN_TYPE
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
 ::ThreaderCallback( void *arg )
 {
@@ -290,29 +279,26 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>
   // else
   //   {
   //   otherwise don't use this thread. Sometimes the threads dont
-  //   break up very well and it is just as efficient to leave a 
+  //   break up very well and it is just as efficient to leave a
   //   few threads idle.
   //   }
-  
+
   return ITK_THREAD_RETURN_VALUE;
 }
 
 /**
  * PrintSelf
  */
-template <class TFixedImage, class TMovingImage> 
+template <class TFixedImage, class TMovingImage>
 void
 MatchCardinalityImageToImageMetric<TFixedImage,TMovingImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "MeasureMatches: " << (m_MeasureMatches ? "On" : "Off")  << std::endl;
-  os << indent << "NumberOfThreads: " << m_NumberOfThreads  << std::endl;
 }
 
 } // end namespace itk
 
-
-#endif
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -50,18 +50,13 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   m_FixedImageRegionDefined = false;
 
 
-  TransformOutputPointer transformDecorator = 
-                 static_cast< TransformOutputType * >( 
+  TransformOutputPointer transformDecorator =
+                 static_cast< TransformOutputType * >(
                                   this->MakeOutput(0).GetPointer() );
 
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   this->SetNumberOfThreads( this->GetMultiThreader()->GetNumberOfThreads() );
-#else
-  this->SetNumberOfThreads( 1 );
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
-#endif
 }
 
 
@@ -79,7 +74,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
   // Some of the following should be removed once ivars are put in the
   // input and output lists
-  
+
   if (m_Transform)
     {
     m = m_Transform->GetMTime();
@@ -117,7 +112,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     }
 
   return mtime;
-  
+
 }
 
 /*
@@ -141,7 +136,7 @@ template < typename TFixedImage, typename TMovingImage >
 void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetFixedImageRegion( const FixedImageRegionType & region )
-{ 
+{
   m_FixedImageRegion = region;
   m_FixedImageRegionDefined = true;
   this->Modified();
@@ -149,7 +144,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 /**
- * Initialize by setting the interconnects between components. 
+ * Initialize by setting the interconnects between components.
  */
 template < typename TFixedImage, typename TMovingImage >
 void
@@ -185,22 +180,19 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   //
   // Connect the transform to the Decorator.
   //
-  TransformOutputType * transformOutput =  
+  TransformOutputType * transformOutput =
      static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
   transformOutput->Set( m_Transform.GetPointer() );
 
-  
   if( !m_Interpolator )
     {
     itkExceptionMacro(<<"Interpolator is not present");
     }
 
   // Setup the metric
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
   this->m_Metric->SetNumberOfThreads( this->GetNumberOfThreads() );
-#endif
   m_Metric->SetMovingImage( m_MovingImage );
   m_Metric->SetFixedImage( m_FixedImage );
   m_Metric->SetTransform( m_Transform );
@@ -221,7 +213,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   m_Optimizer->SetCostFunction( m_Metric );
 
   // Validate initial transform parameters
-  if ( m_InitialTransformParameters.Size() != 
+  if ( m_InitialTransformParameters.Size() !=
        m_Transform->GetNumberOfParameters() )
     {
     itkExceptionMacro(<<"Size mismatch between initial parameters and transform." <<
@@ -241,7 +233,7 @@ template < typename TFixedImage, typename TMovingImage >
 void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartRegistration( void )
-{ 
+{
 
   // StartRegistration is an old API from before
   // ImageRegistrationMethod was a subclass of ProcessObject.
@@ -252,7 +244,7 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
   //
   // Since we cannot eliminate StartRegistration for backward
   // compability reasons, we check whether StartRegistration was
-  // called directly or whether Update() (which in turn called 
+  // called directly or whether Update() (which in turn called
   // StartRegistration()).
   if (!m_Updating)
     {
@@ -270,11 +262,11 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
     catch( ExceptionObject& err )
       {
       m_LastTransformParameters = empty;
-      
+
       // pass exception to caller
       throw err;
       }
-  
+
     this->StartOptimization();
     }
 }
@@ -287,7 +279,7 @@ template < typename TFixedImage, typename TMovingImage >
 void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::StartOptimization( void )
-{ 
+{
 
   try
     {
@@ -372,41 +364,41 @@ ImageRegistrationMethod<TFixedImage,TMovingImage>
 
 
 template < typename TFixedImage, typename TMovingImage >
-void 
+void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetFixedImage( const FixedImageType * fixedImage )
 {
-  itkDebugMacro("setting Fixed Image to " << fixedImage ); 
+  itkDebugMacro("setting Fixed Image to " << fixedImage );
 
-  if (this->m_FixedImage.GetPointer() != fixedImage ) 
-    { 
+  if (this->m_FixedImage.GetPointer() != fixedImage )
+    {
     this->m_FixedImage = fixedImage;
 
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput(0, 
+    this->ProcessObject::SetNthInput(0,
                                    const_cast< FixedImageType *>( fixedImage ) );
-    
-    this->Modified(); 
-    } 
+
+    this->Modified();
+    }
 }
 
 template < typename TFixedImage, typename TMovingImage >
-void 
+void
 ImageRegistrationMethod<TFixedImage,TMovingImage>
 ::SetMovingImage( const MovingImageType * movingImage )
 {
-  itkDebugMacro("setting Moving Image to " << movingImage ); 
+  itkDebugMacro("setting Moving Image to " << movingImage );
 
-  if (this->m_MovingImage.GetPointer() != movingImage ) 
-    { 
+  if (this->m_MovingImage.GetPointer() != movingImage )
+    {
     this->m_MovingImage = movingImage;
 
     // Process object is not const-correct so the const_cast is required here
-    this->ProcessObject::SetNthInput(1, 
+    this->ProcessObject::SetNthInput(1,
                                    const_cast< MovingImageType *>( movingImage ) );
-    
-    this->Modified(); 
-    } 
+
+    this->Modified();
+    }
 }
 
 } // end namespace itk

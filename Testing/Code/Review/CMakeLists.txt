@@ -332,15 +332,12 @@ ADD_TEST(itkOptImageToImageMetricsTest03
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
   )
 
-IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
 SET(ReviewTest_SRCS ${ReviewTest_SRCS} itkOptImageToImageMetricsTest2.cxx)
 ADD_TEST(itkOptImageToImageMetricsTest04
   ${REVIEW_TESTS} itkOptImageToImageMetricsTest2
   ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
   ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Common/itkBSplineDeformableTransformTest4.png
   )
-ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-
 
 ADD_TEST(itkOptMattesImageToImageMetricsTest01
   ${REVIEW_TESTS} itkOptMattesMutualInformationImageToImageMetricThreadsTest1

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,11 +33,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
     return EXIT_FAILURE;
     }
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
 
   const unsigned int maximumNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
   const unsigned int defaultNumberOfThreads = itk::MultiThreader::GetGlobalDefaultNumberOfThreads();
@@ -83,28 +79,25 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   typedef itk::NearestNeighborInterpolateImageFunction< ImageType > InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  
+
   typedef itk::MattesMutualInformationImageToImageMetric< ImageType, ImageType > MetricType;
   MetricType::Pointer metric = MetricType::New();
 
   typedef itk::TranslationTransform< double, Dimension >  TranformType;
   TranformType::Pointer transform = TranformType::New();
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   unsigned int numberOfSamples = 100;
 
   if( argc > 4 )
     {
     numberOfSamples = atoi( argv[4] );
     }
-
   metric->SetNumberOfFixedImageSamples( numberOfSamples );
-#endif
 
   metric->SetTransform( transform );
   metric->SetInterpolator( interpolator );
-  metric->SetFixedImage( fixedImageReader->GetOutput() ); 
-  metric->SetMovingImage( movingImageReader->GetOutput() ); 
+  metric->SetFixedImage( fixedImageReader->GetOutput() );
+  metric->SetMovingImage( movingImageReader->GetOutput() );
   metric->SetFixedImageRegion(  fixedImageReader->GetOutput()->GetBufferedRegion()  );
 
   MetricType::TransformParametersType displacement( Dimension );
@@ -129,14 +122,12 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
   for( unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; numberOfThreads++ )
     {
-    try 
+    try
       {
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
       metric->SetNumberOfThreads( numberOfThreads );
-#endif
       metric->ReinitializeSeed( 76926294 );
       metric->Initialize();
-      
+
       metric->GetValueAndDerivative( displacement, value, derivative );
 
       value1 = metric->GetValue( displacement );

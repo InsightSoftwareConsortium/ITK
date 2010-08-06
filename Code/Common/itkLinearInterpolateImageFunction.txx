@@ -9,24 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkLinearInterpolateImageFunction_txx
 #define __itkLinearInterpolateImageFunction_txx
-
-// First, make sure that we include the configuration file.
-// This line may be removed once the ThreadSafeTransform gets
-// integrated into ITK.
-#include "itkConfigure.h"
-
-// Second, redirect to the optimized version if necessary
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-#include "itkOptLinearInterpolateImageFunction.txx"
-#else
-
 
 #include "itkLinearInterpolateImageFunction.h"
 
@@ -51,9 +40,13 @@ template<class TInputImage, class TCoordRep>
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::LinearInterpolateImageFunction()
 {
-
 }
 
+template<class TInputImage, class TCoordRep>
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
+::~LinearInterpolateImageFunction()
+{
+}
 
 /**
  * PrintSelf
@@ -74,8 +67,7 @@ template<class TInputImage, class TCoordRep>
 typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::EvaluateAtContinuousIndex(
-  const ContinuousIndexType& index) const
+::EvaluateUnoptimized( const ContinuousIndexType& index) const
 {
   unsigned int dim;  // index over dimension
 
@@ -88,10 +80,10 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 
   for( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = Math::Floor< IndexValueType >( index[dim] );
+    baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
     distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
     }
-  
+
   /**
    * Interpolated value is the weighted sum of each of the surrounding
    * neighbors. The weight for each neighbor is the fraction overlap
@@ -139,7 +131,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
       upper >>= 1;
 
       }
-    
+
     // get neighbor value only if overlap is not zero
     if( overlap )
       {
@@ -159,7 +151,5 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 }
 
 } // end namespace itk
-
-#endif
 
 #endif
