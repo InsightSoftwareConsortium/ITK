@@ -1902,8 +1902,8 @@ ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest ${REVIEW_TESTS}
   1 0)
 
 ADD_TEST(itkHessianToObjectnessMeasureImageFilterTest2 ${REVIEW_TESTS}
-  --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest.mha
-            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+  --compare ${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest2.mha
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
             --compareIntensityTolerance .01
   itkHessianToObjectnessMeasureImageFilterTest
   ${INPUTDATA}/DSA.png
