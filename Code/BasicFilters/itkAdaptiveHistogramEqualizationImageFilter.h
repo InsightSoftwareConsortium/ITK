@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,22 +18,13 @@
 #define __itkAdaptiveHistogramEqualizationImageFilter_h
 
 
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptAdaptiveHistogramEqualizationImageFilter.h"
-#else
-
-
-#include <itkImageToImageFilter.h>
+#include <itkBoxImageFilter.h>
 #include <itkImage.h>
 
 namespace itk
 {
-/** \class AdaptiveHistogramEqualizationImageFilter
+/**
+ * \class AdaptiveHistogramEqualizationImageFilter
  * \brief Power Law Adaptive Histogram Equalization
  *
  * Histogram equalization modifies the contrast in an image. The
@@ -63,15 +54,17 @@ namespace itk
  * For detail description, reference "Adaptive Image Contrast
  * Enhancement using Generalizations of Histogram Equalization."
  * J.Alex Stark. IEEE Transactions on Image Processing, May 2000.
- * 
+ *
  * \ingroup ImageEnhancement
  */
 template <class TImageType>
 class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter :
-    public ImageToImageFilter< TImageType, TImageType >
+    public BoxImageFilter< TImageType, TImageType >
 {
 public:
-  /** Standard class typedefs. */ 
+  /**
+   * Standard class typedefs
+   */
   typedef AdaptiveHistogramEqualizationImageFilter     Self;
   typedef ImageToImageFilter< TImageType, TImageType > Superclass;
   typedef SmartPointer<Self>                           Pointer;
@@ -103,12 +96,6 @@ public:
   itkSetMacro(Beta, float);
   itkGetConstMacro(Beta, float);
 
-  /** Set/Get the radius of the neighborhood used to compute local
-   * statistics. Radius sizes of 10 and 20 are common.  Default is a
-   * radius of 5. */
-  itkSetMacro(Radius, ImageSizeType);
-  itkGetConstReferenceMacro(Radius, ImageSizeType);
-
   /** Set/Get whether an optimized lookup table for the intensity
    * mapping function is used.  Default is off. */
   itkSetMacro(UseLookupTable, bool);
@@ -120,20 +107,16 @@ protected:
     {
     m_Alpha = .3;
     m_Beta = .3;
-    m_Radius.Fill( 5 );
+    this->SetRadius( 5 );
     m_UseLookupTable = false;
     }
   virtual ~AdaptiveHistogramEqualizationImageFilter(){}
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** Standard pipeline method. */
+  /**
+   * Standard pipeline method
+   */
   void GenerateData();
-
-  /** Adaptive histogram equalization requires more input that it
-   * outputs. It needs request an input region that is padded by the
-   * radius.
-   * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion();
 
 private:
   AdaptiveHistogramEqualizationImageFilter(const Self&); //purposely not implemented
@@ -145,25 +128,19 @@ private:
   /** The alpha parameter of the AdaptiveHistogramEqualization. */
   float m_Beta;
 
-  /** The window size of the adaptive algorithm.  This parameter
-   * defines the size of neighborhood around the evaluated pixel. */
-  ImageSizeType m_Radius;
-
   /** Should we use a lookup table to optimize the use of the
    * intensity mapping function? */
   bool m_UseLookupTable;
 
   /** A function which is used in GenerateData(). */
   float CumulativeFunction(float u, float v);
-   
+
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAdaptiveHistogramEqualizationImageFilter.txx"
-#endif
-
 #endif
 
 #endif

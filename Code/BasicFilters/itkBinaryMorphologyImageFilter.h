@@ -9,27 +9,17 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkBinaryMorphologyImageFilter_h
 #define __itkBinaryMorphologyImageFilter_h
 
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptBinaryMorphologyImageFilter.h"
-#else
-
 #include <vector>
 #include <queue>
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 #include "itkImage.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodIterator.h"
@@ -53,7 +43,7 @@ namespace itk
  * arbitrary structuring elements", and
  *
  * N.Nikopoulos et al. "An efficient algorithm for 3d binary
- * morphological transformations with 3d structuring elements 
+ * morphological transformations with 3d structuring elements
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
  *
@@ -92,7 +82,7 @@ namespace itk
  * Xbi ={ x + bi, x belongs to X }
  *
  * where BORDER(X) is the extracted border of X ( 8 connectivity in
- * 2D, 26 in 3D ) 
+ * 2D, 26 in 3D )
  *
  * Our implementation for dilation is defined as:
  *
@@ -100,7 +90,7 @@ namespace itk
  *
  * Where DILATION(X)_B is the dilation of set with structuring element B.
  * Where SYM(B) is the symmetric of the structuring element relatively
- * to its center. 
+ * to its center.
  *
  * This code was contributed by Jerome Schmid from the University of
  * Strasbourg who provided a fast dilation implementation. Gaetan
@@ -113,7 +103,7 @@ namespace itk
  */
 template <class TInputImage, class TOutputImage, class TKernel>
 class ITK_EXPORT BinaryMorphologyImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+    public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -125,14 +115,15 @@ public:
   /** Extract the dimension of the kernel */
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
-  
+
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
   typedef BinaryMorphologyImageFilter                          Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
+  typedef KernelImageFilter< InputImageType, OutputImageType, TKernel>
+                                                               Superclass;
   typedef SmartPointer<Self>                                   Pointer;
   typedef SmartPointer<const Self>                             ConstPointer;
 
@@ -164,11 +155,13 @@ public:
       (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
                               itkGetStaticConstMacro(OutputImageDimension)>));
 
-  /** Set kernel (structuring element). */
-  void SetKernel( const KernelType& kernel );
-
-  /** Get the kernel (structuring element). */
-  itkGetConstReferenceMacro(Kernel, KernelType);
+// Cannot get this to work with gcc compiler
+#if 0
+  /** Input and structuring element must be the same dimnesion. */
+  itkConceptMacro(KernelDimensionCheck,
+      (Concept::SameDimension<itkGetStaticConstMacro(KernelDimension),
+                              itkGetStaticConstMacro(InputImageDimension)>));
+#endif
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to
@@ -190,11 +183,15 @@ public:
    * to fill the removed pixels.
    */
   itkGetConstMacro(BackgroundValue, OutputPixelType);
-  
-  /** Get/Set the borders as foreground (true) or background (false). */
+
+  /** Get/Set the borders as foreground (true) or background (false).
+   */
   itkSetMacro(BoundaryToForeground, bool);
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
   itkBooleanMacro(BoundaryToForeground);
+
+  /** Set kernel (structuring element). */
+  void SetKernel( const KernelType& kernel );
 
 protected:
   BinaryMorphologyImageFilter();
@@ -202,56 +199,36 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /**
-   * Analyze kernel and prepare data for GenerateData() function
-   */
+   * Analyze kernel and prepare data for GenerateData() function */
   void AnalyzeKernel();
 
-  /**
-   * BinaryMorphologyImageFilter needs to request enough of
-   * an input image to account for the structuring element and
-   * connectivity element size.  The input requested region is
-   * expanded by the maximum of the radius of the structuring element
-   * and the radius used to determine connectivity (typically one).
-   * If the request extends past the LargestPossibleRegion for the
-   * input, the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
-  
-  // type definition of container of neighbourhood index
+  /** Type definition of container of neighbourhood index */
   typedef std::vector< OffsetType > NeighborIndexContainer;
 
-  // type definition of container of container of neighbourhood index
+  /** Type definition of container of container of neighbourhood index */
   typedef std::vector<NeighborIndexContainer> NeighborIndexContainerContainer;
 
-  // type definition of the container for indices
+  /** Type definition of the container for indices */
   typedef std::vector< OffsetType > ComponentVectorType;
 
-  // iterator for ComponentVectorType
+  /** Iterator for ComponentVectorType */
   typedef typename ComponentVectorType::const_iterator
     ComponentVectorConstIterator;
 
   /**
-   * Get the difference set for a particular offset
-   */
+   * Get the difference set for a particular offset */
   NeighborIndexContainer& GetDifferenceSet(unsigned int code)
     { return m_KernelDifferenceSets[code]; }
 
   /**
-   * Get an iterator to the start of the connected component vector
-   */
+   * Get an iterator to the start of the connected component vector */
   ComponentVectorConstIterator KernelCCVectorBegin()
     { return m_KernelCCVector.begin(); }
 
   /**
-   * Get an iterator to the end of the connected component vector
-   */
+   * Get an iterator to the end of the connected component vector */
   ComponentVectorConstIterator KernelCCVectorEnd()
     { return m_KernelCCVector.end(); }
-
-  /**
-   * Get the connectivity radius
-   */
-  InputSizeType GetRadius() const
-    { return m_Radius; }
 
   bool m_BoundaryToForeground;
 
@@ -259,25 +236,18 @@ private:
   BinaryMorphologyImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** radius of neighborhood used in order to define connectivity
-    * neighborhood */
-  InputSizeType m_Radius;
-
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel;
-
   /** Pixel value to dilate */
   InputPixelType m_ForegroundValue;
 
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
-  
-  // Difference sets definition
+
+  /** Difference sets definition */
   NeighborIndexContainerContainer m_KernelDifferenceSets;
 
-  // For each Connected Component ( CC ) of structuring element we
-  // store the position of one element, arbitrary chosen, which
-  // belongs to the CC
+  /** For each Connected Component ( CC ) of structuring element we
+   * store the position of one element, arbitrary chosen, which belongs
+   * to the CC */
   std::vector< OffsetType > m_KernelCCVector;
 };
 
@@ -285,8 +255,6 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBinaryMorphologyImageFilter.txx"
-#endif
-
 #endif
 
 #endif

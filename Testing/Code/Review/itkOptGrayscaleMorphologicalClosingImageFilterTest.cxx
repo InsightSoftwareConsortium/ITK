@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkOptGrayscaleMorphologicalClosingImageFilterTest.cxx
+  Module:    itkGrayscaleMorphologicalClosingImageFilterTest.cxx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,7 @@
 #endif
 
 #include <fstream>
-#include "itkOptGrayscaleMorphologicalClosingImageFilter.h"
+#include "itkGrayscaleMorphologicalClosingImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
@@ -40,11 +40,11 @@ int itkOptGrayscaleMorphologicalClosingImageFilterTest(int ac, char* av[] )
 
   unsigned int const dim = 2;
   typedef itk::Image<unsigned char, dim> ImageType;
-  
+
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader  = ReaderType::New();
   reader->SetFileName(av[1]);
-  
+
   // Create a filter
   typedef itk::FlatStructuringElement<dim> SRType;
   typedef itk::GrayscaleMorphologicalClosingImageFilter< ImageType, ImageType, SRType > FilterType;
@@ -84,19 +84,19 @@ int itkOptGrayscaleMorphologicalClosingImageFilterTest(int ac, char* av[] )
     typedef itk::ImageFileWriter< ImageType > WriterType;
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( filter->GetOutput() );
-  
+
     filter->SetAlgorithm( FilterType::BASIC );
     writer->SetFileName( av[2] );
     writer->Update();
-  
+
     filter->SetAlgorithm( FilterType::HISTO );
     writer->SetFileName( av[3] );
     writer->Update();
-  
+
     filter->SetAlgorithm( FilterType::ANCHOR );
     writer->SetFileName( av[4] );
     writer->Update();
-  
+
     filter->SetAlgorithm( FilterType::VHGW );
     writer->SetFileName( av[5] );
     writer->Update();

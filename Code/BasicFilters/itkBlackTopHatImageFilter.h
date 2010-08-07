@@ -17,55 +17,48 @@
 #ifndef __itkBlackTopHatImageFilter_h
 #define __itkBlackTopHatImageFilter_h
 
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptBlackTopHatImageFilter.h"
-#else
-
-
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 
 namespace itk {
 
 /** \class BlackTopHatImageFilter
- * \brief Black top hat extract local minima that are larger than the structuring element
+ * \brief Black top hat extract local minima that are smaller than the structuring element
  *
- * Top-hats are described in Chapter 4.5 of Pierre Soille's book 
- * "Morphological Image Analysis: Principles and Applications", 
+ * Black top hat extract local minima that are smaller than the structuring
+ * element. It subtract the background in the input image.
+ * The output of the filter transforms the black peaks in white peaks.
+ *
+ * Top-hats are described in Chapter 4.5 of Pierre Soille's book
+ * "Morphological Image Analysis: Principles and Applications",
  * Second Edition, Springer, 2003.
- * 
+ *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT BlackTopHatImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT BlackTopHatImageFilter :
+    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
-  typedef BlackTopHatImageFilter                        Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef BlackTopHatImageFilter                                Self;
+  typedef KernelImageFilter<TInputImage, TOutputImage, TKernel> Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TInputImage                                           InputImageType;
+  typedef TOutputImage                                          OutputImageType;
+  typedef typename InputImageType::Pointer                      InputImagePointer;
+  typedef typename InputImageType::ConstPointer                 InputImageConstPointer;
+  typedef typename InputImageType::RegionType                   InputImageRegionType;
+  typedef typename InputImageType::PixelType                    InputImagePixelType;
+  typedef typename OutputImageType::Pointer                     OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer                OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType                  OutputImageRegionType;
+  typedef typename OutputImageType::PixelType                   OutputImagePixelType;
 
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
  /** Kernel typedef. */
   typedef TKernel KernelType;
 
@@ -76,17 +69,11 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BlackTopHatImageFilter, 
-               ImageToImageFilter);
-
-  /** Set kernel (structuring element). */
-  itkSetMacro(Kernel, KernelType);
-  
-  /** Get the kernel (structuring element). */
-  itkGetConstReferenceMacro(Kernel, KernelType);
+  itkTypeMacro(BlackTopHatImageFilter,
+               KernelImageFilter);
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -94,38 +81,46 @@ public:
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
 
+  /** define values used to determine which algorithm to use */
+  enum {
+    BASIC = 0,
+    HISTO = 1,
+    ANCHOR = 2,
+    VHGW = 3
+  } AlgorithmChoice;
+
+  /** Set/Get the backend filter class. */
+  itkSetMacro(Algorithm, int);
+  itkGetConstMacro(Algorithm, int);
+
+  itkSetMacro(ForceAlgorithm, bool);
+  itkGetConstReferenceMacro(ForceAlgorithm, bool);
+  itkBooleanMacro(ForceAlgorithm);
+
 protected:
   BlackTopHatImageFilter();
   ~BlackTopHatImageFilter() {};
   void PrintSelf(std::ostream& os, Indent indent) const;
 
-  /** BlackTopHatImageFilter needs the entire input be
-   * available. Thus, it needs to provide an implementation of
-   * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion();
-
-  /** BlackTopHatImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
   void GenerateData();
-  
+
 
 private:
   BlackTopHatImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel;
-
   bool m_SafeBorder;
+
+  int m_Algorithm;
+
+  bool m_ForceAlgorithm;
+
 }; // end of class
 
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBlackTopHatImageFilter.txx"
-#endif
-
 #endif
 
 #endif

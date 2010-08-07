@@ -125,7 +125,6 @@ void RegisterTests()
   REGISTER_TEST( itkMapMaskedRankImageFilterTest );
   REGISTER_TEST( itkFastApproximateRankImageFilterTest );
 
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
   REGISTER_TEST( itkOptGrayscaleMorphologicalClosingImageFilterTest );
   REGISTER_TEST( itkOptGrayscaleMorphologicalOpeningImageFilterTest );
   REGISTER_TEST( itkOptGrayscaleDilateImageFilterTest );
@@ -134,7 +133,6 @@ void RegisterTests()
   REGISTER_TEST( itkMapOptGrayscaleMorphologicalOpeningImageFilterTest );
   REGISTER_TEST( itkMapOptGrayscaleDilateImageFilterTest );
   REGISTER_TEST( itkMapOptGrayscaleErodeImageFilterTest );
-#endif
 
   REGISTER_TEST( itkBinaryContourImageFilterTest );
   REGISTER_TEST( itkLabelContourImageFilterTest );

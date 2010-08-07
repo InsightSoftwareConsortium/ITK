@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkAdaptiveHistogramEqualizationImageFilter.txx
+  Module:    itkOptAdaptiveHistogramEqualizationImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,23 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkAdaptiveHistogramEqualizationImageFilter_txx
-#define __itkAdaptiveHistogramEqualizationImageFilter_txx
-
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptAdaptiveHistogramEqualizationImageFilter.h"
-#else
+#ifndef __itkOptAdaptiveHistogramEqualizationImageFilter_txx
+#define __itkOptAdaptiveHistogramEqualizationImageFilter_txx
 
 #include <map>
 #include <set>
@@ -52,7 +42,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   float s, ad;
   s = vnl_math_sgn(u-v);
   ad = vnl_math_abs(2.0*(u-v));
-  
+
   return 0.5*s*vcl_pow(ad,m_Alpha) - m_Beta*0.5*s*ad + m_Beta*u;
 }
 
@@ -61,20 +51,20 @@ void
 AdaptiveHistogramEqualizationImageFilter<TImageType>
 ::GenerateData()
 {
-  
+
   typename ImageType::ConstPointer input = this->GetInput();
   typename ImageType::Pointer output = this->GetOutput();
-  
+
   // Allocate the output
   this->AllocateOutputs();
-  
+
   unsigned int i;
 
   //Set the kernel value of PLAHE algorithm
   float kernel = 1;
   for (i = 0; i < ImageDimension; i++)
     {
-    kernel = kernel * (2*m_Radius[i]+1);
+    kernel = kernel * (2*this->GetRadius()[i]+1);
     }
   kernel = 1/kernel;
 
@@ -88,7 +78,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   double value;
   while( !itInput.IsAtEnd() )
     {
-    value = static_cast<double>(itInput.Get());  
+    value = static_cast<double>(itInput.Get());
     if ( min > value )
       {
       min = value;
@@ -100,7 +90,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
     ++itInput;
     }
 
-  
+
   // Allocate a float type image which has the same size with an input image.
   // This image store normalized pixel values [-0.5 0.5] of the input image.
   typedef Image<float, ImageDimension> ImageFloatType;
@@ -113,12 +103,12 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   // original gray level range
   float iscale = max - min;
   float scale = (float)1/iscale;
-  
+
   // Normalize input image to [-0.5 0.5] gray level and store in
   // inputFloat. AdaptiveHistogramEqualization only use float type
   // image which has gray range [-0.5 0.5]
   ImageRegionIterator<ImageFloatType> itFloat(inputFloat,
-                                         input->GetRequestedRegion()); 
+                                         input->GetRequestedRegion());
 
   itInput.GoToBegin(); // rewind the previous input iterator
   while( !itInput.IsAtEnd() )
@@ -127,7 +117,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
     ++itFloat;
     ++itInput;
     }
-    
+
   // Calculate cumulative array which will store the value of
   // cumulative function. During the AdaptiveHistogramEqualization
   // process, cumulative function will not be calculated, instead the
@@ -166,7 +156,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
       cachedCumulative = false;
       row.clear();
       }
-    
+
     if (cachedCumulative)
       {
       // calculate cumulative function for each possible pairing of
@@ -194,15 +184,15 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType> bC;
-  faceList = bC(inputFloat, output->GetRequestedRegion(), m_Radius);
+  faceList = bC(inputFloat, output->GetRequestedRegion(), this->GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageFloatType>::FaceListType::iterator fit;
 
-  // Map stores (number of pixel)/(window size) for each gray value. 
+  // Map stores (number of pixel)/(window size) for each gray value.
   typedef std::map<float, float> MapType;
   MapType count;
   MapType::iterator itMap;
-  
+
   ProgressReporter progress(this,0,output->GetRequestedRegion().GetNumberOfPixels());
 
   // Process each faces.  These are N-d regions which border
@@ -211,7 +201,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
     {
     // Create a neighborhood iterator for the normalized image for the
     // region for this face
-    bit = ConstNeighborhoodIterator<ImageFloatType>(m_Radius,
+    bit = ConstNeighborhoodIterator<ImageFloatType>(this->GetRadius(),
                                                     inputFloat, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
@@ -245,9 +235,9 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
           count.insert(MapType::value_type(f,kernel));
           }
         }
-        
+
       typedef typename ImageType::PixelType PixelType;
-        
+
       // if we cached the cumulative array
       // if not, use CumulativeFunction()
       if (cachedCumulative)
@@ -284,57 +274,7 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
       progress.CompletedPixel();
       }
     }
-    
-}
 
-
-template <class TImageType>
-void
-AdaptiveHistogramEqualizationImageFilter<TImageType>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer inputPtr = 
-    const_cast< TImageType * >( this->GetInput() );
-  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-  
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
-
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Radius );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
-    {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
-    }
-  else
-    {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
-
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
-    }
 }
 
 
@@ -345,13 +285,11 @@ AdaptiveHistogramEqualizationImageFilter<TImageType>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << "Radius: " << m_Radius << std::endl;
   os << "Alpha: " << m_Alpha << std::endl;
   os << "Beta: " << m_Beta << std::endl;
   os << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
 }
 } // end namespace
 
-#endif
 
 #endif
