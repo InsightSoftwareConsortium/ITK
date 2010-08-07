@@ -14,7 +14,6 @@ SET(io_classes
   AnalyzeImageIO
   BioRadImageIO
   BMPImageIO
-  Brains2MaskImageIO
   DICOMImageIO2
   GDCMImageIO
   DicomImageIO
