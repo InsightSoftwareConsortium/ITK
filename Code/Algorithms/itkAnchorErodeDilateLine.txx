@@ -77,19 +77,19 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   int outLeftP = 0, outRightP = (int)bufflength - 1;
   int inLeftP = 0, inRightP = (int)bufflength - 1;
   InputImagePixelType Extreme;
-Reset();
+  m_Histo->Reset();
   if (bufflength <= m_Size)
     {
     // basically a standard histogram method
     // Left border, first half of structuring element
     Extreme = inbuffer[inLeftP];
-AddPixel(Extreme);
+    m_Histo->AddPixel(Extreme);
     for (int i = 0; (i < middle); i++)
       {
       ++inLeftP;
       assert(inLeftP >= 0);
       assert(inLeftP < (int)bufflength);
-AddPixel(inbuffer[inLeftP]);
+      m_Histo->AddPixel(inbuffer[inLeftP]);
       if (m_TF1(inbuffer[inLeftP], Extreme))
         {
         Extreme = inbuffer[inLeftP];
@@ -108,7 +108,7 @@ AddPixel(inbuffer[inLeftP]);
         {
         assert(inLeftP >= 0);
         assert(inLeftP < (int)bufflength);
-AddPixel(inbuffer[inLeftP]);
+        m_Histo->AddPixel(inbuffer[inLeftP]);
         if (m_TF1(inbuffer[inLeftP], Extreme))
           {
           Extreme = inbuffer[inLeftP];
@@ -123,8 +123,8 @@ AddPixel(inbuffer[inLeftP]);
     int left = 0;
     for (;outLeftP < (int)bufflength;outLeftP++, left++)
       {
-RemovePixel(inbuffer[left]);
-GetValue();
+      m_Histo->RemovePixel(inbuffer[left]);
+      Extreme = m_Histo->GetValue();
       assert(outLeftP >= 0);
       assert(outLeftP < (int)bufflength);
       buffer[outLeftP] = Extreme;
@@ -135,13 +135,13 @@ GetValue();
 
   // Left border, first half of structuring element
   Extreme = inbuffer[inLeftP];
-AddPixel(Extreme);
+  m_Histo->AddPixel(Extreme);
   for (int i = 0; (i < middle); i++)
     {
     ++inLeftP;
     assert(inLeftP >= 0);
     assert(inLeftP < (int)bufflength);
-AddPixel(inbuffer[inLeftP]);
+    m_Histo->AddPixel(inbuffer[inLeftP]);
     if (m_TF1(inbuffer[inLeftP], Extreme))
       {
       Extreme = inbuffer[inLeftP];
@@ -158,7 +158,7 @@ AddPixel(inbuffer[inLeftP]);
     ++outLeftP;
     assert(inLeftP >= 0);
     assert(inLeftP < (int)bufflength);
-AddPixel(inbuffer[inLeftP]);
+    m_Histo->AddPixel(inbuffer[inLeftP]);
     if (m_TF1(inbuffer[inLeftP], Extreme))
       {
       Extreme = inbuffer[inLeftP];
@@ -177,11 +177,11 @@ AddPixel(inbuffer[inLeftP]);
     assert((inLeftP - (int)m_Size) >= 0);
     assert((inLeftP - (int)m_Size) < (int)bufflength);
 
-RemovePixel(inbuffer[inLeftP - (int)m_Size]);
+    m_Histo->RemovePixel(inbuffer[inLeftP - (int)m_Size]);
     assert(inLeftP >= 0);
     assert(inLeftP < (int)bufflength);
-AddPixel(inbuffer[inLeftP]);
-GetValue();
+    m_Histo->AddPixel(inbuffer[inLeftP]);
+    Extreme = m_Histo->GetValue();
     assert(outLeftP >= 0);
     assert(outLeftP < (int)bufflength);
     buffer[outLeftP] = Extreme;

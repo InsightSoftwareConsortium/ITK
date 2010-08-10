@@ -70,7 +70,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     return;
     }
 
-Reset();
+  m_Histo->Reset();
   // start the real work - everything here will be done with index
   // arithmetic rather than pointer arithmetic
   unsigned outLeftP = 0, outRightP = bufflength - 1;

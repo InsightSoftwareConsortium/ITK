@@ -48,7 +48,7 @@ protected:
 
   AnchorDilateImageFilter()
     {
-m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
+    this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
     }
 
 

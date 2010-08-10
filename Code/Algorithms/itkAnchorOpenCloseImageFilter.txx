@@ -66,19 +66,19 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
 
   ProgressReporter progress(this, threadId, m_Kernel.GetLines().size()*2 + 1);
 
-GetInput();
+  InputImageConstPointer input = this->GetInput();
 
   InputImageRegionType IReg = outputRegionForThread;
   // seem to need a double padding for the multi threaded case because
   // we get boundary effects otherwise
   IReg.PadByRadius( m_Kernel.GetRadius());
   IReg.PadByRadius( m_Kernel.GetRadius() );
-GetRequestedRegion() );
+  IReg.Crop( this->GetInput()->GetRequestedRegion() );
 
   // allocate an internal buffer
   typename InputImageType::Pointer internalbuffer = InputImageType::New();
-SetRegions(IReg);
-Allocate();
+  internalbuffer->SetRegions(IReg);
+  internalbuffer->Allocate();
   InputImagePointer output = internalbuffer;
 
   // get the region size
@@ -168,7 +168,7 @@ Allocate();
 
   // copy internal buffer to output
   typedef ImageRegionIterator<InputImageType> IterType;
-GetOutput(), OReg);
+  IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
     {
@@ -204,7 +204,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   // ItType it(input, face);
 
   typename TImage::Pointer dumbImg = TImage::New();
-SetRegions( face );
+  dumbImg->SetRegions( face );
 
   KernelLType NormLine = line;
   NormLine.Normalize();
@@ -212,7 +212,7 @@ SetRegions( face );
   float tol = 1.0/LineOffsets.size();
   for( unsigned int it=0; it<face.GetNumberOfPixels(); it++ )
     {
-ComputeIndex( it );
+    typename TImage::IndexType Ind = dumbImg->ComputeIndex( it );
     unsigned start, end, len;
     if (FillLineBuffer<TImage, BresType, KernelLType>(input,
                                                       Ind,
@@ -254,7 +254,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
 
   // get pointers to the input and output
   typename Superclass::InputImagePointer  inputPtr =
-GetInput() );
+    const_cast< TImage * >( this->GetInput() );
 
   if ( !inputPtr )
     {
@@ -264,15 +264,15 @@ GetInput() );
   // get a copy of the input requested region (should equal the output
   // requested region)
   typename TImage::RegionType inputRequestedRegion;
-GetRequestedRegion();
+  inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
-SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
     return;
     }
   else
@@ -281,12 +281,12 @@ SetRequestedRegion( inputRequestedRegion );
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
 
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     OStringStream msg;
-GetNameOfClass())
+    msg << static_cast<const char *>(this->GetNameOfClass())
         << "::GenerateInputRequestedRegion()";
     e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");

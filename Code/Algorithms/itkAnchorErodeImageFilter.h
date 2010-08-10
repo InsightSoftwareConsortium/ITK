@@ -48,7 +48,7 @@ protected:
 
   AnchorErodeImageFilter()
     {
-m_Boundary = NumericTraits< PixelType >::max();
+    this->m_Boundary = NumericTraits< PixelType >::max();
     }
   void PrintSelf(std::ostream& os, Indent indent) const
     {

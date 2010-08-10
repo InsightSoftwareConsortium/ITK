@@ -71,16 +71,16 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
   ProgressReporter progress(this, threadId, m_Kernel.GetLines().size() + 1);
 
-GetInput();
+  InputImageConstPointer input = this->GetInput();
 
   InputImageRegionType IReg = outputRegionForThread;
   IReg.PadByRadius( m_Kernel.GetRadius() );
-GetRequestedRegion() );
+  IReg.Crop( this->GetInput()->GetRequestedRegion() );
 
   // allocate an internal buffer
   typename InputImageType::Pointer internalbuffer = InputImageType::New();
-SetRegions(IReg);
-Allocate();
+  internalbuffer->SetRegions(IReg);
+  internalbuffer->Allocate();
   InputImagePointer output = internalbuffer;
 
   // get the region size
@@ -140,7 +140,7 @@ Allocate();
 
   // copy internal buffer to output
   typedef ImageRegionIterator<InputImageType> IterType;
-GetOutput(), OReg);
+  IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
     {
@@ -172,7 +172,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
 
   // get pointers to the input and output
   typename Superclass::InputImagePointer  inputPtr =
-GetInput() );
+    const_cast< TImage * >( this->GetInput() );
 
   if ( !inputPtr )
     {
@@ -182,15 +182,15 @@ GetInput() );
   // get a copy of the input requested region (should equal the output
   // requested region)
   typename TImage::RegionType inputRequestedRegion;
-GetRequestedRegion();
+  inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
     {
-SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
     return;
     }
   else
@@ -199,12 +199,12 @@ SetRequestedRegion( inputRequestedRegion );
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion( inputRequestedRegion );
 
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     OStringStream msg;
-GetNameOfClass())
+    msg << static_cast<const char *>(this->GetNameOfClass())
         << "::GenerateInputRequestedRegion()";
     e.SetLocation(msg.str().c_str());
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");

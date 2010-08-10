@@ -78,12 +78,12 @@ public:
 
   void AddBoundary()
     {
-m_Boundary ]++;
+    m_Map[ this->m_Boundary ]++;
     }
 
   void RemoveBoundary()
     {
-m_Boundary ]--;
+    m_Map[ this->m_Boundary ]--;
     }
 
   void AddPixel(const TInputPixel &p)
@@ -101,12 +101,12 @@ m_Boundary ]--;
     typename MapType::iterator mapIt = m_Map.begin();
     while( mapIt != m_Map.end() )
       {
-second <= 0 )
+      if( mapIt->second <= 0 )
         {
         // this value must be removed from the histogram
         // The value must be stored and the iterator updated before removing the value
         // or the iterator is invalidated.
-first;
+        TInputPixel toErase = mapIt->first;
         mapIt++;
         m_Map.erase( toErase );
         }
@@ -120,7 +120,7 @@ first;
       }
 
     // and return the value
-first;
+    return m_Map.begin()->first;
     }
 
 };
@@ -162,13 +162,13 @@ public:
 
   void AddBoundary()
     {
-m_Boundary);
+    AddPixel(this->m_Boundary);
     ++m_Entries;
     }
 
   void RemoveBoundary()
     {
-m_Boundary);
+    RemovePixel(this->m_Boundary);
     --m_Entries;
     }
 
