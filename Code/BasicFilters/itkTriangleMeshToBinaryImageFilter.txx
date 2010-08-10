@@ -221,35 +221,38 @@ TriangleMeshToBinaryImageFilter<TInputMesh,TOutputImage>
   int StencilId=0;
   it.GoToBegin();
   
-  int n=m_StencilIndex.size();
-  if ( n == 0 )
-    {
-    itkExceptionMacro(<< "No Image Indices Found.");
-    }  
-  int StencilMin = m_StencilIndex[0];
-  int StencilMax = m_StencilIndex[n-1];
-  
-  while(!it.IsAtEnd())
-    {
-    if (DataIndex >=  StencilMin && DataIndex <=  StencilMax )
-      {
-      if (DataIndex == m_StencilIndex[StencilId])
-        {
-        it.Set(m_InsideValue);
-        StencilId++;
-        }
-      else
-        {
-        it.Set(m_OutsideValue);
-        }
-      }
-    else
-      {
-      it.Set(m_OutsideValue);
-      }
-    DataIndex++;
-    ++it;
-    }
+ int n=m_StencilIndex.size();
+ if ( n == 0 )
+   {
+   itkWarningMacro(<< "No Image Indices Found.");
+   }
+ else
+   {
+   int StencilMin = m_StencilIndex[0];
+   int StencilMax = m_StencilIndex[n-1];
+
+   while(!it.IsAtEnd())
+     {
+     if (DataIndex >= StencilMin && DataIndex <= StencilMax )
+       {
+       if (DataIndex == m_StencilIndex[StencilId])
+         {
+         it.Set(m_InsideValue);
+         StencilId++;
+         }
+       else
+         {
+         it.Set(m_OutsideValue);
+         }
+       }
+     else
+       {
+       it.Set(m_OutsideValue);
+       }
+     DataIndex++;
+     ++it;
+     }
+   }
   itkDebugMacro(<< "TriangleMeshToBinaryImageFilter::Update() finished");
 
 } // end update function  
