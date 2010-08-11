@@ -478,11 +478,6 @@ RECURSIVE              = YES
 
 EXCLUDE                = "@ITK_SOURCE_DIR@/Code/Common/itkPixelTraits.h" \
                          "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraits.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsRGB.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVectorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsTensorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsCovariantVectorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVariableLengthVectorPixel.h" \
                          "@ITK_SOURCE_DIR@/Code/Common/itkMathDetail.h" \
                          "@ITK_SOURCE_DIR@/Code/IO/itkPixelData.h" \
                          "@ITK_SOURCE_DIR@/Code/IO/itkAnalyzeDbh.h" 
