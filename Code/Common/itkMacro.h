@@ -39,16 +39,7 @@
 #include <cassert>
 #endif
 
-// Determine type of string stream to use.
-#if !defined(CMAKE_NO_ANSI_STRING_STREAM)
 #  include <sstream>
-#elif !defined(CMAKE_NO_ANSI_STREAM_HEADERS)
-#  include <strstream>
-#  define ITK_NO_ANSI_STRING_STREAM
-#else
-#  include <strstream.h>
-#  define ITK_NO_ANSI_STRING_STREAM
-#endif
 
 /** \namespace itk
  * \brief The "itk" namespace contains all Insight Segmentation and
@@ -469,7 +460,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkDebugMacro(x) \
   { if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())   \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n"; \
@@ -491,7 +482,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkWarningMacro(x) \
 { if (::itk::Object::GetGlobalWarningDisplay()) \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n"; \
@@ -502,58 +493,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 //used in the itkDebugMacro
 #define itkWarningStatement(x) x
 #endif
-
-namespace itk
-{
-
-/**
- * itk::OStringStream wrapper to hide differences between
- * std::ostringstream and the old ostrstream.  Necessary for
- * portability.
- */
-#if !defined(ITK_NO_ANSI_STRING_STREAM)
-class OStringStream: public std::ostringstream
-{
-public:
-  OStringStream() {}
-private:
-  OStringStream(const OStringStream&);
-  void operator=(const OStringStream&);
-};
-#else
-namespace OStringStreamDetail
-{
-  class Cleanup
-  {
-  public:
-    Cleanup(std::ostrstream& ostr): m_OStrStream(ostr) {}
-    ~Cleanup() { m_OStrStream.rdbuf()->freeze(0); }
-    static void IgnoreUnusedVariable(const Cleanup&) {}
-  protected:
-    std::ostrstream& m_OStrStream;
-  };
-}//namespace OStringStreamDetail
-
-class OStringStream: public std::ostrstream
-{
-public:
-  typedef std::ostrstream Superclass;
-  OStringStream() {}
-  std::string str()
-    {
-      OStringStreamDetail::Cleanup cleanup(*this);
-      OStringStreamDetail::Cleanup::IgnoreUnusedVariable(cleanup);
-      int pcount = this->pcount();
-      const char* ptr = this->Superclass::str();
-      return std::string(ptr?ptr:"", pcount);
-    }
-private:
-  OStringStream(const OStringStream&);
-  void operator=(const OStringStream&);
-};
-#endif
-
-}//namespace itk
 
 #if defined(ITK_CPP_FUNCTION)
   #if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(CABLE_CONFIGURATION) && !defined(CSWIG)
@@ -574,7 +513,7 @@ private:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x) \
   { \
-  ::itk::OStringStream message; \
+  std::ostringstream message; \
   message << "itk::ERROR: " << this->GetNameOfClass() \
           << "(" << this << "): " x; \
   ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
@@ -583,7 +522,7 @@ private:
 
 #define itkGenericExceptionMacro(x) \
   { \
-  ::itk::OStringStream message; \
+  std::ostringstream message; \
   message << "itk::ERROR: " x; \
   ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
@@ -594,7 +533,7 @@ private:
 #else
 #define itkGenericOutputMacro(x) \
 { if (::itk::Object::GetGlobalWarningDisplay()) \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              x << "\n\n"; \
       ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
@@ -1004,7 +943,7 @@ private:
 #define itkAssertOrThrowMacro(test, message) \
    if( !(test) ) \
      { \
-     ::itk::OStringStream msgstr; \
+     std::ostringstream msgstr; \
      msgstr << message;      \
      itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
      }

@@ -50,7 +50,7 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file, unsigne
 {
   m_baseClassName=baseClassName;
   m_GN=GN;
-  OStringStream buf;
+  std::ostringstream buf;
   buf<<"Object not found ("<<m_baseClassName<<", GN="<<m_GN<<")!";
   SetDescription(buf.str().c_str());
 }

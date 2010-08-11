@@ -143,7 +143,7 @@ private:
   ExhaustiveOptimizer(const Self&); //purposely not implemented
   void operator=(const Self&);//purposely not implemented
 
-  OStringStream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription;
 };
 
 } // end namespace itk

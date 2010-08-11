@@ -237,7 +237,7 @@ const std::string
 LevenbergMarquardtOptimizer
 ::GetStopConditionDescription() const
 {
-  OStringStream reason, outcome;
+  std::ostringstream reason, outcome;
   outcome.str("");
   if (GetOptimizer())
     {

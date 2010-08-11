@@ -27,11 +27,11 @@ namespace itk
 /** \Class StringStream
  *  \brief Provides access to C++ ostreams.
  */
-class StringStream: public itk::OStringStream
+class StringStream: public std::ostringstream
 {
 public:
   typedef StringStream Self;
-  typedef itk::OStringStream Superclass;
+  typedef std::ostringstream Superclass;
   
   StringStream();
   ~StringStream();

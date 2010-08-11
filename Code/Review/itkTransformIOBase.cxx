@@ -45,7 +45,7 @@ CreateTransform(TransformPointer &ptr,
   ptr = dynamic_cast<TransformBase*> ( i.GetPointer() );
   if ( ptr.IsNull() )
     {
-    OStringStream msg;
+    std::ostringstream msg;
     msg << "Could not create an instance of " << ClassName << std::endl
         << "The usual cause of this error is not registering the "
         << "transform with TransformFactory" << std::endl;

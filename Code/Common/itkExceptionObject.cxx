@@ -43,7 +43,7 @@ protected:
   m_File(file),
   m_Line(line)
     {
-    OStringStream loc;
+    std::ostringstream loc;
     loc << ":" << m_Line << ":\n";
     m_What = m_File;
     m_What += loc.str();

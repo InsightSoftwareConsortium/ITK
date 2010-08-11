@@ -285,7 +285,7 @@ public:
     if ( this->GetCenterPointer() > m_End )
       {
       ExceptionObject e(__FILE__, __LINE__);
-      OStringStream msg;
+      std::ostringstream msg;
       msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
           << " is greater than End = " << m_End
           << std::endl

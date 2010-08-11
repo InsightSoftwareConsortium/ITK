@@ -227,7 +227,7 @@ void
 Win32OutputWindow
 ::PromptText(const char* text)
 {
-  OStringStream msg;
+  std::ostringstream msg;
   msg << text << "\nPress Cancel to supress any further messages.";
   if (MessageBox(NULL, msg.str().c_str(), "Error",
                  MB_ICONERROR | MB_OKCANCEL) == IDCANCEL) 

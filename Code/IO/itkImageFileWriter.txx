@@ -150,7 +150,7 @@ ImageFileWriter<TInputImage>
   if ( m_ImageIO.IsNull() )
     {
     ImageFileWriterException e(__FILE__, __LINE__);
-    OStringStream msg;
+    std::ostringstream msg;
     msg << " Could not create IO object for file "
         << m_FileName.c_str() << std::endl;
     msg << "  Tried to create one of the following:" << std::endl;
@@ -403,7 +403,7 @@ ImageFileWriter<TInputImage>
     else 
       {
       ImageFileWriterException e(__FILE__, __LINE__);
-      OStringStream msg;
+      std::ostringstream msg;
       msg << "Did not get requested region!" << std::endl;
       msg << "Requested:" << std::endl;
       msg << ioRegion;

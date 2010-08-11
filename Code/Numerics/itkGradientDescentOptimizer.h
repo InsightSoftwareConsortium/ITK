@@ -141,7 +141,7 @@ private:
   StopConditionType             m_StopCondition;
   unsigned long                 m_NumberOfIterations;
   unsigned long                 m_CurrentIteration;
-  OStringStream                 m_StopConditionDescription;
+  std::ostringstream            m_StopConditionDescription;
 };
 
 } // end namespace itk

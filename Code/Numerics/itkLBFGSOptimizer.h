@@ -113,7 +113,7 @@ private:
   
   bool                          m_OptimizerInitialized;
   InternalOptimizerType       * m_VnlOptimizer;
-  mutable OStringStream         m_StopConditionDescription;
+  mutable std::ostringstream    m_StopConditionDescription;
 
   bool                          m_Trace;
   unsigned int                  m_MaximumNumberOfFunctionEvaluations;

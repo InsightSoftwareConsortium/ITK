@@ -1614,7 +1614,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::WriteWarpedImage(const cha
   std::string exte=".mhd";
   std::string fnum;
 
-  OStringStream buf;
+  std::ostringstream buf;
   buf<<(m_FileCount+10);
   fnum=std::string(buf.str().c_str());
 

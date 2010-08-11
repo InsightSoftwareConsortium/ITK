@@ -70,7 +70,7 @@ ChainCodePath2D
   for(unsigned int i=0; i<m_Chain2D.size(); i++)
     {
     // Make a single char string out of the current step 
-    OStringStream printableStep;
+    std::ostringstream printableStep;
     printableStep << m_Chain2D[i];
     
     // Append the new step (in string form) to the main string of steps

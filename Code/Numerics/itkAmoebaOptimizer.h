@@ -143,7 +143,7 @@ private:
   bool                          m_AutomaticInitialSimplex;
   ParametersType                m_InitialSimplexDelta;
 
-  OStringStream                 m_StopConditionDescription;
+  std::ostringstream             m_StopConditionDescription;
 };
 
 } // end namespace itk

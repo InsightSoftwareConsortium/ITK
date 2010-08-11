@@ -28,7 +28,7 @@
 //
 #define itkQEDebugMacro( x )                                        \
 {                                                                   \
-    OStringStream itkmsg;                                           \
+    std::ostringstream itkmsg;                                      \
     itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"   \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \
@@ -36,7 +36,7 @@
 }
 #define itkQEWarningMacro( x )                                      \
 {                                                                   \
-    OStringStream itkmsg;                                           \
+    std::ostringstream itkmsg;                                      \
     itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
            << " (" << this << "): " x                               \
            << "\n\n";                                               \

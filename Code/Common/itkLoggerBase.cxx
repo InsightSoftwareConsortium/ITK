@@ -66,7 +66,7 @@ LoggerBase
 {
   static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ",
                                          "(WARNING) ", "(INFO) ", "(DEBUG) ", "(NOTSET) " };
-  OStringStream s;
+  std::ostringstream s;
   switch( this->m_TimeStampFormat )
     {
     case REALVALUE:
