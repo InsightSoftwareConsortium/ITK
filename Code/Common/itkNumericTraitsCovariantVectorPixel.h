@@ -17,39 +17,62 @@
 #ifndef __itkNumericTraitsCovariantVectorPixel_h
 #define __itkNumericTraitsCovariantVectorPixel_h
 
-#include "itkNumericTraitsFixedArrayPixel.h"
+#include "itkNumericTraits.h"
 #include "itkCovariantVector.h"
 
 namespace itk
 {
 
 
-//
-// Instantiate the macros to declare the NumericTraits for the
-// CovariantVector types.
-//
-#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+template < typename T, unsigned int D >
+class NumericTraits< CovariantVector< T, D > >
+{
+private:
 
-itkNumericTraitsGenericArrayScalarsDimensionsMacro( CovariantVector );
+  typedef  typename NumericTraits<T>::AbsType        ElementAbsType;
+  typedef  typename NumericTraits<T>::AccumulateType ElementAccumulateType;
+  typedef  typename NumericTraits<T>::FloatType      ElementFloatType;
+  typedef  typename NumericTraits<T>::PrintType      ElementPrintType;
+  typedef  typename NumericTraits<T>::RealType       ElementRealType;
 
-#else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+public:
 
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, char );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned char );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, signed char );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, short );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned short );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, int );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned int );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, float );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, double );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long double );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long long );
-itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long long );
+  typedef T                                    ValueType;
+  typedef CovariantVector<T, D>                Self;
 
-#endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+  typedef CovariantVector<ElementAbsType, D>        AbsType;
+  typedef CovariantVector<ElementAccumulateType, D> AccumulateType;
+  typedef CovariantVector<ElementFloatType, D>      FloatType;
+  typedef CovariantVector<ElementPrintType, D>      PrintType;
+  typedef CovariantVector<ElementRealType, D>       RealType;
+
+  typedef ElementRealType                      ScalarRealType;
+
+  static const Self max()
+    {
+      return Self( NumericTraits< T >::max() );
+    }
+  static const Self min()
+    {
+      return Self( NumericTraits< T >::min() );
+    }
+  static const Self NonpositiveMin()
+    {
+      return Self( NumericTraits< T >::NonpositiveMin() );
+    }
+  static const Self ZeroValue()
+    {
+      return Self( NumericTraits<T>::ZeroValue() );
+    }
+  static const Self OneValue()
+    {
+      return Self( NumericTraits<T>::OneValue() );
+    }
+  /// \note: the functions are prefered over the member variables as
+  /// they are defined for all types
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
+};
 
 } // end namespace itk
 

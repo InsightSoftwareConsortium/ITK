@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkNumericTraitsTensorPixel_h
 #define __itkNumericTraitsTensorPixel_h
 
-#include "itkNumericTraitsFixedArrayPixel.h"
+#include "itkNumericTraits.h"
 #include "itkSymmetricSecondRankTensor.h"
 
 // This file is meant to define numeric traits for tensor pixels types in itk
@@ -26,33 +26,57 @@ namespace itk
 {
 
 
-//
-// Instantiate the macros to declare the NumericTraits for the
-// SymmetricSecondRankTensor types.
-//
-#ifdef ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+template < typename T, unsigned int D >
+class NumericTraits<SymmetricSecondRankTensor< T, D > >
+{
+private:
 
-itkNumericTraitsGenericArrayScalarsDimensionsMacro( SymmetricSecondRankTensor );
+  typedef  typename NumericTraits<T>::AbsType        ElementAbsType;
+  typedef  typename NumericTraits<T>::AccumulateType ElementAccumulateType;
+  typedef  typename NumericTraits<T>::FloatType      ElementFloatType;
+  typedef  typename NumericTraits<T>::PrintType      ElementPrintType;
+  typedef  typename NumericTraits<T>::RealType       ElementRealType;
 
-#else // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+public:
 
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, char );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned char );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, signed char );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, short );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned short );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, int );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned int );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, float );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, double );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long double );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, long long );
-itkNumericTraitsGenericArrayDimensionsMacro( SymmetricSecondRankTensor, unsigned long long );
+  typedef T                                    ValueType;
+  typedef SymmetricSecondRankTensor<T, D>                     Self;
 
-#endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
+  typedef SymmetricSecondRankTensor<ElementAbsType, D>        AbsType;
+  typedef SymmetricSecondRankTensor<ElementAccumulateType, D> AccumulateType;
+  typedef SymmetricSecondRankTensor<ElementFloatType, D>      FloatType;
+  typedef SymmetricSecondRankTensor<ElementPrintType, D>      PrintType;
+  typedef SymmetricSecondRankTensor<ElementRealType, D>       RealType;
+
+  typedef ElementRealType                      ScalarRealType;
+
+  static const Self max()
+    {
+      return Self( NumericTraits< T >::max() );
+    }
+  static const Self min()
+    {
+      return Self( NumericTraits< T >::min() );
+    }
+  static const Self NonpositiveMin()
+    {
+      return Self( NumericTraits< T >::NonpositiveMin() );
+    }
+  static const Self ZeroValue()
+    {
+      return Self( NumericTraits<T>::ZeroValue() );
+    }
+  static const Self OneValue()
+    {
+      return Self( NumericTraits<T>::OneValue() );
+    }
+  /// \note: the functions are prefered over the member variables as
+  /// they are defined for all types
+  static const Self ITKCommon_EXPORT Zero;
+  static const Self ITKCommon_EXPORT One;
+};
+
 
 } // end namespace itk
 
-#endif // __itkNumericTraitsTensorPixel_h  
+#endif // __itkNumericTraitsTensorPixel_h
