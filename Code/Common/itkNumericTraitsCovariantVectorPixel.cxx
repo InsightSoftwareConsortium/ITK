@@ -31,9 +31,7 @@ itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned lon
 itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, float );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, double );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk

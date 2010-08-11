@@ -31,9 +31,7 @@ itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, float );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, double );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, long long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( Vector, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk

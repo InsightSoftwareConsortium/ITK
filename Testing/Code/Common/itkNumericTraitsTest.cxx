@@ -79,15 +79,13 @@ int itkNumericTraitsTest(int, char* [] )
   CheckTraits("signed long", static_cast<signed long>(0));
   CheckTraits("unsigned long", static_cast<unsigned long>(0));
 
-#ifdef ITK_TYPE_USE_LONG_LONG
   CheckTraits("long long", static_cast<long long>(0));
   CheckTraits("signed long long", static_cast<signed long long>(0));
   CheckTraits("unsigned long long", static_cast<unsigned long long>(0));
-#endif 
 
   CheckTraits("float", static_cast<float>(0));
   CheckTraits("double", static_cast<double>(0));
-  CheckTraits("long double", static_cast<double>(0));
+  CheckTraits("long double", static_cast<long double>(0));
 
   // Check not fundamental types which we need
 

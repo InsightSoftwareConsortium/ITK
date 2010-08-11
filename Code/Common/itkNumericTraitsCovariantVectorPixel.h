@@ -46,10 +46,8 @@ itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long );
 itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, float );
 itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, double );
 itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, long long );
 itkNumericTraitsGenericArrayDimensionsMacro( CovariantVector, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 #endif // ITK_USE_NUMERIC_TRAITS_PARTIAL_SPECIALIZATION
 

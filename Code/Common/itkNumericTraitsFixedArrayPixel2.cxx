@@ -31,9 +31,7 @@ namespace itk
 itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, float );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, double );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long double );
-#ifdef ITK_TYPE_USE_LONG_LONG
 itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long long );
 itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long long );
-#endif // ITK_TYPE_USE_LONG_LONG
 
 } // end namespace itk

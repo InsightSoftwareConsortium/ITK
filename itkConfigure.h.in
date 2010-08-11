@@ -124,11 +124,6 @@
 #undef ITK_CMAKEDEFINE_VAR_
 
 
-/*
- * Enable ITK usage of and long long
- */
-#cmakedefine ITK_TYPE_USE_LONG_LONG
-
 #define ITK_VERSION_MAJOR @ITK_VERSION_MAJOR@
 #define ITK_VERSION_MINOR @ITK_VERSION_MINOR@
 #define ITK_VERSION_PATCH @ITK_VERSION_PATCH@
