@@ -21,7 +21,6 @@
 
 #if defined(ITK_HAVE_STDINT_H)
 #include <stdint.h>
-#define ITK_HAS_INT_64
 #else
 // the system doesn't have the C or C++ version of stdint so lets use
 // itksys's types for fixed widths
@@ -30,10 +29,6 @@
 #ifdef ITK_HAVE_STDDEF_H
 #include <stddef.h>
 #endif //ITK_HAVE_STDDEF_H
-
-#if defined(itksys_CAN_CONVERT_UI64_TO_DOUBLE) && ( itksys_SIZEOF_LONG == 8 || itksys_USE_LONG_LONG == 8 )
-#define ITK_HAS_INT_64
-#endif
 
 #endif // ITK_HAVE_CSTDINT
 
@@ -53,8 +48,7 @@ typedef ::int64_t  int64_t;
 typedef ::uint64_t uint64_t;
 
 
-// Note: these types are required for the C99 stdint.h file. However,
-// not all C++ systems have a fully functional 64-bit integer.
+// Note: these types are required for the C99 stdint.h file.
 typedef ::int_least8_t   int_least8_t;
 typedef ::uint_least8_t  uint_least8_t;
 typedef ::int_least16_t  int_least16_t;
@@ -65,8 +59,7 @@ typedef ::int_least64_t  int_least64_t;
 typedef ::uint_least64_t uint_least64_t;
 
 
-// Note: these types are required for the C99 stdint.h file. However,
-// not all C++ systems have a fully functional 64-bit integer.
+// Note: these types are required for the C99 stdint.h file.
 typedef ::int_fast8_t   int_fast8_t;
 typedef ::uint_fast8_t  uint_fast8_t;
 typedef ::int_fast16_t  int_fast16_t;
@@ -82,7 +75,7 @@ typedef ::uintmax_t uintmax_t;
 typedef ::intptr_t  intptr_t;
 typedef ::uintptr_t uintptr_t;
 
-#else // ITK_HAVE_STDINT_H || ITK_HAVE_CSTDINT
+#else // ITK_HAVE_STDINT_H
 
 /** Fixed width interger types. */
 typedef ::itksysFundamentalType_Int8   int8_t;
@@ -91,6 +84,8 @@ typedef ::itksysFundamentalType_Int16  int16_t;
 typedef ::itksysFundamentalType_UInt16 uint16_t;
 typedef ::itksysFundamentalType_Int32  int32_t;
 typedef ::itksysFundamentalType_UInt32 uint32_t;
+typedef ::itksysFundamentalType_Int64  int64_t;
+typedef ::itksysFundamentalType_UInt64 uint64_t;
 
 /** Types which are at least a certain size, these are prefered over
  *  fixed width. */
@@ -100,6 +95,8 @@ typedef int16_t  int_least16_t;
 typedef uint16_t uint_least16_t;
 typedef int32_t  int_least32_t;
 typedef uint32_t uint_least32_t;
+typedef int64_t  int_least64_t;
+typedef uint64_t uint_least64_t;
 
 /** Types which are at least a certain size but may be greater if
  *  performace benifits, these are prefered over fixed width. */
@@ -109,29 +106,12 @@ typedef int16_t  int_fast16_t;
 typedef uint16_t uint_fast16_t;
 typedef int32_t  int_fast32_t;
 typedef uint32_t uint_fast32_t;
-
-#ifndef ITK_HAS_INT_64
-
-typedef int32_t  intmax_t;
-typedef uint32_t uintmax_t;
-
-#else // ITK_HAS_INT_64
-
-/** Optional 64-bit sized types. As not all systems have 64-bit
- *  integers, usage of these types must conditional on the
- * preprocessor definition of ITK_HAS_INT_64. */
-typedef ::itksysFundamentalType_Int64  int64_t;
-typedef ::itksysFundamentalType_UInt64 uint64_t;
-typedef int64_t                        int_least64_t;
-typedef uint64_t                       uint_least64_t;
-typedef int64_t                        int_fast64_t;
-typedef uint64_t                       uint_fast64_t;
+typedef int64_t  int_fast64_t;
+typedef uint64_t uint_fast64_t;
 
 /** Types which contain the largest represetable integer. */
 typedef int64_t  intmax_t;
 typedef uint64_t uintmax_t;
-
-#endif // ITK_HAS_INT_64
 
 typedef ::ptrdiff_t intptr_t;
 typedef ::size_t    uintptr_t;
