@@ -20,12 +20,25 @@
 #include "itkNumericTraits.h"
 #include "itkSymmetricSecondRankTensor.h"
 
-// This file is meant to define numeric traits for tensor pixels types in itk
 
 namespace itk
 {
 
 
+/** \class NumericTraits<SymmetricSecondRankTensor< T, D > >
+ * \brief Define numeric traits for SymmetricSecondRankTensor.
+ *
+ * We provide here a generic implementation based on creating types of
+ * SymmetricSecondRankTensor whose components are the types of the
+ * NumericTraits from  the original SymmetricSecondRankTensor
+ * components. This implementation require  support for partial
+ * specializations, since it is based on the concept that:
+ *   NumericTraits<SymmetricSecondRankTensor< T, D > >  is defined piecewise by
+ *   SymmetricSecondRankTensor< NumericTraits< T, D > >
+ *
+ * \sa NumericTraits
+ * \ingroup DataRepresentation
+ */
 template < typename T, unsigned int D >
 class NumericTraits<SymmetricSecondRankTensor< T, D > >
 {
@@ -39,17 +52,35 @@ private:
 
 public:
 
-  typedef T                                    ValueType;
+  /** Return the type of the native component type. */
+  typedef T                                                   ValueType;
+
   typedef SymmetricSecondRankTensor<T, D>                     Self;
 
+  /** Unsigned component type */
   typedef SymmetricSecondRankTensor<ElementAbsType, D>        AbsType;
+
+  /** Accumulation of addition and multiplication. */
   typedef SymmetricSecondRankTensor<ElementAccumulateType, D> AccumulateType;
+
+  /** Typedef for operations that use floating point instead of real precision */
   typedef SymmetricSecondRankTensor<ElementFloatType, D>      FloatType;
+
+  /** Return the type that can be printed. */
   typedef SymmetricSecondRankTensor<ElementPrintType, D>      PrintType;
+
+  /** Type for real-valued scalar operations. */
   typedef SymmetricSecondRankTensor<ElementRealType, D>       RealType;
 
-  typedef ElementRealType                      ScalarRealType;
+  /** Type for real-valued scalar operations. */
+  typedef ElementRealType                                     ScalarRealType;
 
+
+  /** Component wise defined element
+   *
+   * \note minimum value for floating pointer types is defined as
+   * minimum positive normalize value.
+   */
   static const Self max()
     {
       return Self( NumericTraits< T >::max() );
@@ -70,8 +101,10 @@ public:
     {
       return Self( NumericTraits<T>::OneValue() );
     }
-  /// \note: the functions are prefered over the member variables as
-  /// they are defined for all types
+
+  /** \note: the functions are prefered over the member variables as
+   * they are defined for all partial specialization
+   */
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };

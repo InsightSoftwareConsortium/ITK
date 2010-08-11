@@ -25,13 +25,22 @@
 namespace itk
 {
 
-//
-// First we define a macro that can be customized to be used for a sequence of
-// specializations or for a generic template instantiation. This Macro covers
-// the implementation for both partial specialization and total
-// specializaion by defining certain macros.
-//
 
+
+/** \class NumericTraits<DiffusionTensor3D< T > >
+ * \brief Define numeric traits for DiffusionTensor3D.
+ *
+ * We provide here a generic implementation based on creating types of
+ * DiffusionTensor3D whose components are the types of the NumericTraits from
+ * the original DiffusionTensor3D components. This implementation require
+ * support for partial specializations, since it is based on the
+ * concept that:
+ *   NumericTraits<DiffusionTensor3D< T > >  is defined piecewise by
+ *   DiffusionTensor3D< NumericTraits< T > >
+ *
+ * \sa NumericTraits
+ * \ingroup DataRepresentation
+ */
 template < typename T >
 class NumericTraits< DiffusionTensor3D< T > >
 {
@@ -45,17 +54,44 @@ private:
 
 public:
 
-  typedef T                                       ValueType;
-  typedef DiffusionTensor3D<T>                    Self;
 
+  /** Return the type of the native component type. */
+  typedef T                                         ValueType;
+
+  typedef DiffusionTensor3D<T>                      Self;
+
+  /** Unsigned component type */
   typedef DiffusionTensor3D<ElementAbsType>         AbsType;
+
+  /** Accumulation of addition and multiplication. */
   typedef DiffusionTensor3D<ElementAccumulateType>  AccumulateType;
+
+  /** Typedef for operations that use floating point instead of real precision */
   typedef DiffusionTensor3D<ElementFloatType>       FloatType;
+
+  /** Return the type that can be printed. */
   typedef DiffusionTensor3D<ElementPrintType>       PrintType;
+
+  /** Type for real-valued scalar operations. */
   typedef DiffusionTensor3D<ElementRealType>        RealType;
 
-  typedef ElementRealType                         ScalarRealType;
+  /** Type for real-valued scalar operations. */
+  typedef ElementRealType                           ScalarRealType;
 
+
+  /** Component wise defined element
+   *
+   * \note minimum value for floating pointer types is defined as
+   * minimum positive normalize value.
+   */
+  static const Self max( const Self & )
+    {
+      return Self( NumericTraits< T >::max() );
+    }
+  static const Self min( const Self & )
+    {
+      return Self( NumericTraits< T >::min() );
+    }
   static const Self max()
     {
       return Self( NumericTraits< T >::max() );
@@ -76,8 +112,10 @@ public:
     {
       return Self( NumericTraits<T>::OneValue() );
     }
-  /// \note: the functions are prefered over the member variables as
-  /// they are defined for all types
+
+  /** \note: the functions are prefered over the member variables as
+   * they are defined for all partial specialization
+   */
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };

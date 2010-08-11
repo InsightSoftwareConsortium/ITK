@@ -26,7 +26,7 @@ namespace itk
 
 
 /** \class NumericTraits<FixedArray< T > >
- * \brief Define additional traits for FixedArray.
+ * \brief Define numeric traits for FixedArray.
  *
  * We provide here a generic implementation based on creating types of
  * FixedArray whose components are the types of the NumericTraits from
@@ -36,7 +36,7 @@ namespace itk
  *   NumericTraits<FixedArray< T > >  is defined piecewise by
  *   FixedArray< NumericTraits< T > >
  *
- * \sa NumbericTraits
+ * \sa NumericTraits
  * \ingroup DataRepresentation
  */
 template < typename T, unsigned int D >
@@ -52,17 +52,42 @@ private:
 
 public:
 
+  /** Return the type of the native component type. */
   typedef T                                    ValueType;
+
   typedef FixedArray<T, D>                     Self;
 
+  /** Unsigned component type */
   typedef FixedArray<ElementAbsType, D>        AbsType;
+
+  /** Accumulation of addition and multiplication. */
   typedef FixedArray<ElementAccumulateType, D> AccumulateType;
+
+  /** Typedef for operations that use floating point instead of real precision */
   typedef FixedArray<ElementFloatType, D>      FloatType;
+
+  /** Return the type that can be printed. */
   typedef FixedArray<ElementPrintType, D>      PrintType;
+
+  /** Type for real-valued scalar operations. */
   typedef FixedArray<ElementRealType, D>       RealType;
 
+  /** Type for real-valued scalar operations. */
   typedef ElementRealType                      ScalarRealType;
 
+  /** Component wise defined element
+   *
+   * \note minimum value for floating pointer types is defined as
+   * minimum positive normalize value.
+   */
+  static const Self max( const Self & )
+    {
+      return Self( NumericTraits< T >::max() );
+    }
+  static const Self min( const Self & )
+    {
+      return Self( NumericTraits< T >::min() );
+    }
   static const Self max()
     {
       return Self( NumericTraits< T >::max() );
@@ -83,8 +108,10 @@ public:
     {
       return Self( NumericTraits<T>::OneValue() );
     }
-  /// \note: the functions are prefered over the member variables as
-  /// they are defined for all types
+
+  /** \note: the functions are prefered over the member variables as
+   * they are defined for all partial specialization
+   */
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };

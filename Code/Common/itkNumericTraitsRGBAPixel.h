@@ -24,24 +24,25 @@
 namespace itk
 {
 
-// For all the other good compilers, we provide here a generic implementation
-// based on creating types of RGBAPixels whose components are the types of the
-// NumericTraits from the original RGBAPixel components. This implementation
-// doesn't require specializations, since it is based on the concept that
-//
-//    NumericTraits< RGBAPixel< T > >  is defined piecewise by
-//    RGBAPixel< NumericTraits< T > >
-//
-//
-// By defining the following symbols, the Macro above gets customized to become
-// a generic template implementation of the traits
-//
 
+/** \class NumericTraits<RGBAPixel< T > >
+ * \brief Define numeric traits for RGBAPixel.
+ *
+ * We provide here a generic implementation based on creating types of
+ * RGBAPixel whose components are the types of the NumericTraits from
+ * the original RGBAPixel components. This implementation require
+ * support for partial specializations, since it is based on the
+ * concept that:
+ *   NumericTraits<RGBAPixel< T > >  is defined piecewise by
+ *   RGBAPixel< NumericTraits< T > >
+ *
+ * \sa NumericTraits
+ * \ingroup DataRepresentation
+ */
 template < typename T >
 class NumericTraits<RGBAPixel< T > >
 {
-public:
-  typedef T ValueType;
+private:
 
   typedef typename NumericTraits<T>::AbsType        ElementAbsType;
   typedef typename NumericTraits<T>::AccumulateType ElementAccumulateType;
@@ -49,16 +50,37 @@ public:
   typedef typename NumericTraits<T>::PrintType      ElementPrintType;
   typedef typename NumericTraits<T>::RealType       ElementRealType;
 
-  typedef RGBAPixel<T>                   Self;
+public:
 
+  /** Return the type of the native component type. */
+  typedef T                                  ValueType;
+
+  typedef RGBAPixel<T>                       Self;
+
+  /** Unsigned component type */
   typedef RGBAPixel<ElementAbsType>          AbsType;
+
+  /** Accumulation of addition and multiplication. */
   typedef RGBAPixel<ElementAccumulateType>   AccumulateType;
+
+  /** Typedef for operations that use floating point instead of real precision */
   typedef RGBAPixel<ElementFloatType>        FloatType;
+
+  /** Return the type that can be printed. */
   typedef RGBAPixel<ElementPrintType>        PrintType;
+
+  /** Type for real-valued scalar operations. */
   typedef RGBAPixel<ElementRealType>         RealType;
 
-  typedef ElementRealType ScalarRealType;
+  /** Type for real-valued scalar operations. */
+  typedef                                    ElementRealType ScalarRealType;
 
+
+  /** Component wise defined elements
+   *
+   * \note minimum value for floating pointer types is defined as
+   * minimum positive normalize value.
+   */
   static const Self max( const Self & )
     {
       return Self( NumericTraits< T >::max() );
@@ -87,8 +109,10 @@ public:
     {
       return Self( NumericTraits< T >::One );
     }
-  /// \note: the functions are prefered over the member variables as
-  /// they are defined for all types
+
+  /** \note: the functions are prefered over the member variables as
+   * they are defined for all partial specialization
+   */
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };
