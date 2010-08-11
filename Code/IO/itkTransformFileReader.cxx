@@ -74,7 +74,7 @@ void TransformFileReader
                         << std::endl << "Filename: \"" << m_FileName << "\"" );
     }
 
-  OStringStream InData;
+  std::ostringstream InData;
 
   // in.get ( InData );
   std::filebuf *pbuf;
@@ -161,7 +161,7 @@ void TransformFileReader
       TransformType* ptr = dynamic_cast<TransformBase*> ( i.GetPointer() );
       if ( ptr == NULL )
         {
-        OStringStream msg;
+        std::ostringstream msg;
         msg << "Could not create an instance of " << Value << std::endl
             << "The usual cause of this error is not registering the "
             << "transform with TransformFactory" << std::endl;

@@ -469,7 +469,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkDebugMacro(x) \
   { if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())   \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n"; \
@@ -491,7 +491,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char*);
 #else
 #define itkWarningMacro(x) \
 { if (::itk::Object::GetGlobalWarningDisplay()) \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              << this->GetNameOfClass() << " (" << this << "): " x  \
              << "\n\n"; \
@@ -574,7 +574,7 @@ private:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x) \
   { \
-  ::itk::OStringStream message; \
+  std::ostringstream message; \
   message << "itk::ERROR: " << this->GetNameOfClass() \
           << "(" << this << "): " x; \
   ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
@@ -583,7 +583,7 @@ private:
 
 #define itkGenericExceptionMacro(x) \
   { \
-  ::itk::OStringStream message; \
+  std::ostringstream message; \
   message << "itk::ERROR: " x; \
   ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION); \
   throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
@@ -594,7 +594,7 @@ private:
 #else
 #define itkGenericOutputMacro(x) \
 { if (::itk::Object::GetGlobalWarningDisplay()) \
-    { ::itk::OStringStream itkmsg; \
+    { std::ostringstream itkmsg; \
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" \
              x << "\n\n"; \
       ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());} \
@@ -1004,7 +1004,7 @@ private:
 #define itkAssertOrThrowMacro(test, message) \
    if( !(test) ) \
      { \
-     ::itk::OStringStream msgstr; \
+     std::ostringstream msgstr; \
      msgstr << message;      \
      itkAssertInDebugOrThrowInReleaseMacro( msgstr.str().c_str() ); \
      }

@@ -184,13 +184,13 @@ private:
   // counts, etc.
   friend class LBFGSBOptimizerHelper;
 
-  bool                     m_Trace;
-  bool                     m_OptimizerInitialized;
-  InternalOptimizerType  * m_VnlOptimizer;
-  mutable OStringStream    m_StopConditionDescription;
-  BoundValueType           m_LowerBound;
-  BoundValueType           m_UpperBound;
-  BoundSelectionType       m_BoundSelection;
+  bool                       m_Trace;
+  bool                       m_OptimizerInitialized;
+  InternalOptimizerType    * m_VnlOptimizer;
+  mutable std::ostringstream m_StopConditionDescription;
+  BoundValueType             m_LowerBound;
+  BoundValueType             m_UpperBound;
+  BoundSelectionType         m_BoundSelection;
 
   double                   m_CostFunctionConvergenceFactor;
   double                   m_ProjectedGradientTolerance;

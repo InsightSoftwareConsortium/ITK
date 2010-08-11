@@ -264,7 +264,7 @@ void Bruker2DSEQImageIO::Read(void* buffer)
 
   if( twodseq_InputStream.fail() )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "The Brucker2DSEG Data File can not be opened. "
             << "The following file was attempted:" << std::endl
             << file2Dseq;
@@ -278,7 +278,7 @@ void Bruker2DSEQImageIO::Read(void* buffer)
 
   if( twodseq_InputStream.fail() )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "The Brucker2DSEG Data File can not be read. "
             << "The following file was attempted:" << std::endl
             << file2Dseq;
@@ -515,7 +515,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   itksys::SystemTools::SplitPath(path.c_str(), pathComponents);
   if(pathComponents.size() < 3)
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Cannot create path for acqp file: "
             << path << std::endl
             << "Path Components: ";
@@ -569,7 +569,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                            std::ios::in );
   if( d3proc_InputStream.fail() )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "d3proc file: " <<  filed3proc << " cannot be opened.";
     ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -627,7 +627,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_sixString)
         {
         d3proc_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$IM_SIX" << std::endl
                 << ". File is "
@@ -650,7 +650,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_siyString)
         {
         d3proc_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$IM_SIY" << std::endl
                 << ". File is "
@@ -673,7 +673,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!im_sizString)
         {
         d3proc_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$IM_SIZ" << std::endl
                 << ". File is "
@@ -694,7 +694,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
                         std::ios::in );
   if( reco_InputStream.fail())
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "reco file: " <<  filereco << " cannot be opened";
     ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -737,7 +737,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         else
           {
           reco_InputStream.close();
-          OStringStream message;
+          std::ostringstream message;
           message << "Invalid reco file: Couldn't locate proper "
                   << "fov parameters" << std::endl
                   << "Reco file is " 
@@ -765,7 +765,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         if( tempIndex == std::string::npos )
           {
           reco_InputStream.close();
-          OStringStream message;
+          std::ostringstream message;
           message << "Invalid reco file: Couldn't locate proper "
                   << "dimension parameters" << std::endl
                   << "Reco file is " 
@@ -835,7 +835,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
               else
                 {
                 reco_InputStream.close();
-                OStringStream message;
+                std::ostringstream message;
                 message << "Invalid reco file: Couldn't locate proper "
                         << "wordtype parameter" << std::endl
                         << "Reco file is " 
@@ -861,7 +861,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!recoTransposeString)
         {
         reco_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$RECO_transposition" << std::endl
                 << "Reco file is "
@@ -929,7 +929,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         reco_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Invalid reco file: Couldn't locate proper"
                 << "datatype parameter" << std::endl
                 << "Reco file is " 
@@ -966,7 +966,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         else
           {
           reco_InputStream.close();
-          OStringStream message;
+          std::ostringstream message;
           message << "Invalid reco file: Couldn't locate proper"
                   << "byte order parameter" << std::endl
                   << "Reco file is " 
@@ -983,7 +983,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !numDimensions )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid reco file: Couldn't locate "
             << "'##$RECO_fov=(' tag" << std::endl
             << "Reco file is " 
@@ -995,7 +995,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     }
   if( !byteOrder )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid reco file: Couldn't locate "
             << "'##$RECO_byte_order=' tag" << std::endl
             << "Reco file is " 
@@ -1007,7 +1007,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     }
   if( numRecoTranspose < 0 )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid reco file: Couldn't locate "
             << "'##$RECO_transposition=(' tag" << std::endl
             << "Reco file is " 
@@ -1026,7 +1026,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   //std::cout << fileacqp.c_str() << std::endl;
   if( acqp_InputStream.fail() )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "acqp file cannot be opened. "
             << "File is "
             << fileacqp;
@@ -1055,7 +1055,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!acqDimString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_dim. "
                 << "The file is "
@@ -1081,7 +1081,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!niString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$NI" << std::endl
                 << "The file is "
@@ -1106,7 +1106,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!nrString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$NR" << std::endl
                 << "The file is "
@@ -1131,7 +1131,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!dimString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$NECHOES" << std::endl
                 << "The file is "
@@ -1156,7 +1156,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!sliceThickString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_slice_thick" << std::endl
                 << "The file is "
@@ -1182,7 +1182,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!sliceSepString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_slice_sepn" << std::endl
                 << "The file is "
@@ -1232,7 +1232,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!echoTimeString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_echo_time" << std::endl
                 << "The file is "
@@ -1262,7 +1262,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not retrieve ##$ACQ_echo_times" << std::endl
                 << "The file is "
                 << fileacqp;
@@ -1283,7 +1283,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!reptitionTimeString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_repetition_time" << std::endl
                 << "The file is "
@@ -1313,7 +1313,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not retrieve ##$ACQ_repetition_time" << std::endl
                 << "The file is "
                 << fileacqp;
@@ -1334,7 +1334,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!inversionTimeString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_inversion_time" << std::endl
                 << "The file is "
@@ -1364,7 +1364,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not retrieve ##$ACQ_inversion_time" << std::endl
                 << "The file is "
                 << fileacqp;
@@ -1395,7 +1395,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if (!gradMatrixString)
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not create std::istringstream for "
                 << "##$ACQ_grad_matrix" << std::endl
                 << "The file is "
@@ -1416,7 +1416,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
         if( acq_dim < 0 )
           {
           acqp_InputStream.close();
-          OStringStream message;
+          std::ostringstream message;
           message << "Invalid acqp file: Couldn't locate "
                   << "'##$ACQ_dim=' tag" << std::endl
                   << "The file is "
@@ -1598,7 +1598,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       else
         {
         acqp_InputStream.close();
-        OStringStream message;
+        std::ostringstream message;
         message << "Could not retrieve ##$ACQ_grad_matrix" << std::endl
                 << "The file is "
                 << fileacqp;
@@ -1613,7 +1613,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !echoTime )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             <<       "'##$ACQ_echo_time=( ' tag" << std::endl
             << "The file is "
@@ -1626,7 +1626,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !sliceThickness )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$ACQ_slice_thick=' tag" << std::endl
             << "The file is "
@@ -1639,7 +1639,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !sliceSeperation )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$ACQ_slice_sepn=(' tag" << std::endl
             << "The file is "
@@ -1652,7 +1652,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !nr )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$NR=' tag" << std::endl
             << "The file is "
@@ -1665,7 +1665,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !ni )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$NI=' tag" << std::endl
             << "The file is "
@@ -1678,7 +1678,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !echoTime )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$ACQ_echo_time=( ' tag" << std::endl
             << "The file is "
@@ -1691,7 +1691,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !repetitionTime )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$ACQ_repetition_time=( ' tag" << std::endl
             << "The file is "
@@ -1704,7 +1704,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   if( !inversionTime )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Invalid acqp file: Couldn't locate "
             << "'##$ACQ_inversion_time=( ' tag" << std::endl
             << "The file is "

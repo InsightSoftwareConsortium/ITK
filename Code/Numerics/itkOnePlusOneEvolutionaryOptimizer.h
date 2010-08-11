@@ -216,7 +216,7 @@ private:
   bool m_Stop;
 
   /** Stop description */
-  OStringStream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription;
 
   /** Cache variable for reporting the Frobenius Norm
    */

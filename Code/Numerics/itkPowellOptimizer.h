@@ -248,7 +248,7 @@ private:
    * optimization will stop at the next iteration. */
   bool               m_Stop;
 
-  OStringStream      m_StopConditionDescription;
+  std::ostringstream  m_StopConditionDescription;
 }; // end of class
 
 } // end of namespace itk

@@ -544,7 +544,7 @@ void RescaleFunction(ImageIOBase::IOComponentType bufferType,
       RescaleFunction( (double *)buffer, source, slope, intercept, size);
       break;
     default:
-      ::itk::OStringStream message;
+      std::ostringstream message;
       message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
       ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
       throw e;
@@ -584,7 +584,7 @@ void RescaleFunctionInverse(ImageIOBase::IOComponentType bufferType,
     //  RescaleFunctionInverse( (double *)buffer, source, slope, intercept, size);
     //  break;
     default:
-      ::itk::OStringStream message;
+      std::ostringstream message;
       message << "itk::ERROR: GDCMImageIO: Unknown component type : " << bufferType;
       ::itk::ExceptionObject e(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
       throw e;

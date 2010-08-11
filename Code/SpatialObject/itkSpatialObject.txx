@@ -978,7 +978,7 @@ template< unsigned int TDimension >
 std::string
 SpatialObject< TDimension >::GetSpatialObjectTypeAsString() const
 {
-  OStringStream n;
+  std::ostringstream n;
   n << GetNameOfClass();
   n << "_";
   n << TDimension;

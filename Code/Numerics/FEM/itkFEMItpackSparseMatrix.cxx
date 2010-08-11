@@ -497,7 +497,7 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
     solverError = "Unknown error code returned";
     }
 
-  OStringStream buf;
+  std::ostringstream buf;
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());
@@ -522,7 +522,7 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
       solverError = "Unknown error code returned";
     }
 
-  OStringStream buf;
+  std::ostringstream buf;
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());

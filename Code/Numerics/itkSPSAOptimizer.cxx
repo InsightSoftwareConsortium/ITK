@@ -519,7 +519,7 @@ const std::string
 SPSAOptimizer::
 GetStopConditionDescription() const
 {
-  ::itk::OStringStream reason;
+  std::ostringstream reason;
   reason << this->GetNameOfClass() << ": ";
   switch( m_StopCondition )
     {

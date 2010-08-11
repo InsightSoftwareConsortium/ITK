@@ -226,7 +226,7 @@ void PhilipsRECImageIOSetupSliceIndex(
   if(indexMatrix->size() != 
     (PhilipsRECImageIO::SliceIndexType::size_type)parParam.dim[2])
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "indexMatrix->size(): "
             << indexMatrix->size()
             << " != parParam.dim[2]: "
@@ -238,7 +238,7 @@ void PhilipsRECImageIOSetupSliceIndex(
     }
   if(parParam.dim[2] != (parParam.slice*parParam.image_blocks))
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "parParam.dim[2]: " 
             << parParam.dim[2] 
             << " != (parParam.slice*parParam.image_blocks): "
@@ -251,7 +251,7 @@ void PhilipsRECImageIOSetupSliceIndex(
   if(imageTypesScanSequenceIndex.size() != 
     (PhilipsRECImageIO::SliceIndexType::size_type)parParam.num_slice_repetitions)
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "imageTypesScanSequenceIndex.size(): "
             << imageTypesScanSequenceIndex.size()
             << " != parParam.num_slice_repetitions "
@@ -493,7 +493,7 @@ void PhilipsRECImageIO::Read(void* buffer)
   gzFile file_p = ::gzopen( ImageFileName.c_str(), "rb" );
   if( file_p == NULL )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "Philips REC Data File can not be opened. "
             << "The following files were attempted:" << std::endl
             << GetImageFileName( this->m_FileName ) << std::endl
@@ -514,7 +514,7 @@ void PhilipsRECImageIO::Read(void* buffer)
     IndexValueType realIndex = this->GetSliceIndex((int)slice);
     if( realIndex < 0 )
       {
-      OStringStream message;
+      std::ostringstream message;
       message << "Philips REC Data File can not be read. "
               << "The following files were attempted:" << std::endl
               << GetImageFileName( this->m_FileName ) << std::endl
@@ -688,7 +688,7 @@ void PhilipsRECImageIO::ReadImageInformation()
       m_PixelType = SCALAR;
       break;
     default:
-      OStringStream message;
+      std::ostringstream message;
       message << "Unknown data type. par.bit must be 8 or 16. " 
               << "par.bit is "
               << par.bit;

@@ -122,7 +122,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   
   if ( m_ImageIO.IsNull() )
     {
-    OStringStream msg;
+    std::ostringstream msg;
     msg << " Could not create IO object for file "
         << m_FileName.c_str() << std::endl;
     if (m_ExceptionMessage.size())
@@ -260,7 +260,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   if( ! itksys::SystemTools::FileExists( m_FileName.c_str() ) )
     {
     ImageFileReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
+    std::ostringstream msg;
     msg <<"The file doesn't exist. "
         << std::endl << "Filename = " << m_FileName
         << std::endl;
@@ -275,7 +275,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   if( readTester.fail() )
     {
     readTester.close();
-    OStringStream msg;
+    std::ostringstream msg;
     msg <<"The file couldn't be opened for reading. "
         << std::endl << "Filename: " << m_FileName
         << std::endl;
@@ -339,7 +339,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
     // we must use a InvalidRequestedRegionError since
     // DataObject::PropagateRequestedRegion() has an exception
     // specification
-    ::itk::OStringStream message;
+    std::ostringstream message;
     message << "ImageIO returns IO region that does not fully contain the requested region"
             << "Requested region: " << imageRequestedRegion 
             << "StreamableRegion region: " << streamableRegion;
@@ -545,7 +545,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>
   else
     {
     ImageFileReaderException e(__FILE__, __LINE__);
-    OStringStream msg;
+    std::ostringstream msg;
     msg <<"Couldn't convert component type: "
         << std::endl << "    "
         << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())

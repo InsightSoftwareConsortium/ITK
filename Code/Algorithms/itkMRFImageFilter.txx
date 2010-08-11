@@ -40,7 +40,7 @@ MRFImageFilter<TInputImage,TClassifiedImage>
 
   if( (int)InputImageDimension != (int)ClassifiedImageDimension )
     {
-    OStringStream msg;
+    std::ostringstream msg;
     msg << "Input image dimension: " << InputImageDimension << " != output image dimension: " << ClassifiedImageDimension; 
     throw ExceptionObject(__FILE__, __LINE__,msg.str().c_str(),ITK_LOCATION);
     }

@@ -448,7 +448,7 @@ FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char *file, unsigned in
 FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string, std::string moreDescription, unsigned int index1) :
   FEMException(file,lineNumber)
 {
-  OStringStream buf;
+  std::ostringstream buf;
   buf << "Index of " << moreDescription << " out of bounds (" << index1 << ")";
   SetDescription(buf.str().c_str());
 
@@ -458,7 +458,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file,
 FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char *file, unsigned int lineNumber, std::string, std::string, unsigned int index1, unsigned int index2) :
   FEMException(file,lineNumber)
 {
-  OStringStream buf;
+  std::ostringstream buf;
   buf << "Index out of bounds (" << index1 << "," << index2 << ")";
   SetDescription(buf.str().c_str());
 

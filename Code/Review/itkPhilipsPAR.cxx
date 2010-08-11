@@ -566,7 +566,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
 
   if( pPar == NULL )
     {
-    OStringStream message;
+    std::ostringstream message;
     message << "ReadPAR: pPar == NULL";
     ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -676,7 +676,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
       tempInfo = GetImageInformationDefinitionV3(parFile, 89, this);
       if( tempInfo.problemreading )
         {
-        OStringStream message;
+        std::ostringstream message;
         message << "ReadPAR: Problem with GetImageInformationDefinitionV3()";
         ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -788,7 +788,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( tempInfo1.problemreading )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: Problem with GetImageInformationDefinitionV3()";
           ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -971,7 +971,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->echoes-1) != echoIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->echoes-1) != echoIndex, "
             << "pPar->echoes-1 = " << pPar->echoes-1
             << " and echoIndex = " << echoIndex;
@@ -985,7 +985,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex, "
             << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1
             << " and cardiacIndex = " << cardiacIndex;
@@ -1090,7 +1090,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->echoes-1) != echoIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->echoes-1) != echoIndex, "
             << "pPar->echoes-1 = " << pPar->echoes-1
             << " and echoIndex = " << echoIndex;
@@ -1104,7 +1104,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex, "
             << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1
             << " and cardiacIndex = " << cardiacIndex;
@@ -1204,7 +1204,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
       if( tempInfo.problemreading )
         {
         pPar->problemreading = 1;
-        OStringStream message;
+        std::ostringstream message;
         message << "ReadPAR: Problem with GetImageInformationDefinitionV4()";
         ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -1331,7 +1331,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( tempInfo1.problemreading )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: Problem with GetImageInformationV4()";
           ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),
@@ -1532,7 +1532,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->echoes-1) != echoIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->echoes-1) != echoIndex, "
             << "pPar->echoes-1 = " << pPar->echoes-1
             << " and echoIndex = " << echoIndex;
@@ -1546,7 +1546,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex, "
             << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1
             << " and cardiacIndex = " << cardiacIndex;
@@ -1662,7 +1662,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->echoes-1) != echoIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->echoes-1) != echoIndex, "
             << "pPar->echoes-1 = " << pPar->echoes-1
             << " and echoIndex = " << echoIndex;
@@ -1676,7 +1676,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
         if( (pPar->cardiac_phases-1) != cardiacIndex )
           {
           pPar->problemreading = 1;
-          OStringStream message;
+          std::ostringstream message;
           message << "ReadPAR: (pPar->cardiac_phases-1) != cardiacIndex, "
             << "pPar->cardiac_phases-1 = " << pPar->cardiac_phases-1
             << " and cardiacIndex = " << cardiacIndex;
@@ -1692,7 +1692,7 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter* pPar)
     default:
       {
       pPar->problemreading = 1;
-      OStringStream message;
+      std::ostringstream message;
       message << "ReadPAR: Unkown PAR version";
       ExceptionObject exception(__FILE__, __LINE__,
                               message.str(),

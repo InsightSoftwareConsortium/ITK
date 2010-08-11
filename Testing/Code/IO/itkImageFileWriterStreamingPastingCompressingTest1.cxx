@@ -93,7 +93,7 @@ bool ActualTest(std::string inputFileName, std::string outputFileNameBase, std::
   
   std::cout << "Writing Combination: " << streamWriting << " " << pasteWriting << " " << compressWriting << std::endl;
 
-  ::itk::OStringStream outputFileNameStream;
+  std::ostringstream outputFileNameStream;
   outputFileNameStream << outputFileNameBase << streamWriting << pasteWriting << compressWriting << "." << outputFileNameExtension;
   std::string outputFileName = outputFileNameStream.str();
 

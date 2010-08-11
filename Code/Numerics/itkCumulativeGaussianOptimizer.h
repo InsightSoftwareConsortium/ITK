@@ -162,7 +162,7 @@ private:
   double VerticalBestShift(MeasureType * originalArray, MeasureType * newArray);
 
   /** Describe the stop condition */
-  OStringStream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription;
 
 };
 

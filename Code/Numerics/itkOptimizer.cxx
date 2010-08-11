@@ -72,7 +72,7 @@ const std::string
 Optimizer
 ::GetStopConditionDescription() const
 {
-  OStringStream description;
+  std::ostringstream description;
   description << this->GetNameOfClass() << ": "
               << "Optimizer did not provide a stop condition description";
   return description.str();
