@@ -343,9 +343,12 @@ bool GDCMImageIO::CanReadFile(const char* filename)
   bool preamble;
   if( gdcm::Document::CanReadFile(file, preamble) )
     {
-    itkWarningMacro(<< "The DICOM file: "
-                    << filename
-                    << " does not have a preamble.");
+    if(!preamble)
+      {
+      itkWarningMacro(<< "The DICOM file: "
+                      << filename
+                      << " does not have a preamble.");
+      }
     return true;
     }
 #else
