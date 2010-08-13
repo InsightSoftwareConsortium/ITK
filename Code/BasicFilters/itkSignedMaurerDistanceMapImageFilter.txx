@@ -451,7 +451,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>
       {
       // be sure to compute d2 *only* if l < ns
       OutputPixelType d2 = vnl_math_abs(g(l+1)) + (h(l+1)-iw)*(h(l+1)-iw);
-      // then compare d1 and d2
+      // then compare d1 and d2
       if( d1 <= d2 )
         {
         break;

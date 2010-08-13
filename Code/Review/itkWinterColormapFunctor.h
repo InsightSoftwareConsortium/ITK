@@ -27,7 +27,7 @@ namespace Functor {
  * \class WinterColormapFunctor
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
- * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and ̈James C. Gee
+ * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
  * 
  * This code was contributed in the Insight Journal paper:
  *

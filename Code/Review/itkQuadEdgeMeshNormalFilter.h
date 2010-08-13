@@ -47,10 +47,10 @@ namespace itk
  * IEEE Transaction on Computers, 20(6):623-629, 1971
  * [2] Shuangshuang Jin, Robert R. Lewis, and David West. 
  * A comparison of algorithms for vertex normal computation. 
- * The Visual Computer, 21(1-2):71–82, 2005.
+ * The Visual Computer, 21(1-2):71-82, 2005.
  * [3] Grit Thurmer and Charles A. Wuthrich. 
  * Computing vertex normals from polygonal facets. 
- * Journal of Graphic Tools, 3(1):43–46, 1998. 
+ * Journal of Graphic Tools, 3(1):43-46, 1998.
  *
  * \note By default the weight is set to the TURMER weight. 
  *

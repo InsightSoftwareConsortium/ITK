@@ -38,7 +38,7 @@ namespace itk {
  *
  *        "An active contour model without edges"
  *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141–151, 1999.
+ *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
