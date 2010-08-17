@@ -478,7 +478,14 @@ template <>
 class NumericTraits<long double> : public vcl_numeric_limits<long double> {
 public:
   typedef long double     ValueType;
+#if defined(__SUNPRO_CC) && defined(_ILP32)
+  // sun studio in 32 bit mode is unable to print long double values: it segfaults.
+  // conversion to double will give usable results if the value is in the double
+  // range - better than nothing.
+  typedef double          PrintType;
+#else
   typedef long double     PrintType;
+#endif
   typedef long double     AbsType;
   typedef long double     AccumulateType;
   typedef long double     RealType;
