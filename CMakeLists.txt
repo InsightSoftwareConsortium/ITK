@@ -555,13 +555,24 @@ INCLUDE(CheckTypeSize)
 
 
 #-----------------------------------------------------------------------------
+# Place all check includes below ( before itkConfigure.h is generated )
+
 # check if the platform has the header file "fenv.h" which has been added as part of the C99 standard
 INCLUDE(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(fenv.h HAVE_FENV_H)
 
-#-----------------------------------------------------------------------------
 # check if the platform has some widely used header files
 CHECK_INCLUDE_FILES("unistd.h" HAVE_UNISTD_H)
+
+# check if the platform has the header file "stdint.h" which has been added as part of the C99 standard
+CHECK_INCLUDE_FILES("stdint.h" HAVE_STDINT_H)
+
+# every system should have this header
+CHECK_INCLUDE_FILES("stddef.h" HAVE_STDDEF_H)
+CHECK_INCLUDE_FILES("sys/types.h" HAVE_SYS_TYPES_H)
+
+#-----------------------------------------------------------------------------
+
 
 #
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
