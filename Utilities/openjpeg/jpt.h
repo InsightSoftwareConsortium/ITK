@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2004, Yannick Verschueren
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
+ * Copyright (c) 2002-2003, Yannick Verschueren
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,43 +34,50 @@
 @file jpt.h
 @brief JPT-stream reader (JPEG 2000, JPIP)
 
-JPT-stream functions are implemented in J2K.C. 
+JPT-stream functions are implemented in J2K.C.
 */
-
+#include "openjpeg.h"
+struct opj_stream_private;
+struct opj_event_mgr;
 /**
 Message Header JPT stream structure
 */
-typedef struct opj_jpt_msg_header {
+typedef struct opj_jpt_msg_header
+{
   /** In-class Identifier */
-  unsigned int Id;
+  OPJ_UINT32 Id;
   /** Last byte information */
-  unsigned int last_byte;  
+  OPJ_UINT32 last_byte;
   /** Class Identifier */
-  unsigned int Class_Id;  
+  OPJ_UINT32 Class_Id;
   /** CSn : index identifier */
-  unsigned int CSn_Id;
+  OPJ_UINT32 CSn_Id;
   /** Message offset */
-  unsigned int Msg_offset;
+  OPJ_UINT32 Msg_offset;
   /** Message length */
-  unsigned int Msg_length;
+  OPJ_UINT32 Msg_length;
   /** Auxiliary for JPP case */
-  unsigned int Layer_nb;
+  OPJ_UINT32 Layer_nb;
 } opj_jpt_msg_header_t;
 
 /* ----------------------------------------------------------------------- */
 
 /**
-Initialize the value of the message header structure 
+Initialize the value of the message header structure
 @param header Message header structure
 */
 void jpt_init_msg_header(opj_jpt_msg_header_t * header);
 
 /**
-Read the message header for a JPP/JPT - stream
-@param cinfo Codec context info
-@param cio CIO handle
-@param header Message header structure
+ * Read the message header for a JPP/JPT - stream
+ * @param  p_cio    stream handle
+ * @param  header    JPT Message header structure
+ * @param  p_manager  user event manager to display nice messages.
 */
-void jpt_read_msg_header(opj_common_ptr cinfo, opj_cio_t *cio, opj_jpt_msg_header_t *header);
+bool jpt_read_msg_header(
+    struct opj_stream_private * p_cio,
+    opj_jpt_msg_header_t * p_header,
+    OPJ_UINT32 * p_nb_bytes_read,
+    struct opj_event_mgr * p_manager);
 
 #endif

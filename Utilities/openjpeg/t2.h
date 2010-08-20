@@ -1,9 +1,11 @@
 /*
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
  * Copyright (c) 2001-2003, David Janssens
  * Copyright (c) 2002-2003, Yannick Verschueren
- * Copyright (c) 2003-2005, Francois Devaux and Antonin Descampe
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2003-2007, Francois-Olivier Devaux and Antonin Descampe
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,21 +36,36 @@
 @brief Implementation of a tier-2 coding (packetization of code-block data) (T2)
 
 */
+#include "openjpeg.h"
+
+struct opj_common_struct;
+struct opj_image;
+struct opj_cp;
+struct opj_tcd_tile;
+struct opj_codestream_info;
 
 /** @defgroup T2 T2 - Implementation of a tier-2 coding */
 /*@{*/
 
 /**
+T2 encoding mode
+*/
+typedef enum T2_MODE
+{
+  THRESH_CALC = 0,  /** Function called in Rate allocation process*/
+  FINAL_PASS = 1    /** Function called in Tier 2 process*/
+}
+J2K_T2_MODE;
+
+/**
 Tier-2 coding
 */
-typedef struct opj_t2 {
-  /** codec context */
-  opj_common_ptr cinfo;
 
+typedef struct opj_t2 {
   /** Encoding: pointer to the src image. Decoding: pointer to the dst image. */
-  opj_image_t *image;
+  struct opj_image *image;
   /** pointer to the image coding parameters */
-  opj_cp_t *cp;
+  struct opj_cp *cp;
 } opj_t2_t;
 
 /** @name Exported functions */
@@ -63,10 +80,12 @@ Encode the packets of a tile to a destination buffer
 @param maxlayers maximum number of layers
 @param dest the destination buffer
 @param len the length of the destination buffer
-@param image_info structure to create an index file
+@param cstr_info Codestream information structure
+@param tpnum Tile part number of the current tile
+@param tppos The position of the tile part flag in the progression order
+@param t2_mode If == 0 In Threshold calculation ,If == 1 Final pass
 */
-int t2_encode_packets(opj_t2_t* t2, int tileno, opj_tcd_tile_t *tile, int maxlayers, unsigned char *dest, int len, opj_image_info_t *image_info);
-
+bool t2_encode_packets(opj_t2_t* t2,OPJ_UINT32 tileno, struct opj_tcd_tile *tile, OPJ_UINT32 maxlayers, OPJ_BYTE *dest, OPJ_UINT32 * p_data_written, OPJ_UINT32 len, struct opj_codestream_info *cstr_info,OPJ_UINT32 tpnum, OPJ_INT32 tppos,OPJ_UINT32 pino,J2K_T2_MODE t2_mode);
 /**
 Decode the packets of a tile from a source buffer
 @param t2 T2 handle
@@ -75,19 +94,21 @@ Decode the packets of a tile from a source buffer
 @param tileno number that identifies the tile for which to decode the packets
 @param tile tile for which to decode the packets
  */
-int t2_decode_packets(opj_t2_t *t2, unsigned char *src, int len, int tileno, opj_tcd_tile_t *tile);
+bool t2_decode_packets(opj_t2_t *t2, OPJ_UINT32 tileno,struct opj_tcd_tile *tile, OPJ_BYTE *src, OPJ_UINT32 * p_data_read, OPJ_UINT32 len,   struct opj_codestream_info *cstr_info);
 
 /**
-Create a T2 handle
-@param cinfo Codec context info
-@param image Source or destination image
-@param cp Image coding parameters
-@return Returns a new T2 handle if successful, returns NULL otherwise
+ * Creates a Tier 2 handle
+ *
+ * @param  p_image    Source or destination image
+ * @param  p_cp    Image coding parameters.
+ * @return    a new T2 handle if successful, NULL otherwise.
 */
-opj_t2_t* t2_create(opj_common_ptr cinfo, opj_image_t *image, opj_cp_t *cp);
+opj_t2_t* t2_create(struct opj_image *p_image, struct opj_cp *p_cp);
+
 /**
-Destroy a T2 handle
-@param t2 T2 handle to destroy
+ * Destroys a Tier 2 handle.
+ *
+ * @param  p_t2  the Tier 2 handle to destroy
 */
 void t2_destroy(opj_t2_t *t2);
 

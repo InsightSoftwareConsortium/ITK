@@ -1,9 +1,10 @@
 /*
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
  * Copyright (c) 2001-2003, David Janssens
  * Copyright (c) 2002-2003, Yannick Verschueren
- * Copyright (c) 2003-2005, Francois Devaux and Antonin Descampe
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2003-2007, Francois-Olivier Devaux and Antonin Descampe
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,11 +31,8 @@
 #ifndef __FIX_H
 #define __FIX_H
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-#define int64 __int64
-#else
-#define int64 long long
-#endif
+#include "openjpeg.h"
+#include "opj_includes.h"
 
 /**
 @file fix.h
@@ -42,7 +40,6 @@
 
 The functions in FIX.H have for goal to realize specific multiplication.
 */
-
 /** @defgroup FIX FIX - Implementation of operations of specific multiplication */
 /*@{*/
 
@@ -53,8 +50,9 @@ Multiply two fixed-precision rational numbers.
 @return Returns a * b
 */
 static INLINE int fix_mul(int a, int b) {
-    int64 temp = (int64) a * (int64) b >> 12;
-    return (int) ((temp >> 1) + (temp & 1)) ;
+    OPJ_INT64 temp = (OPJ_INT64) a * (OPJ_INT64) b ;
+    temp += temp & 4096;
+    return (int) (temp >> 13) ;
 }
 
 /*@}*/

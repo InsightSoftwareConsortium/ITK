@@ -1,9 +1,11 @@
 /*
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
  * Copyright (c) 2001-2003, David Janssens
  * Copyright (c) 2002-2003, Yannick Verschueren
- * Copyright (c) 2003-2005, Francois Devaux and Antonin Descampe
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2003-2007, Francois-Olivier Devaux and Antonin Descampe
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,15 +38,12 @@
 The functions in T1.C have for goal to realize the tier-1 coding operation. The functions
 in T1.C are used by some function in TCD.C.
 */
-
+#include "openjpeg.h"
 /** @defgroup T1 T1 - Implementation of the tier-1 coding */
 /*@{*/
-
+//#include "raw.h"
 /* ----------------------------------------------------------------------- */
 #define T1_NMSEDEC_BITS 7
-
-#define T1_MAXCBLKW 1024  /**< Maximum size of code-block (width) */
-#define T1_MAXCBLKH 1024  /**< Maximum size of code-block (heigth) */
 
 #define T1_SIG_NE 0x0001  /**< Context orientation : North-East direction */
 #define T1_SIG_SE 0x0002  /**< Context orientation : South-East direction */
@@ -67,17 +66,17 @@ in T1.C are used by some function in TCD.C.
 #define T1_REFINE 0x2000
 #define T1_VISIT 0x4000
 
-#define T1_NUMCTXS_AGG 1
 #define T1_NUMCTXS_ZC 9
-#define T1_NUMCTXS_MAG 3
 #define T1_NUMCTXS_SC 5
+#define T1_NUMCTXS_MAG 3
+#define T1_NUMCTXS_AGG 1
 #define T1_NUMCTXS_UNI 1
 
-#define T1_CTXNO_AGG 0
-#define T1_CTXNO_ZC (T1_CTXNO_AGG+T1_NUMCTXS_AGG)
-#define T1_CTXNO_MAG (T1_CTXNO_ZC+T1_NUMCTXS_ZC)
-#define T1_CTXNO_SC (T1_CTXNO_MAG+T1_NUMCTXS_MAG)
-#define T1_CTXNO_UNI (T1_CTXNO_SC+T1_NUMCTXS_SC)
+#define T1_CTXNO_ZC 0
+#define T1_CTXNO_SC (T1_CTXNO_ZC+T1_NUMCTXS_ZC)
+#define T1_CTXNO_MAG (T1_CTXNO_SC+T1_NUMCTXS_SC)
+#define T1_CTXNO_AGG (T1_CTXNO_MAG+T1_NUMCTXS_MAG)
+#define T1_CTXNO_UNI (T1_CTXNO_AGG+T1_NUMCTXS_AGG)
 #define T1_NUMCTXS (T1_CTXNO_UNI+T1_NUMCTXS_UNI)
 
 #define T1_NMSEDEC_FRACBITS (T1_NMSEDEC_BITS-1)
@@ -86,62 +85,69 @@ in T1.C are used by some function in TCD.C.
 #define T1_TYPE_RAW 1  /**< No encoding the information is store under raw format in codestream (mode switch RAW)*/
 
 /* ----------------------------------------------------------------------- */
+struct opj_common_struct;
+struct opj_tcd_tile;
+struct opj_tcp;
+struct opj_tcd_tilecomp;
+struct opj_mqc;
+struct opj_raw;
+struct opj_tccp;
+
+
+typedef short flag_t;
 
 /**
 Tier-1 coding (coding of code-block coefficients)
 */
 typedef struct opj_t1 {
-  /** codec context */
-  opj_common_ptr cinfo;
-
   /** MQC component */
-  opj_mqc_t *mqc;
+  struct opj_mqc *mqc;
   /** RAW component */
-  opj_raw_t *raw;
+  struct opj_raw *raw;
 
-  int lut_ctxno_zc[1024];
-  int lut_ctxno_sc[256];
-  int lut_ctxno_mag[4096];
-  int lut_spb[256];
-  int lut_nmsedec_sig[1 << T1_NMSEDEC_BITS];
-  int lut_nmsedec_sig0[1 << T1_NMSEDEC_BITS];
-  int lut_nmsedec_ref[1 << T1_NMSEDEC_BITS];
-  int lut_nmsedec_ref0[1 << T1_NMSEDEC_BITS];
-
-  int data[T1_MAXCBLKH][T1_MAXCBLKW];
-  int flags[T1_MAXCBLKH + 2][T1_MAXCBLKH + 2];
-
+  OPJ_INT32 *data;
+  flag_t *flags;
+  OPJ_UINT32 w;
+  OPJ_UINT32 h;
+  OPJ_UINT32 datasize;
+  OPJ_UINT32 flagssize;
+  OPJ_UINT32 flags_stride;
 } opj_t1_t;
+
+#define MACRO_t1_flags(x,y) t1->flags[((x)*(t1->flags_stride))+(y)]
 
 /** @name Exported functions */
 /*@{*/
 /* ----------------------------------------------------------------------- */
+
 /**
-Create a new T1 handle 
-and initialize the look-up tables of the Tier-1 coder/decoder
-@return Returns a new T1 handle if successful, returns NULL otherwise
-@see t1_init_luts
+ * Creates a new Tier 1 handle
+ * and initializes the look-up tables of the Tier-1 coder/decoder
+ * @return a new T1 handle if successful, returns NULL otherwise
 */
-opj_t1_t* t1_create(opj_common_ptr cinfo);
+opj_t1_t* t1_create();
+
 /**
-Destroy a previously created T1 handle
-@param t1 T1 handle to destroy
+ * Destroys a previously created T1 handle
+ *
+ * @param p_t1 Tier 1 handle to destroy
 */
-void t1_destroy(opj_t1_t *t1);
+void t1_destroy(opj_t1_t *p_t1);
+
 /**
 Encode the code-blocks of a tile
 @param t1 T1 handle
 @param tile The tile to encode
 @param tcp Tile coding parameters
 */
-void t1_encode_cblks(opj_t1_t *t1, opj_tcd_tile_t *tile, opj_tcp_t *tcp);
+bool t1_encode_cblks(opj_t1_t *t1, struct opj_tcd_tile *tile, struct opj_tcp *tcp,const OPJ_FLOAT64 * mct_norms);
 /**
 Decode the code-blocks of a tile
 @param t1 T1 handle
 @param tile The tile to decode
 @param tcp Tile coding parameters
 */
-void t1_decode_cblks(opj_t1_t *t1, opj_tcd_tile_t *tile, opj_tcp_t *tcp);
+void t1_decode_cblks(opj_t1_t* t1, struct opj_tcd_tilecomp* tilec, struct opj_tccp* tccp);
 /* ----------------------------------------------------------------------- */
 /*@}*/
 

@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2003-2005, Francois Devaux and Antonin Descampe
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
+ * Copyright (c) 2003-2007, Francois-Olivier Devaux and Antonin Descampe
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,22 +28,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "opj_includes.h"
+#include "raw.h"
+#include "opj_malloc.h"
 
-/* 
+/*
 ==========================================================
    local functions
 ==========================================================
 */
 
 
-/* 
+/*
 ==========================================================
    RAW encoding interface
 ==========================================================
 */
 
-opj_raw_t* raw_create() {
+opj_raw_t* raw_create(void) {
   opj_raw_t *raw = (opj_raw_t*)opj_malloc(sizeof(opj_raw_t));
   return raw;
 }
@@ -52,11 +55,11 @@ void raw_destroy(opj_raw_t *raw) {
   }
 }
 
-int raw_numbytes(opj_raw_t *raw) {
-  return (int)(raw->bp - raw->start);
+OPJ_UINT32 raw_numbytes(opj_raw_t *raw) {
+  return raw->bp - raw->start;
 }
 
-void raw_init_dec(opj_raw_t *raw, unsigned char *bp, int len) {
+void raw_init_dec(opj_raw_t *raw, OPJ_BYTE *bp, OPJ_UINT32 len) {
   raw->start = bp;
   raw->lenmax = len;
   raw->len = 0;
@@ -64,8 +67,8 @@ void raw_init_dec(opj_raw_t *raw, unsigned char *bp, int len) {
   raw->ct = 0;
 }
 
-int raw_decode(opj_raw_t *raw) {
-  int d;
+OPJ_UINT32 raw_decode(opj_raw_t *raw) {
+  OPJ_UINT32 d;
   if (raw->ct == 0) {
     raw->ct = 8;
     if (raw->len == raw->lenmax) {
@@ -80,7 +83,7 @@ int raw_decode(opj_raw_t *raw) {
   }
   raw->ct--;
   d = (raw->c >> raw->ct) & 0x01;
-  
+
   return d;
 }
 

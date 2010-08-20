@@ -24,156 +24,71 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "event.h"
+#include "openjpeg.h"
 #include "opj_includes.h"
+
 
 /* ==========================================================
      Utility functions
    ==========================================================*/
 
 #if !defined(_MSC_VER) && !defined(__MINGW32__)
-static char*
-i2a(unsigned i, char *a, unsigned r) {
+static OPJ_CHAR*
+i2a(OPJ_UINT32 i, OPJ_CHAR *a, OPJ_UINT32 r) {
   if (i/r > 0) a = i2a(i/r,a,r);
   *a = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i%r];
   return a+1;
 }
-
-/** 
- Transforms integer i into an ascii string and stores the result in a; 
- string is encoded in the base indicated by r.
- @param i Number to be converted
- @param a String result
- @param r Base of value; must be in the range 2 - 36
- @return Returns a
-*/
-static char *
-_itoa(int i, char *a, int r) {
-  r = ((r < 2) || (r > 36)) ? 10 : r;
-  if(i < 0) {
-    *a = '-';
-    *i2a(-i, a+1, r) = 0;
-  }
-  else *i2a(i, a, r) = 0;
-  return a;
-}
-
-#endif /* !WIN32 */
-
+#endif
 /* ----------------------------------------------------------------------- */
 
-opj_event_mgr_t* OPJ_CALLCONV opj_set_event_mgr(opj_common_ptr cinfo, opj_event_mgr_t *event_mgr, void *context) {
-  if(cinfo) {
-    opj_event_mgr_t *previous = cinfo->event_mgr;
-    cinfo->event_mgr = event_mgr;
-    cinfo->client_data = context;
-    return previous;
-  }
-
-  return NULL;
-}
-
-bool opj_event_msg(opj_common_ptr cinfo, int event_type, const char *fmt, ...) {
+bool opj_event_msg(opj_event_mgr_t * p_event_mgr, OPJ_INT32 event_type, const OPJ_CHAR *fmt, ...) {
 #define MSG_SIZE 512 /* 512 bytes should be more than enough for a short message */
-  opj_msg_callback msg_handler = NULL;
+  opj_msg_callback msg_handler = 00;
+  void * l_data = 00;
 
-  opj_event_mgr_t *event_mgr = cinfo->event_mgr;
-  if(event_mgr != NULL) {
+
+  if(p_event_mgr != 00) {
     switch(event_type) {
       case EVT_ERROR:
-        msg_handler = event_mgr->error_handler;
+        msg_handler = p_event_mgr->error_handler;
+        l_data = p_event_mgr->m_error_data;
         break;
       case EVT_WARNING:
-        msg_handler = event_mgr->warning_handler;
+        msg_handler = p_event_mgr->warning_handler;
+        l_data = p_event_mgr->m_warning_data;
         break;
       case EVT_INFO:
-        msg_handler = event_mgr->info_handler;
+        msg_handler = p_event_mgr->info_handler;
+        l_data = p_event_mgr->m_info_data;
         break;
       default:
         break;
     }
-    if(msg_handler == NULL) {
+    if(msg_handler == 00) {
       return false;
     }
   } else {
     return false;
   }
 
-  if ((fmt != NULL) && (event_mgr != NULL)) {
+  if ((fmt != 00) && (p_event_mgr != 00)) {
     va_list arg;
-    int str_length, i, j;
-    char message[MSG_SIZE];
+    OPJ_INT32 str_length/*, i, j*/; /* UniPG */
+    OPJ_CHAR message[MSG_SIZE];
     memset(message, 0, MSG_SIZE);
     /* initialize the optional parameter list */
     va_start(arg, fmt);
     /* check the length of the format string */
-    str_length = (int)((strlen(fmt) > MSG_SIZE) ? MSG_SIZE : strlen(fmt));
+    str_length = (strlen(fmt) > MSG_SIZE) ? MSG_SIZE : strlen(fmt);
     /* parse the format string and put the result in 'message' */
-    for (i = 0, j = 0; i < str_length; ++i) {
-      if (fmt[i] == '%') {
-        if (i + 1 < str_length) {
-          switch(tolower((int) fmt[i + 1])) {
-            case '%' :
-              message[j++] = '%';
-              break;
-            case 'o' : /* octal numbers */
-            {
-              char tmp[16];
-              _itoa(va_arg(arg, int), tmp, 8);
-              strcat(message, tmp);
-              j += (int)strlen(tmp);
-              ++i;
-              break;
-            }
-            case 'i' : /* decimal numbers */
-            case 'd' :
-            {
-              char tmp[16];
-              _itoa(va_arg(arg, int), tmp, 10);
-              strcat(message, tmp);
-              j += (int)strlen(tmp);
-              ++i;
-              break;
-            }
-            case 'x' : /* hexadecimal numbers */
-            {
-              char tmp[16];
-              _itoa(va_arg(arg, int), tmp, 16);
-              strcat(message, tmp);
-              j += (int)strlen(tmp);
-              ++i;
-              break;
-            }
-            case 's' : /* strings */
-            {
-              char *tmp = va_arg(arg, char*);
-              strcat(message, tmp);
-              j += (int)strlen(tmp);
-              ++i;
-              break;
-            }
-            case 'f' :  /* floats */
-            {
-              char tmp[16];
-              double value = va_arg(arg, double);
-              sprintf(tmp, "%f", value);
-              strcat(message, tmp);
-              j += (int)strlen(tmp);
-              ++i;
-              break;
-            }
-          };
-        } else {
-          message[j++] = fmt[i];
-        }
-      } else {
-        message[j++] = fmt[i];
-      };
-    }
+    vsprintf(message, fmt, arg); /* UniPG */
     /* deinitialize the optional parameter list */
     va_end(arg);
 
     /* output the message to the user program */
-    msg_handler(message, cinfo->client_data);
+    msg_handler(message, l_data);
   }
 
   return true;

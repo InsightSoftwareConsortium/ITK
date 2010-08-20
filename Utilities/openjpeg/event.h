@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2005, Hervé Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +26,39 @@
  */
 #ifndef __EVENT_H
 #define __EVENT_H
+
+#include "openjpeg.h"
+
 /**
 @file event.h
 @brief Implementation of a event callback system
 
 The functions in EVENT.C have for goal to send output messages (errors, warnings, debug) to the user.
 */
+/**
+Message handler object
+used for
+<ul>
+<li>Error messages
+<li>Warning messages
+<li>Debugging messages
+</ul>
+*/
+typedef struct opj_event_mgr
+{
+  /** Data to call the event manager upon */
+  void *      m_error_data;
+  /** Data to call the event manager upon */
+  void *      m_warning_data;
+  /** Data to call the event manager upon */
+  void *      m_info_data;
+  /** Error message callback if available, NULL otherwise */
+  opj_msg_callback error_handler;
+  /** Warning message callback if available, NULL otherwise */
+  opj_msg_callback warning_handler;
+  /** Debug message callback if available, NULL otherwise */
+  opj_msg_callback info_handler;
+} opj_event_mgr_t;
 
 #define EVT_ERROR  1  /**< Error event type */
 #define EVT_WARNING  2  /**< Warning event type */
@@ -43,13 +71,13 @@ The functions in EVENT.C have for goal to send output messages (errors, warnings
 /*@{*/
 /* ----------------------------------------------------------------------- */
 /**
-Write formatted data to a string and send the string to a user callback. 
-@param cinfo Codec context info
-@param event_type Event type or callback to use to send the message
-@param fmt Format-control string (plus optionnal arguments)
-@return Returns true if successful, returns false otherwise
+ * Writes formatted data to a string and send the string to a user callback.
+ * @param p_event_mgr the event manager to display messages.
+ * @param event_type Event type of the message
+ * @param fmt Format-control string (plus optionnal arguments)
+ * @return Returns true if successful, returns false otherwise
 */
-bool opj_event_msg(opj_common_ptr cinfo, int event_type, const char *fmt, ...);
+bool opj_event_msg(struct opj_event_mgr * p_event_mgr, OPJ_INT32 event_type, const OPJ_CHAR *fmt, ...);
 /* ----------------------------------------------------------------------- */
 /*@}*/
 

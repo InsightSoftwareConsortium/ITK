@@ -451,6 +451,7 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
 {
    if ( IsJPEG2000 )
    {
+#if WAITING_FOR_GDCM_2
      // make sure this is the right JPEG compression
      assert( !IsJPEGLossless || !IsJPEGLossy || !IsJPEGLS );
      // FIXME this is really ugly but it seems I have to load the complete
@@ -511,6 +512,7 @@ bool PixelReadConvert::ReadAndDecompressJPEGFile( std::ifstream *fp )
          }
        return true;
        }
+#endif
    }
    else if ( IsJPEGLS )
    {

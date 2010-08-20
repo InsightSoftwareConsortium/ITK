@@ -250,6 +250,7 @@ void CloseJpeg(std::ostream *fp, JpegVector &v)
 // size can now be computer from File attributes (what an API...)
 void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, File *image)
 {
+#if WAITING_FOR_GDCM_2
   Compressed = true;
   //char * userData = reinterpret_cast<char*>(UserData);
 
@@ -318,7 +319,8 @@ void PixelWriteConvert::SetCompressJPEG2000UserData(uint8_t *data, size_t size, 
    UserData = new uint8_t[of_size];
    memcpy(UserData, of->str().c_str(), of_size);
    UserDataSize = of_size;
-   delete of;   
+   delete of;
+#endif
 }
 
 bool gdcm_write_JPEG_file8 (std::ostream *fp, char *inputdata, size_t inputlength,

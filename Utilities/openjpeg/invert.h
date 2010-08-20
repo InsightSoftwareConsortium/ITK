@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,42 +24,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef WIN32
-#include <windows.h>
-#else
-/*#include <sys/time.h>
-#include <sys/resource.h>
-#include <sys/times.h>
-*/
-#endif /* WIN32 */
-#include "j2k_lib.h"
-
-
-OPJ_FLOAT64 opj_clock(void) {
-#if 0
-#ifdef WIN32
-  /* WIN32: use QueryPerformance (very accurate) */
-    LARGE_INTEGER freq , t ;
-    /* freq is the clock speed of the CPU */
-    QueryPerformanceFrequency(&freq) ;
-  /* cout << "freq = " << ((double) freq.QuadPart) << endl; */
-    /* t is the high resolution performance counter (see MSDN) */
-    QueryPerformanceCounter ( & t ) ;
-    return ( t.QuadPart /(double) freq.QuadPart ) ;
-#else
-  /* Unix or Linux: use resource usage */
-    struct rusage t;
-    double procTime;
-    /* (1) Get the rusage data structure at this moment (man getrusage) */
-    getrusage(0,&t);
-    /* (2) What is the elapsed time ? - CPU time = User time + System time */
-  /* (2a) Get the seconds */
-    procTime = t.ru_utime.tv_sec + t.ru_stime.tv_sec;
-    /* (2b) More precisely! Get the microseconds part ! */
-    return ( procTime + (t.ru_utime.tv_usec + t.ru_stime.tv_usec) * 1e-6 ) ;
+#ifndef __INVERT_H
+#define __INVERT_H
+#include "openjpeg.h"
+/**
+ * Calculates a n x n double matrix inversion with a LUP method. Data is aligned, rows after rows (or columns after columns).
+ * The function does not take ownership of any memory block, data must be fred by the user.
+ *
+ * @param pSrcMatrix  the matrix to invert.
+ * @param pDestMatrix  data to store the inverted matrix.
+ * @return 1 if the inversion is successful, 0 if the matrix is singular.
+ */
+bool opj_matrix_inversion_f(OPJ_FLOAT32 * pSrcMatrix,OPJ_FLOAT32 * pDestMatrix, OPJ_UINT32 n);
 #endif
-
-#endif
-  return 0;
-}
-
