@@ -1,5 +1,6 @@
 PROJECT(ITKOpenJPEG C)
 INCLUDE_REGULAR_EXPRESSION("^.*$")
+
 # Defines the source code for the library
 SET(OpenJPEG_SRCS
   tcd.c

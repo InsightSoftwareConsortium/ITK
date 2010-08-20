@@ -29,6 +29,8 @@ INCLUDE_DIRECTORIES(
   ${ITK_SOURCE_DIR}/Testing/Code/Algorithms
   # This directory is needed to find the itkTestingMacros.h
   ${ITK_SOURCE_DIR}/Testing/Code/Review
+  # This directory is needed for itkJPEG2000ImageIOTest(s)
+  ${ITK_SOURCE_DIR}/Utilities/openjpeg
   )
 
 #
@@ -271,6 +273,13 @@ SET(ReviewTest5_SRCS
   itkLabelGeometryImageFilterTest.cxx
   itkMRCImageIOTest.cxx
   itkVTKImageIO2Test.cxx
+  itkJPEG2000ImageIOFactoryTest01.cxx
+  itkJPEG2000ImageIOTest00.cxx
+  itkJPEG2000ImageIOTest01.cxx
+  itkJPEG2000ImageIOTest02.cxx
+  itkJPEG2000ImageIOTest03.cxx
+  itkJPEG2000ImageIOTest04.cxx
+  itkJPEG2000ImageIORegionOfInterest.cxx
 )
 
 SET(ReviewTest6_SRCS

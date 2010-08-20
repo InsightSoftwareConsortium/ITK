@@ -16,7 +16,11 @@ SET(ITKIOReview_SRCS
   itkStreamingImageIOBase.cxx
   itkVTKImageIO2.cxx
   itkVTKImageIO2Factory.cxx
+  itkJPEG2000ImageIO.cxx
+  itkJPEG2000ImageIOFactory.cxx
   )
+
+INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/openjpeg)
 
 ADD_LIBRARY(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
 TARGET_LINK_LIBRARIES (ITKIOReview  ITKIO)
