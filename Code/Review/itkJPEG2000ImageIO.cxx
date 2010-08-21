@@ -26,6 +26,8 @@
 // for memset
 #include <stdio.h>
 #include <string.h>
+// for malloc
+#include <stdlib.h>
 
 
 namespace itk
