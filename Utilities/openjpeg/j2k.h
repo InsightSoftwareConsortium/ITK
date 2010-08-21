@@ -131,7 +131,7 @@ These values may be combined with a | operator.
 typedef enum
 {
   J2K_ENC_STATE_NONE  =  0x0000, /**< a SOC marker is expected */
-  J2K_ENC_STATE_ENCODE  = 0x0001, /**< a SOC marker is expected */
+  J2K_ENC_STATE_ENCODE  = 0x0001  /**< a SOC marker is expected */
 }
 J2K_ENCODING_STATUS;
 
