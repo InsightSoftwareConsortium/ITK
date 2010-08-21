@@ -33,7 +33,7 @@
 #ifndef OPENJPEG_H
 #define OPENJPEG_H
 
-#if defined(OPJ_STATIC) || !(defined(WIN32) || defined(__WIN32__))
+#if defined(OPJ_STATIC) || (!defined(WIN32) && !defined(__MINGW32__)) || defined(__WIN32__)
   #define OPJ_API
   #define OPJ_CALLCONV
 #else
