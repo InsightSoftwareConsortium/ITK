@@ -49,6 +49,14 @@ JPEG2000ImageIO::JPEG2000ImageIO()
 
   this->m_NumberOfTilesInX = 0;
   this->m_NumberOfTilesInY = 0;
+
+  this->AddSupportedReadExtension(".j2k");
+  this->AddSupportedReadExtension(".jp2");
+  this->AddSupportedReadExtension(".jpt");
+
+  this->AddSupportedWriteExtension(".j2k");
+  this->AddSupportedWriteExtension(".jp2");
+  this->AddSupportedWriteExtension(".jpt");
 }
 
 JPEG2000ImageIO::~JPEG2000ImageIO()
