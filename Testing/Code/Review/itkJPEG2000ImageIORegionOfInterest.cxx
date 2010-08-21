@@ -25,7 +25,7 @@
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImage.h"
 
-int itkJPEG2000ImageIORegionOfInterest( int argc, char ** argv )
+int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
 {
   // Verify the number of parameters in the command line
   if( argc < 7 )

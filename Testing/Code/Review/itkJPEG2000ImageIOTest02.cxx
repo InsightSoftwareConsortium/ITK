@@ -28,7 +28,7 @@
 #include "itkImage.h"
 
 
-int itkJPEG2000ImageIOTest02( int argc, char ** argv )
+int itkJPEG2000ImageIOTest02( int argc, char * argv[] )
 {
   // Verify the number of parameters in the command line
   if( argc < 3 )
