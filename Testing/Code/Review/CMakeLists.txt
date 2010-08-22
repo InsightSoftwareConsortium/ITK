@@ -2430,6 +2430,21 @@ ADD_TEST(itkScalarChanAndVeseDenseLevelSetImageFilterTest4 ${REVIEW_TESTS6}
 ADD_TEST(itkMRCImageIOTest ${REVIEW_TESTS5} itkMRCImageIOTest ${TEMP})
 ADD_TEST(itkVTKImageIO2Test ${REVIEW_TESTS5} itkVTKImageIO2Test ${TEMP})
 
+ADD_TEST(itkJPEG2000Test00
+  ${REVIEW_TESTS5} itkJPEG2000ImageIORegionOfInterest
+  ${INPUTDATA}/Bretagne1.j2k
+  ${TEMP}/Bretagne1_RegionTest01.tif
+  160 120
+  320 240
+  )
+
+# tests for reading 3 component data with 8bits per component
+ADD_TEST(itkJPEG2000Test01  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Bretagne1.j2k ${TEMP}/Bretagne1_01.png )
+ADD_TEST(itkJPEG2000Test02  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${INPUTDATA}/Cevennes2.jp2 ${TEMP}/Cevennes2_01.png )
+
+# tests for writing 3 component data with 8bits per component
+ADD_TEST(itkJPEG2000Test03  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${TEMP}/Bretagne1_RegionTest01.tif ${TEMP}/Bretagne1_02.j2k )
+SET_TESTS_PROPERTIES( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
 
 
 #
