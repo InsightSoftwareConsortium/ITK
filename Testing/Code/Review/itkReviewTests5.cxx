@@ -33,4 +33,5 @@ void RegisterTests()
   REGISTER_TEST(itkJPEG2000ImageIOTest02);
   REGISTER_TEST(itkJPEG2000ImageIOTest03);
   REGISTER_TEST(itkJPEG2000ImageIOTest04);
+  REGISTER_TEST(itkJPEG2000ImageIORegionOfInterest);
 }
