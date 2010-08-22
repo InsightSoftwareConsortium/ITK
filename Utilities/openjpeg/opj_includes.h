@@ -104,7 +104,7 @@ static INLINE long lrintf(float f){
 }
 #else
 static INLINE long lrintf(float x){
-  int r;
+  long r;
   if (x>=0.f)
   {
      x+=0.5f;
@@ -113,7 +113,7 @@ static INLINE long lrintf(float x){
   {
      x-=0.5f;
   }
-  r = (int)(x);
+  r = (long)(x);
   if ( x != (float)(r) ) return r;
   return 2*(r/2);
 }
