@@ -406,6 +406,14 @@ OPJ_UINT32 opj_stream_read_data (opj_stream_private_t * p_stream,OPJ_BYTE * p_bu
     p_stream->m_byte_offset += p_stream->m_bytes_in_buffer;
     p_stream->m_bytes_in_buffer = 0;
   }
+ else
+  {
+    /* case where we are already at the end of the buffer
+       so reset the m_current_data to point to the start of the
+       stored buffer to get ready to read from disk*/
+    p_stream->m_current_data = p_stream->m_stored_data;
+  }
+
 
   while
     (true)
