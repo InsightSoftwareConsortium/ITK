@@ -654,7 +654,8 @@ static void v4dwt_decode_step1_sse(v4* w, OPJ_INT32 count, const __m128 c){
   OPJ_INT32 i;
   for(i = 0; i < count; ++i){
     __m128 tmp = vw[i*2];
-    vw[i*2] = tmp * c;
+    // vw[i*2] = temp * c
+    vw[i*2] = _mm_mul_ps(tmp,  c);
   }
 }
 
@@ -666,18 +667,22 @@ static void v4dwt_decode_step2_sse(v4* l, v4* w, OPJ_INT32 k, OPJ_INT32 m, __m12
     __m128 tmp1 = vl[ 0];
     __m128 tmp2 = vw[-1];
     __m128 tmp3 = vw[ 0];
-    vw[-1] = tmp2 + ((tmp1 + tmp3) * c);
+    // vw[-1] = tmp2 + ((tmp1 + tmp3) * c);
+    vw[-1] = _mm_add_ps( tmp2, _mm_mul_ps( _mm_add_ps( tmp1, tmp3), c ) );
     vl = vw;
     vw += 2;
   }
   if(m >= k){
     return;
   }
-  c += c;
-  c *= vl[0];
+  // c += c;
+  c = _mm_add_ps( c, c);
+  // c *= vl[0];
+  c = _mm_mul_ps( c, vl[0] );
   for(; m < k; ++m){
     __m128 tmp = vw[-1];
-    vw[-1] = tmp + c;
+    // vw[-1] = tmp + c;
+    vw[-1] =  _mm_add_ps( tmp, c );
     vw += 2;
   }
 }
