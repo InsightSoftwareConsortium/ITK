@@ -89,7 +89,6 @@ ImageRegionConstIterator<TImage>
     size = this->m_Region.GetSize();
 
   // Increment along a row, then wrap at the end of the region row.
-  unsigned int dim;
 
   // Check to see if we are past the last pixel in the region
   // Note that ++ind[0] moves to the next pixel along the row.
@@ -102,10 +101,10 @@ ImageRegionConstIterator<TImage>
   
   // if the iterator is outside the region (but not past region end) then
   // we need to wrap around the region
-  dim = 0;
   if (!done)
     {
-    while ( ( dim+1 < ImageIteratorDimension )
+    unsigned int dim = 0;
+    while ( ( (dim+1) < ImageIteratorDimension )
       && (ind[dim] > startIndex[dim] +  static_cast<typename Superclass::IndexValueType>(size[dim]) - 1) )
       {
       ind[dim] = startIndex[dim];
@@ -142,12 +141,10 @@ ImageRegionConstIterator<TImage>
     size = this->m_Region.GetSize();
 
   // Deccrement along a row, then wrap at the beginning of the region row.
-  bool done;
-  unsigned int dim;
 
   // Check to see if we are past the first pixel in the region
   // Note that --ind[0] moves to the previous pixel along the row.
-  done = (--ind[0] == startIndex[0] - 1);
+  bool done = (--ind[0] == startIndex[0] - 1);
   for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
     {
     done = (ind[i] == startIndex[i]);
@@ -155,10 +152,10 @@ ImageRegionConstIterator<TImage>
   
   // if the iterator is outside the region (but not past region begin) then
   // we need to wrap around the region
-  dim = 0;
   if (!done)
     {
-    while ( (dim < ImageIteratorDimension - 1)
+    unsigned int dim = 0;
+    while ( ( (dim+1) < ImageIteratorDimension )
             && (ind[dim] < startIndex[dim]) )
       {
       ind[dim] = startIndex[dim] + static_cast<typename Superclass::IndexValueType>(size[dim]) - 1;

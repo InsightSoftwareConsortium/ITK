@@ -18,6 +18,7 @@
 #define __itkGaussianDerivativeSpatialFunction_txx
 
 #include <math.h>
+#include "vnl/vnl_math.h"
 #include "itkGaussianDerivativeSpatialFunction.h"
 
 namespace itk

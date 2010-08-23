@@ -269,6 +269,7 @@ private:
 
 } // namespace itk
 
+#if 0 //HACK: Not yet implemented
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_GaussianDerivativeOperator(_, EXPORT, x, y) namespace itk { \
   _(2(class EXPORT GaussianDerivativeOperator< ITK_TEMPLATE_2 x >)) \
@@ -278,6 +279,7 @@ private:
 
 #if ITK_TEMPLATE_EXPLICIT
 # include "Templates/itkGaussianDerivativeOperator+-.h"
+#endif
 #endif
 
 #if ITK_TEMPLATE_TXX

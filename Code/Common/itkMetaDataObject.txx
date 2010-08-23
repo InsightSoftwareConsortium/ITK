@@ -43,7 +43,7 @@ MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObjectType InitializerValue)
-  :m_MetaDataObjectValue(InitializerValue)
+  :MetaDataObjectBase(),m_MetaDataObjectValue(InitializerValue)
 {
   //Nothing to be done here
 }
@@ -51,7 +51,7 @@ MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObject<MetaDataObjectType> &TemplateObject)
-  :m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
+  :MetaDataObjectBase(),m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
   //Nothing to be done here
 }
@@ -95,33 +95,6 @@ MetaDataObject<MetaDataObjectType>
 {
   Superclass::Print(os);
 }
-
-// Define a specialization of the Print function
-// for some basic types. We don't use the initial
-// NATIVE_TYPE_METADATAPRINT macro because it lacks
-// the inline keyword and it tries to specialize
-// for const types which does not compile on MSVC
-#define NATIVE_TYPE_METADATAPRINT_NOCONST(TYPE_NAME)   \
-template <> \
-inline void MetaDataObject< TYPE_NAME > \
-::Print(std::ostream& os) const \
-{ \
-  os << this->m_MetaDataObjectValue << std::endl; \
-}
-
-NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned char )
-NATIVE_TYPE_METADATAPRINT_NOCONST( short )
-NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned short )
-NATIVE_TYPE_METADATAPRINT_NOCONST( int )
-NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned int )
-NATIVE_TYPE_METADATAPRINT_NOCONST( long )
-NATIVE_TYPE_METADATAPRINT_NOCONST( unsigned long )
-NATIVE_TYPE_METADATAPRINT_NOCONST( float )
-NATIVE_TYPE_METADATAPRINT_NOCONST( double )
-NATIVE_TYPE_METADATAPRINT_NOCONST( std::string )
-
-// undef the macro to clean up things
-#undef NATIVE_TYPE_METADATAPRINT_NOCONST
 
 } // end namespace itk
 
