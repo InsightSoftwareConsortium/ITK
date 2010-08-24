@@ -26,6 +26,10 @@
 
 #define USE_OPJ_DEPRECATED
 
+#ifndef ITK_BUILD_SHARED_LIBS
+# define OPJ_STATIC
+#endif
+
 extern "C"
 {
   #include "openjpeg.h"
