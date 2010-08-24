@@ -221,14 +221,31 @@ void JPEG2000ImageIO::ReadImageInformation()
 
   if ( l_image->comps[0].prec  == 8 )
     {
-    this->SetPixelType(SCALAR);
-    this->SetComponentType(UCHAR);
+    this->SetComponentType( UCHAR );
+    }
+  else if ( l_image->comps[0].prec  == 16 )
+    {
+    this->SetComponentType( USHORT );
+    }
+  else
+    {
+    itkExceptionMacro( << "Unknown precision in file: " << l_image->comps[0].prec );
     }
 
-  if ( l_image->comps[0].prec  == 16 )
+  switch (this->GetNumberOfComponents())
     {
-    this->SetPixelType(SCALAR);
-    this->SetComponentType(USHORT);
+    case 1:
+      this->SetPixelType( SCALAR );
+      break;
+    case 3:
+      if ( l_image->color_space != CLRSPC_SRGB )
+        {
+        itkWarningMacro(<< "file does not specify color space, assuming sRGB");
+        }
+      this->SetPixelType( RGB );
+      break;
+    default:
+      this->SetPixelType( VECTOR );
     }
 
   itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
@@ -696,7 +713,8 @@ JPEG2000ImageIO
 
   if ( this->GetNumberOfComponents() == 3 )
     {
-    color_space = CLRSPC_SRGB;
+
+    color_space = ( this->GetPixelType() == RGB ) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
 
     /* initialize image components */
     memset( &cmptparm[0], 0, 3 * sizeof( opj_image_cmptparm_t ) );
