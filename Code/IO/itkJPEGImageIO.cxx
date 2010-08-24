@@ -490,7 +490,7 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
   // Create the jpeg compression object and error handler
   //struct jpeg_compress_struct cinfo;
   //struct itk_jpeg_error_mgr jerr;
-  
+
   struct itk_jpeg_error_mgr jerr;
   struct jpeg_compress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
@@ -502,23 +502,43 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
     itkExceptionMacro(<<"JPEG : Out of disk space");
     return;
     }
-  
+
   jpeg_create_compress(&cinfo);
 
   // set the destination file
   //struct jpeg_destination_mgr compressionDestination;
   jpeg_stdio_dest(&cinfo, fp);
-  
+
   // set the information about image
   unsigned int width, height;
   width =  m_Dimensions[0];
-  height = m_Dimensions[1];  
+  height = m_Dimensions[1];
 
+  // The JPEG standard only supports images up to 64K*64K due to 16-bit fields
+  // in SOF markers.
   cinfo.image_width = width;
   cinfo.image_height = height;
+  if( cinfo.image_width > 65536 || cinfo.image_height > 65536 )
+    {
+    itkExceptionMacro(<<"JPEG : Image is too large for JPEG");
+    return;
+    }
 
   cinfo.input_components = this->GetNumberOfComponents();
   unsigned int numComp = this->GetNumberOfComponents();
+
+  // Maximum number of components (color channels) allowed in JPEG image.
+  // JPEG spec set this to 255. However ijg default it to 10.
+  if( cinfo.input_components > 255)
+    {
+    itkExceptionMacro(<<"JPEG : Too many components for JPEG");
+    return;
+    }
+  if( cinfo.input_components > MAX_COMPONENTS)
+    {
+    itkExceptionMacro(<<"JPEG : Too many components for IJG. Recompile IJG.");
+    return;
+    }
 
   switch (cinfo.input_components)
     {
@@ -537,7 +557,7 @@ void JPEGImageIO::WriteSlice(std::string& fileName, const void* buffer)
     {
     jpeg_simple_progression(&cinfo);
     }
-  
+
   // start compression
   jpeg_start_compress(&cinfo, TRUE);
 
