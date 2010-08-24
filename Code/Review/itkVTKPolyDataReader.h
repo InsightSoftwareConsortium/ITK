@@ -64,17 +64,13 @@ public:
   typedef typename OutputMeshType::PointIdentifier PointIdentifier;
   typedef typename CellTraits::PointIdIterator     PointIdIterator;
 
-  typedef typename OutputMeshType::PointsContainerPointer
-  PointsContainerPointer;
-
-  typedef typename OutputMeshType::PointsContainer
-  PointsContainer;
+  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
   typedef TriangleCell< CellType > TriangleCellType;
 
-  typedef typename TriangleCellType::SelfAutoPointer
-  TriangleCellAutoPointer;
+  typedef typename TriangleCellType::SelfAutoPointer TriangleCellAutoPointer;
 
   typedef std::pair< unsigned long, unsigned long >    IndexPairType;
   typedef MapContainer< IndexPairType, unsigned long > PointMapType;

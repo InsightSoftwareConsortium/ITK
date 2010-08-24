@@ -68,7 +68,7 @@ VTKPolyDataReader< TOutputMesh >
   inputFile.imbue( std::locale::classic() );
   std::string line;
 
-  // The first line must be "#vtk DataFile Version x.x" where x.x can
+  // The first line must be "# vtk DataFile Version x.x" where x.x can
   // vary
   std::getline(inputFile, m_Version, '\n');
   if ( inputFile.fail() )
@@ -76,13 +76,13 @@ VTKPolyDataReader< TOutputMesh >
     itkExceptionMacro(<< "Error reading file: " << m_FileName
                       << "\nUnexpected end-of-file trying to read first line.");
     }
-  if ( m_Version.find("#vtk DataFile Version ") == std::string::npos )
+  if ( m_Version.find("# vtk DataFile Version ") == std::string::npos )
     {
     itkExceptionMacro(
       << "Error reading file: " << m_FileName
       << "\nOnly vtk legacy format files can be read."
       <<
-      "\nThis file does not start with the line: #vtk DataFile Version x.x where x.x is the version.");
+      "\nThis file does not start with the line: # vtk DataFile Version x.x where x.x is the version.");
     }
 
   // Next is a one line description
