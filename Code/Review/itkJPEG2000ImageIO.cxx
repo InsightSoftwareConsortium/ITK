@@ -83,17 +83,9 @@ bool JPEG2000ImageIO::CanReadFile(const char *filename)
 
   std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
 
-  if ( extension == ".j2k" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jp2" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jpt" )
+  if( extension == ".j2k" ||
+      extension == ".jp2" ||
+      extension == ".jpt" )
     {
     return true;
     }
@@ -579,17 +571,9 @@ bool JPEG2000ImageIO::CanWriteFile(const char *filename)
 {
   std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
 
-  if ( extension == ".j2k" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jp2" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jpt" )
+  if( extension == ".j2k" ||
+      extension == ".jp2" ||
+      extension == ".jpt" )
     {
     return true;
     }
