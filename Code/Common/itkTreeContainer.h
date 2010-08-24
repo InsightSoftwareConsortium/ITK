@@ -121,10 +121,13 @@ protected:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TreeContainer(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT TreeContainer< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef TreeContainer< ITK_TEMPLATE_1 x > \
-                                                  TreeContainer##y; } \
+#define ITK_TEMPLATE_TreeContainer(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT TreeContainer< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef TreeContainer< ITK_TEMPLATE_1 TypeX > \
+                                                  TreeContainer##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

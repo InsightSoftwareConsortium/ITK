@@ -108,12 +108,14 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_VolumeSplineKernelTransform(_, EXPORT, x, y) \
+#define ITK_TEMPLATE_VolumeSplineKernelTransform(_, EXPORT, TypeX, TypeY) \
   namespace itk { \
-    _(2(class EXPORT VolumeSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
-    namespace Templates { typedef \
-          VolumeSplineKernelTransform< ITK_TEMPLATE_2 x > \
-                                     VolumeSplineKernelTransform##y; } \
+    _(2(class EXPORT VolumeSplineKernelTransform< ITK_TEMPLATE_2 TypeX >)) \
+    namespace Templates { \
+    typedef \
+          VolumeSplineKernelTransform< ITK_TEMPLATE_2 TypeX > \
+                                     VolumeSplineKernelTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

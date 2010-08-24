@@ -109,10 +109,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_MedianImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT MedianImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef MedianImageFunction< ITK_TEMPLATE_2 x > \
-                                     MedianImageFunction##y; } \
+#define ITK_TEMPLATE_MedianImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT MedianImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef MedianImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                     MedianImageFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

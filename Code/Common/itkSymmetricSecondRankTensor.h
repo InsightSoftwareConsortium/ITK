@@ -81,7 +81,7 @@ public:
   
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NDimension);
-  itkStaticConstMacro(InternalDimension, unsigned int, NDimension*(NDimension+1)/2);
+  itkStaticConstMacro(InternalDimension, unsigned int, (NDimension*(NDimension+1)/2)) ;
 
   /** Convenience typedefs. */
   typedef FixedArray<TComponent,
@@ -207,13 +207,19 @@ ITK_EXPORT InputStreamType& operator>>(InputStreamType& is,
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 x > \
-                                         SymmetricSecondRankTensor##y; } \
+#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, TypeX, TypeY) \
+  namespace itk \
+{ \
+  _(2(class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX > \
+                                         SymmetricSecondRankTensor##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
+//template < typename TComponent, unsigned int NDimension> const unsigned int itk::SymmetricSecondRankTensor<TComponent,NDimension>::InternalDimension;
+
 # include "Templates/itkSymmetricSecondRankTensor+-.h"
 #endif
 

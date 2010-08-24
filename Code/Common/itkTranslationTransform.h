@@ -67,20 +67,20 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
+  typedef Vector<TScalarType, NDimensions> InputVectorType;
+  typedef Vector<TScalarType, NDimensions> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NDimensions> InputCovariantVectorType;
+  typedef CovariantVector<TScalarType, NDimensions> OutputCovariantVectorType;
   
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NDimensions> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalarType, NDimensions> OutputVnlVectorType;
   
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
-  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+  typedef Point<TScalarType, NDimensions> InputPointType;
+  typedef Point<TScalarType, NDimensions> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
@@ -233,9 +233,12 @@ BackTransform(const OutputCovariantVectorType &vect) const
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TranslationTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT TranslationTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef TranslationTransform< ITK_TEMPLATE_2 x > TranslationTransform##y; } \
+#define ITK_TEMPLATE_TranslationTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT TranslationTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef TranslationTransform< ITK_TEMPLATE_2 TypeX > TranslationTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

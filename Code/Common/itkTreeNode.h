@@ -129,10 +129,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TreeNode(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT TreeNode< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef TreeNode< ITK_TEMPLATE_1 x > \
-                                                  TreeNode##y; } \
+#define ITK_TEMPLATE_TreeNode(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT TreeNode< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef TreeNode< ITK_TEMPLATE_1 TypeX > \
+                                                  TreeNode##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

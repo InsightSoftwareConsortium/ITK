@@ -791,9 +791,12 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
    The ITK_TEMPLATE_<name> macro should be defined in itk<name>.h and
    is of the following form:
 
-     #define ITK_TEMPLATE_<name>(_, EXPORT, x, y) namespace itk { \
+     #define ITK_TEMPLATE_<name>(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
        _(<n>(class EXPORT <name>< ITK_TEMPLATE_<n> x >)) \
-       namespace Templates { typedef <name>< ITK_TEMPLATE_<n> x > <name>##y; }\
+       namespace Templates { \
+    typedef <name>< ITK_TEMPLATE_<n> x > <name>##TypeY; \
+   }\
      }
 
    The argument "_" will be replaced by another macro such as
@@ -811,23 +814,29 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
    nested within the inner parentheses, so the instantiation is listed
    with the form <n>(...).  Example definitions:
 
-     #define ITK_TEMPLATE_Foo(_, EXPORT, x, y) namespace itk { \
-       _(1(class EXPORT Foo< ITK_TEMPLATE_1 x >)) \
+     #define ITK_TEMPLATE_Foo(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+       _(1(class EXPORT Foo< ITK_TEMPLATE_1 TypeX >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                           const Foo< ITK_TEMPLATE_1 x >&))) \
-       namespace Templates { typedef Foo< ITK_TEMPLATE_1 x > Foo##y; }\
+                                           const Foo< ITK_TEMPLATE_1 TypeX >&))) \
+       namespace Templates { \
+    typedef Foo< ITK_TEMPLATE_1 TypeX > Foo##TypeY; \
+   }\
      }
 
-     #define ITK_TEMPLATE_Bar(_, EXPORT, x, y) namespace itk { \
-       _(2(class EXPORT Bar< ITK_TEMPLATE_2 x >)) \
+     #define ITK_TEMPLATE_Bar(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+       _(2(class EXPORT Bar< ITK_TEMPLATE_2 TypeX >)) \
        _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                           const Bar< ITK_TEMPLATE_2 x >&))) \
-       namespace Templates { typedef Bar< ITK_TEMPLATE_2 x > Bar##y; }\
+                                           const Bar< ITK_TEMPLATE_2 TypeX >&))) \
+       namespace Templates { \
+    typedef Bar< ITK_TEMPLATE_2 TypeX > Bar##TypeY; \
+   }\
      }
 
    Note that in the stream operator for template Bar there is a "1" at
    the beginning even though two arguments are taken.  This is because
-   the expression "ITK_TEMPLATE_2 x" is contained inside the
+   the expression "ITK_TEMPLATE_2 TypeX" is contained inside the
    parentheses of the function signature which protects the resulting
    comma from separating macro arguments.  Therefore the nested
    parentheses contain a list of only one macro argument.

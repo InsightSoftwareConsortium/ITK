@@ -131,10 +131,13 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_LaplacianOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT LaplacianOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef LaplacianOperator< ITK_TEMPLATE_2 x > \
-                                                  LaplacianOperator##y; } \
+#define ITK_TEMPLATE_LaplacianOperator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT LaplacianOperator< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef LaplacianOperator< ITK_TEMPLATE_2 TypeX > \
+                                                  LaplacianOperator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -183,10 +183,13 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT GaussianOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef GaussianOperator< ITK_TEMPLATE_2 x > \
-                                                  GaussianOperator##y; } \
+#define ITK_TEMPLATE_GaussianOperator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT GaussianOperator< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef GaussianOperator< ITK_TEMPLATE_2 TypeX > \
+                                                  GaussianOperator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

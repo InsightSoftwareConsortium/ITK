@@ -121,10 +121,13 @@ private:
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FixedCenterOfRotationAffineTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x > \
-                                            FixedCenterOfRotationAffineTransform##y; } \
+#define ITK_TEMPLATE_FixedCenterOfRotationAffineTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 TypeX > \
+                                            FixedCenterOfRotationAffineTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

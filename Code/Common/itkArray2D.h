@@ -101,11 +101,14 @@ std::ostream & operator<<(std::ostream &os, const Array2D<TValueType> &arr)
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Array2D(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT Array2D< ITK_TEMPLATE_1 x >)) \
+#define ITK_TEMPLATE_Array2D(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT Array2D< ITK_TEMPLATE_1 TypeX >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                     const Array2D< ITK_TEMPLATE_1 x >&))) \
-  namespace Templates { typedef Array2D< ITK_TEMPLATE_1 x > Array2D##y; } \
+                                     const Array2D< ITK_TEMPLATE_1 TypeX >&))) \
+  namespace Templates { \
+    typedef Array2D< ITK_TEMPLATE_1 TypeX > Array2D##TypeY; \
+    } \
   }
 
 

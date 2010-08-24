@@ -60,10 +60,13 @@ protected:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_MatrixResizeableDataObject(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT MatrixResizeableDataObject< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef MatrixResizeableDataObject< ITK_TEMPLATE_1 x > \
-                                     MatrixResizeableDataObject##y; } \
+#define ITK_TEMPLATE_MatrixResizeableDataObject(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT MatrixResizeableDataObject< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef MatrixResizeableDataObject< ITK_TEMPLATE_1 TypeX > \
+                                     MatrixResizeableDataObject##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

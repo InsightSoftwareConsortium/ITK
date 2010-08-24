@@ -503,10 +503,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_LinearInterpolateImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT LinearInterpolateImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef LinearInterpolateImageFunction< ITK_TEMPLATE_2 x > \
-                                                  LinearInterpolateImageFunction##y; } \
+#define ITK_TEMPLATE_LinearInterpolateImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT LinearInterpolateImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef LinearInterpolateImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                                  LinearInterpolateImageFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

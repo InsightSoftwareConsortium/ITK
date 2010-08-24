@@ -102,10 +102,13 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ThinPlateSplineKernelTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 x > \
-                                                  ThinPlateSplineKernelTransform##y; } \
+#define ITK_TEMPLATE_ThinPlateSplineKernelTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 TypeX > \
+                                                  ThinPlateSplineKernelTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -393,9 +393,12 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageReverseConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageReverseConstIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageReverseConstIterator< ITK_TEMPLATE_1 x > ImageReverseConstIterator##y; } \
+#define ITK_TEMPLATE_ImageReverseConstIterator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageReverseConstIterator< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageReverseConstIterator< ITK_TEMPLATE_1 TypeX > ImageReverseConstIterator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

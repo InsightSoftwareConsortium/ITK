@@ -214,10 +214,13 @@ protected:
 } //end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TreeIteratorBase(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT TreeIteratorBase< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef TreeIteratorBase< ITK_TEMPLATE_1 x > \
-                                                  TreeIteratorBase##y; } \
+#define ITK_TEMPLATE_TreeIteratorBase(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT TreeIteratorBase< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef TreeIteratorBase< ITK_TEMPLATE_1 TypeX > \
+                                                  TreeIteratorBase##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

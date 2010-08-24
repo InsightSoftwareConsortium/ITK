@@ -61,10 +61,13 @@ public:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxPixel(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxPixel< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxPixel< ITK_TEMPLATE_1 x > \
-                               BloxPixel##y; } \
+#define ITK_TEMPLATE_BloxPixel(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT BloxPixel< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef BloxPixel< ITK_TEMPLATE_1 TypeX > \
+                               BloxPixel##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -301,13 +301,17 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageConstIteratorWithIndex(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageConstIteratorWithIndex< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageConstIteratorWithIndex< ITK_TEMPLATE_1 x > ImageConstIteratorWithIndex##y; } \
+#define ITK_TEMPLATE_ImageConstIteratorWithIndex(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ImageConstIteratorWithIndex##TypeY; \
+    } \
   }
 
 
 #if ITK_TEMPLATE_EXPLICIT
+//template<typename TImage> const unsigned int itk::ImageConstIteratorWithIndex< TImage>::ImageDimension;
 # include "Templates/itkImageConstIteratorWithIndex+-.h"
 #endif
 

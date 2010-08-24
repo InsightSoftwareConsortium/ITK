@@ -411,10 +411,12 @@ BackTransform(const OutputPointType &point) const
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_AffineTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT AffineTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef AffineTransform< ITK_TEMPLATE_2 x > \
-                                                  AffineTransform##y; } \
+#define ITK_TEMPLATE_AffineTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT AffineTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef AffineTransform< ITK_TEMPLATE_2 TypeX >  AffineTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

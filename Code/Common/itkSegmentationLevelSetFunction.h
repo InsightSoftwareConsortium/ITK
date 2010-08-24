@@ -182,10 +182,13 @@ private:
 } // end namespace
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SegmentationLevelSetFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT SegmentationLevelSetFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef SegmentationLevelSetFunction< ITK_TEMPLATE_2 x > \
-                                         SegmentationLevelSetFunction##y; } \
+#define ITK_TEMPLATE_SegmentationLevelSetFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT SegmentationLevelSetFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef SegmentationLevelSetFunction< ITK_TEMPLATE_2 TypeX > \
+                                         SegmentationLevelSetFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

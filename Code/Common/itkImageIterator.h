@@ -160,10 +160,13 @@ protected:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageIterator< ITK_TEMPLATE_1 x > \
-                                                  ImageIterator##y; } \
+#define ITK_TEMPLATE_ImageIterator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageIterator< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageIterator< ITK_TEMPLATE_1 TypeX > \
+                                                  ImageIterator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

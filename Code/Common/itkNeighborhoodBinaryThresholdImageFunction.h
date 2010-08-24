@@ -118,10 +118,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_NeighborhoodBinaryThresholdImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT NeighborhoodBinaryThresholdImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef NeighborhoodBinaryThresholdImageFunction< ITK_TEMPLATE_2 x > \
-                                         NeighborhoodBinaryThresholdImageFunction##y; } \
+#define ITK_TEMPLATE_NeighborhoodBinaryThresholdImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT NeighborhoodBinaryThresholdImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef NeighborhoodBinaryThresholdImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                         NeighborhoodBinaryThresholdImageFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -37,12 +37,12 @@ namespace itk
  * \ingroup ImageFunctions
  */
 template <
-  class TInputImage, 
+  class TInputImage,
   class TCoordRep = float >
 class ITK_EXPORT CentralDifferenceImageFunction :
-  public ImageFunction< TInputImage, 
+  public ImageFunction< TInputImage,
                         CovariantVector<double, \
-                        ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
+                        TInputImage::ImageDimension>,
                         TCoordRep >
 {
 public:
@@ -53,12 +53,12 @@ public:
   /** Standard class typedefs. */
   typedef CentralDifferenceImageFunction Self;
   typedef ImageFunction<TInputImage,
-                        CovariantVector<double, 
+                        CovariantVector<double,
                         itkGetStaticConstMacro(ImageDimension)>,
                         TCoordRep>       Superclass;
   typedef SmartPointer<Self>             Pointer;
   typedef SmartPointer<const Self>       ConstPointer;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
 
@@ -73,7 +73,7 @@ public:
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
-  
+
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
@@ -88,8 +88,8 @@ public:
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual OutputType EvaluateAtIndex( const IndexType& index ) const;
-  
-  /** Evalulate the image derivative by central differencing at non-integer 
+
+  /** Evalulate the image derivative by central differencing at non-integer
    *  positions.
    *
    *  No bounds checking is done.
@@ -98,19 +98,19 @@ public:
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
    virtual OutputType Evaluate( const PointType& point ) const
-    { 
+    {
     IndexType index;
     this->ConvertPointToNearestIndex( point, index );
-    return this->EvaluateAtIndex( index ); 
+    return this->EvaluateAtIndex( index );
     }
-  virtual OutputType EvaluateAtContinuousIndex( 
+  virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType& cindex ) const
-    { 
+    {
     IndexType index;
     this->ConvertContinuousIndexToNearestIndex( cindex, index );
-    return this->EvaluateAtIndex( index ); 
+    return this->EvaluateAtIndex( index );
     }
-  
+
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
    * space. When this flag is ON the derivatives are computed with respect to
@@ -143,13 +143,18 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_CentralDifferenceImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT CentralDifferenceImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef CentralDifferenceImageFunction< ITK_TEMPLATE_2 x > \
-                                            CentralDifferenceImageFunction##y; } \
+#define ITK_TEMPLATE_CentralDifferenceImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT CentralDifferenceImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef CentralDifferenceImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                            CentralDifferenceImageFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
+// HACK:  template < class TInputImage, class TCoordRep >
+//    const unsigned int CentralDifferenceImageFunction<TInputImage,TCoordRep>::ImageDimension;
 # include "Templates/itkCentralDifferenceImageFunction+-.h"
 #endif
 

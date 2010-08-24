@@ -101,9 +101,9 @@ ImageRegionConstIterator<TImage>
   
   // if the iterator is outside the region (but not past region end) then
   // we need to wrap around the region
+  unsigned int dim = 0;
   if (!done)
     {
-    unsigned int dim = 0;
     while ( ( (dim+1) < ImageIteratorDimension )
       && (ind[dim] > startIndex[dim] +  static_cast<typename Superclass::IndexValueType>(size[dim]) - 1) )
       {
@@ -149,13 +149,13 @@ ImageRegionConstIterator<TImage>
     {
     done = (ind[i] == startIndex[i]);
     }
-  
+
   // if the iterator is outside the region (but not past region begin) then
   // we need to wrap around the region
+  unsigned int dim = 0;
   if (!done)
     {
-    unsigned int dim = 0;
-    while ( ( (dim+1) < ImageIteratorDimension )
+    while ( ((dim+1) < ImageIteratorDimension )
             && (ind[dim] < startIndex[dim]) )
       {
       ind[dim] = startIndex[dim] + static_cast<typename Superclass::IndexValueType>(size[dim]) - 1;

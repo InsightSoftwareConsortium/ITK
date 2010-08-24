@@ -323,9 +323,12 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_VectorImage(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT VectorImage< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef VectorImage< ITK_TEMPLATE_2 x > VectorImage##y; } \
+#define ITK_TEMPLATE_VectorImage(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT VectorImage< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef VectorImage< ITK_TEMPLATE_2 TypeX > VectorImage##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -41,14 +41,20 @@ template< class TImage >
 class NeighborhoodAccessorFunctor
 {
 public:
+  typedef NeighborhoodAccessorFunctor           Self;
   typedef TImage                                ImageType;
   typedef typename ImageType::PixelType         PixelType;
   typedef typename ImageType::InternalPixelType InternalPixelType;
   typedef unsigned int                          VectorLengthType;
   typedef typename ImageType::OffsetType        OffsetType;
 
+  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+#if 0
   typedef Neighborhood< InternalPixelType *,
           ::itk::GetImageDimension< TImage >::ImageDimension > NeighborhoodType;
+#else
+  typedef Neighborhood< InternalPixelType *, Self::ImageDimension > NeighborhoodType;
+#endif
   
   typedef ImageBoundaryCondition< ImageType > const *
                           ImageBoundaryConditionConstPointerType;
@@ -94,4 +100,7 @@ public:
 };
 
 } // end namespace itk
+
+//template< class TImage > const unsigned int itk::NeighborhoodAccessorFunctor<TImage>::ImageDimension;
+
 #endif

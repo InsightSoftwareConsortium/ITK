@@ -124,10 +124,13 @@ private:
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_NeighborhoodOperatorImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 x > \
-                                  NeighborhoodOperatorImageFunction##y; } \
+#define ITK_TEMPLATE_NeighborhoodOperatorImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef NeighborhoodOperatorImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                  NeighborhoodOperatorImageFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -69,11 +69,10 @@ void
 AutoCropLabelMapFilter<TInputImage>
 ::FindBoundingBox()
 {
-  typedef typename InputImageType::IndexValueType IndexValueType;
 
   // find the bounding box of the objects
-  this->m_MinIndex.Fill( NumericTraits< IndexValueType >::max() );
-  this->m_MaxIndex.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
+  this->m_MinIndex.Fill( NumericTraits< typename TInputImage::IndexValueType >::max() );
+  this->m_MaxIndex.Fill( NumericTraits< typename TInputImage::IndexValueType >::NonpositiveMin() );
 
   const InputImageType * inputImage = this->GetInput();
 
@@ -92,8 +91,8 @@ AutoCropLabelMapFilter<TInputImage>
     while( lit != lineContainer.end() )
       {
       const IndexType & idx = lit->GetIndex();
-      IndexValueType length = lit->GetLength();
-  
+      const typename TInputImage::IndexValueType length = lit->GetLength();
+
       // update the mins and maxs
       for( unsigned int i = 0; i < ImageDimension; i++)
         {
@@ -107,7 +106,7 @@ AutoCropLabelMapFilter<TInputImage>
           }
         }
       // must fix the max for the axis 0
-      if( idx[0] + (IndexValueType)length > this->m_MaxIndex[0] )
+      if( idx[0] + length > this->m_MaxIndex[0] )
         {
         this->m_MaxIndex[0] = idx[0] + length - 1;
         }

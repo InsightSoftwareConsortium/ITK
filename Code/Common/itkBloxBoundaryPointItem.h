@@ -84,10 +84,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxBoundaryPointItem(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxBoundaryPointItem< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxBoundaryPointItem< ITK_TEMPLATE_1 x > \
-                                            BloxBoundaryPointItem##y; } \
+#define ITK_TEMPLATE_BloxBoundaryPointItem(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT BloxBoundaryPointItem< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef BloxBoundaryPointItem< ITK_TEMPLATE_1 TypeX > \
+                                            BloxBoundaryPointItem##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

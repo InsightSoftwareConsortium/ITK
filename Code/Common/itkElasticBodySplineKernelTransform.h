@@ -123,10 +123,13 @@ private:
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ElasticBodySplineKernelTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 x > \
-                                            ElasticBodySplineKernelTransform##y; } \
+#define ITK_TEMPLATE_ElasticBodySplineKernelTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef ElasticBodySplineKernelTransform< ITK_TEMPLATE_2 TypeX > \
+                                            ElasticBodySplineKernelTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

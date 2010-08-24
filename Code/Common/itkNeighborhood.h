@@ -281,10 +281,13 @@ std::ostream & operator<<(std::ostream &os, const Neighborhood<TPixel,VDimension
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Neighborhood(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT Neighborhood< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef Neighborhood< ITK_TEMPLATE_2 x > \
-                                                  Neighborhood##y; } \
+#define ITK_TEMPLATE_Neighborhood(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT Neighborhood< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef Neighborhood< ITK_TEMPLATE_2 TypeX > \
+                                                  Neighborhood##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

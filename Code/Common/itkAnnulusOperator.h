@@ -228,10 +228,13 @@ private:
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_AnnulusOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT AnnulusOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef AnnulusOperator< ITK_TEMPLATE_2 x > \
-                                                  AnnulusOperator##y; } \
+#define ITK_TEMPLATE_AnnulusOperator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT AnnulusOperator< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef AnnulusOperator< ITK_TEMPLATE_2 TypeX > \
+                                                  AnnulusOperator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

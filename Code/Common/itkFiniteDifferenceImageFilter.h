@@ -359,10 +359,13 @@ private:
 }// end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FiniteDifferenceImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FiniteDifferenceImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FiniteDifferenceImageFilter< ITK_TEMPLATE_2 x > \
-                                            FiniteDifferenceImageFilter##y; } \
+#define ITK_TEMPLATE_FiniteDifferenceImageFilter(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT FiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef FiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX > \
+                                            FiniteDifferenceImageFilter##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

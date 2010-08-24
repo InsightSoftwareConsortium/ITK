@@ -44,6 +44,8 @@
 namespace itk
 {
 
+//HACK:  Need to remove this function also
+#if 1
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
@@ -55,6 +57,7 @@ struct GetImageDimension
 {
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 };
+#endif
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
@@ -650,12 +653,16 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageBase(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageBase< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageBase< ITK_TEMPLATE_1 x > ImageBase##y; } \
+#define ITK_TEMPLATE_ImageBase(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageBase< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageBase< ITK_TEMPLATE_1 TypeX > ImageBase##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
+//template <unsigned int VImageDimension> const unsigned int itk::ImageBase<VImageDimension>::ImageDimension;
 # include "Templates/itkImageBase+-.h"
 #endif
 

@@ -316,10 +316,13 @@ NATIVE_TYPE_METADATAPRINT_NOCONST( std::string )
 #endif
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_MetaDataObject(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT MetaDataObject< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef MetaDataObject< ITK_TEMPLATE_1 x > \
-                                         MetaDataObject##y; } \
+#define ITK_TEMPLATE_MetaDataObject(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT MetaDataObject< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef MetaDataObject< ITK_TEMPLATE_1 TypeX > \
+                                         MetaDataObject##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

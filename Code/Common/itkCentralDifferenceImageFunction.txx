@@ -69,7 +69,8 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
   const typename InputImageType::SizeType& size   = region.GetSize();
   const typename InputImageType::IndexType& start = region.GetIndex();
 
-  for ( unsigned int dim = 0; dim < TInputImage::ImageDimension; dim++ )
+  const unsigned int MaxDims=Self::ImageDimension;
+  for ( unsigned int dim = 0; dim < MaxDims; dim++ )
     {
     // bounds checking
     if( index[dim] < static_cast<long>(start[dim]) + 1 ||
@@ -78,7 +79,7 @@ CentralDifferenceImageFunction<TInputImage,TCoordRep>
       derivative[dim] = 0.0;
       continue;
       }
-    
+
     // compute derivative
     neighIndex[dim] += 1;
     derivative[dim] = inputImage->GetPixel( neighIndex );

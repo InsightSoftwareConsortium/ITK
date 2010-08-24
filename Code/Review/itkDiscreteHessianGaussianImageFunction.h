@@ -242,10 +242,13 @@ private:
 
 #if 0 //HACK:  Not yet implemented
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_DiscreteHessianGaussianImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT DiscreteHessianGaussianImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef DiscreteHessianGaussianImageFunction< ITK_TEMPLATE_2 x > \
-                                                  DiscreteHessianGaussianImageFunction##y; } \
+#define ITK_TEMPLATE_DiscreteHessianGaussianImageFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT DiscreteHessianGaussianImageFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef DiscreteHessianGaussianImageFunction< ITK_TEMPLATE_2 TypeX > \
+                                                  DiscreteHessianGaussianImageFunction##TypeY; \
+   } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

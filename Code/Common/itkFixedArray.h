@@ -27,6 +27,8 @@
 namespace itk
 {
 
+//HACK:  Need to remove this function.
+#if 1
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
@@ -38,6 +40,7 @@ struct GetVectorDimension
 {
   itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
 }; 
+#endif
 
 
   
@@ -213,8 +216,10 @@ public:
   const_reference GetElement( unsigned short index ) const { return m_InternalArray[index]; }
   
   /** Return a pointer to the data. */
-  ValueType* GetDataPointer() { return m_InternalArray; }
-  const ValueType* GetDataPointer() const { return m_InternalArray; }
+  ValueType* GetDataPointer() { return m_InternalArray; \
+    }
+  const ValueType* GetDataPointer() const { return m_InternalArray; \
+    }
     
   /** Get various iterators to the array. */
   Iterator      Begin();
@@ -247,11 +252,14 @@ std::ostream & operator<<(std::ostream &os, const FixedArray<TValueType,VLength>
 #endif
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FixedArray(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FixedArray< ITK_TEMPLATE_2 x >)) \
+#define ITK_TEMPLATE_FixedArray(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT FixedArray< ITK_TEMPLATE_2 TypeX >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                      const FixedArray< ITK_TEMPLATE_2 x >&))) \
-  namespace Templates { typedef FixedArray< ITK_TEMPLATE_2 x > FixedArray##y; } \
+                                      const FixedArray< ITK_TEMPLATE_2 TypeX >&))) \
+  namespace Templates { \
+    typedef FixedArray< ITK_TEMPLATE_2 TypeX > FixedArray##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

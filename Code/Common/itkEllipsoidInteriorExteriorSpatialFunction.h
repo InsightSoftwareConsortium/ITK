@@ -99,10 +99,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_EllipsoidInteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT EllipsoidInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef EllipsoidInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
-                                                  EllipsoidInteriorExteriorSpatialFunction##y; } \
+#define ITK_TEMPLATE_EllipsoidInteriorExteriorSpatialFunction(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT EllipsoidInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef EllipsoidInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX > \
+                                                  EllipsoidInteriorExteriorSpatialFunction##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

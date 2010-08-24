@@ -77,8 +77,10 @@ public:
     }
   
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension() 
-    {return TImage::ImageDimension;}
+  static unsigned int GetIteratorDimension(void)
+    {
+    return Self::NDimension;
+    }
 
   /** Get the index at the current iterator location. */
   virtual const IndexType GetIndex() = 0;
@@ -113,13 +115,17 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ConditionalConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ConditionalConstIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ConditionalConstIterator< ITK_TEMPLATE_1 x > \
-                                            ConditionalConstIterator##y; } \
+#define ITK_TEMPLATE_ConditionalConstIterator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ConditionalConstIterator< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ConditionalConstIterator< ITK_TEMPLATE_1 TypeX > \
+                                            ConditionalConstIterator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
+//HACK attempt to make static const unsigned ints work  template<class TImage> const unsigned int ConditionalConstIterator<TImage>::ImageDimension;
 # include "Templates/itkConditionalConstIterator+-.h"
 #endif
 

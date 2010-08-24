@@ -49,7 +49,7 @@ template <typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer>
 void 
 PointLocator<TPointIdentifier,VPointDimension,TCoordRep,TPointsContainer>
-::InitIncrementalPointInsertion(PointsContainer *newPts, BoundingBoxPointer bbox)
+::InitIncrementalPointInsertion(PointsContainer *newPts, BoundingBoxPointer /*HACK:  This variable is no longer needed bbox */)
 {
   // Check the input
   m_Points = newPts;

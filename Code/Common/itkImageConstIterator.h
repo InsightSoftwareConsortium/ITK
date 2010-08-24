@@ -198,7 +198,7 @@ public:
       {
       IndexType ind(m_Region.GetIndex());
       SizeType size(m_Region.GetSize());
-      for (unsigned int i=0; i < ImageIteratorDimension; ++i)
+      for (unsigned int i=0; i < TImage::ImageDimension; ++i)
         {
         ind[i] += (static_cast<IndexValueType>(size[i]) - 1);
         }
@@ -231,7 +231,7 @@ public:
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetImageIteratorDimension()
-    {return ImageIteratorDimension;}
+    {return TImage::ImageDimension;}
 
   /** Comparison operator. Two iterators are the same if they "point to" the
    * same memory location */
@@ -380,9 +380,12 @@ protected: //made protected so other iterators can access
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageConstIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageConstIterator< ITK_TEMPLATE_1 x > ImageConstIterator##y; } \
+#define ITK_TEMPLATE_ImageConstIterator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageConstIterator< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageConstIterator< ITK_TEMPLATE_1 TypeX > ImageConstIterator##TypeY; \
+    } \
   }
 
 

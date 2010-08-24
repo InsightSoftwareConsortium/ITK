@@ -43,7 +43,7 @@ MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObjectType InitializerValue)
-  :MetaDataObjectBase(),m_MetaDataObjectValue(InitializerValue)
+  :m_MetaDataObjectValue(InitializerValue)
 {
   //Nothing to be done here
 }
@@ -51,7 +51,7 @@ MetaDataObject<MetaDataObjectType>
 template<class MetaDataObjectType>
 MetaDataObject<MetaDataObjectType>
 ::MetaDataObject(const MetaDataObject<MetaDataObjectType> &TemplateObject)
-  :MetaDataObjectBase(),m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
+  :m_MetaDataObjectValue(TemplateObject.m_MetaDataObjectValue)
 {
   //Nothing to be done here
 }
@@ -95,6 +95,7 @@ MetaDataObject<MetaDataObjectType>
 {
   Superclass::Print(os);
 }
+
 
 } // end namespace itk
 

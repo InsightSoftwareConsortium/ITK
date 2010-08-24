@@ -80,8 +80,7 @@ public:
   typedef FixedArray<T, NVectorDimension>                BaseArray;
     
   /** Get the dimension (size) of the vector. */
-  static unsigned int GetVectorDimension() 
-    { return NVectorDimension; }  
+  static unsigned int GetVectorDimension() { return NVectorDimension; }
 
   /** Set a vnl_vector_ref referencing the same memory block. */
   void SetVnlVector( const vnl_vector<T> & );
@@ -255,13 +254,16 @@ ITKCommon_EXPORT Vector<int,3> CrossProduct( const Vector<int,3> &,
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Vector(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT Vector< ITK_TEMPLATE_2 x >)) \
+#define ITK_TEMPLATE_Vector(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT Vector< ITK_TEMPLATE_2 TypeX >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                      const Vector< ITK_TEMPLATE_2 x >&))) \
+                                      const Vector< ITK_TEMPLATE_2 TypeX >&))) \
   _(1(EXPORT std::istream& operator>>(std::istream&, \
-                                      Vector< ITK_TEMPLATE_2 x >&))) \
-  namespace Templates { typedef Vector< ITK_TEMPLATE_2 x > Vector##y; } \
+                                      Vector< ITK_TEMPLATE_2 TypeX >&))) \
+  namespace Templates { \
+    typedef Vector< ITK_TEMPLATE_2 TypeX > Vector##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

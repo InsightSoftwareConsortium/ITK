@@ -178,10 +178,13 @@ private:
 }  // namespace itk
 
 /** Define instantiation macro for this template. */
-#define ITK_TEMPLATE_CenteredRigid2DTransform(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT CenteredRigid2DTransform< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef CenteredRigid2DTransform< ITK_TEMPLATE_1 x > \
-                                            CenteredRigid2DTransform##y; } \
+#define ITK_TEMPLATE_CenteredRigid2DTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT CenteredRigid2DTransform< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef CenteredRigid2DTransform< ITK_TEMPLATE_1 TypeX > \
+                                            CenteredRigid2DTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

@@ -258,9 +258,12 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageToImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ImageToImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ImageToImageFilter< ITK_TEMPLATE_2 x > ImageToImageFilter##y; } \
+#define ITK_TEMPLATE_ImageToImageFilter(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT ImageToImageFilter< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef ImageToImageFilter< ITK_TEMPLATE_2 TypeX > ImageToImageFilter##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

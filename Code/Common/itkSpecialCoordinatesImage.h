@@ -320,10 +320,13 @@ private:
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SpecialCoordinatesImage(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT SpecialCoordinatesImage< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef SpecialCoordinatesImage< ITK_TEMPLATE_2 x > \
-                                         SpecialCoordinatesImage##y; } \
+#define ITK_TEMPLATE_SpecialCoordinatesImage(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT SpecialCoordinatesImage< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef SpecialCoordinatesImage< ITK_TEMPLATE_2 TypeX > \
+                                         SpecialCoordinatesImage##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

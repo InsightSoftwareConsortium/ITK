@@ -141,10 +141,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxCoreAtomImage(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxCoreAtomImage< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxCoreAtomImage< ITK_TEMPLATE_1 x > \
-                                            BloxCoreAtomImage##y; } \
+#define ITK_TEMPLATE_BloxCoreAtomImage(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT BloxCoreAtomImage< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef BloxCoreAtomImage< ITK_TEMPLATE_1 TypeX > \
+                                            BloxCoreAtomImage##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

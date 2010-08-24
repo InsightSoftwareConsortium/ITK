@@ -97,9 +97,12 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageDuplicator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageDuplicator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageDuplicator< ITK_TEMPLATE_1 x > ImageDuplicator##y; } \
+#define ITK_TEMPLATE_ImageDuplicator(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageDuplicator< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef ImageDuplicator< ITK_TEMPLATE_1 TypeX > ImageDuplicator##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

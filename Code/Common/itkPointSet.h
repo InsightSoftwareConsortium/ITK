@@ -257,10 +257,13 @@ private:
 
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_PointSet(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT PointSet< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef PointSet< ITK_TEMPLATE_2 x > \
-                                            PointSet##y; } \
+#define ITK_TEMPLATE_PointSet(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT PointSet< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef PointSet< ITK_TEMPLATE_2 TypeX > \
+                                            PointSet##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

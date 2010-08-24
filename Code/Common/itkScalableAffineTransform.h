@@ -176,10 +176,13 @@ private:
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ScalableAffineTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ScalableAffineTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ScalableAffineTransform< ITK_TEMPLATE_2 x > \
-                                                  ScalableAffineTransform##y; } \
+#define ITK_TEMPLATE_ScalableAffineTransform(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT ScalableAffineTransform< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef ScalableAffineTransform< ITK_TEMPLATE_2 TypeX > \
+                                                  ScalableAffineTransform##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

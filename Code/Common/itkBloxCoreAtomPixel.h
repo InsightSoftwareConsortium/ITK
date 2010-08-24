@@ -86,7 +86,8 @@ public:
 
   /** Get statements */
   double GetMeanCoreAtomDiameter() {return m_MeanCoreAtomDiameter;}
-  double GetMeanCoreAtomIntensity() {return m_MeanCoreAtomIntensity;}
+  double GetMeanCoreAtomIntensity() {return m_MeanCoreAtomIntensity; \
+    }
   EigenvalueType GetEigenvalues() {return m_Eigenvalues;}
   EigenvalueType GetVotedEigenvalues() {return m_VotedEigenvalues;}
   EigenvectorType GetEigenvectors() {return m_Eigenvectors;}
@@ -161,10 +162,13 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxCoreAtomPixel(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxCoreAtomPixel< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxCoreAtomPixel< ITK_TEMPLATE_1 x > \
-                               BloxCoreAtomPixel##y; } \
+#define ITK_TEMPLATE_BloxCoreAtomPixel(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT BloxCoreAtomPixel< ITK_TEMPLATE_1 TypeX >)) \
+  namespace Templates { \
+    typedef BloxCoreAtomPixel< ITK_TEMPLATE_1 TypeX > \
+                               BloxCoreAtomPixel##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT

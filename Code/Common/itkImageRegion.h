@@ -50,7 +50,6 @@ template <unsigned int VImageDimension> class ImageBase;
  *
  * \ingroup ImageObjects
  */
-
 template <unsigned int VImageDimension>
 class ITK_EXPORT ImageRegion: public Region
 {
@@ -283,14 +282,19 @@ std::ostream & operator<<(std::ostream &os, const ImageRegion<VImageDimension> &
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegion(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageRegion< ITK_TEMPLATE_1 x >)) \
+#define ITK_TEMPLATE_ImageRegion(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(1(class EXPORT ImageRegion< ITK_TEMPLATE_1 TypeX >)) \
   _(1(EXPORT std::ostream& operator<<(std::ostream&, \
-                                      const ImageRegion< ITK_TEMPLATE_1 x >&))) \
-  namespace Templates { typedef ImageRegion< ITK_TEMPLATE_1 x > ImageRegion##y; } \
+                                      const ImageRegion< ITK_TEMPLATE_1 TypeX >&))) \
+  namespace Templates { \
+    typedef ImageRegion< ITK_TEMPLATE_1 TypeX > ImageRegion##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
+//template <unsigned int VImageDimension> const unsigned int itk::ImageRegion<VImageDimension>::ImageDimension;
+//.template <unsigned int VImageDimension> const unsigned int itk::ImageRegion<VImageDimension>::SliceDimension;
 # include "Templates/itkImageRegion+-.h"
 #endif
 

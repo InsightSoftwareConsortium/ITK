@@ -88,7 +88,8 @@ public:
   
   /** Get the capacity of the container. */
   unsigned long Capacity(void) const
-    { return (unsigned long) m_Capacity; }
+    { return (unsigned long) m_Capacity; \
+    }
 
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
@@ -182,9 +183,12 @@ private:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImportImageContainer(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ImportImageContainer< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ImportImageContainer< ITK_TEMPLATE_2 x > ImportImageContainer##y; } \
+#define ITK_TEMPLATE_ImportImageContainer(_, EXPORT, TypeX, TypeY) \
+    namespace itk { \
+  _(2(class EXPORT ImportImageContainer< ITK_TEMPLATE_2 TypeX >)) \
+  namespace Templates { \
+    typedef ImportImageContainer< ITK_TEMPLATE_2 TypeX > ImportImageContainer##TypeY; \
+    } \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
