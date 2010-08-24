@@ -918,4 +918,26 @@ JPEG2000ImageIO
   streamableRegion.SetSize(dimension, sizeQuantizedInTileSize);
   streamableRegion.SetIndex(dimension, startQuantizedInTileSize);
 }
+
+bool
+JPEG2000ImageIO
+::CanStreamWrite( void )
+{
+  // we currently can't stream write for now...
+  return false;
+}
+
+unsigned int
+JPEG2000ImageIO
+::GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
+                                                          const ImageIORegion &pasteRegion,
+                                                          const ImageIORegion &largestPossibleRegion )
+{
+  // just use the default implementation form ImageIOBase which checks
+  // CanStreamWrite, and take the correct action.
+  return ImageIOBase::GetActualNumberOfSplitsForWriting( numberOfRequestedSplits,
+                                                         pasteRegion,
+                                                         largestPossibleRegion );
+}
+
 } // end namespace itk

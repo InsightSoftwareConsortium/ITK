@@ -103,6 +103,16 @@ public:
     m_TileHeight = y;
   }
 
+  /** Currently JPEG2000 does not support streamed writing
+   *
+   * These methods are re-overridden to not support streaming for
+   * now...
+   */
+  virtual bool CanStreamWrite( void );
+  virtual unsigned int GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
+                                                          const ImageIORegion &pasteRegion,
+                                                          const ImageIORegion &largestPossibleRegion );
+
 protected:
   JPEG2000ImageIO();
   ~JPEG2000ImageIO();
