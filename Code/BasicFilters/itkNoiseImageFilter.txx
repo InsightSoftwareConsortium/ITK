@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOptNoiseImageFilter_txx
-#define __itkOptNoiseImageFilter_txx
+#ifndef __itkNoiseImageFilter_txx
+#define __itkNoiseImageFilter_txx
 #include "itkNoiseImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
@@ -28,39 +28,37 @@
 
 namespace itk
 {
-
-template <class TInputImage, class TOutputImage>
-NoiseImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+NoiseImageFilter< TInputImage, TOutputImage >
 ::NoiseImageFilter()
-{
-}
+{}
 
-
-template< class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-NoiseImageFilter< TInputImage, TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+NoiseImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
   unsigned int i;
-  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
 
-  ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType> it;
+  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
+
+  ConstNeighborhoodIterator< InputImageType > bit;
+  ImageRegionIterator< OutputImageType >      it;
 
   // Allocate output
   typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::ConstPointer input  = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> bC;
-  faceList = bC(input, outputRegionForThread, this->GetRadius());
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
+  faceList = bC( input, outputRegionForThread, this->GetRadius() );
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   InputRealType value;
   InputRealType sum;
@@ -70,31 +68,31 @@ NoiseImageFilter< TInputImage, TOutputImage>
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
+  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
-    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(),
-                                                    input, *fit);
+    bit = ConstNeighborhoodIterator< InputImageType >(this->GetRadius(),
+                                                      input, *fit);
     unsigned int neighborhoodSize = bit.Size();
-    num = static_cast<InputRealType>( bit.Size() );
+    num = static_cast< InputRealType >( bit.Size() );
 
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    it = ImageRegionIterator< OutputImageType >(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    while ( ! bit.IsAtEnd() )
+    while ( !bit.IsAtEnd() )
       {
-      sum = NumericTraits<InputRealType>::Zero;
-      sumOfSquares = NumericTraits<InputRealType>::Zero;
-      for (i = 0; i < neighborhoodSize; ++i)
+      sum = NumericTraits< InputRealType >::Zero;
+      sumOfSquares = NumericTraits< InputRealType >::Zero;
+      for ( i = 0; i < neighborhoodSize; ++i )
         {
-        value = static_cast<InputRealType>( bit.GetPixel(i) );
+        value = static_cast< InputRealType >( bit.GetPixel(i) );
         sum += value;
-        sumOfSquares += (value*value);
+        sumOfSquares += ( value * value );
         }
 
       // calculate the standard deviation value
-      var = (sumOfSquares - (sum*sum/num)) / (num - 1.0);
-      it.Set( static_cast<OutputPixelType>(vcl_sqrt(var)) );
+      var = ( sumOfSquares - ( sum * sum / num ) ) / ( num - 1.0 );
+      it.Set( static_cast< OutputPixelType >( vcl_sqrt(var) ) );
 
       ++bit;
       ++it;
@@ -102,7 +100,6 @@ NoiseImageFilter< TInputImage, TOutputImage>
       }
     }
 }
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -45,12 +45,12 @@
 #include "itkWindows.h"
 #endif
 
-namespace itk {
-  
+namespace itk
+{
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
 typedef int SemaphoreType;
 #endif
-  
+
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
@@ -59,7 +59,7 @@ typedef sema_t SemaphoreType;
 #ifdef __APPLE__
 typedef sem_t *SemaphoreType;
 #else
-typedef sem_t  SemaphoreType;
+typedef sem_t SemaphoreType;
 #endif
 #endif
 #endif
@@ -94,48 +94,47 @@ typedef int SemaphoreType;
  * Semaphore can be used.  The Remove() method destroys the system semaphore
  * object.  It is not necessary to call Remove() unless you want to
  * re-Initialize() the object.
- *  
+ *
  * This class supports 3 types of semaphores on Unix systems, POSIX semaphores,
  * and IPC semaphores.  On Windows systems, POSIX semaphores and WIN32 thread
  * library semaphores are supported.
  */
-class ITKCommon_EXPORT Semaphore : public LightObject
+class ITKCommon_EXPORT Semaphore:public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef Semaphore                 Self;
-  typedef LightObject               Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef Semaphore                  Self;
+  typedef LightObject                Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Semaphore, LightObject);
 
   /** Initialize the semaphore with a count of value. */
   void Initialize(unsigned int value);
-  
+
   /** Increment the semaphore count, unblocking up to one thread that may be
       blocked in the down() method.  */
   void Up();
-  
+
   /** Decrement the semaphore count.  If the count is zero, this thread will be
       blocked until another thread calls the up() method.  The order in which
       threads will be unblocked is not defined, but implementors should give
       preference to those threads that have waited the longest.
    */
   void Down();
-  
+
   /** Remove the semaphore from the system. */
-  void Remove ();
+  void Remove();
 
 protected:
   Semaphore ();
   ~Semaphore();
-
-private:   
+private:
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   /** Every IPC semaphore must be created with a unique key. This variable
@@ -143,20 +142,28 @@ private:
   static int m_IPCSemaphoreKey;
   /** Mutex to lock increment operation on m_IPCSemaphoreKey */
   static SimpleMutexLock m_Mutex;
-  
-  int  UnixIpcSemaphoreCreate (int unix_semaphore_key);
-  void UnixIpcSemaphoreRemove (int sid);
-  void UnixIpcSemaphoreCall   (int sid, int op);
-  void UnixIpcSemaphoreDown   (int sid);
-  void UnixIpcSemaphoreUp     (int sid);
+
+  int  UnixIpcSemaphoreCreate(int unix_semaphore_key);
+
+  void UnixIpcSemaphoreRemove(int sid);
+
+  void UnixIpcSemaphoreCall(int sid, int op);
+
+  void UnixIpcSemaphoreDown(int sid);
+
+  void UnixIpcSemaphoreUp(int sid);
+
 #endif
-  
-  char Pad1[128]; // to avoid false sharing in case of shared memory multiprocessor systems
+
+  char Pad1[128]; // to avoid false sharing in case of shared memory
+                  // multiprocessor systems
   SemaphoreType m_Sema;
-  char Pad2[128]; // to avoid false sharing in case of shared memory multiprocessor systems
+  char          Pad2[128]; // to avoid false sharing in case of shared memory
+                           // multiprocessor systems
 
 #ifdef __APPLE__
   std::string GetUniqueName();
+
   static int  m_SemaphoreCount;
   std::string m_SemaphoreName;
 #endif
@@ -165,9 +172,7 @@ private:
 #ifdef ITK_USE_PTHREADS
   bool m_PThreadsSemaphoreRemoved;
 #endif
-
 };
- 
-}//itk
+} //itk
 
 #endif

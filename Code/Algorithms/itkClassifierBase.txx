@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,9 +22,8 @@
 
 namespace itk
 {
-
-template <class TDataContainer>
-ClassifierBase<TDataContainer>
+template< class TDataContainer >
+ClassifierBase< TDataContainer >
 ::ClassifierBase()
 {
   m_NumberOfClasses = 0;
@@ -32,18 +31,17 @@ ClassifierBase<TDataContainer>
   m_MembershipFunctions.resize(0);
 }
 
-template <class TDataContainer>
-ClassifierBase<TDataContainer>
+template< class TDataContainer >
+ClassifierBase< TDataContainer >
 ::~ClassifierBase()
-{
-}
+{}
 
-template <class TDataContainer>
+template< class TDataContainer >
 void
-ClassifierBase<TDataContainer>
-::PrintSelf( std::ostream& os, Indent indent ) const
+ClassifierBase< TDataContainer >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Number of classes: " << m_NumberOfClasses << std::endl;
   os << indent << "DecisionRule: ";
@@ -63,41 +61,40 @@ ClassifierBase<TDataContainer>
     }
 }
 
-template <class TDataContainer>
+template< class TDataContainer >
 void
-ClassifierBase<TDataContainer>
+ClassifierBase< TDataContainer >
 ::Update()
 {
-  if( m_NumberOfClasses == 0 )
+  if ( m_NumberOfClasses == 0 )
     {
-    itkExceptionMacro( "Zero class" );
+    itkExceptionMacro("Zero class");
     return;
     }
-    
+
   if ( m_MembershipFunctions.size() == 0 )
     {
-    itkExceptionMacro( "No membership function" );
+    itkExceptionMacro("No membership function");
     return;
     }
-  
-  if( m_NumberOfClasses != m_MembershipFunctions.size() )
+
+  if ( m_NumberOfClasses != m_MembershipFunctions.size() )
     {
-    itkExceptionMacro( "The number of classes and the number of membership mismatch." );
+    itkExceptionMacro("The number of classes and the number of membership mismatch.");
     return;
     }
 
   this->GenerateData();
 }
 
-template<class TDataContainer>
-unsigned int 
+template< class TDataContainer >
+unsigned int
 ClassifierBase< TDataContainer >
-::AddMembershipFunction(MembershipFunctionType * function)
+::AddMembershipFunction(MembershipFunctionType *function)
 {
   m_MembershipFunctions.push_back(function);
-  return static_cast<unsigned int>( m_MembershipFunctions.size() );
+  return static_cast< unsigned int >( m_MembershipFunctions.size() );
 }
-
 } // namespace itk
 
 #endif

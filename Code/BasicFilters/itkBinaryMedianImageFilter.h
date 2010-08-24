@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,11 +25,11 @@ namespace itk
 /** \class BinaryMedianImageFilter
  * \brief Applies an version of the median filter optimized for binary images.
  *
- * This filter was contributed by Bjorn Hanch Sollie after identifying that 
- * the generic Median filter performed unecessary operations when the input 
+ * This filter was contributed by Bjorn Hanch Sollie after identifying that
+ * the generic Median filter performed unecessary operations when the input
  * image is binary.
- * 
- * This filter Computes an image where a given pixel is the median value 
+ *
+ * This filter Computes an image where a given pixel is the median value
  * of the pixels in a neighborhood about the corresponding input pixel.
  * For the case of binary images the median can be obtained by simply conting
  * the neigbors that are foreground.
@@ -41,12 +41,12 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
+ *
  * \ingroup IntensityImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT BinaryMedianImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BinaryMedianImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -60,17 +60,17 @@ public:
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef BinaryMedianImageFilter                              Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  typedef BinaryMedianImageFilter                               Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryMedianImageFilter, ImageToImageFilter);
-  
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
@@ -85,17 +85,16 @@ public:
 
   /** Get the radius of the neighborhood used to compute the median */
   itkGetConstReferenceMacro(Radius, InputSizeType);
-  
-  /** Set the value associated with the Foreground (or the object) on 
+
+  /** Set the value associated with the Foreground (or the object) on
       the binary input image and the Background . */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkSetMacro(ForegroundValue, InputPixelType);
 
-  /** Get the value associated with the Foreground (or the object) on the 
+  /** Get the value associated with the Foreground (or the object) on the
       binary input image and the Background . */
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
- 
 
   /** BinaryMedianImageFilter needs a larger input requested region than
    * the output requested region.  As such, BinaryMedianImageFilter needs
@@ -103,26 +102,26 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<typename TInputImage::PixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType,
-                          typename TOutputImage::PixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<typename TInputImage::PixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< typename TInputImage::PixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< typename TInputImage::PixelType,
+                                           typename TOutputImage::PixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   BinaryMedianImageFilter();
   virtual ~BinaryMedianImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** BinaryMedianImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -134,20 +133,18 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  BinaryMedianImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinaryMedianImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   InputSizeType m_Radius;
 
-  InputPixelType     m_ForegroundValue;
-  InputPixelType     m_BackgroundValue;
-
+  InputPixelType m_ForegroundValue;
+  InputPixelType m_BackgroundValue;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

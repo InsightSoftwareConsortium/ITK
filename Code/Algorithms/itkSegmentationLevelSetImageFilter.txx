@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,12 +19,12 @@
 
 #include "itkSegmentationLevelSetImageFilter.h"
 
-namespace itk {
-
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+namespace itk
+{
+template< class TInputImage, class TFeatureImage, class TOutputPixelType >
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
-::PrintSelf(std::ostream &os, Indent indent) const
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
@@ -32,16 +32,16 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::SegmentationLevelSetImageFilter()
 {
   this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(TInputImage::ImageDimension);
   m_SegmentationFunction = 0;
   m_AutoGenerateSpeedAdvection = true;
-  this->SetIsoSurfaceValue(NumericTraits<ValueType>::Zero);
-  
+  this->SetIsoSurfaceValue(NumericTraits< ValueType >::Zero);
+
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
   this->SetMaximumRMSError(0.02);
@@ -49,65 +49,64 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
   m_ReverseExpansionDirection = false;
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template< class TInputImage, class TFeatureImage, class TOutputPixelType >
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateSpeedImage()
 {
   m_SegmentationFunction->AllocateSpeedImage();
   m_SegmentationFunction->CalculateSpeedImage();
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template< class TInputImage, class TFeatureImage, class TOutputPixelType >
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateAdvectionImage()
 {
   m_SegmentationFunction->AllocateAdvectionImage();
   m_SegmentationFunction->CalculateAdvectionImage();
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputPixelType>
+template< class TInputImage, class TFeatureImage, class TOutputPixelType >
 void
-SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateData()
 {
-  if (m_SegmentationFunction == 0)
+  if ( m_SegmentationFunction == 0 )
     {
     itkExceptionMacro("No finite difference function was specified.");
-    }  
+    }
 
   // A positive speed value causes surface expansion, the opposite of the
   // default.  Flip the sign of the propagation and advection weights.
-  if (m_ReverseExpansionDirection == true)
+  if ( m_ReverseExpansionDirection == true )
     {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
     }
-  
+
   // Allocate the images from which speeds will be sampled.
-  if (this->GetState() == Superclass::UNINITIALIZED && m_AutoGenerateSpeedAdvection == true)
+  if ( this->GetState() == Superclass::UNINITIALIZED && m_AutoGenerateSpeedAdvection == true )
     {
-    if (this->GetSegmentationFunction()->GetPropagationWeight() != 0)
+    if ( this->GetSegmentationFunction()->GetPropagationWeight() != 0 )
       {
       this->GenerateSpeedImage();
       }
-    
-    if (this->GetSegmentationFunction()->GetAdvectionWeight() != 0)
+
+    if ( this->GetSegmentationFunction()->GetAdvectionWeight() != 0 )
       {
       this->GenerateAdvectionImage();
       }
     }
-  
+
   // Start the solver
   Superclass::GenerateData();
-  
+
   // Reset all the signs of the weights.
-  if (m_ReverseExpansionDirection == true)
+  if ( m_ReverseExpansionDirection == true )
     {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
-    }  
+    }
 }
-
 } // end namespace itk
 
 #endif

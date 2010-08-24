@@ -32,23 +32,23 @@ namespace itk
     moving image and pixels in the fixed images using a histogram.
 
     \ingroup RegistrationMetrics */
-template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT CorrelationCoefficientHistogramImageToImageMetric :
-public HistogramImageToImageMetric<TFixedImage, TMovingImage>
+template< class TFixedImage, class TMovingImage >
+class ITK_EXPORT CorrelationCoefficientHistogramImageToImageMetric:
+  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef CorrelationCoefficientHistogramImageToImageMetric      Self;
-  typedef HistogramImageToImageMetric<TFixedImage, TMovingImage> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  typedef CorrelationCoefficientHistogramImageToImageMetric        Self;
+  typedef HistogramImageToImageMetric< TFixedImage, TMovingImage > Superclass;
+  typedef SmartPointer< Self >                                     Pointer;
+  typedef SmartPointer< const Self >                               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CorrelationCoefficientHistogramImageToImageMetric,
-    HistogramImageToImageMetric);
+               HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
   typedef typename Superclass::RealType                RealType;
@@ -65,15 +65,14 @@ public:
   typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer MovingImageConstPointer;
 
-  typedef typename Superclass::HistogramType    HistogramType;
+  typedef typename Superclass::HistogramType HistogramType;
 
   typedef typename HistogramType::AbsoluteFrequencyType HistogramAbsoluteFrequencyType;
   typedef HistogramAbsoluteFrequencyType                HistogramFrequencyType;
 
-  typedef typename HistogramType::Iterator      HistogramIteratorType;
+  typedef typename HistogramType::Iterator HistogramIteratorType;
   typedef typename HistogramType::MeasurementVectorType
-                                                HistogramMeasurementVectorType;
-
+  HistogramMeasurementVectorType;
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
@@ -81,29 +80,28 @@ protected:
   virtual ~CorrelationCoefficientHistogramImageToImageMetric(){}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType& histogram) const;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
 
 private:
   /** Returns the mean in the x-direction. */
-  MeasureType MeanX(HistogramType& histogram) const;
+  MeasureType MeanX(HistogramType & histogram) const;
 
   /** Returns the mean in the y-direction. */
-  MeasureType MeanY(HistogramType& histogram) const;
+  MeasureType MeanY(HistogramType & histogram) const;
 
   /** Returns the variance in the x-direction. */
-  MeasureType VarianceX(HistogramType& histogram) const;
+  MeasureType VarianceX(HistogramType & histogram) const;
 
   /** Returns the variance in the y-direction. */
-  MeasureType VarianceY(HistogramType& histogram) const;
+  MeasureType VarianceY(HistogramType & histogram) const;
 
   /** Returns the variance. */
-  MeasureType Covariance(HistogramType& histogram) const;
+  MeasureType Covariance(HistogramType & histogram) const;
 
   // Purposely not implemented.
-  CorrelationCoefficientHistogramImageToImageMetric(Self const&);
-  void operator=(Self const&); // Purposely not implemented.
+  CorrelationCoefficientHistogramImageToImageMetric(Self const &);
+  void operator=(Self const &); // Purposely not implemented.
 };
-
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION

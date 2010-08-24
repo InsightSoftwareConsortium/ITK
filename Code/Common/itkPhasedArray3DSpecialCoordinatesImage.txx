@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,17 +23,16 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template<class TPixel>
-void 
-PhasedArray3DSpecialCoordinatesImage<TPixel>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TPixel >
+void
+PhasedArray3DSpecialCoordinatesImage< TPixel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent
      << "m_RadiusSampleSize = " << m_RadiusSampleSize
      << std::endl;
@@ -45,13 +44,11 @@ PhasedArray3DSpecialCoordinatesImage<TPixel>
      << "m_ElevationAngularSeparation = "
      << m_ElevationAngularSeparation
      << std::endl;
-  os << indent 
+  os << indent
      << "m_FirstSampleDistance = "
      << m_FirstSampleDistance
      << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

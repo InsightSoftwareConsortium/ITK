@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,12 +21,11 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputPath, class TOutputPath>
-PathToPathFilter<TInputPath,TOutputPath>
+template< class TInputPath, class TOutputPath >
+PathToPathFilter< TInputPath, TOutputPath >
 ::PathToPathFilter()
 {
   // Let the superclass do everything
@@ -35,65 +34,64 @@ PathToPathFilter<TInputPath,TOutputPath>
 /**
  *
  */
-template <class TInputPath, class TOutputPath>
-void 
-PathToPathFilter<TInputPath,TOutputPath>
+template< class TInputPath, class TOutputPath >
+void
+PathToPathFilter< TInputPath, TOutputPath >
 ::SetInput(const InputPathType *path)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0, 
-                                   const_cast< InputPathType * >( path ) );
+  this->ProcessObject::SetNthInput( 0,
+                                    const_cast< InputPathType * >( path ) );
 }
-
 
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template <class TInputPath, class TOutputPath>
-void 
-PathToPathFilter<TInputPath,TOutputPath>
-::SetInput( unsigned int index, const TInputPath * path ) 
+template< class TInputPath, class TOutputPath >
+void
+PathToPathFilter< TInputPath, TOutputPath >
+::SetInput(unsigned int index, const TInputPath *path)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(index, 
-                                   const_cast< TInputPath *>( path ) );
+  this->ProcessObject::SetNthInput( index,
+                                    const_cast< TInputPath * >( path ) );
 }
 
 /**
  *
  */
-template <class TInputPath, class TOutputPath>
-const typename PathToPathFilter<TInputPath,TOutputPath>::InputPathType *
-PathToPathFilter<TInputPath,TOutputPath>
-::GetInput(void) 
+template< class TInputPath, class TOutputPath >
+const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
+PathToPathFilter< TInputPath, TOutputPath >
+::GetInput(void)
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
-  
-  return static_cast<const TInputPath * >
-    (this->ProcessObject::GetInput(0) );
-}
-  
-/**
- *
- */
-template <class TInputPath, class TOutputPath>
-const typename PathToPathFilter<TInputPath,TOutputPath>::InputPathType *
-PathToPathFilter<TInputPath,TOutputPath>
-::GetInput(unsigned int idx)
-{
+
   return static_cast< const TInputPath * >
-    (this->ProcessObject::GetInput(idx));
+         ( this->ProcessObject::GetInput(0) );
 }
 
 /**
  *
  */
-template <class TInputPath, class TOutputPath>
-void 
-PathToPathFilter<TInputPath,TOutputPath>
+template< class TInputPath, class TOutputPath >
+const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
+PathToPathFilter< TInputPath, TOutputPath >
+::GetInput(unsigned int idx)
+{
+  return static_cast< const TInputPath * >
+         ( this->ProcessObject::GetInput(idx) );
+}
+
+/**
+ *
+ */
+template< class TInputPath, class TOutputPath >
+void
+PathToPathFilter< TInputPath, TOutputPath >
 ::GenerateInputRequestedRegion()
 {
   // ProcessObject::GenerateInputRequestedRegion() will (for each input) call
@@ -104,15 +102,13 @@ PathToPathFilter<TInputPath,TOutputPath>
 /**
  *
  */
-template <class TInputPath, class TOutputPath>
-void 
-PathToPathFilter<TInputPath,TOutputPath>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputPath, class TOutputPath >
+void
+PathToPathFilter< TInputPath, TOutputPath >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-
-
 } // end namespace itk
 
 #endif

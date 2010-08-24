@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class ImageSliceConstIteratorWithIndex
  * \brief Multi-dimensional image iterator which only walks a region.
  *
@@ -54,9 +53,9 @@ namespace itk
  * iterator.  For more information please see the Software Guide.
  *
  * \code
- *  
+ *
  * ImageSliceConstIteratorWithIndex<ImageType> it( image, image->GetRequestedRegion() );
- * 
+ *
  * it.SetFirstDirection(2);
  * it.SetSecondDirection(0);
  *
@@ -73,7 +72,7 @@ namespace itk
  *     it.NextLine();
  *   }
  *   it.NextSlice();
- *  } 
+ *  }
  *
  *  \endcode
  *
@@ -88,34 +87,34 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
-template<typename TImage>
-class ITK_EXPORT ImageSliceConstIteratorWithIndex : public ImageConstIteratorWithIndex<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageSliceConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageSliceConstIteratorWithIndex     Self;
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
-  
+  typedef ImageSliceConstIteratorWithIndex      Self;
+  typedef ImageConstIteratorWithIndex< TImage > Superclass;
+
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
@@ -129,26 +128,26 @@ public:
   typedef TImage ImageType;
 
   /** Region typedef support. */
-  typedef typename TImage::RegionType   RegionType;
+  typedef typename TImage::RegionType RegionType;
 
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
   typedef typename TImage::PixelContainer  PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
-  
+
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageSliceConstIteratorWithIndex() : ImageConstIteratorWithIndex<TImage>() {}
-  
+  ImageSliceConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >() {}
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageSliceConstIteratorWithIndex( const ImageType *ptr,
-                      const RegionType & region)
-    : ImageConstIteratorWithIndex<TImage>(ptr, region) 
-    {
+  ImageSliceConstIteratorWithIndex(const ImageType *ptr,
+                                   const RegionType & region):
+    ImageConstIteratorWithIndex< TImage >(ptr, region)
+  {
     m_Direction_A = 0;
     m_Direction_B = 1;
-    }
+  }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageSliceConstIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -156,13 +155,13 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageSliceConstIteratorWithIndex. */
-  ImageSliceConstIteratorWithIndex( const ImageConstIteratorWithIndex<TImage> &it)
-    { this->ImageConstIteratorWithIndex<TImage>::operator=(it); }
+  ImageSliceConstIteratorWithIndex(const ImageConstIteratorWithIndex< TImage > & it)
+  { this->ImageConstIteratorWithIndex< TImage >::operator=(it); }
 
   /** Go to the next line
    * \sa operator++ \sa EndOfLine \sa End \sa NextSlice */
   void NextLine(void);
-  
+
   /** Go to the first pixel of the current slice */
   void GoToBeginOfSlice(void);
 
@@ -173,7 +172,7 @@ public:
   /** Go to the next line
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
   void PreviousLine(void);
-  
+
   /** Go to the next slice
    * \sa operator-- \sa BeginOfLine \sa BeginOfSlice \sa Begin */
   void PreviousSlice(void);
@@ -197,26 +196,25 @@ public:
   void SetSecondDirection(unsigned int direction);
 
   /** Increment (prefix) the selected dimension.
-   * No bounds checking is performed. 
+   * No bounds checking is performed.
    * \sa operator-- \sa GetIndex */
   inline Self & operator++();
 
   /** Decrement (prefix) the selected dimension.
-   * No bounds checking is performed. 
+   * No bounds checking is performed.
    * \sa operator++ \sa GetIndex */
   inline Self & operator--();
 
 private:
-  unsigned long  m_PixelJump;
-  unsigned long  m_LineJump;
-  unsigned int   m_Direction_A;
-  unsigned int   m_Direction_B;
+  unsigned long m_PixelJump;
+  unsigned long m_LineJump;
+  unsigned int  m_Direction_A;
+  unsigned int  m_Direction_B;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageSliceConstIteratorWithIndex.txx"
 #endif
 
-#endif 
+#endif

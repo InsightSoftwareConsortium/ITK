@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkVectorCurvatureNDAnisotropicDiffusionFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorCurvatureAnisotropicDiffusionImageFilter
  *
  * This filter performs anisotropic diffusion on a vector itk::Image using the
@@ -53,21 +53,21 @@ namespace itk {
  * \sa AnisotropicDiffusionImageFilter
  * \sa AnisotropicDiffusionFunction
  * \sa CurvatureNDAnisotropicDiffusionFunction
- 
+
  * \ingroup ImageEnhancement
  *
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT VectorCurvatureAnisotropicDiffusionImageFilter
-  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT VectorCurvatureAnisotropicDiffusionImageFilter:
+  public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard itk typedefs */
   typedef VectorCurvatureAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-                                                         Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Instantiation through object factory. */
   itkNewMacro(Self);
@@ -75,46 +75,49 @@ public:
   /** Run-time type information. */
   itkTypeMacro(VectorCurvatureAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
-  
+
   /** Convenient typedef. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
+                      Superclass::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()
-    {
-    typename VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
-      = VectorCurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+  {
+    typename VectorCurvatureNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer q =
+      VectorCurvatureNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
     this->SetDifferenceFunction(q);
-    }
+  }
+
   ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
 
   virtual void InitializeIteration()
-    {
+  {
     Superclass::InitializeIteration();
-    if (this->GetTimeStep() >  0.5 / vcl_pow(2.0, static_cast<double>(ImageDimension))  )
+    if ( this->GetTimeStep() >  0.5 / vcl_pow( 2.0, static_cast< double >( ImageDimension ) ) )
       {
-      itkWarningMacro(<< "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution." );
+      itkWarningMacro(
+        << "Anisotropic diffusion has attempted to use a time step which may introduce instability into the solution.");
       }
-    }
-  
-private:
-  VectorCurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  }
 
+private:
+  VectorCurvatureAnisotropicDiffusionImageFilter(const Self &); //purposely not
+                                                                // implemented
+  void operator=(const Self &);                                 //purposely not
+
+  // implemented
+};
 } // end namspace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 #include "itkVectorNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorCurvatureNDAnisotropicDiffusionFunction
  *
  * This class is a simple extension of the
@@ -37,25 +37,25 @@ namespace itk {
  * \sa CurvatureNDAnisotropicDiffusionFunction
  * \sa VectorGradientNDAnisotropicDiffusionFunction
  * \sa AnisotropicDiffusionFunction
- */ 
-template <class TImage>
-class ITK_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction :
-    public VectorAnisotropicDiffusionFunction<TImage>
+ */
+template< class TImage >
+class ITK_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction:
+  public VectorAnisotropicDiffusionFunction< TImage >
 {
 public:
   /** Standard itk Self & Superclass typedefs */
   typedef VectorCurvatureNDAnisotropicDiffusionFunction Self;
-  typedef VectorAnisotropicDiffusionFunction<TImage>    Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef VectorAnisotropicDiffusionFunction< TImage >  Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VectorCurvatureNDAnisotropicDiffusionFunction,
-                VectorAnisotropicDiffusionFunction );
-  
+  itkTypeMacro(VectorCurvatureNDAnisotropicDiffusionFunction,
+               VectorAnisotropicDiffusionFunction);
+
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
@@ -64,7 +64,7 @@ public:
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
   typedef typename PixelType::ValueType         ScalarValueType;
-  
+
   /** Extract the image and vector dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
@@ -72,48 +72,49 @@ public:
                       Superclass::VectorDimension);
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
+  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-    );
+                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
+                                  );
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-    {
-    m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter() *
-      this->GetConductanceParameter() * -2.0f;
-    }
-  
+  {
+    m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter()
+          * this->GetConductanceParameter() * -2.0f;
+  }
+
 protected:
   VectorCurvatureNDAnisotropicDiffusionFunction();
   ~VectorCurvatureNDAnisotropicDiffusionFunction() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  {  Superclass::PrintSelf(os,indent);   }
-
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {  Superclass::PrintSelf(os, indent);   }
 private:
-  VectorCurvatureNDAnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  VectorCurvatureNDAnisotropicDiffusionFunction(const Self &); //purposely not
+                                                               // implemented
+  void operator=(const Self &);                                //purposely not
+
+  // implemented
+
   /** Inner product function. */
-  VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  VectorNeighborhoodInnerProduct< ImageType > m_InnerProduct;
 
   /** Slices for the ND neighborhood. */
-  std::slice  x_slice[ImageDimension];
+  std::slice x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension][ImageDimension];
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
-  DerivativeOperator<ScalarValueType, itkGetStaticConstMacro(ImageDimension)> dx_op;
+  DerivativeOperator< ScalarValueType, itkGetStaticConstMacro(ImageDimension) > dx_op;
 
   /** Modified global average gradient magnitude term. */
   double m_K;
-  
+
   static double m_MIN_NORM;
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
 };
-  
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorCurvatureNDAnisotropicDiffusionFunction.txx"

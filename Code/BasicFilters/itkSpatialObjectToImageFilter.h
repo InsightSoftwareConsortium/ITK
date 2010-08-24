@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,47 +22,46 @@
 
 namespace itk
 {
-  
 /** \class SpatialObjectToImageFilter
- * \brief Base class for filters that take a SpatialObject 
+ * \brief Base class for filters that take a SpatialObject
  *        as input and produce an image as output.
  *  By default, if the user does not specify the size of the output image,
- *  the maximum size of the object's bounding box is used. 
- *  The spacing of the image is given by the spacing of the input 
+ *  the maximum size of the object's bounding box is used.
+ *  The spacing of the image is given by the spacing of the input
  *  Spatial object.
  */
-template <class TInputSpatialObject, class TOutputImage>
-class ITK_EXPORT SpatialObjectToImageFilter : public ImageSource<TOutputImage>
+template< class TInputSpatialObject, class TOutputImage >
+class ITK_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialObjectToImageFilter                     Self;
-  typedef ImageSource<TOutputImage>                      Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef SpatialObjectToImageFilter  Self;
+  typedef ImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
-  typedef TOutputImage                                   OutputImageType;
-  typedef typename OutputImageType::SizeType             SizeType;
-  typedef typename OutputImageType::PointType            PointType;
-  typedef typename OutputImageType::Pointer              OutputImagePointer;
-  typedef typename OutputImageType::ValueType            ValueType;
-  typedef typename OutputImageType::SpacingType          SpacingType;
-  typedef typename OutputImageType::DirectionType        DirectionType;
-  
+  typedef TOutputImage                            OutputImageType;
+  typedef typename OutputImageType::SizeType      SizeType;
+  typedef typename OutputImageType::PointType     PointType;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
+  typedef typename OutputImageType::ValueType     ValueType;
+  typedef typename OutputImageType::SpacingType   SpacingType;
+  typedef typename OutputImageType::DirectionType DirectionType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectToImageFilter, ImageSource);
 
   /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType      OutputImageRegionType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Some convenient typedefs. */
-  typedef TInputSpatialObject                             InputSpatialObjectType;
-  typedef typename InputSpatialObjectType::Pointer        InputSpatialObjectPointer;
-  typedef typename InputSpatialObjectType::ConstPointer   InputSpatialObjectConstPointer;
-  typedef typename TInputSpatialObject::ChildrenListType  ChildrenListType;
+  typedef TInputSpatialObject                            InputSpatialObjectType;
+  typedef typename InputSpatialObjectType::Pointer       InputSpatialObjectPointer;
+  typedef typename InputSpatialObjectType::ConstPointer  InputSpatialObjectConstPointer;
+  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ObjectDimension, unsigned int,
@@ -72,94 +71,103 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput( const InputSpatialObjectType *object);
-  virtual void SetInput( unsigned int, const InputSpatialObjectType * object);
-  const InputSpatialObjectType * GetInput( void );
-  const InputSpatialObjectType * GetInput( unsigned int idx );
+  virtual void SetInput(const InputSpatialObjectType *object);
+
+  virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
+
+  const InputSpatialObjectType * GetInput(void);
+
+  const InputSpatialObjectType * GetInput(unsigned int idx);
 
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing( const SpacingType& spacing);
-  virtual void SetSpacing( const double* spacing);
-  virtual void SetSpacing( const float* spacing);
-  virtual const double * GetSpacing( void ) const;
+  virtual void SetSpacing(const SpacingType & spacing);
+
+  virtual void SetSpacing(const double *spacing);
+
+  virtual void SetSpacing(const float *spacing);
+
+  virtual const double * GetSpacing(void) const;
 
   /** Directions of the output image. The
    * direction is for oriented images. */
-  virtual void SetDirection( const DirectionType & direction );
-  virtual const DirectionType & GetDirection( void ) const;
+  virtual void SetDirection(const DirectionType & direction);
 
-  /** Set/Get the value for pixels inside the spatial object. 
+  virtual const DirectionType & GetDirection(void) const;
+
+  /** Set/Get the value for pixels inside the spatial object.
   * By default, this filter will return an image
-  * that contains values from the spatial object specified as input. 
+  * that contains values from the spatial object specified as input.
   * If this "inside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values 
+  * the output produced by this filter will be a mask with inside/outside values
   * specified by the user. */
-  itkSetMacro( InsideValue, ValueType );
-  itkGetConstMacro( InsideValue, ValueType );
+  itkSetMacro(InsideValue, ValueType);
+  itkGetConstMacro(InsideValue, ValueType);
 
   /** Set/Get the value for pixels outside the spatial object.
   * By default, this filter will return an image
-  * that contains values from the spatial object specified as input. 
+  * that contains values from the spatial object specified as input.
   * If this "outside" value is changed to a non-null value,
   * the output produced by this filter will be a mask with inside/outside values
   * specified by the user. */
-  itkSetMacro( OutsideValue, ValueType );
-  itkGetConstMacro( OutsideValue, ValueType );
+  itkSetMacro(OutsideValue, ValueType);
+  itkGetConstMacro(OutsideValue, ValueType);
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin( const PointType& origin );
-  virtual void SetOrigin( const double* origin );
-  virtual void SetOrigin( const float* origin );
-  virtual const double * GetOrigin( void ) const;
+  virtual void SetOrigin(const PointType & origin);
+
+  virtual void SetOrigin(const double *origin);
+
+  virtual void SetOrigin(const float *origin);
+
+  virtual const double * GetOrigin(void) const;
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
    * image?  A ChildrenDepth of 0 means to only include the object
    * itself. */
-  itkSetMacro( ChildrenDepth, unsigned int );
-  itkGetConstMacro( ChildrenDepth, unsigned int );
+  itkSetMacro(ChildrenDepth, unsigned int);
+  itkGetConstMacro(ChildrenDepth, unsigned int);
 
   /** Set/Get Size */
-  itkSetMacro( Size, SizeType );
-  itkGetConstMacro( Size, SizeType );
+  itkSetMacro(Size, SizeType);
+  itkGetConstMacro(Size, SizeType);
 
   /** If UseObjectValue is set to true, then the filter uses
    *  the ValueAt() function instead of IsInside() */
-  itkSetMacro( UseObjectValue, bool );
-  itkGetConstMacro( UseObjectValue, bool );
-
+  itkSetMacro(UseObjectValue, bool);
+  itkGetConstMacro(UseObjectValue, bool);
 protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter();
 
-  virtual void GenerateOutputInformation(){}; // do nothing
+  virtual void GenerateOutputInformation(){}  // do nothing
   virtual void GenerateData();
 
-  SizeType      m_Size;
-  double        m_Spacing[OutputImageDimension];
-  double        m_Origin[OutputImageDimension];
+  SizeType m_Size;
+  double m_Spacing[OutputImageDimension];
+  double m_Origin[OutputImageDimension];
   DirectionType m_Direction;
 
-  unsigned int  m_ChildrenDepth;
-  ValueType     m_InsideValue;
-  ValueType     m_OutsideValue;
-  bool          m_UseObjectValue;
+  unsigned int m_ChildrenDepth;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  ValueType m_InsideValue;
+  ValueType m_OutsideValue;
+
+  bool m_UseObjectValue;
+
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
-  SpatialObjectToImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  SpatialObjectToImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

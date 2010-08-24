@@ -17,33 +17,34 @@
 #ifndef __itkEuclideanDistanceMetric_txx
 #define __itkEuclideanDistanceMetric_txx
 
-
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TVector >
 inline double
 EuclideanDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x) const
+::Evaluate(const MeasurementVectorType & x) const
 {
   MeasurementVectorSizeType
     measurementVectorSize = this->GetMeasurementVectorSize();
-  if(measurementVectorSize == 0)
+
+  if ( measurementVectorSize == 0 )
     {
-    itkExceptionMacro( << "Please set the MeasurementVectorSize first" );
+    itkExceptionMacro(<< "Please set the MeasurementVectorSize first");
     }
-  MeasurementVectorTraits::Assert( this->GetOrigin(), measurementVectorSize,
-    "EuclideanDistanceMetric::Evaluate Origin and input vector have different lengths");
+  MeasurementVectorTraits::Assert(this->GetOrigin(), measurementVectorSize,
+                                  "EuclideanDistanceMetric::Evaluate Origin and input vector have different lengths");
 
   double sumOfSquares = NumericTraits< double >::Zero;
 
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     const double temp = this->GetOrigin()[i] - x[i];
     sumOfSquares += temp * temp;
     }
 
-  const double distance = vcl_sqrt( sumOfSquares );
+  const double distance = vcl_sqrt(sumOfSquares);
 
   return distance;
 }
@@ -51,23 +52,24 @@ EuclideanDistanceMetric< TVector >
 template< class TVector >
 inline double
 EuclideanDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const
+::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
 {
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength( x1 );
-  if (measurementVectorSize != MeasurementVectorTraits::GetLength(x2))
+  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(x1);
+
+  if ( measurementVectorSize != MeasurementVectorTraits::GetLength(x2) )
     {
-    itkExceptionMacro( << "The two measurement vectors have unequal size" );
+    itkExceptionMacro(<< "The two measurement vectors have unequal size");
     }
 
   double sumOfSquares = NumericTraits< double >::Zero;
 
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     const double temp = x1[i] - x2[i];
     sumOfSquares += temp * temp;
     }
 
-  const double distance = vcl_sqrt( sumOfSquares );
+  const double distance = vcl_sqrt(sumOfSquares);
 
   return distance;
 }
@@ -75,12 +77,12 @@ EuclideanDistanceMetric< TVector >
 template< class TVector >
 inline double
 EuclideanDistanceMetric< TVector >
-::Evaluate(const ValueType &a, const ValueType &b) const
+::Evaluate(const ValueType & a, const ValueType & b) const
 {
   const double temp = a - b;
-  return vcl_abs( temp );
-}
 
+  return vcl_abs(temp);
+}
 } // end of namespace Statistics
 } // end of namespace itk
 

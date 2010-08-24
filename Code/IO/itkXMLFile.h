@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class XMLReaderBase
  * XMLReaderBase encapsulates the expat library (Insight/Utilities/expat
  * and defines the methods needed in a derived class to receive the
@@ -30,8 +29,8 @@ namespace itk
  * in that some functions that are generic to opening and parsing a file
  * are implemented here.
  */
-class 
-XMLReaderBase : public LightProcessObject
+class
+XMLReaderBase:public LightProcessObject
 {
 public:
   typedef XMLReaderBase Self;
@@ -43,36 +42,40 @@ public:
   itkGetStringMacro(Filename);
 
   /** determine whether a file can be opened and read */
-  virtual int CanReadFile(const char* name) = 0;
+  virtual int CanReadFile(const char *name) = 0;
+
   /** do the actual parsing of the input file */
   virtual void GenerateOutputInformation();
+
   /** Callback function -- called from XML parser with start-of-element
    * information.
    */
-  virtual void StartElement(const char * name,const char **atts) = 0;
+  virtual void StartElement(const char *name, const char **atts) = 0;
+
   /** Callback function -- called from XML parser when ending tag
    * encountered
    */
   virtual void EndElement(const char *name) = 0;
+
   /** Callback function -- called from XML parser with the character data
    * for an XML element
    */
   virtual void CharacterDataHandler(const char *inData, int inLength) = 0;
+
 protected:
-  XMLReaderBase() {};
-  virtual ~XMLReaderBase() {};
+  XMLReaderBase() {}
+  virtual ~XMLReaderBase() {}
 
   /** Instantiates and invokes the XML parser for the file named by
    * m_Filename.  The parser will throw an exception in the case of XML
    * syntax errors, missing filenames, unreadable input file, etc.
    */
   void parse(void);
+
   std::string m_Filename;
-
 private:
-  XMLReaderBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  XMLReaderBase(const Self &);  //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
 
 /** \class XMLReader -- template base class for an XMLReader
@@ -81,8 +84,9 @@ private:
  * Since it doesn't define any of the pure virtual methods in XMLReaderBase,
  * It can't be instantiated by itself
  */
-template <class T> class 
-XMLReader : public XMLReaderBase
+template< class T >
+class
+XMLReader:public XMLReaderBase
 {
 public:
   typedef XMLReader Self;
@@ -93,16 +97,15 @@ public:
   void SetOutputObject(T *obj) { m_OutputObject = obj; }
   /** Get the output object, after an XML File has been successfully parsed.
    */
-  T *GetOutputObject(void) { return m_OutputObject; }
+  T * GetOutputObject(void) { return m_OutputObject; }
 protected:
-  XMLReader() {};
-  virtual ~XMLReader() {};
+  XMLReader() {}
+  virtual ~XMLReader() {}
 
   T *m_OutputObject;
-
 private:
-  XMLReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  XMLReader(const Self &);      //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
 
 /** \class XMLWriterBase
@@ -113,8 +116,8 @@ private:
  * class needs to implement writing the file completely by
  * implementing WriteFile.
  */
-template <class T>
-class XMLWriterBase : public LightProcessObject
+template< class T >
+class XMLWriterBase:public LightProcessObject
 {
 public:
   typedef XMLWriterBase Self;
@@ -123,57 +126,64 @@ public:
    * Sets object pointer to zero.
    */
   XMLWriterBase()
-    {
+  {
     m_InputObject = 0;
-    }
+  }
+
   /** Set the filename to write */
   itkSetStringMacro(Filename);
   /** Get the filename to write */
   itkGetStringMacro(Filename);
   /** Return non-zero if the filename given is writeable. */
-  virtual int CanWriteFile(const char* name) = 0;
+  virtual int CanWriteFile(const char *name) = 0;
+
   /** Give a pointer to the object to be written out to an XML file. */
   void SetObject(T *toWrite) { m_InputObject = toWrite; }
   /** Write the XML file, based on the Input Object */
   virtual int WriteFile() = 0;
+
   /** Write out a start element tag */
-  void WriteStartElement(const char *const tag,std::ofstream &file)
-    {
+  void WriteStartElement(const char *const tag, std::ofstream & file)
+  {
     file << '<' << tag << '>';
-    }
+  }
+
   /** Write an end element tag */
-  void WriteEndElement(const char *const tag,std::ofstream &file) 
-    {
+  void WriteEndElement(const char *const tag, std::ofstream & file)
+  {
     file << '<' << '/'  << tag << '>';
-    }
+  }
+
   /** Write character data inside a tag. */
-  void WriteCharacterData(const char *const data,std::ofstream &file) 
-    {
+  void WriteCharacterData(const char *const data, std::ofstream & file)
+  {
     file << data;
-    }
+  }
+
   /** Write a start element tag */
-  void WriteStartElement(std::string &tag,std::ofstream &file) 
-    {
-    WriteStartElement(tag.c_str(),file);
-    }
+  void WriteStartElement(std::string & tag, std::ofstream & file)
+  {
+    WriteStartElement(tag.c_str(), file);
+  }
+
   /** Write an end element tag */
-  void WriteEndElement(std::string &tag,std::ofstream &file) 
-    {
-    WriteEndElement(tag.c_str(),file);
-    }
+  void WriteEndElement(std::string & tag, std::ofstream & file)
+  {
+    WriteEndElement(tag.c_str(), file);
+  }
+
   /** Write character data inside a tag. */
-  void WriteCharacterData(std::string &data,std::ofstream &file)
-    {
-    WriteCharacterData(data.c_str(),file);
-    }
+  void WriteCharacterData(std::string & data, std::ofstream & file)
+  {
+    WriteCharacterData(data.c_str(), file);
+  }
+
 protected:
   T          *m_InputObject;    // object to write out to an XML file
   std::string m_Filename;       // name of file to write.
-
 private:
-  XMLWriterBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  XMLWriterBase(const Self &);  //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 }
 #endif

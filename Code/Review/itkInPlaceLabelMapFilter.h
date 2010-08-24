@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class InPlaceLabelMapFilter
  * \brief Base class for filters that takes an image as input and overwrites
  * that image as the output
@@ -63,17 +62,16 @@ namespace itk
  * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template <class TInputImage>
-class ITK_EXPORT InPlaceLabelMapFilter : public LabelMapFilter<TInputImage, TInputImage>
+template< class TInputImage >
+class ITK_EXPORT InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef InPlaceLabelMapFilter                     Self;
-  typedef LabelMapFilter<TInputImage, TInputImage>  Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
-  
-  
+  typedef InPlaceLabelMapFilter                      Self;
+  typedef LabelMapFilter< TInputImage, TInputImage > Superclass;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(InPlaceLabelMapFilter, LabelMapFilter);
 
@@ -90,16 +88,16 @@ public:
   typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType; 
+  typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
 
-  typedef typename InputImageType::PixelType       PixelType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::RegionType      RegionType;
+  typedef typename InputImageType::PixelType  PixelType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::RegionType RegionType;
 
   typedef TInputImage TOutputImage;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
@@ -117,15 +115,15 @@ public:
    * running in place. Some filters may be able to optimize their
    * operation if the InPlace is true and CanRunInPlace is true. */
   bool CanRunInPlace() const
-    {
-    return (typeid(TInputImage) == typeid(TOutputImage));
-    };
+  {
+    return ( typeid( TInputImage ) == typeid( TOutputImage ) );
+  }
 
 protected:
   InPlaceLabelMapFilter();
   ~InPlaceLabelMapFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceLabelMapFilter's can use an
@@ -150,29 +148,25 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
-  virtual void ReleaseInputs(); 
-  
+  virtual void ReleaseInputs();
 
   /**
    * Return the output label collection image, instead of the input as in the default
    * implementation
    */
   virtual InputImageType * GetLabelMap()
-    {
+  {
     return this->GetOutput();
-    }
+  }
 
   typedef typename Superclass::LabelObjectContainerType          LabelObjectContainerType;
   typedef typename Superclass::LabelObjectContainerConstIterator LabelObjectContainerConstIterator;
-
 private:
-  InPlaceLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  InPlaceLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   bool m_InPlace;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

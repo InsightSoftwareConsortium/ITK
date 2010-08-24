@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,57 +30,49 @@
 
 // #include "ioutils.h"
 
-namespace itk {
-
-
-template<class TInputImage, class TOutputImage>
-BoxMeanImageFilter<TInputImage, TOutputImage>
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+BoxMeanImageFilter< TInputImage, TOutputImage >
 ::BoxMeanImageFilter()
-{
-}
+{}
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-BoxMeanImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId) 
+BoxMeanImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId)
 {
-
   // Accumulate type is too small
-  typedef typename NumericTraits<PixelType>::RealType       AccPixType;
-  typedef Image<AccPixType, TInputImage::ImageDimension>    AccumImageType;
+  typedef typename NumericTraits< PixelType >::RealType    AccPixType;
+  typedef Image< AccPixType, TInputImage::ImageDimension > AccumImageType;
 
   typename TInputImage::SizeType internalRadius;
-  for(unsigned int i=0; i<TInputImage::ImageDimension; i++ )
+  for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
     {
     internalRadius[i] = this->GetRadius()[i] + 1;
     }
-  
 
-  const InputImageType* inputImage = this->GetInput();
-  OutputImageType *outputImage = this->GetOutput();
-  RegionType accumRegion = outputRegionForThread;
+  const InputImageType *inputImage = this->GetInput();
+  OutputImageType *     outputImage = this->GetOutput();
+  RegionType            accumRegion = outputRegionForThread;
   accumRegion.PadByRadius(internalRadius);
-  accumRegion.Crop(inputImage->GetRequestedRegion());
+  accumRegion.Crop( inputImage->GetRequestedRegion() );
 
-  ProgressReporter progress(this, threadId, 2*accumRegion.GetNumberOfPixels());
+  ProgressReporter progress( this, threadId, 2 * accumRegion.GetNumberOfPixels() );
 
   typename AccumImageType::Pointer accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
 
-  BoxAccumulateFunction<TInputImage, AccumImageType>(inputImage, accImage, 
-                                                     accumRegion,
-                                                     accumRegion,
-                                                     progress);
-  BoxMeanCalculatorFunction<AccumImageType, TOutputImage>(accImage.GetPointer(), outputImage,
-                                                          accumRegion,
-                                                          outputRegionForThread,
-                                                          this->GetRadius(),
-                                                          progress);
-                                                     
-
+  BoxAccumulateFunction< TInputImage, AccumImageType >(inputImage, accImage,
+                                                       accumRegion,
+                                                       accumRegion,
+                                                       progress);
+  BoxMeanCalculatorFunction< AccumImageType, TOutputImage >(accImage.GetPointer(), outputImage,
+                                                            accumRegion,
+                                                            outputRegionForThread,
+                                                            this->GetRadius(),
+                                                            progress);
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

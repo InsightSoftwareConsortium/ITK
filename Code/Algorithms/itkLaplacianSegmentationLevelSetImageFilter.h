@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkLaplacianSegmentationLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**   \class LaplacianSegmentationLevelSetImageFilter
  *    \brief Segments structures in images based on a second derivative image features.
  *
@@ -72,7 +72,7 @@ namespace itk {
  *    Note that this filter does no preprocessing of the feature image before
  *    thresholding.  Because second derivative calculations are highly
  *    sensitive to noise, isotropic or anisotropic smoothing of the feature
- *    image can dramatically improve the results. 
+ *    image can dramatically improve the results.
  *
  *    \par
  *    See SegmentationLevelSetImageFilter for more information on Inputs.
@@ -95,50 +95,48 @@ namespace itk {
  *   \sa SegmentationLevelSetImageFilter
  *   \sa LaplacianSegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
-          class TOutputPixelType = float>
-class ITK_EXPORT LaplacianSegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
+          class TOutputPixelType = float >
+class ITK_EXPORT LaplacianSegmentationLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
   /** Standard class typedefs */
   typedef LaplacianSegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
-                                                   Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType        ValueType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
 
-  
   /** Type of the segmentation function */
-  typedef LaplacianSegmentationLevelSetFunction<OutputImageType,
-                                                FeatureImageType> LaplacianFunctionType;
-  
+  typedef LaplacianSegmentationLevelSetFunction< OutputImageType,
+                                                 FeatureImageType > LaplacianFunctionType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(LaplacianSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-  
 protected:
   ~LaplacianSegmentationLevelSetImageFilter() {}
   LaplacianSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  
 private:
-  LaplacianSegmentationLevelSetImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LaplacianSegmentationLevelSetImageFilter(const Self &); //purposely not
+                                                          // implemented
+  void operator=(const Self &);                           //purposely not
+                                                          // implemented
 
-  typename LaplacianFunctionType::Pointer m_LaplacianFunction;  
+  typename LaplacianFunctionType::Pointer m_LaplacianFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

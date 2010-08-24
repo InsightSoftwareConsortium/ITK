@@ -16,24 +16,26 @@
 =========================================================================*/
 #include "itkMinimumDecisionRule2.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 void
-MinimumDecisionRule2::PrintSelf(std::ostream& os, Indent indent) const
+MinimumDecisionRule2::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 unsigned int
-MinimumDecisionRule2::Evaluate(const MembershipVectorType &discriminantScores) const
+MinimumDecisionRule2::Evaluate(const MembershipVectorType & discriminantScores) const
 {
-  double min = discriminantScores[0];
+  double       min = discriminantScores[0];
   unsigned int minIndex = 0;
   unsigned int i;
-  for (i = 1; i < discriminantScores.size(); i++)
+
+  for ( i = 1; i < discriminantScores.size(); i++ )
     {
-    if (discriminantScores[i] < min)
+    if ( discriminantScores[i] < min )
       {
       min = discriminantScores[i];
       minIndex = i;
@@ -41,6 +43,5 @@ MinimumDecisionRule2::Evaluate(const MembershipVectorType &discriminantScores) c
     }
   return minIndex;
 }
-
 } // end of namespace itk
 } // end of namespace Statistics

@@ -20,10 +20,7 @@
 
 namespace itk
 {
-
-
 ///////////////////////////////////////////////////
-
 
 ///////////////////////////////////////////////////
 // Generic Programming Algorithms
@@ -34,92 +31,105 @@ namespace itk
 /// Uses the < operator to determin ordering
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
-template <class TInputIter>
-std::pair<TInputIter, TInputIter> min_max_element(TInputIter first, TInputIter last)
+template< class TInputIter >
+std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last)
 {
-  std::pair<TInputIter,TInputIter> result(first,first);
+  std::pair< TInputIter, TInputIter > result(first, first);
 
-  if (first == last)
+  if ( first == last )
+    {
     return result;
+    }
 
-  while (++first != last)
+  while ( ++first != last )
     {
     TInputIter prev = first;
-    if (++first == last)
+    if ( ++first == last )
       {
-      if (*prev < *(result.first))
+      if ( *prev < *( result.first ) )
+        {
         result.first = prev;
-      if (*(result.second) < *prev)
+        }
+      if ( *( result.second ) < *prev )
+        {
         result.second = prev;
+        }
       break;
       }
-    else if (*first < *prev)
+    else if ( *first < *prev )
       {
-      if (*first < *(result.first))
+      if ( *first < *( result.first ) )
+        {
         result.first = first;
-      if (*(result.second) < *prev)
+        }
+      if ( *( result.second ) < *prev )
+        {
         result.second = prev;
+        }
       }
     else
       {
-      if (*prev < *(result.first))
+      if ( *prev < *( result.first ) )
+        {
         result.first = prev;
-      if (*(result.second) < *first)
+        }
+      if ( *( result.second ) < *first )
+        {
         result.second = first;
+        }
       }
     }
   return result;
 }
-
 
 /// \brief returns the min and max of a
 ///
 /// Uses the provided binary functor
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
-template <class TInputIter, class TCompare>
-std::pair<TInputIter, TInputIter> min_max_element(TInputIter first, TInputIter last, TCompare comp)
+template< class TInputIter, class TCompare >
+std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last, TCompare comp)
 {
-  std::pair<TInputIter,TInputIter> result(first,first);
+  std::pair< TInputIter, TInputIter > result(first, first);
 
-  if (first == last)
+  if ( first == last )
     {
     return result;
     }
 
-  while (++first != last)
+  while ( ++first != last )
     {
     TInputIter prev = first;
-    if (++first == last)
+    if ( ++first == last )
       {
-      if (comp(*prev,*(result.first)))
+      if ( comp( *prev, *( result.first ) ) )
         {
         result.first = prev;
         }
-      if (comp(*(result.second),*prev))
+      if ( comp(*( result.second ), *prev) )
         {
         result.second = prev;
         }
       break;
       }
-    else if (comp(*first,*prev))
+    else if ( comp(*first, *prev) )
       {
-      if (comp(*first,*(result.first)))
+      if ( comp( *first, *( result.first ) ) )
         {
         result.first = first;
         }
-      if (comp(*(result.second),*prev))
+      if ( comp(*( result.second ), *prev) )
         {
         result.second = prev;
         }
       }
     else
       {
-      if (comp(*prev,*(result.first)))
+      if ( comp( *prev, *( result.first ) ) )
         {
         result.first = prev;
         }
-      if (comp(*(result.second),*first))
+      if ( comp(*( result.second ), *first) )
         {
         result.second = first;
         }
@@ -127,7 +137,6 @@ std::pair<TInputIter, TInputIter> min_max_element(TInputIter first, TInputIter l
     }
   return result;
 }
-
 } // end itk namespace
 
 #endif //__itkGenericUtilities_h

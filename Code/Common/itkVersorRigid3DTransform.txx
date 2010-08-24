@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,76 +19,64 @@
 
 #include "itkVersorRigid3DTransform.h"
 
-
 namespace itk
 {
-
 // Constructor with default arguments
-template <class TScalarType>
-VersorRigid3DTransform<TScalarType>
-::VersorRigid3DTransform() :
+template< class TScalarType >
+VersorRigid3DTransform< TScalarType >
+::VersorRigid3DTransform():
   Superclass(OutputSpaceDimension, ParametersDimension)
-{
-}
-
+{}
 
 // Constructor with arguments
-template<class TScalarType>
-VersorRigid3DTransform<TScalarType>::
-VersorRigid3DTransform( unsigned int outputSpaceDim, 
-                        unsigned int paramDim) :
-  Superclass(outputSpaceDim,paramDim)
-{
-}
- 
+template< class TScalarType >
+VersorRigid3DTransform< TScalarType >::VersorRigid3DTransform(unsigned int outputSpaceDim,
+                                                              unsigned int paramDim):
+  Superclass(outputSpaceDim, paramDim)
+{}
 
 // Constructor with arguments
-template<class TScalarType>
-VersorRigid3DTransform<TScalarType>::
-VersorRigid3DTransform( const MatrixType & matrix,
-                        const OutputVectorType & offset) :
-  Superclass(matrix,offset)
-{
-}
- 
+template< class TScalarType >
+VersorRigid3DTransform< TScalarType >::VersorRigid3DTransform(const MatrixType & matrix,
+                                                              const OutputVectorType & offset):
+  Superclass(matrix, offset)
+{}
 
 // Set Parameters
-template <class TScalarType>
+template< class TScalarType >
 void
-VersorRigid3DTransform<TScalarType>
-::SetParameters( const ParametersType & parameters )
+VersorRigid3DTransform< TScalarType >
+::SetParameters(const ParametersType & parameters)
 {
-
-  itkDebugMacro( << "Setting parameters " << parameters );
+  itkDebugMacro(<< "Setting parameters " << parameters);
 
   // Transfer the versor part
-  
+
   AxisType axis;
 
-  double norm = parameters[0]*parameters[0];
+  double norm = parameters[0] * parameters[0];
   axis[0] = parameters[0];
-  norm += parameters[1]*parameters[1];
+  norm += parameters[1] * parameters[1];
   axis[1] = parameters[1];
-  norm += parameters[2]*parameters[2];
+  norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if( norm > 0)
+  if ( norm > 0 )
     {
     norm = vcl_sqrt(norm);
     }
 
   double epsilon = 1e-10;
-  if(norm >= 1.0-epsilon)
+  if ( norm >= 1.0 - epsilon )
     {
-    axis = axis / (norm+epsilon*norm);
+    axis = axis / ( norm + epsilon * norm );
     }
   VersorType newVersor;
   newVersor.Set(axis);
-  this->SetVarVersor( newVersor );
+  this->SetVarVersor(newVersor);
   this->ComputeMatrix();
 
-  itkDebugMacro( <<"Versor is now " << this->GetVersor() );
-  
-   
+  itkDebugMacro( << "Versor is now " << this->GetVersor() );
+
   // Transfer the translation part
   TranslationType newTranslation;
   newTranslation[0] = parameters[3];
@@ -101,25 +89,24 @@ VersorRigid3DTransform<TScalarType>
   // parameters and cannot know if the parameters have changed.
   this->Modified();
 
-  itkDebugMacro(<<"After setting parameters ");
+  itkDebugMacro(<< "After setting parameters ");
 }
-
 
 //
 // Get Parameters
-// 
+//
 // Parameters are ordered as:
 //
 // p[0:2] = right part of the versor (axis times vcl_sin(t/2))
 // p[3:5} = translation components
 //
 
-template <class TScalarType>
-const typename VersorRigid3DTransform<TScalarType>::ParametersType &
-VersorRigid3DTransform<TScalarType>
-::GetParameters( void ) const
+template< class TScalarType >
+const typename VersorRigid3DTransform< TScalarType >::ParametersType &
+VersorRigid3DTransform< TScalarType >
+::GetParameters(void) const
 {
-  itkDebugMacro( << "Getting parameters ");
+  itkDebugMacro(<< "Getting parameters ");
 
   this->m_Parameters[0] = this->GetVersor().GetX();
   this->m_Parameters[1] = this->GetVersor().GetY();
@@ -130,18 +117,17 @@ VersorRigid3DTransform<TScalarType>
   this->m_Parameters[4] = this->GetTranslation()[1];
   this->m_Parameters[5] = this->GetTranslation()[2];
 
-  itkDebugMacro(<<"After getting parameters " << this->m_Parameters );
+  itkDebugMacro(<< "After getting parameters " << this->m_Parameters);
 
   return this->m_Parameters;
 }
 
 // Set parameters
-template<class TScalarType>
-const typename VersorRigid3DTransform<TScalarType>::JacobianType &
-VersorRigid3DTransform<TScalarType>::
-GetJacobian( const InputPointType & p ) const
+template< class TScalarType >
+const typename VersorRigid3DTransform< TScalarType >::JacobianType &
+VersorRigid3DTransform< TScalarType >::GetJacobian(const InputPointType & p) const
 {
-  typedef typename VersorType::ValueType  ValueType;
+  typedef typename VersorType::ValueType ValueType;
 
   // compute derivatives with respect to rotation
   const ValueType vx = this->GetVersor().GetX();
@@ -169,46 +155,42 @@ GetJacobian( const InputPointType & p ) const
 
   const double vzw = vz * vw;
 
-
   // compute Jacobian with respect to quaternion parameters
-  this->m_Jacobian[0][0] = 2.0 * (               (vyw+vxz)*py + (vzw-vxy)*pz)
-                         / vw;
-  this->m_Jacobian[1][0] = 2.0 * ((vyw-vxz)*px   -2*vxw   *py + (vxx-vww)*pz) 
-                         / vw;
-  this->m_Jacobian[2][0] = 2.0 * ((vzw+vxy)*px + (vww-vxx)*py   -2*vxw   *pz) 
-                         / vw;
+  this->m_Jacobian[0][0] = 2.0 * ( ( vyw + vxz ) * py + ( vzw - vxy ) * pz )
+                           / vw;
+  this->m_Jacobian[1][0] = 2.0 * ( ( vyw - vxz ) * px   - 2 * vxw   * py + ( vxx - vww ) * pz )
+                           / vw;
+  this->m_Jacobian[2][0] = 2.0 * ( ( vzw + vxy ) * px + ( vww - vxx ) * py   - 2 * vxw   * pz )
+                           / vw;
 
-  this->m_Jacobian[0][1] = 2.0 * ( -2*vyw  *px + (vxw+vyz)*py + (vww-vyy)*pz) 
-                         / vw;
-  this->m_Jacobian[1][1] = 2.0 * ((vxw-vyz)*px                + (vzw+vxy)*pz) 
-                         / vw;
-  this->m_Jacobian[2][1] = 2.0 * ((vyy-vww)*px + (vzw-vxy)*py   -2*vyw   *pz) 
-                         / vw;
+  this->m_Jacobian[0][1] = 2.0 * ( -2 * vyw  * px + ( vxw + vyz ) * py + ( vww - vyy ) * pz )
+                           / vw;
+  this->m_Jacobian[1][1] = 2.0 * ( ( vxw - vyz ) * px                + ( vzw + vxy ) * pz )
+                           / vw;
+  this->m_Jacobian[2][1] = 2.0 * ( ( vyy - vww ) * px + ( vzw - vxy ) * py   - 2 * vyw   * pz )
+                           / vw;
 
-  this->m_Jacobian[0][2] = 2.0 * ( -2*vzw  *px + (vzz-vww)*py + (vxw-vyz)*pz) 
-                         / vw;
-  this->m_Jacobian[1][2] = 2.0 * ((vww-vzz)*px   -2*vzw   *py + (vyw+vxz)*pz) 
-                         / vw;
-  this->m_Jacobian[2][2] = 2.0 * ((vxw+vyz)*px + (vyw-vxz)*py               ) 
-                         / vw;
+  this->m_Jacobian[0][2] = 2.0 * ( -2 * vzw  * px + ( vzz - vww ) * py + ( vxw - vyz ) * pz )
+                           / vw;
+  this->m_Jacobian[1][2] = 2.0 * ( ( vww - vzz ) * px   - 2 * vzw   * py + ( vyw + vxz ) * pz )
+                           / vw;
+  this->m_Jacobian[2][2] = 2.0 * ( ( vxw + vyz ) * px + ( vyw - vxz ) * py )
+                           / vw;
 
   this->m_Jacobian[0][3] = 1.0;
   this->m_Jacobian[1][4] = 1.0;
   this->m_Jacobian[2][5] = 1.0;
 
   return this->m_Jacobian;
-
 }
-  
+
 // Print self
-template<class TScalarType>
+template< class TScalarType >
 void
-VersorRigid3DTransform<TScalarType>::
-PrintSelf(std::ostream &os, Indent indent) const
+VersorRigid3DTransform< TScalarType >::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 } // namespace
 
 #endif

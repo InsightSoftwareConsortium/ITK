@@ -19,9 +19,10 @@
 
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 MeanSampleFilter< TSample >
 ::MeanSampleFilter()
@@ -29,65 +30,62 @@ MeanSampleFilter< TSample >
   this->ProcessObject::SetNumberOfRequiredInputs(1);
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
 
-  this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
+  this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 }
-
 
 template< class TSample >
 MeanSampleFilter< TSample >
 ::~MeanSampleFilter()
-{
-}
-
+{}
 
 template< class TSample >
 void
 MeanSampleFilter< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
 
 template< class TSample >
 void
 MeanSampleFilter< TSample >
-::SetInput( const SampleType * sample )
+::SetInput(const SampleType *sample)
 {
-  this->ProcessObject::SetNthInput(0, const_cast< SampleType* >( sample ) );
+  this->ProcessObject::SetNthInput( 0, const_cast< SampleType * >( sample ) );
 }
 
 template< class TSample >
 const TSample *
 MeanSampleFilter< TSample >
-::GetInput( ) const
+::GetInput() const
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
 
-  return static_cast<const SampleType * > (this->ProcessObject::GetInput(0) );
+  return static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
 }
 
 template< class TSample >
-typename MeanSampleFilter< TSample>::DataObjectPointer
+typename MeanSampleFilter< TSample >::DataObjectPointer
 MeanSampleFilter< TSample >
-::MakeOutput(unsigned int itkNotUsed(idx))
+::MakeOutput( unsigned int itkNotUsed(idx) )
 {
-  return static_cast< DataObject * >(MeasurementVectorDecoratedType::New().GetPointer());
+  return static_cast< DataObject * >( MeasurementVectorDecoratedType::New().GetPointer() );
 }
 
 template< class TSample >
-const typename MeanSampleFilter< TSample>::MeasurementVectorDecoratedType *
+const typename MeanSampleFilter< TSample >::MeasurementVectorDecoratedType *
 MeanSampleFilter< TSample >
 ::GetOutput() const
 {
   return static_cast< const MeasurementVectorDecoratedType * >(
-              this->ProcessObject::GetOutput(0));
+           this->ProcessObject::GetOutput(0) );
 }
 
 template< class TSample >
-const typename MeanSampleFilter< TSample>::MeasurementVectorType
+const typename MeanSampleFilter< TSample >::MeasurementVectorType
 MeanSampleFilter< TSample >
 ::GetMean() const
 {
@@ -102,11 +100,11 @@ MeanSampleFilter< TSample >
   const SampleType *input = this->GetInput();
 
   MeasurementVectorSizeType measurementVectorSize =
-                             input->GetMeasurementVectorSize();
+    input->GetMeasurementVectorSize();
 
-  MeasurementVectorDecoratedType * decoratedOutput =
-            static_cast< MeasurementVectorDecoratedType * >(
-              this->ProcessObject::GetOutput(0));
+  MeasurementVectorDecoratedType *decoratedOutput =
+    static_cast< MeasurementVectorDecoratedType * >(
+      this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorType output = decoratedOutput->Get();
 
@@ -114,17 +112,17 @@ MeanSampleFilter< TSample >
   typename TSample::ConstIterator end =  input->End();
   double totalFrequency = 0.0;
 
-  for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+  for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
     output[dim] = itk::NumericTraits< MeasurementType >::Zero;
     }
 
-  while (iter != end)
+  while ( iter != end )
     {
     double frequency = iter.GetFrequency();
     totalFrequency += frequency;
 
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
       output[dim] += iter.GetMeasurementVector()[dim] * frequency;
       }
@@ -134,16 +132,14 @@ MeanSampleFilter< TSample >
   // compute the mean if the total frequency is different from zero
   if ( totalFrequency != 0.0 )
     {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
       output[dim] /= totalFrequency;
       }
     }
 
-  decoratedOutput->Set( output );
-
+  decoratedOutput->Set(output);
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

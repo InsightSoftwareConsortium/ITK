@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,15 +22,14 @@
 
 namespace itk
 {
-  
 /** \class VersorTransformOptimizer
  * \brief Implement a gradient descent optimizer
  *
  * VersorTransformOptimizer is a variant of the
- * gradient descent optimizer implmented in 
+ * gradient descent optimizer implmented in
  * RegularStepGradientDescentOptimizer.
  *
- * Versors are not in a vector space, for that reason, 
+ * Versors are not in a vector space, for that reason,
  * the classical gradient descent algorithm has to be
  * modified in order to be applicable to Versors (unit
  * quaternions) that form the group SO(3).
@@ -40,50 +39,45 @@ namespace itk
  *
  * This optimizer assumes that the CostFunction to be
  * optimized has an itk::Versor as parameter.
- * 
+ *
  * \sa RegularStepGradientDescentOptimizer
  * \sa Versor
  * \sa VersorTransform
  *
  * \ingroup Numerics Optimizers
- */  
-class ITK_EXPORT VersorTransformOptimizer : 
-    public RegularStepGradientDescentBaseOptimizer
+ */
+class ITK_EXPORT VersorTransformOptimizer:
+  public RegularStepGradientDescentBaseOptimizer
 {
 public:
   /** Standard class typedefs. */
-  typedef VersorTransformOptimizer                    Self;
-  typedef RegularStepGradientDescentBaseOptimizer     Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef VersorTransformOptimizer                Self;
+  typedef RegularStepGradientDescentBaseOptimizer Superclass;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( VersorTransformOptimizer, 
-                RegularStepGradientDescentBaseOptimizer );
+  itkTypeMacro(VersorTransformOptimizer,
+               RegularStepGradientDescentBaseOptimizer);
 
   /**  Versor Type  */
-  typedef Versor<double>                      VersorType;
-  typedef VersorType::VectorType              VectorType;
+  typedef Versor< double >       VersorType;
+  typedef VersorType::VectorType VectorType;
 
   /** Advance one step following the gradient direction. */
-  virtual void StepAlongGradient( double factor, 
-                                  const DerivativeType & transformedGradient );
+  virtual void StepAlongGradient(double factor,
+                                 const DerivativeType & transformedGradient);
 
 protected:
   VersorTransformOptimizer() {}
   virtual ~VersorTransformOptimizer() {}
-
 private:
-  VersorTransformOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-
+  VersorTransformOptimizer(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

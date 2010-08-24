@@ -25,9 +25,10 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkNumericTraitsFixedArrayPixel.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class StandardDeviationPerComponentSampleFilter
  * \brief Calculates the covariance matrix of the target sample data.
  *
@@ -45,16 +46,16 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT StandardDeviationPerComponentSampleFilter :
-    public ProcessObject
+class ITK_EXPORT StandardDeviationPerComponentSampleFilter:
+  public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef StandardDeviationPerComponentSampleFilter   Self;
-  typedef ProcessObject                               Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  typedef TSample                                     SampleType;
+  typedef StandardDeviationPerComponentSampleFilter Self;
+  typedef ProcessObject                             Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
+  typedef TSample                                   SampleType;
 
   /** Standard Macros */
   itkTypeMacro(StandardDeviationPerComponentSampleFilter, ProcessObject);
@@ -64,34 +65,39 @@ public:
   typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Measurement vector type */
-  typedef typename TSample::MeasurementVectorType                     MeasurementVectorType;
-  typedef typename NumericTraits< MeasurementVectorType >::RealType   MeasurementVectorRealType;
+  typedef typename TSample::MeasurementVectorType                   MeasurementVectorType;
+  typedef typename NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
 
   /** Method to set/get the sample */
-  void SetInput( const SampleType * sample );
+  void SetInput(const SampleType *sample);
+
   const SampleType *  GetInput() const;
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MeasurementVectorRealType >  MeasurementVectorRealDecoratedType;
+  typedef  SimpleDataObjectDecorator< MeasurementVectorRealType > MeasurementVectorRealDecoratedType;
 
   typedef MeasurementVectorRealDecoratedType OutputType;
 
   /** Return the standard deviation vector */
   const MeasurementVectorRealType GetStandardDeviationPerComponent() const;
-  const MeasurementVectorRealDecoratedType* GetStandardDeviationPerComponentOutput() const;
+
+  const MeasurementVectorRealDecoratedType * GetStandardDeviationPerComponentOutput() const;
 
   /** Return the mean vector */
   const MeasurementVectorRealType GetMeanPerComponent() const;
-  const MeasurementVectorRealDecoratedType* GetMeanPerComponentOutput() const;
+
+  const MeasurementVectorRealDecoratedType * GetMeanPerComponentOutput() const;
 
 protected:
-  StandardDeviationPerComponentSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  StandardDeviationPerComponentSampleFilter(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
+                                                           // implemented
 
   StandardDeviationPerComponentSampleFilter();
   virtual ~StandardDeviationPerComponentSampleFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
@@ -103,9 +109,7 @@ protected:
   MeasurementVectorSizeType GetMeasurementVectorSize() const;
 
 private:
-
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

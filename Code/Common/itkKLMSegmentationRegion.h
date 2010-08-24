@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class KLMSegmentationRegion
  * \brief Base class for KLMSegmentationRegion object
  *
@@ -86,23 +85,23 @@ namespace itk
  */
 class KLMSegmentationBorder;
 
-class ITKCommon_EXPORT KLMSegmentationRegion : public SegmentationRegion
+class ITKCommon_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
   /** Standard class typedefs. */
-  typedef KLMSegmentationRegion     Self;
-  typedef SegmentationRegion        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef KLMSegmentationRegion      Self;
+  typedef SegmentationRegion         Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KLMSegmentationRegion,SegmentationRegion);
+  itkTypeMacro(KLMSegmentationRegion, SegmentationRegion);
 
   /** Type definition for an double vector. */
-  typedef vnl_vector<double> MeanRegionIntensityType;
+  typedef vnl_vector< double > MeanRegionIntensityType;
 
   /** Type definition for vector container that stores the borders
    * associated with a current region. */
@@ -112,7 +111,8 @@ public:
   /** Type definition for the region border vector iterators to be used. */
   typedef RegionBorderVectorType::iterator RegionBorderVectorIterator;
 
-  /** Type definition for the const region border vector iterators to be used. */
+  /** Type definition for the const region border vector iterators to be used.
+    */
   typedef RegionBorderVectorType::const_iterator RegionBorderVectorConstIterator;
 
   /** type definition for the region label type. */
@@ -121,11 +121,13 @@ public:
   /** Get a head pointer to the vector container storing the borders
    * associated with a region. */
   RegionBorderVectorIterator GetRegionBorderItBegin();
+
   RegionBorderVectorConstIterator GetRegionBorderConstItBegin();
 
   /** Get a tail pointer to the vector container storing the borders
    * associated with a region. */
   RegionBorderVectorIterator GetRegionBorderItEnd();
+
   RegionBorderVectorConstIterator GetRegionBorderConstItEnd();
 
   /** Get the number of borders in the vector container storing the borders
@@ -139,8 +141,8 @@ public:
   /** Set the region with parameter values
    * defining the region. */
   void SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
-                           double                  regionArea,
-                           RegionLabelType         label);
+                           double regionArea,
+                           RegionLabelType label);
 
   /** Function to print the region parameters using std::cout. */
   void PrintRegionInfo();
@@ -212,19 +214,15 @@ public:
 protected:
   KLMSegmentationRegion();
   ~KLMSegmentationRegion();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  KLMSegmentationRegion(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  KLMSegmentationRegion(const Self &); // purposely not implemented
+  void operator=(const Self &);        // purposely not implemented
 
-  RegionBorderVectorType    m_RegionBorderVector;
-  MeanRegionIntensityType   m_MeanRegionIntensity;
-
+  RegionBorderVectorType  m_RegionBorderVector;
+  MeanRegionIntensityType m_MeanRegionIntensity;
 }; // class SegmentationRegion
-
-
 } // namespace itk
-
 
 #endif

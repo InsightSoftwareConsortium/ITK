@@ -19,16 +19,17 @@
 
 #include "itkImageClassifierFilter.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample, class TInputImage, class TOutputImage >
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::ImageClassifierFilter()
 {
   this->m_NumberOfClasses = 0;
-  this->SetNumberOfRequiredInputs( 3 );
-  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredInputs(3);
+  this->SetNumberOfRequiredOutputs(1);
 
   /** Initialize decision rule */
   m_DecisionRule = NULL;
@@ -38,10 +39,10 @@ ImageClassifierFilter<TSample,TInputImage,TOutputImage>
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Number of classes: "
      << this->GetNumberOfClasses()
      << std::endl;
@@ -55,102 +56,103 @@ ImageClassifierFilter<TSample,TInputImage,TOutputImage>
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::SetImage( const InputImageType * image )
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::SetImage(const InputImageType *image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0,
-                                   const_cast< InputImageType * >( image ) );
+  this->ProcessObject::SetNthInput( 0,
+                                    const_cast< InputImageType * >( image ) );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
 const TInputImage *
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::GetImage( ) const
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::GetImage() const
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
 
-  return static_cast<const TInputImage * >
-  (this->ProcessObject::GetInput(0) );
+  return static_cast< const TInputImage * >
+         ( this->ProcessObject::GetInput(0) );
 }
-
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::SetClassLabels( const ClassLabelVectorObjectType * classLabels )
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::SetClassLabels(const ClassLabelVectorObjectType *classLabels)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(1,
-                                   const_cast< ClassLabelVectorObjectType * >( classLabels ) );
+  this->ProcessObject::SetNthInput( 1,
+                                    const_cast< ClassLabelVectorObjectType * >( classLabels ) );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::SetMembershipFunctions( const MembershipFunctionVectorObjectType * membershipFunctions )
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(2,
-                                   const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
+  this->ProcessObject::SetNthInput( 2,
+                                    const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
-::SetMembershipFunctionsWeightsArray( const
-MembershipFunctionsWeightsArrayObjectType * weightsArray )
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
+::SetMembershipFunctionsWeightsArray(const
+                                     MembershipFunctionsWeightsArrayObjectType *weightsArray)
 {
- // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(3,
-                                   const_cast<
-  MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput( 3,
+                                    const_cast<
+                                      MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
 void
-ImageClassifierFilter<TSample,TInputImage,TOutputImage>
+ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GenerateData()
 {
-  const ClassLabelVectorObjectType * classLabelsDecorated =
-    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput( 1 ) );
+  const ClassLabelVectorObjectType *classLabelsDecorated =
+    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput(1) );
 
-  const MembershipFunctionVectorObjectType * membershipFunctionsDecorated =
-    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput( 2 ) );
+  const MembershipFunctionVectorObjectType *membershipFunctionsDecorated =
+    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput(2) );
 
   const MembershipFunctionsWeightsArrayObjectType *
-                membershipFunctionsWeightsArrayDecorated =
-    static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput( 3 ) );
+  membershipFunctionsWeightsArrayDecorated =
+    static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput(3) );
 
   const ClassLabelVectorType & classLabels = classLabelsDecorated->Get();
 
   const MembershipFunctionVectorType & membershipFunctions = membershipFunctionsDecorated->Get();
 
-  // Check number of Labels and MembershipSamples against the number of classes */
-  if( membershipFunctions.size() != this->m_NumberOfClasses )
+  // Check number of Labels and MembershipSamples against the number of classes
+  // */
+  if ( membershipFunctions.size() != this->m_NumberOfClasses )
     {
     itkExceptionMacro("Number of Membership functions does not match the number of classes");
     }
 
-  if( classLabels.size() != this->m_NumberOfClasses )
+  if ( classLabels.size() != this->m_NumberOfClasses )
     {
     itkExceptionMacro("Number of class labels does not match the number of classes");
     }
 
-  if( m_DecisionRule.IsNull())
+  if ( m_DecisionRule.IsNull() )
     {
     itkExceptionMacro("Decision rule is not set");
     }
 
   MembershipFunctionsWeightsArrayType membershipFunctionsWeightsArray;
-  if( membershipFunctionsWeightsArrayDecorated == NULL )
+  if ( membershipFunctionsWeightsArrayDecorated == NULL )
     {
-    // no weights array is set and hence all membership functions will have equal
+    // no weights array is set and hence all membership functions will have
+    // equal
     // weight
-    membershipFunctionsWeightsArray.SetSize( this->m_NumberOfClasses );
+    membershipFunctionsWeightsArray.SetSize(this->m_NumberOfClasses);
     membershipFunctionsWeightsArray.Fill(1.0);
     }
   else
@@ -159,54 +161,54 @@ ImageClassifierFilter<TSample,TInputImage,TOutputImage>
     }
 
   if ( membershipFunctionsWeightsArray.Size() != this->m_NumberOfClasses
-)
+       )
     {
-    itkExceptionMacro("Membership functions weight array size does not match the\
-                      number of classes ");
+    itkExceptionMacro(
+      "Membership functions weight array size does not match the\
+                      number of classes "                                                                  );
     }
 
-  const InputImageType * inputImage =
-    static_cast< const InputImageType * >( this->ProcessObject::GetInput( 0 ) );
+  const InputImageType *inputImage =
+    static_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
 
   std::vector< double > discriminantScores;
-  discriminantScores.resize( this->m_NumberOfClasses );
+  discriminantScores.resize(this->m_NumberOfClasses);
 
-  OutputImageType * outputImage = dynamic_cast< OutputImageType * >(
-                      this->ProcessObject::GetOutput(0));
+  OutputImageType *outputImage = dynamic_cast< OutputImageType * >(
+    this->ProcessObject::GetOutput(0) );
 
-  outputImage->CopyInformation( inputImage );
+  outputImage->CopyInformation(inputImage);
   outputImage->SetRegions( inputImage->GetBufferedRegion() );
   outputImage->Allocate();
 
-  ImageRegionConstIterator< InputImageType >   inpItr( inputImage, inputImage->GetBufferedRegion() );
-  ImageRegionIterator< OutputImageType >       outItr( outputImage, outputImage->GetBufferedRegion() );
+  ImageRegionConstIterator< InputImageType > inpItr( inputImage, inputImage->GetBufferedRegion() );
+  ImageRegionIterator< OutputImageType >     outItr( outputImage, outputImage->GetBufferedRegion() );
 
   inpItr.GoToBegin();
   outItr.GoToBegin();
 
-  while( !inpItr.IsAtEnd() )
+  while ( !inpItr.IsAtEnd() )
     {
     MeasurementVectorType measurements;
 
     MeasurementVectorTraits::Assign( measurements, inpItr.Get() );
 
-    for (unsigned int i = 0; i < this->m_NumberOfClasses; i++)
+    for ( unsigned int i = 0; i < this->m_NumberOfClasses; i++ )
       {
-      discriminantScores[i] = membershipFunctionsWeightsArray[i] *
-        membershipFunctions[i]->Evaluate(measurements);
+      discriminantScores[i] = membershipFunctionsWeightsArray[i]
+                              * membershipFunctions[i]->Evaluate(measurements);
       }
 
     unsigned int classIndex;
     classIndex = m_DecisionRule->Evaluate(discriminantScores);
 
-    OutputPixelType value = static_cast< OutputPixelType >(classLabels[classIndex]);
+    OutputPixelType value = static_cast< OutputPixelType >( classLabels[classIndex] );
     outItr.Set(value);
 
     ++inpItr;
     ++outItr;
     }
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

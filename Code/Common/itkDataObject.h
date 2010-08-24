@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,35 +27,35 @@
 
 namespace itk
 {
-
 class ProcessObject;
 class DataObject;
-  
+
 /*--------------------Data Object Exceptions---------------------------*/
 
 /** \class DataObjectError
  * \brief Exception object for DataObject exceptions */
-class ITKCommon_EXPORT DataObjectError : public ExceptionObject
+class ITKCommon_EXPORT DataObjectError:public ExceptionObject
 {
 public:
   /** Default constructor.  Needed to ensure the exception object can be
    * copied. */
   DataObjectError();
-  
+
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~DataObjectError() throw() {}
-  
+  virtual ~DataObjectError()
+  throw( ) {}
+
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  DataObjectError(const std::string& file, unsigned int lineNumber);
+  DataObjectError(const std::string & file, unsigned int lineNumber);
 
   /** Copy constructor. Needed to ensure the exception object can be copied. */
-  DataObjectError(const DataObjectError &orig);
+  DataObjectError(const DataObjectError & orig);
 
   /** Operator=.  Needed to ensure the exception object can be copied. */
-  DataObjectError& operator=( const DataObjectError& orig);
+  DataObjectError & operator=(const DataObjectError & orig);
 
   /** Standard type macro */
   itkTypeMacro(DataObjectError, ExceptionObject);
@@ -64,58 +64,56 @@ public:
   void SetDataObject(DataObject *dobj);
 
   /** Get the data object that is throwing this exception. */
-  DataObject* GetDataObject();
+  DataObject * GetDataObject();
 
 protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the ``thrower''.   */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-    
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   DataObject *m_DataObject;
 };
 
-  
 /** \class InvalidRequestRegionError
  * Exception object for invalid requested region
  */
-class ITKCommon_EXPORT InvalidRequestedRegionError : public DataObjectError
+class ITKCommon_EXPORT InvalidRequestedRegionError:public DataObjectError
 {
 public:
-  /** Default constructor. Needed to ensure the exception object can be copied. */
+  /** Default constructor. Needed to ensure the exception object can be copied.
+    */
   InvalidRequestedRegionError();
-  
+
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~InvalidRequestedRegionError() throw() {}
+  virtual ~InvalidRequestedRegionError()
+  throw( ) {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError(const std::string& file, unsigned int lineNumber);
+  InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber);
 
   /** Copy constructor.  Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError(const InvalidRequestedRegionError &orig);
+  InvalidRequestedRegionError(const InvalidRequestedRegionError & orig);
 
   /** Operator=.  Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError& operator=( const InvalidRequestedRegionError& orig);
+  InvalidRequestedRegionError & operator=(const InvalidRequestedRegionError & orig);
 
   /** Standard type macro */
   itkTypeMacro(InvalidRequestedRegionError, DataObjectError);
-
 protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the ``thrower''.   */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 };
 
-
-/*----------------------------Data Object--------------------------------*/  
+/*----------------------------Data Object--------------------------------*/
 
 /** \class DataObject
  * \brief Base class for all data objects in ITK.
@@ -213,7 +211,7 @@ protected:
  * DataObject's source's UpdateOutputInformation() method (this is the
  * default implementation). For DataObjects that support streaming,
  * this method also propagates LargestPossibleRegions to downstream
- * ProcessObjects. 
+ * ProcessObjects.
  *
  * bool VerifyRequestedRegion(): Verify that the RequestedRegion is
  * within the LargestPossibleRegion.  For DataObjects that do not
@@ -252,24 +250,24 @@ protected:
  * produce all of its output on the next call to Update(). For
  * DataObjects that do not support Regions, this method does nothing.
  *
- * 
+ *
  * \sa ProcessObject
  * \sa ImageBase
  * \sa Mesh
  * \ingroup DataRepresentation
  * \ingroup ITKSystemObjects
  */
-class ITKCommon_EXPORT DataObject : public Object
+class ITKCommon_EXPORT DataObject:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef DataObject                    Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
-  
+  typedef DataObject                 Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DataObject,Object);
+  itkTypeMacro(DataObject, Object);
 
   /** Separate this data object from the pipeline.  This routine disconnects
    * a data object from the upstream pipeline. Hence an Update() from
@@ -277,24 +275,24 @@ public:
    * isolate this data object from the pipeline, the application must remove
    * this data object from any filters which it is connected as the input. */
   void DisconnectPipeline();
-  
+
   /** Get the process object that generated this data object.
    * If there is no process object, then the data object has
    * been disconnected from the pipeline, or the data object
    * was created manually. (Note: we cannot use the GetObjectMacro()
    * defined in itkMacro because the mutual dependency of
    * DataObject and ProcessObject causes compile problems. Also,
-   * a forward reference smart pointer is returned, not a smart pointer, 
+   * a forward reference smart pointer is returned, not a smart pointer,
    * because of the circular dependency between the process and data object.)
    *
    * GetSource() returns a SmartPointerForwardReference and not a WeakPointer
    * because it is assumed the code calling GetSource() wants to hold a
    * long term reference to the source. */
-  SmartPointerForwardReference<ProcessObject> GetSource() const;
+  SmartPointerForwardReference< ProcessObject > GetSource() const;
 
   /** Which of the source's outputs corresponds to this data object? */
   unsigned int GetSourceOutputIndex() const;
-    
+
   /** Restore the data object to its initial state. This means releasing
    * memory. */
   virtual void Initialize();
@@ -302,36 +300,39 @@ public:
   /** Turn on/off a flag to control whether this object's data is released
    * after being used by a filter.  */
   void SetReleaseDataFlag(bool flag)
-    {
+  {
     m_ReleaseDataFlag = flag;
-    }
-  itkGetConstReferenceMacro(ReleaseDataFlag,bool);
+  }
+
+  itkGetConstReferenceMacro(ReleaseDataFlag, bool);
   itkBooleanMacro(ReleaseDataFlag);
-  
+
   /** Turn on/off a flag to control whether every object releases its data
    * after being used by a filter. Being a global flag, it controls the
    * behavior of all DataObjects and ProcessObjects. */
   static void SetGlobalReleaseDataFlag(bool val);
+
   static bool GetGlobalReleaseDataFlag();
-  static void GlobalReleaseDataFlagOn() 
-    {Self::SetGlobalReleaseDataFlag(true);}
-  static void GlobalReleaseDataFlagOff() 
-    {Self::SetGlobalReleaseDataFlag(false);}
-  
+
+  static void GlobalReleaseDataFlagOn()
+  { Self::SetGlobalReleaseDataFlag(true); }
+  static void GlobalReleaseDataFlagOff()
+  { Self::SetGlobalReleaseDataFlag(false); }
+
   /** Release data back to system to conserve memory resource. Used during
    * pipeline execution.  Releasing this data does not make
    * down-stream data invalid, so it does not modify the MTime of this data
    * object.   */
   void ReleaseData();
 
-  /** Return flag indicating whether data should be released after use  
+  /** Return flag indicating whether data should be released after use
    * by a filter.  */
   bool ShouldIReleaseData() const;
 
   /** Get the flag indicating the data has been released.  */
-  bool GetDataReleased() const 
-    {return m_DataReleased;}
-  
+  bool GetDataReleased() const
+  { return m_DataReleased; }
+
   /** Provides opportunity for the data object to insure internal
    * consistency before access. Also causes owning source/filter (if
    * any) to update itself. The Update() method is composed of
@@ -357,9 +358,11 @@ public:
 
   /** Methods to update the pipeline. Called internally by the
    * pipeline mechanism. */
-  virtual void PropagateRequestedRegion() throw (InvalidRequestedRegionError);
+  virtual void PropagateRequestedRegion()
+  throw ( InvalidRequestedRegionError );
+
   virtual void UpdateOutputData();
-  
+
   /** Reset the pipeline. If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
    * the internal state of the pipeline so Update() can be called. */
@@ -367,13 +370,13 @@ public:
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
-  void SetPipelineMTime(unsigned long time) 
-    {m_PipelineMTime = time;}
-  itkGetConstReferenceMacro(PipelineMTime,unsigned long);
+  void SetPipelineMTime(unsigned long time)
+  { m_PipelineMTime = time; }
+  itkGetConstReferenceMacro(PipelineMTime, unsigned long);
 
   /** MTime for the last time this DataObject was generated. */
   virtual unsigned long GetUpdateMTime() const;
-  
+
   /** Setup a DataObject to receive new data.  This method is called
    * by the pipeline mechanism on each output of filter that needs
    * to execute.  The default implementation is to return a DataObject
@@ -382,8 +385,8 @@ public:
    * override this method and/or the Initialize() method if they
    * want a different default behavior (for instance a DataObject
    * might want finer control over its bulk data memory management). */
-  virtual void PrepareForNewData() 
-    {this->Initialize();}
+  virtual void PrepareForNewData()
+  { this->Initialize(); }
 
   /** Inform the pipeline mechanism that data has been generated.  This
    * method is called by ProcessObject::UpdateOutputData() once the
@@ -391,11 +394,10 @@ public:
    * marks the DataObject as being updated and ready for use. */
   void DataHasBeenGenerated();
 
-  
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution
    * (i.e. not streaming) on the next call to Update(). */
-  virtual void SetRequestedRegionToLargestPossibleRegion() {};
+  virtual void SetRequestedRegionToLargestPossibleRegion() {}
 
   /** Determine whether the RequestedRegion is outside of the
    * BufferedRegion. This method returns true if the RequestedRegion
@@ -407,9 +409,9 @@ public:
    * current filter is up to date), then a given filter does not need
    * to re-execute */
   virtual bool RequestedRegionIsOutsideOfTheBufferedRegion()
-    { return false; }
+  { return false; }
 
-  /** Verify that the RequestedRegion is within the LargestPossibleRegion.  
+  /** Verify that the RequestedRegion is within the LargestPossibleRegion.
    *
    * If the RequestedRegion is not within the LargestPossibleRegion,
    * then the filter cannot possibly satisfy the request. This method
@@ -421,7 +423,7 @@ public:
    * not within the LargestPossibleRegion. Default implementation
    * simply returns true in order to support DataObjects that do not
    * need regions (for instance itk::EquivalencyTable). */
-  virtual bool VerifyRequestedRegion() { return true; };
+  virtual bool VerifyRequestedRegion() { return true; }
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
@@ -432,43 +434,42 @@ public:
    * The default implementation of this method is empty. If a subclass
    * overrides this method, it should always call its superclass'
    * version. */
-  virtual void CopyInformation(const DataObject*) {};
-  
+  virtual void CopyInformation(const DataObject *) {}
+
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  For
    * DataObject's that do not support Regions, this method does
    * nothing. Subclasses of DataObject that do support Regions,
    * provide an alternative implementation. */
-  virtual void SetRequestedRegion(DataObject *) {};
-  
+  virtual void SetRequestedRegion(DataObject *) {}
+
   /** Method for grafting the content of one data object into another one.
    * This method is intended to be overloaded by derived classes. Each one of
-   * them should use dynamic_casting in order to verify that the grafted 
+   * them should use dynamic_casting in order to verify that the grafted
    * object is actually of the same type as the class on which the Graft()
    * method was invoked. */
-  virtual void Graft( const DataObject *) {};
-  
+  virtual void Graft(const DataObject *) {}
 protected:
   DataObject();
   ~DataObject();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Propagate a call to ResetPipeline(). Called only from ProcessObject. */
   virtual void PropagateResetPipeline();
-  
+
 private:
-  DataObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DataObject(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** Who generated this data? */
-  mutable WeakPointer<ProcessObject> m_Source; 
-  mutable unsigned int m_SourceOutputIndex;
-    
+  mutable WeakPointer< ProcessObject > m_Source;
+  mutable unsigned int                 m_SourceOutputIndex;
+
   /** When was this data last generated? */
-  TimeStamp m_UpdateMTime;  
+  TimeStamp m_UpdateMTime;
 
   bool m_ReleaseDataFlag; //Data will release after use by a filter if on
-  bool m_DataReleased; //Keep track of data release during pipeline execution
+  bool m_DataReleased;    //Keep track of data release during pipeline execution
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
@@ -492,12 +493,11 @@ private:
    * match the index cached when the data object was connected to the
    * pipeline (see ConnectSource), then nothing is done. */
   bool DisconnectSource(ProcessObject *s, unsigned long idx) const;
-  
+
   /** Friends of DataObject */
   friend class ProcessObject;
   friend class DataObjectError;
 };
-
 } // end namespace itk
-  
+
 #endif

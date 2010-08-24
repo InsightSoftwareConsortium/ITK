@@ -19,8 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ClosingByReconstructionImageFilter
  * \brief Closing by reconstruction of an image
  *
@@ -46,31 +46,31 @@ namespace itk {
  * \sa GrayscaleMorphologicalClosingImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT ClosingByReconstructionImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT ClosingByReconstructionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ClosingByReconstructionImageFilter            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef ClosingByReconstructionImageFilter              Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
 
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
- /** Kernel typedef. */
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
+  /** Kernel typedef. */
   typedef TKernel KernelType;
 
   /** ImageDimension constants */
@@ -80,15 +80,15 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ClosingByReconstructionImageFilter, 
+  itkTypeMacro(ClosingByReconstructionImageFilter,
                ImageToImageFilter);
 
   /** Set kernel (structuring element). */
   itkSetMacro(Kernel, KernelType);
-  
+
   /** Get the kernel (structuring element). */
   itkGetConstReferenceMacro(Kernel, KernelType);
 
@@ -101,7 +101,7 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
   /**
    * Set/Get whether the original intensities of the image retained for
    * those pixels unaffected by the opening by reconstrcution. If Off,
@@ -112,15 +112,14 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ClosingByReconstructionImageFilter();
-  ~ClosingByReconstructionImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ClosingByReconstructionImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ClosingByReconstructionImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -128,23 +127,21 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** ClosingByReconstructionImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   void GenerateData();
-  
 
 private:
-  ClosingByReconstructionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ClosingByReconstructionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
   /** kernel or structuring element to use. */
-  KernelType          m_Kernel;
-  bool                m_FullyConnected;
-  bool                m_PreserveIntensities;
+  KernelType m_Kernel;
+  bool       m_FullyConnected;
+  bool       m_PreserveIntensities;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkClosingByReconstructionImageFilter.txx"
 #endif

@@ -22,8 +22,8 @@
 #include "itkRegularizedHeavisideStepFunction.h"
 #include "vnl/vnl_matrix_fixed.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class RegionBasedLevelSetFunction
  *
  * \brief LevelSet function that computes a speed image based on regional integrals
@@ -60,61 +60,60 @@ namespace itk {
  * NOTE: The convention followed is
  * inside of the level-set function is negative and outside is positive.
  */
-template < class TInput, // LevelSetImageType
-  class TFeature, // FeatureImageType
-  class TSharedData >
-class ITK_EXPORT RegionBasedLevelSetFunction: public
-FiniteDifferenceFunction< TInput >
+template< class TInput,   // LevelSetImageType
+          class TFeature, // FeatureImageType
+          class TSharedData >
+class ITK_EXPORT RegionBasedLevelSetFunction:public
+  FiniteDifferenceFunction< TInput >
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionBasedLevelSetFunction                Self;
-  typedef FiniteDifferenceFunction< TInput >         Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  typedef RegionBasedLevelSetFunction        Self;
+  typedef FiniteDifferenceFunction< TInput > Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   // itkNewMacro() is purposely not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( RegionBasedLevelSetFunction, FiniteDifferenceFunction );
+  itkTypeMacro(RegionBasedLevelSetFunction, FiniteDifferenceFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef double                                          TimeStepType;
-  typedef typename Superclass::ImageType                  ImageType;
-  typedef typename Superclass::PixelType                  PixelType;
-  typedef PixelType                                       ScalarValueType;
-  typedef typename Superclass::RadiusType                 RadiusType;
-  typedef typename Superclass::NeighborhoodType           NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType     NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType            FloatOffsetType;
+  typedef double                                      TimeStepType;
+  typedef typename Superclass::ImageType              ImageType;
+  typedef typename Superclass::PixelType              PixelType;
+  typedef PixelType                                   ScalarValueType;
+  typedef typename Superclass::RadiusType             RadiusType;
+  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
+  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
+  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
   typedef FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >
-                                                          VectorType;
+  VectorType;
 
   /* This structure is derived from LevelSetFunction and stores intermediate
   values for computing time step sizes */
-  struct GlobalDataStruct
-    {
+  struct GlobalDataStruct {
     GlobalDataStruct()
-      {
-      ScalarValueType null_value = NumericTraits<ScalarValueType>::Zero;
+    {
+      ScalarValueType null_value = NumericTraits< ScalarValueType >::Zero;
 
       m_MaxCurvatureChange   = null_value;
       m_MaxAdvectionChange   = null_value;
       m_MaxGlobalChange      = null_value;
-      }
+    }
 
     ~GlobalDataStruct() {}
 
-    vnl_matrix_fixed<ScalarValueType,
-      itkGetStaticConstMacro(ImageDimension),
-      itkGetStaticConstMacro(ImageDimension)> m_dxy;
+    vnl_matrix_fixed< ScalarValueType,
+                      itkGetStaticConstMacro(ImageDimension),
+                      itkGetStaticConstMacro(ImageDimension) > m_dxy;
 
     ScalarValueType m_dx[itkGetStaticConstMacro(ImageDimension)];
 
-    ScalarValueType m_dx_forward[ itkGetStaticConstMacro( ImageDimension ) ];
-    ScalarValueType m_dx_backward[ itkGetStaticConstMacro( ImageDimension ) ];
+    ScalarValueType m_dx_forward[itkGetStaticConstMacro(ImageDimension)];
+    ScalarValueType m_dx_backward[itkGetStaticConstMacro(ImageDimension)];
 
     ScalarValueType m_GradMagSqr;
     ScalarValueType m_GradMag;
@@ -122,181 +121,178 @@ public:
     ScalarValueType m_MaxCurvatureChange;
     ScalarValueType m_MaxAdvectionChange;
     ScalarValueType m_MaxGlobalChange;
-    };
+  };
 
+  typedef TInput                                  InputImageType;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::PixelType      InputPixelType;
+  typedef typename InputImageType::IndexType      InputIndexType;
+  typedef typename InputImageType::IndexValueType InputIndexValueType;
+  typedef typename InputImageType::SizeType       InputSizeType;
+  typedef typename InputImageType::SizeValueType  InputSizeValueType;
+  typedef typename InputImageType::RegionType     InputRegionType;
+  typedef typename InputImageType::PointType      InputPointType;
 
-  typedef TInput                                    InputImageType;
-  typedef typename InputImageType::ConstPointer     InputImageConstPointer;
-  typedef typename InputImageType::Pointer          InputImagePointer;
-  typedef typename InputImageType::PixelType        InputPixelType;
-  typedef typename InputImageType::IndexType        InputIndexType;
-  typedef typename InputImageType::IndexValueType   InputIndexValueType;
-  typedef typename InputImageType::SizeType         InputSizeType;
-  typedef typename InputImageType::SizeValueType    InputSizeValueType;
-  typedef typename InputImageType::RegionType       InputRegionType;
-  typedef typename InputImageType::PointType        InputPointType;
+  typedef TFeature                                FeatureImageType;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename FeatureImageType::PixelType    FeaturePixelType;
+  typedef typename FeatureImageType::IndexType    FeatureIndexType;
+  typedef typename FeatureImageType::SpacingType  FeatureSpacingType;
+  typedef typename FeatureImageType::OffsetType   FeatureOffsetType;
 
-  typedef TFeature                                  FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer   FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType      FeaturePixelType;
-  typedef typename FeatureImageType::IndexType      FeatureIndexType;
-  typedef typename FeatureImageType::SpacingType    FeatureSpacingType;
-  typedef typename FeatureImageType::OffsetType     FeatureOffsetType;
-
-  typedef TSharedData                               SharedDataType;
-  typedef typename SharedDataType::Pointer          SharedDataPointer;
+  typedef TSharedData                      SharedDataType;
+  typedef typename SharedDataType::Pointer SharedDataPointer;
 
   typedef HeavisideStepFunctionBase< InputPixelType, InputPixelType > HeavisideFunctionType;
-  typedef typename HeavisideFunctionType::ConstPointer HeavisideFunctionConstPointer;
+  typedef typename HeavisideFunctionType::ConstPointer                HeavisideFunctionConstPointer;
 
-  void SetDomainFunction( const HeavisideFunctionType * f )
-    {
+  void SetDomainFunction(const HeavisideFunctionType *f)
+  {
     this->m_DomainFunction = f;
-    }
+  }
 
-  virtual void Initialize(const RadiusType &r)
-    {
+  virtual void Initialize(const RadiusType & r)
+  {
     this->SetRadius(r);
 
     // Dummy neighborhood.
     NeighborhoodType it;
-    it.SetRadius( r );
+    it.SetRadius(r);
 
     // Find the center index of the neighborhood.
     m_Center =  it.Size() / 2;
 
     // Get the stride length for each axis.
-    for(unsigned int i = 0; i < ImageDimension; i++)
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       m_xStride[i] = it.GetStride(i);
       }
-    }
+  }
 
-
-  void SetSharedData( SharedDataPointer sharedDataIn )
-    {
+  void SetSharedData(SharedDataPointer sharedDataIn)
+  {
     this->m_SharedData = sharedDataIn;
-    }
+  }
 
-  void UpdateSharedData( bool forceUpdate );
+  void UpdateSharedData(bool forceUpdate);
 
-  void *GetGlobalDataPointer() const
-    {
+  void * GetGlobalDataPointer() const
+  {
     return new GlobalDataStruct;
-    }
+  }
 
   TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-    void *globalData, const FloatOffsetType& = FloatOffsetType(0.0));
+  virtual PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
+                                   void *globalData, const FloatOffsetType & = FloatOffsetType(0.0) );
 
   void SetInitialImage(InputImageType *f)
-    {
+  {
     m_InitialImage = f;
-    }
+  }
 
-  virtual const FeatureImageType *GetFeatureImage() const
-    { return m_FeatureImage.GetPointer(); }
+  virtual const FeatureImageType * GetFeatureImage() const
+  { return m_FeatureImage.GetPointer(); }
   virtual void SetFeatureImage(const FeatureImageType *f)
-    {
+  {
     m_FeatureImage = f;
 
     FeatureSpacingType spacing = m_FeatureImage->GetSpacing();
-    for(unsigned int i = 0; i < ImageDimension; i++)
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      this->m_InvSpacing[i] = 1/spacing[i];
+      this->m_InvSpacing[i] = 1 / spacing[i];
       }
-    }
+  }
 
   /** Advection field.  Default implementation returns a vector of zeros. */
   virtual VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &, GlobalDataStruct * = 0)  const
-    { return this->m_ZeroVectorConstant; }
+  { return this->m_ZeroVectorConstant; }
 
   /** Nu. Area regularization values */
-  void SetAreaWeight( const ScalarValueType& nu)
-    { this->m_AreaWeight = nu; }
+  void SetAreaWeight(const ScalarValueType & nu)
+  { this->m_AreaWeight = nu; }
   ScalarValueType GetAreaWeight() const
-    { return this->m_AreaWeight; }
+  { return this->m_AreaWeight; }
 
   /** Lambda1. Internal intensity difference weight */
-  void SetLambda1( const ScalarValueType& lambda1 )
-    { this->m_Lambda1 = lambda1; }
+  void SetLambda1(const ScalarValueType & lambda1)
+  { this->m_Lambda1 = lambda1; }
   ScalarValueType GetLambda1() const
-    { return this->m_Lambda1; }
+  { return this->m_Lambda1; }
 
   /** Lambda2. External intensity difference weight */
-  void SetLambda2( const ScalarValueType& lambda2 )
-    { this->m_Lambda2 = lambda2; }
+  void SetLambda2(const ScalarValueType & lambda2)
+  { this->m_Lambda2 = lambda2; }
   ScalarValueType GetLambda2() const
-    { return this->m_Lambda2; }
+  { return this->m_Lambda2; }
 
   /** Gamma. Overlap penalty */
-  void SetOverlapPenaltyWeight( const ScalarValueType& gamma )
-    { this->m_OverlapPenaltyWeight = gamma; }
+  void SetOverlapPenaltyWeight(const ScalarValueType & gamma)
+  { this->m_OverlapPenaltyWeight = gamma; }
   ScalarValueType GetOverlapPenaltyWeight() const
-    { return this->m_OverlapPenaltyWeight; }
+  { return this->m_OverlapPenaltyWeight; }
 
   /** Gamma. Scales all curvature weight values */
   virtual void SetCurvatureWeight(const ScalarValueType c)
-    { m_CurvatureWeight = c; }
+  { m_CurvatureWeight = c; }
   ScalarValueType GetCurvatureWeight() const
-    { return m_CurvatureWeight; }
+  { return m_CurvatureWeight; }
 
-  void SetAdvectionWeight( const ScalarValueType& iA)
-    { this->m_AdvectionWeight = iA; }
+  void SetAdvectionWeight(const ScalarValueType & iA)
+  { this->m_AdvectionWeight = iA; }
   ScalarValueType GetAdvectionWeight() const
-    { return this->m_AdvectionWeight; }
+  { return this->m_AdvectionWeight; }
 
   /** Weight of the laplacian smoothing term */
   void SetReinitializationSmoothingWeight(const ScalarValueType c)
-    { m_ReinitializationSmoothingWeight = c; }
+  { m_ReinitializationSmoothingWeight = c; }
   ScalarValueType GetReinitializationSmoothingWeight() const
-    { return m_ReinitializationSmoothingWeight; }
+  { return m_ReinitializationSmoothingWeight; }
 
   /** Volume matching weight.  */
-  void SetVolumeMatchingWeight( const ScalarValueType& tau )
-    { this->m_VolumeMatchingWeight = tau; }
+  void SetVolumeMatchingWeight(const ScalarValueType & tau)
+  { this->m_VolumeMatchingWeight = tau; }
   ScalarValueType GetVolumeMatchingWeight() const
-    { return this->m_VolumeMatchingWeight; }
+  { return this->m_VolumeMatchingWeight; }
 
   /** Pixel Volume = Number of pixels inside the level-set  */
-  void SetVolume( const ScalarValueType& volume )
-    { this->m_Volume = volume; }
+  void SetVolume(const ScalarValueType & volume)
+  { this->m_Volume = volume; }
   ScalarValueType GetVolume() const
-    { return this->m_Volume; }
+  { return this->m_Volume; }
 
   /** Set function id.  */
-  void SetFunctionId( const unsigned int& iFid )
-    { this->m_FunctionId = iFid; }
+  void SetFunctionId(const unsigned int & iFid)
+  { this->m_FunctionId = iFid; }
 
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-  { delete (GlobalDataStruct *) GlobalData; }
+  { delete (GlobalDataStruct *)GlobalData; }
 
   virtual ScalarValueType ComputeCurvature(const NeighborhoodType &,
-    const FloatOffsetType &, GlobalDataStruct *gd );
+                                           const FloatOffsetType &, GlobalDataStruct *gd);
 
   /** \brief Laplacian smoothing speed can be used to spatially modify the
     effects of laplacian smoothing of the level set function */
   virtual ScalarValueType LaplacianSmoothingSpeed(
     const NeighborhoodType &,
     const FloatOffsetType &, GlobalDataStruct * = 0) const
-    { return NumericTraits<ScalarValueType>::One; }
+  { return NumericTraits< ScalarValueType >::One; }
 
   /** \brief Curvature speed can be used to spatially modify the effects of
     curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
                                          const FloatOffsetType &, GlobalDataStruct * = 0
                                          ) const
-    { return NumericTraits<ScalarValueType>::One; }
+  { return NumericTraits< ScalarValueType >::One; }
 
   /** This method must be defined in a subclass to implement a working function
    * object.  This method is called before the solver begins its work to
    * produce the speed image used as the level set function's Advection field
    * term.  See LevelSetFunction for more information. */
   virtual void CalculateAdvectionImage() {}
-
 protected:
 
   RegionBasedLevelSetFunction();
@@ -308,36 +304,37 @@ protected:
   /** The feature image */
   FeatureImageConstPointer m_FeatureImage;
 
-  SharedDataPointer                 m_SharedData;
-  HeavisideFunctionConstPointer     m_DomainFunction;
+  SharedDataPointer m_SharedData;
+
+  HeavisideFunctionConstPointer m_DomainFunction;
 
   /** Area regularization weight */
-  ScalarValueType           m_AreaWeight;
+  ScalarValueType m_AreaWeight;
 
   /** Internal functional of the level set weight */
-  ScalarValueType           m_Lambda1;
+  ScalarValueType m_Lambda1;
 
   /** External functional of the level set weight */
-  ScalarValueType           m_Lambda2;
+  ScalarValueType m_Lambda2;
 
   /** Overlap Penalty Weight */
-  ScalarValueType           m_OverlapPenaltyWeight;
+  ScalarValueType m_OverlapPenaltyWeight;
 
   /** Volume Regularization Weight */
-  ScalarValueType           m_VolumeMatchingWeight;
+  ScalarValueType m_VolumeMatchingWeight;
 
   /** Volume Constraint in pixels */
-  ScalarValueType           m_Volume;
+  ScalarValueType m_Volume;
 
   /** Curvature Regularization Weight */
-  ScalarValueType           m_CurvatureWeight;
+  ScalarValueType m_CurvatureWeight;
 
-  ScalarValueType           m_AdvectionWeight;
+  ScalarValueType m_AdvectionWeight;
 
   /** Laplacian Regularization Weight */
-  ScalarValueType           m_ReinitializationSmoothingWeight;
+  ScalarValueType m_ReinitializationSmoothingWeight;
 
-  unsigned int              m_FunctionId;
+  unsigned int m_FunctionId;
 
   std::slice x_slice[itkGetStaticConstMacro(ImageDimension)];
   ::size_t m_Center;
@@ -352,36 +349,36 @@ protected:
   /** \brief Compute the global term as a combination of the internal, external,
     overlapping and volume regularization terms.  */
   ScalarValueType ComputeGlobalTerm(
-    const ScalarValueType& imagePixel,
-    const InputIndexType& inputIndex );
+    const ScalarValueType & imagePixel,
+    const InputIndexType & inputIndex);
 
   /** \brief Compute the internal term
   \param[in] iValue Feature Image Value
   \param[in] iIdx Feature Image Index
   \param[in] fId Index of the LevelSet Function  */
-  virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx ) = 0;
+  virtual ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
+                                              const FeatureIndexType & iIdx) = 0;
 
   /** \brief Compute the external term
   \param[in] iValue Feature Image Value
   \param[in] iIdx Feature Image Index
   \param[in] pr Product of Heaviside Functions
   \note after discussion with kishore, pr is not and unsigned int */
-  virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx ) = 0;
+  virtual ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
+                                              const FeatureIndexType & iIdx) = 0;
 
   /** \brief Compute the overlap term
   \param[in] featIndex
   \param[out] pr = \f$ \prod_{i \neq j} H(\phi_i)\f$
   \return OverlapTerm = \f$ \sum_{i \neq j} H(\phi_i)\f$ */
-  virtual ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
-    ScalarValueType& pr ) = 0;
+  virtual ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
+                                                   ScalarValueType & pr) = 0;
 
   /** \brief Compute the overlap term
       \return \f$ \int_{p \in \Omega} H(\phi_i) dp - this->Volume \f$
       \note the volume regularization does not depend on the spacing.
         So the volume must be set in number of pixels (not in real world unit). */
-  ScalarValueType ComputeVolumeRegularizationTerm( );
+  ScalarValueType ComputeVolumeRegularizationTerm();
 
   /** \brief Compute the laplacian term
       \return \f$ \Delta \phi - \div(\frac{\nabla \phi}{|\nabla \phi|}) \f$
@@ -396,11 +393,11 @@ protected:
 
   /** \brief Compute the laplacian
   \return \f$ \Delta \phi \f$ */
-  ScalarValueType ComputeLaplacian( GlobalDataStruct *gd );
+  ScalarValueType ComputeLaplacian(GlobalDataStruct *gd);
 
   /** \brief Compute Hessian Matrix */
-  void ComputeHessian( const NeighborhoodType &it,
-    GlobalDataStruct *globalData );
+  void ComputeHessian(const NeighborhoodType & it,
+                      GlobalDataStruct *globalData);
 
   /** \brief Compute Parameters for the inner and outer parts. */
   virtual void ComputeParameters() = 0;
@@ -417,12 +414,10 @@ protected:
 
   /** Zero vector constant. */
   static VectorType m_ZeroVectorConstant;
-
 private:
-  RegionBasedLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegionBasedLevelSetFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

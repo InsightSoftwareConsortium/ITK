@@ -23,9 +23,10 @@
 #include "itkWeightedMeanSampleFilter.h"
 #include "itkWeightedCovarianceSampleFilter.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class GaussianMixtureModelComponent
  * \brief is a component (derived from MixtureModelComponentBase) for
  * Gaussian class. This class is used in
@@ -45,27 +46,26 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT GaussianMixtureModelComponent :
-    public MixtureModelComponentBase< TSample >
+class ITK_EXPORT GaussianMixtureModelComponent:
+  public MixtureModelComponentBase< TSample >
 {
 public:
   /**Standard class typedefs. */
-  typedef GaussianMixtureModelComponent             Self;
-  typedef MixtureModelComponentBase< TSample >      Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef GaussianMixtureModelComponent        Self;
+  typedef MixtureModelComponentBase< TSample > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(GaussianMixtureModelComponent, MixtureModelComponentBase);
   itkNewMacro(Self);
 
-
   /** Typedefs from the superclass */
-  typedef typename Superclass::MeasurementVectorType            MeasurementVectorType;
-  typedef typename Superclass::MeasurementVectorSizeType        MeasurementVectorSizeType;
-  typedef typename Superclass::MembershipFunctionType           MembershipFunctionType;
-  typedef typename Superclass::WeightArrayType                  WeightArrayType;
-  typedef typename Superclass::ParametersType                   ParametersType;
+  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename Superclass::MembershipFunctionType    MembershipFunctionType;
+  typedef typename Superclass::WeightArrayType           WeightArrayType;
+  typedef typename Superclass::ParametersType            ParametersType;
 
   /** Type of the membership function. Gaussian density function */
   typedef GaussianMembershipFunction< MeasurementVectorType >
@@ -83,15 +83,15 @@ public:
   typedef typename CovarianceEstimatorType::OutputType CovarianceType;
 
   /** Sets the input sample */
-  void SetSample(const TSample* sample);
+  void SetSample(const TSample *sample);
 
   /** Sets the component's distribution parameters. */
-  void SetParameters(const ParametersType &parameters);
+  void SetParameters(const ParametersType & parameters);
 
 protected:
   GaussianMixtureModelComponent();
   virtual ~GaussianMixtureModelComponent() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Returns the sum of squared changes in parameters between
    * iterations */
@@ -103,12 +103,14 @@ protected:
 private:
   typename NativeMembershipFunctionType::Pointer m_GaussianMembershipFunction;
 
-  typename MeanEstimatorType::MeasurementVectorType    m_Mean;
-  typename CovarianceEstimatorType::MatrixType         m_Covariance;
-  typename MeanEstimatorType::Pointer                  m_MeanEstimator;
-  typename CovarianceEstimatorType::Pointer            m_CovarianceEstimator;
-}; // end of class
+  typename MeanEstimatorType::MeasurementVectorType m_Mean;
 
+  typename CovarianceEstimatorType::MatrixType m_Covariance;
+
+  typename MeanEstimatorType::Pointer m_MeanEstimator;
+
+  typename CovarianceEstimatorType::Pointer m_CovarianceEstimator;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

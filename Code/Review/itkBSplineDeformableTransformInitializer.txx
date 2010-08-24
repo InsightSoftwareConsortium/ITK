@@ -22,52 +22,49 @@
 
 namespace itk
 {
-
-
-template < class TTransform, class TImage >
-BSplineDeformableTransformInitializer<TTransform, TImage >
+template< class TTransform, class TImage >
+BSplineDeformableTransformInitializer< TTransform, TImage >
 ::BSplineDeformableTransformInitializer()
 {
-  this->m_GridSizeInsideTheImage.Fill( 5 );
+  this->m_GridSizeInsideTheImage.Fill(5);
 }
 
-
-template < class TTransform, class TImage >
+template< class TTransform, class TImage >
 void
-BSplineDeformableTransformInitializer<TTransform, TImage >
+BSplineDeformableTransformInitializer< TTransform, TImage >
 ::InitializeTransform() const
 {
   // Sanity check
-  if( ! this->m_Image )
+  if ( !this->m_Image )
     {
-    itkExceptionMacro( "Reference Image has not been set" );
+    itkExceptionMacro("Reference Image has not been set");
     return;
     }
 
-  if( ! this->m_Transform )
+  if ( !this->m_Transform )
     {
-    itkExceptionMacro( "Transform has not been set" );
+    itkExceptionMacro("Transform has not been set");
     return;
     }
 
   // If the image come from a filter, then update that filter.
-  if( this->m_Image->GetSource() )
+  if ( this->m_Image->GetSource() )
     {
     this->m_Image->GetSource()->Update();
     }
 
   typedef typename TransformType::RegionType RegionType;
 
-  typename RegionType::SizeType   numberOfGridNodesOutsideTheImageSupport;
-  typename RegionType::SizeType   totalGridSize;
+  typename RegionType::SizeType numberOfGridNodesOutsideTheImageSupport;
+  typename RegionType::SizeType totalGridSize;
 
-  numberOfGridNodesOutsideTheImageSupport.Fill( TransformType::SplineOrder );
+  numberOfGridNodesOutsideTheImageSupport.Fill(TransformType::SplineOrder);
 
   totalGridSize = this->m_GridSizeInsideTheImage;
   totalGridSize += numberOfGridNodesOutsideTheImageSupport;
 
   RegionType gridRegion;
-  gridRegion.SetSize( totalGridSize );
+  gridRegion.SetSize(totalGridSize);
 
   typedef typename TransformType::SpacingType SpacingType;
   const SpacingType & imageSpacing = this->m_Image->GetSpacing();
@@ -85,17 +82,17 @@ BSplineDeformableTransformInitializer<TTransform, TImage >
 
   const unsigned int orderShift = TransformType::SplineOrder / 2;
 
-  for( unsigned int r = 0; r < SpaceDimension; r++ )
+  for ( unsigned int r = 0; r < SpaceDimension; r++ )
     {
     const unsigned int numberOfGridCells = this->m_GridSizeInsideTheImage[r] - 1;
     const unsigned int numberOfImagePixels = fixedImageSize[r];
 
-    gridSpacing[r] = imageSpacing[r] *
-      static_cast<double>(numberOfImagePixels)  /
-      static_cast<double>(numberOfGridCells);
+    gridSpacing[r] = imageSpacing[r]
+                     * static_cast< double >( numberOfImagePixels )
+                     / static_cast< double >( numberOfGridCells );
 
     // Shift half image pixel to cover the image support
-    const double imageSupportShift = - imageSpacing[r] / 2.0;
+    const double imageSupportShift = -imageSpacing[r] / 2.0;
 
     // Shift by the number of extra grid cells required by
     // the BSpline order.
@@ -111,22 +108,21 @@ BSplineDeformableTransformInitializer<TTransform, TImage >
 
   OriginType gridOrigin = imageOrigin + gridOriginOffset;
 
-  this->m_Transform->SetGridRegion( gridRegion );
-  this->m_Transform->SetGridOrigin( gridOrigin );
-  this->m_Transform->SetGridSpacing( gridSpacing );
-  this->m_Transform->SetGridDirection( gridDirection );
+  this->m_Transform->SetGridRegion(gridRegion);
+  this->m_Transform->SetGridOrigin(gridOrigin);
+  this->m_Transform->SetGridSpacing(gridSpacing);
+  this->m_Transform->SetGridDirection(gridDirection);
 }
 
-
-template < class TTransform, class TImage >
+template< class TTransform, class TImage >
 void
-BSplineDeformableTransformInitializer<TTransform, TImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+BSplineDeformableTransformInitializer< TTransform, TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Transform   = " << std::endl;
-  if( this->m_Transform )
+  if ( this->m_Transform )
     {
     os << indent << this->m_Transform  << std::endl;
     }
@@ -136,7 +132,7 @@ BSplineDeformableTransformInitializer<TTransform, TImage >
     }
 
   os << indent << "Image   = " << std::endl;
-  if( this->m_Image )
+  if ( this->m_Image )
     {
     os << indent << this->m_Image  << std::endl;
     }
@@ -146,9 +142,7 @@ BSplineDeformableTransformInitializer<TTransform, TImage >
     }
   os << "Grid size inside the image " << this->m_GridSizeInsideTheImage << std::endl;
   os << "Number of grid nodes inside the image " << this->m_NumberOfGridNodesInsideTheImage << std::endl;
-
 }
-
 }  // namespace itk
 
 #endif

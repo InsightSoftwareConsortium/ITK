@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -42,7 +42,7 @@ namespace itk
  * arbitrary structuring elements", and
  *
  * N.Nikopoulos et al. "An efficient algorithm for 3d binary
- * morphological transformations with 3d structuring elements 
+ * morphological transformations with 3d structuring elements
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
  *
@@ -64,9 +64,9 @@ namespace itk
  *
  * \sa ImageToImageFilter BinaryDilateImageFilter BinaryMorphologyImageFilter
  */
-template <class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT BinaryErodeImageFilter :
-    public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT BinaryErodeImageFilter:
+  public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -78,19 +78,19 @@ public:
   /** Extract the dimension of the kernel */
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
-  
+
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   typedef TKernel      KernelType;
-  
 
   /** Standard class typedefs. */
-  typedef BinaryErodeImageFilter    Self;
-  typedef BinaryMorphologyImageFilter<InputImageType, OutputImageType,
-    KernelType> Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef BinaryErodeImageFilter Self;
+  typedef BinaryMorphologyImageFilter< InputImageType, OutputImageType,
+                                       KernelType > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,11 +102,11 @@ public:
   typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType               InputPixelType;
-  typedef typename OutputImageType::PixelType              OutputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
-  typedef typename InputImageType::OffsetType              OffsetType;
-  typedef typename InputImageType::IndexType               IndexType;
+  typedef typename InputImageType::PixelType                 InputPixelType;
+  typedef typename OutputImageType::PixelType                OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
+  typedef typename InputImageType::OffsetType                OffsetType;
+  typedef typename InputImageType::IndexType                 IndexType;
 
   typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
@@ -115,31 +115,27 @@ public:
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
-  void SetErodeValue(const InputPixelType& value)
-    { this->SetForegroundValue( value ); }
+  void SetErodeValue(const InputPixelType & value)
+  { this->SetForegroundValue(value); }
 
   /** Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
    * ForegroundValue in the superclass. */
   InputPixelType GetErodeValue() const
-    { return this->GetForegroundValue(); }
-
+  { return this->GetForegroundValue(); }
 protected:
   BinaryErodeImageFilter();
   virtual ~BinaryErodeImageFilter(){}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
-
 private:
-  BinaryErodeImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  BinaryErodeImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

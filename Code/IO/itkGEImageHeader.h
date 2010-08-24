@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,15 +22,13 @@
 
 #include "itkIOCommon.h"
 
-
 enum GE_PANE_STRUCT {
-  GE_AXIAL   =2,
-  GE_SAGITTAL=4,
-  GE_CORONAL =8
-};
+  GE_AXIAL   = 2,
+  GE_SAGITTAL = 4,
+  GE_CORONAL = 8
+  };
 
-struct GEImageHeader
-{
+struct GEImageHeader {
   short int seriesNumber;
   short int numberOfEchoes;
   short int echoNumber;
@@ -80,9 +78,10 @@ struct GEImageHeader
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coordinateOrientation;
   short int numberOfSlices;
   short int offset;
-  char filename[itk::IOCommon::ITK_MAXPATHLEN+1];
+  char filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
   char hospital[35];
   short int imagesPerSlice;
-  short int turboFactor; //This is only relevant for the geADW image format, but is put here for convenience
+  short int turboFactor; //This is only relevant for the geADW image format, but
+                         // is put here for convenience
 };
 #endif

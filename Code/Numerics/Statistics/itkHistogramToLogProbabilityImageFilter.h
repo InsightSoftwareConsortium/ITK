@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class HistogramToLogProbabilityImageFilter
  * \brief The class takes a histogram as an input and gives the log probability
  * image as the output. A pixel, at position I,  in the output image is given by
@@ -43,8 +42,9 @@ namespace itk
  *
  */
 
-namespace Function {
-template< class TInput, class TOutput=double >
+namespace Function
+{
+template< class TInput, class TOutput = double >
 class HistogramLogProbabilityFunction
 {
 public:
@@ -53,47 +53,48 @@ public:
   //   Total Number of occurances.
   //
   // Returns pixels of float..
-  typedef  TOutput  OutputPixelType;
-
+  typedef  TOutput OutputPixelType;
 
   HistogramLogProbabilityFunction():
-      m_TotalFrequency(1) {}
+    m_TotalFrequency(1) {}
 
-  ~HistogramLogProbabilityFunction() {};
+  ~HistogramLogProbabilityFunction() {}
 
-  inline OutputPixelType operator()( const TInput & A ) const
-    {
-    if( A )
+  inline OutputPixelType operator()(const TInput & A) const
+  {
+    if ( A )
       {
-      return static_cast<OutputPixelType>(vcl_log( static_cast<OutputPixelType>(A) /
-        static_cast<OutputPixelType>(m_TotalFrequency)) / vcl_log(2.0) );
+      return static_cast< OutputPixelType >( vcl_log( static_cast< OutputPixelType >( A )
+                                                      / static_cast< OutputPixelType >( m_TotalFrequency ) )
+                                             / vcl_log(2.0) );
       }
     else
-      { // Check for Log 0. Always assume that the frequency is atleast 1.
-      return static_cast<OutputPixelType>(vcl_log( static_cast<OutputPixelType>(A+1) /
-        static_cast<OutputPixelType>(m_TotalFrequency)) / vcl_log(2.0) );
+      {   // Check for Log 0. Always assume that the frequency is atleast 1.
+      return static_cast< OutputPixelType >( vcl_log( static_cast< OutputPixelType >( A + 1 )
+                                                      / static_cast< OutputPixelType >( m_TotalFrequency ) )
+                                             / vcl_log(2.0) );
       }
-    }
+  }
 
-  void SetTotalFrequency( unsigned long n )
-    {
+  void SetTotalFrequency(unsigned long n)
+  {
     m_TotalFrequency = n;
-    }
+  }
 
-  unsigned long GetTotalFrequency( ) const
-    {
+  unsigned long GetTotalFrequency() const
+  {
     return m_TotalFrequency;
-    }
+  }
 
 private:
-  unsigned long  m_TotalFrequency;
+  unsigned long m_TotalFrequency;
 };
 }
 
-template <class THistogram, unsigned int NDimension, class TOutputPixel=double >
-class ITK_EXPORT HistogramToLogProbabilityImageFilter :
+template< class THistogram, unsigned int NDimension, class TOutputPixel = double >
+class ITK_EXPORT HistogramToLogProbabilityImageFilter:
   public HistogramToImageFilter< THistogram, NDimension,
-  Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
 {
 public:
 
@@ -102,28 +103,26 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimension,
-    Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
-                                               Superclass;
+                                  Function::HistogramLogProbabilityFunction< unsigned long, TOutputPixel > >
+  Superclass;
 
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( HistogramToLogProbabilityImageFilter, HistogramToImageFilter );
+  itkTypeMacro(HistogramToLogProbabilityImageFilter, HistogramToImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
 protected:
   HistogramToLogProbabilityImageFilter() {}
   virtual ~HistogramToLogProbabilityImageFilter() {}
-
 private:
-  HistogramToLogProbabilityImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  HistogramToLogProbabilityImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 };
-
 } // end namespace itk
 
 #endif

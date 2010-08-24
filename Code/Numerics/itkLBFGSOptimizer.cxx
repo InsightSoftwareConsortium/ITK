@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -37,7 +36,6 @@ LBFGSOptimizer
   m_DefaultStepLength                  = 1.0;
 }
 
-
 /**
  * Destructor
  */
@@ -52,16 +50,17 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "Trace: ";
   if ( m_Trace )
     {
     os << "On";
     }
   else
-    { os << "Off";
+    {
+    os << "Off";
     }
   os << std::endl;
   os << indent << "MaximumNumberOfFunctionEvaluations: "
@@ -79,7 +78,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetTrace( bool flag )
+::SetTrace(bool flag)
 {
   if ( flag == m_Trace )
     {
@@ -89,7 +88,7 @@ LBFGSOptimizer
   m_Trace = flag;
   if ( m_OptimizerInitialized )
     {
-    m_VnlOptimizer->set_trace( m_Trace );
+    m_VnlOptimizer->set_trace(m_Trace);
     }
 
   this->Modified();
@@ -100,7 +99,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetMaximumNumberOfFunctionEvaluations( unsigned int n )
+::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
 {
   if ( n == m_MaximumNumberOfFunctionEvaluations )
     {
@@ -111,7 +110,7 @@ LBFGSOptimizer
   if ( m_OptimizerInitialized )
     {
     m_VnlOptimizer->set_max_function_evals(
-      static_cast<int>( m_MaximumNumberOfFunctionEvaluations ) );
+      static_cast< int >( m_MaximumNumberOfFunctionEvaluations ) );
     }
 
   this->Modified();
@@ -122,7 +121,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetGradientConvergenceTolerance( double f )
+::SetGradientConvergenceTolerance(double f)
 {
   if ( f == m_GradientConvergenceTolerance )
     {
@@ -132,7 +131,7 @@ LBFGSOptimizer
   m_GradientConvergenceTolerance = f;
   if ( m_OptimizerInitialized )
     {
-    m_VnlOptimizer->set_g_tolerance( m_GradientConvergenceTolerance );
+    m_VnlOptimizer->set_g_tolerance(m_GradientConvergenceTolerance);
     }
 
   this->Modified();
@@ -143,7 +142,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetLineSearchAccuracy( double f )
+::SetLineSearchAccuracy(double f)
 {
   if ( f == m_LineSearchAccuracy )
     {
@@ -164,7 +163,7 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetDefaultStepLength( double f )
+::SetDefaultStepLength(double f)
 {
   if ( f == m_DefaultStepLength )
     {
@@ -193,35 +192,34 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::SetCostFunction( SingleValuedCostFunction * costFunction )
+::SetCostFunction(SingleValuedCostFunction *costFunction)
 {
-  const unsigned int numberOfParameters = 
+  const unsigned int numberOfParameters =
     costFunction->GetNumberOfParameters();
 
-  CostFunctionAdaptorType * adaptor = 
-    new CostFunctionAdaptorType( numberOfParameters );
-       
-  adaptor->SetCostFunction( costFunction );
+  CostFunctionAdaptorType *adaptor =
+    new CostFunctionAdaptorType(numberOfParameters);
 
-  if( m_OptimizerInitialized )
-    { 
+  adaptor->SetCostFunction(costFunction);
+
+  if ( m_OptimizerInitialized )
+    {
     delete m_VnlOptimizer;
     }
-    
-  this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_lbfgs( *adaptor );
+  this->SetCostFunctionAdaptor(adaptor);
+
+  m_VnlOptimizer = new vnl_lbfgs(*adaptor);
 
   // set the optimizer parameters
-  m_VnlOptimizer->set_trace( m_Trace );
+  m_VnlOptimizer->set_trace(m_Trace);
   m_VnlOptimizer->set_max_function_evals(
-    static_cast<int>( m_MaximumNumberOfFunctionEvaluations ) );
-  m_VnlOptimizer->set_g_tolerance( m_GradientConvergenceTolerance );
+    static_cast< int >( m_MaximumNumberOfFunctionEvaluations ) );
+  m_VnlOptimizer->set_g_tolerance(m_GradientConvergenceTolerance);
   m_VnlOptimizer->line_search_accuracy = m_LineSearchAccuracy;
   m_VnlOptimizer->default_step_length  = m_DefaultStepLength;
 
   m_OptimizerInitialized = true;
-
 }
 
 /**
@@ -229,65 +227,63 @@ LBFGSOptimizer
  */
 void
 LBFGSOptimizer
-::StartOptimization( void )
+::StartOptimization(void)
 {
-  
   this->InvokeEvent( StartEvent() );
 
-  if( this->GetMaximize() )
+  if ( this->GetMaximize() )
     {
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
     }
 
   ParametersType initialPosition = this->GetInitialPosition();
-  ParametersType parameters( initialPosition );  
+  ParametersType parameters(initialPosition);
 
   // If the user provides the scales then we set otherwise we don't
   // for computation speed.
   // We also scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
-  // and at the end of this function.  
-  if(m_ScalesInitialized)
+  // and at the end of this function.
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] *= scales[i]; 
+      parameters[i] *= scales[i];
       }
     }
-  
-  // vnl optimizers return the solution by reference 
+
+  // vnl optimizers return the solution by reference
   // in the variable provided as initial position
-  m_VnlOptimizer->minimize( parameters );
+  m_VnlOptimizer->minimize(parameters);
 
   if ( parameters.size() != initialPosition.size() )
     {
     // set current position to initial position and throw an exception
-    this->SetCurrentPosition( initialPosition );
-    itkExceptionMacro( << "Error occured in optimization" );
+    this->SetCurrentPosition(initialPosition);
+    itkExceptionMacro(<< "Error occured in optimization");
     }
 
-   // we scale the parameters down if scales are defined
-  if(m_ScalesInitialized)
+  // we scale the parameters down if scales are defined
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] /= scales[i]; 
+      parameters[i] /= scales[i];
       }
     }
 
-  this->SetCurrentPosition( parameters );
-  
-  this->InvokeEvent( EndEvent() );
+  this->SetCurrentPosition(parameters);
 
+  this->InvokeEvent( EndEvent() );
 }
 
 /**
  * Get the Optimizer
  */
-vnl_lbfgs * 
+vnl_lbfgs *
 LBFGSOptimizer
 ::GetOptimizer()
 {
@@ -295,14 +291,13 @@ LBFGSOptimizer
 }
 
 const std::string
-LBFGSOptimizer::
-GetStopConditionDescription() const
+LBFGSOptimizer::GetStopConditionDescription() const
 {
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
-  if (m_VnlOptimizer)
+  if ( m_VnlOptimizer )
     {
-    switch (m_VnlOptimizer->get_failure_code())
+    switch ( m_VnlOptimizer->get_failure_code() )
       {
       case vnl_nonlinear_minimizer::ERROR_FAILURE:
         m_StopConditionDescription << "Failure";
@@ -324,7 +319,7 @@ GetStopConditionDescription() const
         break;
       case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
         m_StopConditionDescription << "Too many function evaluations. Function evaluations  = "
-               << m_MaximumNumberOfFunctionEvaluations;
+                                   << m_MaximumNumberOfFunctionEvaluations;
         break;
       case vnl_nonlinear_minimizer::FAILED_FTOL_TOO_SMALL:
         m_StopConditionDescription << "Function tolerance too small";

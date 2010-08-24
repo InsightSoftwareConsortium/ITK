@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,27 +27,24 @@
 
 namespace itk
 {
-
 VTKImageIO::VTKImageIO()
 {
   this->SetNumberOfDimensions(2);
   m_ByteOrder = LittleEndian;
   m_FileType = Binary;
-  
 }
 
 VTKImageIO::~VTKImageIO()
-{
-}
+{}
 
-bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os, 
-                                       const char* filename)
-                                       
+bool VTKImageIO::OpenVTKFileForReading(std::ifstream & os,
+                                       const char *filename)
+
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
@@ -56,16 +53,17 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for reading
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
 
-#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
-  const int openMode = std::ios::in|std::ios::binary;
-#elif ( defined(__GNUC__) && __GNUC__ >= 3 ) || defined (__INTEL_COMPILER) || defined (__MINGW32__) || defined(__CYGWIN__)
-  const std::ios_base::openmode openMode = std::ios::in|std::ios::binary;
+#if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
+  const int openMode = std::ios::in | std::ios::binary;
+#elif ( defined( __GNUC__ ) && __GNUC__ >= 3 ) || defined ( __INTEL_COMPILER ) || defined ( __MINGW32__ ) \
+  || defined( __CYGWIN__ )
+  const std::ios_base::openmode openMode = std::ios::in | std::ios::binary;
 #else
   const int openMode = std::ios::in;
 #endif
@@ -79,19 +77,19 @@ bool VTKImageIO::OpenVTKFileForReading(std::ifstream& os,
   return true;
 }
 
-bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os, 
-                                       const char* filename)
-                                       
+bool VTKImageIO::OpenVTKFileForWriting(std::ofstream & os,
+                                       const char *filename)
+
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
   // Create the file. This is required on some older sgi's
-  std::ofstream tFile(filename,std::ios::out);
+  std::ofstream tFile(filename, std::ios::out);
   tFile.close();
 
   // Close file from any previous image
@@ -99,15 +97,16 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
-  const int openMode = std::ios::out|std::ios::binary;
-#elif (defined(__GNUC__) && __GNUC__ >= 3) || defined (__INTEL_COMPILER) || defined (__MINGW32__) || defined(__CYGWIN__)
-  const std::ios_base::openmode openMode =std::ios::out|std::ios::binary;
+#if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
+  const int openMode = std::ios::out | std::ios::binary;
+#elif ( defined( __GNUC__ ) && __GNUC__ >= 3 ) || defined ( __INTEL_COMPILER ) || defined ( __MINGW32__ ) \
+  || defined( __CYGWIN__ )
+  const std::ios_base::openmode openMode = std::ios::out | std::ios::binary;
 #else
   const int openMode = std::ios::out;
 #endif
@@ -121,33 +120,32 @@ bool VTKImageIO::OpenVTKFileForWriting(std::ofstream& os,
   return true;
 }
 
-
-bool VTKImageIO::CanReadFile(const char* filename) 
-{ 
+bool VTKImageIO::CanReadFile(const char *filename)
+{
   std::ifstream file;
-  char buffer[256];
-  std::string fname(filename);
+  char          buffer[256];
+  std::string   fname(filename);
 
   if ( fname.find(".vtk") >= fname.length() )
     {
     return false;
     }
 
-  if ( ! this->OpenVTKFileForReading(file, filename) )
+  if ( !this->OpenVTKFileForReading(file, filename) )
     {
     return false;
     }
 
   // Check to see if its a vtk structured points file
-  file.getline(buffer,255);
-  file.getline(buffer,255);
-  file.getline(buffer,255);
-  file.getline(buffer,255);
+  file.getline(buffer, 255);
+  file.getline(buffer, 255);
+  file.getline(buffer, 255);
+  file.getline(buffer, 255);
 
   fname = buffer;
 
-  if ( fname.find("STRUCTURED_POINTS") < fname.length() ||
-       fname.find("structured_points") < fname.length() )
+  if ( fname.find("STRUCTURED_POINTS") < fname.length()
+       || fname.find("structured_points") < fname.length() )
     {
     return true;
     }
@@ -156,29 +154,28 @@ bool VTKImageIO::CanReadFile(const char* filename)
     return false;
     }
 }
-  
- 
-void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
+
+void VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 {
-  char line[255];
+  char        line[255];
   std::string text;
 
-  if ( ! this->OpenVTKFileForReading(file, m_FileName.c_str()) )
+  if ( !this->OpenVTKFileForReading( file, m_FileName.c_str() ) )
     {
     itkExceptionMacro(<< "Cannot read requested file");
     }
 
-  file.getline(line,255);
-  file.getline(line,255);
-  file.getline(line,255);
+  file.getline(line, 255);
+  file.getline(line, 255);
+  file.getline(line, 255);
   text = line;
-  if ( text.find("ASCII") < text.length() || 
-       text.find("ascii") < text.length() )
+  if ( text.find("ASCII") < text.length()
+       || text.find("ascii") < text.length() )
     {
     this->SetFileTypeToASCII();
     }
-  else if ( text.find("BINARY") < text.length() ||
-            text.find("binary") < text.length() )
+  else if ( text.find("BINARY") < text.length()
+            || text.find("binary") < text.length() )
     {
     this->SetFileTypeToBinary();
     }
@@ -186,19 +183,19 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
     {
     itkExceptionMacro(<< "Unrecognized type");
     }
-  file.getline(line,255);
+  file.getline(line, 255);
   text = line;
-  if ( text.find("STRUCTURED_POINTS") >= text.length() &&
-       text.find("structured_points") >= text.length() )
+  if ( text.find("STRUCTURED_POINTS") >= text.length()
+       && text.find("structured_points") >= text.length() )
     {
     itkExceptionMacro(<< "Not structured points, can't read");
     }
 
   //extract dimensions, spacing, origin
   unsigned int dims[3];
-  double spacing[3];
-  double origin[3];
-  file.getline(line,255);
+  double       spacing[3];
+  double       origin[3];
+  file.getline(line, 255);
   text = line;
 
   // set values in case we don't find them
@@ -210,10 +207,10 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Origin[1] = 0.0;
   m_Origin[2] = 0.0;
 
-  if ( text.find("DIMENSIONS") < text.length() || 
-       text.find("dimensions") < text.length() )
+  if ( text.find("DIMENSIONS") < text.length()
+       || text.find("dimensions") < text.length() )
     {
-    sscanf(line, "%*s %d %d %d", dims, dims+1, dims+2);
+    sscanf(line, "%*s %d %d %d", dims, dims + 1, dims + 2);
     if ( dims[2] <= 1 )
       {
       this->SetNumberOfDimensions(2);
@@ -222,49 +219,49 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
       {
       this->SetNumberOfDimensions(3);
       }
-    for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+    for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
       {
       m_Dimensions[i] = dims[i];
       }
     }
   else
     {
-    itkExceptionMacro(<<"No dimensions defined");
+    itkExceptionMacro(<< "No dimensions defined");
     }
 
-  for ( bool readScalars=false; !readScalars; )
+  for ( bool readScalars = false; !readScalars; )
     {
-    file.getline(line,255);
+    file.getline(line, 255);
     text = line;
 
-    if ( text.find("SPACING") < text.length() || 
-         text.find("spacing") < text.length() )
+    if ( text.find("SPACING") < text.length()
+         || text.find("spacing") < text.length() )
       {
-      sscanf(line, "%*s %lf %lf %lf", spacing, spacing+1, spacing+2);
-      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+      sscanf(line, "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
+      for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
         {
         m_Spacing[i] = spacing[i];
         }
       }
 
-    else if ( text.find("ORIGIN") < text.length() || 
-              text.find("origin") < text.length() )
+    else if ( text.find("ORIGIN") < text.length()
+              || text.find("origin") < text.length() )
       {
-      sscanf(line, "%*s %lf %lf %lf", origin, origin+1, origin+2);
-      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+      sscanf(line, "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
+      for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
         {
         m_Origin[i] = origin[i];
         }
       }
 
-    else if ( text.find("COLOR_SCALARS") < text.length() || 
-              text.find("color_scalars") < text.length() )
+    else if ( text.find("COLOR_SCALARS") < text.length()
+              || text.find("color_scalars") < text.length() )
       {
       readScalars = true;
 
       int numComp = 1;
       sscanf(line, "%*s %*s %d", &numComp);
-      if (numComp == 1)
+      if ( numComp == 1 )
         {
         SetPixelType(SCALAR);
         }
@@ -284,16 +281,16 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
         }
       }
 
-    else if ( text.find("SCALARS") < text.length() || 
-              text.find("scalars") < text.length() )
+    else if ( text.find("SCALARS") < text.length()
+              || text.find("scalars") < text.length() )
       {
       readScalars = true;
 
       char pixelType[256];
-      int numComp = 1;
+      int  numComp = 1;
       sscanf(line, "%*s %*s %s %d", pixelType, &numComp);
       text = pixelType;
-      if (numComp == 1)
+      if ( numComp == 1 )
         {
         SetPixelType(SCALAR);
         }
@@ -353,43 +350,47 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream& file)
         }
       else
         {
-        itkExceptionMacro(<<"Unrecognized type");
+        itkExceptionMacro(<< "Unrecognized type");
         }
-      file.getline(line,255);
+      file.getline(line, 255);
       text = line;
-
-      }//found scalars
-    
+      } //found scalars
     }
 }
 
-void VTKImageIO::Read(void* buffer)
+void VTKImageIO::Read(void *buffer)
 {
   std::ifstream file;
 
   this->InternalReadImageInformation(file);
-  
-  //We are positioned at the data. The data is read depending on whether 
+
+  //We are positioned at the data. The data is read depending on whether
   //it is ASCII or binary.
   if ( m_FileType == ASCII )
     {
-    this->ReadBufferAsASCII(file, buffer, this->GetComponentType(),
-                            this->GetImageSizeInComponents());
+    this->ReadBufferAsASCII( file, buffer, this->GetComponentType(),
+                             this->GetImageSizeInComponents() );
     }
   else
     {
-    file.read(static_cast<char*>(buffer), static_cast<std::streamsize>(this->GetImageSizeInBytes()));
+    file.read( static_cast< char * >( buffer ), static_cast< std::streamsize >( this->GetImageSizeInBytes() ) );
     int size = this->GetComponentSize();
-    switch( size )
+    switch ( size )
       {
       case 2:
-        ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< short >::SwapRangeFromSystemToBigEndian( (short *)buffer,
+                                                              static_cast< BufferSizeType >( this->
+                                                                                             GetImageSizeInComponents() ) );
         break;
       case 4:
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< float >::SwapRangeFromSystemToBigEndian( (float *)buffer,
+                                                              static_cast< BufferSizeType >( this->
+                                                                                             GetImageSizeInComponents() ) );
         break;
       case 8:
-        ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< double >::SwapRangeFromSystemToBigEndian( (double *)buffer,
+                                                               static_cast< BufferSizeType >( this->
+                                                                                              GetImageSizeInComponents() ) );
         break;
       }
     }
@@ -398,24 +399,27 @@ void VTKImageIO::Read(void* buffer)
 void VTKImageIO::ReadImageInformation()
 {
   std::ifstream file;
+
   this->InternalReadImageInformation(file);
 }
 
-bool VTKImageIO::CanWriteFile( const char* name )
+bool VTKImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
-  if ( filename != "" &&
-       filename.find(".vtk") < filename.length() )
+
+  if ( filename != ""
+       && filename.find(".vtk") < filename.length() )
     {
     return true;
     }
   return false;
 }
 
-void VTKImageIO::Write(const void* buffer)
+void VTKImageIO::Write(const void *buffer)
 {
   std::ofstream file;
-  if ( ! this->OpenVTKFileForWriting(file,m_FileName.c_str()) )
+
+  if ( !this->OpenVTKFileForWriting( file, m_FileName.c_str() ) )
     {
     return;
     }
@@ -424,35 +428,35 @@ void VTKImageIO::Write(const void* buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if ( numDims < 2 || numDims > 3 )
     {
-    itkExceptionMacro(<<"VTK Writer can only write 2 or 3-dimensional images");
+    itkExceptionMacro(<< "VTK Writer can only write 2 or 3-dimensional images");
     return;
     }
   ImageIORegion ioRegion = this->GetIORegion();
 
   // Write the VTK header information
-  file << "# vtk DataFile Version 3.0\n"; 
+  file << "#vtk DataFile Version 3.0\n";
   file << "VTK File Generated by Insight Segmentation and Registration Toolkit (ITK)\n";
-  
-  if ( this->GetFileType() == ASCII ) 
+
+  if ( this->GetFileType() == ASCII )
     {
-    file << "ASCII\n"; 
+    file << "ASCII\n";
     }
-  else 
+  else
     {
-    file << "BINARY\n"; 
+    file << "BINARY\n";
     }
 
   // Save original formatting flags
   const itksys_ios::ios::fmtflags originalFlags     = file.flags();
-#if (defined(__GNUC__) && (__GNUC__ <=2))
-  const itksys_ios::ios::streamsize    originalPrecision = file.precision();
+#if ( defined( __GNUC__ ) && ( __GNUC__ <= 2 ) )
+  const itksys_ios::ios::streamsize originalPrecision = file.precision();
 #else
-  const itksys_ios::streamsize    originalPrecision = file.precision();
+  const itksys_ios::streamsize originalPrecision = file.precision();
 #endif
 
-  file.setf( itksys_ios::ios::scientific, 
-             itksys_ios::ios::floatfield );
-  
+  file.setf(itksys_ios::ios::scientific,
+            itksys_ios::ios::floatfield);
+
   file.precision(16);
 
   // Write characteristics of the data
@@ -468,72 +472,78 @@ void VTKImageIO::Write(const void* buffer)
     {
     file << "DIMENSIONS " << this->GetDimensions(0) << " "
          << this->GetDimensions(1) << " " << this->GetDimensions(2) << "\n";
-    file << "SPACING " << m_Spacing[0] << " " 
+    file << "SPACING " << m_Spacing[0] << " "
          << m_Spacing[1] << " " << m_Spacing[2] << "\n";
     file << "ORIGIN " << m_Origin[0] << " "
          << m_Origin[1] << " " << m_Origin[2] << "\n";
     }
 
   // Restore the original formatting flags
-  file.flags( originalFlags );
-  file.precision( originalPrecision );
+  file.flags(originalFlags);
+  file.precision(originalPrecision);
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
 
   // Prefer the VECTORS representation when possible:
-  if( this->GetPixelType() == ImageIOBase::VECTOR && this->GetNumberOfComponents() == 3 )
+  if ( this->GetPixelType() == ImageIOBase::VECTOR && this->GetNumberOfComponents() == 3 )
     {
-    file << "VECTORS vectors " 
-      << this->GetComponentTypeAsString(m_ComponentType) << "\n";
+    file << "VECTORS vectors "
+         << this->GetComponentTypeAsString(m_ComponentType) << "\n";
     }
   else
     {
-    // According to VTK documentation number of components should in range (1,4):
-    file << "SCALARS scalars " 
-      << this->GetComponentTypeAsString(m_ComponentType) << " "
-      << this->GetNumberOfComponents() << "\n"
-      << "LOOKUP_TABLE default\n";
+    // According to VTK documentation number of components should in range
+    // (1,4):
+    file << "SCALARS scalars "
+         << this->GetComponentTypeAsString(m_ComponentType) << " "
+         << this->GetNumberOfComponents() << "\n"
+         << "LOOKUP_TABLE default\n";
     }
 
   // Write the actual pixel data
   if ( m_FileType == ASCII )
     {
-    this->WriteBufferAsASCII(file, buffer, this->GetComponentType(),
-                             this->GetImageSizeInComponents());
+    this->WriteBufferAsASCII( file, buffer, this->GetComponentType(),
+                              this->GetImageSizeInComponents() );
     }
   else //binary
     {
     int size = this->GetComponentSize();
 
-    const BufferSizeType numbytes = static_cast<BufferSizeType>( this->GetImageSizeInBytes() );
-    char * tempmemory=new char[numbytes];
-    memcpy(tempmemory,buffer,numbytes);
-    switch( size )
+    const BufferSizeType numbytes = static_cast< BufferSizeType >( this->GetImageSizeInBytes() );
+    char *               tempmemory = new char[numbytes];
+    memcpy(tempmemory, buffer, numbytes);
+    switch ( size )
       {
       case 2:
         {
-        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< short >::SwapRangeFromSystemToBigEndian( reinterpret_cast< short * >( tempmemory ),
+                                                              static_cast< BufferSizeType >( this->
+                                                                                             GetImageSizeInComponents() ) );
         }
         break;
       case 4:
         {
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< float >::SwapRangeFromSystemToBigEndian( reinterpret_cast< float * >( tempmemory ),
+                                                              static_cast< BufferSizeType >( this->
+                                                                                             GetImageSizeInComponents() ) );
         }
         break;
       case 8:
         {
-        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), static_cast<BufferSizeType>(this->GetImageSizeInComponents()) );
+        ByteSwapper< double >::SwapRangeFromSystemToBigEndian( reinterpret_cast< double * >( tempmemory ),
+                                                               static_cast< BufferSizeType >( this->
+                                                                                              GetImageSizeInComponents() ) );
         }
         break;
       }
-            file.write(static_cast<const char*>(tempmemory), static_cast<std::streamsize>(this->GetImageSizeInBytes()));
-    delete [] tempmemory;
+    file.write( static_cast< const char * >( tempmemory ), static_cast< std::streamsize >( this->GetImageSizeInBytes() ) );
+    delete[] tempmemory;
     }
 }
 
-void VTKImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void VTKImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-
 } // end namespace itk

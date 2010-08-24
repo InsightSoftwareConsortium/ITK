@@ -19,40 +19,40 @@
 
 #include "itkBasicErodeImageFilter.h"
 
-namespace itk {
-
-template<class TInputImage, class TOutputImage, class TKernel>
-BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::BasicErodeImageFilter()
 {
-  m_ErodeBoundaryCondition.SetConstant( NumericTraits<PixelType>::max() );
-  this->OverrideBoundaryCondition( &m_ErodeBoundaryCondition );
+  m_ErodeBoundaryCondition.SetConstant( NumericTraits< PixelType >::max() );
+  this->OverrideBoundaryCondition(&m_ErodeBoundaryCondition);
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
-typename BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>::PixelType
-BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>
-::Evaluate(const NeighborhoodIteratorType &nit,
+template< class TInputImage, class TOutputImage, class TKernel >
+typename BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
+BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::Evaluate(const NeighborhoodIteratorType & nit,
            const KernelIteratorType kernelBegin,
            const KernelIteratorType kernelEnd)
 {
   unsigned int i;
-  PixelType min = NumericTraits<PixelType>::max();
-  PixelType temp;
+  PixelType    min = NumericTraits< PixelType >::max();
+  PixelType    temp;
 
   KernelIteratorType kernel_it;
 
-  for( i=0, kernel_it=kernelBegin; kernel_it<kernelEnd; ++kernel_it, ++i )
+  for ( i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i )
     {
     // if structuring element is positive, use the pixel under that element
     // in the image
-    if( *kernel_it > NumericTraits< KernelPixelType >::Zero )
+    if ( *kernel_it > NumericTraits< KernelPixelType >::Zero )
       {
       // note we use GetPixel() on the NeighborhoodIterator in order
       // to respect boundary conditions.
       temp = nit.GetPixel(i);
 
-      if( temp < min )
+      if ( temp < min )
         {
         min = temp;
         }
@@ -61,6 +61,5 @@ BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>
 
   return min;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,33 +22,35 @@
 
 namespace itk
 {
-  
-namespace Function {  
-  
+namespace Function
+{
 template< class TInput >
 class ComposeRGB
 {
 public:
-  typedef RGBPixel<TInput> OutputType;
+  typedef RGBPixel< TInput > OutputType;
   ComposeRGB() {}
   ~ComposeRGB() {}
-  bool operator!=( const ComposeRGB & ) const
-    {
+  bool operator!=(const ComposeRGB &) const
+  {
     return false;
-    }
-  bool operator==( const ComposeRGB & other ) const
-    {
-    return !(*this != other);
-    }
-  inline OutputType operator()(  const TInput & R, 
-                                 const TInput & G,
-                                 const TInput & B) const
-    {
+  }
+
+  bool operator==(const ComposeRGB & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline OutputType operator()(const TInput & R,
+                               const TInput & G,
+                               const TInput & B) const
+  {
     OutputType rgbPixel;
-    rgbPixel.Set( R, G, B);
+
+    rgbPixel.Set(R, G, B);
     return rgbPixel;
-    }
-}; 
+  }
+};
 }
 
 /** \class ComposeRGBImageFilter
@@ -62,49 +64,43 @@ public:
  * \ingroup IntensityImageFilters
  */
 
-template <typename TInputImage, 
-          typename TOutputImage= 
-          Image< RGBPixel< ITK_TYPENAME TInputImage::PixelType >,
-                 ::itk::GetImageDimension<TInputImage>::ImageDimension > >
-class ITK_EXPORT ComposeRGBImageFilter :
-    public
-TernaryFunctorImageFilter<TInputImage,TInputImage,
-                          TInputImage,TOutputImage, 
-                          Function::ComposeRGB< ITK_TYPENAME TInputImage::PixelType >   >
+template< typename TInputImage,
+          typename TOutputImage =
+            Image< RGBPixel< ITK_TYPENAME TInputImage::PixelType >,
+                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+class ITK_EXPORT ComposeRGBImageFilter:
+  public
+  TernaryFunctorImageFilter< TInputImage, TInputImage,
+                             TInputImage, TOutputImage,
+                             Function::ComposeRGB< ITK_TYPENAME TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef ComposeRGBImageFilter     Self;
+  typedef ComposeRGBImageFilter Self;
   typedef TernaryFunctorImageFilter<
-    TInputImage,TInputImage,
-    TInputImage,TOutputImage, 
-    Function::ComposeRGB< 
-      ITK_TYPENAME TInputImage::PixelType > >
-                                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+    TInputImage, TInputImage,
+    TInputImage, TOutputImage,
+    Function::ComposeRGB<
+      ITK_TYPENAME TInputImage::PixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
-  /** Runtime information support. */
-  itkTypeMacro(ComposeRGBImageFilter, 
-               TernaryFunctorImageFilter);
 
+  /** Runtime information support. */
+  itkTypeMacro(ComposeRGBImageFilter,
+               TernaryFunctorImageFilter);
 protected:
   ComposeRGBImageFilter() {}
   virtual ~ComposeRGBImageFilter() {}
-
 private:
-  ComposeRGBImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-
+  ComposeRGBImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

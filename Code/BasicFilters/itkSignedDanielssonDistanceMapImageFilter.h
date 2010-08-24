@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,116 +21,114 @@
 #include <itkDanielssonDistanceMapImageFilter.h>
 #include "itkSubtractImageFilter.h"
 
-
 //Simple functor to invert an image for Outside Danielsson distance map
 namespace itk
 {
 namespace Functor
 {
-template <class InputPixelType> class InvertIntensityFunctor
+template< class InputPixelType >
+class InvertIntensityFunctor
 {
 public:
-  InputPixelType operator()( InputPixelType input ) const
-    {
-    if (input)
+  InputPixelType operator()(InputPixelType input) const
+  {
+    if ( input )
       {
-      return NumericTraits<InputPixelType>::Zero;
+      return NumericTraits< InputPixelType >::Zero;
       }
     else
       {
-      return NumericTraits<InputPixelType>::One;
+      return NumericTraits< InputPixelType >::One;
       }
-    }
+  }
 };
 }
 }
 
-
 namespace itk
 {
-
 /** \class SignedDanielssonDistanceMapImageFilter
  *
  * This class is parametrized over the type of the input image
  * and the type of the output image.
  *
- * This filter computes the distance map of the input image 
+ * This filter computes the distance map of the input image
  * as an approximation with pixel accuracy to the Euclidean distance.
  *
- * For purposes of evaluating the signed distance map, the input is assumed 
- * to be binary composed of pixels with value 0 and non-zero. 
+ * For purposes of evaluating the signed distance map, the input is assumed
+ * to be binary composed of pixels with value 0 and non-zero.
  *
  * The inside is considered as having negative distances. Outside is treated
- * as having positive distances. To change the convention, 
+ * as having positive distances. To change the convention,
  * use the InsideIsPositive(bool) function.
  *
  * As a convention, the distance is evaluated from the boundary of the ON pixels.
  *
  * The filter returns
  * - A signed distance map with the approximation to the euclidean distance.
- * - A voronoi partition. (See itkDanielssonDistanceMapImageFilter) 
+ * - A voronoi partition. (See itkDanielssonDistanceMapImageFilter)
  * - A vector map containing the component of the vector relating
  *   the current pixel with the closest point of the closest object
  *   to this pixel. Given that the components of the distance are
  *   computed in "pixels", the vector is represented by an
  *   itk::Offset.  That is, physical coordinates are not used.
  *   (See itkDanielssonDistanceMapImageFilter)
- *   
+ *
  * This filter internally uses the DanielssonDistanceMap filter.
  * This filter is N-dimensional.
- * 
+ *
  * \sa itkDanielssonDistanceMapImageFilter
  *
- * \ingroup ImageFeatureExtraction 
+ * \ingroup ImageFeatureExtraction
  *
  */
 
-template <class TInputImage,class TOutputImage>
-class ITK_EXPORT SignedDanielssonDistanceMapImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT SignedDanielssonDistanceMapImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef SignedDanielssonDistanceMapImageFilter       Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef SignedDanielssonDistanceMapImageFilter          Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SignedDanielssonDistanceMapImageFilter, ImageToImageFilter );
+  itkTypeMacro(SignedDanielssonDistanceMapImageFilter, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef   TInputImage       InputImageType;
+  typedef   TInputImage InputImageType;
 
   /** Type for two of the three output images: the VoronoiMap and the
    * DistanceMap.  */
-  typedef   TOutputImage      OutputImageType;
+  typedef   TOutputImage OutputImageType;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType   RegionType;
+  typedef typename InputImageType::RegionType RegionType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType  IndexType;
+  typedef typename RegionType::IndexType IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::OffsetType  OffsetType;
+  typedef typename InputImageType::OffsetType OffsetType;
 
-    /** Type for the pixel type of the input image. */
-  typedef typename InputImageType::PixelType  PixelType;
+  /** Type for the pixel type of the input image. */
+  typedef typename InputImageType::PixelType PixelType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType   SizeType;
-  
+  typedef typename RegionType::SizeType SizeType;
+
   /** The dimension of the input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Pointer Type for the vector distance image */
   typedef Image< OffsetType,
-                 itkGetStaticConstMacro(InputImageDimension)> VectorImageType;
+                 itkGetStaticConstMacro(InputImageDimension) > VectorImageType;
 
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
@@ -144,42 +142,41 @@ public:
   /** Pointer Type for data object */
   typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
-
   /** Set if the distance should be squared. */
-  itkSetMacro( SquaredDistance, bool );
+  itkSetMacro(SquaredDistance, bool);
 
   /** Get the distance squared. */
-  itkGetConstReferenceMacro( SquaredDistance, bool );
+  itkGetConstReferenceMacro(SquaredDistance, bool);
 
   /** Set On/Off if the distance is squared. */
-  itkBooleanMacro( SquaredDistance );
+  itkBooleanMacro(SquaredDistance);
 
   /** Set if image spacing should be used in computing distances. */
-  itkSetMacro( UseImageSpacing, bool );
+  itkSetMacro(UseImageSpacing, bool);
 
   /** Get whether spacing is used. */
-  itkGetConstReferenceMacro( UseImageSpacing, bool );
+  itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set On/Off whether spacing is used. */
-  itkBooleanMacro( UseImageSpacing );
+  itkBooleanMacro(UseImageSpacing);
 
   /** Set if the inside represents positive values in the signed distance
    *  map. By convention ON pixels are treated as inside pixels.           */
-  itkSetMacro( InsideIsPositive, bool );
+  itkSetMacro(InsideIsPositive, bool);
 
-  /** Get if the inside represents positive values in the signed distance map. 
+  /** Get if the inside represents positive values in the signed distance map.
    *  See GetInsideIsPositive()  */
-  itkGetConstReferenceMacro( InsideIsPositive, bool );
+  itkGetConstReferenceMacro(InsideIsPositive, bool);
 
-    /** Set if the inside represents positive values in the signed distance
-     * map. By convention ON pixels are treated as inside pixels. Default is 
-     * true.                             */
-  itkBooleanMacro( InsideIsPositive );
-  
+  /** Set if the inside represents positive values in the signed distance
+   * map. By convention ON pixels are treated as inside pixels. Default is
+   * true.                             */
+  itkBooleanMacro(InsideIsPositive);
+
   /** Get Voronoi Map
-   * This map shows for each pixel what object is closest to it. 
-   * Each object should be labeled by a number (larger than 0), 
-   * so the map has a value for each pixel corresponding to the label 
+   * This map shows for each pixel what object is closest to it.
+   * Each object should be labeled by a number (larger than 0),
+   * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
   OutputImageType * GetVoronoiMap(void);
 
@@ -201,32 +198,33 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(IntConvertibleToInputCheck,
-                  (Concept::Convertible<int, PixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<PixelType>));
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, PixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   SignedDanielssonDistanceMapImageFilter();
-  virtual ~SignedDanielssonDistanceMapImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~SignedDanielssonDistanceMapImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData();  
-  
-private:   
-  SignedDanielssonDistanceMapImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void GenerateData();
 
-  bool                  m_SquaredDistance;
-  bool                  m_UseImageSpacing;
-  bool                  m_InsideIsPositive;   // ON is treated as inside pixels
-}; // end of SignedDanielssonDistanceMapImageFilter class
+private:
+  SignedDanielssonDistanceMapImageFilter(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
 
+  // implemented
+
+  bool m_SquaredDistance;
+  bool m_UseImageSpacing;
+  bool m_InsideIsPositive; // ON is treated as inside pixels
+};                         // end of SignedDanielssonDistanceMapImageFilter
+                           // class
 } //end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSignedDanielssonDistanceMapImageFilter.txx"

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,20 +25,19 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template<class TOutputImage>
-ImageSource<TOutputImage>
+template< class TOutputImage >
+ImageSource< TOutputImage >
 ::ImageSource()
 {
   // Create the output. We use static_cast<> here because we know the default
   // output must be of type TOutputImage
-  typename TOutputImage::Pointer output
-    = static_cast<TOutputImage*>(this->MakeOutput(0).GetPointer()); 
+  typename TOutputImage::Pointer output =
+    static_cast< TOutputImage * >( this->MakeOutput(0).GetPointer() );
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 
   // Set the default behavior of an image source to NOT release its
   // output bulk data prior to GenerateData() in case that bulk data
@@ -49,98 +48,99 @@ ImageSource<TOutputImage>
 /**
  *
  */
-template<class TOutputImage>
-typename ImageSource<TOutputImage>::DataObjectPointer
-ImageSource<TOutputImage>
+template< class TOutputImage >
+typename ImageSource< TOutputImage >::DataObjectPointer
+ImageSource< TOutputImage >
 ::MakeOutput(unsigned int)
 {
-  return static_cast<DataObject*>(TOutputImage::New().GetPointer());
+  return static_cast< DataObject * >( TOutputImage::New().GetPointer() );
 }
-  
+
 /**
  *
  */
-template<class TOutputImage>
-typename ImageSource<TOutputImage>::OutputImageType * 
-ImageSource<TOutputImage>
+template< class TOutputImage >
+typename ImageSource< TOutputImage >::OutputImageType *
+ImageSource< TOutputImage >
 ::GetOutput()
 {
-  if (this->GetNumberOfOutputs() < 1)
+  if ( this->GetNumberOfOutputs() < 1 )
     {
     return 0;
     }
 
   // we assume that the first output is of the templated type
-  return static_cast<TOutputImage*>
-    (this->ProcessObject::GetOutput(0));
+  return static_cast< TOutputImage * >
+         ( this->ProcessObject::GetOutput(0) );
 }
 
-  
 /**
  *
  */
-template<class TOutputImage>
-typename ImageSource<TOutputImage>::OutputImageType *
-ImageSource<TOutputImage>
+template< class TOutputImage >
+typename ImageSource< TOutputImage >::OutputImageType *
+ImageSource< TOutputImage >
 ::GetOutput(unsigned int idx)
 {
-  TOutputImage* out = dynamic_cast<TOutputImage*>
-    (this->ProcessObject::GetOutput(idx));
-  if ( out == NULL ) {
-    itkWarningMacro ( << "dynamic_cast to output type failed" );
-  }
+  TOutputImage *out = dynamic_cast< TOutputImage * >
+                      ( this->ProcessObject::GetOutput(idx) );
+
+  if ( out == NULL )
+    {
+    itkWarningMacro (<< "dynamic_cast to output type failed");
+    }
   return out;
 }
 
 /**
- * 
+ *
  */
-template<class TOutputImage>
+template< class TOutputImage >
 void
-ImageSource<TOutputImage>
+ImageSource< TOutputImage >
 ::GraftOutput(DataObject *graft)
 {
   this->GraftNthOutput(0, graft);
 }
 
-
 /**
- * 
+ *
  */
-template<class TOutputImage>
+template< class TOutputImage >
 void
-ImageSource<TOutputImage>
+ImageSource< TOutputImage >
 ::GraftNthOutput(unsigned int idx, DataObject *graft)
 {
   if ( idx >= this->GetNumberOfOutputs() )
     {
-    itkExceptionMacro(<<"Requested to graft output " << idx << 
-        " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
-    }  
+    itkExceptionMacro(<< "Requested to graft output " << idx
+                      << " but this filter only has " << this->GetNumberOfOutputs() << " Outputs.");
+    }
 
   if ( !graft )
     {
-    itkExceptionMacro(<<"Requested to graft output that is a NULL pointer" );
+    itkExceptionMacro(<< "Requested to graft output that is a NULL pointer");
     }
 
   // we use the process object method since all out output may not be
   // of the same type
-  DataObject * output = this->ProcessObject::GetOutput(idx);
+  DataObject *output = this->ProcessObject::GetOutput(idx);
 
   // Call GraftImage to copy meta-information, regions, and the pixel container
-  output->Graft( graft );
+  output->Graft(graft);
 }
 
 //----------------------------------------------------------------------------
-template <class TOutputImage>
-int 
-ImageSource<TOutputImage>
-::SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion)
+template< class TOutputImage >
+int
+ImageSource< TOutputImage >
+::SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
-  OutputImageType * outputPtr = this->GetOutput();
-  const typename TOutputImage::SizeType& requestedRegionSize 
-    = outputPtr->GetRequestedRegion().GetSize();
+  OutputImageType *outputPtr = this->GetOutput();
+
+  const typename TOutputImage::SizeType & requestedRegionSize =
+    outputPtr->GetRequestedRegion().GetSize();
 
   int splitAxis;
   typename TOutputImage::IndexType splitIndex;
@@ -153,10 +153,10 @@ ImageSource<TOutputImage>
 
   // split on the outermost dimension available
   splitAxis = outputPtr->GetImageDimension() - 1;
-  while (requestedRegionSize[splitAxis] == 1)
+  while ( requestedRegionSize[splitAxis] == 1 )
     {
     --splitAxis;
-    if (splitAxis < 0)
+    if ( splitAxis < 0 )
       { // cannot split
       itkDebugMacro("  Cannot Split");
       return 1;
@@ -165,50 +165,49 @@ ImageSource<TOutputImage>
 
   // determine the actual number of pieces that will be generated
   typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  int valuesPerThread = Math::Ceil<int>(range/(double)num);
-  int maxThreadIdUsed = Math::Ceil<int>(range/(double)valuesPerThread) - 1;
+  int valuesPerThread = Math::Ceil< int >(range / (double)num);
+  int maxThreadIdUsed = Math::Ceil< int >(range / (double)valuesPerThread) - 1;
 
   // Split the region
-  if (i < maxThreadIdUsed)
+  if ( i < maxThreadIdUsed )
     {
-    splitIndex[splitAxis] += i*valuesPerThread;
+    splitIndex[splitAxis] += i * valuesPerThread;
     splitSize[splitAxis] = valuesPerThread;
     }
-  if (i == maxThreadIdUsed)
+  if ( i == maxThreadIdUsed )
     {
-    splitIndex[splitAxis] += i*valuesPerThread;
+    splitIndex[splitAxis] += i * valuesPerThread;
     // last thread needs to process the "rest" dimension being split
-    splitSize[splitAxis] = splitSize[splitAxis] - i*valuesPerThread;
+    splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
     }
-  
-  // set the split region ivars
-  splitRegion.SetIndex( splitIndex );
-  splitRegion.SetSize( splitSize );
 
-  itkDebugMacro("  Split Piece: " << splitRegion );
+  // set the split region ivars
+  splitRegion.SetIndex(splitIndex);
+  splitRegion.SetSize(splitSize);
+
+  itkDebugMacro("  Split Piece: " << splitRegion);
 
   return maxThreadIdUsed + 1;
 }
 
 //----------------------------------------------------------------------------
-template <class TOutputImage>
-void 
-ImageSource<TOutputImage>
+template< class TOutputImage >
+void
+ImageSource< TOutputImage >
 ::AllocateOutputs()
-{  
-  typedef ImageBase<OutputImageDimension> ImageBaseType;
+{
+  typedef ImageBase< OutputImageDimension > ImageBaseType;
   typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory
-  for (unsigned int i=0; i < this->GetNumberOfOutputs(); i++)
+  for ( unsigned int i = 0; i < this->GetNumberOfOutputs(); i++ )
     {
-    
     // Check whether the output is an image of the appropriate
     // dimension (use ProcessObject's version of the GetInput()
     // method since it returns the input as a pointer to a
     // DataObject as opposed to the subclass version which
     // static_casts the input to an TInputImage).
-    outputPtr = dynamic_cast< ImageBaseType *>( this->ProcessObject::GetOutput(i) );
+    outputPtr = dynamic_cast< ImageBaseType * >( this->ProcessObject::GetOutput(i) );
 
     if ( outputPtr )
       {
@@ -219,71 +218,70 @@ ImageSource<TOutputImage>
 }
 
 //----------------------------------------------------------------------------
-template <class TOutputImage>
-void 
-ImageSource<TOutputImage>
+template< class TOutputImage >
+void
+ImageSource< TOutputImage >
 ::GenerateData()
 {
   // Call a method that can be overriden by a subclass to allocate
   // memory for the filter's outputs
   this->AllocateOutputs();
-  
+
   // Call a method that can be overridden by a subclass to perform
   // some calculations prior to splitting the main computations into
   // separate threads
   this->BeforeThreadedGenerateData();
-  
+
   // Set up the multithreaded processing
   ThreadStruct str;
   str.Filter = this;
-  
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
-  
+
   // multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
 
   // Call a method that can be overridden by a subclass to perform
   // some calculations after all the threads have completed
   this->AfterThreadedGenerateData();
-
 }
-
 
 //----------------------------------------------------------------------------
 // The execute method created by the subclass.
-template <class TOutputImage>
-void 
-ImageSource<TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType&,
+template< class TOutputImage >
+void
+ImageSource< TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType &,
                        int)
 {
 // The following code is equivalent to:
 // itkExceptionMacro("subclass should override this method!!!");
-// The ExceptionMacro is not used because gcc warns that a 
+// The ExceptionMacro is not used because gcc warns that a
 // 'noreturn' function does return
   std::ostringstream message;
+
   message << "itk::ERROR: " << this->GetNameOfClass()
           << "(" << this << "): " << "Subclass should override this method!!!";
-  ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(),ITK_LOCATION);
+  ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
   throw e_;
 }
 
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
-// thread. 
-template <class TOutputImage>
-ITK_THREAD_RETURN_TYPE 
-ImageSource<TOutputImage>
-::ThreaderCallback( void *arg )
+// thread.
+template< class TOutputImage >
+ITK_THREAD_RETURN_TYPE
+ImageSource< TOutputImage >
+::ThreaderCallback(void *arg)
 {
   ThreadStruct *str;
-  int total, threadId, threadCount;
+  int           total, threadId, threadCount;
 
-  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (ThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+  str = (ThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -291,21 +289,19 @@ ImageSource<TOutputImage>
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
 
-  if (threadId < total)
+  if ( threadId < total )
     {
     str->Filter->ThreadedGenerateData(splitRegion, threadId);
     }
   // else
   //   {
   //   otherwise don't use this thread. Sometimes the threads dont
-  //   break up very well and it is just as efficient to leave a 
+  //   break up very well and it is just as efficient to leave a
   //   few threads idle.
   //   }
-  
+
   return ITK_THREAD_RETURN_VALUE;
 }
-
-
 } // end namespace itk
 
 #endif

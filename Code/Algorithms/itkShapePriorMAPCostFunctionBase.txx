@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,13 +19,13 @@
 
 #include "itkShapePriorMAPCostFunctionBase.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * Constructor
  */
-template <class TFeatureImage, class TOutputPixel>
-ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
+template< class TFeatureImage, class TOutputPixel >
+ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::ShapePriorMAPCostFunctionBase()
 {
   m_ShapeFunction = NULL;
@@ -33,67 +33,59 @@ ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
   m_FeatureImage  = NULL;
 }
 
-
 /**
  * PrintSelf
  */
-template <class TFeatureImage, class TOutputPixel>
+template< class TFeatureImage, class TOutputPixel >
 void
-ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
-::PrintSelf( std::ostream& os, Indent indent) const
+ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << std::endl;
   os << indent << "ActiveRegion:  " << m_ActiveRegion.GetPointer()  << std::endl;
   os << indent << "FeatureImage:  " << m_FeatureImage.GetPointer()  << std::endl;
 }
 
-
 /**
- * 
+ *
  */
-template <class TFeatureImage, class TOutputPixel>
-typename ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
+template< class TFeatureImage, class TOutputPixel >
+typename ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::MeasureType
-ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
-::GetValue( const ParametersType & parameters ) const
+ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
+::GetValue(const ParametersType & parameters) const
 {
-
-  return ( this->ComputeLogInsideTerm( parameters ) + 
-           this->ComputeLogGradientTerm( parameters ) +  
-           this->ComputeLogShapePriorTerm( parameters ) + 
-           this->ComputeLogPosePriorTerm( parameters ) );
+  return ( this->ComputeLogInsideTerm(parameters)
+           + this->ComputeLogGradientTerm(parameters)
+           + this->ComputeLogShapePriorTerm(parameters)
+           + this->ComputeLogPosePriorTerm(parameters) );
 }
 
-
 /**
- * 
+ *
  */
-template <class TFeatureImage, class TOutputPixel>
+template< class TFeatureImage, class TOutputPixel >
 void
-ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
-::Initialize(void) throw ( ExceptionObject )
+ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
+::Initialize(void)
+throw ( ExceptionObject )
 {
-    
   if ( !m_ShapeFunction )
     {
-    itkExceptionMacro( << "ShapeFunction is not present." );
+    itkExceptionMacro(<< "ShapeFunction is not present.");
     }
 
   if ( !m_ActiveRegion )
     {
-    itkExceptionMacro( << "ActiveRegion is not present." );
+    itkExceptionMacro(<< "ActiveRegion is not present.");
     }
 
   if ( !m_FeatureImage )
     {
-    itkExceptionMacro( << "FeatureImage is not present." );
+    itkExceptionMacro(<< "FeatureImage is not present.");
     }
-
-
 }
-
 } // end namespace itk
-
 
 #endif

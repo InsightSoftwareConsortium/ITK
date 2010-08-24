@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class UnsharpMaskLevelSetImageFilter
  *
@@ -35,7 +35,7 @@ namespace itk {
  * (default is 0). The output surface is the 0-isosurface of the output volume,
  * regardless of the input isosurface value. To visualize the input/output
  * surfaces to this filter a mesh extraction method such as marching cubes can
- * be used. 
+ * be used.
  *
  * \par
  * This filter is an example of how the 4th order level set PDE framework can
@@ -51,8 +51,8 @@ namespace itk {
  * \par IMPORTANT
  * Because this filters enhances details on the surface, it will also amplify
  * noise! This filter is provided only as an example of graphics oriented
- * post-processing. Do not use it on noisy data. 
- * 
+ * post-processing. Do not use it on noisy data.
+ *
  * \par PARAMETERS
  * As mentioned before, the IsoSurfaceValue parameter chooses which isosurface
  * of the input to process. The MaxFilterIterations parameter determine the
@@ -62,43 +62,41 @@ namespace itk {
  * extrapolation (or equivalently the amount of detail enhancement). This value
  * should be in the range [0.1,1] for reasonable results.
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT UnsharpMaskLevelSetImageFilter
-  : public SparseFieldFourthOrderLevelSetImageFilter <TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT UnsharpMaskLevelSetImageFilter:
+  public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs */
-  typedef UnsharpMaskLevelSetImageFilter Self;
-  typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,TOutputImage>
-                                         Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  typedef UnsharpMaskLevelSetImageFilter                                         Self;
+  typedef SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                                   Pointer;
+  typedef SmartPointer< const Self >                                             ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(UnsharpMaskLevelSetImageFilter,
                SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** The sparse image type used in LevelSetFunctionWithRefitTerm */
   typedef typename Superclass::SparseImageType SparseImageType;
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  typedef LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType> FunctionType;
+  typedef LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType > FunctionType;
 
   /** The radius type for the neighborhoods. */
   typedef typename FunctionType::RadiusType RadiusType;
 
-  itkGetConstMacro(MaxFilterIteration,unsigned int);
-  itkSetMacro(MaxFilterIteration,unsigned int);
-  
+  itkGetConstMacro(MaxFilterIteration, unsigned int);
+  itkSetMacro(MaxFilterIteration, unsigned int);
 protected:
   UnsharpMaskLevelSetImageFilter();
-  ~UnsharpMaskLevelSetImageFilter() {};
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~UnsharpMaskLevelSetImageFilter() {}
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
 
@@ -107,8 +105,8 @@ protected:
 
   /** This filter halts when the iteration count reaches the specified count. */
   virtual bool Halt()
-    {
-    if (this->GetElapsedIterations() == m_MaxFilterIteration)
+  {
+    if ( this->GetElapsedIterations() == m_MaxFilterIteration )
       {
       return true;
       }
@@ -116,14 +114,13 @@ protected:
       {
       return false;
       }
-    }
+  }
 
 private:
-  UnsharpMaskLevelSetImageFilter(const Self&);
+  UnsharpMaskLevelSetImageFilter(const Self &);
   //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

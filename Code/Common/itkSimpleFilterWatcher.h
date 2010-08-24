@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,8 @@
 #include "itkProcessObject.h"
 #include "itkTimeProbe.h"
 
-
 namespace itk
 {
-
 /** \class SimpleFilterWatcher
  * \brief Simple mechanism for monitoring the pipeline events of a filter
  * and reporting these events to std::cout.
@@ -59,120 +57,119 @@ namespace itk
  *
  *
  * \todo Allow any stream object to be used for the output (not just std::cout)
- * 
+ *
  */
 class ITKCommon_EXPORT SimpleFilterWatcher
 {
 public:
   /** Constructor. Takes a ProcessObject to monitor and an optional
    * comment string that is prepended to each event message. */
-  SimpleFilterWatcher(itk::ProcessObject* o, const char *comment="");
+  SimpleFilterWatcher(itk::ProcessObject *o, const char *comment = "");
 
   /** Copy constructor */
-  SimpleFilterWatcher(const SimpleFilterWatcher& );
+  SimpleFilterWatcher(const SimpleFilterWatcher &);
 
   /** Default constructor. Only provided so that you can have
    * std::vectors of SimpleFilterWatchers. */
   SimpleFilterWatcher();
 
   /** operator=  */
-  void operator=(const SimpleFilterWatcher& );
+  void operator=(const SimpleFilterWatcher &);
 
   /** Destructor. */
   virtual ~SimpleFilterWatcher();
 
   /** Method to get the name of the class be monitored by this
    *  SimpleFilterWatcher */
-  const char *GetNameOfClass ()
-    {
-    return (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None");
-    }
+  const char * GetNameOfClass()
+  {
+    return ( m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None" );
+  }
 
   /** Methods to control the verbosity of the messages. Quiet
    * reporting limits the information emitted at a ProgressEvent. */
-  void QuietOn() {m_Quiet = true;}
-  void QuietOff() {m_Quiet = false;}
+  void QuietOn() { m_Quiet = true; }
+  void QuietOff() { m_Quiet = false; }
 
   /** Methods to use to test the AbortEvent of the a filter. If
    * TestAbort is on, the filter being watched will be aborted when
    * the progress reaches 30%. */
-  void TestAbortOn() {m_TestAbort = true;}
-  void TestAbortOff() {m_TestAbort = false;}
+  void TestAbortOn() { m_TestAbort = true; }
+  void TestAbortOff() { m_TestAbort = false; }
 
   /** Methods to access member data */
   /** Get a pointer to the process object being watched. */
-  ProcessObject *GetProcess () {return m_Process.GetPointer();}
+  ProcessObject * GetProcess() { return m_Process.GetPointer(); }
 
   /** Set/Get the steps completed. */
-  void SetSteps(int val) {m_Steps=val;}
-  int GetSteps() {return m_Steps;}
+  void SetSteps(int val) { m_Steps = val; }
+  int GetSteps() { return m_Steps; }
 
   /** Set/Get the number of iterations completed. */
-  void SetIterations(int val) {m_Iterations=val;}
-  int GetIterations() {return m_Iterations;}
+  void SetIterations(int val) { m_Iterations = val; }
+  int GetIterations() { return m_Iterations; }
 
   /** Set/Get the quiet mode boolean. If true, verbose progress is
     * reported. */
-  void SetQuiet(bool val) {m_Quiet=val;}
-  bool GetQuiet() {return m_Quiet;}
+  void SetQuiet(bool val) { m_Quiet = val; }
+  bool GetQuiet() { return m_Quiet; }
 
   /** Get the comment for the watcher. */
-  std::string GetComment() {return m_Comment;}
+  std::string GetComment() { return m_Comment; }
 
   /** Get a reference to the TimeProbe */
-  TimeProbe &GetTimeProbe() {return m_TimeProbe;}
-
+  TimeProbe & GetTimeProbe() { return m_TimeProbe; }
 protected:
 
   /** Callback method to show the ProgressEvent */
   virtual void ShowProgress()
-    {
-    if (m_Process)
+  {
+    if ( m_Process )
       {
       m_Steps++;
-      if (!m_Quiet)
+      if ( !m_Quiet )
         {
         std::cout << " | " << m_Process->GetProgress() << std::flush;
-        if ((m_Steps % 10) == 0)
+        if ( ( m_Steps % 10 ) == 0 )
           {
           std::cout << std::endl;
           }
         }
-      if (m_TestAbort)
+      if ( m_TestAbort )
         {
-        if (m_Process->GetProgress() > .03)
+        if ( m_Process->GetProgress() > .03 )
           {
           m_Process->AbortGenerateDataOn();
           }
         }
       }
-    }
+  }
 
   /** Callback method to show the AbortEvent */
   virtual void ShowAbort()
-    {
+  {
     std::cout << std::endl << "-------Aborted" << std::endl << std::flush;
-    }
+  }
 
   /** Callback method to show the IterationEvent */
   virtual void ShowIteration()
-    {
-    std::cout << " # " << std::flush;
+  {
+    std::cout << " #" << std::flush;
     m_Iterations++;
-    }
+  }
 
   /** Callback method to show the StartEvent */
   virtual void StartFilter()
-    {
+  {
     m_Steps = 0;
     m_Iterations = 0;
     m_TimeProbe.Start();
     std::cout << "-------- Start "
-              << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
+              << ( m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None" )
               << " \"" << m_Comment << "\" ";
-    if (!m_Quiet)
+    if ( !m_Quiet )
       {
-      if (m_Process)
+      if ( m_Process )
         {
         std::cout << m_Process;
         }
@@ -181,24 +178,24 @@ protected:
         std::cout << "Null";
         }
       }
-    std::cout << (m_Quiet ? "Progress Quiet " : "Progress ")
+    std::cout << ( m_Quiet ? "Progress Quiet " : "Progress " )
               << std::flush;
-    }
+  }
 
   /** Callback method to show the EndEvent */
   virtual void EndFilter()
-    {
+  {
     m_TimeProbe.Stop();
     std::cout << std::endl << "Filter took "
               << m_TimeProbe.GetMeanTime()
               << " seconds.";
     std::cout << std::endl
               << "-------- End "
-              << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None")
+              << ( m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None" )
               << " \"" << m_Comment << "\" " << std::endl;
-    if (!m_Quiet)
+    if ( !m_Quiet )
       {
-      if (m_Process)
+      if ( m_Process )
         {
         std::cout << m_Process;
         }
@@ -208,11 +205,11 @@ protected:
         }
       std::cout << std::flush;
       }
-    if (m_Steps < 1)
+    if ( m_Steps < 1 )
       {
       itkExceptionMacro ("Filter does not have progress.");
       }
-    }
+  }
 
 private:
   TimeProbe                   m_TimeProbe;
@@ -223,7 +220,7 @@ private:
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 
-  typedef SimpleMemberCommand<SimpleFilterWatcher> CommandType;
+  typedef SimpleMemberCommand< SimpleFilterWatcher > CommandType;
   CommandType::Pointer m_StartFilterCommand;
   CommandType::Pointer m_EndFilterCommand;
   CommandType::Pointer m_ProgressFilterCommand;
@@ -236,7 +233,6 @@ private:
   unsigned long m_IterationTag;
   unsigned long m_AbortTag;
 };
-
 } // end namespace itk
 
 #endif

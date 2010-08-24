@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -47,17 +47,17 @@ namespace itk
  *
  * For example, if a directory contains the files
  *
- *         foo_5_1.png 
- *         foo_5_2.png 
- *         foo_5_3.png 
- *         foo_6_1.png 
- *         foo_6_2.png 
- *         foo_6_3.png 
+ *         foo_5_1.png
+ *         foo_5_2.png
+ *         foo_5_3.png
+ *         foo_6_1.png
+ *         foo_6_2.png
+ *         foo_6_3.png
  *
  * and specifying an archetypical file foo_5_1.png, the filename list
  * will contain
  *
- *         foo_5_1.png 
+ *         foo_5_1.png
  *         foo_5_2.png
  *         foo_5_3.png
  *
@@ -65,15 +65,14 @@ namespace itk
  *
  */
 
-
-class ITK_EXPORT ArchetypeSeriesFileNames : public Object
+class ITK_EXPORT ArchetypeSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */
   typedef ArchetypeSeriesFileNames Self;
   typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  
+  typedef SmartPointer< Self >     Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -84,7 +83,8 @@ public:
 
   // The archetypical filename from which to generate the regular
   // expressions
-  void SetArchetype(const std::string &archetype);
+  void SetArchetype(const std::string & archetype);
+
   itkGetStringMacro(Archetype);
 
   typedef  size_t VectorSizeType;
@@ -93,38 +93,36 @@ public:
   VectorSizeType GetNumberOfGroupings();
 
   /** Helper types for managing the groups of filenames and their sizes */
-  typedef std::vector < int >         IntVectorType;
-  typedef std::vector < std::string > StringVectorType;
+  typedef std::vector< int >         IntVectorType;
+  typedef std::vector< std::string > StringVectorType;
 
   /** Returns a vector containing the series' file names. The file
     * names are ordered by Index. Defaults to returning the filenames
     * to the rightmost grouping. */
-  const StringVectorType &GetFileNames ( VectorSizeType group = 0);
-
+  const StringVectorType & GetFileNames(VectorSizeType group = 0);
 
 protected:
   ArchetypeSeriesFileNames();
-  ~ArchetypeSeriesFileNames() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ArchetypeSeriesFileNames() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method that actually does the archetype matching/grouping */
   void Scan();
-  
+
 private:
-  ArchetypeSeriesFileNames(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ArchetypeSeriesFileNames(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
+
   /** A string for formatting the names of files in the series. */
   std::string m_Archetype;
 
   std::vector< StringVectorType > m_Groupings;
-  StringVectorType                m_FileNames; // ivar for returning by reference
+  StringVectorType                m_FileNames; // ivar for returning by
+                                               // reference
 
-  TimeStamp  m_ArchetypeMTime;
-  TimeStamp  m_ScanTime;
-  
+  TimeStamp m_ArchetypeMTime;
+  TimeStamp m_ScanTime;
 };
-
 } //namespace ITK
 
 #endif // __itkArchetypeSeriesFileNames_h

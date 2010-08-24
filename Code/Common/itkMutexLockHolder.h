@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,27 +24,27 @@
 
 namespace itk
 {
-
 /** \class MutexLockHolder
  *
  */
-template <class TMutex>
+template< class TMutex >
 class MutexLockHolder
 {
 public:
   typedef TMutex Mutex;
-  MutexLockHolder(Mutex& mutex): m_Mutex(mutex)
-    {
+  MutexLockHolder(Mutex & mutex):m_Mutex(mutex)
+  {
     m_Mutex.Lock();
-    }
-  ~MutexLockHolder()
-    {
-    m_Mutex.Unlock();
-    }
-protected:
-  Mutex& m_Mutex;
-};
+  }
 
-}//end itk namespace
+  ~MutexLockHolder()
+  {
+    m_Mutex.Unlock();
+  }
+
+protected:
+  Mutex & m_Mutex;
+};
+} //end itk namespace
 
 #endif

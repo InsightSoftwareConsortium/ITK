@@ -19,23 +19,22 @@
 
 #include "itkListSample.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TMeasurementVector >
 ListSample< TMeasurementVector >
 ::ListSample()
-{
-}
+{}
 
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::Resize( InstanceIdentifier newsize )
+::Resize(InstanceIdentifier newsize)
 {
-  this->m_InternalContainer.resize( newsize );
+  this->m_InternalContainer.resize(newsize);
 }
-
 
 template< class TMeasurementVector >
 void
@@ -48,13 +47,13 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::PushBack( const MeasurementVectorType & mv )
+::PushBack(const MeasurementVectorType & mv)
 {
-  if( this->GetMeasurementVectorSize() != MeasurementVectorTraits::GetLength( mv ) )
+  if ( this->GetMeasurementVectorSize() != MeasurementVectorTraits::GetLength(mv) )
     {
     itkExceptionMacro("MeasurementVector instance doesn't match MeasurementVectorSize");
     }
-  this->m_InternalContainer.push_back( mv );
+  this->m_InternalContainer.push_back(mv);
 }
 
 template< class TMeasurementVector >
@@ -62,8 +61,8 @@ typename ListSample< TMeasurementVector >::InstanceIdentifier
 ListSample< TMeasurementVector >
 ::Size() const
 {
-  return static_cast<InstanceIdentifier>(
-    this->m_InternalContainer.size() );
+  return static_cast< InstanceIdentifier >(
+           this->m_InternalContainer.size() );
 }
 
 template< class TMeasurementVector >
@@ -75,7 +74,6 @@ ListSample< TMeasurementVector >
   // frequency is equal to the numbe of entries.
   return this->Size();
 }
-
 
 template< class TMeasurementVector >
 const typename ListSample< TMeasurementVector >::MeasurementVectorType &
@@ -92,9 +90,9 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::SetMeasurement( InstanceIdentifier instanceId,
-                  unsigned int dim,
-                  const MeasurementType &value)
+::SetMeasurement(InstanceIdentifier instanceId,
+                 unsigned int dim,
+                 const MeasurementType & value)
 {
   if ( instanceId < m_InternalContainer.size() )
     {
@@ -105,8 +103,8 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::SetMeasurementVector( InstanceIdentifier instanceId,
-                        const MeasurementVectorType &mv)
+::SetMeasurementVector(InstanceIdentifier instanceId,
+                       const MeasurementVectorType & mv)
 {
   if ( instanceId < m_InternalContainer.size() )
     {
@@ -117,7 +115,7 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 typename ListSample< TMeasurementVector >::AbsoluteFrequencyType
 ListSample< TMeasurementVector >
-::GetFrequency( InstanceIdentifier instanceId ) const
+::GetFrequency(InstanceIdentifier instanceId) const
 {
   if ( instanceId < m_InternalContainer.size() )
     {
@@ -132,14 +130,14 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::Graft( const DataObject *thatObject )
+::Graft(const DataObject *thatObject)
 {
   this->Superclass::Graft(thatObject);
 
-  const Self *thatConst = dynamic_cast< const Self * >(thatObject);
-  if (thatConst)
+  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  if ( thatConst )
     {
-    Self *that = const_cast< Self * >(thatConst);
+    Self *that = const_cast< Self * >( thatConst );
     this->m_InternalContainer = that->m_InternalContainer;
     }
 }
@@ -147,9 +145,9 @@ ListSample< TMeasurementVector >
 template< class TMeasurementVector >
 void
 ListSample< TMeasurementVector >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Internal Data Container: "
      << &m_InternalContainer << std::endl;

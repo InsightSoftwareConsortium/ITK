@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOptBlackTopHatImageFilter_txx
-#define __itkOptBlackTopHatImageFilter_txx
+#ifndef __itkBlackTopHatImageFilter_txx
+#define __itkBlackTopHatImageFilter_txx
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -24,11 +24,10 @@
 #include "itkSubtractImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-
-namespace itk {
-
-template <class TInputImage, class TOutputImage, class TKernel>
-BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+BlackTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::BlackTopHatImageFilter()
 {
   m_SafeBorder = true;
@@ -36,29 +35,29 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   m_ForceAlgorithm = false;
 }
 
-
-template <class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
+BlackTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
 
   // Delegate to a closing filter.
-  typename GrayscaleMorphologicalClosingImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    close = GrayscaleMorphologicalClosingImageFilter<TInputImage, TInputImage, TKernel>::New();
+  typename GrayscaleMorphologicalClosingImageFilter< TInputImage, TInputImage, TKernel >::Pointer
+  close = GrayscaleMorphologicalClosingImageFilter< TInputImage, TInputImage, TKernel >::New();
 
   close->SetInput( this->GetInput() );
   close->SetKernel( this->GetKernel() );
-  close->SetSafeBorder( m_SafeBorder );
-  if( m_ForceAlgorithm )
+  close->SetSafeBorder(m_SafeBorder);
+  if ( m_ForceAlgorithm )
     {
-    close->SetAlgorithm( m_Algorithm );
+    close->SetAlgorithm(m_Algorithm);
     }
   else
     {
@@ -66,8 +65,8 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
     }
 
   // Need to subtract the input from the closed image
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
-    subtract=SubtractImageFilter<TInputImage,TInputImage,TOutputImage>::New();
+  typename SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::Pointer
+  subtract = SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::New();
 
   subtract->SetInput1( close->GetOutput() );
   subtract->SetInput2( this->GetInput() );
@@ -77,8 +76,8 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   subtract->GraftOutput( this->GetOutput() );
 
   // run the algorithm
-  progress->RegisterInternalFilter(close,.9f);
-  progress->RegisterInternalFilter(subtract,.1f);
+  progress->RegisterInternalFilter(close, .9f);
+  progress->RegisterInternalFilter(subtract, .1f);
 
   subtract->Update();
 
@@ -86,13 +85,12 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( subtract->GetOutput() );
-
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+BlackTopHatImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -100,6 +98,5 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
   os << indent << "ForceAlgorithm: " << m_ForceAlgorithm << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class WarpVectorImageFilter
  * \brief Warps an image using an input deformation field.
  *
@@ -43,14 +42,14 @@ namespace itk
  * any holes and overlaps in the output image.
  *
  * Each vector in the deformation field represent the distance between
- * a geometric point in the input space and a point in the output space such 
+ * a geometric point in the input space and a point in the output space such
  * that:
  *
  * \f[ p_{in} = p_{out} + d \f]
  *
- * Typically the mapped position does not correspond to an integer pixel 
+ * Typically the mapped position does not correspond to an integer pixel
  * position in the input image. Interpolation via an image function
- * is used to compute values at non-integer positions. The default 
+ * is used to compute values at non-integer positions. The default
  * interpolation typed used is the LinearInterpolateImageFunction.
  * The user can specify a particular interpolation function via
  * SetInterpolator(). Note that the input interpolator must derive
@@ -81,26 +80,26 @@ namespace itk
  *
  * \ingroup GeometricTransforms MultiThreaded
  */
-template <
+template<
   class TInputImage,
   class TOutputImage,
   class TDeformationField
   >
-class ITK_EXPORT WarpVectorImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT WarpVectorImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef WarpVectorImageFilter                        Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef WarpVectorImageFilter                           Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( WarpVectorImageFilter, ImageToImageFilter );
+  itkTypeMacro(WarpVectorImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
@@ -120,11 +119,11 @@ public:
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
 
   /** Dimension of the Vector pixel type. */
   itkStaticConstMacro(PixelDimension, unsigned int,
-                      PixelType::Dimension );
+                      PixelType::Dimension);
 
   /** Deformation field typedef support. */
   typedef TDeformationField                        DeformationFieldType;
@@ -132,56 +131,56 @@ public:
   typedef typename DeformationFieldType::PixelType DisplacementType;
 
   /** Interpolator typedef support. */
-  typedef double CoordRepType;
-  typedef VectorInterpolateImageFunction<InputImageType,CoordRepType>   InterpolatorType;
-  typedef typename InterpolatorType::Pointer   InterpolatorPointer;
-  typedef VectorLinearInterpolateImageFunction<InputImageType,CoordRepType>
+  typedef double                                                         CoordRepType;
+  typedef VectorInterpolateImageFunction< InputImageType, CoordRepType > InterpolatorType;
+  typedef typename InterpolatorType::Pointer                             InterpolatorPointer;
+  typedef VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >
   DefaultInterpolatorType;
 
   /** Point type */
-  typedef Point<CoordRepType,itkGetStaticConstMacro(ImageDimension)> PointType;
+  typedef Point< CoordRepType, itkGetStaticConstMacro(ImageDimension) > PointType;
 
   /** Type for representing the direction of the output image */
-  typedef typename TOutputImage::DirectionType     DirectionType;
+  typedef typename TOutputImage::DirectionType DirectionType;
 
   /** Set the deformation field. */
-  void SetDeformationField( const DeformationFieldType * field );
+  void SetDeformationField(const DeformationFieldType *field);
 
   /** Set the deformation field (non const for backward compatibility). */
-  void SetDeformationField( DeformationFieldType * field );
+  void SetDeformationField(DeformationFieldType *field);
 
   /** Get a pointer the deformation field. */
   DeformationFieldType * GetDeformationField(void);
 
   /** Set the interpolator function. */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
+  itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing( const double* values);
+  virtual void SetOutputSpacing(const double *values);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, PointType);
-  virtual void SetOutputOrigin( const double* values);
+  virtual void SetOutputOrigin(const double *values);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, PointType);
 
   /** Set/Get the direction (orientation) of the output image */
-  itkSetMacro(OutputDirection, DirectionType );
-  itkGetConstReferenceMacro(OutputDirection, DirectionType );
+  itkSetMacro(OutputDirection, DirectionType);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
   /** Set the edge padding value */
-  itkSetMacro( EdgePaddingValue, PixelType );
+  itkSetMacro(EdgePaddingValue, PixelType);
 
   /** Get the edge padding value */
-  itkGetConstMacro( EdgePaddingValue, PixelType );
+  itkGetConstMacro(EdgePaddingValue, PixelType);
 
   /** WarpVectorImageFilter produces an image which is a different
    * size than its input image. As such, it needs to provide an
@@ -198,45 +197,42 @@ public:
    * set to be the same as that of the output requested region. */
   virtual void GenerateInputRequestedRegion();
 
-  /** This method is used to set the state of the filter before 
+  /** This method is used to set the state of the filter before
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<ValueType>));
-  itkConceptMacro(DeformationFieldHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TDeformationField::PixelType::ValueType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< ValueType > ) );
+  itkConceptMacro( DeformationFieldHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TDeformationField::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   WarpVectorImageFilter();
-  ~WarpVectorImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~WarpVectorImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** WarpVectorImageFilter is implemented as a multi-threaded filter.
-   * As such, it needs to provide and implementation for 
+   * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  WarpVectorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  WarpVectorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
-  PixelType                  m_EdgePaddingValue;
-  SpacingType                m_OutputSpacing;
-  PointType                  m_OutputOrigin;
-  DirectionType              m_OutputDirection;
+  PixelType     m_EdgePaddingValue;
+  SpacingType   m_OutputSpacing;
+  PointType     m_OutputOrigin;
+  DirectionType m_OutputDirection;
 
-  InterpolatorPointer        m_Interpolator;
-  
+  InterpolatorPointer m_Interpolator;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

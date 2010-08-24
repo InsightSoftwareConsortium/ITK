@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class GrayscaleGrindPeakImageFilter
  * \brief Remove local maxima not connected to the boundary of the image.
  *
@@ -57,30 +57,29 @@ namespace itk {
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT GrayscaleGrindPeakImageFilter : 
-  public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT GrayscaleGrindPeakImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleGrindPeakImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef GrayscaleGrindPeakImageFilter                   Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -88,10 +87,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleGrindPeakImageFilter, 
+  itkTypeMacro(GrayscaleGrindPeakImageFilter,
                ImageToImageFilter);
 
   /**
@@ -106,15 +105,14 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputOStreamWritableCheck,
-                  (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   GrayscaleGrindPeakImageFilter();
-  ~GrayscaleGrindPeakImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~GrayscaleGrindPeakImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GrayscaleGrindPeakImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -122,24 +120,22 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** GrayscaleGrindPeakImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicDilateImageFilter. */
   void GenerateData();
-  
 
 private:
-  GrayscaleGrindPeakImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GrayscaleGrindPeakImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
 
   unsigned long m_NumberOfIterationsUsed;
 
-  bool                m_FullyConnected;
+  bool m_FullyConnected;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGrayscaleGrindPeakImageFilter.txx"
 #endif

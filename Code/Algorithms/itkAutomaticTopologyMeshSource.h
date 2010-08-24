@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,7 +33,7 @@
 namespace itk
 {
 /** \class AutomaticTopologyMeshSource
- * \brief Convenience class for generating meshes.  
+ * \brief Convenience class for generating meshes.
  *
  * This generates an N-dimensional mesh consisting of some combination
  * of vertices, line segments, triangles, quadrilaterals, tetrahedra,
@@ -60,18 +60,18 @@ namespace itk
  * objects, then the points are added to the mesh if necessary.
  *
  * The different ways of specifying a cell are
- * 
- *  -# An IdentifierArrayType (= itk::Array<IdentifierType>) of point
+ *
+ *  -#An IdentifierArrayType (= itk::Array<IdentifierType>) of point
  *     identifiers.  These point identifiers are the ones returned by
  *     calls to AddPoint().
- *  -# A parameter list of point identifiers (for instance, 
+ *  -#A parameter list of point identifiers (for instance,
  *     <tt>this->AddLine(0, 1)</tt>, if 0 and 1 are point identifiers).
- *  -# A parameter list of itk::Point objects (the function then
+ *  -#A parameter list of itk::Point objects (the function then
  *     generates the identifiers).
- *  -# A parameter list of C-style arrays, with each such array giving
+ *  -#A parameter list of C-style arrays, with each such array giving
  *     the coordinates of one point.  This form is useful for copying
  *     in geometry from foreign data structures.
- * 
+ *
  * For meshes generated using this filter, only one cell can be added
  * for any given set of vertices.  If a, b, c, and d are identifiers
  * for four points in R^3, then (a, b, c, d) and (a, c, d, b)
@@ -107,15 +107,15 @@ namespace itk
  * Add[Something]() call, and Update() is a no-op.  It is <b>not
  * thread safe</b>.
  */
-template <class TOutputMesh>
-class ITK_EXPORT AutomaticTopologyMeshSource : public MeshSource<TOutputMesh>
+template< class TOutputMesh >
+class ITK_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
-  typedef AutomaticTopologyMeshSource   Self;
-  typedef MeshSource<TOutputMesh>       Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef AutomaticTopologyMeshSource Self;
+  typedef MeshSource< TOutputMesh >   Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** Hold on to the type information specified by the template parameters. */
   typedef          TOutputMesh               MeshType;
@@ -127,19 +127,19 @@ public:
   typedef typename CellType::CellAutoPointer CellAutoPointer;
 
   /** Different kinds of cells. */
-  typedef ::itk::VertexCell< CellType >        VertexCell;
-  typedef ::itk::LineCell< CellType >          LineCell;
-  typedef ::itk::TriangleCell< CellType >      TriangleCell;
-  typedef ::itk::QuadrilateralCell< CellType > QuadrilateralCell;
-  typedef ::itk::TetrahedronCell< CellType >   TetrahedronCell;
-  typedef ::itk::HexahedronCell< CellType >    HexahedronCell;
+  typedef::itk::VertexCell< CellType >        VertexCell;
+  typedef::itk::LineCell< CellType >          LineCell;
+  typedef::itk::TriangleCell< CellType >      TriangleCell;
+  typedef::itk::QuadrilateralCell< CellType > QuadrilateralCell;
+  typedef::itk::TetrahedronCell< CellType >   TetrahedronCell;
+  typedef::itk::HexahedronCell< CellType >    HexahedronCell;
 
   /** This class requires that the mesh being built use unsigned long
    * as the identifier type for all its elements. */
   typedef unsigned long IdentifierType;
 
   /** Array of IdentifierType objects used to specify cells. */
-  typedef Array< IdentifierType >              IdentifierArrayType;
+  typedef Array< IdentifierType > IdentifierArrayType;
 
   /** hash_map typedefs. */
 
@@ -155,40 +155,47 @@ public:
                       MeshType::MaxTopologicalDimension);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AutomaticTopologyMeshSource, MeshSource);
 
   /** Add the point p0 if it's not already there, and return its ID. */
-  IdentifierType AddPoint( const PointType& p0 );
-  IdentifierType AddPoint( const CoordinateType* p0);
+  IdentifierType AddPoint(const PointType & p0);
+
+  IdentifierType AddPoint(const CoordinateType *p0);
 
   /** Add the point with coordinates (x0, ..., xN) where N =
    *  PointDimension - 1.  If N < 5, then any parameters after xN are
    *  ignored.  If PointDimension > 6, then a point is generated with
    *  the first six coordinates equal to x0, ..., x5, and the rest set
    *  to 0. */
-  IdentifierType AddPoint( CoordinateType x0 = 0, CoordinateType x1 = 0,
-                           CoordinateType x2 = 0, CoordinateType x3 = 0,
-                           CoordinateType x4 = 0, CoordinateType x5 = 0 );
+  IdentifierType AddPoint(CoordinateType x0 = 0, CoordinateType x1 = 0,
+                          CoordinateType x2 = 0, CoordinateType x3 = 0,
+                          CoordinateType x4 = 0, CoordinateType x5 = 0);
 
   /** Add a vertex located at the given point, and return its ID. */
-  IdentifierType AddVertex( const IdentifierArrayType& pointIds );
-  IdentifierType AddVertex( IdentifierType pointId0 );
-  IdentifierType AddVertex( const PointType& p0 );
-  IdentifierType AddVertex( const CoordinateType* p0);
+  IdentifierType AddVertex(const IdentifierArrayType & pointIds);
+
+  IdentifierType AddVertex(IdentifierType pointId0);
+
+  IdentifierType AddVertex(const PointType & p0);
+
+  IdentifierType AddVertex(const CoordinateType *p0);
 
   /** Add the line specified by the two points, and return its ID.
    * The endpoints and their associated vertices are associated to the
    * line in the order that they are specified the first time the
    * function is called. */
-  IdentifierType AddLine( const IdentifierArrayType& pointIds );
+  IdentifierType AddLine(const IdentifierArrayType & pointIds);
+
   IdentifierType AddLine(
-    IdentifierType pointId0, IdentifierType pointId1 );
-  IdentifierType AddLine( const PointType& p0, const PointType& p1 );
-  IdentifierType AddLine( const CoordinateType* p0,
-                          const CoordinateType* p1);
+    IdentifierType pointId0, IdentifierType pointId1);
+
+  IdentifierType AddLine(const PointType & p0, const PointType & p1);
+
+  IdentifierType AddLine(const CoordinateType *p0,
+                         const CoordinateType *p1);
 
   /** Add the triangle specified by the three points, and return its
    * ID. If the points are p0, p1, and p2, then the following
@@ -200,15 +207,18 @@ public:
    *
    * Lines: (p0, p1), (p1, p2), (p2, p0).
    * */
-  IdentifierType AddTriangle(      const IdentifierArrayType& pointIds );
+  IdentifierType AddTriangle(const IdentifierArrayType & pointIds);
+
   IdentifierType AddTriangle(
     IdentifierType pointId0, IdentifierType pointId1,
-    IdentifierType pointId2 );
-  IdentifierType AddTriangle( const PointType& p0, const PointType& p1,
-                              const PointType& p2 );
-  IdentifierType AddTriangle( const CoordinateType* p0,
-                              const CoordinateType* p1,
-                              const CoordinateType* p2);
+    IdentifierType pointId2);
+
+  IdentifierType AddTriangle(const PointType & p0, const PointType & p1,
+                             const PointType & p2);
+
+  IdentifierType AddTriangle(const CoordinateType *p0,
+                             const CoordinateType *p1,
+                             const CoordinateType *p2);
 
   /** Add the quadrilateral specified by the four points, and return its
    * ID. If the points are p0, p1, p2, and p3, then the following
@@ -230,16 +240,19 @@ public:
    * then you would call, for instance,
    * <tt>meshSource->AddQuadrilateral(p0, p1, p2, p3)</tt>.
    * */
-  IdentifierType AddQuadrilateral( const IdentifierArrayType& pointIds );
+  IdentifierType AddQuadrilateral(const IdentifierArrayType & pointIds);
+
   IdentifierType AddQuadrilateral(
     IdentifierType pointId0, IdentifierType pointId1,
-    IdentifierType pointId2, IdentifierType pointId3 );
-  IdentifierType AddQuadrilateral( const PointType& p0, const PointType& p1,
-                                   const PointType& p2, const PointType& p3 );
-  IdentifierType AddQuadrilateral( const CoordinateType* p0,
-                                   const CoordinateType* p1,
-                                   const CoordinateType* p2,
-                                   const CoordinateType* p3);
+    IdentifierType pointId2, IdentifierType pointId3);
+
+  IdentifierType AddQuadrilateral(const PointType & p0, const PointType & p1,
+                                  const PointType & p2, const PointType & p3);
+
+  IdentifierType AddQuadrilateral(const CoordinateType *p0,
+                                  const CoordinateType *p1,
+                                  const CoordinateType *p2,
+                                  const CoordinateType *p3);
 
   /** Add the tetrahedron specified by the three points, and return its
    * ID. If the points are p0, p1, and p2, then the following
@@ -253,16 +266,19 @@ public:
    *
    * Triangles: (p0, p1, p2), (p0, p1, p3), (p0, p2, p3), (p1, p2, * p3).
    * */
-  IdentifierType AddTetrahedron(   const IdentifierArrayType& pointIds );
+  IdentifierType AddTetrahedron(const IdentifierArrayType & pointIds);
+
   IdentifierType AddTetrahedron(
     IdentifierType pointId0, IdentifierType pointId1,
-    IdentifierType pointId2, IdentifierType pointId3 );
-  IdentifierType AddTetrahedron( const PointType& p0, const PointType& p1,
-                                 const PointType& p2, const PointType& p3 );
-  IdentifierType AddTetrahedron( const CoordinateType* p0,
-                                 const CoordinateType* p1,
-                                 const CoordinateType* p2,
-                                 const CoordinateType* p3);
+    IdentifierType pointId2, IdentifierType pointId3);
+
+  IdentifierType AddTetrahedron(const PointType & p0, const PointType & p1,
+                                const PointType & p2, const PointType & p3);
+
+  IdentifierType AddTetrahedron(const CoordinateType *p0,
+                                const CoordinateType *p1,
+                                const CoordinateType *p2,
+                                const CoordinateType *p3);
 
   /** Add the hexahedron specified by the four points, and return its
    * ID. If the points are p0, p1, p2, and p3, then the following
@@ -292,66 +308,67 @@ public:
    * then you would call, for instance,
    * <tt>meshSource->AddQuadrilateral(p0, p1, p2, p3, p4, p5, p6,
    * p7)</tt>. */
-  IdentifierType AddHexahedron(    const IdentifierArrayType& pointIds );
+  IdentifierType AddHexahedron(const IdentifierArrayType & pointIds);
+
   IdentifierType AddHexahedron(
     IdentifierType pointId0, IdentifierType pointId1,
     IdentifierType pointId2, IdentifierType pointId3,
     IdentifierType pointId4, IdentifierType pointId5,
-    IdentifierType pointId6, IdentifierType pointId7 );
-  IdentifierType AddHexahedron(
-    const PointType& p0, const PointType& p1, const PointType& p2,
-    const PointType& p3, const PointType& p4, const PointType& p5,
-    const PointType& p6, const PointType& p7
-    );
-  IdentifierType AddHexahedron( const CoordinateType* p0,
-                                const CoordinateType* p1,
-                                const CoordinateType* p2,
-                                const CoordinateType* p3,
-                                const CoordinateType* p4,
-                                const CoordinateType* p5,
-                                const CoordinateType* p6,
-                                const CoordinateType* p7);
+    IdentifierType pointId6, IdentifierType pointId7);
 
+  IdentifierType AddHexahedron(
+    const PointType & p0, const PointType & p1, const PointType & p2,
+    const PointType & p3, const PointType & p4, const PointType & p5,
+    const PointType & p6, const PointType & p7
+    );
+
+  IdentifierType AddHexahedron(const CoordinateType *p0,
+                               const CoordinateType *p1,
+                               const CoordinateType *p2,
+                               const CoordinateType *p3,
+                               const CoordinateType *p4,
+                               const CoordinateType *p5,
+                               const CoordinateType *p6,
+                               const CoordinateType *p7);
 
   class IdentifierArrayHashFunction
+  {
+public:
+    unsigned long operator()(Array< unsigned long > identifierArray) const
     {
-  public:
-    unsigned long operator()( Array< unsigned long > identifierArray) const
-      {
       typedef unsigned long Ulong;
 
       Ulong size = identifierArray.Size();
 
       std::sort( identifierArray.begin(), identifierArray.end() );
 
-      Ulong hash = 0;
-      Ulong* id = &identifierArray[ 0 ];
+      Ulong  hash = 0;
+      Ulong *id = &identifierArray[0];
 
-      while( size-- )
+      while ( size-- )
         {
         hash += *id++;
-        hash = (hash << 7) | (hash >> 25); // Rotate left by 7.
+        hash = ( hash << 7 ) | ( hash >> 25 ); // Rotate left by 7.
         }
 
       return hash;
-      }
-    };
+    }
+  };
 
   class IdentifierArrayEqualsFunction
-    {
-  public:
+  {
+public:
     bool operator()(
       Array< unsigned long > identifierArray1,
       Array< unsigned long > identifierArray2
       ) const
-      {
+    {
       typedef unsigned long Ulong;
 
-      
       Ulong size1 = identifierArray1.Size();
       Ulong size2 = identifierArray2.Size();
 
-      if( size1 != size2 )
+      if ( size1 != size2 )
         {
         return false;
         }
@@ -360,20 +377,17 @@ public:
       std::sort( identifierArray2.begin(), identifierArray2.end() );
 
       return ( identifierArray1 == identifierArray2 );
-      }
-
-    };
-
+    }
+  };
 protected:
   AutomaticTopologyMeshSource();
   ~AutomaticTopologyMeshSource();
 
-  void GenerateData() {}; // GenerateData is a no-op, since the entries 
+  void GenerateData() {}  // GenerateData is a no-op, since the entries
                           // are controlled manually
-
 private:
-  AutomaticTopologyMeshSource(const Self&);  //purposely not implemented
-  void operator=(const Self&);               //purposely not implemented
+  AutomaticTopologyMeshSource(const Self &);  //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
   typedef itk::hash_map<
     Array< IdentifierType >,
@@ -384,9 +398,7 @@ private:
   PointHashMap m_PointsHashTable;
   CellHashMap  m_CellsHashTable;
   MeshPointer  m_OutputMesh;   // Retained for convenience.
-  
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

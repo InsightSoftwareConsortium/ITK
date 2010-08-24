@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,6 @@ namespace itk
 {
 namespace watershed
 {
-
 /** \class Relabeler
  *
  * This filter implements the final step in the watershed segmentation
@@ -36,20 +35,20 @@ namespace watershed
  * documentation.)
  *
  * \par Inputs
- * There are two inputs to this filter.  The first input is a labeled image of 
+ * There are two inputs to this filter.  The first input is a labeled image of
  * unsigned long integers, such as is produced by itk::watershed::Segmenter.
- * The second input is an itk::watershed::SegmentTree, which is the merge tree 
+ * The second input is an itk::watershed::SegmentTree, which is the merge tree
  * data structure produced by the itk::watershed::SegmentTreeGenerator
  * filter.  The merge tree represents the hierarchy of merges among adjacent
  * segments in the initial segmentation image.
  *
  * \par Output
- * The output of this filter is a relabeled image of unsigned long integers of 
+ * The output of this filter is a relabeled image of unsigned long integers of
  * dimension and size matching the input.
  *
  * \par Parameters
  * There is a single parameter FloodLevel for this filter.  FloodLevel is
- * given in percentage points (0.0 - 1.0) of the maximum saliency found in the 
+ * given in percentage points (0.0 - 1.0) of the maximum saliency found in the
  * merge tree.  A FloodLevel of 0.0 will produce an output in which no
  * segments are relabeled (merged).  A FloodLevel of 1.0 will produce an
  * output in which all the entries in the merge tree are used to relabel the
@@ -60,64 +59,67 @@ namespace watershed
  * \sa itk::WatershedImageFilter
  * \sa itk::EquivalencyTable
  * \sa itk::watershed::SegmentTree  */
-template <class TScalarType, unsigned int TImageDimension>
-class ITK_EXPORT Relabeler
-  : public ProcessObject
+template< class TScalarType, unsigned int TImageDimension >
+class ITK_EXPORT Relabeler:
+  public ProcessObject
 {
 public:
   /** Define smart pointers for this object */
-  typedef Relabeler                Self;
-  typedef ProcessObject            Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Relabeler                  Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedRelabeler, ProcessObject);
 
   /** Expose the ImageDimension template parameter at run time */
-  itkStaticConstMacro(ImageDimension, unsigned int,TImageDimension);
-  
+  itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
+
   /** Some convenient typedefs */
-  typedef TScalarType                                    ScalarType;
-  typedef Image<unsigned long, TImageDimension>          ImageType;
-  typedef SegmentTree<ScalarType>                        SegmentTreeType;
-  typedef Segmenter<Image<ScalarType, TImageDimension> > SegmenterType;
-  typedef DataObject::Pointer                            DataObjectPointer;
+  typedef TScalarType                                       ScalarType;
+  typedef Image< unsigned long, TImageDimension >           ImageType;
+  typedef SegmentTree< ScalarType >                         SegmentTreeType;
+  typedef Segmenter< Image< ScalarType, TImageDimension > > SegmenterType;
+  typedef DataObject::Pointer                               DataObjectPointer;
 
   /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
-  
+
   /** Set/Get the input image */
   void SetInputImage(ImageType *img)
-    {
+  {
     this->ProcessObject::SetNthInput(0, img);
-    }
+  }
+
   ImageType * GetInputImage(void)
-    {
-    return static_cast<ImageType *>
-      (this->ProcessObject::GetInput(0) );
-    }
+  {
+    return static_cast< ImageType * >
+           ( this->ProcessObject::GetInput(0) );
+  }
 
   /** Set/Get the output image */
-  void SetOutputImage(ImageType * img)
-    {
-    this->ProcessObject::SetNthOutput(0,img);
-    }
+  void SetOutputImage(ImageType *img)
+  {
+    this->ProcessObject::SetNthOutput(0, img);
+  }
+
   ImageType * GetOutputImage(void)
-    {
-    return static_cast<ImageType *>
-      (this->ProcessObject::GetOutput(0) );
-    }
+  {
+    return static_cast< ImageType * >
+           ( this->ProcessObject::GetOutput(0) );
+  }
 
   /** Set/Get the input tree that defines segment merges */
   void SetInputSegmentTree(SegmentTreeType *et)
-    {
+  {
     this->ProcessObject::SetNthInput(1, et);
-    }
+  }
+
   SegmentTreeType * GetInputSegmentTree(void)
-    {
-    return static_cast<SegmentTreeType *>
-      (this->ProcessObject::GetInput(1));
-    }
+  {
+    return static_cast< SegmentTreeType * >
+           ( this->ProcessObject::GetInput(1) );
+  }
 
   /** Standard non-threaded pipeline method */
   void GenerateData();
@@ -129,22 +131,23 @@ public:
 
   /** Standard ProcessObject method used in implementing mini-pipelines */
   void GraftOutput(ImageType *graft);
+
   void GraftNthOutput(unsigned int idx, ImageType *graft);
-  
+
 protected:
   Relabeler();
   virtual ~Relabeler() {}
-  Relabeler(const Self&) {}
-  void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  Relabeler(const Self &) {}
+  void operator=(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   double m_FloodLevel;
   void GenerateOutputRequestedRegion(DataObject *output);
+
   void GenerateInputRequestedRegion();
 };
-  
-}// end namespace watershed
-}// end namespace itk
+} // end namespace watershed
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWatershedRelabeler.txx"

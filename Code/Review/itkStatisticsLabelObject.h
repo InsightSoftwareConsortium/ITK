@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class StatisticsLabelObject
  *  \brief A Label object to store the common attributes related to the statistics of the object
  *
@@ -31,22 +30,22 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
-template < class TLabel, unsigned int VImageDimension >
-class ITK_EXPORT StatisticsLabelObject : public ShapeLabelObject< TLabel, VImageDimension >
+template< class TLabel, unsigned int VImageDimension >
+class ITK_EXPORT StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
 {
 public:
   /** Standard class typedefs */
   typedef StatisticsLabelObject                       Self;
   typedef ShapeLabelObject< TLabel, VImageDimension > Superclass;
   typedef typename Superclass::LabelObjectType        LabelObjectType;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  typedef WeakPointer<const Self>                     ConstWeakPointer;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef WeakPointer< const Self >                   ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +69,7 @@ public:
 
   typedef typename Superclass::LineContainerType LineContainerType;
 
-  typedef Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) >   MatrixType;
+  typedef Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) > MatrixType;
 
   typedef Vector< double, itkGetStaticConstMacro(ImageDimension) > VectorType;
 
@@ -96,45 +95,45 @@ public:
   itkStaticConstMacro(HISTOGRAM, AttributeType, 216);
   itkStaticConstMacro(FLATNESS, AttributeType, 217);
 
-  static AttributeType GetAttributeFromName( const std::string & s )
-    {
-    if( s == "Minimum" )
+  static AttributeType GetAttributeFromName(const std::string & s)
+  {
+    if ( s == "Minimum" )
       {
       return MINIMUM;
       }
-    else if( s == "Maximum" )
+    else if ( s == "Maximum" )
       {
       return MAXIMUM;
       }
-    else if( s == "Mean" )
+    else if ( s == "Mean" )
       {
       return MEAN;
       }
-    else if( s == "Sum" )
+    else if ( s == "Sum" )
       {
       return SUM;
       }
-    else if( s == "Sigma" )
+    else if ( s == "Sigma" )
       {
       return SIGMA;
       }
-    else if( s == "Variance" )
+    else if ( s == "Variance" )
       {
       return VARIANCE;
       }
-    else if( s == "Median" )
+    else if ( s == "Median" )
       {
       return MEDIAN;
       }
-    else if( s == "MaximumIndex" )
+    else if ( s == "MaximumIndex" )
       {
       return MAXIMUM_INDEX;
       }
-    else if( s == "MinimumIndex" )
+    else if ( s == "MinimumIndex" )
       {
       return MINIMUM_INDEX;
       }
-    else if( s == "CenterOfGravity" )
+    else if ( s == "CenterOfGravity" )
       {
       return CENTER_OF_GRAVITY;
       }
@@ -144,41 +143,41 @@ public:
       return CENTRAL_MOMENTS;
       }
     */
-    else if( s == "PrincipalMoments" )
+    else if ( s == "PrincipalMoments" )
       {
       return PRINCIPAL_MOMENTS;
       }
-    else if( s == "PrincipalAxes" )
+    else if ( s == "PrincipalAxes" )
       {
       return PRINCIPAL_AXES;
       }
-    else if( s == "Kurtosis" )
+    else if ( s == "Kurtosis" )
       {
       return KURTOSIS;
       }
-    else if( s == "Skewness" )
+    else if ( s == "Skewness" )
       {
       return SKEWNESS;
       }
-    else if( s == "Elongation" )
+    else if ( s == "Elongation" )
       {
       return ELONGATION;
       }
-    else if( s == "Histogram" )
+    else if ( s == "Histogram" )
       {
       return HISTOGRAM;
       }
-    else if( s == "Flatness" )
+    else if ( s == "Flatness" )
       {
       return FLATNESS;
       }
     // can't recognize the name
-    return Superclass::GetAttributeFromName( s );
-    }
+    return Superclass::GetAttributeFromName(s);
+  }
 
-  static std::string GetNameFromAttribute( const AttributeType & a )
-    {
-    switch( a )
+  static std::string GetNameFromAttribute(const AttributeType & a)
+  {
+    switch ( a )
       {
       case MINIMUM:
         return "Minimum";
@@ -210,9 +209,9 @@ public:
       case CENTER_OF_GRAVITY:
         return "CenterOfGravity";
         break;
-/*      case CENTRAL_MOMENTS:
-        return "CentralMoments";
-        break;*/
+      /*      case CENTRAL_MOMENTS:
+              return "CentralMoments";
+              break;*/
       case PRINCIPAL_MOMENTS:
         return "PrincipalMoments";
         break;
@@ -236,21 +235,20 @@ public:
         break;
       }
     // can't recognize the name
-    return Superclass::GetNameFromAttribute( a );
-    }
+    return Superclass::GetNameFromAttribute(a);
+  }
 
   typedef ImageRegion< itkGetStaticConstMacro(ImageDimension) > RegionType;
 
   typedef typename Superclass::CentroidType CentroidType;
 
-
-  virtual void CopyAttributesFrom( const LabelObjectType * lo )
-    {
-    Superclass::CopyAttributesFrom( lo );
+  virtual void CopyAttributesFrom(const LabelObjectType *lo)
+  {
+    Superclass::CopyAttributesFrom(lo);
 
     // copy the data of the current type if possible
-    const Self * src = dynamic_cast<const Self *>( lo );
-    if( src == NULL )
+    const Self *src = dynamic_cast< const Self * >( lo );
+    if ( src == NULL )
       {
       return;
       }
@@ -272,109 +270,109 @@ public:
     m_Elongation = src->m_Elongation;
     m_Histogram = src->m_Histogram;
     m_Flatness = src->m_Flatness;
-    }
+  }
 
   const double & GetMinimum() const
-    {
+  {
     return m_Minimum;
-    }
+  }
 
-  void SetMinimum( const double & v )
-    {
+  void SetMinimum(const double & v)
+  {
     m_Minimum = v;
-    }
+  }
 
   const double & GetMaximum() const
-    {
+  {
     return m_Maximum;
-    }
+  }
 
-  void SetMaximum( const double & v )
-    {
+  void SetMaximum(const double & v)
+  {
     m_Maximum = v;
-    }
+  }
 
   const double & GetMean() const
-    {
+  {
     return m_Mean;
-    }
+  }
 
-  void SetMean( const double & v )
-    {
+  void SetMean(const double & v)
+  {
     m_Mean = v;
-    }
+  }
 
   const double & GetSum() const
-    {
+  {
     return m_Sum;
-    }
+  }
 
-  void SetSum( const double & v )
-    {
+  void SetSum(const double & v)
+  {
     m_Sum = v;
-    }
+  }
 
   const double & GetSigma() const
-    {
+  {
     return m_Sigma;
-    }
+  }
 
-  void SetSigma( const double & v )
-    {
+  void SetSigma(const double & v)
+  {
     m_Sigma = v;
-    }
+  }
 
   const double & GetVariance() const
-    {
+  {
     return m_Variance;
-    }
+  }
 
-  void SetVariance( const double & v )
-    {
+  void SetVariance(const double & v)
+  {
     m_Variance = v;
-    }
+  }
 
   const double & GetMedian() const
-    {
+  {
     return m_Median;
-    }
+  }
 
-  void SetMedian( const double & v )
-    {
+  void SetMedian(const double & v)
+  {
     m_Median = v;
-    }
+  }
 
   const IndexType & GetMaximumIndex() const
-    {
+  {
     return m_MaximumIndex;
-    }
+  }
 
-  void SetMaximumIndex( const IndexType & v )
-    {
+  void SetMaximumIndex(const IndexType & v)
+  {
     m_MaximumIndex = v;
-    }
+  }
 
   const IndexType & GetMinimumIndex() const
-    {
+  {
     return m_MinimumIndex;
-    }
+  }
 
-  void SetMinimumIndex( const IndexType & v )
-    {
+  void SetMinimumIndex(const IndexType & v)
+  {
     m_MinimumIndex = v;
-    }
+  }
 
   const PointType & GetCenterOfGravity() const
-    {
+  {
     return m_CenterOfGravity;
-    }
+  }
 
-  void SetCenterOfGravity( const PointType & v )
-    {
+  void SetCenterOfGravity(const PointType & v)
+  {
     m_CenterOfGravity = v;
-    }
+  }
 
-  /* 
+  /*
   const MatrixType & GetCentralMoments() const
     {
     return m_CentralMoments;
@@ -386,136 +384,134 @@ public:
     }*/
 
   const VectorType & GetPrincipalMoments() const
-    {
+  {
     return m_PrincipalMoments;
-    }
+  }
 
-  void SetPrincipalMoments( const VectorType & v )
-    {
+  void SetPrincipalMoments(const VectorType & v)
+  {
     m_PrincipalMoments = v;
-    }
+  }
 
   const MatrixType & GetPrincipalAxes() const
-    {
+  {
     return m_PrincipalAxes;
-    }
+  }
 
-  void SetPrincipalAxes( const MatrixType & v )
-    {
+  void SetPrincipalAxes(const MatrixType & v)
+  {
     m_PrincipalAxes = v;
-    }
+  }
 
   const double & GetSkewness() const
-    {
+  {
     return m_Skewness;
-    }
+  }
 
-  void SetSkewness( const double & v )
-    {
+  void SetSkewness(const double & v)
+  {
     m_Skewness = v;
-    }
+  }
 
   const double & GetKurtosis() const
-    {
+  {
     return m_Kurtosis;
-    }
+  }
 
-  void SetKurtosis( const double & v )
-    {
+  void SetKurtosis(const double & v)
+  {
     m_Kurtosis = v;
-    }
+  }
 
   const double & GetElongation() const
-    {
+  {
     return m_Elongation;
-    }
+  }
 
-  void SetElongation( const double & v )
-    {
+  void SetElongation(const double & v)
+  {
     m_Elongation = v;
-    }
+  }
 
   const HistogramType * GetHistogram() const
-    {
+  {
     return m_Histogram;
-    }
+  }
 
-  void SetHistogram( const HistogramType * v )
-    {
+  void SetHistogram(const HistogramType *v)
+  {
     m_Histogram = v;
-    }
+  }
 
   const double & GetFlatness() const
-    {
+  {
     return m_Flatness;
-    }
+  }
 
-  void SetFlatness( const double & v )
-    {
+  void SetFlatness(const double & v)
+  {
     m_Flatness = v;
-    }
-
+  }
 
   // some helper methods - not really required, but really useful!
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
-  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+  typedef AffineTransform< double, itkGetStaticConstMacro(ImageDimension) > AffineTransformType;
+  typedef typename AffineTransformType::Pointer                             AffineTransformPointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */
   AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform() const
-    {
+  {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       offset[i]  = m_CenterOfGravity[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
         matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
         }
       }
-  
+
     AffineTransformPointer result = AffineTransformType::New();
-      
+
     result->SetMatrix(matrix);
     result->SetOffset(offset);
-  
+
     return result;
-    }
+  }
 
   /** Get the affine transform from physical axes to principal axes
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
   AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const
-    {
+  {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++) 
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       offset[i]    = m_CenterOfGravity[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
         matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
         }
       }
-  
+
     AffineTransformPointer result = AffineTransformType::New();
     result->SetMatrix(matrix);
     result->SetOffset(offset);
-  
+
     AffineTransformPointer inverse = AffineTransformType::New();
     result->GetInverse(inverse);
-  
-    return inverse;
-    }
 
+    return inverse;
+  }
 
 protected:
   StatisticsLabelObject()
-    {
+  {
     m_Minimum = 0;
     m_Maximum = 0;
     m_Mean = 0;
@@ -534,12 +530,11 @@ protected:
     m_Elongation = 0;
     m_Histogram = NULL;
     m_Flatness = 0;
-    }
-  
+  }
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf( os, indent );
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
 
     os << indent << "Minimum: " << m_Minimum << std::endl;
     os << indent << "Maximum: " << m_Maximum << std::endl;
@@ -558,42 +553,42 @@ protected:
     os << indent << "Kurtosis: " << m_Kurtosis << std::endl;
     os << indent << "Elongation: " << m_Elongation << std::endl;
     os << indent << "Histogram: ";
-    if( m_Histogram.IsNull() )
+    if ( m_Histogram.IsNull() )
       {
       os << "NULL" << std::endl;
       }
     else
       {
-      m_Histogram->Print( os, indent );
+      m_Histogram->Print(os, indent);
       }
     os << indent << "Flatness: " << m_Flatness << std::endl;
-    }
+  }
 
 private:
-  StatisticsLabelObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  StatisticsLabelObject(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
-  double                               m_Minimum;
-  double                               m_Maximum;
-  double                               m_Mean;
-  double                               m_Sum;
-  double                               m_Sigma;
-  double                               m_Variance;
-  double                               m_Median;
-  IndexType                            m_MaximumIndex;
-  IndexType                            m_MinimumIndex;
-  PointType                            m_CenterOfGravity;
+  double    m_Minimum;
+  double    m_Maximum;
+  double    m_Mean;
+  double    m_Sum;
+  double    m_Sigma;
+  double    m_Variance;
+  double    m_Median;
+  IndexType m_MaximumIndex;
+  IndexType m_MinimumIndex;
+  PointType m_CenterOfGravity;
   // MatrixType m_CentralMoments;
-  VectorType                           m_PrincipalMoments;
-  MatrixType                           m_PrincipalAxes;
-  double                               m_Skewness;
-  double                               m_Kurtosis;
-  double                               m_Elongation;
+  VectorType m_PrincipalMoments;
+  MatrixType m_PrincipalAxes;
+  double     m_Skewness;
+  double     m_Kurtosis;
+  double     m_Elongation;
+
   typename HistogramType::ConstPointer m_Histogram;
-  double                               m_Flatness;
 
+  double m_Flatness;
 };
-
 } // end namespace itk
 
 #endif

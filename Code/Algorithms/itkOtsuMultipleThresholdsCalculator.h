@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class OtsuMultipleThresholdsCalculator
  * \brief Computes Otsu's thresholds for a histogram.
  *
@@ -37,60 +36,60 @@ namespace itk
  */
 
 template< class TInputHistogram >
-class ITK_EXPORT OtsuMultipleThresholdsCalculator :
-      public HistogramAlgorithmBase< TInputHistogram >
+class ITK_EXPORT OtsuMultipleThresholdsCalculator:
+  public HistogramAlgorithmBase< TInputHistogram >
 {
 public:
   /**Standard class typedefs. */
-  typedef OtsuMultipleThresholdsCalculator        Self;
-  typedef HistogramAlgorithmBase<TInputHistogram> Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef OtsuMultipleThresholdsCalculator          Self;
+  typedef HistogramAlgorithmBase< TInputHistogram > Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
 
-  typedef typename TInputHistogram::MeasurementType MeasurementType;
-  typedef typename TInputHistogram::AbsoluteFrequencyType   FrequencyType;
+  typedef typename TInputHistogram::MeasurementType       MeasurementType;
+  typedef typename TInputHistogram::AbsoluteFrequencyType FrequencyType;
 
-  typedef typename NumericTraits<MeasurementType>::RealType MeanType;
-  typedef typename NumericTraits<MeasurementType>::RealType VarianceType;
+  typedef typename NumericTraits< MeasurementType >::RealType MeanType;
+  typedef typename NumericTraits< MeasurementType >::RealType VarianceType;
 
-  typedef std::vector<MeanType>      MeanVectorType;
-  typedef std::vector<FrequencyType> FrequencyVectorType;
+  typedef std::vector< MeanType >      MeanVectorType;
+  typedef std::vector< FrequencyType > FrequencyVectorType;
 
   typedef typename TInputHistogram::InstanceIdentifier InstanceIdentifierType;
-  typedef std::vector<InstanceIdentifierType>          InstanceIdentifierVectorType;
+  typedef std::vector< InstanceIdentifierType >        InstanceIdentifierVectorType;
 
   /**Standard Macros */
   itkTypeMacro(OtsuMultipleThresholdsCalculator, HistogramAlgorithmsBase);
   itkNewMacro(Self);
 
   /** Typedef for the thresholds output */
-  typedef std::vector<MeasurementType> OutputType;
+  typedef std::vector< MeasurementType > OutputType;
 
   /** Returns the thresholds vector */
-  const OutputType& GetOutput();
+  const OutputType & GetOutput();
 
   /** Set/Get the number of thresholds. */
-  itkSetClampMacro(NumberOfThresholds, unsigned long, 1, NumericTraits<unsigned long>::max() );
-  itkGetConstMacro(NumberOfThresholds,unsigned long);
-
+  itkSetClampMacro( NumberOfThresholds, unsigned long, 1, NumericTraits< unsigned long >::max() );
+  itkGetConstMacro(NumberOfThresholds, unsigned long);
 protected:
   OtsuMultipleThresholdsCalculator();
   virtual ~OtsuMultipleThresholdsCalculator() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Calculates the thresholds and save them */
   void GenerateData();
 
   /** Increment the thresholds of one position */
-  bool IncrementThresholds(InstanceIdentifierVectorType& thresholdIds, MeanType totalMean, MeanVectorType& classMean, FrequencyVectorType& classFrequency);
+  bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,
+                           MeanType totalMean,
+                           MeanVectorType & classMean,
+                           FrequencyVectorType & classFrequency);
 
 private:
   /** Internal thresholds storage */
   unsigned long m_NumberOfThresholds;
   OutputType    m_Output;
-
 }; // end of class
-
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

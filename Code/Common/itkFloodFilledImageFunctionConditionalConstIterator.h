@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,25 +21,24 @@
 
 namespace itk
 {
-
 /**
  * \class FloodFilledImageFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled image function. 
+ * \brief Iterates over a flood-filled image function.
  *
  * \ingroup ImageIterators
  *
  */
-template<class TImage, class TFunction>
+template< class TImage, class TFunction >
 class ITK_EXPORT FloodFilledImageFunctionConditionalConstIterator:
-    public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+  public FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 {
 public:
   /** Standard class typedefs. */
   typedef FloodFilledImageFunctionConditionalConstIterator
-          Self;
-  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
-          Superclass;
-  
+  Self;
+  typedef FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
+  Superclass;
+
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 
@@ -47,22 +46,22 @@ public:
   typedef typename Superclass::FunctionInputType FunctionInputType;
 
   /** Index typedef support. */
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /** Size typedef support. */
-  typedef typename Superclass::SizeType    SizeType;
+  typedef typename Superclass::SizeType SizeType;
 
   /** Region typedef support */
-  typedef typename Superclass::RegionType    RegionType;
+  typedef typename Superclass::RegionType RegionType;
 
   /** Image typedef support. */
-  typedef typename Superclass::ImageType   ImageType;
+  typedef typename Superclass::ImageType ImageType;
 
   /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType   InternalPixelType;
+  typedef typename Superclass::InternalPixelType InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename Superclass::PixelType   PixelType;
+  typedef typename Superclass::PixelType PixelType;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -76,9 +75,9 @@ public:
   FloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
     FunctionType *fnPtr,
-    IndexType startIndex): Superclass(imagePtr,
-                                      fnPtr,
-                                      startIndex) {};
+    IndexType startIndex):Superclass(imagePtr,
+                                     fnPtr,
+                                     startIndex) {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
@@ -86,28 +85,27 @@ public:
   FloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
     FunctionType *fnPtr,
-    std::vector<IndexType>& startIndex): Superclass(imagePtr,
-                                                    fnPtr,
-                                                    startIndex) {};
+    std::vector< IndexType > & startIndex):Superclass(imagePtr,
+                                                      fnPtr,
+                                                      startIndex) {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
   FloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
-    FunctionType *fnPtr): Superclass(imagePtr,
-                                     fnPtr) {};
+    FunctionType *fnPtr):Superclass(imagePtr,
+                                    fnPtr) {}
   /** Default Destructor. */
-  virtual ~FloodFilledImageFunctionConditionalConstIterator() {};
+  virtual ~FloodFilledImageFunctionConditionalConstIterator() {}
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFloodFilledImageFunctionConditionalConstIterator.txx"
 #endif
 
-#endif 
+#endif

@@ -9,7 +9,7 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
+     This software is distributed WITHOUT ANY WARRANTY; without even
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
@@ -22,17 +22,16 @@
 
 namespace itk
 {
-  
 /** \class AccumulateImageFilter
  * \brief Implements an accumulation of an image along a selected direction.
  *
- *    This class accumulates an image along a dimension and reduce the size 
- * of this dimension to 1. The dimension being accumulated is set by 
- * AccumulateDimension. 
+ *    This class accumulates an image along a dimension and reduce the size
+ * of this dimension to 1. The dimension being accumulated is set by
+ * AccumulateDimension.
  *
  *   Each pixel is the cumulative sum of the pixels along the collapsed
- * dimension and reduce the size of the accumulated dimension to 1 (only 
- * on the accumulated). 
+ * dimension and reduce the size of the accumulated dimension to 1 (only
+ * on the accumulated).
  *
  *   The dimensions of the InputImage and the OutputImage must be the same.
  *
@@ -50,15 +49,15 @@ namespace itk
  *
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT AccumulateImageFilter : public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AccumulateImageFilter                         Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef AccumulateImageFilter                           Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,11 +71,10 @@ public:
   typedef typename    InputImageType::RegionType InputImageRegionType;
   typedef typename    InputImageType::PixelType  InputImagePixelType;
 
-  typedef TOutputImage                              OutputImageType;
-  typedef typename     OutputImageType::Pointer     OutputImagePointer;
-  typedef typename     OutputImageType::RegionType  OutputImageRegionType;
-  typedef typename     OutputImageType::PixelType   OutputImagePixelType;
-
+  typedef TOutputImage                             OutputImageType;
+  typedef typename     OutputImageType::Pointer    OutputImagePointer;
+  typedef typename     OutputImageType::RegionType OutputImageRegionType;
+  typedef typename     OutputImageType::PixelType  OutputImagePixelType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -88,33 +86,30 @@ public:
       dimension must be one less than that of the input. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(ImageDimensionCheck,
-      (Concept::SameDimensionOrMinusOne<itkGetStaticConstMacro(InputImageDimension),
-                                        itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro( ImageDimensionCheck,
+                   ( Concept::SameDimensionOrMinusOne< itkGetStaticConstMacro(InputImageDimension),
+                                                       itkGetStaticConstMacro(OutputImageDimension) > ) );
   /** End concept checking */
 #endif
 
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
    * dimension. */
-  itkGetConstMacro( AccumulateDimension, unsigned int );
-  itkSetMacro( AccumulateDimension, unsigned int );
+  itkGetConstMacro(AccumulateDimension, unsigned int);
+  itkSetMacro(AccumulateDimension, unsigned int);
 
   /** Perform a division by the size of the accumulated dimension
    * after the accumulation is done. If true, the output image is the
    * average of the accumulated dimension, if false the output is the
    * sum of the pixels along the selected direction.  The default
    * value is false. */
-  itkSetMacro( Average, bool );
-  itkGetConstMacro( Average, bool );
+  itkSetMacro(Average, bool);
+  itkGetConstMacro(Average, bool);
   itkBooleanMacro(Average);
-
-  
-
 protected:
   AccumulateImageFilter();
-  virtual ~AccumulateImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~AccumulateImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Apply changes to the output image information. */
   virtual void GenerateOutputInformation();
@@ -129,14 +124,12 @@ protected:
   void GenerateData(void);
 
 private:
-  AccumulateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AccumulateImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   unsigned int m_AccumulateDimension;
   bool         m_Average;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

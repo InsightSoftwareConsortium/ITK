@@ -27,8 +27,8 @@
 #include "itkFlatStructuringElement.h"
 #include "itkNeighborhood.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class GrayscaleDilateImageFilter
  * \brief gray scale dilation of an image
@@ -44,16 +44,16 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT GrayscaleDilateImageFilter :
-    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT GrayscaleDilateImageFilter:
+  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleDilateImageFilter                            Self;
-  typedef KernelImageFilter<TInputImage,TOutputImage, TKernel>  Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef GrayscaleDilateImageFilter                              Self;
+  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -67,48 +67,48 @@ public:
                       TInputImage::ImageDimension);
 
   /** Image related typedefs. */
-  typedef TInputImage                                           InputImageType;
-  typedef TOutputImage                                          OutputImageType;
-  typedef typename TInputImage::RegionType                      RegionType;
-  typedef typename TInputImage::SizeType                        SizeType;
-  typedef typename TInputImage::IndexType                       IndexType;
-  typedef typename TInputImage::PixelType                       PixelType;
-  typedef typename TInputImage::OffsetType                      OffsetType;
-  typedef typename Superclass::OutputImageRegionType            OutputImageRegionType;
+  typedef TInputImage                                InputImageType;
+  typedef TOutputImage                               OutputImageType;
+  typedef typename TInputImage::RegionType           RegionType;
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef typename TInputImage::IndexType            IndexType;
+  typedef typename TInputImage::PixelType            PixelType;
+  typedef typename TInputImage::OffsetType           OffsetType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   typedef MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >
-                                                                HistogramFilterType;
+  HistogramFilterType;
   typedef BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
-                                                                BasicFilterType;
+  BasicFilterType;
 
-  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >              FlatKernelType;
+  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) > FlatKernelType;
 
-  typedef AnchorDilateImageFilter< TInputImage, FlatKernelType >
-                                                                AnchorFilterType;
-  typedef VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >
-                                                                VHGWFilterType;
-  typedef CastImageFilter< TInputImage, TOutputImage >          CastFilterType;
+  typedef AnchorDilateImageFilter< TInputImage, FlatKernelType >           AnchorFilterType;
+  typedef VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType > VHGWFilterType;
+  typedef CastImageFilter< TInputImage, TOutputImage >                     CastFilterType;
 
   /** Typedef for boundary conditions. */
-  typedef ImageBoundaryCondition<InputImageType> *ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition<InputImageType> const *ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition<InputImageType> DefaultBoundaryConditionType;
-
+  typedef ImageBoundaryCondition< InputImageType > *      ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition< InputImageType > const *ImageBoundaryConditionConstPointerType;
+  typedef ConstantBoundaryCondition< InputImageType >     DefaultBoundaryConditionType;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
 //   typedef typename KernelType::Superclass KernelSuperClass;
-//   typedef Neighborhood< typename KernelType::PixelType, ImageDimension > KernelSuperClass;
+//   typedef Neighborhood< typename KernelType::PixelType, ImageDimension >
+// KernelSuperClass;
 
   /** Set kernel (structuring element). */
-  void SetKernel( const KernelType& kernel );
+  void SetKernel(const KernelType & kernel);
 
   /** Set/Get the boundary value. */
-  void SetBoundary( const PixelType value );
+  void SetBoundary(const PixelType value);
+
   itkGetConstMacro(Boundary, PixelType);
 
   /** Set/Get the backend filter class. */
-  void SetAlgorithm(int algo );
+  void SetAlgorithm(int algo);
+
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleDilateImageFilter need to set its internal filters as modified */
@@ -120,38 +120,38 @@ public:
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-  } AlgorithmChoice;
+    } AlgorithmChoice;
 
-  void SetNumberOfThreads( int nb );
-
+  void SetNumberOfThreads(int nb);
 
 protected:
   GrayscaleDilateImageFilter();
-  ~GrayscaleDilateImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~GrayscaleDilateImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
 private:
-  GrayscaleDilateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GrayscaleDilateImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
   PixelType m_Boundary;
 
   // the filters used internally
   typename HistogramFilterType::Pointer m_HistogramFilter;
-  typename BasicFilterType::Pointer     m_BasicFilter;
-  typename AnchorFilterType::Pointer    m_AnchorFilter;
-  typename VHGWFilterType::Pointer      m_VHGWFilter;
+
+  typename BasicFilterType::Pointer m_BasicFilter;
+
+  typename AnchorFilterType::Pointer m_AnchorFilter;
+
+  typename VHGWFilterType::Pointer m_VHGWFilter;
 
   // and the name of the filter
   int m_Algorithm;
 
   // the boundary condition need to be stored here
   DefaultBoundaryConditionType m_BoundaryCondition;
-
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

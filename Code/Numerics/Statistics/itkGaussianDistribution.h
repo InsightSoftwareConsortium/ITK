@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,9 +19,10 @@
 
 #include "itkProbabilityDistribution.h"
 
-namespace itk { 
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class GaussianDistribution
  * \brief GaussianDistribution class defines the interface for a
  * univariate Gaussian distribution (pdfs, cdfs, etc.).
@@ -48,17 +49,17 @@ namespace Statistics {
  * Computing (NAMIC), funded by the National Institutes of Health
  * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
  * Information on the National Centers for Biomedical Computing
- * can be obtained from http://nihroadmap.nih.gov/bioinformatics.  
+ * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
  */
-class ITK_EXPORT GaussianDistribution :
-    public ProbabilityDistribution
+class ITK_EXPORT GaussianDistribution:
+  public ProbabilityDistribution
 {
 public:
   /** Standard class typedefs */
-  typedef GaussianDistribution     Self;
-  typedef ProbabilityDistribution  Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef GaussianDistribution       Self;
+  typedef ProbabilityDistribution    Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(GaussianDistribution, ProbabilityDistribution);
@@ -69,7 +70,7 @@ public:
   /** Return the number of parameters.  For a univariate Gaussian,
    * this is 2 (mean, variance). */
   virtual unsigned long GetNumberOfParameters() const { return 2; }
-  
+
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
   virtual double EvaluatePDF(double x) const;
@@ -77,12 +78,12 @@ public:
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluatePDF(double x, const ParametersType&) const;
+  virtual double EvaluatePDF(double x, const ParametersType &) const;
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
   virtual double EvaluatePDF(double x, double mean, double variance) const;
-  
+
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
   virtual double EvaluateCDF(double x) const;
@@ -90,8 +91,8 @@ public:
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluateCDF(double x, const ParametersType&) const;
-  
+  virtual double EvaluateCDF(double x, const ParametersType &) const;
+
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
   virtual double EvaluateCDF(double x, double mean, double variance) const;
@@ -105,8 +106,8 @@ public:
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluateInverseCDF(double p, const ParametersType&) const;
-  
+  virtual double EvaluateInverseCDF(double p, const ParametersType &) const;
+
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * of the distribution are passed as separate parameters. */
@@ -136,7 +137,7 @@ public:
 
   /** Does this distribution have a variance? */
   virtual bool HasVariance() const { return true; }
-  
+
   /** Static method to evaluate the probability density function (pdf)
    * of a standardized (mean zero, unit variance) Gaussian. The static
    * method provides optimized access without requiring an instance of
@@ -148,14 +149,14 @@ public:
    * parameter vector. The ordering of the parameters is (mean,
    * variance). The static method provides optimized access without
    * requiring an instance of the class. */
-  static double PDF(double x, const ParametersType&);
-  
+  static double PDF(double x, const ParametersType &);
+
   /** Static method to evaluate the probability density function (pdf)
    * of a Gaussian. The parameters of the distribution are passed as
    * separate values. The static method provides optimized access
    * without requiring an instance of the class. */
   static double PDF(double x, double mean, double variance);
-  
+
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a standardized (mean zero, unit variance) Gaussian. The
    * static method provides optimized access without requiring an
@@ -167,7 +168,7 @@ public:
    * as a parameter vector. The ordering of the parameters is (mean,
    * variance). The static method provides optimized access
    * without requiring an instance of the class. */
-  static double CDF(double x, const ParametersType&);
+  static double CDF(double x, const ParametersType &);
 
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a Gaussian. The parameters of the distribution are
@@ -213,7 +214,7 @@ public:
    * (mean, variance). The static method provides optimized access
    * without requiring an instance of the class. Parameter p must be
    * between 0.0 and 1.0 */
-  static double InverseCDF(double p, const ParametersType&);
+  static double InverseCDF(double p, const ParametersType &);
 
   /** Static method to evaluate the inverse cumulative distribution
    * function of a Gaussian.  The parameters of the distribution are
@@ -221,19 +222,17 @@ public:
    * access without requiring an instance of the class. Parameter p
    * must be between 0.0 and 1.0 */
   static double InverseCDF(double p, double mean, double variance);
-  
+
 protected:
   GaussianDistribution(void);
   virtual ~GaussianDistribution(void) {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GaussianDistribution(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-}; // end of class
-
+  GaussianDistribution(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
+};                                    // end of class
 } // end of namespace Statistics
 } // end namespace itk
 

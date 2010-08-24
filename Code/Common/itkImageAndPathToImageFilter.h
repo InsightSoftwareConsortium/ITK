@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class ImageAndPathToImageFilter
  * \brief Base class for filters that take both a path and an image as input and produce a path as output.
  *
@@ -34,16 +33,16 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup PathFilters
  */
-template <class TInputImage, class TInputPath, class TOutputImage>
-class ITK_EXPORT ImageAndPathToImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TInputPath, class TOutputImage >
+class ITK_EXPORT ImageAndPathToImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ImageAndPathToImageFilter                       Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,21 +51,21 @@ public:
   itkTypeMacro(ImageAndPathToImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
-  typedef          TInputImage                    InputImageType;
-  typedef typename InputImageType::ConstPointer   InputImagePointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef          TInputPath                     InputPathType;
-  typedef typename InputPathType::Pointer         InputPathPointer;
-  typedef typename InputPathType::ConstPointer    InputPathConstPointer;
-  typedef typename InputPathType::InputType       InputPathInputType;
-  typedef typename InputPathType::OutputType      InputPathOutputType;
-  typedef typename InputPathType::IndexType       InputPathIndexType;
-  typedef typename InputPathType::OffsetType      InputPathOffsetType;
-  typedef          TOutputImage                   OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::RegionType    OutputImageRegionType;
-  typedef typename OutputImageType::PixelType     OutputImagePixelType;
+  typedef          TInputImage                  InputImageType;
+  typedef typename InputImageType::ConstPointer InputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+  typedef          TInputPath                   InputPathType;
+  typedef typename InputPathType::Pointer       InputPathPointer;
+  typedef typename InputPathType::ConstPointer  InputPathConstPointer;
+  typedef typename InputPathType::InputType     InputPathInputType;
+  typedef typename InputPathType::OutputType    InputPathOutputType;
+  typedef typename InputPathType::IndexType     InputPathIndexType;
+  typedef typename InputPathType::OffsetType    InputPathOffsetType;
+  typedef          TOutputImage                 OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  typedef typename OutputImageType::PixelType   OutputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -75,24 +74,25 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the image input of this process object. */
-  virtual void SetImageInput( const TInputImage * image);
+  virtual void SetImageInput(const TInputImage *image);
+
   const InputImageType * GetImageInput(void);
 
   /** Set/Get the path input of this process object. */
-  virtual void SetPathInput( const TInputPath * path);
+  virtual void SetPathInput(const TInputPath *path);
+
   const InputPathType * GetPathInput(void);
 
 protected:
   ImageAndPathToImageFilter();
-  virtual ~ImageAndPathToImageFilter() {};
+  virtual ~ImageAndPathToImageFilter() {}
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ImageAndPathToImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageAndPathToImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

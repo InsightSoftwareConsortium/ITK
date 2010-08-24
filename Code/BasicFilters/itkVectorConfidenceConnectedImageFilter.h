@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorConfidenceConnectedImageFilter
  * \brief Segment pixels with similar statistics using connectivity
  *
@@ -54,16 +54,16 @@ namespace itk {
  * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VectorConfidenceConnectedImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorConfidenceConnectedImageFilter         Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef VectorConfidenceConnectedImageFilter            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,45 +72,44 @@ public:
   itkTypeMacro(VectorConfidenceConnectedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType; 
-  typedef typename InputImageType::PixelType    InputImagePixelType; 
-  typedef typename InputImageType::IndexType    IndexType;
-  typedef typename InputImageType::SizeType     SizeType;
-  
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
-  
-  typedef std::vector< IndexType >              SeedsContainerType;
+  typedef TInputImage                         InputImageType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::PixelType  InputImagePixelType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::SizeType   SizeType;
+
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+
+  typedef std::vector< IndexType > SeedsContainerType;
 
   typedef MahalanobisDistanceThresholdImageFunction<
-                                           InputImageType >
-                                                DistanceThresholdFunctionType;
-  
-  typedef typename DistanceThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType; 
-  typedef typename DistanceThresholdFunctionType::MeanVectorType       MeanVectorType;
+    InputImageType >
+  DistanceThresholdFunctionType;
 
+  typedef typename DistanceThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType;
+  typedef typename DistanceThresholdFunctionType::MeanVectorType       MeanVectorType;
 
   typedef  typename DistanceThresholdFunctionType::Pointer DistanceThresholdFunctionPointer;
 
-  void PrintSelf ( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
   void SetSeed(const IndexType & seed)
-    {
+  {
     m_Seeds.clear();
-    this->AddSeed( seed );
-    }
+    this->AddSeed(seed);
+  }
 
   /** Add seed point. */
   void AddSeed(const IndexType & seed)
-    {
-    m_Seeds.push_back( seed );
+  {
+    m_Seeds.push_back(seed);
     this->Modified();
-    }
+  }
 
   /** Set/Get the multiplier to define the confidence interval.  Multiplier
    * can be anything greater than zero. A typical value is 2.5 */
@@ -127,8 +126,8 @@ public:
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
-  itkSetMacro( InitialNeighborhoodRadius, unsigned int );
-  itkGetConstReferenceMacro( InitialNeighborhoodRadius, unsigned int );
+  itkSetMacro(InitialNeighborhoodRadius, unsigned int);
+  itkGetConstReferenceMacro(InitialNeighborhoodRadius, unsigned int);
 
   /** Get the Mean Vector computed during the segmentation */
   const MeanVectorType & GetMean() const;
@@ -138,19 +137,17 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename InputImagePixelType::ValueType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputImagePixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename InputImagePixelType::ValueType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VectorConfidenceConnectedImageFilter();
-  
-  
+
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 
@@ -158,22 +155,22 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   void GenerateData();
-  
+
 private:
-  VectorConfidenceConnectedImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VectorConfidenceConnectedImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
 
-  SeedsContainerType      m_Seeds;
-  double                  m_Multiplier;
-  unsigned int            m_NumberOfIterations;
-  OutputImagePixelType    m_ReplaceValue;
-  unsigned int            m_InitialNeighborhoodRadius;
-  
-  DistanceThresholdFunctionPointer      m_ThresholdFunction;
+  // implemented
 
+  SeedsContainerType   m_Seeds;
+  double               m_Multiplier;
+  unsigned int         m_NumberOfIterations;
+  OutputImagePixelType m_ReplaceValue;
+  unsigned int         m_InitialNeighborhoodRadius;
+
+  DistanceThresholdFunctionPointer m_ThresholdFunction;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

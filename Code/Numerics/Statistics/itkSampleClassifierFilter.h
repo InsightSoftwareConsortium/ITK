@@ -25,9 +25,10 @@
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class SampleClassifierFilter
  *
  *  \brief Sample classification class
@@ -38,30 +39,30 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT SampleClassifierFilter :
-      public ProcessObject
+class ITK_EXPORT SampleClassifierFilter:
+  public ProcessObject
 {
 public:
   /** Standard class typedef */
-  typedef SampleClassifierFilter         Self;
-  typedef ProcessObject                  Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  typedef SampleClassifierFilter     Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(SampleClassifierFilter, ProcessObject);
   itkNewMacro(Self);
 
   /** Type of the input Sample */
-  typedef TSample                        SampleType;
+  typedef TSample SampleType;
 
   /** typedefs Output type */
-  typedef MembershipSample< SampleType >                     MembershipSampleType;
-  typedef typename MembershipSampleType::Pointer             MembershipSampleObjectPointer;
+  typedef MembershipSample< SampleType >         MembershipSampleType;
+  typedef typename MembershipSampleType::Pointer MembershipSampleObjectPointer;
 
   /** typedefs from SampleType object */
-  typedef typename SampleType::MeasurementType            MeasurementType;
-  typedef typename SampleType::MeasurementVectorType      MeasurementVectorType;
+  typedef typename SampleType::MeasurementType       MeasurementType;
+  typedef typename SampleType::MeasurementVectorType MeasurementVectorType;
 
   /** typedef for the MembershipFunction */
   typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
@@ -70,29 +71,29 @@ public:
   typedef SimpleDataObjectDecorator<
     MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
   typedef typename
-    MembershipFunctionVectorObjectType::Pointer           MembershipFunctionVectorObjectPointer;
+  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
 
   /** typedef for membership functions weight proprtion */
-  typedef Array< double >                                MembershipFunctionsWeightsArrayType;
+  typedef Array< double > MembershipFunctionsWeightsArrayType;
 
   typedef SimpleDataObjectDecorator<
-   MembershipFunctionsWeightsArrayType >                 MembershipFunctionsWeightsArrayObjectType;
+    MembershipFunctionsWeightsArrayType >                 MembershipFunctionsWeightsArrayObjectType;
   typedef typename
-    MembershipFunctionsWeightsArrayObjectType::Pointer   MembershipFunctionsWeightsArrayPointer;
+  MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
 
-  typedef unsigned long                               ClassLabelType;
-  typedef std::vector< ClassLabelType >               ClassLabelVectorType;
+  typedef unsigned long                 ClassLabelType;
+  typedef std::vector< ClassLabelType > ClassLabelVectorType;
   typedef SimpleDataObjectDecorator<
     ClassLabelVectorType >                            ClassLabelVectorObjectType;
-  typedef ClassLabelVectorObjectType::Pointer         ClassLabelVectorObjectPointer;
-
+  typedef ClassLabelVectorObjectType::Pointer ClassLabelVectorObjectPointer;
 
   /** type of the decision rule */
-  typedef DecisionRule                                DecisionRuleType;
-  typedef DecisionRuleType::ConstPointer              DecisionRulePointer;
+  typedef DecisionRule                   DecisionRuleType;
+  typedef DecisionRuleType::ConstPointer DecisionRulePointer;
 
   /** Sets the input sample that will be classified by this filter. */
-  void SetInput(const SampleType * sample);
+  void SetInput(const SampleType *sample);
+
   const SampleType *  GetInput() const;
 
   /** Returns the classification result */
@@ -101,35 +102,33 @@ public:
   /** Number of classes. This must match the number of labels and membership
    * functions provided by the user, otherwise an exception will be thrown at
    */
-  itkSetMacro( NumberOfClasses, unsigned int );
-  itkGetConstMacro( NumberOfClasses, unsigned int );
+  itkSetMacro(NumberOfClasses, unsigned int);
+  itkGetConstMacro(NumberOfClasses, unsigned int);
 
   /** Set/Get the decision rule. */
-  itkSetConstObjectMacro( DecisionRule, DecisionRuleType );
-  itkGetConstObjectMacro( DecisionRule, DecisionRuleType );
+  itkSetConstObjectMacro(DecisionRule, DecisionRuleType);
+  itkGetConstObjectMacro(DecisionRule, DecisionRuleType);
 
   /** Sets input vector of class labels. The length of this vector must match
    * the number of classes, otherwise an exception will be thrown at run time.
    * */
-  void SetClassLabels(const ClassLabelVectorObjectType * classLabels );
+  void SetClassLabels(const ClassLabelVectorObjectType *classLabels);
 
   /** Sets input vector of membership functions. The length of this vector must match
    * the number of classes, otherwise an exception will be thrown at run time.
    * */
-  void SetMembershipFunctions(const MembershipFunctionVectorObjectType * membershipFunctions );
+  void SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions);
 
   /** Sets array of weights for the membership functions */
-  void SetMembershipFunctionsWeightsArray(const MembershipFunctionsWeightsArrayObjectType * weightsArray );
-
+  void SetMembershipFunctionsWeightsArray(const MembershipFunctionsWeightsArrayObjectType *weightsArray);
 
 protected:
   SampleClassifierFilter();
   virtual ~SampleClassifierFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  SampleClassifierFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  SampleClassifierFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   /** Starts the classification process */
   void GenerateData();
@@ -144,17 +143,13 @@ protected:
 
 private:
 
-  unsigned int                     m_NumberOfClasses;
+  unsigned int m_NumberOfClasses;
 
   /** Decision Rule */
-  DecisionRulePointer              m_DecisionRule;
-
-}; // end of class
-
-
+  DecisionRulePointer m_DecisionRule;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSampleClassifierFilter.txx"

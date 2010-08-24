@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,18 +23,17 @@
 
 namespace itk
 {
-
 /** \class ImageToParametricSpaceFilter
  * \brief Generate a mesh of parametric space from input images.
  *
- * ImageToParametricSpaceFilter takes a three Images of equal dimension and 
- * size and generates from them a Mesh. 
- * 
- * The mesh contains one point for every pixel on the images. The 
- * coordinate of the point being equal to the gray level of the 
+ * ImageToParametricSpaceFilter takes a three Images of equal dimension and
+ * size and generates from them a Mesh.
+ *
+ * The mesh contains one point for every pixel on the images. The
+ * coordinate of the point being equal to the gray level of the
  * associated input pixels.
  *
- * This class is intended to produce the population of points that 
+ * This class is intended to produce the population of points that
  * represent samples in a parametric space. In this particular case
  * the parameters are the gray levels of the input images
  *
@@ -43,40 +42,40 @@ namespace itk
  *
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputMesh>
-class ITK_EXPORT ImageToParametricSpaceFilter : 
-    public ImageToMeshFilter<TInputImage,TOutputMesh>
+template< class TInputImage, class TOutputMesh >
+class ITK_EXPORT ImageToParametricSpaceFilter:
+  public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToParametricSpaceFilter                Self;
-  typedef ImageToMeshFilter<TInputImage,TOutputMesh>  Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef ImageToParametricSpaceFilter                  Self;
+  typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToParametricSpaceFilter, ImageToMeshFilter);
 
   /** Some typedefs associated with the input images. */
-  typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::ConstPointer     InputImageConstPointer;
-  typedef typename InputImageType::RegionType       InputImageRegionType; 
-  typedef typename InputImageType::PixelType        InputImagePixelType; 
-  typedef ImageRegionConstIteratorWithIndex<InputImageType> 
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+  typedef ImageRegionConstIteratorWithIndex< InputImageType >
   InputImageIterator;
 
   /** Some typedefs associated with the output mesh. */
   typedef TOutputMesh                                 OutputMeshType;
   typedef typename OutputMeshType::PointType          PointType;
   typedef typename OutputMeshType::Pointer            OutputMeshPointer;
-  typedef typename OutputMeshType::PointsContainer    PointsContainer; 
-  typedef typename OutputMeshType::PointIdentifier    PointIdentifier; 
+  typedef typename OutputMeshType::PointsContainer    PointsContainer;
+  typedef typename OutputMeshType::PointIdentifier    PointIdentifier;
   typedef typename PointsContainer::Pointer           PointsContainerPointer;
   typedef typename PointsContainer::Iterator          PointsContainerIterator;
-  typedef typename OutputMeshType::PointDataContainer PointDataContainer; 
+  typedef typename OutputMeshType::PointDataContainer PointDataContainer;
   typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
   typedef typename PointDataContainer::Iterator       PointDataContainerIterator;
 
@@ -90,28 +89,26 @@ public:
   /** Prepare the output. */
   void GenerateOutputInformation(void);
 
-  /** Select if the indices of input image pixels will be 
+  /** Select if the indices of input image pixels will be
    * stored as data at each one of the mesh points.
    * That assumes that the type of PointData in the output
    * mesh is capable of accepting an itk::Index through
    * an operator=(). Default value = true */
-  itkSetMacro( ComputeIndices, bool );
-
+  itkSetMacro(ComputeIndices, bool);
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
- 
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
-  ImageToParametricSpaceFilter(const ImageToParametricSpaceFilter&); //purposely not implemented
-  void operator=(const ImageToParametricSpaceFilter&); //purposely not implemented
+  //purposely not implemented
+  ImageToParametricSpaceFilter(const ImageToParametricSpaceFilter &);
+  void operator=(const ImageToParametricSpaceFilter &);
 
-  /** This variable defines if the indices of input image pixels 
+  /** This variable defines if the indices of input image pixels
    * will be stored as Data at each one of the mesh points. */
-  bool      m_ComputeIndices;
-  
+  bool m_ComputeIndices;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

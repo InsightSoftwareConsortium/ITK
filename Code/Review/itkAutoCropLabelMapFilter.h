@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-  
 /** \class AutoCropLabelMapFilter
  * \brief Crop a LabelMap image to fit exactly the objects in the LabelMap.
  *
@@ -33,7 +32,7 @@ namespace itk
  * PadLabelMapFilter can be used.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
@@ -41,19 +40,19 @@ namespace itk
  * \sa PadLabelMapFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template <class TInputImage>
-class ITK_EXPORT AutoCropLabelMapFilter :
-    public ChangeRegionLabelMapFilter<TInputImage>
+template< class TInputImage >
+class ITK_EXPORT AutoCropLabelMapFilter:
+  public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AutoCropLabelMapFilter                   Self;
-  typedef ChangeRegionLabelMapFilter<TInputImage>  Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
-  
+  typedef AutoCropLabelMapFilter                    Self;
+  typedef ChangeRegionLabelMapFilter< TInputImage > Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
+
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AutoCropLabelMapFilter, ChangeRegionImageFilter);
@@ -68,56 +67,54 @@ public:
   typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType; 
+  typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
 
-  typedef typename InputImageType::PixelType       PixelType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::SizeType        SizeType;
-  typedef typename InputImageType::RegionType      RegionType;
-  
+  typedef typename InputImageType::PixelType  PixelType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::SizeType   SizeType;
+  typedef typename InputImageType::RegionType RegionType;
+
   typedef TInputImage TOutputImage;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
-
 
   /**
    * Set/Get the border added to the mask before the crop. The default is 0 on * all the axis.
    */
   itkSetMacro(CropBorder, SizeType);
   itkGetConstReferenceMacro(CropBorder, SizeType);
-  
+
   itkGetConstReferenceMacro(MinIndex, IndexType);
   itkGetConstReferenceMacro(MaxIndex, IndexType);
-
 protected:
   AutoCropLabelMapFilter();
-  ~AutoCropLabelMapFilter() {};
+  ~AutoCropLabelMapFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateOutputInformation();
 
 private:
-  AutoCropLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AutoCropLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   void FindBoundingBox();
+
   void SetAndPadCropRegion();
 
-  SizeType      m_CropBorder;
-  TimeStamp     m_CropTimeStamp;
+  SizeType  m_CropBorder;
+  TimeStamp m_CropTimeStamp;
 
-  IndexType     m_MinIndex;
-  IndexType     m_MaxIndex;
-  
+  IndexType m_MinIndex;
+  IndexType m_MaxIndex;
+
   InputImageRegionType m_CropRegion;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

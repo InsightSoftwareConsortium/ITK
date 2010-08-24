@@ -22,17 +22,17 @@
 
 #include "itkSharedMorphologyUtilities.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class AnchorUtilities
 * \brief functionality in common for anchor openings/closings and
 * erosions/dilation
 *
 **/
-#if defined(_MSC_VER) && _MSC_VER >= 1300
+#if defined( _MSC_VER ) && _MSC_VER >= 1300
 #if 0
 // can be moved to SharedMorphUtilities if user control of border is permitted
-template <class TImage, class TBres, class TLine>
+template< class TImage, class TBres, class TLine >
 int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,
@@ -44,21 +44,21 @@ int FillLineBuffer(typename TImage::ConstPointer input,
                    unsigned &end);
 #endif
 
-template <class TImage, class TBres, class TLine>
+template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,
                     const typename TImage::RegionType AllImage,
-                    unsigned &start,
-                    unsigned &end);
+                    unsigned & start,
+                    unsigned & end);
 
-template <class TImage, class TBres, class TAnchor, class TLine>
+template< class TImage, class TBres, class TAnchor, class TLine >
 void DoAnchorFace(const TImage * input,
                   TImage * output,
                   typename TImage::PixelType border,
                   TLine line,
-                  TAnchor &AnchorLine,
+                  TAnchor & AnchorLine,
                   typename TBres::OffsetArray LineOffsets,
                   typename TImage::PixelType * inbuffer,
                   typename TImage::PixelType * outbuffer,

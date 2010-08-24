@@ -26,10 +26,10 @@
 #include "itkNumericTraits.h"
 #include <vector> // for the size_type declaration
 
-
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class Sample
  *  \brief A collection of measurements for statistical analysis
  *
@@ -59,15 +59,15 @@ namespace Statistics {
  *
  */
 
-template < class TMeasurementVector >
-class ITK_EXPORT Sample : public DataObject
+template< class TMeasurementVector >
+class ITK_EXPORT Sample:public DataObject
 {
 public:
   /** Standard class typedefs */
-  typedef Sample                        Self;
-  typedef DataObject                    Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer<const Self >     ConstPointer;
+  typedef Sample                     Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(Sample, DataObject);
@@ -78,20 +78,20 @@ public:
   /** ValueType of a measurement (ValueType of a component of the
    * MeasurementVector */
   typedef typename MeasurementVectorTraitsTypes<
-    MeasurementVectorType >::ValueType   MeasurementType;
+    MeasurementVectorType >::ValueType MeasurementType;
 
   /** Frequency value type */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType       AbsoluteFrequencyType;
+  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
 
   /** Total frequency type */
-  typedef NumericTraits<AbsoluteFrequencyType>::AccumulateType TotalAbsoluteFrequencyType;
+  typedef NumericTraits< AbsoluteFrequencyType >::AccumulateType TotalAbsoluteFrequencyType;
 
   /** InstanceIdentifier typedef. This identifier is a unique
    * sequential id for each measurement vector in a Sample subclass. */
-  typedef typename MeasurementVectorTraits::InstanceIdentifier  InstanceIdentifier;
+  typedef typename MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
 
   /** Typedef for the length of each measurement vector */
-  typedef unsigned int  MeasurementVectorSizeType;
+  typedef unsigned int MeasurementVectorSizeType;
 
   /** Get the size of the sample (number of measurements) */
   virtual InstanceIdentifier Size() const = 0;
@@ -99,27 +99,27 @@ public:
   /** Get the measurement associated with a particular
    * InstanceIdentifier. */
   virtual const MeasurementVectorType &
-    GetMeasurementVector( InstanceIdentifier id) const = 0;
+  GetMeasurementVector(InstanceIdentifier id) const = 0;
 
   /** Get the frequency of a measurement specified by instance
    * identifier. */
-  virtual AbsoluteFrequencyType GetFrequency( InstanceIdentifier id ) const = 0;
+  virtual AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const = 0;
 
   /** Get the total frequency of the sample. */
   virtual TotalAbsoluteFrequencyType GetTotalFrequency() const = 0;
 
-
   /** Set method for the length of the measurement vector */
-  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType s )
-    {
+  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType s)
+  {
     // Test whether the vector type is resizable or not
     MeasurementVectorType m;
-    if( MeasurementVectorTraits::IsResizable( m ) )
+
+    if ( MeasurementVectorTraits::IsResizable(m) )
       {
       // then this is a resizable vector type
       //
       // if the new size is the same as the previou size, just return
-      if( s == this->m_MeasurementVectorSize )
+      if ( s == this->m_MeasurementVectorSize )
         {
         return;
         }
@@ -127,7 +127,7 @@ public:
         {
         // If the new size is different from the current size, then
         // only change the measurement vector size if the container is empty.
-        if( this->Size() )
+        if ( this->Size() )
           {
           itkExceptionMacro("Attempting to change the measurement \
           vector size of a non-empty Sample");
@@ -142,57 +142,56 @@ public:
     else
       {
       // If this is a non-resizable vector type
-      MeasurementVectorType m3;
-      MeasurementVectorSizeType defaultLength = MeasurementVectorTraits::GetLength( m3 );
-      // and the new length is different from the default one, then throw an exception
-      if( defaultLength != s )
+      MeasurementVectorType     m3;
+      MeasurementVectorSizeType defaultLength = MeasurementVectorTraits::GetLength(m3);
+      // and the new length is different from the default one, then throw an
+      // exception
+      if ( defaultLength != s )
         {
-        itkExceptionMacro("Attempting to change the measurement \
-                           vector size of a non-resizable vector type");
+        itkExceptionMacro(
+          "Attempting to change the measurement \
+                           vector size of a non-resizable vector type"                                                  );
         }
       }
-    }
+  }
 
   /** Get method for the length of the measurement vector */
-  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
+  itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
 
   /** Method to graft another sample */
-  virtual void Graft( const DataObject *thatObject )
-    {
+  virtual void Graft(const DataObject *thatObject)
+  {
     this->Superclass::Graft(thatObject);
 
-    const Self *thatConst = dynamic_cast< const Self * >(thatObject);
-    if (thatConst)
+    const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+    if ( thatConst )
       {
-      this->SetMeasurementVectorSize(thatConst->GetMeasurementVectorSize());
+      this->SetMeasurementVectorSize( thatConst->GetMeasurementVectorSize() );
       }
-    }
+  }
 
 protected:
   Sample()
-    {
+  {
     m_MeasurementVectorSize = MeasurementVectorTraits::GetLength(
-                                        MeasurementVectorType() );
-    }
+      MeasurementVectorType() );
+  }
 
   virtual ~Sample() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
-    os << indent << "Length of measurement vectors in the sample: " <<
-      m_MeasurementVectorSize << std::endl;
-    }
-
-
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
+    os << indent << "Length of measurement vectors in the sample: "
+       << m_MeasurementVectorSize << std::endl;
+  }
 
 private:
-  Sample(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  Sample(const Self &);         //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   MeasurementVectorSizeType m_MeasurementVectorSize;
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

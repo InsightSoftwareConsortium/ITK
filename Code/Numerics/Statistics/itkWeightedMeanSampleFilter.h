@@ -22,9 +22,10 @@
 #include "itkFunctionBase.h"
 #include "itkDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class WeightedMeanSampleFilter
  * \brief Given a sample where each measurement vector has
  * associated weight value, this filter computes the sample mean
@@ -37,26 +38,26 @@ namespace Statistics {
  *
  */
 template< class TSample >
-class ITK_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
+class ITK_EXPORT WeightedMeanSampleFilter:public MeanSampleFilter< TSample >
 {
 public:
   /**Standard class typedefs. */
-  typedef WeightedMeanSampleFilter                Self;
-  typedef MeanSampleFilter< TSample >             Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef WeightedMeanSampleFilter    Self;
+  typedef MeanSampleFilter< TSample > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /**Standard Macros */
   itkTypeMacro(WeightedMeanSampleFilter, MeanSampleFilter);
   itkNewMacro(Self);
 
   /** Traits derived from the base class */
-  itkSuperclassTraitMacro( SampleType )
-  itkSuperclassTraitMacro( MeasurementType )
-  itkSuperclassTraitMacro( MeasurementVectorType )
-  itkSuperclassTraitMacro( MeasurementVectorSizeType )
-  itkSuperclassTraitMacro( MeasurementVectorDecoratedType )
-  itkSuperclassTraitMacro( OutputType )
+  itkSuperclassTraitMacro(SampleType)
+  itkSuperclassTraitMacro(MeasurementType)
+  itkSuperclassTraitMacro(MeasurementVectorType)
+  itkSuperclassTraitMacro(MeasurementVectorSizeType)
+  itkSuperclassTraitMacro(MeasurementVectorDecoratedType)
+  itkSuperclassTraitMacro(OutputType)
 
   /** Array typedef for weights */
   typedef Array< double > WeightArrayType;
@@ -65,7 +66,7 @@ public:
   typedef SimpleDataObjectDecorator< WeightArrayType > InputWeightArrayObjectType;
 
   /** Method to set the input value of the weight array */
-  itkSetDecoratedInputMacro( Weights, WeightArrayType, 1 );
+  itkSetDecoratedInputMacro(Weights, WeightArrayType, 1);
 
   /** Weight calculation function typedef */
   typedef FunctionBase< MeasurementVectorType, double > WeightingFunctionType;
@@ -74,12 +75,11 @@ public:
   typedef DataObjectDecorator< WeightingFunctionType > InputWeightingFunctionObjectType;
 
   /** Method to set the weighting function */
-  itkSetDecoratedObjectInputMacro( WeightingFunction, WeightingFunctionType, 2 );
-
+  itkSetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType, 2);
 protected:
   WeightedMeanSampleFilter();
   virtual ~WeightedMeanSampleFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
@@ -90,11 +90,9 @@ protected:
   void ComputeMeanWithWeightingFunction();
 
 private:
-  WeightedMeanSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  WeightedMeanSampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
+};                                        // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

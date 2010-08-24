@@ -24,9 +24,10 @@
 #include "itkNumericTraits.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class DenseFrequencyContainer2
  *  \brief his class is a container for frequencies of bins in an histogram.
  *
@@ -38,15 +39,15 @@ namespace Statistics {
  * \sa Histogram, SparseFrequencyContainer
  */
 
-class ITK_EXPORT DenseFrequencyContainer2
-  : public Object
+class ITK_EXPORT DenseFrequencyContainer2:
+  public Object
 {
 public:
   /** Standard class typedefs */
-  typedef DenseFrequencyContainer2                          Self;
-  typedef Object                                            Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef DenseFrequencyContainer2   Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DenseFrequencyContainer2, Object);
@@ -55,20 +56,19 @@ public:
   itkNewMacro(Self);
 
   /** InstanceIdenfitifer type alias */
-  typedef MeasurementVectorTraits::InstanceIdentifier         InstanceIdentifier;
+  typedef MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
 
   /** Absoluate Frequency type alias */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType      AbsoluteFrequencyType;
+  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
 
   /** Absolute Total frequency type */
   typedef MeasurementVectorTraits::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
 
   /** Relative Frequency type alias */
-  typedef MeasurementVectorTraits::RelativeFrequencyType      RelativeFrequencyType;
+  typedef MeasurementVectorTraits::RelativeFrequencyType RelativeFrequencyType;
 
   /** Relative Total frequency type */
   typedef MeasurementVectorTraits::TotalRelativeFrequencyType TotalRelativeFrequencyType;
-
 
   /** Internal storage class typedefs */
   typedef ValarrayImageContainer< InstanceIdentifier, AbsoluteFrequencyType >
@@ -100,24 +100,23 @@ public:
 
   /** Gets the sum of the frequencies */
   TotalAbsoluteFrequencyType GetTotalFrequency()
-    {
+  {
     return m_TotalFrequency;
-    }
+  }
 
 protected:
   DenseFrequencyContainer2();
   virtual ~DenseFrequencyContainer2() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  DenseFrequencyContainer2(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DenseFrequencyContainer2(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 
   /** Internal storage */
-  FrequencyContainerPointer         m_FrequencyContainer;
-  TotalAbsoluteFrequencyType        m_TotalFrequency;
-}; // end of class
-
+  FrequencyContainerPointer  m_FrequencyContainer;
+  TotalAbsoluteFrequencyType m_TotalFrequency;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

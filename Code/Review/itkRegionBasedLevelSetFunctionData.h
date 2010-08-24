@@ -29,7 +29,6 @@
 
 namespace itk
 {
-
 /** \class RegionBasedLevelSetFunctionData
  *
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
@@ -64,89 +63,85 @@ namespace itk
  *
  *
  */
-template < class TInputImage, class TFeatureImage >
-class RegionBasedLevelSetFunctionData : public LightObject
+template< class TInputImage, class TFeatureImage >
+class RegionBasedLevelSetFunctionData:public LightObject
 {
 public:
 
-  typedef RegionBasedLevelSetFunctionData                   Self;
-  typedef LightObject                                       Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef RegionBasedLevelSetFunctionData Self;
+  typedef LightObject                     Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   itkTypeMacro(RegionBasedLevelSetFunctionData, LightObject);
 
-  typedef TInputImage                                   InputImageType;
-  typedef typename InputImageType::Pointer              InputImagePointer;
-  typedef typename InputImageType::ConstPointer         InputImageConstPointer;
-  typedef typename InputImageType::PixelType            InputPixelType;
-  typedef typename InputImageType::RegionType           InputRegionType;
-  typedef typename InputImageType::SizeType             InputSizeType;
-  typedef typename InputSizeType::SizeValueType         InputSizeValueType;
-  typedef typename InputImageType::SpacingType          InputSpacingType;
-  typedef typename InputImageType::IndexType            InputIndexType;
-  typedef typename InputIndexType::IndexValueType       InputIndexValueType;
-  typedef typename InputImageType::PointType            InputPointType;
+  typedef TInputImage                             InputImageType;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef typename InputImageType::PixelType      InputPixelType;
+  typedef typename InputImageType::RegionType     InputRegionType;
+  typedef typename InputImageType::SizeType       InputSizeType;
+  typedef typename InputSizeType::SizeValueType   InputSizeValueType;
+  typedef typename InputImageType::SpacingType    InputSpacingType;
+  typedef typename InputImageType::IndexType      InputIndexType;
+  typedef typename InputIndexType::IndexValueType InputIndexValueType;
+  typedef typename InputImageType::PointType      InputPointType;
 
-  typedef TFeatureImage                                 FeatureImageType;
-  typedef typename FeatureImageType::Pointer            FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer       FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType          FeaturePixelType;
-  typedef typename FeatureImageType::RegionType         FeatureRegionType;
-  typedef typename FeatureImageType::SizeType           FeatureSizeType;
-  typedef typename FeatureSizeType::SizeValueType       FeatureSizeValueType;
-  typedef typename FeatureImageType::SpacingType        FeatureSpacingType;
-  typedef typename FeatureImageType::IndexType          FeatureIndexType;
-  typedef typename FeatureImageType::PointType          FeaturePointType;
+  typedef TFeatureImage                           FeatureImageType;
+  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename FeatureImageType::PixelType    FeaturePixelType;
+  typedef typename FeatureImageType::RegionType   FeatureRegionType;
+  typedef typename FeatureImageType::SizeType     FeatureSizeType;
+  typedef typename FeatureSizeType::SizeValueType FeatureSizeValueType;
+  typedef typename FeatureImageType::SpacingType  FeatureSpacingType;
+  typedef typename FeatureImageType::IndexType    FeatureIndexType;
+  typedef typename FeatureImageType::PointType    FeaturePointType;
 
-  // Allocates m_HeavisideFunctionOfLevelSetImage to have same origin, 
+  // Allocates m_HeavisideFunctionOfLevelSetImage to have same origin,
   // spacing and size as image. Also sets the m_Start and m_End indices.
-  void CreateHeavisideFunctionOfLevelSetImage( const InputImageType * image );
+  void CreateHeavisideFunctionOfLevelSetImage(const InputImageType *image);
 
   // Checks if the given index lies in the domain of the current
   // level-set function. The domain is defined by the start and end indices.
   template< class TIndex >
-  bool VerifyInsideRegion( const TIndex& featureIndex )
-    {
-    for( unsigned int j = 0; j < ImageDimension; j++ )
+  bool VerifyInsideRegion(const TIndex & featureIndex)
+  {
+    for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      if(  (featureIndex[j] < static_cast< InputIndexValueType >(this->m_Start[j]) )
-        || (featureIndex[j] > static_cast< InputIndexValueType >(this->m_End[j]))  )
+      if ( ( featureIndex[j] < static_cast< InputIndexValueType >( this->m_Start[j] ) )
+           || ( featureIndex[j] > static_cast< InputIndexValueType >( this->m_End[j] ) ) )
         {
         return false;
         }
       }
     return true;
-    }
+  }
 
   // Get the index into the domain of the current level-set function
-  InputIndexType GetIndex( const FeatureIndexType& featureIndex );
+  InputIndexType GetIndex(const FeatureIndexType & featureIndex);
 
   // Get the index in the domain of the feature image
-  FeatureIndexType GetFeatureIndex( const InputIndexType& inputIndex );
+  FeatureIndexType GetFeatureIndex(const InputIndexType & inputIndex);
 
+  double m_WeightedNumberOfPixelsInsideLevelSet;
+  double m_WeightedNumberOfPixelsOutsideLevelSet;
 
-  double              m_WeightedNumberOfPixelsInsideLevelSet;
-  double              m_WeightedNumberOfPixelsOutsideLevelSet;
-
-  InputImagePointer   m_HeavisideFunctionOfLevelSetImage;
-  InputIndexType      m_Start;
-  InputIndexType      m_End;
-
+  InputImagePointer m_HeavisideFunctionOfLevelSetImage;
+  InputIndexType    m_Start;
+  InputIndexType    m_End;
 protected:
   RegionBasedLevelSetFunctionData();
   virtual ~RegionBasedLevelSetFunctionData() {}
-
 private:
-  RegionBasedLevelSetFunctionData(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegionBasedLevelSetFunctionData(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 };
-
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

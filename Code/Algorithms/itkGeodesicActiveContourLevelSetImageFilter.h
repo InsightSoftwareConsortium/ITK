@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkGeodesicActiveContourLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class GeodesicActiveContourLevelSetImageFilter
  * \brief Segments structures in images based on a user supplied edge potential map.
  *
@@ -55,18 +55,18 @@ namespace itk {
  *
  * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
  * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
- * 
+ *
  * where \f$ I \f$ is image intensity and
- * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator.
  *
  * \par
- * See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
+ * See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter
  * for more information on Inputs.
  *
  * \par PARAMETERS
  * The PropagationScaling parameter can be used to switch from propagation outwards
- * (POSITIVE scaling parameter) versus propagating inwards (NEGATIVE scaling 
- * parameter). 
+ * (POSITIVE scaling parameter) versus propagating inwards (NEGATIVE scaling
+ * parameter).
  *
  * This implementation allows the user to set the weights between the propagation, advection
  * and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
@@ -87,7 +87,7 @@ namespace itk {
  * SegmentationLevelSetImageFilter for more information.
  *
  * \par REFERENCES
- * \par  
+ * \par
  *    "Geodesic Active Contours",
  *    V. Caselles, R. Kimmel and G. Sapiro.
  *    International Journal on Computer Vision,
@@ -95,75 +95,76 @@ namespace itk {
  *
  * \sa SegmentationLevelSetImageFilter
  * \sa GeodesicActiveContourLevelSetFunction
- * \sa SparseFieldLevelSetImageFilter 
+ * \sa SparseFieldLevelSetImageFilter
  *
  * \ingroup LevelSetSegmentation
  */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT GeodesicActiveContourLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType>
+class ITK_EXPORT GeodesicActiveContourLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
+                                          TOutputPixelType >
 {
 public:
   /** Standard class typedefs */
-  typedef GeodesicActiveContourLevelSetImageFilter
-                                    Self;
-  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                           TOutputPixelType>
-                                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef GeodesicActiveContourLevelSetImageFilter Self;
+  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
+                                           TOutputPixelType > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType        ValueType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  
+
   /** Type of the segmentation function */
-  typedef GeodesicActiveContourLevelSetFunction<OutputImageType,
-                                                FeatureImageType > GeodesicActiveContourFunctionType;
-  typedef typename GeodesicActiveContourFunctionType::Pointer
-  GeodesicActiveContourFunctionPointer;
-  
+  typedef GeodesicActiveContourLevelSetFunction< OutputImageType,
+                                                 FeatureImageType > GeodesicActiveContourFunctionType;
+  typedef typename GeodesicActiveContourFunctionType::Pointer GeodesicActiveContourFunctionPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(GeodesicActiveContourLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-     
+
   /** Set the value of sigma used to compute the edge potential map
    * derivatives  */
-  void SetDerivativeSigma( float value )
-    { 
+  void SetDerivativeSigma(float value)
+  {
     if ( value != m_GeodesicActiveContourFunction->GetDerivativeSigma() )
       {
-      m_GeodesicActiveContourFunction->SetDerivativeSigma( value );
+      m_GeodesicActiveContourFunction->SetDerivativeSigma(value);
       this->Modified();
       }
-    }
+  }
 
-  /** Get the value of sigma used to compute the edge potential map derivatives. */
+  /** Get the value of sigma used to compute the edge potential map derivatives.
+    */
   float GetDerivativeSigma() const
-    { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
-    
+  { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
 protected:
   ~GeodesicActiveContourLevelSetImageFilter() {}
   GeodesicActiveContourLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GeodesicActiveContourLevelSetImageFilter(const Self &); // purposely not
+                                                          // implemented
+  void operator=(const Self &);                           //purposely not
 
-  /** Overridden from Superclass to handle the case when PropagationScaling is zero.*/
+  // implemented
+
+  /** Overridden from Superclass to handle the case when PropagationScaling is
+    zero.*/
   void GenerateData();
 
 private:
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

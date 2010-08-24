@@ -9,7 +9,7 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
+     This software is distributed WITHOUT ANY WARRANTY; without even
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
@@ -21,12 +21,13 @@
 #include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
-namespace itk {
+namespace itk
+{
 /** \class BinaryProjectionImageFilter
  * \brief Binary projection
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
- * the original paper can be found at 
+ * the original paper can be found at
  *      http://insight-journal.org/midas/handle.php?handle=1926/164
  *
  *
@@ -44,39 +45,39 @@ namespace itk {
  * \sa SumProjectionImageFilter
  */
 
-
-namespace Function {
-template <class TInputPixel, class TOutputPixel>
+namespace Function
+{
+template< class TInputPixel, class TOutputPixel >
 class BinaryAccumulator
 {
 public:
-  BinaryAccumulator( unsigned long ) {}
+  BinaryAccumulator(unsigned long) {}
   ~BinaryAccumulator(){}
 
   inline void Initialize()
-    {
+  {
     m_IsForeground = false;
-    }
+  }
 
-  inline void operator()( const TInputPixel &input )
-    {
-    if( input == m_ForegroundValue )
+  inline void operator()(const TInputPixel & input)
+  {
+    if ( input == m_ForegroundValue )
       {
-      m_IsForeground = true; 
+      m_IsForeground = true;
       }
-    }
+  }
 
   inline TOutputPixel GetValue()
-    {
-    if( m_IsForeground )
+  {
+    if ( m_IsForeground )
       {
-      return (TOutputPixel)m_ForegroundValue; 
+      return (TOutputPixel)m_ForegroundValue;
       }
     else
       {
-      return m_BackgroundValue; 
+      return m_BackgroundValue;
       }
-    }
+  }
 
   bool m_IsForeground;
 
@@ -86,23 +87,22 @@ public:
 };
 } // end namespace Function
 
-
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT BinaryProjectionImageFilter :
-    public ProjectionImageFilter<TInputImage, TOutputImage, 
-      Function::BinaryAccumulator< 
-        typename TInputImage::PixelType, 
-        typename TOutputImage::PixelType > >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BinaryProjectionImageFilter:
+  public ProjectionImageFilter< TInputImage, TOutputImage,
+                                Function::BinaryAccumulator<
+                                  typename TInputImage::PixelType,
+                                  typename TOutputImage::PixelType > >
 {
 public:
   typedef BinaryProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::BinaryAccumulator< 
-      typename TInputImage::PixelType, 
-      typename TOutputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+                                 Function::BinaryAccumulator<
+                                   typename TInputImage::PixelType,
+                                   typename TOutputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Runtime information support. */
   itkTypeMacro(BinaryProjectionImageFilter, ProjectionImageFilter);
@@ -111,12 +111,12 @@ public:
   itkNewMacro(Self);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage           InputImageType;
-  typedef TOutputImage          OutputImageType;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType      InputPixelType;
-  typedef typename OutputImageType::PixelType     OutputPixelType;
+  typedef typename InputImageType::PixelType  InputPixelType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
   typedef typename Superclass::AccumulatorType AccumulatorType;
 
@@ -140,66 +140,61 @@ public:
    * for defining boundary conditions. Defaults to
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkGetConstMacro(BackgroundValue, OutputPixelType);
-  
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputPixelTypeGreaterThanComparable,
-    (Concept::EqualityComparable<InputPixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputPixelTypeGreaterThanComparable,
+                   ( Concept::EqualityComparable< InputPixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
-
 protected:
   BinaryProjectionImageFilter()
-    {
-    m_ForegroundValue = NumericTraits<InputPixelType>::max();
-    m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
-    }
+  {
+    m_ForegroundValue = NumericTraits< InputPixelType >::max();
+    m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
+  }
+
   virtual ~BinaryProjectionImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
 
-    typedef typename NumericTraits<InputPixelType>::PrintType
-                                              InputPixelPrintType;
+    typedef typename NumericTraits< InputPixelType >::PrintType
+    InputPixelPrintType;
 
-    os << indent << "ForegroundValue: " 
-                    << static_cast< InputPixelPrintType > (m_ForegroundValue) 
-                    << std::endl;
- 
-    typedef typename NumericTraits<OutputPixelType>::PrintType
-                                              OutputPixelPrintType;
+    os << indent << "ForegroundValue: "
+       << static_cast< InputPixelPrintType >( m_ForegroundValue )
+       << std::endl;
 
-    os << indent << "BackgroundValue: " 
-                    << static_cast< OutputPixelPrintType > (m_BackgroundValue) 
-                    << std::endl;
-    }
+    typedef typename NumericTraits< OutputPixelType >::PrintType
+    OutputPixelPrintType;
 
+    os << indent << "BackgroundValue: "
+       << static_cast< OutputPixelPrintType >( m_BackgroundValue )
+       << std::endl;
+  }
 
-  virtual AccumulatorType NewAccumulator( unsigned long size ) const
-    {
-    AccumulatorType accumulator( size );
+  virtual AccumulatorType NewAccumulator(unsigned long size) const
+  {
+    AccumulatorType accumulator(size);
+
     accumulator.m_ForegroundValue = m_ForegroundValue;
     accumulator.m_BackgroundValue = m_BackgroundValue;
     return accumulator;
-    }
+  }
 
   /** Pixel value to dilate */
   InputPixelType m_ForegroundValue;
 
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
-  
 private:
-  BinaryProjectionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end BinaryProjectionImageFilter
-
+  BinaryProjectionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
+};                                           // end BinaryProjectionImageFilter
 } //end namespace itk
 
 #endif

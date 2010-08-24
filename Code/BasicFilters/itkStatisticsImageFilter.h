@@ -22,9 +22,8 @@
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class StatisticsImageFilter
  * \brief Compute min. max, variance and mean of an Image.
  *
@@ -40,16 +39,16 @@ namespace itk {
  *
  * \ingroup MathematicalStatisticsImageFilters
  */
-template<class TInputImage>
-class ITK_EXPORT StatisticsImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+template< class TInputImage >
+class ITK_EXPORT StatisticsImageFilter:
+  public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef StatisticsImageFilter                        Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef StatisticsImageFilter                          Self;
+  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,53 +66,59 @@ public:
 
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
 
   /** Type to use for computations. */
-  typedef typename NumericTraits<PixelType>::RealType RealType;
+  typedef typename NumericTraits< PixelType >::RealType RealType;
 
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator<RealType>  RealObjectType;
-  typedef SimpleDataObjectDecorator<PixelType> PixelObjectType;
+  typedef SimpleDataObjectDecorator< RealType >  RealObjectType;
+  typedef SimpleDataObjectDecorator< PixelType > PixelObjectType;
 
   /** Return the computed Minimum. */
   PixelType GetMinimum() const
-    { return this->GetMinimumOutput()->Get(); }
-  PixelObjectType* GetMinimumOutput();
-  const PixelObjectType* GetMinimumOutput() const;
+  { return this->GetMinimumOutput()->Get(); }
+  PixelObjectType * GetMinimumOutput();
+
+  const PixelObjectType * GetMinimumOutput() const;
 
   /** Return the computed Maximum. */
   PixelType GetMaximum() const
-    { return this->GetMaximumOutput()->Get(); }
-  PixelObjectType* GetMaximumOutput();
-  const PixelObjectType* GetMaximumOutput() const;
+  { return this->GetMaximumOutput()->Get(); }
+  PixelObjectType * GetMaximumOutput();
+
+  const PixelObjectType * GetMaximumOutput() const;
 
   /** Return the computed Mean. */
   RealType GetMean() const
-    { return this->GetMeanOutput()->Get(); }
-  RealObjectType* GetMeanOutput();
-  const RealObjectType* GetMeanOutput() const;
+  { return this->GetMeanOutput()->Get(); }
+  RealObjectType * GetMeanOutput();
+
+  const RealObjectType * GetMeanOutput() const;
 
   /** Return the computed Standard Deviation. */
   RealType GetSigma() const
-    { return this->GetSigmaOutput()->Get(); }
-  RealObjectType* GetSigmaOutput();
-  const RealObjectType* GetSigmaOutput() const;
+  { return this->GetSigmaOutput()->Get(); }
+  RealObjectType * GetSigmaOutput();
+
+  const RealObjectType * GetSigmaOutput() const;
 
   /** Return the computed Variance. */
   RealType GetVariance() const
-    { return this->GetVarianceOutput()->Get(); }
-  RealObjectType* GetVarianceOutput();
-  const RealObjectType* GetVarianceOutput() const;
+  { return this->GetVarianceOutput()->Get(); }
+  RealObjectType * GetVarianceOutput();
+
+  const RealObjectType * GetVarianceOutput() const;
 
   /** Return the compute Sum. */
   RealType GetSum() const
-    { return this->GetSumOutput()->Get(); }
-  RealObjectType* GetSumOutput();
-  const RealObjectType* GetSumOutput() const;
+  { return this->GetSumOutput()->Get(); }
+  RealObjectType * GetSumOutput();
+
+  const RealObjectType * GetSumOutput() const;
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
@@ -121,15 +126,14 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<PixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   StatisticsImageFilter();
-  ~StatisticsImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~StatisticsImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    *  AllocateOutputs method.
@@ -137,16 +141,16 @@ protected:
   void AllocateOutputs();
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData ();
+  void BeforeThreadedGenerateData();
 
   /** Do final mean and variance computation from data accumulated in threads.
    */
-  void AfterThreadedGenerateData ();
+  void AfterThreadedGenerateData();
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const RegionType&
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const RegionType &
+                             outputRegionForThread,
+                             int threadId);
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -155,17 +159,15 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
-  StatisticsImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  StatisticsImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
-  Array<RealType>  m_ThreadSum;
-  Array<RealType>  m_SumOfSquares;
-  Array<long>      m_Count;
-  Array<PixelType> m_ThreadMin;
-  Array<PixelType> m_ThreadMax;
-
+  Array< RealType >  m_ThreadSum;
+  Array< RealType >  m_SumOfSquares;
+  Array< long >      m_Count;
+  Array< PixelType > m_ThreadMin;
+  Array< PixelType > m_ThreadMax;
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

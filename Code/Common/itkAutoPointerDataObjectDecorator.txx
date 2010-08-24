@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,29 +24,25 @@
 
 namespace itk
 {
- 
 /** Constructor */
-template<class T>
-AutoPointerDataObjectDecorator<T>
-::AutoPointerDataObjectDecorator() : m_Component()
-{
-}
-
+template< class T >
+AutoPointerDataObjectDecorator< T >
+::AutoPointerDataObjectDecorator():m_Component()
+{}
 
 /** Destructor */
-template<class T>
-AutoPointerDataObjectDecorator<T>
+template< class T >
+AutoPointerDataObjectDecorator< T >
 ::~AutoPointerDataObjectDecorator()
-{
-}
+{}
 
 /** Set value */
-template<class T>
+template< class T >
 void
-AutoPointerDataObjectDecorator<T>
-::Set(T* val)
+AutoPointerDataObjectDecorator< T >
+::Set(T *val)
 {
-  if (m_Component.get() != val)
+  if ( m_Component.get() != val )
     {
     // store the pointer and take ownership of the memory
     ComponentPointer aPointer(val);
@@ -55,18 +51,16 @@ AutoPointerDataObjectDecorator<T>
     }
 }
 
-
 /** PrintSelf method */
-template<class T>
-void 
-AutoPointerDataObjectDecorator<T>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class T >
+void
+AutoPointerDataObjectDecorator< T >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "Component: " << typeid(m_Component).name() << std::endl;
+  os << indent << "Component: " << typeid( m_Component ).name() << std::endl;
 }
-
 } // end namespace itk
 
 #endif

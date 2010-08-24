@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
-namespace itk 
+namespace itk
 {
-
 /** \class SurfaceSpatialObjectPoint
  * \brief Point used for a Surface definition
  *
@@ -31,35 +30,36 @@ namespace itk
  * that can be used to build surfaces.
  * A surface point has a position and only one normal
  *
- * \sa SpatialObjectPoint 
- */ 
+ * \sa SpatialObjectPoint
+ */
 
-template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT SurfaceSpatialObjectPoint 
-  : public SpatialObjectPoint<TPointDimension>
+template< unsigned int TPointDimension = 3 >
+class ITK_EXPORT SurfaceSpatialObjectPoint:
+  public SpatialObjectPoint< TPointDimension >
 {
-
 public:
 
-  typedef SurfaceSpatialObjectPoint                Self;
-  typedef SpatialObjectPoint<TPointDimension>      Superclass;
-  typedef Point< double, TPointDimension >         PointType;
-  typedef CovariantVector<double,TPointDimension>  VectorType;
+  typedef SurfaceSpatialObjectPoint                  Self;
+  typedef SpatialObjectPoint< TPointDimension >      Superclass;
+  typedef Point< double, TPointDimension >           PointType;
+  typedef CovariantVector< double, TPointDimension > VectorType;
 
   /** Constructor */
-  SurfaceSpatialObjectPoint( void );
+  SurfaceSpatialObjectPoint(void);
 
   /** Destructor */
-  virtual ~SurfaceSpatialObjectPoint( void );
+  virtual ~SurfaceSpatialObjectPoint(void);
 
   /** Get Normal */
-  const VectorType & GetNormal( void ) const;
+  const VectorType & GetNormal(void) const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);
+
   void SetNormal(const double normalx, const double normaly);
+
   void SetNormal(const double normalx, const double normaly,
-                                       const double normalz);
+                 const double normalz);
 
   /** Copy one SurfaceSpatialObjectPoint to another */
   Self & operator=(const SurfaceSpatialObjectPoint & rhs);
@@ -67,11 +67,10 @@ public:
 protected:
 
   VectorType m_Normal;
-  
-  /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
-};
 
+  /** Method to print the object. */
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+};
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

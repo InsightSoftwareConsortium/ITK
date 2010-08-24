@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,6 @@
 
 namespace itk
 {
-
 /** \class ImageMomentsCalculator
  * \brief Compute moments of an n-dimensional image.
  *
@@ -39,7 +38,7 @@ namespace itk
  * compute the moments only on explicit request, and save their values
  * (in an ImageMomentsCalculator object) for later retrieval by the user.
  *
- * The non-central moments computed by this class are not really 
+ * The non-central moments computed by this class are not really
  * intended for general use and are therefore in index coordinates;
  * that is, we pretend that the index that selects a particular
  * pixel also equals its physical coordinates.  The center of gravity,
@@ -56,15 +55,15 @@ namespace itk
  *
  * \todo It's not yet clear how multi-echo images should be handled here.
  */
-template < class TImage >
-class ITK_EXPORT ImageMomentsCalculator : public Object
+template< class TImage >
+class ITK_EXPORT ImageMomentsCalculator:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageMomentsCalculator<TImage>   Self;
+  typedef ImageMomentsCalculator< TImage > Self;
   typedef Object                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,10 +76,10 @@ public:
                       TImage::ImageDimension);
 
   /** Standard scalar type within this class. */
-  typedef double                       ScalarType;
+  typedef double ScalarType;
 
   /** Standard vector type within this class. */
-  typedef Vector<ScalarType,itkGetStaticConstMacro(ImageDimension)> VectorType;
+  typedef Vector< ScalarType, itkGetStaticConstMacro(ImageDimension) > VectorType;
 
   /** Spatial Object type within this class. */
   typedef SpatialObject< itkGetStaticConstMacro(ImageDimension) > SpatialObjectType;
@@ -90,9 +89,9 @@ public:
   typedef typename SpatialObjectType::ConstPointer SpatialObjectConstPointer;
 
   /** Standard matrix type within this class. */
-  typedef Matrix<ScalarType,
-                 itkGetStaticConstMacro(ImageDimension),
-                 itkGetStaticConstMacro(ImageDimension)>   MatrixType;
+  typedef Matrix< ScalarType,
+                  itkGetStaticConstMacro(ImageDimension),
+                  itkGetStaticConstMacro(ImageDimension) >   MatrixType;
 
   /** Standard image type within this class. */
   typedef TImage ImageType;
@@ -102,38 +101,37 @@ public:
   typedef typename ImageType::ConstPointer ImageConstPointer;
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,itkGetStaticConstMacro(ImageDimension)> AffineTransformType;
-  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+  typedef AffineTransform< double, itkGetStaticConstMacro(ImageDimension) > AffineTransformType;
+  typedef typename AffineTransformType::Pointer                             AffineTransformPointer;
 
   /** Set the input image. */
-  virtual void SetImage( const ImageType * image )
-    {
+  virtual void SetImage(const ImageType *image)
+  {
     if ( m_Image != image )
       {
       m_Image = image;
       this->Modified();
       m_Valid = false;
       }
-    }
-
+  }
 
   /** Set the spatial object mask. */
-  virtual void SetSpatialObjectMask( const SpatialObject< itkGetStaticConstMacro( ImageDimension ) > * so )
-    {
+  virtual void SetSpatialObjectMask(const SpatialObject< itkGetStaticConstMacro(ImageDimension) > *so)
+  {
     if ( m_SpatialObjectMask != so )
       {
       m_SpatialObjectMask = so;
       this->Modified();
       m_Valid = false;
       }
-    }
+  }
 
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute( void );
+  void Compute(void);
 
   /** Return the total mass (or zeroth moment) of an image.
    * This method returns the sum of pixel intensities (also known as
@@ -203,11 +201,11 @@ public:
 protected:
   ImageMomentsCalculator();
   virtual ~ImageMomentsCalculator();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ImageMomentsCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageMomentsCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   bool       m_Valid;                // Have moments been computed yet?
   ScalarType m_M0;                   // Zeroth moment
@@ -220,11 +218,8 @@ private:
 
   ImageConstPointer         m_Image;
   SpatialObjectConstPointer m_SpatialObjectMask;
-
 };  // class ImageMomentsCalculator
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageMomentsCalculator.txx"

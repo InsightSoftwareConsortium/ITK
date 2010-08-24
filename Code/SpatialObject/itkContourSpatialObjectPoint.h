@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
-namespace itk 
+namespace itk
 {
-
 /** \class ContourSpatialObjectPoint
  * \brief Point used for a Contour definition
  *
@@ -31,43 +30,46 @@ namespace itk
  * that can be used to build surfaces.
  * A surface point has a position and only one normal
  *
- * \sa SpatialObjectPoint 
- */ 
-template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT ContourSpatialObjectPoint 
-  : public SpatialObjectPoint<TPointDimension>
+ * \sa SpatialObjectPoint
+ */
+template< unsigned int TPointDimension = 3 >
+class ITK_EXPORT ContourSpatialObjectPoint:
+  public SpatialObjectPoint< TPointDimension >
 {
-
 public:
 
-  typedef ContourSpatialObjectPoint                Self;
-  typedef SpatialObjectPoint<TPointDimension>      Superclass;
-  typedef Point< double, TPointDimension >         PointType;
-  typedef CovariantVector<double,TPointDimension>  VectorType;
+  typedef ContourSpatialObjectPoint                  Self;
+  typedef SpatialObjectPoint< TPointDimension >      Superclass;
+  typedef Point< double, TPointDimension >           PointType;
+  typedef CovariantVector< double, TPointDimension > VectorType;
 
-  /** Constructor. This one defines the # of dimensions 
+  /** Constructor. This one defines the #of dimensions
    *  in the ContourSpatialObjectPoint */
-  ContourSpatialObjectPoint( void );
+  ContourSpatialObjectPoint(void);
 
   /** Default destructor. */
-  virtual ~ContourSpatialObjectPoint( void );
+  virtual ~ContourSpatialObjectPoint(void);
 
   /** Get Picked Point */
-  const PointType & GetPickedPoint( void ) const;
+  const PointType & GetPickedPoint(void) const;
 
   /** Set Picked Point */
   void SetPickedPoint(const PointType & point);
+
   void SetPickedPoint(const double pointx, const double pointy);
-  void SetPickedPoint(const double pointx, 
+
+  void SetPickedPoint(const double pointx,
                       const double pointy, const double pointz);
 
   /** Get Normal */
-  const VectorType & GetNormal( void ) const;
+  const VectorType & GetNormal(void) const;
 
   /** Set Normal */
   void SetNormal(const VectorType & normal);
+
   void SetNormal(const double normalx, const double normaly);
-  void SetNormal(const double normalx, 
+
+  void SetNormal(const double normalx,
                  const double normaly, const double normalz);
 
   /** Copy one ContourSpatialObjectPoint to another */
@@ -79,9 +81,8 @@ protected:
   PointType  m_PickedPoint;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 };
-
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

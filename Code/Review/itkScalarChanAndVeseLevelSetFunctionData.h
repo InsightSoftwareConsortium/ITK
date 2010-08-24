@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class ScalarChanAndVeseLevelSetFunctionData
  *
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
@@ -57,35 +56,35 @@ namespace itk
  *
  *
  */
-template < class TInputImage, class TFeatureImage >
-class ScalarChanAndVeseLevelSetFunctionData :
+template< class TInputImage, class TFeatureImage >
+class ScalarChanAndVeseLevelSetFunctionData:
   public RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 {
 public:
 
   typedef ScalarChanAndVeseLevelSetFunctionData                         Self;
   typedef RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage > Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  typedef SmartPointer< Self >                                          Pointer;
+  typedef SmartPointer< const Self >                                    ConstPointer;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  itkTypeMacro(ScalarChanAndVeseLevelSetFunctionData, RegionBasedLevelSetFunctionData );
+  itkTypeMacro(ScalarChanAndVeseLevelSetFunctionData, RegionBasedLevelSetFunctionData);
 
-  typedef TInputImage                                   InputImageType;
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer   InputImageConstPointer;
-  typedef typename Superclass::InputPixelType           InputPixelType;
-  typedef typename Superclass::InputRegionType          InputRegionType;
-  typedef typename Superclass::InputSizeType            InputSizeType;
-  typedef typename Superclass::InputSizeValueType       InputSizeValueType;
-  typedef typename Superclass::InputSpacingType         InputSpacingType;
-  typedef typename Superclass::InputIndexType           InputIndexType;
-  typedef typename Superclass::InputIndexValueType      InputIndexValueType;
-  typedef typename Superclass::InputPointType           InputPointType;
+  typedef TInputImage                                 InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  typedef typename Superclass::InputPixelType         InputPixelType;
+  typedef typename Superclass::InputRegionType        InputRegionType;
+  typedef typename Superclass::InputSizeType          InputSizeType;
+  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
+  typedef typename Superclass::InputSpacingType       InputSpacingType;
+  typedef typename Superclass::InputIndexType         InputIndexType;
+  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
+  typedef typename Superclass::InputPointType         InputPointType;
 
   typedef TFeatureImage                                 FeatureImageType;
   typedef typename Superclass::FeatureImagePointer      FeatureImagePointer;
@@ -98,26 +97,26 @@ public:
   typedef typename Superclass::FeatureIndexType         FeatureIndexType;
   typedef typename Superclass::FeaturePointType         FeaturePointType;
 
-  double              m_BackgroundConstantValues;
-  double              m_ForegroundConstantValues;
-  double              m_WeightedSumOfPixelValuesInsideLevelSet;
-  double              m_WeightedSumOfPixelValuesOutsideLevelSet;
-
+  double m_BackgroundConstantValues;
+  double m_ForegroundConstantValues;
+  double m_WeightedSumOfPixelValuesInsideLevelSet;
+  double m_WeightedSumOfPixelValuesOutsideLevelSet;
 protected:
-  ScalarChanAndVeseLevelSetFunctionData() : Superclass()
-    {
+  ScalarChanAndVeseLevelSetFunctionData():Superclass()
+  {
     m_BackgroundConstantValues = 0.;
     m_ForegroundConstantValues = 0.;
     m_WeightedSumOfPixelValuesInsideLevelSet = 0.;
     m_WeightedSumOfPixelValuesOutsideLevelSet = 0.;
-    }
+  }
+
   virtual ~ScalarChanAndVeseLevelSetFunctionData() {}
-
 private:
-  ScalarChanAndVeseLevelSetFunctionData(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarChanAndVeseLevelSetFunctionData(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
+                                                       // implemented
 };
-
 } //end namespace itk
 
 #endif

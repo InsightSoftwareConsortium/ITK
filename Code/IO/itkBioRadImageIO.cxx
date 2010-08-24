@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,24 +31,28 @@
 
 namespace itk
 {
-
 struct bioradheader {
-  unsigned short nx, ny;      // 0   2*2  image width and height in pixels
-  unsigned short npic;        // 4   2    number of images in file
+  unsigned short nx, ny;               // 0   2*2  image width and height in
+                                       // pixels
+  unsigned short npic;                 // 4   2    number of images in file
   unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
-  char notes[4];              // 10  4    no notes=0; has notes=non zero
-  short byte_format;          // 14  2    bytes=TRUE(1); words=FALSE(0)
-  short image_number;         // 16  2    image number within file
-  char filename[32];          // 18  32   file name
-  short merged;               // 50  2    merged format
-  unsigned short color1;      // 52  2    LUT1 color status
-  unsigned short file_id;     // 54  2    valid .PIC file=12345
+  char notes[4];                       // 10  4    no notes=0; has notes=non
+                                       // zero
+  short byte_format;                   // 14  2    bytes=TRUE(1); words=FALSE(0)
+  short image_number;                  // 16  2    image number within file
+  char filename[32];                   // 18  32   file name
+  short merged;                        // 50  2    merged format
+  unsigned short color1;               // 52  2    LUT1 color status
+  unsigned short file_id;              // 54  2    valid .PIC file=12345
   unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
-  unsigned short color2;      // 60  2    LUT2 color status
-  short edited;               // 62  2    image has been edited=TRUE(1)
-  short lens;                 // 64  2    Integer part of lens magnification
-  char mag_factor[4];         // 66  4    4 byte real mag. factor (old ver.)
-  unsigned char reserved[6];  // 70  6    NOT USED (old ver.=real lens mag.)
+  unsigned short color2;               // 60  2    LUT2 color status
+  short edited;                        // 62  2    image has been edited=TRUE(1)
+  short lens;                          // 64  2    Integer part of lens
+                                       // magnification
+  char mag_factor[4];                  // 66  4    4 byte real mag. factor (old
+                                       // ver.)
+  unsigned char reserved[6];           // 70  6    NOT USED (old ver.=real lens
+                                       // mag.)
 };
 
 BioRadImageIO::BioRadImageIO()
@@ -65,17 +69,16 @@ BioRadImageIO::BioRadImageIO()
 }
 
 BioRadImageIO::~BioRadImageIO()
-{
-}
+{}
 
-bool BioRadImageIO::OpenBioRadFileForReading(std::ifstream& os, 
-                                             const char* filename)
-                                       
+bool BioRadImageIO::OpenBioRadFileForReading(std::ifstream & os,
+                                             const char *filename)
+
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
@@ -84,12 +87,12 @@ bool BioRadImageIO::OpenBioRadFileForReading(std::ifstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for reading
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  os.open( filename, std::ios::in | std::ios::binary );
+  os.open(filename, std::ios::in | std::ios::binary);
 
   if ( os.fail() )
     {
@@ -99,14 +102,13 @@ bool BioRadImageIO::OpenBioRadFileForReading(std::ifstream& os,
   return true;
 }
 
-
-bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream& os, 
-                                             const char* filename)
+bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream & os,
+                                             const char *filename)
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
@@ -115,14 +117,14 @@ bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  os.open( filename, std::ios::out | std::ios::binary );
+  os.open(filename, std::ios::out | std::ios::binary);
 
-  if( os.fail() )
+  if ( os.fail() )
     {
     itkExceptionMacro(<< "Could not open file for writing: " << filename);
     return false;
@@ -133,85 +135,84 @@ bool BioRadImageIO::OpenBioRadFileForWriting(std::ofstream& os,
 
 // This method will only test if the header looks like a
 // BioRad image file.
-bool BioRadImageIO::CanReadFile(const char* filename) 
-{ 
+bool BioRadImageIO::CanReadFile(const char *filename)
+{
   std::ifstream file;
-  std::string fname(filename);
+  std::string   fname(filename);
 
-  if( fname == "" )
+  if ( fname == "" )
     {
-    itkDebugMacro(<<"No filename specified.");
+    itkDebugMacro(<< "No filename specified.");
     return false;
     }
 
-  bool extensionFound = false;
+  bool                   extensionFound = false;
   std::string::size_type sprPos = fname.rfind(".pic");
-  if ((sprPos != std::string::npos)
-      && (sprPos == fname.length() - 4))
+  if ( ( sprPos != std::string::npos )
+       && ( sprPos == fname.length() - 4 ) )
     {
     extensionFound = true;
     }
   sprPos = fname.rfind(".PIC");
-  if ((sprPos != std::string::npos)
-      && (sprPos == fname.length() - 4))
+  if ( ( sprPos != std::string::npos )
+       && ( sprPos == fname.length() - 4 ) )
     {
     extensionFound = true;
     }
 
-  if( !extensionFound )
+  if ( !extensionFound )
     {
-    itkDebugMacro(<<"The filename extension is not recognized");
+    itkDebugMacro(<< "The filename extension is not recognized");
     return false;
     }
 
-  if ( !this->OpenBioRadFileForReading(file, filename))
+  if ( !this->OpenBioRadFileForReading(file, filename) )
     {
     return false;
     }
 
   // Check to see if its a BioRad file
   unsigned short file_id;
-  file.seekg(BIORAD_FILE_ID_OFFSET, std::ios::beg );
-  file.read((char*)(&file_id),2);
-  ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&file_id);
+  file.seekg(BIORAD_FILE_ID_OFFSET, std::ios::beg);
+  file.read( (char *)( &file_id ), 2 );
+  ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian(&file_id);
 
   itkDebugMacro(<< "Magic number: " << file_id);
 
   file.close();
   return file_id == BIORAD_MAGIC_NUMBER;
 }
-  
 
-void BioRadImageIO::Read(void* buffer)
+void BioRadImageIO::Read(void *buffer)
 {
   std::ifstream file;
 
   //read header information file:
-  this->OpenBioRadFileForReading(file, m_FileName.c_str());
+  this->OpenBioRadFileForReading( file, m_FileName.c_str() );
   file.seekg(BIORAD_HEADER_LENGTH, std::ios::beg);
 
-  if( !this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes()) )
+  if ( !this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes() ) )
     {
-    itkExceptionMacro(<<"Read failed: Wanted " << this->GetImageSizeInBytes()
+    itkExceptionMacro(<< "Read failed: Wanted " << this->GetImageSizeInBytes()
                       << " bytes, but read " << file.gcount() << " bytes.");
     }
 
   //byte swapping depending on pixel type:
-  if(this->GetComponentType() == USHORT)
+  if ( this->GetComponentType() == USHORT )
     {
-    ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-      reinterpret_cast<unsigned short *>(buffer),
-      static_cast<unsigned long>( this->GetImageSizeInComponents() ) );
+    ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
+      reinterpret_cast< unsigned short * >( buffer ),
+      static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
     }
 
   //closing file:
   file.close();
 }
 
-void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
+void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
 {
   //read .pic file (header)
-  if ( ! this->OpenBioRadFileForReading(file, m_FileName.c_str()) )
+  if ( !this->OpenBioRadFileForReading( file, m_FileName.c_str() ) )
     {
     itkExceptionMacro(<< "Cannot read requested file");
     }
@@ -219,20 +220,20 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
   // Find info...
   bioradheader h, *p;
   p = &h;
-  if( sizeof(h) != BIORAD_HEADER_LENGTH )
+  if ( sizeof( h ) != BIORAD_HEADER_LENGTH )
     {
     itkExceptionMacro(<< "Problem of alignement on your platform");
     }
   file.seekg(0, std::ios::beg);
-  file.read((char*)p, BIORAD_HEADER_LENGTH);
+  file.read( (char *)p, BIORAD_HEADER_LENGTH );
   // Only byte swap the first 66 bytes
-  ByteSwapper<unsigned short>::
-    SwapRangeFromSystemToLittleEndian((unsigned short*)p, (BIORAD_HEADER_LENGTH - 10)/2);
+  ByteSwapper< unsigned short >::
+  SwapRangeFromSystemToLittleEndian( (unsigned short *)p, ( BIORAD_HEADER_LENGTH - 10 ) / 2 );
 
   // Set dim X,Y,Z
   m_Dimensions[0] = h.nx;
   m_Dimensions[1] = h.ny;
-  if( h.npic != 1 )
+  if ( h.npic != 1 )
     {
     this->SetNumberOfDimensions(3);
     m_Dimensions[2] = h.npic;
@@ -244,17 +245,17 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
 
   // These are not specified by the format, but we can deduce them:
   // pixel size = scale_factor/lens/mag_factor
-  ByteSwapper<float>::SwapFromSystemToLittleEndian((float*)&h.mag_factor);
+  ByteSwapper< float >::SwapFromSystemToLittleEndian( (float *)&h.mag_factor );
   float mag_factor;
   memcpy (&mag_factor, h.mag_factor, 4);
-  m_Spacing[0] = m_Spacing[1] = mag_factor/h.lens;
-  if (m_NumberOfDimensions == 3)
+  m_Spacing[0] = m_Spacing[1] = mag_factor / h.lens;
+  if ( m_NumberOfDimensions == 3 )
     {
     m_Spacing[2] = m_Spacing[0];
     }
 
   // Check the pixel size:
-  if(h.byte_format == 1)
+  if ( h.byte_format == 1 )
     {
     SetComponentType(UCHAR);
     }
@@ -263,14 +264,14 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
     // sometime the file set an erronous value for byte_format, check the size
     // of the file in this case, since byte_format = 1 seems to be the default
     file.seekg(0, std::ios::end);
-    long gcount = static_cast<long>(file.tellg()) - BIORAD_HEADER_LENGTH;
-    if( gcount == h.nx*h.ny*h.npic )
+    long gcount = static_cast< long >( file.tellg() ) - BIORAD_HEADER_LENGTH;
+    if ( gcount == h.nx * h.ny * h.npic )
       {
-      itkWarningMacro( << 
-                       "File is declared as two bytes but really is only one byte");
+      itkWarningMacro(
+        << "File is declared as two bytes but really is only one byte");
       SetComponentType(UCHAR);
       }
-    else if( gcount == h.nx*h.ny*h.npic*2 )
+    else if ( gcount == h.nx * h.ny * h.npic * 2 )
       {
       SetComponentType(USHORT);
       }
@@ -285,43 +286,43 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream& file)
 void BioRadImageIO::ReadImageInformation()
 {
   std::ifstream file;
+
   this->InternalReadImageInformation(file);
   file.close();
 }
 
-
-bool BioRadImageIO::CanWriteFile( const char* name )
+bool BioRadImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if( filename == "" )
+  if ( filename == "" )
     {
-    itkDebugMacro(<<"No filename specified.");
+    itkDebugMacro(<< "No filename specified.");
     return false;
     }
 
-  bool extensionFound = false;
+  bool                   extensionFound = false;
   std::string::size_type sprPos = filename.rfind(".pic");
-  if ((sprPos != std::string::npos)
-      && (sprPos == filename.length() - 4))
+  if ( ( sprPos != std::string::npos )
+       && ( sprPos == filename.length() - 4 ) )
     {
     extensionFound = true;
     }
 
-  if( !extensionFound )
+  if ( !extensionFound )
     {
-    itkDebugMacro(<<"The filename extension is not recognized");
+    itkDebugMacro(<< "The filename extension is not recognized");
     return false;
     }
 
   return true;
 }
 
-
-void BioRadImageIO::Write(const void* buffer)
+void BioRadImageIO::Write(const void *buffer)
 {
   std::ofstream file;
-  if ( !this->OpenBioRadFileForWriting(file, m_FileName.c_str()) )
+
+  if ( !this->OpenBioRadFileForWriting( file, m_FileName.c_str() ) )
     {
     return;
     }
@@ -330,22 +331,22 @@ void BioRadImageIO::Write(const void* buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if ( numDims != 3 && numDims != 2 )
     {
-    itkExceptionMacro(<<"BioRad Writer can only write 2 or 3-dimensional images");
+    itkExceptionMacro(<< "BioRad Writer can only write 2 or 3-dimensional images");
     return;
     }
 
   // Write the BioRad header information
   bioradheader header, *p;
   p = &header;
-  if( sizeof(header) != BIORAD_HEADER_LENGTH )
+  if ( sizeof( header ) != BIORAD_HEADER_LENGTH )
     {
     itkExceptionMacro(<< "Problem of alignement on your platform");
     }
-  memset(p,0,BIORAD_HEADER_LENGTH); // Set everything to zero
+  memset(p, 0, BIORAD_HEADER_LENGTH); // Set everything to zero
   // In particular `notes' needs to be set to zero to indicate there is no notes
   header.nx = m_Dimensions[0];
   header.ny = m_Dimensions[1];
-  if( m_NumberOfDimensions == 3 )
+  if ( m_NumberOfDimensions == 3 )
     {
     header.npic = m_Dimensions[2];
     }
@@ -361,7 +362,7 @@ void BioRadImageIO::Write(const void* buffer)
   // Default dummy values:
   header.lens = 1;
   // Set the if file is in byte format or not:
-  switch(this->GetComponentType())
+  switch ( this->GetComponentType() )
     {
     case UCHAR:
       header.byte_format = 1;
@@ -378,16 +379,16 @@ void BioRadImageIO::Write(const void* buffer)
       header.ramp2_max = 65535;
       break;
     default:
-      itkExceptionMacro(<<"Component type not supported.");
+      itkExceptionMacro(<< "Component type not supported.");
       return;
     }
   // write the actual header
-  ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(
-    reinterpret_cast<unsigned short*>(p), BIORAD_HEADER_LENGTH/2);
+  ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
+    reinterpret_cast< unsigned short * >( p ), BIORAD_HEADER_LENGTH / 2);
   // To be able to deduce pixel spacing:
-  float mag_factor = static_cast<float>( m_Spacing[0] );
-  ByteSwapper<float>::SwapFromSystemToLittleEndian(&mag_factor);
-  memcpy(&header.mag_factor, (char*)(&mag_factor), 4);
+  float mag_factor = static_cast< float >( m_Spacing[0] );
+  ByteSwapper< float >::SwapFromSystemToLittleEndian(&mag_factor);
+  memcpy(&header.mag_factor, (char *)( &mag_factor ), 4);
   // Set the filename
   // NOTES: This is not very clear what should be written here, some files
   // have either:
@@ -398,30 +399,29 @@ void BioRadImageIO::Write(const void* buffer)
   // 4. FileName
   std::string filename = itksys::SystemTools::GetFilenameName(m_FileName);
   // The buffer is at most 32 bytes:
-  strncpy(header.filename, filename.c_str(), sizeof(header.filename)); 
-  file.write((char*)p, BIORAD_HEADER_LENGTH);
+  strncpy( header.filename, filename.c_str(), sizeof( header.filename ) );
+  file.write( (char *)p, BIORAD_HEADER_LENGTH );
 
   //preparation for writing buffer:
   const unsigned long numberOfBytes      = static_cast< unsigned long >( this->GetImageSizeInBytes() );
   const unsigned long numberOfComponents = static_cast< unsigned long >( this->GetImageSizeInComponents() );
 
   char *tempmemory = new char[numberOfBytes];
-  memcpy(tempmemory,buffer,numberOfBytes);
-  if(this->GetComponentType() == USHORT)
+  memcpy(tempmemory, buffer, numberOfBytes);
+  if ( this->GetComponentType() == USHORT )
     {
-    ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
-      reinterpret_cast<unsigned short*>(tempmemory), numberOfComponents );
+    ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian(
+      reinterpret_cast< unsigned short * >( tempmemory ), numberOfComponents);
     }
-  
+
   // Write the actual pixel data
-  file.write( static_cast<const char *>(tempmemory) , numberOfBytes );
-  delete [] tempmemory;
+  file.write(static_cast< const char * >( tempmemory ), numberOfBytes);
+  delete[] tempmemory;
   file.close();
 }
 
-void BioRadImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void BioRadImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-
 } // end namespace itk

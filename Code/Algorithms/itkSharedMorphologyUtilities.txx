@@ -24,8 +24,8 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include <list>
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class SharedMorphUtilities
  * \brief functionality in common for anchor and VanHerkGilWerman openings/closings and
@@ -33,7 +33,7 @@ namespace itk {
  *
  */
 
-template <class TRegion, class TLine>
+template< class TRegion, class TLine >
 bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line)
@@ -51,9 +51,9 @@ bool NeedToDoFace(const TRegion AllImage,
   typename TRegion::IndexType FSt = face.GetIndex();
 
   unsigned smallDim = 0;
-  for (unsigned i = 0; i < AllImage.GetImageDimension(); i++)
+  for ( unsigned i = 0; i < AllImage.GetImageDimension(); i++ )
     {
-    if (FSz[i] == 1)
+    if ( FSz[i] == 1 )
       {
       smallDim = i;
       break;
@@ -61,62 +61,62 @@ bool NeedToDoFace(const TRegion AllImage,
     }
   long startI = ISt[smallDim];
   long facePos = FSt[smallDim] + FSz[smallDim] - 1;
-  if (facePos == startI)
+  if ( facePos == startI )
     {
     // at the start of dimension - vector must be positive
-    if (line[smallDim] > 0.000001) return true;
+    if ( line[smallDim] > 0.000001 ) { return true; }
     // some small angle that we consider to be zero - should be more rigorous
     }
   else
     {
     // at the end of dimension - vector must be positive
-    if (line[smallDim] < -0.000001) return true;
+    if ( line[smallDim] < -0.000001 ) { return true; }
     }
-  return (false);
-
+  return ( false );
 }
-template <class TImage, class TBres, class TLine>
+
+template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,
                     const typename TImage::RegionType AllImage,
-                    unsigned &start,
-                    unsigned &end)
+                    unsigned & start,
+                    unsigned & end)
 {
   // compute intersection between ray and box
   typename TImage::IndexType ImStart = AllImage.GetIndex();
   typename TImage::SizeType ImSize = AllImage.GetSize();
-  float Tfar = NumericTraits<float>::max();
-  float Tnear  = NumericTraits<float>::NonpositiveMin();
-  float domdir  = NumericTraits<float>::NonpositiveMin();
-  int sPos, ePos;
+  float    Tfar = NumericTraits< float >::max();
+  float    Tnear  = NumericTraits< float >::NonpositiveMin();
+  float    domdir  = NumericTraits< float >::NonpositiveMin();
+  int      sPos, ePos;
   unsigned perpdir = 0;
-  for (unsigned i = 0; i< TImage::RegionType::ImageDimension; i++)
+  for ( unsigned i = 0; i < TImage::RegionType::ImageDimension; i++ )
     {
-    if (vcl_fabs(line[i]) > domdir)
+    if ( vcl_fabs(line[i]) > domdir )
       {
       domdir = vcl_fabs(line[i]);
       perpdir = i;
       }
-    if (vcl_fabs(line[i]) > tol)
+    if ( vcl_fabs(line[i]) > tol )
       {
-      int P1 = ImStart[i] - StartIndex[i];
-      int P2 = ImStart[i] + ImSize[i] - 1 - StartIndex[i];
-      float T1 = ((float)(P1))/line[i];
-      float T2 = ((float)(P2))/line[i];
+      int   P1 = ImStart[i] - StartIndex[i];
+      int   P2 = ImStart[i] + ImSize[i] - 1 - StartIndex[i];
+      float T1 = ( (float)( P1 ) ) / line[i];
+      float T2 = ( (float)( P2 ) ) / line[i];
 
-      if (T1 > T2)
+      if ( T1 > T2 )
         {
         // T1 is meant to be the near face
         std::swap(T1, T2);
         }
       // want the farthest Tnear and nearest TFar
-      if (T1 > Tnear)
+      if ( T1 > Tnear )
         {
         Tnear = T1;
         }
-      if (T2 < Tfar)
+      if ( T2 < Tfar )
         {
         Tfar = T2;
         }
@@ -124,57 +124,57 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
     else
       {
       // parallel to an axis - check for intersection at all
-      if ((StartIndex[i] < ImStart[i]) || (StartIndex[i] > ImStart[i] + (int)ImSize[i] - 1))
+      if ( ( StartIndex[i] < ImStart[i] ) || ( StartIndex[i] > ImStart[i] + (int)ImSize[i] - 1 ) )
         {
         // no intersection
-        start=end=0;
-        return(0);
+        start = end = 0;
+        return ( 0 );
         }
       }
     }
-  sPos = (int)(Tnear*vcl_fabs(line[perpdir]) + 0.5);
-  ePos = (int)(Tfar*vcl_fabs(line[perpdir]) + 0.5);
+  sPos = (int)( Tnear * vcl_fabs(line[perpdir]) + 0.5 );
+  ePos = (int)( Tfar * vcl_fabs(line[perpdir]) + 0.5 );
 
   //std::cout << Tnear << " " << Tfar << std::endl;
-  if (Tfar < Tnear) // seems to need some margin
+  if ( Tfar < Tnear ) // seems to need some margin
     {
     // in theory, no intersection, but search between them
-    bool intersection = false;
+    bool     intersection = false;
     unsigned inside;
-    if (Tnear - Tfar < 10)
+    if ( Tnear - Tfar < 10 )
       {
 //      std::cout << "Searching " << Tnear << " " << Tfar << std::endl;
       assert(ePos >= 0);
-      assert(sPos < (int)LineOffsets.size());
-      for (int i = ePos; i<= sPos; i++)
+      assert( sPos < (int)LineOffsets.size() );
+      for ( int i = ePos; i <= sPos; i++ )
         {
-        if (AllImage.IsInside(StartIndex + LineOffsets[i]))
+        if ( AllImage.IsInside(StartIndex + LineOffsets[i]) )
           {
           inside = i;
-          intersection=true;
+          intersection = true;
           break;
           }
         }
       }
-    if (intersection)
+    if ( intersection )
       {
 //      std::cout << "Found intersection after all :: " << inside << std::endl;
       sPos = ePos = inside;
       assert(ePos + 1 >= 0);
-      assert(ePos + 1 < (int)LineOffsets.size());
-      while (AllImage.IsInside(StartIndex + LineOffsets[ePos + 1]))
+      assert( ePos + 1 < (int)LineOffsets.size() );
+      while ( AllImage.IsInside(StartIndex + LineOffsets[ePos + 1]) )
         {
         ++ePos;
         assert(ePos + 1 >= 0);
-        assert(ePos + 1 < (int)LineOffsets.size());
+        assert( ePos + 1 < (int)LineOffsets.size() );
         }
       assert(sPos - 1 >= 0);
-      assert(sPos - 1 < (int)LineOffsets.size());
-      while (AllImage.IsInside(StartIndex + LineOffsets[sPos - 1]))
+      assert( sPos - 1 < (int)LineOffsets.size() );
+      while ( AllImage.IsInside(StartIndex + LineOffsets[sPos - 1]) )
         {
         --sPos;
         assert(sPos - 1 >= 0);
-        assert(sPos - 1 < (int)LineOffsets.size());
+        assert( sPos - 1 < (int)LineOffsets.size() );
         }
       start = sPos;
       end = ePos;
@@ -182,97 +182,95 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
     else
       {
 //      std::cout << StartIndex << "No intersection" << std::endl;
-      start=end=0;
-      return(0);
+      start = end = 0;
+      return ( 0 );
       }
     }
   else
     {
-
     assert(sPos >= 0);
-    assert(sPos < (int)LineOffsets.size());
-    if (AllImage.IsInside(StartIndex + LineOffsets[sPos]))
+    assert( sPos < (int)LineOffsets.size() );
+    if ( AllImage.IsInside(StartIndex + LineOffsets[sPos]) )
       {
-      for (;sPos>0;)
+      for (; sPos > 0; )
         {
         assert(sPos - 1 >= 0);
-        assert(sPos - 1 < (int)LineOffsets.size());
-        if (!AllImage.IsInside(StartIndex + LineOffsets[sPos - 1])) break;
-        else --sPos;
+        assert( sPos - 1 < (int)LineOffsets.size() );
+        if ( !AllImage.IsInside(StartIndex + LineOffsets[sPos - 1]) ) { break; }
+        else { --sPos; }
         }
       }
     else
       {
-      for(;sPos<(int)LineOffsets.size();)
+      for (; sPos < (int)LineOffsets.size(); )
         {
         assert(sPos >= 0);
-        assert(sPos < (int)LineOffsets.size());
+        assert( sPos < (int)LineOffsets.size() );
         ++sPos;
-        if (!AllImage.IsInside(StartIndex + LineOffsets[sPos])) ++sPos;
-        else break;
+        if ( !AllImage.IsInside(StartIndex + LineOffsets[sPos]) ) { ++sPos; }
+        else { break; }
         }
       }
-    if (AllImage.IsInside(StartIndex + LineOffsets[ePos]))
+    if ( AllImage.IsInside(StartIndex + LineOffsets[ePos]) )
       {
-      for(;ePos<(int)LineOffsets.size();)
+      for (; ePos < (int)LineOffsets.size(); )
         {
         assert(ePos + 1 >= 0);
-        assert(ePos + 1 < (int)LineOffsets.size());
-        if (!AllImage.IsInside(StartIndex + LineOffsets[ePos + 1])) break;
-        else ++ePos;
+        assert( ePos + 1 < (int)LineOffsets.size() );
+        if ( !AllImage.IsInside(StartIndex + LineOffsets[ePos + 1]) ) { break; }
+        else { ++ePos; }
         }
       }
     else
       {
-      for (;ePos>0;)
+      for (; ePos > 0; )
         {
         --ePos;
         assert(ePos >= 0);
-        assert(ePos < (int)LineOffsets.size());
-        if (!AllImage.IsInside(StartIndex + LineOffsets[ePos])) --ePos;
-        else break;
+        assert( ePos < (int)LineOffsets.size() );
+        if ( !AllImage.IsInside(StartIndex + LineOffsets[ePos]) ) { --ePos; }
+        else { break; }
         }
       }
     }
   start = sPos;
   end = ePos;
-  return (1);
+  return ( 1 );
 }
 
-
-template <class TImage, class TBres>
+template< class TImage, class TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
-                     const typename TImage::PixelType * outbuffer,
+                     const typename TImage::PixelType *outbuffer,
                      const unsigned start,
                      const unsigned end)
 {
   unsigned size = end - start + 1;
-  for (unsigned i = 0; i <size; i++)
+
+  for ( unsigned i = 0; i < size; i++ )
     {
     assert(start + i >= 0);
-    assert(start + i < LineOffsets.size());
+    assert( start + i < LineOffsets.size() );
 #if 1
-    output->SetPixel(StartIndex + LineOffsets[start + i], outbuffer[i+1]);  //compat
+    output->SetPixel(StartIndex + LineOffsets[start + i], outbuffer[i + 1]);  //compat
 #else
     typename TImage::IndexType I = StartIndex + LineOffsets[start + i];
-    output->SetPixel(I, 1 + output->GetPixel(I));
+    output->SetPixel( I, 1 + output->GetPixel(I) );
 #endif
     }
 }
 
-
-template <class TInputImage, class TLine>
+template< class TInputImage, class TLine >
 typename TInputImage::RegionType
-MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed( input ),
-               const typename TInputImage::RegionType AllImage,
-               const TLine line)
+MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
+                 const typename TInputImage::RegionType AllImage,
+                 const TLine line)
 {
 #if 0
   // use the face calculator to produce a face list
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>
-FaceCalculatorType;
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
+  FaceCalculatorType;
   FaceCalculatorType faceCalculator;
   typename TInputImage::SizeType radius;
   radius.Fill(1);
@@ -286,19 +284,19 @@ FaceCalculatorType;
   // with 1D kernels
   // because it doesn't return faces of the sub-blocks if they don't
   // fall along the edge of the image
-  typedef typename TInputImage::RegionType      RegionType;
-  typedef typename TInputImage::SizeType        SizeType;
-  typedef typename TInputImage::IndexType       IndexType;
-  typedef std::list<RegionType>                 FaceListType;
+  typedef typename TInputImage::RegionType RegionType;
+  typedef typename TInputImage::SizeType   SizeType;
+  typedef typename TInputImage::IndexType  IndexType;
+  typedef std::list< RegionType >          FaceListType;
   FaceListType faceList;
 
-  for (unsigned i = 0; i < TInputImage::ImageDimension; i++)
+  for ( unsigned i = 0; i < TInputImage::ImageDimension; i++ )
     {
     RegionType R1, R2;
-    SizeType S1 = AllImage.GetSize();
-    IndexType I2 = AllImage.GetIndex();
+    SizeType   S1 = AllImage.GetSize();
+    IndexType  I2 = AllImage.GetIndex();
 
-    S1[i]=1;
+    S1[i] = 1;
     R1 = AllImage;
     R2 = AllImage;
 
@@ -317,35 +315,35 @@ FaceCalculatorType;
   fit = faceList.begin();
 #endif
   typename TInputImage::RegionType RelevantRegion;
-  bool foundFace = false;
-  float MaxComp = NumericTraits<float>::NonpositiveMin();
+  bool     foundFace = false;
+  float    MaxComp = NumericTraits< float >::NonpositiveMin();
   unsigned DomDir = 0;
   //std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
-  for (unsigned i = 0;i< TInputImage::RegionType::ImageDimension;i++)
+  for ( unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++ )
     {
-    if (vcl_fabs(line[i]) > MaxComp)
+    if ( vcl_fabs(line[i]) > MaxComp )
       {
       MaxComp = vcl_fabs(line[i]);
       DomDir = i;
       }
     }
 
-  for (;fit != faceList.end();++fit)
+  for (; fit != faceList.end(); ++fit )
     {
     // check whether this face is suitable for parallel sweeping - i.e
     // whether the line is within 45 degrees of the perpendicular
     // Figure out the perpendicular using the region size
     unsigned FaceDir = 0;
     //    std::cout << "Face " << *fit << std::endl;
-    for (unsigned i = 0;i< TInputImage::RegionType::ImageDimension;i++)
+    for ( unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++ )
       {
-      if (fit->GetSize()[i] == 1) FaceDir = i;
+      if ( fit->GetSize()[i] == 1 ) { FaceDir = i; }
       }
-    if (FaceDir == DomDir) // within 1 degree
+    if ( FaceDir == DomDir ) // within 1 degree
       {
       // now check whether the line goes inside the image from this face
-      if ( NeedToDoFace<ITK_TYPENAME TInputImage::RegionType, TLine>(AllImage, *fit, line) )
+      if ( NeedToDoFace< ITK_TYPENAME TInputImage::RegionType, TLine >(AllImage, *fit, line) )
         {
 //        std::cout << "Using face: " << *fit << line << std::endl;
         RelevantRegion = *fit;
@@ -354,18 +352,18 @@ FaceCalculatorType;
         }
       }
     }
-  if (foundFace)
+  if ( foundFace )
     {
     // enlarge the region so that sweeping the line across it will
     // cause all pixels to be visited.
     // find the dimension not within the face
     unsigned NonFaceDim = 0;
 
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension;i++)
+    for ( unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++ )
       {
-      if (RelevantRegion.GetSize()[i] == 1)
+      if ( RelevantRegion.GetSize()[i] == 1 )
         {
-        NonFaceDim=i;
+        NonFaceDim = i;
         break;
         }
       }
@@ -374,12 +372,12 @@ FaceCalculatorType;
     typename TInputImage::SizeType NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
     unsigned NonFaceLen = AllImage.GetSize()[NonFaceDim];
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension;i++)
+    for ( unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++ )
       {
-      if (i != NonFaceDim)
+      if ( i != NonFaceDim )
         {
-        int Pad = Math::Ceil<int>((float)(NonFaceLen) * line[i]/vcl_fabs(line[NonFaceDim]));
-        if (Pad < 0)
+        int Pad = Math::Ceil< int >( (float)( NonFaceLen ) * line[i] / vcl_fabs(line[NonFaceDim]) );
+        if ( Pad < 0 )
           {
           // just increase the size - no need to change the start
           NewSize[i] += abs(Pad) + 1;
@@ -405,18 +403,17 @@ FaceCalculatorType;
   return RelevantRegion;
 }
 
-template <class TImage, class TBres, class TLine>
+template< class TImage, class TBres, class TLine >
 int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,  // unit vector
                    const float tol,
                    const typename TBres::OffsetArray LineOffsets,
                    const typename TImage::RegionType AllImage,
-                   typename TImage::PixelType * inbuffer,
-                   unsigned int &start,
-                   unsigned int &end)
+                   typename TImage::PixelType *inbuffer,
+                   unsigned int & start,
+                   unsigned int & end)
 {
-
 //   if (AllImage.IsInside(StartIndex))
 //     {
 //     start = 0;
@@ -426,57 +423,56 @@ int FillLineBuffer(typename TImage::ConstPointer input,
 #if 0
   // we need to figure out where to start
   // this is an inefficient way we'll use for testing
-  for (start=0;start < LineOffsets.size();++start)
+  for ( start = 0; start < LineOffsets.size(); ++start )
     {
-    if (AllImage.IsInside(StartIndex + LineOffsets[start])) break;
+    if ( AllImage.IsInside(StartIndex + LineOffsets[start]) ) { break; }
     }
 #else
-  int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage,
-                                                     start, end);
-  if (!status) return(status);
+  int status = ComputeStartEnd< TImage, TBres, TLine >(StartIndex, line, tol, LineOffsets, AllImage,
+                                                       start, end);
+  if ( !status ) { return ( status ); }
 #endif
 #if 1
   unsigned size = end - start + 1;
   // compat
-  for (unsigned i = 0; i < size;i++)
+  for ( unsigned i = 0; i < size; i++ )
     {
     assert(start + i >= 0);
-    assert(start + i < LineOffsets.size());
-    inbuffer[i+1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
+    assert( start + i < LineOffsets.size() );
+    inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
     }
 #else
-  typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
+  typedef ImageRegionConstIteratorWithIndex< TImage > ItType;
   ItType it(input, AllImage);
   it.SetIndex(StartIndex);
-  for (unsigned i = 0; i < lastPos;i++)
+  for ( unsigned i = 0; i < lastPos; i++ )
     {
-    inbuffer[i]= it.Get();
+    inbuffer[i] = it.Get();
     assert(i >= 0);
-    assert(i < LineOffsets.size());
+    assert( i < LineOffsets.size() );
     typename TImage::IndexType I = StartIndex + LineOffsets[i];
     typename TImage::OffsetType Off = I - it.GetIndex();
     it += Off;
     }
 #endif
-  return(1);
+  return ( 1 );
 }
 
-template <class TLine>
+template< class TLine >
 unsigned int GetLinePixels(const TLine line)
 {
   float N = line.GetNorm();
   float correction = 0.0;
 
-  for (unsigned int i = 0; i < TLine::Dimension; i++)
+  for ( unsigned int i = 0; i < TLine::Dimension; i++ )
     {
-    float tt = vcl_fabs(line[i]/N);
-    if (tt > correction) correction=tt;
+    float tt = vcl_fabs(line[i] / N);
+    if ( tt > correction ) { correction = tt; }
     }
 
   N *= correction;
-  return (int)(N + 0.5);
+  return (int)( N + 0.5 );
 }
-
 } // namespace itk
 
 #endif

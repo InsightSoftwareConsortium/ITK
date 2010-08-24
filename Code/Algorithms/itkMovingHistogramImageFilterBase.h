@@ -22,8 +22,8 @@
 #include <map>
 #include <set>
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class MovingHistogramImageFilterBase
  * \brief Implements a generic moving histogram algorithm
@@ -87,16 +87,16 @@ namespace itk {
  * \author Richard Beare
  */
 
-template<class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT MovingHistogramImageFilterBase :
-    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT MovingHistogramImageFilterBase:
+  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef MovingHistogramImageFilterBase                         Self;
-  typedef KernelImageFilter<TInputImage, TOutputImage, TKernel>  Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  typedef MovingHistogramImageFilterBase                          Self;
+  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -106,49 +106,48 @@ public:
                KernelImageFilter);
 
   /** Image related typedefs. */
-  typedef TInputImage                                            InputImageType;
-  typedef TOutputImage                                           OutputImageType;
-  typedef typename TInputImage::RegionType                       RegionType;
-  typedef typename TInputImage::SizeType                         SizeType;
-  typedef typename TInputImage::IndexType                        IndexType;
-  typedef typename TInputImage::PixelType                        PixelType;
-  typedef typename TInputImage::OffsetType                       OffsetType;
-  typedef typename Superclass::OutputImageRegionType             OutputImageRegionType;
-  typedef typename TOutputImage::PixelType                       OutputPixelType;
+  typedef TInputImage                                InputImageType;
+  typedef TOutputImage                               OutputImageType;
+  typedef typename TInputImage::RegionType           RegionType;
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef typename TInputImage::IndexType            IndexType;
+  typedef typename TInputImage::PixelType            PixelType;
+  typedef typename TInputImage::OffsetType           OffsetType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  typedef typename TOutputImage::PixelType           OutputPixelType;
 
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Kernel typedef. */
-  typedef TKernel                                                KernelType;
+  typedef TKernel KernelType;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator                     KernelIteratorType;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType                          RadiusType;
+  typedef typename KernelType::SizeType RadiusType;
 
-  typedef typename std::list< OffsetType >                       OffsetListType;
+  typedef typename std::list< OffsetType > OffsetListType;
 
-  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >          OffsetMapType;
+  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 
   /** Set kernel (structuring element). */
-  void SetKernel( const KernelType& kernel );
+  void SetKernel(const KernelType & kernel);
 
   itkGetConstMacro(PixelsPerTranslation, unsigned long);
-
 protected:
   MovingHistogramImageFilterBase();
-  ~MovingHistogramImageFilterBase() {};
+  ~MovingHistogramImageFilterBase() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GetDirAndOffset(const IndexType LineStart,
-                      const IndexType PrevLineStart,
-                      OffsetType &LineOffset,
-                      OffsetType &Changes,
-                      int &LineDirection);
+                       const IndexType PrevLineStart,
+                       OffsetType & LineOffset,
+                       OffsetType & Changes,
+                       int & LineDirection);
 
   // store the added and removed pixel offset in a list
   OffsetMapType m_AddedOffsets;
@@ -160,41 +159,37 @@ protected:
   FixedArray< int, itkGetStaticConstMacro(ImageDimension) > m_Axes;
 
   unsigned long m_PixelsPerTranslation;
-
-
 private:
-  MovingHistogramImageFilterBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MovingHistogramImageFilterBase(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
   class DirectionCost
+  {
+public:
+    DirectionCost(int dimension, int count)
     {
-    public :
-    DirectionCost( int dimension, int count )
-      {
       m_Dimension = dimension;
       m_Count = count;
-      }
+    }
 
     /**
      * return true if the object is a worth choice for the best axis
      * than the object in parameter
      */
-    inline bool operator< ( const DirectionCost &dc ) const
-      {
-      if( m_Count > dc.m_Count )
-        { return true; }
-      else if( m_Count < dc.m_Count )
-        { return false; }
+    inline bool operator<(const DirectionCost & dc) const
+    {
+      if ( m_Count > dc.m_Count )
+            { return true; }
+      else if ( m_Count < dc.m_Count )
+            { return false; }
       else //if (m_Count == dc.m_Count)
-        { return m_Dimension > dc.m_Dimension; }
-      }
+            { return m_Dimension > dc.m_Dimension; }
+    }
 
     int m_Dimension;
     int m_Count;
-    };
-
+  };
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

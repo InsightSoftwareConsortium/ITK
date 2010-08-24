@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,40 +31,41 @@ extern "C" {
 }
 ///
 
-namespace itk {
-
+namespace itk
+{
 #ifdef __APPLE__
-int Semaphore::m_SemaphoreCount = 0;
+int Semaphore:: m_SemaphoreCount = 0;
 #endif
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-int Semaphore::m_IPCSemaphoreKey = 12345;
-SimpleMutexLock Semaphore::m_Mutex;
+int Semaphore::             m_IPCSemaphoreKey = 12345;
+SimpleMutexLock Semaphore:: m_Mutex;
 #endif
 
 #ifdef __APPLE__
 std::string Semaphore::GetUniqueName()
 {
-  char s[255];  
+  char   s[255];
   time_t t = time(0);
-  snprintf(s,254,"MACSEM%d%d",static_cast<int>(t),m_SemaphoreCount); 
-  return std::string(s); 
+
+  snprintf(s, 254, "MACSEM%d%d", static_cast< int >( t ), m_SemaphoreCount);
+  return std::string(s);
 }
+
 #endif
 
 Semaphore::Semaphore ()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  m_Sema= -1;
+  m_Sema = -1;
 #endif
-
 
 #ifdef __APPLE__
   m_Sema = 0;
   m_SemaphoreCount++;
   m_SemaphoreName = Semaphore::GetUniqueName();
 #endif
-  
+
 #ifdef ITK_USE_WIN32_THREADS
   m_Sema = 0;
 #endif
@@ -73,38 +74,37 @@ Semaphore::Semaphore ()
   m_PThreadsSemaphoreRemoved = false;
 #endif
 }
-  
+
 void Semaphore::Initialize(unsigned int value)
 {
-  
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   // Obtain a lock over the m_IPCSemaphoreKey so that the new semaphore is
-  // created with a unique unix_semaphore_key 
+  // created with a unique unix_semaphore_key
   Semaphore::m_Mutex.Lock();
   m_Sema = Semaphore::UnixIpcSemaphoreCreate(Semaphore::m_IPCSemaphoreKey);
-  
+
   // by default the semaphore created has value 0
   Semaphore::m_IPCSemaphoreKey++;
   Semaphore::m_Mutex.Unlock();
-  
-  for (unsigned int i = 0; i < value; i++)
+
+  for ( unsigned int i = 0; i < value; i++ )
     {
     this->Up();
     }
 #endif
-  
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
+
+#ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 #ifdef ITK_USE_PTHREADS
 
-m_PThreadsSemaphoreRemoved = false;
+  m_PThreadsSemaphoreRemoved = false;
 
 #if defined sun
-  if ( sema_init(&m_Sema, 0, value, NULL ) != 0 )
+  if ( sema_init(&m_Sema, 0, value, NULL) != 0 )
     {
-    itkExceptionMacro( << "sema_init call failed" );
+    itkExceptionMacro(<< "sema_init call failed");
     }
 #elif defined  __APPLE__
-  m_Sema  = sem_open( m_SemaphoreName.c_str(), O_CREAT, 0x0644, value );
+  m_Sema  = sem_open(m_SemaphoreName.c_str(), O_CREAT, 0x0644, value);
   if ( m_Sema == (sem_t *)SEM_FAILED )
     {
     //  perror("FAILED WITH ERROR:" );
@@ -113,57 +113,57 @@ m_PThreadsSemaphoreRemoved = false;
 #else
   if ( sem_init(&m_Sema, 0, value) != 0 )
     {
-      itkExceptionMacro( << "sem_init call failed" );
+    itkExceptionMacro(<< "sem_init call failed");
     }
 #endif // if defined sun
 
 #endif // ifdef ITK_USE_PTHREADS
 #endif // ifndef ITK_USE_UNIX_IPC_SEMAPHORES
-  
+
 #ifdef ITK_USE_WIN32_THREADS
-  m_Sema = CreateSemaphore( 0, value, 0x7FFFFFFF, 0);
-  if (m_Sema == 0)
+  m_Sema = CreateSemaphore(0, value, 0x7FFFFFFF, 0);
+  if ( m_Sema == 0 )
     {
-      itkExceptionMacro( << "CreateSemaphore call failed" );
+    itkExceptionMacro(<< "CreateSemaphore call failed");
     }
 #endif
 }
-  
+
 void Semaphore::Up()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   Semaphore::UnixIpcSemaphoreUp(m_Sema);
 #endif
-  
+
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
   if ( sema_post(&m_Sema) != 0 )
     {
-      itkExceptionMacro( << "sema_post call failed." );
+    itkExceptionMacro(<< "sema_post call failed.");
     }
 #else
 #ifdef __APPLE__
   if ( sem_post(m_Sema) != 0 )
     {
-    itkExceptionMacro( << "sem_post call failed." );
+    itkExceptionMacro(<< "sem_post call failed.");
     }
 #else
   if ( sem_post(&m_Sema) != 0 )
     {
-      itkExceptionMacro( << "sem_post call failed." );
+    itkExceptionMacro(<< "sem_post call failed.");
     }
 #endif
 #endif // ifdef sun
 #endif
 
 #endif  // ITK_USE_UNIX_SEMAPHORES
-  
+
 #ifdef ITK_USE_WIN32_THREADS
-  if ( ! ReleaseSemaphore ((HANDLE) m_Sema, 1 , 0) )
+  if ( !ReleaseSemaphore ( (HANDLE)m_Sema, 1, 0 ) )
     {
-      itkExceptionMacro( << "Semaphore post call failed." );
+    itkExceptionMacro(<< "Semaphore post call failed.");
     }
 #endif
 }
@@ -173,25 +173,25 @@ void Semaphore::Down()
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
   Semaphore::UnixIpcSemaphoreDown (m_Sema);
 #endif
-  
+
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 #ifdef ITK_USE_PTHREADS
 #ifdef sun
-  if (sema_wait(&m_Sema) != 0)
+  if ( sema_wait(&m_Sema) != 0 )
     {
-    itkExceptionMacro( << "sema_wait call failed." );
+    itkExceptionMacro(<< "sema_wait call failed.");
     }
 #else
 #ifdef __APPLE__
-  if (sem_wait(m_Sema) != 0)
+  if ( sem_wait(m_Sema) != 0 )
     {
-      itkExceptionMacro( << "sem_wait call failed." );
+    itkExceptionMacro(<< "sem_wait call failed.");
     }
 #else
-  
-  if (sem_wait(&m_Sema) != 0)
+
+  if ( sem_wait(&m_Sema) != 0 )
     {
-      itkExceptionMacro( << "sem_wait call failed." );
+    itkExceptionMacro(<< "sem_wait call failed.");
     }
 #endif
 #endif
@@ -201,7 +201,7 @@ void Semaphore::Down()
 #ifdef ITK_USE_WIN32_THREADS
   if ( WaitForSingleObject(m_Sema, INFINITE) == WAIT_FAILED )
     {
-      itkExceptionMacro( << "WaitForSingleObject call failed. ");
+    itkExceptionMacro(<< "WaitForSingleObject call failed. ");
     }
 #endif
 }
@@ -209,25 +209,25 @@ void Semaphore::Down()
 Semaphore::~Semaphore()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  if (m_Sema != -1)
+  if ( m_Sema != -1 )
     {
-      this->Remove();
+    this->Remove();
     }
 #endif
-  
-#ifndef ITK_USE_UNIX_IPC_SEMAPHORES  
-#ifdef ITK_USE_PTHREADS  
-  if(!m_PThreadsSemaphoreRemoved)
+
+#ifndef ITK_USE_UNIX_IPC_SEMAPHORES
+#ifdef ITK_USE_PTHREADS
+  if ( !m_PThreadsSemaphoreRemoved )
     {
     this->Remove();
     }
 #endif
 #endif
-  
+
 #ifdef ITK_USE_WIN32_THREADS
-  if (m_Sema != 0)
+  if ( m_Sema != 0 )
     {
-      this->Remove();
+    this->Remove();
     }
 #endif
 }
@@ -235,54 +235,57 @@ Semaphore::~Semaphore()
 void Semaphore::Remove()
 {
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
-  if (m_Sema != -1)
+  if ( m_Sema != -1 )
     {
-      Semaphore::UnixIpcSemaphoreRemove(m_Sema);
-      m_Sema= -1;
+    Semaphore::UnixIpcSemaphoreRemove(m_Sema);
+    m_Sema = -1;
     }
 #endif
-  
+
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES
 
 #ifdef ITK_USE_PTHREADS
-m_PThreadsSemaphoreRemoved = true;
+  m_PThreadsSemaphoreRemoved = true;
 #ifdef sun
   if ( sema_destroy(&m_Sema) != 0 )
     {
-    itkExceptionMacro( << "sema_destroy call failed. " );
+    itkExceptionMacro(<< "sema_destroy call failed. ");
     }
 #else
 
 #ifndef __APPLE__
   if ( sem_destroy(&m_Sema) != 0 )
     {
-    itkExceptionMacro( << "sem_destroy call failed. " );
+    itkExceptionMacro(<< "sem_destroy call failed. ");
     }
-#else //Still need to close semaphore and delete the file descriptor on MacOSX, otherwise the shared memory space is eventually exhosted.
-  //Eventually (i.e. after several days of ITK regresssion testing) the semaphore creation process was failing with errno=ENOSPC
-  //This implementation detail was taken from http://developer.apple.com/macosx/multithreadedprogramming.html
+#else //Still need to close semaphore and delete the file descriptor on MacOSX,
+      // otherwise the shared memory space is eventually exhosted.
+  //Eventually (i.e. after several days of ITK regresssion testing) the
+  // semaphore creation process was failing with errno=ENOSPC
+  //This implementation detail was taken from
+  // http://developer.apple.com/macosx/multithreadedprogramming.html
   if ( sem_close(this->m_Sema) != 0 )
     {
-    itkExceptionMacro( << "sem_close call failed. " );
+    itkExceptionMacro(<< "sem_close call failed. ");
     }
-  if ( sem_unlink(this->m_SemaphoreName.c_str()) != 0 )
+  if ( sem_unlink( this->m_SemaphoreName.c_str() ) != 0 )
     {
-    itkExceptionMacro( << "sem_unlink call failed. " );
+    itkExceptionMacro(<< "sem_unlink call failed. ");
     }
 #endif
 
-#endif  // sun
+#endif // sun
 #endif // pthreads
-  
+
 #endif // semaphores
   //#endif
-  
+
 #ifdef ITK_USE_WIN32_THREADS
-  if (m_Sema != 0)
+  if ( m_Sema != 0 )
     {
     CloseHandle(m_Sema);
     }
-  m_Sema= 0;
+  m_Sema = 0;
 #endif
 }
 
@@ -293,13 +296,13 @@ m_PThreadsSemaphoreRemoved = true;
 // If no semaphore has been established for this number, one is created.
 int Semaphore::UnixIpcSemaphoreCreate(int unix_semaphore_key)
 {
-  int sid = -1;
-  std::string s; 
- 
-  if( (sid = semget( (key_t)unix_semaphore_key, 1, 0666 | IPC_CREAT )) == -1 )
+  int         sid = -1;
+  std::string s;
+
+  if ( ( sid = semget( (key_t)unix_semaphore_key, 1, 0666 | IPC_CREAT ) ) == -1 )
     {
-    s =  "Error# %i in function UnixIpcSemaphoreCreate. - ";
-    switch (errno)
+    s =  "Error#%i in function UnixIpcSemaphoreCreate. - ";
+    switch ( errno )
       {
       case EEXIST:
         s += "Semaphore already exists. - ";
@@ -313,8 +316,8 @@ int Semaphore::UnixIpcSemaphoreCreate(int unix_semaphore_key)
       }
     itkExceptionMacro( << s.c_str() );
     }
-  
-  return( sid );
+
+  return ( sid );
 }
 
 // UnixIpcSemaphoreDown: the semaphore signal operation.
@@ -339,14 +342,14 @@ void Semaphore::UnixIpcSemaphoreUp(int sid)
 void Semaphore::UnixIpcSemaphoreRemove(int sid)
 {
   std::string s;
-  
-  if( semctl( sid, 0, IPC_RMID, 0 ) == -1 )
+
+  if ( semctl(sid, 0, IPC_RMID, 0) == -1 )
     {
     s =  "Error removing semaphore %i - ";
-    switch (errno)
+    switch ( errno )
       {
       case EINVAL:
-        s += "Semaphore id# is not valid. - ";
+        s += "Semaphore id#is not valid. - ";
         break;
       case EACCES:
         s += "Permission is denied - ";
@@ -361,18 +364,17 @@ void Semaphore::UnixIpcSemaphoreRemove(int sid)
 
 // UnixIpcSemaphoreCall: makes the system call semop for your given
 // semaphore and operation.
-void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
+void Semaphore::UnixIpcSemaphoreCall(int sid, int op)
 {
   struct sembuf sb;
-  std::string s;
-  
+  std::string   s;
+
   sb.sem_num = 0;
   sb.sem_op = op;
   sb.sem_flg = 0;
-  if( semop( sid, &sb, 1 ) == -1 )
+  if ( semop(sid, &sb, 1) == -1 )
     {
-    
-    if( op == -1 )
+    if ( op == -1 )
       {
       s =  "Error %i in UnixIpcSemaphoreDown call for semaphore %i - ";
       }
@@ -380,10 +382,10 @@ void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
       {
       s =  "Error %i in UnixIpcSemaphoreUp call for semaphore %i - ";
       }
-    switch (errno)
+    switch ( errno )
       {
       case EINVAL:
-        s += "Semaphore id# is not valid. -";
+        s += "Semaphore id#is not valid. -";
         break;
       case EFBIG:
         s += "Invalid sem_num for semaphore - ";
@@ -403,5 +405,4 @@ void Semaphore::UnixIpcSemaphoreCall (int sid, int op)
 }
 
 #endif
-
-}//end if namespace itk
+} //end if namespace itk

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,22 +28,22 @@ namespace itk
  * \brief Create instances of SpatialObjects
  */
 
-template <class T>
-class ITK_EXPORT SpatialObjectFactory : public SpatialObjectFactoryBase
+template< class T >
+class ITK_EXPORT SpatialObjectFactory:public SpatialObjectFactoryBase
 {
 public:
 
   static void RegisterSpatialObject()
-    {
+  {
     typename T::Pointer t = T::New();
-    SpatialObjectFactoryBase::Pointer f = 
-                                    SpatialObjectFactoryBase::GetFactory();
+    SpatialObjectFactoryBase::Pointer f =
+      SpatialObjectFactoryBase::GetFactory();
     f->RegisterSpatialObject ( t->GetSpatialObjectTypeAsString().c_str(),
                                t->GetSpatialObjectTypeAsString().c_str(),
                                t->GetSpatialObjectTypeAsString().c_str(),
                                1,
-                               CreateObjectFunction<T>::New() );
-    }
+                               CreateObjectFunction< T >::New() );
+  }
 };
 } // end namespace itk
 

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,8 +28,8 @@ extern "C" {
 }
 #endif
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class Barrier
  * \brief Standard barrier class implementation for synchronizing the execution
@@ -52,14 +52,14 @@ namespace itk {
  * implementation, set ITK_USE_FETCHOP_BARRIERS and link applications against
  * -lfetchop.
  */
-class ITKCommon_EXPORT Barrier : public LightObject
+class ITKCommon_EXPORT Barrier:public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef Barrier                   Self;
-  typedef LightObject               Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Barrier                    Self;
+  typedef LightObject                Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,9 +87,9 @@ private:
   static int                m_MaxBarriers;
   atomic_var_t *            m_Pvar;
 
-  char pad1[128];              // Attempt to put
+  char         pad1[128];      // Attempt to put
   volatile int m_FetchopFlag;  // m_Fetchop on its
-  char pad2[128];              // own cache line.
+  char         pad2[128];      // own cache line.
 #else
   ConditionVariable::Pointer m_ConditionVariable;
   unsigned int               m_NumberArrived;
@@ -99,7 +99,6 @@ private:
 
   unsigned int m_NumberExpected;
 };
-
 } // end namespace itk
 
 #endif

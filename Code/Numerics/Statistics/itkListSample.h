@@ -23,9 +23,10 @@
 
 #include <vector>
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ListSample
  *  \brief This class is the native implementation of the a Sample with an STL container
  *
@@ -41,14 +42,14 @@ namespace Statistics {
  */
 
 template< class TMeasurementVector >
-class ITK_EXPORT ListSample : public Sample< TMeasurementVector >
+class ITK_EXPORT ListSample:public Sample< TMeasurementVector >
 {
 public:
   /** Standard class typedef. */
-  typedef ListSample                     Self;
-  typedef Sample< TMeasurementVector >   Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  typedef ListSample                   Self;
+  typedef Sample< TMeasurementVector > Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(ListSample, Sample);
@@ -57,17 +58,16 @@ public:
   itkNewMacro(Self);
 
   /** Typedefs inherited from the superclass */
-  itkSuperclassTraitMacro( MeasurementVectorType )
-  itkSuperclassTraitMacro( MeasurementVectorSizeType )
-  itkSuperclassTraitMacro( MeasurementType )
-  itkSuperclassTraitMacro( AbsoluteFrequencyType )
-  itkSuperclassTraitMacro( TotalAbsoluteFrequencyType )
-  itkSuperclassTraitMacro( InstanceIdentifier )
+  itkSuperclassTraitMacro(MeasurementVectorType)
+  itkSuperclassTraitMacro(MeasurementVectorSizeType)
+  itkSuperclassTraitMacro(MeasurementType)
+  itkSuperclassTraitMacro(AbsoluteFrequencyType)
+  itkSuperclassTraitMacro(TotalAbsoluteFrequencyType)
+  itkSuperclassTraitMacro(InstanceIdentifier)
 
   /** Value type of a measurement (component of the measurement
    * vector) */
   typedef MeasurementVectorType ValueType;
-
 
   /** internal data container type */
   typedef std::vector< MeasurementVectorType > InternalDataContainerType;
@@ -79,13 +79,13 @@ public:
    * SetMeasurementVector(). On the other hand, if the number of measurement
    * vectors is not known from the beginning, then calling PushBack()
    * sequentially is a convenient option. */
-  void Resize( InstanceIdentifier newsize );
+  void Resize(InstanceIdentifier newsize);
 
   /** Removes all the elements in the Sample */
   void Clear();
 
   /** Inserts a measurement at the end of the list */
-  void PushBack( const MeasurementVectorType & mv );
+  void PushBack(const MeasurementVectorType & mv);
 
   /** Get the number of measurement vectors in the sample */
   InstanceIdentifier Size() const;
@@ -97,188 +97,180 @@ public:
   /** Set a component a measurement to a particular value. */
   void SetMeasurement(InstanceIdentifier id,
                       unsigned int dim,
-                      const MeasurementType &value);
+                      const MeasurementType & value);
 
   /** Replace a measurement with a different measurement */
-  void SetMeasurementVector( InstanceIdentifier id,
-                            const MeasurementVectorType &mv);
+  void SetMeasurementVector(InstanceIdentifier id,
+                            const MeasurementVectorType & mv);
 
   /** Get the frequency of a measurement. Returns 1 if the measurement
    * exist. */
-  AbsoluteFrequencyType GetFrequency( InstanceIdentifier id ) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
   /** Method to graft another sample */
-  virtual void Graft( const DataObject *thatObject );
+  virtual void Graft(const DataObject *thatObject);
 
   /** \class ListSample::ConstIterator */
   class ConstIterator
-    {
+  {
     friend class ListSample;
+public:
 
-    public:
-
-    ConstIterator( const ListSample * sample )
-      {
+    ConstIterator(const ListSample *sample)
+    {
       *this = sample->Begin();
-      }
+    }
 
-    ConstIterator(const ConstIterator &iter)
-      {
+    ConstIterator(const ConstIterator & iter)
+    {
       m_Iter = iter.m_Iter;
       m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      }
+    }
 
-    ConstIterator& operator=( const ConstIterator & iter )
-      {
+    ConstIterator & operator=(const ConstIterator & iter)
+    {
       m_Iter = iter.m_Iter;
       m_InstanceIdentifier = iter.m_InstanceIdentifier;
       return *this;
-      }
-
+    }
 
     AbsoluteFrequencyType GetFrequency() const
-      {
+    {
       return 1;
-      }
+    }
 
     const MeasurementVectorType & GetMeasurementVector() const
-      {
-      return static_cast<const MeasurementVectorType&>(*m_Iter);
-      }
+    {
+      return static_cast< const MeasurementVectorType & >( *m_Iter );
+    }
 
     InstanceIdentifier GetInstanceIdentifier() const
-      {
+    {
       return m_InstanceIdentifier;
-      }
+    }
 
-    ConstIterator& operator++()
-      {
+    ConstIterator & operator++()
+    {
       ++m_Iter;
       ++m_InstanceIdentifier;
       return *this;
-      }
+    }
 
-    bool operator!=(const ConstIterator &it)
-      {
-      return (m_Iter != it.m_Iter);
-      }
+    bool operator!=(const ConstIterator & it)
+    {
+      return ( m_Iter != it.m_Iter );
+    }
 
-    bool operator==(const ConstIterator &it)
-      {
-      return (m_Iter == it.m_Iter);
-      }
+    bool operator==(const ConstIterator & it)
+    {
+      return ( m_Iter == it.m_Iter );
+    }
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
-  protected:
+#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
+protected:
 #endif
     // This method should only be available to the ListSample class
     ConstIterator(
       typename InternalDataContainerType::const_iterator iter,
       InstanceIdentifier iid)
-      {
+    {
       m_Iter = iter;
       m_InstanceIdentifier = iid;
-      }
+    }
 
     // This method is purposely not implemented
     ConstIterator();
-
-  private:
+private:
     typedef typename InternalDataContainerType::const_iterator InternalIterator;
-    InternalIterator     m_Iter;
-    InstanceIdentifier   m_InstanceIdentifier;
-
-    };
+    InternalIterator   m_Iter;
+    InstanceIdentifier m_InstanceIdentifier;
+  };
 
   /** \class ListSample::Iterator */
-  class Iterator : public ConstIterator
+  class Iterator:public ConstIterator
   {
+    friend class ListSample;
+public:
 
-  friend class ListSample;
+    Iterator(Self *sample):ConstIterator(sample)
+    {}
 
-  public:
+    Iterator(const Iterator & iter):ConstIterator(iter)
+    {}
 
-    Iterator(Self * sample):ConstIterator(sample)
-      {
-      }
-
-    Iterator(const Iterator &iter):ConstIterator( iter )
-      {
-      }
-
-    Iterator& operator =(const Iterator & iter)
-      {
-      this->ConstIterator::operator=( iter );
+    Iterator & operator=(const Iterator & iter)
+    {
+      this->ConstIterator::operator=(iter);
       return *this;
-      }
+    }
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
-  protected:
+#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
+protected:
 #endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();
-    Iterator(const Self * sample);
-    Iterator( typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid);
+    Iterator(const Self *sample);
+    Iterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid);
     Iterator(const ConstIterator & it);
-    ConstIterator& operator=(const ConstIterator& it);
+    ConstIterator & operator=(const ConstIterator & it);
+
     Iterator(
       typename InternalDataContainerType::iterator iter,
-      InstanceIdentifier iid):ConstIterator( iter, iid )
-      {
-      }
+      InstanceIdentifier iid):ConstIterator(iter, iid)
+    {}
 
-  private:
+private:
   };
-
 
   /** returns an iterator that points to the beginning of the container */
   Iterator Begin()
-    {
+  {
     Iterator iter(m_InternalContainer.begin(), 0);
+
     return iter;
-    }
+  }
 
   /** returns an iterator that points to the end of the container */
   Iterator End()
-    {
-    Iterator iter(m_InternalContainer.end(), m_InternalContainer.size());
+  {
+    Iterator iter( m_InternalContainer.end(), m_InternalContainer.size() );
+
     return iter;
-    }
+  }
 
   /** returns an iterator that points to the beginning of the container */
   ConstIterator Begin() const
-    {
+  {
     ConstIterator iter(m_InternalContainer.begin(), 0);
+
     return iter;
-    }
+  }
 
   /** returns an iterator that points to the end of the container */
   ConstIterator End() const
-    {
-    ConstIterator iter(m_InternalContainer.end(), m_InternalContainer.size());
+  {
+    ConstIterator iter( m_InternalContainer.end(), m_InternalContainer.size() );
+
     return iter;
-    }
+  }
 
 protected:
 
   ListSample();
   virtual ~ListSample() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ListSample(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ListSample(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   InternalDataContainerType m_InternalContainer;
-
 };
-
 } // end of namespace Statistics
 } // end of namespace itk
 

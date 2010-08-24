@@ -21,9 +21,10 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ProbabilityDistribution
  * \brief ProbabilityDistribution class defines common interface for
  * statistical distributions (pdfs, cdfs, etc.).
@@ -64,21 +65,21 @@ namespace Statistics {
  * Information on the National Centers for Biomedical Computing
  * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
  */
-class ITK_EXPORT ProbabilityDistribution :
-    public Object
+class ITK_EXPORT ProbabilityDistribution:
+  public Object
 {
 public:
   /** Standard class typedefs */
-  typedef ProbabilityDistribution  Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ProbabilityDistribution    Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(ProbabilityDistribution, Object);
 
   /** Type of the parameter vector. */
-  typedef  Array< double >           ParametersType;
+  typedef  Array< double > ParametersType;
 
   /** Return the number of parameters that describe the
    * distribution. For nonparametric distributions, this will be a
@@ -93,15 +94,15 @@ public:
   /** Set the parameters of the distribution. See concrete subclasses
    * for the order of the parameters. Subclasses may provide convenience
    * methods for setting parameters, i.e. SetDegreesOfFreedom(), etc. */
-  virtual void SetParameters(const ParametersType& params)
-    {
-    if ((params.GetSize() != m_Parameters.GetSize())
-        || (params != m_Parameters))
+  virtual void SetParameters(const ParametersType & params)
+  {
+    if ( ( params.GetSize() != m_Parameters.GetSize() )
+         || ( params != m_Parameters ) )
       {
       m_Parameters = params;
       this->Modified();
       }
-    }
+  }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
@@ -110,7 +111,7 @@ public:
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluatePDF(double x, const ParametersType&) const = 0;
+  virtual double EvaluatePDF(double x, const ParametersType &) const = 0;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters(). See
@@ -120,7 +121,7 @@ public:
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluateCDF(double x, const ParametersType&) const = 0;
+  virtual double EvaluateCDF(double x, const ParametersType &) const = 0;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
@@ -132,7 +133,7 @@ public:
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. See
    * concrete subclasses for the ordering of parameters. */
-  virtual double EvaluateInverseCDF(double p, const ParametersType&) const = 0;
+  virtual double EvaluateInverseCDF(double p, const ParametersType &) const = 0;
 
   /** Does this distribution have a mean? */
   virtual bool HasMean() const = 0;
@@ -151,20 +152,17 @@ public:
 protected:
   ProbabilityDistribution(void) {}
   virtual ~ProbabilityDistribution(void) {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
     os << indent << "Parameters: " << m_Parameters << std::endl;
-    }
+  }
 
   ParametersType m_Parameters;
-
 private:
-  ProbabilityDistribution(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  ProbabilityDistribution(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
+};                                       // end of class
 } // end of namespace Statistics
 } // end namespace itk
 

@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /**
  * \class AttributeMorphologyBaseImageFilter
  * \brief Morphological opening by attributes
@@ -40,7 +39,7 @@ namespace itk
  * practices - most notably copying the image data to a linear buffer
  * to allow direct implementation of the published algorithm. It
  * should therefore be quite a good candidate to carry out tests of
- * itk iterator performance with randomish access patterns. 
+ * itk iterator performance with randomish access patterns.
  *
  * This filter is implemented using the method of Wilkinson, "A
  * comparison of algorithms for Connected set openings and Closings",
@@ -53,9 +52,9 @@ namespace itk
  *
  */
 
-template <class TInputImage, class TOutputImage, class TAttribute, class TFunction>
-class ITK_EXPORT AttributeMorphologyBaseImageFilter : 
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+class ITK_EXPORT AttributeMorphologyBaseImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
@@ -83,7 +82,7 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /**
    * Image typedef support
    */
@@ -91,21 +90,21 @@ public:
   typedef TOutputImage OutputImageType;
 //   typedef   typename TInputImage::IndexType       IndexType;
 //   typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType     RegionType;
-  typedef   std::list<IndexType>                  ListType;
-  typedef TAttribute                              AttributeType;
+  typedef   typename TOutputImage::RegionType RegionType;
+  typedef   std::list< IndexType >            ListType;
+  typedef TAttribute                          AttributeType;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /**
    * Run-time type information (and related methods)
    */
   itkTypeMacro(AttributeMorphologyBaseImageFilter, ImageToImageFilter);
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -128,20 +127,20 @@ public:
    */
   itkSetMacro(Lambda, AttributeType);
   itkGetConstMacro(Lambda, AttributeType);
-
 protected:
-  AttributeMorphologyBaseImageFilter() 
-    {
+  AttributeMorphologyBaseImageFilter()
+  {
     m_FullyConnected = false;
     m_AttributeValuePerPixel = 1;
     m_Lambda = 0;
-    }
+  }
+
   virtual ~AttributeMorphologyBaseImageFilter() {}
-  AttributeMorphologyBaseImageFilter(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  AttributeMorphologyBaseImageFilter(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
-   * Standard pipeline method. 
+   * Standard pipeline method.
    */
   void GenerateData();
 
@@ -154,10 +153,9 @@ protected:
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
-  AttributeType m_AttributeValuePerPixel;
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
 
+  AttributeType m_AttributeValuePerPixel;
 private:
 
   bool          m_FullyConnected;
@@ -169,108 +167,109 @@ private:
   itkStaticConstMacro(ROOT, long, -3);
 
   // Just used for area/volume openings at the moment
-  AttributeType * m_AuxData;
+  AttributeType *m_AuxData;
 
-  typedef std::vector<OffsetType> OffsetVecType;
+  typedef std::vector< OffsetType > OffsetVecType;
   // offset in the linear array.
-  typedef std::vector<long> OffsetDirectVecType;
+  typedef std::vector< long > OffsetDirectVecType;
 
-  void SetupOffsetVec(OffsetDirectVecType &PosOffsets, OffsetVecType &Offsets);
+  void SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
 
   class GreyAndPos
-    {
-    public:
-      InputPixelType Val;
-      long Pos;
-    };
+  {
+public:
+    InputPixelType Val;
+    long           Pos;
+  };
 
-  GreyAndPos *     m_SortPixels;
-  long *           m_Parent;
+  GreyAndPos *m_SortPixels;
+  long *      m_Parent;
 #ifndef PAMI
-  bool *           m_Processed;
+  bool *m_Processed;
 #endif
   // This is a bit ugly, but I can't see an easy way around
-  InputPixelType * m_Raw;
+  InputPixelType *m_Raw;
 
   class ComparePixStruct
-    {
-    public:
+  {
+public:
     TFunction m_TFunction;
-    bool operator()(GreyAndPos const &l, GreyAndPos const &r) const
-      {
-      if (m_TFunction(l.Val, r.Val))
+    bool operator()(GreyAndPos const & l, GreyAndPos const & r) const
+    {
+      if ( m_TFunction(l.Val, r.Val) )
         {
         return true;
         }
-      if (l.Val == r.Val)
+      if ( l.Val == r.Val )
         {
-        return (l.Pos < r.Pos);
+        return ( l.Pos < r.Pos );
         }
       return false;
-      }
-    };
+    }
+  };
 
 #ifdef PAMI
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
   void MakeSet(long x)
-    {
+  {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
-    }
+  }
 
   long FindRoot(long x)
-    {
-    if (m_Parent[x] >= 0)
+  {
+    if ( m_Parent[x] >= 0 )
       {
       m_Parent[x] = FindRoot(m_Parent[x]);
-      return(m_Parent[x]);
+      return ( m_Parent[x] );
       }
     else
       {
-      return(x);
+      return ( x );
       }
-    }
+  }
 
   bool Criterion(long x, long y)
-    {
-    return((m_Raw[x] == m_Raw[y]) || (m_AuxData[x] < m_Lambda));
-    }
-  
+  {
+    return ( ( m_Raw[x] == m_Raw[y] ) || ( m_AuxData[x] < m_Lambda ) );
+  }
+
   void Union(long n, long p)
-    {
+  {
     long r = FindRoot(n);
-    if (r != p)
+
+    if ( r != p )
       {
-      if (Criterion(r, p))
+      if ( Criterion(r, p) )
         {
         m_AuxData[p] += m_AuxData[r];
         m_Parent[r] = p;
         }
-      else 
+      else
         {
         m_AuxData[p] = m_Lambda;
         }
       }
-    }
+  }
 
 #else
   // version from ISMM paper
   void MakeSet(long x)
-    {
+  {
     m_Parent[x] = ACTIVE;
     m_AuxData[x] = m_AttributeValuePerPixel;
-    }
+  }
 
   void Link(long x, long y)
-    {
-    if ((m_Parent[y] == ACTIVE) && (m_Parent[x] == ACTIVE))
+  {
+    if ( ( m_Parent[y] == ACTIVE ) && ( m_Parent[x] == ACTIVE ) )
       {
       // should be a call to MergeAuxData
       m_AuxData[y] = m_AuxData[x] + m_AuxData[y];
       m_AuxData[x] = -m_AttributeValuePerPixel;
       }
-    else if (m_Parent[x] == ACTIVE)
+    else if ( m_Parent[x] == ACTIVE )
       {
       m_AuxData[x] = -m_AttributeValuePerPixel;
       }
@@ -280,45 +279,46 @@ private:
       m_Parent[y] = INACTIVE;
       }
     m_Parent[x] = y;
-    }
+  }
 
   long FindRoot(long x)
-    {
-    if (m_Parent[x] >= 0)
+  {
+    if ( m_Parent[x] >= 0 )
       {
       m_Parent[x] = FindRoot(m_Parent[x]);
-      return(m_Parent[x]);
+      return ( m_Parent[x] );
       }
     else
       {
-      return(x);
+      return ( x );
       }
-    }
+  }
 
   bool Equiv(long x, long y)
-    {
-    return((m_Raw[x] == m_Raw[y]) || (m_Parent[x] == ACTIVE));
-    }
-  
+  {
+    return ( ( m_Raw[x] == m_Raw[y] ) || ( m_Parent[x] == ACTIVE ) );
+  }
+
   void Union(long n, long p)
-    {
+  {
     long r = FindRoot(n);
-    if (r != p)
+
+    if ( r != p )
       {
-      if (Equiv(r, p))
+      if ( Equiv(r, p) )
         {
         Link(r, p);
         }
-      else if (m_Parent[p] == ACTIVE)
+      else if ( m_Parent[p] == ACTIVE )
         {
         m_Parent[p] = INACTIVE;
         m_AuxData[p] = -m_AttributeValuePerPixel;
         }
       }
-    }
+  }
+
 #endif
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -23,10 +23,10 @@
 #include "itkNumericTraits.h"
 #include "itkDecisionRule.h"
 
-namespace itk {
-namespace Statistics {
-
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class MaximumRatioDecisionRule2
  *  \brief This rule returns  \f$i\f$ if
  *   \f$\frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
@@ -41,14 +41,14 @@ namespace Statistics {
  * \sa MaximumDecisionRule, MinimumDecisionRule
  */
 
-class ITK_EXPORT MaximumRatioDecisionRule2 :
-    public DecisionRule
+class ITK_EXPORT MaximumRatioDecisionRule2:
+  public DecisionRule
 {
 public:
   /** Standard class typedefs */
-  typedef MaximumRatioDecisionRule2         Self;
-  typedef DecisionRule                      Superclass;
-  typedef SmartPointer<Self>                Pointer;
+  typedef MaximumRatioDecisionRule2 Self;
+  typedef DecisionRule              Superclass;
+  typedef SmartPointer< Self >      Pointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumRatioDecisionRule2, DecisionRule);
@@ -56,37 +56,34 @@ public:
   /** Standard New() method support */
   itkNewMacro(Self);
 
-  typedef float                               APrioriValueType;
-  typedef std::vector< APrioriValueType >     APrioriVectorType;
-  typedef APrioriVectorType::size_type        APrioriVectorSizeType;
+  typedef float                           APrioriValueType;
+  typedef std::vector< APrioriValueType > APrioriVectorType;
+  typedef APrioriVectorType::size_type    APrioriVectorSizeType;
 
-  typedef Superclass::MembershipVectorType   MembershipVectorType;
+  typedef Superclass::MembershipVectorType MembershipVectorType;
 
   /** The return value of this function is a class label.
    * Basically, using its internal logic based on the discriminant
    * scores, this function decides best class label and return it.
    */
-  virtual unsigned int Evaluate( const MembershipVectorType &discriminantScores) const;
-
+  virtual unsigned int Evaluate(const MembershipVectorType & discriminantScores) const;
 
   /** Sets the a priori probabilities */
-  void SetAPriori(APrioriVectorType& values);
+  void SetAPriori(APrioriVectorType & values);
 
 protected:
   MaximumRatioDecisionRule2();
   virtual ~MaximumRatioDecisionRule2() {}
-
 private:
-  MaximumRatioDecisionRule2(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MaximumRatioDecisionRule2(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
   /** Number of classes */
   APrioriVectorSizeType m_NumberOfClasses;
 
   /** a priori probability ratio matrix: internal use */
   vnl_matrix< double > m_APrioriRatioMatrix;
-}; // end of class
-
+};  // end of class
 } // end of Statistics namespace
 } // end of ITK namespace
 #endif

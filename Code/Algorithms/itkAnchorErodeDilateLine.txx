@@ -20,15 +20,15 @@
 
 #include "itkAnchorErodeDilateLine.h"
 
-namespace itk {
-
-template <class TInputPix, class TFunction1, class TFunction2>
-AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
+namespace itk
+{
+template< class TInputPix, class TFunction1, class TFunction2 >
+AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
 ::AnchorErodeDilateLine()
 {
-  m_Size=2;
+  m_Size = 2;
   // create a histogram
-  if (UseVectorBasedHistogram())
+  if ( UseVectorBasedHistogram() )
     {
     m_Histo = new VHistogram;
     }
@@ -38,59 +38,59 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     }
 }
 
-template <class TInputPix, class TFunction1, class TFunction2>
+template< class TInputPix, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::DoLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer, unsigned bufflength)
+AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+::DoLine(InputImagePixelType *buffer, InputImagePixelType *inbuffer, unsigned bufflength)
 {
   // TFunction1 will be < for erosions
   // TFunction2 will be <=
-
 
   // the initial version will adopt the methodology of loading a line
   // at a time into a buffer vector, carrying out the opening or
   // closing, and then copy the result to the output. Hopefully this
   // will improve cache performance when working along non raster
   // directions.
-  if (bufflength <= m_Size/2)
+  if ( bufflength <= m_Size / 2 )
     {
     // No point doing anything fancy - just look for the extreme value
     // This is important when operating near the corner of images with
     // angled structuring elements
     InputImagePixelType Extreme = inbuffer[0];
-    for (unsigned i = 0;i < bufflength;i++)
+    for ( unsigned i = 0; i < bufflength; i++ )
       {
-      if (m_TF1(Extreme, inbuffer[i]))
+      if ( m_TF1(Extreme, inbuffer[i]) )
+        {
         Extreme = inbuffer[i];
+        }
       }
 
-    for (unsigned i = 0;i < bufflength;i++)
+    for ( unsigned i = 0; i < bufflength; i++ )
       {
       buffer[i] = Extreme;
       }
     return;
     }
 
+  int middle = (int)m_Size / 2;
 
-  int middle = (int)m_Size/2;
-
-  int outLeftP = 0, outRightP = (int)bufflength - 1;
-  int inLeftP = 0, inRightP = (int)bufflength - 1;
+  int                 outLeftP = 0, outRightP = (int)bufflength - 1;
+  int                 inLeftP = 0, inRightP = (int)bufflength - 1;
   InputImagePixelType Extreme;
   m_Histo->Reset();
-  if (bufflength <= m_Size)
+  if ( bufflength <= m_Size )
     {
     // basically a standard histogram method
     // Left border, first half of structuring element
     Extreme = inbuffer[inLeftP];
     m_Histo->AddPixel(Extreme);
-    for (int i = 0; (i < middle); i++)
+    for ( int i = 0; ( i < middle ); i++ )
       {
       ++inLeftP;
       assert(inLeftP >= 0);
       assert(inLeftP < (int)bufflength);
       m_Histo->AddPixel(inbuffer[inLeftP]);
-      if (m_TF1(inbuffer[inLeftP], Extreme))
+      if ( m_TF1(inbuffer[inLeftP], Extreme) )
         {
         Extreme = inbuffer[inLeftP];
         }
@@ -100,16 +100,16 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     buffer[outLeftP] = Extreme;
 
     // Second half of SE
-    for (int i = 0; i < (int)m_Size - middle - 1; i++)
+    for ( int i = 0; i < (int)m_Size - middle - 1; i++ )
       {
       ++inLeftP;
       ++outLeftP;
-      if (inLeftP < (int)bufflength)
+      if ( inLeftP < (int)bufflength )
         {
         assert(inLeftP >= 0);
         assert(inLeftP < (int)bufflength);
         m_Histo->AddPixel(inbuffer[inLeftP]);
-        if (m_TF1(inbuffer[inLeftP], Extreme))
+        if ( m_TF1(inbuffer[inLeftP], Extreme) )
           {
           Extreme = inbuffer[inLeftP];
           }
@@ -121,7 +121,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     // now finish
     outLeftP++;
     int left = 0;
-    for (;outLeftP < (int)bufflength;outLeftP++, left++)
+    for (; outLeftP < (int)bufflength; outLeftP++, left++ )
       {
       m_Histo->RemovePixel(inbuffer[left]);
       Extreme = m_Histo->GetValue();
@@ -136,13 +136,13 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   // Left border, first half of structuring element
   Extreme = inbuffer[inLeftP];
   m_Histo->AddPixel(Extreme);
-  for (int i = 0; (i < middle); i++)
+  for ( int i = 0; ( i < middle ); i++ )
     {
     ++inLeftP;
     assert(inLeftP >= 0);
     assert(inLeftP < (int)bufflength);
     m_Histo->AddPixel(inbuffer[inLeftP]);
-    if (m_TF1(inbuffer[inLeftP], Extreme))
+    if ( m_TF1(inbuffer[inLeftP], Extreme) )
       {
       Extreme = inbuffer[inLeftP];
       }
@@ -152,14 +152,14 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   buffer[outLeftP] = Extreme;
 
   // Second half of SE
-  for (int i = 0; i < (int)m_Size - middle - 1; i++)
+  for ( int i = 0; i < (int)m_Size - middle - 1; i++ )
     {
     ++inLeftP;
     ++outLeftP;
     assert(inLeftP >= 0);
     assert(inLeftP < (int)bufflength);
     m_Histo->AddPixel(inbuffer[inLeftP]);
-    if (m_TF1(inbuffer[inLeftP], Extreme))
+    if ( m_TF1(inbuffer[inLeftP], Extreme) )
       {
       Extreme = inbuffer[inLeftP];
       }
@@ -169,13 +169,13 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     }
   // Use the histogram until we find a new minimum
   assert(inLeftP >= 0);
-  assert((inLeftP+1) < (int)bufflength);
-  while ((inLeftP < inRightP) && m_TF2(Extreme, inbuffer[inLeftP + 1]))
+  assert( ( inLeftP + 1 ) < (int)bufflength );
+  while ( ( inLeftP < inRightP ) && m_TF2(Extreme, inbuffer[inLeftP + 1]) )
     {
     ++inLeftP;
     ++outLeftP;
-    assert((inLeftP - (int)m_Size) >= 0);
-    assert((inLeftP - (int)m_Size) < (int)bufflength);
+    assert( ( inLeftP - (int)m_Size ) >= 0 );
+    assert( ( inLeftP - (int)m_Size ) < (int)bufflength );
 
     m_Histo->RemovePixel(inbuffer[inLeftP - (int)m_Size]);
     assert(inLeftP >= 0);
@@ -190,18 +190,17 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   assert(outLeftP < (int)bufflength);
   Extreme = buffer[outLeftP];
 
-  while (StartLine(buffer,
-                   inbuffer,
-                   Extreme,
-                   *m_Histo,
-                   outLeftP,
-                   outRightP,
-                   inLeftP,
-                   inRightP,
-                   middle,
-                   bufflength))
-    {
-    }
+  while ( StartLine(buffer,
+                    inbuffer,
+                    Extreme,
+                    *m_Histo,
+                    outLeftP,
+                    outRightP,
+                    inLeftP,
+                    inRightP,
+                    middle,
+                    bufflength) )
+      {}
 
   FinishLine(buffer,
              inbuffer,
@@ -215,23 +214,23 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
              bufflength);
 }
 
-template<class TInputPix, class TFunction1, class TFunction2>
+template< class TInputPix, class TFunction1, class TFunction2 >
 bool
-AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::StartLine(InputImagePixelType * buffer,
-            InputImagePixelType * inbuffer,
-            InputImagePixelType &Extreme,
-            Histogram &histo,
-            int &outLeftP,
-            int &itkNotUsed(outRightP),
-            int &inLeftP,
-            int &inRightP,
+AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+::StartLine(InputImagePixelType *buffer,
+            InputImagePixelType *inbuffer,
+            InputImagePixelType & Extreme,
+            Histogram & histo,
+            int & outLeftP,
+            int & itkNotUsed(outRightP),
+            int & inLeftP,
+            int & inRightP,
             int itkNotUsed(middle),
             unsigned
 #ifndef NDEBUG
- bufflength
+            bufflength
 #endif
-)
+            )
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -240,7 +239,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
 
   assert(currentP >= 0);
   assert(inRightP <= (int)bufflength);
-  while ((currentP < inRightP) && m_TF2(inbuffer[currentP], Extreme))
+  while ( ( currentP < inRightP ) && m_TF2(inbuffer[currentP], Extreme) )
     {
     assert(currentP >= 0);
     assert(currentP < (int)bufflength);
@@ -254,10 +253,10 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   inLeftP = currentP - 1;
 
   sentinel = inLeftP + (int)m_Size;
-  if (sentinel > inRightP)
+  if ( sentinel > inRightP )
     {
     // finish
-    return (false);
+    return ( false );
     }
   ++outLeftP;
   assert(outLeftP >= 0);
@@ -266,11 +265,11 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
 
   // ran m_Size pixels ahead
   ++currentP;
-  while (currentP < sentinel)
+  while ( currentP < sentinel )
     {
     assert(currentP >= 0);
     assert(currentP < (int)bufflength);
-    if (m_TF2(inbuffer[currentP], Extreme))
+    if ( m_TF2(inbuffer[currentP], Extreme) )
       {
       Extreme = inbuffer[currentP];
       ++outLeftP;
@@ -278,7 +277,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
       assert(outLeftP < (int)bufflength);
       buffer[outLeftP] = Extreme;
       inLeftP = currentP;
-      return (true);
+      return ( true );
       }
     ++currentP;
     ++outLeftP;
@@ -291,7 +290,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   // reach of inLeftP
   assert(currentP >= 0);
   assert(currentP < (int)bufflength);
-  if (m_TF2(inbuffer[currentP], Extreme))
+  if ( m_TF2(inbuffer[currentP], Extreme) )
     {
     Extreme = inbuffer[currentP];
     ++outLeftP;
@@ -299,7 +298,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     assert(outLeftP < (int)bufflength);
     buffer[outLeftP] = Extreme;
     inLeftP = currentP;
-    return (true);
+    return ( true );
     }
   else
     {
@@ -308,7 +307,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     histo.Reset();
     ++outLeftP;
     ++inLeftP;
-    for (int aux = inLeftP; aux <= currentP; ++aux)
+    for ( int aux = inLeftP; aux <= currentP; ++aux )
       {
       assert(aux >= 0);
       assert(aux < (int)bufflength);
@@ -320,12 +319,12 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     buffer[outLeftP] = Extreme;
     }
 
-  while (currentP < inRightP)
+  while ( currentP < inRightP )
     {
     ++currentP;
     assert(currentP >= 0);
     assert(currentP < (int)bufflength);
-    if (m_TF2(inbuffer[currentP], Extreme))
+    if ( m_TF2(inbuffer[currentP], Extreme) )
       {
       // Found a new extrem
       Extreme = inbuffer[currentP];
@@ -334,7 +333,7 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
       assert(outLeftP < (int)bufflength);
       buffer[outLeftP] = Extreme;
       inLeftP = currentP;
-      return(true);
+      return ( true );
       }
     else
       {
@@ -354,26 +353,26 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
       buffer[outLeftP] = Extreme;
       }
     }
-  return(false);
+  return ( false );
 }
 
-template<class TInputPix, class TFunction1, class TFunction2>
+template< class TInputPix, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::FinishLine(InputImagePixelType * buffer,
-             InputImagePixelType * inbuffer,
-             InputImagePixelType &Extreme,
-             Histogram &histo,
-             int &outLeftP,
-             int &outRightP,
-             int &itkNotUsed(inLeftP),
-             int &inRightP,
+AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+::FinishLine(InputImagePixelType *buffer,
+             InputImagePixelType *inbuffer,
+             InputImagePixelType & Extreme,
+             Histogram & histo,
+             int & outLeftP,
+             int & outRightP,
+             int & itkNotUsed(inLeftP),
+             int & inRightP,
              int middle,
              unsigned
 #ifndef NDEBUG
- bufflength
+             bufflength
 #endif
-)
+             )
 {
   // Handles the right border.
   // First half of the structuring element
@@ -383,13 +382,13 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   Extreme = inbuffer[inRightP];
   histo.AddPixel(Extreme);
 
-  for (int i = 0; i < middle; i++)
+  for ( int i = 0; i < middle; i++ )
     {
     --inRightP;
     assert(inRightP >= 0);
     assert(inRightP < (int)bufflength);
     histo.AddPixel(inbuffer[inRightP]);
-    if (m_TF1(inbuffer[inRightP], Extreme))
+    if ( m_TF1(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -398,14 +397,14 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
   assert(outRightP < (int)bufflength);
   buffer[outRightP] = Extreme;
   // second half of SE
-  for (int i = 0; (i<(int)m_Size - middle - 1) && (outLeftP < outRightP); i++)
+  for ( int i = 0; ( i < (int)m_Size - middle - 1 ) && ( outLeftP < outRightP ); i++ )
     {
     --inRightP;
     --outRightP;
     assert(inRightP >= 0);
     assert(inRightP < (int)bufflength);
     histo.AddPixel(inbuffer[inRightP]);
-    if (m_TF1(inbuffer[inRightP], Extreme))
+    if ( m_TF1(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -414,17 +413,17 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     buffer[outRightP] = Extreme;
     }
 
-  while (outLeftP < outRightP)
+  while ( outLeftP < outRightP )
     {
     --inRightP;
     --outRightP;
-    assert((inRightP + (int)m_Size)>= 0);
-    assert((inRightP + (int)m_Size)< (int)bufflength);
+    assert( ( inRightP + (int)m_Size ) >= 0 );
+    assert( ( inRightP + (int)m_Size ) < (int)bufflength );
     assert(inRightP >= 0);
     assert(inRightP < (int)bufflength);
     histo.RemovePixel(inbuffer[inRightP + (int)m_Size]);
     histo.AddPixel(inbuffer[inRightP]);
-    if (m_TF1(inbuffer[inRightP], Extreme))
+    if ( m_TF1(inbuffer[inRightP], Extreme) )
       {
       Extreme = inbuffer[inRightP];
       }
@@ -433,19 +432,15 @@ AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
     assert(outRightP < (int)bufflength);
     buffer[outRightP] = Extreme;
     }
-
-
 }
 
-template<class TInputPix, class TFunction1, class TFunction2>
+template< class TInputPix, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateLine<TInputPix, TFunction1, TFunction2>
-::PrintSelf(std::ostream &os, Indent indent) const
+AnchorErodeDilateLine< TInputPix, TFunction1, TFunction2 >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Size: " << m_Size << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

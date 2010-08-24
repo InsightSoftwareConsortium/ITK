@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,8 +23,8 @@
 
 #include <queue>
 
-namespace itk {
-
+namespace itk
+{
 /** \class SimpleFuzzyConnectednessImageFilterBase
  * \brief Base class for FuzzyConnectednessImageFilter object.
  *
@@ -40,7 +40,7 @@ namespace itk {
  * each pair of pixel have a strong fuzzy connectedness (say, above some threshold)
  * any pixel outside the object will have a weak fuzzy connectedness to any pixels
  * inside the object.
- * The simple fuzzy connectedness image filter implents the compute of a fuzzy 
+ * The simple fuzzy connectedness image filter implents the compute of a fuzzy
  * object by given prior information of the object.
  * this is the base class, all sub-classes should implement the definition of
  * fuzzy affinity between two nearby pixels. In this segmenation, all fuzzy affinity
@@ -53,22 +53,22 @@ namespace itk {
  *
  * \ingroup FuzzyConnectednessSegmentation  */
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT SimpleFuzzyConnectednessImageFilterBase:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef SimpleFuzzyConnectednessImageFilterBase       Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer <Self>                           Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef SimpleFuzzyConnectednessImageFilterBase         Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleFuzzyConnectednessImageFilterBase,ImageToImageFilter);
+  itkTypeMacro(SimpleFuzzyConnectednessImageFilterBase, ImageToImageFilter);
 
   /** Capture the image dimension from the input template parameters. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -78,24 +78,24 @@ public:
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
-  typedef Image <unsigned short, itkGetStaticConstMacro(ImageDimension)> UShortImage;
+  typedef Image< unsigned short, itkGetStaticConstMacro(ImageDimension) > UShortImage;
 
-  typedef typename TInputImage::IndexType         IndexType;
-  typedef typename TInputImage::SizeType          SizeType;
-  typedef typename TInputImage::PixelType         PixelType;
-  typedef UShortImage                             FuzzySceneType;
-  typedef typename FuzzySceneType::Pointer        FuzzyScenePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef std::queue<IndexType>                   QueueType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename OutputImageType::PixelType     OutputPixelType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  
+  typedef typename TInputImage::IndexType       IndexType;
+  typedef typename TInputImage::SizeType        SizeType;
+  typedef typename TInputImage::PixelType       PixelType;
+  typedef UShortImage                           FuzzySceneType;
+  typedef typename FuzzySceneType::Pointer      FuzzyScenePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef std::queue< IndexType >               QueueType;
+  typedef typename OutputImageType::RegionType  RegionType;
+  typedef typename OutputImageType::PixelType   OutputPixelType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+
   /** Set/Get the weight of the first term (standard statistics) in the
    * affinity computation. */
   itkSetMacro(Weight, double);
   itkGetMacro(Weight, double);
-  
+
   /** Set/Get the threshold value for the segmentation. This threshold value is
    * scaled with respect to the range of the unsigned short type.  The
    * resulting value is used to thresold the affinity map and generate a binary
@@ -114,56 +114,55 @@ public:
   itkGetMacro(OutsideValue, OutputPixelType);
 
   /** Setting the starting point, believed to be inside the object. */
-  itkSetMacro(      ObjectSeed, IndexType );
-  itkGetConstReferenceMacro( ObjectSeed, IndexType );
-  
+  itkSetMacro(ObjectSeed, IndexType);
+  itkGetConstReferenceMacro(ObjectSeed, IndexType);
+
   /** Update the binary result (needed after an update the threshold). */
   void MakeSegmentObject();
 
   /** Extract the FuzzyScene not thresholded. */
   const FuzzySceneType * GetFuzzyScene(void) const
-    { return m_FuzzyScene; };
+  { return m_FuzzyScene; }
 
   /** A simple combination of SetThreshold and MakeSegmentObject methods. */
   void UpdateThreshold(const double x);
-  
+
 protected:
   SimpleFuzzyConnectednessImageFilterBase();
   ~SimpleFuzzyConnectednessImageFilterBase();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. */
   void GenerateData();
 
-  double            m_Weight;
-  double            m_Threshold;
-  IndexType         m_ObjectSeed;
-  SizeType          m_Size;
+  double    m_Weight;
+  double    m_Threshold;
+  IndexType m_ObjectSeed;
+  SizeType  m_Size;
 
-  InputImageConstPointer    m_InputImage;
-  FuzzyScenePointer         m_FuzzyScene;
-  OutputImagePointer        m_SegmentObject; 
-  
+  InputImageConstPointer m_InputImage;
+  FuzzyScenePointer      m_FuzzyScene;
+  OutputImagePointer     m_SegmentObject;
+
   QueueType m_Queue;
 
-  void PushNeighbors(const IndexType &center);
+  void PushNeighbors(const IndexType & center);
 
   /** Define the fuzzy affinity function between two pixels. */
   virtual double FuzzyAffinity(const PixelType, const PixelType)
-    { return 0; }
+  { return 0; }
 
-  double FindStrongPath(const IndexType &center);
+  double FindStrongPath(const IndexType & center);
 
 private:
-  SimpleFuzzyConnectednessImageFilterBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SimpleFuzzyConnectednessImageFilterBase(const Self &); //purposely not
+                                                         // implemented
+  void operator=(const Self &);                          //purposely not
+                                                         // implemented
 
-  OutputPixelType  m_InsideValue;
-  OutputPixelType  m_OutsideValue;
-
+  OutputPixelType m_InsideValue;
+  OutputPixelType m_OutsideValue;
 };
-
-
 } // end namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION

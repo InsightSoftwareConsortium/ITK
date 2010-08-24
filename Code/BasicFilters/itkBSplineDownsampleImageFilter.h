@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -57,7 +57,7 @@ namespace itk
  *
  *      ImageTypePtr2D outImage2 = upSampler->GetOutput();  // outImage2 is the smoothed imaged
  *
- * Limitations:  This class requires specification of a resampler type which may 
+ * Limitations:  This class requires specification of a resampler type which may
  *                      be one of:
  *                        itkBSplineResampleImageFilterBase,
  *                        itkBSplineL2ResampleImageFilterBase
@@ -74,28 +74,27 @@ namespace itk
  *
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
- * \ingroup CannotBeStreamed 
+ * \ingroup CannotBeStreamed
  */
 
 //= ITK_TYPENAME BSplineResampleImageFilterBase<TInputImage, TOutputImage>
-template <class TInputImage, class TOutputImage, 
-          class ResamplerType = BSplineResampleImageFilterBase<TInputImage, TOutputImage> >
-class ITK_EXPORT BSplineDownsampleImageFilter : 
-    public ResamplerType
+template< class TInputImage, class TOutputImage,
+          class ResamplerType = BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
+class ITK_EXPORT BSplineDownsampleImageFilter:
+  public ResamplerType
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineDownsampleImageFilter       Self;
-  typedef ResamplerType                      Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef BSplineDownsampleImageFilter Self;
+  typedef ResamplerType                Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDownsampleImageFilter, ResamplerType);
 
- 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
@@ -109,7 +108,7 @@ public:
   /** OutputImageIterator typedef support. */
   typedef typename Superclass::OutputImageIterator OutputImageIterator;
 
-  /** Creates an image half the size of the input image with spacing twice the 
+  /** Creates an image half the size of the input image with spacing twice the
     * input image. */
   void GenerateOutputInformation();
 
@@ -118,25 +117,22 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
 
   void GenerateData();
-  void EnlargeOutputRequestedRegion( DataObject *output );
+
+  void EnlargeOutputRequestedRegion(DataObject *output);
 
   BSplineDownsampleImageFilter();
-  virtual ~BSplineDownsampleImageFilter() {};
-    
+  virtual ~BSplineDownsampleImageFilter() {}
 private:
-  BSplineDownsampleImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
-  
+  BSplineDownsampleImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

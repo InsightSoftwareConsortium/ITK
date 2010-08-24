@@ -24,9 +24,6 @@
 
 namespace itk
 {
-
-
-
 /** \class NumericTraits<DiffusionTensor3D< T > >
  * \brief Define numeric traits for DiffusionTensor3D.
  *
@@ -41,77 +38,81 @@ namespace itk
  * \sa NumericTraits
  * \ingroup DataRepresentation
  */
-template < typename T >
+template< typename T >
 class NumericTraits< DiffusionTensor3D< T > >
 {
 private:
 
-  typedef typename NumericTraits<T>::AbsType        ElementAbsType;
-  typedef typename NumericTraits<T>::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits<T>::FloatType      ElementFloatType;
-  typedef typename NumericTraits<T>::PrintType      ElementPrintType;
-  typedef typename NumericTraits<T>::RealType       ElementRealType;
-
+  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
+  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
+  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
+  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
+  typedef typename NumericTraits< T >::RealType       ElementRealType;
 public:
 
-
   /** Return the type of the native component type. */
-  typedef T                                         ValueType;
+  typedef T ValueType;
 
-  typedef DiffusionTensor3D<T>                      Self;
+  typedef DiffusionTensor3D< T > Self;
 
   /** Unsigned component type */
-  typedef DiffusionTensor3D<ElementAbsType>         AbsType;
+  typedef DiffusionTensor3D< ElementAbsType > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef DiffusionTensor3D<ElementAccumulateType>  AccumulateType;
+  typedef DiffusionTensor3D< ElementAccumulateType > AccumulateType;
 
-  /** Typedef for operations that use floating point instead of real precision */
-  typedef DiffusionTensor3D<ElementFloatType>       FloatType;
+  /** Typedef for operations that use floating point instead of real precision
+    */
+  typedef DiffusionTensor3D< ElementFloatType > FloatType;
 
   /** Return the type that can be printed. */
-  typedef DiffusionTensor3D<ElementPrintType>       PrintType;
+  typedef DiffusionTensor3D< ElementPrintType > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef DiffusionTensor3D<ElementRealType>        RealType;
+  typedef DiffusionTensor3D< ElementRealType > RealType;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType                           ScalarRealType;
-
+  typedef ElementRealType ScalarRealType;
 
   /** Component wise defined element
    *
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max( const Self & )
-    {
-      return Self( NumericTraits< T >::max() );
-    }
-  static const Self min( const Self & )
-    {
-      return Self( NumericTraits< T >::min() );
-    }
+  static const Self max(const Self &)
+  {
+    return Self( NumericTraits< T >::max() );
+  }
+
+  static const Self min(const Self &)
+  {
+    return Self( NumericTraits< T >::min() );
+  }
+
   static const Self max()
-    {
-      return Self( NumericTraits< T >::max() );
-    }
+  {
+    return Self( NumericTraits< T >::max() );
+  }
+
   static const Self min()
-    {
-      return Self( NumericTraits< T >::min() );
-    }
+  {
+    return Self( NumericTraits< T >::min() );
+  }
+
   static const Self NonpositiveMin()
-    {
-      return Self( NumericTraits< T >::NonpositiveMin() );
-    }
+  {
+    return Self( NumericTraits< T >::NonpositiveMin() );
+  }
+
   static const Self ZeroValue()
-    {
-      return Self( NumericTraits<T>::ZeroValue() );
-    }
+  {
+    return Self( NumericTraits< T >::ZeroValue() );
+  }
+
   static const Self OneValue()
-    {
-      return Self( NumericTraits<T>::OneValue() );
-    }
+  {
+    return Self( NumericTraits< T >::OneValue() );
+  }
 
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
@@ -119,8 +120,6 @@ public:
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };
-
-
 } // end namespace itk
 
 #endif // __itkNumericTraitsTensorPixel_h

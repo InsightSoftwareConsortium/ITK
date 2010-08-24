@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,17 +19,17 @@
 
 #include "itkColormapFunctor.h"
 
-namespace itk {
-
-namespace Functor {  
-
+namespace itk
+{
+namespace Functor
+{
 /**
  * \class CopperColormapFunctor
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
- * 
+ *
  * This code was contributed in the Insight Journal paper:
  *
  * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"
@@ -38,37 +38,33 @@ namespace Functor {
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT CopperColormapFunctor
-: public ColormapFunctor<TScalar, TRGBPixel>
+class ITK_EXPORT CopperColormapFunctor:
+  public ColormapFunctor< TScalar, TRGBPixel >
 {
 public:
 
-  typedef CopperColormapFunctor                  Self;
-  typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  typedef CopperColormapFunctor                 Self;
+  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  typedef typename Superclass::RGBPixelType      RGBPixelType;
-  typedef typename Superclass::ScalarType        ScalarType;  
-  typedef typename Superclass::RealType          RealType;
-  
-  virtual RGBPixelType operator()( const TScalar & ) const;
+  typedef typename Superclass::RGBPixelType RGBPixelType;
+  typedef typename Superclass::ScalarType   ScalarType;
+  typedef typename Superclass::RealType     RealType;
+
+  virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  CopperColormapFunctor() {};
-  ~CopperColormapFunctor() {};
-
+  CopperColormapFunctor() {}
+  ~CopperColormapFunctor() {}
 private:
-  CopperColormapFunctor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  CopperColormapFunctor(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
-  
 } // end namespace functor
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

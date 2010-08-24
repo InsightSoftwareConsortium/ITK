@@ -16,24 +16,26 @@
 =========================================================================*/
 #include "itkMaximumDecisionRule2.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 void
-MaximumDecisionRule2::PrintSelf(std::ostream& os, Indent indent) const
+MaximumDecisionRule2::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 unsigned int
-MaximumDecisionRule2::Evaluate(const MembershipVectorType &discriminantScores) const
+MaximumDecisionRule2::Evaluate(const MembershipVectorType & discriminantScores) const
 {
-  double max = discriminantScores[0];
+  double       max = discriminantScores[0];
   unsigned int maxIndex = 0;
   unsigned int i;
-  for (i = 1; i < discriminantScores.size(); i++)
+
+  for ( i = 1; i < discriminantScores.size(); i++ )
     {
-    if (discriminantScores[i] > max)
+    if ( discriminantScores[i] > max )
       {
       max = discriminantScores[i];
       maxIndex = i;
@@ -41,6 +43,5 @@ MaximumDecisionRule2::Evaluate(const MembershipVectorType &discriminantScores) c
     }
   return maxIndex;
 }
-
 } // end of namespace itk
 } // end of namespace Statistics

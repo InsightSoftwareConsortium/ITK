@@ -9,19 +9,18 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkAnisotropicDiffusionFunction_h
 #define __itkAnisotropicDiffusionFunction_h
 
-
 #include "itkFiniteDifferenceFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class AnisotropicDiffusionFunction
  * This class is a virtual base for anisotropic diffusion function objects.  It
@@ -97,13 +96,13 @@ namespace itk {
  * explicitly by the user.  The time step referred to here corresponds exactly
  * to \f$ \Delta t \f$ in the finite difference update equation described in
  * FiniteDifferenceImageFilter (see itkFiniteDifferenceImageFilter for more
- * information).  Appropriate time steps for solving this type of p.d.e. depend 
+ * information).  Appropriate time steps for solving this type of p.d.e. depend
  * on the dimensionality of the image and the order of the equation.  Typical
  * values are less than 0.250.  A stable value for most 2 and 3d functions is
  * 0.125.  In general, you should keep the time step below 1/2^N, where N is
  * the number of image dimensions.  A filter will automatically attempt to
  * constrain its time step to a stable  value and generate a run-time warning
- * if the time step is set too high. 
+ * if the time step is set too high.
  *
  * \par Conductance Parameter
  * The conductance parameter controls the sensitivity of the conductance term
@@ -131,20 +130,20 @@ namespace itk {
  * \ingroup ImageEnhancement
  * \todo Automatically generate the time step value from image dimensionality
  *  and order of the equations */
-template <class TImage>
-class ITK_EXPORT AnisotropicDiffusionFunction :
-    public FiniteDifferenceFunction<TImage>
+template< class TImage >
+class ITK_EXPORT AnisotropicDiffusionFunction:
+  public FiniteDifferenceFunction< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AnisotropicDiffusionFunction     Self;
-  typedef FiniteDifferenceFunction<TImage> Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef AnisotropicDiffusionFunction       Self;
+  typedef FiniteDifferenceFunction< TImage > Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( AnisotropicDiffusionFunction, FiniteDifferenceFunction );
-  
+  itkTypeMacro(AnisotropicDiffusionFunction, FiniteDifferenceFunction);
+
   /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
@@ -155,10 +154,10 @@ public:
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** This method is called before each iteration.  It calculates a scalar
-      value that is the average of the gradient magnitude squared at each pixel 
+      value that is the average of the gradient magnitude squared at each pixel
       in the output image (intermediate solution). The average gradient magnitude
       value is typically used in the anisotropic diffusion equations to
       calibrate the conductance term. */
@@ -167,81 +166,84 @@ public:
   /** Set/Get the time step. For this class of anisotropic diffusion filters,
       the time-step is supplied by the user and remains fixed for all
       updates. */
-  void SetTimeStep(const TimeStepType &t)
-    {
+  void SetTimeStep(const TimeStepType & t)
+  {
     m_TimeStep = t;
-    }
-  const TimeStepType &GetTimeStep() const
-    {
+  }
+
+  const TimeStepType & GetTimeStep() const
+  {
     return m_TimeStep;
-    }
+  }
 
   /** Set/Get the conductance parameter.  The conductance parameter. */
-  void SetConductanceParameter(const double &c)
-    {
+  void SetConductanceParameter(const double & c)
+  {
     m_ConductanceParameter = c;
-    }
-  const double &GetConductanceParameter() const
-    {
+  }
+
+  const double & GetConductanceParameter() const
+  {
     return m_ConductanceParameter;
-    }
+  }
 
   /** Set/Get the average gradient magnitude squared. */
-  const double &GetAverageGradientMagnitudeSquared() const
-    {
+  const double & GetAverageGradientMagnitudeSquared() const
+  {
     return m_AverageGradientMagnitudeSquared;
-    }
-  void SetAverageGradientMagnitudeSquared(const double &c)
-    {
+  }
+
+  void SetAverageGradientMagnitudeSquared(const double & c)
+  {
     m_AverageGradientMagnitudeSquared = c;
-    }
+  }
 
   /** Returns the time step supplied by the user.  We don't need to use the
    * global data supplied since we are returning a fixed value.  */
-  virtual TimeStepType ComputeGlobalTimeStep(void *itkNotUsed(GlobalData)) const
-    {
+  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const
+  {
     return this->GetTimeStep();
-    }
+  }
 
   /** The anisotropic diffusion classes don't use this particular parameter
    * so it's safe to return a null value. */
-  virtual void *GetGlobalDataPointer() const
-    {
+  virtual void * GetGlobalDataPointer() const
+  {
     return 0;
-    }
+  }
 
   /** Does nothing.  No global data is used in this class of equations.   */
-  virtual void ReleaseGlobalDataPointer(void *itkNotUsed(GlobalData)) const
-    {
+  virtual void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const
+  {
     /* do nothing */
-    }
-  
+  }
+
 protected:
   AnisotropicDiffusionFunction()
-    {
+  {
     m_AverageGradientMagnitudeSquared = 0.0;
     m_ConductanceParameter     = 1.0;     // default value
     m_TimeStep                 = 0.125f;  // default value
-    }
+  }
+
   ~AnisotropicDiffusionFunction() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
     os << indent << "TimeStep: " << m_TimeStep << std::endl;
-    os << indent << "ConductanceParameter: " << m_ConductanceParameter <<
-      std::endl;
-    }
+    os << indent << "ConductanceParameter: " << m_ConductanceParameter
+       << std::endl;
+  }
 
 private:
-  AnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AnisotropicDiffusionFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
-  double          m_AverageGradientMagnitudeSquared;
-  double          m_ConductanceParameter;
-  TimeStepType    m_TimeStep;
+  double       m_AverageGradientMagnitudeSquared;
+  double       m_ConductanceParameter;
+  TimeStepType m_TimeStep;
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

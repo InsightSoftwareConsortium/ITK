@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class UnconstrainedRegionBasedLevelSetFunctionSharedData
  *
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
@@ -56,36 +55,36 @@ namespace itk
  *
  *
  */
-template < class TInputImage, class TFeatureImage, class TSingleData >
-class UnconstrainedRegionBasedLevelSetFunctionSharedData :
+template< class TInputImage, class TFeatureImage, class TSingleData >
+class UnconstrainedRegionBasedLevelSetFunctionSharedData:
   public RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >
 {
 public:
 
-  typedef UnconstrainedRegionBasedLevelSetFunctionSharedData       Self;
+  typedef UnconstrainedRegionBasedLevelSetFunctionSharedData Self;
   typedef RegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage, TSingleData >
-    Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   itkTypeMacro(UnconstrainedRegionBasedLevelSetFunctionSharedData, RegionBasedLevelSetFunctionSharedData);
 
-  typedef TInputImage                                   InputImageType;
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer   InputImageConstPointer;
-  typedef typename Superclass::InputPixelType           InputPixelType;
-  typedef typename Superclass::InputRegionType          InputRegionType;
-  typedef typename Superclass::InputSizeType            InputSizeType;
-  typedef typename Superclass::InputSizeValueType       InputSizeValueType;
-  typedef typename Superclass::InputSpacingType         InputSpacingType;
-  typedef typename Superclass::InputIndexType           InputIndexType;
-  typedef typename Superclass::InputIndexValueType      InputIndexValueType;
-  typedef typename Superclass::InputPointType           InputPointType;
+  typedef TInputImage                                 InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  typedef typename Superclass::InputPixelType         InputPixelType;
+  typedef typename Superclass::InputRegionType        InputRegionType;
+  typedef typename Superclass::InputSizeType          InputSizeType;
+  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
+  typedef typename Superclass::InputSpacingType       InputSpacingType;
+  typedef typename Superclass::InputIndexType         InputIndexType;
+  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
+  typedef typename Superclass::InputPointType         InputPointType;
 
   typedef TFeatureImage                                 FeatureImageType;
   typedef typename Superclass::FeatureImagePointer      FeatureImagePointer;
@@ -98,50 +97,53 @@ public:
   typedef typename Superclass::FeatureIndexType         FeatureIndexType;
   typedef typename Superclass::FeaturePointType         FeaturePointType;
 
-  typedef typename Superclass::ListPixelType            ListPixelType;
-  typedef typename Superclass::ListImageType            ListImageType;
-  typedef typename Superclass::ListImagePointer         ListImagePointer;
-  typedef typename Superclass::ListImageConstPointer    ListImageConstPointer;
-  typedef typename Superclass::ListRegionType           ListRegionType;
-  typedef typename Superclass::ListSizeType             ListSizeType;
-  typedef typename Superclass::ListSizeValueType        ListSizeValueType;
-  typedef typename Superclass::ListSpacingType          ListSpacingType;
-  typedef typename Superclass::ListIndexType            ListIndexType;
-  typedef typename Superclass::ListIndexValueType       ListIndexValueType;
-  typedef typename Superclass::ListPointType            ListPointType;
-  typedef typename Superclass::ListIteratorType         ListIteratorType;
+  typedef typename Superclass::ListPixelType         ListPixelType;
+  typedef typename Superclass::ListImageType         ListImageType;
+  typedef typename Superclass::ListImagePointer      ListImagePointer;
+  typedef typename Superclass::ListImageConstPointer ListImageConstPointer;
+  typedef typename Superclass::ListRegionType        ListRegionType;
+  typedef typename Superclass::ListSizeType          ListSizeType;
+  typedef typename Superclass::ListSizeValueType     ListSizeValueType;
+  typedef typename Superclass::ListSpacingType       ListSpacingType;
+  typedef typename Superclass::ListIndexType         ListIndexType;
+  typedef typename Superclass::ListIndexValueType    ListIndexValueType;
+  typedef typename Superclass::ListPointType         ListPointType;
+  typedef typename Superclass::ListIteratorType      ListIteratorType;
 
-  typedef typename Superclass::CentroidVectorType       CentroidVectorType;
-  typedef typename Superclass::SampleType               SampleType;
-  typedef typename Superclass::TreeGeneratorType        TreeGeneratorType;
-  typedef typename Superclass::TreePointer              TreePointer;
-  typedef typename Superclass::TreeType                 TreeType;
-  typedef typename Superclass::KdTreePointer            KdTreePointer;
+  typedef typename Superclass::CentroidVectorType CentroidVectorType;
+  typedef typename Superclass::SampleType         SampleType;
+  typedef typename Superclass::TreeGeneratorType  TreeGeneratorType;
+  typedef typename Superclass::TreePointer        TreePointer;
+  typedef typename Superclass::TreeType           TreeType;
+  typedef typename Superclass::KdTreePointer      KdTreePointer;
 
-  typedef TSingleData                                             LevelSetDataType;
-  typedef typename Superclass::LevelSetDataPointer                LevelSetDataPointer;
-  typedef typename Superclass::LevelSetDataPointerVector          LevelSetDataPointerVector;
-  typedef typename Superclass::LevelSetDataPointerVectorIterator  LevelSetDataPointerVectorIterator;
+  typedef TSingleData                                            LevelSetDataType;
+  typedef typename Superclass::LevelSetDataPointer               LevelSetDataPointer;
+  typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
+  typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
   void PopulateListImage()
-    {
+  {
     ListPixelType L;
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+
+    for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
       {
-      L.push_back( i );
+      L.push_back(i);
       }
-    this->m_NearestNeighborListImage->FillBuffer( L );
-    }
+    this->m_NearestNeighborListImage->FillBuffer(L);
+  }
 
 protected:
-  UnconstrainedRegionBasedLevelSetFunctionSharedData() : Superclass( ){}
+  UnconstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
   ~UnconstrainedRegionBasedLevelSetFunctionSharedData(){}
-
 private:
-  UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely
+                                                                    // not
+                                                                    // implemented
+  void operator=(const Self &);                                     //purposely
+                                                                    // not
+                                                                    // implemented
 };
-
 } //end namespace itk
 
 #endif

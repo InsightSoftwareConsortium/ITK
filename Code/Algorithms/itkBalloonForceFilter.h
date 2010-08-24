@@ -29,7 +29,6 @@
 
 namespace itk
 {
-
 /** \class BalloonForceFilter
  * \brief
  *
@@ -52,21 +51,21 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation
  */
-template <class TInputMesh, class TOutputMesh>
-class ITK_EXPORT BalloonForceFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
+class ITK_EXPORT BalloonForceFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard class typedefs. */
-  typedef BalloonForceFilter                        Self;
-  typedef MeshToMeshFilter<TInputMesh, TOutputMesh> Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef BalloonForceFilter                          Self;
+  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BalloonForceFilter,MeshToMeshFilter);
+  itkTypeMacro(BalloonForceFilter, MeshToMeshFilter);
 
   /** Some typedefs for the input and output types. */
   typedef TInputMesh  InputMeshType;
@@ -108,12 +107,12 @@ public:
   OutputPointsContainerIterator;
 
   /** Image types. */
-  typedef typename InputMeshType::PointType   IPixelType;
-  typedef typename InputMeshType::PixelType   PixelType;
+  typedef typename InputMeshType::PointType IPixelType;
+  typedef typename InputMeshType::PixelType PixelType;
 
-  typedef Image<unsigned short, 2>              ImageType;
-  typedef CovariantVector<PixelType, 2>         GradientType;
-  typedef Image<GradientType, 2>                GradientImageType;
+  typedef Image< unsigned short, 2 >            ImageType;
+  typedef CovariantVector< PixelType, 2 >       GradientType;
+  typedef Image< GradientType, 2 >              GradientImageType;
   typedef typename InputMeshType::Pointer       InputMeshPointer;
   typedef typename InputMeshType::ConstPointer  InputMeshConstPointer;
   typedef typename OutputMeshType::Pointer      OutputMeshPointer;
@@ -121,32 +120,45 @@ public:
   typedef typename ImageType::IndexType         IndexType;
   typedef typename GradientImageType::Pointer   GradientImagePointer;
   typedef typename GradientImageType::IndexType GradientIndexType;
-  typedef ImageRegionIterator<ImageType>        ImageIterator;
-  typedef Vector<float, 3>                      FloatVector;
-  typedef Vector<int, 3>                        IntVector;
-  typedef Vector<double, 2>                     Double2Vector;
-  typedef Vector<int, 2>                        Int2Vector;
+  typedef ImageRegionIterator< ImageType >      ImageIterator;
+  typedef Vector< float, 3 >                    FloatVector;
+  typedef Vector< int, 3 >                      IntVector;
+  typedef Vector< double, 2 >                   Double2Vector;
+  typedef Vector< int, 2 >                      Int2Vector;
 
   /** Cell related types. */
-  typedef typename InputMeshType::CellType              CellType;
-  typedef typename InputMeshType::CellTraits            CellTraits;
-  typedef ::itk::CellInterface<PixelType, CellTraits>   CellInterface;
-  typedef ::itk::TriangleCell< CellInterface >          TriCell;
-
+  typedef typename InputMeshType::CellType             CellType;
+  typedef typename InputMeshType::CellTraits           CellTraits;
+  typedef::itk::CellInterface< PixelType, CellTraits > CellInterface;
+  typedef::itk::TriangleCell< CellInterface >          TriCell;
 
   /** Some functions. */
   void ComputeForce();
+
   void Initialize();
+
   void SetStiffnessMatrix();
+
   void Advance();             // update data for next iteration
+
   void Reset();               // reset all data
+
   void ComputeDt();             // compute point positions
+
   void ComputeOutput();
-  void NodeAddition(int i, int res, IPixelType z); // (folowing 3) for adding new nodes, now disabled for further tests
+
+  void NodeAddition(int i, int res, IPixelType z); // (folowing 3) for adding
+                                                   // new nodes, now disabled
+                                                   // for further tests
+
   void NodesRearrange();
+
   void GapSearch();
+
   void GradientFit();           // fit the model with gradient information
+
   void ComputeNormals();
+
   void ACDSearch();             // remove weird structures on the model surface
 
   /** Set the output image. */
@@ -168,17 +180,16 @@ public:
   itkGetConstMacro(Displacements, InputMeshPointer);
   itkGetConstMacro(Derives, InputMeshPointer);
   itkGetConstMacro(Forces, InputMeshPointer);
-
 protected:
   BalloonForceFilter();
   ~BalloonForceFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData();
 
 private:
-  BalloonForceFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BalloonForceFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
   /** These meshes are defined to hold the vectors as force, etc. */
   InputMeshPointer  m_Forces;
@@ -190,30 +201,33 @@ private:
   OutputMeshPointer m_Output;
 
   /** Three different kinds of stiffness matrix. */
-  vnl_matrix_fixed<double, 4, 4>   m_NStiffness;
-  vnl_matrix_fixed<double, 4, 4>   m_SStiffness;
-  vnl_matrix_fixed<double, 4, 4>   m_CStiffness;
-  vnl_matrix_fixed<double, 4, 4> **m_K;
+  vnl_matrix_fixed< double, 4, 4 >   m_NStiffness;
+  vnl_matrix_fixed< double, 4, 4 >   m_SStiffness;
+  vnl_matrix_fixed< double, 4, 4 >   m_CStiffness;
+  vnl_matrix_fixed< double, 4, 4 > **m_K;
 
-  Double2Vector  m_Stiffness;
-  double         m_TimeStep;       // the time step of each iteration
-  int            m_Resolution;
-  IndexType      m_Center;
-  float          m_MiniT;        // variabel help to stop the model when near potential estimation
-  int            m_Step;         // the number of iteration
+  Double2Vector m_Stiffness;
+  double        m_TimeStep;        // the time step of each iteration
+  int           m_Resolution;
+  IndexType     m_Center;
+  float         m_MiniT;         // variabel help to stop the model when near
+                                 // potential estimation
+  int           m_Step;          // the number of iteration
 
-  unsigned int   m_NumberOfNodes;
-  unsigned int   m_NumberOfCells;
-  unsigned int   m_NumNewNodes;      // for adding new nodes, now disabled for further tests
-  int           *m_GapLocations;
-  float        **m_NewNodes;
-  int            m_NewNodesExisted;
-  unsigned int   m_NewNodeLimit;
-  unsigned int   m_ImageWidth;       // input image size
-  unsigned int   m_ImageHeight;
-  unsigned int   m_ImageDepth;
+  unsigned int m_NumberOfNodes;
+  unsigned int m_NumberOfCells;
+  unsigned int m_NumNewNodes;        // for adding new nodes, now disabled for
+                                     // further tests
+  int *        m_GapLocations;
+  float **     m_NewNodes;
+  int          m_NewNodesExisted;
+  unsigned int m_NewNodeLimit;
+  unsigned int m_ImageWidth;         // input image size
+  unsigned int m_ImageHeight;
+  unsigned int m_ImageDepth;
 
-  int   m_ModelXUpLimit;    // the following 4 variables record the size of the model
+  int   m_ModelXUpLimit;    // the following 4 variables record the size of the
+                            // model
   int   m_ModelXDownLimit;
   int   m_ModelYUpLimit;
   int   m_ModelYDownLimit;
@@ -221,24 +235,25 @@ private:
   int   m_ModelRestart;
   int   m_GradientBegin;
 
-  Int2Vector   m_StepThreshold;   // the threshold decide when to transfer from potential fit to gradient fit
+  Int2Vector m_StepThreshold;     // the threshold decide when to transfer from
+                                  // potential fit to gradient fit
 
   // and the threshold decide when to stop the model
   float m_DistanceToBoundary;
   float m_DistanceToStop;
   float m_DistanceForGradient;
 
-  ImagePointer            m_Potential;  // for calculate of image force from potential
-  GradientImagePointer    m_Gradient;   // for calculate of image force from gradient
+  ImagePointer         m_Potential;     // for calculate of image force from
+                                        // potential
+  GradientImagePointer m_Gradient;      // for calculate of image force from
+                                        // gradient
 
   // for Gibbs Prior Model parameters' recalculation
-  ImagePointer    m_ImageOutput;
-  unsigned short  m_ObjectLabel;
+  ImagePointer   m_ImageOutput;
+  unsigned short m_ObjectLabel;
 
   typedef ImageType::SizeType ImageSizeType;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

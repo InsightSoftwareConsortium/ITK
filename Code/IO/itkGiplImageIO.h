@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,25 +27,23 @@
 
 namespace itk
 {
-
 class GiplImageIOInternals;
-  
-  
+
 /** \class GiplImageIO
  *
- *  \brief Read GiplImage file format. 
+ *  \brief Read GiplImage file format.
  *
  *  \ingroup IOFilters
  *
  */
-class ITK_EXPORT GiplImageIO : public ImageIOBase
+class ITK_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GiplImageIO        Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
-  
+  typedef GiplImageIO          Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -56,46 +54,45 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*);
+  virtual bool CanReadFile(const char *);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
-  
+
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char*);
+  virtual bool CanWriteFile(const char *);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
-  
+
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer);
-
+  virtual void Write(const void *buffer);
 
   GiplImageIO();
   ~GiplImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
-  GiplImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GiplImageIO(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  void SwapBytesIfNecessary(void* buffer, unsigned long numberOfPixels);
-  bool CheckExtension(const char*);
+  void SwapBytesIfNecessary(void *buffer, unsigned long numberOfPixels);
 
-  std::ifstream   m_Ifstream;
-  std::ofstream   m_Ofstream;
-  bool            m_IsCompressed;
+  bool CheckExtension(const char *);
 
-  GiplImageIOInternals * m_Internal;
+  std::ifstream m_Ifstream;
+  std::ofstream m_Ofstream;
+  bool          m_IsCompressed;
+
+  GiplImageIOInternals *m_Internal;
 };
-
 } // end namespace itk
 
 #endif // __itkGiplImageIO_h

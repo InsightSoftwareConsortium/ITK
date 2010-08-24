@@ -19,9 +19,10 @@
 
 #include "itkObject.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 Subsample< TSample >
 ::Subsample()
@@ -34,9 +35,9 @@ Subsample< TSample >
 template< class TSample >
 void
 Subsample< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Sample: ";
   if ( m_Sample != 0 )
@@ -53,11 +54,10 @@ Subsample< TSample >
   os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl;
 }
 
-
 template< class TSample >
 void
 Subsample< TSample >
-::SetSample(const TSample* sample)
+::SetSample(const TSample *sample)
 {
   m_Sample = sample;
   this->SetMeasurementVectorSize( m_Sample->GetMeasurementVectorSize() );
@@ -65,7 +65,7 @@ Subsample< TSample >
 }
 
 template< class TSample >
-const TSample*
+const TSample *
 Subsample< TSample >
 ::GetSample() const
 {
@@ -77,12 +77,12 @@ void
 Subsample< TSample >
 ::InitializeWithAllInstances()
 {
-  m_IdHolder.resize(m_Sample->Size());
+  m_IdHolder.resize( m_Sample->Size() );
   typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin();
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
   m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::Zero;
-  while (iter != last)
+  while ( iter != last )
     {
     *idIter++ = iter.GetInstanceIdentifier();
     m_TotalFrequency += iter.GetFrequency();
@@ -90,7 +90,6 @@ Subsample< TSample >
     }
   this->Modified();
 }
-
 
 template< class TSample >
 void
@@ -112,7 +111,7 @@ typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
 ::Size() const
 {
-  return static_cast<unsigned int>( m_IdHolder.size() );
+  return static_cast< unsigned int >( m_IdHolder.size() );
 }
 
 template< class TSample >
@@ -126,9 +125,9 @@ Subsample< TSample >
 }
 
 template< class TSample >
-const typename Subsample< TSample>::MeasurementVectorType &
+const typename Subsample< TSample >::MeasurementVectorType &
 Subsample< TSample >
-::GetMeasurementVector( InstanceIdentifier id) const
+::GetMeasurementVector(InstanceIdentifier id) const
 {
   if ( id >= m_IdHolder.size() )
     {
@@ -137,13 +136,13 @@ Subsample< TSample >
 
   // translate the id to its Sample container id
   InstanceIdentifier idInTheSample = m_IdHolder[id];
-  return m_Sample->GetMeasurementVector( idInTheSample );
+  return m_Sample->GetMeasurementVector(idInTheSample);
 }
 
 template< class TSample >
 inline typename Subsample< TSample >::AbsoluteFrequencyType
 Subsample< TSample >
-::GetFrequency( InstanceIdentifier id ) const
+::GetFrequency(InstanceIdentifier id) const
 {
   if ( id >= m_IdHolder.size() )
     {
@@ -155,7 +154,6 @@ Subsample< TSample >
   return m_Sample->GetFrequency(idInTheSample);
 }
 
-
 template< class TSample >
 inline typename Subsample< TSample >::TotalAbsoluteFrequencyType
 Subsample< TSample >
@@ -164,14 +162,13 @@ Subsample< TSample >
   return m_TotalFrequency;
 }
 
-
 template< class TSample >
 inline void
 Subsample< TSample >
 ::Swap(unsigned int index1, unsigned int index2)
 {
-  if ( index1 >= m_IdHolder.size() ||
-       index2 >= m_IdHolder.size() )
+  if ( index1 >= m_IdHolder.size()
+       || index2 >= m_IdHolder.size() )
     {
     itkExceptionMacro("Index out of range");
     }
@@ -207,7 +204,6 @@ Subsample< TSample >
   return m_Sample->GetFrequency(m_IdHolder[index]);
 }
 
-
 template< class TSample >
 typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
@@ -220,29 +216,26 @@ Subsample< TSample >
   return m_IdHolder[index];
 }
 
-
 template< class TSample >
 void
 Subsample< TSample >
-::Graft( const DataObject *thatObject )
+::Graft(const DataObject *thatObject)
 {
   this->Superclass::Graft(thatObject);
 
   // Most of what follows is really a deep copy, rather than grafting of
   // output. Wish it were managed by pointers to bulk data. Sigh !
 
-  const Self *thatConst = dynamic_cast< const Self * >(thatObject);
-  if (thatConst)
+  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  if ( thatConst )
     {
-    Self *that = const_cast< Self * >(thatConst);
+    Self *that = const_cast< Self * >( thatConst );
     this->SetSample( that->GetSample() );
     this->m_IdHolder          = that->m_IdHolder;
     this->m_ActiveDimension   = that->m_ActiveDimension;
     this->m_TotalFrequency    = that->m_TotalFrequency;
     }
 }
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

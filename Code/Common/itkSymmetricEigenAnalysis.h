@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
  * serves as a thread safe alternative to the class:
@@ -56,29 +55,29 @@ namespace itk
  *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
  */
 
-template < typename TMatrix, typename TVector, typename TEigenMatrix=TMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
 class SymmetricEigenAnalysis
 {
 public:
   typedef enum {
-    OrderByValue=1,
+    OrderByValue = 1,
     OrderByMagnitude,
     DoNotOrder
-  }EigenValueOrderType;
+    } EigenValueOrderType;
 
   SymmetricEigenAnalysis():
-      m_Dimension(0),
-      m_Order(0),
-      m_OrderEigenValues(OrderByValue)
-    {};
+    m_Dimension(0),
+    m_Order(0),
+    m_OrderEigenValues(OrderByValue)
+  {}
 
-  SymmetricEigenAnalysis( const unsigned int dimension ):
-      m_Dimension(dimension),
-      m_Order(dimension),
-      m_OrderEigenValues(OrderByValue)
-    {};
+  SymmetricEigenAnalysis(const unsigned int dimension):
+    m_Dimension(dimension),
+    m_Order(dimension),
+    m_OrderEigenValues(OrderByValue)
+  {}
 
-  ~SymmetricEigenAnalysis() {};
+  ~SymmetricEigenAnalysis() {}
 
   typedef TMatrix      MatrixType;
   typedef TEigenMatrix EigenMatrixType;
@@ -98,8 +97,8 @@ public:
    * The matrix is not checked to see if it is symmetric.
    */
   unsigned int ComputeEigenValues(
-              const TMatrix  & A,
-              TVector        & EigenValues) const;
+    const TMatrix  & A,
+    TVector        & EigenValues) const;
 
   /** Compute Eigen values and vectors of A
    * A is any type that overloads the [][] operator and contains the
@@ -122,16 +121,15 @@ public:
    * eigenvectors).
    */
   unsigned int ComputeEigenValuesAndVectors(
-              const TMatrix  & A,
-              TVector        & EigenValues,
-              TEigenMatrix   & EigenVectors ) const;
-
+    const TMatrix  & A,
+    TVector        & EigenValues,
+    TEigenMatrix   & EigenVectors) const;
 
   /** Matrix order. Defaults to matrix dimension if not set */
   void SetOrder(const unsigned int n)
-    {
+  {
     m_Order = n;
-    }
+  }
 
   /** Get the Matrix order. Will be 0 unless explicitly set, or unless a
    * call to SetDimension has been made in which case it will be the
@@ -141,44 +139,43 @@ public:
   /** Set/Get methods to order the eigen values in ascending order.
    * This is the default. ie lambda_1 < lambda_2 < ....
    */
-  void SetOrderEigenValues( const bool b )
-    {
-    if (b) { m_OrderEigenValues = OrderByValue;     }
+  void SetOrderEigenValues(const bool b)
+  {
+    if ( b ) { m_OrderEigenValues = OrderByValue;     }
     else   { m_OrderEigenValues = DoNotOrder;       }
-    }
-  bool GetOrderEigenValues() const { return (m_OrderEigenValues == OrderByValue); }
+  }
+
+  bool GetOrderEigenValues() const { return ( m_OrderEigenValues == OrderByValue ); }
 
   /** Set/Get methods to order the eigen value magnitudes in ascending order.
    * In other words, |lambda_1| < |lambda_2| < .....
    */
-  void SetOrderEigenMagnitudes( const bool b )
-    {
-    if (b) { m_OrderEigenValues = OrderByMagnitude; }
+  void SetOrderEigenMagnitudes(const bool b)
+  {
+    if ( b ) { m_OrderEigenValues = OrderByMagnitude; }
     else   { m_OrderEigenValues = DoNotOrder;       }
-    }
-  bool GetOrderEigenMagnitudes() const { return (m_OrderEigenValues == OrderByMagnitude); }
+  }
+
+  bool GetOrderEigenMagnitudes() const { return ( m_OrderEigenValues == OrderByMagnitude ); }
 
   /** Set the dimension of the input matrix A. A is a square matrix of
    * size m_Dimension. */
-  void SetDimension( const unsigned int n )
-    {
+  void SetDimension(const unsigned int n)
+  {
     m_Dimension = n;
-    if (m_Order == 0 )
+    if ( m_Order == 0 )
       {
       m_Order = m_Dimension;
       }
-    }
+  }
 
   /** Get Matrix dimension, Will be 0 unless explicitly set by a
    * call to SetDimension. */
   unsigned int GetDimension() const { return m_Dimension; }
-
-
 private:
-  unsigned int         m_Dimension;
-  unsigned int         m_Order;
-  EigenValueOrderType  m_OrderEigenValues;
-
+  unsigned int        m_Dimension;
+  unsigned int        m_Order;
+  EigenValueOrderType m_OrderEigenValues;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
    *  orthogonal similarity transformations.
@@ -199,7 +196,7 @@ private:
    *  Reference:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
-  void ReduceToTridiagonalMatrix(double *inputMatrix, VectorType &d,
+  void ReduceToTridiagonalMatrix(double *inputMatrix, VectorType & d,
                                  double *e, double *e2) const;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
@@ -224,8 +221,8 @@ private:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
   void ReduceToTridiagonalMatrixAndGetTransformation(
-                  double *inputMatrix, VectorType &diagonalElements,
-                  double *subDiagonalElements, double *transformMatrix) const;
+    double *inputMatrix, VectorType & diagonalElements,
+    double *subDiagonalElements, double *transformMatrix) const;
 
   /* Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
    *
@@ -257,8 +254,7 @@ private:
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary]                      */
   unsigned int ComputeEigenValuesUsingQL(
-                         VectorType &d, double *e) const;
-
+    VectorType & d, double *e) const;
 
   /* Finds the eigenvalues and eigenvectors of a symmetric tridiagonal matrix
    * by the ql method.
@@ -298,13 +294,12 @@ private:
    *            Use vnl routines as necessary]
    */
   unsigned int ComputeEigenValuesAndVectorsUsingQL(
-                                   VectorType &d, double *e, double *z) const;
-
+    VectorType & d, double *e, double *z) const;
 };
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
-std::ostream & operator<<(std::ostream& os,
-    const SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix > &s)
+std::ostream & operator<<(std::ostream & os,
+                          const SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix > & s)
 {
   os << "[ClassType: SymmetricEigenAnalysis]" << std::endl;
   os << "  Dimension : " << s.GetDimension() << std::endl;
@@ -313,9 +308,7 @@ std::ostream & operator<<(std::ostream& os,
   os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
   return os;
 }
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSymmetricEigenAnalysis.txx"

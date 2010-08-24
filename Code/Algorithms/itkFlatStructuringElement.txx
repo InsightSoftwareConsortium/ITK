@@ -33,28 +33,27 @@
 
 #include "itkVanHerkGilWermanDilateImageFilter.h"
 
-
 namespace itk
 {
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 ::Poly(RadiusType radius, unsigned lines)
 {
   Self res = Self();
-  res = res.PolySub(Dispatch<VDimension>(), radius, lines);
-  res.SetRadius( radius );
+
+  res = res.PolySub(Dispatch< VDimension >(), radius, lines);
+  res.SetRadius(radius);
 #if 0
   float theta, phi, step;
   theta = phi = 0;
-  step = M_PI/(lines - 1);
+  step = M_PI / ( lines - 1 );
 
-  while (theta < M_PI)
+  while ( theta < M_PI )
     {
-
     std::cout << "theta= " << theta << " phi = " << phi << std::endl;
     LType O = res.mkOffset(phi, theta);
     std::cout << O << std::endl;
-    if (res.checkParallel(O, res.m_Lines))
+    if ( res.checkParallel(O, res.m_Lines) )
       {
       std::cout << "Already have this line" << std::endl;
       }
@@ -68,457 +67,460 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   std::cout << "---------------" << std::endl;
 #endif
   res.ComputeBufferFromLines();
-  return(res);
-
+  return ( res );
 }
 
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
-::PolySub(const Dispatch<2> &, RadiusType radius, unsigned lines) const
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
+::PolySub(const Dispatch< 2 > &, RadiusType radius, unsigned lines) const
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
   //std::cout << "2 dimensions" << std::endl;
   Self res = Self();
+
   res.m_Decomposable = true;
 
   unsigned int rr = 0;
-  for (unsigned i=0;i<VDimension;i++)
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
-    if (radius[i] > rr) rr = radius[i];
+    if ( radius[i] > rr ) { rr = radius[i]; }
     }
-  if (lines == 0)
+  if ( lines == 0 )
     {
     // select some default line values
-    if (rr <= 3) lines=2;
-    else if (rr <= 8) lines=4;
-    else lines=6;
+    if ( rr <= 3 ) { lines = 2; }
+    else if ( rr <= 8 )
+      {
+      lines = 4;
+      }
+    else { lines = 6; }
     }
   // start with a circle - figure out the length of the structuring
   // element we need -- This method results in a polygon with 2*lines
   // sides, each side with length k, where k is the structuring
   // element length. Therefore the value of k we need to produce the
   // radius we want is: (M_PI * rr * 2)/(2*lines)
-  float k1 = (M_PI * (float)radius[0])/((float)lines);
-  float k2 = (M_PI * (float)radius[1])/((float)lines);
+  float k1 = ( M_PI * (float)radius[0] ) / ( (float)lines );
+  float k2 = ( M_PI * (float)radius[1] ) / ( (float)lines );
   //std::cout << "k= " << k << std::endl;
   float theta, step;
-  step = M_PI/lines;
+  step = M_PI / lines;
   theta = 0;
   // just to ensure that we get the last one
-  while (theta <= M_PI/2.0 + 0.0001)
+  while ( theta <= M_PI / 2.0 + 0.0001 )
     {
     LType O;
     O[0] = k1 * vcl_cos(theta);
     O[1] = k2 * vcl_sin(theta);
-    if (!res.checkParallel(O, res.m_Lines))
+    if ( !res.checkParallel(O, res.m_Lines) )
       {
       //std::cout << O << std::endl;
       res.m_Lines.push_back(O);
       }
-     O[0] = k1 * vcl_cos(-theta);
-     O[1] = k2 * vcl_sin(-theta);
-     if (!res.checkParallel(O, res.m_Lines))
-       {
-       //std::cout << O << std::endl;
-       res.m_Lines.push_back(O);
-       }
-     theta += step;
-     //std::cout << "theta1 = " << theta << " " << M_PI/2.0 << std::endl;
+    O[0] = k1 * vcl_cos(-theta);
+    O[1] = k2 * vcl_sin(-theta);
+    if ( !res.checkParallel(O, res.m_Lines) )
+      {
+      //std::cout << O << std::endl;
+      res.m_Lines.push_back(O);
+      }
+    theta += step;
+    //std::cout << "theta1 = " << theta << " " << M_PI/2.0 << std::endl;
     }
 
-  return(res);
+  return ( res );
 }
 
 //    O[0] = k1 * vcl_cos(phi) * vcl_cos(theta);
 //    O[1] = k2 * vcl_cos(phi) * vcl_sin(theta);
 //    O[2] = k3 * vcl_sin(theta);
 
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
-::PolySub(const Dispatch<3> &, RadiusType radius, unsigned lines) const
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
+::PolySub(const Dispatch< 3 > &, RadiusType radius, unsigned lines) const
 {
   Self res = Self();
+
   res.m_Decomposable = true;
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
-  int iterations = 1;
-  int faces = lines * 2;
-  for (unsigned i=0;i<VDimension;i++)
+  int          iterations = 1;
+  int          faces = lines * 2;
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
-    if (radius[i] > rr) rr = radius[i];
+    if ( radius[i] > rr ) { rr = radius[i]; }
     }
-  switch (faces)
+  switch ( faces )
     {
     case 12:
       {
       // dodecahedron
-      float phi = (1.0 + vcl_sqrt(5.0)) / 2.0;
-      float b = 1.0/phi;
-      float c = 2.0 - phi;
+      float    phi = ( 1.0 + vcl_sqrt(5.0) ) / 2.0;
+      float    b = 1.0 / phi;
+      float    c = 2.0 - phi;
       unsigned facets = 12;
-      typedef std::vector<FacetType> FacetArrayType;
+      typedef std::vector< FacetType > FacetArrayType;
       FacetArrayType FacetArray;
-      FacetArray.resize( facets );
+      FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType PP(0.0);
+      LType     PP(0.0);
       FacetType Fc;
       b /= 2.0;
       c /= 2.0;
 
-      PP[0]=c;PP[1]=0;PP[2]=0.5;
+      PP[0] = c; PP[1] = 0; PP[2] = 0.5;
       Fc.P1 = PP;
-      PP[0]=-c;PP[1]=0;PP[2]=0.5;
+      PP[0] = -c; PP[1] = 0; PP[2] = 0.5;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=b;PP[2]=b;
+      PP[0] = -b; PP[1] = b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[0] = Fc;
 
-      PP[0]=-c;PP[1]=0;PP[2]=0.5;
+      PP[0] = -c; PP[1] = 0; PP[2] = 0.5;
       Fc.P1 = PP;
-      PP[0]=c;PP[1]=0;PP[2]=0.5;
+      PP[0] = c; PP[1] = 0; PP[2] = 0.5;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=-b;PP[2]=b;
+      PP[0] = b; PP[1] = -b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[1] = Fc;
 
-      PP[0]=c;PP[1]=0;PP[2]=-0.5;
+      PP[0] = c; PP[1] = 0; PP[2] = -0.5;
       Fc.P1 = PP;
-      PP[0]=-c;PP[1]=0;PP[2]=-0.5;
+      PP[0] = -c; PP[1] = 0; PP[2] = -0.5;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=-b;PP[2]=-b;
+      PP[0] = -b; PP[1] = -b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[2] = Fc;
 
-      PP[0]=-c;PP[1]=0;PP[2]=-0.5;
+      PP[0] = -c; PP[1] = 0; PP[2] = -0.5;
       Fc.P1 = PP;
-      PP[0]=c;PP[1]=0;PP[2]=-0.5;
+      PP[0] = c; PP[1] = 0; PP[2] = -0.5;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=b;PP[2]=-b;
+      PP[0] = b; PP[1] = b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[3] = Fc;
 
-      PP[0]=0;PP[1]=0.5;PP[2]=-c;
+      PP[0] = 0; PP[1] = 0.5; PP[2] = -c;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=0.5;PP[2]=c;
+      PP[0] = 0; PP[1] = 0.5; PP[2] = c;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=b;PP[2]=b;
+      PP[0] = b; PP[1] = b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[4] = Fc;
 
-      PP[0]=0;PP[1]=0.5;PP[2]=c;
+      PP[0] = 0; PP[1] = 0.5; PP[2] = c;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=0.5;PP[2]=-c;
+      PP[0] = 0; PP[1] = 0.5; PP[2] = -c;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=b;PP[2]=-b;
+      PP[0] = -b; PP[1] = b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[5] = Fc;
 
-      PP[0]=0;PP[1]=-0.5;PP[2]=-c;
+      PP[0] = 0; PP[1] = -0.5; PP[2] = -c;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=-0.5;PP[2]=c;
+      PP[0] = 0; PP[1] = -0.5; PP[2] = c;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=-b;PP[2]=b;
+      PP[0] = -b; PP[1] = -b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[6] = Fc;
 
-      PP[0]=0;PP[1]=-0.5;PP[2]=c;
+      PP[0] = 0; PP[1] = -0.5; PP[2] = c;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=-0.5;PP[2]=-c;
+      PP[0] = 0; PP[1] = -0.5; PP[2] = -c;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=-b;PP[2]=-b;
+      PP[0] = b; PP[1] = -b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[7] = Fc;
 
-      PP[0]=0.5;PP[1]=c;PP[2]=0;
+      PP[0] = 0.5; PP[1] = c; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=0.5;PP[1]=-c;PP[2]=0;
+      PP[0] = 0.5; PP[1] = -c; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=-b;PP[2]=b;
+      PP[0] = b; PP[1] = -b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[8] = Fc;
 
-      PP[0]=0.5;PP[1]=-c;PP[2]=0;
+      PP[0] = 0.5; PP[1] = -c; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=0.5;PP[1]=c;PP[2]=0;
+      PP[0] = 0.5; PP[1] = c; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=b;PP[2]=-b;
+      PP[0] = b; PP[1] = b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[9] = Fc;
 
-      PP[0]=-0.5;PP[1]=c;PP[2]=0;
+      PP[0] = -0.5; PP[1] = c; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=-0.5;PP[1]=-c;PP[2]=0;
+      PP[0] = -0.5; PP[1] = -c; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=-b;PP[2]=-b;
+      PP[0] = -b; PP[1] = -b; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[10] = Fc;
 
-      PP[0]=-0.5;PP[1]=-c;PP[2]=0;
+      PP[0] = -0.5; PP[1] = -c; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=-0.5;PP[1]=c;PP[2]=0;
+      PP[0] = -0.5; PP[1] = c; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=b;PP[2]=b;
+      PP[0] = -b; PP[1] = b; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[11] = Fc;
-      for (unsigned j = 0; j < facets; j++)
+      for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
         LType L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
-        L[0] = A[1]*B[2] - B[1]*A[2];
-        L[1] = B[0]*A[2] - A[0]*B[2];
-        L[2] = A[0]*B[1] - B[0]*A[1];
+        L[0] = A[1] * B[2] - B[1] * A[2];
+        L[1] = B[0] * A[2] - A[0] * B[2];
+        L[2] = A[0] * B[1] - B[0] * A[1];
 
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if (!res.checkParallel(L, res.m_Lines))
+        if ( !res.checkParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return(res);
-
+      return ( res );
       }
-    break;
+      break;
     case 14:
       {
       // cube with the corners cut off
       LType A;
       // The axes
-      A[0]=1;A[1]=0;A[2]=0;
+      A[0] = 1; A[1] = 0; A[2] = 0;
       A *= rr;
       res.m_Lines.push_back(A);
-      A[0]=0;A[1]=1;A[2]=0;
+      A[0] = 0; A[1] = 1; A[2] = 0;
       A *= rr;
       res.m_Lines.push_back(A);
-      A[0]=0;A[1]=0;A[2]=1;
+      A[0] = 0; A[1] = 0; A[2] = 1;
       A *= rr;
       res.m_Lines.push_back(A);
       // Diagonals
-      A[0]=1;A[1]=1;A[2]=1;
+      A[0] = 1; A[1] = 1; A[2] = 1;
       A.Normalize();
       A *= rr;
       res.m_Lines.push_back(A);
 
-      A[0]=-1;A[1]=1;A[2]=1;
+      A[0] = -1; A[1] = 1; A[2] = 1;
       A.Normalize();
       A *= rr;
       res.m_Lines.push_back(A);
 
-      A[0]=1;A[1]=-1;A[2]=1;
+      A[0] = 1; A[1] = -1; A[2] = 1;
       A.Normalize();
       A *= rr;
       res.m_Lines.push_back(A);
 
-      A[0]=-1;A[1]=-1;A[2]=1;
+      A[0] = -1; A[1] = -1; A[2] = 1;
       A.Normalize();
       A *= rr;
       res.m_Lines.push_back(A);
-      return(res);
+      return ( res );
       }
-    break;
+      break;
     case 20:
       {
       // Icosahedron
-      float phi = (1.0 + vcl_sqrt(5.0)) / 2.0;
-      float a = 0.5;
-      float b = 1.0/(2.0*phi);
+      float    phi = ( 1.0 + vcl_sqrt(5.0) ) / 2.0;
+      float    a = 0.5;
+      float    b = 1.0 / ( 2.0 * phi );
       unsigned facets = 20;
-      typedef std::vector<FacetType> FacetArrayType;
+      typedef std::vector< FacetType > FacetArrayType;
       FacetArrayType FacetArray;
-      FacetArray.resize( facets );
+      FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType PP(0.0);
+      LType     PP(0.0);
       FacetType Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=-a;
+      PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=b;PP[1]=a;PP[2]=0;
+      PP[0] = b; PP[1] = a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=a;PP[2]=0;
+      PP[0] = -b; PP[1] = a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[0] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=a;
+      PP[0] = 0; PP[1] = b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=-b;PP[1]=a;PP[2]=0;
+      PP[0] = -b; PP[1] = a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=a;PP[2]=0;
+      PP[0] = b; PP[1] = a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[1] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=a;
+      PP[0] = 0; PP[1] = b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=-b;PP[2]=a;
+      PP[0] = 0; PP[1] = -b; PP[2] = a;
       Fc.P2 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=b;
+      PP[0] = -a; PP[1] = 0; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[2] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=a;
+      PP[0] = 0; PP[1] = b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=b;
+      PP[0] = a; PP[1] = 0; PP[2] = b;
       Fc.P2 = PP;
-      PP[0]=0;PP[1]=-b;PP[2]=a;
+      PP[0] = 0; PP[1] = -b; PP[2] = a;
       Fc.P3 = PP;
       FacetArray[3] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=-a;
+      PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=0;PP[1]=-b;PP[2]=-a;
+      PP[0] = 0; PP[1] = -b; PP[2] = -a;
       Fc.P2 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=-b;
+      PP[0] = a; PP[1] = 0; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[4] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=-a;
+      PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=-b;
+      PP[0] = -a; PP[1] = 0; PP[2] = -b;
       Fc.P2 = PP;
-      PP[0]=0;PP[1]=-b;PP[2]=-a;
+      PP[0] = 0; PP[1] = -b; PP[2] = -a;
       Fc.P3 = PP;
       FacetArray[5] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=a;
+      PP[0] = 0; PP[1] = -b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=b;PP[1]=-a;PP[2]=0;
+      PP[0] = b; PP[1] = -a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=-a;PP[2]=0;
+      PP[0] = -b; PP[1] = -a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[6] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=-a;
+      PP[0] = 0; PP[1] = -b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=-b;PP[1]=-a;PP[2]=0;
+      PP[0] = -b; PP[1] = -a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=-a;PP[2]=0;
+      PP[0] = b; PP[1] = -a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[7] = Fc;
 
-      PP[0]=-b;PP[1]=a;PP[2]=0;
+      PP[0] = -b; PP[1] = a; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=b;
+      PP[0] = -a; PP[1] = 0; PP[2] = b;
       Fc.P2 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=-b;
+      PP[0] = -a; PP[1] = 0; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[8] = Fc;
 
-      PP[0]=-b;PP[1]=-a;PP[2]=0;
+      PP[0] = -b; PP[1] = -a; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=-b;
+      PP[0] = -a; PP[1] = 0; PP[2] = -b;
       Fc.P2 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=b;
+      PP[0] = -a; PP[1] = 0; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[9] = Fc;
 
-      PP[0]=b;PP[1]=a;PP[2]=0;
+      PP[0] = b; PP[1] = a; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=-b;
+      PP[0] = a; PP[1] = 0; PP[2] = -b;
       Fc.P2 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=b;
+      PP[0] = a; PP[1] = 0; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[10] = Fc;
 
-      PP[0]=b;PP[1]=-a;PP[2]=0;
+      PP[0] = b; PP[1] = -a; PP[2] = 0;
       Fc.P1 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=b;
+      PP[0] = a; PP[1] = 0; PP[2] = b;
       Fc.P2 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=-b;
+      PP[0] = a; PP[1] = 0; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[11] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=a;
+      PP[0] = 0; PP[1] = b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=b;
+      PP[0] = -a; PP[1] = 0; PP[2] = b;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=a;PP[2]=0;
+      PP[0] = -b; PP[1] = a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[12] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=a;
+      PP[0] = 0; PP[1] = b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=b;PP[1]=a;PP[2]=0;
+      PP[0] = b; PP[1] = a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=b;
+      PP[0] = a; PP[1] = 0; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[13] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=-a;
+      PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=-b;PP[1]=a;PP[2]=0;
+      PP[0] = -b; PP[1] = a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=-b;
+      PP[0] = -a; PP[1] = 0; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[14] = Fc;
 
-      PP[0]=0;PP[1]=b;PP[2]=-a;
+      PP[0] = 0; PP[1] = b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=-b;
+      PP[0] = a; PP[1] = 0; PP[2] = -b;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=a;PP[2]=0;
+      PP[0] = b; PP[1] = a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[15] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=-a;
+      PP[0] = 0; PP[1] = -b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=-b;
+      PP[0] = -a; PP[1] = 0; PP[2] = -b;
       Fc.P2 = PP;
-      PP[0]=-b;PP[1]=-a;PP[2]=0;
+      PP[0] = -b; PP[1] = -a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[16] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=-a;
+      PP[0] = 0; PP[1] = -b; PP[2] = -a;
       Fc.P1 = PP;
-      PP[0]=b;PP[1]=-a;PP[2]=0;
+      PP[0] = b; PP[1] = -a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=-b;
+      PP[0] = a; PP[1] = 0; PP[2] = -b;
       Fc.P3 = PP;
       FacetArray[17] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=a;
+      PP[0] = 0; PP[1] = -b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=-b;PP[1]=-a;PP[2]=0;
+      PP[0] = -b; PP[1] = -a; PP[2] = 0;
       Fc.P2 = PP;
-      PP[0]=-a;PP[1]=0;PP[2]=b;
+      PP[0] = -a; PP[1] = 0; PP[2] = b;
       Fc.P3 = PP;
       FacetArray[18] = Fc;
 
-      PP[0]=0;PP[1]=-b;PP[2]=a;
+      PP[0] = 0; PP[1] = -b; PP[2] = a;
       Fc.P1 = PP;
-      PP[0]=a;PP[1]=0;PP[2]=b;
+      PP[0] = a; PP[1] = 0; PP[2] = b;
       Fc.P2 = PP;
-      PP[0]=b;PP[1]=-a;PP[2]=0;
+      PP[0] = b; PP[1] = -a; PP[2] = 0;
       Fc.P3 = PP;
       FacetArray[19] = Fc;
 
-      for (unsigned j = 0; j < facets; j++)
+      for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
         LType L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
-        L[0] = A[1]*B[2] - B[1]*A[2];
-        L[1] = B[0]*A[2] - A[0]*B[2];
-        L[2] = A[0]*B[1] - B[0]*A[1];
+        L[0] = A[1] * B[2] - B[1] * A[2];
+        L[1] = B[0] * A[2] - A[0] * B[2];
+        L[2] = A[0] * B[1] - B[0] * A[1];
 
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if (!res.checkParallel(L, res.m_Lines))
+        if ( !res.checkParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return(res);
+      return ( res );
       }
-    break;
+      break;
     case 32:
       {
       iterations = 1;
@@ -527,21 +529,21 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       // create triangular facet approximation to a sphere - begin with
       // unit sphere
       // total number of facets is 8 * (4^iterations)
-      unsigned int facets = 8 * (int)vcl_pow((double)4, iterations);
-      float sqrt2 = vcl_sqrt(2.0);
+      unsigned int facets = 8 * (int)vcl_pow( (double)4, iterations );
+      float        sqrt2 = vcl_sqrt(2.0);
       // std::cout << facets << " facets" << std::endl;
-      typedef std::vector<FacetType> FacetArrayType;
+      typedef std::vector< FacetType > FacetArrayType;
       FacetArrayType FacetArray;
-      FacetArray.resize( facets );
+      FacetArray.resize(facets);
 
       // original corners of octahedron
       LType P0(0.0), P1(0.0), P2(0.0), P3(0.0), P4(0.0), P5(0.0);
-      P0[0]=0;         P0[1]=0;       P0[2]=1;
-      P1[0]=0;         P1[1]=0;       P1[2]=-1;
-      P2[0]=-1.0/sqrt2;P2[1]=-1/sqrt2;P2[2]=0;
-      P3[0]=1/sqrt2;   P3[1]=-1/sqrt2;P3[2]=0;
-      P4[0]=1/sqrt2;   P4[1]=1/sqrt2; P4[2]=0;
-      P5[0]=-1/sqrt2;  P5[1]=1/sqrt2; P5[2]=0;
+      P0[0] = 0;         P0[1] = 0;       P0[2] = 1;
+      P1[0] = 0;         P1[1] = 0;       P1[2] = -1;
+      P2[0] = -1.0 / sqrt2; P2[1] = -1 / sqrt2; P2[2] = 0;
+      P3[0] = 1 / sqrt2;   P3[1] = -1 / sqrt2; P3[2] = 0;
+      P4[0] = 1 / sqrt2;   P4[1] = 1 / sqrt2; P4[2] = 0;
+      P5[0] = -1 / sqrt2;  P5[1] = 1 / sqrt2; P5[2] = 0;
 
       FacetType F0, F1, F2, F3, F4, F5, F6, F7;
       F0.P1 = P0; F0.P2 = P3; F0.P3 = P4;
@@ -563,18 +565,18 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
       FacetArray[7] = F7;
       int pos = 8;
       // now subdivide the octahedron
-      for (unsigned it = 0; it<(unsigned)iterations; it++)
+      for ( unsigned it = 0; it < (unsigned)iterations; it++ )
         {
         // Bisect edges and move to sphere
         unsigned ntold = pos;
-        for (unsigned i = 0; i < ntold; i++)
+        for ( unsigned i = 0; i < ntold; i++ )
           {
           LType Pa, Pb, Pc;
-          for (unsigned d = 0; d<  VDimension;d++)
+          for ( unsigned d = 0; d <  VDimension; d++ )
             {
-            Pa[d] = (FacetArray[i].P1[d] + FacetArray[i].P2[d])/2;
-            Pb[d] = (FacetArray[i].P2[d] + FacetArray[i].P3[d])/2;
-            Pc[d] = (FacetArray[i].P3[d] + FacetArray[i].P1[d])/2;
+            Pa[d] = ( FacetArray[i].P1[d] + FacetArray[i].P2[d] ) / 2;
+            Pb[d] = ( FacetArray[i].P2[d] + FacetArray[i].P3[d] ) / 2;
+            Pc[d] = ( FacetArray[i].P3[d] + FacetArray[i].P1[d] ) / 2;
             }
           Pa.Normalize();
           Pb.Normalize();
@@ -597,196 +599,194 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
           }
         }
 
-
-      for (unsigned j = 0; j < facets; j++)
+      for ( unsigned j = 0; j < facets; j++ )
         {
         // Find a line perpendicular to each face
         LType L, A, B;
         A = FacetArray[j].P2 - FacetArray[j].P1;
         B = FacetArray[j].P3 - FacetArray[j].P1;
-        L[0] = A[1]*B[2] - B[1]*A[2];
-        L[1] = B[0]*A[2] - A[0]*B[2];
-        L[2] = A[0]*B[1] - B[0]*A[1];
+        L[0] = A[1] * B[2] - B[1] * A[2];
+        L[1] = B[0] * A[2] - A[0] * B[2];
+        L[2] = A[0] * B[1] - B[0] * A[1];
 
         L.Normalize();
         // Scale to required length
         L *= rr;
-        if (!res.checkParallel(L, res.m_Lines))
+        if ( !res.checkParallel(L, res.m_Lines) )
           {
           res.m_Lines.push_back(L);
           }
         }
-      return(res);
+      return ( res );
       }
-    break;
+      break;
     default:
       std::cout << "Unsupported number of lines" << std::endl;
-      return(res);
+      return ( res );
     }
 }
 
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
-::PolySub(const DispatchBase &, RadiusType , unsigned) const
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
+::PolySub(const DispatchBase &, RadiusType, unsigned) const
 {
   Self res = Self();
+
   res.m_Decomposable = true;
   std::cout << "Don't know how to deal with this many dimensions" << std::endl;
-  return(res);
+  return ( res );
 }
 
-
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 ::Box(RadiusType radius)
 {
   // this should work for any number of dimensions
   Self res = Self();
+
   res.m_Decomposable = true;
-  res.SetRadius( radius );
-  for (unsigned i = 0;i<VDimension;i++)
+  res.SetRadius(radius);
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
-    if (radius[i] != 0)
+    if ( radius[i] != 0 )
       {
       LType L;
       L.Fill(0);
-      L[i] = radius[i]*2+1;
+      L[i] = radius[i] * 2 + 1;
       res.m_Lines.push_back(L);
       }
     }
   // this doesn't work if one of the dimensions is zero. Suspect an
   //"inconsistency" in the way
 //  res.ComputeBufferFromLines();
-   Iterator kernel_it;
-   for( kernel_it=res.Begin(); kernel_it != res.End(); ++kernel_it )
-     {
-     *kernel_it= true;
-     }
+  Iterator kernel_it;
+  for ( kernel_it = res.Begin(); kernel_it != res.End(); ++kernel_it )
+    {
+    *kernel_it = true;
+    }
 
-  return(res);
+  return ( res );
 }
 
-
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 ::Cross(RadiusType radius)
 {
   // this should work for any number of dimensions
   Self res = Self();
+
   res.m_Decomposable = false;
-  res.SetRadius( radius );
+  res.SetRadius(radius);
   Iterator kernel_it;
-  for( kernel_it=res.Begin(); kernel_it != res.End(); ++kernel_it )
+  for ( kernel_it = res.Begin(); kernel_it != res.End(); ++kernel_it )
     {
-    *kernel_it= false;
+    *kernel_it = false;
     }
-  for( int d = 0; d<(int)VDimension; d++ )
+  for ( int d = 0; d < (int)VDimension; d++ )
     {
     OffsetType o;
-    o.Fill( 0 );
-    for( int i=-(int)radius[d]; i<=(int)radius[d]; i++ )
+    o.Fill(0);
+    for ( int i = -(int)radius[d]; i <= (int)radius[d]; i++ )
       {
       o[d] = i;
       res[o] = true;
       }
     }
 
-  return(res);
+  return ( res );
 }
 
-
-template<unsigned int VDimension>
-FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
+template< unsigned int VDimension >
+FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 ::Ball(RadiusType radius)
 {
   Self res = Self();
-  res.SetRadius( radius );
+
+  res.SetRadius(radius);
   res.m_Decomposable = false;
 
   unsigned int i;
 
   // Image typedef
-  typedef Image<bool, VDimension> ImageType;
+  typedef Image< bool, VDimension > ImageType;
 
   // Create an image to hold the ellipsoid
   //
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for( i=0; i<(int)VDimension; i++ )
+  for ( i = 0; i < (int)VDimension; i++ )
     {
-    size[i] = 2*size[i] + 1;
+    size[i] = 2 * size[i] + 1;
     }
-  region.SetSize( size );
+  region.SetSize(size);
 
-  sourceImage->SetRegions( region );
+  sourceImage->SetRegions(region);
   sourceImage->Allocate();
   // sourceImage->Print( std::cout );
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it(sourceImage, region);
+  ImageRegionIterator< ImageType > it(sourceImage, region);
 
-  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     it.Set(false);
     }
-
 
   // Create the ellipsoid
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction<VDimension> EllipsoidType;
+  typedef EllipsoidInteriorExteriorSpatialFunction< VDimension > EllipsoidType;
 
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axes;
-  for (i=0; i < VDimension; i++)
+  for ( i = 0; i < VDimension; i++ )
     {
     axes[i] = res.GetSize(i);
     }
-  spatialFunction->SetAxes( axes );
+  spatialFunction->SetAxes(axes);
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (i=0; i < VDimension; i++)
+  for ( i = 0; i < VDimension; i++ )
     {
     // put the center of ellipse in the middle of the center pixel
     center[i] = res.GetRadius(i) + 0.5;
     }
-  spatialFunction->SetCenter( center );
+  spatialFunction->SetCenter(center);
 
   // Define the orientations of the ellipsoid axes, for now, we'll use
   // the identify matrix
   typename EllipsoidType::OrientationType orientations;
-  orientations.fill( 0.0 );
-  orientations.fill_diagonal( 1.0 );
+  orientations.fill(0.0);
+  orientations.fill_diagonal(1.0);
   spatialFunction->SetOrientations(orientations);
 
   typename ImageType::IndexType seed;
-  for (i=0; i < VDimension; i++)
+  for ( i = 0; i < VDimension; i++ )
     {
     seed[i] = res.GetRadius(i);
     }
-  FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType>
-    sfi = FloodFilledSpatialFunctionConditionalIterator<ImageType,
-    EllipsoidType>(sourceImage, spatialFunction, seed);
+  FloodFilledSpatialFunctionConditionalIterator< ImageType, EllipsoidType >
+  sfi = FloodFilledSpatialFunctionConditionalIterator< ImageType,
+                                                       EllipsoidType >(sourceImage, spatialFunction, seed);
   sfi.SetCenterInclusionStrategy();
 
   // Iterate through the entire image and set interior pixels to 1
-  for(; !sfi.IsAtEnd(); ++sfi)
+  for (; !sfi.IsAtEnd(); ++sfi )
     {
     sfi.Set(true);
     }
 
-
   // Copy the ellipsoid into the kernel
   //
   Iterator kernel_it;
-  for (it.GoToBegin(), kernel_it=res.Begin();!it.IsAtEnd();++it,++kernel_it)
+  for ( it.GoToBegin(), kernel_it = res.Begin(); !it.IsAtEnd(); ++it, ++kernel_it )
     {
     *kernel_it = it.Get();
     }
@@ -797,40 +797,40 @@ FlatStructuringElement<VDimension> FlatStructuringElement<VDimension>
   return res;
 }
 
-
-template<unsigned int NDimension>
-FlatStructuringElement<NDimension>
-FlatStructuringElement<NDimension>
+template< unsigned int NDimension >
+FlatStructuringElement< NDimension >
+FlatStructuringElement< NDimension >
 ::Annulus(RadiusType radius,
           unsigned int thickness,
           bool includeCenter)
 {
   Self result = Self();
-  result.SetRadius( radius );
+
+  result.SetRadius(radius);
   result.m_Decomposable = false;
 
   // Image typedef
-  typedef Image<bool,NDimension> ImageType;
+  typedef Image< bool, NDimension > ImageType;
 
   // Create an image to hold the ellipsoid
   //
   typename ImageType::Pointer kernelImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = radius;
-  for(unsigned int i=0; i<NDimension; i++ )
+  for ( unsigned int i = 0; i < NDimension; i++ )
     {
-    size[i] = 2*size[i] + 1;
+    size[i] = 2 * size[i] + 1;
     }
-  region.SetSize( size );
+  region.SetSize(size);
 
-  kernelImage->SetRegions( region );
+  kernelImage->SetRegions(region);
   kernelImage->Allocate();
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it(kernelImage, region);
+  ImageRegionIterator< ImageType > it(kernelImage, region);
 
-  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     it.Set(false);
     }
@@ -839,7 +839,7 @@ FlatStructuringElement<NDimension>
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction<NDimension> EllipsoidType;
+  typedef EllipsoidInteriorExteriorSpatialFunction< NDimension > EllipsoidType;
 
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer ellipsoidOuter = EllipsoidType::New();
@@ -848,67 +848,67 @@ FlatStructuringElement<NDimension>
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axesOuter;
   typename EllipsoidType::InputType axesInner;
-  for (unsigned int i=0; i < NDimension; i++)
+  for ( unsigned int i = 0; i < NDimension; i++ )
     {
     axesOuter[i] = result.GetSize(i);
-    axesInner[i] = std::max( 2*(long)radius[i] + 1 - 2*(long)thickness, (long)1 );
+    axesInner[i] = std::max(2 * (long)radius[i] + 1 - 2 * (long)thickness, (long)1);
     }
-  ellipsoidOuter->SetAxes( axesOuter );
-  ellipsoidInner->SetAxes( axesInner );
+  ellipsoidOuter->SetAxes(axesOuter);
+  ellipsoidInner->SetAxes(axesInner);
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (unsigned int i=0; i < NDimension; i++)
+  for ( unsigned int i = 0; i < NDimension; i++ )
     {
     // put the center of ellipse in the middle of the center pixel
     center[i] = result.GetRadius(i) + 0.5;
     }
-  ellipsoidOuter->SetCenter( center );
-  ellipsoidInner->SetCenter( center );
+  ellipsoidOuter->SetCenter(center);
+  ellipsoidInner->SetCenter(center);
 
   // Define the orientations of the ellipsoid axes, for now, we'll use
   // the identity matrix
   typename EllipsoidType::OrientationType orientations;
-  orientations.fill( 0.0 );
-  orientations.fill_diagonal( 1.0 );
-  ellipsoidOuter->SetOrientations( orientations );
-  ellipsoidInner->SetOrientations( orientations );
+  orientations.fill(0.0);
+  orientations.fill_diagonal(1.0);
+  ellipsoidOuter->SetOrientations(orientations);
+  ellipsoidInner->SetOrientations(orientations);
 
   // Create the starting seed
   typename ImageType::IndexType seed;
-  for (unsigned int i=0; i < NDimension; i++)
+  for ( unsigned int i = 0; i < NDimension; i++ )
     {
     seed[i] = result.GetRadius(i);
     }
 
   // Define the iterators for each ellipsoid
-  typedef FloodFilledSpatialFunctionConditionalIterator<ImageType, EllipsoidType>
-    FloodIteratorType;
+  typedef FloodFilledSpatialFunctionConditionalIterator< ImageType, EllipsoidType >
+  FloodIteratorType;
   FloodIteratorType itEllipsoidOuter =
-    FloodIteratorType( kernelImage, ellipsoidOuter, seed );
+    FloodIteratorType(kernelImage, ellipsoidOuter, seed);
   FloodIteratorType itEllipsoidInner =
-    FloodIteratorType( kernelImage, ellipsoidInner, seed );
+    FloodIteratorType(kernelImage, ellipsoidInner, seed);
   itEllipsoidOuter.SetCenterInclusionStrategy();
   itEllipsoidInner.SetCenterInclusionStrategy();
 
   // Iterate through the image and set all outer pixels to 'ON'
-  for(; !itEllipsoidOuter.IsAtEnd(); ++itEllipsoidOuter)
+  for (; !itEllipsoidOuter.IsAtEnd(); ++itEllipsoidOuter )
     {
     itEllipsoidOuter.Set(true);
     }
   // Iterate through the image and set all inner pixels to 'OFF'
-  for(; !itEllipsoidInner.IsAtEnd(); ++itEllipsoidInner)
+  for (; !itEllipsoidInner.IsAtEnd(); ++itEllipsoidInner )
     {
     itEllipsoidInner.Set(false);
     }
 
   // Set center pixel if included
-  kernelImage->SetPixel( seed, includeCenter );
+  kernelImage->SetPixel(seed, includeCenter);
 
   // Copy the annulus into the kernel
   //
   Iterator kernel_it;
-  for (it.GoToBegin(), kernel_it=result.Begin(); !it.IsAtEnd(); ++it,++kernel_it)
+  for ( it.GoToBegin(), kernel_it = result.Begin(); !it.IsAtEnd(); ++it, ++kernel_it )
     {
     *kernel_it = it.Get();
     }
@@ -918,45 +918,44 @@ FlatStructuringElement<NDimension>
 
   return result;
 }
-template<unsigned int VDimension>
+
+template< unsigned int VDimension >
 bool
-FlatStructuringElement<VDimension>::
-checkParallel(LType NewVec, DecompType Lines)
+FlatStructuringElement< VDimension >::checkParallel(LType NewVec, DecompType Lines)
 {
   LType NN = NewVec;
+
   NN.Normalize();
-  for (unsigned i = 0; i < Lines.size(); i++)
+  for ( unsigned i = 0; i < Lines.size(); i++ )
     {
     LType LL = Lines[i];
     LL.Normalize();
-    float L = NN*LL;
-    if ((1.0 - vcl_fabs(L)) < 0.000001) return(true);
+    float L = NN * LL;
+    if ( ( 1.0 - vcl_fabs(L) ) < 0.000001 ) { return ( true ); }
     }
-  return(false);
+  return ( false );
 }
 
-template<unsigned int VDimension>
+template< unsigned int VDimension >
 void FlatStructuringElement< VDimension >
-::PrintSelf(std::ostream &os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   //Superclass::PrintSelf(os, indent);
-  if (m_Decomposable)
+  if ( m_Decomposable )
     {
     os << indent << "SE decomposition:" << std::endl;
-    for (unsigned i = 0;i < m_Lines.size(); i++)
+    for ( unsigned i = 0; i < m_Lines.size(); i++ )
       {
       os << indent << m_Lines[i] << std::endl;
       }
     }
 }
 
-
-template<unsigned int VDimension>
+template< unsigned int VDimension >
 void
-FlatStructuringElement<VDimension>::
-ComputeBufferFromLines()
+FlatStructuringElement< VDimension >::ComputeBufferFromLines()
 {
-  if( m_Decomposable )
+  if ( m_Decomposable )
     {
 /*    itkExceptionMacro("Element must be decomposable.");*/
     }
@@ -966,65 +965,62 @@ ComputeBufferFromLines()
   // of the buffer will reflect the shape of the structuring element
 
   // Image typedef
-  typedef Image<bool, VDimension> ImageType;
+  typedef Image< bool, VDimension > ImageType;
 
   // Create an image to hold the ellipsoid
   //
   typename ImageType::Pointer sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType size = this->GetRadius();
-  for( int i=0; i<(int)VDimension; i++ )
+  for ( int i = 0; i < (int)VDimension; i++ )
     {
-    size[i] = 2*size[i] + 1;
+    size[i] = 2 * size[i] + 1;
     }
-  region.SetSize( size );
-  sourceImage->SetRegions( region );
+  region.SetSize(size);
+  sourceImage->SetRegions(region);
   sourceImage->Allocate();
 
   // sourceImage->Print(std::cout);
 
   // Set the background to be zero
   //
-  ImageRegionIterator<ImageType> it( sourceImage, region );
+  ImageRegionIterator< ImageType > it(sourceImage, region);
 
-  for( it.GoToBegin(); !it.IsAtEnd(); ++it )
+  for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
-    it.Set( false );
+    it.Set(false);
     }
 
   // set the center pixel to 1
   typename ImageType::IndexType center;
-  for( int i=0; i<(int)VDimension; i++)
+  for ( int i = 0; i < (int)VDimension; i++ )
     {
     center[i] = this->GetRadius()[i];
     }
-  sourceImage->SetPixel( center, true );
+  sourceImage->SetPixel(center, true);
 
   // initialize the kernel with everything to false, to avoid warnings in
   // valgrind in the SetKernel() method
-  for( Iterator kernel_it=this->Begin(); kernel_it != this->End(); ++kernel_it )
+  for ( Iterator kernel_it = this->Begin(); kernel_it != this->End(); ++kernel_it )
     {
     *kernel_it = false;
     }
 
   // dilate the pixel
-  typedef VanHerkGilWermanDilateImageFilter<ImageType, Self> DilateType;
+  typedef VanHerkGilWermanDilateImageFilter< ImageType, Self > DilateType;
   typename DilateType::Pointer dilate = DilateType::New();
-  dilate->SetInput( sourceImage );
-  dilate->SetKernel( *this );
+  dilate->SetInput(sourceImage);
+  dilate->SetKernel(*this);
   dilate->Update();
 
   // copy back the image to the kernel
-  ImageRegionIterator<ImageType> oit( dilate->GetOutput(), region );
-  Iterator kernel_it;
-  for( oit.GoToBegin(), kernel_it=this->Begin(); !oit.IsAtEnd(); ++oit,++kernel_it )
+  ImageRegionIterator< ImageType > oit(dilate->GetOutput(), region);
+  Iterator                         kernel_it;
+  for ( oit.GoToBegin(), kernel_it = this->Begin(); !oit.IsAtEnd(); ++oit, ++kernel_it )
     {
     *kernel_it = oit.Get();
     }
-
 }
-
-
 }
 
 #endif

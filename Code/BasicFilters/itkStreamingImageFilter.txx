@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,43 +22,41 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-StreamingImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+StreamingImageFilter< TInputImage, TOutputImage >
 ::StreamingImageFilter()
 {
   // default to 10 divisions
   m_NumberOfStreamDivisions = 10;
 
   // create default region splitter
-  m_RegionSplitter = ImageRegionSplitter<InputImageDimension>::New();
+  m_RegionSplitter = ImageRegionSplitter< InputImageDimension >::New();
 }
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-StreamingImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+StreamingImageFilter< TInputImage, TOutputImage >
 ::~StreamingImageFilter()
-{
-}
+{}
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-StreamingImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TOutputImage >
+void
+StreamingImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Number of stream divisions: " << m_NumberOfStreamDivisions
      << std::endl;
-  if (m_RegionSplitter)
+  if ( m_RegionSplitter )
     {
     os << indent << "Region splitter:" << m_RegionSplitter << std::endl;
     }
@@ -68,23 +66,22 @@ StreamingImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 /**
  *
  */
-template<class TInputImage, class TOutputImage>
-void 
-StreamingImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+StreamingImageFilter< TInputImage, TOutputImage >
 ::PropagateRequestedRegion(DataObject *output)
 {
   /**
    * check flag to avoid executing forever if there is a loop
    */
-  if (this->m_Updating)
+  if ( this->m_Updating )
     {
     return;
     }
-  
+
   /**
    * Give the subclass a chance to indicate that it will provide
    * more data then required for the output. This can happen, for
@@ -92,9 +89,8 @@ StreamingImageFilter<TInputImage,TOutputImage>
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
    */
-  this->EnlargeOutputRequestedRegion( output );
+  this->EnlargeOutputRequestedRegion(output);
 
-  
   /**
    * Give the subclass a chance to define how to set the requested
    * regions for each of its outputs, given this output's requested
@@ -102,11 +98,11 @@ StreamingImageFilter<TInputImage,TOutputImage>
    * requested regions the same.  A subclass may need to override this
    * method if each output is a different resolution.
    */
-  this->GenerateOutputRequestedRegion( output );
+  this->GenerateOutputRequestedRegion(output);
 
   // we don't call GenerateInputRequestedRegion since the requested
   // regions are manage when the pipeline is execute
-  
+
   // we don't call inputs PropagateRequestedRegion either
   // because the pipeline managed later
 }
@@ -114,21 +110,20 @@ StreamingImageFilter<TInputImage,TOutputImage>
 /**
  *
  */
-template<class TInputImage, class TOutputImage>
-void 
-StreamingImageFilter<TInputImage,TOutputImage>
-::UpdateOutputData(DataObject *itkNotUsed(output))
+template< class TInputImage, class TOutputImage >
+void
+StreamingImageFilter< TInputImage, TOutputImage >
+::UpdateOutputData( DataObject *itkNotUsed(output) )
 {
   unsigned int idx;
 
   /**
    * prevent chasing our tail
    */
-  if (this->m_Updating)
+  if ( this->m_Updating )
     {
     return;
     }
-
 
   /**
    * Prepare all the outputs. This may deallocate previous bulk data.
@@ -139,15 +134,16 @@ StreamingImageFilter<TInputImage,TOutputImage>
    * Make sure we have the necessary inputs
    */
   unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
-  if (ninputs < this->GetNumberOfRequiredInputs())
+  if ( ninputs < this->GetNumberOfRequiredInputs() )
     {
-    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() ) << " inputs are required but only " << ninputs << " are specified.");
+    itkExceptionMacro(
+      << "At least " << static_cast< unsigned int >( this->GetNumberOfRequiredInputs() )
+      << " inputs are required but only " << ninputs << " are specified.");
     return;
     }
   this->SetAbortGenerateData(0);
   this->SetProgress(0.0);
   this->m_Updating = true;
-    
 
   /**
    * Tell all Observers that the filter is starting
@@ -155,17 +151,17 @@ StreamingImageFilter<TInputImage,TOutputImage>
   this->InvokeEvent( StartEvent() );
 
   /**
-   * Allocate the output buffer. 
+   * Allocate the output buffer.
    */
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  OutputImagePointer    outputPtr = this->GetOutput(0);
   OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
-  outputPtr->SetBufferedRegion( outputRegion );
+  outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
 
   /**
    * Grab the input
    */
-  InputImagePointer inputPtr = 
+  InputImagePointer inputPtr =
     const_cast< InputImageType * >( this->GetInput(0) );
 
   /**
@@ -179,24 +175,24 @@ StreamingImageFilter<TInputImage,TOutputImage>
   numDivisionsFromSplitter =
     m_RegionSplitter
     ->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
-  if (numDivisionsFromSplitter < numDivisions)
+  if ( numDivisionsFromSplitter < numDivisions )
     {
     numDivisions = numDivisionsFromSplitter;
     }
-  
+
   /**
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  unsigned int piece;
+  unsigned int         piece;
   InputImageRegionType streamRegion;
-  for (piece = 0;
-       piece < numDivisions && !this->GetAbortGenerateData();
-       piece++)
+  for ( piece = 0;
+        piece < numDivisions && !this->GetAbortGenerateData();
+        piece++ )
     {
     streamRegion = m_RegionSplitter->GetSplit(piece, numDivisions,
                                               outputRegion);
-      
+
     inputPtr->SetRequestedRegion(streamRegion);
     inputPtr->PropagateRequestedRegion();
     inputPtr->UpdateOutputData();
@@ -205,15 +201,15 @@ StreamingImageFilter<TInputImage,TOutputImage>
     // requested region determined by the RegionSplitter (as opposed
     // to what the pipeline might have enlarged it to) is used to
     // construct the iterators for both the input and output
-    ImageRegionIterator<InputImageType> inIt(inputPtr, streamRegion);
-    ImageRegionIterator<OutputImageType> outIt(outputPtr, streamRegion);
+    ImageRegionIterator< InputImageType >  inIt(inputPtr, streamRegion);
+    ImageRegionIterator< OutputImageType > outIt(outputPtr, streamRegion);
 
-    for (inIt.GoToBegin(), outIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++outIt)
+    for ( inIt.GoToBegin(), outIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++outIt )
       {
       outIt.Set( inIt.Get() );
       }
 
-    this->UpdateProgress((float) piece / numDivisions );
+    this->UpdateProgress( (float)piece / numDivisions );
     }
 
   /**
@@ -231,24 +227,22 @@ StreamingImageFilter<TInputImage,TOutputImage>
   /**
    * Now we have to mark the data as up to data.
    */
-  for (idx = 0; idx < this->GetNumberOfOutputs(); ++idx)
+  for ( idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
     {
-    if (this->GetOutput(idx))
+    if ( this->GetOutput(idx) )
       {
       this->GetOutput(idx)->DataHasBeenGenerated();
       }
     }
-  
+
   /**
    * Release any inputs if marked for release
    */
   this->ReleaseInputs();
-  
+
   // Mark that we are no longer updating the data in this filter
   this->m_Updating = false;
 }
-
-
 } // end namespace itk
 
 #endif

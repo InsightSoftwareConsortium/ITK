@@ -17,27 +17,29 @@
 #ifndef __itkEuclideanSquareDistanceMetric_txx
 #define __itkEuclideanSquareDistanceMetric_txx
 
-
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TVector >
 inline double
 EuclideanSquareDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x) const
+::Evaluate(const MeasurementVectorType & x) const
 {
   MeasurementVectorSizeType
     measurementVectorSize = this->GetMeasurementVectorSize();
-  if(measurementVectorSize == 0)
+
+  if ( measurementVectorSize == 0 )
     {
-    itkExceptionMacro( << "Please set the MeasurementVectorSize first" );
+    itkExceptionMacro(<< "Please set the MeasurementVectorSize first");
     }
-  MeasurementVectorTraits::Assert( this->GetOrigin(),measurementVectorSize,
+  MeasurementVectorTraits::Assert(
+    this->GetOrigin(), measurementVectorSize,
     "EuclideanSquareDistanceMetric::Evaluate Origin and input vector have different lengths");
 
   double temp, distance = NumericTraits< double >::Zero;
 
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     temp = this->GetOrigin()[i] - x[i];
     distance += temp * temp;
@@ -49,16 +51,17 @@ EuclideanSquareDistanceMetric< TVector >
 template< class TVector >
 inline double
 EuclideanSquareDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const
+::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
 {
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength( x1 );
-  if (measurementVectorSize != MeasurementVectorTraits::GetLength(x2))
+  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(x1);
+
+  if ( measurementVectorSize != MeasurementVectorTraits::GetLength(x2) )
     {
-    itkExceptionMacro( << "EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size" );
+    itkExceptionMacro(<< "EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size");
     }
 
   double temp, distance = NumericTraits< double >::Zero;
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     temp = x1[i] - x2[i];
     distance += temp * temp;
@@ -66,8 +69,6 @@ EuclideanSquareDistanceMetric< TVector >
 
   return distance;
 }
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

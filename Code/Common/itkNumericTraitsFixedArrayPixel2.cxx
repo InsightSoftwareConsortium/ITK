@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,7 +18,6 @@
 
 namespace itk
 {
-
 //
 //    Previous Types can be found in the file
 //
@@ -28,10 +27,9 @@ namespace itk
 //    manage the size of the compilation unit.
 //
 
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, float );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, double );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long double );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, long long );
-itkStaticNumericTraitsGenericArrayDimensionsMacro( FixedArray, unsigned long long );
-
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, float);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, double);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, long double);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, long long);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, unsigned long long);
 } // end namespace itk

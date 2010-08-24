@@ -20,9 +20,10 @@
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class NormalVariateGenerator
  * \brief Normal random variate generator
  *
@@ -88,19 +89,19 @@ namespace Statistics {
  *
  * \ingroup Statistics
  */
-class ITK_EXPORT NormalVariateGenerator :
-    public RandomVariateGeneratorBase
+class ITK_EXPORT NormalVariateGenerator:
+  public RandomVariateGeneratorBase
 {
 public:
   /** Standard class typedefs. */
   typedef NormalVariateGenerator     Self;
   typedef RandomVariateGeneratorBase Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NormalVariateGenerator,
-               RandomVariateGeneratorBase );
+               RandomVariateGeneratorBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -114,35 +115,33 @@ public:
 protected:
   NormalVariateGenerator();
   virtual ~NormalVariateGenerator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** get a variate */
-  double FastNorm (void);
+  double FastNorm(void);
 
 private:
-  double   m_Scale;
-  double   m_Rscale;
-  double   m_Rcons;
-  int      m_ELEN;
-  int      m_LEN;
-  int      m_LMASK;
-  int      m_TLEN;
+  double m_Scale;
+  double m_Rscale;
+  double m_Rcons;
+  int    m_ELEN;
+  int    m_LEN;
+  int    m_LMASK;
+  int    m_TLEN;
 
-  int      m_Gaussfaze;
-  int    * m_Gausssave;
+  int  m_Gaussfaze;
+  int *m_Gausssave;
 
-  double   m_GScale;
+  double m_GScale;
 
-  int    * m_Vec1;
-  int      m_Nslew;
-  int      m_Irs;
-  int      m_Lseed;
-  double   m_Chic1;
-  double   m_Chic2;
-  double   m_ActualRSD;
-
+  int *  m_Vec1;
+  int    m_Nslew;
+  int    m_Irs;
+  int    m_Lseed;
+  double m_Chic1;
+  double m_Chic2;
+  double m_ActualRSD;
 };  // end of class
-
 } // end of namespace Statistics
 } // end of namespace itk
 #endif

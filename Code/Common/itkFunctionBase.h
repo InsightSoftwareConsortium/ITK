@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /**
  * \class FunctionBase
  * \brief Base class for all ITK function objects
@@ -39,15 +38,15 @@ namespace itk
  * \ingroup Functions
  *
  */
-template < class TInput, class TOutput >
-class ITK_EXPORT FunctionBase : public Object
+template< class TInput, class TOutput >
+class ITK_EXPORT FunctionBase:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef FunctionBase                Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef FunctionBase               Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FunctionBase, Object);
@@ -59,18 +58,15 @@ public:
   typedef TOutput OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const = 0;
 
 protected:
-  FunctionBase(){};
-  ~FunctionBase(){};
-
+  FunctionBase(){}
+  ~FunctionBase(){}
 private:
-  FunctionBase(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
-
+  FunctionBase(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,7 @@
 namespace itk
 {
 /** \class ThreadLogger
- *  \brief Class ThreadLogger is meant for providing logging service 
+ *  \brief Class ThreadLogger is meant for providing logging service
  *  as a separate thread.
  *
  *
@@ -40,52 +40,50 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
-class ITKCommon_EXPORT ThreadLogger : public Logger
+class ITKCommon_EXPORT ThreadLogger:public Logger
 {
-
 public:
-  
-  typedef ThreadLogger              Self;
-  typedef Logger                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+
+  typedef ThreadLogger               Self;
+  typedef Logger                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ThreadLogger, Logger );
+  itkTypeMacro(ThreadLogger, Logger);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  typedef  Logger::OutputType   OutputType;
+  typedef  Logger::OutputType OutputType;
 
-  typedef  Logger::PriorityLevelType  PriorityLevelType;
+  typedef  Logger::PriorityLevelType PriorityLevelType;
 
   /** Definition of types of operations for ThreadLogger. */
-  typedef enum
-    {
+  typedef enum {
     SET_PRIORITY_LEVEL,
     SET_LEVEL_FOR_FLUSHING,
     ADD_LOG_OUTPUT,
     WRITE,
     FLUSH
     } OperationType;
-  
+
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
-  virtual void SetPriorityLevel( PriorityLevelType level );
+  virtual void SetPriorityLevel(PriorityLevelType level);
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs */
   virtual PriorityLevelType GetPriorityLevel() const;
 
-  virtual void SetLevelForFlushing( PriorityLevelType level );
+  virtual void SetLevelForFlushing(PriorityLevelType level);
 
   virtual PriorityLevelType GetLevelForFlushing() const;
 
   /** Registers another output stream with the multiple output. */
-  virtual void AddLogOutput( OutputType* output );
+  virtual void AddLogOutput(OutputType *output);
 
   virtual void Write(PriorityLevelType level, std::string const & content);
 
@@ -100,40 +98,36 @@ protected:
   virtual ~ThreadLogger();
 
   /** Print contents of a ThreadLogger */
-  virtual void PrintSelf(std::ostream &os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  static ITK_THREAD_RETURN_TYPE ThreadFunction(void*);
+  static ITK_THREAD_RETURN_TYPE ThreadFunction(void *);
 
 private:
 
-  typedef std::queue<OperationType> OperationContainerType;
+  typedef std::queue< OperationType > OperationContainerType;
 
-  typedef std::queue<std::string>  MessageContainerType;
+  typedef std::queue< std::string > MessageContainerType;
 
-  typedef std::queue<PriorityLevelType>  LevelContainerType;
+  typedef std::queue< PriorityLevelType > LevelContainerType;
 
-  typedef std::queue<OutputType::Pointer>  OutputContainerType;
+  typedef std::queue< OutputType::Pointer > OutputContainerType;
 
-  MultiThreader::Pointer  m_Threader;
+  MultiThreader::Pointer m_Threader;
 
   int m_ThreadID;
 
-  OperationContainerType  m_OperationQ;
+  OperationContainerType m_OperationQ;
 
-  MessageContainerType  m_MessageQ;
+  MessageContainerType m_MessageQ;
 
-  LevelContainerType  m_LevelQ;
+  LevelContainerType m_LevelQ;
 
   OutputContainerType m_OutputQ;
 
   SimpleFastMutexLock m_Mutex;
 
   SimpleFastMutexLock m_WaitMutex;
-
 };  // class ThreadLogger
-
-
 } // namespace itk
-
 
 #endif  // __itkThreadLogger_h

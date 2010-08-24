@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class RecursiveMultiResolutionPyramidImageFilter
  * \brief Creates a multi-resolution pyramid using a recursive implementation.
  *
@@ -35,7 +34,7 @@ namespace itk
  * implementation is used instead. A schedule is downward divisible if at
  * every level, the shrink factors are divisible by the shrink factors at the
  * next level for the same dimension.
- * 
+ *
  * See documentation of MultiResolutionPyramidImageFilter
  * for information on how to specify a multi-resolution schedule.
  *
@@ -43,7 +42,7 @@ namespace itk
  * RecursiveMultiResolutionPyramidImageFilter will not smooth the output at
  * the finest level if the shrink factors are all one and the schedule
  * is downward divisible.
- * 
+ *
  * This class is templated over the input image type and the output image type.
  *
  * This filter uses multithreaded filters to perform the smoothing and
@@ -53,28 +52,28 @@ namespace itk
  *
  * \sa MultiResolutionPyramidImageFilter
  *
- * \ingroup PyramidImageFilter Multithreaded Streamed 
+ * \ingroup PyramidImageFilter Multithreaded Streamed
  */
-template <
-  class TInputImage, 
+template<
+  class TInputImage,
   class TOutputImage
   >
-class ITK_EXPORT RecursiveMultiResolutionPyramidImageFilter : 
-    public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
+class ITK_EXPORT RecursiveMultiResolutionPyramidImageFilter:
+  public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef RecursiveMultiResolutionPyramidImageFilter  Self;
-  typedef MultiResolutionPyramidImageFilter<TInputImage,TOutputImage>  
-                                                      Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef RecursiveMultiResolutionPyramidImageFilter Self;
+  typedef MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter, 
+  itkTypeMacro(RecursiveMultiResolutionPyramidImageFilter,
                MultiResolutionPyramidImageFilter);
 
   /** ImageDimension enumeration. */
@@ -88,7 +87,7 @@ public:
   typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
-  /** Given one output whose requested region has been set, 
+  /** Given one output whose requested region has been set,
    * this method sets the requtested region for the remaining
    * output images.
    * The original documentation of this method is below.
@@ -105,19 +104,18 @@ public:
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
-  ~RecursiveMultiResolutionPyramidImageFilter() {};
-  void PrintSelf(std::ostream&os, Indent indent) const;
+  ~RecursiveMultiResolutionPyramidImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Generate the output data. */
   void GenerateData();
 
 private:
-  RecursiveMultiResolutionPyramidImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  RecursiveMultiResolutionPyramidImageFilter(const Self &); //purposely not
+                                                            // implemented
+  void operator=(const Self &);                             //purposely not
+                                                            // implemented
 };
-
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

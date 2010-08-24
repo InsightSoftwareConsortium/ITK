@@ -9,33 +9,29 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMetaSurfaceConverter_h
 #define __itkMetaSurfaceConverter_h
 
-
 #include "metaSurface.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkSpatialObject.h"
 
-namespace itk 
+namespace itk
 {
-
-template <unsigned int NDimensions = 3>
+template< unsigned int NDimensions = 3 >
 class ITK_EXPORT MetaSurfaceConverter
 {
-
 public:
 
   MetaSurfaceConverter();
-  ~MetaSurfaceConverter() {};
+  ~MetaSurfaceConverter() {}
 
-  typedef itk::SurfaceSpatialObject<NDimensions> SpatialObjectType;
-
+  typedef itk::SurfaceSpatialObject< NDimensions > SpatialObjectType;
 
   typedef typename SpatialObjectType::TransformType TransformType;
 
@@ -43,21 +39,19 @@ public:
 
   //typedef typename itk::NDimensionalSpatialObject NDimSpatialObject;
 
-  SpatialObjectPointer ReadMeta(const char* name);
+  SpatialObjectPointer ReadMeta(const char *name);
 
-  bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
+  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
 
-  SpatialObjectPointer MetaSurfaceToSurfaceSpatialObject(MetaSurface * Surface);
-  MetaSurface* SurfaceSpatialObjectToMetaSurface(
-                                             SpatialObjectType * spatialObject);
+  SpatialObjectPointer MetaSurfaceToSurfaceSpatialObject(MetaSurface *Surface);
 
+  MetaSurface * SurfaceSpatialObjectToMetaSurface(
+    SpatialObjectType *spatialObject);
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
   #include "itkMetaSurfaceConverter.txx"
 #endif
-
 
 #endif

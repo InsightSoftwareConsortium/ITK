@@ -21,11 +21,11 @@
 
 #include "itkConstNeighborhoodIterator.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class StochasticFractalDimensionImageFilter
  *  \brief This filter computes the stochastic fractal dimension of the input image.
- * 
+ *
  * The methodology is based on Madelbrot's fractal theory and the concept of
  * fractional Brownian motion and yields images which have been used for
  * classification and edge enhancement.
@@ -36,7 +36,7 @@ namespace itk {
  * decrease computation time since, as the authors point out, calculation is
  * time-consuming.
  *
- * This filter was contributed by Nick Tustison and James Gee 
+ * This filter was contributed by Nick Tustison and James Gee
  * from the PICSL lab, at the University of Pennsylvania
  * as an paper to the Insight Journal:
  *
@@ -47,67 +47,68 @@ namespace itk {
  * \author Nick Tustison
  *
  */
-template<class TInputImage, class TMaskImage = Image<unsigned char, 
-  ::itk::GetImageDimension<TInputImage>::ImageDimension>, 
-  class TOutputImage = TInputImage>
-class ITK_EXPORT StochasticFractalDimensionImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TMaskImage = Image< unsigned char,
+                                                       ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+          class TOutputImage = TInputImage >
+class ITK_EXPORT StochasticFractalDimensionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef StochasticFractalDimensionImageFilter           Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>   Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Standard New method. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constants */
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Some convenient typedefs. */
-  typedef float                                   RealType;
-  typedef TInputImage                             InputImageType;
-  typedef TMaskImage                              MaskImageType;
-  typedef TOutputImage                            OutputImageType;
+  typedef float        RealType;
+  typedef TInputImage  InputImageType;
+  typedef TMaskImage   MaskImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Runtime information support. */
-  itkTypeMacro( StochasticFractalDimensionImageFilter, ImageToImageFilter );
-
+  itkTypeMacro(StochasticFractalDimensionImageFilter, ImageToImageFilter);
 
   /** Set/Get the input mask image that will constraint the computation of the
    * fractal dimension to pixels that are on in the mask. This is intended to
    * reduce the computation time. */
-  void SetMaskImage( const MaskImageType * mask );
+  void SetMaskImage(const MaskImageType *mask);
+
   const MaskImageType * GetMaskImage() const;
 
   /** Type of the neighborhood iterator used to evaluate similarity between the
    * image pixels. */
-  typedef ConstNeighborhoodIterator<InputImageType> ConstNeighborhoodIteratorType;
+  typedef ConstNeighborhoodIterator< InputImageType >        ConstNeighborhoodIteratorType;
   typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
 
   /** Manhattan radius used for evaluating the fractal dimension. */
-  itkSetMacro( NeighborhoodRadius, RadiusType );
-  itkGetConstMacro( NeighborhoodRadius, RadiusType );
-
+  itkSetMacro(NeighborhoodRadius, RadiusType);
+  itkGetConstMacro(NeighborhoodRadius, RadiusType);
 protected:
   StochasticFractalDimensionImageFilter();
   ~StochasticFractalDimensionImageFilter();
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
 private:
-  StochasticFractalDimensionImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  StochasticFractalDimensionImageFilter(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
 
-  RadiusType                       m_NeighborhoodRadius;
-  typename MaskImageType::Pointer  m_MaskImage;
+  // implemented
 
+  RadiusType m_NeighborhoodRadius;
+
+  typename MaskImageType::Pointer m_MaskImage;
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

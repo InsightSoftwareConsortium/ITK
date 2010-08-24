@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,10 +26,8 @@
 
 namespace itk
 {
-
-namespace Functor 
-{  
-
+namespace Functor
+{
 /** \class SimilarVectorsFunctor
  *
  *  \brief A connected components filter that labels the
@@ -38,40 +36,40 @@ namespace Functor
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
  */
-  
-template<class TInput>
+
+template< class TInput >
 class SimilarVectorsFunctor
 {
 public:
   SimilarVectorsFunctor()
-    {m_Threshold = itk::NumericTraits<ITK_TYPENAME TInput::ValueType>::Zero;}
+  { m_Threshold = itk::NumericTraits< ITK_TYPENAME TInput::ValueType >::Zero; }
 
-  ~SimilarVectorsFunctor() {};
+  ~SimilarVectorsFunctor() {}
 
-  void SetDistanceThreshold(const typename TInput::ValueType &thresh)
-    {m_Threshold = thresh;}
-  typename TInput::ValueType GetDistanceThreshold() {return (m_Threshold);}
-  
-  bool operator!=( const SimilarVectorsFunctor & ) const
-    {
+  void SetDistanceThreshold(const typename TInput::ValueType & thresh)
+  { m_Threshold = thresh; }
+  typename TInput::ValueType GetDistanceThreshold() { return ( m_Threshold ); }
+
+  bool operator!=(const SimilarVectorsFunctor &) const
+  {
     return false;
-    }
-  bool operator==( const SimilarVectorsFunctor & other ) const
-    {
-    return !(*this != other);
-    }
-  bool operator()(const TInput &a, const TInput &b) const
-    {
+  }
+
+  bool operator==(const SimilarVectorsFunctor & other) const
+  {
+    return !( *this != other );
+  }
+
+  bool operator()(const TInput & a, const TInput & b) const
+  {
     typename TInput::ValueType dotProduct = vnl_math_abs(a * b);
-    return (1.0 - dotProduct <= m_Threshold);
-    }
+    return ( 1.0 - dotProduct <= m_Threshold );
+  }
 
 protected:
   typename TInput::ValueType m_Threshold;
-                            
 };
-
-} // end namespace Functor 
+} // end namespace Functor
 
 /** \class VectorConnectedComponentImageFilter
  *
@@ -81,52 +79,48 @@ protected:
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
  */
-template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage>
-class ITK_EXPORT VectorConnectedComponentImageFilter :
-    public ConnectedComponentFunctorImageFilter<TInputImage,TOutputImage,
-             Functor::SimilarVectorsFunctor<typename TInputImage::ValueType>,
-                                           TMaskImage> 
+template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
+class ITK_EXPORT VectorConnectedComponentImageFilter:
+  public ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
+                                               Functor::SimilarVectorsFunctor< typename TInputImage::ValueType >,
+                                               TMaskImage >
 {
 public:
   /** Standard class typedefs. */
   typedef VectorConnectedComponentImageFilter Self;
-  typedef ConnectedComponentFunctorImageFilter<TInputImage,TOutputImage, 
-             Functor::SimilarVectorsFunctor<typename TInputImage::ValueType>,
-             TMaskImage>                      Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
+                                                Functor::SimilarVectorsFunctor< typename TInputImage::ValueType >,
+                                                TMaskImage >                      Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorConnectedComponentImageFilter,ConnectedComponentFunctorImageFilter);
+  itkTypeMacro(VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType::ValueType  InputValueType;
-  
-  virtual void SetDistanceThreshold(const InputValueType& thresh)
-    {this->GetFunctor().SetDistanceThreshold(thresh);}
+  typedef typename TInputImage::PixelType::ValueType InputValueType;
+
+  virtual void SetDistanceThreshold(const InputValueType & thresh)
+  { this->GetFunctor().SetDistanceThreshold(thresh); }
 
   virtual InputValueType GetDistanceThreshold()
-    {return (this->GetFunctor().GetDistanceThreshold());}
+  { return ( this->GetFunctor().GetDistanceThreshold() ); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputValueType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
-  VectorConnectedComponentImageFilter() {};
-  virtual ~VectorConnectedComponentImageFilter() {};
-
+  VectorConnectedComponentImageFilter() {}
+  virtual ~VectorConnectedComponentImageFilter() {}
 private:
-  VectorConnectedComponentImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  VectorConnectedComponentImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

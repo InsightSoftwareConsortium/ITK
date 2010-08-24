@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class MetaDataDictionary
  * \author Hans J. Johnson
  * The MetaDataDictionary, along with the MetaDataObject derived template
@@ -40,14 +39,13 @@ public:
    * Defines the default behavior for printing out this element
    * \param os An output stream
    */
-  virtual void Print(std::ostream& os) const;
+  virtual void Print(std::ostream & os) const;
 
   // Declare the datastructure that will be used to hold the
-  // dictionary. 
-  class MetaDataDictionaryMapType 
-    : public std::map<std::string, MetaDataObjectBase::Pointer>
-    {
-    };
+  // dictionary.
+  class MetaDataDictionaryMapType:
+    public std::map< std::string, MetaDataObjectBase::Pointer >
+  {};
 
   typedef MetaDataDictionaryMapType::iterator       Iterator;
   typedef MetaDataDictionaryMapType::const_iterator ConstIterator;
@@ -55,9 +53,9 @@ public:
   // Constructor
   MetaDataDictionary();
   // Copy Constructor
-  MetaDataDictionary(const MetaDataDictionary&);
+  MetaDataDictionary(const MetaDataDictionary &);
   // operator =
-  void operator=(const MetaDataDictionary&);
+  void operator=(const MetaDataDictionary &);
 
   // Destructor
   virtual ~MetaDataDictionary();
@@ -65,42 +63,47 @@ public:
   /** Returns a vector of keys to the key/value entries in the
    * dictionary.  Iterate through the dictionary using these keys.
    */
-  std::vector<std::string> GetKeys() const;
+  std::vector< std::string > GetKeys() const;
 
   // Implement map's api. On some Micorsoft compilers, stl containers
   // cannot be exported. This causes problems when building DLL's.
   // Here we inherit privately from std::map and provide a simple
   // API. The implementation will be in the DLL.
-  MetaDataObjectBase::Pointer &operator [](const std::string &);
-  const MetaDataObjectBase   * operator [](const std::string &) const;
-  bool HasKey (const std::string &) const;
+  MetaDataObjectBase::Pointer & operator[](const std::string &);
 
+  const MetaDataObjectBase   * operator[](const std::string &) const;
 
-  /** \warning the following functions SHOULD NOT be used with 
+  bool HasKey(const std::string &) const;
+
+  /** \warning the following functions SHOULD NOT be used with
    * the visual studio 6 compiler since iterator outside of the dll
    * context cannot be dereferenced safely */
 
   /** Returns an iterator to the beginning of the map */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   Iterator  Begin();
+
   ConstIterator  Begin() const;
+
 #endif
 
   /** Returns an iterator to the end of the map */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   Iterator  End();
+
   ConstIterator  End() const;
+
 #endif
 
   /** Returns an iterator matching the string key */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   Iterator  Find(const std::string & key);
-  ConstIterator  Find(const std::string & key) const;
-#endif
 
+  ConstIterator  Find(const std::string & key) const;
+
+#endif
 private:
   MetaDataDictionaryMapType *m_Dictionary;
 };
-
 }
 #endif // __itkMetaDataDictionary_h

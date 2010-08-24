@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class HistogramToProbabilityImageFilter
  * \brief The class takes a histogram as an input and gives the probability
  * image as the output. A pixel, at position I,  in the output image is given by
@@ -43,8 +42,9 @@ namespace itk
  *
  */
 
-namespace Function {
-template< class TInput, class TOutput=float >
+namespace Function
+{
+template< class TInput, class TOutput = float >
 class HistogramProbabilityFunction
 {
 public:
@@ -53,39 +53,38 @@ public:
   //   Total Number of occurances.
   //
   // Returns pixels of float..
-  typedef  TOutput  OutputPixelType;
-
+  typedef  TOutput OutputPixelType;
 
   HistogramProbabilityFunction():
-      m_TotalFrequency(1) {}
+    m_TotalFrequency(1) {}
 
-  ~HistogramProbabilityFunction() {};
+  ~HistogramProbabilityFunction() {}
 
-  inline OutputPixelType operator()( const TInput & A ) const
-    {
-    return static_cast<OutputPixelType>( static_cast<OutputPixelType>(A) /
-        static_cast<OutputPixelType>(m_TotalFrequency) );
-    }
+  inline OutputPixelType operator()(const TInput & A) const
+  {
+    return static_cast< OutputPixelType >( static_cast< OutputPixelType >( A )
+                                           / static_cast< OutputPixelType >( m_TotalFrequency ) );
+  }
 
-  void SetTotalFrequency( unsigned long n )
-    {
+  void SetTotalFrequency(unsigned long n)
+  {
     m_TotalFrequency = n;
-    }
+  }
 
-  unsigned long GetTotalFrequency( ) const
-    {
+  unsigned long GetTotalFrequency() const
+  {
     return m_TotalFrequency;
-    }
+  }
 
 private:
-  unsigned long  m_TotalFrequency;
+  unsigned long m_TotalFrequency;
 };
 }
 
-template <class THistogram, unsigned int NDimensions, class TOutputPixel=float >
-class ITK_EXPORT HistogramToProbabilityImageFilter :
+template< class THistogram, unsigned int NDimensions, class TOutputPixel = float >
+class ITK_EXPORT HistogramToProbabilityImageFilter:
   public HistogramToImageFilter< THistogram, NDimensions,
-  Function::HistogramProbabilityFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramProbabilityFunction< unsigned long, TOutputPixel > >
 {
 public:
 
@@ -94,28 +93,24 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimensions,
-    Function::HistogramProbabilityFunction< unsigned long, TOutputPixel> >
-                                            Superclass;
+                                  Function::HistogramProbabilityFunction< unsigned long, TOutputPixel > >
+  Superclass;
 
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( HistogramToProbabilityImageFilter, HistogramToImageFilter );
+  itkTypeMacro(HistogramToProbabilityImageFilter, HistogramToImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
 protected:
   HistogramToProbabilityImageFilter() {}
   virtual ~HistogramToProbabilityImageFilter() {}
-
 private:
-  HistogramToProbabilityImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  HistogramToProbabilityImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

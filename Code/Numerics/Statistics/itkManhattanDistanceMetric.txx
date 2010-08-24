@@ -17,29 +17,30 @@
 #ifndef __itkManhattanDistanceMetric_txx
 #define __itkManhattanDistanceMetric_txx
 
-
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TVector >
 inline double
 ManhattanDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x) const
+::Evaluate(const MeasurementVectorType & x) const
 {
   MeasurementVectorSizeType
     measurementVectorSize = this->GetMeasurementVectorSize();
-  if(measurementVectorSize == 0)
+
+  if ( measurementVectorSize == 0 )
     {
-    itkExceptionMacro( << "Please set the MeasurementVectorSize first" );
+    itkExceptionMacro(<< "Please set the MeasurementVectorSize first");
     }
-  MeasurementVectorTraits::Assert( this->GetOrigin(), measurementVectorSize,
-    "ManhattanDistanceMetric::Evaluate Origin and input vector have different lengths");
+  MeasurementVectorTraits::Assert(this->GetOrigin(), measurementVectorSize,
+                                  "ManhattanDistanceMetric::Evaluate Origin and input vector have different lengths");
 
   double temp, distance = NumericTraits< double >::Zero;
 
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
-    temp = vcl_abs( this->GetOrigin()[i] - x[i] );
+    temp = vcl_abs(this->GetOrigin()[i] - x[i]);
     distance += temp;
     }
   return distance;
@@ -48,24 +49,23 @@ ManhattanDistanceMetric< TVector >
 template< class TVector >
 inline double
 ManhattanDistanceMetric< TVector >
-::Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const
+::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
 {
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength( x1 );
-  if (measurementVectorSize != MeasurementVectorTraits::GetLength(x2))
+  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(x1);
+
+  if ( measurementVectorSize != MeasurementVectorTraits::GetLength(x2) )
     {
-    itkExceptionMacro( << "ManhattanDistanceMetric:: The two measurement vectors have unequal size" );
+    itkExceptionMacro(<< "ManhattanDistanceMetric:: The two measurement vectors have unequal size");
     }
 
   double temp, distance = NumericTraits< double >::Zero;
-  for(unsigned int i = 0; i < measurementVectorSize; i++)
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
-    temp = vcl_abs( x1[i] - x2[i] );
+    temp = vcl_abs(x1[i] - x2[i]);
     distance += temp;
     }
   return distance;
 }
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

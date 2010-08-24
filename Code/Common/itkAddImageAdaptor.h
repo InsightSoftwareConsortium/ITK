@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
- 
 /** \class AddImageAdaptor
  * \brief Presents an image as being the addition of a constant value to all pixels
  *
@@ -31,45 +30,43 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  */
-template <class TImage>
-class ITK_EXPORT AddImageAdaptor : public
-      ImageAdaptor<TImage,
-                   Accessor::AddPixelAccessor< typename TImage::PixelType >   >
+template< class TImage >
+class ITK_EXPORT AddImageAdaptor:public
+  ImageAdaptor< TImage,
+                Accessor::AddPixelAccessor< typename TImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef AddImageAdaptor                                        Self;
-  typedef ImageAdaptor<TImage,
-                       Accessor::AddPixelAccessor<
-                                 typename TImage::PixelType > >  Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
-  
-  typedef typename TImage::PixelType      PixelType;
+  typedef AddImageAdaptor Self;
+  typedef ImageAdaptor< TImage,
+                        Accessor::AddPixelAccessor<
+                          typename TImage::PixelType > >  Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
+  typedef typename TImage::PixelType PixelType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( AddImageAdaptor, ImageAdaptor );
+  itkTypeMacro(AddImageAdaptor, ImageAdaptor);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Set the value to be added to image pixels */
-  void SetValue( const PixelType newvalue )
-    { this->GetPixelAccessor().SetValue( newvalue ); }
-  
+  void SetValue(const PixelType newvalue)
+  { this->GetPixelAccessor().SetValue(newvalue); }
+
   /** Get the value to be added to image pixels */
-  PixelType GetValue() const 
-    { return this->GetPixelAccessor().GetValue(); }
-  
+  PixelType GetValue() const
+  { return this->GetPixelAccessor().GetValue(); }
 protected:
   AddImageAdaptor() {}
   virtual ~AddImageAdaptor() {}
-  
 private:
-  AddImageAdaptor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AddImageAdaptor(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

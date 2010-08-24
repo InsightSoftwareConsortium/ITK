@@ -34,39 +34,39 @@ template< typename TVector >
 class CrossHelper
 {
 public:
-  typedef TVector                           VectorType;
-  typedef typename VectorType::ValueType    ValueType;
+  typedef TVector                        VectorType;
+  typedef typename VectorType::ValueType ValueType;
 
-  itkStaticConstMacro ( Dimension, unsigned int, VectorType::Dimension );
+  itkStaticConstMacro (Dimension, unsigned int, VectorType::Dimension);
 
   /**
    * \param[in] iU
    * \param[in] iV
    * \return \f$ \boldsymbol{iU} \cdot \boldsymbol{iV} \f$
    */
-  VectorType operator ( ) ( const VectorType& iU,
-                            const VectorType& iV ) const
-    {
+  VectorType operator()(const VectorType & iU,
+                        const VectorType & iV) const
+  {
     VectorType oCross;
 
-    if( Dimension > 2 )
+    if ( Dimension > 2 )
       {
       oCross[0] = iU[1] * iV[2] - iV[1] * iU[2];
       oCross[1] = iV[0] * iU[2] - iU[0] * iV[2];
       oCross[2] = iU[0] * iV[1] - iV[0] * iU[1];
 
-      for( unsigned int dim = 3; dim < Dimension; dim++ )
+      for ( unsigned int dim = 3; dim < Dimension; dim++ )
         {
         oCross[dim] = 0.0;
         }
       }
     else
       {
-      oCross.Fill( 0. );
+      oCross.Fill(0.);
       }
 
     return oCross;
-    }
+  }
 };
 }
 

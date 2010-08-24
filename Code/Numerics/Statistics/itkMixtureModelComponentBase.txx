@@ -19,9 +19,10 @@
 
 #include "itkMixtureModelComponentBase.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
@@ -35,15 +36,14 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 MixtureModelComponentBase< TSample >
 ::~MixtureModelComponentBase()
-{
-}
+{}
 
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Sample: ";
   if ( m_Sample != 0 )
@@ -75,14 +75,14 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetSample(const TSample* sample)
+::SetSample(const TSample *sample)
 {
   m_Sample = sample;
-  m_Weights = WeightArrayType(m_Sample->Size());
+  m_Weights = WeightArrayType( m_Sample->Size() );
 }
 
 template< class TSample >
-const TSample*
+const TSample *
 MixtureModelComponentBase< TSample >
 ::GetSample() const
 {
@@ -92,7 +92,7 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetParameters(const ParametersType &parameters)
+::SetParameters(const ParametersType & parameters)
 {
   if ( m_Parameters != parameters )
     {
@@ -120,13 +120,13 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 void
 MixtureModelComponentBase< TSample >
-::SetMembershipFunction(MembershipFunctionType* function)
+::SetMembershipFunction(MembershipFunctionType *function)
 {
   m_MembershipFunction = function;
 }
 
 template< class TSample >
-typename MixtureModelComponentBase< TSample >::MembershipFunctionType*
+typename MixtureModelComponentBase< TSample >::MembershipFunctionType *
 MixtureModelComponentBase< TSample >
 ::GetMembershipFunction()
 {
@@ -136,7 +136,7 @@ MixtureModelComponentBase< TSample >
 template< class TSample >
 inline double
 MixtureModelComponentBase< TSample >
-::Evaluate(MeasurementVectorType& measurements)
+::Evaluate(MeasurementVectorType & measurements)
 {
   return m_MembershipFunction->Evaluate(measurements);
 }
@@ -146,9 +146,9 @@ inline void
 MixtureModelComponentBase< TSample >
 ::SetWeight(unsigned int index, double value)
 {
-  if( index < m_Weights.size() )
+  if ( index < m_Weights.size() )
     {
-    (m_Weights)[index] = value;
+    ( m_Weights )[index] = value;
     }
   else
     {
@@ -161,7 +161,7 @@ inline double
 MixtureModelComponentBase< TSample >
 ::GetWeight(unsigned int index) const
 {
-  if( index < m_Weights.Size() )
+  if ( index < m_Weights.Size() )
     {
     return m_Weights[index];
     }
@@ -178,8 +178,6 @@ MixtureModelComponentBase< TSample >
 {
   this->GenerateData();
 }
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

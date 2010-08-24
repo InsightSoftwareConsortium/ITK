@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkCurvesLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class CurvesLevelSetImageFilter
  *  \brief Segments structures in images based on user supplied edge potential map.
  *
@@ -55,17 +55,17 @@ namespace itk {
  *
  *    \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
  *    \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
- * 
+ *
  *    where \f$ I \f$ is image intensity and
- *    \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ *    \f$ (\nabla * G) \f$ is the derivative of Gaussian operator.
  *
  *    \par
- *    See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
+ *    See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter
  *    for more information on Inputs.
  *
  *    \par PARAMETERS
  *    The method SetUseNegatiiveFeatures() can be used to switch from propagating inwards (false)
- *    versus propagting outwards (true). 
+ *    versus propagting outwards (true).
  *
  *    This implementation allows the user to set the weights between the propagation, advection
  *    and curvature term using methods SetPropagationScaling(), SetAdvectionScaling(),
@@ -92,72 +92,70 @@ namespace itk {
  *
  *   \sa SegmentationLevelSetImageFilter
  *   \sa CurvesLevelSetFunction
- *   \sa SparseFieldLevelSetImageFilter 
+ *   \sa SparseFieldLevelSetImageFilter
  *
  *   \ingroup LevelSetSegmentation
  */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT CurvesLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >
+class ITK_EXPORT CurvesLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
-   /** Standard class typedefs */
-  typedef CurvesLevelSetImageFilter               Self;
-  typedef  SegmentationLevelSetImageFilter<
-    TInputImage, TFeatureImage, TOutputPixelType> Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  /** Standard class typedefs */
+  typedef CurvesLevelSetImageFilter                                                        Self;
+  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType > Superclass;
+  typedef SmartPointer< Self >                                                             Pointer;
+  typedef SmartPointer< const Self >                                                       ConstPointer;
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType          ValueType;
-  typedef typename Superclass::OutputImageType    OutputImageType;
-  typedef typename Superclass::FeatureImageType   FeatureImageType;
-  
+  typedef typename Superclass::ValueType        ValueType;
+  typedef typename Superclass::OutputImageType  OutputImageType;
+  typedef typename Superclass::FeatureImageType FeatureImageType;
+
   /** Type of the segmentation function */
-  typedef CurvesLevelSetFunction<
-    OutputImageType, FeatureImageType>            CurvesFunctionType;
-  typedef typename CurvesFunctionType::Pointer    CurvesFunctionPointer;
-  
+  typedef CurvesLevelSetFunction< OutputImageType, FeatureImageType > CurvesFunctionType;
+  typedef typename CurvesFunctionType::Pointer                        CurvesFunctionPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(CurvesLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-     
+
   /** Set the value of sigma used to compute derivatives */
-  void SetDerivativeSigma( float value )
-    {
-    m_CurvesFunction->SetDerivativeSigma( value ); 
+  void SetDerivativeSigma(float value)
+  {
+    m_CurvesFunction->SetDerivativeSigma(value);
     this->Modified();
-    }
+  }
+
   float GetDerivativeSigma() const
-    { return m_CurvesFunction->GetDerivativeSigma(); }
-    
+  { return m_CurvesFunction->GetDerivativeSigma(); }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<TOutputPixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ~CurvesLevelSetImageFilter() {}
   CurvesLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   CurvesLevelSetImageFilter(const Self &); // purposely not implemented
-   void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  /** Overridden from Superclass to handle the case when PropagationScaling is zero.*/
+  /** Overridden from Superclass to handle the case when PropagationScaling is
+    zero.*/
   void GenerateData();
 
 private:
   CurvesFunctionPointer m_CurvesFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -20,16 +20,15 @@
 
 #include "itkImageToImageFilter.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /**
  * \class SliceBySliceImageFilter
  * \brief Apply a filter or a pipeline slice by slice on an image
  *
  * SliceBySliceImageFilter let the user apply a filter or a pipeline
  * of filters on the slices of an image. The filters must work on images
- * smaller of one dimension than the input and output images of the 
+ * smaller of one dimension than the input and output images of the
  * SliceBySliceImageFilter - if the SliceBySliceImageFilter work on 3D
  * images, the filters used internally must work on 2D images.
  *
@@ -69,24 +68,24 @@ namespace itk {
  *
  */
 
-template<class TInputImage,
-  class TOutputImage,
-  class TInputFilter=ImageToImageFilter< 
-    Image< ITK_TYPENAME TInputImage::PixelType,  ::itk::GetImageDimension<TInputImage >::ImageDimension - 1 >,
-    Image< ITK_TYPENAME TOutputImage::PixelType, ::itk::GetImageDimension<TOutputImage>::ImageDimension - 1 > >,
-  class TOutputFilter=ITK_TYPENAME TInputFilter::Superclass,
-  class TInternalInputImage=ITK_TYPENAME TInputFilter::InputImageType,
-  class TInternalOutputImage=ITK_TYPENAME TOutputFilter::OutputImageType >
-class ITK_EXPORT SliceBySliceImageFilter : 
-public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage,
+          class TOutputImage,
+          class TInputFilter = ImageToImageFilter<
+            Image< ITK_TYPENAME TInputImage::PixelType,  ::itk::GetImageDimension< TInputImage >::ImageDimension - 1 >,
+            Image< ITK_TYPENAME TOutputImage::PixelType, ::itk::GetImageDimension< TOutputImage >::ImageDimension - 1 > >,
+          class TOutputFilter = ITK_TYPENAME TInputFilter::Superclass,
+          class TInternalInputImage = ITK_TYPENAME TInputFilter::InputImageType,
+          class TInternalOutputImage = ITK_TYPENAME TOutputFilter::OutputImageType >
+class ITK_EXPORT SliceBySliceImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef SliceBySliceImageFilter                         Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>    Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
-  
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+
   /** Superclass typedefs. */
   typedef typename Superclass::InputImagePointer InputImagePointer;
 
@@ -95,21 +94,21 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(SliceBySliceImageFilter, ImageToImageFilter);
- 
-  /** Image related typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::RegionType      RegionType;
-  typedef typename TInputImage::SizeType        SizeType;
-  typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::PixelType       PixelType;
-  typedef typename TInputImage::OffsetType      OffsetType;
-  
-  typedef TOutputImage                          OutputImageType;
-  typedef typename TOutputImage::PixelType      OutputPixelType;
 
-  typedef TInputFilter                          InputFilterType;
-  typedef TOutputFilter                         OutputFilterType;
-  
+  /** Image related typedefs. */
+  typedef TInputImage                      InputImageType;
+  typedef typename TInputImage::RegionType RegionType;
+  typedef typename TInputImage::SizeType   SizeType;
+  typedef typename TInputImage::IndexType  IndexType;
+  typedef typename TInputImage::PixelType  PixelType;
+  typedef typename TInputImage::OffsetType OffsetType;
+
+  typedef TOutputImage                     OutputImageType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+
+  typedef TInputFilter  InputFilterType;
+  typedef TOutputFilter OutputFilterType;
+
   typedef TInternalInputImage                         InternalInputImageType;
   typedef typename InternalInputImageType::RegionType InternalRegionType;
   typedef typename InternalInputImageType::SizeType   InternalSizeType;
@@ -130,50 +129,54 @@ public:
   itkSetMacro(Dimension, unsigned int);
   itkGetConstMacro(Dimension, unsigned int);
 
-  void SetFilter(InputFilterType * filter);
+  void SetFilter(InputFilterType *filter);
+
   InputFilterType * GetFilter()
-    {
+  {
     return this->m_InputFilter;
-    }
+  }
 
   const InputFilterType * GetFilter() const
-    {
+  {
     return this->m_InputFilter;
-    }
+  }
 
-  void SetInputFilter( InputFilterType * filter );
-  itkGetObjectMacro( InputFilter, InputFilterType );
+  void SetInputFilter(InputFilterType *filter);
 
-  void SetOutputFilter( OutputFilterType * filter );
-  itkGetObjectMacro( OutputFilter, OutputFilterType );
+  itkGetObjectMacro(InputFilter, InputFilterType);
+
+  void SetOutputFilter(OutputFilterType *filter);
+
+  itkGetObjectMacro(OutputFilter, OutputFilterType);
 
   /** The index of the slice currently processed by the filter. This is intended to be
    * used with the IterationEvent sent before the processing of each object. It contains
    * a relevant value only during the filter update.
    */
   itkGetConstMacro(SliceIndex, long);
-
 protected:
   SliceBySliceImageFilter();
-  ~SliceBySliceImageFilter() {};
+  ~SliceBySliceImageFilter() {}
 
   void GenerateData();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateInputRequestedRegion();
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
 
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 private:
-  SliceBySliceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SliceBySliceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
-  unsigned int                            m_Dimension;
-  typename InputFilterType::Pointer       m_InputFilter;
-  typename OutputFilterType::Pointer      m_OutputFilter;
-  long                                    m_SliceIndex;
+  unsigned int m_Dimension;
+
+  typename InputFilterType::Pointer m_InputFilter;
+
+  typename OutputFilterType::Pointer m_OutputFilter;
+
+  long m_SliceIndex;
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,11 +21,10 @@
 
 namespace itk
 {
-
-namespace Functor {  
-  
+namespace Functor
+{
 /** \class AccessorFunctor
-   * \brief Convert an accessor to a functor so that it can be used in a 
+   * \brief Convert an accessor to a functor so that it can be used in a
    * UnaryFunctorImageFilter.
    *
    * AccessorFunctor converts a data accessor to a functor object.  This
@@ -33,7 +32,7 @@ namespace Functor {
    * BinaryFunctorImageFilter, TernaryFunctorImageFilter, or
    * NaryFunctionImageFilter.
    */
-template <class TInput, class TAccessor>
+template< class TInput, class TAccessor >
 class AccessorFunctor
 {
 public:
@@ -42,52 +41,53 @@ public:
   typedef TAccessor       AccessorType;
 
   /** Constructor and destructor. */
-  AccessorFunctor(): m_Accessor() {}
+  AccessorFunctor():m_Accessor() {}
   ~AccessorFunctor() {}
 
   /** operator().  This is the "call" method of the functor. */
   typedef typename TAccessor::ExternalType OutputType;
-  inline OutputType operator() ( const TInput & A ) const
-    {
-    return m_Accessor.Get( A );
-    }
+  inline OutputType operator()(const TInput & A) const
+  {
+    return m_Accessor.Get(A);
+  }
 
   /** Get the accessor. The accessor is returned by reference. */
-  AccessorType& GetAccessor() 
-    {
+  AccessorType & GetAccessor()
+  {
     return m_Accessor;
-    }
+  }
 
   /** Assignment operator */
-  AccessorFunctor & operator=( const AccessorFunctor & functor )
-    {
-    m_Accessor = functor.m_Accessor; 
+  AccessorFunctor & operator=(const AccessorFunctor & functor)
+  {
+    m_Accessor = functor.m_Accessor;
     return *this;
-    }
+  }
 
   /** Set the accessor object. This replaces the current accessor with
    * a copy of the specified accessor.  This allows the user to
    * specify an accessor that has ivars set differently that the default
    * accessor.
    */
-  void SetAccessor(AccessorType& accessor) 
-    {
+  void SetAccessor(AccessorType & accessor)
+  {
     m_Accessor = accessor;
-    }
+  }
 
   /** operator!=.  Needed to determine if two accessors are the same. */
-  bool operator!=( const Self& functor ) const
-    {
-    return (m_Accessor != functor.m_Accessor);
-    }
-  bool operator==( const Self& other ) const
-    {
-    return !(*this != other);
-    }
-    
+  bool operator!=(const Self & functor) const
+  {
+    return ( m_Accessor != functor.m_Accessor );
+  }
+
+  bool operator==(const Self & other) const
+  {
+    return !( *this != other );
+  }
+
 private:
   AccessorType m_Accessor;
-}; 
+};
 }
 
 /** \class AdaptImageFilter
@@ -116,22 +116,23 @@ private:
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
-template <class TInputImage, class TOutputImage, class TAccessor>
+template< class TInputImage, class TOutputImage, class TAccessor >
 class ITK_EXPORT AdaptImageFilter:
-    public UnaryFunctorImageFilter<TInputImage,TOutputImage,Functor::AccessorFunctor<ITK_TYPENAME TInputImage::PixelType, TAccessor> >
+  public UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                                  Functor::AccessorFunctor< ITK_TYPENAME TInputImage::PixelType, TAccessor > >
 {
 public:
   /** Standard class typedefs. */
-  typedef AdaptImageFilter  Self;
+  typedef AdaptImageFilter Self;
 
   typedef UnaryFunctorImageFilter< TInputImage,
                                    TOutputImage,
                                    Functor::AccessorFunctor<
-    ITK_TYPENAME TInputImage::PixelType, 
-    TAccessor> >  Superclass;
+                                     ITK_TYPENAME TInputImage::PixelType,
+                                     TAccessor > >  Superclass;
 
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
   typedef typename Superclass::FunctorType FunctorType;
 
   /** Method for creation through the object factory. */
@@ -139,37 +140,34 @@ public:
 
   /** Typedef for the accessor type */
   typedef TAccessor AccessorType;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(AdaptImageFilter, UnaryFunctorImageFilter);
 
   /** Get the accessor. This is a convenience method so the user */
-  AccessorType& GetAccessor() { return this->GetFunctor().GetAccessor(); };
+  AccessorType & GetAccessor() { return this->GetFunctor().GetAccessor(); }
 
   /** Set the accessor. This is a convenience method so the user does */
-  void SetAccessor(AccessorType& accessor)
-    {
+  void SetAccessor(AccessorType & accessor)
+  {
     FunctorType functor;
+
     functor = this->GetFunctor();
-    if (accessor != functor.GetAccessor())
+    if ( accessor != functor.GetAccessor() )
       {
-      functor.SetAccessor( accessor );
-      this->SetFunctor( functor );
+      functor.SetAccessor(accessor);
+      this->SetFunctor(functor);
       this->Modified();
       }
-    }
+  }
 
 protected:
   AdaptImageFilter() {}
   virtual ~AdaptImageFilter() {}
-
 private:
-  AdaptImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  AdaptImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 };
-
-  
 } // end namespace itk
-  
+
 #endif

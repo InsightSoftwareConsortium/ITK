@@ -19,48 +19,49 @@
 
 #include "itkImageToListSampleAdaptor.h"
 
-namespace itk {
-namespace Statistics {
-
-template < class TImage>
-ImageToListSampleAdaptor< TImage>
+namespace itk
+{
+namespace Statistics
+{
+template< class TImage >
+ImageToListSampleAdaptor< TImage >
 ::ImageToListSampleAdaptor()
 {
   m_Image = 0;
   m_UsePixelContainer = true;
 }
 
-template < class TImage>
-const typename ImageToListSampleAdaptor< TImage >::MeasurementVectorType&
-ImageToListSampleAdaptor< TImage>
+template< class TImage >
+const typename ImageToListSampleAdaptor< TImage >::MeasurementVectorType &
+ImageToListSampleAdaptor< TImage >
 ::GetMeasurementVector(InstanceIdentifier id) const
 {
-  if( m_Image.IsNull() )
+  if ( m_Image.IsNull() )
     {
     itkExceptionMacro("Image has not been set yet");
     }
 
   if ( m_UsePixelContainer )
     {
-    MeasurementVectorTraits::Assign( m_MeasurementVectorInternal,
-                    (*m_PixelContainer)[id]);
+    MeasurementVectorTraits::Assign(m_MeasurementVectorInternal,
+                                    ( *m_PixelContainer )[id]);
     }
   else
     {
     MeasurementVectorTraits::Assign( m_MeasurementVectorInternal,
-                    m_Image->GetPixel( m_Image->ComputeIndex( id ) ) );
+                                     m_Image->GetPixel( m_Image->ComputeIndex(id) ) );
     }
 
   return m_MeasurementVectorInternal;
 }
 
 /** returns the number of measurement vectors in this container*/
-template < class TImage>
-typename ImageToListSampleAdaptor< TImage>::InstanceIdentifier
-ImageToListSampleAdaptor< TImage>
+template< class TImage >
+typename ImageToListSampleAdaptor< TImage >::InstanceIdentifier
+ImageToListSampleAdaptor< TImage >
 ::Size() const
 {
-  if( m_Image.IsNull() )
+  if ( m_Image.IsNull() )
     {
     itkExceptionMacro("Image has not been set yet");
     }
@@ -68,12 +69,12 @@ ImageToListSampleAdaptor< TImage>
   return m_Image->GetPixelContainer()->Size();
 }
 
-template < class TImage>
-inline typename ImageToListSampleAdaptor< TImage>::AbsoluteFrequencyType
-ImageToListSampleAdaptor< TImage>
-::GetFrequency( InstanceIdentifier ) const
+template< class TImage >
+inline typename ImageToListSampleAdaptor< TImage >::AbsoluteFrequencyType
+ImageToListSampleAdaptor< TImage >
+::GetFrequency(InstanceIdentifier) const
 {
-  if( m_Image.IsNull() )
+  if ( m_Image.IsNull() )
     {
     itkExceptionMacro("Image has not been set yet");
     }
@@ -81,13 +82,12 @@ ImageToListSampleAdaptor< TImage>
   return NumericTraits< AbsoluteFrequencyType >::One;
 }
 
-
-template < class TImage>
+template< class TImage >
 void
-ImageToListSampleAdaptor< TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+ImageToListSampleAdaptor< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Image: ";
   if ( m_Image.IsNotNull() )
@@ -102,22 +102,22 @@ ImageToListSampleAdaptor< TImage>
      << this->GetUsePixelContainer() << std::endl;
 }
 
-template < class TImage>
+template< class TImage >
 void
-ImageToListSampleAdaptor< TImage>
-::SetImage(const TImage* image)
+ImageToListSampleAdaptor< TImage >
+::SetImage(const TImage *image)
 {
   m_Image = image;
   m_PixelContainer = image->GetPixelContainer();
   this->Modified();
 }
 
-template < class TImage>
-const TImage*
-ImageToListSampleAdaptor< TImage>
+template< class TImage >
+const TImage *
+ImageToListSampleAdaptor< TImage >
 ::GetImage() const
 {
-  if( m_Image.IsNull() )
+  if ( m_Image.IsNull() )
     {
     itkExceptionMacro("Image has not been set yet");
     }
@@ -125,19 +125,18 @@ ImageToListSampleAdaptor< TImage>
   return m_Image.GetPointer();
 }
 
-template < class TImage>
-typename ImageToListSampleAdaptor< TImage>::TotalAbsoluteFrequencyType
-ImageToListSampleAdaptor< TImage>
+template< class TImage >
+typename ImageToListSampleAdaptor< TImage >::TotalAbsoluteFrequencyType
+ImageToListSampleAdaptor< TImage >
 ::GetTotalFrequency() const
 {
-  if( m_Image.IsNull() )
+  if ( m_Image.IsNull() )
     {
     itkExceptionMacro("Image has not been set yet");
     }
 
   return this->Size();
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

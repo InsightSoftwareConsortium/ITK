@@ -23,9 +23,10 @@
 #include "itkNumericTraits.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class SparseFrequencyContainer2
  *  \brief his class is a container for an histogram.
  *
@@ -34,14 +35,14 @@ namespace Statistics {
  * (InstanceIdentifier)index or measurement vector.
  */
 
-class ITK_EXPORT SparseFrequencyContainer2 : public Object
+class ITK_EXPORT SparseFrequencyContainer2:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef SparseFrequencyContainer2                   Self;
-  typedef Object                                      Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef SparseFrequencyContainer2  Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(SparseFrequencyContainer2, Object);
@@ -51,21 +52,21 @@ public:
   typedef MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
 
   /** Absolute frequency type alias */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType  AbsoluteFrequencyType;
+  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
 
   /** Absolute Total frequency type */
-  typedef MeasurementVectorTraits::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
+  typedef MeasurementVectorTraits::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
 
   /** Relative frequency type alias */
-  typedef MeasurementVectorTraits::RelativeFrequencyType       RelativeFrequencyType;
+  typedef MeasurementVectorTraits::RelativeFrequencyType RelativeFrequencyType;
 
   /** Relative Relative frequency type */
-  typedef MeasurementVectorTraits::TotalRelativeFrequencyType  TotalRelativeFrequencyType;
+  typedef MeasurementVectorTraits::TotalRelativeFrequencyType TotalRelativeFrequencyType;
 
   /** Histogram typedef support */
   typedef std::map< InstanceIdentifier, AbsoluteFrequencyType > FrequencyContainerType;
   typedef FrequencyContainerType::const_iterator
-          FrequencyContainerConstIterator;
+  FrequencyContainerConstIterator;
 
   /** prepares the frequency container */
   void Initialize(unsigned long length);
@@ -88,24 +89,23 @@ public:
   AbsoluteFrequencyType GetFrequency(const InstanceIdentifier id) const;
 
   TotalAbsoluteFrequencyType GetTotalFrequency()
-    {
+  {
     return m_TotalFrequency;
-    }
+  }
 
 protected:
   SparseFrequencyContainer2();
   virtual ~SparseFrequencyContainer2() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SparseFrequencyContainer2(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SparseFrequencyContainer2(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
   // Container of histogram
-  FrequencyContainerType                                  m_FrequencyContainer;
-  TotalAbsoluteFrequencyType                              m_TotalFrequency;
-}; // end of class
-
+  FrequencyContainerType     m_FrequencyContainer;
+  TotalAbsoluteFrequencyType m_TotalFrequency;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

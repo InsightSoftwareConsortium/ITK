@@ -17,14 +17,12 @@
 #ifndef __itkImageSpatialObject_txx
 #define __itkImageSpatialObject_txx
 
-
 #include "itkImageSpatialObject.h"
 #include "itkSize.h"
 #include "itkDefaultConvertPixelTraits.h"
 
 namespace itk
 {
-
 /** Constructor */
 template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
@@ -33,29 +31,29 @@ ImageSpatialObject< TDimension,  PixelType >
   this->SetTypeName("ImageSpatialObject");
   m_Image = ImageType::New();
   m_SlicePosition = new int[TDimension];
-  for(unsigned int i=0;i<TDimension;i++)
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    m_SlicePosition[i]=0;
+    m_SlicePosition[i] = 0;
     }
 
   this->ComputeBoundingBox();
-  if(typeid(PixelType) == typeid(short))
+  if ( typeid( PixelType ) == typeid( short ) )
     {
     m_PixelType = "short";
     }
-  else if(typeid(PixelType) == typeid(unsigned char))
+  else if ( typeid( PixelType ) == typeid( unsigned char ) )
     {
     m_PixelType = "unsigned char";
     }
-  else if(typeid(PixelType) == typeid(unsigned short))
+  else if ( typeid( PixelType ) == typeid( unsigned short ) )
     {
     m_PixelType = "unsigned short";
     }
-  else if(typeid(PixelType) == typeid(float))
+  else if ( typeid( PixelType ) == typeid( float ) )
     {
     m_PixelType = "float";
     }
-  else if(typeid(PixelType) == typeid(double))
+  else if ( typeid( PixelType ) == typeid( double ) )
     {
     m_PixelType = "double";
     }
@@ -73,15 +71,15 @@ template< unsigned int TDimension, class PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
-  delete [] m_SlicePosition;
+  delete[] m_SlicePosition;
 }
 
 /** Return true if the given point is inside the image */
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsEvaluableAt( const PointType & point,
-                 unsigned int depth, char * name ) const
+::IsEvaluableAt(const PointType & point,
+                unsigned int depth, char *name) const
 {
   return IsInside(point, depth, name);
 }
@@ -90,10 +88,10 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetInterpolator(InterpolatorType * interpolator)
+::SetInterpolator(InterpolatorType *interpolator)
 {
   m_Interpolator = interpolator;
-  if(m_Image)
+  if ( m_Image )
     {
     m_Interpolator->SetInputImage(m_Image);
     }
@@ -105,14 +103,14 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInside( const PointType & point) const
+::IsInside(const PointType & point) const
 {
-  if( !this->GetBounds()->IsInside(point) )
+  if ( !this->GetBounds()->IsInside(point) )
     {
     return false;
     }
 
-  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
@@ -122,13 +120,13 @@ ImageSpatialObject< TDimension,  PixelType >
 
   bool isInside = true;
   typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
-  itk::Size<TDimension> size = region.GetSize();
+  itk::Size< TDimension > size = region.GetSize();
 
-  for(unsigned int i=0;i<TDimension;i++)
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    if( size[i] )
+    if ( size[i] )
       {
-      if( (transformedPoint[i] > size[i]) || (transformedPoint[i] < 0) )
+      if ( ( transformedPoint[i] > size[i] ) || ( transformedPoint[i] < 0 ) )
         {
         isInside = false;
         break;
@@ -136,30 +134,29 @@ ImageSpatialObject< TDimension,  PixelType >
       }
     else
       {
-      itkExceptionMacro(<< "Size of the ImageSpatialObject must be non-zero!" );
+      itkExceptionMacro(<< "Size of the ImageSpatialObject must be non-zero!");
       }
     }
 
   return isInside;
 }
 
-
 /** Return true if the given point is inside the image */
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInside( const PointType & point, unsigned int depth, char * name ) const
+::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if(name == NULL)
+  if ( name == NULL )
     {
-    if(IsInside(point))
+    if ( IsInside(point) )
       {
       return true;
       }
     }
-  else if(strstr(typeid(Self).name(), name))
+  else if ( strstr(typeid( Self ).name(), name) )
     {
-    if(IsInside(point))
+    if ( IsInside(point) )
       {
       return true;
       }
@@ -175,14 +172,14 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ValueAt( const PointType & point, double & value, unsigned int depth,
-           char * name ) const
+::ValueAt(const PointType & point, double & value, unsigned int depth,
+          char *name) const
 {
   bool returnValue = false;
 
-  if( IsEvaluableAt( point, 0, name ) )
+  if ( IsEvaluableAt(point, 0, name) )
     {
-    if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+    if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
       {
       return returnValue;
       }
@@ -191,20 +188,20 @@ ImageSpatialObject< TDimension,  PixelType >
 
     typename InterpolatorType::ContinuousIndexType index;
     typedef typename InterpolatorType::OutputType InterpolatorOutputType;
-    for(unsigned int i=0; i<TDimension; i++)
+    for ( unsigned int i = 0; i < TDimension; i++ )
       {
       index[i] = p[i];
       }
 
-    value = static_cast<double>(
-      DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-        m_Interpolator->EvaluateAtContinuousIndex(index)));
+    value = static_cast< double >(
+      DefaultConvertPixelTraits< InterpolatorOutputType >::GetScalarValue(
+        m_Interpolator->EvaluateAtContinuousIndex(index) ) );
 
     returnValue = true;
     }
   else
     {
-    if( Superclass::IsEvaluableAt(point, depth, name) )
+    if ( Superclass::IsEvaluableAt(point, depth, name) )
       {
       double val;
       Superclass::ValueAt(point, val, depth, name);
@@ -226,17 +223,17 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
 {
-  if( this->GetBoundingBoxChildrenName().empty()
-      || strstr(typeid(Self).name(),
-                this->GetBoundingBoxChildrenName().c_str()) )
+  if ( this->GetBoundingBoxChildrenName().empty()
+       || strstr( typeid( Self ).name(),
+                  this->GetBoundingBoxChildrenName().c_str() ) )
     {
     typename ImageType::RegionType region =
       m_Image->GetLargestPossibleRegion();
-    itk::Size<TDimension> size = region.GetSize();
-    PointType pointLow,pointHigh;
+    itk::Size< TDimension > size = region.GetSize();
+    PointType               pointLow, pointHigh;
 
     unsigned int i;
-    for(i=0; i<TDimension; i++ )
+    for ( i = 0; i < TDimension; i++ )
       {
       pointLow[i] = 0;
       pointHigh[i] = size[i];
@@ -246,24 +243,24 @@ ImageSpatialObject< TDimension,  PixelType >
     bb->SetMinimum(pointLow);
     bb->SetMaximum(pointHigh);
     typedef typename BoundingBoxType::PointsContainer PointsContainerType;
-    const PointsContainerType* corners = bb->GetCorners();
+    const PointsContainerType *corners = bb->GetCorners();
 
     typename PointsContainerType::const_iterator itC = corners->begin();
-    i=0;
-    while(itC != corners->end())
+    i = 0;
+    while ( itC != corners->end() )
       {
       PointType transformedPoint = this->GetIndexToWorldTransform()->TransformPoint(*itC);
-      if(i == 0)
+      if ( i == 0 )
         {
-        const_cast<BoundingBoxType *>(this->GetBounds())->SetMinimum(transformedPoint);
+        const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(transformedPoint);
         }
-      else if(i==1)
+      else if ( i == 1 )
         {
-        const_cast<BoundingBoxType *>(this->GetBounds())->SetMaximum(transformedPoint);
+        const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(transformedPoint);
         }
       else
         {
-        const_cast<BoundingBoxType *>(this->GetBounds())->ConsiderPoint(transformedPoint);
+        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(transformedPoint);
         }
       itC++;
       i++;
@@ -279,9 +276,9 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetImage(const ImageType * image )
+::SetImage(const ImageType *image)
 {
-  if( !image )
+  if ( !image )
     {
     return;
     }
@@ -289,20 +286,20 @@ ImageSpatialObject< TDimension,  PixelType >
   m_Image = image;
   typename TransformType::OffsetType offset;
   typename TransformType::MatrixType indexToObjectMatrix;
-  typename ImageType::PointType      origin;
-  typename ImageType::SpacingType    spacing;
-  typename ImageType::DirectionType  direction;
-  typename ImageType::IndexType      indexProbe;
-  typename ImageType::PointType      pointProbe;
+  typename ImageType::PointType origin;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::DirectionType direction;
+  typename ImageType::IndexType indexProbe;
+  typename ImageType::PointType pointProbe;
 
-  origin.Fill( 0 );
-  spacing.Fill( 1.0 );
+  origin.Fill(0);
+  spacing.Fill(1.0);
 
   origin = m_Image->GetOrigin();
   spacing = m_Image->GetSpacing();
-  direction= m_Image->GetDirection();
+  direction = m_Image->GetDirection();
 
-  for( unsigned int d=0; d<TDimension; d++)
+  for ( unsigned int d = 0; d < TDimension; d++ )
     {
     offset[d]  = origin[d];
 
@@ -311,22 +308,22 @@ ImageSpatialObject< TDimension,  PixelType >
     indexProbe.Fill(0);
     indexProbe[d] = 1;
 
-    m_Image->TransformIndexToPhysicalPoint( indexProbe, pointProbe );
+    m_Image->TransformIndexToPhysicalPoint(indexProbe, pointProbe);
 
     // Remove the origin
-    for( unsigned int d3=0; d3<TDimension; d3++ )
+    for ( unsigned int d3 = 0; d3 < TDimension; d3++ )
       {
       pointProbe[d3] -= origin[d3];
       }
 
-    for(unsigned int d2=0; d2<TDimension;d2++)
+    for ( unsigned int d2 = 0; d2 < TDimension; d2++ )
       {
       indexToObjectMatrix[d2][d] = pointProbe[d2];
       }
     }
 
-  this->GetIndexToObjectTransform()->SetMatrix( indexToObjectMatrix );
-  this->GetIndexToObjectTransform()->SetOffset( offset );
+  this->GetIndexToObjectTransform()->SetMatrix(indexToObjectMatrix);
+  this->GetIndexToObjectTransform()->SetOffset(offset);
 
   this->ComputeObjectToParentTransform();
 
@@ -340,7 +337,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 const typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
 ImageSpatialObject< TDimension,  PixelType >
-::GetImage( void ) const
+::GetImage(void) const
 {
   return m_Image.GetPointer();
 }
@@ -349,9 +346,9 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << "Image: " << std::endl;
   os << indent << m_Image << std::endl;
   os << "Interpolator: " << std::endl;
@@ -362,12 +359,12 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, class PixelType >
 unsigned long
 ImageSpatialObject< TDimension,  PixelType >
-::GetMTime( void ) const
+::GetMTime(void) const
 {
   unsigned long latestMTime = Superclass::GetMTime();
   unsigned long imageMTime = m_Image->GetMTime();
 
-  if( imageMTime > latestMTime )
+  if ( imageMTime > latestMTime )
     {
     latestMTime = imageMTime;
     }
@@ -375,18 +372,15 @@ ImageSpatialObject< TDimension,  PixelType >
   return latestMTime;
 }
 
-
 /** Set the slice position */
 template< unsigned int TDimension, class PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetSlicePosition(unsigned int dimension, int position)
 {
-  m_SlicePosition[dimension]=position;
+  m_SlicePosition[dimension] = position;
   this->Modified();
 }
-
-
 } // end namespace itk
 
 #endif //__ImageSpatialObject_txx

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,10 +20,10 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 
-namespace itk {
-
-/** \class ContourMeanDistanceImageFilter 
- * \brief Computes the Mean distance between the boundaries of 
+namespace itk
+{
+/** \class ContourMeanDistanceImageFilter
+ * \brief Computes the Mean distance between the boundaries of
  * non-zero regions of two images.
  *
  *
@@ -45,9 +45,9 @@ namespace itk {
  * with properties of identity, symmetry and triangle inequality.
  *
  * This filter requires the largest possible region of the first image
- * and the same corresponding region in the second image. 
+ * and the same corresponding region in the second image.
  * It behaves as filter with
- * two input and one output. Thus it can be inserted in a pipeline with 
+ * two input and one output. Thus it can be inserted in a pipeline with
  * other filters. The filter passes the first input through unmodified.
  *
  * This filter is templated over the two input image type. It assume
@@ -56,27 +56,27 @@ namespace itk {
  * \sa ContourDirectedMeanDistanceImageFilter
  *
  * \ingroup MultiThreaded
- * 
+ *
  * \author Teo Popa, ISIS Center, Georgetown University
  *
  */
-template<class TInputImage1, class TInputImage2>
-class ITK_EXPORT ContourMeanDistanceImageFilter : 
-    public ImageToImageFilter<TInputImage1, TInputImage1>
+template< class TInputImage1, class TInputImage2 >
+class ITK_EXPORT ContourMeanDistanceImageFilter:
+  public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
   /** Standard Self typedef */
-  typedef ContourMeanDistanceImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage1,TInputImage1>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
-  
+  typedef ContourMeanDistanceImageFilter                   Self;
+  typedef ImageToImageFilter< TInputImage1, TInputImage1 > Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(ContourMeanDistanceImageFilter, ImageToImageFilter);
-  
+
   /** Image related typedefs. */
   typedef TInputImage1                        InputImage1Type;
   typedef TInputImage2                        InputImage2Type;
@@ -91,47 +91,46 @@ public:
 
   typedef typename TInputImage1::PixelType InputImage1PixelType;
   typedef typename TInputImage2::PixelType InputImage2PixelType;
-  
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage1::ImageDimension);
 
   /** Type to use form computations. */
-  typedef typename NumericTraits<InputImage1PixelType>::RealType RealType;
+  typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1( const InputImage1Type * image )
-    {
-    this->SetInput( image );
-    }
+  void SetInput1(const InputImage1Type *image)
+  {
+    this->SetInput(image);
+  }
 
   /** Set the second input. */
-  void SetInput2( const InputImage2Type * image );
+  void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-    {
-    return this->GetInput();\
-    }
-  
+  {
+    return this->GetInput(); \
+  }
+
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
-  
+
   /** Return the computed Mean distance. */
-  itkGetConstMacro(MeanDistance,RealType);
+  itkGetConstMacro(MeanDistance, RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImage1PixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ContourMeanDistanceImageFilter();
-  ~ContourMeanDistanceImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~ContourMeanDistanceImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** GenerateData. */
   void  GenerateData();
 
@@ -142,15 +141,13 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
-  ContourMeanDistanceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ContourMeanDistanceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
-  RealType                            m_MeanDistance;
-
+  RealType m_MeanDistance;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkContourMeanDistanceImageFilter.txx"
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,33 +22,35 @@
 
 namespace itk
 {
-  
-namespace Function {  
-  
+namespace Function
+{
 template< class TInput >
 class Compose2DVector
 {
 public:
-  typedef Vector<TInput,2> OutputType;
+  typedef Vector< TInput, 2 > OutputType;
   Compose2DVector() {}
   ~Compose2DVector() {}
-  bool operator!=( const Compose2DVector & ) const
-    {
+  bool operator!=(const Compose2DVector &) const
+  {
     return false;
-    }
-  bool operator==( const Compose2DVector & other ) const
-    {
-    return !(*this != other);
-    }
-  inline OutputType operator()(  const TInput & s1, 
-                                 const TInput & s2 ) const
-    {
+  }
+
+  bool operator==(const Compose2DVector & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline OutputType operator()(const TInput & s1,
+                               const TInput & s2) const
+  {
     OutputType v;
+
     v[0] = s1;
     v[1] = s2;
     return v;
-    }
-}; 
+  }
+};
 }
 
 /** \class Compose2DVectorImageFilter
@@ -62,56 +64,50 @@ public:
  * \ingroup IntensityImageFilters
  */
 
-template <typename TInputImage, 
-          typename TOutputImage= 
-          Image< Vector< ITK_TYPENAME TInputImage::PixelType,2 >,
-                 ::itk::GetImageDimension<TInputImage>::ImageDimension > >
-class ITK_EXPORT Compose2DVectorImageFilter :
-    public
-BinaryFunctorImageFilter<TInputImage,TInputImage,
-                          TOutputImage, 
-                          Function::Compose2DVector< ITK_TYPENAME TInputImage::PixelType >   >
+template< typename TInputImage,
+          typename TOutputImage =
+            Image< Vector< ITK_TYPENAME TInputImage::PixelType, 2 >,
+                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+class ITK_EXPORT Compose2DVectorImageFilter:
+  public
+  BinaryFunctorImageFilter< TInputImage, TInputImage,
+                            TOutputImage,
+                            Function::Compose2DVector< ITK_TYPENAME TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef Compose2DVectorImageFilter  Self;
+  typedef Compose2DVectorImageFilter Self;
   typedef BinaryFunctorImageFilter<
-    TInputImage,TInputImage,
-    TOutputImage, 
-    Function::Compose2DVector< 
-      ITK_TYPENAME TInputImage::PixelType > >
-                                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+    TInputImage, TInputImage,
+    TOutputImage,
+    Function::Compose2DVector<
+      ITK_TYPENAME TInputImage::PixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(Compose2DVectorImageFilter, 
+  itkTypeMacro(Compose2DVectorImageFilter,
                BinaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   Compose2DVectorImageFilter() {}
   virtual ~Compose2DVectorImageFilter() {}
-
 private:
-  Compose2DVectorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-
+  Compose2DVectorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

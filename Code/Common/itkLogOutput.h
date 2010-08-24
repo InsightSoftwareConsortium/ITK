@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /** \class LogOutput
  *  \brief Class LogOutput represents an output stream.
  *
@@ -36,38 +35,35 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
-class ITKCommon_EXPORT LogOutput : public Object
+class ITKCommon_EXPORT LogOutput:public Object
 {
-
 public:
 
-  typedef LogOutput                 Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef LogOutput                  Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** flush a buffer */
   virtual void Flush() = 0;
 
   /** Write to a buffer */
-  virtual void Write( double timestamp ) = 0;
+  virtual void Write(double timestamp) = 0;
 
   /** Write to a buffer */
-  virtual void Write(const std::string & content ) = 0;
+  virtual void Write(const std::string & content) = 0;
 
   /** Write to a buffer */
   virtual void Write(const std::string & content, double timestamp) = 0;
 
 protected:
-  
-  /** Destructor */
-  LogOutput() {};
 
   /** Destructor */
-  virtual ~LogOutput() {};
+  LogOutput() {}
 
+  /** Destructor */
+  virtual ~LogOutput() {}
 };
-
 }
 
 #endif //__itkLogOutput_h

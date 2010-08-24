@@ -21,30 +21,28 @@
 
 namespace itk
 {
-
-template < class TMesh, class TQEType >
-  typename QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::OutputType
-  QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::
-  Evaluate( QEType* e )
+template< class TMesh, class TQEType >
+typename QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::OutputType
+QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {
 #ifndef NDEBUG
-  if( !e )
+  if ( !e )
     {
-    itkDebugMacro( "Input is not an edge." );
-    return( (QEType*) 0 );
+    itkDebugMacro("Input is not an edge.");
+    return ( (QEType *)0 );
     }
 
-  if( !this->m_Mesh )
+  if ( !this->m_Mesh )
     {
-    itkDebugMacro( "No mesh present." );
-    return( (QEType*) 0 );
+    itkDebugMacro("No mesh present.");
+    return ( (QEType *)0 );
     }
 #endif
 
-  if(  !e->IsInternal( ) )
+  if ( !e->IsInternal() )
     {
-    itkDebugMacro( "The edge is either border or wire." );
-    return( (QEType*) 0 );
+    itkDebugMacro("The edge is either border or wire.");
+    return ( (QEType *)0 );
     }
 
   //     Initial state                           Final state        //
@@ -69,17 +67,16 @@ template < class TMesh, class TQEType >
   //          \|/                                  \  /             //
   //          Org                                  Org              //
   //
-  QEType* return_e = e->GetOnext( )->GetSym( );
+  QEType *return_e = e->GetOnext()->GetSym();
 
   // delete the edge and the two associated faces
-  this->m_Mesh->LightWeightDeleteEdge( e );
+  this->m_Mesh->LightWeightDeleteEdge(e);
 
   // Build a new face in replacement of the one we deleted:
-  this->m_Mesh->AddFace( return_e );
-  this->m_Mesh->Modified( );
-  return( return_e );
+  this->m_Mesh->AddFace(return_e);
+  this->m_Mesh->Modified();
+  return ( return_e );
 }
-
 }
 
 #endif

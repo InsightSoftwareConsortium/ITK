@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class FastMarchingExtensionImageFilter
  * \brief Extend auxiliary variables smoothly using Fast Marching.
  *
@@ -47,23 +46,23 @@ namespace itk
  * \sa FastMarchingImageFilter
  * \sa LevelSetTypeDefault
  * \sa AuxVarTypeDefault
- * \ingroup LevelSetSegmentation 
+ * \ingroup LevelSetSegmentation
  */
-template <
-  class TLevelSet, 
+template<
+  class TLevelSet,
   class TAuxValue,
   unsigned int VAuxDimension = 1,
-  class TSpeedImage = Image<float,::itk::GetImageDimension<TLevelSet>::ImageDimension>
->
-class ITK_EXPORT FastMarchingExtensionImageFilter :
-    public FastMarchingImageFilter<TLevelSet,TSpeedImage>
+  class TSpeedImage = Image< float, ::itk::GetImageDimension< TLevelSet >::ImageDimension >
+  >
+class ITK_EXPORT FastMarchingExtensionImageFilter:
+  public FastMarchingImageFilter< TLevelSet, TSpeedImage >
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingExtensionImageFilter               Self;
-  typedef FastMarchingImageFilter<TLevelSet,TSpeedImage> Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef FastMarchingExtensionImageFilter                  Self;
+  typedef FastMarchingImageFilter< TLevelSet, TSpeedImage > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,21 +71,21 @@ public:
   itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
   /** Inherited typedefs. */
-  typedef typename Superclass::LevelSetType       LevelSetType;
-  typedef typename Superclass::SpeedImageType     SpeedImageType;
-  typedef typename Superclass::LevelSetImageType  LevelSetImageType;
+  typedef typename Superclass::LevelSetType      LevelSetType;
+  typedef typename Superclass::SpeedImageType    SpeedImageType;
+  typedef typename Superclass::LevelSetImageType LevelSetImageType;
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int,Superclass::SetDimension);
+  itkStaticConstMacro(SetDimension, unsigned int, Superclass::SetDimension);
 
   /** Number of auxiliary variables to be extended. */
-  itkStaticConstMacro(AuxDimension, unsigned int,VAuxDimension);
+  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
 
   /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault<TAuxValue,
-                            itkGetStaticConstMacro(AuxDimension),
-                            itkGetStaticConstMacro(SetDimension)>
-                                                  AuxVarType;
+  typedef AuxVarTypeDefault< TAuxValue,
+                             itkGetStaticConstMacro(AuxDimension),
+                             itkGetStaticConstMacro(SetDimension) >
+  AuxVarType;
   typedef typename AuxVarType::AuxValueType       AuxValueType;
   typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
   typedef typename AuxVarType::AuxValueContainer  AuxValueContainer;
@@ -94,66 +93,64 @@ public:
   typedef typename AuxVarType::AuxImagePointer    AuxImagePointer;
 
   /** Index typedef support. */
-  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
+  typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
 
   /** Get one of the extended auxiliary variable image. */
-  AuxImageType * GetAuxiliaryImage( unsigned int idx );
+  AuxImageType * GetAuxiliaryImage(unsigned int idx);
 
   /** Set the container auxiliary values at the initial alive points. */
-  void SetAuxiliaryAliveValues( AuxValueContainer * values )
-    {
+  void SetAuxiliaryAliveValues(AuxValueContainer *values)
+  {
     m_AuxAliveValues = values;
-    }
+  }
 
   /** Get the container of auxiliary values at the initial alive points. */
   AuxValueContainer * GetAuxiliaryAliveValues(void)
-    {
+  {
     return m_AuxAliveValues.GetPointer();
-    }
+  }
 
   /** Set the container of auxiliary values at the initial trial points. */
-  void SetAuxiliaryTrialValues( AuxValueContainer * values )
-    {
+  void SetAuxiliaryTrialValues(AuxValueContainer *values)
+  {
     m_AuxTrialValues = values;
-    }
+  }
 
   /** Get the container of auxiliary values at the initial trial points. */
   typename AuxValueContainer::Pointer GetAuxiliaryTrialValues()
-    {
+  {
     return m_AuxTrialValues;
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(AuxValueHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<TAuxValue>));
+  itkConceptMacro( AuxValueHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< TAuxValue > ) );
   /** End concept checking */
 #endif
-
 protected:
   FastMarchingExtensionImageFilter();
-  ~FastMarchingExtensionImageFilter(){};
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  ~FastMarchingExtensionImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void Initialize( LevelSetImageType * );
-  virtual double UpdateValue( const IndexType & index,
-                              const SpeedImageType * speed, LevelSetImageType * output);
+  virtual void Initialize(LevelSetImageType *);
+
+  virtual double UpdateValue(const IndexType & index,
+                             const SpeedImageType *speed, LevelSetImageType *output);
 
   /** Generate the output image meta information */
   virtual void GenerateOutputInformation();
-  virtual void EnlargeOutputRequestedRegion( DataObject *output );
+
+  virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:
-  FastMarchingExtensionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  typename AuxValueContainer::Pointer    m_AuxAliveValues;
-  typename AuxValueContainer::Pointer    m_AuxTrialValues;
-  
+  FastMarchingExtensionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
+
+  typename AuxValueContainer::Pointer m_AuxAliveValues;
+  typename AuxValueContainer::Pointer m_AuxTrialValues;
 };
-
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFastMarchingExtensionImageFilter.txx"

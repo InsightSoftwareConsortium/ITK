@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,16 +28,15 @@
 //#define BASIC
 #define COPY
 
-
 #ifdef COPY
 #include "itkNeighborhoodAlgorithm.h"
 #endif
 
-namespace itk {
-
-/** \class ReconstructionImageFilter 
+namespace itk
+{
+/** \class ReconstructionImageFilter
  * \brief Performs a grayscale geodesic reconstruction -- for
- * performance comparison with GrayscaleGeodesicDilateImageFilter. 
+ * performance comparison with GrayscaleGeodesicDilateImageFilter.
  *
  * This filter uses Luc Vincent's algorithm, which employs raster and
  * antiraster propogation steps followed by a FIFO based propogation
@@ -52,40 +51,40 @@ namespace itk {
  * \ingroup MathematicalMorphologyImageFilters
  */
 
-template<class TInputImage, class TOutputImage, class TCompare>
-class ITK_EXPORT ReconstructionImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage, class TCompare >
+class ITK_EXPORT ReconstructionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ReconstructionImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ReconstructionImageFilter                       Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::SizeType        ISizeType;
-  typedef TInputImage                              MarkerImageType;
-  typedef typename MarkerImageType::Pointer        MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::IndexType       InputImageIndexType;
-  typedef TInputImage                              MaskImageType;
-  typedef typename MaskImageType::Pointer          MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType       MaskImageRegionType;
-  typedef typename MaskImageType::PixelType        MaskImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename OutputImageType::IndexType      OutputImageIndexType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef typename InputImageType::SizeType      ISizeType;
+  typedef TInputImage                            MarkerImageType;
+  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
+  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
+  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
+  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename InputImageType::IndexType     InputImageIndexType;
+  typedef TInputImage                            MaskImageType;
+  typedef typename MaskImageType::Pointer        MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
+  typedef typename MaskImageType::RegionType     MaskImageRegionType;
+  typedef typename MaskImageType::PixelType      MaskImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  typedef typename OutputImageType::IndexType    OutputImageIndexType;
+
   /** ImageDimension constants */
   /** ImageDimension constants */
   itkStaticConstMacro(MarkerImageDimension, unsigned int,
@@ -96,10 +95,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionImageFilter, 
+  itkTypeMacro(ReconstructionImageFilter,
                ImageToImageFilter);
 
   /** Set/Get the marker image. Traditionally, the marker image must
@@ -108,14 +107,15 @@ public:
    * constraint to hold. The marker image the
    * image that is dilated by this filter. */
   void SetMarkerImage(const MarkerImageType *);
-  const MarkerImageType* GetMarkerImage();
+
+  const MarkerImageType * GetMarkerImage();
 
   /** Set/Get the mask image. The mask image is used to "mask" the
    * dilated marker image. The mask operation is a pixelwise
    * minimum. */
   void SetMaskImage(const MaskImageType *);
-  const MaskImageType* GetMaskImage();
 
+  const MaskImageType * GetMaskImage();
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -126,7 +126,7 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
   /**
    * Perform a padding of the image internally to increase the performance
    * of the filter. UseInternalCopy can be set to false to reduce the memory
@@ -135,11 +135,10 @@ public:
   itkSetMacro(UseInternalCopy, bool);
   itkGetConstReferenceMacro(UseInternalCopy, bool);
   itkBooleanMacro(UseInternalCopy);
-
 protected:
   ReconstructionImageFilter();
-  ~ReconstructionImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ReconstructionImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -147,42 +146,38 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   void GenerateData();
-  
+
   /**
    * the value of the border - used in boundary condition.
    */
   typename TInputImage::PixelType m_MarkerValue;
-
-
 private:
-  ReconstructionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  bool                m_FullyConnected;
-  bool                m_UseInternalCopy;
+  ReconstructionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  typedef typename itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType> FaceCalculatorType;
+  bool m_FullyConnected;
+  bool m_UseInternalCopy;
+
+  typedef typename itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType > FaceCalculatorType;
 
   typedef typename FaceCalculatorType::FaceListType           FaceListType;
   typedef typename FaceCalculatorType::FaceListType::iterator FaceListTypeIt;
 
-  typedef ImageRegionConstIterator<InputImageType> InputIteratorType;
-  typedef ImageRegionIterator<OutputImageType>     OutputIteratorType;
+  typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
+  typedef ImageRegionIterator< OutputImageType >     OutputIteratorType;
 
-  typedef typename OutputImageType::IndexType             OutIndexType;
-  typedef typename InputImageType::IndexType              InIndexType;
-  typedef ConstShapedNeighborhoodIterator<InputImageType> CNInputIterator;
-  typedef ShapedNeighborhoodIterator<OutputImageType>     NOutputIterator;
-
+  typedef typename OutputImageType::IndexType               OutIndexType;
+  typedef typename InputImageType::IndexType                InIndexType;
+  typedef ConstShapedNeighborhoodIterator< InputImageType > CNInputIterator;
+  typedef ShapedNeighborhoodIterator< OutputImageType >     NOutputIterator;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkReconstructionImageFilter.txx"
 #endif
-
 
 #endif

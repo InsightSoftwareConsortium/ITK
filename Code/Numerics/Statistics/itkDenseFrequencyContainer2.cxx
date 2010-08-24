@@ -16,9 +16,10 @@
 =========================================================================*/
 #include "itkDenseFrequencyContainer2.h"
 
-namespace itk{
-namespace Statistics{
-
+namespace itk
+{
+namespace Statistics
+{
 DenseFrequencyContainer2
 ::DenseFrequencyContainer2()
 {
@@ -38,7 +39,7 @@ void
 DenseFrequencyContainer2
 ::SetToZero()
 {
-  m_FrequencyContainer->Fill( NumericTraits< AbsoluteFrequencyType >::Zero );
+  m_FrequencyContainer->Fill(NumericTraits< AbsoluteFrequencyType >::Zero);
   m_TotalFrequency = NumericTraits< TotalAbsoluteFrequencyType >::Zero;
 }
 
@@ -46,13 +47,13 @@ bool
 DenseFrequencyContainer2
 ::SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
 {
-  if( id >= m_FrequencyContainer->Size() )
+  if ( id >= m_FrequencyContainer->Size() )
     {
     return false;
     }
   AbsoluteFrequencyType frequency = this->GetFrequency(id);
-  (*m_FrequencyContainer)[id] = value;
-  m_TotalFrequency += (value - frequency);
+  ( *m_FrequencyContainer )[id] = value;
+  m_TotalFrequency += ( value - frequency );
   return true;
 }
 
@@ -60,33 +61,32 @@ DenseFrequencyContainer2::AbsoluteFrequencyType
 DenseFrequencyContainer2
 ::GetFrequency(const InstanceIdentifier id) const
 {
-  if( id >= m_FrequencyContainer->Size() )
+  if ( id >= m_FrequencyContainer->Size() )
     {
     return NumericTraits< AbsoluteFrequencyType >::Zero;
     }
-  return (*m_FrequencyContainer)[id];
+  return ( *m_FrequencyContainer )[id];
 }
 
 bool
 DenseFrequencyContainer2
 ::IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
 {
-  if( id >= m_FrequencyContainer->Size() )
+  if ( id >= m_FrequencyContainer->Size() )
     {
     return false;
     }
   AbsoluteFrequencyType frequency = this->GetFrequency(id);
-  (*m_FrequencyContainer)[id] = frequency + value;
+  ( *m_FrequencyContainer )[id] = frequency + value;
   m_TotalFrequency += value;
   return true;
 }
 
 void
 DenseFrequencyContainer2
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 } // end of namespace Statistics
 } // end of namespace itk

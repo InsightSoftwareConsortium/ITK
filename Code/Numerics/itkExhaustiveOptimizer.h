@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,14 +21,13 @@
 
 namespace itk
 {
-  
 /** \class ExhaustiveOptimizer
  * \brief Optimizer that fully samples a grid on the parametric space.
  *
  * This optimizer is equivalent to an exahaustive search in a discrete grid
  * defined over the parametric space. The grid is centered on the initial
  * position. The subdivisions of the grid along each one of the dimensions
- * of the parametric space is defined by an array of number of steps. 
+ * of the parametric space is defined by an array of number of steps.
  *
  * A typical use is to plot the metric space to get an idea of how noisy it
  * is. An example is given below, where it is desired to plot the metric
@@ -37,7 +36,7 @@ namespace itk
  *     Here it is assumed that the transform is Euler3DTransform.
  *
  * \code
- * 
+ *
  * OptimizerType::StepsType steps( m_Transform->GetNumberOfParameters() );
  * steps[1] = 10;
  * steps[2] = 10;
@@ -47,7 +46,7 @@ namespace itk
  *
  * \endcode
  *
- * The optimizer throws IterationEvents after every iteration. We use this to plot 
+ * The optimizer throws IterationEvents after every iteration. We use this to plot
  * the metric space in an image as follows:
  *
  * \code
@@ -60,7 +59,7 @@ namespace itk
  *    index[2] = m_Optimizer->GetCurrentIndex()[2];
  *    image->SetPixel( index, m_Optimizer->GetCurrentValue() );
  *    }
- * 
+ *
  * \endcode
  *
  * The image size is expected to be 11 x 11 x 11.
@@ -77,75 +76,87 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT ExhaustiveOptimizer : 
-                    public SingleValuedNonLinearOptimizer
+class ITK_EXPORT ExhaustiveOptimizer:
+  public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
   typedef ExhaustiveOptimizer            Self;
   typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
-  
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
+
   typedef Array< unsigned long > StepsType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( ExhaustiveOptimizer, SingleValuedNonLinearOptimizer );
- 
-  virtual void    StartOptimization( void );
 
-  void StartWalking( void );
-  void ResumeWalking( void );
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
+
+  virtual void    StartOptimization(void);
+
+  void StartWalking(void);
+
+  void ResumeWalking(void);
+
   void StopWalking(void);
-  
-  itkSetMacro( StepLength, double );
-  itkSetMacro( NumberOfSteps, StepsType );
-  itkGetConstReferenceMacro( StepLength, double );
-  itkGetConstReferenceMacro( NumberOfSteps, StepsType );
-  itkGetConstReferenceMacro( CurrentValue, MeasureType );
-  itkGetConstReferenceMacro( MaximumMetricValue, MeasureType );
-  itkGetConstReferenceMacro( MinimumMetricValue, MeasureType );
-  itkGetConstReferenceMacro( MinimumMetricValuePosition, ParametersType );
-  itkGetConstReferenceMacro( MaximumMetricValuePosition, ParametersType );
-  itkGetConstReferenceMacro( CurrentIndex, ParametersType );
-  itkGetConstReferenceMacro( MaximumNumberOfIterations, unsigned long );
+
+  itkSetMacro(StepLength, double);
+  itkSetMacro(NumberOfSteps, StepsType);
+  itkGetConstReferenceMacro(StepLength, double);
+  itkGetConstReferenceMacro(NumberOfSteps, StepsType);
+  itkGetConstReferenceMacro(CurrentValue, MeasureType);
+  itkGetConstReferenceMacro(MaximumMetricValue, MeasureType);
+  itkGetConstReferenceMacro(MinimumMetricValue, MeasureType);
+  itkGetConstReferenceMacro(MinimumMetricValuePosition, ParametersType);
+  itkGetConstReferenceMacro(MaximumMetricValuePosition, ParametersType);
+  itkGetConstReferenceMacro(CurrentIndex, ParametersType);
+  itkGetConstReferenceMacro(MaximumNumberOfIterations, unsigned long);
 
   /** Get the reason for termination */
   const std::string GetStopConditionDescription() const;
 
 protected:
   ExhaustiveOptimizer();
-  virtual ~ExhaustiveOptimizer() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~ExhaustiveOptimizer() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Advance to the next grid position. */
-  void AdvanceOneStep( void );
-  void IncrementIndex( ParametersType & param );
+  void AdvanceOneStep(void);
 
-  
+  void IncrementIndex(ParametersType & param);
+
 protected:
-  MeasureType          m_CurrentValue;
-  StepsType            m_NumberOfSteps;
-  unsigned long        m_CurrentIteration;
-  bool                 m_Stop;
-  unsigned int         m_CurrentParameter;
-  double               m_StepLength; 
-  ParametersType       m_CurrentIndex;
-  unsigned long        m_MaximumNumberOfIterations;
-  MeasureType          m_MaximumMetricValue;
-  MeasureType          m_MinimumMetricValue;
-  ParametersType       m_MinimumMetricValuePosition;
-  ParametersType       m_MaximumMetricValuePosition;
-  
-private:  
-  ExhaustiveOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&);//purposely not implemented
+  MeasureType m_CurrentValue;
+
+  StepsType m_NumberOfSteps;
+
+  unsigned long m_CurrentIteration;
+
+  bool m_Stop;
+
+  unsigned int m_CurrentParameter;
+
+  double m_StepLength;
+
+  ParametersType m_CurrentIndex;
+
+  unsigned long m_MaximumNumberOfIterations;
+
+  MeasureType m_MaximumMetricValue;
+
+  MeasureType m_MinimumMetricValue;
+
+  ParametersType m_MinimumMetricValuePosition;
+
+  ParametersType m_MaximumMetricValuePosition;
+private:
+  //purposely not implemented
+  ExhaustiveOptimizer(const Self &);
+  void operator=(const Self &);
 
   std::ostringstream m_StopConditionDescription;
 };
-
 } // end namespace itk
 
 #endif

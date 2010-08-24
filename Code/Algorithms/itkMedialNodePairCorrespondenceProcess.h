@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,17 +33,16 @@
 
 namespace itk
 {
-  
 /** \class MedialNodePairCorrespondenceProcess
- * \brief This process takes as inputs two core atom images, the distance matrices 
- * of the two images, and the unary correspondence matrix between the two images 
- * in order to produce an itkCorrespondenceDataStructure containing 
+ * \brief This process takes as inputs two core atom images, the distance matrices
+ * of the two images, and the unary correspondence matrix between the two images
+ * in order to produce an itkCorrespondenceDataStructure containing
  * correspondences between pairs (node cliques of size 2) in the images.
  *
- * \ingroup 
+ * \ingroup
  */
 template< typename TSourceImage >
-class ITK_EXPORT MedialNodePairCorrespondenceProcess : public ProcessObject
+class ITK_EXPORT MedialNodePairCorrespondenceProcess:public ProcessObject
 {
 public:
   /** Number of dimensions */
@@ -52,8 +51,8 @@ public:
   /** Standard class typedefs */
   typedef MedialNodePairCorrespondenceProcess Self;
   typedef ProcessObject                       Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -67,90 +66,93 @@ public:
   /** Typedef for core atom image. */
   typedef TSourceImage                             CoreAtomImageType;
   typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType;
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType;
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for distance matrix. */
-  typedef MatrixResizeableDataObject<double>   DistanceMatrixType;
+  typedef MatrixResizeableDataObject< double > DistanceMatrixType;
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   /** Typedef for correspondence matrix */
-  typedef MatrixResizeableDataObject<double>         CorrespondenceMatrixType;
+  typedef MatrixResizeableDataObject< double >       CorrespondenceMatrixType;
   typedef typename CorrespondenceMatrixType::Pointer CorrespondenceMatrixPointer;
 
   /** Typedef for correspondence data structure. (output) */
-  typedef CorrespondingMedialNodeClique<itkGetStaticConstMacro(NDimensions),2> NodeType;
-  typedef CorrespondenceDataStructure<NodeType,2> DataStructureType;
-  typedef typename CorrespondenceDataStructure<NodeType,2>::Pointer DataStructurePointerType;
-  typedef CorrespondenceDataStructureIterator<DataStructureType> IteratorType;
+  typedef CorrespondingMedialNodeClique< itkGetStaticConstMacro(NDimensions), 2 > NodeType;
+  typedef CorrespondenceDataStructure< NodeType, 2 >                              DataStructureType;
+  typedef typename CorrespondenceDataStructure< NodeType, 2 >::Pointer            DataStructurePointerType;
+  typedef CorrespondenceDataStructureIterator< DataStructureType >                IteratorType;
 
   /** Typedef for binary node metric. */
-  typedef BinaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)> BinaryMetricType;
-  typedef typename BinaryMedialNodeMetric<itkGetStaticConstMacro(NDimensions)>::Pointer BinaryMetricPointer;
+  typedef BinaryMedialNodeMetric< itkGetStaticConstMacro(NDimensions) >                   BinaryMetricType;
+  typedef typename BinaryMedialNodeMetric< itkGetStaticConstMacro(NDimensions) >::Pointer BinaryMetricPointer;
 
   /** Typedef for medial nodes. */
-  typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
+  typedef BloxCoreAtomPixel< itkGetStaticConstMacro(NDimensions) > MedialNodeType;
 
   /** The type used to store the position of the BloxPixel. */
-  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
+  typedef Point< double, itkGetStaticConstMacro(NDimensions) > PositionType;
 
   /** Get the image output of this process object.  */
   DataStructureType * GetOutput(void);
+
   DataStructureType * GetOutput(unsigned int idx);
 
-  /* This is important to note...the inputs for this process are somewhat 
-     complicated, and there are a lot of them.  You need all 5 inputs for 
+  /* This is important to note...the inputs for this process are somewhat
+     complicated, and there are a lot of them.  You need all 5 inputs for
      this process to perform its task */
 
   /** Set the first core atom image. */
-  void SetCoreAtomImageA( const CoreAtomImageType * CoreAtomImageA );
+  void SetCoreAtomImageA(const CoreAtomImageType *CoreAtomImageA);
 
   /** Set the second core atom image. */
-  void SetCoreAtomImageB( const CoreAtomImageType * CoreAtomImageB );
+  void SetCoreAtomImageB(const CoreAtomImageType *CoreAtomImageB);
 
   /** Set the first distance matrix. */
-  void SetDistanceMatrixA( const DistanceMatrixType * DistanceMatrixA );
+  void SetDistanceMatrixA(const DistanceMatrixType *DistanceMatrixA);
 
   /** Set the second distance matrix. */
-  void SetDistanceMatrixB( const DistanceMatrixType * DistanceMatrixB );
+  void SetDistanceMatrixB(const DistanceMatrixType *DistanceMatrixB);
 
   /** Get number of node pairs. */
-  int GetNumberOfNodePairs() {return m_NumberOfNodePairs;}  
+  int GetNumberOfNodePairs() { return m_NumberOfNodePairs; }
 
   /** Get number of node basepairs. */
-  int GetNumberOfNodeBasePairs() {return m_NumberOfNodeBasePairs;}  
+  int GetNumberOfNodeBasePairs() { return m_NumberOfNodeBasePairs; }
 
   /** Set the correspondence matrix. */
-  void SetCorrespondenceMatrix( const CorrespondenceMatrixType * CorrespondenceMatrix );
+  void SetCorrespondenceMatrix(const CorrespondenceMatrixType *CorrespondenceMatrix);
 
-  virtual void Update() {this->GenerateData();}
+  virtual void Update() { this->GenerateData(); }
 
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:
   MedialNodePairCorrespondenceProcess();
-  virtual ~MedialNodePairCorrespondenceProcess(){} 
+  virtual ~MedialNodePairCorrespondenceProcess(){}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the Pair Correspondence Data Structure. */
   void GenerateData();
 
   /** Methods to get core atom images. */
   TSourceImage * GetCoreAtomImageA();
+
   TSourceImage * GetCoreAtomImageB();
 
   /** Methods to get distance matrices. */
   DistanceMatrixType * GetDistanceMatrixA();
+
   DistanceMatrixType * GetDistanceMatrixB();
 
   /** Method to get correspondence matrix. */
   CorrespondenceMatrixType * GetCorrespondenceMatrix();
 
 private:
-  MedialNodePairCorrespondenceProcess(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MedialNodePairCorrespondenceProcess(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 
   CoreAtomImagePointer m_CoreAtomImageA;
   CoreAtomImagePointer m_CoreAtomImageB;
@@ -169,9 +171,7 @@ private:
 
   int m_NumberOfNodePairs;
   int m_NumberOfNodeBasePairs;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

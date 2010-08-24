@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class ImageToPathFilter
  * \brief Base class for filters that take an image as input and produce an path as output.
  *
@@ -32,50 +31,49 @@ namespace itk
  *
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputPath>
-class ITK_EXPORT ImageToPathFilter : public PathSource<TOutputPath>
+template< class TInputImage, class TOutputPath >
+class ITK_EXPORT ImageToPathFilter:public PathSource< TOutputPath >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToPathFilter           Self;
-  typedef PathSource<TOutputPath>     Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
-  
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToPathFilter,PathSource);
+  typedef ImageToPathFilter          Self;
+  typedef PathSource< TOutputPath >  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageToPathFilter, PathSource);
+
   /** Some convenient typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType; 
-  typedef typename InputImageType::PixelType      InputImagePixelType; 
-  
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput( const InputImageType *image);
-  virtual void SetInput( unsigned int, const TInputImage * image);
-  const InputImageType * GetInput(void);
-  const InputImageType * GetInput(unsigned int idx);
+  virtual void SetInput(const InputImageType *image);
 
+  virtual void SetInput(unsigned int, const TInputImage *image);
+
+  const InputImageType * GetInput(void);
+
+  const InputImageType * GetInput(unsigned int idx);
 
 protected:
   ImageToPathFilter();
   ~ImageToPathFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ImageToPathFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageToPathFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

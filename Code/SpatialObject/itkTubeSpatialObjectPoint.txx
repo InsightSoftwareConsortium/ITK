@@ -9,8 +9,8 @@ Version: $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
- This software is distributed WITHOUT ANY WARRANTY; without even 
- the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+ This software is distributed WITHOUT ANY WARRANTY; without even
+ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
  PURPOSE.See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,14 +19,13 @@ See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
 #include "itkTubeSpatialObjectPoint.h"
 
-namespace itk 
+namespace itk
 {
-
 /** Constructor */
 template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
-::TubeSpatialObjectPoint( void ) 
-{ 
+::TubeSpatialObjectPoint(void)
+{
   m_NumDimensions = TPointDimension;
   m_T.Fill(0);
   m_Normal1.Fill(0);
@@ -37,50 +36,49 @@ TubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
-::~TubeSpatialObjectPoint( void ) 
-{
-}
+::~TubeSpatialObjectPoint(void)
+{}
 
 /** Get the radius */
 template< unsigned int TPointDimension >
-float 
+float
 TubeSpatialObjectPoint< TPointDimension >
-::GetRadius( void ) const 
+::GetRadius(void) const
 {
   return m_R;
 }
 
 /** Set the radius */
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetRadius( const float newR ) 
+::SetRadius(const float newR)
 {
   m_R = newR;
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType & 
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetTangent( void ) const
+::GetTangent(void) const
 {
   return m_T;
 }
 
 // n-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetTangent( const VectorType & newT ) 
+::SetTangent(const VectorType & newT)
 {
   m_T = newT;
 }
 
 // 3-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetTangent( const double t0, const double t1, const double t2 ) 
+::SetTangent(const double t0, const double t1, const double t2)
 {
   m_T[0] = t0;
   m_T[1] = t1;
@@ -89,9 +87,9 @@ TubeSpatialObjectPoint< TPointDimension >
 
 // 2-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetTangent( const double t0, const double t1 ) 
+::SetTangent(const double t0, const double t1)
 {
   m_T[0] = t0;
   m_T[1] = t1;
@@ -107,18 +105,18 @@ TubeSpatialObjectPoint< TPointDimension >
 
 // n-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1( const CovariantVectorType & newV1 ) 
+::SetNormal1(const CovariantVectorType & newV1)
 {
   m_Normal1 = newV1;
 }
 
 // 3-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1( const double v10, const double v11, const double v12 ) 
+::SetNormal1(const double v10, const double v11, const double v12)
 {
   m_Normal1[0] = v10;
   m_Normal1[1] = v11;
@@ -127,9 +125,9 @@ TubeSpatialObjectPoint< TPointDimension >
 
 // 2-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1( const double v10, const double v11 ) 
+::SetNormal1(const double v10, const double v11)
 {
   m_Normal1[0] = v10;
   m_Normal1[1] = v11;
@@ -143,21 +141,20 @@ TubeSpatialObjectPoint< TPointDimension >
   return m_Normal2;
 }
 
-
 // n-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2( const CovariantVectorType & newV2 ) 
+::SetNormal2(const CovariantVectorType & newV2)
 {
   m_Normal2 = newV2;
 }
 
 // 3-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2( const double v20, const double v21, const double v22 ) 
+::SetNormal2(const double v20, const double v21, const double v22)
 {
   m_Normal2[0] = v20;
   m_Normal2[1] = v21;
@@ -166,9 +163,9 @@ TubeSpatialObjectPoint< TPointDimension >
 
 // 2-D case
 template< unsigned int TPointDimension >
-void 
+void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2( const double v20, const double v21 ) 
+::SetNormal2(const double v20, const double v21)
 {
   m_Normal2[0] = v20;
   m_Normal2[1] = v21;
@@ -177,7 +174,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 unsigned short int
 TubeSpatialObjectPoint< TPointDimension >
-::GetNumDimensions( void ) const
+::GetNumDimensions(void) const
 {
   return m_NumDimensions;
 }
@@ -185,9 +182,9 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::PrintSelf( std::ostream & os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "#Dims: " << m_NumDimensions << std::endl;
   os << indent << "R: " << m_R << std::endl;
   os << indent << "X: " << this->m_X << std::endl;
@@ -196,11 +193,10 @@ TubeSpatialObjectPoint< TPointDimension >
   os << indent << "Normal2: " << m_Normal2 << std::endl;
 }
 
-
 template< unsigned int TPointDimension >
-typename TubeSpatialObjectPoint< TPointDimension >::Self & 
+typename TubeSpatialObjectPoint< TPointDimension >::Self &
 TubeSpatialObjectPoint< TPointDimension >
-::operator=(const TubeSpatialObjectPoint & rhs) 
+::operator=(const TubeSpatialObjectPoint & rhs)
 {
   this->m_ID = rhs.m_ID;
   m_R = rhs.m_R;
@@ -210,9 +206,8 @@ TubeSpatialObjectPoint< TPointDimension >
   m_Normal1 = rhs.m_Normal1;
   m_Normal2 = rhs.m_Normal2;
   this->m_Color = rhs.m_Color;
-  return * this;
+  return *this;
 }
-
 } // end namespace itk
 
 #endif

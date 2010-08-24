@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor.
  */
@@ -30,13 +29,19 @@ template< typename TSourceImage >
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::CoreAtomImageToUnaryCorrespondenceMatrixProcess()
 {
-  itkDebugMacro(<< "itkCoreAtomImageToUnaryCorrespondenceMatrixProcess::itkCoreAtomImageToUnaryCorrespondenceMatrixProcess() called");
+  itkDebugMacro(
+    <<
+    "itkCoreAtomImageToUnaryCorrespondenceMatrixProcess::itkCoreAtomImageToUnaryCorrespondenceMatrixProcess() called");
 
   // Setting the output.
   CorrespondenceMatrixPointer output;
-  output = static_cast<typename CoreAtomImageToUnaryCorrespondenceMatrixProcess::CorrespondenceMatrixType*>(this->MakeOutput(0).GetPointer());
+  output =
+    static_cast< typename CoreAtomImageToUnaryCorrespondenceMatrixProcess::CorrespondenceMatrixType * >( this->
+                                                                                                         MakeOutput(
+                                                                                                           0).
+                                                                                                         GetPointer() );
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 
   // Initialize unary metric object.
   //m_Metric = UnaryMetricType::New();
@@ -53,51 +58,51 @@ typename CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >::DataOb
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::MakeOutput(unsigned int)
 {
-  return static_cast<DataObject*>(CorrespondenceMatrixType::New().GetPointer());
+  return static_cast< DataObject * >( CorrespondenceMatrixType::New().GetPointer() );
 }
 
 /**
  * GetOutput.
  */
 template< typename TSourceImage >
-typename CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >::CorrespondenceMatrixType*
+typename CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >::CorrespondenceMatrixType *
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 ::GetOutput()
 {
-  if (this->GetNumberOfOutputs() < 1)
+  if ( this->GetNumberOfOutputs() < 1 )
     {
     return 0;
     }
-  
+
   return static_cast< CorrespondenceMatrixType * >
-                     (this->ProcessObject::GetOutput(0));
+         ( this->ProcessObject::GetOutput(0) );
 }
 
 /**
- * 
+ *
  */
 template< typename TSourceImage >
 void
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
-::SetInput1(const TSourceImage * image1 ) 
+::SetInput1(const TSourceImage *image1)
 {
   itkDebugMacro(<< "CoreAtomImageToUnaryCorrespondenceMatrixProcess: Setting first core atom image input")
 
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(1,  const_cast<TSourceImage *>( image1 ) );
+  SetNthInput( 1,  const_cast< TSourceImage * >( image1 ) );
 }
 
 /**
- * 
+ *
  */
 template< typename TSourceImage >
 void
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
-::SetInput2(const TSourceImage * image2 ) 
+::SetInput2(const TSourceImage *image2)
 {
   itkDebugMacro(<< "CoreAtomImageToUnaryCorrespondenceMatrixProcess: Setting second core atom image input")
   // Process object is not const-correct so the const casting is required.
-  SetNthInput(0, const_cast<TSourceImage *>( image2 ) );
+  SetNthInput( 0, const_cast< TSourceImage * >( image2 ) );
 }
 
 /**
@@ -106,10 +111,10 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 template< typename TSourceImage >
 TSourceImage *
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
-::GetInput1() 
+::GetInput1()
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(this->GetNthInput(0));
+  return const_cast< TSourceImage * >( this->GetNthInput(0) );
 }
 
 /**
@@ -118,10 +123,10 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 template< typename TSourceImage >
 TSourceImage *
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
-::GetInput2() 
+::GetInput2()
 {
   // Process object is not const-correct so the const casting is required.
-  return const_cast<TSourceImage *>(this->GetNthInput(1));
+  return const_cast< TSourceImage * >( this->GetNthInput(1) );
 }
 
 /**
@@ -137,14 +142,14 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
   m_Metric = UnaryMetricType::New();
 
   // Pointers to the input core atom images, output matrix object.
-  m_CoreAtomImageA = dynamic_cast<CoreAtomImageType*>(ProcessObject::GetInput(0));
-  m_CoreAtomImageB = dynamic_cast<CoreAtomImageType*>(ProcessObject::GetInput(1));
-  m_CorrespondenceMatrix = dynamic_cast<CorrespondenceMatrixType*>(ProcessObject::GetOutput(0));
+  m_CoreAtomImageA = dynamic_cast< CoreAtomImageType * >( ProcessObject::GetInput(0) );
+  m_CoreAtomImageB = dynamic_cast< CoreAtomImageType * >( ProcessObject::GetInput(1) );
+  m_CorrespondenceMatrix = dynamic_cast< CorrespondenceMatrixType * >( ProcessObject::GetOutput(0) );
 
   m_Rows = m_CoreAtomImageA->GetMedialNodeCount();
   m_Columns = m_CoreAtomImageB->GetMedialNodeCount();
 
-  if(m_CorrespondenceMatrix->set_size(m_Rows,m_Columns))
+  if ( m_CorrespondenceMatrix->set_size(m_Rows, m_Columns) )
     {
     itkDebugMacro(<< "m_CorrespondenceMatrix resized successfully");
     }
@@ -154,66 +159,69 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
     }
 
   // Here we iterate through all of the core atoms and get their metric values.
-    
+
   // Create iterators that will walk the blox core atom images.
-  typedef itk::ImageRegionIterator<CoreAtomImageType> BloxIterator;
+  typedef itk::ImageRegionIterator< CoreAtomImageType > BloxIterator;
 
-  BloxIterator bloxItA = BloxIterator(m_CoreAtomImageA,
-                                      m_CoreAtomImageA->GetRequestedRegion() );
+  BloxIterator bloxItA = BloxIterator( m_CoreAtomImageA,
+                                       m_CoreAtomImageA->GetRequestedRegion() );
 
-  BloxIterator bloxItB = BloxIterator(m_CoreAtomImageB,
-                                      m_CoreAtomImageB->GetRequestedRegion() );
+  BloxIterator bloxItB = BloxIterator( m_CoreAtomImageB,
+                                       m_CoreAtomImageB->GetRequestedRegion() );
 
-  int counterA = 0;
-  int counterB = 0;
+  int    counterA = 0;
+  int    counterB = 0;
   double MetricValue;
 
-  // Initialize necessary components to write-out a PNG image of correspondance matrix.  
+  // Initialize necessary components to write-out a PNG image of correspondance
+  // matrix.
   // The image only gets created is the flag is set.
-    typedef unsigned char CorrespondencePixelType;  
-    typedef Image<CorrespondencePixelType, 2>  CorrespondenceImageType;
+  typedef unsigned char                       CorrespondencePixelType;
+  typedef Image< CorrespondencePixelType, 2 > CorrespondenceImageType;
 
-    CorrespondenceImageType::IndexType pixelIndex;
-    CorrespondenceImageType::SizeType size;
-    size[0] = m_Rows;  
-    size[1] = m_Columns;
-  
-    CorrespondenceImageType::RegionType region;
-    CorrespondenceImageType::IndexType  index;
-    index.Fill(0);
-    region.SetIndex( index );
-    region.SetSize(size);
+  CorrespondenceImageType::IndexType pixelIndex;
+  CorrespondenceImageType::SizeType  size;
+  size[0] = m_Rows;
+  size[1] = m_Columns;
 
-    CorrespondenceImageType::Pointer CorrespondenceImage;
-    CorrespondenceImage = CorrespondenceImageType::New();
+  CorrespondenceImageType::RegionType region;
+  CorrespondenceImageType::IndexType  index;
+  index.Fill(0);
+  region.SetIndex(index);
+  region.SetSize(size);
 
-    CorrespondenceImage->SetRegions( region );
-    CorrespondenceImage->Allocate();
-    CorrespondenceImage->FillBuffer(0);
+  CorrespondenceImageType::Pointer CorrespondenceImage;
+  CorrespondenceImage = CorrespondenceImageType::New();
 
-    typedef ImageFileWriter<CorrespondenceImageType> FileWriterType;
-    FileWriterType::Pointer imageWriter;
-    imageWriter = FileWriterType::New();
+  CorrespondenceImage->SetRegions(region);
+  CorrespondenceImage->Allocate();
+  CorrespondenceImage->FillBuffer(0);
 
-    PNGImageIO::Pointer io;
-    io = PNGImageIO::New();
+  typedef ImageFileWriter< CorrespondenceImageType > FileWriterType;
+  FileWriterType::Pointer imageWriter;
+  imageWriter = FileWriterType::New();
+
+  PNGImageIO::Pointer io;
+  io = PNGImageIO::New();
 
   // Iterate through nodes in m_CoreAtomImageA (rows).
-  for ( bloxItA.GoToBegin(); !bloxItA.IsAtEnd(); ++bloxItA)
+  for ( bloxItA.GoToBegin(); !bloxItA.IsAtEnd(); ++bloxItA )
     {
-    MedialNodeType* pPixelA = &bloxItA.Value();
+    MedialNodeType *pPixelA = &bloxItA.Value();
 
-    if( pPixelA->empty() )
+    if ( pPixelA->empty() )
       {
       continue;
       }
 
     // Iterate through nodes in m_CoreAtomImageB (columns)
-    for ( bloxItB.GoToBegin(); !bloxItB.IsAtEnd(); ++bloxItB) //iterate through nodes in m_MedialWindowA
+    for ( bloxItB.GoToBegin(); !bloxItB.IsAtEnd(); ++bloxItB ) //iterate through
+                                                               // nodes in
+                                                               // m_MedialWindowA
       {
-      MedialNodeType* pPixelB = &bloxItB.Value();
+      MedialNodeType *pPixelB = &bloxItB.Value();
 
-      if( pPixelB->empty() )
+      if ( pPixelB->empty() )
         {
         continue;
         }
@@ -229,10 +237,12 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
       pixelIndex[0] = counterA;
       pixelIndex[1] = counterB;
 
-      if(m_OutputPNG)
+      if ( m_OutputPNG )
         {
-        CorrespondenceImage->SetPixel(pixelIndex, 
-                  static_cast<CorrespondencePixelType>(100*m_CorrespondenceMatrix->get(counterA,counterB)) );
+        CorrespondenceImage->SetPixel( pixelIndex,
+                                       static_cast< CorrespondencePixelType >( 100
+                                                                               * m_CorrespondenceMatrix->get(counterA,
+                                                                                                             counterB) ) );
         }
 
       counterB++;
@@ -242,7 +252,7 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
     }
 
   // Write voting PNG image.
-  if(m_OutputPNG)
+  if ( m_OutputPNG )
     {
     std::cerr << "WROTE CORRESPONDANCE IMAGE TO CorrespondenceImage1.png" << std::endl;
     imageWriter->SetInput(CorrespondenceImage);
@@ -259,13 +269,12 @@ CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
 template< typename TSourceImage >
 void
 CoreAtomImageToUnaryCorrespondenceMatrixProcess< TSourceImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Columns: " << this->GetColumns() << std::endl;
   os << indent << "Rows: " << this->GetRows() << std::endl;
 }
-
 } // end namespace
 
 #endif

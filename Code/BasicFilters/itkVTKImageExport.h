@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class VTKImageExport
  * \brief Connect the end of an ITK image pipeline to a VTK pipeline.
  *
@@ -48,18 +47,18 @@ namespace itk
  * \ingroup IOFilters
  * \sa VTKImageExportBase
  */
-template <class TInputImage>
-class ITK_EXPORT VTKImageExport: public VTKImageExportBase
+template< class TInputImage >
+class ITK_EXPORT VTKImageExport:public VTKImageExportBase
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageExport            Self;
-  typedef VTKImageExportBase        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VTKImageExport             Self;
+  typedef VTKImageExportBase         Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VTKImageExport,VTKImageExportBase);
+  itkTypeMacro(VTKImageExport, VTKImageExportBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,48 +67,56 @@ public:
   typedef TInputImage InputImageType;
 
   /** Set the input image of this image exporter. */
-  void SetInput(const InputImageType*);
+  void SetInput(const InputImageType *);
 
 protected:
   VTKImageExport();
   ~VTKImageExport() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;  
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   typedef typename InputImageType::Pointer    InputImagePointer;
   typedef typename InputImageType::RegionType InputRegionType;
   typedef typename InputRegionType::SizeType  InputSizeType;
   typedef typename InputRegionType::IndexType InputIndexType;
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension );
-  
+                      InputImageType::ImageDimension);
+
   InputImageType * GetInput(void);
-  
-  int* WholeExtentCallback();
-  double* SpacingCallback();
-  double* OriginCallback();
-  float* FloatSpacingCallback();
-  float* FloatOriginCallback();
-  const char* ScalarTypeCallback();
+
+  int * WholeExtentCallback();
+
+  double * SpacingCallback();
+
+  double * OriginCallback();
+
+  float * FloatSpacingCallback();
+
+  float * FloatOriginCallback();
+
+  const char * ScalarTypeCallback();
+
   int NumberOfComponentsCallback();
-  void PropagateUpdateExtentCallback(int*);
-  int* DataExtentCallback();
-  void* BufferPointerCallback();
-  
+
+  void PropagateUpdateExtentCallback(int *);
+
+  int * DataExtentCallback();
+
+  void * BufferPointerCallback();
+
 private:
-  VTKImageExport(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VTKImageExport(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   std::string m_ScalarTypeName;
-  int m_WholeExtent[6];
-  int m_DataExtent[6];
-  double m_DataSpacing[3];
-  double m_DataOrigin[3];
-  float m_FloatDataSpacing[3];
-  float m_FloatDataOrigin[3];
+  int         m_WholeExtent[6];
+  int         m_DataExtent[6];
+  double      m_DataSpacing[3];
+  double      m_DataOrigin[3];
+  float       m_FloatDataSpacing[3];
+  float       m_FloatDataOrigin[3];
 };
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVTKImageExport.txx"
 #endif

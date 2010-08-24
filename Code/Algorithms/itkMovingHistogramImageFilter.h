@@ -21,8 +21,8 @@
 
 //#define zigzag
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class MovingHistogramImageFilter
  * \brief Implements a generic moving histogram algorithm
@@ -86,16 +86,16 @@ namespace itk {
  * \author Richard Beare
  */
 
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram >
-class ITK_EXPORT MovingHistogramImageFilter :
-    public MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+class ITK_EXPORT MovingHistogramImageFilter:
+  public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef MovingHistogramImageFilter Self;
-  typedef MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MovingHistogramImageFilter                                           Self;
+  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef SmartPointer< Self >                                                 Pointer;
+  typedef SmartPointer< const Self >                                           ConstPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -105,41 +105,40 @@ public:
                MovingHistogramImageFilter);
 
   /** Image related typedefs. */
-  typedef TInputImage                                 InputImageType;
-  typedef TOutputImage                                OutputImageType;
-  typedef typename TInputImage::RegionType            RegionType;
-  typedef typename TInputImage::SizeType              SizeType;
-  typedef typename TInputImage::IndexType             IndexType;
-  typedef typename TInputImage::PixelType             PixelType;
-  typedef typename TInputImage::OffsetType            OffsetType;
-  typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
-  typedef typename TOutputImage::PixelType            OutputPixelType;
+  typedef TInputImage                                InputImageType;
+  typedef TOutputImage                               OutputImageType;
+  typedef typename TInputImage::RegionType           RegionType;
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef typename TInputImage::IndexType            IndexType;
+  typedef typename TInputImage::PixelType            PixelType;
+  typedef typename TInputImage::OffsetType           OffsetType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  typedef typename TOutputImage::PixelType           OutputPixelType;
 
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Kernel typedef. */
-  typedef TKernel                                     KernelType;
+  typedef TKernel KernelType;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator          KernelIteratorType;
+  typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType               RadiusType;
+  typedef typename KernelType::SizeType RadiusType;
 
-  typedef typename std::list< OffsetType >            OffsetListType;
+  typedef typename std::list< OffsetType > OffsetListType;
 
-  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >          OffsetMapType;
-
+  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 protected:
   MovingHistogramImageFilter();
-  ~MovingHistogramImageFilter() {};
+  ~MovingHistogramImageFilter() {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const OutputImageRegionType&
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const OutputImageRegionType &
+                             outputRegionForThread,
+                             int threadId);
 
   /** NewHistogram must return an histogram object. It's also the good place to
    * pass parameters to the histogram.
@@ -152,24 +151,21 @@ protected:
   // declare the type used to store the histogram
   typedef THistogram HistogramType;
 
-  void PushHistogram(HistogramType * histogram,
-         const OffsetListType* addedList,
-         const OffsetListType* removedList,
-         const RegionType &inputRegion,
-         const RegionType &kernRegion,
-         const InputImageType* inputImage,
-         const IndexType currentIdx);
+  void PushHistogram(HistogramType *histogram,
+                     const OffsetListType *addedList,
+                     const OffsetListType *removedList,
+                     const RegionType & inputRegion,
+                     const RegionType & kernRegion,
+                     const InputImageType *inputImage,
+                     const IndexType currentIdx);
 
-  void PrintHistogram(const HistogramType &H);
+  void PrintHistogram(const HistogramType & H);
 
 #endif
-
 private:
-  MovingHistogramImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  MovingHistogramImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
+};                                          // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

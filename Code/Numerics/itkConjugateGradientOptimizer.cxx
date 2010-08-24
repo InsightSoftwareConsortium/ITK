@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -32,7 +31,6 @@ ConjugateGradientOptimizer
   m_VnlOptimizer            = 0;
 }
 
-
 /**
  * Destructor
  */
@@ -42,13 +40,12 @@ ConjugateGradientOptimizer
   delete m_VnlOptimizer;
 }
 
-
 /**
  * Get the Optimizer
  */
-vnl_conjugate_gradient * 
+vnl_conjugate_gradient *
 ConjugateGradientOptimizer
-::GetOptimizer( void ) 
+::GetOptimizer(void)
 {
   return m_VnlOptimizer;
 }
@@ -58,27 +55,25 @@ ConjugateGradientOptimizer
  */
 void
 ConjugateGradientOptimizer
-::SetCostFunction( SingleValuedCostFunction * costFunction )
+::SetCostFunction(SingleValuedCostFunction *costFunction)
 {
-
-  const unsigned int numberOfParameters = 
+  const unsigned int numberOfParameters =
     costFunction->GetNumberOfParameters();
 
-  CostFunctionAdaptorType * adaptor = 
-    new CostFunctionAdaptorType( numberOfParameters );
-       
-  adaptor->SetCostFunction( costFunction );
+  CostFunctionAdaptorType *adaptor =
+    new CostFunctionAdaptorType(numberOfParameters);
 
-  if( m_OptimizerInitialized )
-    { 
+  adaptor->SetCostFunction(costFunction);
+
+  if ( m_OptimizerInitialized )
+    {
     delete m_VnlOptimizer;
     }
-    
-  this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_conjugate_gradient( *adaptor );
+  this->SetCostFunctionAdaptor(adaptor);
+
+  m_VnlOptimizer = new vnl_conjugate_gradient(*adaptor);
   m_OptimizerInitialized = true;
-
 }
 
 /** Return Current Value */
@@ -87,15 +82,16 @@ ConjugateGradientOptimizer
 ::GetValue() const
 {
   ParametersType parameters = this->GetCurrentPosition();
-  if(m_ScalesInitialized)
+
+  if ( m_ScalesInitialized )
     {
     const ScalesType scales = this->GetScales();
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] *= scales[i]; 
+      parameters[i] *= scales[i];
       }
     }
-  return this->GetNonConstCostFunctionAdaptor()->f( parameters );
+  return this->GetNonConstCostFunctionAdaptor()->f(parameters);
 }
 
 /**
@@ -103,11 +99,11 @@ ConjugateGradientOptimizer
  */
 void
 ConjugateGradientOptimizer
-::StartOptimization( void )
+::StartOptimization(void)
 {
   this->InvokeEvent( StartEvent() );
 
-  if( this->GetMaximize() )
+  if ( this->GetMaximize() )
     {
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
     }
@@ -120,62 +116,57 @@ ConjugateGradientOptimizer
   // for computation speed.
   // We also scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
-  // and at the end of this function.  
-  if(m_ScalesInitialized)
+  // and at the end of this function.
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] *= scales[i]; 
+      parameters[i] *= scales[i];
       }
     }
-  
 
-  // vnl optimizers return the solution by reference 
+  // vnl optimizers return the solution by reference
   // in the variable provided as initial position
-  m_VnlOptimizer->minimize( parameters );
-  
+  m_VnlOptimizer->minimize(parameters);
+
   // we scale the parameters down if scales are defined
-  if(m_ScalesInitialized)
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] /= scales[i]; 
+      parameters[i] /= scales[i];
       }
     }
 
-  this->SetCurrentPosition( parameters );
-    
-  this->InvokeEvent( EndEvent() );
-    
-}
+  this->SetCurrentPosition(parameters);
 
+  this->InvokeEvent( EndEvent() );
+}
 
 /**
  * Get the maximum number of evaluations of the function.
  * In vnl this is used instead of a maximum number of iterations
  * given that an iteration could imply several evaluations.
  */
-unsigned long 
+unsigned long
 ConjugateGradientOptimizer
-::GetNumberOfIterations( void ) const
+::GetNumberOfIterations(void) const
 {
   return m_VnlOptimizer->get_max_function_evals();
 }
 
-
 /**
  * Get the number of iterations in the last optimization.
  */
-unsigned long 
+unsigned long
 ConjugateGradientOptimizer
-::GetCurrentIteration( void ) const
+::GetCurrentIteration(void) const
 {
   return m_VnlOptimizer->get_num_iterations();
 }
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,12 +20,12 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkLevelSetMotionRegistrationFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class LevelSetMotionRegistrationFilter
  * \brief Deformably register two images using level set motion.
  *
- * LevelSetMotionFilter implements a deformable registration algorithm that 
+ * LevelSetMotionFilter implements a deformable registration algorithm that
  * aligns a fixed and a moving image under level set motion. The
  * equations of motion are similar to those of the
  * DemonsRegistrationFilter. The main differences are:
@@ -48,9 +48,9 @@ namespace itk {
  *    be proportional to the gradients, scaled by the maximum gradient
  *    over the entire field. The pixel with at the lower gradient
  *    position will more less than the pixel at the higher gradient
- *    position. 
+ *    position.
  *    (3) Gradients are calculated using minmod finite difference
- *    instead of using central differences. 
+ *    instead of using central differences.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of
@@ -80,46 +80,45 @@ namespace itk {
  * Ref: B.C. Vemuri, J. Ye, Y. Chen, C.M. Leonard. "Image
  * registration via level-set motion: applications to atlas-based
  * segmentation". Medical Image Analysis. Vol. 7. pp. 1-20. 2003.
- * 
+ *
  * \sa LevelSetMotionRegistrationFunction
  * \sa DemonsRegistrationFilter
  * \ingroup DeformableImageRegistration MultiThreaded
  */
-template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT LevelSetMotionRegistrationFilter : 
-    public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                            TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+class ITK_EXPORT LevelSetMotionRegistrationFilter:
+  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
+                                          TDeformationField >
 {
 public:
   /** Standard class typedefs. */
-  typedef LevelSetMotionRegistrationFilter       Self;
-  typedef PDEDeformableRegistrationFilter<
-    TFixedImage, TMovingImage,TDeformationField> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  typedef LevelSetMotionRegistrationFilter                                                Self;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef SmartPointer< Self >                                                            Pointer;
+  typedef SmartPointer< const Self >                                                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LevelSetMotionRegistrationFilter, 
-                PDEDeformableRegistrationFilter );
+  itkTypeMacro(LevelSetMotionRegistrationFilter,
+               PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  typedef typename Superclass::TimeStepType  TimeStepType;
+  typedef typename Superclass::TimeStepType TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType     FixedImageType;
-  typedef typename Superclass::FixedImagePointer  FixedImagePointer;
+  typedef typename Superclass::FixedImageType    FixedImageType;
+  typedef typename Superclass::FixedImagePointer FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType     MovingImageType;
-  typedef typename Superclass::MovingImagePointer  MovingImagePointer;
-  
+  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType 
+  typedef typename Superclass::DeformationFieldType
   DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer  
+  typedef typename Superclass::DeformationFieldPointer
   DeformationFieldPointer;
 
   /** FiniteDifferenceFunction type. */
@@ -127,13 +126,13 @@ public:
   FiniteDifferenceFunctionType;
 
   /** LevelSetMotionFilterFunction type. */
-  typedef LevelSetMotionRegistrationFunction<FixedImageType,MovingImageType,
-                            DeformationFieldType>  LevelSetMotionFunctionType;
-  
-  /** Get the metric value. The metric value is the mean square difference 
-   * in intensity between the fixed image and transforming moving image 
-   * computed over the the overlapping region between the two images. 
-   * This is value is only available for the previous iteration and 
+  typedef LevelSetMotionRegistrationFunction< FixedImageType, MovingImageType,
+                                              DeformationFieldType >  LevelSetMotionFunctionType;
+
+  /** Get the metric value. The metric value is the mean square difference
+   * in intensity between the fixed image and transforming moving image
+   * computed over the the overlapping region between the two images.
+   * This is value is only available for the previous iteration and
    * NOT the current iteration. */
   virtual double GetMetric() const;
 
@@ -144,6 +143,7 @@ public:
    * intensity dynamic range, for instance 0.04%. Default is the
    * absolute (not percentage) value of 0.1. */
   virtual void SetAlpha(double);
+
   virtual double GetAlpha() const;
 
   /** Set/Get the threshold below which the absolute difference of
@@ -151,11 +151,13 @@ public:
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
   virtual void SetIntensityDifferenceThreshold(double);
+
   virtual double GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the threshold below which the gradient magnitude is
    * considered the zero vector. Default is 1e-9. */
   virtual void SetGradientMagnitudeThreshold(double);
+
   virtual double GetGradientMagnitudeThreshold() const;
 
   /** Set/Get the standard deviation used for smoothing the moving
@@ -170,13 +172,14 @@ public:
    * not done by default in LevelSetMotionRegistration. This smoothing
    * parameter is to condition the gradient calculation and parameter
    * is specified in physical units. */
-  virtual void SetGradientSmoothingStandardDeviations( double sigma );
+  virtual void SetGradientSmoothingStandardDeviations(double sigma);
+
   virtual double GetGradientSmoothingStandardDeviations() const;
-  
+
 protected:
   LevelSetMotionRegistrationFilter();
   ~LevelSetMotionRegistrationFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();
@@ -191,12 +194,9 @@ protected:
   virtual bool Halt();
 
 private:
-  LevelSetMotionRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  LevelSetMotionRegistrationFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

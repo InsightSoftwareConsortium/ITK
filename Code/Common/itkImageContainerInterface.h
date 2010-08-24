@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class ImageContainerInterface
  * This should only be used for reference when writing containers
  * conforming to this interface.  ITK uses generic programming to
@@ -49,49 +48,47 @@ namespace itk
  *
  * \ingroup ImageObjects
  */
-template <typename TElementIdentifier, typename TElement>
-class ITK_EXPORT ImageContainerInterface: public Object
+template< typename TElementIdentifier, typename TElement >
+class ITK_EXPORT ImageContainerInterface:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageContainerInterface       Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef ImageContainerInterface    Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(ImageContainerInterface, Object);
 
   /** Save the template parameters. */
-  typedef TElementIdentifier  ElementIdentifier;
-  typedef TElement            Element;
+  typedef TElementIdentifier ElementIdentifier;
+  typedef TElement           Element;
 
   /** Index operator. This version can be an lvalue. */
-  virtual TElement & operator[](const ElementIdentifier)=0;
+  virtual TElement & operator[](const ElementIdentifier) = 0;
 
   /** Index operator. This version can only be an rvalue */
-  virtual const TElement & operator[](const ElementIdentifier) const =0;
+  virtual const TElement & operator[](const ElementIdentifier) const = 0;
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  virtual TElement *GetBufferPointer()=0;
+  virtual TElement * GetBufferPointer() = 0;
 
   /** Get the number of elements currently stored in the container. */
-  virtual unsigned long Size(void) const =0;
+  virtual unsigned long Size(void) const = 0;
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
    * guaranteed to actually allocate any memory, but is useful if the
    * implementation of the container allocates contiguous storage. */
-  virtual void Reserve(ElementIdentifier)=0;
+  virtual void Reserve(ElementIdentifier) = 0;
 
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
-  virtual void Squeeze(void)=0;
-
+  virtual void Squeeze(void) = 0;
 };
-
 } // end namespace itk
 
 #endif

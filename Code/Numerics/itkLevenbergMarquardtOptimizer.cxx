@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -35,7 +34,6 @@ LevenbergMarquardtOptimizer
   m_GradientTolerance       = 1e-5;
   m_EpsilonFunction         = 1e-11;
 }
-
 
 /**
  * Destructor
@@ -51,32 +49,31 @@ LevenbergMarquardtOptimizer
  */
 void
 LevenbergMarquardtOptimizer
-::SetCostFunction( MultipleValuedCostFunction * costFunction )
+::SetCostFunction(MultipleValuedCostFunction *costFunction)
 {
   const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
   const unsigned int numberOfValues = costFunction->GetNumberOfValues();
 
-  CostFunctionAdaptorType * adaptor = 
-    new CostFunctionAdaptorType( numberOfParameters, numberOfValues );
-       
-  adaptor->SetCostFunction( costFunction );
+  CostFunctionAdaptorType *adaptor =
+    new CostFunctionAdaptorType(numberOfParameters, numberOfValues);
 
-  if( m_OptimizerInitialized )
-    { 
+  adaptor->SetCostFunction(costFunction);
+
+  if ( m_OptimizerInitialized )
+    {
     delete m_VnlOptimizer;
     }
-    
-  this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer = new vnl_levenberg_marquardt( *adaptor );
- 
+  this->SetCostFunctionAdaptor(adaptor);
+
+  m_VnlOptimizer = new vnl_levenberg_marquardt(*adaptor);
+
   this->SetNumberOfIterations(m_NumberOfIterations);
   this->SetValueTolerance(m_ValueTolerance);
   this->SetGradientTolerance(m_GradientTolerance);
   this->SetEpsilonFunction(m_EpsilonFunction);
 
   m_OptimizerInitialized = true;
-
 }
 
 /** Return Current Value */
@@ -84,149 +81,141 @@ LevenbergMarquardtOptimizer::MeasureType
 LevenbergMarquardtOptimizer
 ::GetValue() const
 {
+  MeasureType measures;
 
-  MeasureType  measures;
-
-  const CostFunctionAdaptorType * adaptor = 
+  const CostFunctionAdaptorType *adaptor =
     this->GetCostFunctionAdaptor();
-  if( adaptor )
+
+  if ( adaptor )
     {
-    const MultipleValuedCostFunction * costFunction = 
+    const MultipleValuedCostFunction *costFunction =
       adaptor->GetCostFunction();
-    if( costFunction )
+    if ( costFunction )
       {
-      const unsigned int numberOfValues = 
+      const unsigned int numberOfValues =
         costFunction->GetNumberOfValues();
-      measures.SetSize( numberOfValues );
+      measures.SetSize(numberOfValues);
       ParametersType parameters = this->GetCurrentPosition();
-      if(m_ScalesInitialized)
+      if ( m_ScalesInitialized )
         {
         const ScalesType scales = this->GetScales();
-        for(unsigned int i=0;i<parameters.size();i++)
+        for ( unsigned int i = 0; i < parameters.size(); i++ )
           {
-          parameters[i] *= scales[i]; 
+          parameters[i] *= scales[i];
           }
         }
-      this->GetNonConstCostFunctionAdaptor()->f(parameters,measures);
+      this->GetNonConstCostFunctionAdaptor()->f(parameters, measures);
       }
     }
   return measures;
 }
-
 
 /**
  * Start the optimization
  */
 void
 LevenbergMarquardtOptimizer
-::StartOptimization( void )
-{ 
+::StartOptimization(void)
+{
   this->InvokeEvent( StartEvent() );
 
   ParametersType initialPosition = GetInitialPosition();
 
-  ParametersType parameters( initialPosition );
+  ParametersType parameters(initialPosition);
 
   // If the user provides the scales then we set otherwise we don't
   // for computation speed.
   // We also scale the initial parameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
-  // and at the end of this function.  
-  if(m_ScalesInitialized)
+  // and at the end of this function.
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] *= scales[i]; 
+      parameters[i] *= scales[i];
       }
     }
-  
-  if( this->GetCostFunctionAdaptor()->GetUseGradient() )
+
+  if ( this->GetCostFunctionAdaptor()->GetUseGradient() )
     {
-    m_VnlOptimizer->minimize_using_gradient( parameters );
+    m_VnlOptimizer->minimize_using_gradient(parameters);
     }
   else
     {
-    m_VnlOptimizer->minimize_without_gradient( parameters );
+    m_VnlOptimizer->minimize_without_gradient(parameters);
     }
 
   // we scale the parameters down if scales are defined
-  if(m_ScalesInitialized)
+  if ( m_ScalesInitialized )
     {
     ScalesType scales = this->GetScales();
-    for(unsigned int i=0;i<parameters.size();i++)
+    for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] /= scales[i]; 
+      parameters[i] /= scales[i];
       }
     }
 
   this->SetCurrentPosition(parameters);
-      
+
   this->InvokeEvent( EndEvent() );
-  
 }
 
 /** Set the maximum number of iterations */
-void 
+void
 LevenbergMarquardtOptimizer
 ::SetNumberOfIterations(unsigned int iterations)
 {
-  if(m_VnlOptimizer)
-    { 
+  if ( m_VnlOptimizer )
+    {
     m_VnlOptimizer->set_max_function_evals(iterations);
     }
 
   m_NumberOfIterations = iterations;
 }
 
-
 /** Set the maximum number of iterations */
-void 
+void
 LevenbergMarquardtOptimizer
 ::SetValueTolerance(double tol)
 {
-  if(m_VnlOptimizer)
-    { 
+  if ( m_VnlOptimizer )
+    {
     m_VnlOptimizer->set_x_tolerance(tol);
     }
 
   m_ValueTolerance = tol;
 }
 
-
 /** Set Gradient Tolerance */
-void 
+void
 LevenbergMarquardtOptimizer
 ::SetGradientTolerance(double tol)
 {
-  if(m_VnlOptimizer)
-    { 
+  if ( m_VnlOptimizer )
+    {
     m_VnlOptimizer->set_g_tolerance(tol);
     }
 
   m_GradientTolerance = tol;
-
 }
 
-
 /** Set Epsilon function */
-void 
+void
 LevenbergMarquardtOptimizer
 ::SetEpsilonFunction(double epsilon)
 {
-  if(m_VnlOptimizer)
-    { 
+  if ( m_VnlOptimizer )
+    {
     m_VnlOptimizer->set_epsilon_function(epsilon);
     }
 
   m_EpsilonFunction = epsilon;
-
 }
 
-
 /** Get the Optimizer */
-vnl_levenberg_marquardt * 
+vnl_levenberg_marquardt *
 LevenbergMarquardtOptimizer
 ::GetOptimizer() const
 {
@@ -238,15 +227,15 @@ LevenbergMarquardtOptimizer
 ::GetStopConditionDescription() const
 {
   std::ostringstream reason, outcome;
+
   outcome.str("");
-  if (GetOptimizer())
+  if ( GetOptimizer() )
     {
     GetOptimizer()->diagnose_outcome(outcome);
     }
-  reason << this->GetNameOfClass() << ": " << (outcome.str().size() > 0) ? outcome.str().c_str() : "";
+  reason << this->GetNameOfClass() << ": " << ( outcome.str().size() > 0 ) ? outcome.str().c_str() : "";
   return reason.str();
 }
-
 } // end namespace itk
 
 #endif

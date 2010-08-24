@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,73 +24,71 @@
 #include "itkAutoPointer.h"
 #include "itkArray.h"
 
-
 // Define a macro for CellInterface sub-classes to use
 // to define the Accept and GetTopologyId virtuals used
 // by the MultiVisitor class
-#define itkCellVisitMacro(TopologyId) \
-static int GetTopologyId() {return TopologyId;}\
-virtual void Accept(unsigned long cellid, typename CellInterface<PixelType,\
-                                               CellTraits>::MultiVisitor* mv)\
-{\
-  typename CellInterfaceVisitor<PixelType, CellTraits>::Pointer v = \
-                                           mv->GetVisitor(TopologyId);\
-  if(v)\
-    {\
-    v->VisitFromCell(cellid, this);\
-    }\
-}
+#define itkCellVisitMacro(TopologyId)                                                                \
+  static int GetTopologyId()                                                                         \
+    {                                                                                                \
+    return TopologyId;                                                                               \
+    }                                                                                                \
+  virtual void Accept(unsigned long cellid, typename CellInterface< PixelType,                       \
+                                                                    CellTraits >::MultiVisitor * mv) \
+    {                                                                                                \
+    typename CellInterfaceVisitor< PixelType, CellTraits >::Pointer v =                              \
+      mv->GetVisitor(TopologyId);                                                                    \
+    if ( v )                                                                                         \
+      {                                                                                              \
+      v->VisitFromCell(cellid, this);                                                                \
+      }                                                                                              \
+    }
 
-
-// Define a macro for the common typedefs required by the 
+// Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (included).
-// This wouldn't be necessary if SGI compilers 
+// This wouldn't be necessary if SGI compilers
 // were able to inherit types.
-#define itkCellCommonTypedefs( celltype ) \
-  typedef celltype                  Self;   \
-  typedef AutoPointer<const Self>   ConstSelfAutoPointer;  \
-  typedef AutoPointer<Self>         SelfAutoPointer;   \
-  typedef Self *                    RawPointer;        \
-  typedef const Self *              ConstRawPointer
+#define itkCellCommonTypedefs(celltype)                   \
+  typedef celltype                  Self;                 \
+  typedef AutoPointer< const Self > ConstSelfAutoPointer; \
+  typedef AutoPointer< Self >       SelfAutoPointer;      \
+  typedef Self *                    RawPointer;           \
+  typedef const Self *ConstRawPointer
 
-
-// Define a macro for the common typedefs required by the 
+// Define a macro for the common typedefs required by the
 // classes deriving form CellInterface (excluded).
-// This wouldn't be necessary if SGI compilers 
+// This wouldn't be necessary if SGI compilers
 // were able to inherit types.
-#define itkCellInheritedTypedefs( superclassArg ) \
-  typedef superclassArg                                Superclass; \
-  typedef typename Superclass::PixelType               PixelType;  \
-  typedef typename Superclass::CellType                CellType;  \
-  typedef typename Superclass::CellAutoPointer         CellAutoPointer;  \
-  typedef typename Superclass::CellConstAutoPointer    CellConstAutoPointer;  \
-  typedef typename Superclass::CellRawPointer          CellRawPointer;  \
-  typedef typename Superclass::CellConstRawPointer     CellConstRawPointer;  \
-  typedef typename Superclass::CellTraits              CellTraits;  \
-  typedef typename Superclass::CoordRepType            CoordRepType;  \
-  typedef typename Superclass::InterpolationWeightType \
-                                                     InterpolationWeightType; \
-  typedef typename Superclass::PointIdentifier         PointIdentifier; \
-  typedef typename Superclass::PointIdIterator         PointIdIterator; \
-  typedef typename Superclass::PointIdConstIterator    PointIdConstIterator; \
-  typedef typename Superclass::CellIdentifier          CellIdentifier; \
-  typedef typename Superclass::CellFeatureIdentifier   CellFeatureIdentifier; \
-  typedef typename Superclass::CellFeatureIdentifier   CellFeatureCount; \
-  typedef typename Superclass::PointType               PointType; \
-  typedef typename Superclass::VectorType              VectorType; \
-  typedef typename Superclass::PointsContainer         PointsContainer; \
-  typedef typename Superclass::UsingCellsContainer     UsingCellsContainer; \
-  typedef typename Superclass::CellGeometry            CellGeometry;  \
-  typedef typename Superclass::ParametricCoordArrayType  \
-                                                  ParametricCoordArrayType;  \
-  typedef typename Superclass::ShapeFunctionsArrayType   \
-                                                   ShapeFunctionsArrayType;  \
+#define itkCellInheritedTypedefs(superclassArg)                             \
+  typedef superclassArg                             Superclass;             \
+  typedef typename Superclass::PixelType            PixelType;              \
+  typedef typename Superclass::CellType             CellType;               \
+  typedef typename Superclass::CellAutoPointer      CellAutoPointer;        \
+  typedef typename Superclass::CellConstAutoPointer CellConstAutoPointer;   \
+  typedef typename Superclass::CellRawPointer       CellRawPointer;         \
+  typedef typename Superclass::CellConstRawPointer  CellConstRawPointer;    \
+  typedef typename Superclass::CellTraits           CellTraits;             \
+  typedef typename Superclass::CoordRepType         CoordRepType;           \
+  typedef typename Superclass::InterpolationWeightType                      \
+  InterpolationWeightType;                                                  \
+  typedef typename Superclass::PointIdentifier       PointIdentifier;       \
+  typedef typename Superclass::PointIdIterator       PointIdIterator;       \
+  typedef typename Superclass::PointIdConstIterator  PointIdConstIterator;  \
+  typedef typename Superclass::CellIdentifier        CellIdentifier;        \
+  typedef typename Superclass::CellFeatureIdentifier CellFeatureIdentifier; \
+  typedef typename Superclass::CellFeatureIdentifier CellFeatureCount;      \
+  typedef typename Superclass::PointType             PointType;             \
+  typedef typename Superclass::VectorType            VectorType;            \
+  typedef typename Superclass::PointsContainer       PointsContainer;       \
+  typedef typename Superclass::UsingCellsContainer   UsingCellsContainer;   \
+  typedef typename Superclass::CellGeometry          CellGeometry;          \
+  typedef typename Superclass::ParametricCoordArrayType                     \
+  ParametricCoordArrayType;                                                 \
+  typedef typename Superclass::ShapeFunctionsArrayType                      \
+  ShapeFunctionsArrayType;                                                  \
   itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension)
- 
 
 namespace itk
 {
-
 /** \class CellInterface
  * Define an abstract interface for cells.  Actual cell types derive from
  * this class.
@@ -103,7 +101,7 @@ namespace itk
  *
  * \ingroup MeshObjects
  */
-template <
+template<
   typename TPixelType,
   typename TCellTraits
   >
@@ -114,11 +112,11 @@ public:
   /** Standard class typedefs. */
   itkCellCommonTypedefs(CellInterface);
 
-   /** Save the PixelType template parameter. */
-  typedef TPixelType                                PixelType;
-  
+  /** Save the PixelType template parameter. */
+  typedef TPixelType PixelType;
+
   /** Save the CellTraits template parameter. */
-  typedef TCellTraits                                 CellTraits;
+  typedef TCellTraits CellTraits;
 
   /** Save type information for this cell. */
   typedef typename CellTraits::CoordRepType            CoordRepType;
@@ -133,173 +131,174 @@ public:
   typedef typename CellTraits::UsingCellsContainer     UsingCellsContainer;
 
   ///NOTE: it should normally be defined in the traits
-  typedef typename PointType::VectorType               VectorType;
-    
+  typedef typename PointType::VectorType VectorType;
+
   /** Save the dimension from the template parameters. */
-  itkStaticConstMacro(PointDimension, unsigned int,CellTraits::PointDimension);
+  itkStaticConstMacro(PointDimension, unsigned int, CellTraits::PointDimension);
 
   /** An iterator through the UsingCellsContainer. */
-  typedef typename UsingCellsContainer::iterator  UsingCellsContainerIterator;
+  typedef typename UsingCellsContainer::iterator UsingCellsContainerIterator;
 
   /** Give this and all derived classes quick access to the base cell type. */
-  typedef CellInterface         CellType;
-  typedef SelfAutoPointer       CellAutoPointer;
-  typedef ConstSelfAutoPointer  CellConstAutoPointer;
-  typedef RawPointer            CellRawPointer;
-  typedef ConstRawPointer       CellConstRawPointer;
-  
+  typedef CellInterface        CellType;
+  typedef SelfAutoPointer      CellAutoPointer;
+  typedef ConstSelfAutoPointer CellConstAutoPointer;
+  typedef RawPointer           CellRawPointer;
+  typedef ConstRawPointer      CellConstRawPointer;
+
   /** A useful rename. */
-  typedef CellFeatureIdentifier  CellFeatureCount;
+  typedef CellFeatureIdentifier CellFeatureCount;
 
   /**  Cell Visitor interfaces */
-  enum CellGeometry {VERTEX_CELL=0, LINE_CELL, TRIANGLE_CELL, 
-        QUADRILATERAL_CELL, POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL, 
-        QUADRATIC_EDGE_CELL, QUADRATIC_TRIANGLE_CELL,
-        LAST_ITK_CELL, MAX_ITK_CELLS=255};
+  enum CellGeometry { VERTEX_CELL = 0, LINE_CELL, TRIANGLE_CELL,
+                      QUADRILATERAL_CELL, POLYGON_CELL, TETRAHEDRON_CELL, HEXAHEDRON_CELL,
+                      QUADRATIC_EDGE_CELL, QUADRATIC_TRIANGLE_CELL,
+                      LAST_ITK_CELL, MAX_ITK_CELLS = 255 };
 
   /** Types needed to contour the cells */
-  typedef Array<CoordRepType>                 ParametricCoordArrayType;
-  typedef Array<InterpolationWeightType>      ShapeFunctionsArrayType;
+  typedef Array< CoordRepType >            ParametricCoordArrayType;
+  typedef Array< InterpolationWeightType > ShapeFunctionsArrayType;
 
 //  static int GetNextUserCellId(); // never return > MAX_INTERFACE
 
-  /** \class MultiVisitor 
+  /** \class MultiVisitor
    * \brief A visitor that can visit different cell types in a mesh.
    * CellInterfaceVisitor instances can be registered for each
    * type of cell that needs to be visited.
    *
    * \ingroup MeshAccess */
-  class MultiVisitor : public LightObject
-    {
-    public:
+  class MultiVisitor:public LightObject
+  {
+public:
     /**  Visitor type, because VisualC++ 6.0 does not like
      *  Visitor being a nested type of CellInterfaceVisitor   */
-    typedef CellInterfaceVisitor<TPixelType, TCellTraits> VisitorType;
+    typedef CellInterfaceVisitor< TPixelType, TCellTraits > VisitorType;
 
     /** Standard class typedefs.   */
-    typedef MultiVisitor        Self;
-    typedef SmartPointer<Self>  Pointer;
-      
+    typedef MultiVisitor         Self;
+    typedef SmartPointer< Self > Pointer;
+
     /** Method for creation through the object factory.   */
     //itkNewMacro(Self);
-    static  Pointer New(void) { Pointer smartPtr = new Self; smartPtr->UnRegister(); return smartPtr;}
-  
-    /** Run-time type information (and related methods).   */
-    itkTypeMacro(MultiVisitor,LightObject);
-  
-    /** Typedefs for the visitor class.   */
-    typedef typename VisitorType::Pointer       VisitorPointer;
-    typedef typename std::map<int, VisitorPointer>::value_type 
-                                                VisitorPointerValueType;
+    static Pointer New(void) { Pointer smartPtr = new Self; smartPtr->UnRegister(); return smartPtr; }
 
-  public:
+    /** Run-time type information (and related methods).   */
+    itkTypeMacro(MultiVisitor, LightObject);
+
+    /** Typedefs for the visitor class.   */
+    typedef typename VisitorType::Pointer VisitorPointer;
+    typedef typename std::map< int, VisitorPointer >::value_type
+    VisitorPointerValueType;
+public:
     VisitorType * GetVisitor(int id)
-      {
-      if(id <= LAST_ITK_CELL)
+    {
+      if ( id <= LAST_ITK_CELL )
         {
         return m_Visitors[id];
         }
       else
         {
-        typename std::map<int, ITK_TYPENAME VisitorType::Pointer>::iterator
-            pos = m_UserDefined.find(id);
-        if(pos != m_UserDefined.end())
+        typename std::map< int, ITK_TYPENAME VisitorType::Pointer >::iterator
+        pos = m_UserDefined.find(id);
+        if ( pos != m_UserDefined.end() )
           {
-          return (*pos).second;
+          return ( *pos ).second;
           }
         }
-        return 0;
-      }
+      return 0;
+    }
 
-    void AddVisitor(VisitorType* v)
-      {
+    void AddVisitor(VisitorType *v)
+    {
       int id = v->GetCellTopologyId();
-      if(id <= LAST_ITK_CELL)
+
+      if ( id <= LAST_ITK_CELL )
         {
         m_Visitors[id] = v;
         }
       else
         {
-        m_UserDefined.insert(VisitorPointerValueType(id,v));
+        m_UserDefined.insert( VisitorPointerValueType(id, v) );
         }
-      }
-    virtual ~MultiVisitor() {}
+    }
 
-  protected:
-    VisitorPointer m_Visitors[LAST_ITK_CELL]; // fixed array set to the size 
-                                              // from the enum
-    std::map<int,VisitorPointer> m_UserDefined; // user defined cell types 
-                                                // go here
+    virtual ~MultiVisitor() {}
+protected:
+    VisitorPointer m_Visitors[LAST_ITK_CELL];      // fixed array set to the
+                                                   // size
+                                                   // from the enum
+    std::map< int, VisitorPointer > m_UserDefined; // user defined cell types
+                                                   // go here
   };
 
   /** This must be implemented by all sub-classes of CellInterface */
-  virtual void Accept(unsigned long cellId, MultiVisitor*)= 0; 
-  
-  /**  Return the type of the cell (one of the CellGeometry enums 
+  virtual void Accept(unsigned long cellId, MultiVisitor *) = 0;
+
+  /**  Return the type of the cell (one of the CellGeometry enums
    *   listed above). */
-  virtual CellGeometry GetType(void) const =0;
+  virtual CellGeometry GetType(void) const = 0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can
    * be made without knowing the cell type. */
-  virtual void MakeCopy( CellAutoPointer & ) const = 0;
-  
+  virtual void MakeCopy(CellAutoPointer &) const = 0;
+
   /** Get the topological dimension of this cell. */
-  virtual unsigned int GetDimension(void) const=0;
+  virtual unsigned int GetDimension(void) const = 0;
 
   /** Get the interpolation order of the cell.  Usually linear. */
   virtual unsigned int GetInterpolationOrder(void) const;
-  
+
   /** Get the number of points required to define the cell. */
-  virtual unsigned int GetNumberOfPoints(void) const=0;
-  
+  virtual unsigned int GetNumberOfPoints(void) const = 0;
+
   /** Get the number of boundary features of a given dimension on this cell. */
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const =0;
-  
+  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const = 0;
+
   /** Get the boundary feature corresponding to the given dimension and Id. */
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, 
-                                                        CellAutoPointer & )=0;
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,
+                                  CellAutoPointer &) = 0;
 
   /** Get the point id list used by the cell in a form suitable to pass to
    * SetPointIds(first) on another cell.  This is equivalent to
    * PointIdsBegin() const. */
   virtual PointIdConstIterator GetPointIds(void) const;
-  
+
   /** Set the point id list used by the cell.  It is assumed that the given
-   * iterator can be incremented and safely de-referenced enough times to 
+   * iterator can be incremented and safely de-referenced enough times to
    * get all the point ids needed by the cell. */
-  virtual void SetPointIds(PointIdConstIterator first)=0;
-  
+  virtual void SetPointIds(PointIdConstIterator first) = 0;
+
   /** Set the point id list used by the cell.  It is assumed that the range
    * of iterators [first, last) contains the correct number of points needed to
    * define the cell.  The position *last is NOT referenced, so it can safely
    * be one beyond the end of an array or other container. */
   virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last)=0;
-  
-  /** Set the point identifier for a given spot in the point list 
+                           PointIdConstIterator last) = 0;
+
+  /** Set the point identifier for a given spot in the point list
    *  for the cell. */
-  virtual void SetPointId(int localId, PointIdentifier)=0;
-  
+  virtual void SetPointId(int localId, PointIdentifier) = 0;
+
   /** Get a begin iterator to the list of point identifiers used by the cell. */
-  virtual PointIdIterator PointIdsBegin(void)=0;
+  virtual PointIdIterator PointIdsBegin(void) = 0;
 
   /** Get a const begin iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator PointIdsBegin(void) const =0;
+  virtual PointIdConstIterator PointIdsBegin(void) const = 0;
 
   /** Get an end iterator to the list of point identifiers used by the cell. */
-  virtual PointIdIterator PointIdsEnd(void)=0;
+  virtual PointIdIterator PointIdsEnd(void) = 0;
 
   /** Get a const end iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator PointIdsEnd(void) const =0;
+  virtual PointIdConstIterator PointIdsEnd(void) const = 0;
 
   /** Given the parametric coordinates of a point in the cell
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not
    * NULL, the flag is set to indicate whether the point is inside the cell. */
-  virtual bool GetClosestBoundary(CoordRepType [], bool* , CellAutoPointer &) 
-    {return false;}
+  virtual bool GetClosestBoundary(CoordRepType[], bool *, CellAutoPointer &)
+  { return false; }
 
   /** Given the geometric coordinates of a point (coord[PointDimension]),
    * return whether it is inside the cell.  Also perform the following
@@ -317,20 +316,20 @@ public:
    *
    *  - Get the interpolation weights for the cell
    *     (Returns through pointer to array: weights[NumberOfPoints]). */
-  virtual bool EvaluatePosition(CoordRepType* ,
-                                PointsContainer* ,
-                                CoordRepType* ,
-                                CoordRepType [],
+  virtual bool EvaluatePosition(CoordRepType *,
+                                PointsContainer *,
+                                CoordRepType *,
+                                CoordRepType[],
                                 double *,
-                                InterpolationWeightType*)
-    {return bool();}
-  
+                                InterpolationWeightType *)
+  { return bool(); }
+
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions
    *  returned through an itkArray<InterpolationWeightType>).  */
-  virtual void EvaluateShapeFunctions( 
-                          const ParametricCoordArrayType &,
-                                ShapeFunctionsArrayType  &) const {}
+  virtual void EvaluateShapeFunctions(
+    const ParametricCoordArrayType &,
+    ShapeFunctionsArrayType  &) const {}
 
   /** Intersect the cell with a line given by an origin (origin[PointDimension])
    * and direction (direction[PointDimension]).  The intersection point
@@ -347,21 +346,21 @@ public:
    *     (returned through pointer to array: pCoords[CellDimension]).
    *
    * Returns whether an intersection exists within the given tolerance. */
-  virtual bool IntersectWithLine(CoordRepType [PointDimension],
-                                 CoordRepType [PointDimension],
-                                 CoordRepType ,
-                                 CoordRepType [PointDimension],
-                                 CoordRepType*,
-                                 CoordRepType []) {return bool();}
-  
+  virtual bool IntersectWithLine(CoordRepType[PointDimension],
+                                 CoordRepType[PointDimension],
+                                 CoordRepType,
+                                 CoordRepType[PointDimension],
+                                 CoordRepType *,
+                                 CoordRepType[]) { return bool(); }
+
   /** Compute cell bounding box and store in the user-provided array.
    * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
    * array is returned for convenience.  This allows code like:
    * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
-  CoordRepType* GetBoundingBox(CoordRepType [PointDimension*2]) {return NULL;}
+  CoordRepType * GetBoundingBox(CoordRepType[PointDimension * 2]) { return NULL; }
 
   /** Compute the square of the diagonal length of the bounding box. */
-  CoordRepType GetBoundingBoxDiagonalLength2(void) {return NULL;}
+  CoordRepType GetBoundingBoxDiagonalLength2(void) { return NULL; }
 
   /** Intersect the given bounding box (bounds[PointDimension*2]) with a line
    * given by an origin (origin[PointDimension]) and direction
@@ -375,12 +374,12 @@ public:
    *     (returned through "t" pointer).
    *
    * Returns whether an intersection exists. */
-  virtual bool IntersectBoundingBoxWithLine(CoordRepType [PointDimension*2],
-                                            CoordRepType [PointDimension],
-                                            CoordRepType [PointDimension],
-                                            CoordRepType [PointDimension],
-                                            CoordRepType* ) {return bool();}
-  
+  virtual bool IntersectBoundingBoxWithLine(CoordRepType[PointDimension * 2],
+                                            CoordRepType[PointDimension],
+                                            CoordRepType[PointDimension],
+                                            CoordRepType[PointDimension],
+                                            CoordRepType *) { return bool(); }
+
   /** Interface to the boundary form of the cell to set/get UsingCells.
    * See the boundary wrapper source for more information. */
 
@@ -411,7 +410,7 @@ public:
    */
   virtual unsigned int GetNumberOfUsingCells(void);
 
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   /**
    * Get a begin iterator for the UsingCellsContainer.
    */
@@ -421,11 +420,11 @@ public:
    * Get an end iterator for the UsingCellsContainer.
    */
   virtual UsingCellsContainerIterator UsingCellsEnd(void);
+
 #endif
 
   /** Standard part of every itk Object. */
   itkTypeMacro(CellInterface, LightObject);
-
 public:
   CellInterface() {}
   virtual ~CellInterface() {}
@@ -433,16 +432,13 @@ public:
 
   /** Get the geometric position of a point. */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
-
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
-
 private:
-  CellInterface(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented  
+  CellInterface(const Self &);  //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 
 /** \class CellTraitsInfo
  * \brief A simple utility class to define the cell type inside a mesh type
@@ -455,43 +451,43 @@ private:
  typedef itkMakeCellTraitsMacro  CellTraits;
  \endverbatim
  *
- * itkMakeCellTraitsMacro is a macro front-end to automatically fill in the 
- * template parameters for the CellTraitsInfo structure inside a mesh 
+ * itkMakeCellTraitsMacro is a macro front-end to automatically fill in the
+ * template parameters for the CellTraitsInfo structure inside a mesh
  * type structure definition.
  *
  * \ingroup MeshObjects
  */
-template <int VPointDimension, typename TCoordRep,
-  typename TInterpolationWeight, typename TPointIdentifier,
-  typename TCellIdentifier, typename TCellFeatureIdentifier,
-  typename TPoint, typename TPointsContainer,
-  typename TUsingCellsContainer>
+template< int VPointDimension, typename TCoordRep,
+          typename TInterpolationWeight, typename TPointIdentifier,
+          typename TCellIdentifier, typename TCellFeatureIdentifier,
+          typename TPoint, typename TPointsContainer,
+          typename TUsingCellsContainer >
 class CellTraitsInfo
 {
 public:
   itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
-  typedef TCoordRep               CoordRepType;
-  typedef TInterpolationWeight    InterpolationWeightType;
-  typedef TPointIdentifier        PointIdentifier;
-  typedef TCellIdentifier         CellIdentifier;
-  typedef TCellFeatureIdentifier  CellFeatureIdentifier;
-  typedef TPoint                  PointType;
-  typedef TPointsContainer        PointsContainer;
-  typedef TUsingCellsContainer    UsingCellsContainer;
-  typedef PointIdentifier*        PointIdIterator;
-  typedef const PointIdentifier*  PointIdConstIterator;  
+  typedef TCoordRep              CoordRepType;
+  typedef TInterpolationWeight   InterpolationWeightType;
+  typedef TPointIdentifier       PointIdentifier;
+  typedef TCellIdentifier        CellIdentifier;
+  typedef TCellFeatureIdentifier CellFeatureIdentifier;
+  typedef TPoint                 PointType;
+  typedef TPointsContainer       PointsContainer;
+  typedef TUsingCellsContainer   UsingCellsContainer;
+  typedef PointIdentifier *      PointIdIterator;
+
+  typedef const PointIdentifier *PointIdConstIterator;
 };
 
-#define itkMakeCellTraitsMacro \
-  CellTraitsInfo<itkGetStaticConstMacro(PointDimension), CoordRepType, \
-               InterpolationWeightType,  \
-               PointIdentifier, CellIdentifier, CellFeatureIdentifier, \
-               PointType, PointsContainer, UsingCellsContainer>
-
+#define itkMakeCellTraitsMacro                                           \
+  CellTraitsInfo < itkGetStaticConstMacro(PointDimension), CoordRepType, \
+  InterpolationWeightType,                                               \
+  PointIdentifier, CellIdentifier, CellFeatureIdentifier,                \
+  PointType, PointsContainer, UsingCellsContainer >
 } // end namespace itk
 
-#if !defined(CABLE_CONFIGURATION)
-# ifndef ITK_MANUAL_INSTANTIATION
+#if !defined( CABLE_CONFIGURATION )
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCellInterface.txx"
 #endif
 #endif

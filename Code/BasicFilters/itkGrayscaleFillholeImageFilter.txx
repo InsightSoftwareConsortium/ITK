@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,51 +26,49 @@
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
-::GrayscaleFillholeImageFilter()
-  : m_NumberOfIterationsUsed( 1 )
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
+::GrayscaleFillholeImageFilter():
+  m_NumberOfIterationsUsed(1)
 {
   m_FullyConnected = false;
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
+  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  if ( input )
     {
     input->SetRequestedRegion( input->GetLargestPossibleRegion() );
     }
 }
 
-
-template <class TInputImage, class TOutputImage>
-void 
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
+GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
-  
+
   // construct a marker image to manipulate using reconstruction by
   // erosion. the marker image will have the same pixel values as the
   // input image on the boundary of the image and will have the
@@ -79,8 +77,8 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   //
 
   // compute the maximum pixel value in the input
-  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
-    = MinimumMaximumImageCalculator<TInputImage>::New();
+  typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
+    MinimumMaximumImageCalculator< TInputImage >::New();
   calculator->SetImage( this->GetInput() );
   calculator->ComputeMaximum();
 
@@ -94,16 +92,16 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
-  markerPtr->FillBuffer( maxValue );
+  markerPtr->FillBuffer(maxValue);
 
   // copy the borders of the input image to the marker image
   //
-  ImageRegionExclusionConstIteratorWithIndex<TInputImage>
-    inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion());
+  ImageRegionExclusionConstIteratorWithIndex< TInputImage >
+  inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion() );
   inputBoundaryIt.SetExclusionRegionToInsetRegion();
 
-  ImageRegionExclusionIteratorWithIndex<TInputImage>
-    markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
+  ImageRegionExclusionIteratorWithIndex< TInputImage >
+  markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
   markerBoundaryIt.SetExclusionRegionToInsetRegion();
 
   // copy the boundary pixels
@@ -115,25 +113,24 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
     ++markerBoundaryIt;
     ++inputBoundaryIt;
     }
-    
-  
+
   // Delegate to a geodesic erosion filter.
   //
   //
-  typename ReconstructionByErosionImageFilter<TInputImage, TInputImage>::Pointer
-    erode
-    = ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
+  typename ReconstructionByErosionImageFilter< TInputImage, TInputImage >::Pointer
+  erode =
+    ReconstructionByErosionImageFilter< TInputImage, TInputImage >::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter(erode,1.0f);
+  progress->RegisterInternalFilter(erode, 1.0f);
 
   // set up the erode filter
   //erode->RunOneIterationOff();             // run to convergence
-  erode->SetMarkerImage( markerPtr );
+  erode->SetMarkerImage(markerPtr);
   erode->SetMaskImage( this->GetInput() );
-  erode->SetFullyConnected( m_FullyConnected );
+  erode->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the erode filter to force the proper regions
   // to be generated
@@ -148,11 +145,10 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
   this->GraftOutput( erode->GetOutput() );
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -160,6 +156,5 @@ GrayscaleFillholeImageFilter<TInputImage, TOutputImage>
      << m_NumberOfIterationsUsed << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
-  
-}// end namespace itk
+} // end namespace itk
 #endif

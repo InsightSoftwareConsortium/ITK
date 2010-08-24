@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class CheckerBoardImageFilter
  * \brief Combines two images in a checkerboard pattern.
  *
@@ -30,22 +29,22 @@ namespace itk
  * size by combinining the pixels from the two input images in a checkerboard
  * pattern. This filter is commonly used for visually comparing two images, in
  * particular for evaluating the results of an image registration process.
- * 
- * This filter is implemented as a multithreaded filter.  It provides a 
+ *
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
-template <class TImage>
+template< class TImage >
 class ITK_EXPORT CheckerBoardImageFilter:
-    public ImageToImageFilter<TImage, TImage>
+  public ImageToImageFilter< TImage, TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef CheckerBoardImageFilter            Self;
-  typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef CheckerBoardImageFilter              Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   typedef TImage                                InputImageType;
   typedef TImage                                OutputImageType;
@@ -54,7 +53,7 @@ public:
   typedef typename OutputImageType::RegionType  ImageRegionType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CheckerBoardImageFilter, ImageToImageFilter);
@@ -64,23 +63,22 @@ public:
                       TImage::ImageDimension);
 
   /** Type to hold the number of checker boxes per dimension */
-  typedef FixedArray< unsigned int, 
-      ::itk::GetImageDimension<TImage>::ImageDimension >  PatternArrayType;
-  
-  /** Connect one of the operands for checker board */
-  void SetInput1( const TImage * image1);
+  typedef FixedArray< unsigned int,
+                      ::itk::GetImageDimension< TImage >::ImageDimension >  PatternArrayType;
 
   /** Connect one of the operands for checker board */
-  void SetInput2( const TImage * image2);
+  void SetInput1(const TImage *image1);
+
+  /** Connect one of the operands for checker board */
+  void SetInput2(const TImage *image2);
 
   /** Set array with number of checks to make per image dimension */
-  itkSetMacro( CheckerPattern, PatternArrayType );
-  itkGetConstReferenceMacro( CheckerPattern, PatternArrayType );
-
+  itkSetMacro(CheckerPattern, PatternArrayType);
+  itkGetConstReferenceMacro(CheckerPattern, PatternArrayType);
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -90,21 +88,19 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const ImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const ImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  CheckerBoardImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CheckerBoardImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
-  PatternArrayType  m_CheckerPattern;
+  PatternArrayType m_CheckerPattern;
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCheckerBoardImageFilter.txx"
 #endif
-  
+
 #endif

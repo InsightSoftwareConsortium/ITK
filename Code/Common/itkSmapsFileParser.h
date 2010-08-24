@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,9 +27,8 @@
 #include <istream>
 #include <iostream>
 
-namespace itk {
-
-
+namespace itk
+{
 /** \class MapRecord
  * \brief MapRecord class.
  *
@@ -38,7 +37,7 @@ namespace itk {
 class ITKCommon_EXPORT MapRecord
 {
 public:
-  typedef unsigned int  MemoryLoadType;
+  typedef unsigned int MemoryLoadType;
   virtual ~MapRecord();
   /** Reset the record
   */
@@ -46,23 +45,22 @@ public:
 
   /** Optional record name
   */
-  std::string  m_RecordName;
+  std::string m_RecordName;
 
-  /** Contains a list of token with the associated memory allocated, tokens 
-   *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean, 
+  /** Contains a list of token with the associated memory allocated, tokens
+   *  could be typically: Size, Rss, Shared_Clean, Shared_Dirty, Private_Clean,
    *  Private_Dirty, Referenced.
    */
-  std::map<std::string, MemoryLoadType> m_Tokens;
-
+  std::map< std::string, MemoryLoadType > m_Tokens;
 };
 
-/** \class SmapsRecord 
- * This struct contains an entry in a smaps file. 
+/** \class SmapsRecord
+ * This struct contains an entry in a smaps file.
  *  It is filled by operator>>(istream&,SmapsRecord&).
  */
-class ITKCommon_EXPORT SmapsRecord : public MapRecord
+class ITKCommon_EXPORT SmapsRecord:public MapRecord
 {
-  /** Input operator to fill a SmapsRecord 
+  /** Input operator to fill a SmapsRecord
    *  The format has to be the following:
    *  "address permissions offset device inode optional_name
    *   Token1:      number kB
@@ -78,101 +76,106 @@ class ITKCommon_EXPORT SmapsRecord : public MapRecord
    *  Private_Clean:        0 kB
    *  Private_Dirty:        0 kB
    */
-  friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, SmapsRecord &record);
+  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & record);
 };
 
 /** \class VMMapSummaryRecord
- *  This struct contains an entry in a smaps file. 
+ *  This struct contains an entry in a smaps file.
  *  It is filled by operator>>(istream&,VMMapRecord&).
  */
-class ITKCommon_EXPORT VMMapSummaryRecord : public MapRecord
+class ITKCommon_EXPORT VMMapSummaryRecord:public MapRecord
 {
-  /** Input operator to fill a VMMapRecord 
+  /** Input operator to fill a VMMapRecord
    *  recordName             [ numberK]
    *  Example
    *  MALLOC                  [  18536K]
    */
-  friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapSummaryRecord &record);
+  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, VMMapSummaryRecord & record);
 };
 
 /** \class VMMapRecord
- *  This struct contains an entry in a smaps file. 
+ *  This struct contains an entry in a smaps file.
  *  It is filled by operator>>(istream&,SmapsRecord&).
  */
-class ITKCommon_EXPORT VMMapRecord : public MapRecord
+class ITKCommon_EXPORT VMMapRecord:public MapRecord
 {
-  /** Input operator to fill a VMMapRecord 
+  /** Input operator to fill a VMMapRecord
    *  recordName address [ numberK] permissions mode
    *  Example
    *  __DATA                         8fe51000 [   4K] rw-/rwx SM=COW /usr/lib/dyld
    */
-  friend ITKCommon_EXPORT std::istream&  operator>>(std::istream &in, VMMapRecord &record);
+  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, VMMapRecord & record);
 };
 
 /** MAP DATA **/
 
-
 /** \class MapData
- *  Base class for the ?map data container. 
- *  Inherited classes must implement their own 
+ *  Base class for the ?map data container.
+ *  Inherited classes must implement their own
  */
 class ITKCommon_EXPORT MapData
 {
 public:
   /** need an unsigned long type to be able to accumulate the SmapsRecord */
-  typedef unsigned long             MemoryLoadType;
+  typedef unsigned long MemoryLoadType;
   //todo delete records
   virtual ~MapData();
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage() = 0;
+
   /** Returns the stack usage in kB of the process */
   virtual MemoryLoadType GetStackUsage() = 0;
+
   /** Returns the total memory usage in kB of the process */
   virtual MemoryLoadType GetTotalMemoryUsage();
+
   /** Returns the memory usage in kB of a process segment */
-  virtual MemoryLoadType GetMemoryUsage( const char * filter, const char * token );
+  virtual MemoryLoadType GetMemoryUsage(const char *filter, const char *token);
 
   /** Returns true if the data has not been initialized yet */
   bool Empty();
+
 protected:
   /** Clear the content of the container */
   void Reset(void);
-protected: 
-  typedef std::vector< MapRecord* >  MapRecordVectorType;
+
+protected:
+  typedef std::vector< MapRecord * > MapRecordVectorType;
 
   /** contains all the segment records */
-  MapRecordVectorType                   m_Records;
+  MapRecordVectorType m_Records;
 };
 
-/** \class SmapsData_2_6 
+/** \class SmapsData_2_6
  *  \brief Read a smaps stream and return the memory usage information.
- *  Smaps files have been added since the linux kernel 2.6 
+ *  Smaps files have been added since the linux kernel 2.6
  */
 class ITKCommon_EXPORT SmapsData_2_6:public MapData
 {
 public:
   typedef MapData::MemoryLoadType MemoryLoadType;
-  
+
   virtual ~SmapsData_2_6();
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage();
+
   /** Returns the stack usage in kB of the process */
   virtual MemoryLoadType GetStackUsage();
 
   /** fill the smaps data */
-  friend ITKCommon_EXPORT std::istream&  operator>>( std::istream &smapsStream,
-                                              SmapsData_2_6 &data);
+  friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & smapsStream,
+                                                     SmapsData_2_6 & data);
 
 protected:
-  bool                m_HeapRecordFound;
+  bool m_HeapRecordFound;
 };
 
 /** \class VMMapData_10_2
  *  Apparently the vmmap command exists since at least Mac OS X v10.2
- *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg, 
- *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg, 
+ *  On Tiger, /usr/bin/vmmap used to be installed by the Essentials.pkg,
+ *  On Panther, /usr/bin/vmmap used to be installed by the DevTools.pkg,
  */
 class ITKCommon_EXPORT VMMapData_10_2:public MapData
 {
@@ -183,96 +186,98 @@ public:
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage();
+
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage();  
+  virtual MemoryLoadType GetStackUsage();
 
   /** fill the smaps data */
-  friend ITKCommon_EXPORT std::istream& operator>>( std::istream &stream,
-                                              VMMapData_10_2 &data);
-protected: 
-  bool                m_UsingSummary;
-};
+  friend ITKCommon_EXPORT std::istream & operator>>(std::istream & stream,
+                                                    VMMapData_10_2 & data);
 
+protected:
+  bool m_UsingSummary;
+};
 
 /** \class MapFileParser
  *
  * FIXME: Add documentation
  *
  */
-template<class TMapData>
+template< class TMapData >
 class ITK_EXPORT MapFileParser
 {
-public: 
+public:
   typedef typename TMapData::MemoryLoadType MemoryLoadType;
 
   virtual ~MapFileParser();
   /** Load and parse a Map file pointed by mapFileLocation.
-   *  If mapFileLocation is empty, load the default file  
+   *  If mapFileLocation is empty, load the default file
    *  Throw an exception is the file can't be opened.
    */
-  virtual void ReadFile( const std::string &mapFileLocation = "") = 0;
+  virtual void ReadFile(const std::string & mapFileLocation = "") = 0;
+
   /** ReRead the last parsed file to refresh the memory usage.
    *  Returns true if read from the default location "".
   */
   bool Update(void);
 
-  /** Returns the heap usage in kB of the process. 
+  /** Returns the heap usage in kB of the process.
    *  If no file has been loaded yet, load a default file.
   */
   MemoryLoadType GetHeapUsage();
-  /** Returns the heap usage in kB of the process. 
+
+  /** Returns the heap usage in kB of the process.
    *  If no file has been loaded yet, load a default file.
   */
   MemoryLoadType GetStackUsage();
-  /** Returns the total memory usage in kB of a process. 
+
+  /** Returns the total memory usage in kB of a process.
    *  If no file has been loaded yet, load a default file.
   */
   MemoryLoadType GetTotalMemoryUsage();
-  /** Returns the memory usage in kB of a process segment. 
+
+  /** Returns the memory usage in kB of a process segment.
    *  If no file has been loaded yet, load a default file.
   */
-  MemoryLoadType GetMemoryUsage( const char* filter , const char * token = "Size" );
+  MemoryLoadType GetMemoryUsage(const char *filter, const char *token = "Size");
 
-protected: 
-  std::string   m_MapFilePath;  //< location of the last loaded Map file
-  TMapData      m_MapData;      //< data of the loaded smap file
+protected:
+  std::string m_MapFilePath;    //< location of the last loaded Map file
+  TMapData    m_MapData;        //< data of the loaded smap file
 };
 
-/** \class SmapsFileParser 
- *  \brief Read a smap file (typically located in /proc/PID/smaps) and extract the 
- *  memory usage information. Any smaps data reader can be used in template as 
+/** \class SmapsFileParser
+ *  \brief Read a smap file (typically located in /proc/PID/smaps) and extract the
+ *  memory usage information. Any smaps data reader can be used in template as
  *  long as they implement a operator>>(istream&) and have GetXXXUsage() methods.
  */
-template<class TSmapsDataType>
-class ITK_EXPORT SmapsFileParser: public MapFileParser<TSmapsDataType>
+template< class TSmapsDataType >
+class ITK_EXPORT SmapsFileParser:public MapFileParser< TSmapsDataType >
 {
 public:
   virtual ~SmapsFileParser();
   /** Load and parse the smaps file pointed by smapsFileLocation.
-   *  If smapsFileLocation is empty, load the file located at 
-   *  "/proc/" + PID + "/smaps" 
+   *  If smapsFileLocation is empty, load the file located at
+   *  "/proc/" + PID + "/smaps"
    *  Throw an exception is the file can't be opened.
    */
-  virtual void ReadFile( const std::string &mapFileLocation = "");
-
+  virtual void ReadFile(const std::string & mapFileLocation = "");
 };
 
-/** \class VMMapFileParser 
- *  \brief Read the output of a vmmap command and extract the 
+/** \class VMMapFileParser
+ *  \brief Read the output of a vmmap command and extract the
  *  memory usage information. Used for MAC OS X machines.
  */
-template<class TVMMapDataType>
-class ITK_EXPORT VMMapFileParser: public MapFileParser<TVMMapDataType>
+template< class TVMMapDataType >
+class ITK_EXPORT VMMapFileParser:public MapFileParser< TVMMapDataType >
 {
 public:
   virtual ~VMMapFileParser();
-  /** If no vmmap file, create one using "vmmap pid" command 
+  /** If no vmmap file, create one using "vmmap pid" command
    *  Throw an exception is the file can't be created/opened.
    */
-  virtual void ReadFile( const std::string &mapFileLocation = "");
-
+  virtual void ReadFile(const std::string & mapFileLocation = "");
 };
-
 }  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

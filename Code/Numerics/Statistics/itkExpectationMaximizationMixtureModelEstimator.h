@@ -21,9 +21,10 @@
 #include "itkMixtureModelComponentBase.h"
 #include "itkGaussianMembershipFunction.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ExpectationMaximizationMixtureModelEstimator
  *  \brief This class generates the parameter estimates for a mixture
  *  model using expectation maximization strategy.
@@ -51,14 +52,14 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT ExpectationMaximizationMixtureModelEstimator : public Object
+class ITK_EXPORT ExpectationMaximizationMixtureModelEstimator:public Object
 {
 public:
   /** Standard class typedef */
   typedef ExpectationMaximizationMixtureModelEstimator Self;
   typedef Object                                       Superclass;
   typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(ExpectationMaximizationMixtureModelEstimator,
@@ -70,14 +71,13 @@ public:
   typedef typename TSample::MeasurementType       MeasurementType;
   typedef typename TSample::MeasurementVectorType MeasurementVectorType;
 
-
   /** Typedef requried to generate dataobject decorated output that can
     * be plugged into SampleClassifierFilter */
   typedef GaussianMembershipFunction< MeasurementVectorType >
-                                                   GaussianMembershipFunctionType;
+  GaussianMembershipFunctionType;
 
   typedef typename GaussianMembershipFunctionType::Pointer
-                                                   GaussianMembershipFunctionPointer;
+  GaussianMembershipFunctionPointer;
 
   typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
   typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
@@ -85,13 +85,13 @@ public:
   typedef SimpleDataObjectDecorator<
     MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
   typedef typename
-    MembershipFunctionVectorObjectType::Pointer           MembershipFunctionVectorObjectPointer;
+  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
 
   /** Type of the mixture model component base class */
   typedef MixtureModelComponentBase< TSample > ComponentType;
 
   /** Type of the component pointer storage */
-  typedef std::vector< ComponentType* > ComponentVectorType;
+  typedef std::vector< ComponentType * > ComponentVectorType;
 
   /** Type of the membership function base class */
   typedef MembershipFunctionBase< MeasurementVectorType >
@@ -101,24 +101,25 @@ public:
   typedef Array< double > ProportionVectorType;
 
   /** Sets the target data that will be classified by this */
-  void SetSample(const TSample* sample);
+  void SetSample(const TSample *sample);
 
   /** Returns the target data */
-  const TSample* GetSample() const;
+  const TSample * GetSample() const;
 
   /** Set/Gets the initial proportion values. The size of proportion
    * vector should be same as the number of component (or classes) */
-  void SetInitialProportions(ProportionVectorType &propotion);
-  const ProportionVectorType& GetInitialProportions() const;
+  void SetInitialProportions(ProportionVectorType & propotion);
+
+  const ProportionVectorType & GetInitialProportions() const;
 
   /** Gets the result proportion values */
-  const ProportionVectorType& GetProportions() const;
+  const ProportionVectorType & GetProportions() const;
 
   /** typedef for decorated array of proportion */
   typedef SimpleDataObjectDecorator<
-  ProportionVectorType>                 MembershipFunctionsWeightsArrayObjectType;
+    ProportionVectorType >                 MembershipFunctionsWeightsArrayObjectType;
   typedef typename
-    MembershipFunctionsWeightsArrayObjectType::Pointer   MembershipFunctionsWeightsArrayPointer;
+  MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
 
   /** Get method for data decorated Membership functions weights array */
   const MembershipFunctionsWeightsArrayObjectType * GetMembershipFunctionsWeightsArray() const;
@@ -128,16 +129,17 @@ public:
    * class parameters aren't converged, the optimization process
    * stops. */
   void SetMaximumIteration(int numberOfIterations);
+
   int GetMaximumIteration() const;
 
   /** Gets the current iteration. */
   int GetCurrentIteration()
-    {
+  {
     return m_CurrentIteration;
-    }
+  }
 
   /** Adds a new component (or class). */
-  int AddComponent(ComponentType* component);
+  int AddComponent(ComponentType *component);
 
   /** Gets the total number of classes currently plugged in. */
   unsigned int GetNumberOfComponents() const;
@@ -153,7 +155,7 @@ public:
 
   /** Gets the membership function specified by componentIndex
   argument. */
-  ComponentMembershipFunctionType* GetComponentMembershipFunction(int componentIndex) const;
+  ComponentMembershipFunctionType * GetComponentMembershipFunction(int componentIndex) const;
 
   /** Output Membership function vector containing the membership functions with
     * the final optimized paramters */
@@ -162,11 +164,14 @@ public:
 protected:
   ExpectationMaximizationMixtureModelEstimator();
   virtual ~ExpectationMaximizationMixtureModelEstimator() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   bool CalculateDensities();
+
   double CalculateExpectation() const;
+
   bool UpdateComponentParameters();
+
   bool UpdateProportions();
 
   /** Starts the estimation process */
@@ -174,24 +179,21 @@ protected:
 
 private:
   /** Target data sample pointer*/
-  const TSample* m_Sample;
+  const TSample *m_Sample;
 
   int m_MaxIteration;
   int m_CurrentIteration;
 
-  TERMINATION_CODE            m_TerminationCode;
-  ComponentVectorType         m_ComponentVector;
-  ProportionVectorType        m_InitialProportions;
-  ProportionVectorType        m_Proportions;
+  TERMINATION_CODE     m_TerminationCode;
+  ComponentVectorType  m_ComponentVector;
+  ProportionVectorType m_InitialProportions;
+  ProportionVectorType m_Proportions;
 
-  MembershipFunctionVectorObjectPointer   m_MembershipFunctionsObject;
-  MembershipFunctionsWeightsArrayPointer  m_MembershipFunctionsWeightArrayObject;
-}; // end of class
-
-
+  MembershipFunctionVectorObjectPointer  m_MembershipFunctionsObject;
+  MembershipFunctionsWeightsArrayPointer m_MembershipFunctionsWeightArrayObject;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkExpectationMaximizationMixtureModelEstimator.txx"

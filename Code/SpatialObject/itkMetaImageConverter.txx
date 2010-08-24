@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,29 +21,27 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-namespace itk  
+namespace itk
 {
-
-/** Constructor */ 
-template <unsigned int NDimensions, class PixelType>
-MetaImageConverter<NDimensions,PixelType>
+/** Constructor */
+template< unsigned int NDimensions, class PixelType >
+MetaImageConverter< NDimensions, PixelType >
 ::MetaImageConverter()
-{
-  
-}
+{}
 
 /** Convert a metaImage into an ImageMaskSpatialObject  */
-template <unsigned int NDimensions, class PixelType>
-typename MetaImageConverter<NDimensions,PixelType>::MaskSpatialObjectPointer
-MetaImageConverter<NDimensions,PixelType>
-::MetaImageToImageMaskSpatialObject(MetaImage * image)
-{ 
+template< unsigned int NDimensions, class PixelType >
+typename MetaImageConverter< NDimensions, PixelType >::MaskSpatialObjectPointer
+MetaImageConverter< NDimensions, PixelType >
+::MetaImageToImageMaskSpatialObject(MetaImage *image)
+{
   MaskSpatialObjectPointer spatialObject = MaskSpatialObjectType::New();
-  typedef itk::Image<unsigned char,NDimensions>  ImageType;
 
-  typedef typename ImageType::Pointer     ImagePointer;
-  typedef typename ImageType::SizeType    SizeType;
-  typedef typename ImageType::RegionType  RegionType;
+  typedef itk::Image< unsigned char, NDimensions > ImageType;
+
+  typedef typename ImageType::Pointer    ImagePointer;
+  typedef typename ImageType::SizeType   SizeType;
+  typedef typename ImageType::RegionType RegionType;
 
   ImagePointer myImage = ImageType::New();
 
@@ -51,18 +49,18 @@ MetaImageConverter<NDimensions,PixelType>
 
   double spacing[NDimensions];
 
-  for(unsigned int i=0;i<NDimensions;i++)
+  for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     size[i] = image->DimSize()[i];
     spacing[i] = image->ElementSpacing()[i];
-    if(spacing[i] == 0) {spacing[i] = 1;}
+    if ( spacing[i] == 0 ) { spacing[i] = 1; }
     }
 
   RegionType region;
   region.SetSize(size);
-  itk::Index<NDimensions> zeroIndex;
+  itk::Index< NDimensions > zeroIndex;
   zeroIndex.Fill(0);
-  region.SetIndex( zeroIndex );
+  region.SetIndex(zeroIndex);
   myImage->SetLargestPossibleRegion(region);
   myImage->SetBufferedRegion(region);
   myImage->SetRequestedRegion(region);
@@ -70,32 +68,33 @@ MetaImageConverter<NDimensions,PixelType>
   myImage->Allocate();
 
   itk::ImageRegionIteratorWithIndex< ImageType > it(myImage, region);
-  for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
-    { 
-    it.Set( 
-      static_cast< typename ImageType::PixelType >( image->ElementData(i) ));
+  for ( unsigned int i = 0; !it.IsAtEnd(); i++, ++it )
+    {
+    it.Set(
+      static_cast< typename ImageType::PixelType >( image->ElementData(i) ) );
     }
 
   spatialObject->SetImage(myImage);
-  spatialObject->SetId(image->ID());
-  spatialObject->SetParentId(image->ParentID());
-  spatialObject->GetProperty()->SetName(image->Name());
+  spatialObject->SetId( image->ID() );
+  spatialObject->SetParentId( image->ParentID() );
+  spatialObject->GetProperty()->SetName( image->Name() );
 
   return spatialObject;
 }
 
 /** Convert a metaImage into an Image SpatialObject  */
-template <unsigned int NDimensions, class PixelType>
-typename MetaImageConverter<NDimensions,PixelType>::SpatialObjectPointer
-MetaImageConverter<NDimensions,PixelType>
-::MetaImageToImageSpatialObject(MetaImage * image)
-{ 
+template< unsigned int NDimensions, class PixelType >
+typename MetaImageConverter< NDimensions, PixelType >::SpatialObjectPointer
+MetaImageConverter< NDimensions, PixelType >
+::MetaImageToImageSpatialObject(MetaImage *image)
+{
   SpatialObjectPointer spatialObject = SpatialObjectType::New();
-  typedef itk::Image<PixelType,NDimensions>  ImageType;
 
-  typedef typename ImageType::Pointer     ImagePointer;
-  typedef typename ImageType::SizeType    SizeType;
-  typedef typename ImageType::RegionType  RegionType;
+  typedef itk::Image< PixelType, NDimensions > ImageType;
+
+  typedef typename ImageType::Pointer    ImagePointer;
+  typedef typename ImageType::SizeType   SizeType;
+  typedef typename ImageType::RegionType RegionType;
 
   ImagePointer myImage = ImageType::New();
 
@@ -103,18 +102,18 @@ MetaImageConverter<NDimensions,PixelType>
 
   double spacing[NDimensions];
 
-  for(unsigned int i=0;i<NDimensions;i++)
+  for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     size[i] = image->DimSize()[i];
     spacing[i] = image->ElementSpacing()[i];
-    if(spacing[i] == 0) {spacing[i] = 1;}
+    if ( spacing[i] == 0 ) { spacing[i] = 1; }
     }
 
   RegionType region;
   region.SetSize(size);
-  itk::Index<NDimensions> zeroIndex;
+  itk::Index< NDimensions > zeroIndex;
   zeroIndex.Fill(0);
-  region.SetIndex( zeroIndex );
+  region.SetIndex(zeroIndex);
   myImage->SetLargestPossibleRegion(region);
   myImage->SetBufferedRegion(region);
   myImage->SetRequestedRegion(region);
@@ -122,69 +121,69 @@ MetaImageConverter<NDimensions,PixelType>
   myImage->Allocate();
 
   itk::ImageRegionIteratorWithIndex< ImageType > it(myImage, region);
-  for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
-    { 
-    it.Set( 
-      static_cast< typename ImageType::PixelType >( image->ElementData(i) ));
+  for ( unsigned int i = 0; !it.IsAtEnd(); i++, ++it )
+    {
+    it.Set(
+      static_cast< typename ImageType::PixelType >( image->ElementData(i) ) );
     }
 
   spatialObject->SetImage(myImage);
-  spatialObject->SetId(image->ID());
-  spatialObject->SetParentId(image->ParentID());
-  spatialObject->GetProperty()->SetName(image->Name());
+  spatialObject->SetId( image->ID() );
+  spatialObject->SetParentId( image->ParentID() );
+  spatialObject->GetProperty()->SetName( image->Name() );
 
   return spatialObject;
 }
 
 /** Convert an Image SpatialObject into a metaImage */
-template <unsigned int NDimensions, class PixelType>
-MetaImage*
-MetaImageConverter<NDimensions,PixelType>
-::ImageSpatialObjectToMetaImage(SpatialObjectType * spatialObject)
-{ 
-  typedef itk::Image<PixelType,NDimensions>  ImageType;
-  typedef typename ImageType::ConstPointer   ImageConstPointer;
-  typedef typename ImageType::SizeType       SizeType;
-  typedef typename ImageType::RegionType     RegionType;
-  
+template< unsigned int NDimensions, class PixelType >
+MetaImage *
+MetaImageConverter< NDimensions, PixelType >
+::ImageSpatialObjectToMetaImage(SpatialObjectType *spatialObject)
+{
+  typedef itk::Image< PixelType, NDimensions > ImageType;
+  typedef typename ImageType::ConstPointer     ImageConstPointer;
+  typedef typename ImageType::SizeType         SizeType;
+  typedef typename ImageType::RegionType       RegionType;
+
   ImageConstPointer SOImage = spatialObject->GetImage();
 
   float spacing[NDimensions];
-  int size[NDimensions];
+  int   size[NDimensions];
 
-  for(unsigned int i=0;i<NDimensions;i++)
+  for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     size[i] = SOImage->GetLargestPossibleRegion().GetSize()[i];
     spacing[i] = SOImage->GetSpacing()[i];
     }
 
-  MetaImage* Image = new MetaImage(NDimensions,size,
-                               spacing,MET_GetPixelType(typeid(PixelType)));
+  MetaImage *Image = new MetaImage( NDimensions, size,
+                                    spacing, MET_GetPixelType( typeid( PixelType ) ) );
 
-  itk::ImageRegionConstIterator< ImageType > it(SOImage, 
-                                       SOImage->GetLargestPossibleRegion());
-  for(unsigned int i = 0; !it.IsAtEnd(); i++, ++it)
+  itk::ImageRegionConstIterator< ImageType > it( SOImage,
+                                                 SOImage->GetLargestPossibleRegion() );
+  for ( unsigned int i = 0; !it.IsAtEnd(); i++, ++it )
     {
-    Image->ElementData(i,it.Get());
+    Image->ElementData( i, it.Get() );
     }
 
-  Image->ID(spatialObject->GetId());
-  if(spatialObject->GetParent())
+  Image->ID( spatialObject->GetId() );
+  if ( spatialObject->GetParent() )
     {
-    Image->ParentID(spatialObject->GetParent()->GetId());
+    Image->ParentID( spatialObject->GetParent()->GetId() );
     }
   return Image;
 }
 
-
 /** Read a meta file give the type */
-template <unsigned int NDimensions, class PixelType> 
-typename MetaImageConverter<NDimensions,PixelType>::SpatialObjectPointer
-MetaImageConverter<NDimensions,PixelType>
-::ReadMeta(const char* name)
+template< unsigned int NDimensions, class PixelType >
+typename MetaImageConverter< NDimensions, PixelType >::SpatialObjectPointer
+MetaImageConverter< NDimensions, PixelType >
+::ReadMeta(const char *name)
 {
   SpatialObjectPointer spatialObject;
-  MetaImage* Image = new MetaImage();
+  MetaImage *          Image = new MetaImage();
+
   Image->Read(name);
   Image->PrintInfo();
 
@@ -193,19 +192,17 @@ MetaImageConverter<NDimensions,PixelType>
   return spatialObject;
 }
 
-
 /** Write a meta Image file */
-template <unsigned int NDimensions, class PixelType>   
+template< unsigned int NDimensions, class PixelType >
 bool
-MetaImageConverter<NDimensions,PixelType>
-::WriteMeta(SpatialObjectType* spatialObject,const char* name)
+MetaImageConverter< NDimensions, PixelType >
+::WriteMeta(SpatialObjectType *spatialObject, const char *name)
 {
-  MetaImage* Image = ImageSpatialObjectToMetaImage(spatialObject);
+  MetaImage *Image = ImageSpatialObjectToMetaImage(spatialObject);
+
   Image->Write(name);
   return true;
 }
-
-} // end namespace itk 
-
+} // end namespace itk
 
 #endif

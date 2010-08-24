@@ -24,8 +24,8 @@
 #include "itkAnchorErodeDilateLine.h"
 #include "itkBresenhamLine.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class AnchorOpenCloseImageFilter
  * \brief class to implement openings and closings using anchor
@@ -46,30 +46,30 @@ namespace itk {
  * comparison operations need to be passed in. The less
  *
  */
-template<class TImage, class TKernel,
-         class LessThan, class GreaterThan, class LessEqual, class GreaterEqual>
+template< class TImage, class TKernel,
+          class LessThan, class GreaterThan, class LessEqual, class GreaterEqual >
 //          class THistogramCompare,
 //          class TFunction1, class TFunction2>
-class ITK_EXPORT AnchorOpenCloseImageFilter :
-    public ImageToImageFilter<TImage, TImage>
+class ITK_EXPORT AnchorOpenCloseImageFilter:
+  public ImageToImageFilter< TImage, TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AnchorOpenCloseImageFilter               Self;
-  typedef ImageToImageFilter<TImage, TImage>       Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef AnchorOpenCloseImageFilter           Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /** Some convenient typedefs. */
   /** Kernel typedef. */
-  typedef TKernel                                  KernelType;
-  typedef typename KernelType::LType               KernelLType;
+  typedef TKernel                    KernelType;
+  typedef typename KernelType::LType KernelLType;
 
-  typedef TImage                                   InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TImage                                InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -84,20 +84,20 @@ public:
   itkTypeMacro(AnchorOpenCloseImageFilter,
                ImageToImageFilter);
 
-  void SetKernel( const KernelType& kernel )
-    {
-    m_Kernel=kernel;
+  void SetKernel(const KernelType & kernel)
+  {
+    m_Kernel = kernel;
     m_KernelSet = true;
-    }
+  }
 
 protected:
   AnchorOpenCloseImageFilter();
-  ~AnchorOpenCloseImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~AnchorOpenCloseImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const InputImageRegionType& outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
+                             int threadId);
 
   /** GrayscaleMorphologicalOpeningImageFilter need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
@@ -107,44 +107,39 @@ protected:
   void GenerateInputRequestedRegion();
 
   InputImagePixelType m_Boundary1, m_Boundary2;
-
 private:
-  AnchorOpenCloseImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AnchorOpenCloseImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
   TKernel m_Kernel;
   bool    m_KernelSet;
-  typedef BresenhamLine<itkGetStaticConstMacro(InputImageDimension)>  BresType;
-  typedef typename BresType::OffsetArray                              BresOffsetArray;
+  typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
+  typedef typename BresType::OffsetArray                               BresOffsetArray;
 
   // the class that operates on lines -- does the opening in one
   // operation. The classes following are named on the assumption that
   // we are doing an opening
 
-//  typedef AnchorOpenCloseLine<InputImagePixelType, THistogramCompare, TFunction1, TFunction2> AnchorLineOpenType;
-  typedef AnchorOpenCloseLine<InputImagePixelType, LessThan, GreaterEqual, LessEqual> AnchorLineOpenType;
+//  typedef AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
+// TFunction1, TFunction2> AnchorLineOpenType;
+  typedef AnchorOpenCloseLine< InputImagePixelType, LessThan, GreaterEqual, LessEqual > AnchorLineOpenType;
 
-  typedef AnchorErodeDilateLine<InputImagePixelType, LessThan, LessEqual> AnchorLineErodeType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, LessThan, LessEqual > AnchorLineErodeType;
 
   // the class that does the dilation
-  typedef AnchorErodeDilateLine<InputImagePixelType, GreaterThan, GreaterEqual> AnchorLineDilateType;
+  typedef AnchorErodeDilateLine< InputImagePixelType, GreaterThan, GreaterEqual > AnchorLineDilateType;
 
   void DoFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,
                   InputImagePixelType border,
                   KernelLType line,
-                  AnchorLineOpenType &AnchorLineOpen,
+                  AnchorLineOpenType & AnchorLineOpen,
                   const BresOffsetArray LineOffsets,
-                  InputImagePixelType * outbuffer,
+                  InputImagePixelType *outbuffer,
                   const InputImageRegionType AllImage,
                   const InputImageRegionType face);
-
-
 }; // end of class
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAnchorOpenCloseImageFilter.txx"

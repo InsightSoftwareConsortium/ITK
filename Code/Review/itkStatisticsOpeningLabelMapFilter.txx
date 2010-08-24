@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,26 +20,24 @@
 #include "itkStatisticsOpeningLabelMapFilter.h"
 #include "itkProgressReporter.h"
 
-
-namespace itk {
-
-template <class TImage>
-StatisticsOpeningLabelMapFilter<TImage>
+namespace itk
+{
+template< class TImage >
+StatisticsOpeningLabelMapFilter< TImage >
 ::StatisticsOpeningLabelMapFilter()
 {
   this->m_Attribute = LabelObjectType::MEAN;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
-  this->SetNthOutput(1, static_cast<TImage*>(this->MakeOutput(1).GetPointer()));
+  this->SetNthOutput( 1, static_cast< TImage * >( this->MakeOutput(1).GetPointer() ) );
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-StatisticsOpeningLabelMapFilter<TImage>
+StatisticsOpeningLabelMapFilter< TImage >
 ::GenerateData()
 {
-  switch( this->m_Attribute )
+  switch ( this->m_Attribute )
     {
     case LabelObjectType::MINIMUM:
       {
@@ -123,6 +121,5 @@ StatisticsOpeningLabelMapFilter<TImage>
       break;
     }
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

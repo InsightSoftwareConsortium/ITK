@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,8 +27,8 @@
 namespace itk
 {
 /* Constructor. */
-template <typename TInputMesh, typename TOutputMesh>
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::DeformableMesh3DFilter()
 {
   m_Step = 0;
@@ -36,11 +36,11 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   m_PotentialOn = 0;
   m_K = 0;
   m_ObjectLabel = 0;
-  m_Scale.Fill( 1.0 );
-  m_Stiffness.Fill( 0.1 );
+  m_Scale.Fill(1.0);
+  m_Stiffness.Fill(0.1);
   m_TimeStep = 0.01;
-  m_PotentialMagnitude = NumericTraits<PixelType>::One;
-  m_GradientMagnitude = NumericTraits<PixelType>::One;
+  m_PotentialMagnitude = NumericTraits< PixelType >::One;
+  m_GradientMagnitude = NumericTraits< PixelType >::One;
 
   m_ImageDepth = 0;
   m_ImageHeight = 0;
@@ -48,43 +48,42 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 }
 
-template <typename TInputMesh, typename TOutputMesh>
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::~DeformableMesh3DFilter()
 {
-  if (m_K)
+  if ( m_K )
     {
-    delete [] (m_K);
+    delete[] ( m_K );
     m_K = 0;
     }
 }
 
-
 /* PrintSelf. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent) const
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Stiffness = " << m_Stiffness;
   os << indent << "PotentialMagnitude = "
-     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_PotentialMagnitude)
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_PotentialMagnitude )
      << std::endl;
   os << indent << "GradientMagnitude = "
-     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_GradientMagnitude)
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_GradientMagnitude )
      << std::endl;
   os << indent << "Scale = " << m_Scale;
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
   os << indent << "PotentialOn = " << m_PotentialOn << std::endl;
   os << indent << "ObjectLabel = "
-     << static_cast<typename NumericTraits<unsigned char>::PrintType>(m_ObjectLabel)
+     << static_cast< typename NumericTraits< unsigned char >::PrintType >( m_ObjectLabel )
      << std::endl;
   os << indent << "StepThreshold = " << m_StepThreshold << std::endl;
-  if (m_Normals)
+  if ( m_Normals )
     {
     os << indent << "Normals = " << m_Normals << std::endl;
     }
@@ -92,7 +91,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Normals = " << "(None)" << std::endl;
     }
-  if (m_Gradient)
+  if ( m_Gradient )
     {
     os << indent << "Gradient = " << m_Gradient << std::endl;
     }
@@ -104,13 +103,13 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   os << indent << "ImageDepth = " << m_ImageDepth << std::endl;
   os << indent << "ImageHeight = " << m_ImageHeight << std::endl;
   os << indent << "ImageWidth = " << m_ImageWidth << std::endl;
-}/* End PrintSelf. */
+} /* End PrintSelf. */
 
-/* Set default value of parameters and initialize local data container 
+/* Set default value of parameters and initialize local data container
  *  such as forces, displacements and displacement derivatives. */
-template <typename TInputMesh, typename TOutputMesh>
-void 
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
+void
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::Initialize()
 {
   m_NumberOfNodes = this->GetInput(0)->GetNumberOfPoints();
@@ -126,34 +125,34 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerConstPointer  myPoints = inputMesh->GetPoints();
   InputPointsContainerConstIterator points = myPoints->Begin();
 
-  InputPointsContainerPointer      myForces = m_Forces->GetPoints();
+  InputPointsContainerPointer myForces = m_Forces->GetPoints();
   myForces->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     forces = myForces->Begin();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointsContainerPointer      myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer myDerives = m_Derives->GetPoints();
   myDerives->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     derives = myDerives->Begin();
+  InputPointsContainerIterator derives = myDerives->Begin();
 
-  InputPointsContainerPointer      myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerPointer myDisplacements = m_Displacements->GetPoints();
   myDisplacements->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     displacements = myDisplacements->Begin();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
 
-  InputPointsContainerPointer      myNormals = m_Normals->GetPoints();
+  InputPointsContainerPointer myNormals = m_Normals->GetPoints();
   myNormals->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     normals = myNormals->Begin();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  InputPointsContainerPointer      myLocations = m_Locations->GetPoints();
+  InputPointsContainerPointer myLocations = m_Locations->GetPoints();
   myLocations->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     locations = myLocations->Begin();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
   InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
-  InputCellsContainerConstIterator cells = myCells->Begin(); 
+  InputCellsContainerConstIterator cells = myCells->Begin();
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
 
   //---------------------------------------------------------------------
   //Get the image width/height and depth
-  //---------------------------------------------------------------------   
+  //---------------------------------------------------------------------
   m_ImageWidth  = ImageSize[0];
   m_ImageHeight = ImageSize[1];
   m_ImageDepth  = ImageSize[2];
@@ -168,9 +167,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointType d; d.Fill(0.0);
 
   int j = 0;
-  while( points != myPoints->End() )
+  while ( points != myPoints->End() )
     {
-    for (int i=0; i<3; i++ )
+    for ( int i = 0; i < 3; i++ )
       {
       locations.Value()[i] = m_Scale[i] * points.Value()[i];
       }
@@ -189,18 +188,19 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     }
 
   const unsigned long *tp;
-  PixelType x = 0.0;
-  PixelType* x_pt;
+  PixelType            x = 0.0;
+  PixelType *          x_pt;
   x_pt = &x;
-  while( cells != myCells->End() )
+  while ( cells != myCells->End() )
     {
     typename InputMeshType::CellType * cellPtr = cells.Value();
     tp = cellPtr->GetPointIds();
-    for ( int i=0; i<3; i++ ) {
-    m_Forces->GetPointData((int)(tp[i]), x_pt);
-    x = x + 1.0;
-    m_Forces->SetPointData((int)(tp[i]), x);
-    }
+    for ( int i = 0; i < 3; i++ )
+      {
+      m_Forces->GetPointData( (int)( tp[i] ), x_pt );
+      x = x + 1.0;
+      m_Forces->SetPointData( (int)( tp[i] ), x );
+      }
     ++cells;
     }
 
@@ -209,102 +209,100 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   // This prevents unnecessary re-executions of the pipeline.
   OutputMeshPointer outputMesh = this->GetOutput();
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
-} 
+}
 
 /* Set the stiffness matrix. */
-template <typename TInputMesh, typename TOutputMesh>
-void 
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::SetDefaultStiffnessMatrix () 
-{ 
-  double us = 0.5; 
-  double vs = 0.5; 
-  double a = us*us, b = vs*vs; 
-  double area = us*vs/2, k00, k01, k02, k11, k12, k22;
+template< typename TInputMesh, typename TOutputMesh >
+void
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::SetDefaultStiffnessMatrix()
+{
+  double us = 0.5;
+  double vs = 0.5;
+  double a = us * us, b = vs * vs;
+  double area = us * vs / 2, k00, k01, k02, k11, k12, k22;
 
-  k00 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b + m_Stiffness[0]); 
-  k01 = area * (-m_Stiffness[1]/a + m_Stiffness[0] * 0.5);  
-  k11 = area * (m_Stiffness[1]/a + m_Stiffness[0]);
-  k02 = area * (-m_Stiffness[1]/b + m_Stiffness[0] * 0.5); 
-  k12 = area * m_Stiffness[0] * 0.5; 
-  k22 = area * (m_Stiffness[1]/b + m_Stiffness[0]);  
+  k00 = area * ( m_Stiffness[1] / a + m_Stiffness[1] / b + m_Stiffness[0] );
+  k01 = area * ( -m_Stiffness[1] / a + m_Stiffness[0] * 0.5 );
+  k11 = area * ( m_Stiffness[1] / a + m_Stiffness[0] );
+  k02 = area * ( -m_Stiffness[1] / b + m_Stiffness[0] * 0.5 );
+  k12 = area * m_Stiffness[0] * 0.5;
+  k22 = area * ( m_Stiffness[1] / b + m_Stiffness[0] );
 
-  m_StiffnessMatrix[0][0][0] = k00; 
-  m_StiffnessMatrix[0][0][1] = k01; 
-  m_StiffnessMatrix[0][0][2] = k02; 
-  m_StiffnessMatrix[0][0][3] = 0.0; 
-  m_StiffnessMatrix[0][1][0] = k01; 
-  m_StiffnessMatrix[0][1][1] = k11; 
-  m_StiffnessMatrix[0][1][2] = k12; 
-  m_StiffnessMatrix[0][1][3] = 0.0; 
-  m_StiffnessMatrix[0][2][0] = k02; 
-  m_StiffnessMatrix[0][2][1] = k12; 
-  m_StiffnessMatrix[0][2][2] = k22; 
-  m_StiffnessMatrix[0][2][3] = 0.0; 
-  m_StiffnessMatrix[0][3][0] = 0.0; 
-  m_StiffnessMatrix[0][3][1] = 0.0; 
-  m_StiffnessMatrix[0][3][2] = 0.0; 
-  m_StiffnessMatrix[0][3][3] = 1.0; 
-
-} 
-
-/** Set the stiffness matrix. */
-template <typename TInputMesh, typename TOutputMesh>
-void 
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::SetStiffnessMatrix ( StiffnessMatrixType *stiff, int i ) 
-{ 
-  m_StiffnessMatrix[i][0][0] = stiff[0][0]; 
-  m_StiffnessMatrix[i][0][1] = stiff[0][1]; 
-  m_StiffnessMatrix[i][0][2] = stiff[0][2]; 
-  m_StiffnessMatrix[i][0][3] = stiff[0][3]; 
-  m_StiffnessMatrix[i][1][0] = stiff[1][0]; 
-  m_StiffnessMatrix[i][1][1] = stiff[1][1]; 
-  m_StiffnessMatrix[i][1][2] = stiff[1][2]; 
-  m_StiffnessMatrix[i][1][3] = stiff[1][3]; 
-  m_StiffnessMatrix[i][2][0] = stiff[2][0]; 
-  m_StiffnessMatrix[i][2][1] = stiff[2][1]; 
-  m_StiffnessMatrix[i][2][2] = stiff[2][2]; 
-  m_StiffnessMatrix[i][2][3] = stiff[2][3]; 
-  m_StiffnessMatrix[i][3][0] = stiff[3][0]; 
-  m_StiffnessMatrix[i][3][1] = stiff[3][1]; 
-  m_StiffnessMatrix[i][3][2] = stiff[3][2]; 
-  m_StiffnessMatrix[i][3][3] = stiff[3][3]; 
-} 
+  m_StiffnessMatrix[0][0][0] = k00;
+  m_StiffnessMatrix[0][0][1] = k01;
+  m_StiffnessMatrix[0][0][2] = k02;
+  m_StiffnessMatrix[0][0][3] = 0.0;
+  m_StiffnessMatrix[0][1][0] = k01;
+  m_StiffnessMatrix[0][1][1] = k11;
+  m_StiffnessMatrix[0][1][2] = k12;
+  m_StiffnessMatrix[0][1][3] = 0.0;
+  m_StiffnessMatrix[0][2][0] = k02;
+  m_StiffnessMatrix[0][2][1] = k12;
+  m_StiffnessMatrix[0][2][2] = k22;
+  m_StiffnessMatrix[0][2][3] = 0.0;
+  m_StiffnessMatrix[0][3][0] = 0.0;
+  m_StiffnessMatrix[0][3][1] = 0.0;
+  m_StiffnessMatrix[0][3][2] = 0.0;
+  m_StiffnessMatrix[0][3][3] = 1.0;
+}
 
 /** Set the stiffness matrix. */
-template <typename TInputMesh, typename TOutputMesh>
-void 
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::SetMeshStiffness () 
-{ 
-  InputMeshConstPointer inputMesh = this->GetInput(0);
+template< typename TInputMesh, typename TOutputMesh >
+void
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::SetStiffnessMatrix(StiffnessMatrixType *stiff, int i)
+{
+  m_StiffnessMatrix[i][0][0] = stiff[0][0];
+  m_StiffnessMatrix[i][0][1] = stiff[0][1];
+  m_StiffnessMatrix[i][0][2] = stiff[0][2];
+  m_StiffnessMatrix[i][0][3] = stiff[0][3];
+  m_StiffnessMatrix[i][1][0] = stiff[1][0];
+  m_StiffnessMatrix[i][1][1] = stiff[1][1];
+  m_StiffnessMatrix[i][1][2] = stiff[1][2];
+  m_StiffnessMatrix[i][1][3] = stiff[1][3];
+  m_StiffnessMatrix[i][2][0] = stiff[2][0];
+  m_StiffnessMatrix[i][2][1] = stiff[2][1];
+  m_StiffnessMatrix[i][2][2] = stiff[2][2];
+  m_StiffnessMatrix[i][2][3] = stiff[2][3];
+  m_StiffnessMatrix[i][3][0] = stiff[3][0];
+  m_StiffnessMatrix[i][3][1] = stiff[3][1];
+  m_StiffnessMatrix[i][3][2] = stiff[3][2];
+  m_StiffnessMatrix[i][3][3] = stiff[3][3];
+}
+
+/** Set the stiffness matrix. */
+template< typename TInputMesh, typename TOutputMesh >
+void
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::SetMeshStiffness()
+{
+  InputMeshConstPointer               inputMesh = this->GetInput(0);
   InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
   InputCellDataContainerConstIterator celldata = myCellData->Begin();
 
   m_K = new StiffnessMatrixRawPointer[m_NumberOfCells];
 
   unsigned int j = 0;
-  while (celldata != myCellData->End())
+  while ( celldata != myCellData->End() )
     {
     const double x = celldata.Value();
-    m_K[j] = m_StiffnessMatrix+((int) x);
-    ++celldata; 
+    m_K[j] = m_StiffnessMatrix + ( (int)x );
+    ++celldata;
     j++;
     }
-} 
-
+}
 
 /* Compute the derivatives using d' + Kd = f. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::ComputeDt()
 {
-  int i; 
+  int                  i;
   const unsigned long *tp;
 
-  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputMeshConstPointer            inputMesh = this->GetInput(0);
   InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
   InputCellsContainerConstIterator cells = myCells->Begin();
 
@@ -314,103 +312,104 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
 
-  double p = 1.0; 
+  double p = 1.0;
+
   i = 0;
   InputPointType v1, v2, v3;
   v1.Fill(0.);
   v2.Fill(0.);
   v3.Fill(0.);
 
-  while( cells != myCells->End() ) 
+  while ( cells != myCells->End() )
     {
     tp = cells.Value()->GetPointIds();
     ++cells;
-    m_Displacements->GetPoint (tp[0], &v1); 
-    m_Displacements->GetPoint (tp[1], &v2); 
-    m_Displacements->GetPoint (tp[2], &v3); 
-    v1[0] *= m_K[i]->get(0, 0)*p; 
-    v1[1] *= m_K[i]->get(0, 0)*p; 
-    v1[2] *= m_K[i]->get(0, 0)*p; 
-    v2[0] *= m_K[i]->get(0, 1)*p; 
-    v2[1] *= m_K[i]->get(0, 1)*p; 
-    v2[2] *= m_K[i]->get(0, 1)*p; 
-    v3[0] *= m_K[i]->get(0, 2)*p; 
-    v3[1] *= m_K[i]->get(0, 2)*p; 
-    v3[2] *= m_K[i]->get(0, 2)*p; 
-    v1[0] += v2[0]+v3[0]; 
-    v1[1] += v2[1]+v3[1]; 
-    v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[0], &v2); 
+    m_Displacements->GetPoint (tp[0], &v1);
+    m_Displacements->GetPoint (tp[1], &v2);
+    m_Displacements->GetPoint (tp[2], &v3);
+    v1[0] *= m_K[i]->get(0, 0) * p;
+    v1[1] *= m_K[i]->get(0, 0) * p;
+    v1[2] *= m_K[i]->get(0, 0) * p;
+    v2[0] *= m_K[i]->get(0, 1) * p;
+    v2[1] *= m_K[i]->get(0, 1) * p;
+    v2[2] *= m_K[i]->get(0, 1) * p;
+    v3[0] *= m_K[i]->get(0, 2) * p;
+    v3[1] *= m_K[i]->get(0, 2) * p;
+    v3[2] *= m_K[i]->get(0, 2) * p;
+    v1[0] += v2[0] + v3[0];
+    v1[1] += v2[1] + v3[1];
+    v1[2] += v2[2] + v3[2];
+    m_Forces->GetPoint (tp[0], &v2);
 
-    v2[0] -= v1[0]; 
-    v2[1] -= v1[1]; 
+    v2[0] -= v1[0];
+    v2[1] -= v1[1];
     v2[2] -= v1[2];
 
-    m_Forces->SetPoint (tp[0], v2); 
-   
-    m_Displacements->GetPoint (tp[0], &v1); 
-    m_Displacements->GetPoint (tp[1], &v2); 
-    m_Displacements->GetPoint (tp[2], &v3); 
-    v1[0] *= m_K[i]->get(1, 0)*p; 
-    v1[1] *= m_K[i]->get(1, 0)*p; 
-    v1[2] *= m_K[i]->get(1, 0)*p; 
-    v2[0] *= m_K[i]->get(1, 1)*p; 
-    v2[1] *= m_K[i]->get(1, 1)*p; 
-    v2[2] *= m_K[i]->get(1, 1)*p; 
-    v3[0] *= m_K[i]->get(1, 2)*p; 
-    v3[1] *= m_K[i]->get(1, 2)*p; 
-    v3[2] *= m_K[i]->get(1, 2)*p; 
-    v1[0] += v2[0]+v3[0]; 
-    v1[1] += v2[1]+v3[1]; 
-    v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[1], &v2);  
+    m_Forces->SetPoint (tp[0], v2);
 
-    v2[0] -= v1[0]; 
-    v2[1] -= v1[1]; 
+    m_Displacements->GetPoint (tp[0], &v1);
+    m_Displacements->GetPoint (tp[1], &v2);
+    m_Displacements->GetPoint (tp[2], &v3);
+    v1[0] *= m_K[i]->get(1, 0) * p;
+    v1[1] *= m_K[i]->get(1, 0) * p;
+    v1[2] *= m_K[i]->get(1, 0) * p;
+    v2[0] *= m_K[i]->get(1, 1) * p;
+    v2[1] *= m_K[i]->get(1, 1) * p;
+    v2[2] *= m_K[i]->get(1, 1) * p;
+    v3[0] *= m_K[i]->get(1, 2) * p;
+    v3[1] *= m_K[i]->get(1, 2) * p;
+    v3[2] *= m_K[i]->get(1, 2) * p;
+    v1[0] += v2[0] + v3[0];
+    v1[1] += v2[1] + v3[1];
+    v1[2] += v2[2] + v3[2];
+    m_Forces->GetPoint (tp[1], &v2);
+
+    v2[0] -= v1[0];
+    v2[1] -= v1[1];
     v2[2] -= v1[2];
 
-    m_Forces->SetPoint (tp[1], v2); 
-   
-    m_Displacements->GetPoint (tp[0], &v1); 
-    m_Displacements->GetPoint (tp[1], &v2); 
-    m_Displacements->GetPoint (tp[2], &v3); 
-    v1[0] *= m_K[i]->get(2, 0)*p; 
-    v1[1] *= m_K[i]->get(2, 0)*p; 
-    v1[2] *= m_K[i]->get(2, 0)*p; 
-    v2[0] *= m_K[i]->get(2, 1)*p; 
-    v2[1] *= m_K[i]->get(2, 1)*p; 
-    v2[2] *= m_K[i]->get(2, 1)*p; 
-    v3[0] *= m_K[i]->get(2, 2)*p; 
-    v3[1] *= m_K[i]->get(2, 2)*p; 
-    v3[2] *= m_K[i]->get(2, 2)*p; 
-    v1[0] += v2[0]+v3[0]; 
-    v1[1] += v2[1]+v3[1]; 
-    v1[2] += v2[2]+v3[2]; 
-    m_Forces->GetPoint (tp[2], &v2); 
+    m_Forces->SetPoint (tp[1], v2);
 
-    v2[0] -= v1[0]; 
-    v2[1] -= v1[1]; 
+    m_Displacements->GetPoint (tp[0], &v1);
+    m_Displacements->GetPoint (tp[1], &v2);
+    m_Displacements->GetPoint (tp[2], &v3);
+    v1[0] *= m_K[i]->get(2, 0) * p;
+    v1[1] *= m_K[i]->get(2, 0) * p;
+    v1[2] *= m_K[i]->get(2, 0) * p;
+    v2[0] *= m_K[i]->get(2, 1) * p;
+    v2[1] *= m_K[i]->get(2, 1) * p;
+    v2[2] *= m_K[i]->get(2, 1) * p;
+    v3[0] *= m_K[i]->get(2, 2) * p;
+    v3[1] *= m_K[i]->get(2, 2) * p;
+    v3[2] *= m_K[i]->get(2, 2) * p;
+    v1[0] += v2[0] + v3[0];
+    v1[1] += v2[1] + v3[1];
+    v1[2] += v2[2] + v3[2];
+    m_Forces->GetPoint (tp[2], &v2);
+
+    v2[0] -= v1[0];
+    v2[1] -= v1[1];
     v2[2] -= v1[2];
 
-    m_Forces->SetPoint (tp[2], v2);  
+    m_Forces->SetPoint (tp[2], v2);
     ++i;
-    } 
+    }
 
   while ( derives != myDerives->End() )
     {
     derives.Value() = forces.Value();
-    ++derives; 
+    ++derives;
     ++forces;
-    }   
+    }
 }
 
 /** Update the displacements using d_{new} = d_{old} + timestep*d'. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::Advance()
 {
-  typename TInputMesh::PointType s, d, ds; 
+  typename TInputMesh::PointType s, d, ds;
 
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
@@ -419,116 +418,114 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
   InputPointsContainerIterator points = myPoints->Begin();
 
-  while( derives != myDerives->End() )
+  while ( derives != myDerives->End() )
     {
     ds = derives.Value();
     s = points.Value();
     d = displacements.Value();
-    s[0] += m_TimeStep*ds[0]; 
-    s[1] += m_TimeStep*ds[1]; 
-    s[2] += m_TimeStep*ds[2]; 
-    d[0] += m_TimeStep*ds[0]; 
-    d[1] += m_TimeStep*ds[1]; 
-    d[2] += m_TimeStep*ds[2]; 
+    s[0] += m_TimeStep * ds[0];
+    s[1] += m_TimeStep * ds[1];
+    s[2] += m_TimeStep * ds[2];
+    d[0] += m_TimeStep * ds[0];
+    d[1] += m_TimeStep * ds[1];
+    d[2] += m_TimeStep * ds[2];
 
-    /** do not update the displacements if the nodes is moving out of the image region. */
-    if ( (s[0] > 0) && (s[1] > 0) && (s[2] > 0) && 
-         (s[2] < m_ImageDepth) && (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) )
+    /** do not update the displacements if the nodes is moving out of the image
+      region. */
+    if ( ( s[0] > 0 ) && ( s[1] > 0 ) && ( s[2] > 0 )
+         && ( s[2] < m_ImageDepth ) && ( s[0] < m_ImageWidth ) && ( s[1] < m_ImageHeight ) )
       {
       points.Value() = s;
       displacements.Value() = d;
       }
 
-    ++derives; 
+    ++derives;
     ++points;
     ++displacements;
-    } 
-
+    }
 }
 
 /* Copy the content of m_Location into the Output. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::ComputeOutput() 
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::ComputeOutput()
 {
- 
   int i;
-  typename TriCell::CellAutoPointer insertCell;
-  unsigned long tripoints[3];
-  const unsigned long *tp;
-  double x;
 
-  OutputMeshType * output = this->GetOutput();
+  typename TriCell::CellAutoPointer insertCell;
+  unsigned long        tripoints[3];
+  const unsigned long *tp;
+  double               x;
+
+  OutputMeshType *output = this->GetOutput();
 
   typedef typename OutputMeshType::CellsContainer CellsContainer;
-    
-  output->SetCells(CellsContainer::New());
 
-  output->GetCells()->Reserve( m_NumberOfCells );
+  output->SetCells( CellsContainer::New() );
 
-  output->SetCellsAllocationMethod( OutputMeshType::CellsAllocatedDynamicallyCellByCell );
+  output->GetCells()->Reserve(m_NumberOfCells);
 
-  OutputPointsContainerPointer   myPoints = output->GetPoints();
+  output->SetCellsAllocationMethod(OutputMeshType::CellsAllocatedDynamicallyCellByCell);
+
+  OutputPointsContainerPointer myPoints = output->GetPoints();
   myPoints->Reserve(m_NumberOfNodes);
-  OutputPointsContainerIterator  points = myPoints->Begin();
+  OutputPointsContainerIterator points = myPoints->Begin();
 
-  InputPointsContainerPointer    myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator   locations = myLocations->Begin();
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
-  InputMeshConstPointer inputMesh = this->GetInput(0);
-  InputCellsContainerConstPointer     myCells = inputMesh->GetCells();
-  InputCellsContainerConstIterator    cells = myCells->Begin(); 
-  
+  InputMeshConstPointer            inputMesh = this->GetInput(0);
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin();
+
   InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
-  InputCellDataContainerConstIterator celldata = myCellData->Begin(); 
-  
+  InputCellDataContainerConstIterator celldata = myCellData->Begin();
+
   i = 0;
-  for (; i<m_NumberOfNodes; i++) 
+  for (; i < m_NumberOfNodes; i++ )
     {
     points.Value() = locations.Value();
     ++locations;
     ++points;
-    } 
+    }
 
-  for (i=0; i<m_NumberOfCells; i++) 
+  for ( i = 0; i < m_NumberOfCells; i++ )
     {
     tp = cells.Value()->GetPointIds();
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
-    insertCell.TakeOwnership( new TriCell );
+    insertCell.TakeOwnership(new TriCell);
     insertCell->SetPointIds(tripoints);
-    output->SetCell(i, insertCell );
+    output->SetCell(i, insertCell);
     x = celldata.Value();
     output->SetCellData(i, (PixelType)x);
     ++cells;
     ++celldata;
     }
-
 }
 
 /* Generate Data */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::GenerateData() 
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::GenerateData()
 {
   this->Initialize();
   this->SetMeshStiffness();
-  
-  while (m_Step < m_StepThreshold) 
-    {
 
-    const float progress = 
-      static_cast<float>( m_Step ) / 
-      static_cast<float>( m_StepThreshold );
-                  
-    this->UpdateProgress( progress );
+  while ( m_Step < m_StepThreshold )
+    {
+    const float progress =
+      static_cast< float >( m_Step )
+      / static_cast< float >( m_StepThreshold );
+
+    this->UpdateProgress(progress);
     this->ComputeNormals();
     this->GradientFit();
-    
-    if ( m_PotentialOn ) 
+
+    if ( m_PotentialOn )
       {
       this->PotentialFit();
       }
@@ -542,41 +539,40 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 }
 
 /** compute the force given out by the binary mask. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::PotentialFit() 
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::PotentialFit()
 {
-
   PixelType max, extends[3], t, xs, ys, zs;
+
   typename TInputMesh::PointType vec_for, vec_nor, vec_p, vec_1, vec_2;
-  int i, label;
-  ImageIndexType coord = {{0, 0, 0}};
-  ImageIndexType extend = {{0, 0, 0}};
-  int flag=0; 
+  int            i, label;
+  ImageIndexType coord = { { 0, 0, 0 } };
+  ImageIndexType extend = { { 0, 0, 0 } };
+  int            flag = 0;
 
-  InputPointsContainerPointer     Points = m_Locations->GetPoints();
-  InputPointsContainerIterator      points = Points->Begin();
+  InputPointsContainerPointer  Points = m_Locations->GetPoints();
+  InputPointsContainerIterator points = Points->Begin();
 
-  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator      forces = myForces->Begin();
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
   i = 0;
 
-  
-  while( i < m_NumberOfNodes )
+  while ( i < m_NumberOfNodes )
     {
-    xs = ys = zs = 1.0; 
+    xs = ys = zs = 1.0;
     vec_p = points.Value();
 
-    coord[0] = (int) vec_p[0];
-    coord[1] = (int) vec_p[1];
-    coord[2] = (int) vec_p[2];
+    coord[0] = (int)vec_p[0];
+    coord[1] = (int)vec_p[1];
+    coord[2] = (int)vec_p[2];
 
-    if ( m_Potential->GetPixel(coord) != m_ObjectLabel ) 
+    if ( m_Potential->GetPixel(coord) != m_ObjectLabel )
       {
       xs = ys = zs = -1.0;
       flag = 1;
@@ -584,9 +580,9 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     extends[0] = vec_p[0];
     extends[1] = vec_p[1];
     extends[2] = vec_p[2];
-    extend[0] = (int) vec_p[0];
-    extend[1] = (int) vec_p[1];
-    extend[2] = (int) vec_p[2];
+    extend[0] = (int)vec_p[0];
+    extend[1] = (int)vec_p[1];
+    extend[2] = (int)vec_p[2];
 
     vec_nor = normals.Value();
 
@@ -594,53 +590,56 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 
     //---------------------------------------------------------------------
     // all the movement in z direction is now disabled for further test
-    //---------------------------------------------------------------------  
-    if ( vcl_abs(vec_nor[1]) > max ) max = vcl_abs(vec_nor[1]);
-    if ( vcl_abs(vec_nor[2]) > max ) max = vcl_abs(vec_nor[2]);
+    //---------------------------------------------------------------------
+    if ( vcl_abs(vec_nor[1]) > max ) { max = vcl_abs(vec_nor[1]); }
+    if ( vcl_abs(vec_nor[2]) > max ) { max = vcl_abs(vec_nor[2]); }
     if ( flag )
       {
-      vec_1[0] = -1*vec_nor[0]/max;
-      vec_1[1] = -1*vec_nor[1]/max;
-      vec_1[2] = -1*vec_nor[2]/max;
+      vec_1[0] = -1 * vec_nor[0] / max;
+      vec_1[1] = -1 * vec_nor[1] / max;
+      vec_1[2] = -1 * vec_nor[2] / max;
       }
     else
       {
-      vec_1[0] = vec_nor[0]/max;
-      vec_1[1] = vec_nor[1]/max;
-      vec_1[2] = vec_nor[2]/max;
+      vec_1[0] = vec_nor[0] / max;
+      vec_1[1] = vec_nor[1] / max;
+      vec_1[2] = vec_nor[2] / max;
       }
 
     t = 0.0;
 
-    while (t < 5.0)
+    while ( t < 5.0 )
       {
       extends[0] += vec_1[0];
       extends[1] += vec_1[1];
       extends[2] += vec_1[2];
-      extend[0] = (int) (extends[0]+1);
-      extend[1] = (int) (extends[1]+1);
-      extend[2] = (int) (extends[2]+1);
-      if ((extend[0] <= 0) || (extend[1] <= 0) || (extend[2] <= 0)) break;
+      extend[0] = (int)( extends[0] + 1 );
+      extend[1] = (int)( extends[1] + 1 );
+      extend[2] = (int)( extends[2] + 1 );
+      if ( ( extend[0] <= 0 ) || ( extend[1] <= 0 ) || ( extend[2] <= 0 ) ) { break; }
 
-      extend[0] = (int) (extends[0]);
-      extend[1] = (int) (extends[1]);
-      extend[2] = (int) (extends[2]);
-      if ((extend[0] >= m_ImageWidth) || (extend[1] >= m_ImageHeight) || 
-          (extend[2] >= m_ImageDepth)) break;
+      extend[0] = (int)( extends[0] );
+      extend[1] = (int)( extends[1] );
+      extend[2] = (int)( extends[2] );
+      if ( ( extend[0] >= m_ImageWidth ) || ( extend[1] >= m_ImageHeight )
+           || ( extend[2] >= m_ImageDepth ) ) { break; }
 
       label = m_Potential->GetPixel(extend);
       if ( !flag )
         {
-        if ( label != m_ObjectLabel ) break;
+        if ( label != m_ObjectLabel ) { break; }
         }
-      else if ( label == m_ObjectLabel ) break;
+      else if ( label == m_ObjectLabel )
+        {
+        break;
+        }
 
       t += 1.0;
       }
 
-    vec_2[0] = t*m_PotentialMagnitude*vec_nor[0]*xs; 
-    vec_2[1] = t*m_PotentialMagnitude*vec_nor[1]*ys;
-    vec_2[2] = t*m_PotentialMagnitude*vec_nor[2]*zs;
+    vec_2[0] = t * m_PotentialMagnitude * vec_nor[0] * xs;
+    vec_2[1] = t * m_PotentialMagnitude * vec_nor[1] * ys;
+    vec_2[2] = t * m_PotentialMagnitude * vec_nor[2] * zs;
 
     vec_for = forces.Value();
     vec_for[0] += vec_2[0];
@@ -653,48 +652,47 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     ++normals;
     ++i;
     }
-
 }
 
 /** Fit the model using the gradient information. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::GradientFit() 
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::GradientFit()
 {
-  typedef typename ImageIndexType::IndexValueType   IndexValueType;
+  typedef typename ImageIndexType::IndexValueType IndexValueType;
 
   ImageIndexType coord, coord2, tmp_co_1, tmp_co_2, tmp_co_3;
   InputPointType v1, v2;
-  PixelType mag;
+  PixelType      mag;
 
   typename TInputMesh::PointType vec_nor, vec_loc, vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
 
-  InputPointsContainerPointer       myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator      locations = myLocations->Begin();
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
-  InputPointsContainerPointer       myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator      forces = myForces->Begin();
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator   forcedata = myForceData->Begin();
+  InputPointDataContainerPointer  myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator forcedata = myForceData->Begin();
 
-  InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
   /* New gradient fit method testing. */
-  while( forces != myForces->End() )
+  while ( forces != myForces->End() )
     {
     vec_loc = locations.Value();
     vec_nor = normals.Value();
 
-    coord[0] = static_cast<IndexValueType>(vec_loc[0]);
-    coord[1] = static_cast<IndexValueType>(vec_loc[1]);
-    coord[2] = static_cast<IndexValueType>(vec_loc[2]);
+    coord[0] = static_cast< IndexValueType >( vec_loc[0] );
+    coord[1] = static_cast< IndexValueType >( vec_loc[1] );
+    coord[2] = static_cast< IndexValueType >( vec_loc[2] );
 
-    coord2[0] = static_cast<IndexValueType>( vcl_ceil(vec_loc[0]) );
-    coord2[1] = static_cast<IndexValueType>( vcl_ceil(vec_loc[1]) );
-    coord2[2] = static_cast<IndexValueType>( vcl_ceil(vec_loc[2]) );
+    coord2[0] = static_cast< IndexValueType >( vcl_ceil(vec_loc[0]) );
+    coord2[1] = static_cast< IndexValueType >( vcl_ceil(vec_loc[1]) );
+    coord2[2] = static_cast< IndexValueType >( vcl_ceil(vec_loc[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
@@ -708,8 +706,8 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     tmp_co_3[1] = coord[1];
     tmp_co_3[2] = coord2[2];
 
-    if ( (coord[0] >= 0) && (coord[1] >= 0) && (coord[2] >= 0) && 
-         (coord2[0] < m_ImageWidth) && (coord2[1] < m_ImageHeight) && (coord2[2] < m_ImageDepth) )
+    if ( ( coord[0] >= 0 ) && ( coord[1] >= 0 ) && ( coord[2] >= 0 )
+         && ( coord2[0] < m_ImageWidth ) && ( coord2[1] < m_ImageHeight ) && ( coord2[2] < m_ImageDepth ) )
       {
       vec_for[0] = m_Gradient->GetPixel(coord)[0];
       vec_for[1] = m_Gradient->GetPixel(coord)[1];
@@ -725,12 +723,12 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       tmp_vec_3[1] = m_Gradient->GetPixel(tmp_co_3)[1] - m_Gradient->GetPixel(coord)[1];
       tmp_vec_3[2] = m_Gradient->GetPixel(tmp_co_3)[2] - m_Gradient->GetPixel(coord)[2];
 
-      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] 
-        + (vec_loc[1]-coord[1])*tmp_vec_2[0] + (vec_loc[2]-coord[2])*tmp_vec_3[0];
-      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1]
-        + (vec_loc[0]-coord[0])*tmp_vec_1[1] + (vec_loc[2]-coord[2])*tmp_vec_3[1];
-      vec_for[2] = vec_for[2] + (vec_loc[2]-coord[2])*tmp_vec_3[2]
-        + (vec_loc[1]-coord[1])*tmp_vec_2[2] + (vec_loc[0]-coord[0])*tmp_vec_1[2];
+      vec_for[0] = vec_for[0] + ( vec_loc[0] - coord[0] ) * tmp_vec_1[0]
+                   + ( vec_loc[1] - coord[1] ) * tmp_vec_2[0] + ( vec_loc[2] - coord[2] ) * tmp_vec_3[0];
+      vec_for[1] = vec_for[1] + ( vec_loc[1] - coord[1] ) * tmp_vec_2[1]
+                   + ( vec_loc[0] - coord[0] ) * tmp_vec_1[1] + ( vec_loc[2] - coord[2] ) * tmp_vec_3[1];
+      vec_for[2] = vec_for[2] + ( vec_loc[2] - coord[2] ) * tmp_vec_3[2]
+                   + ( vec_loc[1] - coord[1] ) * tmp_vec_2[2] + ( vec_loc[0] - coord[0] ) * tmp_vec_1[2];
       }
     else
       {
@@ -739,18 +737,18 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
       vec_for[2] = 0;
       }
 
-    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1]+ vec_for[2]*vec_nor[2];
+    mag = vec_for[0] * vec_nor[0] + vec_for[1] * vec_nor[1] + vec_for[2] * vec_nor[2];
 
-    vec_for[0] = m_GradientMagnitude*mag*vec_nor[0]/*num_for*/;
-    vec_for[1] = m_GradientMagnitude*mag*vec_nor[1]/*num_for*/; 
-    vec_for[2] = m_GradientMagnitude*mag*vec_nor[2]/*num_for*/; 
+    vec_for[0] = m_GradientMagnitude * mag * vec_nor[0]; /*num_for*/
+    vec_for[1] = m_GradientMagnitude * mag * vec_nor[1]; /*num_for*/
+    vec_for[2] = m_GradientMagnitude * mag * vec_nor[2]; /*num_for*/
 
-    mag = vcl_sqrt(vec_for[0]*vec_for[0] + vec_for[1]*vec_for[1]+ vec_for[2]*vec_for[2]);
-    if (mag > 0.5) 
+    mag = vcl_sqrt(vec_for[0] * vec_for[0] + vec_for[1] * vec_for[1] + vec_for[2] * vec_for[2]);
+    if ( mag > 0.5 )
       {
-      for (int i=0; i<3; i++)
+      for ( int i = 0; i < 3; i++ )
         {
-        vec_for[i] = (0.5 * vec_for[i])/mag;
+        vec_for[i] = ( 0.5 * vec_for[i] ) / mag;
         }
       }
     forces.Value() = vec_for;
@@ -763,29 +761,30 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
 }
 
 /* Compute normals. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-DeformableMesh3DFilter<TInputMesh, TOutputMesh>
-::ComputeNormals() 
+DeformableMesh3DFilter< TInputMesh, TOutputMesh >
+::ComputeNormals()
 {
   const unsigned long *tp;
-  InputPointType v1, v2, v3, v4, d;
+  InputPointType       v1, v2, v3, v4, d;
+
   v1.Fill(0.);
   v2.Fill(0.);
   v3.Fill(0.);
   d.Fill(0.);
-  
+
   double coa, cob, coc;
   double absvec;
 
-  InputMeshConstPointer inputMesh = this->GetInput(0);
-  InputCellsContainerConstPointer    myCells = inputMesh->GetCells();
-  InputCellsContainerConstIterator   cells = myCells->Begin();
+  InputMeshConstPointer            inputMesh = this->GetInput(0);
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin();
 
-  InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator  normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  while( normals != myNormals->End() )
+  while ( normals != myNormals->End() )
     {
     normals.Value() = d;
     ++normals;
@@ -800,23 +799,23 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     m_Locations->GetPoint (tp[1], &v2);
     m_Locations->GetPoint (tp[2], &v3);
 
-    coa = -(v1[1]*(v2[2]-v3[2]) + 
-            v2[1]*(v3[2]-v1[2]) +
-            v3[1]*(v1[2]-v2[2]));
-    cob = -(v1[2] * (v2[0]-v3[0]) +
-            v2[2]*(v3[0]-v1[0]) +
-            v3[2]*(v1[0]-v2[0]));
-    coc = -(v1[0] * (v2[1]-v3[1]) +
-            v2[0]*(v3[1]-v1[1]) +
-            v3[0]*(v1[1]-v2[1]));
+    coa = -( v1[1] * ( v2[2] - v3[2] )
+             + v2[1] * ( v3[2] - v1[2] )
+             + v3[1] * ( v1[2] - v2[2] ) );
+    cob = -( v1[2] * ( v2[0] - v3[0] )
+             + v2[2] * ( v3[0] - v1[0] )
+             + v3[2] * ( v1[0] - v2[0] ) );
+    coc = -( v1[0] * ( v2[1] - v3[1] )
+             + v2[0] * ( v3[1] - v1[1] )
+             + v3[0] * ( v1[1] - v2[1] ) );
 
-    absvec = -vcl_sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
-  
+    absvec = -vcl_sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
+
     assert (absvec != 0);
-  
-    v4[0] = coa/absvec;
-    v4[1] = cob/absvec;
-    v4[2] = coc/absvec;
+
+    v4[0] = coa / absvec;
+    v4[1] = cob / absvec;
+    v4[2] = coc / absvec;
     m_Normals->GetPoint (tp[0], &v1);
     m_Normals->GetPoint (tp[1], &v2);
     m_Normals->GetPoint (tp[2], &v3);
@@ -828,7 +827,7 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     v2[0] += v4[0];
     v2[1] += v4[1];
     v2[2] += v4[2];
-  
+
     v3[0] += v4[0];
     v3[1] += v4[1];
     v3[2] += v4[2];
@@ -836,25 +835,23 @@ DeformableMesh3DFilter<TInputMesh, TOutputMesh>
     m_Normals->SetPoint (tp[0], v1);
     m_Normals->SetPoint (tp[1], v2);
     m_Normals->SetPoint (tp[2], v3);
-
     }
 
   normals = myNormals->Begin();
-  while( normals != myNormals->End() )
+  while ( normals != myNormals->End() )
     {
     v1 = normals.Value();
 
-    absvec = vcl_sqrt((double) ((v1[0]*v1[0]) + (v1[1]*v1[1]) + 
-                                (v1[2]*v1[2])));
-    v1[0] = v1[0]/absvec;
-    v1[1] = v1[1]/absvec;
-    v1[2] = v1[2]/absvec;
+    absvec = vcl_sqrt( (double)( ( v1[0] * v1[0] ) + ( v1[1] * v1[1] )
+                                 + ( v1[2] * v1[2] ) ) );
+    v1[0] = v1[0] / absvec;
+    v1[1] = v1[1] / absvec;
+    v1[2] = v1[2] / absvec;
 
     normals.Value() = v1;
     ++normals;
     }
 }
-
 } /* end namespace itk. */
 
 #endif

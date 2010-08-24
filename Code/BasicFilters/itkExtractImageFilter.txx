@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,73 +24,68 @@
 #include "itkExtractImageFilterRegionCopier.h"
 #include "itkProgressReporter.h"
 
-
 namespace itk
 {
+/**
+ *
+ */
+template< class TInputImage, class TOutputImage >
+ExtractImageFilter< TInputImage, TOutputImage >
+::ExtractImageFilter()
+{}
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-ExtractImageFilter<TInputImage,TOutputImage>
-::ExtractImageFilter() 
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-}
-
-
-/**
- *
- */
-template <class TInputImage, class TOutputImage>
-void 
-ExtractImageFilter<TInputImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "ExtractionRegion: " << m_ExtractionRegion << std::endl;
   os << indent << "OutputImageRegion: " << m_OutputImageRegion << std::endl;
 }
 
-
-template<class TInputImage, class TOutputImage>
-void 
-ExtractImageFilter<TInputImage,TOutputImage>
-::CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
-                                    const OutputImageRegionType &srcRegion)
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
+::CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
+                                    const OutputImageRegionType & srcRegion)
 {
   ExtractImageFilterRegionCopierType extractImageRegionCopier;
+
   extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);
 }
 
-
-template <class TInputImage, class TOutputImage>
-void 
-ExtractImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
 ::SetExtractionRegion(InputImageRegionType extractRegion)
 {
   m_ExtractionRegion = extractRegion;
 
-  unsigned int nonzeroSizeCount = 0;
-  InputImageSizeType inputSize = extractRegion.GetSize();
-  OutputImageSizeType outputSize;
+  unsigned int         nonzeroSizeCount = 0;
+  InputImageSizeType   inputSize = extractRegion.GetSize();
+  OutputImageSizeType  outputSize;
   OutputImageIndexType outputIndex;
 
   /**
    * check to see if the number of non-zero entries in the extraction region
-   * matches the number of dimensions in the output image.  
+   * matches the number of dimensions in the output image.
    */
-  for (unsigned int i = 0; i < InputImageDimension; ++i)
+  for ( unsigned int i = 0; i < InputImageDimension; ++i )
     {
-    if (inputSize[i])
-      { 
+    if ( inputSize[i] )
+      {
       outputSize[nonzeroSizeCount] = inputSize[i];
       outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
       nonzeroSizeCount++;
       }
     }
-    
-  if (nonzeroSizeCount != OutputImageDimension)
+
+  if ( nonzeroSizeCount != OutputImageDimension )
     {
     itkExceptionMacro("Extraction Region not consistent with output image");
     }
@@ -100,78 +95,78 @@ ExtractImageFilter<TInputImage,TOutputImage>
   this->Modified();
 }
 
-/** 
+/**
  * ExtractImageFilter can produce an image which is a different resolution
  * than its input image.  As such, ExtractImageFilter needs to provide an
  * implementation for GenerateOutputInformation() in order to inform
  * the pipeline execution model.  The original documentation of this
  * method is below.
  *
- * \sa ProcessObject::GenerateOutputInformaton() 
+ * \sa ProcessObject::GenerateOutputInformaton()
  */
-template <class TInputImage, class TOutputImage>
-void 
-ExtractImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
   // do not call the superclass' implementation of this method since
   // this filter allows the input and the output to be of different dimensions
- 
-  // get pointers to the input and output
-  typename Superclass::OutputImagePointer      outputPtr = this->GetOutput();
-  typename Superclass::InputImageConstPointer  inputPtr  = this->GetInput();
 
-  if ( !outputPtr || !inputPtr)
+  // get pointers to the input and output
+  typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
+  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
+
+  if ( !outputPtr || !inputPtr )
     {
     return;
     }
 
   // Set the output image size to the same value as the extraction region.
-  outputPtr->SetLargestPossibleRegion( m_OutputImageRegion );
+  outputPtr->SetLargestPossibleRegion(m_OutputImageRegion);
 
   // Set the output spacing and origin
-  const ImageBase<InputImageDimension> *phyData;
+  const ImageBase< InputImageDimension > *phyData;
 
-  phyData
-    = dynamic_cast<const ImageBase<InputImageDimension>*>(this->GetInput());
+  phyData =
+    dynamic_cast< const ImageBase< InputImageDimension > * >( this->GetInput() );
 
-  if (phyData)
+  if ( phyData )
     {
     // Copy what we can from the image from spacing and origin of the input
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
 
     unsigned int i;
-    const typename InputImageType::SpacingType& 
-      inputSpacing = inputPtr->GetSpacing();
-    const typename InputImageType::DirectionType&
-      inputDirection = inputPtr->GetDirection();
-    const typename InputImageType::PointType&
-      inputOrigin = inputPtr->GetOrigin();
+    const typename InputImageType::SpacingType &
+    inputSpacing = inputPtr->GetSpacing();
+    const typename InputImageType::DirectionType &
+    inputDirection = inputPtr->GetDirection();
+    const typename InputImageType::PointType &
+    inputOrigin = inputPtr->GetOrigin();
 
     typename OutputImageType::SpacingType outputSpacing;
     typename OutputImageType::DirectionType outputDirection;
     typename OutputImageType::PointType outputOrigin;
 
-    if ( static_cast<unsigned int>(OutputImageDimension) > 
-         static_cast<unsigned int>(InputImageDimension )    )
+    if ( static_cast< unsigned int >( OutputImageDimension ) >
+         static_cast< unsigned int >( InputImageDimension ) )
       {
       // copy the input to the output and fill the rest of the
       // output with zeros.
-      for (i=0; i < InputImageDimension; ++i)
+      for ( i = 0; i < InputImageDimension; ++i )
         {
         outputSpacing[i] = inputSpacing[i];
         outputOrigin[i] = inputOrigin[i];
-        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
           {
           outputDirection[i][dim] = inputDirection[i][dim];
           }
         }
-      for (; i < OutputImageDimension; ++i)
+      for (; i < OutputImageDimension; ++i )
         {
         outputSpacing[i] = 1.0;
         outputOrigin[i] = 0.0;
-        for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+        for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
           {
           outputDirection[i][dim] = 0.0;
           }
@@ -180,19 +175,20 @@ ExtractImageFilter<TInputImage,TOutputImage>
       }
     else
       {
-      // copy the non-collapsed part of the input spacing and origing to the output
+      // copy the non-collapsed part of the input spacing and origing to the
+      // output
       outputDirection.SetIdentity();
       int nonZeroCount = 0;
-      for (i=0; i < InputImageDimension; ++i)
+      for ( i = 0; i < InputImageDimension; ++i )
         {
-        if (m_ExtractionRegion.GetSize()[i])
+        if ( m_ExtractionRegion.GetSize()[i] )
           {
           outputSpacing[nonZeroCount] = inputSpacing[i];
           outputOrigin[nonZeroCount] = inputOrigin[i];
           int nonZeroCount2 = 0;
-          for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
+          for ( unsigned int dim = 0; dim < InputImageDimension; ++dim )
             {
-            if (m_ExtractionRegion.GetSize()[dim])
+            if ( m_ExtractionRegion.GetSize()[dim] )
               {
               outputDirection[nonZeroCount][nonZeroCount2] =
                 inputDirection[nonZeroCount][dim];
@@ -203,31 +199,34 @@ ExtractImageFilter<TInputImage,TOutputImage>
           }
         }
       }
-    // This is a temporary fix to get over the problems with using the orientation of Images to
-    // a non-degenerate extracted image to be created.  It still needs to be determined
-    // how to compute the correct outputDirection from all possible input directions.
-    if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
+    // This is a temporary fix to get over the problems with using the
+    // orientation of Images to
+    // a non-degenerate extracted image to be created.  It still needs to be
+    // determined
+    // how to compute the correct outputDirection from all possible input
+    // directions.
+    if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
       {
       outputDirection.SetIdentity();
       }
 
     // set the spacing and origin
-    outputPtr->SetSpacing( outputSpacing );
-    outputPtr->SetDirection( outputDirection );
-    outputPtr->SetOrigin( outputOrigin );
+    outputPtr->SetSpacing(outputSpacing);
+    outputPtr->SetDirection(outputDirection);
+    outputPtr->SetOrigin(outputOrigin);
     outputPtr->SetNumberOfComponentsPerPixel(
-    inputPtr->GetNumberOfComponentsPerPixel() );
+      inputPtr->GetNumberOfComponentsPerPixel() );
     }
   else
     {
     // pointer could not be cast back down
-    itkExceptionMacro(<< "itk::ExtractImageFilter::GenerateOutputInformation "
-                      << "cannot cast input to "
-                      << typeid(ImageBase<InputImageDimension>*).name() );
+    itkExceptionMacro( << "itk::ExtractImageFilter::GenerateOutputInformation "
+                       << "cannot cast input to "
+                       << typeid( ImageBase< InputImageDimension > * ).name() );
     }
 }
 
-/** 
+/**
  * ExtractImageFilter can be implemented as a multithreaded filter.
  * Therefore, this implementation provides a ThreadedGenerateData()
  * routine which is called for each processing thread. The output
@@ -237,45 +236,44 @@ ExtractImageFilter<TInputImage,TOutputImage>
  * parameter "outputRegionForThread"
  *
  * \sa ImageToImageFilter::ThreadedGenerateData(),
- *     ImageToImageFilter::GenerateData() 
+ *     ImageToImageFilter::GenerateData()
  */
-template <class TInputImage, class TOutputImage>
-void 
-ExtractImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+template< class TInputImage, class TOutputImage >
+void
+ExtractImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
-  itkDebugMacro(<<"Actually executing");
+  itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer  inputPtr = this->GetInput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-  
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
-  
+
   // Define the iterators.
-  typedef ImageRegionIterator<TOutputImage>     OutputIterator;
-  typedef ImageRegionConstIterator<TInputImage> InputIterator;
+  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
+  typedef ImageRegionConstIterator< TInputImage > InputIterator;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
-  InputIterator inIt(inputPtr, inputRegionForThread);
+  InputIterator  inIt(inputPtr, inputRegionForThread);
 
   // walk the output region, and sample the input image
-  while( !outIt.IsAtEnd() )
+  while ( !outIt.IsAtEnd() )
     {
     // copy the input pixel to the output
-    outIt.Set( static_cast<OutputImagePixelType>(inIt.Get()));
-    ++outIt; 
-    ++inIt; 
+    outIt.Set( static_cast< OutputImagePixelType >( inIt.Get() ) );
+    ++outIt;
+    ++inIt;
     progress.CompletedPixel();
     }
 }
-
 } // end namespace itk
 
 #endif

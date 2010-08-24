@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-  
 /** \class RegionFromReferenceLabelMapFilter
  * \brief Set the region from a reference image
  *
@@ -35,29 +34,28 @@ namespace itk
  * All objects fully outside the output region are removed.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template <class TInputImage>
-class ITK_EXPORT RegionFromReferenceLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
+template< class TInputImage >
+class ITK_EXPORT RegionFromReferenceLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionFromReferenceLabelMapFilter        Self;
-  typedef ChangeRegionLabelMapFilter<TInputImage>  Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
-  
-  
+  typedef RegionFromReferenceLabelMapFilter         Self;
+  typedef ChangeRegionLabelMapFilter< TInputImage > Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegionFromReferenceLabelMapFilter, ChangeRegionImageFilter);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageType       OutputImageType;
@@ -69,59 +67,57 @@ public:
   typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType; 
+  typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
 
-  typedef typename InputImageType::PixelType       PixelType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::SizeType        SizeType;
-  typedef typename InputImageType::RegionType      RegionType;
-  
+  typedef typename InputImageType::PixelType  PixelType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::SizeType   SizeType;
+  typedef typename InputImageType::RegionType RegionType;
+
   typedef TInputImage TOutputImage;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef ImageBase< itkGetStaticConstMacro( ImageDimension ) >    ReferenceImageType;
+  typedef ImageBase< itkGetStaticConstMacro(ImageDimension) > ReferenceImageType;
 
   /** Copy the output information from another Image. */
-  void SetReferenceImage ( const ReferenceImageType *image );
-  
+  void SetReferenceImage(const ReferenceImageType *image);
+
   const ReferenceImageType * GetReferenceImage() const;
 
   /** Set the input image */
   void SetInput1(const TInputImage *input)
-    {
-    this->SetInput( input );
-    }
+  {
+    this->SetInput(input);
+  }
 
   /** Set the reference image */
   void SetInput2(const ReferenceImageType *input)
-    {
-    this->SetReferenceImage( input );
-    }
-
+  {
+    this->SetReferenceImage(input);
+  }
 
 protected:
   RegionFromReferenceLabelMapFilter()
-    {
+  {
     this->SetNumberOfRequiredInputs(2);
-    }
-  ~RegionFromReferenceLabelMapFilter() {};
+  }
+
+  ~RegionFromReferenceLabelMapFilter() {}
 
   virtual void GenerateOutputInformation();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  RegionFromReferenceLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  RegionFromReferenceLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,23 +32,22 @@
 
 namespace itk
 {
-
 /** \class TransformFileReader
- * 
+ *
  * \brief TODO
  */
-class TransformFileReader : public LightProcessObject
+class TransformFileReader:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileReader Self;
-  typedef SmartPointer<Self>  Pointer;
-  typedef TransformBase       TransformType;
+  typedef TransformFileReader  Self;
+  typedef SmartPointer< Self > Pointer;
+  typedef TransformBase        TransformType;
 
   typedef TransformType::ParametersType ParametersType;
   typedef TransformType::Pointer        TransformPointer;
-  typedef std::list<TransformPointer>   TransformListType;
+  typedef std::list< TransformPointer > TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -67,22 +66,19 @@ public:
   void Update();
 
   /** Get the list of transform */
-  TransformListType * GetTransformList() {return & m_TransformList;}
-
+  TransformListType * GetTransformList() { return &m_TransformList; }
 protected:
-  TransformFileReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-   
+  TransformFileReader(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
+
   std::string m_FileName;
 
   TransformFileReader();
   virtual ~TransformFileReader();
-
 private:
 
-  TransformListType    m_TransformList;
+  TransformListType m_TransformList;
 };
-
 } // namespace itk
 
 #endif

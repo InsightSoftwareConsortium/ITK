@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkCannySegmentationLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**   \class CannySegmentationLevelSetImageFilter
  *    \brief Segments structures in images based on image features derived from
  *           pseudo-canny-edges.
@@ -123,19 +123,19 @@ namespace itk {
  *   \sa SegmentationLevelSetImageFilter
  *   \sa CannySegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
-          class TOutputPixelType = float>
-class ITK_EXPORT CannySegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >
+          class TOutputPixelType = float >
+class ITK_EXPORT CannySegmentationLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
   /** Standard class typedefs */
   typedef CannySegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >
-                                               Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType        ValueType;
@@ -143,13 +143,13 @@ public:
   typedef typename Superclass::FeatureImageType FeatureImageType;
   typedef typename Superclass::VectorImageType  VectorImageType;
   typedef typename Superclass::SpeedImageType   SpeedImageType;
-  
+
   /** Type of the segmentation function */
-  typedef ::itk::CannySegmentationLevelSetFunction<OutputImageType,
-                                                   FeatureImageType> CannyFunctionType;
+  typedef::itk::CannySegmentationLevelSetFunction< OutputImageType,
+                                                   FeatureImageType > CannyFunctionType;
 
   typedef typename CannyFunctionType::ScalarValueType ScalarValueType;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(CannySegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
@@ -159,40 +159,39 @@ public:
   /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
   void SetThreshold(ScalarValueType v)
-    { this->m_CannyFunction->SetThreshold(v); }
+  { this->m_CannyFunction->SetThreshold(v); }
   ScalarValueType GetThreshold() const
-    { return this->m_CannyFunction->GetThreshold(); }
+  { return this->m_CannyFunction->GetThreshold(); }
 
   /** Set the Variance parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
   void SetVariance(double v)
-    { this->m_CannyFunction->SetVariance(v); }
+  { this->m_CannyFunction->SetVariance(v); }
   double GetVariance() const
-    { return this->m_CannyFunction->GetVariance(); }
+  { return this->m_CannyFunction->GetVariance(); }
 
   /** Get the Canny image that was used to create the speed and
       advection images */
-  OutputImageType *GetCannyImage(void)
-    { return this->m_CannyFunction->GetCannyImage(); }
+  OutputImageType * GetCannyImage(void)
+  { return this->m_CannyFunction->GetCannyImage(); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<TOutputPixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ~CannySegmentationLevelSetImageFilter() {}
   CannySegmentationLevelSetImageFilter();
-
 private:
-  CannySegmentationLevelSetImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CannySegmentationLevelSetImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 
-  typename CannyFunctionType::Pointer m_CannyFunction;  
+  typename CannyFunctionType::Pointer m_CannyFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -19,17 +19,18 @@
 
 #include "itkSampleClassifierFilter.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 SampleClassifierFilter< TSample >
 ::SampleClassifierFilter()
 {
   this->m_NumberOfClasses = 0;
 
-  this->SetNumberOfRequiredInputs( 3 );
-  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredInputs(3);
+  this->SetNumberOfRequiredOutputs(1);
 
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 
@@ -40,9 +41,9 @@ SampleClassifierFilter< TSample >
 template< class TSample >
 void
 SampleClassifierFilter< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "NumberofClasses: "
      << this->GetNumberOfClasses() << std::endl;
   os << indent << "DecisionRule: "
@@ -52,67 +53,65 @@ SampleClassifierFilter< TSample >
 template< class TSample >
 void
 SampleClassifierFilter< TSample >
-::SetInput( const TSample* sample )
+::SetInput(const TSample *sample)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0,
-                                   const_cast< SampleType * >( sample ) );
+  this->ProcessObject::SetNthInput( 0,
+                                    const_cast< SampleType * >( sample ) );
 }
 
 template< class TSample >
 const TSample *
 SampleClassifierFilter< TSample >
-::GetInput( ) const
+::GetInput() const
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
 
-  return static_cast<const SampleType * >
-  (this->ProcessObject::GetInput(0) );
+  return static_cast< const SampleType * >
+         ( this->ProcessObject::GetInput(0) );
 }
-
 
 template< class TSample >
 void
 SampleClassifierFilter< TSample >
-::SetClassLabels( const ClassLabelVectorObjectType * classLabels )
+::SetClassLabels(const ClassLabelVectorObjectType *classLabels)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(1,
-                                   const_cast< ClassLabelVectorObjectType * >( classLabels ) );
+  this->ProcessObject::SetNthInput( 1,
+                                    const_cast< ClassLabelVectorObjectType * >( classLabels ) );
 }
 
 template< class TSample >
 void
 SampleClassifierFilter< TSample >
-::SetMembershipFunctions( const MembershipFunctionVectorObjectType * membershipFunctions )
+::SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(2,
-                                   const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
+  this->ProcessObject::SetNthInput( 2,
+                                    const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
 }
 
 template< class TSample >
 void
 SampleClassifierFilter< TSample >
-::SetMembershipFunctionsWeightsArray( const
-MembershipFunctionsWeightsArrayObjectType * weightsArray )
+::SetMembershipFunctionsWeightsArray(const
+                                     MembershipFunctionsWeightsArrayObjectType *weightsArray)
 {
- // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(3,
-                                   const_cast<
-  MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput( 3,
+                                    const_cast<
+                                      MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
 }
-
 
 template< class TSample >
 typename SampleClassifierFilter< TSample >::DataObjectPointer
 SampleClassifierFilter< TSample >
 ::MakeOutput(unsigned int)
 {
-  return static_cast<DataObject*>( MembershipSampleType::New().GetPointer() );
+  return static_cast< DataObject * >( MembershipSampleType::New().GetPointer() );
 }
 
 template< class TSample >
@@ -120,42 +119,44 @@ void
 SampleClassifierFilter< TSample >
 ::GenerateData()
 {
-  const ClassLabelVectorObjectType * classLabelsDecorated =
-    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput( 1 ) );
+  const ClassLabelVectorObjectType *classLabelsDecorated =
+    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput(1) );
 
-  const MembershipFunctionVectorObjectType * membershipFunctionsDecorated =
-    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput( 2 ) );
+  const MembershipFunctionVectorObjectType *membershipFunctionsDecorated =
+    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput(2) );
 
   const MembershipFunctionsWeightsArrayObjectType *
-                membershipFunctionsWeightsArrayDecorated =
-    static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput( 3 ) );
+  membershipFunctionsWeightsArrayDecorated =
+    static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput(3) );
 
   const ClassLabelVectorType & classLabels = classLabelsDecorated->Get();
 
   const MembershipFunctionVectorType & membershipFunctions = membershipFunctionsDecorated->Get();
 
-  // Check number of Labels and MembershipSamples against the number of classes */
-  if( membershipFunctions.size() != this->m_NumberOfClasses )
+  // Check number of Labels and MembershipSamples against the number of classes
+  // */
+  if ( membershipFunctions.size() != this->m_NumberOfClasses )
     {
     itkExceptionMacro("Number of Membership functions does not match the number of classes");
     }
 
-  if( classLabels.size() != this->m_NumberOfClasses )
+  if ( classLabels.size() != this->m_NumberOfClasses )
     {
     itkExceptionMacro("Number of class labels does not match the number of classes");
     }
 
-  if( m_DecisionRule.IsNull())
+  if ( m_DecisionRule.IsNull() )
     {
     itkExceptionMacro("Decision rule is not set");
     }
 
   MembershipFunctionsWeightsArrayType membershipFunctionsWeightsArray;
-  if( membershipFunctionsWeightsArrayDecorated == NULL )
+  if ( membershipFunctionsWeightsArrayDecorated == NULL )
     {
-    // no weights array is set and hence all membership functions will have equal
+    // no weights array is set and hence all membership functions will have
+    // equal
     // weight
-    membershipFunctionsWeightsArray.SetSize( this->m_NumberOfClasses );
+    membershipFunctionsWeightsArray.SetSize(this->m_NumberOfClasses);
     membershipFunctionsWeightsArray.Fill(1.0);
     }
   else
@@ -164,41 +165,42 @@ SampleClassifierFilter< TSample >
     }
 
   if ( membershipFunctionsWeightsArray.Size() != this->m_NumberOfClasses
-)
+       )
     {
-    itkExceptionMacro("Membership functions weight array size does not match the\
-                      number of classes ");
+    itkExceptionMacro(
+      "Membership functions weight array size does not match the\
+                      number of classes "                                                                  );
     }
 
-  const SampleType * sample =
-    static_cast< const SampleType * >( this->ProcessObject::GetInput( 0 ) );
+  const SampleType *sample =
+    static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
 
   std::vector< double > discriminantScores;
-  discriminantScores.resize( this->m_NumberOfClasses );
+  discriminantScores.resize(this->m_NumberOfClasses);
 
-  MembershipSampleType * output = dynamic_cast< MembershipSampleType * >(
-                      this->ProcessObject::GetOutput(0));
+  MembershipSampleType *output = dynamic_cast< MembershipSampleType * >(
+    this->ProcessObject::GetOutput(0) );
 
   output->SetSample( this->GetInput() );
-  output->SetNumberOfClasses( this->m_NumberOfClasses );
+  output->SetNumberOfClasses(this->m_NumberOfClasses);
 
   typename TSample::ConstIterator iter = sample->Begin();
   typename TSample::ConstIterator end  = sample->End();
 
-  while (iter != end)
+  while ( iter != end )
     {
     typename TSample::MeasurementVectorType measurements;
     measurements = iter.GetMeasurementVector();
-    for (unsigned int i = 0; i < this->m_NumberOfClasses; i++)
+    for ( unsigned int i = 0; i < this->m_NumberOfClasses; i++ )
       {
-      discriminantScores[i] = membershipFunctionsWeightsArray[i] *
-        membershipFunctions[i]->Evaluate(measurements);
+      discriminantScores[i] = membershipFunctionsWeightsArray[i]
+                              * membershipFunctions[i]->Evaluate(measurements);
       }
 
     unsigned int classIndex;
     classIndex = m_DecisionRule->Evaluate(discriminantScores);
 
-    output->AddInstance(classLabels[classIndex], iter.GetInstanceIdentifier());
+    output->AddInstance( classLabels[classIndex], iter.GetInstanceIdentifier() );
     ++iter;
     }
 }
@@ -208,9 +210,8 @@ const typename SampleClassifierFilter< TSample >::MembershipSampleType *
 SampleClassifierFilter< TSample >
 ::GetOutput() const
 {
-  return static_cast< const MembershipSampleType * >(this->ProcessObject::GetOutput(0));
+  return static_cast< const MembershipSampleType * >( this->ProcessObject::GetOutput(0) );
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

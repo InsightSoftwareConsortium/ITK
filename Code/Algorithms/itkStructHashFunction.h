@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,6 @@
 
 namespace itk
 {
-
 /** \class StructHashFunction
  *
  *  \brief Generic hash function for an arbitrary struct (or class).
@@ -43,26 +42,24 @@ public:
   /** Input type */
   typedef TInput InputType;
 
-  unsigned int operator()( const InputType& key ) const;
-
+  unsigned int operator()(const InputType & key) const;
 };
 
 template< class TInput >
 inline unsigned int
 StructHashFunction< TInput >
-::operator()( const InputType& key ) const
+::operator()(const InputType & key) const
 {
   ::size_t len = sizeof( InputType );
-  const char* p = reinterpret_cast< const char* >( &key );
+  const char * p = reinterpret_cast< const char * >( &key );
   unsigned int hash = 0;
-  while( len-- )
+  while ( len-- )
     {
     hash = hash * 65 + *p++;
     }
-  hash += (hash >> 5);
+  hash += ( hash >> 5 );
   return hash;
 }
-
 }
 
 #endif  // ndef itkStructHashFunction_h

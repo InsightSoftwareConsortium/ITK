@@ -24,18 +24,18 @@
 #include "itkDenseFrequencyContainer2.h"
 #include "itkSparseFrequencyContainer2.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
  * to access the dimension of an image template parameter in defining their
  * own dimension, this class is needed as a work-around.
  */
-template <typename THistogram>
-struct GetHistogramDimension
-{
+template< typename THistogram >
+struct GetHistogramDimension {
   itkStaticConstMacro(HistogramDimension, unsigned int, THistogram::MeasurementVectorSize);
 };
 
@@ -76,21 +76,21 @@ struct GetHistogramDimension
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
  */
 
-template < class TMeasurement = float,
-           class TFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_EXPORT Histogram
-  : public Sample < Array< TMeasurement > >
+template< class TMeasurement = float,
+          class TFrequencyContainer = DenseFrequencyContainer2 >
+class ITK_EXPORT Histogram:
+  public Sample< Array< TMeasurement > >
 {
 public:
 
   // This type serves as the indirect definition of MeasurementVectorType
-  typedef Array< TMeasurement >        ArrayType;
+  typedef Array< TMeasurement > ArrayType;
 
   /** Standard typedefs */
-  typedef Histogram                    Self;
-  typedef Sample< ArrayType  >         Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
+  typedef Histogram                  Self;
+  typedef Sample< ArrayType  >       Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Histogram, Sample);
@@ -105,11 +105,11 @@ public:
   itkSuperclassTraitMacro(MeasurementVectorType)
   itkSuperclassTraitMacro(InstanceIdentifier)
   itkSuperclassTraitMacro(MeasurementVectorSizeType)
-    typedef MeasurementVectorType ValueType;
+  typedef MeasurementVectorType ValueType;
 
   /** frequency container typedef */
-  typedef TFrequencyContainer                        FrequencyContainerType;
-  typedef typename FrequencyContainerType::Pointer   FrequencyContainerPointer;
+  typedef TFrequencyContainer                      FrequencyContainerType;
+  typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer;
 
   /** Frequency and TotalFrequency value type from superclass */
   typedef typename FrequencyContainerType::AbsoluteFrequencyType      AbsoluteFrequencyType;
@@ -118,31 +118,29 @@ public:
   typedef typename FrequencyContainerType::TotalRelativeFrequencyType TotalRelativeFrequencyType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Array< long >                     IndexType;
-  typedef typename IndexType::ValueType     IndexValueType;
+  typedef Array< long >                 IndexType;
+  typedef typename IndexType::ValueType IndexValueType;
 
   /** size array type */
-  typedef Array< unsigned long >            SizeType;
-  typedef typename SizeType::ValueType      SizeValueType;
+  typedef Array< unsigned long >       SizeType;
+  typedef typename SizeType::ValueType SizeValueType;
 
   /** bin min max value storage types */
-  typedef std::vector< MeasurementType >    BinMinVectorType;
-  typedef std::vector< MeasurementType >    BinMaxVectorType;
-  typedef std::vector< BinMinVectorType >   BinMinContainerType;
-  typedef std::vector< BinMaxVectorType >   BinMaxContainerType;
-
+  typedef std::vector< MeasurementType >  BinMinVectorType;
+  typedef std::vector< MeasurementType >  BinMaxVectorType;
+  typedef std::vector< BinMinVectorType > BinMinContainerType;
+  typedef std::vector< BinMaxVectorType > BinMaxContainerType;
 
   /** Initialize the histogram, generating the offset table and
    * preparing the frequency container. Subclasses should call this
    * method in their Initialize() method. */
-  void Initialize(const SizeType &size);
-
+  void Initialize(const SizeType & size);
 
   /** Initialize the histogram using equal size bins. To assign bin's
    * min and max values along each dimension use SetBinMin() and
    * SetBinMax() functions. */
-  void Initialize(const SizeType &size, MeasurementVectorType& lowerBound,
-                  MeasurementVectorType& upperBound);
+  void Initialize(const SizeType & size, MeasurementVectorType & lowerBound,
+                  MeasurementVectorType & upperBound);
 
   /** Initialize the values of the histogram bins to zero */
   void SetToZero();
@@ -150,18 +148,18 @@ public:
   /** Get the index of a measurement value from the histogram.
    * \deprecated Use GetIndex(const MeasurementVectorType &
    * measurement, IndexType & index ) const instead. */
-  const IndexType & GetIndex(const MeasurementVectorType& measurement) const;
+  const IndexType & GetIndex(const MeasurementVectorType & measurement) const;
 
   /** Get the index of histogram corresponding to the specified
    *  measurement value. Returns true if index is valid and false if
    *  the measurement is outside the histogram */
   bool GetIndex(const MeasurementVectorType & measurement,
-                IndexType & index ) const;
+                IndexType & index) const;
 
   /** Get the index that is uniquely labelled by an instance identifier
    * The corresponding id is the offset of the index
    * This method uses ImageBase::ComputeIndex() method */
-  const IndexType & GetIndex( InstanceIdentifier id) const;
+  const IndexType & GetIndex(InstanceIdentifier id) const;
 
   /** Is set to false if the bins at edges of the histogram extend to
    *   +/- infinity. */
@@ -173,12 +171,12 @@ public:
 
   /** Returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
-  bool IsIndexOutOfBounds(const IndexType &index) const;
+  bool IsIndexOutOfBounds(const IndexType & index) const;
 
   /** Get the instance identifier of the bin that is indexed by the
    * index. The corresponding instance identifier is the offset of the index
    * This method uses ImageBase::ComputeIndex() method */
-  InstanceIdentifier GetInstanceIdentifier(const IndexType &index) const;
+  InstanceIdentifier GetInstanceIdentifier(const IndexType & index) const;
 
   /** Returns the number of instances (bins or cells) in this container */
   InstanceIdentifier Size() const;
@@ -190,12 +188,12 @@ public:
   SizeValueType GetSize(unsigned int dimension) const;
 
   /** Get the minimum value of nth bin of dimension d */
-  const MeasurementType& GetBinMin(unsigned int dimension,
-                             InstanceIdentifier nbin) const;
+  const MeasurementType & GetBinMin(unsigned int dimension,
+                                    InstanceIdentifier nbin) const;
 
   /** Get the maximum value of nth bin of dimension d */
-  const MeasurementType& GetBinMax(unsigned int dimension,
-                             InstanceIdentifier nbin) const;
+  const MeasurementType & GetBinMax(unsigned int dimension,
+                                    InstanceIdentifier nbin) const;
 
   /** Set the minimum value of nth bin of dimension d */
   void SetBinMin(unsigned int dimension, InstanceIdentifier nbin,
@@ -207,55 +205,54 @@ public:
 
   /** Get the minimum of the bin along dimension d corresponding to a
    * particular measurement. */
-  const MeasurementType& GetBinMinFromValue(unsigned int dimension,
-                                      float value ) const;
+  const MeasurementType & GetBinMinFromValue(unsigned int dimension,
+                                             float value) const;
 
   /** Get the maximum of the bin along dimension d corresponding to a
    * particular measurement. */
-  const MeasurementType& GetBinMaxFromValue(unsigned int dimension,
-                                      float value ) const;
+  const MeasurementType & GetBinMaxFromValue(unsigned int dimension,
+                                             float value) const;
 
   /** Get the vector of bin minimums along a dimension  */
-  const BinMinVectorType& GetDimensionMins(unsigned int dimension) const;
+  const BinMinVectorType & GetDimensionMins(unsigned int dimension) const;
 
   /** Get the vector of maximums along a dimension  */
-  const BinMaxVectorType& GetDimensionMaxs(unsigned int dimension) const;
+  const BinMaxVectorType & GetDimensionMaxs(unsigned int dimension) const;
 
   /** Get the minimums of the bins  */
-  const BinMinContainerType& GetMins() const;
+  const BinMinContainerType & GetMins() const;
 
   /** Method the maximums of the bins  */
-  const BinMaxContainerType& GetMaxs() const;
+  const BinMaxContainerType & GetMaxs() const;
 
   /** Get the minimums of the bin corresponding to a particular index */
-  const MeasurementVectorType & GetHistogramMinFromIndex(const IndexType &index) const;
+  const MeasurementVectorType & GetHistogramMinFromIndex(const IndexType & index) const;
 
   /** Get the maximums of the bin corresponding to a particular index  */
-  const MeasurementVectorType& GetHistogramMaxFromIndex(const IndexType &index) const;
+  const MeasurementVectorType & GetHistogramMaxFromIndex(const IndexType & index) const;
 
   /** Get the frequency of an instance indentifier */
-  AbsoluteFrequencyType GetFrequency( InstanceIdentifier id ) const;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const;
 
   /** Get the frequency of an index */
-  AbsoluteFrequencyType GetFrequency(const IndexType &index) const;
+  AbsoluteFrequencyType GetFrequency(const IndexType & index) const;
 
   /** Set all the bins in the histogram to a specified frequency */
-  void SetFrequency( AbsoluteFrequencyType value );
+  void SetFrequency(AbsoluteFrequencyType value);
 
   /** Set the frequency of an instance identifier.  Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency( InstanceIdentifier id, AbsoluteFrequencyType value);
+  bool SetFrequency(InstanceIdentifier id, AbsoluteFrequencyType value);
 
   /** Set the frequency of an index. Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency(const IndexType &index,
+  bool SetFrequency(const IndexType & index,
                     AbsoluteFrequencyType value);
 
   /** Set the frequency of a measurement. Returns false if the bin is
    * out of bounds. */
-  bool SetFrequency(const MeasurementVectorType &measurement,
+  bool SetFrequency(const MeasurementVectorType & measurement,
                     AbsoluteFrequencyType value);
-
 
   /** Increase the frequency of an instance identifier.
    * Frequency is increased by the specified value. Returns false if
@@ -265,21 +262,21 @@ public:
   /** Increase the frequency of an index.  Frequency is
    * increased by the specified value. Returns false if the bin is out
    * of bounds. */
-  bool IncreaseFrequency(const IndexType &index, AbsoluteFrequencyType value);
+  bool IncreaseFrequency(const IndexType & index, AbsoluteFrequencyType value);
 
   /** Increase the frequency of a measurement.  Frequency is
    * increased by the specified value. Returns false if the
    * measurement is outside the bounds of the histogram. */
-  bool IncreaseFrequency(const MeasurementVectorType &measurement,
+  bool IncreaseFrequency(const MeasurementVectorType & measurement,
                          AbsoluteFrequencyType value);
 
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.
    */
-  const MeasurementVectorType & GetMeasurementVector( InstanceIdentifier id) const;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const;
 
   /** Get the measurement of an index. This is the centroid of the bin. */
-  const MeasurementVectorType & GetMeasurementVector(const IndexType &index) const;
+  const MeasurementVectorType & GetMeasurementVector(const IndexType & index) const;
 
   /** Get the measurement a bin along a specified dimension.  This is
    * the midpoint of the bin along that dimension. */
@@ -291,7 +288,7 @@ public:
 
   /** Get the frequency of a dimension's nth element. */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier n,
-                             unsigned int dimension) const;
+                                     unsigned int dimension) const;
 
   /** Get the pth percentile value for a dimension.
    *
@@ -311,153 +308,153 @@ public:
   double Quantile(unsigned int dimension, double p) const;
 
   /** Method to graft another histogram's output */
-  virtual void Graft( const DataObject * );
+  virtual void Graft(const DataObject *);
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 public:
 
   /** \class Histogram::ConstIterator class that walks through the elements of
    * the histogram */
   class ConstIterator
-    {
-    public:
+  {
+public:
 
     friend class Histogram;
 
-    ConstIterator(const Self * histogram)
-      {
+    ConstIterator(const Self *histogram)
+    {
       m_Id = 0;
       m_Histogram = histogram;
-      }
+    }
 
     ConstIterator(const ConstIterator & it)
-      {
+    {
       m_Id        = it.m_Id;
       m_Histogram = it.m_Histogram;
-      }
+    }
 
-    ConstIterator& operator=(const ConstIterator& it)
-      {
+    ConstIterator & operator=(const ConstIterator & it)
+    {
       m_Id  = it.m_Id;
       m_Histogram = it.m_Histogram;
       return *this;
-      }
+    }
 
     AbsoluteFrequencyType GetFrequency() const
-      {
-      return  m_Histogram->GetFrequency(m_Id);
-      }
+    {
+      return m_Histogram->GetFrequency(m_Id);
+    }
 
     InstanceIdentifier GetInstanceIdentifier() const
-      {
+    {
       return m_Id;
-      }
+    }
 
     const MeasurementVectorType & GetMeasurementVector() const
-      {
+    {
       return m_Histogram->GetMeasurementVector(m_Id);
-      }
+    }
 
-    ConstIterator& operator++()
-      {
+    ConstIterator & operator++()
+    {
       ++m_Id;
       return *this;
-      }
+    }
 
-    bool operator!=(const ConstIterator& it)
-      {
-      return (m_Id != it.m_Id);
-      }
+    bool operator!=(const ConstIterator & it)
+    {
+      return ( m_Id != it.m_Id );
+    }
 
-    bool operator==(const ConstIterator& it)
-      {
-      return (m_Id == it.m_Id);
-      }
+    bool operator==(const ConstIterator & it)
+    {
+      return ( m_Id == it.m_Id );
+    }
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
-  protected:
+#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
+protected:
 #endif
     // This method is purposely not implemented
     ConstIterator();
 
-    ConstIterator(InstanceIdentifier id, const Self * histogram)
-      : m_Id(id), m_Histogram(histogram)
-      {}
+    ConstIterator(InstanceIdentifier id, const Self *histogram):
+      m_Id(id), m_Histogram(histogram)
+    {}
 
     // ConstIterator pointing DenseFrequencyContainer
     InstanceIdentifier m_Id;
 
     // Pointer of DenseFrequencyContainer
-    const Self* m_Histogram;
-    }; // end of iterator class
+    const Self *m_Histogram;
+  };   // end of iterator class
 
   /** \class Histogram::Iterator */
-  class Iterator : public ConstIterator
+  class Iterator:public ConstIterator
   {
-  public:
+public:
 
-    Iterator(Self * histogram):ConstIterator( histogram )
-      {
-      }
+    Iterator(Self *histogram):ConstIterator(histogram)
+    {}
 
-    Iterator(InstanceIdentifier id, Self * histogram)
-        : ConstIterator( id, histogram )
-      {}
+    Iterator(InstanceIdentifier id, Self *histogram):
+      ConstIterator(id, histogram)
+    {}
 
     Iterator(const Iterator & it):ConstIterator(it)
-      {
-      }
+    {}
 
-    Iterator & operator=(const Iterator& it)
-      {
-      this->ConstIterator::operator=( it );
+    Iterator & operator=(const Iterator & it)
+    {
+      this->ConstIterator::operator=(it);
       return *this;
-      }
+    }
 
     bool SetFrequency(const AbsoluteFrequencyType value)
-      {
-      Self * histogram = const_cast< Self * >( this->m_Histogram );
-      return histogram->SetFrequency( this->m_Id, value );
-      }
+    {
+      Self *histogram = const_cast< Self * >( this->m_Histogram );
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
-  protected:
+      return histogram->SetFrequency(this->m_Id, value);
+    }
+
+#if !( defined( _MSC_VER ) && ( _MSC_VER <= 1200 ) )
+protected:
 #endif
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
     Iterator();
-    Iterator(const Self * histogram);
-    Iterator(InstanceIdentifier id, const Self * histogram);
+    Iterator(const Self *histogram);
+    Iterator(InstanceIdentifier id, const Self *histogram);
     Iterator(const ConstIterator & it);
-    ConstIterator& operator=(const ConstIterator& it);
+    ConstIterator & operator=(const ConstIterator & it);
 
-  private:
-    }; // end of iterator class
-
+private:
+  };   // end of iterator class
 
   Iterator  Begin()
-    {
+  {
     Iterator iter(0, this);
+
     return iter;
-    }
+  }
 
   Iterator  End()
-    {
+  {
     return Iterator(m_OffsetTable[this->GetMeasurementVectorSize()], this);
-    }
+  }
 
   ConstIterator  Begin() const
-    {
+  {
     ConstIterator iter(0, this);
+
     return iter;
-    }
+  }
 
   ConstIterator End() const
-    {
+  {
     return ConstIterator(m_OffsetTable[this->GetMeasurementVectorSize()], this);
-    }
+  }
 
 protected:
   Histogram();
@@ -465,32 +462,30 @@ protected:
 
   // The number of bins for each dimension
   SizeType m_Size;
-
 private:
-  Histogram(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  Histogram(const Self &);      //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  typedef std::vector< InstanceIdentifier >   OffsetTableType;
-  OffsetTableType                             m_OffsetTable;
-  FrequencyContainerPointer                   m_FrequencyContainer;
-  unsigned int                                m_NumberOfInstances;
+  typedef std::vector< InstanceIdentifier > OffsetTableType;
+  OffsetTableType           m_OffsetTable;
+  FrequencyContainerPointer m_FrequencyContainer;
+  unsigned int              m_NumberOfInstances;
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
-  virtual void Initialize() {};
+  virtual void Initialize() {}
 
   // lower bound of each bin
-  std::vector< std::vector<MeasurementType> > m_Min;
+  std::vector< std::vector< MeasurementType > > m_Min;
 
   // upper bound of each bin
-  std::vector< std::vector<MeasurementType> > m_Max;
+  std::vector< std::vector< MeasurementType > > m_Max;
 
-  mutable MeasurementVectorType   m_TempMeasurementVector;
-  mutable IndexType               m_TempIndex;
+  mutable MeasurementVectorType m_TempMeasurementVector;
+  mutable IndexType             m_TempIndex;
 
-  bool                            m_ClipBinsAtEnds;
+  bool m_ClipBinsAtEnds;
 };
-
 } // end of namespace Statistics
 } // end of namespace itk
 

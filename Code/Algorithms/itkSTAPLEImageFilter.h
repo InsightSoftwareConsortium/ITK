@@ -57,7 +57,7 @@ namespace itk
  * considered to be negatively classified pixels (background).
  *
  * Input volumes must all contain the same size RequestedRegions.
- * 
+ *
  * \par OUTPUTS
  * The STAPLE filter produces a single output volume with a range of floating
  * point values from zero to one. IT IS VERY IMPORTANT TO INSTANTIATE THIS
@@ -115,40 +115,40 @@ namespace itk
  * halt after the current iteration and produce results just as if it had
  * converged. The algorithm makes no attempt to report its progress since the
  * number of iterations needed cannot be known in advance. */
-template <typename TInputImage, typename TOutputImage>
-class ITK_EXPORT STAPLEImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< typename TInputImage, typename TOutputImage >
+class ITK_EXPORT STAPLEImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef STAPLEImageFilter                               Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(STAPLEImageFilter, ImageToImageFilter);
-  
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                 OutputPixelType;
-  typedef typename TInputImage::PixelType                  InputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType RealType;
+  typedef typename TOutputImage::PixelType                   OutputPixelType;
+  typedef typename TInputImage::PixelType                    InputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Image typedef support */
   typedef TInputImage                       InputImageType;
   typedef typename InputImageType::Pointer  InputImagePointer;
   typedef TOutputImage                      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  
+
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
@@ -159,40 +159,40 @@ public:
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
    *  input volumes. */
-  const std::vector<double> &GetSpecificity() const
-    {
+  const std::vector< double > & GetSpecificity() const
+  {
     return m_Specificity;
-    }
+  }
 
   /** After the filter is updated, this method returns a std::vector<double> of
    * all Sensitivity (true positive fraction, p) values for the expert input
    * volumes. */
-  const std::vector<double> &GetSensitivity() const
-    {
+  const std::vector< double > & GetSensitivity() const
+  {
     return m_Sensitivity;
-    }
+  }
 
   /** After the filter is updated, this method returns the Sensitivity (true
-   * positive fraction, p) value for the i-th expert input volume. */ 
+   * positive fraction, p) value for the i-th expert input volume. */
   double GetSensitivity(unsigned int i)
-    {
-    if (i > this->GetNumberOfInputs())
+  {
+    if ( i > this->GetNumberOfInputs() )
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }
     return m_Sensitivity[i];
-    }
+  }
 
   /** After the filter is updated, this method returns the Specificity (true
-   * negative fraction, q) value for the i-th expert input volume. */ 
+   * negative fraction, q) value for the i-th expert input volume. */
   double GetSpecificity(unsigned int i)
-    {
-    if (i > this->GetNumberOfInputs())
+  {
+    if ( i > this->GetNumberOfInputs() )
       {
       itkExceptionMacro(<< "Array reference out of bounds.");
       }
     return m_Specificity[i];
-    }
+  }
 
   /** Set/Get the maximum number of iterations after which the STAPLE algorithm
    *  will be considered to have converged.  In general this SHOULD NOT be set and
@@ -215,38 +215,36 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   STAPLEImageFilter()
-    {
-    m_ForegroundValue = NumericTraits<InputPixelType>::One;
-    m_MaximumIterations = NumericTraits<unsigned int>::max();
+  {
+    m_ForegroundValue = NumericTraits< InputPixelType >::One;
+    m_MaximumIterations = NumericTraits< unsigned int >::max();
     m_ElapsedIterations = 0;
     m_ConfidenceWeight = 1.0;
-    }
-  virtual ~STAPLEImageFilter() {}  
-  void GenerateData( );
-  
-  void PrintSelf(std::ostream&, Indent) const;
+  }
 
+  virtual ~STAPLEImageFilter() {}
+  void GenerateData();
+
+  void PrintSelf(std::ostream &, Indent) const;
 private:
-  STAPLEImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  STAPLEImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 
   InputPixelType m_ForegroundValue;
   unsigned int   m_ElapsedIterations;
   unsigned int   m_MaximumIterations;
 
   double m_ConfidenceWeight;
-  
-  std::vector<double> m_Sensitivity;
-  std::vector<double> m_Specificity;
+
+  std::vector< double > m_Sensitivity;
+  std::vector< double > m_Specificity;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,8 @@
 
 #include "itkShapeLabelMapFilter.h"
 
-namespace itk {
+namespace itk
+{
 /** \class StatisticsLabelMapFilter
  * \brief The valuator class for the ShapeLabelObject
  *
@@ -29,21 +30,22 @@ namespace itk {
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TImage, class TFeatureImage>
-class ITK_EXPORT StatisticsLabelMapFilter : 
-    public ShapeLabelMapFilter<TImage, Image< typename TImage::PixelType, ::itk::GetImageDimension<TImage>::ImageDimension> >
+template< class TImage, class TFeatureImage >
+class ITK_EXPORT StatisticsLabelMapFilter:
+  public ShapeLabelMapFilter< TImage,
+                              Image< typename TImage::PixelType, ::itk::GetImageDimension< TImage >::ImageDimension > >
 {
 public:
   /** Standard class typedefs. */
-  typedef StatisticsLabelMapFilter    Self;
-  typedef ShapeLabelMapFilter<TImage> Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef StatisticsLabelMapFilter      Self;
+  typedef ShapeLabelMapFilter< TImage > Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TImage                               ImageType;
@@ -55,21 +57,21 @@ public:
   typedef typename ImageType::LabelObjectType  LabelObjectType;
   typedef typename LabelObjectType::MatrixType MatrixType;
   typedef typename LabelObjectType::VectorType VectorType;
-  
-  typedef TFeatureImage                              FeatureImageType;
-  typedef typename FeatureImageType::Pointer         FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer    FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType       FeatureImagePixelType;
-  
+
+  typedef TFeatureImage                           FeatureImageType;
+  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename FeatureImageType::PixelType    FeatureImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsLabelMapFilter, 
+  itkTypeMacro(StatisticsLabelMapFilter,
                ShapeLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -80,33 +82,33 @@ public:
     (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputOStreamWritableCheck,
     (Concept::OStreamWritable<InputImagePixelType>));*/
-  /** End concept checking */
+/** End concept checking */
 #endif
 
-   /** Set the feature image */
+  /** Set the feature image */
   void SetFeatureImage(const TFeatureImage *input)
-    {
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
-    }
+    this->SetNthInput( 1, const_cast< TFeatureImage * >( input ) );
+  }
 
   /** Get the feature image */
   FeatureImageType * GetFeatureImage()
-    {
-    return static_cast<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  {
+    return static_cast< FeatureImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+  }
 
-   /** Set the input image */
+  /** Set the input image */
   void SetInput1(TImage *input)
-    {
-    this->SetInput( input );
-    }
+  {
+    this->SetInput(input);
+  }
 
   /** Set the feature image */
   void SetInput2(const TFeatureImage *input)
-    {
-    this->SetFeatureImage( input );
-    }
+  {
+    this->SetFeatureImage(input);
+  }
 
   /**
    * Set/Get whether the histogram should be attached to the label object or not.
@@ -125,31 +127,27 @@ public:
    */
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
-
-
 protected:
   StatisticsLabelMapFilter();
-  ~StatisticsLabelMapFilter() {};
+  ~StatisticsLabelMapFilter() {}
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
-  
+  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
+
   virtual void BeforeThreadedGenerateData();
-  
-  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  StatisticsLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  StatisticsLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 
   FeatureImagePixelType m_Minimum;
   FeatureImagePixelType m_Maximum;
   unsigned int          m_NumberOfBins;
   bool                  m_ComputeHistogram;
-
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkStatisticsLabelMapFilter.txx"
 #endif

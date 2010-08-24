@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class PathSource
  *  \brief Base class for all process objects that output path data.
  *
@@ -36,25 +35,25 @@ namespace itk
  * \ingroup Paths
  */
 
-template <class TOutputPath>
-class ITK_EXPORT PathSource : public ProcessObject
+template< class TOutputPath >
+class ITK_EXPORT PathSource:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef PathSource                Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef PathSource                 Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PathSource,ProcessObject);
-  
+  itkTypeMacro(PathSource, ProcessObject);
+
   /** Some convenient typedefs. */
   typedef TOutputPath                         OutputPathType;
   typedef typename OutputPathType::Pointer    OutputPathPointer;
@@ -62,7 +61,7 @@ public:
   typedef typename OutputPathType::OutputType OutputPathOutputType;
   typedef typename OutputPathType::IndexType  OutputPathIndexType;
   typedef typename OutputPathType::OffsetType OutputPathOffsetType;
-  
+
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
    * been called, either explicitly or implicitly.  Both the filter
@@ -79,7 +78,7 @@ public:
    * \endcode
    *
    * In this situation, \a someFilter and \a anotherFilter are said
-   * to constitute a \b pipeline.  
+   * to constitute a \b pipeline.
    *
    * \code
    *   image = someFilter->GetOutput();
@@ -94,7 +93,7 @@ public:
    * either order.)
    *
    * Note that Update() is not called automatically except within a
-   * pipeline as in the first example.  When \b streaming (using a 
+   * pipeline as in the first example.  When \b streaming (using a
    * StreamingImageFilter) is activated, it may be more efficient to
    * use a pipeline than to call Update() once for each filter in
    * turn.
@@ -104,8 +103,9 @@ public:
    * By default, the largest possible region is requested.
    */
   OutputPathType * GetOutput(void);
+
   OutputPathType * GetOutput(unsigned int idx);
-  
+
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's path
    * data to use as its output's own path data. It also copies the
@@ -169,18 +169,16 @@ public:
 protected:
   PathSource();
   virtual ~PathSource() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   // Inherit the empty ProcessObject::GenerateData()
-  
+
   // Inherit ProcessObject::PrepareOutputs(), which calls Initialize()
   // (Image replaces w/ empty function)
-  
 private:
-  PathSource(const Self&); //purposely not implemented
-  void operator=(const Self&);   //purposely not implemented
+  PathSource(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

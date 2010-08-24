@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class RealTimeClock
  * \brief The RealTimeClock provides a timestamp from a real-time clock
  *
@@ -35,7 +34,7 @@ namespace itk
  *                     ISIS Center, Georgetown University.
  */
 
-class ITKCommon_EXPORT RealTimeClock : public Object
+class ITKCommon_EXPORT RealTimeClock:public Object
 {
 public:
   typedef RealTimeClock              Self;
@@ -50,24 +49,24 @@ public:
   itkNewMacro(Self);
 
   /** Define the type for the timestap */
-  typedef double        TimeStampType;
+  typedef double TimeStampType;
 
   /** Define the type for the frequency of the clock */
-  typedef double        FrequencyType;
+  typedef double FrequencyType;
 
   /** Returns a timestamp in seconds   e.g. 52.341243 seconds */
   TimeStampType GetTimeStamp() const;
+
   TimeStampType GetTimestamp() const
-    {
+  {
     itkWarningMacro("This call is deprecated. "
-        "Its naming was not conforming to ITK Style. "
-        "Please use GetTimeStamp() instead. Note the capital S");
+                    "Its naming was not conforming to ITK Style. "
+                    "Please use GetTimeStamp() instead. Note the capital S");
     return this->GetTimeStamp();
-    }
+  }
 
   /** Returns the frequency of a clock */
   itkGetConstMacro(Frequency, FrequencyType);
-
 protected:
 
   /** constructor */
@@ -77,14 +76,13 @@ protected:
   virtual ~RealTimeClock();
 
   /** Print the object information in a stream. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  FrequencyType    m_Frequency;
-  TimeStampType    m_Difference;
-  TimeStampType    m_Origin;
+  FrequencyType m_Frequency;
+  TimeStampType m_Difference;
+  TimeStampType m_Origin;
 };
-
 } // end of namespace itk
 
 #endif  // __itkRealTimeClock_h

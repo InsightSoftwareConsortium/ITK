@@ -19,9 +19,10 @@
 
 #include "itkDistanceMetric.h"
 
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TVector >
 DistanceMetric< TVector >
 ::DistanceMetric()
@@ -29,13 +30,14 @@ DistanceMetric< TVector >
   //If the measurment vector type is non-resizable type,
   //initialize the vector size to it.
   MeasurementVectorType vector;
-  if( ! MeasurementVectorTraits::IsResizable( vector ) )
+
+  if ( !MeasurementVectorTraits::IsResizable(vector) )
     {
     MeasurementVectorSizeType defaultLength =
-                  MeasurementVectorTraits::GetLength( vector );
+      MeasurementVectorTraits::GetLength(vector);
 
     this->m_MeasurementVectorSize = defaultLength;
-    this->m_Origin.SetSize( this->m_MeasurementVectorSize );
+    this->m_Origin.SetSize(this->m_MeasurementVectorSize);
     }
   else
     {
@@ -48,19 +50,19 @@ DistanceMetric< TVector >
 template< class TVector >
 void
 DistanceMetric< TVector >
-::SetOrigin(const OriginType &x)
+::SetOrigin(const OriginType & x)
 {
-  if( this->m_MeasurementVectorSize != 0 )
+  if ( this->m_MeasurementVectorSize != 0 )
     {
-    if( x.Size() != this->m_MeasurementVectorSize )
+    if ( x.Size() != this->m_MeasurementVectorSize )
       {
-      itkExceptionMacro( << "Size of the origin must be same as the length of"
-          << " each measurement vector.");
+      itkExceptionMacro(<< "Size of the origin must be same as the length of"
+                        << " each measurement vector.");
       }
     }
 
   this->m_MeasurementVectorSize = x.Size();
-  m_Origin.SetSize( this->m_MeasurementVectorSize );
+  m_Origin.SetSize(this->m_MeasurementVectorSize);
   m_Origin = x;
   this->Modified();
 }
@@ -68,13 +70,12 @@ DistanceMetric< TVector >
 template< class TVector >
 void
 DistanceMetric< TVector >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Origin: " << this->GetOrigin() << std::endl;
   os << indent << "MeasurementVectorSize: " << this->GetMeasurementVectorSize() << std::endl;
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

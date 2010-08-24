@@ -23,37 +23,36 @@
 //#include "itkNeighborhoodAlgorithm.h"
 
 #include "itkAnchorUtilities.h"
-namespace itk {
-
-template <class TImage, class TKernel, class TFunction1, class TFunction2>
-AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
+namespace itk
+{
+template< class TImage, class TKernel, class TFunction1, class TFunction2 >
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
 ::AnchorErodeDilateImageFilter()
 {
   m_KernelSet = false;
 }
 
-template <class TImage, class TKernel, class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
 ::SetBoundary(const InputImagePixelType value)
 {
   m_Boundary = value;
 }
 
-template <class TImage, class TKernel, class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
-::ThreadedGenerateData (const InputImageRegionType& outputRegionForThread,
-                        int threadId)
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
+                       int threadId)
 {
-
   // check that we are using a decomposable kernel
-  if (!m_Kernel.GetDecomposable())
+  if ( !m_Kernel.GetDecomposable() )
     {
     itkExceptionMacro("Anchor morphology only works with decomposable structuring elements");
     return;
     }
-  if (!m_KernelSet)
+  if ( !m_KernelSet )
     {
     itkExceptionMacro("No kernel set - quitting");
     return;
@@ -87,7 +86,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
   InputImageRegionType OReg = outputRegionForThread;
   // maximum buffer length is sum of dimensions
   unsigned int bufflength = 0;
-  for (unsigned i = 0; i<TImage::ImageDimension; i++)
+  for ( unsigned i = 0; i < TImage::ImageDimension; i++ )
     {
     bufflength += IReg.GetSize()[i];
     }
@@ -95,15 +94,14 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
   // compat
   bufflength += 2;
 
-
-  InputImagePixelType * buffer = new InputImagePixelType[bufflength];
-  InputImagePixelType * inbuffer = new InputImagePixelType[bufflength];
+  InputImagePixelType *buffer = new InputImagePixelType[bufflength];
+  InputImagePixelType *inbuffer = new InputImagePixelType[bufflength];
 
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = m_Kernel.GetLines();
   BresType BresLine;
 
-  for (unsigned i = 0; i < decomposition.size(); i++)
+  for ( unsigned i = 0; i < decomposition.size(); i++ )
     {
     typename KernelType::LType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
@@ -113,14 +111,16 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
     unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
 
     // want lines to be odd
-    if (!(SELength%2))
+    if ( !( SELength % 2 ) )
+      {
       ++SELength;
+      }
 
-    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    InputImageRegionType BigFace = MakeEnlargedFace< InputImageType, KernelLType >(input, IReg, ThisLine);
 
     AnchorLine.SetSize(SELength);
 
-    DoAnchorFace<TImage, BresType, AnchorLineType, KernelLType>(
+    DoAnchorFace< TImage, BresType, AnchorLineType, KernelLType >(
       input,
       output,
       m_Boundary,
@@ -137,41 +137,38 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
     progress.CompletedPixel();
     }
 
-
   // copy internal buffer to output
-  typedef ImageRegionIterator<InputImageType> IterType;
+  typedef ImageRegionIterator< InputImageType > IterType;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
-  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
+  for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )
     {
-    oit.Set(iit.Get());
+    oit.Set( iit.Get() );
     }
   progress.CompletedPixel();
-  delete [] buffer;
-  delete [] inbuffer;
+  delete[] buffer;
+  delete[] inbuffer;
 }
 
-
-template<class TImage, class TKernel, class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
-::PrintSelf(std::ostream &os, Indent indent) const
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Boundary: " << m_Boundary << std::endl;
 }
 
-
-template <class TImage, class TKernel, class TFunction1, class TFunction2>
+template< class TImage, class TKernel, class TFunction1, class TFunction2 >
 void
-AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
+AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1, TFunction2 >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr =
+  typename Superclass::InputImagePointer inputPtr =
     const_cast< TImage * >( this->GetInput() );
 
   if ( !inputPtr )
@@ -188,9 +185,9 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
   inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -199,20 +196,19 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1, TFunction2>
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
 
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostringstream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
+    std::ostringstream          msg;
+    msg << static_cast< const char * >( this->GetNameOfClass() )
         << "::GenerateInputRequestedRegion()";
-    e.SetLocation(msg.str().c_str());
+    e.SetLocation( msg.str().c_str() );
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
     }
 }
-
 } // end namespace itk
 
 #endif

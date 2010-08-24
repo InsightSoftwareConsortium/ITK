@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkSparseImage.h"
 #include "itkNumericTraits.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class LevelSetFunctionWithRefitTerm
  *
@@ -44,25 +44,25 @@ namespace itk {
  *
  * \par IMPORTANT
  * Subclasses MUST NOT overwrite the PropagationSpeed method. Define
- * OtherPropagationSpeed instead. 
+ * OtherPropagationSpeed instead.
  */
-template <class TImageType, class TSparseImageType>
-class ITK_EXPORT LevelSetFunctionWithRefitTerm
-  : public LevelSetFunction<TImageType>
+template< class TImageType, class TSparseImageType >
+class ITK_EXPORT LevelSetFunctionWithRefitTerm:
+  public LevelSetFunction< TImageType >
 {
 public:
   /** Standard class typedefs. */
-  typedef LevelSetFunctionWithRefitTerm Self;
-  typedef LevelSetFunction<TImageType>  Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef LevelSetFunctionWithRefitTerm  Self;
+  typedef LevelSetFunction< TImageType > Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( LevelSetFunctionWithRefitTerm, LevelSetFunction );
+  itkTypeMacro(LevelSetFunctionWithRefitTerm, LevelSetFunction);
 
   /** Standard New macro. */
   itkNewMacro (Self);
-  
+
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType              ImageType;
   typedef typename Superclass::FloatOffsetType        FloatOffsetType;
@@ -85,33 +85,33 @@ public:
   typedef typename NodeType::NodeDataType NormalVectorType;
 
   /** Set the relative weight of the refitting term. */
-  void SetRefitWeight( const ScalarValueType w )
-    {
+  void SetRefitWeight(const ScalarValueType w)
+  {
     m_RefitWeight = w;
-    }
+  }
 
   /** This is the weight for propagation terms (other than refitting)
    * that can be defined by subclasses. */
-  void SetOtherPropagationWeight( const ScalarValueType w )
-    {
+  void SetOtherPropagationWeight(const ScalarValueType w)
+  {
     m_OtherPropagationWeight = w;
-    }
+  }
 
   /** Sets the sparse image which has nodes containing the member variable
       m_Curvature used in refitting. */
-  void SetSparseTargetImage( SparseImageType *im )
-    { m_SparseTargetImage = im; }
+  void SetSparseTargetImage(SparseImageType *im)
+  { m_SparseTargetImage = im; }
 
-  /** Returns the sparse image. */ 
-  SparseImageType* GetSparseTargetImage() const
-    { return m_SparseTargetImage; }
+  /** Returns the sparse image. */
+  SparseImageType * GetSparseTargetImage() const
+  { return m_SparseTargetImage; }
 
   /** Computes the time step for an update given a global data structure.
    * This calls the ComputeGlobalTimeStep method defined in LevelSetFunction
    * and then imposes our own restrictions for the refitting term on the
    * returned value. */
-  virtual TimeStepType ComputeGlobalTimeStep( void *GlobalData ) const;
-  
+  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
+
 protected:
   /** The weight for the refitting term. */
   ScalarValueType m_RefitWeight;
@@ -121,33 +121,33 @@ protected:
   ScalarValueType m_OtherPropagationWeight;
 
   LevelSetFunctionWithRefitTerm ();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Computes the curvature of a level set neighbothood in a way that matches
       the curvature computation from normal vectors. */
-  ScalarValueType ComputeCurvature( const NeighborhoodType & ) const;
+  ScalarValueType ComputeCurvature(const NeighborhoodType &) const;
 
   /** Defines the virtual function in LevelSetFunction to add the refitting
    * term. This function also calls OtherPropagationSpeed to provide a
    * mechanism for subclasses to define other propagation terms. */
-  virtual ScalarValueType PropagationSpeed(const NeighborhoodType& ,
+  virtual ScalarValueType PropagationSpeed(const NeighborhoodType &,
                                            const FloatOffsetType &,
-                                           GlobalDataStruct * = 0 ) const;
-  
+                                           GlobalDataStruct * = 0) const;
+
   /** Called by PropagationSpeed and added on to the refitting term. Function
    * classes derived from this class should define this method for their
    * propagation speed, NOT the actual PropagationSpeed method. */
-  virtual ScalarValueType OtherPropagationSpeed(const NeighborhoodType& ,
+  virtual ScalarValueType OtherPropagationSpeed(const NeighborhoodType &,
                                                 const FloatOffsetType &,
                                                 GlobalDataStruct * = 0) const
-    {
-    return NumericTraits<ScalarValueType>::Zero;
-    }
-  
+  {
+    return NumericTraits< ScalarValueType >::Zero;
+  }
+
 private:
-  LevelSetFunctionWithRefitTerm(const Self&); //purposely not implemented
-  void operator=(const Self&);   //purposely not implemented
-   
+  LevelSetFunctionWithRefitTerm(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
+
   /** The sparse image that contains the target curvature information. */
   typename SparseImageType::Pointer m_SparseTargetImage;
 
@@ -158,11 +158,10 @@ private:
   static const unsigned long   m_NumVertex;
   static const ScalarValueType m_DimConst;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLevelSetFunctionWithRefitTerm.txx"
 #endif
 
-#endif 
+#endif

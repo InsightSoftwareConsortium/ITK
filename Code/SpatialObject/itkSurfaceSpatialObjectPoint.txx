@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,14 +19,13 @@
 
 #include "itkSurfaceSpatialObjectPoint.h"
 
-namespace itk 
+namespace itk
 {
-
 /** Constructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
-::SurfaceSpatialObjectPoint( void ) 
-{ 
+::SurfaceSpatialObjectPoint(void)
+{
   this->m_ID = 0;
   m_Normal.Fill(0);
 }
@@ -34,22 +33,21 @@ SurfaceSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
-::~SurfaceSpatialObjectPoint( void ) 
-{
-}
+::~SurfaceSpatialObjectPoint(void)
+{}
 
 /** Set the normal : N-D case */
 template< unsigned int TPointDimension >
-void 
+void
 SurfaceSpatialObjectPoint< TPointDimension >
-::SetNormal( const VectorType & normal ) 
+::SetNormal(const VectorType & normal)
 {
   m_Normal = normal;
 }
 
 /** Set the normal : 2D case */
 template< unsigned int TPointDimension >
-void 
+void
 SurfaceSpatialObjectPoint< TPointDimension >
 ::SetNormal(const double normalx, const double normaly)
 {
@@ -59,7 +57,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
 
 /** Set the normal : 3D case */
 template< unsigned int TPointDimension >
-void 
+void
 SurfaceSpatialObjectPoint< TPointDimension >
 ::SetNormal(const double normalx, const double normaly, const double normalz)
 {
@@ -72,34 +70,33 @@ SurfaceSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename SurfaceSpatialObjectPoint< TPointDimension >::VectorType &
 SurfaceSpatialObjectPoint< TPointDimension >
-::GetNormal( void ) const
+::GetNormal(void) const
 {
   return m_Normal;
 }
-  
+
 /** Print the object */
 template< unsigned int TPointDimension >
-void 
+void
 SurfaceSpatialObjectPoint< TPointDimension >
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  Superclass::PrintSelf(os,indent);
-  os << indent << "SurfaceSpatialObjectPoint(" << this << ")" << std::endl; 
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "SurfaceSpatialObjectPoint(" << this << ")" << std::endl;
   os << indent << "Normal definition: ";
   os << indent <<  m_Normal << std::endl;
 }
 
 /** Copy a surface point to another */
 template< unsigned int TPointDimension >
-typename SurfaceSpatialObjectPoint< TPointDimension >::Self & 
+typename SurfaceSpatialObjectPoint< TPointDimension >::Self &
 SurfaceSpatialObjectPoint< TPointDimension >
-::operator=(const SurfaceSpatialObjectPoint & rhs) 
+::operator=(const SurfaceSpatialObjectPoint & rhs)
 {
   this->m_ID = rhs.m_ID;
   this->m_X = rhs.m_X;
-  return * this;
+  return *this;
 }
-
 } // end namespace itk
 
 #endif

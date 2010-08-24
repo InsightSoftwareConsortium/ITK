@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,34 +26,32 @@
 #include "itkVersion.h"
 #include <string>
 
-
 namespace itk
 {
-
 /** \class RawImageIO
  *
  * \brief Read and write raw binary images.
  *
- * This class reads and writes 2D or 3D images. Because raw data has 
+ * This class reads and writes 2D or 3D images. Because raw data has
  * little useful information built into the format,
- * the user is responsible for specifying pixel type, 
+ * the user is responsible for specifying pixel type,
  * dimensions, spacing, origin, header type, and so on. (Note: the
  * pixel type and image dimension is defined via the template parameter.)
  *
  * \sa ImageFileReader
- * 
+ *
  * \ingroup IOFilters
  */
 
-template <class TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT RawImageIO : public ImageIOBase
+template< class TPixel, unsigned int VImageDimension = 2 >
+class ITK_EXPORT RawImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef RawImageIO         Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
-  
+  typedef RawImageIO           Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -65,85 +63,85 @@ public:
   typedef TPixel PixelType;
 
   /** this type is used in case the pixel has several components */
-  typedef typename PixelTraits<PixelType>::ValueType       ComponentType;
+  typedef typename PixelTraits< PixelType >::ValueType ComponentType;
 
   /** Helper class to swap bytes when necessary */
-  typedef ByteSwapper<ComponentType>               ByteSwapperType;
-
+  typedef ByteSwapper< ComponentType > ByteSwapperType;
 
   /** If the data is in the tail end of the file, you want to
    * explicitly set the header size. */
   void SetHeaderSize(unsigned long size);
+
   unsigned long GetHeaderSize();
-  
+
   /** The number of dimensions stored in a file. Defaults to two. If two,
    * each file contains one "slice". If three, each file will contain one
    * "volume". */
   itkSetMacro(FileDimensionality, unsigned long);
   itkGetConstMacro(FileDimensionality, unsigned long);
-  
+
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool SupportsDimension(unsigned long dim)
-  {return (dim == m_FileDimensionality);}
+  { return ( dim == m_FileDimensionality ); }
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIOBase can read the
    * file specified. Always returns false because we don't want to use
    * this reader unless absolutely sure (i.e., manual ImageIO creation). */
-  virtual bool CanReadFile(const char*) {return false;}
+  virtual bool CanReadFile(const char *) { return false; }
 
   /** Binary files have no image information to read. This must be set by the
    * user of the class. */
-  virtual void ReadImageInformation() {return;}
+  virtual void ReadImageInformation() { return; }
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /** Set/Get the Data mask. */
-  itkGetConstReferenceMacro(ImageMask,unsigned short);
-  void SetImageMask(unsigned long val) 
-    {
-    if (val == m_ImageMask) { return; }
-    m_ImageMask = ((unsigned short)(val)); 
+  itkGetConstReferenceMacro(ImageMask, unsigned short);
+  void SetImageMask(unsigned long val)
+  {
+    if ( val == m_ImageMask ) { return; }
+    m_ImageMask = ( (unsigned short)( val ) );
     this->Modified();
-    }
-    
+  }
+
   /** Read a file's header to determine image dimensions, etc. */
-  virtual void ReadHeader (const std::string = std::string()) {}
+  virtual void ReadHeader( const std::string = std::string() ) {}
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
-  /** Returns true if this ImageIO can write the specified file. 
+  /** Returns true if this ImageIO can write the specified file.
    * False is only returned when the file name is not specified. Otherwise
    * true is always returned. */
-  virtual bool CanWriteFile(const char*);
+  virtual bool CanWriteFile(const char *);
 
   /** Binary files have no image information to read.  */
-  virtual void WriteImageInformation(void) {return;}
-
+  virtual void WriteImageInformation(void) { return; }
 
   /** Writes the data to disk from the memory buffer provided. */
-  virtual void Write(const void* buffer);
+  virtual void Write(const void *buffer);
 
 protected:
   RawImageIO();
   ~RawImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   //void ComputeInternalFileName(unsigned long slice);
-  void OpenFileForReading(std::ifstream& is);
-  void OpenFileForWriting(std::ofstream& os);
-  
-private:
-  RawImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void OpenFileForReading(std::ifstream & is);
 
-  std::string   m_InternalFileName;
+  void OpenFileForWriting(std::ofstream & os);
+
+private:
+  RawImageIO(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
+  std::string m_InternalFileName;
 
   unsigned long  m_FileDimensionality;
   bool           m_ManualHeaderSize;
@@ -151,26 +149,26 @@ private:
   unsigned short m_ImageMask;
 };
 
-template <class TPixel, unsigned int VImageDimension>
-class ITK_EXPORT RawImageIOFactory : public ObjectFactoryBase
+template< class TPixel, unsigned int VImageDimension >
+class ITK_EXPORT RawImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef RawImageIOFactory<TPixel,VImageDimension> Self;
-  typedef ObjectFactoryBase                         Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef RawImageIOFactory< TPixel, VImageDimension > Self;
+  typedef ObjectFactoryBase                            Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  const char* GetITKSourceVersion(void) const
-    {
+  const char * GetITKSourceVersion(void) const
+  {
     return ITK_SOURCE_VERSION;
-    }
+  }
 
-  const char* GetDescription(void) const
-    {
+  const char * GetDescription(void) const
+  {
     return "Raw ImageIO Factory, allows the loading of Raw images into insight";
-    }
+  }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -180,22 +178,19 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     ObjectFactoryBase::RegisterFactory( Self::New() );
-    }
+  }
 
 protected:
-  RawImageIOFactory() {};
-  ~RawImageIOFactory() {};
-  typedef RawImageIO<TPixel,VImageDimension> myProductType;
-  const myProductType* m_MyProduct;
-
+  RawImageIOFactory() {}
+  ~RawImageIOFactory() {}
+  typedef RawImageIO< TPixel, VImageDimension > myProductType;
+  const myProductType *m_MyProduct;
 private:
-  RawImageIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  RawImageIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

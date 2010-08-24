@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,32 +19,29 @@
 #include "itkMetaImageIO.h"
 #include "itkVersion.h"
 
-  
 namespace itk
 {
 MetaImageIOFactory::MetaImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkMetaImageIO",
-                         "Meta Image IO",
-                         1,
-                         CreateObjectFunction<MetaImageIO>::New());
-}
-  
-MetaImageIOFactory::~MetaImageIOFactory()
-{
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkMetaImageIO",
+                          "Meta Image IO",
+                          1,
+                          CreateObjectFunction< MetaImageIO >::New() );
 }
 
-const char* 
+MetaImageIOFactory::~MetaImageIOFactory()
+{}
+
+const char *
 MetaImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char *
 MetaImageIOFactory::GetDescription() const
 {
   return "Meta ImageIO Factory, allows the loading of Meta images into insight";
 }
-
 } // end namespace itk

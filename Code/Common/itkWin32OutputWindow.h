@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,6 @@
 #include "itkWindows.h"
 namespace itk
 {
-
 /** \class Win32OutputWindow
  * \brief Collect error and debug messages on Win32-based systems.
  *
@@ -41,15 +40,15 @@ namespace itk
  * \ingroup OSSystemObjects
  */
 
-class ITKCommon_EXPORT Win32OutputWindow : public OutputWindow
+class ITKCommon_EXPORT Win32OutputWindow:public OutputWindow
 {
 public:
   /** Standard class typedefs. */
-  typedef Win32OutputWindow         Self;
-  typedef OutputWindow              Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef Win32OutputWindow          Self;
+  typedef OutputWindow               Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -57,25 +56,27 @@ public:
   itkTypeMacro(Win32OutputWindow, OutputWindow);
 
   /** Put the text into the display window.
-   * Each new line is converted to a carriage return, new line. */ 
-  virtual void DisplayText(const char*);
+   * Each new line is converted to a carriage return, new line. */
+  virtual void DisplayText(const char *);
 
-  static LRESULT APIENTRY WndProc(HWND hWnd, UINT message, 
+  static LRESULT APIENTRY WndProc(HWND hWnd, UINT message,
                                   WPARAM wParam, LPARAM lParam);
-protected: 
+
+protected:
   Win32OutputWindow() {}
   virtual ~Win32OutputWindow();
-  
-  void PromptText(const char* text);
-  static void AddText(const char*);
+
+  void PromptText(const char *text);
+
+  static void AddText(const char *);
+
   static int Initialize();
 
 private:
-  Win32OutputWindow(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  Win32OutputWindow(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
+
   static HWND m_OutputWindow;
 };
-  
 } // end namespace itk
 #endif  //  __itkWin32OutputWindow_h

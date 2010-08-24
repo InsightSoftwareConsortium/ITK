@@ -20,7 +20,7 @@
 #ifndef __itkMesh_h
 #define __itkMesh_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -30,23 +30,19 @@
 #include <vector>
 #include <set>
 
-
 namespace itk
 {
-
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
  * to access the dimension of an image template parameter in defining their
  * own dimension, this class is needed as a work-around.
  */
-template <typename TMesh>
-struct GetMeshDimension
-{
-itkStaticConstMacro(MaxTopologicalDimension, unsigned int, TMesh::MaxTopologicalDimension);
-itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
+template< typename TMesh >
+struct GetMeshDimension {
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int, TMesh::MaxTopologicalDimension);
+  itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
 };
-
 
 /** \class Mesh
  * \brief Implements the N-dimensional mesh structure.
@@ -107,19 +103,19 @@ itkStaticConstMacro(PointDimension, unsigned int,  TMesh::PointDimension);
  *
  * \ingroup MeshObjects
  */
-template <
+template<
   typename TPixelType,
   unsigned int VDimension = 3,
-  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType , VDimension, VDimension >
+  typename TMeshTraits = DefaultStaticMeshTraits< TPixelType, VDimension, VDimension >
   >
-class ITK_EXPORT Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
+class ITK_EXPORT Mesh:public PointSet< TPixelType, VDimension, TMeshTraits >
 {
 public:
   /** Standard typedefs. */
-  typedef Mesh                                          Self;
-  typedef PointSet<TPixelType, VDimension, TMeshTraits> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef Mesh                                            Self;
+  typedef PointSet< TPixelType, VDimension, TMeshTraits > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   typedef typename Superclass::RegionType RegionType;
 
@@ -145,8 +141,7 @@ public:
   typedef  enum {     CellsAllocationMethodUndefined,
                       CellsAllocatedAsStaticArray,
                       CellsAllocatedAsADynamicArray,
-                      CellsAllocatedDynamicallyCellByCell
-                                                } CellsAllocationMethodType;
+                      CellsAllocatedDynamicallyCellByCell } CellsAllocationMethodType;
 
   /** Convenient typedefs obtained from TMeshTraits template parameter. */
   typedef typename MeshTraits::CoordRepType            CoordRepType;
@@ -165,47 +160,39 @@ public:
   typedef typename MeshTraits::CellDataContainer       CellDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
-  typedef PointLocator<PointIdentifier,itkGetStaticConstMacro(PointDimension),
-                       CoordRepType,PointsContainer>  PointLocatorType;
-  typedef BoundingBox<PointIdentifier,itkGetStaticConstMacro(PointDimension),
-                      CoordRepType,PointsContainer>   BoundingBoxType;
+  typedef PointLocator< PointIdentifier, itkGetStaticConstMacro(PointDimension),
+                        CoordRepType, PointsContainer >  PointLocatorType;
+  typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
+                       CoordRepType, PointsContainer >   BoundingBoxType;
 
   /** Create types that are pointers to each of the container types. */
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
-  typedef typename CellsContainer::Pointer            CellsContainerPointer;
-  typedef typename CellsContainer::ConstPointer       CellsContainerConstPointer;
-  typedef typename CellLinksContainer::Pointer        CellLinksContainerPointer;
-  typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
-  typedef typename CellDataContainer::Pointer         CellDataContainerPointer;
-  typedef typename CellDataContainer::ConstPointer    CellDataContainerConstPointer;
-  typedef typename PointLocatorType::Pointer          PointLocatorPointer;
-  typedef typename BoundingBoxType::Pointer           BoundingBoxPointer;
-  typedef typename CellLinksContainer::ConstPointer   CellLinksContainerConstPointer;
+  typedef typename PointsContainer::Pointer         PointsContainerPointer;
+  typedef typename CellsContainer::Pointer          CellsContainerPointer;
+  typedef typename CellsContainer::ConstPointer     CellsContainerConstPointer;
+  typedef typename CellLinksContainer::Pointer      CellLinksContainerPointer;
+  typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
+  typedef typename CellDataContainer::Pointer       CellDataContainerPointer;
+  typedef typename CellDataContainer::ConstPointer  CellDataContainerConstPointer;
+  typedef typename PointLocatorType::Pointer        PointLocatorPointer;
+  typedef typename BoundingBoxType::Pointer         BoundingBoxPointer;
+  typedef typename CellLinksContainer::ConstPointer CellLinksContainerConstPointer;
 
   /** Create types that are iterators for each of the container types. */
-  typedef typename
-          PointsContainer::ConstIterator        PointsContainerConstIterator;
-  typedef typename
-          PointsContainer::Iterator             PointsContainerIterator;
-  typedef typename
-          CellsContainer::ConstIterator         CellsContainerConstIterator;
-  typedef typename
-          CellsContainer::Iterator              CellsContainerIterator;
-  typedef typename
-          CellLinksContainer::ConstIterator     CellLinksContainerIterator;
-  typedef typename
-          PointDataContainer::ConstIterator     PointDataContainerIterator;
-  typedef typename
-          CellDataContainer::ConstIterator      CellDataContainerIterator;
-  typedef typename
-     PointCellLinksContainer::const_iterator  PointCellLinksContainerIterator;
+  typedef typename PointsContainer::ConstIterator          PointsContainerConstIterator;
+  typedef typename PointsContainer::Iterator               PointsContainerIterator;
+  typedef typename CellsContainer::ConstIterator           CellsContainerConstIterator;
+  typedef typename CellsContainer::Iterator                CellsContainerIterator;
+  typedef typename CellLinksContainer::ConstIterator       CellLinksContainerIterator;
+  typedef typename PointDataContainer::ConstIterator       PointDataContainerIterator;
+  typedef typename CellDataContainer::ConstIterator        CellDataContainerIterator;
+  typedef typename PointCellLinksContainer::const_iterator PointCellLinksContainerIterator;
 
   /** A useful rename. */
-  typedef CellFeatureIdentifier  CellFeatureCount;
+  typedef CellFeatureIdentifier CellFeatureCount;
 
   /** The base cell type for cells in this mesh. */
-  typedef CellInterface<CellPixelType,CellTraits>  CellType;
-  typedef typename CellType::CellAutoPointer       CellAutoPointer;
+  typedef CellInterface< CellPixelType, CellTraits > CellType;
+  typedef typename CellType::CellAutoPointer         CellAutoPointer;
 
   /** Visiting cells. */
   typedef typename CellType::MultiVisitor CellMultiVisitorType;
@@ -219,8 +206,8 @@ public:
    *  comparison operators available for use of the Ids in sorted container
    *  classes.  */
   class BoundaryAssignmentIdentifier
-    {
-  public:
+  {
+public:
     /** Create an alias to BoundaryAssignmentIdentifier. */
     typedef BoundaryAssignmentIdentifier Self;
 
@@ -235,24 +222,23 @@ public:
     CellIdentifier m_CellId;
 
     /** The identification of the feature within the cell. */
-    CellFeatureIdentifier  m_FeatureId;
+    CellFeatureIdentifier m_FeatureId;
 
     /** Most containers require a "<" operator to be defined for their key
      *  types.  */
-    bool operator < (const Self& r) const
-      {
-      return ((m_CellId < r.m_CellId) ||
-              ((m_CellId == r.m_CellId) && (m_FeatureId < r.m_FeatureId)));
-      }
+    bool operator<(const Self & r) const
+    {
+      return ( ( m_CellId < r.m_CellId )
+               || ( ( m_CellId == r.m_CellId ) && ( m_FeatureId < r.m_FeatureId ) ) );
+    }
 
     /** Most containers require a "==" operator to be defined for their key
      *  types.  */
-    bool operator == (const Self& r) const
-      {
-      return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
-      }
+    bool operator==(const Self & r) const
+    {
+      return ( ( m_CellId == r.m_CellId ) && ( m_FeatureId == r.m_FeatureId ) );
+    }
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
-
 
   /** Used for manipulating boundaries and boundary attributes.  A
    * BoundaryAssignmentsContainerVector is indexed by dimension.  For
@@ -261,30 +247,28 @@ public:
    * identifier and a boundary feature identifier.  The boundary
    * feature identifier distinguishes different boundary features for
    * a given cell at a given dimension.  */
-  typedef MapContainer< BoundaryAssignmentIdentifier , CellIdentifier >
-        BoundaryAssignmentsContainer;
+  typedef MapContainer< BoundaryAssignmentIdentifier, CellIdentifier >
+  BoundaryAssignmentsContainer;
   typedef typename BoundaryAssignmentsContainer::Pointer
-        BoundaryAssignmentsContainerPointer;
+  BoundaryAssignmentsContainerPointer;
   typedef std::vector< BoundaryAssignmentsContainerPointer >
-        BoundaryAssignmentsContainerVector;
-
-
+  BoundaryAssignmentsContainerVector;
 protected:
 
   /** Holds cells used by the mesh.  Individual cells are accessed
    *  through cell identifiers.  */
-  CellsContainerPointer  m_CellsContainer;
+  CellsContainerPointer m_CellsContainer;
 
   /** An object containing data associated with the mesh's cells.
    *  Optionally, this can be NULL, indicating that no data are associated
    *  with the cells.  The data for a cell can be accessed through its cell
    *  identifier.  */
-  CellDataContainerPointer  m_CellDataContainer;
+  CellDataContainerPointer m_CellDataContainer;
 
   /** An object containing parent cell links for each point.  Since a point
    *  can be used by multiple cells, each point identifier accesses another
    *  container which holds the cell identifiers */
-  mutable CellLinksContainerPointer  m_CellLinksContainer;
+  mutable CellLinksContainerPointer m_CellLinksContainer;
 
   /** A vector of objects containing explicit cell boundary assignments.
    *  The vector is indexed by the topological dimension of the cell
@@ -295,40 +279,48 @@ protected:
    *  in the containers stored in the Boundaries vector.  They can also be
    *  used to access the data stored by a particular boundary through the
    *  containers in the BoundaryData vector.  */
-  BoundaryAssignmentsContainerVector  m_BoundaryAssignmentsContainers;
-
+  BoundaryAssignmentsContainerVector m_BoundaryAssignmentsContainers;
 public:
   /** Mesh-level operation interface. */
   unsigned long GetNumberOfCells() const;
-  void PassStructure(Self* inputMesh);
+
+  void PassStructure(Self *inputMesh);
+
   virtual void Initialize();
 
   /** Methods for managing Mesh filters that have internal mini-pipelines */
   virtual void CopyInformation(const DataObject *data);
+
   virtual void Graft(const DataObject *data);
 
   /** Access m_CellsLinksContainer, which contains parent cell links
    * for each point.  Since a point can be used by multiple cells,
    * each point identifier accesses another container which holds the
    * cell identifiers */
-  void SetCellLinks(CellLinksContainer*);
+  void SetCellLinks(CellLinksContainer *);
+
 #ifndef CABLE_CONFIGURATION
   CellLinksContainer * GetCellLinks();
+
   const CellLinksContainer * GetCellLinks() const;
 
   /** Access m_CellsContainer, which holds cells used by the mesh.
    *  Individual cells are accessed through cell identifiers.  */
-  void SetCells(CellsContainer*);
+  void SetCells(CellsContainer *);
 
   CellsContainer * GetCells();
+
   const CellsContainer * GetCells() const;
+
 #endif
   /** Access m_CellDataContainer, which contains data associated with
    *  the mesh's cells.  Optionally, this can be NULL, indicating that
    *  no data are associated with the cells.  The data for a cell can
    *  be accessed through its cell identifier.  */
-  void SetCellData(CellDataContainer*);
+  void SetCellData(CellDataContainer *);
+
   CellDataContainer *  GetCellData();
+
   const CellDataContainer * GetCellData() const;
 
   /**
@@ -339,13 +331,15 @@ public:
    * feature identifier distinguishes different boundary features for
    * a given cell at a given dimension.
    */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   void SetBoundaryAssignments(int dimension,
-                              BoundaryAssignmentsContainer*);
+                              BoundaryAssignmentsContainer *);
+
 #endif
 
 #ifndef CABLE_CONFIGURATION
   BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension);
+
   const BoundaryAssignmentsContainerPointer GetBoundaryAssignments(
     int dimension) const;
 
@@ -354,13 +348,13 @@ public:
    *  cell currently in the mesh, it is the caller's responsibility to
    *  release the memory for the cell currently at the CellIdentifier
    *  position prior to calling SetCell. */
-  void SetCell(CellIdentifier, CellAutoPointer & );
-  bool GetCell(CellIdentifier, CellAutoPointer & ) const;
+  void SetCell(CellIdentifier, CellAutoPointer &);
+  bool GetCell(CellIdentifier, CellAutoPointer &) const;
 #endif
   /** Access routines to fill the CellData container, and get information
    *  from it.  */
   void SetCellData(CellIdentifier, CellPixelType);
-  bool GetCellData(CellIdentifier, CellPixelType*) const;
+  bool GetCellData(CellIdentifier, CellPixelType *) const;
 
   /**
    * Explicitly assign \a boundaryId as a part of the boundary of \a
@@ -388,7 +382,8 @@ public:
    * BoundaryIdentifier pointer is left unchanged. */
   bool GetBoundaryAssignment(int dimension, CellIdentifier cellId,
                              CellFeatureIdentifier featureId,
-                             CellIdentifier* boundaryId) const;
+                             CellIdentifier *boundaryId) const;
+
   bool RemoveBoundaryAssignment(int dimension, CellIdentifier cellId,
                                 CellFeatureIdentifier featureId);
 
@@ -400,7 +395,7 @@ public:
   /** Get the boundary feature of the given dimension of the given cell
    * corresponding to the given feature identifier. */
   bool GetCellBoundaryFeature(int dimension, CellIdentifier,
-                              CellFeatureIdentifier, CellAutoPointer& ) const;
+                              CellFeatureIdentifier, CellAutoPointer &) const;
 #endif
   /** Get the set of cells neighboring the given cell across the given boundary
    * feature.  Returns the number of neighbors found.  If cellSet is not NULL,
@@ -408,14 +403,15 @@ public:
    * cells. */
   unsigned long GetCellBoundaryFeatureNeighbors(
     int dimension, CellIdentifier, CellFeatureIdentifier,
-    std::set<CellIdentifier>* cellSet);
+    std::set< CellIdentifier > *cellSet);
 
   /** Get the set of cells having the given cell as part of their
    *  boundary.  Returns the number of neighbors found.  If cellSet is
    *  not NULL, the set of cell pointers is filled in with identifiers
    *  of the neighboring cells. */
-  unsigned long GetCellNeighbors( CellIdentifier cellId,
-                                  std::set<CellIdentifier>* cellSet );
+  unsigned long GetCellNeighbors(CellIdentifier cellId,
+                                 std::set< CellIdentifier > *cellSet);
+
 #ifndef CABLE_CONFIGURATION
   /**
    * Check if there is an explicitly assigned boundary feature for the
@@ -426,7 +422,7 @@ public:
    */
   bool GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier,
                                           CellFeatureIdentifier,
-                                          CellAutoPointer& ) const;
+                                          CellAutoPointer &) const;
 #endif
   /** Dynamically build the links from points back to their using cells.  This
    * information is stored in the cell links container, not in the points. */
@@ -442,20 +438,20 @@ public:
   /** This method iterates over all the cells in the mesh and has
    *  each cell Accept the MultiVisitor. See MultiVisitor for more
    *  information.  (Note, this follows the Visitor Design Pattern.) */
-  virtual void Accept(CellMultiVisitorType* mv) const;
+  virtual void Accept(CellMultiVisitorType *mv) const;
+
 #endif
   /** Set/Get the identification of the method used to allocate cells
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
       will be erased with an improper method.  */
-  itkSetMacro( CellsAllocationMethod, CellsAllocationMethodType );
-  itkGetConstReferenceMacro( CellsAllocationMethod, CellsAllocationMethodType );
-
+  itkSetMacro(CellsAllocationMethod, CellsAllocationMethodType);
+  itkGetConstReferenceMacro(CellsAllocationMethod, CellsAllocationMethodType);
 protected:
   /** Constructor for use by New() method. */
   Mesh();
   ~Mesh();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Release the memory allocated for the cells pointers. This is done
       based on information provided by the user through the method
@@ -463,13 +459,11 @@ protected:
   void ReleaseCellsMemory();
 
 private:
-  Mesh(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  Mesh(const Self &);           //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  CellsAllocationMethodType             m_CellsAllocationMethod;
-
+  CellsAllocationMethodType m_CellsAllocationMethod;
 }; // End Class: Mesh
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

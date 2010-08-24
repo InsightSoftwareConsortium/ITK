@@ -22,10 +22,10 @@
 #include "itkMeasurementVectorTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class SampleToHistogramFilter
  *  \brief Computes the Histogram corresponding to a Sample.
  *
@@ -36,15 +36,15 @@ namespace Statistics {
  *
  */
 
-template < class TSample, class THistogram >
-class ITK_EXPORT SampleToHistogramFilter : public ProcessObject
+template< class TSample, class THistogram >
+class ITK_EXPORT SampleToHistogramFilter:public ProcessObject
 {
 public:
   /** Standard class typedefs */
-  typedef SampleToHistogramFilter       Self;
-  typedef ProcessObject                 Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer<const Self >     ConstPointer;
+  typedef SampleToHistogramFilter    Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SampleToHistogramFilter, ProcessObject);
@@ -53,20 +53,20 @@ public:
   itkNewMacro(Self);
 
   /** MeasurementVector typedef support */
-  typedef TSample                                        SampleType;
-  typedef THistogram                                     HistogramType;
-  typedef typename SampleType::MeasurementVectorType     MeasurementVectorType;
-  typedef typename MeasurementVectorType::ValueType      MeasurementType;
-  typedef typename HistogramType::SizeType               HistogramSizeType;
-  typedef typename HistogramType::MeasurementType        HistogramMeasurementType;
-  typedef typename HistogramType::MeasurementVectorType  HistogramMeasurementVectorType;
-
+  typedef TSample                                       SampleType;
+  typedef THistogram                                    HistogramType;
+  typedef typename SampleType::MeasurementVectorType    MeasurementVectorType;
+  typedef typename MeasurementVectorType::ValueType     MeasurementType;
+  typedef typename HistogramType::SizeType              HistogramSizeType;
+  typedef typename HistogramType::MeasurementType       HistogramMeasurementType;
+  typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
 
   /** Type for the data object output */
-  itkSuperclassTraitMacro( DataObjectPointer )
+  itkSuperclassTraitMacro(DataObjectPointer)
 
   /** Set/Get the input sample */
-  virtual void SetInput( const SampleType * sample );
+  virtual void SetInput(const SampleType *sample);
+
   virtual const SampleType * GetInput() const;
 
   /** Get the output Histogram */
@@ -94,22 +94,22 @@ public:
    * histogram size by value. This macro declares the methods
    * SetHistogramSize(), SetHistogramSizeInput(), GetHistogramSizeInput().
    */
-  itkSetDecoratedInputMacro( HistogramSize, HistogramSizeType, 1 );
+  itkSetDecoratedInputMacro(HistogramSize, HistogramSizeType, 1);
 
   /** Methods for setting and getting the Marginal scale value.  The marginal
    * scale is used when the type of the measurement vector componets are of
    * integer type. */
-  itkSetDecoratedInputMacro( MarginalScale, HistogramMeasurementType, 2 );
+  itkSetDecoratedInputMacro(MarginalScale, HistogramMeasurementType, 2);
 
   /** Methods for setting and getting the Minimum and Maximum values of the
    * histogram bins. */
-  itkSetDecoratedInputMacro( HistogramBinMinimum, HistogramMeasurementVectorType, 3 );
-  itkSetDecoratedInputMacro( HistogramBinMaximum, HistogramMeasurementVectorType, 4 );
+  itkSetDecoratedInputMacro(HistogramBinMinimum, HistogramMeasurementVectorType, 3);
+  itkSetDecoratedInputMacro(HistogramBinMaximum, HistogramMeasurementVectorType, 4);
 
   /** Methods for setting and getting the boolean flag that defines whether the
    * minimum and maximum of the histogram are going to be computed
    * automatically from the values of the sample */
-  itkSetDecoratedInputMacro( AutoMinimumMaximum, bool, 5 );
+  itkSetDecoratedInputMacro(AutoMinimumMaximum, bool, 5);
 
   /** Method that facilitates the use of this filter in the internal
    * pipeline of another filter. */
@@ -119,7 +119,7 @@ protected:
   SampleToHistogramFilter();
   virtual ~SampleToHistogramFilter();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -133,14 +133,11 @@ protected:
   virtual void GenerateData();
 
 private:
-  SampleToHistogramFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  SampleToHistogramFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
+};                                       // end of class
 } // end of namespace Statistics
 } // end of namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSampleToHistogramFilter.txx"

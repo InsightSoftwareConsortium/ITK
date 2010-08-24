@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class AnisotropicFourthOrderLevelSetImageFilter
  *
@@ -35,7 +35,7 @@ namespace itk {
  * (default is 0). The output surface is the 0-isosurface of the output volume,
  * regardless of the input isosurface value. To visualize the input/output
  * surfaces to this filter a mesh extraction method such as marching cubes can
- * be used. 
+ * be used.
  *
  * \par
  * The 4th-order level set PDE framework is proposed as an alternative to 2nd
@@ -62,7 +62,7 @@ namespace itk {
  * anisotropic surface smoothing algorithm. This is a feature preserving
  * surface processing algorithm that smoothes surfaces but will preserve
  * certain features (creases, edges, other sharp features) depending on the
- * NormalProcessConductanceParameter. 
+ * NormalProcessConductanceParameter.
  *
  * \par PARAMETERS
  * As mentioned before, the IsoSurfaceValue parameter chooses which isosurface
@@ -76,49 +76,49 @@ namespace itk {
  * feature preservation. Notice the difference between the number of iterations
  * parameter and the conductance parameter: for a given conductance parameter,
  * surface features with high enough curvature will be preserved even if the
- * number of iterations is set to be extremely large. 
+ * number of iterations is set to be extremely large.
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT AnisotropicFourthOrderLevelSetImageFilter
-  : public SparseFieldFourthOrderLevelSetImageFilter <TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT AnisotropicFourthOrderLevelSetImageFilter:
+  public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs */
-  typedef AnisotropicFourthOrderLevelSetImageFilter                Self;
-  typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
-                                                     TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  typedef AnisotropicFourthOrderLevelSetImageFilter Self;
+  typedef SparseFieldFourthOrderLevelSetImageFilter< TInputImage,
+                                                     TOutputImage > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(AnisotropicFourthOrderLevelSetImageFilter,
                SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard new macro */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** The sparse image type used in LevelSetFunctionWithRefitTerm */
   typedef typename Superclass::SparseImageType SparseImageType;
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  typedef LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType> FunctionType;
+  typedef LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType > FunctionType;
 
   /** The radius type for the neighborhoods. */
   typedef typename FunctionType::RadiusType RadiusType;
 
-  itkGetConstMacro(MaxFilterIteration,unsigned int);
-  itkSetMacro(MaxFilterIteration,unsigned int);
-  
+  itkGetConstMacro(MaxFilterIteration, unsigned int);
+  itkSetMacro(MaxFilterIteration, unsigned int);
 protected:
   AnisotropicFourthOrderLevelSetImageFilter();
-  ~AnisotropicFourthOrderLevelSetImageFilter() {};
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~AnisotropicFourthOrderLevelSetImageFilter() {}
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** This filter halts when the iteration count reaches the specified count. */
   virtual bool Halt()
-    {
-    if (this->GetElapsedIterations() == m_MaxFilterIteration)
+  {
+    if ( this->GetElapsedIterations() == m_MaxFilterIteration )
       {
       return true;
       }
@@ -126,21 +126,19 @@ protected:
       {
       return false;
       }
-    }
+  }
 
 private:
-  AnisotropicFourthOrderLevelSetImageFilter(const Self&);
+  AnisotropicFourthOrderLevelSetImageFilter(const Self &);
   //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
 
   /** The number of iterations for which this filter will run. */
   unsigned int m_MaxFilterIteration;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

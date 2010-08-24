@@ -21,12 +21,11 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <class TInputImage, class TOutput, class TCoordRep>
-ImageFunction<TInputImage, TOutput, TCoordRep>
+template< class TInputImage, class TOutput, class TCoordRep >
+ImageFunction< TInputImage, TOutput, TCoordRep >
 ::ImageFunction()
 {
   m_Image = NULL;
@@ -36,18 +35,17 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
   m_EndContinuousIndex.Fill(0.0f);
 }
 
-
 /**
  * Standard "PrintSelf" method
  */
-template <class TInputImage, class TOutput, class TCoordRep>
+template< class TInputImage, class TOutput, class TCoordRep >
 void
-ImageFunction<TInputImage, TOutput, TCoordRep>
+ImageFunction< TInputImage, TOutput, TCoordRep >
 ::PrintSelf(
-  std::ostream& os,
+  std::ostream & os,
   Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "InputImage: " << m_Image.GetPointer() << std::endl;
   os << indent << "StartIndex: " << m_StartIndex << std::endl;
   os << indent << "EndIndex: " << m_EndIndex << std::endl;
@@ -55,15 +53,14 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
   os << indent << "EndContinuousIndex: " << m_EndContinuousIndex << std::endl;
 }
 
-
 /**
  * Initialize by setting the input image
  */
-template <class TInputImage, class TOutput, class TCoordRep>
+template< class TInputImage, class TOutput, class TCoordRep >
 void
-ImageFunction<TInputImage, TOutput, TCoordRep>
+ImageFunction< TInputImage, TOutput, TCoordRep >
 ::SetInputImage(
-  const InputImageType * ptr )
+  const InputImageType *ptr)
 {
   // set the input image
   m_Image = ptr;
@@ -75,14 +72,12 @@ ImageFunction<TInputImage, TOutput, TCoordRep>
 
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      m_EndIndex[j] = m_StartIndex[j] + static_cast<IndexValueType>( size[j] ) - 1;
-      m_StartContinuousIndex[j] = static_cast<CoordRepType>( m_StartIndex[j] - 0.5 );
-      m_EndContinuousIndex[j]   = static_cast<CoordRepType>( m_EndIndex[j] + 0.5 );
+      m_EndIndex[j] = m_StartIndex[j] + static_cast< IndexValueType >( size[j] ) - 1;
+      m_StartContinuousIndex[j] = static_cast< CoordRepType >( m_StartIndex[j] - 0.5 );
+      m_EndContinuousIndex[j]   = static_cast< CoordRepType >( m_EndIndex[j] + 0.5 );
       }
     }
 }
-
-
 } // end namespace itk
 
 #endif

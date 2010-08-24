@@ -24,9 +24,10 @@
 #include "itkDataObjectDecorator.h"
 #include "itkFixedArray.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ImageToListSampleFilter
  *  \brief The class takes an image as input and generates a list sample as
  *  output.
@@ -50,16 +51,16 @@ namespace Statistics {
  *
  * \sa ImageToListSampleAdaptor
  */
-template < class TImage, class TMaskImage = TImage >
-class ITK_EXPORT ImageToListSampleFilter :
+template< class TImage, class TMaskImage = TImage >
+class ITK_EXPORT ImageToListSampleFilter:
   public ProcessObject
 {
 public:
   /** Standard class typedefs */
-  typedef ImageToListSampleFilter     Self;
-  typedef ProcessObject               Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef ImageToListSampleFilter    Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListSampleFilter, ProcessObject);
@@ -73,7 +74,7 @@ public:
   typedef typename ImageType::ConstPointer ImageConstPointer;
   typedef typename ImageType::PixelType    PixelType;
   typedef typename MeasurementVectorPixelTraits<
-    PixelType >::MeasurementVectorType     MeasurementVectorType;
+    PixelType >::MeasurementVectorType MeasurementVectorType;
 
   /** Mask Image typedefs */
   typedef TMaskImage                           MaskImageType;
@@ -81,19 +82,21 @@ public:
   typedef typename MaskImageType::ConstPointer MaskImageConstPointer;
   typedef typename MaskImageType::PixelType    MaskPixelType;
 
-   /** Type of the output list sample */
-  typedef ListSample< MeasurementVectorType >  ListSampleType;
+  /** Type of the output list sample */
+  typedef ListSample< MeasurementVectorType > ListSampleType;
 
   /** return the number of components of the input image */
   unsigned int GetMeasurementVectorSize() const;
 
   /** Method to set/get the image */
-  void SetInput( const ImageType* image );
-  const ImageType* GetInput() const;
+  void SetInput(const ImageType *image);
+
+  const ImageType * GetInput() const;
 
   /** Method to set/get the mask */
-  void SetMaskImage( const MaskImageType* image );
-  const MaskImageType* GetMaskImage() const;
+  void SetMaskImage(const MaskImageType *image);
+
+  const MaskImageType * GetMaskImage() const;
 
   /** Method to get the list sample, the generated output. Note that this does
    * not invoke Update(). You should have called update on this class to get
@@ -104,13 +107,12 @@ public:
    * specified, only pixels with this value will be added to the list sample, if
    * no mask has been specified all pixels will be added as measurement vectors
    * to the list sample. */
-  itkSetMacro( MaskValue, MaskPixelType );
-  itkGetConstMacro( MaskValue, MaskPixelType );
-
+  itkSetMacro(MaskValue, MaskPixelType);
+  itkGetConstMacro(MaskValue, MaskPixelType);
 protected:
   ImageToListSampleFilter();
   virtual ~ImageToListSampleFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard itk::ProcessObject subclass method. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -122,18 +124,16 @@ protected:
   /** This method ensures that a mask image if specified has requested regions
    * that at least contain the input image's buffered region. */
   virtual void GenerateInputRequestedRegion()
-    throw(InvalidRequestedRegionError);
+  throw( InvalidRequestedRegionError );
 
   virtual void GenerateOutputInformation();
 
 private:
-  ImageToListSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageToListSampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   MaskPixelType m_MaskValue;
-
-}; // end of class ImageToListSampleFilter
-
+};  // end of class ImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk
 

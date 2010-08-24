@@ -27,37 +27,34 @@ namespace itk
  *
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteCurvatureTensorEstimator :
+class QuadEdgeMeshDiscreteCurvatureTensorEstimator:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef QuadEdgeMeshDiscreteCurvatureTensorEstimator        Self;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter                    Superclass;
+  typedef QuadEdgeMeshDiscreteCurvatureTensorEstimator Self;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter             Superclass;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuadEdgeMeshDiscreteCurvatureTensorEstimator, QuadEdgeMeshToQuadEdgeMeshFilter );
+  itkTypeMacro(QuadEdgeMeshDiscreteCurvatureTensorEstimator, QuadEdgeMeshToQuadEdgeMeshFilter);
 
   /** New macro for creation of through a Smart Pointer   */
-  itkNewMacro( Self );
-
+  itkNewMacro(Self);
 protected:
   QuadEdgeMeshDiscreteCurvatureTensorEstimator() {}
   ~QuadEdgeMeshDiscreteCurvatureTensorEstimator() {}
 
-  ///TODO to be implemented  
+  ///TODO to be implemented
   virtual void GenerateData()
-    {
-      
-    }
+  {}
 
 private:
-  QuadEdgeMeshDiscreteCurvatureTensorEstimator( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
-
+  QuadEdgeMeshDiscreteCurvatureTensorEstimator(const Self &); // purposely not
+                                                              // implemented
+  void operator=(const Self &);                               // purposely not
+                                                              // implemented
 };
-
 }
 
 #endif

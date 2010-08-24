@@ -23,7 +23,6 @@
 #include "itkIOCommon.h"
 #include "itkGenericUtilities.h"
 
-
 #include <numeric>
 #include <algorithm>
 #include <fstream>
@@ -32,12 +31,10 @@
 
 namespace itk
 {
+const char *MRCImageIO:: m_MetaDataHeaderName = "MRCHeader";
 
-
-const char *MRCImageIO::m_MetaDataHeaderName = "MRCHeader";
-
-MRCImageIO::MRCImageIO()
-  : StreamingImageIOBase()
+MRCImageIO::MRCImageIO():
+  StreamingImageIOBase()
 {
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(3);
@@ -50,17 +47,18 @@ MRCImageIO::MRCImageIO()
   this->AddSupportedWriteExtension(".rec");
 }
 
-void MRCImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void MRCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-bool MRCImageIO::CanReadFile(const char* filename)
+bool MRCImageIO::CanReadFile(const char *filename)
 {
   std::string fname = filename;
-  if ( fname != "" &&
-       ( fname.find(".mrc") < fname.length() ||
-         fname.find(".rec") < fname.length() ) )
+
+  if ( fname != ""
+       && ( fname.find(".mrc") < fname.length()
+            || fname.find(".rec") < fname.length() ) )
     {
     return true;
     }
@@ -72,20 +70,20 @@ bool MRCImageIO::CanReadFile(const char* filename)
     // this may throw an expection, but we just return false
     this->OpenFileForReading(file, filename);
     }
-  catch (...)
+  catch ( ... )
     {
     return false;
     }
 
-  itkDebugMacro( << "Reading Magic numbers " << filename );
+  itkDebugMacro(<< "Reading Magic numbers " << filename);
   char map[4];
   char stamp[4];
 
   // special offset to magic number
   file.seekg(208);
 
-  if( !this->ReadBufferAsBinary( file, static_cast<void*>(&map), 4 ) ||
-      !this->ReadBufferAsBinary( file, static_cast<void*>(&stamp), 4 ))
+  if ( !this->ReadBufferAsBinary(file, static_cast< void * >( &map ), 4)
+       || !this->ReadBufferAsBinary(file, static_cast< void * >( &stamp ), 4) )
     {
     return false;
     }
@@ -97,11 +95,9 @@ bool MRCImageIO::CanReadFile(const char* filename)
     }
 
   return true;
-
-
 }
 
-MRCImageIO::SizeType MRCImageIO::GetHeaderSize( void ) const
+MRCImageIO::SizeType MRCImageIO::GetHeaderSize(void) const
 {
   if ( m_MRCHeader.IsNull() )
     {
@@ -111,11 +107,11 @@ MRCImageIO::SizeType MRCImageIO::GetHeaderSize( void ) const
   return m_MRCHeader->GetExtendedHeaderSize() + m_MRCHeader->GetHeaderSize();
 }
 
-void MRCImageIO::ReadImageInformation( void ) {
+void MRCImageIO::ReadImageInformation(void)
+{
   std::ifstream file;
 
-
-  this->InternalReadImageInformation( file );
+  this->InternalReadImageInformation(file);
 
   if ( m_MRCHeader->IsOriginalHeaderBigEndian() )
     {
@@ -136,53 +132,53 @@ void MRCImageIO::ReadImageInformation( void ) {
       // todo: the format is unclear weather this is signed or
       // unsigned, it would be best to check the min and max in the
       // header to see what makes since
-      this->SetComponentType( UCHAR );
-      this->SetNumberOfComponents( 1 );
-      this->SetPixelType( SCALAR );
+      this->SetComponentType(UCHAR);
+      this->SetNumberOfComponents(1);
+      this->SetPixelType(SCALAR);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_IN16:
       {
-      this->SetComponentType( SHORT );
-      this->SetNumberOfComponents( 1 );
-      this->SetPixelType( SCALAR );
+      this->SetComponentType(SHORT);
+      this->SetNumberOfComponents(1);
+      this->SetPixelType(SCALAR);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_FLOAT:
       {
-      this->SetComponentType( FLOAT );
-      this->SetNumberOfComponents( 1 );
-      this->SetPixelType( SCALAR );
+      this->SetComponentType(FLOAT);
+      this->SetNumberOfComponents(1);
+      this->SetPixelType(SCALAR);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16:
       {
       // ITK does not support short complex well
       // but if the program has gotten this far we can just write it out
-      this->SetComponentType( SHORT );
-      this->SetNumberOfComponents( 2 );
-      this->SetPixelType( COMPLEX );
+      this->SetComponentType(SHORT);
+      this->SetNumberOfComponents(2);
+      this->SetPixelType(COMPLEX);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT:
       {
-      this->SetComponentType( FLOAT );
-      this->SetNumberOfComponents( 2 );
-      this->SetPixelType( COMPLEX );
+      this->SetComponentType(FLOAT);
+      this->SetNumberOfComponents(2);
+      this->SetPixelType(COMPLEX);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_UINT16:
       {
-      this->SetComponentType( USHORT );
-      this->SetNumberOfComponents( 1 );
-      this->SetPixelType( SCALAR );
+      this->SetComponentType(USHORT);
+      this->SetNumberOfComponents(1);
+      this->SetPixelType(SCALAR);
       break;
       }
     case MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE:
       {
-      this->SetComponentType( UCHAR );
-      this->SetNumberOfComponents( 3 );
-      this->SetPixelType( RGB );
+      this->SetComponentType(UCHAR);
+      this->SetNumberOfComponents(3);
+      this->SetPixelType(RGB);
       break;
       }
     default:
@@ -191,10 +187,9 @@ void MRCImageIO::ReadImageInformation( void ) {
       }
     }
 
-
-  if ( header.xlen == 0 &&
-       header.ylen == 0 &&
-       header.zlen == 0 )
+  if ( header.xlen == 0
+       && header.ylen == 0
+       && header.zlen == 0 )
     {
     // if the spacing was not set in the header then this is the
     // default
@@ -221,19 +216,19 @@ void MRCImageIO::ReadImageInformation( void ) {
 
   // add the MRCHeader object into the metadata dictionary to that it
   // can be accessed
-  MetaDataDictionary &thisDic=this->GetMetaDataDictionary();
-
+  MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
 
   std::string classname( this->GetNameOfClass() );
-  EncapsulateMetaData<std::string>( thisDic, ITK_InputFilterName, classname );
-  EncapsulateMetaData<MRCHeaderObject::ConstPointer>( thisDic, m_MetaDataHeaderName, MRCHeaderObject::ConstPointer(m_MRCHeader) );
-
+  EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
+  EncapsulateMetaData< MRCHeaderObject::ConstPointer >( thisDic, m_MetaDataHeaderName,
+                                                        MRCHeaderObject::ConstPointer(m_MRCHeader) );
 
   return;
 }
 
 // methods to load the data into the MRCHeader member variable
-void MRCImageIO::InternalReadImageInformation(std::ifstream &file) {
+void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
+{
   char *buffer = 0;
 
   try
@@ -242,135 +237,135 @@ void MRCImageIO::InternalReadImageInformation(std::ifstream &file) {
 
     itkDebugMacro(<< "Reading Information ");
 
-    this->OpenFileForReading(file, this->m_FileName.c_str());
+    this->OpenFileForReading( file, this->m_FileName.c_str() );
 
     buffer = new char[m_MRCHeader->GetHeaderSize()];
-    if( !this->ReadBufferAsBinary( file, static_cast<void*>(buffer), m_MRCHeader->GetHeaderSize()) )
+    if ( !this->ReadBufferAsBinary( file, static_cast< void * >( buffer ), m_MRCHeader->GetHeaderSize() ) )
       {
-      itkExceptionMacro(<<"Header Read failed: Wanted "
+      itkExceptionMacro(<< "Header Read failed: Wanted "
                         << m_MRCHeader->GetHeaderSize()
                         << " bytes, but read "
                         << file.gcount() << " bytes.");
       }
 
     // convert the raw buffer into the header
-    if ( !m_MRCHeader->SetHeader(reinterpret_cast<const MRCHeaderObject::Header*>(buffer) ) )
+    if ( !m_MRCHeader->SetHeader( reinterpret_cast< const MRCHeaderObject::Header * >( buffer ) ) )
       {
       itkExceptionMacro(<< "Unrecognized header");
       }
 
-    delete [] buffer;
+    delete[] buffer;
     buffer = 0;
 
     buffer = new char[m_MRCHeader->GetExtendedHeaderSize()];
-    if( !this->ReadBufferAsBinary( file, static_cast<void*>(buffer),  m_MRCHeader->GetExtendedHeaderSize()) )
+    if ( !this->ReadBufferAsBinary( file, static_cast< void * >( buffer ),  m_MRCHeader->GetExtendedHeaderSize() ) )
       {
-      itkExceptionMacro(<<"Extended Header Read failed.");
+      itkExceptionMacro(<< "Extended Header Read failed.");
       }
-
 
     m_MRCHeader->SetExtendedHeader(buffer);
     }
-  catch (...)
+  catch ( ... )
     {
     // clean up dynamic allocation
-    if (buffer)
-      delete [] buffer;
+    if ( buffer )
+      {
+      delete[] buffer;
+      }
     buffer = 0;
     throw;
     }
 
-  delete [] buffer;
+  delete[] buffer;
 }
-
 
 void MRCImageIO
 ::Read(void *buffer)
 {
   std::ifstream file;
 
-  if( this->RequestedToStream( ) )
+  if ( this->RequestedToStream() )
     {
     // open and stream read
-    this->OpenFileForReading(file, this->m_FileName.c_str());
+    this->OpenFileForReading( file, this->m_FileName.c_str() );
 
     this->StreamReadBufferAsBinary(file, buffer);
-
     }
 
   else
     {
-
     // open the file
-    this->OpenFileForReading(file, this->m_FileName.c_str());
+    this->OpenFileForReading( file, this->m_FileName.c_str() );
 
     // seek base the header
-    std::streampos dataPos = static_cast<std::streampos>( this->GetHeaderSize() );
-    file.seekg( dataPos, std::ios::beg );
+    std::streampos dataPos = static_cast< std::streampos >( this->GetHeaderSize() );
+    file.seekg(dataPos, std::ios::beg);
 
     if ( file.fail() )
       {
-      itkExceptionMacro(<<"Failed seeking to data position");
+      itkExceptionMacro(<< "Failed seeking to data position");
       }
-
 
     // read the image
     this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
     }
 
   int size = this->GetComponentSize();
-  switch( size )
+  switch ( size )
     {
     case 1:
       break;
     case 2:
       this->GetByteOrder() == BigEndian ?
-        ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian((uint16_t *)buffer, this->GetImageSizeInComponents() ) :
-        ByteSwapper<uint16_t>::SwapRangeFromSystemToLittleEndian((uint16_t *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian( (uint16_t *)buffer, this->GetImageSizeInComponents() ) :
+      ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian( (uint16_t *)buffer, this->GetImageSizeInComponents() );
       break;
     case 4:
       this->GetByteOrder() == BigEndian ?
-        ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)buffer, this->GetImageSizeInComponents() ) :
-        ByteSwapper<uint32_t>::SwapRangeFromSystemToLittleEndian((uint32_t *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper< uint32_t >::SwapRangeFromSystemToBigEndian( (uint32_t *)buffer, this->GetImageSizeInComponents() ) :
+      ByteSwapper< uint32_t >::SwapRangeFromSystemToLittleEndian( (uint32_t *)buffer, this->GetImageSizeInComponents() );
       break;
     default:
       itkExceptionMacro(<< "Unknown component size");
     }
 }
 
-
-bool MRCImageIO::CanWriteFile(const char* fname)
+bool MRCImageIO::CanWriteFile(const char *fname)
 {
   std::string filename = fname;
-  if ( filename.length() > 4 &&
-       (filename.find(".mrc") == filename.length() - 4 ||
-        filename.find(".rec") == filename.length() - 4 ) )
+
+  if ( filename.length() > 4
+       && ( filename.find(".mrc") == filename.length() - 4
+            || filename.find(".rec") == filename.length() - 4 ) )
     {
     return true;
     }
   return false;
 }
 
-void MRCImageIO::UpdateHeaderFromImageIO( void )
+void MRCImageIO::UpdateHeaderFromImageIO(void)
 {
-
   MRCHeaderObject::Header header;
-  memset(&header, 0, sizeof(MRCHeaderObject::Header));
 
-  itkAssertOrThrowMacro ( this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writting" );
+  memset( &header, 0, sizeof( MRCHeaderObject::Header ) );
+
+  itkAssertOrThrowMacro (this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writting");
   if ( this->GetNumberOfDimensions() > 3 )
     {
-    itkExceptionMacro(<<"MRC Writer can not write more than 3-dimensional images");
+    itkExceptionMacro(<< "MRC Writer can not write more than 3-dimensional images");
     }
 
   // magic number
   strncpy(header.cmap, magicMAP, 4);
 
-  if ( ByteSwapper<void*>::SystemIsBigEndian() )
+  if ( ByteSwapper< void * >::SystemIsBigEndian() )
+    {
     header.stamp[0] = 17;
+    }
   else
+    {
     header.stamp[0] = 68;
-
+    }
 
   header.alpha = 90;
   header.beta = 90;
@@ -385,62 +380,66 @@ void MRCImageIO::UpdateHeaderFromImageIO( void )
   header.mz = header.nz = (  this->GetNumberOfDimensions() >= 3 ) ? m_Dimensions[2] : 1;
 
   header.mode = -1;
-  if (this->GetPixelType() == SCALAR)
+  if ( this->GetPixelType() == SCALAR )
     {
-    if (this->GetComponentType() == UCHAR)
+    if ( this->GetComponentType() == UCHAR )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_UINT8;
       }
-    else if (this->GetComponentType() == SHORT)
+    else if ( this->GetComponentType() == SHORT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_IN16;
       }
-    else if (this->GetComponentType() == FLOAT)
+    else if ( this->GetComponentType() == FLOAT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_FLOAT;
       }
-    else if (this->GetComponentType() == USHORT)
+    else if ( this->GetComponentType() == USHORT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_UINT16;
       }
     }
-  else if (this->GetPixelType() == COMPLEX)
+  else if ( this->GetPixelType() == COMPLEX )
     {
     // ITK does not support short complex well
     // but if we have gotten this far, it's done
-    if (this->GetComponentType() == SHORT)
+    if ( this->GetComponentType() == SHORT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16;
       }
     else
-      if (this->GetComponentType() == FLOAT)
+      {
+      if ( this->GetComponentType() == FLOAT )
         {
         header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT;
         }
+      }
     }
-  else if (this->GetPixelType() == RGB
-           && this->GetComponentType() == UCHAR)
+  else if ( this->GetPixelType() == RGB
+            && this->GetComponentType() == UCHAR )
     {
     header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
     }
 
-  if (header.mode == -1)
+  if ( header.mode == -1 )
     {
-    itkExceptionMacro(<< "Unsupported pixel type: " << this->GetPixelTypeAsString( this->GetPixelType())
-                      << " " << this->GetComponentTypeAsString(this->GetComponentType())
+    itkExceptionMacro(<< "Unsupported pixel type: " << this->GetPixelTypeAsString( this->GetPixelType() )
+                      << " " << this->GetComponentTypeAsString(
+                         this->GetComponentType() )
                       << std::endl
-                      << "Supported pixel types include unsigned byte, unsigned short, signed short, float, rgb unsigned char, float complex"
-      );
+                      <<
+                      "Supported pixel types include unsigned byte, unsigned short, signed short, float, rgb unsigned char, float complex"
+                      );
     }
 
   header.nxstart = 0;
   header.nystart = 0;
   header.nzstart = 0;
-  
-  header.xlen = m_Spacing[0]*float(header.mx);
-  header.ylen = ( this->GetNumberOfDimensions() >= 2 ) ? m_Spacing[1]*float(header.my) : 1;
-  header.zlen = ( this->GetNumberOfDimensions() >= 3 ) ? m_Spacing[2]*float(header.mz) : 1;
-  
+
+  header.xlen = m_Spacing[0] * float(header.mx);
+  header.ylen = ( this->GetNumberOfDimensions() >= 2 ) ? m_Spacing[1] * float(header.my) : 1;
+  header.zlen = ( this->GetNumberOfDimensions() >= 3 ) ? m_Spacing[2] * float(header.mz) : 1;
+
   header.xorg = m_Origin[0];
   header.yorg = ( this->GetNumberOfDimensions() >= 2 ) ? m_Origin[1] : 0;
   header.zorg = ( this->GetNumberOfDimensions() >= 3 ) ? m_Origin[2] : 0;
@@ -448,18 +447,17 @@ void MRCImageIO::UpdateHeaderFromImageIO( void )
   // the SetHeader method is used to set the all the internal variable
   // of the header object correctly, and the data is verified
   m_MRCHeader = MRCHeaderObject::New();
-  if (!m_MRCHeader->SetHeader(&header))
+  if ( !m_MRCHeader->SetHeader(&header) )
     {
     itkExceptionMacro(<< "Unexpected error setting header");
     }
 }
 
-void MRCImageIO::WriteImageInformation( const void * buffer )
+void MRCImageIO::WriteImageInformation(const void *buffer)
 {
-
   this->UpdateHeaderFromImageIO();
 
-  this->UpdateHeaderWithMinMaxMean( buffer );
+  this->UpdateHeaderWithMinMaxMean(buffer);
 
   std::ofstream file;
 
@@ -467,13 +465,12 @@ void MRCImageIO::WriteImageInformation( const void * buffer )
 
   // write the header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
-  file.write(static_cast<const char*>((void*)&(header)), 1024);
+  file.write(static_cast< const char * >( (void *)&( header ) ), 1024);
 }
 
 void MRCImageIO
-::UpdateHeaderWithMinMaxMean( const void * bufferBegin )
+::UpdateHeaderWithMinMaxMean(const void *bufferBegin)
 {
-
   // fixed types defined by header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
 
@@ -482,19 +479,19 @@ void MRCImageIO
     case 0:
       {
       // scalar unsigned char
-      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned char*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean( static_cast< const unsigned char * >( bufferBegin ) );
       break;
       }
     case 1:
       {
       // scalar short
-      this->UpdateHeaderWithMinMaxMean(static_cast<const short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean( static_cast< const short * >( bufferBegin ) );
       break;
       }
     case 2:
       {
       // scalar float
-      this->UpdateHeaderWithMinMaxMean(static_cast<const float*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean( static_cast< const float * >( bufferBegin ) );
       break;
       }
     case 3:
@@ -522,7 +519,7 @@ void MRCImageIO
     case 6:
       {
       // scalar unsigned short
-      this->UpdateHeaderWithMinMaxMean(static_cast<const unsigned short*>(bufferBegin));
+      this->UpdateHeaderWithMinMaxMean( static_cast< const unsigned short * >( bufferBegin ) );
       break;
       }
     case 16:
@@ -543,20 +540,16 @@ void MRCImageIO
 }
 
 void MRCImageIO
-::Write(const void* buffer)
+::Write(const void *buffer)
 {
-
-  if( this->RequestedToStream() )
+  if ( this->RequestedToStream() )
     {
-
-
     // we assume that GetActualNumberOfSplitsForWriting is called before
     // this methods and it will remove the file if a new header needs to
     // be written
-    if (!itksys::SystemTools::FileExists( m_FileName.c_str() ))
+    if ( !itksys::SystemTools::FileExists( m_FileName.c_str() ) )
       {
-      this->WriteImageInformation( buffer );
-
+      this->WriteImageInformation(buffer);
 
       std::ofstream file;
       // open and stream write
@@ -566,14 +559,12 @@ void MRCImageIO
       // nifty trick which should not write the entire size of the file
       // just allocate it, if the system supports sparse files)
       std::streampos seekPos = this->GetImageSizeInBytes() + this->GetHeaderSize() - 1;
-      file.seekp( seekPos, std::ios::cur );
+      file.seekp(seekPos, std::ios::cur);
       file.write("\0", 1);
-      file.seekp( 0 );
-
+      file.seekp(0);
       }
     else
       {
-
       if ( m_MRCHeader.IsNull() )
         {
         // need to determin the size of the header in the file by
@@ -585,8 +576,7 @@ void MRCImageIO
         // the internal m_MRCHeader variable
 
         std::ifstream file;
-        this->InternalReadImageInformation( file );
-
+        this->InternalReadImageInformation(file);
         }
 
       // TODO:
@@ -600,35 +590,31 @@ void MRCImageIO
     this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
 
     this->StreamWriteBufferAsBinary(file, buffer);
-
     }
 
   else
     {
-
     // this will truncate file and write header
-    this->WriteImageInformation( buffer );
+    this->WriteImageInformation(buffer);
 
     std::ofstream file;
     // open the file
     this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
 
     // seek pass the header
-    std::streampos dataPos = static_cast<std::streampos>( this->GetHeaderSize() );
-    file.seekp( dataPos, std::ios::beg );
+    std::streampos dataPos = static_cast< std::streampos >( this->GetHeaderSize() );
+    file.seekp(dataPos, std::ios::beg);
 
     if ( file.fail() )
       {
-      itkExceptionMacro(<<"Failed seeking to data position");
+      itkExceptionMacro(<< "Failed seeking to data position");
       }
 
     // read the image
-    if (!this->WriteBufferAsBinary( file, buffer, this->GetImageSizeInBytes() ))
+    if ( !this->WriteBufferAsBinary( file, buffer, this->GetImageSizeInBytes() ) )
       {
       itkExceptionMacro(<< "Could not write file: " << m_FileName);
       }
     }
-
 }
-
 } // namespace itk

@@ -29,8 +29,8 @@
 #include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class MultiphaseFiniteDifferenceImageFilter
  *
@@ -158,85 +158,85 @@ namespace itk {
  * \ingroup ImageFilter
  * \ingroup LevelSetSegmentation
  * \sa DenseFiniteDifferenceImageFilter2 */
- template < class TInputImage,
-  class TFeatureImage,
-  class TOutputImage,
-  class TFiniteDifferenceFunction = FiniteDifferenceFunction<TOutputImage>,
-  typename TIdCell = unsigned int >
-class ITK_EXPORT MultiphaseFiniteDifferenceImageFilter
-  : public InPlaceImageFilter< TFeatureImage, TOutputImage >
+template< class TInputImage,
+          class TFeatureImage,
+          class TOutputImage,
+          class TFiniteDifferenceFunction = FiniteDifferenceFunction< TOutputImage >,
+          typename TIdCell = unsigned int >
+class ITK_EXPORT MultiphaseFiniteDifferenceImageFilter:
+  public InPlaceImageFilter< TFeatureImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiphaseFiniteDifferenceImageFilter           Self;
-  typedef InPlaceImageFilter<TFeatureImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef MultiphaseFiniteDifferenceImageFilter             Self;
+  typedef InPlaceImageFilter< TFeatureImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( MultiphaseFiniteDifferenceImageFilter, InPlaceImageFilter );
+  itkTypeMacro(MultiphaseFiniteDifferenceImageFilter, InPlaceImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Input and output image types. */
-  typedef TInputImage                                 InputImageType;
-  typedef typename InputImageType::Pointer            InputImagePointer;
-  typedef typename InputImageType::PointType          InputPointType;
-  typedef typename InputPointType::CoordRepType       InputCoordRepType;
-  typedef typename InputImageType::IndexType          InputIndexType;
-  typedef typename InputIndexType::IndexValueType     InputIndexValueType;
-  typedef typename InputImageType::SizeType           InputSizeType;
-  typedef typename InputSizeType::SizeValueType       InputSizeValueType;
-  typedef typename InputImageType::RegionType         InputRegionType;
-  typedef typename InputImageType::PixelType          InputPixelType;
-  typedef typename InputImageType::SpacingType        InputSpacingType;
+  typedef TInputImage                             InputImageType;
+  typedef typename InputImageType::Pointer        InputImagePointer;
+  typedef typename InputImageType::PointType      InputPointType;
+  typedef typename InputPointType::CoordRepType   InputCoordRepType;
+  typedef typename InputImageType::IndexType      InputIndexType;
+  typedef typename InputIndexType::IndexValueType InputIndexValueType;
+  typedef typename InputImageType::SizeType       InputSizeType;
+  typedef typename InputSizeType::SizeValueType   InputSizeValueType;
+  typedef typename InputImageType::RegionType     InputRegionType;
+  typedef typename InputImageType::PixelType      InputPixelType;
+  typedef typename InputImageType::SpacingType    InputSpacingType;
 
-  typedef TFeatureImage                               FeatureImageType;
-  typedef typename FeatureImageType::Pointer          FeatureImagePointer;
-  typedef typename FeatureImageType::RegionType       FeatureRegionType;
-  typedef typename FeatureImageType::SizeType         FeatureSizeType;
-  typedef typename FeatureImageType::SpacingType      FeatureSpacingType;
-  typedef typename FeatureImageType::PointType        FeaturePointType;
-  typedef typename FeatureImageType::PixelType        FeaturePixelType;
+  typedef TFeatureImage                          FeatureImageType;
+  typedef typename FeatureImageType::Pointer     FeatureImagePointer;
+  typedef typename FeatureImageType::RegionType  FeatureRegionType;
+  typedef typename FeatureImageType::SizeType    FeatureSizeType;
+  typedef typename FeatureImageType::SpacingType FeatureSpacingType;
+  typedef typename FeatureImageType::PointType   FeaturePointType;
+  typedef typename FeatureImageType::PixelType   FeaturePixelType;
 
-  typedef TOutputImage                                OutputImageType;
-  typedef typename OutputImageType::Pointer           OutputImagePointer;
-  typedef typename OutputImageType::PixelType         OutputPixelType;
-  typedef typename OutputImageType::RegionType        OutputRegionType;
-  typedef typename OutputImageType::SizeType          OutputSizeType;
-  typedef typename OutputImageType::SizeValueType     OutputSizeValueType;
-  typedef typename OutputImageType::IndexType         OutputIndexType;
-  typedef typename OutputImageType::IndexValueType    OutputIndexValueType;
+  typedef TOutputImage                             OutputImageType;
+  typedef typename OutputImageType::Pointer        OutputImagePointer;
+  typedef typename OutputImageType::PixelType      OutputPixelType;
+  typedef typename OutputImageType::RegionType     OutputRegionType;
+  typedef typename OutputImageType::SizeType       OutputSizeType;
+  typedef typename OutputImageType::SizeValueType  OutputSizeValueType;
+  typedef typename OutputImageType::IndexType      OutputIndexType;
+  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
 
-  typedef TIdCell                                   IdCellType;
-  typedef std::vector< IdCellType >                 VectorIdCellType;
+  typedef TIdCell                   IdCellType;
+  typedef std::vector< IdCellType > VectorIdCellType;
 
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef TFiniteDifferenceFunction                             FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::Pointer        FiniteDifferenceFunctionPointer;
-  typedef typename FiniteDifferenceFunctionType::TimeStepType   TimeStepType;
-  typedef typename std::vector< TimeStepType >                  TimeStepVectorType;
-  typedef typename FiniteDifferenceFunctionType::RadiusType     RadiusType;
+  typedef TFiniteDifferenceFunction                           FiniteDifferenceFunctionType;
+  typedef typename FiniteDifferenceFunctionType::Pointer      FiniteDifferenceFunctionPointer;
+  typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
+  typedef typename std::vector< TimeStepType >                TimeStepVectorType;
+  typedef typename FiniteDifferenceFunctionType::RadiusType   RadiusType;
 
   typedef Vector< float, itkGetStaticConstMacro(ImageDimension) >
-                                                                CentroidVectorType;
-  typedef Statistics::ListSample< CentroidVectorType >          SampleType;
-  typedef Statistics::KdTreeGenerator< SampleType >             KdTreeGeneratorType;
-  typedef typename KdTreeGeneratorType::Pointer                 KdTreeGeneratorPointer;
-  typedef typename KdTreeGeneratorType::KdTreeType              KdTreeType;
-  typedef typename KdTreeType::Pointer                          KdTreePointer;
+  CentroidVectorType;
+  typedef Statistics::ListSample< CentroidVectorType > SampleType;
+  typedef Statistics::KdTreeGenerator< SampleType >    KdTreeGeneratorType;
+  typedef typename KdTreeGeneratorType::Pointer        KdTreeGeneratorPointer;
+  typedef typename KdTreeGeneratorType::KdTreeType     KdTreeType;
+  typedef typename KdTreeType::Pointer                 KdTreePointer;
 
   /** This method returns a pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \param functionIndex Index of difference function to return.
    * \returns A FiniteDifferenceObject pointer. */
   virtual const FiniteDifferenceFunctionPointer GetDifferenceFunction(
-    const IdCellType& functionIndex ) const
-    {
-    if( functionIndex < m_FunctionCount )
+    const IdCellType & functionIndex) const
+  {
+    if ( functionIndex < m_FunctionCount )
       {
       return ( this->m_DifferenceFunctions[functionIndex] );
       }
@@ -244,20 +244,20 @@ public:
       {
       return 0;
       }
-    }
+  }
 
   /** This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \param functionIndex Index of difference function to set.
    * \param function Pointer to difference function to set. */
-  virtual void SetDifferenceFunction( const IdCellType& functionIndex,
-    FiniteDifferenceFunctionPointer function)
-    {
-    if( functionIndex < m_FunctionCount )
+  virtual void SetDifferenceFunction(const IdCellType & functionIndex,
+                                     FiniteDifferenceFunctionPointer function)
+  {
+    if ( functionIndex < m_FunctionCount )
       {
       this->m_DifferenceFunctions[functionIndex] = function;
       }
-    }
+  }
 
   /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(NumberOfIterations, unsigned int);
@@ -265,7 +265,7 @@ public:
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOff. */
-  itkSetMacro(UseImageSpacing,bool);
+  itkSetMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
 
@@ -280,129 +280,129 @@ public:
   itkGetConstReferenceMacro(RMSChange, double);
 
   /** Set/Get the state of the filter. */
-  itkSetMacro( InitializedState, bool );
-  itkGetConstReferenceMacro( InitializedState, bool );
-  itkBooleanMacro( InitializedState );
+  itkSetMacro(InitializedState, bool);
+  itkGetConstReferenceMacro(InitializedState, bool);
+  itkBooleanMacro(InitializedState);
 
   /** Require the filter to be manually reinitialized (by calling
       SetInitializedStateOff() */
-  itkSetMacro( ManualReinitialization, bool );
-  itkGetConstReferenceMacro( ManualReinitialization, bool );
-  itkBooleanMacro( ManualReinitialization );
+  itkSetMacro(ManualReinitialization, bool);
+  itkGetConstReferenceMacro(ManualReinitialization, bool);
+  itkBooleanMacro(ManualReinitialization);
 
   /** Set the number of elapsed iterations of the filter. */
-  itkSetMacro( ElapsedIterations, unsigned int );
+  itkSetMacro(ElapsedIterations, unsigned int);
 
   /** Get the number of elapsed iterations of the filter. */
-  itkGetConstReferenceMacro( ElapsedIterations, unsigned int );
+  itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
 
-  void SetLevelSet( const IdCellType & i, const InputImageType *levelSet )
-    {
+  void SetLevelSet(const IdCellType & i, const InputImageType *levelSet)
+  {
     m_LevelSet[i] = InputImageType::New();
     m_LevelSet[i]->SetRequestedRegion( levelSet->GetRequestedRegion() );
     m_LevelSet[i]->SetBufferedRegion( levelSet->GetBufferedRegion() );
     m_LevelSet[i]->SetLargestPossibleRegion( levelSet->GetLargestPossibleRegion() );
     m_LevelSet[i]->Allocate();
-    m_LevelSet[i]->CopyInformation( levelSet );
+    m_LevelSet[i]->CopyInformation(levelSet);
 
-    ImageRegionConstIterator< InputImageType > in ( levelSet, levelSet->GetBufferedRegion());
-    ImageRegionIterator< InputImageType > cp ( m_LevelSet[i], levelSet->GetBufferedRegion()  );
+    ImageRegionConstIterator< InputImageType > in ( levelSet, levelSet->GetBufferedRegion() );
+    ImageRegionIterator< InputImageType >      cp ( m_LevelSet[i], levelSet->GetBufferedRegion() );
 
     in.GoToBegin();
     cp.GoToBegin();
 
-    while( !in.IsAtEnd() )
+    while ( !in.IsAtEnd() )
       {
       cp.Set( in.Get() );
       ++in;
       ++cp;
       }
-    }
+  }
 
-  InputImagePointer GetLevelSet( const IdCellType& i )
-    {
-    if( i >= m_FunctionCount )
+  InputImagePointer GetLevelSet(const IdCellType & i)
+  {
+    if ( i >= m_FunctionCount )
       {
       itkExceptionMacro("Request for level set #" << i
-        << " but there are only " << m_FunctionCount );
+                                                  << " but there are only " << m_FunctionCount);
       }
     else
       {
       return m_LevelSet[i];
       }
-    }
+  }
 
-  void SetLookup ( VectorIdCellType lookup )
-    {
+  void SetLookup(VectorIdCellType lookup)
+  {
     this->m_Lookup = lookup;
-    }
+  }
 
-  void SetKdTree( KdTreeType * kdtree )
-    {
+  void SetKdTree(KdTreeType *kdtree)
+  {
     this->m_KdTree = kdtree;
-    }
+  }
 
-  void SetFunctionCount( const IdCellType& n )
-    {
+  void SetFunctionCount(const IdCellType & n)
+  {
     m_FunctionCount = n;
 
-    m_DifferenceFunctions.resize( m_FunctionCount, 0 );
+    m_DifferenceFunctions.resize(m_FunctionCount, 0);
 
     RadiusType radius;
-    radius.Fill( 1 );
+    radius.Fill(1);
 
-    for( unsigned int i = 0; i < this->m_FunctionCount; i++ )
+    for ( unsigned int i = 0; i < this->m_FunctionCount; i++ )
       {
       this->m_DifferenceFunctions[i] = FiniteDifferenceFunctionType::New();
       this->m_DifferenceFunctions[i]->Initialize(radius);
       }
 
     // Initialize the images
-    m_LevelSet.resize( m_FunctionCount, 0 );
+    m_LevelSet.resize(m_FunctionCount, 0);
 
     // Initialize the lookup table
-    this->m_Lookup.resize( m_FunctionCount );
+    this->m_Lookup.resize(m_FunctionCount);
 
     IdCellType k = 1;
 
-    typedef typename std::vector< IdCellType >::iterator  VectorIteratorType;
+    typedef typename std::vector< IdCellType >::iterator VectorIteratorType;
 
     VectorIteratorType it = this->m_Lookup.begin();
 
-    while( it != this->m_Lookup.end() )
+    while ( it != this->m_Lookup.end() )
       {
       *it = k;
       ++it;
       ++k;
       }
-    }
+  }
 
 protected:
   MultiphaseFiniteDifferenceImageFilter()
-    {
+  {
     this->m_KdTree = 0;
     this->m_ElapsedIterations = 0;
     this->m_MaximumRMSError = vnl_math::eps;
-    this->m_RMSChange = NumericTraits<double>::max();
+    this->m_RMSChange = NumericTraits< double >::max();
     this->m_UseImageSpacing = true;
     this->m_ManualReinitialization = false;
     this->m_InitializedState = false;
-    this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
+    this->m_NumberOfIterations = NumericTraits< unsigned int >::max();
     this->m_FunctionCount = 0;
     this->InPlaceOff();
-    }
+  }
 
   ~MultiphaseFiniteDifferenceImageFilter(){}
 
-  IdCellType                          m_FunctionCount;
-  std::vector< InputImagePointer >    m_LevelSet;
-  VectorIdCellType                    m_Lookup;
-  KdTreePointer                       m_KdTree;
+  IdCellType                       m_FunctionCount;
+  std::vector< InputImagePointer > m_LevelSet;
+  VectorIdCellType                 m_Lookup;
+  KdTreePointer                    m_KdTree;
 
-  unsigned int                        m_ElapsedIterations;
-  double                              m_MaximumRMSError;
-  double                              m_RMSChange;
-  unsigned int                        m_NumberOfIterations;
+  unsigned int m_ElapsedIterations;
+  double       m_MaximumRMSError;
+  double       m_RMSChange;
+  unsigned int m_NumberOfIterations;
 
   /** The function that will be used in calculating updates for each pixel. */
   std::vector< FiniteDifferenceFunctionPointer > m_DifferenceFunctions;
@@ -411,7 +411,7 @@ protected:
    * calculation. */
   bool m_UseImageSpacing;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;
@@ -464,17 +464,17 @@ protected:
    * Notice that ThreadedHalt is only called by the multithreaded filters, so you
    * still should implement Halt, just in case a non-threaded filter is used.
    */
-  virtual bool ThreadedHalt(void *itkNotUsed(threadInfo))
-    {
+  virtual bool ThreadedHalt( void *itkNotUsed(threadInfo) )
+  {
     return this->Halt();
-    }
+  }
 
   /** This method is optionally defined by a subclass and is called before
    * the loop of iterations of calculate_change & upate. It does the global
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize
    * the list of layers.
    * */
-  virtual void Initialize() { };
+  virtual void Initialize() {}
 
   /** This method is optionally defined by a subclass and is called immediately
    * prior to each iterative CalculateChange-ApplyUpdate cycle.  It can be
@@ -483,12 +483,12 @@ protected:
    * otherwise prepare for the next iteration.
    * */
   virtual void InitializeIteration()
-    {
-    for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+  {
+    for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
       {
       this->m_DifferenceFunctions[i]->InitializeIteration();
       }
-    }
+  }
 
   /** Virtual method for resolving a single time step from a set of time steps
    * returned from processing threads.
@@ -503,18 +503,16 @@ protected:
    * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
-  inline TimeStepType ResolveTimeStep(const TimeStepVectorType& timeStepList,
-    const std::vector< bool >& valid );
+  inline TimeStepType ResolveTimeStep(const TimeStepVectorType & timeStepList,
+                                      const std::vector< bool > & valid);
 
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */
   virtual void PostProcessOutput() {}
-
-
 private:
-  MultiphaseFiniteDifferenceImageFilter(const Self&);
+  MultiphaseFiniteDifferenceImageFilter(const Self &);
   //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
@@ -523,8 +521,7 @@ private:
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   bool m_InitializedState;
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMultiphaseFiniteDifferenceImageFilter.txx"

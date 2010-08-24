@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,12 +19,12 @@
 
 #include "itkFiniteDifferenceFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class FiniteDifferenceSparseImageFunction
  *
- * \brief This is the base class for function classes that can be used with 
+ * \brief This is the base class for function classes that can be used with
  * filters derived from FiniteDifferenceSparseImageFilter.
  *
  * \par This class is derived from FiniteDifferenceFunction. It is designed to
@@ -39,25 +39,25 @@ namespace itk {
  *PrecomputeSparseUpdate is used then the m_PrecomputeFlag should be set in the
  *FiniteDifferenceSparseImageFilter class. The precomputation step can be used
  *to speed up computation by avoiding repetitions. See the
- *NormalVectorDiffusionFunction for an example. 
+ *NormalVectorDiffusionFunction for an example.
  */
-template <class TSparseImageType>
-class ITK_EXPORT FiniteDifferenceSparseImageFunction
-  :public FiniteDifferenceFunction <TSparseImageType>
+template< class TSparseImageType >
+class ITK_EXPORT FiniteDifferenceSparseImageFunction:
+  public FiniteDifferenceFunction< TSparseImageType >
 {
 public:
   /** Standard class typedef. */
-  typedef FiniteDifferenceSparseImageFunction           Self;
-  typedef FiniteDifferenceFunction<TSparseImageType>    Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef FiniteDifferenceSparseImageFunction          Self;
+  typedef FiniteDifferenceFunction< TSparseImageType > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction );
-   
+  itkTypeMacro(FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction);
+
   /** The image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
-  
+
   /** Typedefs from the superclass. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
@@ -67,32 +67,32 @@ public:
   typedef typename Superclass::ImageType        SparseImageType;
 
   /** The index type for the sparse image. */
-  typedef typename SparseImageType::IndexType   IndexType;
+  typedef typename SparseImageType::IndexType IndexType;
 
   /** The actual type of nodes stored the sparse image. */
   typedef typename SparseImageType::NodeType NodeType;
 
   /** The type for the variables of NodeType. Scalar or vector. */
-  typedef typename NodeType::NodeDataType    NodeDataType;
-  
+  typedef typename NodeType::NodeDataType NodeDataType;
+
   /** This function is not called from the FiniteDifferenceSparseImageFilter
    *  class because we need to work with neighborhoods of pointers to data
    *  variables instead of neighborhoods of data directly. This function is
    *  replaced by the ComputeSparseUpdate function. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType&,
-                                  void*,
-                                  const FloatOffsetType&)
-    {
-    return static_cast<PixelType>(0);
-    }
+  virtual PixelType ComputeUpdate(const NeighborhoodType &,
+                                  void *,
+                                  const FloatOffsetType &)
+  {
+    return static_cast< PixelType >( 0 );
+  }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */
   virtual NodeDataType
-  ComputeSparseUpdate(NeighborhoodType &neighborhood,
-                      void *globalData,
-                      const FloatOffsetType &offset = FloatOffsetType(0.0))
-    const = 0;
+  ComputeSparseUpdate( NeighborhoodType & neighborhood,
+                       void *globalData,
+                       const FloatOffsetType & offset = FloatOffsetType(0.0) )
+  const = 0;
 
   /** This function provides support for a 2 step update computation that
    *  avoids repetitive computation. FiniteDifferenceSparseImageFilter first
@@ -103,18 +103,16 @@ public:
    *  the above examples are stored in the nodes of the SparseImage
    *  itself. Therefore, this function will have to know about the NodeType it
    *  is dealing with. This function does nothing by default. */
-  virtual void PrecomputeSparseUpdate( NeighborhoodType& ) const {};
-
+  virtual void PrecomputeSparseUpdate(NeighborhoodType &) const {}
 protected:
-  FiniteDifferenceSparseImageFunction() {};
-  ~FiniteDifferenceSparseImageFunction() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
-private:
-  FiniteDifferenceSparseImageFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  FiniteDifferenceSparseImageFunction() {}
+  ~FiniteDifferenceSparseImageFunction() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
+private:
+  FiniteDifferenceSparseImageFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

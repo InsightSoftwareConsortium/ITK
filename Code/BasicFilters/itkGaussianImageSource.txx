@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,16 +22,15 @@
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 #include "itkObjectFactory.h"
- 
+
 namespace itk
 {
-
-template <class TOutputImage>
-GaussianImageSource<TOutputImage>
+template< class TOutputImage >
+GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
 {
   //Initial image is 64 wide in each direction.
-  for (unsigned int i=0; i<TOutputImage::GetImageDimension(); i++)
+  for ( unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++ )
     {
     m_Size[i] = 64;
     m_Spacing[i] = 1.0;
@@ -45,33 +44,31 @@ GaussianImageSource<TOutputImage>
   m_Sigma.Fill(16.0);
   m_Scale = 255.0;
   m_Normalized = false;
-
 }
 
-template <class TOutputImage>
-GaussianImageSource<TOutputImage>
+template< class TOutputImage >
+GaussianImageSource< TOutputImage >
 ::~GaussianImageSource()
-{
-}
+{}
 
-template <class TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   unsigned int i;
-    
+
   os << indent << "Size: [";
-  for (i=0; i < NDimensions - 1; i++)
+  for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Size[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Origin: [";
-  for (i=0; i < NDimensions - 1; i++)
+  for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Origin[i] << ", ";
     }
@@ -83,14 +80,14 @@ GaussianImageSource<TOutputImage>
   os << m_Direction << std::endl;
 
   os << indent << "Gaussian sigma: [";
-  for (i=0; i < NDimensions - 1; i++)
+  for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Sigma[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Gaussian mean: [";
-  for (i=0; i < NDimensions - 1; i++)
+  for ( i = 0; i < NDimensions - 1; i++ )
     {
     os << m_Mean[i] << ", ";
     }
@@ -101,31 +98,32 @@ GaussianImageSource<TOutputImage>
 }
 
 //----------------------------------------------------------------------------
-template <typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
 ::GenerateOutputInformation()
 {
   TOutputImage *output;
-  typename TOutputImage::IndexType index = {{0}};
-  typename TOutputImage::SizeType size = {{0}};
-  size.SetSize( m_Size );
-  
+
+  typename TOutputImage::IndexType index = { { 0 } };
+  typename TOutputImage::SizeType size = { { 0 } };
+  size.SetSize(m_Size);
+
   output = this->GetOutput(0);
 
   typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize( size );
-  largestPossibleRegion.SetIndex( index );
-  output->SetLargestPossibleRegion( largestPossibleRegion );
+  largestPossibleRegion.SetSize(size);
+  largestPossibleRegion.SetIndex(index);
+  output->SetLargestPossibleRegion(largestPossibleRegion);
 
   output->SetSpacing(m_Spacing);
   output->SetOrigin(m_Origin);
   output->SetDirection(m_Direction);
 }
 
-template <typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
 ::GenerateData()
 {
   typename TOutputImage::Pointer outputPtr = this->GetOutput();
@@ -135,58 +133,59 @@ GaussianImageSource<TOutputImage>
   outputPtr->Allocate();
 
   // Create and initialize a new gaussian function
-  typedef itk::GaussianSpatialFunction<double, NDimensions> FunctionType;
-  typedef typename FunctionType::InputType FunctionPositionType;
+  typedef itk::GaussianSpatialFunction< double, NDimensions > FunctionType;
+  typedef typename FunctionType::InputType                    FunctionPositionType;
   typename FunctionType::Pointer pGaussian = FunctionType::New();
-  
+
   pGaussian->SetSigma(m_Sigma);
   pGaussian->SetMean(m_Mean);
   pGaussian->SetScale(m_Scale);
   pGaussian->SetNormalized(m_Normalized);
 
   // Create an iterator that will walk the output region
-  typedef ImageRegionIterator<TOutputImage> OutputIterator;
-  OutputIterator outIt = OutputIterator(outputPtr,
-                                        outputPtr->GetRequestedRegion());
+  typedef ImageRegionIterator< TOutputImage > OutputIterator;
+  OutputIterator outIt = OutputIterator( outputPtr,
+                                         outputPtr->GetRequestedRegion() );
 
   // The value produced by the spatial function
   double value;
 
   // The position at which the function is evaluated
-  Point<double, TOutputImage::ImageDimension> evalPoint;
+  Point< double, TOutputImage::ImageDimension > evalPoint;
 
-  ProgressReporter progress(this, 0,
-                            outputPtr->GetRequestedRegion()
-                                         .GetNumberOfPixels());
+  ProgressReporter progress( this, 0,
+                             outputPtr->GetRequestedRegion()
+                             .GetNumberOfPixels() );
   // Walk the output image, evaluating the spatial function at each pixel
-  for (; !outIt.IsAtEnd(); ++outIt)
+  for (; !outIt.IsAtEnd(); ++outIt )
     {
     typename TOutputImage::IndexType index = outIt.GetIndex();
-    outputPtr->TransformIndexToPhysicalPoint(index, evalPoint );
+    outputPtr->TransformIndexToPhysicalPoint(index, evalPoint);
     value = pGaussian->Evaluate(evalPoint);
 
     // Set the pixel value to the function value
-    outIt.Set( (typename TOutputImage::PixelType) value);
+    outIt.Set( ( typename TOutputImage::PixelType )value );
     progress.CompletedPixel();
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetSpacing(const float* spacing)
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetSpacing(const float *spacing)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( (double)spacing[i] != m_Spacing[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Spacing[i] = spacing[i];
       }
@@ -194,22 +193,23 @@ GaussianImageSource<TOutputImage>
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetSpacing(const double* spacing)
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetSpacing(const double *spacing)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( spacing[i] != m_Spacing[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Spacing[i] = spacing[i];
       }
@@ -217,22 +217,23 @@ GaussianImageSource<TOutputImage>
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetOrigin(const float* origin)
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetOrigin(const float *origin)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( (double)origin[i] != m_Origin[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Origin[i] = origin[i];
       }
@@ -240,22 +241,23 @@ GaussianImageSource<TOutputImage>
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetOrigin(const double* origin)
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetOrigin(const double *origin)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( origin[i] != m_Origin[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Origin[i] = origin[i];
       }
@@ -263,22 +265,23 @@ GaussianImageSource<TOutputImage>
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetSize(const SizeValueType * size)
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetSize(const SizeValueType *size)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( size[i] != m_Size[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Size[i] = size[i];
       }
@@ -286,30 +289,29 @@ GaussianImageSource<TOutputImage>
     }
 }
 
-template<typename TOutputImage>
-void 
-GaussianImageSource<TOutputImage>
-::SetSize(const SizeType size )
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::SetSize(const SizeType size)
 {
-  unsigned int i; 
-  for (i=0; i<TOutputImage::ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     if ( size[i] != m_Size[i] )
       {
       break;
       }
-    } 
-  if ( i < TOutputImage::ImageDimension ) 
-    { 
-    for (i=0; i<TOutputImage::ImageDimension; i++)
+    }
+  if ( i < TOutputImage::ImageDimension )
+    {
+    for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       m_Size[i] = size[i];
       }
     this->Modified();
     }
 }
-
-
 } // end namespace itk
 
 #endif

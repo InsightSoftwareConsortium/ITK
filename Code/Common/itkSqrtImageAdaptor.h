@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,20 +22,20 @@
 
 namespace itk
 {
- 
-namespace Accessor {
+namespace Accessor
+{
 /** \class SqrtPixelAccessor
  * \brief Give access to the vcl_sqrt() function of a value
  *
  * SqrtPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
- * applies the function to it and cast the result according 
+ * applies the function to it and cast the result according
  * to the types defined as template parameters
  *
  * \ingroup ImageAdaptors
  */
-template <class TInternalType, class TExternalType >
-class ITK_EXPORT SqrtPixelAccessor  
+template< class TInternalType, class TExternalType >
+class ITK_EXPORT SqrtPixelAccessor
 {
 public:
   /** External typedef. It defines the external aspect
@@ -46,15 +46,14 @@ public:
    * representation of data. */
   typedef TInternalType InternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)vcl_sqrt((double)input);}
+  static inline void Set(TInternalType & output, const TExternalType & input)
+  { output = (TInternalType)vcl_sqrt( (double)input ); }
 
-  static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)vcl_sqrt((double)input);}
+  static inline TExternalType Get(const TInternalType & input)
+  { return (TExternalType)vcl_sqrt( (double)input ); }
 };
-
 } // end namespace Accessor
- 
+
 /** \class SqrtImageAdaptor
  * \brief Presents an image as being composed of the vcl_sqrt() of its pixels
  *
@@ -63,36 +62,34 @@ public:
  *
  * \ingroup ImageAdaptors
  */
-template <class TImage, class TOutputPixelType>
-class ITK_EXPORT SqrtImageAdaptor : public
-      ImageAdaptor<TImage, Accessor::SqrtPixelAccessor<
-                                      typename TImage::PixelType,
-                                      TOutputPixelType>   >
+template< class TImage, class TOutputPixelType >
+class ITK_EXPORT SqrtImageAdaptor:public
+  ImageAdaptor< TImage, Accessor::SqrtPixelAccessor<
+                  typename TImage::PixelType,
+                  TOutputPixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef SqrtImageAdaptor                                 Self;
-  typedef ImageAdaptor<TImage,Accessor::SqrtPixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> > Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
-  
+  typedef SqrtImageAdaptor Self;
+  typedef ImageAdaptor< TImage, Accessor::SqrtPixelAccessor<
+                          typename TImage::PixelType,
+                          TOutputPixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SqrtImageAdaptor, ImageAdaptor );
-
+  itkTypeMacro(SqrtImageAdaptor, ImageAdaptor);
 protected:
   SqrtImageAdaptor() {}
   virtual ~SqrtImageAdaptor() {}
-  
 private:
-  SqrtImageAdaptor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SqrtImageAdaptor(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

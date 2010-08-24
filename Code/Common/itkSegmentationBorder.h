@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class SegmentationBorder
  * \brief Base class for SegmentationBorder object
  *
@@ -41,20 +40,20 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation
  */
-class ITKCommon_EXPORT SegmentationBorder : public Object
+class ITKCommon_EXPORT SegmentationBorder:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef SegmentationBorder        Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SegmentationBorder         Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SegmentationBorder,Object);
+  itkTypeMacro(SegmentationBorder, Object);
 
   /** Set/Get the length of a border object. */
   itkSetMacro(BorderLength, double);
@@ -64,23 +63,18 @@ public:
    * access to specific instantiations of other border representations. This
    * is the function should be overloaded in any derived classes for the user
    * to access the various methods supported by the method. */
-  virtual void ApplySegmentationBorder(){};
-
+  virtual void ApplySegmentationBorder(){}
 protected:
   SegmentationBorder();
   ~SegmentationBorder();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SegmentationBorder(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SegmentationBorder(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
   double m_BorderLength;
-
 };
-
-
 } // end namespace itk
-
 
 #endif

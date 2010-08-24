@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -39,34 +39,33 @@
 
 namespace itk
 {
-
 /** \class ImageKmeansModelEstimator
  * \brief Base class for ImageKmeansModelEstimator object
  *
- * itkImageKmeansModelEstimator generated the kmeans model (cluster centers).  
+ * itkImageKmeansModelEstimator generated the kmeans model (cluster centers).
  * This object performs clustering of data sets into different clusters
  * either using user provided seed points as initial guess or generating
  * the clusters using a recursive approach when the user provides the
  * number of desired clusters. Each cluster is represented by its cluster
  * center. The two algorithms used are the generalized Lloyd
  * algorithm (GLA) and the Linde-Buzo-Gray algorithms. The cluster centers
- * are also referred to as codewords and a table of cluster centers is 
+ * are also referred to as codewords and a table of cluster centers is
  * is referred as a codebook.
  *
- * As required by the GLA algorithm, the initial seed cluster should contain 
+ * As required by the GLA algorithm, the initial seed cluster should contain
  * approximate centers of clusters.  The GLA algorithm genrates an updated
- * cluster centers that result in a lower distortion than the input seed 
- * cluster when the input vectors are mapped/classified/labelled using the 
+ * cluster centers that result in a lower distortion than the input seed
+ * cluster when the input vectors are mapped/classified/labelled using the
  * given codebooks.
  *
  * If no codebook is provided, the Linde-Buzo-Gray algorithm is used.
  * This algorithm uses the GLA algorithm at its core to generate the
  * centroids of the input vectors (data). However, since there is no initial
  * codebook, LBG first creates a one word codebook (or centroid of one
- * cluster comprising of all the input training vectors). The LBG uses 
+ * cluster comprising of all the input training vectors). The LBG uses
  * codeword/or centroid splitting to create increasing number of clusters.
- * Each new set of clusters are optimized using the GLA algorithm. 
- * The number of clusters increases as $2^{n}$ n= 0, 1, ... The codebook 
+ * Each new set of clusters are optimized using the GLA algorithm.
+ * The number of clusters increases as $2^{n}$ n= 0, 1, ... The codebook
  * is expected to be in the form of a vnl matrix, where there are N rows.
  * each row representing the cluster mean of a given cluster. The number
  * of columns in a the codebook should be equal to the input image vector
@@ -84,12 +83,12 @@ namespace itk
  * clusters or cells, the m_OffsetAdd and m_OffsetMultiply parameters is
  * used to split the cells with the highest distortion.  This
  * functions will attempt to fill empty cells up to 10 times (unless
- * the overall distortion is zero). Using 0.01 is a reasonable default  
+ * the overall distortion is zero). Using 0.01 is a reasonable default
  * values for the m_OffsetAdd and m_OffsetMultiply parameters.
  *
  * If the GLA is unable to resolve the data into the desired number of
  * clusters or cells, only the codewords which were used will be
- * returned. 
+ * returned.
  *
  * In terms of clustering, codewords are cluster centers, and a codebook
  * is a table containing all cluster centers.  The GLA produces results
@@ -100,41 +99,41 @@ namespace itk
  * Kluwer Academic Publishers, Boston, MA, 1992.
  *
  * This object supports data handling of multiband images. The object
- * accepts the input image in vector format only, where each pixel is a 
+ * accepts the input image in vector format only, where each pixel is a
  * vector and each element of the vector corresponds to an entry from
- * 1 particular band of a multiband dataset. A single band image is treated 
- * as a vector image with a single element for every vector.  
- * 
- * This function is templated over the type of input image. In 
- * addition, a second parameter for the MembershipFunction needs to be 
- * specified. In this case a Membership function that store cluster centroids 
+ * 1 particular band of a multiband dataset. A single band image is treated
+ * as a vector image with a single element for every vector.
+ *
+ * This function is templated over the type of input image. In
+ * addition, a second parameter for the MembershipFunction needs to be
+ * specified. In this case a Membership function that store cluster centroids
  * models needs to be specified.
  *
- * The Update() function enables the calculation of the various models, creates 
+ * The Update() function enables the calculation of the various models, creates
  * the membership function objects and populates them.
  *
  * Note: There is a second implementation of k-means algorithm in ITK under the
- * itk::statistics namespace. While this algorithm (GLA/LBG based algorithm) is 
- * memory efficient, the other algorithm is time efficient. 
+ * itk::statistics namespace. While this algorithm (GLA/LBG based algorithm) is
+ * memory efficient, the other algorithm is time efficient.
  *
  * \sa KdTreeBasedKmeansEstimator, WeightedCentroidKdTreeGenerator, KdTree
  * \sa ScalarImageKmeansImageFilter
  *
- * \ingroup ClassificationFilters 
+ * \ingroup ClassificationFilters
  */
-template <class TInputImage, 
-          class TMembershipFunction>
-class ITK_EXPORT ImageKmeansModelEstimator: 
-    public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
+template< class TInputImage,
+          class TMembershipFunction >
+class ITK_EXPORT ImageKmeansModelEstimator:
+  public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageKmeansModelEstimator   Self;
-  typedef ImageModelEstimatorBase<TInputImage, TMembershipFunction>
-                                      Superclass;
+  typedef ImageKmeansModelEstimator Self;
+  typedef ImageModelEstimatorBase< TInputImage, TMembershipFunction >
+  Superclass;
 
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -143,73 +142,72 @@ public:
   itkTypeMacro(ImageKmeansModelEstimator, ImageModelEstimatorBase);
 
   /** Type definition for the input image. */
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::Pointer         InputImagePointer;
-  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
 
   /** Type definition for the vector associated with
    * input image pixel type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType     InputImagePixelType;
+  typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Type definition for the input image iterator type. */
-  typedef ImageRegionIterator<TInputImage> InputImageIterator;
+  typedef ImageRegionIterator< TInputImage > InputImageIterator;
 
-  typedef ImageRegionConstIterator<TInputImage> InputImageConstIterator;
+  typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
 
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
   /** Type definition for a double matrix. */
-  typedef vnl_matrix<double> CodebookMatrixOfDoubleType; 
+  typedef vnl_matrix< double > CodebookMatrixOfDoubleType;
 
   /** Type definition for an integer vector. */
-  typedef vnl_matrix<int>    CodebookMatrixOfIntegerType;
+  typedef vnl_matrix< int > CodebookMatrixOfIntegerType;
 
   /** Set the cluster centers. */
   void SetCodebook(CodebookMatrixOfDoubleType InCodebook);
 
   /** Get the cluster centers. */
-  itkGetConstMacro(Codebook,CodebookMatrixOfDoubleType);
+  itkGetConstMacro(Codebook, CodebookMatrixOfDoubleType);
 
   /** Get the optimized codebook or the centroids of the clusters. */
   CodebookMatrixOfDoubleType GetOutCodebook()
-    { return m_Codebook; }
+  { return m_Codebook; }
 
   /** Set the threshold parameter. */
-  itkSetMacro(Threshold,double);
+  itkSetMacro(Threshold, double);
 
   /** Get the threshold parameter. */
-  itkGetConstMacro(Threshold,double);
+  itkGetConstMacro(Threshold, double);
 
   /** Set the offset add parameter. */
-  itkSetMacro(OffsetAdd,double);
+  itkSetMacro(OffsetAdd, double);
 
   /** Get the offset add parameter. */
-  itkGetConstMacro(OffsetAdd,double);
+  itkGetConstMacro(OffsetAdd, double);
 
   /** Set the offset multiplication parameter. */
-  itkSetMacro(OffsetMultiply,double);
+  itkSetMacro(OffsetMultiply, double);
 
   /** Get the offset multiplication parameter. */
-  itkGetConstMacro(OffsetMultiply,double);
+  itkGetConstMacro(OffsetMultiply, double);
 
   /** Set the maximum number of attempts to split a codeword. */
-  itkSetMacro(MaxSplitAttempts,int);
+  itkSetMacro(MaxSplitAttempts, int);
 
   /** Get the manimum number of attempts to split a codeword. */
-  itkGetConstMacro(MaxSplitAttempts,int);
+  itkGetConstMacro(MaxSplitAttempts, int);
 
   /** Return the codebook/cluster centers. */
   CodebookMatrixOfDoubleType GetKmeansResults(void)
-    { return m_Centroid; }
-
-protected: 
+  { return m_Centroid; }
+protected:
   ImageKmeansModelEstimator();
   ~ImageKmeansModelEstimator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Starts the image modelling process */
   void GenerateData();
@@ -219,13 +217,14 @@ protected:
 
   /** Print out the results on the screen for visual feedback. */
   void PrintKmeansAlgorithmResults();
-private:
-  ImageKmeansModelEstimator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
 
-  /** A function that generates the cluster centers (model) corresponding to the 
+private:
+  ImageKmeansModelEstimator(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
+
+  /** A function that generates the cluster centers (model) corresponding to the
    * estimates of the cluster centers (in the initial codebook).
-   * If no codebook is provided, then use the number of classes to 
+   * If no codebook is provided, then use the number of classes to
    * determine the cluster centers or the Kmeans model. This is the
    * the base function to call the K-means classifier. */
 
@@ -242,44 +241,42 @@ private:
 
   //Local functions
   int  WithCodebookUseGLA(); // GLA stands for the Generalized Lloyd Algorithm
+
   int  WithoutCodebookUseLBG(); //LBG stands for the Lindo Buzo Gray Algorithm
 
   void NearestNeighborSearchBasic(double *distortion);
-  
-  void SplitCodewords(int currentSize, 
-                      int numDesired, 
+
+  void SplitCodewords(int currentSize,
+                      int numDesired,
                       int scale);
-  
-  void Perturb(double *oldCodeword, 
-               int scale, 
+
+  void Perturb(double *oldCodeword,
+               int scale,
                double *newCodeword);
 
-  CodebookMatrixOfDoubleType  m_Codebook;
+  CodebookMatrixOfDoubleType m_Codebook;
 
   // Buffer for K-means calcualtions
-  CodebookMatrixOfDoubleType  m_Centroid;
+  CodebookMatrixOfDoubleType m_Centroid;
 
-  double              m_Threshold;
-  double              m_OffsetAdd;
-  double              m_OffsetMultiply;
-  int                 m_MaxSplitAttempts;
+  double m_Threshold;
+  double m_OffsetAdd;
+  double m_OffsetMultiply;
+  int    m_MaxSplitAttempts;
 
   //unsigned long       m_NumberOfModels;
-  bool                m_ValidInCodebook;
-  double              m_DoubleMaximum;
-  double              m_OutputDistortion;
-  int                 m_OutputNumberOfEmptyCells;
+  bool   m_ValidInCodebook;
+  double m_DoubleMaximum;
+  double m_OutputDistortion;
+  int    m_OutputNumberOfEmptyCells;
 
-  unsigned long       m_VectorDimension;
-  unsigned long       m_NumberOfCodewords;
-  unsigned long       m_CurrentNumberOfCodewords;
-  
-  CodebookMatrixOfIntegerType  m_CodewordHistogram;
-  CodebookMatrixOfDoubleType   m_CodewordDistortion;
+  unsigned long m_VectorDimension;
+  unsigned long m_NumberOfCodewords;
+  unsigned long m_CurrentNumberOfCodewords;
 
+  CodebookMatrixOfIntegerType m_CodewordHistogram;
+  CodebookMatrixOfDoubleType  m_CodewordDistortion;
 }; // class ImageKmeansModelEstimator
-
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

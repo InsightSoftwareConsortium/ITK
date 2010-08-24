@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,7 +18,7 @@
 #ifndef __itkSimplexMeshGeometry_h
 #define __itkSimplexMeshGeometry_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -30,11 +30,10 @@
 
 namespace itk
 {
-
 /**
  * \class SimplexMeshGeometry
  * \brief handle geometric properties for vertices of a simplx mesh
- * 
+ *
  * It stores and recomputes geometric properties of simplex mesh
  * vertices, i.e. the normal vector, the barycentric coordinates of
  * the point related to its three neighbor vertices, simplex angle
@@ -46,21 +45,19 @@ namespace itk
  */
 class ITKCommon_EXPORT SimplexMeshGeometry
 {
-  
 public:
 
-  typedef itk::Point<double,3>                PointType;
-  typedef itk::Vector<double,3>               VectorType;
-  typedef itk::CovariantVector<double,3>      CovariantVectorType;
-  typedef itk::FixedArray<unsigned long,3>    IndexArray;
-  typedef itk::FixedArray<PointType,3>        PointArray;
-  typedef std::set<unsigned long>             NeighborSetType;
+  typedef itk::Point< double, 3 >             PointType;
+  typedef itk::Vector< double, 3 >            VectorType;
+  typedef itk::CovariantVector< double, 3 >   CovariantVectorType;
+  typedef itk::FixedArray< unsigned long, 3 > IndexArray;
+  typedef itk::FixedArray< PointType, 3 >     PointArray;
+  typedef std::set< unsigned long >           NeighborSetType;
 
   SimplexMeshGeometry();
   ~SimplexMeshGeometry();
 
-
-  /** Definition of some attributes for 
+  /** Definition of some attributes for
    * faster deformable model computation
    */
 
@@ -79,7 +76,7 @@ public:
   /* coordinates of the corresponding point in previous iteration */
   PointType oldPos;
 
-  /** barycentric coordinates of corresponding point with respect 
+  /** barycentric coordinates of corresponding point with respect
    * to its three direct neighbors
    */
   PointType eps;
@@ -92,12 +89,12 @@ public:
   /* normal vector of corresponding point */
   CovariantVectorType normal;
 
-  /** stores external force component for 
+  /** stores external force component for
    * current deformable model iteration
    */
   VectorType externalForce;
 
-  /** stores internal force component for 
+  /** stores internal force component for
    * current deformable model iteration
    */
   VectorType internalForce;
@@ -131,7 +128,7 @@ public:
   double phi;
 
   /* stores the neighbor set */
-  NeighborSetType* neighborSet;
+  NeighborSetType *neighborSet;
 
   /* stores multiplier for interactive deformable model filter */
   double multiplier;
@@ -140,16 +137,12 @@ public:
 
   /**
    * Computes the center and radius of the circum circle of the
-   * three neighbor points and of the circum sphere 
+   * three neighbor points and of the circum sphere
    */
   void ComputeGeometry();
 
 protected:
-  
-
-};// end of class __itkSimplexMeshGeometry
-
+}; // end of class __itkSimplexMeshGeometry
 } //end of namespace itk
-
 
 #endif

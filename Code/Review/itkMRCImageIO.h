@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class MRCImageIO
  *
  *  \brief An ImageIO class to read the MRC file format.
@@ -46,114 +45,107 @@ namespace itk
  * As with all ImageIOs this class is designed to work with
  * ImageFileReader and ImageFileWriter, so its direct use is
  * discouraged.
- * 
+ *
  * \sa ImageFileWriter ImageFileReader ImageIOBase
  */
-class ITK_EXPORT MRCImageIO 
-  : public StreamingImageIOBase
+class ITK_EXPORT MRCImageIO:
+  public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */
   typedef MRCImageIO           Self;
   typedef StreamingImageIOBase Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  
+  typedef SmartPointer< Self > Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRCImageIO, StreamingImageIOBase);
 
-
   // we don't use this method
-  virtual void WriteImageInformation( void ) {};
+  virtual void WriteImageInformation(void) {}
 
-  //-------- This part of the interface deals with reading data. ------ 
+  //-------- This part of the interface deals with reading data. ------
 
   // See super class for documentation
-  virtual bool CanReadFile(const char*);
+  virtual bool CanReadFile(const char *);
 
   // See super class for documentation
   virtual void ReadImageInformation();
 
   // See super class for documentation
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   // -------- This part of the interfaces deals with writing data. -----
 
   /** \brief Returns true if this ImageIO can write the specified
-   * file. 
-   * 
+   * file.
+   *
    * The methods verifies that the file extension is known to be
    * supported by this class.
    */
-  virtual bool CanWriteFile(const char*);
-
+  virtual bool CanWriteFile(const char *);
 
   // see super class for documentation
-  virtual void Write(const void* buffer);
+  virtual void Write(const void *buffer);
 
   /** \todo Move to itkIOCommon with the other MetaDataDictionary
    * keys, likely rename the symbol to something like
    * ITK_MRCHHeader. (remember to fix class doc too)
    */
-  static const char * m_MetaDataHeaderName;
-
+  static const char *m_MetaDataHeaderName;
 protected:
   MRCImageIO();
   // ~MRCImageIO(); // default works
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Overloaded to return the actually header size of the file
    * specified. The header must be read before this methods is
    * called.
    */
-  virtual SizeType GetHeaderSize( void ) const;
+  virtual SizeType GetHeaderSize(void) const;
 
 private:
 
-  MRCImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  MRCImageIO(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
   // internal methods to update the min and max in the header based on
   // the data, in the image buffer to be written
-  template<typename TPixelType>
-  void UpdateHeaderWithMinMaxMean( const TPixelType * bufferBegin)
-    {
-    typedef const TPixelType*  ConstPixelPointer;
+  template< typename TPixelType >
+  void UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
+  {
+    typedef const TPixelType *ConstPixelPointer;
 
     ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
 
     // this could be replaced with std::min_element and
     // std::max_element, but that is slighlty less efficient
-    std::pair<ConstPixelPointer, ConstPixelPointer> mm =
+    std::pair< ConstPixelPointer, ConstPixelPointer > mm =
       min_max_element(bufferBegin, bufferEnd);
 
-    double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) ) /
-      std::distance( bufferBegin, bufferEnd );
+    double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) )
+                  / std::distance(bufferBegin, bufferEnd);
 
     m_MRCHeader->m_Header.amin = float(*mm.first);
     m_MRCHeader->m_Header.amax = float(*mm.second);
     m_MRCHeader->m_Header.amean = float(mean);
-    }
+  }
 
-  void UpdateHeaderWithMinMaxMean( const void * bufferBegin );
+  void UpdateHeaderWithMinMaxMean(const void *bufferBegin);
 
   // internal methods to update the header object from the ImageIO's
   // set member variables
-  void UpdateHeaderFromImageIO( void );
-  
-  // reimplemented
-  void InternalReadImageInformation(std::ifstream& is);
- 
-  virtual void WriteImageInformation( const void * bufferBegin );
+  void UpdateHeaderFromImageIO(void);
 
+  // reimplemented
+  void InternalReadImageInformation(std::ifstream & is);
+
+  virtual void WriteImageInformation(const void *bufferBegin);
 
   MRCHeaderObject::Pointer m_MRCHeader;
 };
-
-
 } // namespace itk
-
 
 #endif

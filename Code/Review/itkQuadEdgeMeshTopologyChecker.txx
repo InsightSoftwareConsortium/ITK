@@ -15,7 +15,6 @@
 
 =========================================================================*/
 
-
 #ifndef __itkQuadEdgeMeshTopologyChecker_txx
 #define __itkQuadEdgeMeshTopologyChecker_txx
 
@@ -23,7 +22,6 @@
 
 namespace itk
 {
-
 template< class TMesh >
 QuadEdgeMeshTopologyChecker< TMesh >
 ::QuadEdgeMeshTopologyChecker()
@@ -41,24 +39,23 @@ bool
 QuadEdgeMeshTopologyChecker< TMesh >
 ::ValidateEulerCharacteristic() const
 {
-
-  if( ! this->m_Mesh )
+  if ( !this->m_Mesh )
     {
-    return( false );
+    return ( false );
     }
 
-  typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New( );
+  typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New();
 
   // Number of USED points
-  unsigned long numPoints = m_Mesh->ComputeNumberOfPoints( );
+  unsigned long numPoints = m_Mesh->ComputeNumberOfPoints();
   // Number of USED edges
-  unsigned long numEdges  = m_Mesh->ComputeNumberOfEdges( );
+  unsigned long numEdges  = m_Mesh->ComputeNumberOfEdges();
   // Number of USED faces
-  unsigned long numFaces  = m_Mesh->ComputeNumberOfFaces( );
+  unsigned long numFaces  = m_Mesh->ComputeNumberOfFaces();
   // Number of Boundaries
-  typename BoundaryEdges::OutputType 
-    listOfBoundaries = boundaryEdges->Evaluate( (*m_Mesh) );
-  unsigned long numBounds = listOfBoundaries->size( );
+  typename BoundaryEdges::OutputType
+  listOfBoundaries = boundaryEdges->Evaluate( ( *m_Mesh ) );
+  unsigned long numBounds = listOfBoundaries->size();
   delete listOfBoundaries;
 
   /**
@@ -69,15 +66,15 @@ QuadEdgeMeshTopologyChecker< TMesh >
    * 2. itk::Mesh::GetNumberOfPoints()
    *
    * As an itk::QuadEdgeMesh is an itk::Mesh by inheritance, the user
-   * can use both. 1. will returned the number of points actually 
+   * can use both. 1. will returned the number of points actually
    * used by at least one edge, while 2. will give you the number
    * of points in the container. Number of unused points can be found
-   * by making the difference between the two values. 
+   * by making the difference between the two values.
    */
-  if( m_Mesh->GetNumberOfPoints() != numPoints )
+  if ( m_Mesh->GetNumberOfPoints() != numPoints )
     {
     // They are isolated vertices:
-    return( false );
+    return ( false );
     }
 
   // The euler formula states:
@@ -87,29 +84,29 @@ QuadEdgeMeshTopologyChecker< TMesh >
   // Note that genus can take a negative value...
   long twiceGenus = 2 - numBounds - numFaces + numEdges - numPoints;
 
-  if( twiceGenus % 2 )
+  if ( twiceGenus % 2 )
     {
-    return( false );
+    return ( false );
     }
 
   // Look is they are isolated edges
   CellsContainerConstIterator cellIterator = m_Mesh->GetCells()->Begin();
   CellsContainerConstIterator cellEnd      = m_Mesh->GetCells()->End();
-  while( cellIterator != cellEnd )
+  while ( cellIterator != cellEnd )
     {
     // Is the cell an Edge ?
-    if( EdgeCellType* cell =
-          dynamic_cast< EdgeCellType* >( cellIterator.Value( ) ) )
+    if ( EdgeCellType * cell =
+           dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
       {
-      if( QEPrimal* edge = cell->GetQEGeom( ) )
+      if ( QEPrimal * edge = cell->GetQEGeom() )
         {
         // Is the edge without associated faces ?.
-        if( edge->IsWire( ) ) 
+        if ( edge->IsWire() )
           {
           // Is it an isolated edge ?
-          if( edge->IsIsolated( ) && edge->GetSym( )->IsIsolated( ) )
+          if ( edge->IsIsolated() && edge->GetSym()->IsIsolated() )
             {
-            return( false );
+            return ( false );
             }
           }
         }
@@ -118,33 +115,31 @@ QuadEdgeMeshTopologyChecker< TMesh >
         // supposely impossible, throw exception
         }
       }
-    
+
     ++cellIterator;
-      
-    }// endof while
-   
-  return( true );
+    } // endof while
+
+  return ( true );
 }
 
 template< class TMesh >
 void
 QuadEdgeMeshTopologyChecker< TMesh >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "ExpectedNumberOfPoints: "
-    << static_cast<long>(m_ExpectedNumberOfPoints) << std::endl;
+     << static_cast< long >( m_ExpectedNumberOfPoints ) << std::endl;
   os << indent << "ExpectedNumberOfEdges: "
-    << static_cast<long>(m_ExpectedNumberOfEdges) << std::endl;
+     << static_cast< long >( m_ExpectedNumberOfEdges ) << std::endl;
   os << indent << "ExpectedNumberOfFaces: "
-    << static_cast<long>(m_ExpectedNumberOfFaces) << std::endl;
+     << static_cast< long >( m_ExpectedNumberOfFaces ) << std::endl;
   os << indent << "ExpectedNumberOfBoundaries: "
-    << static_cast<long>(m_ExpectedNumberOfBoundaries) << std::endl;
+     << static_cast< long >( m_ExpectedNumberOfBoundaries ) << std::endl;
   os << indent << "ExpectedGenus: "
-    << static_cast<long>(m_ExpectedGenus) << std::endl;
+     << static_cast< long >( m_ExpectedGenus ) << std::endl;
   os << indent << "Mesh: " << m_Mesh << std::endl;
 }
-
 }
-#endif 
+#endif

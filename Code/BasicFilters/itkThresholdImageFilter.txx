@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,54 +29,52 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TImage>
-ThresholdImageFilter<TImage>
+template< class TImage >
+ThresholdImageFilter< TImage >
 ::ThresholdImageFilter()
 {
-  m_OutsideValue = NumericTraits<PixelType>::Zero;
-  m_Lower = NumericTraits<PixelType>::NonpositiveMin();
-  m_Upper = NumericTraits<PixelType>::max();
+  m_OutsideValue = NumericTraits< PixelType >::Zero;
+  m_Lower = NumericTraits< PixelType >::NonpositiveMin();
+  m_Upper = NumericTraits< PixelType >::max();
   this->InPlaceOff();
 }
 
-
 /**
  *
  */
-template <class TImage>
-void 
-ThresholdImageFilter<TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TImage >
+void
+ThresholdImageFilter< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "OutsideValue: "
-     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_OutsideValue)
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_OutsideValue )
      << std::endl;
   os << indent << "Lower: "
-     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Lower)
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Lower )
      << std::endl;
   os << indent << "Upper: "
-     << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Upper)
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_Upper )
      << std::endl;
 }
 
 /**
  * The values greater than or equal to the value are set to OutsideValue
  */
-template <class TImage>
-void 
-ThresholdImageFilter<TImage>
-::ThresholdAbove(const PixelType &thresh)
+template< class TImage >
+void
+ThresholdImageFilter< TImage >
+::ThresholdAbove(const PixelType & thresh)
 {
-  if (m_Upper != thresh
-      || m_Lower > NumericTraits<PixelType>::NonpositiveMin())
+  if ( m_Upper != thresh
+       || m_Lower > NumericTraits< PixelType >::NonpositiveMin() )
     {
-    m_Lower = NumericTraits<PixelType>::NonpositiveMin();
+    m_Lower = NumericTraits< PixelType >::NonpositiveMin();
     m_Upper = thresh;
     this->Modified();
     }
@@ -85,35 +83,34 @@ ThresholdImageFilter<TImage>
 /**
  * The values less than or equal to the value are set to OutsideValue
  */
-template <class TImage>
-void 
-ThresholdImageFilter<TImage>
-::ThresholdBelow(const PixelType &thresh)
+template< class TImage >
+void
+ThresholdImageFilter< TImage >
+::ThresholdBelow(const PixelType & thresh)
 {
-  if (m_Lower != thresh || m_Upper < NumericTraits<PixelType>::max())
+  if ( m_Lower != thresh || m_Upper < NumericTraits< PixelType >::max() )
     {
     m_Lower = thresh;
-    m_Upper = NumericTraits<PixelType>::max();
+    m_Upper = NumericTraits< PixelType >::max();
     this->Modified();
     }
 }
 
-
 /**
  * The values outside the range are set to OutsideValue
  */
-template <class TImage>
-void 
-ThresholdImageFilter<TImage>
-::ThresholdOutside(const PixelType &lower, const PixelType &upper)
+template< class TImage >
+void
+ThresholdImageFilter< TImage >
+::ThresholdOutside(const PixelType & lower, const PixelType & upper)
 {
-  if (lower > upper)
+  if ( lower > upper )
     {
-    itkExceptionMacro(<<"Lower threshold cannot be greater than upper threshold.");
+    itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
     return;
     }
-  
-  if (m_Lower != lower || m_Upper != upper)
+
+  if ( m_Lower != lower || m_Upper != upper )
     {
     m_Lower = lower;
     m_Upper = upper;
@@ -121,17 +118,16 @@ ThresholdImageFilter<TImage>
     }
 }
 
-
 /**
  *
  */
-template <class TImage>
-void 
-ThresholdImageFilter<TImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+template< class TImage >
+void
+ThresholdImageFilter< TImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
-  itkDebugMacro(<<"Actually executing");
+  itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
   InputImagePointer  inputPtr  = this->GetInput();
@@ -139,20 +135,20 @@ ThresholdImageFilter<TImage>
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef ImageRegionConstIterator<TImage> InputIterator;
-  typedef ImageRegionIterator<TImage>      OutputIterator;
+  typedef ImageRegionConstIterator< TImage > InputIterator;
+  typedef ImageRegionIterator< TImage >      OutputIterator;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-          
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
   // walk the regions, threshold each pixel
-  while( !outIt.IsAtEnd() )
+  while ( !outIt.IsAtEnd() )
     {
     const PixelType value = inIt.Get();
-    if (m_Lower <= value && value <= m_Upper)
+    if ( m_Lower <= value && value <= m_Upper )
       {
       // pixel passes to output unchanged and is replaced by m_OutsideValue in
       // the inverse output image
@@ -160,15 +156,13 @@ ThresholdImageFilter<TImage>
       }
     else
       {
-      outIt.Set( m_OutsideValue );
+      outIt.Set(m_OutsideValue);
       }
     ++inIt;
     ++outIt;
     progress.CompletedPixel();
     }
-  
 }
-
 } // end namespace itk
 
 #endif

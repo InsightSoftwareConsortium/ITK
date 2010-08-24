@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,9 +26,8 @@
 
 #define MAX_SCALE 8
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class VectorFuzzyConnectednessImageFilter
  *
  * The purpose of our program is to segment an object of interest in
@@ -59,14 +58,14 @@ namespace itk {
  * between two voxels, all voxels within the ball associated with both voxels
  * are considered. Scale-based fuzzy affinity and fuzzy connectedness can
  * make our algorithms more robust and less sensitive to noise.
- * 
+ *
  * A global fuzzy relation called fuzzy connectedness is defined on the whole
  * image domain which assigns to every pair of voxels a strength of global
  * hanging togetherness. The strength of hanging togetherness (connectedness)
  * between two voxels is the largest of the strengths of all paths between
  * them. The strength of any path is simply the smallest affinity of
  * successive pair of voxels along the path.
- * 
+ *
  * The other important concept is relative fuzzy connectedness. An object
  * gets defined in an image because of the presence of other co-objects. All
  * co-objects of importance that are present in an image are let to compete
@@ -81,7 +80,7 @@ namespace itk {
  * strength of connectedness [3]. The method requires some modification when
  * a set of seed voxels is specified for each object. The basic algorithmic
  * tool required in all cases is dynamic programming.
- * 
+ *
  * The fuzzy connectedness methods have been utilized on 1000s of images in
  * several applications [6-10].
  *
@@ -95,7 +94,7 @@ namespace itk {
  *    and keep them in m_ScaleArray. In our program we set the maximum scale
  *    value as 8, this value could be changed in terms of the input image.
  * 3. Use function Compute_Filter() to compute scale-based filtered vectorial
- *    value at every voxel and keep the value in m_FilterImage, this step 
+ *    value at every voxel and keep the value in m_FilterImage, this step
  *    is to speed up the computation of next step.
  * 4. Use function Compute_Affinity() to compute fuzzy affinity value of each
  *    pair of neighboring voxels and keep them in m_Xaffinity, m_Yaffinity, and
@@ -113,7 +112,7 @@ namespace itk {
  *    [5].
  *
  * Before running our program, user needs to input some parameters.
- * 
+ *
  * 1. Use function SetObjects to set the number of objects of importance in
  *    the image.
  * 2. Use function SetSelectedObject to specify the particular object to be
@@ -154,25 +153,25 @@ namespace itk {
  *    Mammograms, IEEE Trans. Med. Imag.  20(8), 2001, 792-803.
  * 10. J. Liu, J. K. Udupa, D. Hackney, and G. Moonis, Brain tumor
  *     segmentation in MRI by using the fuzzy connectedness method, Proc. SPIE:
- *     Medical Imaging 4322, 2001, 1455-1465.  
+ *     Medical Imaging 4322, 2001, 1455-1465.
  *
  * \ingroup FuzzyConnectednessSegmentation */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT VectorFuzzyConnectednessImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorFuzzyConnectednessImageFilter            Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer <Self>                            Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef VectorFuzzyConnectednessImageFilter             Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VectorFuzzyConnectednessImageFilter,ImageToImageFilter);
+  itkTypeMacro(VectorFuzzyConnectednessImageFilter, ImageToImageFilter);
 
   /** Extract the image and vector types from the template parameters. */
   typedef typename TInputImage::PixelType     InputPixelType;
@@ -185,41 +184,41 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Double matrix type */
-  typedef   Matrix<double, itkGetStaticConstMacro(VectorDimension), 
-                   itkGetStaticConstMacro(VectorDimension)> DoubleMatrixType;
+  typedef   Matrix< double, itkGetStaticConstMacro(VectorDimension),
+                    itkGetStaticConstMacro(VectorDimension) > DoubleMatrixType;
 
   /** Array of double matrics */
-  typedef std::vector<DoubleMatrixType>            DoubleMatrixArrayType;
+  typedef std::vector< DoubleMatrixType > DoubleMatrixArrayType;
 
   /** Vector of unsigned sStrong affinity type */
-  typedef   Vector<unsigned short,itkGetStaticConstMacro(ImageDimension)>  AffinityVector;
+  typedef   Vector< unsigned short, itkGetStaticConstMacro(ImageDimension) > AffinityVector;
 
   /** Vector of double type */
-  typedef   Vector<double, itkGetStaticConstMacro(VectorDimension)> DoubleVectorType;
+  typedef   Vector< double, itkGetStaticConstMacro(VectorDimension) > DoubleVectorType;
 
   /** Array of double vectors */
-  typedef std::vector<DoubleVectorType>            DoubleVectorArrayType;
+  typedef std::vector< DoubleVectorType > DoubleVectorArrayType;
 
-  typedef   Vector<int,2>                          TDVector;
+  typedef   Vector< int, 2 > TDVector;
 
   /** Convenient typedefs. */
-  typedef   TInputImage                            InputImageType;
-  typedef   TOutputImage                           OutputImageType;
-  typedef   Image <unsigned short,itkGetStaticConstMacro(ImageDimension)>  UShortImageType;
-  typedef   Image <AffinityVector, itkGetStaticConstMacro(ImageDimension)> AffinityImageType;
+  typedef   TInputImage                                                     InputImageType;
+  typedef   TOutputImage                                                    OutputImageType;
+  typedef   Image< unsigned short, itkGetStaticConstMacro(ImageDimension) > UShortImageType;
+  typedef   Image< AffinityVector, itkGetStaticConstMacro(ImageDimension) > AffinityImageType;
 
-  typedef   typename TInputImage::IndexType        IndexType;
-  typedef   typename TInputImage::SizeType         SizeType;
-  typedef   typename TOutputImage::RegionType      OutRegionType;
+  typedef   typename TInputImage::IndexType   IndexType;
+  typedef   typename TInputImage::SizeType    SizeType;
+  typedef   typename TOutputImage::RegionType OutRegionType;
 
   /** List of Seeds type */
-  typedef   std::list<IndexType>                   ListSeedType;
+  typedef   std::list< IndexType > ListSeedType;
 
   /** Array of Lists */
-  typedef   std::vector<ListSeedType>              ListSeedArrayType;
+  typedef   std::vector< ListSeedType > ListSeedArrayType;
 
-  typedef   std::vector<TDVector>                  OffsetType;
-  
+  typedef   std::vector< TDVector > OffsetType;
+
   /** Set/Get the object number be segmented in the input image. */
   itkSetMacro(NumberOfObjects, int);
   itkGetMacro(NumberOfObjects, int);
@@ -228,27 +227,27 @@ public:
   void SetHomogeneityMatrix(const DoubleMatrixType homo_max);
 
   /** Setting the covariance matrix for specified object: */
-  void SetObjectsMatrix(const DoubleMatrixType object_max,const int object_num);
+  void SetObjectsMatrix(const DoubleMatrixType object_max, const int object_num);
 
   /** Setting the seed points for specified object. */
-  void SetObjectsSeed( const IndexType &seed, const int object_num);
+  void SetObjectsSeed(const IndexType & seed, const int object_num);
 
   /** Setting the seed points for specified object. */
   void SetObjectsMean(const DoubleVectorType, const int object_num);
 
   /** Setting the flag to suppress background. */
   void SetSuppressBckgFlag(const int flag)
-    {
+  {
     m_SuppressBckgFlag = flag;
-    }
+  }
 
-  /** Setting the threshold of strength of fuzzy connectedness 
+  /** Setting the threshold of strength of fuzzy connectedness
    *   if user selects absolute FC algorighm
    */
   void SetThreshold(const float threshold)
-    {
+  {
     m_Threshold = threshold;
-    }
+  }
 
   /** Allocate the variate in terms of the number of Objects */
   void Initialization();
@@ -257,48 +256,60 @@ protected:
   VectorFuzzyConnectednessImageFilter();
   ~VectorFuzzyConnectednessImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. */
   void GenerateData();
 
 private:
-  SizeType                       m_Size;
-  std::vector<OffsetType>        m_CirclePointsLoc;
-  std::vector<int>               m_CirclePointsNum;
+  SizeType m_Size;
 
-  InputPixelType                 m_Mean;
-  int                            m_SuppressBckgFlag;
-  float                          m_Threshold;
+  std::vector< OffsetType >        m_CirclePointsLoc;
+  std::vector< int >               m_CirclePointsNum;
 
-  DoubleMatrixType               m_HomoCovariance;
+  InputPixelType m_Mean;
 
-  int                            m_NumberOfObjects;
-  DoubleMatrixArrayType          m_ObjectCovariances;
-  DoubleVectorArrayType          m_ObjectMeans;
-  ListSeedArrayType              m_ObjectSeeds;
+  int m_SuppressBckgFlag;
 
-  std::vector<char>              m_ScaleArray;
+  float m_Threshold;
 
-  typename InputImageType::ConstPointer   m_InputImage;
-  typename InputImageType::Pointer        m_FilterImage;
-  typename OutputImageType::Pointer       m_SegmentObject;
-  typename AffinityImageType::Pointer     m_AffinityImage;
-  typename UShortImageType::Pointer       m_FuzzyConnImage;
+  DoubleMatrixType m_HomoCovariance;
+
+  int m_NumberOfObjects;
+
+  DoubleMatrixArrayType m_ObjectCovariances;
+  DoubleVectorArrayType m_ObjectMeans;
+
+  ListSeedArrayType m_ObjectSeeds;
+
+  std::vector< char >              m_ScaleArray;
+
+  typename InputImageType::ConstPointer m_InputImage;
+
+  typename InputImageType::Pointer m_FilterImage;
+
+  typename OutputImageType::Pointer m_SegmentObject;
+
+  typename AffinityImageType::Pointer m_AffinityImage;
+
+  typename UShortImageType::Pointer m_FuzzyConnImage;
 
   void ScalePrepare();
+
   void Compute_Scale();
+
   void Compute_Filter();
+
   void Compute_Affinity(const int);
-  double FuzzyAffinity(const InputVectorType , const InputVectorType, const int);
+
+  double FuzzyAffinity(const InputVectorType, const InputVectorType, const int);
+
   void Fast_Tracking(const int);
-  
+
 private:
-  VectorFuzzyConnectednessImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented  
+  VectorFuzzyConnectednessImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

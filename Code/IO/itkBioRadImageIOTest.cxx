@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,9 +19,9 @@
 #include "itkBioRadImageIO.h"
 #include "itkImage.h"
 
-int itkBioRadImageIOTest(int argc, char* argv[])
+int itkBioRadImageIOTest(int argc, char *argv[])
 {
-  if(argc < 3)
+  if ( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0] << " BioRad.pic OutputImage.pic\n";
     return EXIT_FAILURE;
@@ -36,16 +36,16 @@ int itkBioRadImageIOTest(int argc, char* argv[])
   const char *outfilename = argv[2];
 
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( filename );
+  reader->SetFileName(filename);
 
   ImageIOType::Pointer bioradImageIO = ImageIOType::New();
-  reader->SetImageIO( bioradImageIO );
+  reader->SetImageIO(bioradImageIO);
 
   try
     {
     reader->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch ( itk::ExceptionObject & e )
     {
     std::cerr << "exception in file reader " << std::endl;
     std::cerr << e.GetDescription() << std::endl;
@@ -54,17 +54,17 @@ int itkBioRadImageIOTest(int argc, char* argv[])
     }
 
   //
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  typedef itk::ImageFileWriter< InputImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outfilename );
+  writer->SetFileName(outfilename);
   writer->SetInput( reader->GetOutput() );
-  writer->SetImageIO( bioradImageIO );
+  writer->SetImageIO(bioradImageIO);
 
   try
     {
     writer->Update();
     }
-  catch (itk::ExceptionObject & e)
+  catch ( itk::ExceptionObject & e )
     {
     std::cerr << "exception in file writer " << std::endl;
     std::cerr << e.GetDescription() << std::endl;

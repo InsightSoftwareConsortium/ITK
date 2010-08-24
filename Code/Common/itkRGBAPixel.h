@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,12 +28,11 @@
 
 namespace itk
 {
-
 /** \class RGBAPixel
  * \brief Represent Red, Green, Blue cand Alpha component for color images
  *
  * This class is templated over the representation used for each
- * component. 
+ * component.
  *
  * The following syntax for assigning an index is allowed/suggested:
  *
@@ -48,13 +47,13 @@ namespace itk
  *
  */
 
-template < typename TComponent = unsigned short >
-class RGBAPixel: public FixedArray<TComponent,4>
+template< typename TComponent = unsigned short >
+class RGBAPixel:public FixedArray< TComponent, 4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef RGBAPixel                 Self;
-  typedef FixedArray<TComponent, 4> Superclass;
+  typedef RGBAPixel                   Self;
+  typedef FixedArray< TComponent, 4 > Superclass;
 
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, 4);
@@ -63,105 +62,109 @@ public:
   itkStaticConstMacro(Length, unsigned int, 4);
 
   /** Convenience typedefs. */
-  typedef FixedArray<TComponent, 4> BaseArray;
-  
+  typedef FixedArray< TComponent, 4 > BaseArray;
+
   /**  Define the component type. */
   typedef TComponent ComponentType;
 
   /** Default constructor has nothing to do. */
-  RGBAPixel() {this->Fill(0);}
-  RGBAPixel (const ComponentType& r)
-    { this->Fill(r);}
-  
+  RGBAPixel() { this->Fill(0); }
+  RGBAPixel (const ComponentType & r)
+  { this->Fill(r); }
+
   /** Pass-through constructor for the Array base class. */
   template< class TRGBAPixelValueType >
-  RGBAPixel(const RGBAPixel< TRGBAPixelValueType >& r): BaseArray(r) {}
-  RGBAPixel(const ComponentType  r[4]): BaseArray(r) {}  
-    
+  RGBAPixel(const RGBAPixel< TRGBAPixelValueType > & r):BaseArray(r) {}
+  RGBAPixel(const ComponentType r[4]):BaseArray(r) {}
+
   /** Pass-through assignment operator for the Array base class. */
-  RGBAPixel& operator= (const Self& r);
-  RGBAPixel& operator= (const ComponentType r[4]);
-  
+  RGBAPixel & operator=(const Self & r);
+
+  RGBAPixel & operator=(const ComponentType r[4]);
+
   /** Return the number of componentsxquery-rep. */
-  static unsigned int GetNumberOfComponents(){ return 4;}
+  static unsigned int GetNumberOfComponents(){ return 4; }
 
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const
-    { return this->operator[](c); }
+  { return this->operator[](c); }
 
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
-    {
-    return static_cast<ComponentType> (vcl_sqrt(
-                                         static_cast<double>(this->operator[](0)) * static_cast<double>(this->operator[](0)) +
-                                         static_cast<double>(this->operator[](1)) * static_cast<double>(this->operator[](1)) +
-                                         static_cast<double>(this->operator[](2)) * static_cast<double>(this->operator[](2)))); 
-    }
-  
+  {
+    return static_cast< ComponentType >( vcl_sqrt(
+                                           static_cast< double >( this->operator[](0) )
+                                           * static_cast< double >( this->operator[](0) )
+                                           + static_cast< double >( this->operator[](1) )
+                                           * static_cast< double >( this->operator[](1) )
+                                           + static_cast< double >( this->operator[](2) )
+                                           * static_cast< double >( this->operator[](2) ) ) );
+  }
+
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType& v)  
-    {  this->operator[](c) = v; }
+  void SetNthComponent(int c, const ComponentType & v)
+  {  this->operator[](c) = v; }
 
   /** Set the Red component. */
-  void SetRed( ComponentType red ) { this->operator[](0) = red;}
+  void SetRed(ComponentType red) { this->operator[](0) = red; }
 
   /** Set the Green component. */
-  void SetGreen( ComponentType green ) {this->operator[](1) = green;}
+  void SetGreen(ComponentType green) { this->operator[](1) = green; }
 
   /** Set the Blue component. */
-  void SetBlue( ComponentType blue ) {this->operator[](2) = blue;}
+  void SetBlue(ComponentType blue) { this->operator[](2) = blue; }
 
   /** Set the Alpha component. */
-  void SetAlpha( ComponentType alpha ) {this->operator[](3) = alpha;}
+  void SetAlpha(ComponentType alpha) { this->operator[](3) = alpha; }
 
   /** Set the four components. */
-  void Set( ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha )
-    { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; this->operator[](3) = alpha;}
+  void Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
+  { this->operator[](0) = red; this->operator[](1) = green; this->operator[](2) = blue; this->operator[](3) = alpha; }
 
   /** Get the Red component. */
-  const ComponentType & GetRed( void ) const { return this->operator[](0);}
+  const ComponentType & GetRed(void) const { return this->operator[](0); }
 
   /** Get the Green component. */
-  const ComponentType & GetGreen( void ) const { return this->operator[](1);}
+  const ComponentType & GetGreen(void) const { return this->operator[](1); }
 
   /** Get the Blue component. */
-  const ComponentType & GetBlue( void ) const { return this->operator[](2);}
+  const ComponentType & GetBlue(void) const { return this->operator[](2); }
 
   /** Get the Alpha component. */
-  const ComponentType & GetAlpha( void ) const { return this->operator[](3);}
+  const ComponentType & GetAlpha(void) const { return this->operator[](3); }
 
   /** Get Luminance out of RGB */
-  ComponentType GetLuminance( void ) const;
+  ComponentType GetLuminance(void) const;
 };
 
+template< typename TComponent  >
+ITK_EXPORT std::ostream & operator<<(std::ostream & os,
+                                     const RGBAPixel< TComponent > & c);
 
-template< typename TComponent  >  
-ITK_EXPORT std::ostream& operator<<(std::ostream& os, 
-                                    const RGBAPixel<TComponent> & c); 
-
-template< typename TComponent  >  
-ITK_EXPORT std::istream& operator>>(std::istream& is, 
-                                          RGBAPixel<TComponent> & c); 
-
+template< typename TComponent  >
+ITK_EXPORT std::istream & operator>>(std::istream & is,
+                                     RGBAPixel< TComponent > & c);
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_RGBAPixel(_, EXPORT, TypeX, TypeY) \
-    namespace itk { \
-  _(1(class EXPORT RGBAPixel< ITK_TEMPLATE_1 TypeX >)) \
-  namespace Templates { \
-    typedef RGBAPixel< ITK_TEMPLATE_1 TypeX > RGBAPixel##TypeY; \
-    } \
+#define ITK_TEMPLATE_RGBAPixel(_, EXPORT, TypeX, TypeY)         \
+  namespace itk                                                 \
+  {                                                             \
+  _( 1 ( class EXPORT RGBAPixel< ITK_TEMPLATE_1 TypeX > ) )     \
+  namespace Templates                                           \
+  {                                                             \
+  typedef RGBAPixel< ITK_TEMPLATE_1 TypeX > RGBAPixel##TypeY; \
+  }                                                             \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkRGBAPixel+-.h"
+#include "Templates/itkRGBAPixel+-.h"
 #endif
 
 //
 // Numeric traits must be included after (optionally) including the explicit
 // instantiations control of this class, in case the implicit instantiation
-// needs to be disabled. 
+// needs to be disabled.
 //
 // NumericTraits must be included before (optionally) including the .txx file,
 // in case the .txx requires to use NumericTraits.
@@ -169,7 +172,7 @@ ITK_EXPORT std::istream& operator>>(std::istream& is,
 #include "itkNumericTraitsRGBAPixel.h"
 
 #if ITK_TEMPLATE_TXX
-# include "itkRGBAPixel.txx"
+#include "itkRGBAPixel.txx"
 #endif
 
 #endif

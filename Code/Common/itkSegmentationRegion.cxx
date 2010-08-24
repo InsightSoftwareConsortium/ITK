@@ -18,35 +18,27 @@
 
 namespace itk
 {
-
-
 SegmentationRegion
 ::SegmentationRegion(void):
   m_RegionLabel(0),
   m_RegionArea(0)
-{
-
-}
-
+{}
 
 SegmentationRegion
 ::~SegmentationRegion()
-{
-
-}
+{}
 
 /**
  * PrintSelf
  */
 void
 SegmentationRegion
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Segmentation region object" << std::endl;
   os << indent << "Region label            : " << m_RegionLabel << std::endl;
   os << indent << "Area of the region      : " << m_RegionArea << std::endl;
 }
-
 } // end namespace itk

@@ -14,19 +14,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOptGrayscaleErodeImageFilter_txx
-#define __itkOptGrayscaleErodeImageFilter_txx
+#ifndef __itkGrayscaleErodeImageFilter_txx
+#define __itkGrayscaleErodeImageFilter_txx
 
 #include "itkGrayscaleErodeImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>
 
-namespace itk {
-
-
-template<class TInputImage, class TOutputImage, class TKernel>
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::GrayscaleErodeImageFilter()
 {
   m_BasicFilter = BasicFilterType::New();
@@ -38,40 +37,43 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
   this->SetBoundary( NumericTraits< PixelType >::max() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::SetNumberOfThreads( int nb )
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::SetNumberOfThreads(int nb)
 {
-  Superclass::SetNumberOfThreads( nb );
-  m_HistogramFilter->SetNumberOfThreads( nb );
-  m_AnchorFilter->SetNumberOfThreads( nb );
-  m_VHGWFilter->SetNumberOfThreads( nb );
-  m_BasicFilter->SetNumberOfThreads( nb );
+  Superclass::SetNumberOfThreads(nb);
+  m_HistogramFilter->SetNumberOfThreads(nb);
+  m_AnchorFilter->SetNumberOfThreads(nb);
+  m_VHGWFilter->SetNumberOfThreads(nb);
+  m_BasicFilter->SetNumberOfThreads(nb);
 }
 
-
-template< class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::SetKernel( const KernelType& kernel )
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::SetKernel(const KernelType & kernel)
 {
-  const FlatKernelType * flatKernel = NULL;
+  const FlatKernelType *flatKernel = NULL;
+
   try
-    { flatKernel = dynamic_cast< const FlatKernelType* >( & kernel ); }
-  catch( ... ) {}
-
-
-  if( flatKernel != NULL && flatKernel->GetDecomposable() )
     {
-    m_AnchorFilter->SetKernel( *flatKernel );
+    flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
+    }
+  catch ( ... )
+                  {}
+
+  if ( flatKernel != NULL && flatKernel->GetDecomposable() )
+    {
+    m_AnchorFilter->SetKernel(*flatKernel);
     m_Algorithm = ANCHOR;
     }
-  else if( m_HistogramFilter->GetUseVectorBasedAlgorithm() )
+  else if ( m_HistogramFilter->GetUseVectorBasedAlgorithm() )
     {
-    // histogram based filter is as least as good as the basic one, so always use it
+    // histogram based filter is as least as good as the basic one, so always
+    // use it
     m_Algorithm = HISTO;
-    m_HistogramFilter->SetKernel( kernel );
+    m_HistogramFilter->SetKernel(kernel);
     }
   else
     {
@@ -79,13 +81,14 @@ GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
     // apply a poor heuristic to find the best one. What is very important is to
     // select the histogram for large kernels
 
-    // we need to set the kernel on the histogram filter to compare basic and histogram algorithm
-    m_HistogramFilter->SetKernel( kernel );
+    // we need to set the kernel on the histogram filter to compare basic and
+    // histogram algorithm
+    m_HistogramFilter->SetKernel(kernel);
 
-    if( ( ImageDimension == 2 && this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 5.4 )
-        || ( ImageDimension == 3 && this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 4.5 ) )
+    if ( ( ImageDimension == 2 && this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 5.4 )
+         || ( ImageDimension == 3 && this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 4.5 ) )
       {
-      m_BasicFilter->SetKernel( kernel );
+      m_BasicFilter->SetKernel(kernel);
       m_Algorithm = BASIC;
       }
     else
@@ -94,127 +97,131 @@ GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
       }
     }
 
-  Superclass::SetKernel( kernel );
+  Superclass::SetKernel(kernel);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::SetBoundary( const PixelType value )
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::SetBoundary(const PixelType value)
 {
   m_Boundary = value;
-  m_HistogramFilter->SetBoundary( value );
+  m_HistogramFilter->SetBoundary(value);
   m_AnchorFilter->SetBoundary(value);
   m_VHGWFilter->SetBoundary(value);
-  m_BoundaryCondition.SetConstant( value );
-  m_BasicFilter->OverrideBoundaryCondition( &m_BoundaryCondition );
+  m_BoundaryCondition.SetConstant(value);
+  m_BasicFilter->OverrideBoundaryCondition(&m_BoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel>
-::SetAlgorithm( int algo )
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::SetAlgorithm(int algo)
 {
-  const FlatKernelType * flatKernel = NULL;
+  const FlatKernelType *flatKernel = NULL;
+
   try
-    { flatKernel = dynamic_cast< const FlatKernelType* >( & this->GetKernel() ); }
-  catch( ... ) {}
-
-  if( m_Algorithm != algo )
     {
+    flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
+    }
+  catch ( ... )
+                  {}
 
-    if( algo == BASIC )
+  if ( m_Algorithm != algo )
+    {
+    if ( algo == BASIC )
       {
       m_BasicFilter->SetKernel( this->GetKernel() );
       }
-    else if( algo == HISTO )
+    else if ( algo == HISTO )
       {
       m_HistogramFilter->SetKernel( this->GetKernel() );
       }
-    else if( flatKernel != NULL && flatKernel->GetDecomposable() && algo == ANCHOR )
+    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == ANCHOR )
       {
-      m_AnchorFilter->SetKernel( *flatKernel );
+      m_AnchorFilter->SetKernel(*flatKernel);
       }
-    else if( flatKernel != NULL && flatKernel->GetDecomposable() && algo == VHGW )
+    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == VHGW )
       {
-      m_VHGWFilter->SetKernel( *flatKernel );
+      m_VHGWFilter->SetKernel(*flatKernel);
       }
     else
-      { itkExceptionMacro( << "Invalid algorithm" ); }
+      {
+      itkExceptionMacro(<< "Invalid algorithm");
+      }
 
     m_Algorithm = algo;
     this->Modified();
-
     }
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
 
   // Delegate to a dilate filter.
-  if( m_Algorithm == BASIC )
+  if ( m_Algorithm == BASIC )
     {
     itkDebugMacro("Running BasicErodeImageFilter");
     m_BasicFilter->SetInput( this->GetInput() );
-    progress->RegisterInternalFilter( m_BasicFilter, 1.0f );
+    progress->RegisterInternalFilter(m_BasicFilter, 1.0f);
 
     m_BasicFilter->GraftOutput( this->GetOutput() );
     m_BasicFilter->Update();
     this->GraftOutput( m_BasicFilter->GetOutput() );
     }
-  else if( m_Algorithm == HISTO )
+  else if ( m_Algorithm == HISTO )
     {
     itkDebugMacro("Running MovingHistogramErodeImageFilter");
     m_HistogramFilter->SetInput( this->GetInput() );
-    progress->RegisterInternalFilter( m_HistogramFilter, 1.0f );
+    progress->RegisterInternalFilter(m_HistogramFilter, 1.0f);
 
     m_HistogramFilter->GraftOutput( this->GetOutput() );
     m_HistogramFilter->Update();
     this->GraftOutput( m_HistogramFilter->GetOutput() );
     }
-  else if( m_Algorithm == ANCHOR )
+  else if ( m_Algorithm == ANCHOR )
     {
     itkDebugMacro("Running AnchorErodeImageFilter");
     m_AnchorFilter->SetInput( this->GetInput() );
-    progress->RegisterInternalFilter( m_AnchorFilter, 0.9f );
+    progress->RegisterInternalFilter(m_AnchorFilter, 0.9f);
 
     typename CastFilterType::Pointer cast = CastFilterType::New();
     cast->SetInput( m_AnchorFilter->GetOutput() );
-    progress->RegisterInternalFilter( cast, 0.1f );
+    progress->RegisterInternalFilter(cast, 0.1f);
 
     cast->GraftOutput( this->GetOutput() );
     cast->Update();
     this->GraftOutput( cast->GetOutput() );
     }
-  else if( m_Algorithm == VHGW )
+  else if ( m_Algorithm == VHGW )
     {
     itkDebugMacro("Running VanHerkGilWermanErodeImageFilter");
     m_VHGWFilter->SetInput( this->GetInput() );
-    progress->RegisterInternalFilter( m_VHGWFilter, 0.9f );
+    progress->RegisterInternalFilter(m_VHGWFilter, 0.9f);
 
     typename CastFilterType::Pointer cast = CastFilterType::New();
     cast->SetInput( m_VHGWFilter->GetOutput() );
-    progress->RegisterInternalFilter( cast, 0.1f );
+    progress->RegisterInternalFilter(cast, 0.1f);
 
     cast->GraftOutput( this->GetOutput() );
     cast->Update();
     this->GraftOutput( cast->GetOutput() );
     }
-
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::Modified() const
 {
   Superclass::Modified();
@@ -224,16 +231,16 @@ GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
   m_VHGWFilter->Modified();
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-GrayscaleErodeImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary: " <<  static_cast<typename NumericTraits<PixelType>::PrintType>( m_Boundary ) << std::endl;
+  os << indent << "Boundary: " <<  static_cast< typename NumericTraits< PixelType >::PrintType >( m_Boundary )
+     << std::endl;
   os << indent << "Algorithm: " << m_Algorithm << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,34 +26,34 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 
-namespace itk {
-
-template<class TInputImage, class TOutputImage, class TKernel>
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::ObjectMorphologyImageFilter()
-  : m_Kernel()
+namespace itk
 {
-  m_DefaultBoundaryCondition.SetConstant( NumericTraits<PixelType>::Zero );
+template< class TInputImage, class TOutputImage, class TKernel >
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+::ObjectMorphologyImageFilter():
+  m_Kernel()
+{
+  m_DefaultBoundaryCondition.SetConstant(NumericTraits< PixelType >::Zero);
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 
   m_UseBoundaryCondition = false;
 
-  m_ObjectValue = NumericTraits<PixelType>::One;
+  m_ObjectValue = NumericTraits< PixelType >::One;
   //this->SetNumberOfThreads(1);
 }
-  
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = 
+  typename Superclass::InputImagePointer inputPtr =
     const_cast< TInputImage * >( this->GetInput() );
-  
+
   if ( !inputPtr )
     {
     return;
@@ -68,9 +68,9 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -79,8 +79,8 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
+
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
@@ -90,12 +90,12 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::BeforeThreadedGenerateData()
 {
-  if(m_ObjectValue == 0)
+  if ( m_ObjectValue == 0 )
     {
     this->GetOutput()->FillBuffer(1);
     }
@@ -105,58 +105,57 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId) 
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                       int threadId)
 {
-
-  ImageRegionConstIterator<TInputImage> iRegIter;
-  ImageRegionIterator<TOutputImage> oRegIter;
-  iRegIter = ImageRegionConstIterator<InputImageType>(this->GetInput(),
-                                                      outputRegionForThread);
-  oRegIter = ImageRegionIterator<OutputImageType>(this->GetOutput(),
-                                                  outputRegionForThread);
+  ImageRegionConstIterator< TInputImage > iRegIter;
+  ImageRegionIterator< TOutputImage >     oRegIter;
+  iRegIter = ImageRegionConstIterator< InputImageType >(this->GetInput(),
+                                                        outputRegionForThread);
+  oRegIter = ImageRegionIterator< OutputImageType >(this->GetOutput(),
+                                                    outputRegionForThread);
   /* Copy the input image to the output image - then only boundary pixels
    * need to be changed in the output image */
   iRegIter.GoToBegin();
   oRegIter.GoToBegin();
-  while(!oRegIter.IsAtEnd())
+  while ( !oRegIter.IsAtEnd() )
     {
-    if(oRegIter.Get() != m_ObjectValue)
+    if ( oRegIter.Get() != m_ObjectValue )
       {
-       oRegIter.Set(iRegIter.Get());
+      oRegIter.Set( iRegIter.Get() );
       }
     ++oRegIter;
     ++iRegIter;
     }
 
   // Find the boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-    ::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
-  faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
+  ::FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > fC;
+  faceList = fC( this->GetInput(), outputRegionForThread, m_Kernel.GetRadius() );
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-    ::FaceListType::iterator fit;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
+  ::FaceListType::iterator fit;
 
   // Setup the kernel that spans the immediate neighbors of the current
   // input pixel - used to determine if that pixel abuts a non-object
   // pixel, i.e., is a boundary pixel
   RadiusType bKernelSize;
   bKernelSize.Fill(1);
- 
-  ProgressReporter progress(this, threadId,
-                            outputRegionForThread.GetNumberOfPixels());
+
+  ProgressReporter progress( this, threadId,
+                             outputRegionForThread.GetNumberOfPixels() );
 
   OutputNeighborhoodIteratorType oSNIter;
-  InputNeighborhoodIteratorType iSNIter;
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
-    { 
+  InputNeighborhoodIteratorType  iSNIter;
+  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
+    {
     oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(),
                                              this->GetOutput(), *fit);
-    // No need to overwrite on output...and m_BoundaryCondition is 
+    // No need to overwrite on output...and m_BoundaryCondition is
     // templated over inputImageType - and cannot be applied to the
     // output image
     //oSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
@@ -166,12 +165,12 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
                                             this->GetInput(), *fit);
     iSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     iSNIter.GoToBegin();
-    
-    while ( ! iSNIter.IsAtEnd() )
+
+    while ( !iSNIter.IsAtEnd() )
       {
-      if (iSNIter.GetCenterPixel() == m_ObjectValue)
+      if ( iSNIter.GetCenterPixel() == m_ObjectValue )
         {
-        if(this->IsObjectPixelOnBoundary(iSNIter))
+        if ( this->IsObjectPixelOnBoundary(iSNIter) )
           {
           this->Evaluate(oSNIter, m_Kernel);
           }
@@ -184,25 +183,25 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 }
 
 // Use neighborhood iter to determine if pixel touches a non-object pixel
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 bool
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &iNIter)
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & iNIter)
 {
-
   static const unsigned int s =
-    (unsigned int)vcl_pow((double)3.0,
-                      (double)(ImageDimension));
+    (unsigned int)vcl_pow( (double)3.0,
+                           (double)( ImageDimension ) );
 
-  PixelType tf;
+  PixelType    tf;
   unsigned int i;
-  bool isInside = true;
-  if(m_UseBoundaryCondition)
+  bool         isInside = true;
+
+  if ( m_UseBoundaryCondition )
     {
-    for(i=0; i<s; i++)
+    for ( i = 0; i < s; i++ )
       {
       tf = iNIter.GetPixel(i);
-      if(tf != m_ObjectValue)
+      if ( tf != m_ObjectValue )
         {
         return true;
         }
@@ -210,10 +209,10 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
     }
   else
     {
-    for(i=0; i<s; i++)
+    for ( i = 0; i < s; i++ )
       {
       tf = iNIter.GetPixel(i, isInside);
-      if(tf != m_ObjectValue && isInside)
+      if ( tf != m_ObjectValue && isInside )
         {
         return true;
         }
@@ -223,21 +222,20 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
   return false;
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Boundary condition: " 
-               << typeid( *m_BoundaryCondition ).name() << std::endl;
-  os << indent << "Use boundary condition: " 
-               << m_UseBoundaryCondition << std::endl;
+  os << indent << "Boundary condition: "
+     << typeid( *m_BoundaryCondition ).name() << std::endl;
+  os << indent << "Use boundary condition: "
+     << m_UseBoundaryCondition << std::endl;
 
   os << indent << "ObjectValue: " << m_ObjectValue << std::endl;
   os << indent << "Kernel: " << m_Kernel << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

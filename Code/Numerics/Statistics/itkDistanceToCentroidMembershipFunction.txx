@@ -20,38 +20,39 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkEuclideanDistanceMetric.h"
 
-namespace itk {
-namespace Statistics {
-
-template < class TVector >
+namespace itk
+{
+namespace Statistics
+{
+template< class TVector >
 DistanceToCentroidMembershipFunction< TVector >
 ::DistanceToCentroidMembershipFunction()
 {
   // Initialize by default to an Euclidean distance. This default can be
   // changed by calling SetDistanceMetric().
-  this->m_DistanceMetric = EuclideanDistanceMetric<TVector>::New();
+  this->m_DistanceMetric = EuclideanDistanceMetric< TVector >::New();
 }
 
-template < class TVector >
+template< class TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
 ::SetCentroid(const CentroidType & centroid)
 {
-  this->m_DistanceMetric->SetOrigin( centroid );
+  this->m_DistanceMetric->SetOrigin(centroid);
   this->Modified();
 }
 
 template< class TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
-::SetMeasurementVectorSize( MeasurementVectorSizeType s )
+::SetMeasurementVectorSize(MeasurementVectorSizeType s)
 {
-  this->Superclass::SetMeasurementVectorSize( s );
-  this->m_DistanceMetric->SetMeasurementVectorSize( s );
+  this->Superclass::SetMeasurementVectorSize(s);
+  this->m_DistanceMetric->SetMeasurementVectorSize(s);
   this->Modified();
 }
 
-template < class TVector >
+template< class TVector >
 const typename DistanceToCentroidMembershipFunction< TVector >::CentroidType &
 DistanceToCentroidMembershipFunction< TVector >
 ::GetCentroid() const
@@ -59,39 +60,37 @@ DistanceToCentroidMembershipFunction< TVector >
   return this->m_DistanceMetric->GetOrigin();
 }
 
-template < class TVector >
+template< class TVector >
 double
 DistanceToCentroidMembershipFunction< TVector >
-::Evaluate(const MeasurementVectorType &measurement) const
+::Evaluate(const MeasurementVectorType & measurement) const
 {
-  return this->m_DistanceMetric->Evaluate( measurement );
+  return this->m_DistanceMetric->Evaluate(measurement);
 }
 
-template < class TVector >
+template< class TVector >
 typename DistanceToCentroidMembershipFunction< TVector >::Pointer
 DistanceToCentroidMembershipFunction< TVector >
 ::Clone()
 {
-  Pointer  membershipFunction =
-          DistanceToCentroidMembershipFunction<TVector>::New();
+  Pointer membershipFunction =
+    DistanceToCentroidMembershipFunction< TVector >::New();
+
   membershipFunction->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
   membershipFunction->SetCentroid( this->GetCentroid() );
 
   return membershipFunction;
 }
 
-
-template < class TVector >
+template< class TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << "Distance Metric: " << this->m_DistanceMetric.GetPointer() << std::endl;
-
 }
-
 } // end namespace Statistics
 } // end of namespace itk
 #endif

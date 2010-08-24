@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,7 @@
 namespace itk
 {
 /** \class NormalizedCorrelationImageFilter
- * \brief Computes the normalized correlation of an image and a template. 
+ * \brief Computes the normalized correlation of an image and a template.
  *
  * This filter calculates the normalized correlation between an image
  * and the template.  Normalized correlation is frequently use in
@@ -40,24 +40,26 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
  */
-template <class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType=ITK_TYPENAME TOutputImage::PixelType>
-class ITK_EXPORT NormalizedCorrelationImageFilter :
-    public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType > 
+template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
+            ITK_TYPENAME TOutputImage::PixelType >
+class ITK_EXPORT NormalizedCorrelationImageFilter:
+  public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:
   /** Standard "Self" & Superclass typedef. */
-  typedef NormalizedCorrelationImageFilter          Self;
+  typedef NormalizedCorrelationImageFilter Self;
   typedef NeighborhoodOperatorImageFilter<
     TInputImage, TOutputImage, TOperatorValueType > Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NormalizedCorrelationImageFilter, NeighborhoodOperatorImageFilter);
-  
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType         OutputPixelType;
@@ -75,16 +77,16 @@ public:
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(MaskImageDimension, unsigned int,
                       TMaskImage::ImageDimension);
-  
+
   /** Image typedef support. */
   typedef TInputImage                      InputImageType;
   typedef TMaskImage                       MaskImageType;
   typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
   typedef typename MaskImageType::Pointer  MaskImagePointer;
-  
+
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition<OutputImageType> *ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition< OutputImageType > *ImageBoundaryConditionPointerType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -96,42 +98,42 @@ public:
   /** Set the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  void SetMaskImage( const TMaskImage* mask);
+  void SetMaskImage(const TMaskImage *mask);
 
   /** Get the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for
    * those pixels under the mask. */
-  const TMaskImage* GetMaskImage() const;
-  
+  const TMaskImage * GetMaskImage() const;
+
   /** Set the template used in the calculation of the normalized
    * correlation. The elements of the template must be set prior to
    * calling SetTemplate(). */
-  void SetTemplate(const OutputNeighborhoodType &t)
-    {
+  void SetTemplate(const OutputNeighborhoodType & t)
+  {
     this->SetOperator(t);
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>));
-  itkConceptMacro(OperatorHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OperatorValueType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, MaskImageDimension > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
+  itkConceptMacro( OperatorHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OperatorValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   NormalizedCorrelationImageFilter() {}
   virtual ~NormalizedCorrelationImageFilter() {}
-    
+
   /** NormalizedCorrelationImageFilter needs to request enough of an
    * input image to account for template size.  The input requested
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() throw (InvalidRequestedRegionError);
+  void GenerateInputRequestedRegion()
+  throw ( InvalidRequestedRegionError );
 
   /** NormalizedCorrelationImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -144,19 +146,16 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
   /** Standard PrintSelf method */
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {  Superclass::PrintSelf(os, indent); }
-  
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {  Superclass::PrintSelf(os, indent); }
 private:
-  NormalizedCorrelationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  NormalizedCorrelationImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

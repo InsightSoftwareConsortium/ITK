@@ -24,9 +24,10 @@
 #include "itkArray.h"
 #include "itkVariableLengthVector.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class DecisionRule
  *  \brief Base class that allows the setting of usage of different
  *  decision rules used in classification
@@ -34,36 +35,36 @@ namespace Statistics {
  *  any subclass should implement the function to be instantiated.
  */
 
-class ITK_EXPORT DecisionRule : public Object
+class ITK_EXPORT DecisionRule:public Object
 {
 public:
   /** Standard class typedefs */
-  typedef DecisionRule                  Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef DecisionRule               Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRule, Object);
 
   /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef std::vector< double >            MembershipVectorType;
+  typedef std::vector< double > MembershipVectorType;
 
   /** The return value of this function is a class label.
    * Basically, using its internal logic based on the discriminant
    * scores, this function decides best class label and return it.
    */
-  virtual unsigned int Evaluate( const MembershipVectorType & discriminantScores ) const = 0;
+  virtual unsigned int Evaluate(const MembershipVectorType & discriminantScores) const = 0;
 
 protected:
   DecisionRule();
   virtual ~DecisionRule();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  DecisionRule(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-}; // end of class
+  DecisionRule(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+};                              // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

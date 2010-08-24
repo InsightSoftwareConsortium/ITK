@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,7 @@ Copyright (c) University Medical Center Utrecht. All rights reserved.
 See src/CopyrightElastix.txt or http://elastix.isi.uu.nl/legal.php for
 details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
+This software is distributed WITHOUT ANY WARRANTY; without even
 the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE. See the above copyright notices for more information.
 
@@ -36,7 +36,6 @@ PURPOSE. See the above copyright notices for more information.
 
 namespace itk
 {
-
 /** \class TransformToDeformationFieldSource
  * \brief Generate a deformation field from a coordinate transform
  *
@@ -56,7 +55,7 @@ namespace itk
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \author Marius Staring, Leiden University Medical Center, The Netherlands.
@@ -64,41 +63,41 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/1387
  *
- * 
+ *
  * \ingroup GeometricTransforms
  */
-template <class TOutputImage,
-class TTransformPrecisionType=double>
+template< class TOutputImage,
+          class TTransformPrecisionType = double >
 class ITK_EXPORT TransformToDeformationFieldSource:
-    public ImageSource<TOutputImage>
+  public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformToDeformationFieldSource       Self;
-  typedef ImageSource<TOutputImage>               Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef TransformToDeformationFieldSource Self;
+  typedef ImageSource< TOutputImage >       Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
 
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer  OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType    OutputImageRegionType;
- 
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TransformToDeformationFieldSource, ImageSource );
+  itkTypeMacro(TransformToDeformationFieldSource, ImageSource);
 
   /** Number of dimensions. */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-    TOutputImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int,
+                      TOutputImage::ImageDimension);
 
   /** Typedefs for transform. */
-  typedef Transform<TTransformPrecisionType, 
-    itkGetStaticConstMacro( ImageDimension ), 
-    itkGetStaticConstMacro( ImageDimension )>     TransformType;
-  typedef typename TransformType::ConstPointer    TransformPointerType;
+  typedef Transform< TTransformPrecisionType,
+                     itkGetStaticConstMacro(ImageDimension),
+                     itkGetStaticConstMacro(ImageDimension) >     TransformType;
+  typedef typename TransformType::ConstPointer TransformPointerType;
 
   /** Typedefs for output image. */
   typedef typename OutputImageType::PixelType     PixelType;
@@ -112,8 +111,8 @@ public:
   typedef typename OutputImageType::DirectionType DirectionType;
 
   /** Typedefs for base image. */
-  typedef ImageBase< itkGetStaticConstMacro( ImageDimension ) > ImageBaseType;
-  
+  typedef ImageBase< itkGetStaticConstMacro(ImageDimension) > ImageBaseType;
+
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
@@ -121,114 +120,112 @@ public:
    * the filter uses an Identity transform. You must provide a different
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
-  itkSetConstObjectMacro( Transform, TransformType ); 
+  itkSetConstObjectMacro(Transform, TransformType);
 
   /** Get a pointer to the coordinate transform. */
-  itkGetConstObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set the size of the output image. */
-  virtual void SetOutputSize( const SizeType & size );
+  virtual void SetOutputSize(const SizeType & size);
 
   /** Get the size of the output image. */
   virtual const SizeType & GetOutputSize();
 
-  /** Set the start index of the output largest possible region. 
+  /** Set the start index of the output largest possible region.
   * The default is an index of all zeros. */
-  virtual void SetOutputIndex( const IndexType & index );
+  virtual void SetOutputIndex(const IndexType & index);
 
   /** Get the start index of the output largest possible region. */
   virtual const IndexType & GetOutputIndex();
 
   /** Set the region of the output image. */
-  itkSetMacro( OutputRegion, OutputImageRegionType );
+  itkSetMacro(OutputRegion, OutputImageRegionType);
 
   /** Get the region of the output image. */
-  itkGetConstReferenceMacro( OutputRegion, OutputImageRegionType );
-     
+  itkGetConstReferenceMacro(OutputRegion, OutputImageRegionType);
+
   /** Set the output image spacing. */
-  itkSetMacro( OutputSpacing, SpacingType );
-  virtual void SetOutputSpacing( const double* values );
+  itkSetMacro(OutputSpacing, SpacingType);
+  virtual void SetOutputSpacing(const double *values);
 
   /** Get the output image spacing. */
-  itkGetConstReferenceMacro( OutputSpacing, SpacingType );
+  itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
-  itkSetMacro( OutputOrigin, OriginType );
-  virtual void SetOutputOrigin( const double* values);
+  itkSetMacro(OutputOrigin, OriginType);
+  virtual void SetOutputOrigin(const double *values);
 
   /** Get the output image origin. */
-  itkGetConstReferenceMacro( OutputOrigin, OriginType );
+  itkGetConstReferenceMacro(OutputOrigin, OriginType);
 
   /** Set the output direction cosine matrix. */
-  itkSetMacro( OutputDirection, DirectionType );
-  itkGetConstReferenceMacro( OutputDirection, DirectionType );
+  itkSetMacro(OutputDirection, DirectionType);
+  itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
   /** Helper method to set the output parameters based on this image */
-  void SetOutputParametersFromImage( const ImageBaseType * image );
-  
+  void SetOutputParametersFromImage(const ImageBaseType *image);
+
   /** DeformationFieldImageFilter produces a vector image. */
-  virtual void GenerateOutputInformation( void );
+  virtual void GenerateOutputInformation(void);
 
   /** Just checking if transform is set. */
-  virtual void BeforeThreadedGenerateData( void );
+  virtual void BeforeThreadedGenerateData(void);
 
   /** Compute the Modified Time based on changes to the components. */
-  unsigned long GetMTime( void ) const;
+  unsigned long GetMTime(void) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkStaticConstMacro(PixelDimension, unsigned int,
-                      PixelType::Dimension );
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension,PixelDimension>));
+                      PixelType::Dimension);
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
   /** End concept checking */
 #endif
-
 protected:
-  TransformToDeformationFieldSource( void );
-  ~TransformToDeformationFieldSource( void ) {};
+  TransformToDeformationFieldSource(void);
+  ~TransformToDeformationFieldSource(void) {}
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** TransformToDeformationFieldSource can be implemented as a multithreaded
    * filter.
    */
   void ThreadedGenerateData(
     const OutputImageRegionType & outputRegionForThread,
-    int threadId );
+    int threadId);
 
   /** Default implementation for resampling that works for any
    * transformation type.
    */
   void NonlinearThreadedGenerateData(
-    const OutputImageRegionType& outputRegionForThread,
-    int threadId );
+    const OutputImageRegionType & outputRegionForThread,
+    int threadId);
 
   /** Faster implementation for resampling that works for with linear
-   *  transformation types. 
+   *  transformation types.
    */
   void LinearThreadedGenerateData(
     const OutputImageRegionType & outputRegionForThread,
-    int threadId );
-  
+    int threadId);
+
 private:
 
-  TransformToDeformationFieldSource( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  TransformToDeformationFieldSource(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
   /** Member variables. */
-  RegionType              m_OutputRegion;      // region of the output image
-  TransformPointerType    m_Transform;         // Coordinate transform to use
-  SpacingType             m_OutputSpacing;     // output image spacing
-  OriginType              m_OutputOrigin;      // output image origin
-  DirectionType           m_OutputDirection;   // output image direction cosines
-
-}; // end class TransformToDeformationFieldSource
-  
+  RegionType           m_OutputRegion;    // region of the output image
+  TransformPointerType m_Transform;       // Coordinate transform to use
+  SpacingType          m_OutputSpacing;   // output image spacing
+  OriginType           m_OutputOrigin;    // output image origin
+  DirectionType        m_OutputDirection; // output image direction cosines
+};                                        // end class
+                                          // TransformToDeformationFieldSource
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTransformToDeformationFieldSource.txx"
 #endif
-  
+
 #endif // end #ifndef __itkTransformToDeformationFieldSource_h

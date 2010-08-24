@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /**
  * \class AreaOpeningImageFilter
  * \brief Morphological opening by attributes
@@ -36,7 +35,7 @@ namespace itk
  * practices - most notably copying the image data to a linear buffer
  * to allow direct implementation of the published algorithm. It
  * should therefore be quite a good candidate to carry out tests of
- * itk iterator performance with randomish access patterns. 
+ * itk iterator performance with randomish access patterns.
  *
  * This filter is implemented using the method of Wilkinson, "A
  * comparison of algorithms for Connected set openings and Closings",
@@ -54,18 +53,20 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
  */
-template <class TInputImage, class TOutputImage, class TAttribute=ITK_TYPENAME TInputImage::SpacingType::ValueType>
-class ITK_EXPORT AreaOpeningImageFilter :
-    public AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, std::greater<typename TInputImage::PixelType> >
+template< class TInputImage, class TOutputImage, class TAttribute = ITK_TYPENAME TInputImage::SpacingType::ValueType >
+class ITK_EXPORT AreaOpeningImageFilter:
+  public AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
+                                             std::greater< typename TInputImage::PixelType > >
 
 {
 public:
   typedef AreaOpeningImageFilter Self;
-  typedef AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, std::greater<typename TInputImage::PixelType> >
-                                 Superclass;
+  typedef AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
+                                              std::greater< typename TInputImage::PixelType > >
+  Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
@@ -82,12 +83,12 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(AreaOpeningImageFilter, 
+  itkTypeMacro(AreaOpeningImageFilter,
                AttributeMorphologyBaseImageFilter);
 
   /**
@@ -96,46 +97,45 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
 protected:
   AreaOpeningImageFilter()
-    {
+  {
     m_UseImageSpacing = true;
-    }
+  }
+
   virtual ~AreaOpeningImageFilter() {}
 
   void GenerateData()
-    {
+  {
     this->m_AttributeValuePerPixel = 1;
-    if( m_UseImageSpacing )
+    if ( m_UseImageSpacing )
       {
       // compute pixel size
       double psize = 1.0;
-      for( unsigned i=0; i<ImageDimension; i++)
+      for ( unsigned i = 0; i < ImageDimension; i++ )
         {
         psize *= this->GetInput()->GetSpacing()[i];
         }
-      this->m_AttributeValuePerPixel = static_cast<AttributeType>( psize );
-      // std::cout << "m_AttributeValuePerPixel: " << this->m_AttributeValuePerPixel << std::endl;
+      this->m_AttributeValuePerPixel = static_cast< AttributeType >( psize );
+      // std::cout << "m_AttributeValuePerPixel: " <<
+      // this->m_AttributeValuePerPixel << std::endl;
       // and call superclass implementation of GenerateData()
       }
     Superclass::GenerateData();
-    }
+  }
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
     os << indent << "UseImageSpacing: "  << m_UseImageSpacing << std::endl;
-    }
+  }
 
 private:
 
-  AreaOpeningImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AreaOpeningImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   bool m_UseImageSpacing;
-
 };
-
 } // namespace itk
 #endif

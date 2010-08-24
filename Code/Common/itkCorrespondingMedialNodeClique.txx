@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 
 namespace itk
 {
-
-template <unsigned int VImageDimension, unsigned int VCliqueSize>
-CorrespondingMedialNodeClique<VImageDimension, VCliqueSize>
+template< unsigned int VImageDimension, unsigned int VCliqueSize >
+CorrespondingMedialNodeClique< VImageDimension, VCliqueSize >
 ::CorrespondingMedialNodeClique()
 {
   m_NodeCoordinates = 0;
@@ -32,18 +31,16 @@ CorrespondingMedialNodeClique<VImageDimension, VCliqueSize>
 
   m_AverageDistance = 0;
 
-  for( unsigned int i = 0; i < VCliqueSize; i++ )
+  for ( unsigned int i = 0; i < VCliqueSize; i++ )
     {
     m_CorrespondenceValue[i] = 0;
     }
 }
 
-template <unsigned int VImageDimension, unsigned int VCliqueSize>
-CorrespondingMedialNodeClique<VImageDimension, VCliqueSize>
+template< unsigned int VImageDimension, unsigned int VCliqueSize >
+CorrespondingMedialNodeClique< VImageDimension, VCliqueSize >
 ::~CorrespondingMedialNodeClique()
-{
-}
-
+{}
 } // end namespace itk
 
 #endif

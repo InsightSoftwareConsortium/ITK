@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,28 +21,27 @@
 
 namespace itk
 {
-
-template <class TInputImage, class TCoordRep>
-BinaryThresholdImageFunction<TInputImage,TCoordRep>
+template< class TInputImage, class TCoordRep >
+BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::BinaryThresholdImageFunction()
 {
-  m_Lower = NumericTraits<PixelType>::NonpositiveMin();
-  m_Upper = NumericTraits<PixelType>::max();
+  m_Lower = NumericTraits< PixelType >::NonpositiveMin();
+  m_Upper = NumericTraits< PixelType >::max();
 }
 
 /**
  * Values greater than or equal to the value are inside
  */
-template <class TInputImage, class TCoordRep>
-void 
-BinaryThresholdImageFunction<TInputImage,TCoordRep>
+template< class TInputImage, class TCoordRep >
+void
+BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdAbove(PixelType thresh)
 {
-  if (m_Lower != thresh
-      || m_Upper != NumericTraits<PixelType>::max())
+  if ( m_Lower != thresh
+       || m_Upper != NumericTraits< PixelType >::max() )
     {
     m_Lower = thresh;
-    m_Upper = NumericTraits<PixelType>::max();
+    m_Upper = NumericTraits< PixelType >::max();
     this->Modified();
     }
 }
@@ -50,15 +49,15 @@ BinaryThresholdImageFunction<TInputImage,TCoordRep>
 /**
  * The values less than or equal to the value are inside
  */
-template <class TInputImage, class TCoordRep>
-void 
-BinaryThresholdImageFunction<TInputImage,TCoordRep>
+template< class TInputImage, class TCoordRep >
+void
+BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdBelow(PixelType thresh)
 {
-  if (m_Lower != NumericTraits<PixelType>::NonpositiveMin()
-      || m_Upper != thresh)
+  if ( m_Lower != NumericTraits< PixelType >::NonpositiveMin()
+       || m_Upper != thresh )
     {
-    m_Lower = NumericTraits<PixelType>::NonpositiveMin();
+    m_Lower = NumericTraits< PixelType >::NonpositiveMin();
     m_Upper = thresh;
     this->Modified();
     }
@@ -67,13 +66,13 @@ BinaryThresholdImageFunction<TInputImage,TCoordRep>
 /**
  * The values less than or equal to the value are inside
  */
-template <class TInputImage, class TCoordRep>
-void 
-BinaryThresholdImageFunction<TInputImage,TCoordRep>
+template< class TInputImage, class TCoordRep >
+void
+BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdBetween(PixelType lower, PixelType upper)
 {
-  if (m_Lower != lower
-      || m_Upper != upper)
+  if ( m_Lower != lower
+       || m_Upper != upper )
     {
     m_Lower = lower;
     m_Upper = upper;
@@ -81,17 +80,16 @@ BinaryThresholdImageFunction<TInputImage,TCoordRep>
     }
 }
 
-template <class TInputImage, class TCoordRep>
-void 
-BinaryThresholdImageFunction<TInputImage,TCoordRep>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TCoordRep >
+void
+BinaryThresholdImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Lower: " << m_Lower << std::endl;
   os << indent << "Upper: " << m_Upper << std::endl;
 }
-
 } // end namespace itk
 
 #endif

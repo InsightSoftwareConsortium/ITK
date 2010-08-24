@@ -26,9 +26,10 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class KdTreeBasedKmeansEstimator
  * \brief fast k-means algorithm implementation using k-d tree structure
  *
@@ -68,14 +69,14 @@ namespace Statistics {
 
 template< class TKdTree >
 class ITK_EXPORT KdTreeBasedKmeansEstimator:
-    public Object
+  public Object
 {
 public:
   /** Standard Self typedef. */
-  typedef KdTreeBasedKmeansEstimator  Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef KdTreeBasedKmeansEstimator Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,7 +92,6 @@ public:
   typedef typename TKdTree::SampleType            SampleType;
   typedef typename KdTreeNodeType::CentroidType   CentroidType;
 
-
   /** Typedef for the length of a measurement vector */
   typedef unsigned int MeasurementVectorSizeType;
 
@@ -101,14 +101,13 @@ public:
   typedef std::vector< ParameterType > InternalParametersType;
   typedef Array< double >              ParametersType;
 
-
-   /** Typedef requried to generate dataobject decorated output that can
-    * be plugged into SampleClassifierFilter */
+  /** Typedef requried to generate dataobject decorated output that can
+   * be plugged into SampleClassifierFilter */
   typedef DistanceToCentroidMembershipFunction< MeasurementVectorType >
-                                                   DistanceToCentroidMembershipFunctionType;
+  DistanceToCentroidMembershipFunctionType;
 
   typedef typename DistanceToCentroidMembershipFunctionType::Pointer
-                                                   DistanceToCentroidMembershipFunctionPointer;
+  DistanceToCentroidMembershipFunctionPointer;
 
   typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
   typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
@@ -116,33 +115,34 @@ public:
   typedef SimpleDataObjectDecorator<
     MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
   typedef typename
-    MembershipFunctionVectorObjectType::Pointer           MembershipFunctionVectorObjectPointer;
+  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
 
   /** Output Membership function vector containing the membership functions with
     * the final optimized paramters */
   const MembershipFunctionVectorObjectType * GetOutput() const;
 
   /**  Set the position to initialize the optimization. */
-  itkSetMacro( Parameters, ParametersType );
-  itkGetConstMacro( Parameters, ParametersType );
+  itkSetMacro(Parameters, ParametersType);
+  itkGetConstMacro(Parameters, ParametersType);
 
   /** Set/Get maximum iteration limit. */
-  itkSetMacro( MaximumIteration, int );
-  itkGetConstMacro( MaximumIteration, int );
+  itkSetMacro(MaximumIteration, int);
+  itkGetConstMacro(MaximumIteration, int);
 
   /** Set/Get the termination threshold for the squared sum
    * of changes in centroid postions after one iteration */
-  itkSetMacro( CentroidPositionChangesThreshold, double );
-  itkGetConstMacro( CentroidPositionChangesThreshold, double );
+  itkSetMacro(CentroidPositionChangesThreshold, double);
+  itkGetConstMacro(CentroidPositionChangesThreshold, double);
   /** Set/Get the pointer to the KdTree */
-  void SetKdTree(TKdTree* tree);
-  const TKdTree* GetKdTree() const;
+  void SetKdTree(TKdTree *tree);
+
+  const TKdTree * GetKdTree() const;
 
   /** Get the length of measurement vectors in the KdTree */
-  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
+  itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
 
-  itkGetConstMacro( CurrentIteration, int);
-  itkGetConstMacro( CentroidPositionChanges, double);
+  itkGetConstMacro(CurrentIteration, int);
+  itkGetConstMacro(CentroidPositionChanges, double);
 
   /** Start optimization
    * Optimization will stop when it meets either of two termination conditions,
@@ -152,136 +152,138 @@ public:
 
   typedef itk::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
 
-  itkSetMacro( UseClusterLabels, bool );
-  itkGetConstMacro( UseClusterLabels, bool );
-
+  itkSetMacro(UseClusterLabels, bool);
+  itkGetConstMacro(UseClusterLabels, bool);
 protected:
   KdTreeBasedKmeansEstimator();
   virtual ~KdTreeBasedKmeansEstimator() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void FillClusterLabels(KdTreeNodeType* node, int closestIndex);
+  void FillClusterLabels(KdTreeNodeType *node, int closestIndex);
 
   /** \class CandidateVector */
-  class CandidateVector {
-  public:
+  class CandidateVector
+  {
+public:
     CandidateVector() {}
 
     struct Candidate {
       CentroidType Centroid;
       CentroidType WeightedCentroid;
       int Size;
-      }; // end of struct
+    };   // end of struct
 
     virtual ~CandidateVector() {}
 
     /** returns the number of candidate = k */
     int Size() const
-      {
-      return static_cast<int>( m_Candidates.size() );
-      }
+    {
+      return static_cast< int >( m_Candidates.size() );
+    }
 
     /** Initialize the centroids with the argument.
      * At each iteration, this should be called before filtering. */
-    void SetCentroids(InternalParametersType& centroids)
-      {
-      this->m_MeasurementVectorSize = MeasurementVectorTraits::GetLength( centroids[0] );
-      m_Candidates.resize(centroids.size());
-      for (unsigned int i = 0; i < centroids.size(); i++)
+    void SetCentroids(InternalParametersType & centroids)
+    {
+      this->m_MeasurementVectorSize = MeasurementVectorTraits::GetLength(centroids[0]);
+      m_Candidates.resize( centroids.size() );
+      for ( unsigned int i = 0; i < centroids.size(); i++ )
         {
-          Candidate candidate;
-          candidate.Centroid = centroids[i];
-          MeasurementVectorTraits::SetLength( candidate.WeightedCentroid, m_MeasurementVectorSize );
-          candidate.WeightedCentroid.Fill(0.0);
-          candidate.Size = 0;
-          m_Candidates[i] = candidate;
+        Candidate candidate;
+        candidate.Centroid = centroids[i];
+        MeasurementVectorTraits::SetLength(candidate.WeightedCentroid, m_MeasurementVectorSize);
+        candidate.WeightedCentroid.Fill(0.0);
+        candidate.Size = 0;
+        m_Candidates[i] = candidate;
         }
-      }
+    }
 
     /** gets the centroids (k-means) */
-    void GetCentroids(InternalParametersType& centroids)
-      {
+    void GetCentroids(InternalParametersType & centroids)
+    {
       unsigned int i;
-      centroids.resize(this->Size());
-      for (i = 0; i < (unsigned int)this->Size(); i++)
+
+      centroids.resize( this->Size() );
+      for ( i = 0; i < (unsigned int)this->Size(); i++ )
         {
         centroids[i] = m_Candidates[i].Centroid;
         }
-      }
+    }
 
     /** updates the centroids using the vector sum of measurement vectors
      * that belongs to each centroid and the number of measurement vectors */
     void UpdateCentroids()
-      {
+    {
       unsigned int i, j;
-      for (i = 0; i < (unsigned int)this->Size(); i++)
+
+      for ( i = 0; i < (unsigned int)this->Size(); i++ )
         {
-        if (m_Candidates[i].Size > 0)
+        if ( m_Candidates[i].Size > 0 )
           {
-          for (j = 0; j < m_MeasurementVectorSize; j++)
+          for ( j = 0; j < m_MeasurementVectorSize; j++ )
             {
             m_Candidates[i].Centroid[j] =
-                    m_Candidates[i].WeightedCentroid[j] /
-                    double(m_Candidates[i].Size);
+              m_Candidates[i].WeightedCentroid[j]
+              / double(m_Candidates[i].Size);
             }
           }
         }
-      }
+    }
 
     /** gets the index-th candidates */
-    Candidate& operator[](int index)
-      {
+    Candidate & operator[](int index)
+    {
       return m_Candidates[index];
-      }
+    }
 
-  private:
+private:
     /** internal storage for the candidates */
     std::vector< Candidate > m_Candidates;
 
     /** Length of each measurement vector */
     MeasurementVectorSizeType m_MeasurementVectorSize;
-    };// end of class
+  };  // end of class
 
   /** gets the sum of squared difference between the previous position
    * and current postion of all centroid. This is the primary termination
    * condition for this algorithm. If the return value is less than
    * the value that was set by the SetCentroidPositionChangesThreshold
    * method. */
-  double GetSumOfSquaredPositionChanges(InternalParametersType &previous,
-                                        InternalParametersType &current);
+  double GetSumOfSquaredPositionChanges(InternalParametersType & previous,
+                                        InternalParametersType & current);
 
   /** get the index of the closest candidate to the measurements
    * measurement vector */
-  int GetClosestCandidate(ParameterType &measurements,
-                          std::vector< int > &validIndexes);
+  int GetClosestCandidate(ParameterType & measurements,
+                          std::vector< int > & validIndexes);
 
   /** returns true if the pointA is farther than pointB to the boundary */
-  bool IsFarther(ParameterType &pointA,
-                 ParameterType &pointB,
-                 MeasurementVectorType &lowerBound,
-                 MeasurementVectorType &upperBound);
+  bool IsFarther(ParameterType & pointA,
+                 ParameterType & pointB,
+                 MeasurementVectorType & lowerBound,
+                 MeasurementVectorType & upperBound);
 
   /** recursive pruning algorithm. the validIndexes vector contains
    * only the indexes of the surviving candidates for the node */
-  void Filter(KdTreeNodeType* node,
+  void Filter(KdTreeNodeType *node,
               std::vector< int > validIndexes,
-              MeasurementVectorType &lowerBound,
-              MeasurementVectorType &upperBound);
+              MeasurementVectorType & lowerBound,
+              MeasurementVectorType & upperBound);
 
   /** copies the source parameters (k-means) to the target */
-  void CopyParameters(InternalParametersType &source, InternalParametersType &target);
+  void CopyParameters(InternalParametersType & source, InternalParametersType & target);
 
   /** copies the source parameters (k-means) to the target */
-  void CopyParameters(ParametersType &source, InternalParametersType &target);
+  void CopyParameters(ParametersType & source, InternalParametersType & target);
 
   /** copies the source parameters (k-means) to the target */
-  void CopyParameters(InternalParametersType &source, ParametersType &target);
+  void CopyParameters(InternalParametersType & source, ParametersType & target);
 
   /** imports the measurements measurement vector data to the point */
-  void GetPoint(ParameterType &point, MeasurementVectorType measurements);
+  void GetPoint(ParameterType & point, MeasurementVectorType measurements);
 
-  void PrintPoint(ParameterType &point);
+  void PrintPoint(ParameterType & point);
 
 private:
   /** current number of iteration */
@@ -299,22 +301,19 @@ private:
   typename EuclideanDistanceMetric< ParameterType >::Pointer m_DistanceMetric;
 
   /** k-means */
-  ParametersType                          m_Parameters;
+  ParametersType m_Parameters;
 
-  CandidateVector                         m_CandidateVector;
+  CandidateVector m_CandidateVector;
 
-  ParameterType                           m_TempVertex;
+  ParameterType m_TempVertex;
 
-  bool                                    m_UseClusterLabels;
-  bool                                    m_GenerateClusterLabels;
-  ClusterLabelsType                       m_ClusterLabels;
-  MeasurementVectorSizeType               m_MeasurementVectorSize;
-  MembershipFunctionVectorObjectPointer   m_MembershipFunctionsObject;
-
-}; // end of class
-
+  bool                                  m_UseClusterLabels;
+  bool                                  m_GenerateClusterLabels;
+  ClusterLabelsType                     m_ClusterLabels;
+  MeasurementVectorSizeType             m_MeasurementVectorSize;
+  MembershipFunctionVectorObjectPointer m_MembershipFunctionsObject;
+};  // end of class
 } // end of namespace Statistics
-
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

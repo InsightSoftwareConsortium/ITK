@@ -20,9 +20,10 @@
 #include "itkSampleToSubsampleFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class NeighborhoodSampler
  * \brief Generates a Subsample out of a Sample, based on a user-provided
  * distance to a MeasurementVector.
@@ -38,14 +39,14 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT NeighborhoodSampler : public SampleToSubsampleFilter< TSample >
+class ITK_EXPORT NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
 {
 public:
   /** Standard class typedefs. */
-  typedef NeighborhoodSampler                    Self;
-  typedef SampleToSubsampleFilter< TSample >     Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  typedef NeighborhoodSampler                Self;
+  typedef SampleToSubsampleFilter< TSample > Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(NeighborhoodSampler, SampleToSubsampleFilter);
@@ -53,12 +54,12 @@ public:
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  itkSuperclassTraitMacro( SampleType )
-  itkSuperclassTraitMacro( MeasurementVectorType )
-  itkSuperclassTraitMacro( MeasurementType )
-  itkSuperclassTraitMacro( InstanceIdentifier )
-  itkSuperclassTraitMacro( SubsampleType )
-  itkSuperclassTraitMacro( OutputType )
+  itkSuperclassTraitMacro(SampleType)
+  itkSuperclassTraitMacro(MeasurementVectorType)
+  itkSuperclassTraitMacro(MeasurementType)
+  itkSuperclassTraitMacro(InstanceIdentifier)
+  itkSuperclassTraitMacro(SubsampleType)
+  itkSuperclassTraitMacro(OutputType)
 
   /** Type of the distance radius. */
   typedef double RadiusType;
@@ -66,23 +67,19 @@ public:
   /** Type of DataObjects to use for distance radius input. */
   typedef SimpleDataObjectDecorator< RadiusType > InputRadiusObjectType;
 
-
   /** Method to set the input value of the Radius */
-  itkSetDecoratedInputMacro( Radius, RadiusType, 1 );
-
+  itkSetDecoratedInputMacro(Radius, RadiusType, 1);
 protected:
   NeighborhoodSampler();
   virtual ~NeighborhoodSampler();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
 private:
-  NeighborhoodSampler(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  NeighborhoodSampler(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
+};                                   // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

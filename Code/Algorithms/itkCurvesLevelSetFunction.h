@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkSegmentationLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class CurvesLevelSetFunction
  *
  * \brief This function is used in CurvesLevelSetImageFilter to
@@ -34,9 +34,9 @@ namespace itk {
  *
  * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
  * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
- * 
+ *
  * where \f$ I \f$ is image intensity and
- * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator.
  *
  * \par In this function both the propagation term \f$ P(\mathbf{x}) \f$
  * and the curvature spatial modifier term $\f$ Z(\mathbf{x}) \f$ are taken directly
@@ -56,24 +56,24 @@ namespace itk {
  *
  * \ingroup FiniteDifferenceFunctions
  */
-template <class TImageType, class TFeatureImageType = TImageType>
-class ITK_EXPORT CurvesLevelSetFunction
-  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+template< class TImageType, class TFeatureImageType = TImageType >
+class ITK_EXPORT CurvesLevelSetFunction:
+  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvesLevelSetFunction                   Self;
-  typedef SegmentationLevelSetFunction<TImageType> Superclass;
-  typedef LevelSetFunction<TImageType>             SuperSuperclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
-  typedef TFeatureImageType                        FeatureImageType;
+  typedef CurvesLevelSetFunction                     Self;
+  typedef SegmentationLevelSetFunction< TImageType > Superclass;
+  typedef LevelSetFunction< TImageType >             SuperSuperclass;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
+  typedef TFeatureImageType                          FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( CurvesLevelSetFunction, SegmentationLevelSetFunction );
+  itkTypeMacro(CurvesLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   typedef typename SuperSuperclass::PixelType        PixelType;
@@ -98,56 +98,54 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd ) const
-  { return PropagationSpeed( neighborhood, offset, gd ); }
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const
+  { return PropagationSpeed(neighborhood, offset, gd); }
 
   /** Set/Get the sigma for the Gaussian kernel used to compute the gradient
    * of the feature image needed for the advection term of the equation. */
-  void SetDerivativeSigma( const double v )
-    { m_DerivativeSigma = v; }
+  void SetDerivativeSigma(const double v)
+  { m_DerivativeSigma = v; }
   double GetDerivativeSigma()
-    { return m_DerivativeSigma; }
+  { return m_DerivativeSigma; }
 
-  virtual void Initialize(const RadiusType &r);
-  
+  virtual void Initialize(const RadiusType & r);
+
 protected:
   CurvesLevelSetFunction()
-    {
+  {
     //Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
-    this->SetAdvectionWeight( NumericTraits<ScalarValueType>::One );
-    this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
-    this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
-    
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::One);
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+
     m_DerivativeSigma = 1.0;
-    }
+  }
+
   virtual ~CurvesLevelSetFunction() {}
 
-  CurvesLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os, indent );
+  CurvesLevelSetFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
+
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
     os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
-    }
+  }
 
 private:
-  
+
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
-  
+
   /** The offset of the center pixel in the neighborhood. */
   ::size_t m_Center;
-  
+
   /** Stride length along the y-dimension. */
   ::size_t m_xStride[ImageDimension];
-  
-  
+
   double m_DerivativeSigma;
-  
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

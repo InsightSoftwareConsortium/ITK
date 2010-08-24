@@ -9,7 +9,7 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
+     This software is distributed WITHOUT ANY WARRANTY; without even
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
@@ -21,13 +21,14 @@
 #include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
-namespace itk {
+namespace itk
+{
 /** \class BinaryThresholdProjectionImageFilter
  * \brief BinaryThreshold projection
  *
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
- * the original paper can be found at 
+ * the original paper can be found at
  *          http://insight-journal.org/midas/handle.php?handle=1926/164
  *
  *
@@ -45,65 +46,64 @@ namespace itk {
  * \sa SumProjectionImageFilter
  */
 
-
-namespace Function {
-template <class TInputPixel, class TOutputPixel>
+namespace Function
+{
+template< class TInputPixel, class TOutputPixel >
 class BinaryThresholdAccumulator
 {
 public:
-  BinaryThresholdAccumulator( unsigned long ) {}
+  BinaryThresholdAccumulator(unsigned long) {}
   ~BinaryThresholdAccumulator(){}
 
   inline void Initialize()
-    {
+  {
     m_IsForeground = false;
-    }
+  }
 
-  inline void operator()( const TInputPixel &input )
-    {
-    if( input >= m_ThresholdValue )
+  inline void operator()(const TInputPixel & input)
+  {
+    if ( input >= m_ThresholdValue )
       {
-      m_IsForeground = true; 
+      m_IsForeground = true;
       }
-    }
+  }
 
   inline TOutputPixel GetValue()
-    {
-    if( m_IsForeground )
+  {
+    if ( m_IsForeground )
       {
-      return (TOutputPixel)m_ForegroundValue; 
+      return (TOutputPixel)m_ForegroundValue;
       }
     else
       {
-      return m_BackgroundValue; 
+      return m_BackgroundValue;
       }
-    }
+  }
 
   bool m_IsForeground;
 
-  TInputPixel                 m_ThresholdValue;
-  TInputPixel                 m_ForegroundValue;
-  TOutputPixel                m_BackgroundValue;
+  TInputPixel  m_ThresholdValue;
+  TInputPixel  m_ForegroundValue;
+  TOutputPixel m_BackgroundValue;
 };
 } // end namespace Function
 
-
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT BinaryThresholdProjectionImageFilter :
-    public ProjectionImageFilter<TInputImage, TOutputImage, 
-      Function::BinaryThresholdAccumulator< 
-        typename TInputImage::PixelType, 
-        typename TOutputImage::PixelType > >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BinaryThresholdProjectionImageFilter:
+  public ProjectionImageFilter< TInputImage, TOutputImage,
+                                Function::BinaryThresholdAccumulator<
+                                  typename TInputImage::PixelType,
+                                  typename TOutputImage::PixelType > >
 {
 public:
   typedef BinaryThresholdProjectionImageFilter Self;
-  typedef ProjectionImageFilter<TInputImage, TOutputImage, 
-    Function::BinaryThresholdAccumulator< 
-      typename TInputImage::PixelType, 
-      typename TOutputImage::PixelType > > Superclass;
+  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+                                 Function::BinaryThresholdAccumulator<
+                                   typename TInputImage::PixelType,
+                                   typename TOutputImage::PixelType > > Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Runtime information support. */
   itkTypeMacro(BinaryThresholdProjectionImageFilter, ProjectionImageFilter);
@@ -112,8 +112,8 @@ public:
   itkNewMacro(Self);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage           InputImageType;
-  typedef TOutputImage          OutputImageType;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
@@ -130,7 +130,7 @@ public:
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkSetMacro(BackgroundValue, OutputPixelType);
   itkGetConstMacro(BackgroundValue, OutputPixelType);
- 
+
   /** Set/Get the value in the image to consider as "threshold". Defaults to
    *  NumericTraits<InputPixelType>::max() */
   itkSetMacro(ThresholdValue, InputPixelType);
@@ -138,71 +138,68 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputPixelTypeGreaterThanComparable,
-    (Concept::GreaterThanComparable<InputPixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputPixelTypeGreaterThanComparable,
+                   ( Concept::GreaterThanComparable< InputPixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
-
 protected:
   BinaryThresholdProjectionImageFilter()
-    {
-    m_ForegroundValue = NumericTraits<InputPixelType>::max();
-    m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
-    m_ThresholdValue = NumericTraits<InputPixelType>::Zero;
-    }
+  {
+    m_ForegroundValue = NumericTraits< InputPixelType >::max();
+    m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
+    m_ThresholdValue = NumericTraits< InputPixelType >::Zero;
+  }
+
   virtual ~BinaryThresholdProjectionImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf(os,indent);
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
 
-    typedef typename NumericTraits<InputPixelType>::PrintType
-                                              InputPixelPrintType;
+    typedef typename NumericTraits< InputPixelType >::PrintType
+    InputPixelPrintType;
 
-    os << indent << "ForegroundValue: " 
-                    << static_cast< InputPixelPrintType > (m_ForegroundValue) 
-                    << std::endl;
- 
-    typedef typename NumericTraits<OutputPixelType>::PrintType
-                                              OutputPixelPrintType;
+    os << indent << "ForegroundValue: "
+       << static_cast< InputPixelPrintType >( m_ForegroundValue )
+       << std::endl;
 
-    os << indent << "BackgroundValue: " 
-                    << static_cast< OutputPixelPrintType > (m_BackgroundValue) 
-                    << std::endl;
+    typedef typename NumericTraits< OutputPixelType >::PrintType
+    OutputPixelPrintType;
 
-    os << indent << "ThresholdValue: " 
-                    << static_cast< InputPixelPrintType > (m_ThresholdValue) 
-                    << std::endl;
-    }
+    os << indent << "BackgroundValue: "
+       << static_cast< OutputPixelPrintType >( m_BackgroundValue )
+       << std::endl;
 
+    os << indent << "ThresholdValue: "
+       << static_cast< InputPixelPrintType >( m_ThresholdValue )
+       << std::endl;
+  }
 
-  virtual AccumulatorType NewAccumulator( unsigned long size ) const
-    {
-    AccumulatorType accumulator( size );
+  virtual AccumulatorType NewAccumulator(unsigned long size) const
+  {
+    AccumulatorType accumulator(size);
+
     accumulator.m_ForegroundValue = m_ForegroundValue;
     accumulator.m_BackgroundValue = m_BackgroundValue;
     accumulator.m_ThresholdValue = m_ThresholdValue;
     return accumulator;
-    }
+  }
 
   /** Pixel value to dilate */
   InputPixelType m_ForegroundValue;
 
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
-  
+
   /** Pixel value for Threshold */
   OutputPixelType m_ThresholdValue;
-  
 private:
-  BinaryThresholdProjectionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end BinaryThresholdProjectionImageFilter
-
+  //purposely not implemented
+  BinaryThresholdProjectionImageFilter(const Self &);
+  void operator=(const Self &);
+};  // end BinaryThresholdProjectionImageFilter
 } //end namespace itk
 
 #endif

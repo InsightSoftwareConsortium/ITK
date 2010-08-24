@@ -19,12 +19,11 @@
 
 #include "itkImageToHistogramFilter.h"
 
-
-namespace itk {
-namespace Statistics {
-
-
-template < class TImage >
+namespace itk
+{
+namespace Statistics
+{
+template< class TImage >
 ImageToHistogramFilter< TImage >
 ::ImageToHistogramFilter()
 {
@@ -35,73 +34,68 @@ ImageToHistogramFilter< TImage >
 
   this->m_ImageToListAdaptor = AdaptorType::New();
   this->m_HistogramGenerator = GeneratorType::New();
-  this->m_HistogramGenerator->SetInput( this->m_ImageToListAdaptor );
+  this->m_HistogramGenerator->SetInput(this->m_ImageToListAdaptor);
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ImageToHistogramFilter< TImage >
-::SetInput( const ImageType * image )
+::SetInput(const ImageType *image)
 {
-  this->ProcessObject::SetNthInput(0, const_cast< ImageType * >( image ) );
+  this->ProcessObject::SetNthInput( 0, const_cast< ImageType * >( image ) );
 }
-
 
 template< class TImage >
 const TImage *
 ImageToHistogramFilter< TImage >
-::GetInput( ) const
+::GetInput() const
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
 
-  return static_cast<const ImageType * >(this->ProcessObject::GetInput(0) );
+  return static_cast< const ImageType * >( this->ProcessObject::GetInput(0) );
 }
 
-
-template < class TImage >
+template< class TImage >
 DataObject::Pointer
 ImageToHistogramFilter< TImage >
-::MakeOutput(unsigned int itkNotUsed(idx))
+::MakeOutput( unsigned int itkNotUsed(idx) )
 {
   typename HistogramType::Pointer output = HistogramType::New();
   return static_cast< DataObject * >( output );
 }
 
-
-template < class TImage >
+template< class TImage >
 const typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput() const
 {
-  const HistogramType * output =
-    static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0));
+  const HistogramType *output =
+    static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
+
   return output;
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ImageToHistogramFilter< TImage >
 ::GraftOutput(DataObject *graft)
 {
-  DataObject * output =
-   const_cast< HistogramType * >( this->GetOutput() );
+  DataObject *output =
+    const_cast< HistogramType * >( this->GetOutput() );
 
   // Call Histogram to copy meta-information, and the container
-  output->Graft( graft );
+  output->Graft(graft);
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ImageToHistogramFilter< TImage >
 ::GenerateData()
 {
-  this->m_ImageToListAdaptor->SetImage( this->GetInput( ) );
+  this->m_ImageToListAdaptor->SetImage( this->GetInput() );
 
   this->m_HistogramGenerator->SetHistogramSizeInput( this->GetHistogramSizeInput() );
   this->m_HistogramGenerator->SetMarginalScaleInput( this->GetMarginalScaleInput() );
@@ -110,7 +104,7 @@ ImageToHistogramFilter< TImage >
   this->m_HistogramGenerator->SetHistogramBinMaximumInput( this->GetHistogramBinMaximumInput() );
 
   this->m_HistogramGenerator->GraftOutput(
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0)) );
+    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) ) );
 
   this->m_HistogramGenerator->Update();
 
@@ -119,13 +113,12 @@ ImageToHistogramFilter< TImage >
     const_cast< HistogramType * >( this->m_HistogramGenerator->GetOutput() ) );
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ImageToHistogramFilter< TImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "ImageToListSample adaptor = " << this->m_ImageToListAdaptor << std::endl;
   os << indent << "HistogramGenerator = " << this->m_HistogramGenerator << std::endl;
   // m_HistogramBinMinimum
@@ -139,8 +132,6 @@ ImageToHistogramFilter< TImage >
   // m_HistogramSize
   os << indent << "HistogramSize: " << this->GetHistogramSizeInput() << std::endl;
 }
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

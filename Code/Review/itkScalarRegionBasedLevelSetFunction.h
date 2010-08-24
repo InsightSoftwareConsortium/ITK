@@ -23,15 +23,14 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-namespace itk {
-
-
+namespace itk
+{
 /** \class ScalarRegionBasedLevelSetFunction
  *
  * \brief LevelSet function that computes a speed image based on regional integrals
  *
  * This class implements a level set function that computes the speed image by
- * integrating values on the image domain. NOTE: The convention followed is 
+ * integrating values on the image domain. NOTE: The convention followed is
  * inside of the level-set function is negative and outside is positive.
  *
  * Based on the paper:
@@ -62,23 +61,22 @@ namespace itk {
  *
  *
  */
-template < class TInputImage, class TFeatureImage, class TSharedData >
-class ITK_EXPORT ScalarRegionBasedLevelSetFunction
-: public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+template< class TInputImage, class TFeatureImage, class TSharedData >
+class ITK_EXPORT ScalarRegionBasedLevelSetFunction:
+  public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
-  typedef ScalarRegionBasedLevelSetFunction         Self;
-  typedef RegionBasedLevelSetFunction<
-    TInputImage, TFeatureImage, TSharedData >       Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef ScalarRegionBasedLevelSetFunction                                      Self;
+  typedef RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData > Superclass;
+  typedef SmartPointer< Self >                                                   Pointer;
+  typedef SmartPointer< const Self >                                             ConstPointer;
 
   // itkNewMacro() is purposely not provided since this is an abstract class.
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarRegionBasedLevelSetFunction, RegionBasedLevelSetFunction );
+  itkTypeMacro(ScalarRegionBasedLevelSetFunction, RegionBasedLevelSetFunction);
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   typedef typename Superclass::InputImageType         InputImageType;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
@@ -91,65 +89,64 @@ public:
   typedef typename Superclass::InputRegionType        InputRegionType;
   typedef typename Superclass::InputPointType         InputPointType;
 
-  typedef typename Superclass::FeatureImageType       FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer     FeatureImageConstPointer;
-  typedef typename Superclass::FeaturePixelType       FeaturePixelType;
-  typedef typename Superclass::FeatureIndexType       FeatureIndexType;
-  typedef typename Superclass::FeatureOffsetType      FeatureOffsetType;
+  typedef typename Superclass::FeatureImageType   FeatureImageType;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename Superclass::FeaturePixelType   FeaturePixelType;
+  typedef typename Superclass::FeatureIndexType   FeatureIndexType;
+  typedef typename Superclass::FeatureOffsetType  FeatureOffsetType;
 
-  typedef typename Superclass::ScalarValueType        ScalarValueType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::TimeStepType           TimeStepType;
-  typedef typename Superclass::GlobalDataStruct       GlobalDataStruct;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::VectorType             VectorType;
+  typedef typename Superclass::ScalarValueType  ScalarValueType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  typedef typename Superclass::RadiusType       RadiusType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::VectorType       VectorType;
 
-  typedef typename Superclass::SharedDataType         SharedDataType;
-  typedef typename Superclass::SharedDataPointer      SharedDataPointer;
+  typedef typename Superclass::SharedDataType    SharedDataType;
+  typedef typename Superclass::SharedDataPointer SharedDataPointer;
 
   typedef ImageRegionIteratorWithIndex< InputImageType >      ImageIteratorType;
   typedef ImageRegionConstIteratorWithIndex< InputImageType > ConstImageIteratorType;
   typedef ImageRegionIteratorWithIndex< FeatureImageType >    FeatureImageIteratorType;
   typedef ImageRegionConstIterator< FeatureImageType >        ConstFeatureIteratorType;
 
-  typedef std::list< unsigned int >                 ListPixelType;
-  typedef typename ListPixelType::const_iterator    ListPixelConstIterator;
-  typedef typename ListPixelType::iterator          ListPixelIterator;
+  typedef std::list< unsigned int >              ListPixelType;
+  typedef typename ListPixelType::const_iterator ListPixelConstIterator;
+  typedef typename ListPixelType::iterator       ListPixelIterator;
   typedef Image< ListPixelType, itkGetStaticConstMacro(ImageDimension) >
-                                                    ListImageType;
+  ListImageType;
 
   /** \brief Performs the narrow-band update of the Heaviside function for each
   voxel. The characteristic function of each region is recomputed (note the
   shared data which contains information from the other level sets). Using the
   new H values, the previous c_i are updated. */
-  void UpdatePixel( const unsigned int& idx,
-    NeighborhoodIterator<TInputImage> &iterator,
-    InputPixelType &newValue,
-    bool &status );
+  void UpdatePixel(const unsigned int & idx,
+                   NeighborhoodIterator< TInputImage > & iterator,
+                   InputPixelType & newValue,
+                   bool & status);
 
 protected:
-  ScalarRegionBasedLevelSetFunction() : Superclass(){}
+  ScalarRegionBasedLevelSetFunction():Superclass(){}
   ~ScalarRegionBasedLevelSetFunction(){}
 
-  ScalarValueType ComputeOverlapParameters( const FeatureIndexType& featIndex,
-    ScalarValueType& product );
+  ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
+                                           ScalarValueType & product);
 
   // update the background and foreground constants for pixel updates
   // Called only when sparse filters are used to prevent iteration through the
   // entire image
-  virtual void UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const FeaturePixelType& iVal, const ScalarValueType& iChange ) = 0;
-  virtual void UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const FeaturePixelType& iVal, const ScalarValueType& iChange ) = 0;
+  virtual void UpdateSharedDataInsideParameters(const unsigned int & iId,
+                                                const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
 
+  virtual void UpdateSharedDataOutsideParameters(const unsigned int & iId,
+                                                 const FeaturePixelType & iVal, const ScalarValueType & iChange) = 0;
 
 private:
-  ScalarRegionBasedLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarRegionBasedLevelSetFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -17,7 +17,6 @@
 #ifndef __itkAdaptiveHistogramEqualizationImageFilter_h
 #define __itkAdaptiveHistogramEqualizationImageFilter_h
 
-
 #include <itkBoxImageFilter.h>
 #include <itkImage.h>
 
@@ -57,9 +56,9 @@ namespace itk
  *
  * \ingroup ImageEnhancement
  */
-template <class TImageType>
-class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter :
-    public BoxImageFilter< TImageType, TImageType >
+template< class TImageType >
+class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter:
+  public BoxImageFilter< TImageType, TImageType >
 {
 public:
   /**
@@ -67,11 +66,11 @@ public:
    */
   typedef AdaptiveHistogramEqualizationImageFilter     Self;
   typedef ImageToImageFilter< TImageType, TImageType > Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImageType::ImageDimension );
+                      TImageType::ImageDimension);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,17 +100,17 @@ public:
   itkSetMacro(UseLookupTable, bool);
   itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
-
 protected:
   AdaptiveHistogramEqualizationImageFilter()
-    {
+  {
     m_Alpha = .3;
     m_Beta = .3;
-    this->SetRadius( 5 );
+    this->SetRadius(5);
     m_UseLookupTable = false;
-    }
+  }
+
   virtual ~AdaptiveHistogramEqualizationImageFilter(){}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * Standard pipeline method
@@ -119,8 +118,11 @@ protected:
   void GenerateData();
 
 private:
-  AdaptiveHistogramEqualizationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AdaptiveHistogramEqualizationImageFilter(const Self &); //purposely not
+                                                          // implemented
+  void operator=(const Self &);                           //purposely not
+
+  // implemented
 
   /** The beta parameter of the AdaptiveHistogramEqualization. */
   float m_Alpha;
@@ -134,9 +136,7 @@ private:
 
   /** A function which is used in GenerateData(). */
   float CumulativeFunction(float u, float v);
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -38,7 +38,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkTanSigmoidTransferFunction.h"
 #include "itkSymmetricSigmoidTransferFunction.h"
 
-
 namespace itk
 {
 /** \class NeuralNetworkFileWriter
@@ -62,46 +61,51 @@ namespace itk
  * \group IOFilter
  *
  */
-template<class TNetwork>
-class NeuralNetworkFileWriter : public Object
+template< class TNetwork >
+class NeuralNetworkFileWriter:public Object
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef NeuralNetworkFileWriter           Self;
-  typedef Object                            Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  typedef NeuralNetworkFileWriter    Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NeuralNetworkFileWriter,Object);
+  itkTypeMacro(NeuralNetworkFileWriter, Object);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  typedef typename TNetwork::MeasurementVectorType   MeasurementVectorType;
-  typedef typename TNetwork::TargetVectorType        TargetVectorType;
+  typedef typename TNetwork::MeasurementVectorType MeasurementVectorType;
+  typedef typename TNetwork::TargetVectorType      TargetVectorType;
 
-  typedef Statistics::LayerBase< 
-    MeasurementVectorType, TargetVectorType >        LayerBaseType;
-  typedef typename LayerBaseType::Pointer            LayerBasePointer;
-  typedef typename LayerBaseType::ConstPointer       LayerBaseConstPointer;
+  typedef Statistics::LayerBase< MeasurementVectorType, TargetVectorType > LayerBaseType;
+  typedef typename LayerBaseType::Pointer                                  LayerBasePointer;
+  typedef typename LayerBaseType::ConstPointer                             LayerBaseConstPointer;
 
 //   typedef typename TNetwork::Pointer                       NetworkPointer;
-//   typedef typename TNetwork::ConstPointer                  NetworkConstPointer;
+//   typedef typename TNetwork::ConstPointer
+//                  NetworkConstPointer;
 
 // typedef typename TNetwork::LayerType                     LayerType;
 // typedef typename LayerType::Pointer                      LayerPointer;
 // typedef typename LayerType::ConstPointer                 LayerConstPointer;
-// typedef typename LayerType::TransferFunctionType::Pointer      TransferFunctionPointer;
-// typedef typename LayerType::TransferFunctionType::ConstPointer TransferFunctionConstPointer;
+// typedef typename LayerType::TransferFunctionType::Pointer
+//      TransferFunctionPointer;
+// typedef typename LayerType::TransferFunctionType::ConstPointer
+// TransferFunctionConstPointer;
 
-// typedef typename LayerType::InputFunctionType::Pointer         InputFunctionPointer;
-// typedef typename LayerType::InputFunctionType::ConstPointer    InputFunctionConstPointer;
+// typedef typename LayerType::InputFunctionType::Pointer
+//         InputFunctionPointer;
+// typedef typename LayerType::InputFunctionType::ConstPointer
+//    InputFunctionConstPointer;
 
 // typedef typename LayerType::WeightSetType                WeightSetType;
 // typedef typename LayerType::WeightSetPointer             WeightSetPointer;
-// typedef typename LayerType::WeightSetConstPointer        WeightSetConstPointer;
+// typedef typename LayerType::WeightSetConstPointer
+//        WeightSetConstPointer;
 //  typedef typename LayerType::ValueType                    ValueType;
 
   /** Set the filename  */
@@ -112,7 +116,8 @@ public:
 
   /** Set/Get the input transform to write */
   //Avoiding VS6 compiler error void SetInput( const TNetwork* network );
-  void SetInput( TNetwork* network );
+  void SetInput(TNetwork *network);
+
   const TNetwork * GetInput() const;
 
   /** Read NeuralNetwork */
@@ -121,33 +126,34 @@ public:
 #ifdef IGNORE
 #undef IGNORE
 #endif
- //ASCII only works for very small networks (i.e. less than 256 weights),
- //and the MetaIO mechanism is not desigend for the way that this is used
- //to write these files out.
- // Comment this code out until it can be robustly written.
-  typedef enum { IGNORE=0, ASCII=1, BINARY=2 } NetworkWriteWeightsType;
+  //ASCII only works for very small networks (i.e. less than 256 weights),
+  //and the MetaIO mechanism is not desigend for the way that this is used
+  //to write these files out.
+  // Comment this code out until it can be robustly written.
+  typedef enum { IGNORE = 0, ASCII = 1, BINARY = 2 } NetworkWriteWeightsType;
   itkSetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
   itkGetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
-
 protected:
   NeuralNetworkFileWriter();
   ~NeuralNetworkFileWriter();
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   void ClearFields();
-  typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
-  //Attempting to avoid VS 6 compiler error typename TNetwork::ConstPointer     m_Network;
-  typename TNetwork::Pointer     m_Network;
-  NetworkWriteWeightsType        m_WriteWeightValuesType;
+  typedef std::vector< MET_FieldRecordType * > FieldsContainerType;
 
-  std::string                    m_FileName;
-  FieldsContainerType            m_Fields;
+  //Attempting to avoid VS 6 compiler error typename TNetwork::ConstPointer
+  // m_Network;
+  typename TNetwork::Pointer m_Network;
 
-  std::ofstream                  m_OutputFile;
+  NetworkWriteWeightsType m_WriteWeightValuesType;
+
+  std::string         m_FileName;
+  FieldsContainerType m_Fields;
+
+  std::ofstream m_OutputFile;
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -20,9 +20,10 @@
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkNumericTraits.h"
 
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::ExpectationMaximizationMixtureModelEstimator()
@@ -31,36 +32,35 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   m_MembershipFunctionsObject            = MembershipFunctionVectorObjectType::New();
   m_MembershipFunctionsWeightArrayObject =
-                        MembershipFunctionsWeightsArrayObjectType::New();
+    MembershipFunctionsWeightsArrayObjectType::New();
   m_Sample = 0;
 }
 
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Maximum Iteration: "
-            << this->GetMaximumIteration() << std::endl;
+     << this->GetMaximumIteration() << std::endl;
   os << indent << "Sample: "
-            << this->GetSample() << std::endl;
+     << this->GetSample() << std::endl;
   os << indent << "Number Of Components: "
-            << this->GetNumberOfComponents() << std::endl;
-  for (unsigned int i = 0; i < this->GetNumberOfComponents(); i++)
+     << this->GetNumberOfComponents() << std::endl;
+  for ( unsigned int i = 0; i < this->GetNumberOfComponents(); i++ )
     {
     os << indent << "Component Membership Function[" << i << "]: "
        << this->GetComponentMembershipFunction(i) << std::endl;
     }
   os << indent << "Termination Code: "
-            << this->GetTerminationCode() << std::endl;
+     << this->GetTerminationCode() << std::endl;
   os << indent << "Initial Proportions: "
-            << this->GetInitialProportions() << std::endl;
+     << this->GetInitialProportions() << std::endl;
   os << indent << "Proportions: "
-            << this->GetProportions() << std::endl;
+     << this->GetProportions() << std::endl;
   os << indent << "Calculated Expectation: " << this->CalculateExpectation() << std::endl;
 }
-
 
 template< class TSample >
 void
@@ -81,13 +81,13 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::SetInitialProportions(ProportionVectorType &proportions)
+::SetInitialProportions(ProportionVectorType & proportions)
 {
   m_InitialProportions = proportions;
 }
 
 template< class TSample >
-const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType&
+const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType &
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetInitialProportions() const
 {
@@ -95,7 +95,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType&
+const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType &
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetProportions() const
 {
@@ -105,7 +105,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 template< class TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::SetSample(const TSample* sample)
+::SetSample(const TSample *sample)
 {
   m_Sample = sample;
 }
@@ -118,14 +118,13 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_Sample;
 }
 
-
 template< class TSample >
 int
 ExpectationMaximizationMixtureModelEstimator< TSample >
-::AddComponent(ComponentType* component)
+::AddComponent(ComponentType *component)
 {
   m_ComponentVector.push_back(component);
-  return static_cast<int>( m_ComponentVector.size() );
+  return static_cast< int >( m_ComponentVector.size() );
 }
 
 template< class TSample >
@@ -145,13 +144,12 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 }
 
 template< class TSample >
-typename ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType*
+typename ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType *
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetComponentMembershipFunction(int componentIndex) const
 {
-  return (m_ComponentVector[componentIndex])->GetMembershipFunction();
+  return ( m_ComponentVector[componentIndex] )->GetMembershipFunction();
 }
-
 
 template< class TSample >
 bool
@@ -160,21 +158,21 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   bool componentModified  = false;
 
-  for (unsigned int i = 0; i < m_ComponentVector.size(); i++)
+  for ( unsigned int i = 0; i < m_ComponentVector.size(); i++ )
     {
-    if ( (m_ComponentVector[i])->AreParametersModified() )
+    if ( ( m_ComponentVector[i] )->AreParametersModified() )
       {
       componentModified = true;
       }
     }
 
-  if (!componentModified)
+  if ( !componentModified )
     {
     return false;
     }
 
-  double temp;
-  int numberOfComponents = static_cast<int>( m_ComponentVector.size() );
+  double                temp;
+  int                   numberOfComponents = static_cast< int >( m_ComponentVector.size() );
   std::vector< double > tempWeights(numberOfComponents);
 
   typename TSample::ConstIterator iter = m_Sample->Begin();
@@ -192,27 +190,27 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   long measurementVectorIndex = 0;
 
-  while (iter != last)
+  while ( iter != last )
     {
     mvector = iter.GetMeasurementVector();
     frequency = iter.GetFrequency();
     densitySum = 0.0;
     if ( frequency > zeroFrequency )
       {
-      for (componentIndex = 0; componentIndex < numberOfComponents;
-           componentIndex++)
+      for ( componentIndex = 0; componentIndex < numberOfComponents;
+            componentIndex++ )
         {
-        density = m_Proportions[componentIndex] *
-          m_ComponentVector[componentIndex]->Evaluate(mvector);
+        density = m_Proportions[componentIndex]
+                  * m_ComponentVector[componentIndex]->Evaluate(mvector);
         tempWeights[componentIndex] = density;
         densitySum += density;
         }
 
-      for (componentIndex = 0; componentIndex < numberOfComponents;
-           componentIndex++)
+      for ( componentIndex = 0; componentIndex < numberOfComponents;
+            componentIndex++ )
         {
         temp = tempWeights[componentIndex];
-        if (densitySum != 0)
+        if ( densitySum != 0 )
           {
           temp /= densitySum;
           }
@@ -222,8 +220,8 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       }
     else
       {
-      for (componentIndex = 0; componentIndex < numberOfComponents;
-           componentIndex++)
+      for ( componentIndex = 0; componentIndex < numberOfComponents;
+            componentIndex++ )
         {
         m_ComponentVector[componentIndex]->SetWeight(measurementVectorIndex,
                                                      minDouble);
@@ -243,24 +241,25 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 ::CalculateExpectation() const
 {
   double sum = 0.0;
-  if (m_Sample)
+
+  if ( m_Sample )
     {
-    unsigned int componentIndex, measurementVectorIndex;
+    unsigned int  componentIndex, measurementVectorIndex;
     unsigned long size = m_Sample->Size();
-    double logProportion;
-    double temp;
-    for (componentIndex = 0; componentIndex < m_ComponentVector.size();
-         componentIndex++)
+    double        logProportion;
+    double        temp;
+    for ( componentIndex = 0; componentIndex < m_ComponentVector.size();
+          componentIndex++ )
       {
       logProportion = vcl_log(m_Proportions[componentIndex]);
-      for (measurementVectorIndex = 0; measurementVectorIndex < size;
-           measurementVectorIndex++)
+      for ( measurementVectorIndex = 0; measurementVectorIndex < size;
+            measurementVectorIndex++ )
         {
         temp = m_ComponentVector[componentIndex]->
-          GetWeight(measurementVectorIndex);
-        sum += temp * ( logProportion +
-                        vcl_log(m_ComponentVector[componentIndex]->
-                                GetWeight(measurementVectorIndex) ) );
+               GetWeight(measurementVectorIndex);
+        sum += temp * ( logProportion
+                        + vcl_log( m_ComponentVector[componentIndex]->
+                                   GetWeight(measurementVectorIndex) ) );
         }
       }
     }
@@ -272,16 +271,16 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateComponentParameters()
 {
-  unsigned int componentIndex;
-  bool updated = false;
-  ComponentType* component;
+  unsigned int   componentIndex;
+  bool           updated = false;
+  ComponentType *component;
 
-  for (componentIndex = 0; componentIndex < m_ComponentVector.size();
-       componentIndex++)
+  for ( componentIndex = 0; componentIndex < m_ComponentVector.size();
+        componentIndex++ )
     {
     component = m_ComponentVector[componentIndex];
     component->Update();
-    if (component->AreParametersModified())
+    if ( component->AreParametersModified() )
       {
       updated = true;
       }
@@ -295,25 +294,25 @@ bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateProportions()
 {
-  int numberOfComponents = m_ComponentVector.size();
-  long sampleSize = m_Sample->Size();
-  double totalFrequency = (double) (m_Sample->GetTotalFrequency());
-  long i, j;
+  int    numberOfComponents = m_ComponentVector.size();
+  long   sampleSize = m_Sample->Size();
+  double totalFrequency = (double)( m_Sample->GetTotalFrequency() );
+  long   i, j;
   double tempSum;
-  bool updated = false;
+  bool   updated = false;
 
-  for (i = 0; i < numberOfComponents; i++)
+  for ( i = 0; i < numberOfComponents; i++ )
     {
     tempSum = 0.0;
-    for (j = 0; j < sampleSize; j++)
+    for ( j = 0; j < sampleSize; j++ )
       {
-      tempSum += (m_ComponentVector[i]->GetWeight(j) *
-         m_Sample->GetFrequency(j));
+      tempSum += ( m_ComponentVector[i]->GetWeight(j)
+                   * m_Sample->GetFrequency(j) );
       }
 
     tempSum /= totalFrequency;
 
-    if (tempSum != m_Proportions[i])
+    if ( tempSum != m_Proportions[i] )
       {
       m_Proportions[i] = tempSum;
       updated = true;
@@ -332,10 +331,10 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 
   int iteration = 0;
   m_CurrentIteration = 0;
-  while (iteration < m_MaxIteration)
+  while ( iteration < m_MaxIteration )
     {
     m_CurrentIteration = iteration;
-    if (this->CalculateDensities())
+    if ( this->CalculateDensities() )
       {
       this->UpdateComponentParameters();
       this->UpdateProportions();
@@ -356,29 +355,28 @@ const typename ExpectationMaximizationMixtureModelEstimator< TSample >::Membersh
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetOutput() const
 {
-
-  unsigned int numberOfComponents = m_ComponentVector.size();
-  MembershipFunctionVectorType &  membershipFunctionsVector = m_MembershipFunctionsObject->Get();
+  unsigned int                   numberOfComponents = m_ComponentVector.size();
+  MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
   typename SampleType::MeasurementVectorSizeType measurementVectorSize =
-                                m_Sample->GetMeasurementVectorSize();
+    m_Sample->GetMeasurementVectorSize();
 
-  typename GaussianMembershipFunctionType::MeanType    mean;
-  MeasurementVectorTraits::SetLength( mean, measurementVectorSize);
+  typename GaussianMembershipFunctionType::MeanType mean;
+  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
 
-  typename GaussianMembershipFunctionType::CovarianceType  covariance;
-  covariance.SetSize(measurementVectorSize,measurementVectorSize);
+  typename GaussianMembershipFunctionType::CovarianceType covariance;
+  covariance.SetSize(measurementVectorSize, measurementVectorSize);
 
-  typename ComponentType::ParametersType                parameters;
+  typename ComponentType::ParametersType parameters;
 
-  for( unsigned int i=0; i < numberOfComponents; i++ )
+  for ( unsigned int i = 0; i < numberOfComponents; i++ )
     {
     parameters = m_ComponentVector[i]->GetFullParameters();
     typename GaussianMembershipFunctionType::Pointer membershipFunction =
-                GaussianMembershipFunctionType::New();
-    membershipFunction->SetMeasurementVectorSize( measurementVectorSize );
+      GaussianMembershipFunctionType::New();
+    membershipFunction->SetMeasurementVectorSize(measurementVectorSize);
     unsigned int parameterIndex = 0;
-    for(unsigned int j=0; j < measurementVectorSize; j++)
+    for ( unsigned int j = 0; j < measurementVectorSize; j++ )
       {
       mean[j] = parameters[j];
       ++parameterIndex;
@@ -393,31 +391,31 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
         }
       }
 
-    membershipFunction->SetMean( mean );
-    membershipFunction->SetCovariance( covariance );
+    membershipFunction->SetMean(mean);
+    membershipFunction->SetCovariance(covariance);
     membershipFunctionsVector.push_back( membershipFunction.GetPointer() );
     }
 
-  return static_cast< const MembershipFunctionVectorObjectType*>(m_MembershipFunctionsObject);
+  return static_cast< const MembershipFunctionVectorObjectType * >( m_MembershipFunctionsObject );
 }
 
 template< class TSample >
 const typename ExpectationMaximizationMixtureModelEstimator< TSample
->::MembershipFunctionsWeightsArrayObjectType *
+                                                             >::MembershipFunctionsWeightsArrayObjectType *
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetMembershipFunctionsWeightsArray() const
 {
+  unsigned int           numberOfComponents = m_ComponentVector.size();
+  ProportionVectorType & membershipFunctionsWeightVector =
+    m_MembershipFunctionsWeightArrayObject->Get();
 
-  unsigned int numberOfComponents = m_ComponentVector.size();
-  ProportionVectorType &  membershipFunctionsWeightVector =
-                                      m_MembershipFunctionsWeightArrayObject->Get();
-  membershipFunctionsWeightVector.SetSize( numberOfComponents );
-  for( unsigned int i=0; i < numberOfComponents; i++ )
+  membershipFunctionsWeightVector.SetSize(numberOfComponents);
+  for ( unsigned int i = 0; i < numberOfComponents; i++ )
     {
     membershipFunctionsWeightVector[i] = m_Proportions[i];
     }
 
-  return static_cast< const MembershipFunctionsWeightsArrayObjectType*>(m_MembershipFunctionsWeightArrayObject);
+  return static_cast< const MembershipFunctionsWeightsArrayObjectType * >( m_MembershipFunctionsWeightArrayObject );
 }
 
 template< class TSample >
@@ -427,7 +425,6 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   this->GenerateData();
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

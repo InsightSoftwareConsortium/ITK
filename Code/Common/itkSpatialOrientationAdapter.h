@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,26 +25,24 @@
 
 namespace itk
 {
-
 //
 // Helper functions, better than Macros
 //
 namespace Function
 {
-
 inline unsigned Max3(double x, double y, double z)
 {
   const double obliquityThresholdCosineValue = 0.001;
-  
+
   double absX = vnl_math_abs(x);
   double absY = vnl_math_abs(y);
   double absZ = vnl_math_abs(z);
 
-  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ))
+  if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ) )
     {
     return 0;
     }
-  else if (  ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
+  else if ( ( absY > obliquityThresholdCosineValue ) && ( absY > absX ) && ( absY > absZ ) )
     {
     return 1;
     }
@@ -58,44 +56,41 @@ inline unsigned Max3(double x, double y, double z)
 
 inline int Sign(double x)
 {
-  if(x < 0)
+  if ( x < 0 )
     {
     return -1;
     }
   return 1;
 }
-
 } // namespace Function
 
 /** \class SpatialOrientationAdapter
  *  \brief converts SpatialOrientation flags to/from direction cosines
  */
-class ITKCommon_EXPORT SpatialOrientationAdapter : 
-  public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,3>
+class ITKCommon_EXPORT SpatialOrientationAdapter:
+  public OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
 {
 public:
   /** typedef for superclass */
   typedef SpatialOrientationAdapter Self;
 
-  typedef OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags,3>
+  typedef OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
   SuperClass;
 
   typedef SpatialOrientation::ValidCoordinateOrientationFlags OrientationType;
 
   /** typedef for direction cosines */
   typedef SuperClass::DirectionType DirectionType;
-  
+
   /** Constructor */
-  SpatialOrientationAdapter() {};
+  SpatialOrientationAdapter() {}
 
   /** convert from direction cosines. */
-  virtual OrientationType FromDirectionCosines(const DirectionType &Dir);
+  virtual OrientationType FromDirectionCosines(const DirectionType & Dir);
 
   /** convert to direction cosines. */
-  virtual DirectionType ToDirectionCosines(const OrientationType &Or);
-
+  virtual DirectionType ToDirectionCosines(const OrientationType & Or);
 };
-
 } // namespace itk
 
 #endif // __itkSpatialOrientationAdapter_h

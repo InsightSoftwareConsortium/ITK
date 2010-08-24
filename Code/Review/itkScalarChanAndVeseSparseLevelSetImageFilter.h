@@ -55,97 +55,97 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  */
-template < class TInputImage, class TFeatureImage, class TOutputImage,
-     class TFunction=ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
-     class TSharedData=ITK_TYPENAME TFunction::SharedDataType,
-     typename TIdCell = unsigned int >
-class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter :
-public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
-  TOutputImage, TFunction, TIdCell >
+template< class TInputImage, class TFeatureImage, class TOutputImage,
+          class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+          class TSharedData = ITK_TYPENAME TFunction::SharedDataType,
+          typename TIdCell = unsigned int >
+class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter:
+  public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
+                                                      TOutputImage, TFunction, TIdCell >
 {
 public:
-  typedef ScalarChanAndVeseSparseLevelSetImageFilter      Self;
+  typedef ScalarChanAndVeseSparseLevelSetImageFilter Self;
   typedef MultiphaseSparseFiniteDifferenceImageFilter< TInputImage,
-    TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+                                                       TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ScalarChanAndVeseSparseLevelSetImageFilter,
-    MultiphaseSparseFiniteDifferenceImageFilter );
+  itkTypeMacro(ScalarChanAndVeseSparseLevelSetImageFilter,
+               MultiphaseSparseFiniteDifferenceImageFilter);
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::InputImageType           InputImageType;
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::InputPointType           InputPointType;
-  typedef typename Superclass::ValueType                ValueType;
-  typedef typename Superclass::InputSpacingType         InputSpacingType;
+  typedef typename Superclass::InputImageType    InputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputPointType    InputPointType;
+  typedef typename Superclass::ValueType         ValueType;
+  typedef typename Superclass::InputSpacingType  InputSpacingType;
 
-  typedef TFeatureImage                                 FeatureImageType;
-  typedef typename FeatureImageType::Pointer            FeatureImagePointer;
-  typedef typename FeatureImageType::PixelType          FeaturePixelType;
-  typedef typename FeatureImageType::IndexType          FeatureIndexType;
-  typedef typename FeatureIndexType::IndexValueType     FeatureIndexValueType;
-  typedef typename FeatureImageType::RegionType         FeatureRegionType;
+  typedef TFeatureImage                             FeatureImageType;
+  typedef typename FeatureImageType::Pointer        FeatureImagePointer;
+  typedef typename FeatureImageType::PixelType      FeaturePixelType;
+  typedef typename FeatureImageType::IndexType      FeatureIndexType;
+  typedef typename FeatureIndexType::IndexValueType FeatureIndexValueType;
+  typedef typename FeatureImageType::RegionType     FeatureRegionType;
 
   /** Output image type typedefs */
-  typedef TOutputImage                                  OutputImageType;
-  typedef typename OutputImageType::IndexType           IndexType;
-  typedef typename OutputImageType::PixelType           OutputPixelType;
+  typedef TOutputImage                        OutputImageType;
+  typedef typename OutputImageType::IndexType IndexType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
-  typedef typename Superclass::TimeStepType             TimeStepType;
+  typedef typename Superclass::TimeStepType TimeStepType;
   typedef typename Superclass::FiniteDifferenceFunctionType
-                                                        FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
-  typedef typename Superclass::IdCellType               IdCellType;
+  typedef typename Superclass::IdCellType IdCellType;
 
-  typedef TFunction                                     FunctionType;
-  typedef typename FunctionType::Pointer                FunctionPtr;
+  typedef TFunction                      FunctionType;
+  typedef typename FunctionType::Pointer FunctionPtr;
 
-  typedef TSharedData                                   SharedDataType;
-  typedef typename SharedDataType::Pointer              SharedDataPointer;
+  typedef TSharedData                      SharedDataType;
+  typedef typename SharedDataType::Pointer SharedDataPointer;
 
-  typedef RegionOfInterestImageFilter<
-    FeatureImageType, FeatureImageType >                ROIFilterType;
-  typedef typename ROIFilterType::Pointer               ROIFilterPointer;
+  typedef RegionOfInterestImageFilter< FeatureImageType, FeatureImageType > ROIFilterType;
+  typedef typename ROIFilterType::Pointer                                   ROIFilterPointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage( const FeatureImagePointer f )
-    {
-    this->SetInput( f );
-    }
+  virtual void SetFeatureImage(const FeatureImagePointer f)
+  {
+    this->SetInput(f);
+  }
 
 protected:
   ScalarChanAndVeseSparseLevelSetImageFilter()
-    {
+  {
     this->SetNumberOfLayers(2); // Narrow-band usage
     this->m_SharedData = SharedDataType::New();
-    }
+  }
 
   ~ScalarChanAndVeseSparseLevelSetImageFilter() {}
 
-  SharedDataPointer     m_SharedData;
+  SharedDataPointer m_SharedData;
 
   virtual void Initialize();
-  virtual void InitializeIteration();
-  virtual void UpdatePixel( unsigned int functionIndex,
-    unsigned int idx, NeighborhoodIterator< InputImageType > &iterator,
-    ValueType &newValue, bool &status );
-};
 
+  virtual void InitializeIteration();
+
+  virtual void UpdatePixel(unsigned int functionIndex,
+                           unsigned int idx, NeighborhoodIterator< InputImageType > & iterator,
+                           ValueType & newValue, bool & status);
+};
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

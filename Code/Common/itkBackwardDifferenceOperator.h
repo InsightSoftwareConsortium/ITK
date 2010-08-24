@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkNeighborhoodOperator.h"
 #include "itkExceptionObject.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class BackwardDifferenceOperator
  * \brief Operator whose inner product with a neighborhood returns
@@ -31,27 +31,26 @@ namespace itk {
  * i.e. F(x) - F(x-1) to calculate a "half" derivative useful, among
  * other things, in solving differential equations. It is a directional
  * NeighborhoodOperator that should be applied to a Neighborhood using the
- * inner product. 
+ * inner product.
  *
  * \ingroup Operators
  *
  */
-template<class TPixel, unsigned int TDimension=2,
-  class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT BackwardDifferenceOperator
-  : public NeighborhoodOperator<TPixel, TDimension, TAllocator>
+template< class TPixel, unsigned int TDimension = 2,
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT BackwardDifferenceOperator:
+  public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {
 public:
   /** Standard class typedefs. */
-  typedef BackwardDifferenceOperator                           Self;
-  typedef NeighborhoodOperator<TPixel, TDimension, TAllocator> Superclass;
-    
+  typedef BackwardDifferenceOperator                             Self;
+  typedef NeighborhoodOperator< TPixel, TDimension, TAllocator > Superclass;
+
   /** From Superclass */
   typedef typename Superclass::PixelType PixelType;
 
   /** Constructor. */
   BackwardDifferenceOperator() {}
-
 protected:
   /** Necessary to work around a compiler bug in VC++. */
   typedef typename Superclass::CoefficientVector CoefficientVector;
@@ -60,15 +59,12 @@ protected:
   CoefficientVector GenerateCoefficients();
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector &coeff)
-    { this->FillCenteredDirectional(coeff); }
-
+  void Fill(const CoefficientVector & coeff)
+  { this->FillCenteredDirectional(coeff); }
 private:
-  BackwardDifferenceOperator(const Self& other); //purposely not implemented
-  Self &operator=(const Self& other); //purposely not implemented
-  
+  BackwardDifferenceOperator(const Self & other); //purposely not implemented
+  Self & operator=(const Self & other);           //purposely not implemented
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

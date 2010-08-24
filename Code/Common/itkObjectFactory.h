@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class ObjectFactory
  * \brief Create instances of a class.
  *
@@ -43,17 +42,17 @@ namespace itk
  * \ingroup ITKSystemObjects
  */
 
-template <class T>
-class ObjectFactory : public ObjectFactoryBase
+template< class T >
+class ObjectFactory:public ObjectFactoryBase
 {
 public:
   static typename T::Pointer Create()
-    {
-    LightObject::Pointer ret = ObjectFactory::CreateInstance(typeid(T).name());
-    return dynamic_cast<T*>(ret.GetPointer());
-    }
-};
+  {
+    LightObject::Pointer ret = ObjectFactory::CreateInstance( typeid( T ).name() );
 
+    return dynamic_cast< T * >( ret.GetPointer() );
+  }
+};
 } // end namespace itk
 
 #endif

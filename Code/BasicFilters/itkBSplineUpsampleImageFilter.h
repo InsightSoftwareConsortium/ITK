@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,7 +30,7 @@
 namespace itk
 {
 /** \class BSplineUpsampleImageFilter
- * \brief Uses B-Spline interpolation to upsample an image by a factor of 2. 
+ * \brief Uses B-Spline interpolation to upsample an image by a factor of 2.
  * This class is the public interface for spline upsampling as defined by the
  * ResamplerType.
  *
@@ -38,7 +38,7 @@ namespace itk
  *   should work fine for most applications.
  *
  * This class defines N-Dimension B-Spline transformation.
- * It is based on: 
+ * It is based on:
  *    [1] M. Unser,
  *       "Splines: A Perfect Fit for Signal and Image Processing,"
  *        IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
@@ -52,8 +52,8 @@ namespace itk
  *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
  *        February 1993.
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
- * 
- * Limitations:  This class requires specification of a resampler type which may 
+ *
+ * Limitations:  This class requires specification of a resampler type which may
  *                      be one of:
  *                        BSplineResampleImageFilterBase,
  *                        BSplineL2ResampleImageFilterBase
@@ -70,26 +70,26 @@ namespace itk
  *
  * \ingroup GeometricTransformationFilters
  * \ingroup SingleThreaded
- * \ingroup CannotBeStreamed 
+ * \ingroup CannotBeStreamed
  */
 
-template <class TInputImage, class TOutputImage, class ResamplerType = BSplineResampleImageFilterBase<TInputImage, TOutputImage> >
-class ITK_EXPORT BSplineUpsampleImageFilter : 
-    public ResamplerType 
+template< class TInputImage, class TOutputImage, class ResamplerType =
+            BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
+class ITK_EXPORT BSplineUpsampleImageFilter:
+  public ResamplerType
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineUpsampleImageFilter       Self;
-  typedef ResamplerType                    Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef BSplineUpsampleImageFilter Self;
+  typedef ResamplerType              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineUpsampleImageFilter, ReamplerType);
 
- 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
@@ -103,7 +103,7 @@ public:
   /** OutputImagePointer typedef support. */
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
 
-  /** Creates an image twice the size of the input image with spacing half the 
+  /** Creates an image twice the size of the input image with spacing half the
     * input image. */
   void GenerateOutputInformation();
 
@@ -112,26 +112,24 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, typename TOutputImage::PixelType>));
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
 
   void GenerateData();
-  void EnlargeOutputRequestedRegion( DataObject *output );
+
+  void EnlargeOutputRequestedRegion(DataObject *output);
 
   BSplineUpsampleImageFilter();
-  virtual ~BSplineUpsampleImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-    
-private:
-  BSplineUpsampleImageFilter( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
-  
-};
+  virtual ~BSplineUpsampleImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
+private:
+  BSplineUpsampleImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
+};
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

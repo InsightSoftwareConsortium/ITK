@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,9 +25,8 @@
 #include "itkShapeRelabelLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class ShapeRelabelImageFilter
  * \brief relabel objects according to their shape attributes
  *
@@ -37,35 +36,35 @@ namespace itk {
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage>
-class ITK_EXPORT ShapeRelabelImageFilter : 
-    public ImageToImageFilter<TInputImage, TInputImage>
+template< class TInputImage >
+class ITK_EXPORT ShapeRelabelImageFilter:
+  public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ShapeRelabelImageFilter                      Self;
-  typedef ImageToImageFilter<TInputImage, TInputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef ShapeRelabelImageFilter                        Self;
+  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TInputImage                              OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef TInputImage                            OutputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -74,31 +73,31 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef ShapeLabelObject<InputImagePixelType, itkGetStaticConstMacro(ImageDimension)>                     LabelObjectType;
-  typedef LabelMap< LabelObjectType >                                               LabelMapType;
-  typedef LabelImageToLabelMapFilter< InputImageType, LabelMapType >                LabelizerType;
-  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension)>
-     ShapeLabelFilterOutput;
-  typedef ShapeLabelMapFilter< LabelMapType, ShapeLabelFilterOutput >               LabelObjectValuatorType;
-  typedef typename LabelObjectType::AttributeType                                   AttributeType;
-  typedef ShapeRelabelLabelMapFilter< LabelMapType >                                RelabelType;
-  typedef LabelMapToLabelImageFilter< LabelMapType, OutputImageType >               BinarizerType;
+  typedef ShapeLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) > LabelObjectType;
+  typedef LabelMap< LabelObjectType >                                                     LabelMapType;
+  typedef LabelImageToLabelMapFilter< InputImageType, LabelMapType >                      LabelizerType;
+  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >
+  ShapeLabelFilterOutput;
+  typedef ShapeLabelMapFilter< LabelMapType, ShapeLabelFilterOutput > LabelObjectValuatorType;
+  typedef typename LabelObjectType::AttributeType                     AttributeType;
+  typedef ShapeRelabelLabelMapFilter< LabelMapType >                  RelabelType;
+  typedef LabelMapToLabelImageFilter< LabelMapType, OutputImageType > BinarizerType;
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ShapeRelabelImageFilter, 
+  itkTypeMacro(ShapeRelabelImageFilter,
                ImageToImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputImagePixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
 
@@ -114,25 +113,24 @@ public:
    * the highest attribute values are labeled first. Set ReverseOrdering to true
    * make the one with the smallest attributes be labeled first.
    */
-  itkGetConstMacro( ReverseOrdering, bool );
-  itkSetMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkGetConstMacro(ReverseOrdering, bool);
+  itkSetMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
   /**
    * Set/Get the attribute to use. Default is "Size".
    */
-  itkGetConstMacro( Attribute, AttributeType );
-  itkSetMacro( Attribute, AttributeType );
-  void SetAttribute( const std::string & s )
-    {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName( s ) );
-    }
-
+  itkGetConstMacro(Attribute, AttributeType);
+  itkSetMacro(Attribute, AttributeType);
+  void SetAttribute(const std::string & s)
+  {
+    this->SetAttribute( LabelObjectType::GetAttributeFromName(s) );
+  }
 
 protected:
   ShapeRelabelImageFilter();
-  ~ShapeRelabelImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ShapeRelabelImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ShapeRelabelImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -140,23 +138,22 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** ShapeRelabelImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
 
 private:
-  ShapeRelabelImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ShapeRelabelImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   OutputImagePixelType m_BackgroundValue;
   bool                 m_ReverseOrdering;
   AttributeType        m_Attribute;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShapeRelabelImageFilter.txx"
 #endif

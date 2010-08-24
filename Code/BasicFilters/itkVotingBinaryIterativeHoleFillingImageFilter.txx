@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,33 +31,29 @@
 
 namespace itk
 {
-
-template <class TInputImage >
-VotingBinaryIterativeHoleFillingImageFilter<TInputImage >
+template< class TInputImage >
+VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::VotingBinaryIterativeHoleFillingImageFilter()
 {
   m_Radius.Fill(1);
-  m_ForegroundValue = NumericTraits<InputPixelType>::max();
-  m_BackgroundValue = NumericTraits<InputPixelType>::Zero;
+  m_ForegroundValue = NumericTraits< InputPixelType >::max();
+  m_BackgroundValue = NumericTraits< InputPixelType >::Zero;
   m_MaximumNumberOfIterations = 10;
   m_CurrentNumberOfIterations = 0;
   m_MajorityThreshold = 1;
   m_NumberOfPixelsChanged = 0;
 }
 
-
 template< class TInputImage >
 void
 VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::GenerateData()
 {
-  
-  typename InputImageType::ConstPointer  input  = this->GetInput();
-  
+  typename InputImageType::ConstPointer input  = this->GetInput();
+
   m_NumberOfPixelsChanged = 0;
 
   typename VotingFilterType::Pointer filter = VotingFilterType::New();
-
 
   filter->SetRadius( this->GetRadius() );
   filter->SetBackgroundValue( this->GetBackgroundValue() );
@@ -72,50 +68,49 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 
   while ( m_CurrentNumberOfIterations < m_MaximumNumberOfIterations )
     {
-    filter->SetInput( input );
+    filter->SetInput(input);
     filter->Update();
-    
+
     m_CurrentNumberOfIterations++;
     progress.CompletedPixel();   // not really a pixel but an iteration
     this->InvokeEvent( IterationEvent() );
-    
+
     const unsigned int numberOfPixelsChangedInThisIteration =
-                              filter->GetNumberOfPixelsChanged();
+      filter->GetNumberOfPixelsChanged();
     m_NumberOfPixelsChanged += numberOfPixelsChangedInThisIteration;
 
     output = filter->GetOutput();
     output->DisconnectPipeline();
     input = output;
-    if( numberOfPixelsChangedInThisIteration == 0 )
+    if ( numberOfPixelsChangedInThisIteration == 0 )
       {
       break;
       }
     }
-  this->GraftOutput( output );
+  this->GraftOutput(output);
 }
 
 /**
  * Standard "PrintSelf" method
  */
-template <class TInputImage >
+template< class TInputImage >
 void
-VotingBinaryIterativeHoleFillingImageFilter<TInputImage>
+VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::PrintSelf(
-  std::ostream& os, 
+  std::ostream & os,
   Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent << "Radius: " << m_Radius << std::endl;
   os << indent << "Foreground value : "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>( m_ForegroundValue )<< std::endl;
-  os << indent << "Background value : " 
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>( m_BackgroundValue ) << std::endl;
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_ForegroundValue ) << std::endl;
+  os << indent << "Background value : "
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_BackgroundValue ) << std::endl;
   os << indent << "Maximum Number of Iterations : " << m_MaximumNumberOfIterations << std::endl;
   os << indent << "Current Number of Iterations : " << m_CurrentNumberOfIterations << std::endl;
   os << indent << "Majority Threshold           : " << m_MajorityThreshold << std::endl;
   os << indent << "Number of Pixels Changed     : " << m_NumberOfPixelsChanged << std::endl;
 }
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /**
  * \class RelabelComponentImageFilter
  * \brief Relabel the components in an image such that consecutive labels are used.
@@ -37,7 +36,7 @@ namespace itk
  * largest will have label #2, etc.
  *
  * Label #0 is assumed to be background is left unaltered by the
- * relabeling. 
+ * relabeling.
  *
  * RelabelComponentImageFilter is typically used on the output of the
  * ConnectedComponentImageFilter for those applications that want to
@@ -70,9 +69,9 @@ namespace itk
  * \ingroup Singlethreaded
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RelabelComponentImageFilter : 
-    public InPlaceImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT RelabelComponentImageFilter:
+  public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
@@ -95,45 +94,45 @@ public:
   typedef typename TInputImage::PixelType          InputPixelType;
   typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension); 
+                      TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
- 
+
   /**
    * Image typedef support
    */
-  typedef TInputImage                             InputImageType;
-  typedef TOutputImage                            OutputImageType;
-  typedef   typename TInputImage::IndexType       IndexType;
-  typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType     RegionType;
+  typedef TInputImage                         InputImageType;
+  typedef TOutputImage                        OutputImageType;
+  typedef   typename TInputImage::IndexType   IndexType;
+  typedef   typename TInputImage::SizeType    SizeType;
+  typedef   typename TOutputImage::RegionType RegionType;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /**
    * Run-time type information (and related methods)
    */
   itkTypeMacro(RelabelComponentImageFilter, ImageToImageFilter);
-  
+
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
 
   /** Type used as identifier for the different component lables. */
-  typedef unsigned long int    LabelType;
+  typedef unsigned long int LabelType;
 
   /** Type used to count number of pixels in objects. */
-  typedef unsigned long int    ObjectSizeType;
+  typedef unsigned long int ObjectSizeType;
 
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
   itkGetConstMacro(NumberOfObjects, LabelType);
-  
+
   /** Get the original number of objects in the image before small
    * objects were discarded. This information is only valid after
    * the filter has executed. If the caller has not specified a
@@ -160,79 +159,78 @@ public:
    * and all objects in the original label map will be passed
    * through to the output. */
   itkGetConstMacro(MinimumObjectSize, ObjectSizeType);
-   
+
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is
    * GetSizeOfObjectsInPixels()[0]. Size of object #2 is
    * GetSizeOfObjectsInPixels()[1]. Etc. */
-  const std::vector<ObjectSizeType>& GetSizeOfObjectsInPixels() const
-    { return m_SizeOfObjectsInPixels; }
+  const std::vector< ObjectSizeType > & GetSizeOfObjectsInPixels() const
+  { return m_SizeOfObjectsInPixels; }
 
   /** Get the size of each object in physical space (in units of pixel
    * size). This information is only valid after the filter has
    * executed. Size of the background is not calculated.  Size of
    * object #1 is GetSizeOfObjectsInPhysicalUnits()[0]. Size of object
    * #2 is GetSizeOfObjectsInPhysicalUnits()[1]. Etc. */
-  const std::vector<float>& GetSizeOfObjectsInPhysicalUnits() const
-    { return m_SizeOfObjectsInPhysicalUnits; }
+  const std::vector< float > & GetSizeOfObjectsInPhysicalUnits() const
+  { return m_SizeOfObjectsInPhysicalUnits; }
 
   /** Get the size of a particular object in pixels. This information is only
    * valid after the filter has executed.  Size of the background
    * (object #0) is not calculated.  */
-  ObjectSizeType GetSizeOfObjectInPixels( LabelType obj ) const
-    {
-    if (obj > 0 && obj <= m_NumberOfObjects)
+  ObjectSizeType GetSizeOfObjectInPixels(LabelType obj) const
+  {
+    if ( obj > 0 && obj <= m_NumberOfObjects )
       {
-      return m_SizeOfObjectsInPixels[obj-1];
+      return m_SizeOfObjectsInPixels[obj - 1];
       }
     else
       {
       return 0;
       }
-    }
-  
+  }
+
   /** Get the size of a particular object in physical space (in units of pixel
    * size). This information is only valid after the filter has
    * executed. Size of the background (object #0) is not calculated.  */
-  float GetSizeOfObjectInPhysicalUnits( LabelType obj ) const
-    { 
-    if (obj > 0 && obj <= m_NumberOfObjects)
+  float GetSizeOfObjectInPhysicalUnits(LabelType obj) const
+  {
+    if ( obj > 0 && obj <= m_NumberOfObjects )
       {
-      return m_SizeOfObjectsInPhysicalUnits[obj-1];
+      return m_SizeOfObjectsInPhysicalUnits[obj - 1];
       }
     else
       {
       return 0;
       }
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputPixelType>));
-  itkConceptMacro(UnsignedLongConvertibleToInputCheck,
-    (Concept::Convertible<LabelType, InputPixelType>));
-  itkConceptMacro(OutputLongConvertibleToUnsignedLongCheck,
-    (Concept::Convertible<OutputPixelType, LabelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputPixelType, OutputPixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, ImageDimension>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputPixelType > ) );
+  itkConceptMacro( UnsignedLongConvertibleToInputCheck,
+                   ( Concept::Convertible< LabelType, InputPixelType > ) );
+  itkConceptMacro( OutputLongConvertibleToUnsignedLongCheck,
+                   ( Concept::Convertible< OutputPixelType, LabelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
   /** End concept checking */
 #endif
-
 protected:
 
-  RelabelComponentImageFilter()
-    : m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
+  RelabelComponentImageFilter():
+    m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0)
-    { this->InPlaceOff(); }
+  { this->InPlaceOff(); }
   virtual ~RelabelComponentImageFilter() {}
-  RelabelComponentImageFilter(const Self&) {}
+  RelabelComponentImageFilter(const Self &) {}
 
   /**
-   * Standard pipeline method. 
+   * Standard pipeline method.
    */
   void GenerateData();
 
@@ -242,33 +240,32 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** Standard printself method */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  struct RelabelComponentObjectType
-    {
-    LabelType       m_ObjectNumber;
-    ObjectSizeType  m_SizeInPixels;
-    float           m_SizeInPhysicalUnits;
-    };
+  struct RelabelComponentObjectType {
+    LabelType m_ObjectNumber;
+    ObjectSizeType m_SizeInPixels;
+    float m_SizeInPhysicalUnits;
+  };
 
   // put the function objects here for sorting in descending order
   class RelabelComponentSizeInPixelsComparator
+  {
+public:
+    bool operator()(const RelabelComponentObjectType & a,
+                    const RelabelComponentObjectType & b)
     {
-    public:
-      bool operator()(const RelabelComponentObjectType&a, 
-                      const RelabelComponentObjectType &b)
-      {
-      if (a.m_SizeInPixels > b.m_SizeInPixels)
+      if ( a.m_SizeInPixels > b.m_SizeInPixels )
         {
         return true;
         }
-      else if (a.m_SizeInPixels < b.m_SizeInPixels)
+      else if ( a.m_SizeInPixels < b.m_SizeInPixels )
         {
         return false;
         }
       // size in pixels and physical units are the same, sort based on
       // original object number
-      else if (a.m_ObjectNumber < b.m_ObjectNumber)
+      else if ( a.m_ObjectNumber < b.m_ObjectNumber )
         {
         return true;
         }
@@ -276,22 +273,18 @@ protected:
         {
         return false;
         }
-      }
+    }
   };
-  
-
 private:
 
-  LabelType       m_NumberOfObjects;
-  LabelType       m_NumberOfObjectsToPrint;
-  LabelType       m_OriginalNumberOfObjects;
-  ObjectSizeType  m_MinimumObjectSize;
+  LabelType      m_NumberOfObjects;
+  LabelType      m_NumberOfObjectsToPrint;
+  LabelType      m_OriginalNumberOfObjects;
+  ObjectSizeType m_MinimumObjectSize;
 
-  std::vector<ObjectSizeType> m_SizeOfObjectsInPixels;
-  std::vector<float>          m_SizeOfObjectsInPhysicalUnits;
-
+  std::vector< ObjectSizeType > m_SizeOfObjectsInPixels;
+  std::vector< float >          m_SizeOfObjectsInPhysicalUnits;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

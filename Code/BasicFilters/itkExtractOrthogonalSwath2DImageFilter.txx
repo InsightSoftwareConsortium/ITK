@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,107 +24,110 @@
 
 namespace itk
 {
-
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetSpacing(const double* spacing)
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::SetSpacing(const double *spacing)
 {
-  unsigned int i; 
-  for (i=0; i<ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < ImageDimension; i++ )
     {
     if ( spacing[i] != m_Spacing[i] )
       {
       break;
       }
-    } 
-  if ( i < ImageDimension ) 
-    { 
-    for (i=0; i<ImageDimension; i++)
+    }
+  if ( i < ImageDimension )
+    {
+    for ( i = 0; i < ImageDimension; i++ )
       {
       m_Spacing[i] = spacing[i];
       }
     }
 }
 
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetSpacing(const float* spacing)
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::SetSpacing(const float *spacing)
 {
-  unsigned int i; 
-  for (i=0; i<ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < ImageDimension; i++ )
     {
     if ( (double)spacing[i] != m_Spacing[i] )
       {
       break;
       }
-    } 
-  if ( i < ImageDimension ) 
-    { 
-    for (i=0; i<ImageDimension; i++)
+    }
+  if ( i < ImageDimension )
+    {
+    for ( i = 0; i < ImageDimension; i++ )
       {
       m_Spacing[i] = spacing[i];
       }
     }
 }
 
-template <class TImage>
-const double * 
-ExtractOrthogonalSwath2DImageFilter<TImage>
+template< class TImage >
+const double *
+ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GetSpacing() const
 {
   return m_Spacing;
 }
 
 //----------------------------------------------------------------------------
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetOrigin(const double* origin)
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::SetOrigin(const double *origin)
 {
-  unsigned int i; 
-  for (i=0; i<ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < ImageDimension; i++ )
     {
     if ( origin[i] != m_Origin[i] )
       {
       break;
       }
-    } 
-  if ( i < ImageDimension ) 
-    { 
-    for (i=0; i<ImageDimension; i++)
+    }
+  if ( i < ImageDimension )
+    {
+    for ( i = 0; i < ImageDimension; i++ )
       {
       m_Origin[i] = origin[i];
       }
     }
 }
 
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::SetOrigin(const float* origin)
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::SetOrigin(const float *origin)
 {
-  unsigned int i; 
-  for (i=0; i<ImageDimension; i++)
+  unsigned int i;
+
+  for ( i = 0; i < ImageDimension; i++ )
     {
     if ( (double)origin[i] != m_Origin[i] )
       {
       break;
       }
-    } 
-  if ( i < ImageDimension ) 
-    { 
-    for (i=0; i<ImageDimension; i++)
+    }
+  if ( i < ImageDimension )
+    {
+    for ( i = 0; i < ImageDimension; i++ )
       {
       m_Origin[i] = origin[i];
       }
     }
 }
 
-template <class TImage>
-const double * 
-ExtractOrthogonalSwath2DImageFilter<TImage>
+template< class TImage >
+const double *
+ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GetOrigin() const
 {
   return m_Origin;
@@ -132,19 +135,20 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
 
 //----------------------------------------------------------------------------
 
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::GenerateOutputInformation( void )
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::GenerateOutputInformation(void)
 {
-  ImagePointer      outputPtr     = this->GetOutput(0);
+  ImagePointer outputPtr     = this->GetOutput(0);
 
-  ImageRegionType   outputRegion;
-  ImageIndexType    index;
+  ImageRegionType outputRegion;
+  ImageIndexType  index;
+
   index.Fill(0);
-  outputRegion.SetSize( this->m_Size );
-  outputRegion.SetIndex( index );
-  outputPtr->SetLargestPossibleRegion( outputRegion );
+  outputRegion.SetSize(this->m_Size);
+  outputRegion.SetIndex(index);
+  outputPtr->SetLargestPossibleRegion(outputRegion);
   outputPtr->SetSpacing(this->m_Spacing);
   outputPtr->SetOrigin(this->m_Origin);
 }
@@ -152,49 +156,50 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
 /**
  * GenerateData Performs the reflection
  */
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>
-::GenerateData( void )
+ExtractOrthogonalSwath2DImageFilter< TImage >
+::GenerateData(void)
 {
   ImageConstPointer inputImagePtr = this->GetImageInput();
   PathConstPointer  inputPathPtr  = this->GetPathInput();
   ImagePointer      outputPtr     = this->GetOutput(0);
 
   // Generate the output image
-  ImageRegionType   outputRegion = outputPtr->GetRequestedRegion();
-  outputPtr->SetBufferedRegion( outputRegion );
+  ImageRegionType outputRegion = outputPtr->GetRequestedRegion();
+
+  outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, 0,  outputRegion.GetNumberOfPixels() );
-  
-  typedef ImageRegionIteratorWithIndex<ImageType>          OutputIterator;
-  typedef LinearInterpolateImageFunction<ImageType,double> InterpolatorType;
+  ProgressReporter progress( this, 0,  outputRegion.GetNumberOfPixels() );
 
-  ImageIndexType                        index;
-  double                                orthogonalOffset;
-  PathInputType                         pathInput;
-  PathContinuousIndexType               continousIndex;
-  PathVectorType                        pathDerivative;
-  typename InterpolatorType::Pointer    interpolator = InterpolatorType::New();
-  interpolator->SetInputImage( inputImagePtr );
-  
+  typedef ImageRegionIteratorWithIndex< ImageType >           OutputIterator;
+  typedef LinearInterpolateImageFunction< ImageType, double > InterpolatorType;
+
+  ImageIndexType          index;
+  double                  orthogonalOffset;
+  PathInputType           pathInput;
+  PathContinuousIndexType continousIndex;
+  PathVectorType          pathDerivative;
+  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  interpolator->SetInputImage(inputImagePtr);
+
   // Iterate through the output image
   OutputIterator outputIt( outputPtr, outputPtr->GetRequestedRegion() );
-  for( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt ) 
+  for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
     {
     index = outputIt.GetIndex();
 
     // what position along the path coresponds to this column of the swath?
     pathInput = inputPathPtr->StartOfInput()
-              + double(inputPathPtr->EndOfInput()-inputPathPtr->StartOfInput())
-              * double(index[0]) / double(m_Size[0]);
+                + double( inputPathPtr->EndOfInput() - inputPathPtr->StartOfInput() )
+                * double(index[0]) / double(m_Size[0]);
 
     // What is the orghogonal offset from the path in the input image for this
     // particular index in the output swath image?
     // Vertically centered swath pixels lie on the path in the input image.
-    orthogonalOffset = index[1] - int(m_Size[1]/2); // use signed arithmatic
+    orthogonalOffset = index[1] - int(m_Size[1] / 2); // use signed arithmatic
 
     // Make continousIndex point to the source pixel in the input image
     continousIndex = inputPathPtr->Evaluate(pathInput);
@@ -202,45 +207,43 @@ ExtractOrthogonalSwath2DImageFilter<TImage>
     pathDerivative.Normalize();
     continousIndex[0] -= orthogonalOffset * pathDerivative[1];
     continousIndex[1] += orthogonalOffset * pathDerivative[0];
-    
+
     // set the swath pixel to the interpolated input pixel
-    if ( ! interpolator->IsInsideBuffer( continousIndex ) )
+    if ( !interpolator->IsInsideBuffer(continousIndex) )
       {
       //itkExceptionMacro(<<"Requested input index ["<<continousIndex
       //                  <<"] is not in the input image" );
-      outputIt.Set( m_DefaultPixelValue );
+      outputIt.Set(m_DefaultPixelValue);
       progress.CompletedPixel();
       continue;
       }
-    
+
     // prevent small interpolation error from rounding-down integer types
-    if( NumericTraits<ImagePixelType>::is_integer )
+    if ( NumericTraits< ImagePixelType >::is_integer )
       {
-      outputIt.Set( static_cast<ImagePixelType>( 0.5 +
-          interpolator->EvaluateAtContinuousIndex( continousIndex ) ) );
+      outputIt.Set( static_cast< ImagePixelType >( 0.5
+                                                   + interpolator->EvaluateAtContinuousIndex(continousIndex) ) );
       }
     else
       {
-      outputIt.Set( static_cast<ImagePixelType>(
-          interpolator->EvaluateAtContinuousIndex( continousIndex ) ) );
+      outputIt.Set( static_cast< ImagePixelType >(
+                      interpolator->EvaluateAtContinuousIndex(continousIndex) ) );
       }
-    
+
     progress.CompletedPixel();
     }
 }
 
-template <class TImage>
+template< class TImage >
 void
-ExtractOrthogonalSwath2DImageFilter<TImage>::
-PrintSelf(std::ostream& os, Indent indent) const
+ExtractOrthogonalSwath2DImageFilter< TImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Size:  " << m_Size << std::endl;
   os << indent << "DefaultPixelValue:  "
-     << static_cast<typename NumericTraits<ImagePixelType>::PrintType>(m_DefaultPixelValue)
+     << static_cast< typename NumericTraits< ImagePixelType >::PrintType >( m_DefaultPixelValue )
      << std::endl;
 }
-
 } // end namespace itk
 
 #endif

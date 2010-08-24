@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class SegmentationRegion
  * \brief Base class for SegmentationRegion object
  *
@@ -42,20 +41,20 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation
  */
-class ITKCommon_EXPORT SegmentationRegion : public Object
+class ITKCommon_EXPORT SegmentationRegion:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef SegmentationRegion       Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SegmentationRegion         Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SegmentationRegion,Object);
+  itkTypeMacro(SegmentationRegion, Object);
 
   /** Type definition for a segmentation region label. */
   typedef unsigned int RegionLabelType;
@@ -63,7 +62,7 @@ public:
   /** Define a virtual SegmentationRegion function that is meant to be
    * used in derived classes if some operation needs to be
    * performed on a region object. */
-  virtual void ApplySegmentationRegion(){};
+  virtual void ApplySegmentationRegion(){}
 
   /** Set/Get the region with parameter values
    * defining the region. */
@@ -73,23 +72,18 @@ public:
   /** Set/Get the area of the region. */
   itkSetMacro(RegionArea, double);
   itkGetConstReferenceMacro(RegionArea, double);
-
 protected:
   SegmentationRegion();
   ~SegmentationRegion();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SegmentationRegion(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SegmentationRegion(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
-  RegionLabelType           m_RegionLabel;
-  double                    m_RegionArea;
-
+  RegionLabelType m_RegionLabel;
+  double          m_RegionArea;
 };
-
-
 } // end namespace itk
-
 
 #endif

@@ -27,16 +27,16 @@
 #include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
 #include "itkAddImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class FastSymmetricForcesDemonsRegistrationFilter
  * \brief Deformably register two images using a symmetric forces demons algorithm.
  *
  * This class was contributed by Tom Vercauteren, INRIA & Mauna Kea Technologies
  * based on a variation of the DemonsRegistrationFilter.
  *
- * FastSymmetricForcesDemonsRegistrationFilter implements the demons deformable algorithm that 
- * register two images by computing the deformation field which will map a 
+ * FastSymmetricForcesDemonsRegistrationFilter implements the demons deformable algorithm that
+ * register two images by computing the deformation field which will map a
  * moving image onto a fixed image.
  *
  * A deformation field is represented as a image whose pixel type is some
@@ -66,61 +66,62 @@ namespace itk {
  *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
- * 
+ *
  * \sa DemonsRegistrationFilter
  * \sa DemonsRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
  */
-template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFilter : 
-    public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                            TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFilter:
+  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
+                                          TDeformationField >
 {
 public:
   /** Standard class typedefs. */
-  typedef FastSymmetricForcesDemonsRegistrationFilter     Self;
-  typedef PDEDeformableRegistrationFilter<
-    TFixedImage, TMovingImage,TDeformationField>          Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef FastSymmetricForcesDemonsRegistrationFilter                                     Self;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef SmartPointer< Self >                                                            Pointer;
+  typedef SmartPointer< const Self >                                                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( FastSymmetricForcesDemonsRegistrationFilter, 
-                PDEDeformableRegistrationFilter );
+  itkTypeMacro(FastSymmetricForcesDemonsRegistrationFilter,
+               PDEDeformableRegistrationFilter);
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType             FixedImageType;
-  typedef typename Superclass::FixedImagePointer          FixedImagePointer;
+  typedef typename Superclass::FixedImageType    FixedImageType;
+  typedef typename Superclass::FixedImagePointer FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType            MovingImageType;
-  typedef typename Superclass::MovingImagePointer         MovingImagePointer;
-  
-  /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType       DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer    DeformationFieldPointer;
+  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImagePointer MovingImagePointer;
 
-  /** Get the metric value. The metric value is the mean square difference 
-   * in intensity between the fixed image and transforming moving image 
-   * computed over the the overlapping region between the two images. 
+  /** Deformation field type. */
+  typedef typename Superclass::DeformationFieldType    DeformationFieldType;
+  typedef typename Superclass::DeformationFieldPointer DeformationFieldPointer;
+
+  /** Get the metric value. The metric value is the mean square difference
+   * in intensity between the fixed image and transforming moving image
+   * computed over the the overlapping region between the two images.
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
-  virtual const double &GetRMSChange() const;
 
-  /** DemonsRegistrationFilterFunction type. 
-   * 
+  virtual const double & GetRMSChange() const;
+
+  /** DemonsRegistrationFilterFunction type.
+   *
    *  FIXME: Why is this the only permissible function ?
    *
    */
   typedef ESMDemonsRegistrationFunction<
-    FixedImageType, 
-    MovingImageType, DeformationFieldType>                DemonsRegistrationFunctionType;
+    FixedImageType,
+    MovingImageType, DeformationFieldType >                DemonsRegistrationFunctionType;
 
   typedef typename DemonsRegistrationFunctionType::GradientType GradientType;
-  virtual void SetUseGradientType( GradientType gtype );
+  virtual void SetUseGradientType(GradientType gtype);
+
   virtual GradientType GetUseGradientType() const;
 
   /** Set/Get the threshold below which the absolute difference of
@@ -128,15 +129,17 @@ public:
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
   virtual void SetIntensityDifferenceThreshold(double);
+
   virtual double GetIntensityDifferenceThreshold() const;
 
   virtual void SetMaximumUpdateStepLength(double);
+
   virtual double GetMaximumUpdateStepLength() const;
 
 protected:
   FastSymmetricForcesDemonsRegistrationFilter();
   ~FastSymmetricForcesDemonsRegistrationFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Initialize the state of filter and equation before each iteration. */
   virtual void InitializeIteration();
@@ -146,44 +149,43 @@ protected:
   virtual void AllocateUpdateBuffer();
 
   /** FiniteDifferenceFunction type. */
-  typedef typename 
-    Superclass::FiniteDifferenceFunctionType              FiniteDifferenceFunctionType;
+  typedef typename
+  Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
 
   /** Take timestep type from the FiniteDifferenceFunction. */
-  typedef typename 
-    FiniteDifferenceFunctionType::TimeStepType            TimeStepType;
+  typedef typename
+  FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
   /** Apply update. */
   virtual void ApplyUpdate(TimeStepType dt);
 
   /** other typedefs */
   typedef MultiplyByConstantImageFilter<
-    DeformationFieldType, 
+    DeformationFieldType,
     TimeStepType, DeformationFieldType >                  MultiplyByConstantType;
 
   typedef AddImageFilter<
-     DeformationFieldType, 
-     DeformationFieldType, DeformationFieldType>          AdderType;
+    DeformationFieldType,
+    DeformationFieldType, DeformationFieldType >          AdderType;
 
-
-  typedef typename MultiplyByConstantType::Pointer        MultiplyByConstantPointer;
-  typedef typename AdderType::Pointer                     AdderPointer;
-
-
+  typedef typename MultiplyByConstantType::Pointer MultiplyByConstantPointer;
+  typedef typename AdderType::Pointer              AdderPointer;
 private:
-  FastSymmetricForcesDemonsRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FastSymmetricForcesDemonsRegistrationFilter(const Self &); //purposely not
+                                                             // implemented
+  void operator=(const Self &);                              //purposely not
+
+  // implemented
 
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
    * this method will throw an exception if the function is not of the expected type. */
   DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType();
+
   const DemonsRegistrationFunctionType *  DownCastDifferenceFunctionType() const;
 
-  MultiplyByConstantPointer         m_Multiplier;
-  AdderPointer                      m_Adder;
+  MultiplyByConstantPointer m_Multiplier;
+  AdderPointer              m_Adder;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

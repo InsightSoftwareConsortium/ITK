@@ -50,74 +50,74 @@ namespace itk
  * \brief Class that defines how to read Bruker file format.
  * Bruker IMAGE FILE FORMAT - The following is a brief description of the Bruker
  * file format taken from:
- *  
+ *
  * http://www.mrc-cbu.cam.ac.uk/Imaging/Common/brukerformat.shtml.
  *
- * For the Bruker format, a single scanning session is stored in its own 
- * directory. The directory is named according to the subject name or number, as 
- * typed in by the scanner operator. The directory name usually specifies the 
- * subject name/number and which session this is for that subject. Thus, a 
+ * For the Bruker format, a single scanning session is stored in its own
+ * directory. The directory is named according to the subject name or number, as
+ * typed in by the scanner operator. The directory name usually specifies the
+ * subject name/number and which session this is for that subject. Thus, a
  * typical directory name would be
  *
  *         010005-m00.5X1
  *
- * where '010005' is the WBIC subject number of the subject, the 00 of 'm00' 
- * means this is the first scanning session that subject number of the session 
- * for that subject, on that day (1). The first two letters specify the day, 
+ * where '010005' is the WBIC subject number of the subject, the 00 of 'm00'
+ * means this is the first scanning session that subject number of the session
+ * for that subject, on that day (1). The first two letters specify the day,
  * since some arbitrary base date - set in the Bruker software.
  *
- * The WBIC number (e.g. 010005) in turn is made up of the year the subject was 
- * first scanned (01 = 2001) and where that subject is in the sequence of new 
- * numbers allocated (5 = 5th subject in the year 2001 who has needed a new 
+ * The WBIC number (e.g. 010005) in turn is made up of the year the subject was
+ * first scanned (01 = 2001) and where that subject is in the sequence of new
+ * numbers allocated (5 = 5th subject in the year 2001 who has needed a new
  * subject number).
  *
  * Within the session directory (e.g 010005-m00.5X1), there are:
  *          1.  a text file, named 'subject'
- *          2.  A subdirectory numbered 1, 2, 3 etc, for each saved run of data 
+ *          2.  A subdirectory numbered 1, 2, 3 etc, for each saved run of data
  *              acquisition in that session
  *
- * Within each of the run directories (e.g. 010005-m00.5X1/5) there are the 
+ * Within each of the run directories (e.g. 010005-m00.5X1/5) there are the
  * following:
- *          1.  an 'imnd' or 'method' text file, containing parameters used in 
+ *          1.  an 'imnd' or 'method' text file, containing parameters used in
  *              setting up and acquiring the data from the scanner
  *          2.  an 'acqp' (ACquisition Parameter) text file, with further details
  *              of the acquisition parameters used for that run
- *          3.  a large 'fid' file, that contains the raw, unreconstructed MR 
+ *          3.  a large 'fid' file, that contains the raw, unreconstructed MR
  *              Free Induction Decay data
- *          4.  a subdirectory 'pdata' (Processed Data), that contains any 
+ *          4.  a subdirectory 'pdata' (Processed Data), that contains any
  *              reconstructions of the data into images
  *          5.  various other files, including the 'pulseprogram' and 'grdprog.r'
  *              gradient programs
  *
- * Within each of the 'pdata' subdirectories (e.g 01001-m00.5X1/5/pdata), there 
+ * Within each of the 'pdata' subdirectories (e.g 01001-m00.5X1/5/pdata), there
  * are numbered subdirectories (1,2,3 etc) for each new reconstruction of the raw
- * data into images. There is usually only one such reconstruction, in 
+ * data into images. There is usually only one such reconstruction, in
  * subdirectory '1'.
  *
  * Within each reconstruction directory (e.g 01001-m00.5X1/5/pdata/1), there are:
- *          1.  a '2dseq' file. This is the 3D (structural etc) or 4D (FMRI) 
- *              image file.  It is simply a binary block of data, which could 
- *              simply be renamed as 'myscan.img' to make an acceptable Analyze 
+ *          1.  a '2dseq' file. This is the 3D (structural etc) or 4D (FMRI)
+ *              image file.  It is simply a binary block of data, which could
+ *              simply be renamed as 'myscan.img' to make an acceptable Analyze
  *              .img file.
- *          2.  a 'reco' text file, containing some details of the 
+ *          2.  a 'reco' text file, containing some details of the
  *              reconstruction.
- *          3.  a 'meta' text file, which I think contains information for the 
+ *          3.  a 'meta' text file, which I think contains information for the
  *              display of the 2dseq file within ParaVision.
- *          4.  a 'd3proc' file, containing image size definition parameters, 
+ *          4.  a 'd3proc' file, containing image size definition parameters,
  *              inter alia.
  *
  * The 'reco', 'acqp', 'd3proc', and '2dseq' files are required for this reader.
- * It will look for these files in the directory structure described above.  The 
- * path and filename of the '2dseq' file must be the name of the file to read 
+ * It will look for these files in the directory structure described above.  The
+ * path and filename of the '2dseq' file must be the name of the file to read
  * (see CanReadFile).  This class supports reading only.
  */
-class ITK_EXPORT Bruker2DSEQImageIO : public ImageIOBase
+class ITK_EXPORT Bruker2DSEQImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef Bruker2DSEQImageIO            Self;
-  typedef ImageIOBase                   Superclass;
-  typedef SmartPointer<Self>            Pointer;
+  typedef Bruker2DSEQImageIO   Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,13 +140,13 @@ public:
        * \param FileNameToRead The name of the file to test for reading.
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -156,35 +156,35 @@ public:
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile( const char * itkNotUsed(FileNameToWrite) )
-    {
+  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) )
+  {
     return false;
-    }
+  }
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() 
-    { 
+  virtual void WriteImageInformation()
+  {
     return;
-    }
+  }
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write( const void * itkNotUsed( buffer ) ) 
-    { 
+  virtual void Write( const void *itkNotUsed(buffer) )
+  {
     return;
-    }
-
+  }
 
 protected:
   Bruker2DSEQImageIO();
   ~Bruker2DSEQImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
-  Bruker2DSEQImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
+  Bruker2DSEQImageIO(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
+
+  void SwapBytesIfNecessary(void *buffer, unsigned long numberOfPixels);
 
   ImageIOBase::ByteOrder m_MachineByteOrder;
 };
@@ -196,11 +196,11 @@ extern const char *const RECO_WORDTYPE;
 extern const char *const RECO_IMAGE_TYPE;
 extern const char *const RECO_TRANSPOSITION;
 extern const char *const ACQ_DIM;
-extern const char *const NI/*IMND_N_SLICES*/;
+extern const char *const NI; /*IMND_N_SLICES*/
 extern const char *const NR;
-extern const char *const ACQ_SLICE_THICK/*IMND_SLICE_THICK*/;
-extern const char *const NECHOES/*IMND_N_ECHO_IMAGES*/;
-extern const char *const ACQ_SLICE_SEPN/*IMND_SLICE_SEPN*/;
+extern const char *const ACQ_SLICE_THICK; /*IMND_SLICE_THICK*/
+extern const char *const NECHOES;         /*IMND_N_ECHO_IMAGES*/
+extern const char *const ACQ_SLICE_SEPN;  /*IMND_SLICE_SEPN*/
 extern const char *const ACQ_SLICE_SEPN_MODE;
 extern const char *const ACQ_ECHO_TIME;
 extern const char *const ACQ_REPETITION_TIME;

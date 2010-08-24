@@ -20,9 +20,10 @@
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_erf.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 GaussianDistribution
 ::GaussianDistribution()
 {
@@ -31,12 +32,11 @@ GaussianDistribution
   m_Parameters[1] = 1.0;
 }
 
-
 double
 GaussianDistribution
 ::GetMean() const
 {
-  if (m_Parameters.GetSize() != 2)
+  if ( m_Parameters.GetSize() != 2 )
     {
     itkGenericExceptionMacro(
       "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
@@ -50,23 +50,23 @@ void
 GaussianDistribution
 ::SetMean(double mean)
 {
-  bool modified=false;
+  bool modified = false;
 
-  if (m_Parameters.GetSize() > 0)
+  if ( m_Parameters.GetSize() > 0 )
     {
-    if (m_Parameters[0] != mean)
+    if ( m_Parameters[0] != mean )
       {
       modified = true;
       }
     }
 
-  if (m_Parameters.GetSize() != 2)
+  if ( m_Parameters.GetSize() != 2 )
     {
-    bool cache = false;
+    bool   cache = false;
     double t = 1.0;
 
     // cache current variance if there is one
-    if (m_Parameters.GetSize() > 1)
+    if ( m_Parameters.GetSize() > 1 )
       {
       t = m_Parameters[1];
       cache = true;
@@ -76,7 +76,7 @@ GaussianDistribution
     m_Parameters = ParametersType(2);
 
     // reapply variance if there was one, otherwise use a default value
-    if (cache)
+    if ( cache )
       {
       m_Parameters[1] = t;
       }
@@ -90,7 +90,7 @@ GaussianDistribution
 
   m_Parameters[0] = mean;
 
-  if (modified)
+  if ( modified )
     {
     this->Modified();
     }
@@ -100,7 +100,7 @@ double
 GaussianDistribution
 ::GetVariance() const
 {
-  if (m_Parameters.GetSize() != 2)
+  if ( m_Parameters.GetSize() != 2 )
     {
     itkGenericExceptionMacro(
       "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
@@ -116,21 +116,21 @@ GaussianDistribution
 {
   bool modified = false;
 
-  if (m_Parameters.GetSize() > 1)
+  if ( m_Parameters.GetSize() > 1 )
     {
-    if (m_Parameters[1] != variance)
+    if ( m_Parameters[1] != variance )
       {
       modified = true;
       }
     }
 
-  if (m_Parameters.GetSize() != 2)
+  if ( m_Parameters.GetSize() != 2 )
     {
-    bool cache = false;
+    bool   cache = false;
     double t = 0.0;
 
     // cache current mean if there is one
-    if (m_Parameters.GetSize() > 0)
+    if ( m_Parameters.GetSize() > 0 )
       {
       t = m_Parameters[0];
       cache = true;
@@ -140,7 +140,7 @@ GaussianDistribution
     m_Parameters = ParametersType(2);
 
     // reapply mean if there was one, otherwise use a default value
-    if (cache)
+    if ( cache )
       {
       m_Parameters[0] = t;
       }
@@ -154,18 +154,17 @@ GaussianDistribution
 
   m_Parameters[1] = variance;
 
-  if (modified)
+  if ( modified )
     {
     this->Modified();
     }
 }
 
-
 double
 GaussianDistribution
 ::PDF(double x)
 {
-  return vnl_math::one_over_sqrt2pi * vcl_exp(-0.5*x*x);
+  return vnl_math::one_over_sqrt2pi * vcl_exp(-0.5 * x * x);
 }
 
 double
@@ -174,16 +173,16 @@ GaussianDistribution
 {
   double xminusmean = x - mean;
 
-  return (vnl_math::one_over_sqrt2pi / vcl_sqrt(variance))
-    * vcl_exp(-0.5*xminusmean*xminusmean / variance);
+  return ( vnl_math::one_over_sqrt2pi / vcl_sqrt(variance) )
+         * vcl_exp(-0.5 * xminusmean * xminusmean / variance);
 }
 
 double
 GaussianDistribution
-::PDF(double x, const ParametersType& p)
+::PDF(double x, const ParametersType & p)
 {
   // verify the parameter vector length
-  if (p.GetSize() == 2)
+  if ( p.GetSize() == 2 )
     {
     return PDF(x, p[0], p[1]);
     }
@@ -200,26 +199,24 @@ double
 GaussianDistribution
 ::CDF(double x)
 {
-  return 0.5 * (vnl_erf(vnl_math::sqrt1_2 * x) + 1.0);
+  return 0.5 * ( vnl_erf(vnl_math::sqrt1_2 * x) + 1.0 );
 }
-
 
 double
 GaussianDistribution
 ::CDF(double x, double mean, double variance)
 {
   // convert to zero mean unit variance
-  double u = (x - mean) / vcl_sqrt(variance);
+  double u = ( x - mean ) / vcl_sqrt(variance);
 
-  return 0.5 * (vnl_erf(vnl_math::sqrt1_2 * u) + 1.0);
+  return 0.5 * ( vnl_erf(vnl_math::sqrt1_2 * u) + 1.0 );
 }
-
 
 double
 GaussianDistribution
-::CDF(double x, const ParametersType& p)
+::CDF(double x, const ParametersType & p)
 {
-  if (p.GetSize() != 2)
+  if ( p.GetSize() != 2 )
     {
     itkGenericExceptionMacro(
       "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
@@ -233,10 +230,10 @@ double
 GaussianDistribution
 ::InverseCDF(double p)
 {
-  double dp , dx , dt , ddq , dq;
+  double dp, dx, dt, ddq, dq;
   int    newt;
 
-  dp = (p <= 0.5) ? (p) : (1.0-p);   /* make between 0 and 0.5 */
+  dp = ( p <= 0.5 ) ? ( p ) : ( 1.0 - p );   /* make between 0 and 0.5 */
 
   // if original value is invalid, return +infinity or -infinity
   // changed from original code to reflect the fact that the
@@ -246,29 +243,28 @@ GaussianDistribution
   // if( dp <= 0.0 ){ dx = 13.0;  return ( (p <= 0.5) ? (dx) : (-dx) ); }
 
   // replaced with this if construct for the inverse of P(x)
-  if (p <= 0.0)
+  if ( p <= 0.0 )
     {
-    return itk::NumericTraits<double>::NonpositiveMin();
+    return itk::NumericTraits< double >::NonpositiveMin();
     }
-  else if (p >= 1.0)
+  else if ( p >= 1.0 )
     {
-    return itk::NumericTraits<double>::max();
+    return itk::NumericTraits< double >::max();
     }
-
 
   /**  Step 1:  use 26.2.23 from Abramowitz and Stegun */
 
   dt = vcl_sqrt( -2.0 * vcl_log(dp) );
   dx = dt
-    - ((.010328e+0*dt + .802853e+0)*dt + 2.515517e+0)
-    /(((.001308e+0*dt + .189269e+0)*dt + 1.432788e+0)*dt + 1.e+0);
+       - ( ( .010328e+0 * dt + .802853e+0 ) * dt + 2.515517e+0 )
+       / ( ( ( .001308e+0 * dt + .189269e+0 ) * dt + 1.432788e+0 ) * dt + 1.e+0 );
 
   /**  Step 2:  do 3 Newton steps to improve this */
 
-  for( newt=0; newt < 3; newt++ )
+  for ( newt = 0; newt < 3; newt++ )
     {
-    dq  = 0.5e+0 * vnl_erfc( dx *vnl_math::sqrt1_2 ) - dp;
-    ddq = vcl_exp( -0.5e+0 * dx * dx ) / 2.506628274631000e+0;
+    dq  = 0.5e+0 * vnl_erfc(dx * vnl_math::sqrt1_2) - dp;
+    ddq = vcl_exp(-0.5e+0 * dx * dx) / 2.506628274631000e+0;
     dx  = dx + dq / ddq;
     }
 
@@ -278,11 +274,10 @@ GaussianDistribution
   // Note that P(-x) = Q(x), so whatever x was calculated for Q(x) = p,
   // we simply need to return the negative of x to get P(xp) = p.
   //
-  dx = ( (p <= 0.5) ? (-dx) : (dx) ); // return with correct sign
+  dx = ( ( p <= 0.5 ) ? ( -dx ) : ( dx ) ); // return with correct sign
 
   return dx;
 }
-
 
 double
 GaussianDistribution
@@ -290,11 +285,11 @@ GaussianDistribution
 {
   double x = GaussianDistribution::InverseCDF(p);
 
-  if (x == itk::NumericTraits<double>::NonpositiveMin())
+  if ( x == itk::NumericTraits< double >::NonpositiveMin() )
     {
     return x;
     }
-  else if (x == itk::NumericTraits<double>::max())
+  else if ( x == itk::NumericTraits< double >::max() )
     {
     return x;
     }
@@ -302,17 +297,16 @@ GaussianDistribution
     {
     // apply the mean and variance to provide the value for the
     // prescribed Gaussian
-    x = x*vcl_sqrt(variance) + mean;
+    x = x * vcl_sqrt(variance) + mean;
     return x;
     }
 }
 
 double
 GaussianDistribution
-::InverseCDF(double p, const ParametersType& params)
+::InverseCDF(double p, const ParametersType & params)
 {
-
-  if (params.GetSize() != 2)
+  if ( params.GetSize() != 2 )
     {
     itkGenericExceptionMacro(
       "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
@@ -326,9 +320,9 @@ double
 GaussianDistribution
 ::EvaluatePDF(double x) const
 {
-  if (m_Parameters.GetSize() == 2)
+  if ( m_Parameters.GetSize() == 2 )
     {
-    if (m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0)
+    if ( m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0 )
       {
       return GaussianDistribution::PDF(x);
       }
@@ -346,11 +340,11 @@ GaussianDistribution
 
 double
 GaussianDistribution
-::EvaluatePDF(double x, const ParametersType&p) const
+::EvaluatePDF(double x, const ParametersType & p) const
 {
-  if (p.GetSize() == 2)
+  if ( p.GetSize() == 2 )
     {
-    if (p[0] == 0.0 && p[1] == 1.0)
+    if ( p[0] == 0.0 && p[1] == 1.0 )
       {
       return GaussianDistribution::PDF(x);
       }
@@ -370,7 +364,7 @@ double
 GaussianDistribution
 ::EvaluatePDF(double x, double mean, double variance) const
 {
-  if (mean == 0.0 && variance == 1.0)
+  if ( mean == 0.0 && variance == 1.0 )
     {
     return GaussianDistribution::PDF(x);
     }
@@ -378,14 +372,13 @@ GaussianDistribution
   return GaussianDistribution::PDF(x, mean, variance);
 }
 
-
 double
 GaussianDistribution
 ::EvaluateCDF(double x) const
 {
-  if (m_Parameters.GetSize() == 2)
+  if ( m_Parameters.GetSize() == 2 )
     {
-    if (m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0)
+    if ( m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0 )
       {
       return GaussianDistribution::CDF(x);
       }
@@ -403,11 +396,11 @@ GaussianDistribution
 
 double
 GaussianDistribution
-::EvaluateCDF(double x, const ParametersType& p) const
+::EvaluateCDF(double x, const ParametersType & p) const
 {
-  if (p.GetSize() == 2)
+  if ( p.GetSize() == 2 )
     {
-    if (p[0] == 0.0 && p[1] == 1.0)
+    if ( p[0] == 0.0 && p[1] == 1.0 )
       {
       return GaussianDistribution::CDF(x);
       }
@@ -420,14 +413,14 @@ GaussianDistribution
       "Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
       << p.size()
       << " parameters.");
-   }
+    }
 }
 
 double
 GaussianDistribution
 ::EvaluateCDF(double x, double mean, double variance) const
 {
-  if (mean == 0.0 && variance == 1.0)
+  if ( mean == 0.0 && variance == 1.0 )
     {
     return GaussianDistribution::CDF(x);
     }
@@ -435,19 +428,18 @@ GaussianDistribution
   return GaussianDistribution::CDF(x, mean, variance);
 }
 
-
 double
 GaussianDistribution
 ::EvaluateInverseCDF(double p) const
 {
-  if (m_Parameters.GetSize() == 2)
+  if ( m_Parameters.GetSize() == 2 )
     {
-    if (m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0)
+    if ( m_Parameters[0] == 0.0 && m_Parameters[1] == 1.0 )
       {
       return GaussianDistribution::InverseCDF(p);
       }
 
-    return GaussianDistribution::InverseCDF(p,m_Parameters[0],m_Parameters[1]);
+    return GaussianDistribution::InverseCDF(p, m_Parameters[0], m_Parameters[1]);
     }
   else
     {
@@ -460,16 +452,16 @@ GaussianDistribution
 
 double
 GaussianDistribution
-::EvaluateInverseCDF(double p, const ParametersType& params) const
+::EvaluateInverseCDF(double p, const ParametersType & params) const
 {
-  if (params.GetSize() == 2)
+  if ( params.GetSize() == 2 )
     {
-    if (params[0] == 0.0 && params[1] == 1.0)
+    if ( params[0] == 0.0 && params[1] == 1.0 )
       {
       return GaussianDistribution::InverseCDF(p);
       }
 
-    return GaussianDistribution::InverseCDF(p,params[0],params[1]);
+    return GaussianDistribution::InverseCDF(p, params[0], params[1]);
     }
   else
     {
@@ -484,21 +476,21 @@ double
 GaussianDistribution
 ::EvaluateInverseCDF(double p, double mean, double variance) const
 {
-  if (mean == 0.0 && variance == 1.0)
+  if ( mean == 0.0 && variance == 1.0 )
     {
     return GaussianDistribution::InverseCDF(p);
     }
 
-  return GaussianDistribution::InverseCDF(p,mean,variance);
+  return GaussianDistribution::InverseCDF(p, mean, variance);
 }
 
 void
 GaussianDistribution
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  if (m_Parameters.GetSize() > 0)
+  if ( m_Parameters.GetSize() > 0 )
     {
     os << indent << "Mean: "  << m_Parameters[0] << std::endl;
     }
@@ -507,7 +499,7 @@ GaussianDistribution
     os << indent << "Mean: (unknown)" << std::endl;
     }
 
-  if (m_Parameters.GetSize() > 1)
+  if ( m_Parameters.GetSize() > 1 )
     {
     os << indent << "Variance: "  << m_Parameters[1] << std::endl;
     }
@@ -516,6 +508,5 @@ GaussianDistribution
     os << indent << "Variance: (unknown)" << std::endl;
     }
 }
-
 } // end of namespace Statistics
 } // end namespace itk

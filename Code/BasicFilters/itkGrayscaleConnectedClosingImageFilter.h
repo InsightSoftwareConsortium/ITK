@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class GrayscaleConnectedClosingImageFilter
  * \brief Enhance pixels associated with a dark object (identified by
  * a seed pixel) where the dark object is surrounded by a brigher object.
@@ -28,7 +28,7 @@ namespace itk {
  * GrayscaleConnectedClosingImagefilter is useful for enhancing dark
  * objects that are surrounded by bright borders. This filter makes it
  * easier to threshold the image and extract just the object of
- * interest. 
+ * interest.
  *
  * Geodesic morphology and the connected closing algorithm are
  * described in Chapter 6 of Pierre Soille's book "Morphological Image
@@ -39,17 +39,16 @@ namespace itk {
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT GrayscaleConnectedClosingImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT GrayscaleConnectedClosingImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleConnectedClosingImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                               Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef GrayscaleConnectedClosingImageFilter            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TInputImage                              InputImageType;
@@ -63,7 +62,7 @@ public:
   typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
   typedef typename OutputImageType::RegionType     OutputImageRegionType;
   typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -71,10 +70,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleConnectedClosingImageFilter, 
+  itkTypeMacro(GrayscaleConnectedClosingImageFilter,
                ImageToImageFilter);
 
   /** Set/Get the seed pixel for the segmentation */
@@ -93,19 +92,18 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   GrayscaleConnectedClosingImageFilter();
-  ~GrayscaleConnectedClosingImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~GrayscaleConnectedClosingImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GrayscaleConnectedClosingImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -113,25 +111,26 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** GrayscaleConnectedClosingImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicDilateImageFilter. */
   void GenerateData();
-  
 
 private:
-  GrayscaleConnectedClosingImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GrayscaleConnectedClosingImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+
+  // implemented
 
   unsigned long       m_NumberOfIterationsUsed;
   InputImageIndexType m_Seed;
-  
-  bool                m_FullyConnected;
-}; // end of class
 
+  bool m_FullyConnected;
+}; // end of class
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGrayscaleConnectedClosingImageFilter.txx"
 #endif

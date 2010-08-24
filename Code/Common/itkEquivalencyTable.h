@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkEquivalencyTable_h
 #define __itkEquivalencyTable_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -44,23 +44,24 @@ namespace itk
  * itk::watershed::Relabeler.
  * \ingroup WatershedSegmentation
  */
-class ITKCommon_EXPORT EquivalencyTable : public DataObject
+class ITKCommon_EXPORT EquivalencyTable:public DataObject
 {
 public:
   /** Standard smart pointer declarations */
-  typedef EquivalencyTable         Self;
-  typedef DataObject               Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef EquivalencyTable           Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(EquivalencyTable, DataObject);
 
   /** Define the container type for the table. */
-  typedef itk::hash_map<unsigned long, unsigned long,
-                        itk::hash<unsigned long> > HashTableType;
-  typedef HashTableType::iterator                  Iterator;
-  typedef HashTableType::const_iterator            ConstIterator;
-  typedef HashTableType::value_type                ValueType;
+  typedef itk::hash_map< unsigned long, unsigned long,
+                         itk::hash< unsigned long > > HashTableType;
+
+  typedef HashTableType::iterator       Iterator;
+  typedef HashTableType::const_iterator ConstIterator;
+  typedef HashTableType::value_type     ValueType;
 
   /** ``Flattens'' the equivalency table by eliminating all redundant
    * and recursive equivalencies.  I.e. the set { 2=1; 3=2; 4=3 } is
@@ -88,11 +89,12 @@ public:
    * table, the method returns its the value of the argument.  Does
    * not recursively descent through equivalencies.  */
   unsigned long Lookup(const unsigned long a) const
-    {
+  {
     ConstIterator result = m_HashMap.find(a);
-    if ( result == m_HashMap.end() ) return a;
-    else return (*result).second;
-    }
+
+    if ( result == m_HashMap.end() ) { return a; }
+    else { return ( *result ).second; }
+  }
 
   /** Lookup an equivalency in the table by recursing through all
    * successive equivalencies.  For example, if the follow entries
@@ -103,26 +105,26 @@ public:
   /** Returns TRUE if the label is found in the table and FALSE is the label is
    * not found in the table.   */
   bool IsEntry(const unsigned long a) const
-    {
-    if ( m_HashMap.find(a) == m_HashMap.end() ) return false;
-    else return true;
-    }
+  {
+    if ( m_HashMap.find(a) == m_HashMap.end() ) { return false; }
+    else { return true; }
+  }
 
   /** Erases the entry with key a.  */
   void Erase(const unsigned long a)
-    {  m_HashMap.erase(a); }
+  {  m_HashMap.erase(a); }
 
   /** Erases all the entries in the table.   */
   void Clear()
-    {  m_HashMap.clear();    }
+  {  m_HashMap.clear();    }
 
   /** Returns TRUE if the table is empty, FALSE if it is not empty.   */
   bool Empty() const
-    { return m_HashMap.empty();    }
+  { return m_HashMap.empty();    }
 
   /** Returns the number of entries in the table.   */
   HashTableType::size_type Size() const
-    { return m_HashMap.size(); }
+  { return m_HashMap.size(); }
 
   /** Returns an iterator pointing to the first element of the (unordered)
    *  table.   */
@@ -137,13 +139,13 @@ public:
 protected:
   EquivalencyTable()  {}
   virtual ~EquivalencyTable() {}
-  EquivalencyTable(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  EquivalencyTable(const Self &); // purposely not implemented
+  void operator=(const Self &);   // purposely not implemented
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   HashTableType m_HashMap;
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

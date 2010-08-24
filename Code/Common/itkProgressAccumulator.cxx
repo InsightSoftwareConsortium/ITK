@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkProgressAccumulator.h"
 
-namespace itk {
-
+namespace itk
+{
 ProgressAccumulator
 ::ProgressAccumulator()
 {
@@ -28,7 +28,7 @@ ProgressAccumulator
 
   // Create a member command
   m_CallbackCommand = CommandType::New();
-  m_CallbackCommand->SetCallbackFunction( this, & Self::ReportProgress );
+  m_CallbackCommand->SetCallbackFunction(this, &Self::ReportProgress);
 }
 
 ProgressAccumulator
@@ -39,16 +39,17 @@ ProgressAccumulator
 
 void
 ProgressAccumulator
-::RegisterInternalFilter(GenericFilterType *filter,float weight)
+::RegisterInternalFilter(GenericFilterType *filter, float weight)
 {
   // Observe the filter
-  unsigned long progressTag = 
+  unsigned long progressTag =
     filter->AddObserver(ProgressEvent(), m_CallbackCommand);
-  unsigned long iterationTag = 
+  unsigned long iterationTag =
     filter->AddObserver(IterationEvent(), m_CallbackCommand);
-  
+
   // Create a record for the filter
   struct FilterRecord record;
+
   record.Filter = filter;
   record.Weight = weight;
   record.ProgressObserverTag = progressTag;
@@ -59,13 +60,14 @@ ProgressAccumulator
   m_FilterRecord.push_back(record);
 }
 
-void 
+void
 ProgressAccumulator
 ::UnregisterAllFilters()
 {
   // The filters should no longer be observing us
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin(); it != m_FilterRecord.end();++it)
+
+  for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
     {
     it->Filter->RemoveObserver(it->ProgressObserverTag);
     it->Filter->RemoveObserver(it->IterationObserverTag);
@@ -78,51 +80,51 @@ ProgressAccumulator
   ResetProgress();
 }
 
-void 
+void
 ProgressAccumulator
 ::ResetProgress()
 {
   // Reset the accumulated progress
   m_AccumulatedProgress     = 0.0f;
   m_BaseAccumulatedProgress = 0.0f;
-  
-  // Reset each of the individial progress meters 
+
+  // Reset each of the individial progress meters
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
+  for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
     {
     it->Progress = 0.0f;
-    it->Filter->SetProgress( 0.0f );
+    it->Filter->SetProgress(0.0f);
     }
 }
 
-void 
+void
 ProgressAccumulator
 ::ResetFilterProgressAndKeepAccumulatedProgress()
 {
   m_BaseAccumulatedProgress = m_AccumulatedProgress;
-  // Reset each of the individial progress meters 
+  // Reset each of the individial progress meters
   FilterRecordVector::iterator it;
-  for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
+  for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
     {
     it->Progress = 0.0f;
-    it->Filter->SetProgress( 0.0f );
+    it->Filter->SetProgress(0.0f);
     }
 }
 
-
-void 
+void
 ProgressAccumulator
-::ReportProgress(Object *who, const EventObject &event)
+::ReportProgress(Object *who, const EventObject & event)
 {
   ProgressEvent  pe;
   IterationEvent ie;
-  if( typeid( event ) == typeid( pe ) )
+
+  if ( typeid( event ) == typeid( pe ) )
     {
     // Add up the progress from different filters
     m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
     FilterRecordVector::iterator it;
-    for(it = m_FilterRecord.begin();it != m_FilterRecord.end();++it)
+    for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
       {
       m_AccumulatedProgress += it->Filter->GetProgress() * it->Weight;
       }
@@ -135,31 +137,29 @@ ProgressAccumulator
       {
       // Abort the filter that is reporting progress
       FilterRecordVector::iterator fit;
-      for(fit = m_FilterRecord.begin();fit != m_FilterRecord.end();++fit)
+      for ( fit = m_FilterRecord.begin(); fit != m_FilterRecord.end(); ++fit )
         {
-        if (who == fit->Filter)
+        if ( who == fit->Filter )
           {
           fit->Filter->AbortGenerateDataOn();
           }
         }
       }
     }
-  else if (typeid( event ) == typeid ( ie ) )
-    {
-    }
+  else if ( typeid( event ) == typeid( ie ) )
+          {}
 }
 
 void ProgressAccumulator
-::PrintSelf(std::ostream &os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  if (m_MiniPipelineFilter)
+  if ( m_MiniPipelineFilter )
     {
     os << indent << m_MiniPipelineFilter << std::endl;
     }
   os << indent << m_AccumulatedProgress     << std::endl;
   os << indent << m_BaseAccumulatedProgress << std::endl;
 }
-
 } // End namespace itk

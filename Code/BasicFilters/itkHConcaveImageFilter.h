@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class HConcaveImageFilter
  * \brief Identify local minima whose depth below the baseline is greater than h.
  *
@@ -29,40 +29,39 @@ namespace itk {
  * of extracting objects that are darker than the background by at least
  * h intensity units.
  *
- * This filter uses the HMinimaImageFilter.  
+ * This filter uses the HMinimaImageFilter.
  *
  * Geodesic morphology and the H-Convex algorithm is described in
  * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
  * Principles and Applications", Second Edition, Springer, 2003.
  *
- * \sa GrayscaleGeodesicDilateImageFilter, HMaximaImageFilter, 
+ * \sa GrayscaleGeodesicDilateImageFilter, HMaximaImageFilter,
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT HConcaveImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT HConcaveImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef HConcaveImageFilter       Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef HConcaveImageFilter                             Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -70,10 +69,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(HConcaveImageFilter, 
+  itkTypeMacro(HConcaveImageFilter,
                ImageToImageFilter);
 
   /** Set/Get the height that a local maximum must be above the local
@@ -92,22 +91,21 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputImagePixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   HConcaveImageFilter();
-  ~HConcaveImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~HConcaveImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** HConcaveImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -115,24 +113,22 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** HConcaveImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-  
 
 private:
-  HConcaveImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  HConcaveImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;
   bool                m_FullyConnected;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHConcaveImageFilter.txx"
 #endif

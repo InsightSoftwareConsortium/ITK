@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkAnisotropicDiffusionFunction.h"
 #include "itkVector.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorAnisotropicDiffusionFunction
  *
  * This class implements a vector-valued version of
@@ -33,7 +33,7 @@ namespace itk {
  * of diffusion function.
  *
  * \par Data type requirements
- * This filter was designed to process itk::Images of itk::Vector type.  The code 
+ * This filter was designed to process itk::Images of itk::Vector type.  The code
  * relies on various typedefs and overloaded operators defined in itk::Vector.
  * It is perfectly reasonable, however, to apply this filter to images of other,
  * user-defined types as long as the appropriate typedefs and operator overloads
@@ -46,21 +46,21 @@ namespace itk {
  * \sa AnisotropicDiffusionFunction
  * \sa ScalarAnisotropicDiffusionFunction
  * */
-template <class TImage>
-class ITK_EXPORT VectorAnisotropicDiffusionFunction :
-    public AnisotropicDiffusionFunction<TImage>
+template< class TImage >
+class ITK_EXPORT VectorAnisotropicDiffusionFunction:
+  public AnisotropicDiffusionFunction< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorAnisotropicDiffusionFunction   Self;
-  typedef AnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef VectorAnisotropicDiffusionFunction     Self;
+  typedef AnisotropicDiffusionFunction< TImage > Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(VectorAnisotropicDiffusionFunction,
                AnisotropicDiffusionFunction);
-  
+
   /** Inherit some parameters from the superclass type */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
@@ -70,8 +70,8 @@ public:
 
   /** Inherit some parameters from the superclass type */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
-  itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension );
+                      Superclass::ImageDimension);
+  itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension);
 
   /** Compute the average gradient magnitude squared. */
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
@@ -79,14 +79,13 @@ public:
 protected:
   VectorAnisotropicDiffusionFunction() {}
   ~VectorAnisotropicDiffusionFunction() {}
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf(os,indent); }
+  void PrintSelf(std::ostream & os, Indent indent) const
+  { Superclass::PrintSelf(os, indent); }
 private:
-  VectorAnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VectorAnisotropicDiffusionFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorAnisotropicDiffusionFunction.txx"

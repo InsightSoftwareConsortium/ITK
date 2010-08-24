@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,11 +21,10 @@
 
 namespace itk
 {
-
 /** \class NthElementPixelAccessor
- * \brief Give access to the N-th of a Container type 
+ * \brief Give access to the N-th of a Container type
  *
- * This class is intended to be used as parameter of 
+ * This class is intended to be used as parameter of
  * an ImageAdaptor to make a  Container appears as being
  * of scalar type T, showing only the N-th component.
  *
@@ -44,63 +43,60 @@ namespace itk
  * \ingroup ImageAdaptors
  */
 
-template < class T, class TContainer >
+template< class T, class TContainer >
 class ITK_EXPORT NthElementPixelAccessor
 {
 public:
   /** Standard class typedefs. */
-  typedef   NthElementPixelAccessor        Self;
+  typedef   NthElementPixelAccessor Self;
 
   /** that this class will exhibit */
   typedef T ExternalType;
 
   /** Internal typedef. It defines the internal real
    * representation of data */
-  typedef   TContainer    InternalType;
+  typedef   TContainer InternalType;
 
   /** Write access to the NthElement component */
-  inline void Set( InternalType & output, const ExternalType & input ) const 
-    { output[m_ElementNumber] =  input; }
+  inline void Set(InternalType & output, const ExternalType & input) const
+  { output[m_ElementNumber] =  input; }
 
   /** Read access to the NthElement component */
-  inline ExternalType Get( const InternalType & input ) const
-    { return static_cast<ExternalType>( input[m_ElementNumber] ); }
+  inline ExternalType Get(const InternalType & input) const
+  { return static_cast< ExternalType >( input[m_ElementNumber] ); }
 
   /** Get the element number to access in the container */
   unsigned int GetElementNumber(void) const
-    { return m_ElementNumber; }
+  { return m_ElementNumber; }
 
   /** Set the element number to access in the container */
-  void SetElementNumber( unsigned int nth )
-    { m_ElementNumber = nth; }
+  void SetElementNumber(unsigned int nth)
+  { m_ElementNumber = nth; }
 
   /** operator!=. This is needed to convert a pixel accessor to a functor.
    * \sa AdaptImageFilter */
-  bool operator!=(const Self& accessor) const
-    {
-      return (m_ElementNumber != accessor.m_ElementNumber);
-    }
+  bool operator!=(const Self & accessor) const
+  {
+    return ( m_ElementNumber != accessor.m_ElementNumber );
+  }
 
   /** Assignment operator */
-  NthElementPixelAccessor & operator=( const NthElementPixelAccessor & accessor )
-    {
+  NthElementPixelAccessor & operator=(const NthElementPixelAccessor & accessor)
+  {
     m_ElementNumber = accessor.m_ElementNumber;
     return *this;
-    }
-  
+  }
+
   /** Constructor */
   NthElementPixelAccessor()
-    {
+  {
     m_ElementNumber = 0;
-    }
+  }
 
 private:
   // Identifier of the N-th element to be accessed
-  unsigned int    m_ElementNumber;
-
+  unsigned int m_ElementNumber;
 };
-
-  
 }  // end namespace itk
 
 #endif

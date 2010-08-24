@@ -25,9 +25,10 @@
 #include "itkNumericTraits.h"
 #include "itkMacro.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ScalarImageToCooccurrenceMatrixFilter
  *  \brief This class computes a co-occurence matrix (histogram) from
  * a given image and a mask image if provided. Coocurrence matrces are
@@ -91,14 +92,14 @@ namespace Statistics {
 
 template< class TImageType,
           class THistogramFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_EXPORT ScalarImageToCooccurrenceMatrixFilter : public ProcessObject
+class ITK_EXPORT ScalarImageToCooccurrenceMatrixFilter:public ProcessObject
 {
 public:
   /** Standard typedefs */
-  typedef ScalarImageToCooccurrenceMatrixFilter               Self;
-  typedef ProcessObject                                       Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  typedef ScalarImageToCooccurrenceMatrixFilter Self;
+  typedef ProcessObject                         Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToCooccurrenceMatrixFilter, ProcessObject);
@@ -106,40 +107,40 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TImageType                                      ImageType;
-  typedef typename ImageType::Pointer                     ImagePointer;
-  typedef typename ImageType::ConstPointer                ImageConstPointer;
-  typedef typename ImageType::PixelType                   PixelType;
-  typedef typename ImageType::RegionType                  RegionType;
-  typedef typename ImageType::SizeType                    RadiusType;
-  typedef typename ImageType::OffsetType                  OffsetType;
-  typedef VectorContainer<unsigned char, OffsetType>      OffsetVector;
-  typedef typename OffsetVector::Pointer                  OffsetVectorPointer;
-  typedef typename OffsetVector::ConstPointer             OffsetVectorConstPointer;
+  typedef TImageType                                   ImageType;
+  typedef typename ImageType::Pointer                  ImagePointer;
+  typedef typename ImageType::ConstPointer             ImageConstPointer;
+  typedef typename ImageType::PixelType                PixelType;
+  typedef typename ImageType::RegionType               RegionType;
+  typedef typename ImageType::SizeType                 RadiusType;
+  typedef typename ImageType::OffsetType               OffsetType;
+  typedef VectorContainer< unsigned char, OffsetType > OffsetVector;
+  typedef typename OffsetVector::Pointer               OffsetVectorPointer;
+  typedef typename OffsetVector::ConstPointer          OffsetVectorConstPointer;
 
-  typedef typename NumericTraits<PixelType>::RealType     MeasurementType;
+  typedef typename NumericTraits< PixelType >::RealType MeasurementType;
 
-  typedef Histogram< MeasurementType, THistogramFrequencyContainer >
-                                                          HistogramType;
-  typedef typename HistogramType::Pointer                 HistogramPointer;
-  typedef typename HistogramType::ConstPointer            HistogramConstPointer;
-  typedef typename HistogramType::MeasurementVectorType   MeasurementVectorType;
-
+  typedef Histogram< MeasurementType, THistogramFrequencyContainer > HistogramType;
+  typedef typename HistogramType::Pointer                            HistogramPointer;
+  typedef typename HistogramType::ConstPointer                       HistogramConstPointer;
+  typedef typename HistogramType::MeasurementVectorType              MeasurementVectorType;
 
   itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
 
   /** Set the offset or offsets over which the co-occurrence pairs will be computed.
       Calling either of these methods clears the previous offsets. */
-  itkSetConstObjectMacro( Offsets, OffsetVector );
-  itkGetConstObjectMacro( Offsets, OffsetVector );
-  void SetOffset( const OffsetType offset );
+  itkSetConstObjectMacro(Offsets, OffsetVector);
+  itkGetConstObjectMacro(Offsets, OffsetVector);
+  void SetOffset(const OffsetType offset);
 
   /** Set number of histogram bins along each axis */
-  itkSetMacro( NumberOfBinsPerAxis, unsigned int );
-  itkGetConstMacro( NumberOfBinsPerAxis, unsigned int );
+  itkSetMacro(NumberOfBinsPerAxis, unsigned int);
+  itkGetConstMacro(NumberOfBinsPerAxis, unsigned int);
 
-  /** Set the min and max (inclusive) pixel value that will be placed in the histogram */
-  void SetPixelValueMinMax( PixelType min, PixelType max );
+  /** Set the min and max (inclusive) pixel value that will be placed in the
+    histogram */
+  void SetPixelValueMinMax(PixelType min, PixelType max);
+
   itkGetConstMacro(Min, PixelType);
   itkGetConstMacro(Max, PixelType);
 
@@ -150,29 +151,30 @@ public:
   itkBooleanMacro(Normalize);
 
   /** Method to set/get the image */
-  void SetInput( const ImageType* image );
-  const ImageType* GetInput() const;
+  void SetInput(const ImageType *image);
+
+  const ImageType * GetInput() const;
 
   /** Method to set/get the mask image */
-  void SetMaskImage( const ImageType* image );
-  const ImageType* GetMaskImage() const;
+  void SetMaskImage(const ImageType *image);
+
+  const ImageType * GetMaskImage() const;
 
   /** method to get the Histogram */
   const HistogramType * GetOutput() const;
 
   /** Set the pixel value of the mask that should be considered "inside" the
     object. Defaults to one. */
-  itkSetMacro( InsidePixelValue, PixelType );
-  itkGetConstMacro( InsidePixelValue, PixelType );
-
-
+  itkSetMacro(InsidePixelValue, PixelType);
+  itkGetConstMacro(InsidePixelValue, PixelType);
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
-  virtual ~ScalarImageToCooccurrenceMatrixFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual void FillHistogram( RadiusType radius, RegionType region );
-  virtual void FillHistogramWithMask( RadiusType radius, RegionType region, const ImageType * maskImage );
+  virtual ~ScalarImageToCooccurrenceMatrixFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
+  virtual void FillHistogram(RadiusType radius, RegionType region);
+
+  virtual void FillHistogramWithMask(RadiusType radius, RegionType region, const ImageType *maskImage);
 
   /** Standard itk::ProcessObject subclass method. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -182,25 +184,25 @@ protected:
   virtual void GenerateData();
 
 private:
-  ScalarImageToCooccurrenceMatrixFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarImageToCooccurrenceMatrixFilter(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
 
-  void NormalizeHistogram( void );
+  // implemented
+
+  void NormalizeHistogram(void);
 
   OffsetVectorConstPointer m_Offsets;
   PixelType                m_Min;
   PixelType                m_Max;
 
-  unsigned int            m_NumberOfBinsPerAxis;
-  MeasurementVectorType   m_LowerBound;
-  MeasurementVectorType   m_UpperBound;
-  bool                    m_Normalize;
+  unsigned int          m_NumberOfBinsPerAxis;
+  MeasurementVectorType m_LowerBound;
+  MeasurementVectorType m_UpperBound;
+  bool                  m_Normalize;
 
-  PixelType               m_InsidePixelValue;
-
+  PixelType m_InsidePixelValue;
 };
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

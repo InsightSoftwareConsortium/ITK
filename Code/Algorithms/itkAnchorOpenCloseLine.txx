@@ -20,14 +20,14 @@
 
 #include "itkAnchorOpenCloseLine.h"
 
-namespace itk {
-
-template <class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
-AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
+namespace itk
+{
+template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
+AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
 ::AnchorOpenCloseLine()
 {
-  m_Size=2;
-  if (UseVectorBasedHistogram())
+  m_Size = 2;
+  if ( UseVectorBasedHistogram() )
     {
     m_Histo = new VHistogram;
     }
@@ -37,33 +37,34 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     }
 }
 
-template <class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
+template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
 void
-AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
-::DoLine(InputImagePixelType * buffer, unsigned bufflength)
+AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+::DoLine(InputImagePixelType *buffer, unsigned bufflength)
 {
   // TFunction1 will be >= for openings
   // TFunction2 will be <=
   // TFunction3 will be >
-
 
   // the initial version will adopt the methodology of loading a line
   // at a time into a buffer vector, carrying out the opening or
   // closing, and then copy the result to the output. Hopefully this
   // will improve cache performance when working along non raster
   // directions.
-  if (bufflength <= m_Size/2)
+  if ( bufflength <= m_Size / 2 )
     {
     // No point doing anything fancy - just look for the extreme value
     // This is important for angled structuring elements
     InputImagePixelType Extreme = buffer[0];
-    for (unsigned i = 0;i < bufflength;i++)
+    for ( unsigned i = 0; i < bufflength; i++ )
       {
-      if (m_TF1(Extreme, buffer[i]))
+      if ( m_TF1(Extreme, buffer[i]) )
+        {
         Extreme = buffer[i];
+        }
       }
 
-    for (unsigned i = 0;i < bufflength;i++)
+    for ( unsigned i = 0; i < bufflength; i++ )
       {
       buffer[i] = Extreme;
       }
@@ -77,18 +78,17 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
   // left side
   assert(outLeftP >= 0);
   assert(outLeftP < bufflength);
-  while ((outLeftP < outRightP) && m_TF1(buffer[outLeftP], buffer[outLeftP+1]))
+  while ( ( outLeftP < outRightP ) && m_TF1(buffer[outLeftP], buffer[outLeftP + 1]) )
     {
     ++outLeftP;
     }
-  while ((outLeftP < outRightP) && m_TF2(buffer[outRightP-1], buffer[outRightP]))
+  while ( ( outLeftP < outRightP ) && m_TF2(buffer[outRightP - 1], buffer[outRightP]) )
     {
     --outRightP;
     }
   InputImagePixelType Extreme;
-  while (StartLine(buffer, Extreme, *m_Histo, outLeftP, outRightP, bufflength))
-    {
-    }
+  while ( StartLine(buffer, Extreme, *m_Histo, outLeftP, outRightP, bufflength) )
+      {}
 
   FinishLine(buffer, Extreme, outLeftP, outRightP, bufflength);
   // this section if to make the edge behaviour the same as the more
@@ -98,45 +98,45 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
   // borders.
   // compat
   // fix left border
-  Extreme = buffer[m_Size/2 + 1];
-  for (int i=m_Size/2;i>=0;i--)
+  Extreme = buffer[m_Size / 2 + 1];
+  for ( int i = m_Size / 2; i >= 0; i-- )
     {
     assert(i >= 0);
-    if (m_TF1(Extreme, buffer[i]))
+    if ( m_TF1(Extreme, buffer[i]) )
       {
-      Extreme=buffer[i];
+      Extreme = buffer[i];
       }
-//    std::cout << i << " " << (int)Extreme << " " << (int)buffer[i] << std::endl;
-    buffer[i]=Extreme;
+//    std::cout << i << " " << (int)Extreme << " " << (int)buffer[i] <<
+// std::endl;
+    buffer[i] = Extreme;
     }
   // fix right border
-  Extreme = buffer[bufflength - m_Size/2 - 2];
-  for (int i=(int)bufflength - m_Size/2 - 1;i<(int)bufflength;i++)
+  Extreme = buffer[bufflength - m_Size / 2 - 2];
+  for ( int i = (int)bufflength - m_Size / 2 - 1; i < (int)bufflength; i++ )
     {
     assert(i < (int)bufflength);
-    if (m_TF1(Extreme, buffer[i]))
+    if ( m_TF1(Extreme, buffer[i]) )
       {
-      Extreme=buffer[i];
+      Extreme = buffer[i];
       }
 //    std::cout << (int)Extreme << " " << (int)buffer[i] << std::endl;
-    buffer[i]=Extreme;
+    buffer[i] = Extreme;
     }
-
 }
 
-template<class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
+template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
 bool
-AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
-::StartLine(InputImagePixelType * buffer,
-            InputImagePixelType &Extreme,
-            Histogram &histo,
-            unsigned &outLeftP,
-            unsigned &outRightP,
+AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+::StartLine(InputImagePixelType *buffer,
+            InputImagePixelType & Extreme,
+            Histogram & histo,
+            unsigned & outLeftP,
+            unsigned & outRightP,
             unsigned
 #ifndef NDEBUG
- bufflength
+            bufflength
 #endif
-)
+            )
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
@@ -144,7 +144,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
   unsigned currentP = outLeftP + 1;
   unsigned sentinel, endP;
 
-  while ((currentP < outRightP) && m_TF2(buffer[currentP], Extreme))
+  while ( ( currentP < outRightP ) && m_TF2(buffer[currentP], Extreme) )
     {
     assert(currentP >= 0);
     assert(currentP < bufflength);
@@ -154,22 +154,22 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     }
 
   sentinel = outLeftP + m_Size;
-  if (sentinel > outRightP)
+  if ( sentinel > outRightP )
     {
     // finish
-    return (false);
+    return ( false );
     }
   ++currentP;
   // ran m_Size pixels ahead
-  while (currentP < sentinel)
+  while ( currentP < sentinel )
     {
     assert(currentP >= 0);
     assert(currentP < bufflength);
-    if (m_TF2(buffer[currentP], Extreme))
+    if ( m_TF2(buffer[currentP], Extreme) )
       {
       endP = currentP;
 #if 1
-      for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
+      for ( unsigned PP = outLeftP + 1; PP < endP; ++PP )
         {
         assert(PP >= 0);
         assert(PP < bufflength);
@@ -177,10 +177,13 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
         }
 #else
       outLeftP++;
-      while(outLeftP < endP){buffer[outLeftP]=Extreme;outLeftP++;}
+      while ( outLeftP < endP )
+        {
+        buffer[outLeftP] = Extreme; outLeftP++;
+        }
 #endif
       outLeftP = currentP;
-      return (true);
+      return ( true );
       }
     ++currentP;
     }
@@ -189,11 +192,11 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
   // reach of outLeftP
   assert(currentP >= 0);
   assert(currentP < bufflength);
-  if (m_TF2(buffer[currentP], Extreme))
+  if ( m_TF2(buffer[currentP], Extreme) )
     {
     endP = currentP;
 #if 1
-    for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
+    for ( unsigned PP = outLeftP + 1; PP < endP; ++PP )
       {
       assert(PP >= 0);
       assert(PP < bufflength);
@@ -201,11 +204,14 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
       }
 #else
     outLeftP++;
-    while (outLeftP < endP) { buffer[outLeftP]=Extreme; outLeftP++; }
+    while ( outLeftP < endP )
+      {
+      buffer[outLeftP] = Extreme; outLeftP++;
+      }
 
 #endif
     outLeftP = currentP;
-    return(true);
+    return ( true );
     }
   else
     {
@@ -213,7 +219,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     // Initialise it
     histo.Reset();
     outLeftP++;
-    for (unsigned aux = outLeftP; aux <= currentP; ++aux)
+    for ( unsigned aux = outLeftP; aux <= currentP; ++aux )
       {
       assert(aux >= 0);
       assert(aux < bufflength);
@@ -231,29 +237,32 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     histo.AddPixel(Extreme);
     }
 
-  while (currentP < outRightP)
+  while ( currentP < outRightP )
     {
     ++currentP;
     assert(currentP >= 0);
     assert(currentP < bufflength);
-    if (m_TF2(buffer[currentP], Extreme))
+    if ( m_TF2(buffer[currentP], Extreme) )
       {
       // Found a new extrem
       endP = currentP;
 #if 1
-      for (unsigned PP = outLeftP + 1; PP < endP; PP++)
+      for ( unsigned PP = outLeftP + 1; PP < endP; PP++ )
         {
         assert(PP >= 0);
         assert(PP < bufflength);
-        buffer[PP]=Extreme;
+        buffer[PP] = Extreme;
         }
 #else
       outLeftP++;
-      while (outLeftP < endP) { buffer[outLeftP]=Extreme; outLeftP++; }
+      while ( outLeftP < endP )
+        {
+        buffer[outLeftP] = Extreme; outLeftP++;
+        }
 
 #endif
       outLeftP = currentP;
-      return(true);
+      return ( true );
       }
     else
       {
@@ -274,7 +283,7 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
       }
     }
   // Finish the line
-  while (outLeftP < outRightP)
+  while ( outLeftP < outRightP )
     {
     assert(outLeftP >= 0);
     assert(outLeftP < bufflength);
@@ -287,35 +296,35 @@ AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
     buffer[outLeftP] = Extreme;
     histo.AddPixel(Extreme);
     }
-  return(false);
+  return ( false );
 }
 
-template<class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
+template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
 void
-AnchorOpenCloseLine<TInputPix,  THistogramCompare, TFunction1, TFunction2>
-::FinishLine(InputImagePixelType * buffer,
-             InputImagePixelType &Extreme,
-             unsigned &outLeftP,
-             unsigned &outRightP,
+AnchorOpenCloseLine< TInputPix,  THistogramCompare, TFunction1, TFunction2 >
+::FinishLine(InputImagePixelType *buffer,
+             InputImagePixelType & Extreme,
+             unsigned & outLeftP,
+             unsigned & outRightP,
              unsigned
 #ifndef NDEBUG
-bufflength
+             bufflength
 #endif
-)
+             )
 {
-  while (outLeftP < outRightP)
+  while ( outLeftP < outRightP )
     {
     assert(outLeftP >= 0);
     assert(outLeftP < bufflength);
     assert(outRightP >= 0);
     assert(outRightP < bufflength);
-    if (m_TF2(buffer[outLeftP], buffer[outRightP]))
+    if ( m_TF2(buffer[outLeftP], buffer[outRightP]) )
       {
       Extreme = buffer[outRightP];
       --outRightP;
       assert(outRightP >= 0);
       assert(outRightP < bufflength);
-      if (!m_TF2(buffer[outRightP], Extreme))
+      if ( !m_TF2(buffer[outRightP], Extreme) )
         {
         buffer[outRightP] = Extreme;
         }
@@ -326,7 +335,7 @@ bufflength
       ++outLeftP;
       assert(outLeftP >= 0);
       assert(outLeftP < bufflength);
-      if (!m_TF2(buffer[outLeftP], Extreme))
+      if ( !m_TF2(buffer[outLeftP], Extreme) )
         {
         buffer[outLeftP] = Extreme;
         }
@@ -334,15 +343,13 @@ bufflength
     }
 }
 
-template<class TInputPix, class THistogramCompare, class TFunction1, class TFunction2>
+template< class TInputPix, class THistogramCompare, class TFunction1, class TFunction2 >
 void
-AnchorOpenCloseLine<TInputPix, THistogramCompare, TFunction1, TFunction2>
-::PrintSelf(std::ostream &os, Indent indent) const
+AnchorOpenCloseLine< TInputPix, THistogramCompare, TFunction1, TFunction2 >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Size: " << m_Size << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

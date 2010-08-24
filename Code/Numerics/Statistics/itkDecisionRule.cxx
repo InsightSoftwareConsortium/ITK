@@ -16,25 +16,23 @@
 =========================================================================*/
 #include "itkDecisionRule.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 DecisionRule
 ::DecisionRule()
-{
-}
+{}
 
 DecisionRule
 ::~DecisionRule()
-{
-}
+{}
 
 void
 DecisionRule
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-}// end PrintSelf
-
+  Superclass::PrintSelf(os, indent);
+} // end PrintSelf
 } // end of namespace Statistics
 } // end of namespace itk

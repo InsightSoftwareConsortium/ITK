@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,27 +23,26 @@
 
 namespace itk
 {
-
 /** \class ExtractImageFilter
- * \brief Decrease the image size by cropping the image to the selected 
+ * \brief Decrease the image size by cropping the image to the selected
  * region bounds.
  *
- * ExtractImageFilter changes the image boundary of an image by removing  
+ * ExtractImageFilter changes the image boundary of an image by removing
  * pixels outside the target region.  The target region must be specified.
  *
- * ExtractImageFilter also collapses dimensions so that the input image 
+ * ExtractImageFilter also collapses dimensions so that the input image
  * may have more dimensions than the output image (i.e. 4-D input image
  * to a 3-D output image).  To specify what dimensions to collapse,
  * the ExtractionRegion must be specified.  For any dimension dim where
- * ExtractionRegion.Size[dim] = 0, that dimension is collapsed.  The 
+ * ExtractionRegion.Size[dim] = 0, that dimension is collapsed.  The
  * index to collapse on is specified by ExtractionRegion.Index[dim].
- * For example, we have a image 4D = a 4x4x4x4 image, and we want 
- * to get a 3D image, 3D = a 4x4x4 image, specified as [x,y,z,2] from 4D 
- * (i.e. the 3rd "time" slice from 4D).  The ExtractionRegion.Size = 
- * [4,4,4,0] and ExtractionRegion.Index = [0,0,0,2].  
+ * For example, we have a image 4D = a 4x4x4x4 image, and we want
+ * to get a 3D image, 3D = a 4x4x4 image, specified as [x,y,z,2] from 4D
+ * (i.e. the 3rd "time" slice from 4D).  The ExtractionRegion.Size =
+ * [4,4,4,0] and ExtractionRegion.Index = [0,0,0,2].
  *
- * The number of dimension in ExtractionRegion.Size and Index must = 
- * InputImageDimension.  The number of non-zero dimensions in 
+ * The number of dimension in ExtractionRegion.Size and Index must =
+ * InputImageDimension.  The number of non-zero dimensions in
  * ExtractionRegion.Size must = OutputImageDimension.
  *
  * The output image produced by this filter will have the same origin than the
@@ -53,25 +52,25 @@ namespace itk
  * and provide an output image region whose index is set to zeros, then you may
  * want to use the RegionOfInterestImageFilter.
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
- * 
+ *
  * \sa CropImageFilter
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExtractImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ExtractImageFilter                            Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef ExtractImageFilter                              Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtractImageFilter, ImageToImageFilter);
@@ -101,28 +100,28 @@ public:
                       TOutputImage::ImageDimension);
 
   typedef ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
-    itkGetStaticConstMacro(InputImageDimension), 
-    itkGetStaticConstMacro(OutputImageDimension)> ExtractImageFilterRegionCopierType;
+    itkGetStaticConstMacro(InputImageDimension),
+    itkGetStaticConstMacro(OutputImageDimension) > ExtractImageFilterRegionCopierType;
 
-  /** Set/Get the output image region. 
+  /** Set/Get the output image region.
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,
    *  we have to collapse dimension dim.  This means the output image will have
-   *  'c' dimensions less than the input image, where c = # of 
+   *  'c' dimensions less than the input image, where c = #of
    *  ExtractionRegion.Size = 0. */
   void SetExtractionRegion(InputImageRegionType extractRegion);
+
   itkGetConstMacro(ExtractionRegion, InputImageRegionType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputCovertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro( InputCovertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ExtractImageFilter();
-  ~ExtractImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ExtractImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ExtractImageFilter can produce an image which is a different
    * resolution than its input image.  As such, ExtractImageFilter
@@ -135,7 +134,7 @@ protected:
   virtual void GenerateOutputInformation();
 
   /** This function calls the actual region copier to do the mapping from
-   * output image space to input image space.  It uses a 
+   * output image space to input image space.  It uses a
    * Function object used for dispatching to various routines to
    * copy an output region (start index and size) to an input region.
    * For most filters, this is a trivial copy because most filters
@@ -144,8 +143,8 @@ protected:
    * support output images of a lower dimension that the input.
    *
    * \sa ImageToImageFilter::CallCopyRegion() */
-  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
-                                                 const OutputImageRegionType &srcRegion);
+  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
+                                                 const OutputImageRegionType & srcRegion);
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -156,22 +155,20 @@ protected:
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-  InputImageRegionType  m_ExtractionRegion;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
+
+  InputImageRegionType m_ExtractionRegion;
+
   OutputImageRegionType m_OutputImageRegion;
-
 private:
-  ExtractImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ExtractImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkExtractImageFilter.txx"
 #endif
-  
+
 #endif

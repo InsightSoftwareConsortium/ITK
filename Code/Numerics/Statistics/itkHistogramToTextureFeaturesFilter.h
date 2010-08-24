@@ -22,9 +22,10 @@
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class HistogramToTextureFeaturesFilter
 *  \brief This class computes texture feature coefficients from a grey level
 * co-occurrence matrix.
@@ -95,15 +96,15 @@ namespace Statistics {
 *
 * Author: Zachary Pincus */
 
-template < class THistogram >
-class ITK_EXPORT HistogramToTextureFeaturesFilter : public ProcessObject
+template< class THistogram >
+class ITK_EXPORT HistogramToTextureFeaturesFilter:public ProcessObject
 {
 public:
   /** Standard typedefs */
-  typedef HistogramToTextureFeaturesFilter                Self;
-  typedef ProcessObject                                   Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef HistogramToTextureFeaturesFilter Self;
+  typedef ProcessObject                    Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramToTextureFeaturesFilter, ProcessObject);
@@ -111,68 +112,77 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef THistogram                                      HistogramType;
-  typedef typename HistogramType::Pointer                 HistogramPointer;
-  typedef typename HistogramType::ConstPointer            HistogramConstPointer;
-  typedef typename HistogramType::MeasurementType         MeasurementType;
-  typedef typename HistogramType::MeasurementVectorType   MeasurementVectorType;
-  typedef typename HistogramType::IndexType               IndexType;
-  typedef typename HistogramType::AbsoluteFrequencyType   AbsoluteFrequencyType;
-  typedef typename HistogramType::RelativeFrequencyType   RelativeFrequencyType;
+  typedef THistogram                                    HistogramType;
+  typedef typename HistogramType::Pointer               HistogramPointer;
+  typedef typename HistogramType::ConstPointer          HistogramConstPointer;
+  typedef typename HistogramType::MeasurementType       MeasurementType;
+  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
+  typedef typename HistogramType::IndexType             IndexType;
+  typedef typename HistogramType::AbsoluteFrequencyType AbsoluteFrequencyType;
+  typedef typename HistogramType::RelativeFrequencyType RelativeFrequencyType;
 
   typedef typename HistogramType::TotalAbsoluteFrequencyType
-                                                     TotalAbsoluteFrequencyType;
+  TotalAbsoluteFrequencyType;
 
   typedef typename HistogramType::TotalRelativeFrequencyType
-                                                     TotalRelativeFrequencyType;
+  TotalRelativeFrequencyType;
 
   /** Container to hold relative frequencies of the histogram */
-  typedef std::vector< RelativeFrequencyType >          RelativeFrequencyContainerType;
+  typedef std::vector< RelativeFrequencyType > RelativeFrequencyContainerType;
 
   /** Method to Set/Get the input Histogram */
-  void SetInput ( const HistogramType * histogram );
+  void SetInput(const HistogramType *histogram);
+
   const HistogramType * GetInput() const;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer                   DataObjectPointer;
+  typedef DataObject::Pointer DataObjectPointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator<MeasurementType>     MeasurementObjectType;
+  typedef SimpleDataObjectDecorator< MeasurementType > MeasurementObjectType;
 
   /** Return energy texture value. */
   MeasurementType GetEnergy() const;
-  const MeasurementObjectType* GetEnergyOutput() const;
+
+  const MeasurementObjectType * GetEnergyOutput() const;
 
   /** Return entropy texture value. */
   MeasurementType GetEntropy() const;
-  const MeasurementObjectType* GetEntropyOutput() const;
+
+  const MeasurementObjectType * GetEntropyOutput() const;
 
   /** return correlation texture value. */
   MeasurementType GetCorrelation() const;
-  const MeasurementObjectType* GetCorrelationOutput() const;
+
+  const MeasurementObjectType * GetCorrelationOutput() const;
 
   /** Return inverse difference moment texture value. */
   MeasurementType GetInverseDifferenceMoment() const;
-  const MeasurementObjectType* GetInverseDifferenceMomentOutput() const;
+
+  const MeasurementObjectType * GetInverseDifferenceMomentOutput() const;
+
   /** Return inertia texture value. */
   MeasurementType GetInertia() const;
-  const MeasurementObjectType* GetInertiaOutput() const;
+
+  const MeasurementObjectType * GetInertiaOutput() const;
 
   /** Return cluster shade texture value. */
   MeasurementType GetClusterShade() const;
-  const MeasurementObjectType* GetClusterShadeOutput() const;
+
+  const MeasurementObjectType * GetClusterShadeOutput() const;
 
   /** Return cluster prominence texture value. */
   MeasurementType GetClusterProminence() const;
-  const MeasurementObjectType* GetClusterProminenceOutput() const;
+
+  const MeasurementObjectType * GetClusterProminenceOutput() const;
 
   /** Return Haralick correlation texture value. */
   MeasurementType GetHaralickCorrelation() const;
-  const MeasurementObjectType* GetHaralickCorrelationOutput() const;
+
+  const MeasurementObjectType * GetHaralickCorrelationOutput() const;
 
   /** Texture feature types */
-  typedef enum
-    {
+  typedef enum {
     Energy,
     Entropy,
     Correlation,
@@ -185,31 +195,27 @@ public:
     }  TextureFeatureName;
 
   /** convenience method to access the texture values */
-  MeasurementType GetFeature( TextureFeatureName name );
-
+  MeasurementType GetFeature(TextureFeatureName name);
 
 protected:
   HistogramToTextureFeaturesFilter();
-  ~HistogramToTextureFeaturesFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~HistogramToTextureFeaturesFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Make a DataObject to be used for output output. */
-  virtual DataObjectPointer MakeOutput( unsigned int );
-
+  virtual DataObjectPointer MakeOutput(unsigned int);
 
   void GenerateData();
 
 private:
-  HistogramToTextureFeaturesFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  HistogramToTextureFeaturesFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
-  void ComputeMeansAndVariances( double &pixelMean, double &marginalMean,
-    double &marginalDevSquared, double &pixelVariance );
+  void ComputeMeansAndVariances(double & pixelMean, double & marginalMean,
+                                double & marginalDevSquared, double & pixelVariance);
 
-  RelativeFrequencyContainerType             m_RelativeFrequencyContainer;
+  RelativeFrequencyContainerType m_RelativeFrequencyContainer;
 };
-
-
 } // end of namespace Statistics
 } // end of namespace itk
 

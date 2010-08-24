@@ -31,11 +31,10 @@
 
 #endif
 
-namespace itk {
-
-
-template<class TInputImage, class TOutputImage, class TKernel>
-MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::MovingHistogramImageFilterBase()
 {
   m_PixelsPerTranslation = 0;
@@ -45,11 +44,10 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   this->SetKernel( this->GetKernel() );
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
-::SetKernel( const KernelType& kernel )
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
+::SetKernel(const KernelType & kernel)
 {
   // first, build the list of offsets of added and removed pixels when the
   // structuring element move of 1 pixel on 1 axis; do it for the 2 directions
@@ -61,53 +59,55 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions( kernel.GetSize() );
   tmpSEImage->Allocate();
-  RegionType tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
-  ImageRegionIteratorWithIndex<BoolImageType> kernelImageIt;
-  kernelImageIt = ImageRegionIteratorWithIndex<BoolImageType>(tmpSEImage, tmpSEImageRegion);
+  RegionType                                    tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
+  ImageRegionIteratorWithIndex< BoolImageType > kernelImageIt;
+  kernelImageIt = ImageRegionIteratorWithIndex< BoolImageType >(tmpSEImage, tmpSEImageRegion);
   kernelImageIt.GoToBegin();
   KernelIteratorType kernel_it = kernel.Begin();
-  OffsetListType kernelOffsets;
+  OffsetListType     kernelOffsets;
 
   // create a center index to compute the offset
   IndexType centerIndex;
-  for( unsigned axis=0; axis<ImageDimension; axis++)
+  for ( unsigned axis = 0; axis < ImageDimension; axis++ )
     {
     centerIndex[axis] = kernel.GetSize()[axis] / 2;
     }
 
   unsigned long count = 0;
-  while( !kernelImageIt.IsAtEnd() )
+  while ( !kernelImageIt.IsAtEnd() )
     {
-    // TODO: be sure that removing that comparison doesn't break backward compatibility
-    // only to fix msvc warning C4804: '>' : unsafe use of type 'bool' in operation
+    // TODO: be sure that removing that comparison doesn't break backward
+    // compatibility
+    // only to fix msvc warning C4804: '>' : unsafe use of type 'bool' in
+    // operation
     // kernelImageIt.Set( *kernel_it > 0 );
     //
-    kernelImageIt.Set( *kernel_it );
+    kernelImageIt.Set(*kernel_it);
     // if( *kernel_it > 0 )
-    if( *kernel_it )
+    if ( *kernel_it )
       {
-      kernelImageIt.Set( true );
-      kernelOffsets.push_front( kernelImageIt.GetIndex() - centerIndex );
+      kernelImageIt.Set(true);
+      kernelOffsets.push_front(kernelImageIt.GetIndex() - centerIndex);
       count++;
       }
     else
       {
-      kernelImageIt.Set( false );
+      kernelImageIt.Set(false);
       }
     ++kernelImageIt;
     ++kernel_it;
     }
 
-
   // verify that the kernel contain at least one point
-  if( count == 0 )
+  if ( count == 0 )
     {
-    itkExceptionMacro( << "The kernel must contain at least one point." );
+    itkExceptionMacro(<< "The kernel must contain at least one point.");
     }
 
-  // no attribute should be modified before here to avoid setting the filter in a bad status
+  // no attribute should be modified before here to avoid setting the filter in
+  // a bad status
   // store the kernel !!
-  Superclass::SetKernel( kernel );
+  Superclass::SetKernel(kernel);
 
   // clear the already stored values
   m_AddedOffsets.clear();
@@ -118,114 +118,117 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
   m_KernelOffsets = kernelOffsets;
 
   FixedArray< unsigned long, ImageDimension > axisCount;
-  axisCount.Fill( 0 );
+  axisCount.Fill(0);
 
-  for( unsigned axis=0; axis<ImageDimension; axis++)
+  for ( unsigned axis = 0; axis < ImageDimension; axis++ )
     {
     OffsetType refOffset;
-    refOffset.Fill( 0 );
-    for( int direction=-1; direction<=1; direction +=2)
+    refOffset.Fill(0);
+    for ( int direction = -1; direction <= 1; direction += 2 )
       {
       refOffset[axis] = direction;
-      for( kernelImageIt.GoToBegin(); !kernelImageIt.IsAtEnd(); ++kernelImageIt)
+      for ( kernelImageIt.GoToBegin(); !kernelImageIt.IsAtEnd(); ++kernelImageIt )
         {
         IndexType idx = kernelImageIt.GetIndex();
 
-        if( kernelImageIt.Get() )
+        if ( kernelImageIt.Get() )
           {
           // search for added pixel during a translation
           IndexType nextIdx = idx + refOffset;
-          if( tmpSEImageRegion.IsInside( nextIdx ) )
+          if ( tmpSEImageRegion.IsInside(nextIdx) )
             {
-            if( !tmpSEImage->GetPixel( nextIdx ) )
+            if ( !tmpSEImage->GetPixel(nextIdx) )
               {
-              m_AddedOffsets[refOffset].push_front( nextIdx - centerIndex );
+              m_AddedOffsets[refOffset].push_front(nextIdx - centerIndex);
               axisCount[axis]++;
               }
             }
           else
             {
-            m_AddedOffsets[refOffset].push_front( nextIdx - centerIndex );
+            m_AddedOffsets[refOffset].push_front(nextIdx - centerIndex);
             axisCount[axis]++;
             }
           // search for removed pixel during a translation
           IndexType prevIdx = idx - refOffset;
-          if( tmpSEImageRegion.IsInside( prevIdx ) )
+          if ( tmpSEImageRegion.IsInside(prevIdx) )
             {
-            if( !tmpSEImage->GetPixel( prevIdx ) )
+            if ( !tmpSEImage->GetPixel(prevIdx) )
               {
-              m_RemovedOffsets[refOffset].push_front( idx - centerIndex );
+              m_RemovedOffsets[refOffset].push_front(idx - centerIndex);
               axisCount[axis]++;
               }
             }
           else
             {
-            m_RemovedOffsets[refOffset].push_front( idx - centerIndex );
+            m_RemovedOffsets[refOffset].push_front(idx - centerIndex);
             axisCount[axis]++;
             }
-
           }
         }
       }
     }
 
   // search for the best axis
-  typedef typename std::set<DirectionCost> MapCountType;
+  typedef typename std::set< DirectionCost > MapCountType;
   MapCountType invertedCount;
   unsigned int i;
-  for( i=0; i<ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
-    invertedCount.insert( DirectionCost( i, axisCount[i] ) );
+    invertedCount.insert( DirectionCost(i, axisCount[i]) );
     }
 
-  i=0;
-  for( typename MapCountType::iterator it=invertedCount.begin(); it != invertedCount.end(); it++, i++)
+  i = 0;
+  for ( typename MapCountType::iterator it = invertedCount.begin(); it != invertedCount.end(); it++, i++ )
     {
     m_Axes[i] = it->m_Dimension;
     }
 
-  m_PixelsPerTranslation = axisCount[m_Axes[ImageDimension - 1]] / 2;  // divided by 2 because there is 2 directions on the axis
+  m_PixelsPerTranslation = axisCount[m_Axes[ImageDimension - 1]] / 2;  //
+                                                                       // divided
+                                                                       // by 2
+                                                                       // because
+                                                                       // there
+                                                                       // is 2
+                                                                       // directions
+                                                                       // on the
+                                                                       // axis
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::GetDirAndOffset(const IndexType LineStart,
-      const IndexType PrevLineStart,
-      OffsetType &LineOffset,
-      OffsetType &Changes,
-      int &LineDirection)
+                  const IndexType PrevLineStart,
+                  OffsetType & LineOffset,
+                  OffsetType & Changes,
+                  int & LineDirection)
 {
   // when moving between lines in the same plane there should be only
   // 1 non zero (positive) entry in LineOffset.
   // When moving between planes there will be some negative ones too.
   LineOffset = Changes = LineStart - PrevLineStart;
-  for (unsigned int y=0;y<ImageDimension;y++)
+  for ( unsigned int y = 0; y < ImageDimension; y++ )
     {
-    if (LineOffset[y] > 0)
+    if ( LineOffset[y] > 0 )
       {
-      LineOffset[y]=1;  // should be 1 anyway
-      LineDirection=y;
+      LineOffset[y] = 1;  // should be 1 anyway
+      LineDirection = y;
       }
     else
       {
-      LineOffset[y]=0;
+      LineOffset[y] = 0;
       }
     }
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "PixelsPerTranslation: " << m_PixelsPerTranslation << std::endl;
 }
-
-
-}// end namespace itk
+} // end namespace itk
 #endif

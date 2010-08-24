@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,30 +25,29 @@
 #include "itkMultiplyImageFilter.h"
 #include "itkSqrtImageFilter.h"
 
-
 namespace itk
 {
-
-template <class TInputImage, class TOutputImage>
-void 
-SobelEdgeDetectionImageFilter<TInputImage,TOutputImage>
-::GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)
+template< class TInputImage, class TOutputImage >
+void
+SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
+::GenerateInputRequestedRegion()
+throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
   Superclass::GenerateInputRequestedRegion();
-  
+
   // get pointers to the input and output
-  InputImagePointer  inputPtr = 
+  InputImagePointer inputPtr =
     const_cast< TInputImage * >( this->GetInput() );
-  
+
   if ( !inputPtr )
     {
     return;
     }
 
   // Build an operator so that we can determine the kernel size
-  SobelOperator<OutputPixelType, ImageDimension> oper;
+  SobelOperator< OutputPixelType, ImageDimension > oper;
   oper.CreateDirectional();
 
   // get a copy of the input requested region (should equal the output
@@ -60,9 +59,9 @@ SobelEdgeDetectionImageFilter<TInputImage,TOutputImage>
   inputRequestedRegion.PadByRadius( oper.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -71,8 +70,8 @@ SobelEdgeDetectionImageFilter<TInputImage,TOutputImage>
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
+
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
@@ -82,7 +81,6 @@ SobelEdgeDetectionImageFilter<TInputImage,TOutputImage>
     }
 }
 
-
 template< class TInputImage, class TOutputImage >
 void
 SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
@@ -90,71 +88,70 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 {
   // Test whether the output pixel type (or its components) are not of type
   // float or double:
-  if( NumericTraits< OutputPixelType >::is_integer )
+  if ( NumericTraits< OutputPixelType >::is_integer )
     {
-    itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors"); 
+    itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
     }
 
   // Define the filter types used.
-  typedef NeighborhoodOperatorImageFilter<InputImageType,
-    OutputImageType>                                           OpFilter;
-  typedef MultiplyImageFilter<OutputImageType,
-    OutputImageType,
-    OutputImageType>                                           MultFilter;
-  typedef NaryAddImageFilter<OutputImageType, OutputImageType> AddFilter;
-  typedef SqrtImageFilter<OutputImageType, OutputImageType>    SqrtFilter;
-  
-  unsigned int i;  
-  
-  typename TOutputImage::Pointer output = this->GetOutput();  
-  output->SetBufferedRegion(output->GetRequestedRegion());
+  typedef NeighborhoodOperatorImageFilter< InputImageType,
+                                           OutputImageType >                                           OpFilter;
+  typedef MultiplyImageFilter< OutputImageType,
+                               OutputImageType,
+                               OutputImageType >                                           MultFilter;
+  typedef NaryAddImageFilter< OutputImageType, OutputImageType > AddFilter;
+  typedef SqrtImageFilter< OutputImageType, OutputImageType >    SqrtFilter;
+
+  unsigned int i;
+
+  typename TOutputImage::Pointer output = this->GetOutput();
+  output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
-  
+
   // Create the sobel operator
-  SobelOperator<OutputPixelType, ImageDimension> opers[ImageDimension];
-  ZeroFluxNeumannBoundaryCondition<TOutputImage> nbc;
-  
+  SobelOperator< OutputPixelType, ImageDimension > opers[ImageDimension];
+  ZeroFluxNeumannBoundaryCondition< TOutputImage > nbc;
+
   // Setup mini-pipelines along each axis.
   typename OpFilter::Pointer opFilter[ImageDimension];
   typename MultFilter::Pointer multFilter[ImageDimension];
   typename AddFilter::Pointer addFilter = AddFilter::New();
-  typename SqrtFilter::Pointer sqrtFilter =  SqrtFilter::New();  
-  for(i=0; i < ImageDimension; ++i)
+  typename SqrtFilter::Pointer sqrtFilter =  SqrtFilter::New();
+  for ( i = 0; i < ImageDimension; ++i )
     {
     // Create the filters for this axis.
     opFilter[i] = OpFilter::New();
     multFilter[i] = MultFilter::New();
-    
+
     // Set boundary condition and operator for this axis.
     opers[i].SetDirection(i);
     opers[i].CreateDirectional();
     opFilter[i]->OverrideBoundaryCondition(&nbc);
     opFilter[i]->SetOperator(opers[i]);
-    
+
     // Setup the mini-pipeline for this axis.
-    opFilter[i]->SetInput(this->GetInput());
-    multFilter[i]->SetInput1(opFilter[i]->GetOutput());
-    multFilter[i]->SetInput2(opFilter[i]->GetOutput());
-    
+    opFilter[i]->SetInput( this->GetInput() );
+    multFilter[i]->SetInput1( opFilter[i]->GetOutput() );
+    multFilter[i]->SetInput2( opFilter[i]->GetOutput() );
+
     // All axes' mini-pipelines come together in addFilter.
-    addFilter->SetInput(i, multFilter[i]->GetOutput());
+    addFilter->SetInput( i, multFilter[i]->GetOutput() );
     }
-  
+
   // calculate the gradient magnitude
-  sqrtFilter->SetInput(addFilter->GetOutput());
-  
+  sqrtFilter->SetInput( addFilter->GetOutput() );
+
   // setup the mini-pipeline to calculate the correct regions and
   // write to the appropriate bulk data block
   sqrtFilter->GraftOutput( this->GetOutput() );
-  
+
   // execute the mini-pipeline
   sqrtFilter->Update();
-  
+
   // graft the mini-pipeline output back onto this filter's output.
   // this is needed to get the appropriate regions passed back.
-  this->GraftOutput(sqrtFilter->GetOutput());
+  this->GraftOutput( sqrtFilter->GetOutput() );
 }
-
 } // end namespace itk
 
 #endif

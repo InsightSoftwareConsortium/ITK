@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,18 +21,17 @@
 
 namespace itk
 {
-
 /** \class ReflectiveImageRegionConstIterator
  * \brief Multi-dimensional image iterator which only walks a region.
- * 
+ *
  * ReflectiveImageRegionConstIterator is a templated class to represent a
  * multi-dimensional iterator. ReflectiveImageRegionConstIterator is templated
  * over the image type.  ReflectiveImageRegionConstIterator is constrained to
  * walk only within the specified region.
  *
  * ReflectiveImageRegionConstIterator will perform two passes over the image
- * along each dimension. It is useful for algorithms that require to 
- * go back and forth (once) over the data. 
+ * along each dimension. It is useful for algorithms that require to
+ * go back and forth (once) over the data.
  *
  * By setting the BeginOffset and EndOffset parameters, you can
  * arrange for the starting point, when going forwards, to be
@@ -46,21 +45,21 @@ namespace itk
  *
  * \sa DanielssonDistanceMapImageFilter
  *
- * \ingroup Iterators 
+ * \ingroup Iterators
  */
-template<typename TImage>
-class ITK_EXPORT ReflectiveImageRegionConstIterator : public ImageConstIteratorWithIndex<TImage>
+template< typename TImage >
+class ITK_EXPORT ReflectiveImageRegionConstIterator:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ReflectiveImageRegionConstIterator   Self;
-  typedef ImageConstIteratorWithIndex<TImage>  Superclass;
+  typedef ReflectiveImageRegionConstIterator    Self;
+  typedef ImageConstIteratorWithIndex< TImage > Superclass;
 
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType  IndexType;
+  typedef typename TImage::IndexType IndexType;
 
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
@@ -70,7 +69,7 @@ public:
 
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
-   * it needs to be redone here for this subclass to compile properly 
+   * it needs to be redone here for this subclass to compile properly
    * with gcc. */
   typedef typename TImage::PixelContainer  PixelContainer;
   typedef typename PixelContainer::Pointer PixelContainerPointer;
@@ -84,23 +83,22 @@ public:
 
   /** Type of the Offset taken from the image.  These typedefs are
    * duplicated from the superclass for gcc support. */
-  typedef typename TImage::OffsetType           OffsetType;
-  typedef typename OffsetType::OffsetValueType  OffsetValueType;
+  typedef typename TImage::OffsetType          OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ReflectiveImageRegionConstIterator();
-  
+
   /** Default destructor.  */
-  ~ReflectiveImageRegionConstIterator() {};
-  
+  ~ReflectiveImageRegionConstIterator() {}
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ReflectiveImageRegionConstIterator( TImage *ptr, const RegionType& region );
+  ReflectiveImageRegionConstIterator(TImage *ptr, const RegionType & region);
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ReflectiveImageRegionConstIterator( const Self& it );
-   
+  ReflectiveImageRegionConstIterator(const Self & it);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ReflectiveImageRegionConstIterator. Many routines return an
@@ -109,11 +107,11 @@ public:
    * overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from * an
    * ImageIterator to a ReflectiveImageRegionConstIterator.  */
-  ReflectiveImageRegionConstIterator(const ImageConstIteratorWithIndex<TImage> &it);
+  ReflectiveImageRegionConstIterator(const ImageConstIteratorWithIndex< TImage > & it);
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self &operator=(const Self& it);
+  Self & operator=(const Self & it);
 
   bool IsReflected(unsigned int) const;
 
@@ -131,40 +129,38 @@ public:
 
   /** Is the iterator at the beginning of the region? */
   bool IsAtBegin(void) const
-    {
+  {
     return !this->m_Remaining;
-    }
+  }
 
   /** Set the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
-  void SetBeginOffset(const OffsetType& offset)
-    { m_BeginOffset = offset; }
+  void SetBeginOffset(const OffsetType & offset)
+  { m_BeginOffset = offset; }
 
   /** Set the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
-  void SetEndOffset(const OffsetType& offset)
-    { m_EndOffset = offset; }
+  void SetEndOffset(const OffsetType & offset)
+  { m_EndOffset = offset; }
 
   /** Get the begin offset.  Forward iteration starts at this offset
    * from the current region.  */
-  OffsetType GetBeginOffset(const OffsetType& offset)
-    { return m_BeginOffset; }
+  OffsetType GetBeginOffset(const OffsetType & offset)
+  { return m_BeginOffset; }
 
   /** Get the end offset.  Reverse iteration starts at this offset
    * from the current region.  */
-  OffsetType GetEndOffset(const OffsetType& offset)
-    { return m_EndOffset; }
+  OffsetType GetEndOffset(const OffsetType & offset)
+  { return m_EndOffset; }
 
   /** Fill both offsets with a single value.  */
-  void FillOffsets(const OffsetValueType &value);
+  void FillOffsets(const OffsetValueType & value);
 
 private:
   bool       m_IsFirstPass[TImage::ImageDimension];
   OffsetType m_BeginOffset;
   OffsetType m_EndOffset;
-  
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,48 +30,48 @@
 
 namespace itk
 {
-
 /** \class BloxBoundaryPointToCoreAtomImageFilter
  * \brief Converts a gradient image to an BloxImage of BloxBoundaryPoints
  *
  * Thresholds the magnitude of a gradient image to produce
  * a BloxBoundaryPointImage
- * 
+ *
  * \ingroup ImageEnhancement
  */
-template<unsigned int dim>
-class ITK_EXPORT BloxBoundaryPointToCoreAtomImageFilter :
-    public ImageToImageFilter< BloxBoundaryPointImage<dim>,
-                               BloxCoreAtomImage<dim> >
+template< unsigned int dim >
+class ITK_EXPORT BloxBoundaryPointToCoreAtomImageFilter:
+  public ImageToImageFilter< BloxBoundaryPointImage< dim >,
+                             BloxCoreAtomImage< dim > >
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxBoundaryPointToCoreAtomImageFilter      Self;
-  typedef ImageToImageFilter<BloxBoundaryPointImage<dim>,
-                             BloxCoreAtomImage<dim> > Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef BloxBoundaryPointToCoreAtomImageFilter Self;
+  typedef ImageToImageFilter< BloxBoundaryPointImage< dim >,
+                              BloxCoreAtomImage< dim > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BloxBoundaryPointToCoreAtomImageFilter, ImageToImageFilter );
+  itkTypeMacro(BloxBoundaryPointToCoreAtomImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, dim);
 
   /** typedef for images */
-  typedef BloxBoundaryPointImage<dim>             TInputImage;
-  typedef BloxBoundaryPointImage<dim>             InputImageType;
-  typedef BloxCoreAtomImage<dim>                  TOutputImage;
-  typedef BloxCoreAtomImage<dim>                  OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef BloxBoundaryPointImage< dim >         TInputImage;
+  typedef BloxBoundaryPointImage< dim >         InputImageType;
+  typedef BloxCoreAtomImage< dim >              TOutputImage;
+  typedef BloxCoreAtomImage< dim >              OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** Image size typedef */
-  typedef Size<dim> SizeType;
+  typedef Size< dim > SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
@@ -83,19 +83,19 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, dim> PositionType;
+  typedef Point< double, dim > PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, dim> GradientType;
+  typedef CovariantVector< double, dim > GradientType;
 
   /** Walk the input image, find core atoms, store them.  */
   void FindCoreAtoms();
 
   /** Find core atoms given a specific boundary point. */
-  void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem<dim>* pItem);
+  void FindCoreAtomsAtBoundaryPoint(BloxBoundaryPointItem< dim > *pItem);
 
   /** Gets and sets for member variables. */
   itkSetMacro(DistanceMin, double);
@@ -108,20 +108,23 @@ public:
 
 protected:
   BloxBoundaryPointToCoreAtomImageFilter();
-  virtual ~BloxBoundaryPointToCoreAtomImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~BloxBoundaryPointToCoreAtomImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryPointImage. */
   void GenerateData();
 
 private:
-  BloxBoundaryPointToCoreAtomImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BloxBoundaryPointToCoreAtomImageFilter(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
+
+  // implemented
 
   /** Pointers to input and output images */
-  InputImageConstPointer  m_InputPtr;
-  OutputImagePointer      m_OutputPtr;
-  
+  InputImageConstPointer m_InputPtr;
+  OutputImagePointer     m_OutputPtr;
+
   /** Parameters used to establish conic shell iterator regions.
    * See the documentation for itkConicShellInteriorExteriorSpatialFunction
    * for how these affect the iterator. */
@@ -136,7 +139,6 @@ private:
   unsigned long m_BoundaryPointsPerUpdate;
   unsigned long m_BoundaryPointsBeforeUpdate;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

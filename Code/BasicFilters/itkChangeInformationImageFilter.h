@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class ChangeInformationImageFilter
  * \brief Change the origin, spacing and/or region of an Image.
  *
@@ -35,34 +34,34 @@ namespace itk
  * region should be changed. If On, the associated information will be
  * replaced with either the ReferenceImage information (if
  * UseReferenceImage is true) or the ivars OutputSpacing,
- * OutputOrigin, OutputDirection, OutputOffset. 
- * 
+ * OutputOrigin, OutputDirection, OutputOffset.
+ *
  * In addition, the method CenterImageOn will recompute the output image
  * origin (using the selected output spacing) the align the center of the
  * image with the coordinate 0.
- * 
+ *
  * \ingroup GeometricTransforms
  *
  */
-template <class TInputImage>
+template< class TInputImage >
 class ITK_EXPORT ChangeInformationImageFilter:
-    public ImageToImageFilter<TInputImage,TInputImage>
+  public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ChangeInformationImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage,TInputImage>  Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef ChangeInformationImageFilter                   Self;
+  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Typedef to describe the output and input image region types. */
   typedef typename TInputImage::RegionType OutputImageRegionType;
   typedef typename TInputImage::RegionType InputImageRegionType;
 
-  /** Typedef to describe the pointer to the input. */  
+  /** Typedef to describe the pointer to the input. */
   typedef typename TInputImage::Pointer InputImagePointer;
 
   /** Typedef to describe the type of pixel. */
@@ -93,15 +92,16 @@ public:
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
-  void SetReferenceImage (TInputImage *image)
-    {
-    if (image != m_ReferenceImage)
+  void SetReferenceImage(TInputImage *image)
+  {
+    if ( image != m_ReferenceImage )
       {
       m_ReferenceImage = image;
       this->ProcessObject::SetNthInput(1, image);
       this->Modified();
       }
-    }
+  }
+
   itkGetObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
@@ -139,22 +139,22 @@ public:
 
   /** Change the origin, spacing and region of the output image. */
   void ChangeAll()
-    {
+  {
     this->ChangeSpacingOn();
     this->ChangeOriginOn();
     this->ChangeDirectionOn();
     this->ChangeRegionOn();
-    }
+  }
 
   /** Do not change the origin, spacing, direction or region of the
    * output image. */
   void ChangeNone()
-    {
+  {
     this->ChangeSpacingOff();
     this->ChangeOriginOff();
     this->ChangeDirectionOff();
     this->ChangeRegionOff();
-    }
+  }
 
   /** Change the Spacing of the output image. If false, the output
    *  image spacing will be set to the input image spacing. If true, the
@@ -193,7 +193,7 @@ public:
   itkGetConstMacro(ChangeRegion, bool);
 
   /** Set the Origin of the output so that image coordinate (0,0,0)
-   * lies at the Center of the Image.  This will override 
+   * lies at the Center of the Image.  This will override
    * SetOutputOrigin. */
   itkSetMacro(CenterImage, bool);
   itkBooleanMacro(CenterImage);
@@ -210,12 +210,12 @@ public:
 
 protected:
   ChangeInformationImageFilter();
-  ~ChangeInformationImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ChangeInformationImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ChangeInformationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ChangeInformationImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
   InputImagePointer m_ReferenceImage;
 
@@ -225,7 +225,7 @@ private:
   bool m_ChangeDirection;
   bool m_ChangeRegion;
   bool m_UseReferenceImage;
-  
+
   SpacingType   m_OutputSpacing;
   PointType     m_OutputOrigin;
   DirectionType m_OutputDirection;
@@ -233,12 +233,10 @@ private:
   long                  m_OutputOffset[ImageDimension];
   OutputImageOffsetType m_Shift;
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkChangeInformationImageFilter.txx"
 #endif
-  
+
 #endif

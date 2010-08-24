@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,34 +21,33 @@
 
 namespace itk
 {
-
 // This functor class invokes the computation of fractional anisotropy from
 // every pixel.
-namespace Functor {  
- 
+namespace Functor
+{
 template< typename TInput >
 class TensorFractionalAnisotropyFunction
 {
 public:
-  typedef typename TInput::RealValueType  RealValueType;
+  typedef typename TInput::RealValueType RealValueType;
   TensorFractionalAnisotropyFunction() {}
   ~TensorFractionalAnisotropyFunction() {}
-  bool operator!=( const TensorFractionalAnisotropyFunction & ) const
-    {
+  bool operator!=(const TensorFractionalAnisotropyFunction &) const
+  {
     return false;
-    }
-  bool operator==( const TensorFractionalAnisotropyFunction & other ) const
-    {
-    return !(*this != other);
-    }
-  inline RealValueType operator()( const TInput & x ) const
-    {
+  }
+
+  bool operator==(const TensorFractionalAnisotropyFunction & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline RealValueType operator()(const TInput & x) const
+  {
     return x.GetFractionalAnisotropy();
-    }
-}; 
-
+  }
+};
 }  // end namespace functor
-
 
 /** \class TensorFractionalAnisotropyImageFilter
  * \brief Computes the Fractional Anisotropy for every pixel of a input tensor image.
@@ -57,64 +56,62 @@ public:
  * computing the fractional anisotropy of every pixel. The pixel type of the
  * input image is expected to implement a method GetFractionalAnisotropy(), and
  * to specify its return type as  RealValueType.
- * 
+ *
  * \sa TensorRelativeAnisotropyImageFilter
  * \sa DiffusionTensor3D
- * 
+ *
  * \ingroup IntensityImageFilters  Multithreaded  TensorObjects
  *
  */
-template <typename  TInputImage, typename  TOutputImage=TInputImage>
-class ITK_EXPORT TensorFractionalAnisotropyImageFilter :
-    public
-UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                        Functor::TensorFractionalAnisotropyFunction< 
-                                        typename TInputImage::PixelType> > 
+template< typename  TInputImage, typename  TOutputImage = TInputImage >
+class ITK_EXPORT TensorFractionalAnisotropyImageFilter:
+  public
+  UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                           Functor::TensorFractionalAnisotropyFunction<
+                             typename TInputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
-  typedef TensorFractionalAnisotropyImageFilter  Self;
+  typedef TensorFractionalAnisotropyImageFilter Self;
   typedef UnaryFunctorImageFilter<
-    TInputImage,TOutputImage, 
-    Functor::TensorFractionalAnisotropyFunction< 
-      typename TInputImage::PixelType> >         Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+    TInputImage, TOutputImage,
+    Functor::TensorFractionalAnisotropyFunction<
+      typename TInputImage::PixelType > >         Superclass;
 
-  typedef typename Superclass::OutputImageType    OutputImageType;
-  typedef typename TOutputImage::PixelType        OutputPixelType;
-  typedef typename TInputImage::PixelType         InputPixelType;
-  typedef typename InputPixelType::ValueType      InputValueType;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
+  typedef typename Superclass::OutputImageType OutputImageType;
+  typedef typename TOutputImage::PixelType     OutputPixelType;
+  typedef typename TInputImage::PixelType      InputPixelType;
+  typedef typename InputPixelType::ValueType   InputValueType;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( TensorFractionalAnisotropyImageFilter, UnaryFunctorImageFilter );
+  itkTypeMacro(TensorFractionalAnisotropyImageFilter, UnaryFunctorImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Print internal ivars */
-  void PrintSelf(std::ostream& os, Indent indent) const
-    { this->Superclass::PrintSelf( os, indent ); }
-  
+  void PrintSelf(std::ostream & os, Indent indent) const
+  { this->Superclass::PrintSelf(os, indent); }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputValueType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
-  TensorFractionalAnisotropyImageFilter() {};
-  virtual ~TensorFractionalAnisotropyImageFilter() {};
-
+  TensorFractionalAnisotropyImageFilter() {}
+  virtual ~TensorFractionalAnisotropyImageFilter() {}
 private:
-  TensorFractionalAnisotropyImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  TensorFractionalAnisotropyImageFilter(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
 
+  // implemented
 };
-
-
-  
 } // end namespace itk
-  
+
 #endif

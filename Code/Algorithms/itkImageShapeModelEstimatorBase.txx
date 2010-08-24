@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,24 +22,19 @@
 
 namespace itk
 {
-
-template <class TInputImage, class TOutputImage>
-ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::ImageShapeModelEstimatorBase(void)
-{
+{}
 
-}
-
-template <class TInputImage, class TOutputImage>
-ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::~ImageShapeModelEstimatorBase()
-{
+{}
 
-}
-
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
+ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::GenerateData()
 {
   this->EstimateShapeModels();
@@ -48,21 +43,18 @@ ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 /**
  * PrintSelf
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
-::PrintSelf( std::ostream& os, Indent indent ) const
+ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "                   " << std::endl;
 
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-
-
-}// end PrintSelf
-
+} // end PrintSelf
 } // namespace itk
 
 #endif

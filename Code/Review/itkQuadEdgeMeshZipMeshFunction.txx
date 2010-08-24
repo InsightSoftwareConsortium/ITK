@@ -19,26 +19,24 @@
 
 namespace itk
 {
-
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 typename QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::
-Evaluate( QEType* e )
+QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {
-  if( !this->m_Mesh )
+  if ( !this->m_Mesh )
     {
-    itkDebugMacro( "No mesh present." );
-    return( QEType::m_NoPoint );
+    itkDebugMacro("No mesh present.");
+    return ( QEType::m_NoPoint );
     }
 
-  if( e->IsLeftSet( ) )
+  if ( e->IsLeftSet() )
     {
-    itkDebugMacro( "Incoming edge must be adjacent to NOFACE." );
-    return( QEType::m_NoPoint );
+    itkDebugMacro("Incoming edge must be adjacent to NOFACE.");
+    return ( QEType::m_NoPoint );
     }
 
   //     Initial state                          Final state        //
-  //                                                               // 
+  //                                                               //
   //   |               |                         \       /         //
   //   |               |                          \     /          //
   //   |               |                           \   /           //
@@ -75,11 +73,11 @@ Evaluate( QEType* e )
   //                  /  |  \                                      //
   //
   // Store for latter usage (since e and e->GetRight() will be deleted):
-  QEType* a = e->GetLnext( );
-  QEType* b = e->GetOnext( )->GetSym( );
-  OutputType VLeft = e->GetDestination( );
-  OutputType VRite = b->GetOrigin( );
-  bool wasFacePresent = e->IsRightSet( );
+  QEType *   a = e->GetLnext();
+  QEType *   b = e->GetOnext()->GetSym();
+  OutputType VLeft = e->GetDestination();
+  OutputType VRite = b->GetOrigin();
+  bool       wasFacePresent = e->IsRightSet();
   OutputType resultingPointId = QEType::m_NoPoint;
 
   // We should be cautious and consider the case when the very
@@ -100,22 +98,22 @@ Evaluate( QEType* e )
   //                 / | \                                 //
   //                /  |  \                                //
   //               /   |   \                               //
-  if( VRite == VLeft )
+  if ( VRite == VLeft )
     {
-    if( e->IsWire( ) && b->IsWire( ) )
+    if ( e->IsWire() && b->IsWire() )
       {
-      this->m_Mesh->LightWeightDeleteEdge( e );
-      this->m_Mesh->LightWeightDeleteEdge( b );
-      return( resultingPointId );
-      } 
+      this->m_Mesh->LightWeightDeleteEdge(e);
+      this->m_Mesh->LightWeightDeleteEdge(b);
+      return ( resultingPointId );
+      }
     }
 
   // Delete the Edge e and it's right face:
-  if( wasFacePresent )
+  if ( wasFacePresent )
     {
-    this->m_Mesh->DeleteFace( e->GetRight( ) );
+    this->m_Mesh->DeleteFace( e->GetRight() );
     }
-  this->m_Mesh->LightWeightDeleteEdge( e );
+  this->m_Mesh->LightWeightDeleteEdge(e);
 
   // We should be cautious and consider the case when the very
   // initial situation was the following:
@@ -157,8 +155,8 @@ Evaluate( QEType* e )
   //
   // and hence the connectivity part of "Zip" job is allready done.
   // Check for that case:
-  // 
-  if( VLeft != VRite )
+  //
+  if ( VLeft != VRite )
     {
     // We are now left with the following situation
     //
@@ -195,19 +193,18 @@ Evaluate( QEType* e )
     //                   / | \                             //
     //                  /  |  \                            //
     //
-    resultingPointId = this->m_Mesh->Splice( a, b );
+    resultingPointId = this->m_Mesh->Splice(a, b);
     }
 
   // We restore the deleted face (when it was present):
-  if( wasFacePresent )
+  if ( wasFacePresent )
     {
-    this->m_Mesh->AddFace( b );
+    this->m_Mesh->AddFace(b);
     }
 
-  this->m_Mesh->Modified( );
-  return( resultingPointId );
+  this->m_Mesh->Modified();
+  return ( resultingPointId );
 }
-
 } // namespace itk
 
 #endif

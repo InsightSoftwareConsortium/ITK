@@ -22,23 +22,22 @@
 
 namespace itk
 {
-
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::QuadEdgeMeshToQuadEdgeMeshFilter()
 {
-  this->Superclass::SetNumberOfRequiredInputs( 1 );
-  this->Superclass::SetNumberOfRequiredOutputs( 1 );
+  this->Superclass::SetNumberOfRequiredInputs(1);
+  this->Superclass::SetNumberOfRequiredOutputs(1);
 
   this->Superclass::SetNthOutput( 0, OutputMeshType::New() );
 }
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::CopyMeshToMesh(const TInputMesh * in, TOutputMesh * out)
+::CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out)
 {
   CopyMeshToMeshPoints(in, out);
   CopyMeshToMeshEdgeCells(in, out);
@@ -49,7 +48,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMesh()
 {
@@ -59,7 +58,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshGeometry()
 {
@@ -70,7 +69,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshFieldData()
 {
@@ -80,69 +79,63 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPoints()
 {
-  const InputMeshType * in = this->GetInput();
-  OutputMeshType * out = this->GetOutput();
+  const InputMeshType *in = this->GetInput();
+  OutputMeshType *     out = this->GetOutput();
 
-  CopyMeshToMeshPoints( in, out );
+  CopyMeshToMeshPoints(in, out);
 }
-
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshEdgeCells()
 {
-  const InputMeshType * in = this->GetInput();
-  OutputMeshType * out = this->GetOutput();
+  const InputMeshType *in = this->GetInput();
+  OutputMeshType *     out = this->GetOutput();
 
-  CopyMeshToMeshEdgeCells( in, out );
+  CopyMeshToMeshEdgeCells(in, out);
 }
-
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCells()
 {
-  const InputMeshType * in = this->GetInput();
-  OutputMeshType * out = this->GetOutput();
+  const InputMeshType *in = this->GetInput();
+  OutputMeshType *     out = this->GetOutput();
 
-  CopyMeshToMeshCells( in, out );
+  CopyMeshToMeshCells(in, out);
 }
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPointData()
 {
+  const InputMeshType *in = this->GetInput();
+  OutputMeshType *     out = this->GetOutput();
 
-  const InputMeshType * in = this->GetInput();
-  OutputMeshType * out = this->GetOutput();
-
-  CopyMeshToMeshPointData( in, out );
+  CopyMeshToMeshPointData(in, out);
 }
-
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
-void 
+void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCellData()
 {
+  const InputMeshType *in = this->GetInput();
+  OutputMeshType *     out = this->GetOutput();
 
-  const InputMeshType * in = this->GetInput();
-  OutputMeshType * out = this->GetOutput();
-
-  CopyMeshToMeshCellData( in, out );
+  CopyMeshToMeshCellData(in, out);
 }
-
 } // end namespace itk
 
-#endif 
+#endif

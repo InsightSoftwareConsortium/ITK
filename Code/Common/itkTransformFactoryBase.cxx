@@ -45,93 +45,90 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-TransformFactoryBase* TransformFactoryBase::m_Factory = 0;
+TransformFactoryBase *TransformFactoryBase:: m_Factory = 0;
 
 TransformFactoryBase::TransformFactoryBase()
-{
-}
+{}
 
 TransformFactoryBase::~TransformFactoryBase()
-{
-}
+{}
 
 void TransformFactoryBase::RegisterDefaultTransforms()
 {
   if ( !m_Factory )
     {
     // BSpline purposely not registered!
-    TransformFactory<AffineTransform<double,2> >::RegisterTransform ();
-    TransformFactory<AffineTransform<double,3> >::RegisterTransform ();
-    TransformFactory<BSplineDeformableTransform<double,2,2> >::RegisterTransform ();
-    TransformFactory<BSplineDeformableTransform<double,3,3> >::RegisterTransform ();
-    TransformFactory<CenteredAffineTransform<double,2> >::RegisterTransform ();
-    TransformFactory<CenteredAffineTransform<double,3> >::RegisterTransform ();
-    TransformFactory<CenteredEuler3DTransform<double> >::RegisterTransform ();
-    TransformFactory<CenteredRigid2DTransform < double > >::RegisterTransform();
-    TransformFactory<CenteredSimilarity2DTransform<double> >::RegisterTransform ();
-    TransformFactory<Similarity2DTransform<double> >::RegisterTransform ();
-    TransformFactory<Euler2DTransform<double> >::RegisterTransform ();
-    TransformFactory<Euler3DTransform<double> >::RegisterTransform ();
-    TransformFactory<FixedCenterOfRotationAffineTransform<double> >::RegisterTransform ();
-    TransformFactory<IdentityTransform<double,2> >::RegisterTransform ();
-    TransformFactory<IdentityTransform<double,3> >::RegisterTransform ();
-    TransformFactory<QuaternionRigidTransform<double> >::RegisterTransform ();
-    TransformFactory<Rigid2DTransform<double> >::RegisterTransform ();
-    TransformFactory<Rigid3DPerspectiveTransform<double> >::RegisterTransform ();
-    TransformFactory<Rigid3DTransform<double> >::RegisterTransform ();
-    TransformFactory<ScalableAffineTransform<double> >::RegisterTransform ();
-    TransformFactory<ScaleLogarithmicTransform<double> >::RegisterTransform ();
-    TransformFactory<ScaleVersor3DTransform<double> >::RegisterTransform ();
-    TransformFactory<ScaleSkewVersor3DTransform<double> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<double,2> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<double,2> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<double,3> >::RegisterTransform ();
-    TransformFactory<TranslationTransform<double> >::RegisterTransform ();
-    TransformFactory<VersorRigid3DTransform<double> >::RegisterTransform ();
-    TransformFactory<VersorTransform<double> >::RegisterTransform ();
+    TransformFactory< AffineTransform< double, 2 > >::RegisterTransform ();
+    TransformFactory< AffineTransform< double, 3 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< double, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< double, 3, 3 > >::RegisterTransform ();
+    TransformFactory< CenteredAffineTransform< double, 2 > >::RegisterTransform ();
+    TransformFactory< CenteredAffineTransform< double, 3 > >::RegisterTransform ();
+    TransformFactory< CenteredEuler3DTransform< double > >::RegisterTransform ();
+    TransformFactory< CenteredRigid2DTransform< double > >::RegisterTransform();
+    TransformFactory< CenteredSimilarity2DTransform< double > >::RegisterTransform ();
+    TransformFactory< Similarity2DTransform< double > >::RegisterTransform ();
+    TransformFactory< Euler2DTransform< double > >::RegisterTransform ();
+    TransformFactory< Euler3DTransform< double > >::RegisterTransform ();
+    TransformFactory< FixedCenterOfRotationAffineTransform< double > >::RegisterTransform ();
+    TransformFactory< IdentityTransform< double, 2 > >::RegisterTransform ();
+    TransformFactory< IdentityTransform< double, 3 > >::RegisterTransform ();
+    TransformFactory< QuaternionRigidTransform< double > >::RegisterTransform ();
+    TransformFactory< Rigid2DTransform< double > >::RegisterTransform ();
+    TransformFactory< Rigid3DPerspectiveTransform< double > >::RegisterTransform ();
+    TransformFactory< Rigid3DTransform< double > >::RegisterTransform ();
+    TransformFactory< ScalableAffineTransform< double > >::RegisterTransform ();
+    TransformFactory< ScaleLogarithmicTransform< double > >::RegisterTransform ();
+    TransformFactory< ScaleVersor3DTransform< double > >::RegisterTransform ();
+    TransformFactory< ScaleSkewVersor3DTransform< double > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< double, 2 > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< double, 2 > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< double, 3 > >::RegisterTransform ();
+    TransformFactory< TranslationTransform< double > >::RegisterTransform ();
+    TransformFactory< VersorRigid3DTransform< double > >::RegisterTransform ();
+    TransformFactory< VersorTransform< double > >::RegisterTransform ();
 
-    TransformFactory<AffineTransform<float,2> >::RegisterTransform ();
-    TransformFactory<AffineTransform<float,3> >::RegisterTransform ();
-    TransformFactory<BSplineDeformableTransform<float,2,2> >::RegisterTransform ();
-    TransformFactory<BSplineDeformableTransform<float,3,3> >::RegisterTransform ();
-    TransformFactory<CenteredAffineTransform<float,2> >::RegisterTransform ();
-    TransformFactory<CenteredAffineTransform<float,3> >::RegisterTransform ();
-    TransformFactory<CenteredEuler3DTransform<float> >::RegisterTransform ();
-    TransformFactory<CenteredRigid2DTransform < float > >::RegisterTransform();
-    TransformFactory<CenteredSimilarity2DTransform<float> >::RegisterTransform ();
-    TransformFactory<Similarity2DTransform<float> >::RegisterTransform ();
-    TransformFactory<Euler2DTransform<float> >::RegisterTransform ();
-    TransformFactory<Euler3DTransform<float> >::RegisterTransform ();
-    TransformFactory<FixedCenterOfRotationAffineTransform<float> >::RegisterTransform ();
-    TransformFactory<IdentityTransform<float,2> >::RegisterTransform ();
-    TransformFactory<IdentityTransform<float,3> >::RegisterTransform ();
-    TransformFactory<QuaternionRigidTransform<float> >::RegisterTransform ();
-    TransformFactory<Rigid2DTransform<float> >::RegisterTransform ();
-    TransformFactory<Rigid3DPerspectiveTransform<float> >::RegisterTransform ();
-    TransformFactory<Rigid3DTransform<float> >::RegisterTransform ();
-    TransformFactory<ScalableAffineTransform<float> >::RegisterTransform ();
-    TransformFactory<ScaleLogarithmicTransform<float> >::RegisterTransform ();
-    TransformFactory<ScaleVersor3DTransform<float> >::RegisterTransform ();
-    TransformFactory<ScaleSkewVersor3DTransform<float> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
-    TransformFactory<ScaleTransform<float,3> >::RegisterTransform ();
-    TransformFactory<TranslationTransform<float> >::RegisterTransform ();
-    TransformFactory<VersorRigid3DTransform<float> >::RegisterTransform ();
-    TransformFactory<VersorTransform<float> >::RegisterTransform ();
+    TransformFactory< AffineTransform< float, 2 > >::RegisterTransform ();
+    TransformFactory< AffineTransform< float, 3 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< float, 2, 2 > >::RegisterTransform ();
+    TransformFactory< BSplineDeformableTransform< float, 3, 3 > >::RegisterTransform ();
+    TransformFactory< CenteredAffineTransform< float, 2 > >::RegisterTransform ();
+    TransformFactory< CenteredAffineTransform< float, 3 > >::RegisterTransform ();
+    TransformFactory< CenteredEuler3DTransform< float > >::RegisterTransform ();
+    TransformFactory< CenteredRigid2DTransform< float > >::RegisterTransform();
+    TransformFactory< CenteredSimilarity2DTransform< float > >::RegisterTransform ();
+    TransformFactory< Similarity2DTransform< float > >::RegisterTransform ();
+    TransformFactory< Euler2DTransform< float > >::RegisterTransform ();
+    TransformFactory< Euler3DTransform< float > >::RegisterTransform ();
+    TransformFactory< FixedCenterOfRotationAffineTransform< float > >::RegisterTransform ();
+    TransformFactory< IdentityTransform< float, 2 > >::RegisterTransform ();
+    TransformFactory< IdentityTransform< float, 3 > >::RegisterTransform ();
+    TransformFactory< QuaternionRigidTransform< float > >::RegisterTransform ();
+    TransformFactory< Rigid2DTransform< float > >::RegisterTransform ();
+    TransformFactory< Rigid3DPerspectiveTransform< float > >::RegisterTransform ();
+    TransformFactory< Rigid3DTransform< float > >::RegisterTransform ();
+    TransformFactory< ScalableAffineTransform< float > >::RegisterTransform ();
+    TransformFactory< ScaleLogarithmicTransform< float > >::RegisterTransform ();
+    TransformFactory< ScaleVersor3DTransform< float > >::RegisterTransform ();
+    TransformFactory< ScaleSkewVersor3DTransform< float > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< float, 2 > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< float, 2 > >::RegisterTransform ();
+    TransformFactory< ScaleTransform< float, 3 > >::RegisterTransform ();
+    TransformFactory< TranslationTransform< float > >::RegisterTransform ();
+    TransformFactory< VersorRigid3DTransform< float > >::RegisterTransform ();
+    TransformFactory< VersorTransform< float > >::RegisterTransform ();
     }
 }
 
-const char*
+const char *
 TransformFactoryBase::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 TransformFactoryBase::GetDescription() const
 {
   return "Transform FactoryBase";
 }
-
 } // end namespace itk

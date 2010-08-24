@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,10 +23,9 @@
 
 namespace itk
 {
-
-template <class TInputImage>
-void 
-RegionFromReferenceLabelMapFilter<TInputImage>
+template< class TInputImage >
+void
+RegionFromReferenceLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -35,42 +34,40 @@ RegionFromReferenceLabelMapFilter<TInputImage>
   this->GetOutput()->SetLargestPossibleRegion( this->GetRegion() );
 }
 
-
-template <class TInputImage>
+template< class TInputImage >
 void
-RegionFromReferenceLabelMapFilter<TInputImage>
-::SetReferenceImage ( const ReferenceImageType *image )
+RegionFromReferenceLabelMapFilter< TInputImage >
+::SetReferenceImage(const ReferenceImageType *image)
 {
   itkDebugMacro("setting input ReferenceImage to " << image);
-  if( image != static_cast<const ReferenceImageType *>(this->GetInput( 1 )) )
+  if ( image != static_cast< const ReferenceImageType * >( this->GetInput(1) ) )
     {
-    this->ProcessObject::SetNthInput(1, const_cast< ReferenceImageType *>( image ) );
+    this->ProcessObject::SetNthInput( 1, const_cast< ReferenceImageType * >( image ) );
     this->Modified();
     }
 }
 
-template <class TInputImage>
-const typename RegionFromReferenceLabelMapFilter<TInputImage>::ReferenceImageType *
-RegionFromReferenceLabelMapFilter<TInputImage>
+template< class TInputImage >
+const typename RegionFromReferenceLabelMapFilter< TInputImage >::ReferenceImageType *
+RegionFromReferenceLabelMapFilter< TInputImage >
 ::GetReferenceImage() const
 {
-  Self * surrogate = const_cast< Self * >( this );
+  Self *surrogate = const_cast< Self * >( this );
 
-  const DataObject * input = surrogate->ProcessObject::GetInput(1);
+  const DataObject *input = surrogate->ProcessObject::GetInput(1);
 
-  const ReferenceImageType * referenceImage = static_cast<const ReferenceImageType *>( input );
-  
+  const ReferenceImageType *referenceImage = static_cast< const ReferenceImageType * >( input );
+
   return referenceImage;
 }
 
-template <class TInputImage>
+template< class TInputImage >
 void
-RegionFromReferenceLabelMapFilter<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+RegionFromReferenceLabelMapFilter< TInputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 }
-
 } // end namespace itk
 
 #endif

@@ -24,13 +24,12 @@
 
 #include <float.h>  // for DBL_MIN
 
-
 namespace itk
 {
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::ConformalFlatteningMeshFilter()
 {
@@ -48,64 +47,63 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /**
  * Set the triangle used to define the boundary of the flattened region.
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
-ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>
-::SetPolarCellIdentifier( CellIdentifier cellId )
+ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
+::SetPolarCellIdentifier(CellIdentifier cellId)
 {
   this->m_PolarCellIdentifier = cellId;
-};
+}
 
 /**
  * Define the scale of the mapping. The largest coordinates of the
  * furthest point in the plane is m_MapScale.
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::SetScale( double scale )
+::SetScale(double scale)
 {
   this->m_MapScale = scale;
-};
+}
 
 /**
  * Define that the input surface will be mapped to a sphere
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::MapToSphere( void )
+::MapToSphere(void)
 {
   this->m_MapToSphere = true;
-};
+}
 
 /** Define that the input surface will be mapped to a plane.
  *  This skips the steps of the stereographic projection.
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::MapToPlane( void )
+::MapToPlane(void)
 {
   this->m_MapToSphere = false;
-};
+}
 
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 
 /**
  * This method causes the filter to generate its output.
  */
-template <class TInputMesh, class TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
@@ -114,22 +112,22 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
   typedef typename TInputMesh::PointsContainerConstPointer
-    InputPointsContainerConstPointer;
+  InputPointsContainerConstPointer;
 
   typedef typename TOutputMesh::PointsContainerPointer
-    OutputPointsContainerPointer;
+  OutputPointsContainerPointer;
 
   InputMeshConstPointer inputMesh      =  this->GetInput();
   OutputMeshPointer     outputMesh     =  this->GetOutput();
 
-  if( !inputMesh )
+  if ( !inputMesh )
     {
-    itkExceptionMacro(<<"Missing Input Mesh");
+    itkExceptionMacro(<< "Missing Input Mesh");
     }
 
-  if( !outputMesh )
+  if ( !outputMesh )
     {
-    itkExceptionMacro(<<"Missing Output Mesh");
+    itkExceptionMacro(<< "Missing Output Mesh");
     }
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
@@ -138,13 +136,13 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  outPoints->Reserve( numberOfPoints );
+  outPoints->Reserve(numberOfPoints);
   outPoints->Squeeze();  // in case the previous mesh had
                          // allocated a larger memory
 
   unsigned int i;
 
-  SparseMatrixCoordType D(numberOfPoints,numberOfPoints);
+  SparseMatrixCoordType D(numberOfPoints, numberOfPoints);
 
   VectorCoordType bx(numberOfPoints, 0.0);
   VectorCoordType by(numberOfPoints, 0.0);
@@ -152,15 +150,16 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   itkDebugMacro("m_PolarCellIdentifier " << this->m_PolarCellIdentifier);
 
   CellAutoPointer cell;
-  inputMesh->GetCell( this->m_PolarCellIdentifier, cell );
+  inputMesh->GetCell(this->m_PolarCellIdentifier, cell);
 
   unsigned int cellNumberOfPoints = cell->GetNumberOfPoints();
 
-  if( cellNumberOfPoints != 3 )
+  if ( cellNumberOfPoints != 3 )
     {
-    itkExceptionMacro("Polar cell has " << cellNumberOfPoints << " points"
-        "\nThis filter can only process triangle meshes. "
-        "Use vtkTriangleFilter to convert your mesh to a triangle mesh.");
+    itkExceptionMacro(
+      "Polar cell has " << cellNumberOfPoints << " points"
+                                                 "\nThis filter can only process triangle meshes. "
+                                                 "Use vtkTriangleFilter to convert your mesh to a triangle mesh.");
     return;
     }
 
@@ -176,9 +175,9 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   InputPointType ptB; ptB.Fill(0.0);
   InputPointType ptC; ptC.Fill(0.0);
 
-  inputMesh->GetPoint( boundaryId0, &ptA );
-  inputMesh->GetPoint( boundaryId1, &ptB );
-  inputMesh->GetPoint( boundaryId2, &ptC );
+  inputMesh->GetPoint(boundaryId0, &ptA);
+  inputMesh->GetPoint(boundaryId1, &ptB);
+  inputMesh->GetPoint(boundaryId2, &ptC);
 
   double AB[3];
   double BC[3];
@@ -209,10 +208,10 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   normAB2 = AB[0] * AB[0] + AB[1] * AB[1] + AB[2] * AB[2];
 
-  if( normAB2 < 1e-10 )
+  if ( normAB2 < 1e-10 )
     {
     itkExceptionMacro("||AB||^2 = " << normAB2
-        << "\nRisk of division by zero");
+                                    << "\nRisk of division by zero");
     return;
     }
 
@@ -253,14 +252,14 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   double tmp = 2.0 / normAB;
   //double factor = normAB / normCE;
 
-  bx( boundaryId0 ) = - tmp; // -t * factor;
-  bx( boundaryId1 ) = tmp; // (1.0 - t) * factor;
+  bx(boundaryId0) = -tmp;  // -t * factor;
+  bx(boundaryId1) = tmp;   // (1.0 - t) * factor;
 
   double tmp2 = 2.0 / normCE;
 
-  by( boundaryId0 ) = tmp2 * (1.0 - t); // 0.0;
-  by( boundaryId1 ) = tmp2 * t; // 0.0;
-  by( boundaryId2 ) = - tmp2; // 1.0;
+  by(boundaryId0) = tmp2 * ( 1.0 - t ); // 0.0;
+  by(boundaryId1) = tmp2 * t;           // 0.0;
+  by(boundaryId2) = -tmp2;              // 1.0;
 
   CellIterator cellIterator = inputMesh->GetCells()->Begin();
   CellIterator cellEnd      = inputMesh->GetCells()->End();
@@ -281,28 +280,28 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   double cotgBCA;
   double cotgCAB;
 
-  while( cellIterator != cellEnd )
+  while ( cellIterator != cellEnd )
     {
-    CellType * aCell = cellIterator.Value();
+    CellType *   aCell = cellIterator.Value();
     unsigned int aCellNumberOfPoints = aCell->GetNumberOfPoints();
 
-    if( aCellNumberOfPoints > 3 )
+    if ( aCellNumberOfPoints > 3 )
       {
       itkExceptionMacro("cell has " << aCellNumberOfPoints << " points\n"
-      "This filter can only process triangle meshes.");
+                                                              "This filter can only process triangle meshes.");
       return;
       }
 
-    while( aCellNumberOfPoints < 3 ) // leave the edges and points untouched
+    while ( aCellNumberOfPoints < 3 ) // leave the edges and points untouched
       {
       cellIterator++;
-      if( cellIterator !=cellEnd )
+      if ( cellIterator != cellEnd )
         {
         aCell = cellIterator.Value();
         aCellNumberOfPoints = aCell->GetNumberOfPoints();
         }
       }
-    if( cellIterator == cellEnd ) break;
+    if ( cellIterator == cellEnd ) { break; }
 
     pointIditer = aCell->PointIdsBegin();
 
@@ -314,9 +313,9 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
     ptIdC = *pointIditer;
 
-    inputMesh->GetPoint( ptIdA, &ptA );
-    inputMesh->GetPoint( ptIdB, &ptB );
-    inputMesh->GetPoint( ptIdC, &ptC );
+    inputMesh->GetPoint(ptIdA, &ptA);
+    inputMesh->GetPoint(ptIdB, &ptB);
+    inputMesh->GetPoint(ptIdC, &ptC);
 
     AB[0] = ptB[0] - ptA[0];
     AB[1] = ptB[1] - ptA[1];
@@ -334,27 +333,27 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     normBC2 = BC[0] * BC[0] + BC[1] * BC[1] + BC[2] * BC[2];
     normCA2 = CA[0] * CA[0] + CA[1] * CA[1] + CA[2] * CA[2];
 
-    if( normAB2 < 1e-10 )
+    if ( normAB2 < 1e-10 )
       {
       itkExceptionMacro("normAB2 " << normAB2);
       return;
       }
 
-    if( normBC2 < 1e-10 )
+    if ( normBC2 < 1e-10 )
       {
       itkExceptionMacro("normBC2 " << normBC2);
       return;
       }
 
-    if( normCA2 < 1e-10 )
+    if ( normCA2 < 1e-10 )
       {
       itkExceptionMacro("normCA2 " << normCA2);
       return;
       }
 
-    normAB = vcl_sqrt( normAB2 );
-    normBC = vcl_sqrt( normBC2 );
-    normCA = vcl_sqrt( normCA2 );
+    normAB = vcl_sqrt(normAB2);
+    normBC = vcl_sqrt(normBC2);
+    normCA = vcl_sqrt(normCA2);
 
     prodABBC = AB[0] * BC[0] + AB[1] * BC[1] + AB[2] * BC[2];
     prodBCCA = BC[0] * CA[0] + BC[1] * CA[1] + BC[2] * CA[2];
@@ -364,41 +363,41 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     cosBCA = -prodBCCA / ( normBC * normCA );
     cosCAB = -prodCAAB / ( normCA * normAB );
 
-    if( cosABC <= -1.0 || cosABC >= 1.0 )
+    if ( cosABC <= -1.0 || cosABC >= 1.0 )
       {
       itkExceptionMacro("cosABC= " << cosABC);
       return;
       }
 
-    if( cosBCA <= -1.0 || cosBCA >= 1.0 )
+    if ( cosBCA <= -1.0 || cosBCA >= 1.0 )
       {
       itkExceptionMacro("cosBCA= " << cosBCA);
       return;
       }
 
-    if( cosCAB <= -1.0 || cosCAB >= 1.0 )
+    if ( cosCAB <= -1.0 || cosCAB >= 1.0 )
       {
       itkExceptionMacro("cosCAB= " << cosCAB);
       return;
       }
 
-    sinABC = vcl_sqrt( 1.0 - cosABC * cosABC );
-    sinBCA = vcl_sqrt( 1.0 - cosBCA * cosBCA );
-    sinCAB = vcl_sqrt( 1.0 - cosCAB * cosCAB );
+    sinABC = vcl_sqrt(1.0 - cosABC * cosABC);
+    sinBCA = vcl_sqrt(1.0 - cosBCA * cosBCA);
+    sinCAB = vcl_sqrt(1.0 - cosCAB * cosCAB);
 
-    if( sinABC < 1e-10 )
+    if ( sinABC < 1e-10 )
       {
       itkExceptionMacro("sinABC= " << sinABC);
       return;
       }
 
-    if( sinBCA < 1e-10 )
+    if ( sinBCA < 1e-10 )
       {
       itkExceptionMacro("sinBCA= " << sinBCA);
       return;
       }
 
-    if( sinCAB < 1e-10 )
+    if ( sinCAB < 1e-10 )
       {
       itkExceptionMacro("sinCAB= " << sinCAB);
       return;
@@ -408,106 +407,102 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     cotgBCA = cosBCA / sinBCA;
     cotgCAB = cosCAB / sinCAB;
 
-    D( ptIdA, ptIdA ) += cotgABC + cotgBCA;
-    D( ptIdA, ptIdB ) -= cotgBCA;
-    D( ptIdA, ptIdC ) -= cotgABC;
+    D(ptIdA, ptIdA) += cotgABC + cotgBCA;
+    D(ptIdA, ptIdB) -= cotgBCA;
+    D(ptIdA, ptIdC) -= cotgABC;
 
-    D( ptIdB, ptIdB ) += cotgBCA + cotgCAB;
-    D( ptIdB, ptIdA ) -= cotgBCA;
-    D( ptIdB, ptIdC ) -= cotgCAB;
+    D(ptIdB, ptIdB) += cotgBCA + cotgCAB;
+    D(ptIdB, ptIdA) -= cotgBCA;
+    D(ptIdB, ptIdC) -= cotgCAB;
 
-    D( ptIdC, ptIdC ) += cotgCAB + cotgABC;
-    D( ptIdC, ptIdB ) -= cotgCAB;
-    D( ptIdC, ptIdA ) -= cotgABC;
+    D(ptIdC, ptIdC) += cotgCAB + cotgABC;
+    D(ptIdC, ptIdB) -= cotgCAB;
+    D(ptIdC, ptIdA) -= cotgABC;
 
     cellIterator++;
     }
 
-
   VectorCoordType x(numberOfPoints, 0.0);
   VectorCoordType y(numberOfPoints, 0.0);
-  {
-  // solving Ax = b (D x = bx)
-  VectorCoordType rx = bx;
-  VectorCoordType zx(numberOfPoints);
-
-  VectorCoordType ry = by;
-  VectorCoordType zy(numberOfPoints);
-
-
-  // Jacobi preconditioner
-  VectorCoordType Dinv( numberOfPoints );
-  for (unsigned long ip = 0; ip < numberOfPoints; ++ip)
     {
-      Dinv[ip] = 1.0/( D(ip, ip) + DBL_MIN);
+    // solving Ax = b (D x = bx)
+    VectorCoordType rx = bx;
+    VectorCoordType zx(numberOfPoints);
 
-      zx[ip] = rx[ip]*Dinv[ip];
-      zy[ip] = ry[ip]*Dinv[ip];
-    }
+    VectorCoordType ry = by;
+    VectorCoordType zy(numberOfPoints);
 
-  VectorCoordType dx = zx;
-  VectorCoordType dy = zy;
-
-
-  unsigned int numIter = bx.size();
-  if (bx.size() != numberOfPoints)
-    {
-    // check for safe
-    std::cerr<<"bx.size() != numberOfPoints\n";
-    }
-  numIter += numIter/10; // let the iteration times a little more than the dimension
-
-  double tol = 1e-6;
-
-  for ( i = 0; i <= numIter; ++i)
-    {
-    VectorCoordType Dxd;
-    D.pre_mult(dx, Dxd);
-    VectorCoordType Dyd;
-    D.pre_mult(dy, Dyd);
-
-    double dDxd = inner_product(dx, Dxd);
-    double dDyd = inner_product(dy, Dyd);
-
-    double zxTrx = inner_product(zx, rx);
-    double zyTry = inner_product(zy, ry);
-
-    double alphax = zxTrx/(dDxd + DBL_MIN);
-    double alphay = zyTry/(dDyd + DBL_MIN);
-
-    x += alphax*dx;
-    y += alphay*dy;
-
-
-    rx -= alphax*Dxd;
-    ry -= alphay*Dyd;
-
-    double rxTrx = inner_product(rx, rx);
-    double ryTry = inner_product(ry, ry);
-    if ( rxTrx < tol && ryTry < tol)
+    // Jacobi preconditioner
+    VectorCoordType Dinv(numberOfPoints);
+    for ( unsigned long ip = 0; ip < numberOfPoints; ++ip )
       {
+      Dinv[ip] = 1.0 / ( D(ip, ip) + DBL_MIN );
+
+      zx[ip] = rx[ip] * Dinv[ip];
+      zy[ip] = ry[ip] * Dinv[ip];
+      }
+
+    VectorCoordType dx = zx;
+    VectorCoordType dy = zy;
+
+    unsigned int numIter = bx.size();
+    if ( bx.size() != numberOfPoints )
+      {
+      // check for safe
+      std::cerr << "bx.size() != numberOfPoints\n";
+      }
+    numIter += numIter / 10; // let the iteration times a little more than the
+                             // dimension
+
+    double tol = 1e-6;
+
+    for ( i = 0; i <= numIter; ++i )
+      {
+      VectorCoordType Dxd;
+      D.pre_mult(dx, Dxd);
+      VectorCoordType Dyd;
+      D.pre_mult(dy, Dyd);
+
+      double dDxd = inner_product(dx, Dxd);
+      double dDyd = inner_product(dy, Dyd);
+
+      double zxTrx = inner_product(zx, rx);
+      double zyTry = inner_product(zy, ry);
+
+      double alphax = zxTrx / ( dDxd + DBL_MIN );
+      double alphay = zyTry / ( dDyd + DBL_MIN );
+
+      x += alphax * dx;
+      y += alphay * dy;
+
+      rx -= alphax * Dxd;
+      ry -= alphay * Dyd;
+
+      double rxTrx = inner_product(rx, rx);
+      double ryTry = inner_product(ry, ry);
+      if ( rxTrx < tol && ryTry < tol )
+        {
         //      std::cout<<"out from here when i = "<<i<<std::endl;
-      break;
+        break;
+        }
+
+      for ( unsigned long id = 0; id < numberOfPoints; ++id )
+        {
+        zx[id] = rx[id] * Dinv[id];
+        zy[id] = ry[id] * Dinv[id];
+        }
+
+      double betaX = inner_product(zx, rx) / ( zxTrx + DBL_MIN );
+      double betaY = inner_product(zy, ry) / ( zyTry + DBL_MIN );
+
+      dx = zx + betaX * dx;
+      dy = zy + betaY * dy;
       }
-
-
-    for (unsigned long id = 0; id < numberOfPoints; ++id)
-      {
-        zx[id] = rx[id]*Dinv[id];
-        zy[id] = ry[id]*Dinv[id];
-      }
-
-    double betaX = inner_product(zx, rx)/(zxTrx + DBL_MIN);
-    double betaY = inner_product(zy, ry)/(zyTry + DBL_MIN);
-
-    dx = zx + betaX*dx;
-    dy = zy + betaY*dy;
     }
-  }
 
-  typename OutputPointsContainer::Iterator      outputPointIterator =
+  typename OutputPointsContainer::Iterator outputPointIterator =
     outPoints->Begin();
-  typename OutputPointsContainer::Iterator      outputPointEnd =
+  typename OutputPointsContainer::Iterator outputPointEnd =
     outPoints->End();
 
   OutputPointType point;
@@ -515,65 +510,65 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   double bounds[6];
 
-  bounds[0] = vcl_numeric_limits<double>::max();
-  bounds[1] = -vcl_numeric_limits<double>::max();
+  bounds[0] = vcl_numeric_limits< double >::max();
+  bounds[1] = -vcl_numeric_limits< double >::max();
 
-  bounds[2] = vcl_numeric_limits<double>::max();
-  bounds[3] = -vcl_numeric_limits<double>::max();
+  bounds[2] = vcl_numeric_limits< double >::max();
+  bounds[3] = -vcl_numeric_limits< double >::max();
 
-  bounds[4] = vcl_numeric_limits<double>::max();
-  bounds[5] = -vcl_numeric_limits<double>::max();
+  bounds[4] = vcl_numeric_limits< double >::max();
+  bounds[5] = -vcl_numeric_limits< double >::max();
 
-  if( this->m_MapToSphere )
+  if ( this->m_MapToSphere )
     {
-    if (m_MapScale < 0)
+    if ( m_MapScale < 0 )
       {
       // < 0 means user doesn't explictly assign it. Then
       // automatically calculate it s.t. after doing the
       // stereo-graphic projection, upper and lower hemi-sphere will have
       // same number of vertics.
 
-      std::vector<double> v_r2(numberOfPoints);
-      std::vector<double>::iterator itv_r2=v_r2.begin();
+      std::vector< double >           v_r2(numberOfPoints);
+      std::vector< double >::iterator itv_r2 = v_r2.begin();
 
-      for (i = 0; i < numberOfPoints;  ++i, ++itv_r2)
+      for ( i = 0; i < numberOfPoints; ++i, ++itv_r2 )
         {
-          *itv_r2 = x(i)*x(i) + y(i)*y(i);
+        *itv_r2 = x(i) * x(i) + y(i) * y(i);
         }
 
-      std::sort(v_r2.begin(), v_r2.end());
+      std::sort( v_r2.begin(), v_r2.end() );
       unsigned int uiMidPointIdx = 0;
-      if( numberOfPoints % 2 )
+      if ( numberOfPoints % 2 )
         {
-        uiMidPointIdx = (numberOfPoints-1)/2;
+        uiMidPointIdx = ( numberOfPoints - 1 ) / 2;
         }
       else
         {
-        uiMidPointIdx = numberOfPoints/2;
+        uiMidPointIdx = numberOfPoints / 2;
         }
-      this->m_MapScale = 1.0/vcl_sqrt(v_r2[uiMidPointIdx]);
+      this->m_MapScale = 1.0 / vcl_sqrt(v_r2[uiMidPointIdx]);
       }
 
     i = 0;
-    while( outputPointIterator != outputPointEnd )
+    while ( outputPointIterator != outputPointEnd )
       {
-      double xx = (this->m_MapScale) * x(i);
-      double yy = (this->m_MapScale) * y(i);
+      double xx = ( this->m_MapScale ) * x(i);
+      double yy = ( this->m_MapScale ) * y(i);
 
-      double radius2 = xx*xx + yy*yy;
+      double radius2 = xx * xx + yy * yy;
 
-      point[0] = 2.0*xx/(1.0 + radius2);
-      point[1] = 2.0*yy/(1.0 + radius2);
-      point[2] = 2.0*radius2/(1.0 + radius2) - 1.0;
+      point[0] = 2.0 * xx / ( 1.0 + radius2 );
+      point[1] = 2.0 * yy / ( 1.0 + radius2 );
+      point[2] = 2.0 * radius2 / ( 1.0 + radius2 ) - 1.0;
 
-      if( point[0] < bounds[0] ) { bounds[0] = point[0]; }
-      if( point[0] > bounds[1] ) { bounds[1] = point[0]; }
+      if ( point[0] < bounds[0] ) { bounds[0] = point[0]; }
+      if ( point[0] > bounds[1] ) { bounds[1] = point[0]; }
 
-      if( point[1] < bounds[2] ) { bounds[2] = point[1]; }
-      if( point[1] > bounds[3] ) { bounds[3] = point[1]; }
+      if ( point[1] < bounds[2] ) { bounds[2] = point[1]; }
+      if ( point[1] > bounds[3] ) { bounds[3] = point[1]; }
 
-      if( point[2] < bounds[4] ) { bounds[4] = point[2]; }
-      if( point[2] > bounds[5] ) { bounds[5] = point[2]; }
+      if ( point[2] < bounds[4] ) { bounds[4] = point[2]; }
+      if ( point[2] > bounds[5] ) { bounds[5] = point[2]; }
 
       outputPointIterator.Value() = point;
       outputPointIterator++;
@@ -583,19 +578,19 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
   else
     {
     i = 0;
-    while( outputPointIterator != outputPointEnd )
+    while ( outputPointIterator != outputPointEnd )
       {
       point[0] = x(i);
       point[1] = y(i);
 
-      if( point[0] < bounds[0] ) { bounds[0] = point[0]; }
-      if( point[0] > bounds[1] ) { bounds[1] = point[0]; }
+      if ( point[0] < bounds[0] ) { bounds[0] = point[0]; }
+      if ( point[0] > bounds[1] ) { bounds[1] = point[0]; }
 
-      if( point[1] < bounds[2] ) { bounds[2] = point[1]; }
-      if( point[1] > bounds[3] ) { bounds[3] = point[1]; }
+      if ( point[1] < bounds[2] ) { bounds[2] = point[1]; }
+      if ( point[1] > bounds[3] ) { bounds[3] = point[1]; }
 
-      if( point[2] < bounds[4] ) { bounds[4] = point[2]; }
-      if( point[2] > bounds[5] ) { bounds[5] = point[2]; }
+      if ( point[2] < bounds[4] ) { bounds[4] = point[2]; }
+      if ( point[2] > bounds[5] ) { bounds[5] = point[2]; }
 
       outputPointIterator.Value() = point;
       outputPointIterator++;
@@ -604,9 +599,9 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
     }
 
   itkDebugMacro("bounds"
-    << " " << bounds[0] << " " << bounds[1]
-    << " " << bounds[2] << " " << bounds[3]
-    << " " << bounds[4] << " " << bounds[5]);
+                << " " << bounds[0] << " " << bounds[1]
+                << " " << bounds[2] << " " << bounds[3]
+                << " " << bounds[4] << " " << bounds[5]);
 
   //Create duplicate references to the rest of data on the mesh
   this->CopyInputMeshToOutputMeshPointData();
@@ -616,13 +611,12 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
-  for( unsigned int dim = 0; dim < maxDimension; dim++ )
+  for ( unsigned int dim = 0; dim < maxDimension; dim++ )
     {
     outputMesh->SetBoundaryAssignments( dim,
-        inputMesh->GetBoundaryAssignments(dim) );
+                                        inputMesh->GetBoundaryAssignments(dim) );
     }
 }
-
 } // end namespace itk
 
 #endif

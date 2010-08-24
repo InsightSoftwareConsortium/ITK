@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,14 +19,13 @@
 
 #include "itkVesselTubeSpatialObjectPoint.h"
 
-namespace itk 
+namespace itk
 {
-
 /** Constructor */
 template< unsigned int TPointDimension >
 VesselTubeSpatialObjectPoint< TPointDimension >
-::VesselTubeSpatialObjectPoint( void ) : Superclass()
-{ 
+::VesselTubeSpatialObjectPoint(void):Superclass()
+{
   m_Medialness = 0;
   m_Ridgeness = 0;
   m_Branchness = 0;
@@ -39,129 +38,127 @@ VesselTubeSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 VesselTubeSpatialObjectPoint< TPointDimension >
-::~VesselTubeSpatialObjectPoint( void ) 
-{
-}
+::~VesselTubeSpatialObjectPoint(void)
+{}
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetMedialness( void ) const 
+::GetMedialness(void) const
 {
   return m_Medialness;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetMedialness( const float newMedialness ) 
+::SetMedialness(const float newMedialness)
 {
   m_Medialness = newMedialness;
 }
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetRidgeness( void ) const
+::GetRidgeness(void) const
 {
   return m_Ridgeness;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetRidgeness( const float newRidgeness ) 
+::SetRidgeness(const float newRidgeness)
 {
   m_Ridgeness = newRidgeness;
 }
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetBranchness( void ) const
+::GetBranchness(void) const
 {
   return m_Branchness;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetBranchness( const float newBranchness ) 
+::SetBranchness(const float newBranchness)
 {
   m_Branchness = newBranchness;
 }
 
 template< unsigned int TPointDimension >
-bool 
+bool
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetMark( void ) const
+::GetMark(void) const
 {
   return m_Mark;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetMark( const bool newMark ) 
+::SetMark(const bool newMark)
 {
   m_Mark = newMark;
 }
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha1( void ) const
+::GetAlpha1(void) const
 {
   return m_Alpha1;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetAlpha1( const float newAlpha ) 
+::SetAlpha1(const float newAlpha)
 {
   m_Alpha1 = newAlpha;
 }
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha2( void ) const
+::GetAlpha2(void) const
 {
   return m_Alpha2;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetAlpha2( const float newAlpha ) 
+::SetAlpha2(const float newAlpha)
 {
   m_Alpha2 = newAlpha;
 }
 
 template< unsigned int TPointDimension >
-float 
+float
 VesselTubeSpatialObjectPoint< TPointDimension >
-::GetAlpha3( void ) const
+::GetAlpha3(void) const
 {
   return m_Alpha3;
 }
 
 template< unsigned int TPointDimension >
-void 
+void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::SetAlpha3( const float newAlpha ) 
+::SetAlpha3(const float newAlpha)
 {
   m_Alpha3 = newAlpha;
 }
 
-
 template< unsigned int TPointDimension >
 void
 VesselTubeSpatialObjectPoint< TPointDimension >
-::PrintSelf( std::ostream & os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Medialness: " << m_Medialness << std::endl;
   os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
   os << indent << "Alpha1: " << m_Alpha1 << std::endl;
@@ -170,11 +167,10 @@ VesselTubeSpatialObjectPoint< TPointDimension >
   os << indent << "Mark: " << m_Mark << std::endl;
 }
 
-
 template< unsigned int TPointDimension >
-typename VesselTubeSpatialObjectPoint< TPointDimension >::Self & 
+typename VesselTubeSpatialObjectPoint< TPointDimension >::Self &
 VesselTubeSpatialObjectPoint< TPointDimension >
-::operator=(const VesselTubeSpatialObjectPoint & rhs) 
+::operator=(const VesselTubeSpatialObjectPoint & rhs)
 {
   this->m_ID = rhs.m_ID;
   this->m_R = rhs.m_R;
@@ -191,9 +187,8 @@ VesselTubeSpatialObjectPoint< TPointDimension >
   m_Alpha2 = rhs.m_Alpha2;
   m_Alpha3 = rhs.m_Alpha3;
   this->m_Color = rhs.m_Color;
-  return * this;
+  return *this;
 }
-
 } // end namespace itk
 
 #endif

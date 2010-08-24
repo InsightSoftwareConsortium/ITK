@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class DefaultStaticMeshTraits
  * DefaultStaticMeshTraits is a simple structure that holds type information
  * for a mesh and its cells.  It is used to avoid the passing of many
@@ -47,10 +46,10 @@ namespace itk
  *
  * TInterpolationWeight =
  *    Numerical type to store interpolation weights.
- * 
+ *
  * \ingroup MeshObjects
  */
-template <
+template<
   typename TPixelType,
   unsigned int VPointDimension = 3,
   unsigned int VMaxTopologicalDimension = VPointDimension,
@@ -62,80 +61,78 @@ class DefaultStaticMeshTraits
 {
 public:
   /** Standard class typedefs. */
-  typedef DefaultStaticMeshTraits  Self;
-  
+  typedef DefaultStaticMeshTraits Self;
+
   /** Just save all the template parameters. */
-  typedef TPixelType              PixelType;
-  typedef TCellPixelType          CellPixelType;
-  typedef TCoordRep               CoordRepType;
-  typedef TInterpolationWeight    InterpolationWeightType;
-    
+  typedef TPixelType           PixelType;
+  typedef TCellPixelType       CellPixelType;
+  typedef TCoordRep            CoordRepType;
+  typedef TInterpolationWeight InterpolationWeightType;
+
   /** Just save all the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
   itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      VMaxTopologicalDimension);  
-  
+                      VMaxTopologicalDimension);
+
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
-  typedef unsigned long  PointIdentifier;
+  typedef unsigned long PointIdentifier;
 
   /** The type to be used to identify a cell.  This should be the index type
    * to the CellsContainer. */
-  typedef unsigned long  CellIdentifier;
+  typedef unsigned long CellIdentifier;
 
   /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
-  typedef unsigned long  CellFeatureIdentifier;
-  
+  typedef unsigned long CellFeatureIdentifier;
+
   /** The type of point used by the mesh. */
-  typedef Point< CoordRepType, VPointDimension >  PointType;
+  typedef Point< CoordRepType, VPointDimension > PointType;
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  typedef Point< CoordRepType, VPointDimension >  PointHashType;
+  typedef Point< CoordRepType, VPointDimension > PointHashType;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< PointIdentifier , PointType >  PointsContainer;
+  typedef VectorContainer< PointIdentifier, PointType > PointsContainer;
 
   /** The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface. */
-  typedef std::set< CellIdentifier >            UsingCellsContainer;
-  
+  typedef std::set< CellIdentifier > UsingCellsContainer;
+
   /** The information needed for a cell type is now defined, so we can
    * define the cell type. We use a macro defined in itkCellInterface. */
-  typedef itkMakeCellTraitsMacro                        CellTraits;
-  
+  typedef itkMakeCellTraitsMacro CellTraits;
+
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
-  typedef CellInterface< CellPixelType , CellTraits >   CellType;
-  typedef typename CellType::CellRawPointer             CellRawPointer;
-  typedef typename CellType::CellAutoPointer            CellAutoPointer;
-    
+  typedef CellInterface< CellPixelType, CellTraits > CellType;
+  typedef typename CellType::CellRawPointer          CellRawPointer;
+  typedef typename CellType::CellAutoPointer         CellAutoPointer;
+
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< CellIdentifier , CellType *  >     CellsContainer;
-  
+  typedef VectorContainer< CellIdentifier, CellType *  > CellsContainer;
+
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
-  typedef std::set< CellIdentifier >     PointCellLinksContainer;
+  typedef std::set< CellIdentifier > PointCellLinksContainer;
 
   /** The container type for use in storing point links back to cells.
    * It must conform to the IndexedContainer interface. */
-  typedef VectorContainer< PointIdentifier , PointCellLinksContainer >
-        CellLinksContainer;
+  typedef VectorContainer< PointIdentifier, PointCellLinksContainer >
+  CellLinksContainer;
 
   /** The container type for use in storing point data.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< PointIdentifier , PixelType > PointDataContainer;
+  typedef VectorContainer< PointIdentifier, PixelType > PointDataContainer;
 
   /** The container type for use in storing cell data.  It must conform to
    * the IndexedContainer interface. */
-  typedef VectorContainer< CellIdentifier , CellPixelType > CellDataContainer;
-
+  typedef VectorContainer< CellIdentifier, CellPixelType > CellDataContainer;
 };
-
 } // end namespace itk
 
 #endif

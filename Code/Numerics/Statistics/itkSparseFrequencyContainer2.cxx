@@ -16,9 +16,10 @@
 =========================================================================*/
 #include "itkSparseFrequencyContainer2.h"
 
-namespace itk{
-namespace Statistics{
-
+namespace itk
+{
+namespace Statistics
+{
 SparseFrequencyContainer2
 ::SparseFrequencyContainer2()
 {
@@ -54,8 +55,9 @@ SparseFrequencyContainer2
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
   AbsoluteFrequencyType frequency = this->GetFrequency(id);
+
   m_FrequencyContainer[id] = value;
-  m_TotalFrequency += (value - frequency);
+  m_TotalFrequency += ( value - frequency );
   return true;
 }
 
@@ -64,6 +66,7 @@ SparseFrequencyContainer2
 ::GetFrequency(const InstanceIdentifier id) const
 {
   FrequencyContainerType::const_iterator iter = m_FrequencyContainer.find(id);
+
   if ( iter != m_FrequencyContainer.end() )
     {
     return iter->second;
@@ -81,6 +84,7 @@ SparseFrequencyContainer2
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
   AbsoluteFrequencyType frequency = this->GetFrequency(id);
+
   m_FrequencyContainer[id] = frequency + value;
   m_TotalFrequency += value;
   return true;
@@ -88,10 +92,9 @@ SparseFrequencyContainer2
 
 void
 SparseFrequencyContainer2
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 } // end of namespace Statistics
 } // end of namespace itk

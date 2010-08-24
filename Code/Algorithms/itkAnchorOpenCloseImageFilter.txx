@@ -23,29 +23,28 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkAnchorUtilities.h"
 #include <itkImageRegionIterator.h>
-namespace itk {
-
-template <class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
-AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
+namespace itk
+{
+template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
+AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
 ::AnchorOpenCloseImageFilter()
 {
   m_KernelSet = false;
 }
 
-template <class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
+template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
 void
-AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
-::ThreadedGenerateData (const InputImageRegionType& outputRegionForThread,
-                        int threadId)
+AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
+                       int threadId)
 {
-
   // check that we are using a decomposable kernel
-  if (!m_Kernel.GetDecomposable())
+  if ( !m_Kernel.GetDecomposable() )
     {
     itkExceptionMacro("Anchor morphology only works with decomposable structuring elements");
     return;
     }
-  if (!m_KernelSet)
+  if ( !m_KernelSet )
     {
     itkExceptionMacro("No kernel set - quitting");
     return;
@@ -59,19 +58,19 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   // will improve cache performance when working along non raster
   // directions.
 
-  AnchorLineErodeType AnchorLineErode;
+  AnchorLineErodeType  AnchorLineErode;
   AnchorLineDilateType AnchorLineDilate;
 
   AnchorLineOpenType AnchorLineOpen;
 
-  ProgressReporter progress(this, threadId, m_Kernel.GetLines().size()*2 + 1);
+  ProgressReporter progress(this, threadId, m_Kernel.GetLines().size() * 2 + 1);
 
   InputImageConstPointer input = this->GetInput();
 
   InputImageRegionType IReg = outputRegionForThread;
   // seem to need a double padding for the multi threaded case because
   // we get boundary effects otherwise
-  IReg.PadByRadius( m_Kernel.GetRadius());
+  IReg.PadByRadius( m_Kernel.GetRadius() );
   IReg.PadByRadius( m_Kernel.GetRadius() );
   IReg.Crop( this->GetInput()->GetRequestedRegion() );
 
@@ -85,7 +84,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   InputImageRegionType OReg = outputRegionForThread;
   // maximum buffer length is sum of dimensions
   unsigned int bufflength = 0;
-  for (unsigned i = 0; i<TImage::ImageDimension; i++)
+  for ( unsigned i = 0; i < TImage::ImageDimension; i++ )
     {
     bufflength += IReg.GetSize()[i];
     }
@@ -93,167 +92,172 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   // compat
   bufflength += 2;
 
-  InputImagePixelType * buffer = new InputImagePixelType[bufflength];
-  InputImagePixelType * inbuffer = new InputImagePixelType[bufflength];
+  InputImagePixelType *buffer = new InputImagePixelType[bufflength];
+  InputImagePixelType *inbuffer = new InputImagePixelType[bufflength];
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = m_Kernel.GetLines();
   BresType BresLine;
 
   // first stage -- all of the erosions if we are doing an opening
-  for (unsigned i = 0; i < decomposition.size() - 1; i++)
+  for ( unsigned i = 0; i < decomposition.size() - 1; i++ )
     {
-    KernelLType ThisLine = decomposition[i];
+    KernelLType     ThisLine = decomposition[i];
     BresOffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int    SELength = GetLinePixels< KernelLType >(ThisLine);
     // want lines to be odd
-    if (!(SELength%2))
+    if ( !( SELength % 2 ) )
+      {
       ++SELength;
+      }
     AnchorLineErode.SetSize(SELength);
 
-    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
-    DoAnchorFace<TImage, BresType,
-      AnchorLineErodeType,
-      KernelLType>(input, output, m_Boundary1, ThisLine, AnchorLineErode,
-                                  TheseOffsets, inbuffer, buffer, IReg, BigFace);
-
+    InputImageRegionType BigFace = MakeEnlargedFace< InputImageType, KernelLType >(input, IReg, ThisLine);
+    DoAnchorFace< TImage, BresType,
+                  AnchorLineErodeType,
+                  KernelLType >(input, output, m_Boundary1, ThisLine, AnchorLineErode,
+                                TheseOffsets, inbuffer, buffer, IReg, BigFace);
 
     // after the first pass the input will be taken from the output
     input = internalbuffer;
     progress.CompletedPixel();
     }
   // now do the opening in the middle of the chain
-  {
-  unsigned i = decomposition.size() - 1;
-  KernelLType ThisLine = decomposition[i];
-  typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-  unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
-  // want lines to be odd
-  if (!(SELength%2))
-    ++SELength;
+    {
+    unsigned    i = decomposition.size() - 1;
+    KernelLType ThisLine = decomposition[i];
+    typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
+    unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
+    // want lines to be odd
+    if ( !( SELength % 2 ) )
+      {
+      ++SELength;
+      }
 
-  AnchorLineOpen.SetSize(SELength);
-  InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
+    AnchorLineOpen.SetSize(SELength);
+    InputImageRegionType BigFace = MakeEnlargedFace< InputImageType, KernelLType >(input, IReg, ThisLine);
 
-  // Now figure out which faces of the image we should be starting
-  // from with this line
-  DoFaceOpen(input, output, m_Boundary1, ThisLine, AnchorLineOpen,
-             TheseOffsets, buffer,
-             IReg, BigFace);
-  // equivalent to two passes
-  progress.CompletedPixel();
-  progress.CompletedPixel();
-  }
+    // Now figure out which faces of the image we should be starting
+    // from with this line
+    DoFaceOpen(input, output, m_Boundary1, ThisLine, AnchorLineOpen,
+               TheseOffsets, buffer,
+               IReg, BigFace);
+    // equivalent to two passes
+    progress.CompletedPixel();
+    progress.CompletedPixel();
+    }
 
   // Now for the rest of the dilations -- note that i needs to be signed
-  for (int i = decomposition.size() - 2; i >= 0; --i)
+  for ( int i = decomposition.size() - 2; i >= 0; --i )
     {
     KernelLType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
     // want lines to be odd
-    if (!(SELength%2))
+    if ( !( SELength % 2 ) )
+      {
       ++SELength;
+      }
 
     AnchorLineDilate.SetSize(SELength);
 
-    InputImageRegionType BigFace = MakeEnlargedFace<InputImageType, KernelLType>(input, IReg, ThisLine);
-    DoAnchorFace<TImage, BresType,
-      AnchorLineDilateType,
-      KernelLType>(input, output, m_Boundary2, ThisLine, AnchorLineDilate,
-                                  TheseOffsets, inbuffer, buffer, IReg, BigFace);
-
+    InputImageRegionType BigFace = MakeEnlargedFace< InputImageType, KernelLType >(input, IReg, ThisLine);
+    DoAnchorFace< TImage, BresType,
+                  AnchorLineDilateType,
+                  KernelLType >(input, output, m_Boundary2, ThisLine, AnchorLineDilate,
+                                TheseOffsets, inbuffer, buffer, IReg, BigFace);
 
     progress.CompletedPixel();
     }
 
   // copy internal buffer to output
-  typedef ImageRegionIterator<InputImageType> IterType;
+  typedef ImageRegionIterator< InputImageType > IterType;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
-  for (oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit)
+  for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )
     {
-    oit.Set(iit.Get());
+    oit.Set( iit.Get() );
     }
   progress.CompletedPixel();
 
-  delete [] buffer;
-  delete [] inbuffer;
+  delete[] buffer;
+  delete[] inbuffer;
 }
 
-template<class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
+template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
 void
-AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
+AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
 ::DoFaceOpen(InputImageConstPointer input,
              InputImagePointer output,
              InputImagePixelType border,
              KernelLType line,
-             AnchorLineOpenType &AnchorLineOpen,
+             AnchorLineOpenType & AnchorLineOpen,
              const BresOffsetArray LineOffsets,
-             InputImagePixelType * outbuffer,
+             InputImagePixelType *outbuffer,
              const InputImageRegionType AllImage,
              const InputImageRegionType face)
 {
   // iterate over the face
 
-  // we can't use an iterator with a region outside the image. All we need here is to
-  // iterate over all the indexes of the face, without accessing the content of the image.
-  // I can't find any cleaner way, so we use a dumb image, not even allocated, to iterate
+  // we can't use an iterator with a region outside the image. All we need here
+  // is to
+  // iterate over all the indexes of the face, without accessing the content of
+  // the image.
+  // I can't find any cleaner way, so we use a dumb image, not even allocated,
+  // to iterate
   // over all the indexes inside the region.
   //
   // typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
   // ItType it(input, face);
 
   typename TImage::Pointer dumbImg = TImage::New();
-  dumbImg->SetRegions( face );
+  dumbImg->SetRegions(face);
 
   KernelLType NormLine = line;
   NormLine.Normalize();
   // set a generous tolerance
-  float tol = 1.0/LineOffsets.size();
-  for( unsigned int it=0; it<face.GetNumberOfPixels(); it++ )
+  float tol = 1.0 / LineOffsets.size();
+  for ( unsigned int it = 0; it < face.GetNumberOfPixels(); it++ )
     {
-    typename TImage::IndexType Ind = dumbImg->ComputeIndex( it );
+    typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
     unsigned start, end, len;
-    if (FillLineBuffer<TImage, BresType, KernelLType>(input,
-                                                      Ind,
-                                                      NormLine,
-                                                      tol,
-                                                      LineOffsets,
-                                                      AllImage,
-                                                      outbuffer,
-                                                      start,
-                                                      end))
+    if ( FillLineBuffer< TImage, BresType, KernelLType >(input,
+                                                         Ind,
+                                                         NormLine,
+                                                         tol,
+                                                         LineOffsets,
+                                                         AllImage,
+                                                         outbuffer,
+                                                         start,
+                                                         end) )
       {
-
       len = end - start + 1;
       // compat
-      outbuffer[0]=border;
-      outbuffer[len+1]=border;
-      AnchorLineOpen.DoLine(outbuffer,len+2);  // compat
-      CopyLineToImage<TImage, BresType>(output, Ind, LineOffsets, outbuffer, start, end);
+      outbuffer[0] = border;
+      outbuffer[len + 1] = border;
+      AnchorLineOpen.DoLine(outbuffer, len + 2);  // compat
+      CopyLineToImage< TImage, BresType >(output, Ind, LineOffsets, outbuffer, start, end);
       }
     }
 }
 
-template<class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
+template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
 void
-AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
-::PrintSelf(std::ostream &os, Indent indent) const
+AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-
-template<class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual>
+template< class TImage, class TKernel, class TLessThan, class TGreaterThan, class TLessEqual, class TGreaterEqual >
 void
-AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual>
+AnchorOpenCloseImageFilter< TImage, TKernel, TLessThan, TGreaterThan, TLessEqual, TGreaterEqual >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr =
+  typename Superclass::InputImagePointer inputPtr =
     const_cast< TImage * >( this->GetInput() );
 
   if ( !inputPtr )
@@ -270,9 +274,9 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
   inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -281,20 +285,19 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TLessThan, TGreaterThan, TLessEqual,
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
 
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
-    std::ostringstream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
+    std::ostringstream          msg;
+    msg << static_cast< const char * >( this->GetNameOfClass() )
         << "::GenerateInputRequestedRegion()";
-    e.SetLocation(msg.str().c_str());
+    e.SetLocation( msg.str().c_str() );
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
     }
 }
-
 } // end namespace itk
 
 #endif

@@ -20,11 +20,8 @@
 #include "itkNumericTraits.h"
 #include "itkSymmetricSecondRankTensor.h"
 
-
 namespace itk
 {
-
-
 /** \class NumericTraits<SymmetricSecondRankTensor< T, D > >
  * \brief Define numeric traits for SymmetricSecondRankTensor.
  *
@@ -39,42 +36,41 @@ namespace itk
  * \sa NumericTraits
  * \ingroup DataRepresentation
  */
-template < typename T, unsigned int D >
-class NumericTraits<SymmetricSecondRankTensor< T, D > >
+template< typename T, unsigned int D >
+class NumericTraits< SymmetricSecondRankTensor< T, D > >
 {
 private:
 
-  typedef  typename NumericTraits<T>::AbsType        ElementAbsType;
-  typedef  typename NumericTraits<T>::AccumulateType ElementAccumulateType;
-  typedef  typename NumericTraits<T>::FloatType      ElementFloatType;
-  typedef  typename NumericTraits<T>::PrintType      ElementPrintType;
-  typedef  typename NumericTraits<T>::RealType       ElementRealType;
-
+  typedef  typename NumericTraits< T >::AbsType        ElementAbsType;
+  typedef  typename NumericTraits< T >::AccumulateType ElementAccumulateType;
+  typedef  typename NumericTraits< T >::FloatType      ElementFloatType;
+  typedef  typename NumericTraits< T >::PrintType      ElementPrintType;
+  typedef  typename NumericTraits< T >::RealType       ElementRealType;
 public:
 
   /** Return the type of the native component type. */
-  typedef T                                                   ValueType;
+  typedef T ValueType;
 
-  typedef SymmetricSecondRankTensor<T, D>                     Self;
+  typedef SymmetricSecondRankTensor< T, D > Self;
 
   /** Unsigned component type */
-  typedef SymmetricSecondRankTensor<ElementAbsType, D>        AbsType;
+  typedef SymmetricSecondRankTensor< ElementAbsType, D > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef SymmetricSecondRankTensor<ElementAccumulateType, D> AccumulateType;
+  typedef SymmetricSecondRankTensor< ElementAccumulateType, D > AccumulateType;
 
-  /** Typedef for operations that use floating point instead of real precision */
-  typedef SymmetricSecondRankTensor<ElementFloatType, D>      FloatType;
+  /** Typedef for operations that use floating point instead of real precision
+    */
+  typedef SymmetricSecondRankTensor< ElementFloatType, D > FloatType;
 
   /** Return the type that can be printed. */
-  typedef SymmetricSecondRankTensor<ElementPrintType, D>      PrintType;
+  typedef SymmetricSecondRankTensor< ElementPrintType, D > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef SymmetricSecondRankTensor<ElementRealType, D>       RealType;
+  typedef SymmetricSecondRankTensor< ElementRealType, D > RealType;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType                                     ScalarRealType;
-
+  typedef ElementRealType ScalarRealType;
 
   /** Component wise defined element
    *
@@ -82,25 +78,29 @@ public:
    * minimum positive normalize value.
    */
   static const Self max()
-    {
-      return Self( NumericTraits< T >::max() );
-    }
+  {
+    return Self( NumericTraits< T >::max() );
+  }
+
   static const Self min()
-    {
-      return Self( NumericTraits< T >::min() );
-    }
+  {
+    return Self( NumericTraits< T >::min() );
+  }
+
   static const Self NonpositiveMin()
-    {
-      return Self( NumericTraits< T >::NonpositiveMin() );
-    }
+  {
+    return Self( NumericTraits< T >::NonpositiveMin() );
+  }
+
   static const Self ZeroValue()
-    {
-      return Self( NumericTraits<T>::ZeroValue() );
-    }
+  {
+    return Self( NumericTraits< T >::ZeroValue() );
+  }
+
   static const Self OneValue()
-    {
-      return Self( NumericTraits<T>::OneValue() );
-    }
+  {
+    return Self( NumericTraits< T >::OneValue() );
+  }
 
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
@@ -108,8 +108,6 @@ public:
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };
-
-
 } // end namespace itk
 
 #endif // __itkNumericTraitsTensorPixel_h

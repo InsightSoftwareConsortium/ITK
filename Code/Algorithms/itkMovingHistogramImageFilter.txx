@@ -31,66 +31,67 @@
 
 #endif
 
-namespace itk {
-
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::MovingHistogramImageFilter()
+namespace itk
 {
-}
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::MovingHistogramImageFilter()
+{}
 
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 THistogram *
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::NewHistogram()
 {
   return new THistogram();
 }
 
-
 #ifdef zigzag
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 void
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId)
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId)
 {
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // instanciate the histogram
-  THistogram * histogram = this->NewHistogram();
+  THistogram *histogram = this->NewHistogram();
 
-  OutputImageType* outputImage = this->GetOutput();
-  const InputImageType* inputImage = this->GetInput();
-  RegionType inputRegion = inputImage->GetRequestedRegion();
+  OutputImageType *     outputImage = this->GetOutput();
+  const InputImageType *inputImage = this->GetInput();
+  RegionType            inputRegion = inputImage->GetRequestedRegion();
 
   // initialize the histogram
-  for( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); listIt++ )
+  for ( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin();
+        listIt != this->m_KernelOffsets.end();
+        listIt++ )
     {
-    IndexType idx = outputRegionForThread.GetIndex() + (*listIt);
-    if( inputRegion.IsInside( idx ) )
-      { histogram->AddPixel( inputImage->GetPixel(idx) ); }
+    IndexType idx = outputRegionForThread.GetIndex() + ( *listIt );
+    if ( inputRegion.IsInside(idx) )
+              { histogram->AddPixel( inputImage->GetPixel(idx) ); }
     else
-      { histogram->AddBoundary(); }
+              { histogram->AddBoundary(); }
     }
   // and set the first point of the image
-  outputImage->SetPixel( outputRegionForThread.GetIndex(), static_cast< OutputPixelType >( histogram->GetValue( inputImage->GetPixel( outputRegionForThread.GetIndex() ) ) ) );
+  outputImage->SetPixel( outputRegionForThread.GetIndex(),
+                         static_cast< OutputPixelType >( histogram->GetValue( inputImage->GetPixel(
+outputRegionForThread.GetIndex() ) ) ) );
   progress.CompletedPixel();
 
   // now move the histogram
-  FixedArray<short, ImageDimension> direction;
+  FixedArray< short, ImageDimension > direction;
   direction.Fill(1);
-  IndexType currentIdx = outputRegionForThread.GetIndex();
-  int axis = ImageDimension - 1;
+  IndexType  currentIdx = outputRegionForThread.GetIndex();
+  int        axis = ImageDimension - 1;
   OffsetType offset;
-  offset.Fill( 0 );
+  offset.Fill(0);
   RegionType stRegion;
   stRegion.SetSize( this->m_Kernel.GetSize() );
-  stRegion.PadByRadius( 1 ); // must pad the region by one because of the translation
+  stRegion.PadByRadius(1);   // must pad the region by one because of the
+                             // translation
 
   OffsetType centerOffset;
-  for( int axis=0; axis<ImageDimension; axis++)
+  for ( int axis = 0; axis < ImageDimension; axis++ )
     {
     centerOffset[axis] = stRegion.GetSize()[axis] / 2;
     }
@@ -98,52 +99,64 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   // init the offset and get the lists for the best axis
   offset[this->m_Axes[axis]] = direction[this->m_Axes[axis]];
   // it's very important for performances to get a pointer and not a copy
-  const OffsetListType* addedList = &this->m_AddedOffsets[offset];
-  const OffsetListType* removedList = &this->m_RemovedOffsets[offset];
+  const OffsetListType *addedList = &this->m_AddedOffsets[offset];
+  const OffsetListType *removedList = &this->m_RemovedOffsets[offset];
 
-  while( axis >= 0 )
+  while ( axis >= 0 )
     {
-    if( outputRegionForThread.IsInside( currentIdx + offset ) )
+    if ( outputRegionForThread.IsInside(currentIdx + offset) )
       {
-      stRegion.SetIndex( currentIdx + offset - centerOffset );
-      if( inputRegion.IsInside( stRegion ) )
+      stRegion.SetIndex(currentIdx + offset - centerOffset);
+      if ( inputRegion.IsInside(stRegion) )
         {
         // update the histogram
-        for( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
-          { histogram->AddPixel( inputImage->GetPixel( currentIdx + (*addedIt) ) ); }
-        for( typename OffsetListType::const_iterator removedIt = removedList->begin(); removedIt != removedList->end(); removedIt++ )
-          { histogram->RemovePixel( inputImage->GetPixel( currentIdx + (*removedIt) ) ); }
+        for ( typename OffsetListType::const_iterator addedIt = addedList->begin();
+              addedIt != addedList->end();
+              addedIt++ )
+          {
+          histogram->AddPixel( inputImage->GetPixel( currentIdx + ( *addedIt ) ) );
+          }
+        for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+              removedIt != removedList->end();
+              removedIt++ )
+          {
+          histogram->RemovePixel( inputImage->GetPixel( currentIdx + ( *removedIt ) ) );
+          }
         }
       else
         {
         // update the histogram
-        for( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
+        for ( typename OffsetListType::const_iterator addedIt = addedList->begin();
+              addedIt != addedList->end();
+              addedIt++ )
           {
-          IndexType idx = currentIdx + (*addedIt);
-          if( inputRegion.IsInside( idx ) )
-            { histogram->AddPixel( inputImage->GetPixel( idx ) ); }
+          IndexType idx = currentIdx + ( *addedIt );
+          if ( inputRegion.IsInside(idx) )
+                    { histogram->AddPixel( inputImage->GetPixel(idx) ); }
           else
-            { histogram->AddBoundary(); }
+                    { histogram->AddBoundary(); }
           }
-        for( typename OffsetListType::const_iterator removedIt = removedList->begin(); removedIt != removedList->end(); removedIt++ )
+        for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+              removedIt != removedList->end();
+              removedIt++ )
           {
-          IndexType idx = currentIdx + (*removedIt);
-          if( inputRegion.IsInside( idx ) )
-            { histogram->RemovePixel( inputImage->GetPixel( idx ) ); }
+          IndexType idx = currentIdx + ( *removedIt );
+          if ( inputRegion.IsInside(idx) )
+                    { histogram->RemovePixel( inputImage->GetPixel(idx) ); }
           else
-            { histogram->RemoveBoundary(); }
+                    { histogram->RemoveBoundary(); }
           }
         }
 
-      OutputPixelType value = static_cast< OutputPixelType >( histogram->GetValue( inputImage->GetPixel( currentIdx ) ) );
+      OutputPixelType value = static_cast< OutputPixelType >( histogram->GetValue( inputImage->GetPixel(currentIdx) ) );
 
       // store the new index
       currentIdx += offset;
 
-      outputImage->SetPixel( currentIdx, value );
+      outputImage->SetPixel(currentIdx, value);
       progress.CompletedPixel();
 
-      if( axis != ImageDimension - 1 )
+      if ( axis != ImageDimension - 1 )
         {
         offset[this->m_Axes[axis]] = 0;
         // the axis must be the last one
@@ -166,7 +179,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
       // and switch to another axis
       axis--;
 
-      if( axis >= 0 )
+      if ( axis >= 0 )
         {
         offset[this->m_Axes[axis]] = direction[this->m_Axes[axis]];
         addedList = &this->m_AddedOffsets[offset];
@@ -176,47 +189,49 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
     }
 }
 
-
 #else
 // a modified version that uses line iterators and only moves the
 // histogram in one direction. Hopefully it will be a bit simpler and
 // faster due to improved memory access and a tighter loop.
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 void
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
   // instantiate the histogram
-  HistogramType * histogram = this->NewHistogram();
+  HistogramType *histogram = this->NewHistogram();
 
-  OutputImageType* outputImage = this->GetOutput();
-  const InputImageType* inputImage = this->GetInput();
-  RegionType inputRegion = inputImage->GetRequestedRegion();
+  OutputImageType *     outputImage = this->GetOutput();
+  const InputImageType *inputImage = this->GetInput();
+  RegionType            inputRegion = inputImage->GetRequestedRegion();
 
   // initialize the histogram
-  for( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); listIt++ )
+  for ( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin();
+        listIt != this->m_KernelOffsets.end();
+        listIt++ )
     {
-    IndexType idx = outputRegionForThread.GetIndex() + (*listIt);
-    if( inputRegion.IsInside( idx ) )
-      { histogram->AddPixel( inputImage->GetPixel(idx) ); }
+    IndexType idx = outputRegionForThread.GetIndex() + ( *listIt );
+    if ( inputRegion.IsInside(idx) )
+              { histogram->AddPixel( inputImage->GetPixel(idx) ); }
     else
-      { histogram->AddBoundary(); }
+              { histogram->AddBoundary(); }
     }
 
   // now move the histogram
-  FixedArray<short, ImageDimension> direction;
+  FixedArray< short, ImageDimension > direction;
   direction.Fill(1);
-  int axis = ImageDimension - 1;
+  int        axis = ImageDimension - 1;
   OffsetType offset;
-  offset.Fill( 0 );
+  offset.Fill(0);
   RegionType stRegion;
   stRegion.SetSize( this->m_Kernel.GetSize() );
-  stRegion.PadByRadius( 1 ); // must pad the region by one because of the translation
+  stRegion.PadByRadius(1);   // must pad the region by one because of the
+                             // translation
 
-  OffsetType centerOffset;
+  OffsetType   centerOffset;
   unsigned int i;
-  for( i=0; i<ImageDimension; i++)
+  for ( i = 0; i < ImageDimension; i++ )
     {
     centerOffset[i] = stRegion.GetSize()[i] / 2;
     }
@@ -225,58 +240,58 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
   int LineLength = inputRegion.GetSize()[BestDirection];
 
   // Report progress every line instead of every pixel
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels()/outputRegionForThread.GetSize()[BestDirection]);
+  ProgressReporter progress(this, threadId,
+                            outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize()[BestDirection]);
   // init the offset and get the lists for the best axis
   offset[BestDirection] = direction[BestDirection];
   // it's very important for performances to get a pointer and not a copy
-  const OffsetListType* addedList = &this->m_AddedOffsets[offset];
-  const OffsetListType* removedList = &this->m_RemovedOffsets[offset];
+  const OffsetListType *addedList = &this->m_AddedOffsets[offset];
+  const OffsetListType *removedList = &this->m_RemovedOffsets[offset];
 
-  typedef ImageLinearConstIteratorWithIndex<InputImageType> InputLineIteratorType;
+  typedef ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
 
-  typedef ImageRegionIterator<OutputImageType> OutputIteratorType;
+  typedef ImageRegionIterator< OutputImageType > OutputIteratorType;
   //OutputIteratorType oit(outputImage, outputRegionForThread);
   InLineIt.GoToBegin();
   IndexType LineStart;
   //PrevLineStart = InLineIt.GetIndex();
   InLineIt.GoToBegin();
 
-  typedef typename std::vector<HistogramType *> HistVecType;
+  typedef typename std::vector< HistogramType * > HistVecType;
   HistVecType HistVec(ImageDimension);
-  typedef typename std::vector<IndexType> IndexVecType;
+  typedef typename std::vector< IndexType > IndexVecType;
   IndexVecType PrevLineStartVec(ImageDimension);
 
   // Steps is used to keep track of the order in which the line
   // iterator passes over the various dimensions.
   int *Steps = new int[ImageDimension];
 
-  for( i=0; i<ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
     HistVec[i] = histogram->Clone();
     PrevLineStartVec[i] = InLineIt.GetIndex();
-    Steps[i]=0;
+    Steps[i] = 0;
     }
 
-  while(!InLineIt.IsAtEnd())
+  while ( !InLineIt.IsAtEnd() )
     {
     HistogramType *histRef = HistVec[BestDirection];
-    IndexType PrevLineStart = InLineIt.GetIndex();
-    for (InLineIt.GoToBeginOfLine(); !InLineIt.IsAtEndOfLine(); ++InLineIt)
+    IndexType      PrevLineStart = InLineIt.GetIndex();
+    for ( InLineIt.GoToBeginOfLine(); !InLineIt.IsAtEndOfLine(); ++InLineIt )
       {
-
       // Update the historgram
       IndexType currentIdx = InLineIt.GetIndex();
-      outputImage->SetPixel(currentIdx, static_cast< OutputPixelType >( histRef->GetValue( inputImage->GetPixel( currentIdx ) ) ));
-      stRegion.SetIndex( currentIdx - centerOffset );
+      outputImage->SetPixel( currentIdx,
+                             static_cast< OutputPixelType >( histRef->GetValue( inputImage->GetPixel(currentIdx) ) ) );
+      stRegion.SetIndex(currentIdx - centerOffset);
       PushHistogram(histRef, addedList, removedList, inputRegion,
-              stRegion, inputImage, currentIdx);
-
+                    stRegion, inputImage, currentIdx);
       }
     Steps[BestDirection] += LineLength;
     InLineIt.NextLine();
-    if (InLineIt.IsAtEnd())
+    if ( InLineIt.IsAtEnd() )
       {
       break;
       }
@@ -289,91 +304,97 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
     OffsetType LineOffset, Changes;
     // Figure out which stored histogram to move and in
     // which direction
-    int LineDirection=0;
+    int LineDirection = 0;
     // This function deals with changing planes etc
     GetDirAndOffset(LineStart, PrevLineStart,
-        LineOffset, Changes, LineDirection);
-    ++(Steps[LineDirection]);
-    IndexType PrevLineStartHist = LineStart - LineOffset;
-    const OffsetListType* addedListLine = &this->m_AddedOffsets[LineOffset];
-    const OffsetListType* removedListLine = &this->m_RemovedOffsets[LineOffset];
-    HistogramType *tmpHist = HistVec[LineDirection];
+                    LineOffset, Changes, LineDirection);
+    ++( Steps[LineDirection] );
+    IndexType             PrevLineStartHist = LineStart - LineOffset;
+    const OffsetListType *addedListLine = &this->m_AddedOffsets[LineOffset];
+    const OffsetListType *removedListLine = &this->m_RemovedOffsets[LineOffset];
+    HistogramType *       tmpHist = HistVec[LineDirection];
     stRegion.SetIndex(PrevLineStart - centerOffset);
     // Now move the histogram
     PushHistogram(tmpHist, addedListLine, removedListLine, inputRegion,
-      stRegion, inputImage, PrevLineStartHist);
+                  stRegion, inputImage, PrevLineStartHist);
 
     //PrevLineStartVec[LineDirection] = LineStart;
     // copy the updated histogram and line start entries to the
     // relevant directions. When updating direction 2, for example,
     // new copies of directions 0 and 1 should be made.
-    for( i=0; i<ImageDimension; i++)
+    for ( i = 0; i < ImageDimension; i++ )
       {
-      if (Steps[i] > Steps[LineDirection])
+      if ( Steps[i] > Steps[LineDirection] )
         {
         //PrevLineStartVec[i] = LineStart;
-        delete(HistVec[i]);
+        delete ( HistVec[i] );
         HistVec[i] = HistVec[LineDirection]->Clone();
         }
       }
     progress.CompletedPixel();
     }
-  for( i=0; i<ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
-    delete(HistVec[i]);
+    delete ( HistVec[i] );
     }
-  delete [] Steps;
+  delete[] Steps;
   delete histogram;
 }
 
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 void
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::PushHistogram(HistogramType * histogram,
-    const OffsetListType* addedList,
-    const OffsetListType* removedList,
-    const RegionType &inputRegion,
-    const RegionType &kernRegion,
-    const InputImageType* inputImage,
-    const IndexType currentIdx)
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::PushHistogram(HistogramType *histogram,
+                const OffsetListType *addedList,
+                const OffsetListType *removedList,
+                const RegionType & inputRegion,
+                const RegionType & kernRegion,
+                const InputImageType *inputImage,
+                const IndexType currentIdx)
 {
-
-  if( inputRegion.IsInside( kernRegion ) )
+  if ( inputRegion.IsInside(kernRegion) )
     {
     // update the histogram
-    for( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
-      { histogram->AddPixel( inputImage->GetPixel( currentIdx + (*addedIt) ) ); }
-    for( typename OffsetListType::const_iterator removedIt = removedList->begin(); removedIt != removedList->end(); removedIt++ )
-      { histogram->RemovePixel( inputImage->GetPixel( currentIdx + (*removedIt) ) ); }
+    for ( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
+      {
+      histogram->AddPixel( inputImage->GetPixel( currentIdx + ( *addedIt ) ) );
+      }
+    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+          removedIt != removedList->end();
+          removedIt++ )
+      {
+      histogram->RemovePixel( inputImage->GetPixel( currentIdx + ( *removedIt ) ) );
+      }
     }
   else
     {
     // update the histogram
-    for( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
+    for ( typename OffsetListType::const_iterator addedIt = addedList->begin(); addedIt != addedList->end(); addedIt++ )
       {
-      IndexType idx = currentIdx + (*addedIt);
-      if( inputRegion.IsInside( idx ) )
-        { histogram->AddPixel( inputImage->GetPixel( idx ) ); }
+      IndexType idx = currentIdx + ( *addedIt );
+      if ( inputRegion.IsInside(idx) )
+                { histogram->AddPixel( inputImage->GetPixel(idx) ); }
       else
-        { histogram->AddBoundary(); }
+                { histogram->AddBoundary(); }
       }
-    for( typename OffsetListType::const_iterator removedIt = removedList->begin(); removedIt != removedList->end(); removedIt++ )
+    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+          removedIt != removedList->end();
+          removedIt++ )
       {
-      IndexType idx = currentIdx + (*removedIt);
-      if( inputRegion.IsInside( idx ) )
-        { histogram->RemovePixel( inputImage->GetPixel( idx ) ); }
+      IndexType idx = currentIdx + ( *removedIt );
+      if ( inputRegion.IsInside(idx) )
+                { histogram->RemovePixel( inputImage->GetPixel(idx) ); }
       else
-        { histogram->RemoveBoundary(); }
+                { histogram->RemoveBoundary(); }
       }
     }
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 void
 
-MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::PrintHistogram(const HistogramType &H)
+MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::PrintHistogram(const HistogramType & H)
 {
   /*  std::cout << "Hist = " ;
   typename HistogramType::const_iterator mapIt;
@@ -385,6 +406,5 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
 }
 
 #endif
-
-}// end namespace itk
+} // end namespace itk
 #endif

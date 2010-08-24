@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,9 +24,8 @@
 
 namespace itk
 {
-
 /** \class VoronoiSegmentationImageFilter
- * 
+ *
  * Perform the segmentation of 2D images (single channel) by Voronoi Diagram.
  * Used as a node of the segmentation toolkits.
  * The homogeneity operator here is the testing of mean and standar deviation value.
@@ -36,8 +35,8 @@ namespace itk
  *
  * See VoronoiSegmentationImageFilterBase for detail description of voronoi
  * segmenation principles.
- * 
- * The parameters here are: 
+ *
+ * The parameters here are:
  * 1. the estimation of the statistics of the object. (mean and std.)
  * 2. the tolerance for the classification. (around the mean ans std. estimated value).
  *
@@ -46,22 +45,22 @@ namespace itk
  *
  * Detail information about this algorithm can be found in:
  *  " Semi-automated color segmentation of anatomical tissue,"
- *   C. Imelinska, M. Downes, and W. Yuan  
+ *   C. Imelinska, M. Downes, and W. Yuan
  *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
  *
- * \ingroup HybridSegmentation 
+ * \ingroup HybridSegmentation
  */
-template <class TInputImage, class TOutputImage, class TBinaryPriorImage=Image<unsigned char,2> >
+template< class TInputImage, class TOutputImage, class TBinaryPriorImage = Image< unsigned char, 2 > >
 class ITK_EXPORT VoronoiSegmentationImageFilter:
-    public VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage, TBinaryPriorImage>
+  public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VoronoiSegmentationImageFilter       Self;
-  typedef VoronoiSegmentationImageFilterBase<TInputImage,TOutputImage
-     ,TBinaryPriorImage>                       Superclass;
-  typedef SmartPointer <Self>                  Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef VoronoiSegmentationImageFilter Self;
+  typedef VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage,
+                                              TBinaryPriorImage >                       Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,9 +94,10 @@ public:
 
   /** Get the Tolearance of Variance for classifying the regions. */
   itkGetConstMacro(STDTolerance, double);
-  
+
   /** Set/Get the mean percent error. */
   void SetMeanPercentError(double x);
+
   itkGetConstMacro(MeanPercentError, double);
 
   /** Set/Get the STD percent error. */
@@ -106,27 +106,26 @@ public:
 
   /** Take a prior from other segmentation node, should be an
    * binary object. */
-  void TakeAPrior(const BinaryObjectImage* aprior);
+  void TakeAPrior(const BinaryObjectImage *aprior);
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, typename TOutputImage::PixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( IntConvertibleToOutputCheck,
+                   ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   double m_Mean;
@@ -136,15 +135,13 @@ private:
   double m_MeanPercentError;
   double m_STDPercentError;
 
-  virtual bool TestHomogeneity(IndexList &Plist);
+  virtual bool TestHomogeneity(IndexList & Plist);
 
 private:
-  VoronoiSegmentationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VoronoiSegmentationImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 };
-
-}//end namespace
-
+} //end namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVoronoiSegmentationImageFilter.txx"

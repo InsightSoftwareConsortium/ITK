@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkWatershedSegmenter_h
 #define __itkWatershedSegmenter_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -33,7 +33,7 @@ namespace watershed
 {
 /** \class Segmenter
  *
- * This filter implements the first step in the N-d watershed segmentation 
+ * This filter implements the first step in the N-d watershed segmentation
  * algorithm.  It produces a segmented, labeled image from a scalar-valued
  * image input. This filter is used in conjunction with
  * WatershedSegmentTreeGenerator and WatershedRelabeler to produce a final
@@ -47,14 +47,14 @@ namespace watershed
  * \par Input
  * There is one input to this algorithm, a real-valued (scalar) itk::Image of
  * arbitrary dimension.  The input is assumed to represents a height function,
- * such as a gradient magnitude edge image.  The filter can process an image of 
+ * such as a gradient magnitude edge image.  The filter can process an image of
  * any dimension. Note that the terms ``pixel'' and ``voxel'' are
  * interchangeable in this and other watershed component class documentation.
  *
  * \par Outputs
  * There are three potential outputs of this algorithm described below.
  *
- * \par 
+ * \par
  * The first output is a labeled image of unsigned long integers.  This is an
  * initial segmentation and labeling that is fed into successive components of
  * the watershed algorithm.
@@ -64,13 +64,13 @@ namespace watershed
  * itk::watershed::SegmentTable. This table is a record of each segment
  * numbered in the initial segmentation (output number one) with relevant
  * information needed in successive stages of the algorithm.
- * 
+ *
  * \par
  * The third output is a data structure containing boundary pixel information,
  * itk::watershed::Boundary.  This data is only generated if the flag
  * DoBoundaryAnalysis is set to true and is only useful in streaming
  * applications.
- * 
+ *
  * \par Parameters
  * Threshold is specified as a percentage (0.0 - 1.0) of the maximum height of
  * the image. This filter thresholds the input image to remove all values below
@@ -83,12 +83,12 @@ namespace watershed
  * minima in the image and produces an initial segmentation with fewer
  * segments.  The assumption is that the ``shallow'' regions that this
  * thresholding eliminates are generally not of interest.
- * 
+ *
  * \sa WatershedImageFilter
  * \ingroup WatershedSegmentation  */
-template <class TInputImage>
-class ITK_EXPORT Segmenter
-  : public ProcessObject
+template< class TInputImage >
+class ITK_EXPORT Segmenter:
+  public ProcessObject
 {
 public:
   /** Standard self typedefs */
@@ -99,22 +99,22 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef Image<unsigned long, itkGetStaticConstMacro(ImageDimension)>
-                                                   OutputImageType;
-  typedef typename InputImageType::RegionType      ImageRegionType;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef Boundary<InputPixelType, itkGetStaticConstMacro(ImageDimension)>
-                                                   BoundaryType;
+  typedef Image< unsigned long, itkGetStaticConstMacro(ImageDimension) >
+  OutputImageType;
+  typedef typename InputImageType::RegionType ImageRegionType;
+  typedef typename InputImageType::PixelType  InputPixelType;
+  typedef Boundary< InputPixelType, itkGetStaticConstMacro(ImageDimension) >
+  BoundaryType;
   typedef typename BoundaryType::IndexType         BoundaryIndexType;
   typedef typename BoundaryType::FlatHashValueType BoundaryFlatHashValueType;
-  typedef SegmentTable<InputPixelType>             SegmentTableType;
+  typedef SegmentTable< InputPixelType >           SegmentTableType;
   typedef DataObject::Pointer                      DataObjectPointer;
-  
+
   /** Methods to implement smart pointers and work with the itk object factory
    */
-  typedef ProcessObject            Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmenter, ProcessObject);
 
@@ -123,52 +123,56 @@ public:
   typedef typename OutputImageType::Pointer  OutputImageTypePointer;
   typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
   typedef typename BoundaryType::Pointer     BoundaryTypePointer;
-    
+
   /** A constant used in the labeling algorithm.  */
   static unsigned long NULL_LABEL;
 
   /** A constant used in the labeling algorithm.  */
   static short NULL_FLOW;
- 
+
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)
-    {
-    return static_cast<InputImageType *>
-      (this->ProcessObject::GetInput(0));
-    }
+  {
+    return static_cast< InputImageType * >
+           ( this->ProcessObject::GetInput(0) );
+  }
+
   void SetInputImage(InputImageType *img)
-    {  this->ProcessObject::SetNthInput(0, img); }
+  {  this->ProcessObject::SetNthInput(0, img); }
 
   /** Get/Set the labeled output image.  The output image is always of
     unsigned long integers. */
   OutputImageType * GetOutputImage(void)
-    {
-    return static_cast<OutputImageType *>
-      (this->ProcessObject::GetOutput(0));
-    }
+  {
+    return static_cast< OutputImageType * >
+           ( this->ProcessObject::GetOutput(0) );
+  }
+
   void SetOutputImage(OutputImageType *img)
-    { this->ProcessObject::SetNthOutput(0, img);    }
-  
+  { this->ProcessObject::SetNthOutput(0, img);    }
+
   /** Get/Set the segment table.  The segment table is a table of segmentation
-   * information identifying each region produced by the labeling algorithm. */ 
+   * information identifying each region produced by the labeling algorithm. */
   SegmentTableType * GetSegmentTable(void)
-    {
-    return static_cast<SegmentTableType *>
-      (this->ProcessObject::GetOutput(1));
-    }
+  {
+    return static_cast< SegmentTableType * >
+           ( this->ProcessObject::GetOutput(1) );
+  }
+
   void SetSegmentTable(SegmentTableType *s)
-    { this->ProcessObject::SetNthOutput(1, s); }
-  
+  { this->ProcessObject::SetNthOutput(1, s); }
+
   /** Returns the boundary information data necessary only for data streaming
     applications.  */
   BoundaryType * GetBoundary(void)
-    {
-    return static_cast<BoundaryType *>
-      (this->ProcessObject::GetOutput(2));
-    }
+  {
+    return static_cast< BoundaryType * >
+           ( this->ProcessObject::GetOutput(2) );
+  }
+
   void SetBoundary(BoundaryType *b)
-    { this->ProcessObject::SetNthOutput(2,b); }
-  
+  { this->ProcessObject::SetNthOutput(2, b); }
+
   /** Standard non-threaded pipeline execution method. */
   void GenerateData();
 
@@ -179,20 +183,21 @@ public:
    * this method will not be modified by the Itk pipeline and are necessary
    * for analysis of boundaries.   */
   void SetLargestPossibleRegion(ImageRegionType reg)
-    {
-    if (reg == m_LargestPossibleRegion) return;
+  {
+    if ( reg == m_LargestPossibleRegion ) { return; }
     m_LargestPossibleRegion = reg;
     this->Modified();
-    }
+  }
+
   ImageRegionType GetLargestPossibleRegion() const
-    { return m_LargestPossibleRegion; }
+  { return m_LargestPossibleRegion; }
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
   static void RelabelImage(OutputImageTypePointer,
                            ImageRegionType,
                            EquivalencyTable::Pointer);
-  
+
   /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
@@ -210,7 +215,7 @@ public:
    * decreases the number of local minima in the image and produces an initial
    * segmentation with fewer segments.  The assumption is that the ``shallow''
    * regions that this thresholding eliminates are generally not of
-   * interest. */ 
+   * interest. */
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
   itkGetConstMacro(Threshold, double);
 
@@ -226,56 +231,56 @@ public:
    * after all iterations have taken place. */
   itkGetConstMacro(SortEdgeLists, bool);
   itkSetMacro(SortEdgeLists, bool);
-
 protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */
-  struct flat_region_t
-    {
-    unsigned long   *min_label_ptr;
-    InputPixelType  bounds_min;
+  struct flat_region_t {
+    unsigned long *min_label_ptr;
+    InputPixelType bounds_min;
     //    InputPixelType  bounds_max; // <-- may not be necc.
-    InputPixelType  value;
-    bool            is_on_boundary;
-    flat_region_t() : is_on_boundary(false) {}
-    };
+    InputPixelType value;
+    bool is_on_boundary;
+    flat_region_t():is_on_boundary(false) {}
+  };
 
   /** Table for storing flat region information.  */
-  typedef itk::hash_map<unsigned long, flat_region_t, itk::hash<unsigned long> >
+  typedef itk::hash_map< unsigned long, flat_region_t, itk::hash< unsigned long > >
   flat_region_table_t;
 
-  struct connectivity_t
-    {
+  struct connectivity_t {
     unsigned int size;
     unsigned int *index;
-    typename InputImageType::OffsetType *direction;
-    };
+    typename InputImageType::OffsetType * direction;
+  };
 
   /** Table for storing tables of edges.  This is convenient in
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An ``edge'' in this context
    * is synonymous with a segment ``adjacency''.   */
-  typedef itk::hash_map<unsigned long, InputPixelType, itk::hash<unsigned long> 
-  > edge_table_t;
-  
-  typedef itk::hash_map<unsigned long, edge_table_t, itk::hash<unsigned long>
-  > edge_table_hash_t;
-  
+  typedef itk::hash_map< unsigned long, InputPixelType, itk::hash< unsigned long >
+                         > edge_table_t;
+
+  typedef itk::hash_map< unsigned long, edge_table_t, itk::hash< unsigned long >
+                         > edge_table_hash_t;
+
   Segmenter();
-  Segmenter(const Self&) {}
+  Segmenter(const Self &) {}
   virtual ~Segmenter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  void operator=(const Self&) {}
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+  void operator=(const Self &) {}
+
   /** Constructs the connectivity list and the corresponding set of directional
    * Offset indicies. */
   virtual void GenerateConnectivity();
-  
+
   /** This method asks for an image region that is one pixel larger
    * at each boundary than the region being processed.  This single pixel
    * expansion represents an overlap with adjacent image chunks   */
   void GenerateInputRequestedRegion();
+
   void GenerateOutputRequestedRegion(DataObject *output);
+
   void UpdateOutputInformation();
 
   /**  Allocates boundary structure information and sets the
@@ -307,7 +312,7 @@ protected:
   void GradientDescent(InputImageTypePointer, ImageRegionType);
 
   /** Associates each flat region with a local minimum and relabels
-    accordingly.  */ 
+    accordingly.  */
   void DescendFlatRegions(flat_region_table_t &, ImageRegionType);
 
   /** Adds entries to the output segment table for all labeled segments in the
@@ -318,7 +323,7 @@ protected:
    * streamed chunks of an image volume.  Only necessary for streaming
    * applications.   */
   void CollectBoundaryInformation(flat_region_table_t &);
-  
+
   /** Helper function.  Thresholds low values and copies values from one image
    * into another. The source and destination regions must match in size (not
    * enforced).  For integral types, the dynamic range of the image is
@@ -333,28 +338,27 @@ protected:
   /** Helper function.  Finds the minimum and maximum values in an image. */
   static void MinMax(InputImageTypePointer img,
                      ImageRegionType region,
-                     InputPixelType &min,
-                     InputPixelType &max);
+                     InputPixelType & min,
+                     InputPixelType & max);
 
-  /** Helper function. Finds the minimum and maximum values in an image.   */ 
+  /** Helper function. Finds the minimum and maximum values in an image.   */
   static void MergeFlatRegions(flat_region_table_t &, EquivalencyTable::Pointer);
-    
+
   /** Helper functions for filling in regions with values   */
   static void SetInputImageValues(InputImageTypePointer img,
-                             const ImageRegionType region,
-                             InputPixelType value);
+                                  const ImageRegionType region,
+                                  InputPixelType value);
 
   static void SetOutputImageValues(OutputImageTypePointer img,
-                             const ImageRegionType region,
-                             unsigned long value);
+                                   const ImageRegionType region,
+                                   unsigned long value);
 
   /** This is a debugging method.  Will be removed. 11/14/01 jc   */
   //  bool CheckLabeledBoundaries();
-  
+
   /** Holds generalized connectivity information for connected component
    * labeling and gradient descent analysis in pixel neighborhoods.  */
   connectivity_t m_Connectivity;
-
 private:
   /** Helper, debug method.   */
   //  void PrintFlatRegions(flat_region_table_t &t);
@@ -370,9 +374,8 @@ private:
   double        m_MaximumFloodLevel;
   unsigned long m_CurrentLabel;
 };
-  
-}// end namespace watershed
-}// end namespace itk
+} // end namespace watershed
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWatershedSegmenter.txx"

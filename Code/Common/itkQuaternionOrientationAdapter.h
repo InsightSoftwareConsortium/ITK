@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,47 +28,47 @@ namespace itk
 /** \class QuaternionOrientationAdapter
  *  \brief converts QuaternionOrientation flags to/from direction cosines
  */
-namespace QuaternionOrientationAdapterClasses {
-typedef QuaternionRigidTransform<double> TransformType;
-typedef TransformType::Pointer           TransformPointerType;
+namespace QuaternionOrientationAdapterClasses
+{
+typedef QuaternionRigidTransform< double > TransformType;
+typedef TransformType::Pointer             TransformPointerType;
 }
-template <int VDimension>
-class QuaternionOrientationAdapter : 
-    public OrientationAdapterBase<QuaternionOrientationAdapterClasses::TransformPointerType,VDimension>
+template< int VDimension >
+class QuaternionOrientationAdapter:
+  public OrientationAdapterBase< QuaternionOrientationAdapterClasses::TransformPointerType, VDimension >
 {
 public:
   /** typedef for superclass */
   typedef QuaternionOrientationAdapter Self;
 
-  typedef OrientationAdapterBase<QuaternionOrientationAdapterClasses::TransformPointerType,VDimension>
-                                           SuperClass;
-  typedef QuaternionRigidTransform<double> OrientationRootType;
+  typedef OrientationAdapterBase< QuaternionOrientationAdapterClasses::TransformPointerType, VDimension > SuperClass;
+  typedef QuaternionRigidTransform< double >
+  OrientationRootType;
   typedef QuaternionOrientationAdapterClasses::TransformPointerType
-                                           OrientationType;
+  OrientationType;
 
   /** The dimension of the input image must be 3. */
-  itkConceptMacro(DimensionShouldBe3,
-    (Concept::SameDimension<VDimension,3>));
+  itkConceptMacro( DimensionShouldBe3,
+                   ( Concept::SameDimension< VDimension, 3 > ) );
 
   /** typedef for direction cosines */
   typedef typename SuperClass::DirectionType DirectionType;
 
   /** convert from direction cosines. */
-  virtual OrientationType FromDirectionCosines(const DirectionType &Dir)
-    {
+  virtual OrientationType FromDirectionCosines(const DirectionType & Dir)
+  {
     OrientationType q = OrientationRootType::New();
+
     q->SetMatrix(Dir);
     return q;
-    }
+  }
 
   /** convert to direction cosines. */
-  virtual DirectionType ToDirectionCosines(const OrientationType &Or)
-    {
+  virtual DirectionType ToDirectionCosines(const OrientationType & Or)
+  {
     return Or->GetMatrix();
-    }
+  }
 };
-
 } // namespace itk
-
 
 #endif // __itkQuaternionOrientationAdapter_h

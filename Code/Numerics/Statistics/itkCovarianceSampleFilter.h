@@ -24,9 +24,10 @@
 #include "itkVariableSizeMatrix.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class CovarianceSampleFilter
  * \brief Calculates the covariance matrix of the target sample data.
  *
@@ -44,16 +45,16 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT CovarianceSampleFilter :
-    public ProcessObject
+class ITK_EXPORT CovarianceSampleFilter:
+  public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef CovarianceSampleFilter          Self;
-  typedef ProcessObject                   Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
-  typedef TSample                         SampleType;
+  typedef CovarianceSampleFilter     Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  typedef TSample                    SampleType;
 
   /** Standard Macros */
   itkTypeMacro(CovarianceSampleFilter, ProcessObject);
@@ -66,37 +67,40 @@ public:
   typedef typename TSample::MeasurementVectorType MeasurementVectorType;
 
   /** Typedef for Covariance output */
-  typedef VariableSizeMatrix< double >               MatrixType;
+  typedef VariableSizeMatrix< double > MatrixType;
 
   /** Method to set/get the sample */
-  void SetInput( const SampleType * sample );
+  void SetInput(const SampleType *sample);
+
   const SampleType *  GetInput() const;
 
   /** VariableSizeMatrix is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MatrixType >  MatrixDecoratedType;
+  typedef  SimpleDataObjectDecorator< MatrixType > MatrixDecoratedType;
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MeasurementVectorType >  MeasurementVectorDecoratedType;
+  typedef  SimpleDataObjectDecorator< MeasurementVectorType > MeasurementVectorDecoratedType;
 
   typedef MeasurementVectorDecoratedType OutputType;
 
   /** Return the covariance matrix */
   const MatrixType GetCovarianceMatrix() const;
-  const MatrixDecoratedType* GetCovarianceMatrixOutput() const;
+
+  const MatrixDecoratedType * GetCovarianceMatrixOutput() const;
 
   /** Return the mean vector */
   const MeasurementVectorType GetMean() const;
-  const MeasurementVectorDecoratedType* GetMeanOutput() const;
+
+  const MeasurementVectorDecoratedType * GetMeanOutput() const;
 
 protected:
-  CovarianceSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CovarianceSampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   CovarianceSampleFilter();
   virtual ~CovarianceSampleFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
@@ -108,8 +112,7 @@ protected:
   MeasurementVectorSizeType GetMeasurementVectorSize() const;
 
 private:
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

@@ -16,29 +16,29 @@
 =========================================================================*/
 #include "itkMaximumRatioDecisionRule2.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 MaximumRatioDecisionRule2::MaximumRatioDecisionRule2()
 {
   this->m_NumberOfClasses = 0;
 }
 
-
-void MaximumRatioDecisionRule2::SetAPriori(APrioriVectorType& values)
+void MaximumRatioDecisionRule2::SetAPriori(APrioriVectorType & values)
 {
   m_NumberOfClasses = values.size();
-  m_APrioriRatioMatrix.set_size(values.size(), values.size());
+  m_APrioriRatioMatrix.set_size( values.size(), values.size() );
   APrioriVectorSizeType i, j;
-  double APrioriRatio;
-  for (i = 0; i < m_NumberOfClasses; i++)
+  double                APrioriRatio;
+  for ( i = 0; i < m_NumberOfClasses; i++ )
     {
-    for (j = 0; j < m_NumberOfClasses; j++)
+    for ( j = 0; j < m_NumberOfClasses; j++ )
       {
       if ( values[i] > 0 )
         {
-        APrioriRatio = (double)values[j] /
-          (double)values[i];
+        APrioriRatio = (double)values[j]
+                       / (double)values[i];
         }
       else
         {
@@ -50,22 +50,22 @@ void MaximumRatioDecisionRule2::SetAPriori(APrioriVectorType& values)
 }
 
 unsigned int
-MaximumRatioDecisionRule2::Evaluate(const MembershipVectorType &discriminantScores) const
+MaximumRatioDecisionRule2::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   unsigned int i, j;
-  double temp;
+  double       temp;
 
-  if( this->m_NumberOfClasses ==  0 )
+  if ( this->m_NumberOfClasses ==  0 )
     {
-    itkExceptionMacro("Aprior probability vector for each class not set" );
+    itkExceptionMacro("Aprior probability vector for each class not set");
     }
 
-  if( this->m_NumberOfClasses != discriminantScores.size() )
+  if ( this->m_NumberOfClasses != discriminantScores.size() )
     {
     itkExceptionMacro("MembershipVector(discriminant vector) size is not equal to the number of classes");
     }
 
-  for (i = 0; i < m_NumberOfClasses; i++)
+  for ( i = 0; i < m_NumberOfClasses; i++ )
     {
     j = 0;
     while ( j < m_NumberOfClasses )
@@ -81,7 +81,7 @@ MaximumRatioDecisionRule2::Evaluate(const MembershipVectorType &discriminantScor
           temp = NumericTraits< double >::max();
           }
 
-        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+        if ( temp < m_APrioriRatioMatrix.get(i, j) )
           {
           break;
           }
@@ -98,6 +98,5 @@ MaximumRatioDecisionRule2::Evaluate(const MembershipVectorType &discriminantScor
 
   return i;
 }
-
 } // end of Statistics namespace
 } // end of ITK namespace

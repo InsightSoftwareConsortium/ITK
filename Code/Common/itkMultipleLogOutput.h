@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class MultipleLogOutput
  *  \brief Class MultipleLogOutput allows writing simultaneously to multiple
  *  streams. Note that the class derives from std::streambuf and contains a
@@ -37,41 +36,37 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
-class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
+class ITKCommon_EXPORT MultipleLogOutput:public LogOutput
 {
-
 public:
 
-  typedef MultipleLogOutput         Self;
-  typedef LogOutput                 Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MultipleLogOutput          Self;
+  typedef LogOutput                  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  typedef LogOutput                 OutputType;
+  typedef LogOutput OutputType;
 
   itkTypeMacro(MultipleLogOutput, LogOutput);
   itkNewMacro(MultipleLogOutput);
-  
 public:
 
   /** Register a additional output stream into the list of LogOutputs to write
    * to. The messages will be sent to the streams in the same order that the
    * streams have been added here.  */
-  void AddLogOutput( OutputType * output );
-
+  void AddLogOutput(OutputType *output);
 
   /** Broadcast a flush operation to all the output streams */
   virtual void Flush();
 
   /** Write to multiple outputs */
-  virtual void Write( double timestamp );
+  virtual void Write(double timestamp);
 
   /** Write to multiple outputs */
-  virtual void Write(const std::string & content );
+  virtual void Write(const std::string & content);
 
   /** Write to a buffer */
-  virtual void Write(const std::string & content, double timestamp );
-
+  virtual void Write(const std::string & content, double timestamp);
 
 protected:
   /** Constructor */
@@ -79,17 +74,14 @@ protected:
 
   /** Destructor */
   virtual ~MultipleLogOutput();
-
 private:
-  MultipleLogOutput(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  typedef std::set< OutputType::Pointer >   ContainerType;
+  MultipleLogOutput(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 
-  ContainerType        m_Output;
+  typedef std::set< OutputType::Pointer > ContainerType;
 
+  ContainerType m_Output;
 };
-
 }
 
 #endif //__itkMultipleLogOutput_h

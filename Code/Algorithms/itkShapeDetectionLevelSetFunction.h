@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkSegmentationLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ShapeDetectionLevelSetFunction
  *
  * \brief This function is used in the ShapeDetectionLevelSetImageFilter to
@@ -39,9 +39,9 @@ namespace itk {
  *
  * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
  * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
- * 
+ *
  * where \f$ I \f$ is image intensity and
- * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator.
  *
  * The edge potential image is set via the SetFeatureImage() method.
  *
@@ -66,24 +66,23 @@ namespace itk {
  *
  * \ingroup FiniteDifferenceFunctions
  */
-template <class TImageType, class TFeatureImageType = TImageType>
-class ITK_EXPORT ShapeDetectionLevelSetFunction
-  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+template< class TImageType, class TFeatureImageType = TImageType >
+class ITK_EXPORT ShapeDetectionLevelSetFunction:
+  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
   /** Standard class typedefs. */
-  typedef ShapeDetectionLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType, TFeatureImageType>
-                                         Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
-  typedef TFeatureImageType              FeatureImageType;
+  typedef ShapeDetectionLevelSetFunction                                Self;
+  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType > Superclass;
+  typedef SmartPointer< Self >                                          Pointer;
+  typedef SmartPointer< const Self >                                    ConstPointer;
+  typedef TFeatureImageType                                             FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ShapeDetectionLevelSetFunction, SegmentationLevelSetFunction );
+  itkTypeMacro(ShapeDetectionLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType         ImageType;
@@ -102,32 +101,31 @@ public:
 
   /** The curvature speed is same as the propagation speed. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
-                                         const FloatOffsetType & offset, GlobalDataStruct *gd ) const
-  { return PropagationSpeed( neighborhood, offset, gd ); }
+                                         const FloatOffsetType & offset, GlobalDataStruct *gd) const
+  { return PropagationSpeed(neighborhood, offset, gd); }
 
-  virtual void Initialize(const RadiusType &r)
-    {
+  virtual void Initialize(const RadiusType & r)
+  {
     Superclass::Initialize(r);
-    
-    this->SetAdvectionWeight( NumericTraits<ScalarValueType>::Zero );
-    this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
-    this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
-    }
-  
+
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::Zero);
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+  }
+
 protected:
   ShapeDetectionLevelSetFunction()
-    {
-    this->SetAdvectionWeight( NumericTraits<ScalarValueType>::Zero );
-    this->SetPropagationWeight( NumericTraits<ScalarValueType>::One );
-    this->SetCurvatureWeight( NumericTraits<ScalarValueType>::One );
-    }
+  {
+    this->SetAdvectionWeight(NumericTraits< ScalarValueType >::Zero);
+    this->SetPropagationWeight(NumericTraits< ScalarValueType >::One);
+    this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
+  }
+
   virtual ~ShapeDetectionLevelSetFunction() {}
 
-  ShapeDetectionLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ShapeDetectionLevelSetFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

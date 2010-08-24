@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,54 +26,51 @@
 
 namespace itk
 {
-
 /** \class DecisionRuleBase
  *  \brief Base class that allows the setting of usage of differnt
  *  decision rules used in classification
  *  This class has the pure virtual function, Evaluate(). Therefore,
  *  any subclass should implement the function to be instantiated.
  */
- 
-class ITKCommon_EXPORT DecisionRuleBase : public Object
+
+class ITKCommon_EXPORT DecisionRuleBase:public Object
 {
 public:
-  /** Standard class typedefs */ 
-  typedef DecisionRuleBase              Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
-  
+  /** Standard class typedefs */
+  typedef DecisionRuleBase           Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRuleBase, Object);
-  
+
   /** Types for the arguments that are acceptable in the Evaluate() method */
-  typedef std::vector< double >            VectorType;
-  typedef Array< double >                  ArrayType;
-  typedef VariableLengthVector< double >   VariableLengthVectorType;
-    
-  /** The return value of this function is a class label.
-   * Basically, using its internal logic based on the discriminant
-   * scores, this function decides best class label and return it.
-   */
-  virtual unsigned int Evaluate( const VectorType &discriminantScores) const = 0;
+  typedef std::vector< double >          VectorType;
+  typedef Array< double >                ArrayType;
+  typedef VariableLengthVector< double > VariableLengthVectorType;
 
   /** The return value of this function is a class label.
    * Basically, using its internal logic based on the discriminant
    * scores, this function decides best class label and return it.
    */
-  virtual unsigned int Evaluate( const ArrayType &discriminantScores) const = 0;
+  virtual unsigned int Evaluate(const VectorType & discriminantScores) const = 0;
 
+  /** The return value of this function is a class label.
+   * Basically, using its internal logic based on the discriminant
+   * scores, this function decides best class label and return it.
+   */
+  virtual unsigned int Evaluate(const ArrayType & discriminantScores) const = 0;
 
 protected:
   DecisionRuleBase();
   virtual ~DecisionRuleBase();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
-private:
-  DecisionRuleBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-}; // end of class
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
+private:
+  DecisionRuleBase(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
+};                                // end of class
 } // namespace itk
 
 #endif

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,6 @@
 
 namespace itk
 {
-
 /** \class ProcessObject
  * \brief ProcessObject is the base class for all process objects (source,
  *        filters, mappers) in the Insight data processing pipeline.
@@ -46,10 +45,10 @@ namespace itk
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * ProcessObject invokes the following events: 
+ * ProcessObject invokes the following events:
  * Command::StartEvent, Command::EndEvent
  * These are convenience events you can use for any purpose
- * (e.g., debugging info, highlighting/notifying user interface, etc.) 
+ * (e.g., debugging info, highlighting/notifying user interface, etc.)
  * See Command and LightObject for information on using AddObserver.
  *
  * Another event Command::ProgressEvent can be observed. Some filters invoke
@@ -81,32 +80,32 @@ namespace itk
  * can deviate from the base assumptions of the pipeline execution model.
  *
  * \ingroup ITKSystemObjects
- * \ingroup DataProcessing 
+ * \ingroup DataProcessing
  *
  */
-class ITKCommon_EXPORT ProcessObject : public Object
+class ITKCommon_EXPORT ProcessObject:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ProcessObject             Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef ProcessObject              Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ProcessObject,Object);
+  itkTypeMacro(ProcessObject, Object);
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
   /** STL Array of SmartPointers to DataObjects */
-  typedef std::vector<DataObjectPointer> DataObjectPointerArray;
+  typedef std::vector< DataObjectPointer > DataObjectPointerArray;
 
   /** Return an array with all the inputs of this process object.
    * This is useful for tracing back in the pipeline to construct
    * graphs etc.  */
-  DataObjectPointerArray& GetInputs() 
-    {return m_Inputs;}
+  DataObjectPointerArray & GetInputs()
+  { return m_Inputs; }
 
   /** Size type of an std::vector */
   typedef DataObjectPointerArray::size_type DataObjectPointerArraySizeType;
@@ -116,7 +115,7 @@ public:
    * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
    * determine how many inputs are non-null. */
   DataObjectPointerArraySizeType GetNumberOfInputs() const
-    {return m_Inputs.size();}
+  { return m_Inputs.size(); }
 
   /** Get the number of valid inputs.  This is the number of non-null
    * entries in the input vector in the first NumberOfRequiredInputs
@@ -126,36 +125,36 @@ public:
    * the first slots in input vector.
    */
   virtual DataObjectPointerArraySizeType GetNumberOfValidRequiredInputs() const;
-  
+
   /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct
    * graphs etc.  */
-  DataObjectPointerArray& GetOutputs()
-    { return m_Outputs; }
+  DataObjectPointerArray & GetOutputs()
+  { return m_Outputs; }
   DataObjectPointerArraySizeType GetNumberOfOutputs() const
-    {return m_Outputs.size();}
-      
+  { return m_Outputs.size(); }
+
   /** Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */
-  itkSetMacro(AbortGenerateData,bool);
+  itkSetMacro(AbortGenerateData, bool);
 
   /** Get the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */
-  itkGetConstReferenceMacro(AbortGenerateData,bool);
-  
+  itkGetConstReferenceMacro(AbortGenerateData, bool);
+
   /** Turn on and off the AbortGenerateData flag. */
-  itkBooleanMacro(AbortGenerateData); 
-  
+  itkBooleanMacro(AbortGenerateData);
+
   /** Set the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution.  The ProgressEvent is NOT
    * invoked. */
-  itkSetClampMacro(Progress,float,0.0f,1.0f);
+  itkSetClampMacro(Progress, float, 0.0f, 1.0f);
 
   /** Get the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution. */
-  itkGetConstReferenceMacro(Progress,float);
+  itkGetConstReferenceMacro(Progress, float);
 
   /** Update the progress of the process object.
    *
@@ -163,7 +162,7 @@ public:
    * the ProgressEvent. The parameter amount should be in [0,1] and is
    * the cumulative (not incremental) progress. */
   void UpdateProgress(float amount);
-  
+
   /** Bring this filter up-to-date. Update() checks modified times against
    * last execution times, and re-executes objects if necessary. A side
    * effect of this method is that the whole pipeline may execute
@@ -188,7 +187,7 @@ public:
    * largest possible region for the output.  This is the method users
    * should call if they want the entire dataset to be processed.  If
    * a user wants to update the same output region as a previous call
-   * to Update() or a previous call to UpdateLargestPossibleRegion(), 
+   * to Update() or a previous call to UpdateLargestPossibleRegion(),
    * then they should call the method Update(). */
   virtual void UpdateLargestPossibleRegion();
 
@@ -213,7 +212,6 @@ public:
   /** Actually generate new output  */
   virtual void UpdateOutputData(DataObject *output);
 
-
   /** Give the process object a chance to indictate that it will produce more
    * output than it was requested to produce. For example, many imaging
    * filters must compute the entire output at once or can only produce output
@@ -221,8 +219,7 @@ public:
    * These filters must provide an implementation of this method, setting
    * the output requested region to the size they will produce.  By default,
    * a process object does not modify the size of the output requested region. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)){};
-  
+  virtual void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ){}
 
   /** Reset the pipeline. If an exception is thrown during an Update(),
    * the pipeline may be in an inconsistent state.  This method clears
@@ -244,16 +241,18 @@ public:
    * If a filter has multiple outputs of different types, then that
    * filter must provide an implementation of MakeOutput(). */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
-  
+
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released after being
    * used by a downstream ProcessObject. Default value is off. Another
    * options for controlling memory utilization is the
    * ReleaseDataBeforeUpdateFlag. */
   virtual void SetReleaseDataFlag(bool flag);
+
   virtual bool GetReleaseDataFlag() const;
-  void ReleaseDataFlagOn() {this->SetReleaseDataFlag(true);}
-  void ReleaseDataFlagOff() {this->SetReleaseDataFlag(false);}
+
+  void ReleaseDataFlagOn() { this->SetReleaseDataFlag(true); }
+  void ReleaseDataFlagOff() { this->SetReleaseDataFlag(false); }
 
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released/reallocated
@@ -270,15 +269,14 @@ public:
   itkSetMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
-   
-  
+
   /** Get/Set the number of threads to create when executing. */
-  itkSetClampMacro( NumberOfThreads, int, 1, ITK_MAX_THREADS );
-  itkGetConstReferenceMacro( NumberOfThreads, int );
-  
+  itkSetClampMacro(NumberOfThreads, int, 1, ITK_MAX_THREADS);
+  itkGetConstReferenceMacro(NumberOfThreads, int);
+
   /** Return the multithreader used by this class. */
   MultiThreader * GetMultiThreader()
-    {return m_Threader;}
+  { return m_Threader; }
 
   /** An opportunity to deallocate a ProcessObject's bulk data
    *  storage. Some filters may wish to reuse existing bulk data
@@ -291,15 +289,18 @@ public:
 protected:
   ProcessObject();
   ~ProcessObject();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Protected methods for setting inputs.
    * Subclasses make use of them for setting input. */
   virtual void SetNthInput(unsigned int num, DataObject *input);
+
   virtual void AddInput(DataObject *input);
+
   virtual void RemoveInput(DataObject *input);
-  itkSetMacro(NumberOfRequiredInputs,unsigned int);
-  itkGetConstReferenceMacro(NumberOfRequiredInputs,unsigned int);
+
+  itkSetMacro(NumberOfRequiredInputs, unsigned int);
+  itkGetConstReferenceMacro(NumberOfRequiredInputs, unsigned int);
 
   /** Push/Pop an input of this process object. These methods allow a
    * filter to model its input vector as a queue or stack.  These
@@ -307,31 +308,38 @@ protected:
    * filters with different types of inputs.  These routines follow
    * the semantics of STL. */
   virtual void PushBackInput(const DataObject *input);
+
   virtual void PopBackInput();
+
   virtual void PushFrontInput(const DataObject *input);
+
   virtual void PopFrontInput();
-  
-  
+
   /** Called to allocate the input array. Copies old inputs. */
   void SetNumberOfInputs(unsigned int num);
 
   /** Method used internally for getting an input. */
   DataObject * GetInput(unsigned int idx);
+
   const DataObject * GetInput(unsigned int idx) const;
 
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
   virtual void SetNthOutput(unsigned int num, DataObject *output);
+
   virtual void AddOutput(DataObject *output);
+
   virtual void RemoveOutput(DataObject *output);
-  itkSetMacro(NumberOfRequiredOutputs,unsigned int);
-  itkGetConstReferenceMacro(NumberOfRequiredOutputs,unsigned int);
+
+  itkSetMacro(NumberOfRequiredOutputs, unsigned int);
+  itkGetConstReferenceMacro(NumberOfRequiredOutputs, unsigned int);
 
   /** Called to allocate the output array.  Copies old outputs. */
   void SetNumberOfOutputs(unsigned int num);
 
   /** Method used internally for getting an output. */
   DataObject * GetOutput(unsigned int idx);
+
   const DataObject * GetOutput(unsigned int idx) const;
 
   /** What is the input requested region that is required to produce the
@@ -348,7 +356,7 @@ protected:
    * should crop the input requested region at the boundaries of the input
    * largest possible region). */
   virtual void GenerateInputRequestedRegion();
-  
+
   /** Given one output whose requested region has been set, how should
    * the requested regions for the remaining outputs of the process object
    * be set?  By default, all the outputs are set to the same requested
@@ -362,18 +370,18 @@ protected:
    * can only correctly handle multiple outputs of the same type. */
   virtual void GenerateOutputRequestedRegion(DataObject *output);
 
-  /** Generate the information decribing the output data. The default 
+  /** Generate the information decribing the output data. The default
    * implementation of this method will copy information from the input to
    * the output.  A filter may override this method if its output will have
-   * different information than its input.  For instance, a filter that 
-   * shrinks an image will need to provide an implementation for this 
+   * different information than its input.  For instance, a filter that
+   * shrinks an image will need to provide an implementation for this
    * method that changes the spacing of the pixels. Such filters should call
    * their superclass' implementation of this method prior to changing the
    * information values they need (i.e. GenerateOutputInformation() should
    * call Superclass::GenerateOutputInformation() prior to changing the
    * information. */
   virtual void GenerateOutputInformation();
-  
+
   /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}
 
@@ -409,36 +417,35 @@ protected:
    * Restore the cached input ReleaseDataFlags.
    */
   virtual void RestoreInputReleaseDataFlags();
-  
+
   /** These ivars are made protected so filters like itkStreamingImageFilter
    * can access them directly. */
-  
+
   /** This flag indicates when the pipeline is executing.
    * It prevents infinite recursion when pipelines have loops. */
   bool m_Updating;
 
   /** Time when GenerateOutputInformation was last called. */
   TimeStamp m_OutputInformationMTime;
-
 private:
-  ProcessObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ProcessObject(const Self &);  //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** An array of the inputs to the filter. */
   DataObjectPointerArray m_Inputs;
   unsigned int           m_NumberOfRequiredInputs;
 
   /** An array that caches the ReleaseDataFlags of the inputs */
-  std::vector<bool> m_CachedInputReleaseDataFlags;
-  
+  std::vector< bool > m_CachedInputReleaseDataFlags;
+
   /** An array of the outputs to the filter. */
   DataObjectPointerArray m_Outputs;
   unsigned int           m_NumberOfRequiredOutputs;
-  
+
   /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;
   float m_Progress;
-  
+
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   MultiThreader::Pointer m_Threader;
@@ -446,11 +453,10 @@ private:
 
   /** Memory management ivars */
   bool m_ReleaseDataBeforeUpdateFlag;
-  
+
   /** Friends of ProcessObject */
   friend class DataObject;
 };
-
 } // end namespace itk
 
 #endif

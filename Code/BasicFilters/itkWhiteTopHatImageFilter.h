@@ -19,8 +19,8 @@
 
 #include "itkKernelImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class WhiteTopHatImageFilter
  * \brief White top hat extract local maxima that are larger than the structuring element
  *
@@ -32,31 +32,31 @@ namespace itk {
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT WhiteTopHatImageFilter :
-    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT WhiteTopHatImageFilter:
+  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef WhiteTopHatImageFilter                                Self;
-  typedef KernelImageFilter<TInputImage, TOutputImage, TKernel> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef WhiteTopHatImageFilter                                  Self;
+  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                                           InputImageType;
-  typedef TOutputImage                                          OutputImageType;
-  typedef typename InputImageType::Pointer                      InputImagePointer;
-  typedef typename InputImageType::ConstPointer                 InputImageConstPointer;
-  typedef typename InputImageType::RegionType                   InputImageRegionType;
-  typedef typename InputImageType::PixelType                    InputImagePixelType;
-  typedef typename OutputImageType::Pointer                     OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer                OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType                  OutputImageRegionType;
-  typedef typename OutputImageType::PixelType                   OutputImagePixelType;
+  typedef TInputImage                            InputImageType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
 
- /** Kernel typedef. */
-  typedef TKernel                                               KernelType;
+  /** Kernel typedef. */
+  typedef TKernel KernelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -83,7 +83,7 @@ public:
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-  } AlgorithmChoice;
+    } AlgorithmChoice;
 
   /** Set/Get the backend filter class. */
   itkSetMacro(Algorithm, int);
@@ -92,27 +92,23 @@ public:
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);
   itkBooleanMacro(ForceAlgorithm);
-
 protected:
   WhiteTopHatImageFilter();
-  ~WhiteTopHatImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~WhiteTopHatImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
-
 private:
-  WhiteTopHatImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  WhiteTopHatImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   bool m_SafeBorder;
 
   int m_Algorithm;
 
   bool m_ForceAlgorithm;
-
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

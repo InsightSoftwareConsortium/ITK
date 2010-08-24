@@ -20,11 +20,10 @@
 #include "itkMovingHistogramMorphologyImageFilter.h"
 #include "itkNumericTraits.h"
 
-
-namespace itk {
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
-MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::MovingHistogramMorphologyImageFilter()
 {
   // default m_boundary should be set by subclasses. Just provide a default
@@ -32,27 +31,25 @@ MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistog
   m_Boundary = NumericTraits< PixelType >::Zero;
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 THistogram *
-MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
+MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::NewHistogram()
 {
-  THistogram * histogram = Superclass::NewHistogram();
-  histogram->SetBoundary( m_Boundary );
+  THistogram *histogram = Superclass::NewHistogram();
+
+  histogram->SetBoundary(m_Boundary);
   return histogram;
 }
 
-
-template<class TInputImage, class TOutputImage, class TKernel, class THistogram>
+template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
 void
-MovingHistogramMorphologyImageFilter<TInputImage, TOutputImage, TKernel, THistogram>
-::PrintSelf(std::ostream &os, Indent indent) const
+MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Boundary: " << m_Boundary << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

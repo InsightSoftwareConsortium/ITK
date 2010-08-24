@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkFiniteDifferenceSparseImageFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class NormalVectorFunctionBase
  *
@@ -46,20 +46,20 @@ namespace itk {
  * time step, it returns this predetermined time step.
  */
 
-template <class TSparseImageType>
-class ITK_EXPORT NormalVectorFunctionBase
-  :public FiniteDifferenceSparseImageFunction<TSparseImageType>
+template< class TSparseImageType >
+class ITK_EXPORT NormalVectorFunctionBase:
+  public FiniteDifferenceSparseImageFunction< TSparseImageType >
 {
 public:
   /** Standard class typedef. */
-  typedef NormalVectorFunctionBase                              Self;
-  typedef FiniteDifferenceSparseImageFunction<TSparseImageType> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef NormalVectorFunctionBase                                Self;
+  typedef FiniteDifferenceSparseImageFunction< TSparseImageType > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( NormalVectorFunctionBase, FiniteDifferenceSparseImageFunction );
-   
+  itkTypeMacro(NormalVectorFunctionBase, FiniteDifferenceSparseImageFunction);
+
   /** Image dimension derived from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -73,42 +73,40 @@ public:
 
   /** The node type for the sparse image. */
   typedef typename SparseImageType::NodeType NodeType;
-  
+
   /** The basic floating point type for the variables. */
   typedef typename NodeType::NodeValueType NodeValueType;
 
   /** The vector type for the normals. */
   typedef typename NodeType::NodeDataType NormalVectorType;
-  
+
   /** Globaldata methods are not needed in this class. */
-  virtual void *GetGlobalDataPointer() const {return 0;}
-  virtual void ReleaseGlobalDataPointer( void* ) const {};
-  
+  virtual void * GetGlobalDataPointer() const { return 0; }
+  virtual void ReleaseGlobalDataPointer(void *) const {}
+
   /** For the global time step, we return the time step parameter. */
-  virtual TimeStepType ComputeGlobalTimeStep( void* ) const
+  virtual TimeStepType ComputeGlobalTimeStep(void *) const
   { return m_TimeStep; }
 
   /** Sets the time step. */
-  void SetTimeStep( const TimeStepType &ts )
-    { m_TimeStep = ts; }
+  void SetTimeStep(const TimeStepType & ts)
+  { m_TimeStep = ts; }
 
   /** Returns the time step. */
   TimeStepType GetTimeStep() const
-    { return m_TimeStep; } 
-
+  { return m_TimeStep; }
 protected:
   NormalVectorFunctionBase();
   ~NormalVectorFunctionBase() {}
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   /** The time step for normal vector finite difference computations. */
   TimeStepType m_TimeStep;
-  
-  NormalVectorFunctionBase(const Self&); //purposely not implemented
-  void operator=(const Self&);           //purposely not implemented
-};
 
+  NormalVectorFunctionBase(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

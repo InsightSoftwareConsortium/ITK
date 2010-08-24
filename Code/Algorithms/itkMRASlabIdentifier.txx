@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,9 +27,8 @@
 
 namespace itk
 {
-
-template<class TInputImage>
-MRASlabIdentifier<TInputImage>
+template< class TInputImage >
+MRASlabIdentifier< TInputImage >
 ::MRASlabIdentifier()
 {
   m_Image = 0;
@@ -40,35 +39,35 @@ MRASlabIdentifier<TInputImage>
   m_SlicingDirection = 2;
 }
 
-template<class TInputImage>
-void 
-MRASlabIdentifier<TInputImage>
+template< class TInputImage >
+void
+MRASlabIdentifier< TInputImage >
 ::GenerateSlabRegions(void)
 {
   // this method only works with 3D MRI image
-  if (ImageType::ImageDimension != 3)
+  if ( ImageType::ImageDimension != 3 )
     {
     itkExceptionMacro("ERROR: This algorithm only works with 3D images.");
     }
 
-  ImageSizeType size;
+  ImageSizeType   size;
   ImageRegionType region;
-  ImageIndexType index;
+  ImageIndexType  index;
 
-  region = m_Image->GetLargestPossibleRegion();  
+  region = m_Image->GetLargestPossibleRegion();
   size = region.GetSize();
   index = region.GetIndex();
-  long firstSlice = index[m_SlicingDirection];
-  long lastSlice = firstSlice + size[m_SlicingDirection];
+  long          firstSlice = index[m_SlicingDirection];
+  long          lastSlice = firstSlice + size[m_SlicingDirection];
   unsigned long totalSlices = size[m_SlicingDirection];
 
-  double sum;
-  std::vector<double> avgMin(totalSlices);
+  double                sum;
+  std::vector< double > avgMin(totalSlices);
   // calculate minimum intensities for each slice
   ImagePixelType pixel;
-  for (int i = 0; i < 3; i++)
+  for ( int i = 0; i < 3; i++ )
     {
-    if (i != m_SlicingDirection)
+    if ( i != m_SlicingDirection )
       {
       index[i] = 0;
       }
@@ -78,22 +77,22 @@ MRASlabIdentifier<TInputImage>
   region.SetSize(size);
 
   unsigned long count = 0;
-  long currentSlice = firstSlice;
-  while (currentSlice < lastSlice)
+  long          currentSlice = firstSlice;
+  while ( currentSlice < lastSlice )
     {
     index[m_SlicingDirection] = currentSlice;
     region.SetIndex(index);
 
-    ImageRegionConstIterator<TInputImage> iter(m_Image, region);
+    ImageRegionConstIterator< TInputImage > iter(m_Image, region);
     iter.GoToBegin();
 
-    std::priority_queue<ImagePixelType> mins;
+    std::priority_queue< ImagePixelType > mins;
     for ( unsigned int i = 0; i < m_NumberOfSamples; ++i )
       {
       mins.push( NumericTraits< ImagePixelType >::max() );
       }
 
-    while (!iter.IsAtEnd())
+    while ( !iter.IsAtEnd() )
       {
       pixel = iter.Get();
       if ( pixel > m_BackgroundMinimumThreshold )
@@ -101,7 +100,7 @@ MRASlabIdentifier<TInputImage>
         if ( mins.top() > pixel )
           {
           mins.pop();
-          mins.push( pixel );
+          mins.push(pixel);
           }
         }
       ++iter;
@@ -114,7 +113,7 @@ MRASlabIdentifier<TInputImage>
       mins.pop();
       }
 
-    avgMin[count] = sum / (double) m_NumberOfSamples;
+    avgMin[count] = sum / (double)m_NumberOfSamples;
 
     ++count;
     ++currentSlice;
@@ -122,14 +121,14 @@ MRASlabIdentifier<TInputImage>
 
   // calculate overall average
   sum = 0.0;
-  std::vector<double>::iterator am_iter = avgMin.begin();
-  while (am_iter != avgMin.end())
+  std::vector< double >::iterator am_iter = avgMin.begin();
+  while ( am_iter != avgMin.end() )
     {
     sum += *am_iter;
     ++am_iter;
     }
 
-  double average = sum / (double) totalSlices; 
+  double average = sum / (double)totalSlices;
 
   // determine slabs
   am_iter = avgMin.begin();
@@ -137,20 +136,20 @@ MRASlabIdentifier<TInputImage>
   double prevSign = *am_iter - average;
   double avgMinValue;
 
-  ImageIndexType slabIndex;
+  ImageIndexType  slabIndex;
   ImageRegionType slabRegion;
-  ImageSizeType slabSize;
+  ImageSizeType   slabSize;
 
   long slabLength = 0;
   long slabBegin = firstSlice;
   slabSize = size;
   slabIndex = index;
-  while (am_iter != avgMin.end())
+  while ( am_iter != avgMin.end() )
     {
     avgMinValue = *am_iter;
     double sign = avgMinValue - average;
-    if ( (sign * prevSign < 0 ) && ( vnl_math_abs(sign) > m_Tolerance ) )
-      { 
+    if ( ( sign * prevSign < 0 ) && ( vnl_math_abs(sign) > m_Tolerance ) )
+      {
       slabIndex[m_SlicingDirection] = slabBegin;
       slabSize[m_SlicingDirection] = slabLength;
       slabRegion.SetSize(slabSize);
@@ -171,23 +170,22 @@ MRASlabIdentifier<TInputImage>
   m_Slabs.push_back(slabRegion);
 }
 
-
-template<class TInputImage>
-typename MRASlabIdentifier<TInputImage>::SlabRegionVectorType 
-MRASlabIdentifier<TInputImage>
+template< class TInputImage >
+typename MRASlabIdentifier< TInputImage >::SlabRegionVectorType
+MRASlabIdentifier< TInputImage >
 ::GetSlabRegionVector(void)
 {
   return m_Slabs;
 }
 
-template<class TInputImage>
+template< class TInputImage >
 void
-MRASlabIdentifier<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+MRASlabIdentifier< TInputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
-  if (m_Image)
+  Superclass::PrintSelf(os, indent);
+
+  if ( m_Image )
     {
     os << indent << "Image: " << m_Image << std::endl;
     }
@@ -197,11 +195,10 @@ MRASlabIdentifier<TInputImage>
     }
   os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
-  os << indent << "Background Pixel Minimum Intensity Threshold: " 
+  os << indent << "Background Pixel Minimum Intensity Threshold: "
      << m_BackgroundMinimumThreshold << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
 }
-
 } // end namespace itk
 
 #endif /* __itkMRASlabIdentifier_txx */

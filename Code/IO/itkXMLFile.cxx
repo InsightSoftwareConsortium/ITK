@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,45 +24,43 @@
 
 namespace itk
 {
-
 //----------------------------------------------------------------------------
 extern "C"
 {
-  static void itkXMLParserStartElement(void* parser, const char *name,
-                                       const char **atts)
-    {
-    // Begin element handler that is registered with the XML_Parser.
-    // This just casts the user data to a itkXMLParser and calls
-    // StartElement.
-    static_cast<XMLReaderBase*>(parser)->StartElement(name, atts);
-    }
+static void itkXMLParserStartElement(void *parser, const char *name,
+                                     const char **atts)
+{
+  // Begin element handler that is registered with the XML_Parser.
+  // This just casts the user data to a itkXMLParser and calls
+  // StartElement.
+  static_cast< XMLReaderBase * >( parser )->StartElement(name, atts);
+}
 }
 
 //----------------------------------------------------------------------------
 extern "C" {
-  static void itkXMLParserEndElement(void* parser, const char *name)
-    {
-    // End element handler that is registered with the XML_Parser.  This
-    // just casts the user data to a itkXMLParser and calls EndElement.
-    static_cast<XMLReaderBase*>(parser)->EndElement(name);
-    }
+static void itkXMLParserEndElement(void *parser, const char *name)
+{
+  // End element handler that is registered with the XML_Parser.  This
+  // just casts the user data to a itkXMLParser and calls EndElement.
+  static_cast< XMLReaderBase * >( parser )->EndElement(name);
+}
 }
 
 //----------------------------------------------------------------------------
 extern "C" {
-  static void itkXMLParserCharacterDataHandler(void* parser, const char* data,
-                                               int length)
-    {
-    // Character data handler that is registered with the XML_Parser.
-    // This just casts the user data to a itkXMLParser and calls
-    // CharacterDataHandler.
-    static_cast<XMLReaderBase*>(parser)->CharacterDataHandler(data, length);
-    }
+static void itkXMLParserCharacterDataHandler(void *parser, const char *data,
+                                             int length)
+{
+  // Character data handler that is registered with the XML_Parser.
+  // This just casts the user data to a itkXMLParser and calls
+  // CharacterDataHandler.
+  static_cast< XMLReaderBase * >( parser )->CharacterDataHandler(data, length);
+}
 }
 
 void
-XMLReaderBase::
-parse(void)
+XMLReaderBase::parse(void)
 {
   XML_Parser Parser = XML_ParserCreate(0);
 
@@ -72,60 +70,57 @@ parse(void)
 
   XML_SetCharacterDataHandler(Parser,
                               &itkXMLParserCharacterDataHandler);
-  XML_SetUserData(Parser,this);
+  XML_SetUserData(Parser, this);
 
   std::ifstream inputstream;
 
   inputstream.open(m_Filename.c_str(), std::ios::binary | std::ios::in);
-  if(inputstream.fail())
+  if ( inputstream.fail() )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    std::string message = "Can't open ";
+    std::string     message = "Can't open ";
     message += m_Filename;
     message += '\n';
-    exception.SetDescription(message.c_str());
+    exception.SetDescription( message.c_str() );
     throw exception;
     }
 
   // Default stream parser just reads a block at a time.
-  std::streamsize filesize = 
-    itksys::SystemTools::FileLength(m_Filename.c_str());
+  std::streamsize filesize =
+    itksys::SystemTools::FileLength( m_Filename.c_str() );
 
-  char *buffer = new char [filesize];
-  
-  inputstream.read(buffer,filesize);
+  char *buffer = new char[filesize];
 
-  if(static_cast<std::streamsize>(inputstream.gcount()) != filesize)
+  inputstream.read(buffer, filesize);
+
+  if ( static_cast< std::streamsize >( inputstream.gcount() ) != filesize )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File Read Error");
     throw exception;
     }
-  bool result = XML_Parse(Parser,buffer,inputstream.gcount(),false);
-  delete [] buffer;
-  if(!result)
+  bool result = XML_Parse(Parser, buffer, inputstream.gcount(), false);
+  delete[] buffer;
+  if ( !result )
     {
     ExceptionObject exception(__FILE__, __LINE__);
-    
-    std::string message(XML_ErrorString(XML_GetErrorCode(Parser)));
+
+    std::string message( XML_ErrorString( XML_GetErrorCode(Parser) ) );
     message += " ";
     message += m_Filename;
     message += '\n';
-    exception.SetDescription(message.c_str());
+    exception.SetDescription( message.c_str() );
     throw exception;
-    
     }
   XML_ParserFree(Parser);
   return;
 }
 
 void
-XMLReaderBase::
-GenerateOutputInformation()
+XMLReaderBase::GenerateOutputInformation()
 {
   this->parse();
 }
-
 }
 
 #endif

@@ -32,16 +32,16 @@ namespace itk
   moving image and pixels in the fixed image using a histogram.
 
   \ingroup RegistrationMetrics */
-template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT HistogramImageToImageMetric :
-public ImageToImageMetric<TFixedImage, TMovingImage>
+template< class TFixedImage, class TMovingImage >
+class ITK_EXPORT HistogramImageToImageMetric:
+  public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef HistogramImageToImageMetric                   Self;
-  typedef ImageToImageMetric<TFixedImage, TMovingImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef HistogramImageToImageMetric                     Self;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
@@ -50,10 +50,8 @@ public:
   typedef typename Superclass::RealType                   RealType;
   typedef typename Superclass::TransformType              TransformType;
   typedef typename Superclass::TransformPointer           TransformPointer;
-  typedef typename Superclass::TransformParametersType
-                                                          TransformParametersType;
-  typedef typename Superclass::TransformJacobianType
-                                                          TransformJacobianType;
+  typedef typename Superclass::TransformParametersType    TransformParametersType;
+  typedef typename Superclass::TransformJacobianType      TransformJacobianType;
   typedef typename Superclass::GradientPixelType          GradientPixelType;
   typedef typename Superclass::InputPointType             InputPointType;
   typedef typename Superclass::OutputPointType            OutputPointType;
@@ -64,72 +62,73 @@ public:
   typedef typename Superclass::MovingImageType            MovingImageType;
   typedef typename Superclass::MovingImageType::PixelType MovingImagePixelType;
   typedef typename Superclass::FixedImageConstPointer
-                                                          FixedImageConstPointerType;
+  FixedImageConstPointerType;
   typedef typename Superclass::MovingImageConstPointer
-                                                          MovingImageConstPointerType;
+  MovingImageConstPointerType;
 
   /** Typedefs for histogram. This should have been defined as
       Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
       error with such declaration. */
-  typedef Statistics::Histogram<double>                  HistogramType;
+  typedef Statistics::Histogram< double > HistogramType;
 
-  typedef typename HistogramType::MeasurementVectorType  MeasurementVectorType;
-  typedef typename HistogramType::SizeType               HistogramSizeType;
-  typedef typename HistogramType::Pointer                HistogramPointer;
+  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
+  typedef typename HistogramType::SizeType              HistogramSizeType;
+  typedef typename HistogramType::Pointer               HistogramPointer;
 
   /** Initializes the metric. */
-  void Initialize() throw (ExceptionObject);
+  void Initialize()
+  throw ( ExceptionObject );
 
   /** Define the transform and thereby the parameter space of the metric
    *   and the space of its derivatives */
-  void SetTransform( TransformType * transform );
+  void SetTransform(TransformType *transform);
 
   /** Sets the histogram size. Note this function must be called before
       \c Initialize(). */
-  itkSetMacro( HistogramSize, HistogramSizeType );
+  itkSetMacro(HistogramSize, HistogramSizeType);
 
   /** Gets the histogram size. */
-  itkGetConstReferenceMacro( HistogramSize, HistogramSizeType );
+  itkGetConstReferenceMacro(HistogramSize, HistogramSizeType);
 
   /** Factor to increase the upper bound for the samples in the histogram.
       Default value is 0.001 */
-  itkSetMacro( UpperBoundIncreaseFactor, double );
-  itkGetConstMacro( UpperBoundIncreaseFactor, double );
+  itkSetMacro(UpperBoundIncreaseFactor, double);
+  itkGetConstMacro(UpperBoundIncreaseFactor, double);
 
   /** The padding value. */
-  itkSetMacro( PaddingValue, FixedImagePixelType );
+  itkSetMacro(PaddingValue, FixedImagePixelType);
 
   /** Returns the padding value. */
-  itkGetConstReferenceMacro( PaddingValue, FixedImagePixelType );
+  itkGetConstReferenceMacro(PaddingValue, FixedImagePixelType);
 
   /** Return the joint histogram. This is updated during every call to the
    *  GetValue() method. The histogram can for instance be used by
    *  itk::HistogramToImageFilter to plot the joint histogram. */
-  itkGetConstReferenceMacro( Histogram, HistogramPointer );
+  itkGetConstReferenceMacro(Histogram, HistogramPointer);
 
   /** Set whether the padding value should be used to determine which pixels
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
-  itkSetMacro( UsePaddingValue, bool );
-  itkGetConstMacro( UsePaddingValue, bool );
+  itkSetMacro(UsePaddingValue, bool);
+  itkGetConstMacro(UsePaddingValue, bool);
 
   /** Sets the step length used to calculate the derivative. */
-  itkSetMacro( DerivativeStepLength, double );
+  itkSetMacro(DerivativeStepLength, double);
 
   /** Returns the step length used to calculate the derivative. */
-  itkGetConstMacro( DerivativeStepLength, double );
+  itkGetConstMacro(DerivativeStepLength, double);
 
   /** The scales type. */
-  typedef Array<double> ScalesType;
+  typedef Array< double > ScalesType;
 
   /** Sets the derivative step length scales. */
-  itkSetMacro( DerivativeStepLengthScales, ScalesType );
+  itkSetMacro(DerivativeStepLengthScales, ScalesType);
 
   /** Returns the derivate step length scales. */
   itkGetConstReferenceMacro(DerivativeStepLengthScales, ScalesType);
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType& parameters) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
@@ -137,25 +136,24 @@ public:
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType& Value,
-                             DerivativeType& Derivative) const;
+                             MeasureType & Value,
+                             DerivativeType & Derivative) const;
 
   /** Set the lower bounds of the intensities to be considered for computing
     * the histogram. This option allows to focus the computation of the Metric in
     * a particular range of intensities that correspond to features of interest. */
-  void SetLowerBound( const MeasurementVectorType & bound );
+  void SetLowerBound(const MeasurementVectorType & bound);
 
   /** Set the upper bounds of the intensities to be considered for computing
     * the histogram. This option allows to focus the computation of the Metric in
     * a particular range of intensities that correspond to features of interest.  */
-  void SetUpperBound( const MeasurementVectorType & bound );
-
+  void SetUpperBound(const MeasurementVectorType & bound);
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   HistogramImageToImageMetric();
-  virtual ~HistogramImageToImageMetric() {};
+  virtual ~HistogramImageToImageMetric() {}
 
   /** The histogram size. */
   HistogramSizeType m_HistogramSize;
@@ -177,26 +175,28 @@ protected:
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
   void ComputeHistogram(const TransformParametersType & parameters,
-                        HistogramType& histogram) const;
+                        HistogramType & histogram) const;
+
   /** Computes the joint histogram from the transformation parameters
       passed to the function. */
   void ComputeHistogram(const TransformParametersType & parameters,
                         unsigned int parameter,
                         double step,
-                        HistogramType& histogram) const;
+                        HistogramType & histogram) const;
+
   /** Copies a histogram. */
-  void CopyHistogram(HistogramType& target, HistogramType& source) const;
+  void CopyHistogram(HistogramType & target, HistogramType & source) const;
 
   /** Evaluates the similarity measure using the given histogram. All
       subclasses must reimplement this method. */
-  virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
 
   /** PrintSelf funtion */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  HistogramImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  HistogramImageToImageMetric(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 
   /** The padding value. */
   FixedImagePixelType m_PaddingValue;
@@ -214,10 +214,8 @@ private:
 
   /** Pointer to the joint histogram. This is updated during every call to
    * GetValue() */
-  HistogramPointer  m_Histogram;
-
+  HistogramPointer m_Histogram;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

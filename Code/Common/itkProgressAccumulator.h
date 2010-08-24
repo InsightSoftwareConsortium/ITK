@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,49 +22,49 @@
 #include "itkProcessObject.h"
 #include <vector>
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class ProgressAccumulator
  * \brief Facilitates progress reporting for filters that wrap around
  *        multiple other filters.
  *
- * This object allows a mini-pipeline filters to easily keep track of the 
- * progress performed by the internal filters.  
+ * This object allows a mini-pipeline filters to easily keep track of the
+ * progress performed by the internal filters.
  * See DiscreteGaussianImageFilter.txx for an implementation example.
  *
  * \sa DiscreteGaussianImageFilter
  *
- */ 
-class ITKCommon_EXPORT ProgressAccumulator : public Object
+ */
+class ITKCommon_EXPORT ProgressAccumulator:public Object
 {
 public:
   /** Standard class typedefs. */
   typedef ProgressAccumulator        Self;
   typedef Object                     Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Typedef for inputting filters */
   typedef ProcessObject              GenericFilterType;
   typedef GenericFilterType::Pointer GenericFilterPointer;
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ProgressAccumulator,Object);
-  
+  itkTypeMacro(ProgressAccumulator, Object);
+
   /** Get the total progress accumulated by this object */
-  itkGetConstMacro(AccumulatedProgress,float);
+  itkGetConstMacro(AccumulatedProgress, float);
 
   /** Set the mini-pipeline filter */
-  itkSetObjectMacro(MiniPipelineFilter,ProcessObject);
+  itkSetObjectMacro(MiniPipelineFilter, ProcessObject);
 
   /** Set the mini-pipeline filter */
-  itkGetConstObjectMacro(MiniPipelineFilter,ProcessObject);
+  itkGetConstObjectMacro(MiniPipelineFilter, ProcessObject);
 
-  /** 
+  /**
    * Register a filter with the progress accumulator and specify the
    * fraction of the overall progress associated with this filter
    */
@@ -75,49 +75,49 @@ public:
    */
   void UnregisterAllFilters();
 
-  /** 
+  /**
    * Reset the progress accumulator.  This method should be called in
    * the beginning of the GenerateData() method in the mini-pipeline
    * filter.
    */
   void ResetProgress();
+
   void ResetFilterProgressAndKeepAccumulatedProgress();
 
 protected:
   ProgressAccumulator();
   virtual ~ProgressAccumulator();
-  void PrintSelf(std::ostream &s, Indent indent) const;
+  void PrintSelf(std::ostream & s, Indent indent) const;
 
 private:
   /**  Command for observing progress of pipeline filters */
-  typedef MemberCommand< Self >      CommandType;
-  typedef CommandType::Pointer       CommandPointer;
+  typedef MemberCommand< Self > CommandType;
+  typedef CommandType::Pointer  CommandPointer;
 
   /** Structure associated with each filter in the pipeline */
-  struct FilterRecord 
-    {
+  struct FilterRecord {
     // Pointer to the filter
     GenericFilterPointer Filter;
 
     // The weight of the filter in total progress of the mini-pipeline
-    float                Weight;
+    float Weight;
 
     // The tags for adding/removing observers to mini-pipeline filter
-    unsigned long        ProgressObserverTag;
-    unsigned long        IterationObserverTag;
+    unsigned long ProgressObserverTag;
+    unsigned long IterationObserverTag;
 
     // The progress accumulated by the filter since last Reset()
-    float                Progress;
-    };
+    float Progress;
+  };
 
   /** A callback function that is called by the progressing filters */
-  void ReportProgress(Object * object, const EventObject & event);
-    
+  void ReportProgress(Object *object, const EventObject & event);
+
   /** The client mini-pipeline filter */
   GenericFilterPointer m_MiniPipelineFilter;
-  
+
   /** An array of record structures */
-  typedef std::vector<struct FilterRecord> FilterRecordVector;
+  typedef std::vector< struct FilterRecord > FilterRecordVector;
 
   /** The total accumulated progress */
   float m_AccumulatedProgress;
@@ -125,16 +125,15 @@ private:
   /** The total accumulated progress for multiple runs of the mini-pipeline */
   float m_BaseAccumulatedProgress;
 
-  /** 
-   * A list of progress proportions of the different filters in the 
-   * pipeline 
+  /**
+   * A list of progress proportions of the different filters in the
+   * pipeline
    */
   FilterRecordVector m_FilterRecord;
 
   /** The callback command */
-  CommandPointer m_CallbackCommand; 
+  CommandPointer m_CallbackCommand;
 };
-
 } // End namespace itk
 
 #endif // __itkProgressAccumulator_h_

@@ -21,9 +21,10 @@
 #include "itkMatrix.h"
 #include "itkMembershipFunctionBase.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class GaussianMembershipFunction
  * \brief GaussianMembershipFunction class represents Gaussian function.
  *
@@ -38,15 +39,15 @@ namespace Statistics {
  */
 
 template< class TMeasurementVector >
-class ITK_EXPORT GaussianMembershipFunction :
-    public MembershipFunctionBase< TMeasurementVector >
+class ITK_EXPORT GaussianMembershipFunction:
+  public MembershipFunctionBase< TMeasurementVector >
 {
 public:
   /** Standard class typedefs */
-  typedef GaussianMembershipFunction                    Self;
-  typedef MembershipFunctionBase< TMeasurementVector >  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef GaussianMembershipFunction                   Self;
+  typedef MembershipFunctionBase< TMeasurementVector > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(GaussianMembershipFunction, MembershipFunction);
@@ -59,23 +60,25 @@ public:
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Type of the mean vector */
-  typedef Array< double >                               MeanType;
+  typedef Array< double > MeanType;
 
   /** Type of the covariance matrix */
-  typedef VariableSizeMatrix< double >                  CovarianceType;
+  typedef VariableSizeMatrix< double > CovarianceType;
 
   /** Set/Get the mean */
-  void SetMean( const MeanType & mean );
-  itkGetConstMacro( Mean, MeanType );
+  void SetMean(const MeanType & mean);
+
+  itkGetConstMacro(Mean, MeanType);
 
   /** Sets the covariance matrix.
    * Also, this function calculates inverse covariance and pre factor of
    * Gaussian Distribution to speed up GetProbability */
   void SetCovariance(const CovarianceType & cov);
-  itkGetConstMacro( Covariance, CovarianceType );
+
+  itkGetConstMacro(Covariance, CovarianceType);
 
   /** Gets the probability density of a measurement vector. */
-  double Evaluate(const MeasurementVectorType &measurement) const;
+  double Evaluate(const MeasurementVectorType & measurement) const;
 
   /** Return a copy of the current membership function */
   Pointer Clone();
@@ -83,15 +86,15 @@ public:
 protected:
   GaussianMembershipFunction(void);
   virtual ~GaussianMembershipFunction(void) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MeanType        m_Mean;           // mean
-  CovarianceType  m_Covariance;     // covariance matrix
+  MeanType       m_Mean;            // mean
+  CovarianceType m_Covariance;      // covariance matrix
 
   // inverse covariance matrix which is automatically calculated
   // when covariace matirx is set.  This speed up the GetProbability()
-  CovarianceType  m_InverseCovariance;
+  CovarianceType m_InverseCovariance;
 
   // pre_factor which is automatically calculated
   // when covariace matirx is set.  This speeds up the GetProbability()
@@ -101,7 +104,6 @@ private:
    * value set to true */
   bool m_IsCovarianceZero;
 };
-
 } // end of namespace Statistics
 } // end namespace itk
 

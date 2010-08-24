@@ -14,8 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkOptNoiseImageFilter_h
-#define __itkOptNoiseImageFilter_h
+#ifndef __itkNoiseImageFilter_h
+#define __itkNoiseImageFilter_h
 
 #include "itkBoxImageFilter.h"
 #include "itkImage.h"
@@ -41,9 +41,9 @@ namespace itk
  *
  * \ingroup IntensityImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT NoiseImageFilter :
-    public BoxImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT NoiseImageFilter:
+  public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -53,14 +53,14 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                                      InputImageType;
-  typedef TOutputImage                                     OutputImageType;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef NoiseImageFilter                                 Self;
-  typedef BoxImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef NoiseImageFilter                                  Self;
+  typedef BoxImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,22 +69,21 @@ public:
   itkTypeMacro(NoiseImageFilter, BoxImageFilter);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType               InputPixelType;
-  typedef typename OutputImageType::PixelType              OutputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
+  typedef typename InputImageType::PixelType                 InputPixelType;
+  typedef typename OutputImageType::PixelType                OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
 
-  typedef typename InputImageType::RegionType              InputImageRegionType;
-  typedef typename OutputImageType::RegionType             OutputImageRegionType;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
 
-  typedef typename InputImageType::SizeType                InputSizeType;
+  typedef typename InputImageType::SizeType InputSizeType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   NoiseImageFilter();
   virtual ~NoiseImageFilter() {}
@@ -99,14 +98,13 @@ protected:
    *
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  NoiseImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  NoiseImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

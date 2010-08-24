@@ -28,9 +28,10 @@
 #include "itkKdTree.h"
 #include "itkStatisticsAlgorithm.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class KdTreeGenerator
  *  \brief This class generates a KdTree object without centroid information.
  *
@@ -65,15 +66,15 @@ namespace Statistics {
  * WeightedCentroidKdTreeGenerator
  */
 
-template < class TSample >
-class ITK_EXPORT KdTreeGenerator : public Object
+template< class TSample >
+class ITK_EXPORT KdTreeGenerator:public Object
 {
 public:
   /** Standard class typedefs */
-  typedef KdTreeGenerator             Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef KdTreeGenerator            Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTreeGenerator, Object);
@@ -86,7 +87,7 @@ public:
   typedef typename TSample::MeasurementType       MeasurementType;
 
   /** Typedef for the length of each measurement vector */
-  typedef unsigned int  MeasurementVectorSizeType;
+  typedef unsigned int MeasurementVectorSizeType;
 
   /** Typedef for the k-d tree */
   typedef KdTree< TSample > KdTreeType;
@@ -107,7 +108,7 @@ public:
   typedef typename SubsampleType::Pointer SubsamplePointer;
 
   /** Sets the input sample that provides the measurement vectors. */
-  void SetSample(TSample* sample);
+  void SetSample(TSample *sample);
 
   /** Sets the number of measurement vectors that can be stored in a
    * terminal node. */
@@ -115,23 +116,22 @@ public:
 
   /** Returns the pointer to the generated k-d tree. */
   OutputPointer GetOutput()
-    {
+  {
     return m_Tree;
-    }
+  }
 
   /** Runs this k-d tree construction algorithm. */
   void Update()
-    {
+  {
     this->GenerateData();
-    }
+  }
 
   /** Runs this k-d tree construction algorithm. */
   void GenerateData();
 
   /** Get macro to get the length of the measurement vectors that are being
    * held in the 'sample' that is passed to this class */
-  itkGetConstMacro( MeasurementVectorSize, unsigned int );
-
+  itkGetConstMacro(MeasurementVectorSize, unsigned int);
 protected:
   /** Constructor */
   KdTreeGenerator();
@@ -139,35 +139,35 @@ protected:
   /** Destructor */
   virtual ~KdTreeGenerator() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Returns the smart pointer to the internal Subsample object. */
   SubsamplePointer GetSubsample()
-    {
+  {
     return m_Subsample;
-    }
+  }
 
   /** Nonterminal node generation routine */
-  virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,
-                                                  unsigned int endIndex,
-                                                  MeasurementVectorType
-                                                  &lowerBound,
-                                                  MeasurementVectorType
-                                                  &upperBound,
-                                                  unsigned int level);
+  virtual KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
+                                                   unsigned int endIndex,
+                                                   MeasurementVectorType
+                                                   & lowerBound,
+                                                   MeasurementVectorType
+                                                   & upperBound,
+                                                   unsigned int level);
 
   /** Tree generation loop */
-  KdTreeNodeType* GenerateTreeLoop(unsigned int beginIndex, unsigned int endIndex,
-                                   MeasurementVectorType &lowerBound,
-                                   MeasurementVectorType &upperBound,
-                                   unsigned int level);
+  KdTreeNodeType * GenerateTreeLoop(unsigned int beginIndex, unsigned int endIndex,
+                                    MeasurementVectorType & lowerBound,
+                                    MeasurementVectorType & upperBound,
+                                    unsigned int level);
 
 private:
-  KdTreeGenerator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  KdTreeGenerator(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
   /** Pointer to the input (source) sample */
-  TSample* m_SourceSample;
+  TSample *m_SourceSample;
 
   /** Smart pointer to the internal Subsample object. This class needs
    * a Subsample object because the partitioning process involves sorting
@@ -192,8 +192,7 @@ private:
 
   /** Length of a measurement vector */
   MeasurementVectorSizeType m_MeasurementVectorSize;
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

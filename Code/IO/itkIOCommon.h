@@ -28,7 +28,6 @@
 
 namespace itk
 {
-
 /** \class IOCommon
    * \brief Centralized funtionality for IO classes.
    *
@@ -37,16 +36,14 @@ namespace itk
    * \ingroup IOFilters
    *
    */
-class ITK_EXPORT IOCommon 
+class ITK_EXPORT IOCommon
 {
 public:
-  typedef enum
-    {
-    ITK_MAXPATHLEN =2048, /**< Maximum length of a filename */
+  typedef enum {
+    ITK_MAXPATHLEN = 2048, /**< Maximum length of a filename */
     MAX_FILENAMELIST_SIZE = 512
     } SysConstants;
-  typedef enum
-    {
+  typedef enum {
     ITK_UCHAR,         // aka uint8_t
     ITK_CHAR,
     ITK_USHORT,        // aka uint16_t
@@ -64,9 +61,7 @@ public:
 
   /** Calculate the size, in bytes, that the atomic pixel type occupies. */
   static unsigned int ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType);
-
 };
-  
 
 extern const char *const ITK_OnDiskStorageTypeName;
 extern const char *const ITK_ImageFileBaseName;
@@ -75,7 +70,7 @@ extern const char *const ITK_OnDiskBitPerPixel;
 extern const char *const SPM_ROI_SCALE;
 extern const char *const ITK_FileNotes;
 #define ITKIO_DEPRECATED_METADATA_ORIENTATION
-#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
+#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
 extern const char *const ITK_CoordinateOrientation;
 #endif
 extern const char *const ITK_Origin;

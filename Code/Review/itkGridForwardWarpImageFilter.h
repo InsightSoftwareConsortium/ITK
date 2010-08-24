@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class GridForwardWarpImageFilter
  * \brief Warps a grid using an input deformation field.
  *
@@ -37,12 +36,12 @@ namespace itk
  * The output image is produced by forward mapping.
  *
  * Each vector in the deformation field represent the distance between
- * a geometric point in the input space and a point in the output space such 
+ * a geometric point in the input space and a point in the output space such
  * that:
  *
  * \f[ p_{in} = p_{out} + d \f]
  *
- * Typically the mapped position does not correspond to an integer pixel 
+ * Typically the mapped position does not correspond to an integer pixel
  * position in the output image. We round it.
  *
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
@@ -51,90 +50,87 @@ namespace itk
  * http://hdl.handle.net/1926/510
  *
  */
-template <
+template<
   class TDeformationField,
   class TOutputImage
   >
-class ITK_EXPORT GridForwardWarpImageFilter :
-    public ImageToImageFilter<TDeformationField, TOutputImage>
+class ITK_EXPORT GridForwardWarpImageFilter:
+  public ImageToImageFilter< TDeformationField, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef GridForwardWarpImageFilter                            Self;
-  typedef ImageToImageFilter<TDeformationField,TOutputImage>    Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef ImageToImageFilter< TDeformationField, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( GridForwardWarpImageFilter, ImageToImageFilter );
+  itkTypeMacro(GridForwardWarpImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType                     OutputImageRegionType;
+  typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::OutputImageType                  OutputImageType;
-  typedef typename Superclass::OutputImagePointer               OutputImagePointer;
-  typedef typename OutputImageType::IndexType                   IndexType;
-  typedef typename OutputImageType::SizeType                    SizeType;
-  typedef typename OutputImageType::PixelType                   PixelType;
-  typedef typename OutputImageType::SpacingType                 SpacingType;
+  typedef typename Superclass::OutputImageType    OutputImageType;
+  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  typedef typename OutputImageType::IndexType     IndexType;
+  typedef typename OutputImageType::SizeType      SizeType;
+  typedef typename OutputImageType::PixelType     PixelType;
+  typedef typename OutputImageType::SpacingType   SpacingType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
   itkStaticConstMacro(DeformationFieldDimension, unsigned int,
-                      TDeformationField::ImageDimension );
+                      TDeformationField::ImageDimension);
 
   /** Deformation field typedef support. */
-  typedef TDeformationField                                   DeformationFieldType;
-  typedef typename DeformationFieldType::ConstPointer         DeformationFieldConstPointer;
-  typedef typename DeformationFieldType::PixelType            DisplacementType;
+  typedef TDeformationField                           DeformationFieldType;
+  typedef typename DeformationFieldType::ConstPointer DeformationFieldConstPointer;
+  typedef typename DeformationFieldType::PixelType    DisplacementType;
 
   /** Set the background value */
-  itkSetMacro( BackgroundValue, PixelType );
+  itkSetMacro(BackgroundValue, PixelType);
 
   /** Get the background value */
-  itkGetConstMacro( BackgroundValue, PixelType );
+  itkGetConstMacro(BackgroundValue, PixelType);
 
   /** Set the foreground value */
-  itkSetMacro( ForegroundValue, PixelType );
+  itkSetMacro(ForegroundValue, PixelType);
 
   /** Get the foreground value */
-  itkGetConstMacro( ForegroundValue, PixelType );
-
+  itkGetConstMacro(ForegroundValue, PixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, DeformationFieldDimension>));
-  itkConceptMacro(DeformationFieldHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TDeformationField::PixelType::ValueType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, DeformationFieldDimension > ) );
+  itkConceptMacro( DeformationFieldHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TDeformationField::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   GridForwardWarpImageFilter();
-  ~GridForwardWarpImageFilter() {};
+  ~GridForwardWarpImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** 
+  /**
    * GenerateData()
    */
   void GenerateData();
 
 private:
-  GridForwardWarpImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GridForwardWarpImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
-  PixelType                  m_BackgroundValue;
-  PixelType                  m_ForegroundValue;
-  unsigned int               m_GridPixSpacing;
+  PixelType    m_BackgroundValue;
+  PixelType    m_ForegroundValue;
+  unsigned int m_GridPixSpacing;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -51,9 +50,9 @@ GradientDescentOptimizer
 
 void
 GradientDescentOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "LearningRate: "
      << m_LearningRate << std::endl;
@@ -65,7 +64,7 @@ GradientDescentOptimizer
      << m_CurrentIteration;
   os << indent << "Value: "
      << m_Value;
-  if (m_CostFunction)
+  if ( m_CostFunction )
     {
     os << indent << "CostFunction: "
        << m_CostFunction;
@@ -78,22 +77,19 @@ GradientDescentOptimizer
   os << std::endl;
 }
 
-
 /**
  * Start the optimization
  */
 void
 GradientDescentOptimizer
-::StartOptimization( void )
+::StartOptimization(void)
 {
-
   itkDebugMacro("StartOptimization");
-   
+
   m_CurrentIteration   = 0;
 
   this->SetCurrentPosition( this->GetInitialPosition() );
   this->ResumeOptimization();
-
 }
 
 /**
@@ -101,9 +97,8 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::ResumeOptimization( void )
+::ResumeOptimization(void)
 {
-  
   itkDebugMacro("ResumeOptimization");
 
   m_Stop = false;
@@ -111,17 +106,16 @@ GradientDescentOptimizer
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
   InvokeEvent( StartEvent() );
-  while( !m_Stop ) 
+  while ( !m_Stop )
     {
-
     try
       {
-      m_CostFunction->GetValueAndDerivative( 
-        this->GetCurrentPosition(), m_Value, m_Gradient );
+      m_CostFunction->GetValueAndDerivative(
+        this->GetCurrentPosition(), m_Value, m_Gradient);
       }
-    catch( ExceptionObject& err )
+    catch ( ExceptionObject & err )
       {
-      // An exception has occurred. 
+      // An exception has occurred.
       // Terminate immediately.
       m_StopCondition = MetricError;
       m_StopConditionDescription << "Metric error";
@@ -131,18 +125,17 @@ GradientDescentOptimizer
       throw err;
       }
 
-
-    if( m_Stop )
+    if ( m_Stop )
       {
       m_StopConditionDescription << "StopOptimization() called";
       break;
       }
-  
+
     AdvanceOneStep();
 
     m_CurrentIteration++;
 
-    if( m_CurrentIteration >= m_NumberOfIterations )
+    if ( m_CurrentIteration >= m_NumberOfIterations )
       {
       m_StopConditionDescription << "Maximum number of iterations ("
                                  << m_NumberOfIterations
@@ -159,9 +152,8 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::StopOptimization( void )
+::StopOptimization(void)
 {
-
   itkDebugMacro("StopOptimization");
 
   m_Stop = true;
@@ -173,17 +165,16 @@ GradientDescentOptimizer
  */
 void
 GradientDescentOptimizer
-::AdvanceOneStep( void )
-{ 
-
+::AdvanceOneStep(void)
+{
   itkDebugMacro("AdvanceOneStep");
 
   double direction;
-  if( this->m_Maximize ) 
+  if ( this->m_Maximize )
     {
     direction = 1.0;
     }
-  else 
+  else
     {
     direction = -1.0;
     }
@@ -195,7 +186,7 @@ GradientDescentOptimizer
   ScalesType scales = this->GetScales();
 
   // Make sure the scales have been set properly
-  if (scales.size() != spaceDimension)
+  if ( scales.size() != spaceDimension )
     {
     itkExceptionMacro(<< "The size of Scales is "
                       << scales.size()
@@ -204,26 +195,24 @@ GradientDescentOptimizer
                       << ".");
     }
 
-  DerivativeType transformedGradient( spaceDimension ); 
+  DerivativeType transformedGradient(spaceDimension);
 
-  for(unsigned int j = 0; j < spaceDimension; j++)
+  for ( unsigned int j = 0; j < spaceDimension; j++ )
     {
     transformedGradient[j] = m_Gradient[j] / scales[j];
     }
 
-  ParametersType newPosition( spaceDimension );
-  for(unsigned int j = 0; j < spaceDimension; j++)
+  ParametersType newPosition(spaceDimension);
+  for ( unsigned int j = 0; j < spaceDimension; j++ )
     {
-    newPosition[j] = currentPosition[j] + 
-      direction * m_LearningRate * transformedGradient[j];
+    newPosition[j] = currentPosition[j]
+                     + direction * m_LearningRate * transformedGradient[j];
     }
 
-  this->SetCurrentPosition( newPosition );
+  this->SetCurrentPosition(newPosition);
 
   this->InvokeEvent( IterationEvent() );
-
 }
-
 } // end namespace itk
 
 #endif

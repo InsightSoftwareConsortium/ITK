@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,21 +19,17 @@
 
 namespace itk
 {
-
 TimeProbe
-::TimeProbe():ResourceProbe<TimeStampType,TimeStampType>("Time","s") 
+::TimeProbe():ResourceProbe< TimeStampType, TimeStampType >("Time", "s")
 {
   m_RealTimeClock   = RealTimeClock::New();
 }
 
-
 TimeProbe
 ::~TimeProbe()
-{
-}
+{}
 
-
-TimeProbe::TimeStampType 
+TimeProbe::TimeStampType
 TimeProbe
 ::GetMeanTime(void) const
 {
@@ -46,6 +42,4 @@ TimeProbe
 {
   return m_RealTimeClock->GetTimeStamp();
 }
-
-
 } // end namespace itk

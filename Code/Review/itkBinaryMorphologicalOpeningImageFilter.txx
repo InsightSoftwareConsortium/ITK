@@ -23,45 +23,45 @@
 #include "itkBinaryDilateImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-namespace itk {
-
-template<class TInputImage, class TOutputImage, class TKernel>
-BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryMorphologicalOpeningImageFilter()
 {
-  m_ForegroundValue = NumericTraits<PixelType>::max();
-  m_BackgroundValue = NumericTraits<PixelType>::Zero;
+  m_ForegroundValue = NumericTraits< PixelType >::max();
+  m_BackgroundValue = NumericTraits< PixelType >::Zero;
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
+BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
 {
   // Allocate the outputs
   this->AllocateOutputs();
 
   /** set up erosion and dilation methods */
-  typename BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    dilate = BinaryDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
+  typename BinaryDilateImageFilter< TInputImage, TInputImage, TKernel >::Pointer
+  dilate = BinaryDilateImageFilter< TInputImage, TInputImage, TKernel >::New();
 
-  typename BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::Pointer
-    erode = BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::New();
+  typename BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >::Pointer
+  erode = BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >::New();
 
   dilate->SetKernel( this->GetKernel() );
   dilate->ReleaseDataFlagOn();
   erode->SetKernel( this->GetKernel() );
   erode->ReleaseDataFlagOn();
-  dilate->SetDilateValue( m_ForegroundValue );
-  erode->SetErodeValue( m_ForegroundValue );
-  erode->SetBackgroundValue( m_BackgroundValue );
-    
+  dilate->SetDilateValue(m_ForegroundValue);
+  erode->SetErodeValue(m_ForegroundValue);
+  erode->SetBackgroundValue(m_BackgroundValue);
+
   /** set up the minipipeline */
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, .5f);
   progress->RegisterInternalFilter(dilate, .5f);
-  
+
   erode->SetInput( this->GetInput() );
   dilate->SetInput( erode->GetOutput() );
   dilate->GraftOutput( this->GetOutput() );
@@ -73,16 +73,17 @@ BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
   this->GraftOutput( dilate->GetOutput() );
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue) << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent << "ForegroundValue: "
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_ForegroundValue ) << std::endl;
+  os << indent << "BackgroundValue: "
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_BackgroundValue ) << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

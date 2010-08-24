@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,45 +25,42 @@
 
 namespace itk
 {
-
-static const char blanks[ITK_NUMBER_OF_BLANKS+1] =
-"                                        ";
+static const char blanks[ITK_NUMBER_OF_BLANKS + 1] =
+  "                                        ";
 
 /**
  * Instance creation.
  */
-Indent*
-Indent::
-New()
+Indent *
+Indent::New()
 {
   return new Self;
 }
-  
-  
+
 /**
- * Determine the next indentation level. Keep indenting by two until the 
+ * Determine the next indentation level. Keep indenting by two until the
  * max of forty.
  */
-Indent 
+Indent
 Indent
 ::GetNextIndent()
 {
   int indent = m_Indent + ITK_STD_INDENT;
+
   if ( indent > ITK_NUMBER_OF_BLANKS )
     {
     indent = ITK_NUMBER_OF_BLANKS;
     }
   return indent;
 }
- 
+
 /**
  * Print out the indentation. Basically output a bunch of spaces.
  */
-std::ostream& 
-operator<<(std::ostream& os, const Indent& ind)
+std::ostream &
+operator<<(std::ostream & os, const Indent & ind)
 {
-  os << blanks + (ITK_NUMBER_OF_BLANKS-ind.m_Indent);
+  os << blanks + ( ITK_NUMBER_OF_BLANKS - ind.m_Indent );
   return os;
 }
-
 } // end namespace itk

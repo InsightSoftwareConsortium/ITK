@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class ScalarToRGBColormapImageFilter
  * \brief Implements pixel-wise intensity->rgb mapping operation on one image.
  *
@@ -36,72 +35,71 @@ namespace itk
  *
  * \ingroup   IntensityImageFilters     Multithreaded
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ScalarToRGBColormapImageFilter
-: public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ScalarToRGBColormapImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarToRGBColormapImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef ScalarToRGBColormapImageFilter                  Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ScalarToRGBColormapImageFilter, ImageToImageFilter );
+  itkTypeMacro(ScalarToRGBColormapImageFilter, ImageToImageFilter);
 
   /** Some typedefs. */
-  typedef TInputImage                                    InputImageType;
-  typedef typename InputImageType::ConstPointer          InputImagePointer;
-  typedef typename InputImageType::RegionType            InputImageRegionType;
-  typedef typename InputImageType::PixelType             InputImagePixelType;
-  typedef TOutputImage                                   OutputImageType;
-  typedef typename OutputImageType::Pointer              OutputImagePointer;
-  typedef typename OutputImageType::RegionType           OutputImageRegionType;
-  typedef typename OutputImageType::PixelType            OutputImagePixelType;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::ConstPointer InputImagePointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  typedef typename OutputImageType::PixelType   OutputImagePixelType;
 
-  typedef Functor::ColormapFunctor<InputImagePixelType,
-    OutputImagePixelType>                                ColormapType;
+  typedef Functor::ColormapFunctor< InputImagePixelType,
+                                    OutputImagePixelType >                                ColormapType;
 
   /**
    * Set/Get the colormap object.
    */
   typename ColormapType::Pointer GetColormap() { return m_Colormap; }
 
-  void SetColormap( ColormapType *colormap )
-    {
+  void SetColormap(ColormapType *colormap)
+  {
     if ( m_Colormap != colormap )
       {
       m_Colormap = colormap;
       this->Modified();
       }
-    }
+  }
 
   /**
    * Enum type that provides for an easy interface to existing colormaps.
    */
   typedef enum { Red, Green, Blue, Grey, Hot, Cool, Spring, Summer,
-    Autumn, Winter, Copper, Jet, HSV, OverUnder } ColormapEnumType;
+                 Autumn, Winter, Copper, Jet, HSV, OverUnder } ColormapEnumType;
 
-  void SetColormap( ColormapEnumType );
+  void SetColormap(ColormapEnumType);
 
   /**
    * Set/Get UseInputImageExtremaForScaling.  If 'true', the colormap uses the
    * min and max values from the image to scale appropriately.  Otherwise,
    * these values can be set in the colormap manually.
    */
-  itkSetMacro( UseInputImageExtremaForScaling, bool );
-  itkGetConstMacro( UseInputImageExtremaForScaling, bool );
-  itkBooleanMacro( UseInputImageExtremaForScaling );
-
+  itkSetMacro(UseInputImageExtremaForScaling, bool);
+  itkGetConstMacro(UseInputImageExtremaForScaling, bool);
+  itkBooleanMacro(UseInputImageExtremaForScaling);
 protected:
   ScalarToRGBColormapImageFilter();
-  virtual ~ScalarToRGBColormapImageFilter() {};
+  virtual ~ScalarToRGBColormapImageFilter() {}
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ScalarToRGBColormapImageFilter
    * can be implemented as a multithreaded filter.
@@ -114,21 +112,20 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread,
-                             int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData();
 
 private:
-  ScalarToRGBColormapImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarToRGBColormapImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
-  typename ColormapType::Pointer     m_Colormap;
+  typename ColormapType::Pointer m_Colormap;
 
-  bool                               m_UseInputImageExtremaForScaling;
+  bool m_UseInputImageExtremaForScaling;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,10 +25,10 @@
 #include "itkImageBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 
-namespace itk {
-
-/** \class ObjectMorphologyImageFilter 
- * \brief Base class for the morphological operations 
+namespace itk
+{
+/** \class ObjectMorphologyImageFilter
+ * \brief Base class for the morphological operations
  * being applied to isolated objects in an image.
  *
  * This class provides the infrastructure to support of
@@ -36,7 +36,7 @@ namespace itk {
  * the foreground and background intensities are fixed. This filter
  * operates significantly faster than itkBinaryMorhologicalImageFilters;
  * however itkBinaryMorhologicalImageFilters preserve
- * background pixels based on values of neighboring background 
+ * background pixels based on values of neighboring background
  * pixels - potentially important during erosion.
  *
  * The "kernel" specified represents a morphology structuring element.
@@ -69,20 +69,20 @@ namespace itk {
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT ObjectMorphologyImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT ObjectMorphologyImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef ObjectMorphologyImageFilter                   Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
-  
+  typedef ObjectMorphologyImageFilter                     Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+
   /** Runtime information support. */
   itkTypeMacro(ObjectMorphologyImageFilter, ImageToImageFilter);
-  
+
   /** Image related typedefs. */
   typedef TInputImage                      InputImageType;
   typedef TOutputImage                     OutputImageType;
@@ -93,33 +93,33 @@ public:
 
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  typedef ImageBoundaryCondition<InputImageType> * 
-               ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition<InputImageType> const * 
-               ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition<InputImageType> 
-               DefaultBoundaryConditionType;
-  
+  typedef ImageBoundaryCondition< InputImageType > *
+  ImageBoundaryConditionPointerType;
+  typedef ImageBoundaryCondition< InputImageType > const *
+  ImageBoundaryConditionConstPointerType;
+  typedef ConstantBoundaryCondition< InputImageType >
+  DefaultBoundaryConditionType;
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
   itkStaticConstMacro(KernelDimension, unsigned int,
-                      TKernel::NeighborhoodDimension);  
+                      TKernel::NeighborhoodDimension);
 
   /** Neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator<TInputImage> 
-                                 InputNeighborhoodIteratorType;
-  typedef NeighborhoodIterator<TOutputImage> 
-                                 OutputNeighborhoodIteratorType;
+  typedef ConstNeighborhoodIterator< TInputImage >
+  InputNeighborhoodIteratorType;
+  typedef NeighborhoodIterator< TOutputImage >
+  OutputNeighborhoodIteratorType;
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
-  
+
   /** Kernel (structuring element) iterator. */
   typedef typename KernelType::ConstIterator KernelIteratorType;
-  
+
   /** n-dimensional Kernel radius. */
   typedef typename KernelType::SizeType RadiusType;
 
@@ -134,7 +134,7 @@ public:
 
   /** Set the pixel value being used to identify the object of interest */
   itkSetMacro(ObjectValue, PixelType);
-  
+
   /** ObjectMorphologyImageFilters need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
    * requested region is expanded by the radius of the structuring element.
@@ -146,15 +146,15 @@ public:
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
-   * a subclass of ImageBoundaryCondition. 
+   * a subclass of ImageBoundaryCondition.
    * NOTE: Don't foget to set UseBoundaryCondition to true! */
   void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
-    { m_BoundaryCondition = i; }
+  { m_BoundaryCondition = i; }
 
   /** Rest the boundary condition to the default */
   void ResetBoundaryCondition()
-    { m_BoundaryCondition = &m_DefaultBoundaryCondition; }
-  
+  { m_BoundaryCondition = &m_DefaultBoundaryCondition; }
+
   /** Get the current boundary condition. */
   itkGetConstMacro(BoundaryCondition, ImageBoundaryConditionPointerType);
 
@@ -172,43 +172,42 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck1,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameDimensionCheck2,
-    (Concept::SameDimension<ImageDimension, KernelDimension>));
-  itkConceptMacro(OutputInputEqualityComparableCheck,
-    (Concept::EqualityComparable<typename TOutputImage::PixelType,
-                                 PixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, typename TOutputImage::PixelType>));
-  itkConceptMacro(InputEqualityComparable,
-    (Concept::EqualityComparable<PixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<PixelType>));
+  itkConceptMacro( SameDimensionCheck1,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( SameDimensionCheck2,
+                   ( Concept::SameDimension< ImageDimension, KernelDimension > ) );
+  itkConceptMacro( OutputInputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< typename TOutputImage::PixelType,
+                                                  PixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< PixelType, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( IntConvertibleToOutputCheck,
+                   ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( InputEqualityComparable,
+                   ( Concept::EqualityComparable< PixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ObjectMorphologyImageFilter();
-  ~ObjectMorphologyImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ObjectMorphologyImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const OutputImageRegionType& 
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const OutputImageRegionType &
+                             outputRegionForThread,
+                             int threadId);
 
-  /** Evaluate image neighborhood with kernel to find the new value 
+  /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value. */
-  virtual void Evaluate(OutputNeighborhoodIteratorType &nit,
-                        const KernelType &kernel)=0;
+  virtual void Evaluate(OutputNeighborhoodIteratorType & nit,
+                        const KernelType & kernel) = 0;
 
-  /** Evaluate a pixel (assumed to have a value of ObjectValue) to 
-   * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a 
+  /** Evaluate a pixel (assumed to have a value of ObjectValue) to
+   * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a
    * non-ObjectValue pixel. */
-  bool IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType &nit);
+  bool IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & nit);
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
@@ -229,15 +228,11 @@ protected:
   void BeforeThreadedGenerateData();
 
 private:
-  ObjectMorphologyImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  
-
-}; // end of class
-
+  ObjectMorphologyImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
+};                                           // end of class
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkObjectMorphologyImageFilter.txx"
 #endif

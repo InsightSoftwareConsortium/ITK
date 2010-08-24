@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,12 +23,11 @@
 
 namespace itk
 {
-
 /** \class CumulativeGaussianOptimizer
  * \brief This is an optimizer specific to estimating
  * the parameters of Cumulative Gaussian sampled data.
  *
- * This optimizer will only work if the data array is 
+ * This optimizer will only work if the data array is
  * sampled from a Cumulative Gaussian curve. It's more
  * of a curve fitter than an optimizer, with the
  * advantage of being fast and specific. It works by
@@ -36,29 +35,29 @@ namespace itk
  * then repeatedly extending the tails of the Gaussian
  * and recalculating the Gaussian parameters until
  * the change in iterations is within tolerance or very small.
- * The Gaussian is then integrated to reproduce the 
+ * The Gaussian is then integrated to reproduce the
  * Cumulative Gaussian and the asymptotes are estimated
  * by using least squares fit to estimate the constant
  * from integration.
- * 
+ *
  * \ingroup Numerics Optimizers
  */
 
-class ITK_EXPORT CumulativeGaussianOptimizer : 
-    public MultipleValuedNonLinearOptimizer
+class ITK_EXPORT CumulativeGaussianOptimizer:
+  public MultipleValuedNonLinearOptimizer
 {
-
 public:
 
   /** Standard typedefs. */
-  typedef CumulativeGaussianOptimizer           Self;
-  typedef MultipleValuedNonLinearOptimizer      Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
-  
-  /** Cost function typedef. NOTE: This optimizer is specific to fitting a Cumulative Gaussian. */
+  typedef CumulativeGaussianOptimizer      Self;
+  typedef MultipleValuedNonLinearOptimizer Superclass;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
+
+  /** Cost function typedef. NOTE: This optimizer is specific to fitting a
+    Cumulative Gaussian. */
   typedef CumulativeGaussianCostFunction CostFunctionType;
-  
+
   /** Data array typedef. */
   typedef CostFunctionType::MeasureType MeasureType;
 
@@ -75,16 +74,16 @@ public:
   itkGetMacro(ComputedStandardDeviation, double);
   itkGetMacro(UpperAsymptote, double);
   itkGetMacro(LowerAsymptote, double);
-  itkGetMacro(FinalSampledArray, MeasureType*);
+  itkGetMacro(FinalSampledArray, MeasureType *);
   itkGetMacro(FitError, double);
 
-  void SetDataArray(MeasureType * dataArray);
+  void SetDataArray(MeasureType *dataArray);
 
   /** Start the optimizer. */
   void StartOptimization();
-  
+
   /** Print an array. */
-  void PrintArray(MeasureType * array);
+  void PrintArray(MeasureType *array);
 
   /** Report the reason for stopping. */
   const std::string GetStopConditionDescription() const;
@@ -92,34 +91,34 @@ public:
 protected:
   CumulativeGaussianOptimizer();
   virtual ~CumulativeGaussianOptimizer();
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
   /** When to stop the iteration for the Gaussian extension loop. */
-  double  m_DifferenceTolerance;
-  
+  double m_DifferenceTolerance;
+
   /** The final mean of the Cumulative Gaussian. */
-  double  m_ComputedMean; 
-  
+  double m_ComputedMean;
+
   /** The final standard deviation of the Cumulative Gaussian. */
-  double  m_ComputedStandardDeviation; 
-  
+  double m_ComputedStandardDeviation;
+
   /** The final amplitude of the Gaussian. */
-  double  m_ComputedAmplitude;  
-  
+  double m_ComputedAmplitude;
+
   /** The transition height (distance between upper and lower
    * asymptotes) of the Cumulative Gaussian. */
-  double  m_ComputedTransitionHeight;
-  
+  double m_ComputedTransitionHeight;
+
   /** The final upper asymptote of the Cumulative Gaussian. */
-  double  m_UpperAsymptote;
-  
+  double m_UpperAsymptote;
+
   /** The final lower asymptote of the Cumulative Gaussian. */
-  double  m_LowerAsymptote;
-  
+  double m_LowerAsymptote;
+
   /** Offset for the mean calculation. */
-  double  m_OffsetForMean;
+  double m_OffsetForMean;
 
   /** Flag to print iteration results. */
   bool m_Verbose;
@@ -129,43 +128,41 @@ private:
 
   /** Array of values computed from the final parameters of the
    * Cumulative Gaussian. */
-  MeasureType * m_FinalSampledArray;
+  MeasureType *m_FinalSampledArray;
 
   /** Original data array. */
-  MeasureType * m_CumulativeGaussianArray;
+  MeasureType *m_CumulativeGaussianArray;
 
   /** Extend the tails of the Gaussian. */
-  MeasureType * ExtendGaussian(MeasureType * originalArray, MeasureType * extendedArray, int startingPointForInsertion);
-  
+  MeasureType * ExtendGaussian(MeasureType *originalArray, MeasureType *extendedArray, int startingPointForInsertion);
+
   /** Recalulate the parameters of the extended Gaussian array. */
-  MeasureType * RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
-                                                               MeasureType * extendedArray,
+  MeasureType * RecalculateExtendedArrayFromGaussianParameters(MeasureType *originalArray,
+                                                               MeasureType *extendedArray,
                                                                int startingPointForInsertion);
 
   /** Calculates the squared difference error between each Gaussian
    * iteration loop. */
-  double FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2);
+  double FindAverageSumOfSquaredDifferences(MeasureType *array1, MeasureType *array2);
 
   /** Given an array sampled from a Gaussin, compute the final parameters. */
-  void FindParametersOfGaussian(MeasureType * sampledGaussianArray);
+  void FindParametersOfGaussian(MeasureType *sampledGaussianArray);
 
   /** Measure the parameters of a Gaussian sampled array. */
-  void MeasureGaussianParameters(MeasureType * array);
-  
+  void MeasureGaussianParameters(MeasureType *array);
+
   /** Print the header for output table. */
   void PrintComputedParameterHeader();
-  
+
   /** Print the computed parameters. */
   void PrintComputedParameters();
-  
+
   /** Find the constant of the integrated sample. */
-  double VerticalBestShift(MeasureType * originalArray, MeasureType * newArray);
+  double VerticalBestShift(MeasureType *originalArray, MeasureType *newArray);
 
   /** Describe the stop condition */
   std::ostringstream m_StopConditionDescription;
-
 };
-
 } // end namespace itk
 
 #endif

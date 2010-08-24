@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class ConstantPadImageFilter
  * \brief Increase the image size by padding with a constant value.
  *
@@ -29,25 +28,25 @@ namespace itk
  * image region is larger than the input image region, the extra pixels are
  * filled in by a constant value.  The output image region must be specified.
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
- * 
+ *
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, MirrorPadImageFilter
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConstantPadImageFilter:
-    public PadImageFilter<TInputImage,TOutputImage>
+  public PadImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ConstantPadImageFilter                    Self;
-  typedef PadImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef ConstantPadImageFilter                      Self;
+  typedef PadImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self); 
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConstantPadImageFilter, PadImageFilter);
@@ -78,22 +77,21 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputImagePixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ConstantPadImageFilter();
-  ~ConstantPadImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~ConstantPadImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** PadImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
@@ -103,31 +101,29 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
   /**
    * Given an n dimensional list of output region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next output region.
-   */ 
-  int GenerateNextRegion(long *regIndices, long *regLimit, 
-                         OutputImageIndexType *indices, 
-                         OutputImageSizeType *sizes, 
-                         OutputImageRegionType& outputRegion);
-  
+   */
+  int GenerateNextRegion(long *regIndices, long *regLimit,
+                         OutputImageIndexType *indices,
+                         OutputImageSizeType *sizes,
+                         OutputImageRegionType & outputRegion);
+
 private:
-  ConstantPadImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ConstantPadImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   OutputImagePixelType m_Constant;
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkConstantPadImageFilter.txx"
 #endif
-  
+
 #endif

@@ -43,26 +43,26 @@ namespace itk
 *
 * \ingroup IntensityImageFilters
   */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT SimpleContourExtractorImageFilter :
-    public BoxImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT SimpleContourExtractorImageFilter:
+  public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-    TInputImage::ImageDimension);
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-    TOutputImage::ImageDimension);
+                      TOutputImage::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef SimpleContourExtractorImageFilter                Self;
-  typedef BoxImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef SimpleContourExtractorImageFilter                 Self;
+  typedef BoxImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,9 +71,9 @@ public:
   itkTypeMacro(SimpleContourExtractorImageFilter, ImageToImageFilter);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType               InputPixelType;
-  typedef typename OutputImageType::PixelType              OutputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType InputRealType;
+  typedef typename InputImageType::PixelType                 InputPixelType;
+  typedef typename OutputImageType::PixelType                OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
 
   typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
@@ -114,17 +114,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputPixelType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   SimpleContourExtractorImageFilter();
   virtual ~SimpleContourExtractorImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** SimpleContourExtractorImageFilter can be implemented as a
      * multithreaded filter. Therefore, this implementation provides a
@@ -137,19 +136,18 @@ protected:
      *
      * \sa ImageToImageFilter::ThreadedGenerateData(),
      *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                              int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  SimpleContourExtractorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SimpleContourExtractorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
   InputPixelType  m_InputForegroundValue;
   InputPixelType  m_InputBackgroundValue;
   OutputPixelType m_OutputForegroundValue;
   OutputPixelType m_OutputBackgroundValue;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,19 +22,18 @@
 
 namespace itk
 {
-
 /** \class SpatialObjectDuplicator
- *  This helper class create an SpatialObject which is perfect 
+ *  This helper class create an SpatialObject which is perfect
  *  copy of the input SpatialObject */
-template <class TInputSpatialObject>
-class ITK_EXPORT SpatialObjectDuplicator : public Object 
+template< class TInputSpatialObject >
+class ITK_EXPORT SpatialObjectDuplicator:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialObjectDuplicator   Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SpatialObjectDuplicator    Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,38 +49,35 @@ public:
   itkStaticConstMacro(ObjectDimension, unsigned int,
                       SpatialObjectType::ObjectDimension);
 
-  typedef SpatialObject<itkGetStaticConstMacro(ObjectDimension)> 
-                                                     InternalSpatialObjectType;
+  typedef SpatialObject< itkGetStaticConstMacro(ObjectDimension) >
+  InternalSpatialObjectType;
 
   /** Set the input SpatialObject. */
-  itkSetConstObjectMacro(Input,SpatialObjectType);
-  
+  itkSetConstObjectMacro(Input, SpatialObjectType);
+
   /** Get the output SpatialObject. */
-  itkGetObjectMacro(Output,SpatialObjectType);
+  itkGetObjectMacro(Output, SpatialObjectType);
 
   /** Compute of the input SpatialObject. */
   void Update(void);
 
 protected:
   SpatialObjectDuplicator();
-  virtual ~SpatialObjectDuplicator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~SpatialObjectDuplicator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void CopyObject(const InternalSpatialObjectType* source,
-                  InternalSpatialObjectType* destination);
+  void CopyObject(const InternalSpatialObjectType *source,
+                  InternalSpatialObjectType *destination);
 
 private:
-  SpatialObjectDuplicator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  SpatialObjectConstPointer   m_Input;
-  SpatialObjectPointer        m_Output;
-  unsigned long               m_InternalSpatialObjectTime;
-  
+  SpatialObjectDuplicator(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
+
+  SpatialObjectConstPointer m_Input;
+  SpatialObjectPointer      m_Output;
+  unsigned long             m_InternalSpatialObjectTime;
 };
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSpatialObjectDuplicator.txx"

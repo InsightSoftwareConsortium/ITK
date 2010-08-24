@@ -24,8 +24,8 @@
 #include <vector>
 #include "itkVector.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class FlatStructuringElement
  * \brief A class to support a variety of flat structuring elements,
  * including versions created by decomposition of lines.
@@ -38,30 +38,30 @@ namespace itk {
  *
  */
 
-template<unsigned int VDimension>
-class ITK_EXPORT FlatStructuringElement : public Neighborhood <bool, VDimension>
+template< unsigned int VDimension >
+class ITK_EXPORT FlatStructuringElement:public Neighborhood< bool, VDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef FlatStructuringElement< VDimension>    Self;
-  typedef Neighborhood<bool, VDimension>         Superclass;
+  typedef FlatStructuringElement< VDimension > Self;
+  typedef Neighborhood< bool, VDimension >     Superclass;
 
   /** External support for pixel type. */
-  typedef typename Superclass::PixelType         PixelType;
+  typedef typename Superclass::PixelType PixelType;
 
   /** Iterator typedef support. Note the naming is intentional, i.e.,
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
-  typedef typename Superclass::Iterator          Iterator;
-  typedef typename Superclass::ConstIterator     ConstIterator;
+  typedef typename Superclass::Iterator      Iterator;
+  typedef typename Superclass::ConstIterator ConstIterator;
 
   /** Size and value typedef support. */
-  typedef typename Superclass::SizeType          SizeType;
-  typedef typename Superclass::SizeValueType     SizeValueType;
-  typedef typename Superclass::OffsetType        OffsetType;
+  typedef typename Superclass::SizeType      SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
+  typedef typename Superclass::OffsetType    OffsetType;
 
   /** Radius typedef support. */
-  typedef typename Superclass::RadiusType        RadiusType;
+  typedef typename Superclass::RadiusType RadiusType;
 
   /** External slice iterator type typedef support. */
   typedef typename Superclass::SliceIteratorType SliceIteratorType;
@@ -69,14 +69,14 @@ public:
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
 
-  typedef Vector<float, VDimension>              LType;
-  typedef std::vector<LType>                     DecompType;
+  typedef Vector< float, VDimension > LType;
+  typedef std::vector< LType >        DecompType;
 
   /** Default destructor. */
   virtual ~FlatStructuringElement() {}
 
   /** Default consructor. */
-  FlatStructuringElement() {m_Decomposable=false;}
+  FlatStructuringElement() { m_Decomposable = false; }
 
   /** Various constructors */
 
@@ -90,12 +90,12 @@ public:
   static Self Ball(RadiusType radius);
 
   /** Create a cross structuring element */
-  static Self Cross( RadiusType radius );
+  static Self Cross(RadiusType radius);
 
   /** Create an annulus structuring element */
-  static Self Annulus( RadiusType radius,
-                       unsigned int thickness = 1,
-                       bool includeCenter = false );
+  static Self Annulus(RadiusType radius,
+                      unsigned int thickness = 1,
+                      bool includeCenter = false);
 
   /**
    * Create a polygon structuring element. The structuring element is
@@ -110,18 +110,17 @@ public:
    * structuring may be used by an algorithm instead of the standard buffer.
    */
   bool GetDecomposable() const
-    {
+  {
     return m_Decomposable;
-    }
+  }
 
   /** Return the lines associated with the structuring element */
   const DecompType & GetLines() const
-    {
-    return(m_Lines);
-    }
+  {
+    return ( m_Lines );
+  }
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
-
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 protected:
 
@@ -131,7 +130,6 @@ protected:
    */
   void ComputeBufferFromLines();
 
-
 private:
   bool m_Decomposable;
 
@@ -139,14 +137,14 @@ private:
 
   // dispatch between 2D and 3D
   struct DispatchBase {};
-  template<unsigned int VDimension2>
-  struct Dispatch : DispatchBase {};
+  template< unsigned int VDimension2 >
+  struct Dispatch: DispatchBase {};
 
-  virtual FlatStructuringElement PolySub(const Dispatch<2> &,
+  virtual FlatStructuringElement PolySub(const Dispatch< 2 > &,
                                          RadiusType radius,
                                          unsigned lines) const;
 
-  virtual FlatStructuringElement PolySub(const Dispatch<3> &,
+  virtual FlatStructuringElement PolySub(const Dispatch< 3 > &,
                                          RadiusType radius,
                                          unsigned lines) const;
 
@@ -154,21 +152,18 @@ private:
                                          RadiusType radius,
                                          unsigned lines) const;
 
-
   bool checkParallel(LType NewVec, DecompType Lines);
 
-  template<unsigned int VDimension3>
-  struct StructuringElementFacet
-    {
+  template< unsigned int VDimension3 >
+  struct StructuringElementFacet {
     LType P1, P2, P3;
-    };
-  typedef StructuringElementFacet<VDimension> FacetType;
+  };
+  typedef StructuringElementFacet< VDimension > FacetType;
 };
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFlatStructuringElement.txx"
 #endif
-
 
 #endif

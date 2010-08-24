@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 
-namespace itk {
- 
+namespace itk
+{
 /**
  * \class SparseImage
  *
@@ -47,17 +47,17 @@ namespace itk {
  *
  */
 
-template <class TNode, unsigned int VImageDimension=2>
-class ITK_EXPORT SparseImage : public Image <TNode*, VImageDimension>
+template< class TNode, unsigned int VImageDimension = 2 >
+class ITK_EXPORT SparseImage:public Image< TNode *, VImageDimension >
 {
 public:
   /** Standard typedefs. */
-  typedef SparseImage                     Self;
-  typedef Image <TNode*, VImageDimension> Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
-  typedef WeakPointer<const Self>         ConstWeakPointer;
-  
+  typedef SparseImage                       Self;
+  typedef Image< TNode *, VImageDimension > Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
+  typedef WeakPointer< const Self >         ConstWeakPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -76,63 +76,63 @@ public:
 
   /** Tyepdef for the functor used to access a neighborhood of pixel
    * pointers. */
-  typedef NeighborhoodAccessorFunctor< Self > 
-                                            NeighborhoodAccessorFunctorType;
+  typedef NeighborhoodAccessorFunctor< Self >
+  NeighborhoodAccessorFunctorType;
 
-  typedef typename Superclass::IOPixelType  IOPixelType;
+  typedef typename Superclass::IOPixelType IOPixelType;
 
   /** The list types for storing the active pixels. */
-  typedef SparseFieldLayer <NodeType> NodeListType;
-  typedef ObjectStore      <NodeType> NodeStoreType;
+  typedef SparseFieldLayer< NodeType > NodeListType;
+  typedef ObjectStore< NodeType >      NodeStoreType;
 
-  /** Return the NeighborhoodAccessor functor. This method is called by the 
+  /** Return the NeighborhoodAccessor functor. This method is called by the
    * neighborhood iterators. */
-  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() 
-    { return NeighborhoodAccessorFunctorType(); }
-  
-  /** Return the NeighborhoodAccessor functor. This method is called by the 
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
+  { return NeighborhoodAccessorFunctorType(); }
+
+  /** Return the NeighborhoodAccessor functor. This method is called by the
    * neighborhood iterators. */
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
-    { return NeighborhoodAccessorFunctorType(); }
-  
+  { return NeighborhoodAccessorFunctorType(); }
+
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
-  NodeType *AddNode(const IndexType &index)
-    {
-    m_NodeList->PushFront(m_NodeStore->Borrow());
+  NodeType * AddNode(const IndexType & index)
+  {
+    m_NodeList->PushFront( m_NodeStore->Borrow() );
     NodeType *node = m_NodeList->Front();
-    node->m_Index=index;
-    this->SetPixel(index,node);
+    node->m_Index = index;
+    this->SetPixel(index, node);
     return node;
-    }
+  }
 
   /** This function returns the allocated node list which can be used to
       iterate through the valid nodes. */
-  NodeListType* GetNodeList() 
-    {
+  NodeListType * GetNodeList()
+  {
     return m_NodeList;
-    }
+  }
 
   /** This function initializes the m_NodeList and m_NodeStore variables, and
       calls the superclass Initialize method. */
   virtual void Initialize();
-  
+
 protected:
   SparseImage();
-  ~SparseImage() {};
-  
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~SparseImage() {}
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   /** The variables for storing the node variables. */
-  typename NodeListType::Pointer     m_NodeList;
-  typename NodeStoreType::Pointer    m_NodeStore;
-  
-  SparseImage(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  typename NodeListType::Pointer m_NodeList;
 
-}// end namespace itk
+  typename NodeStoreType::Pointer m_NodeStore;
+
+  SparseImage(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+};
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSparseImage.txx"

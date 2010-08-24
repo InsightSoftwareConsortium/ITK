@@ -21,9 +21,10 @@
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class DistanceMetric
  * \brief this class declares common interfaces
  * for distance functions.
@@ -42,21 +43,22 @@ namespace Statistics  {
  */
 
 template< class TVector >
-class ITK_EXPORT DistanceMetric : public FunctionBase< TVector, double  >
+class ITK_EXPORT DistanceMetric:public FunctionBase< TVector, double  >
 {
 public:
   /** Standard typedefs */
-  typedef DistanceMetric                    Self;
-  typedef FunctionBase< TVector, double >   Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  typedef DistanceMetric                  Self;
+  typedef FunctionBase< TVector, double > Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   /** declare the MeasurementVector type */
-  typedef TVector                           MeasurementVectorType;
+  typedef TVector MeasurementVectorType;
 
   /** declare Measurement vector component type */
-  /** Type used to represent the number of components oft he MeasurementVectorType */
-  typedef unsigned int                      MeasurementVectorSizeType;
+  /** Type used to represent the number of components oft he
+    MeasurementVectorType */
+  typedef unsigned int MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, FunctionBase);
@@ -69,32 +71,34 @@ public:
    * DistanceMetric::OriginType, which in most cases will be different from the
    * TVector type. This is necessary because often times the origin would be a
    * mean, or a vector representative of a collection of vectors. */
-  void SetOrigin(const OriginType& x);
+  void SetOrigin(const OriginType & x);
+
   itkGetConstReferenceMacro(Origin, OriginType);
 
   /** Gets the distance between the origin point and x. This function
    * work with SetOrigin() function. */
-  virtual double Evaluate(const MeasurementVectorType &x) const = 0;
+  virtual double Evaluate(const MeasurementVectorType & x) const = 0;
 
   /** Gets the distance between x1 and x2. This method is used by
     * KdTreeKMeans estimators. When the estimator is refactored,
     * this method should be removed. Distance between two measurement
     * vectors can be computed by setting one of them as an origin of
     * the distane and using the Evaluate method with a single argument */
-  virtual double Evaluate(const MeasurementVectorType &x1,
-                          const MeasurementVectorType &x2) const = 0;
+  virtual double Evaluate(const MeasurementVectorType & x1,
+                          const MeasurementVectorType & x2) const = 0;
 
   /** Set method for the length of the measurement vector */
-  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType s )
-    {
+  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType s)
+  {
     // Test whether the vector type is resizable or not
     MeasurementVectorType m;
-    if( MeasurementVectorTraits::IsResizable( m ) )
+
+    if ( MeasurementVectorTraits::IsResizable(m) )
       {
       // then this is a resizable vector type
       //
       // if the new size is the same as the previou size, just return
-      if( s == this->m_MeasurementVectorSize )
+      if ( s == this->m_MeasurementVectorSize )
         {
         return;
         }
@@ -107,33 +111,33 @@ public:
     else
       {
       // If this is a non-resizable vector type
-      MeasurementVectorType m3;
-      MeasurementVectorSizeType defaultLength = MeasurementVectorTraits::GetLength( m3 );
-      // and the new length is different from the default one, then throw an exception
-      if( defaultLength != s )
+      MeasurementVectorType     m3;
+      MeasurementVectorSizeType defaultLength = MeasurementVectorTraits::GetLength(m3);
+      // and the new length is different from the default one, then throw an
+      // exception
+      if ( defaultLength != s )
         {
-        itkExceptionMacro("Attempting to change the measurement \
-                           vector size of a non-resizable vector type");
+        itkExceptionMacro(
+          "Attempting to change the measurement \
+                           vector size of a non-resizable vector type"                                                  );
         }
       }
-    }
+  }
 
   /** Get method for the length of the measurement vector */
-  itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
-
+  itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
 protected:
   DistanceMetric();
   virtual ~DistanceMetric() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
   OriginType m_Origin;
 
   /** Number of components in the MeasurementVectorType */
-  MeasurementVectorSizeType       m_MeasurementVectorSize;
-}; // end of class
-
+  MeasurementVectorSizeType m_MeasurementVectorSize;
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

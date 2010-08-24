@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class RegionGrowImageFilter
  * \brief Base class for RegionGrowImageFilter object
  *
@@ -75,37 +74,37 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RegionGrowImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT RegionGrowImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionGrowImageFilter                        Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef RegionGrowImageFilter                           Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegionGrowImageFilter,ImageToImageFilter);
+  itkTypeMacro(RegionGrowImageFilter, ImageToImageFilter);
 
   /** Type definition for the input image. */
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::Pointer         InputImagePointer;
-  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType       InputImagePixelType;
+  typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Type definition for the output image. */
-  typedef TOutputImage                          OutputImageType;
-  typedef typename TOutputImage::Pointer        OutputImagePointer;
+  typedef TOutputImage                   OutputImageType;
+  typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /** Type definition for the initial grid. */
-  typedef typename TInputImage::SizeType        GridSizeType;
+  typedef typename TInputImage::SizeType GridSizeType;
 
   /** Set/Get the initial grid. */
   itkSetMacro(GridSize, GridSizeType);
@@ -124,23 +123,20 @@ public:
 protected:
   RegionGrowImageFilter();
   ~RegionGrowImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  RegionGrowImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegionGrowImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
-  unsigned int    m_MaximumNumberOfRegions;
+  unsigned int m_MaximumNumberOfRegions;
 
-  GridSizeType    m_GridSize;
-
+  GridSizeType m_GridSize;
 }; // class RegionGrowImageFilter
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRegionGrowImageFilter.txx"
 #endif
-
 
 #endif

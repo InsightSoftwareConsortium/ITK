@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,14 +20,14 @@
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkPDEDeformableRegistrationFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class PDEDeformableRegistrationFilter
  * \brief Deformably register two images using a PDE algorithm.
  *
  * PDEDeformableRegistrationFilter is a base case for filter implementing
- * a PDE deformable algorithm that register two images by computing the 
+ * a PDE deformable algorithm that register two images by computing the
  * deformation field which will map a moving image onto a fixed image.
  *
  * A deformation field is represented as a image whose pixel type is some
@@ -63,158 +63,152 @@ namespace itk {
  *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
- * 
+ *
  * \sa PDEDeformableRegistrationFunction.
  * \ingroup DeformableImageRegistration
  */
-template<class TFixedImage, class TMovingImage, class TDeformationField>
-class ITK_EXPORT PDEDeformableRegistrationFilter : 
-    public DenseFiniteDifferenceImageFilter<TDeformationField,TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+class ITK_EXPORT PDEDeformableRegistrationFilter:
+  public DenseFiniteDifferenceImageFilter< TDeformationField, TDeformationField >
 {
 public:
   /** Standard class typedefs. */
-  typedef PDEDeformableRegistrationFilter    Self;
-  typedef DenseFiniteDifferenceImageFilter<
-    TDeformationField,TDeformationField>     Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef PDEDeformableRegistrationFilter                                          Self;
+  typedef DenseFiniteDifferenceImageFilter< TDeformationField, TDeformationField > Superclass;
+  typedef SmartPointer< Self >                                                     Pointer;
+  typedef SmartPointer< const Self >                                               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( PDEDeformableRegistrationFilter, 
-                DenseFiniteDifferenceImageFilter );
+  itkTypeMacro(PDEDeformableRegistrationFilter,
+               DenseFiniteDifferenceImageFilter);
 
   /** FixedImage image type. */
-  typedef TFixedImage                            FixedImageType;
-  typedef typename FixedImageType::Pointer       FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer  FixedImageConstPointer;
+  typedef TFixedImage                           FixedImageType;
+  typedef typename FixedImageType::Pointer      FixedImagePointer;
+  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
 
   /** MovingImage image type. */
   typedef TMovingImage                           MovingImageType;
   typedef typename MovingImageType::Pointer      MovingImagePointer;
   typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
-  
+
   /** Deformation field type. */
-  typedef TDeformationField                       DeformationFieldType;
-  typedef typename DeformationFieldType::Pointer  DeformationFieldPointer;
+  typedef TDeformationField                      DeformationFieldType;
+  typedef typename DeformationFieldType::Pointer DeformationFieldPointer;
 
   /** Types inherithed from the superclass */
-  typedef typename Superclass::OutputImageType    OutputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
   FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  typedef PDEDeformableRegistrationFunction<FixedImageType,MovingImageType,
-                                            DeformationFieldType>  PDEDeformableRegistrationFunctionType;
+  typedef PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
+                                             DeformationFieldType >  PDEDeformableRegistrationFunctionType;
 
   /** Inherit some enums and typedefs from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
   /** Set the fixed image. */
-  void SetFixedImage( const FixedImageType * ptr );
+  void SetFixedImage(const FixedImageType *ptr);
 
   /** Get the fixed image. */
   const FixedImageType * GetFixedImage(void) const;
 
   /** Set the moving image. */
-  void SetMovingImage( const MovingImageType * ptr );
+  void SetMovingImage(const MovingImageType *ptr);
 
   /** Get the moving image. */
   const MovingImageType * GetMovingImage(void) const;
 
   /** Set initial deformation field. */
-  void SetInitialDeformationField( const DeformationFieldType * ptr )
-  { this->SetInput( ptr ); }
+  void SetInitialDeformationField(const DeformationFieldType *ptr)
+  { this->SetInput(ptr); }
 
   /** Get output deformation field. */
   DeformationFieldType * GetDeformationField()
-    { return this->GetOutput(); }
+  { return this->GetOutput(); }
 
   /** Get the number of valid inputs.  For PDEDeformableRegistration,
    * this checks whether the fixed and moving images have been
    * set. While PDEDeformableRegistration can take a third input as an
    * initial deformation field, this input is not a required input.
    */
-  virtual std::vector<SmartPointer<DataObject> >::size_type GetNumberOfValidRequiredInputs() const;
+  virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const;
 
-  /** Set/Get whether the deformation field is smoothed 
+  /** Set/Get whether the deformation field is smoothed
    * (regularized). Smoothing the deformation yields a solution
    * elastic in nature. If SmoothDeformationField is on, then the
    * deformation field is smoothed with a Gaussian whose standard
    * deviations are specified with SetStandardDeviations() */
-  itkSetMacro( SmoothDeformationField, bool );
-  itkGetConstMacro( SmoothDeformationField, bool );
-  itkBooleanMacro( SmoothDeformationField );
-  
+  itkSetMacro(SmoothDeformationField, bool);
+  itkGetConstMacro(SmoothDeformationField, bool);
+  itkBooleanMacro(SmoothDeformationField);
+
   /** Set the Gaussian smoothing standard deviations for the
    * deformation field. The values are set with respect to pixel
    * coordinates. */
-  itkSetVectorMacro( StandardDeviations, double, ImageDimension );
-  virtual void SetStandardDeviations( double value );
+  itkSetVectorMacro(StandardDeviations, double, ImageDimension);
+  virtual void SetStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the deformation field. */
-  const double * GetStandardDeviations(void) 
-    { return (double *) m_StandardDeviations; }
+  const double * GetStandardDeviations(void)
+  { return (double *)m_StandardDeviations; }
 
-  /** Set/Get whether the update field is smoothed 
+  /** Set/Get whether the update field is smoothed
    * (regularized). Smoothing the update field yields a solution
    * viscous in nature. If SmoothUpdateField is on, then the
    * update field is smoothed with a Gaussian whose standard
    * deviations are specified with SetUpdateFieldStandardDeviations() */
-  itkSetMacro( SmoothUpdateField, bool );
-  itkGetConstMacro( SmoothUpdateField, bool );
-  itkBooleanMacro( SmoothUpdateField );
-  
+  itkSetMacro(SmoothUpdateField, bool);
+  itkGetConstMacro(SmoothUpdateField, bool);
+  itkBooleanMacro(SmoothUpdateField);
+
   /** Set the Gaussian smoothing standard deviations for the update
    * field. The values are set with respect to pixel coordinates. */
-  itkSetVectorMacro( UpdateFieldStandardDeviations, double, ImageDimension );
-  virtual void SetUpdateFieldStandardDeviations( double value );
+  itkSetVectorMacro(UpdateFieldStandardDeviations, double, ImageDimension);
+  virtual void SetUpdateFieldStandardDeviations(double value);
 
   /** Get the Gaussian smoothing standard deviations used for
    * smoothing the update field. */
-  const double * GetUpdateFieldStandardDeviations(void) 
-    { return (double *) m_UpdateFieldStandardDeviations; }
-  
-  
+  const double * GetUpdateFieldStandardDeviations(void)
+  { return (double *)m_UpdateFieldStandardDeviations; }
 
   /** Stop the registration after the current iteration. */
   virtual void StopRegistration()
-    { m_StopRegistrationFlag = true; }
+  { m_StopRegistrationFlag = true; }
 
-  /** Set/Get the desired maximum error of the Guassian kernel approximate. 
+  /** Set/Get the desired maximum error of the Guassian kernel approximate.
    * \sa GaussianOperator. */
-  itkSetMacro( MaximumError, double );
-  itkGetConstMacro( MaximumError, double );
+  itkSetMacro(MaximumError, double);
+  itkGetConstMacro(MaximumError, double);
 
   /** Set/Get the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
-  itkSetMacro( MaximumKernelWidth, unsigned int );
-  itkGetConstMacro( MaximumKernelWidth, unsigned int );
-  
-
+  itkSetMacro(MaximumKernelWidth, unsigned int);
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   virtual bool Halt()
-    {
-
+  {
     if ( m_StopRegistrationFlag )
       {
       return true;
       }
 
     return this->Superclass::Halt();
-    }
+  }
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
@@ -233,7 +227,7 @@ protected:
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
   virtual void SmoothUpdateField();
-  
+
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
   virtual void PostProcessOutput();
@@ -256,35 +250,30 @@ protected:
   virtual void GenerateInputRequestedRegion();
 
 private:
-  PDEDeformableRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  PDEDeformableRegistrationFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
+
   /** Standard deviation for Gaussian smoothing */
-  double                   m_StandardDeviations[ImageDimension];
-  double                   m_UpdateFieldStandardDeviations[ImageDimension];
+  double m_StandardDeviations[ImageDimension];
+  double m_UpdateFieldStandardDeviations[ImageDimension];
 
   /** Modes to control smoothing of the update and deformation fields */
   bool m_SmoothDeformationField;
   bool m_SmoothUpdateField;
-  
-  
+
   /** Temporary deformation field use for smoothing the
    * the deformation field. */
-  DeformationFieldPointer   m_TempField;
-
+  DeformationFieldPointer m_TempField;
 private:
   /** Maximum error for Gaussian operator approximation. */
-  double                    m_MaximumError;
+  double m_MaximumError;
 
   /** Limits of Guassian kernel width. */
-  unsigned int              m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth;
 
   /** Flag to indicate user stop registration request. */
-  bool                      m_StopRegistrationFlag;
-
+  bool m_StopRegistrationFlag;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

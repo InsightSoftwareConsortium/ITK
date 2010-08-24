@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class RegionOfInterestImageFilter
  * \brief Extract a region of interest from the input image.
  *
@@ -39,33 +38,33 @@ namespace itk
  *  from a slice of a 3D image.
  *
  *  The region to extract is set using the method SetRegionOfInterest.
- * 
+ *
  * \sa ExtractImageFilter
- * 
+ *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT RegionOfInterestImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                   Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
-  typedef typename Superclass::InputImageRegionType     InputImageRegionType;
+  typedef RegionOfInterestImageFilter                     Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef typename Superclass::InputImageRegionType       InputImageRegionType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename TInputImage::RegionType   RegionType;
-  typedef typename TInputImage::IndexType    IndexType;
-  typedef typename TInputImage::SizeType     SizeType;
+  typedef typename TInputImage::RegionType RegionType;
+  typedef typename TInputImage::IndexType  IndexType;
+  typedef typename TInputImage::SizeType   SizeType;
 
   /** Typedef to describe the type of pixel. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
@@ -83,22 +82,21 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   RegionOfInterestImageFilter();
-  ~RegionOfInterestImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
+  ~RegionOfInterestImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateInputRequestedRegion();
+
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
-  
+
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
    * needs to provide an implementation for
@@ -109,7 +107,6 @@ protected:
    * \sa ProcessObject::GenerateOutputInformaton()  */
   virtual void GenerateOutputInformation();
 
-
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output
@@ -119,21 +116,19 @@ protected:
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const RegionType& outputRegionForThread,
-                            int threadId );
-  
-private:
-  RegionOfInterestImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  RegionType      m_RegionOfInterest;
-};
+  void ThreadedGenerateData(const RegionType & outputRegionForThread,
+                            int threadId);
 
-  
+private:
+  RegionOfInterestImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
+
+  RegionType m_RegionOfInterest;
+};
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRegionOfInterestImageFilter.txx"
 #endif
-  
+
 #endif

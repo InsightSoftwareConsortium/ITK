@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,23 +29,21 @@
 
 namespace itk
 {
-
 NumericSeriesFileNames
-::NumericSeriesFileNames() :
+::NumericSeriesFileNames():
   m_StartIndex(1), m_EndIndex(1), m_IncrementIndex(1), m_SeriesFormat("%d")
-{
-}
+{}
 
-const std::vector<std::string> &
+const std::vector< std::string > &
 NumericSeriesFileNames
 ::GetFileNames()
 {
   // validate the indices
-  if (m_StartIndex > m_EndIndex)
+  if ( m_StartIndex > m_EndIndex )
     {
     itkExceptionMacro (<< "StartIndex " << m_StartIndex << " is greater than EndIndex " << m_EndIndex);
     }
-  if (m_IncrementIndex == 0)
+  if ( m_IncrementIndex == 0 )
     {
     itkExceptionMacro (<< "IncrementIndex is zero.");
     }
@@ -54,7 +52,7 @@ NumericSeriesFileNames
   m_FileNames.clear();
 
   char temp[4096];
-  for (unsigned long i = m_StartIndex; i <= m_EndIndex; i+= m_IncrementIndex)
+  for ( unsigned long i = m_StartIndex; i <= m_EndIndex; i += m_IncrementIndex )
     {
     sprintf (temp, m_SeriesFormat.c_str(), i);
     std::string fileName(temp);
@@ -65,7 +63,7 @@ NumericSeriesFileNames
 
 void
 NumericSeriesFileNames
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -74,7 +72,7 @@ NumericSeriesFileNames
   os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
   os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
 
-  for (unsigned int i = 0; i < m_FileNames.size(); i++)
+  for ( unsigned int i = 0; i < m_FileNames.size(); i++ )
     {
     os << indent << "Filenames[" << i << "]: " << m_FileNames[i] << std::endl;
     }

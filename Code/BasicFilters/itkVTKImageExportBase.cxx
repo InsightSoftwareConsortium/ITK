@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor sets up information for the image-type indepenedent
  * callbacks implemented in this superclass.
@@ -29,16 +28,16 @@ VTKImageExportBase::VTKImageExportBase()
   m_LastPipelineMTime = 0;
 }
 
-void VTKImageExportBase::PrintSelf(std::ostream& os, Indent indent) const
+void VTKImageExportBase::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "Last Pipeline MTime: "
-     << m_LastPipelineMTime<< std::endl;  
+     << m_LastPipelineMTime << std::endl;
 }
 
 //----------------------------------------------------------------------------
-void* VTKImageExportBase::GetCallbackUserData()
+void * VTKImageExportBase::GetCallbackUserData()
 {
   return this;
 }
@@ -111,7 +110,6 @@ VTKImageExportBase::GetBufferPointerCallback() const
   return &VTKImageExportBase::BufferPointerCallbackFunction;
 }
 
-
 //----------------------------------------------------------------------------
 
 /**
@@ -124,7 +122,6 @@ void VTKImageExportBase::UpdateInformationCallback()
   this->UpdateOutputInformation();
 }
 
-
 /**
  * Implements the PipelineModifiedCallback.  This returns 1 if the
  * ITK pipeline has been modified since the last time this callback was
@@ -133,7 +130,8 @@ void VTKImageExportBase::UpdateInformationCallback()
 int VTKImageExportBase::PipelineModifiedCallback()
 {
   DataObjectPointer input = this->GetInput(0);
-  if( !input )
+
+  if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
     return -1;
@@ -141,12 +139,12 @@ int VTKImageExportBase::PipelineModifiedCallback()
 
   unsigned long pipelineMTime = input->GetPipelineMTime();
 
-  if( this->GetMTime() > pipelineMTime)
+  if ( this->GetMTime() > pipelineMTime )
     {
     pipelineMTime = this->GetMTime();
     }
 
-  if(pipelineMTime > m_LastPipelineMTime)
+  if ( pipelineMTime > m_LastPipelineMTime )
     {
     m_LastPipelineMTime = pipelineMTime;
     return 1;
@@ -157,7 +155,6 @@ int VTKImageExportBase::PipelineModifiedCallback()
     }
 }
 
-
 /**
  * Implements the UpdateDataCallback.  This sends and Update() call
  * through the ITK pipeline.
@@ -166,100 +163,99 @@ void VTKImageExportBase::UpdateDataCallback()
 {
   // Get the input.
   DataObjectPointer input = this->GetInput(0);
-  if( !input )
+
+  if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
     return;
     }
- 
+
   // Notify start event observers
   this->InvokeEvent( StartEvent() );
 
   // Make sure input is up to date.
   input->Update();
-  
+
   // Notify end event observers
   this->InvokeEvent( EndEvent() );
 }
 
 //----------------------------------------------------------------------------
-void VTKImageExportBase::UpdateInformationCallbackFunction(void* userData)
+void VTKImageExportBase::UpdateInformationCallbackFunction(void *userData)
 {
-  static_cast<VTKImageExportBase*>
-    (userData)->UpdateInformationCallback();
+  static_cast< VTKImageExportBase * >
+  ( userData )->UpdateInformationCallback();
 }
 
-int VTKImageExportBase::PipelineModifiedCallbackFunction(void* userData)
+int VTKImageExportBase::PipelineModifiedCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->PipelineModifiedCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->PipelineModifiedCallback();
 }
 
-int* VTKImageExportBase::WholeExtentCallbackFunction(void* userData)
+int * VTKImageExportBase::WholeExtentCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->WholeExtentCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->WholeExtentCallback();
 }
 
-double* VTKImageExportBase::OriginCallbackFunction(void* userData)
+double * VTKImageExportBase::OriginCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->OriginCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->OriginCallback();
 }
 
-float* VTKImageExportBase::FloatOriginCallbackFunction(void* userData)
+float * VTKImageExportBase::FloatOriginCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->FloatOriginCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->FloatOriginCallback();
 }
 
-double* VTKImageExportBase::SpacingCallbackFunction(void* userData)
+double * VTKImageExportBase::SpacingCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->SpacingCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->SpacingCallback();
 }
 
-float* VTKImageExportBase::FloatSpacingCallbackFunction(void* userData)
+float * VTKImageExportBase::FloatSpacingCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->FloatSpacingCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->FloatSpacingCallback();
 }
 
-const char* VTKImageExportBase::ScalarTypeCallbackFunction(void* userData)
+const char * VTKImageExportBase::ScalarTypeCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->ScalarTypeCallback();
-}
- 
-int VTKImageExportBase::NumberOfComponentsCallbackFunction(void* userData)
-{
-  return static_cast<VTKImageExportBase*>
-    (userData)->NumberOfComponentsCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->ScalarTypeCallback();
 }
 
-void VTKImageExportBase::PropagateUpdateExtentCallbackFunction(void* userData,
-                                                               int* extent)
+int VTKImageExportBase::NumberOfComponentsCallbackFunction(void *userData)
 {
-  static_cast<VTKImageExportBase*>
-    (userData)->PropagateUpdateExtentCallback(extent);
+  return static_cast< VTKImageExportBase * >
+         ( userData )->NumberOfComponentsCallback();
 }
 
-int* VTKImageExportBase::DataExtentCallbackFunction(void* userData)
+void VTKImageExportBase::PropagateUpdateExtentCallbackFunction(void *userData,
+                                                               int *extent)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->DataExtentCallback();
+  static_cast< VTKImageExportBase * >
+  ( userData )->PropagateUpdateExtentCallback(extent);
 }
 
-void* VTKImageExportBase::BufferPointerCallbackFunction(void* userData)
+int * VTKImageExportBase::DataExtentCallbackFunction(void *userData)
 {
-  return static_cast<VTKImageExportBase*>
-    (userData)->BufferPointerCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->DataExtentCallback();
 }
 
-void VTKImageExportBase::UpdateDataCallbackFunction(void* userData)
+void * VTKImageExportBase::BufferPointerCallbackFunction(void *userData)
 {
-  static_cast<VTKImageExportBase*>(userData)->UpdateDataCallback();
+  return static_cast< VTKImageExportBase * >
+         ( userData )->BufferPointerCallback();
 }
 
-
+void VTKImageExportBase::UpdateDataCallbackFunction(void *userData)
+{
+  static_cast< VTKImageExportBase * >( userData )->UpdateDataCallback();
+}
 } // end namespace itk

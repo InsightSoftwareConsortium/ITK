@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class HistogramToEntropyImageFilter
  * \brief The class takes a histogram as an input and gives the entropy
  * image as the output. A pixel, at position I,  in the output image is given by
@@ -48,8 +47,9 @@ namespace itk
  *
  */
 
-namespace Function {
-template< class TInput, class TOutput=double >
+namespace Function
+{
+template< class TInput, class TOutput = double >
 class HistogramEntropyFunction
 {
 public:
@@ -58,49 +58,48 @@ public:
   //   Total Number of occurances.
   //
   // Returns pixels of float..
-  typedef  TOutput  OutputPixelType;
-
+  typedef  TOutput OutputPixelType;
 
   HistogramEntropyFunction():
-      m_TotalFrequency(1) {}
+    m_TotalFrequency(1) {}
 
-  ~HistogramEntropyFunction() {};
+  ~HistogramEntropyFunction() {}
 
-  inline OutputPixelType operator()( const TInput & A ) const
-    {
-    if( A )
+  inline OutputPixelType operator()(const TInput & A) const
+  {
+    if ( A )
       {
-      const double p = static_cast<OutputPixelType>(A) /
-        static_cast<OutputPixelType>(m_TotalFrequency);
-      return static_cast<OutputPixelType>( (-1) * p * vcl_log(p) / vcl_log(2.0));
+      const double p = static_cast< OutputPixelType >( A )
+                       / static_cast< OutputPixelType >( m_TotalFrequency );
+      return static_cast< OutputPixelType >( ( -1 ) * p * vcl_log(p) / vcl_log(2.0) );
       }
     else
       {
-      const double p = static_cast<OutputPixelType>(A+1) /
-        static_cast<OutputPixelType>(m_TotalFrequency);
-      return static_cast<OutputPixelType>( (-1) * p * vcl_log(p) / vcl_log(2.0));
+      const double p = static_cast< OutputPixelType >( A + 1 )
+                       / static_cast< OutputPixelType >( m_TotalFrequency );
+      return static_cast< OutputPixelType >( ( -1 ) * p * vcl_log(p) / vcl_log(2.0) );
       }
-    }
+  }
 
-  void SetTotalFrequency( const unsigned long n )
-    {
+  void SetTotalFrequency(const unsigned long n)
+  {
     m_TotalFrequency = n;
-    }
+  }
 
   unsigned long GetTotalFrequency() const
-    {
+  {
     return m_TotalFrequency;
-    }
+  }
 
 private:
-  unsigned long  m_TotalFrequency;
+  unsigned long m_TotalFrequency;
 };
 }
 
-template <class THistogram, unsigned int NDimension, class TOutputPixel=double >
-class ITK_EXPORT HistogramToEntropyImageFilter :
+template< class THistogram, unsigned int NDimension, class TOutputPixel = double >
+class ITK_EXPORT HistogramToEntropyImageFilter:
   public HistogramToImageFilter< THistogram, NDimension,
-  Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
+                                 Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
 {
 public:
 
@@ -109,28 +108,24 @@ public:
 
   /** Standard "Superclass" typedef. */
   typedef HistogramToImageFilter< THistogram, NDimension,
-    Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
-                                        Superclass;
+                                  Function::HistogramEntropyFunction< unsigned long, TOutputPixel > >
+  Superclass;
 
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( HistogramToEntropyImageFilter, HistogramToImageFilter );
+  itkTypeMacro(HistogramToEntropyImageFilter, HistogramToImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-
 protected:
   HistogramToEntropyImageFilter() {}
   virtual ~HistogramToEntropyImageFilter() {}
-
 private:
-  HistogramToEntropyImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  HistogramToEntropyImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

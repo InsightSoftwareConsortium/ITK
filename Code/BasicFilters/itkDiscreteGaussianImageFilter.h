@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -42,33 +42,33 @@ namespace itk
  *
  * When the Gaussian kernel is small, this filter tends to run faster than
  * itk::RecursiveGaussianImageFilter.
- * 
+ *
  * \sa GaussianOperator
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
- * 
- * \ingroup ImageEnhancement 
- * \ingroup ImageFeatureExtraction 
+ *
+ * \ingroup ImageEnhancement
+ * \ingroup ImageFeatureExtraction
  */
 
-template <class TInputImage, class TOutputImage >
-class ITK_EXPORT DiscreteGaussianImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DiscreteGaussianImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef DiscreteGaussianImageFilter                     Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DiscreteGaussianImageFilter, ImageToImageFilter);
-  
+
   /** Image type information. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
@@ -84,12 +84,12 @@ public:
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
 
   /** The variance for the discrete Gaussian kernel.  Sets the variance
-   * independently for each dimension, but 
+   * independently for each dimension, but
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are
@@ -115,70 +115,74 @@ public:
    * FilterDimensionality to 2. */
   itkGetConstMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
-  
+
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
-  void SetVariance (const typename ArrayType::ValueType v)
-    {
+  void SetVariance(const typename ArrayType::ValueType v)
+  {
     m_Variance.Fill(v);
-    }
+  }
 
-  void SetMaximumError (const typename ArrayType::ValueType v)
-    {
+  void SetMaximumError(const typename ArrayType::ValueType v)
+  {
     m_MaximumError.Fill(v);
-    }
+  }
 
-  void SetVariance (const double *v)
-    {
+  void SetVariance(const double *v)
+  {
     ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       dv[i] = v[i];
       }
     this->SetVariance(dv);
-    }
+  }
 
-  void SetVariance (const float *v)
-    {
+  void SetVariance(const float *v)
+  {
     ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       dv[i] = v[i];
       }
     this->SetVariance(dv);
-    }
+  }
 
-  void SetMaximumError (const double *v)
-    {
+  void SetMaximumError(const double *v)
+  {
     ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       dv[i] = v[i];
       }
     this->SetMaximumError(dv);
-    }
+  }
 
-  void SetMaximumError (const float *v)
-    {
+  void SetMaximumError(const float *v)
+  {
     ArrayType dv;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       dv[i] = v[i];
       }
     this->SetMaximumError(dv);
-    }
+  }
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
    *   ImageSpacingOn. */
   void SetUseImageSpacingOn()
-    { this->SetUseImageSpacing(true); }
-  
+  { this->SetUseImageSpacing(true); }
+
   /** Ignore the image spacing. Use this option if you want to specify Gaussian
       variance in pixels.  Default is ImageSpacingOn. */
   void SetUseImageSpacingOff()
-    { this->SetUseImageSpacing(false); }
-  
+  { this->SetUseImageSpacing(false); }
+
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
@@ -186,43 +190,44 @@ public:
 
   /** \brief Set/Get number of pieces to divide the input for the
    * internal composite pipeline. The upstream pipeline will not be
-   * effected.  
+   * effected.
    *
    * The default value is $ImageDimension^2$.
    *
    * This parameter was introduced to reduce the memory used by images
-   * internally, at the cost of performance. 
+   * internally, at the cost of performance.
    */
-  itkSetMacro(InternalNumberOfStreamDivisions,unsigned int);
-  itkGetConstReferenceMacro(InternalNumberOfStreamDivisions,unsigned int);
-  
+  itkSetMacro(InternalNumberOfStreamDivisions, unsigned int);
+  itkGetConstReferenceMacro(InternalNumberOfStreamDivisions, unsigned int);
+
   /** DiscreteGaussianImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
    * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DiscreteGaussianImageFilter()
-    {
+  {
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
     m_FilterDimensionality = ImageDimension;
-    m_InternalNumberOfStreamDivisions = ImageDimension*ImageDimension;
-    }
+    m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
+  }
+
   virtual ~DiscreteGaussianImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -231,12 +236,12 @@ protected:
    * multithreaded by default. */
   void GenerateData();
 
-  
 private:
-  DiscreteGaussianImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DiscreteGaussianImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 
-  /** The variance of the gaussian blurring kernel in each dimensional direction. */
+  /** The variance of the gaussian blurring kernel in each dimensional
+    direction. */
   ArrayType m_Variance;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
@@ -253,12 +258,11 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
-  
+
   /** Number of pieces to divide the input on the internal composite
   pipeline. The upstream pipeline will not be effected. */
   unsigned int m_InternalNumberOfStreamDivisions;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,32 +19,29 @@
 #include "itkDicomImageIO.h"
 #include "itkVersion.h"
 
-  
 namespace itk
 {
 DicomImageIOFactory::DicomImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkDicomImageIO",
-                         "Dicom Image IO",
-                         1,
-                         CreateObjectFunction<DicomImageIO>::New());
-}
-  
-DicomImageIOFactory::~DicomImageIOFactory()
-{
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkDicomImageIO",
+                          "Dicom Image IO",
+                          1,
+                          CreateObjectFunction< DicomImageIO >::New() );
 }
 
-const char* 
+DicomImageIOFactory::~DicomImageIOFactory()
+{}
+
+const char *
 DicomImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char *
 DicomImageIOFactory::GetDescription() const
 {
   return "Dicom ImageIO Factory, allows the loading of Dicom images into Insight";
 }
-
 } // end namespace itk

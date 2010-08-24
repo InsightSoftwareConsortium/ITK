@@ -23,9 +23,10 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkDataObject.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class MeanSampleFilter
  * \brief Given a sample, this filter computes the sample mean
  *
@@ -44,43 +45,45 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT MeanSampleFilter : public ProcessObject
+class ITK_EXPORT MeanSampleFilter:public ProcessObject
 {
 public:
   /**Standard class typedefs. */
-  typedef MeanSampleFilter                Self;
-  typedef ProcessObject                   Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
-  typedef TSample                         SampleType;
+  typedef MeanSampleFilter           Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  typedef TSample                    SampleType;
 
   /**Standard Macros */
   itkTypeMacro(MeanSampleFilter, ProcessObject);
   itkNewMacro(Self);
 
   /** Length of a measurement vector */
-  typedef   unsigned int                              MeasurementVectorSizeType;
-  typedef   typename TSample::MeasurementVectorType   MeasurementVectorType;
-  typedef   typename TSample::MeasurementType         MeasurementType;
+  typedef   unsigned int                            MeasurementVectorSizeType;
+  typedef   typename TSample::MeasurementVectorType MeasurementVectorType;
+  typedef   typename TSample::MeasurementType       MeasurementType;
 
   /** Method to set/get the sample */
-  void SetInput( const SampleType * sample );
+  void SetInput(const SampleType *sample);
+
   const SampleType *  GetInput() const;
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MeasurementVectorType >  MeasurementVectorDecoratedType;
+  typedef  SimpleDataObjectDecorator< MeasurementVectorType > MeasurementVectorDecoratedType;
 
   typedef MeasurementVectorDecoratedType OutputType;
 
   /** Get the mean measurement vector */
   const MeasurementVectorDecoratedType * GetOutput() const;
+
   const MeasurementVectorType            GetMean() const;
 
 protected:
   MeanSampleFilter();
   virtual ~MeanSampleFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
@@ -90,11 +93,9 @@ protected:
   void GenerateData();
 
 private:
-  MeanSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  MeanSampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
+};                                // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

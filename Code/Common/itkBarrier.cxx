@@ -9,20 +9,20 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkBarrier.h"
 #include "itkMacro.h"
 
-namespace itk {
-
+namespace itk
+{
 #ifdef ITK_USE_FETCHOP_BARRIERS
-atomic_reservoir_t Barrier::m_Reservoir = 0;
-bool Barrier::m_ReservoirInitialized = false;
-int Barrier::m_MaxBarriers = 1024;
+atomic_reservoir_t Barrier:: m_Reservoir = 0;
+bool Barrier::               m_ReservoirInitialized = false;
+int Barrier::                m_MaxBarriers = 1024;
 #endif
 
 Barrier::Barrier()
@@ -37,13 +37,13 @@ Barrier::Barrier()
 Barrier::~Barrier()
 {
 #if defined ITK_USE_FETCHOP_BARRIERS
-  if (m_Pvar !=0 && Barrier::m_Reservoir != 0 )
+  if ( m_Pvar != 0 && Barrier::m_Reservoir != 0 )
     {
     atomic_free_variable(Barrier::m_Reservoir, m_Pvar);
     m_Pvar = 0;
     }
 
-  if (Barrier::m_Reservoir != 0)
+  if ( Barrier::m_Reservoir != 0 )
     {
     atomic_free_reservoir(Barrier::m_Reservoir);
     Barrier::m_Reservoir = 0;
@@ -51,23 +51,23 @@ Barrier::~Barrier()
 #endif
 }
 
-void Barrier::Initialize( unsigned int n )
+void Barrier::Initialize(unsigned int n)
 {
   m_NumberExpected = n;
 
 #if defined ITK_USE_FETCHOP_BARRIERS
   // Create the reservoir.
-  if (Barrier::m_ReservoirInitialized == false)
+  if ( Barrier::m_ReservoirInitialized == false )
     {
-    Barrier::m_Reservoir = atomic_alloc_reservoir(USE_DEFAULT_PM, 
+    Barrier::m_Reservoir = atomic_alloc_reservoir(USE_DEFAULT_PM,
                                                   m_MaxBarriers, 0);
-    if (Barrier::m_Reservoir != 0)
+    if ( Barrier::m_Reservoir != 0 )
       {
       Barrier::m_ReservoirInitialized = true;
       }
     else
       {
-      itkExceptionMacro( << "atomic_alloc_reservoir call failed!" );
+      itkExceptionMacro(<< "atomic_alloc_reservoir call failed!");
       }
     }
 
@@ -80,14 +80,14 @@ void Barrier::Initialize( unsigned int n )
 void Barrier::Wait()
 {
 #if defined ITK_USE_FETCHOP_BARRIERS
-  int gen = m_FetchopFlag;
+  int          gen = m_FetchopFlag;
   atomic_var_t val = atomic_fetch_and_increment(m_Pvar);
-  if (val == m_NumberExpected - 1)
+  if ( val == m_NumberExpected - 1 )
     {
     storeop_store(m_Pvar, 0);
     m_FetchopFlag++;
     }
-  while (m_FetchopFlag == gen)
+  while ( m_FetchopFlag == gen )
     { // spin
     }
 #else
@@ -102,10 +102,9 @@ void Barrier::Wait()
   else
     {
     // Block this thread
-    m_ConditionVariable->Wait( &m_Mutex );
+    m_ConditionVariable->Wait(&m_Mutex);
     }
   m_Mutex.Unlock();
 #endif
 }
-
-}// end namespace itk
+} // end namespace itk

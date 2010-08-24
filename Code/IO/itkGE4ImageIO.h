@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -38,21 +38,20 @@
 
 namespace itk
 {
-
 /** \class GE4ImageIO
- *  
+ *
  * \author Hans J. Johnson
  * \brief Class that defines how to read GE4 file format.
  *
  * \ingroup IOFilters
  */
-class ITK_EXPORT GE4ImageIO : public IPLCommonImageIO
+class ITK_EXPORT GE4ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef GE4ImageIO         Self;
-  typedef IPLCommonImageIO   Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef GE4ImageIO           Self;
+  typedef IPLCommonImageIO     Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,7 +67,7 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -112,14 +111,14 @@ protected:
   ~GE4ImageIO();
   // Implemented in Superclass
   // void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
+  virtual GEImageHeader * ReadHeader(const char *FileNameToRead);
+
 private:
-  GE4ImageIO(const Self&); //purposely not implemented
-  float MvtSunf (int numb);
+  GE4ImageIO(const Self &); //purposely not implemented
+  float MvtSunf(int numb);
 
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif // __itkGE4ImageIO_h

@@ -20,30 +20,28 @@
 #include "itkMeasurementVectorTraits.h"
 #include "itkNumericTraits.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 template< class TSample >
 WeightedMeanSampleFilter< TSample >
 ::WeightedMeanSampleFilter()
 {
-  this->ProcessObject::SetNthInput(1, NULL );
+  this->ProcessObject::SetNthInput(1, NULL);
 }
-
 
 template< class TSample >
 WeightedMeanSampleFilter< TSample >
 ::~WeightedMeanSampleFilter()
-{
-}
-
+{}
 
 template< class TSample >
 void
 WeightedMeanSampleFilter< TSample >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   // m_Weights
   os << indent << "Weights: " << this->GetWeightsInput() << std::endl;
   // m_WeightingFunction
@@ -56,9 +54,8 @@ WeightedMeanSampleFilter< TSample >
 ::GenerateData()
 {
   // if weighting function is specifed, use it to compute the mean
-  const  InputWeightingFunctionObjectType * functionObject =
-                                         this->GetWeightingFunctionInput();
-
+  const InputWeightingFunctionObjectType *functionObject =
+    this->GetWeightingFunctionInput();
 
   if ( functionObject != NULL )
     {
@@ -67,8 +64,8 @@ WeightedMeanSampleFilter< TSample >
     }
 
   // if weight array is specified use it to compute the mean
-  const  InputWeightArrayObjectType * weightArrayObject =
-                                         this->GetWeightsInput();
+  const InputWeightArrayObjectType *weightArrayObject =
+    this->GetWeightsInput();
 
   if ( weightArrayObject != NULL )
     {
@@ -89,16 +86,16 @@ WeightedMeanSampleFilter< TSample >
   const SampleType *input = this->GetInput();
 
   MeasurementVectorSizeType measurementVectorSize =
-                             input->GetMeasurementVectorSize();
+    input->GetMeasurementVectorSize();
 
-  MeasurementVectorDecoratedType * decoratedOutput =
-            static_cast< MeasurementVectorDecoratedType * >(
-              this->ProcessObject::GetOutput(0));
+  MeasurementVectorDecoratedType *decoratedOutput =
+    static_cast< MeasurementVectorDecoratedType * >(
+      this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorType output = decoratedOutput->Get();
 
   //reset the output
-  for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+  for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
     output[dim] = NumericTraits< MeasurementType >::Zero;
     }
@@ -110,15 +107,15 @@ WeightedMeanSampleFilter< TSample >
 
   typename TSample::MeasurementVectorType measurements;
 
-  const  InputWeightArrayObjectType * weightArrayObject = this->GetWeightsInput();
-  const  WeightArrayType weightArray = weightArrayObject->Get();
+  const InputWeightArrayObjectType *weightArrayObject = this->GetWeightsInput();
+  const WeightArrayType             weightArray = weightArrayObject->Get();
 
   int measurementVectorIndex = 0;
 
-  while (iter != end)
+  while ( iter != end )
     {
     measurements = iter.GetMeasurementVector();
-    weight = iter.GetFrequency() * (weightArray)[measurementVectorIndex];
+    weight = iter.GetFrequency() * ( weightArray )[measurementVectorIndex];
     totalWeight += weight;
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
@@ -130,15 +127,14 @@ WeightedMeanSampleFilter< TSample >
     }
 
   if ( totalWeight != 0.0 )
-  {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
     {
-    output[dim] /= totalWeight;
+    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
+      {
+      output[dim] /= totalWeight;
+      }
     }
-  }
 
-  decoratedOutput->Set( output );
-
+  decoratedOutput->Set(output);
 }
 
 template< class TSample >
@@ -149,16 +145,16 @@ WeightedMeanSampleFilter< TSample >
   const SampleType *input = this->GetInput();
 
   MeasurementVectorSizeType measurementVectorSize =
-                             input->GetMeasurementVectorSize();
+    input->GetMeasurementVectorSize();
 
-  MeasurementVectorDecoratedType * decoratedOutput =
-            static_cast< MeasurementVectorDecoratedType * >(
-              this->ProcessObject::GetOutput(0));
+  MeasurementVectorDecoratedType *decoratedOutput =
+    static_cast< MeasurementVectorDecoratedType * >(
+      this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorType output = decoratedOutput->Get();
 
   //reset the output
-  for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+  for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
     output[dim] = NumericTraits< MeasurementType >::Zero;
     }
@@ -171,12 +167,12 @@ WeightedMeanSampleFilter< TSample >
   typename TSample::MeasurementVectorType measurements;
 
   // if weighting function is specifed, use it to compute the mean
-  const  InputWeightingFunctionObjectType * functionObject =
-                                         this->GetWeightingFunctionInput();
+  const InputWeightingFunctionObjectType *functionObject =
+    this->GetWeightingFunctionInput();
 
-  const  WeightingFunctionType * weightFunction = functionObject->Get();
+  const WeightingFunctionType *weightFunction = functionObject->Get();
 
-  while (iter != end)
+  while ( iter != end )
     {
     measurements = iter.GetMeasurementVector();
     weight =
@@ -190,17 +186,15 @@ WeightedMeanSampleFilter< TSample >
     }
 
   if ( totalWeight != 0.0 )
-  {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
     {
-    output[dim] /= totalWeight;
+    for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
+      {
+      output[dim] /= totalWeight;
+      }
     }
-  }
 
-  decoratedOutput->Set( output );
-
+  decoratedOutput->Set(output);
 }
-
 } // end of namespace Statistics
 } // end of namespace itk
 

@@ -50,13 +50,13 @@ namespace itk
  *  This class supports reading only and not writing.
  */
 
-class ITK_EXPORT PhilipsRECImageIO : public ImageIOBase
+class ITK_EXPORT PhilipsRECImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef PhilipsRECImageIO       Self;
-  typedef ImageIOBase             Superclass;
-  typedef SmartPointer<Self>      Pointer;
+  typedef PhilipsRECImageIO    Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,33 +73,28 @@ public:
   typedef vnl_vector_fixed< double, 3 >           AngulationMidSliceType;
   typedef vnl_vector_fixed< double, 3 >           OffCentreMidSliceType;
   typedef vnl_vector_fixed< float, 3 >            PhaseEncodingVelocityType;
-  /** Image types: 
-   * 0 = Magnitude, 
-   * 1 = Real, 
-   * 2 = Imaginary, 
+  /** Image types:
+   * 0 = Magnitude,
+   * 1 = Real,
+   * 2 = Imaginary,
    * 3 = Phase,
    * 4 = Special/Processed. */
-  typedef vnl_vector_fixed< int, 8 >              ImageTypesType;
-  typedef vnl_vector_fixed< int, 8 >              ScanningSequencesType;
-  typedef Superclass::IndexValueType              IndexValueType;
-  typedef std::vector< IndexValueType >           SliceIndexType;
-  typedef vnl_vector_fixed< double, 3 >           ImageTypeRescaleValuesType;
-  
-  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType >
-                            ImageTypeRescaleValuesContainerType;
+  typedef vnl_vector_fixed< int, 8 >    ImageTypesType;
+  typedef vnl_vector_fixed< int, 8 >    ScanningSequencesType;
+  typedef Superclass::IndexValueType    IndexValueType;
+  typedef std::vector< IndexValueType > SliceIndexType;
+  typedef vnl_vector_fixed< double, 3 > ImageTypeRescaleValuesType;
+
+  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType > ImageTypeRescaleValuesContainerType;
   typedef ImageTypeRescaleValuesContainerType::Pointer
-                            ImageTypeRescaleValuesContainerTypePtr;
-  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesContainerTypePtr >
-                            ScanningSequenceImageTypeRescaleValuesContainerType;
-  typedef double            GradientBvalueType;
-  typedef VectorContainer< unsigned int, GradientBvalueType >
-                            GradientBvalueContainerType;
-  typedef vnl_vector_fixed< double, 3 >
-                            GradientDirectionType;
-  typedef VectorContainer< unsigned int, GradientDirectionType >
-                            GradientDirectionContainerType;
-  typedef VectorContainer< unsigned int, int > 
-                            LabelTypesASLContainerType;
+  ImageTypeRescaleValuesContainerTypePtr;
+  typedef VectorContainer< unsigned int,
+                           ImageTypeRescaleValuesContainerTypePtr > ScanningSequenceImageTypeRescaleValuesContainerType;
+  typedef double                                                 GradientBvalueType;
+  typedef VectorContainer< unsigned int, GradientBvalueType >    GradientBvalueContainerType;
+  typedef vnl_vector_fixed< double, 3 >                          GradientDirectionType;
+  typedef VectorContainer< unsigned int, GradientDirectionType > GradientDirectionContainerType;
+  typedef VectorContainer< unsigned int, int >                   LabelTypesASLContainerType;
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -108,13 +103,13 @@ public:
        * \param FileNameToRead The name of the file to test for reading.
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -124,40 +119,41 @@ public:
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile( const char * itkNotUsed( FileNameToWrite ) )
-    {
+  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) )
+  {
     return false;
-    }
+  }
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation()
-    { 
+  {
     return;
-    }
+  }
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write( const void * itkNotUsed(buffer) )
-    {
+  virtual void Write( const void *itkNotUsed(buffer) )
+  {
     return;
-    }
+  }
 
 protected:
   PhilipsRECImageIO();
   ~PhilipsRECImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
-  PhilipsRECImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  void SwapBytesIfNecessary(void * buffer, unsigned long numberOfPixels);
+  PhilipsRECImageIO(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
+
+  void SwapBytesIfNecessary(void *buffer, unsigned long numberOfPixels);
+
   IndexValueType GetSliceIndex(IndexValueType index) const;
 
-  SliceIndexType *          m_SliceIndex;
-  ImageIOBase::ByteOrder    m_MachineByteOrder;
+  SliceIndexType *       m_SliceIndex;
+  ImageIOBase::ByteOrder m_MachineByteOrder;
 };
-
 } // end namespace itk
 
 #endif // __itkPhilipsRECImageIO_h

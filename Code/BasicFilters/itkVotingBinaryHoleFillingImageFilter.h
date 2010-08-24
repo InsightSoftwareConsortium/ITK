@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,12 +32,12 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
+ *
  * \ingroup IntensityImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT VotingBinaryHoleFillingImageFilter :
-    public VotingBinaryImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT VotingBinaryHoleFillingImageFilter:
+  public VotingBinaryImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -51,17 +51,17 @@ public:
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef VotingBinaryHoleFillingImageFilter                        Self;
-  typedef VotingBinaryImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef VotingBinaryHoleFillingImageFilter                         Self;
+  typedef VotingBinaryImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                       Pointer;
+  typedef SmartPointer< const Self >                                 ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VotingBinaryHoleFillingImageFilter, VotingBinaryImageFilter);
-  
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
@@ -69,45 +69,41 @@ public:
   typedef typename InputImageType::RegionType  InputImageRegionType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
-  typedef typename InputImageType::SizeType       InputSizeType;
-  typedef typename InputImageType::SizeValueType  SizeValueType;
-
+  typedef typename InputImageType::SizeType      InputSizeType;
+  typedef typename InputImageType::SizeValueType SizeValueType;
 
   /** Majority threshold. It is the number of pixels over 50% that will decide
    * whether an OFF pixel will become ON or not. For example, if the
    * neighborhood of a pixel has 124 pixels (excluding itself), the 50% will be
    * 62, and if you set upd a Majority threshold of 5, that means that the
    * filter will require 67 or more neighbor pixels to be ON in order to switch
-   * the current OFF pixel to ON. The default value is 1. */ 
-  itkGetConstReferenceMacro( MajorityThreshold, unsigned int );
-  itkSetMacro( MajorityThreshold, unsigned int );
-
+   * the current OFF pixel to ON. The default value is 1. */
+  itkGetConstReferenceMacro(MajorityThreshold, unsigned int);
+  itkSetMacro(MajorityThreshold, unsigned int);
 
   /** Returns the number of pixels that changed when the filter was executed. */
-  itkGetConstReferenceMacro( NumberOfPixelsChanged, SizeValueType );
+  itkGetConstReferenceMacro(NumberOfPixelsChanged, SizeValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(IntConvertibleToInputCheck,
-                 (Concept::Convertible<int, InputPixelType>));
-  itkConceptMacro(UnsignedIntConvertibleToInputCheck,
-                  (Concept::Convertible<unsigned int, InputPixelType>));
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputPixelType > ) );
+  itkConceptMacro( UnsignedIntConvertibleToInputCheck,
+                   ( Concept::Convertible< unsigned int, InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VotingBinaryHoleFillingImageFilter();
   virtual ~VotingBinaryHoleFillingImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-   /** Make protected the methods SetBirthThreshold() and
-    * SetSurvivalThreshold() so users of this filter do not have access to
-    * them. */
-  void SetBirthThreshold( const unsigned int value ) 
-    { this->Superclass::SetBirthThreshold( value );  }
-  void SetSurvivalThreshold( const unsigned int value ) 
-    { this->Superclass::SetSurvivalThreshold( value );  }
-
+  /** Make protected the methods SetBirthThreshold() and
+   * SetSurvivalThreshold() so users of this filter do not have access to
+   * them. */
+  void SetBirthThreshold(const unsigned int value)
+  { this->Superclass::SetBirthThreshold(value);  }
+  void SetSurvivalThreshold(const unsigned int value)
+  { this->Superclass::SetSurvivalThreshold(value);  }
 
   /** VotingBinaryHoleFillingImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -119,26 +115,26 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
   /** Methods to be called before and after the invokation of
    * ThreadedGenerateData(). */
   void BeforeThreadedGenerateData();
+
   void AfterThreadedGenerateData();
-  
+
 private:
-  VotingBinaryHoleFillingImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VotingBinaryHoleFillingImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
-  unsigned int            m_MajorityThreshold;
+  unsigned int m_MajorityThreshold;
 
-  SizeValueType           m_NumberOfPixelsChanged;
+  SizeValueType m_NumberOfPixelsChanged;
 
   // Auxiliary array for multi-threading
-  Array<SizeValueType>    m_Count;
+  Array< SizeValueType > m_Count;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

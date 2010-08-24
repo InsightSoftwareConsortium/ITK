@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,16 +29,14 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-
-
 /**  \class SimplexMeshVolumeCalculator
  * \brief
- * 
+ *
  * Adapted from itkSimplexMeshToTriangleFilter to calculate the volume of
  * a simplex mesh using the barycenters and normals.
  * call Compute() to calculate the volume and GetVolume() to get the
  * value. For an example see itkDeformableSimplexMesh3DFilter.cxx
- * (Thomas Boettger. Division Medical and Biological Informatics, 
+ * (Thomas Boettger. Division Medical and Biological Informatics,
  *  German Cancer Research Center, Heidelberg.)
  * \author Leila Baghdadi MICe, Hospital for Sick Children, Toronto, Canada.
  *
@@ -47,23 +45,22 @@ namespace itk
  * assumption here is that the model is of  closed surface.  For more
  * details see the following reference  (Alyassin A.M. et al,
  * "Evaluation of new algorithms for the interactive measurement of
- * surface area and volume", Med Phys 21(6) 1994.).  
+ * surface area and volume", Med Phys 21(6) 1994.).
  */
 
-template <class TInputMesh>
-class ITK_EXPORT SimplexMeshVolumeCalculator : public Object
+template< class TInputMesh >
+class ITK_EXPORT SimplexMeshVolumeCalculator:public Object
 {
-
 public:
   /** Standard "Self" typedef. */
-  typedef SimplexMeshVolumeCalculator  Self;
+  typedef SimplexMeshVolumeCalculator Self;
 
   /** Standard "Superclass" typedef. */
   typedef Object Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -71,57 +68,57 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimplexMeshVolumeCalculator, Object);
 
-  typedef TInputMesh                                              InputMeshType;
-  typedef typename InputMeshType::Pointer                         InputMeshPointer;
-  typedef typename InputMeshType::ConstPointer                    InputMeshConstPointer;
- 
-  typedef typename InputMeshType::PointType                       InputPointType;
-  typedef typename InputMeshType::PixelType                       InputPixelType;
-  typedef typename InputMeshType::MeshTraits::CellTraits          InputCellTraitsType;
+  typedef TInputMesh                           InputMeshType;
+  typedef typename InputMeshType::Pointer      InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer InputMeshConstPointer;
 
-  typedef typename InputMeshType::PointsContainer                 InputPointsContainer;
-  typedef typename InputPointsContainer::ConstPointer             InputPointsContainerPointer;
-  typedef typename InputPointsContainer::ConstIterator            InputPointsContainerIterator;
+  typedef typename InputMeshType::PointType              InputPointType;
+  typedef typename InputMeshType::PixelType              InputPixelType;
+  typedef typename InputMeshType::MeshTraits::CellTraits InputCellTraitsType;
 
-  typedef typename InputMeshType::NeighborListType                InputNeighbors;
-  typedef typename InputMeshType::NeighborListType::iterator      InputNeighborsIterator;
+  typedef typename InputMeshType::PointsContainer      InputPointsContainer;
+  typedef typename InputPointsContainer::ConstPointer  InputPointsContainerPointer;
+  typedef typename InputPointsContainer::ConstIterator InputPointsContainerIterator;
 
-  typedef typename InputMeshType::CellType                        SimplexCellType;
-  typedef          itk::PolygonCell<SimplexCellType>              SimplexPolygonType;
+  typedef typename InputMeshType::NeighborListType           InputNeighbors;
+  typedef typename InputMeshType::NeighborListType::iterator InputNeighborsIterator;
+
+  typedef typename InputMeshType::CellType             SimplexCellType;
+  typedef          itk::PolygonCell< SimplexCellType > SimplexPolygonType;
 
   // stores the center for each simplex mesh cell, key is the point id
-  typedef          itk::MapContainer<unsigned long, InputPointType> PointMapType;
-  typedef typename PointMapType::Pointer                            PointMapPointer;
+  typedef          itk::MapContainer< unsigned long, InputPointType > PointMapType;
+  typedef typename PointMapType::Pointer                              PointMapPointer;
 
-  typedef typename InputPointType::VectorType                VectorType; 
-  typedef CovariantVector< 
+  typedef typename InputPointType::VectorType VectorType;
+  typedef CovariantVector<
     typename VectorType::ValueType, 3 >   CovariantVectorType;
 
-  /** 
+  /**
    * \class SimplexCellVisitor
-   * This class provides methods for visiting 
+   * This class provides methods for visiting
    * each simplex cell of a simplex mesh
    * It computes the center of each visited cell.
    */
   class SimplexCellVisitor
-    {
-  public:
-    /** 
+  {
+public:
+    /**
      * default constructor
      */
     SimplexCellVisitor()
-      {
+    {
       m_CenterMap = PointMapType::New();
-      }
+    }
 
-    /** 
-     * \brief visits all polygon cells and compute the cell centers 
+    /**
+     * \brief visits all polygon cells and compute the cell centers
      */
-    void Visit(unsigned long cellId, SimplexPolygonType * poly)
-      {
-      typedef typename SimplexPolygonType::PointIdIterator   PointIdIterator;
-      PointIdIterator  it =  poly->PointIdsBegin();
-      InputPointType center,p;
+    void Visit(unsigned long cellId, SimplexPolygonType *poly)
+    {
+      typedef typename SimplexPolygonType::PointIdIterator PointIdIterator;
+      PointIdIterator it =  poly->PointIdsBegin();
+      InputPointType  center, p;
       center.Fill(0);
       p.Fill(0.0);
 
@@ -135,57 +132,57 @@ public:
       center[0] /= poly->GetNumberOfPoints();
       center[1] /= poly->GetNumberOfPoints();
       center[2] /= poly->GetNumberOfPoints();
-      
+
       m_CenterMap->InsertElement(cellId, center);
-      }
+    }
 
     PointMapPointer GetCenterMap()
-      {
+    {
       return m_CenterMap;
-      }
-  
-    void SetMesh(InputMeshPointer mesh)
-      {
-      m_Mesh = mesh;
-      }
-       
-  protected:
-    InputMeshPointer m_Mesh;
-    PointMapPointer  m_CenterMap; 
-    };
+    }
 
-  typedef itk::CellInterfaceVisitorImplementation<InputPixelType,
-                                                  InputCellTraitsType,
-                                                  SimplexPolygonType,
-                                                  SimplexCellVisitor>
+    void SetMesh(InputMeshPointer mesh)
+    {
+      m_Mesh = mesh;
+    }
+
+protected:
+    InputMeshPointer m_Mesh;
+    PointMapPointer  m_CenterMap;
+  };
+
+  typedef itk::CellInterfaceVisitorImplementation< InputPixelType,
+                                                   InputCellTraitsType,
+                                                   SimplexPolygonType,
+                                                   SimplexCellVisitor >
   SimplexVisitorInterfaceType;
 
-  typedef typename SimplexVisitorInterfaceType::Pointer  SimplexVisitorInterfacePointer;
-  typedef typename SimplexCellType::MultiVisitor         CellMultiVisitorType;
-  typedef typename CellMultiVisitorType::Pointer         CellMultiVisitorPointer;
-    
+  typedef typename SimplexVisitorInterfaceType::Pointer SimplexVisitorInterfacePointer;
+  typedef typename SimplexCellType::MultiVisitor        CellMultiVisitorType;
+  typedef typename CellMultiVisitorType::Pointer        CellMultiVisitorPointer;
+
   /** Set the input mesh. */
   itkSetObjectMacro(SimplexMesh, InputMeshType);
 
   /** Compute the volume of the entire simplex mesh. */
   void Compute(void);
-    
+
   /** Return the computed volume. */
   itkGetConstMacro(Volume, double);
 
   /** Return the computed area. */
   itkGetConstMacro(Area, double);
-
 protected:
   SimplexMeshVolumeCalculator();
   virtual ~SimplexMeshVolumeCalculator();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SimplexMeshVolumeCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-    
+  SimplexMeshVolumeCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
+
   void Initialize();
+
   void Finalize();
 
   /** creates dual triangles for all simplex cells */
@@ -200,7 +197,7 @@ private:
   /** attribute stores the result of the simplex cell visitor */
   PointMapPointer m_Centers;
 
-  InputMeshPointer  m_SimplexMesh;
+  InputMeshPointer m_SimplexMesh;
 
   double m_Volume;
   double m_VolumeX;
@@ -220,7 +217,6 @@ private:
 
   long m_NumberOfTriangles;
 };
-
 } //end of namespace
 
 #ifndef ITK_MANUAL_INSTANTIATION

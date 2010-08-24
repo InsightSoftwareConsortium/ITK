@@ -30,23 +30,25 @@ public:
   typedef enum { ABORT, EXIT } ExceptionAction;
   /** Enable floating point exceptions */
   static void Enable();
-  
 
   /** Disable floating point exceptions. */
   static void Disable();
+
   /** Control whether exit(255) or abort() is called on an exception */
   static void SetExceptionAction(ExceptionAction a);
+
   /** Access current ExceptionAction */
   static ExceptionAction GetExceptionAction();
+
 private:
-  FloatingPointExceptions(); // Not implemented.
-  FloatingPointExceptions(const FloatingPointExceptions&);  // Not
+  FloatingPointExceptions();                                // Not implemented.
+  FloatingPointExceptions(const FloatingPointExceptions &); // Not
                                                             // implemented.
-  void operator=(const FloatingPointExceptions&);  // Not implemented.
+  void operator=(const FloatingPointExceptions &);          // Not implemented.
+
   /** static member that controls what happens during an exception */
   static ExceptionAction m_ExceptionAction;
 };
-
 }
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,11 +21,10 @@
 
 namespace itk
 {
-
-template <unsigned int VImageDimension,typename TInput>
-FrustumSpatialFunction<VImageDimension,TInput>::FrustumSpatialFunction()
+template< unsigned int VImageDimension, typename TInput >
+FrustumSpatialFunction< VImageDimension, TInput >::FrustumSpatialFunction()
 {
-  for (unsigned int i = 0; i < m_Apex.GetPointDimension(); i++)
+  for ( unsigned int i = 0; i < m_Apex.GetPointDimension(); i++ )
     {
     m_Apex[i] = 0.0f;
     }
@@ -35,116 +34,111 @@ FrustumSpatialFunction<VImageDimension,TInput>::FrustumSpatialFunction()
   m_TopPlane = 0.0f;
   m_BottomPlane = 0.0f;
   m_RotationPlane = RotateInXZPlane;
-
 }
 
-template <unsigned int VImageDimension,typename TInput>
-FrustumSpatialFunction<VImageDimension,TInput>::~FrustumSpatialFunction()
+template< unsigned int VImageDimension, typename TInput >
+FrustumSpatialFunction< VImageDimension, TInput >::~FrustumSpatialFunction()
+{}
+
+template< unsigned int VImageDimension, typename TInput >
+typename FrustumSpatialFunction< VImageDimension, TInput >::OutputType
+FrustumSpatialFunction< VImageDimension, TInput >
+::Evaluate(const InputType & position) const
 {
+  typedef InputType                      PointType;
+  typedef typename PointType::VectorType VectorType;
 
-}
-
-template <unsigned int VImageDimension,typename TInput>
-typename FrustumSpatialFunction<VImageDimension,TInput>::OutputType
-FrustumSpatialFunction<VImageDimension,TInput>
-::Evaluate(const InputType& position) const
-{
-  
-  typedef InputType                           PointType;
-  typedef typename PointType::VectorType      VectorType;
-
-  VectorType relativePosition = position - m_Apex;
+  VectorType   relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();
- 
-  // Check Top and Bottom planes.. If the angle is negative, the 
+
+  // Check Top and Bottom planes.. If the angle is negative, the
   // top plane may be less than the bottom plane, but is ok.
-  if( m_TopPlane <= m_BottomPlane )
+  if ( m_TopPlane <= m_BottomPlane )
     {
-    if( distanceToApex < m_TopPlane ||
-        distanceToApex > m_BottomPlane )
+    if ( distanceToApex < m_TopPlane
+         || distanceToApex > m_BottomPlane )
       {
       return 0;
       }
     }
   else
     {
-    if( distanceToApex > m_TopPlane ||
-        distanceToApex < m_BottomPlane )
+    if ( distanceToApex > m_TopPlane
+         || distanceToApex < m_BottomPlane )
       {
       return 0;
       }
     }
- 
-  if( m_RotationPlane == RotateInXZPlane )
+
+  if ( m_RotationPlane == RotateInXZPlane )
     {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
 
-    const double distanceXZ = vcl_sqrt(dx * dx + dz * dz );
+    const double distanceXZ = vcl_sqrt(dx * dx + dz * dz);
 
-    const double deg2rad = vcl_atan(1.0f ) / 45.0;
+    const double deg2rad = vcl_atan(1.0f) / 45.0;
 
     //  Check planes along Y
-    const double angleY = vcl_atan2(dy, distanceXZ );
-    if( vcl_fabs(angleY ) > m_ApertureAngleY * deg2rad )
+    const double angleY = vcl_atan2(dy, distanceXZ);
+    if ( vcl_fabs(angleY) > m_ApertureAngleY * deg2rad )
       {
       return 0;
       }
 
     //  Check planes along X
-    const double angleX = vcl_atan2(dx, dz );
-      
-    if( vcl_cos(angleX  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-        vcl_cos(deg2rad * m_ApertureAngleX ) )
+    const double angleX = vcl_atan2(dx, dz);
+
+    if ( vcl_cos(angleX  + ( 180.0 + m_AngleZ ) * deg2rad)  <
+         vcl_cos(deg2rad * m_ApertureAngleX) )
       {
       return 0;
       }
 
     return 1;
     }
-  else if( m_RotationPlane == RotateInYZPlane )
+  else if ( m_RotationPlane == RotateInYZPlane )
     {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];
     const double dz = relativePosition[2];
 
-    const double distanceYZ = vcl_sqrt(dy * dy + dz * dz );
+    const double distanceYZ = vcl_sqrt(dy * dy + dz * dz);
 
-    const double deg2rad = vcl_atan(1.0f ) / 45.0;
+    const double deg2rad = vcl_atan(1.0f) / 45.0;
 
     //  Check planes along X
-    const double angleX = vcl_atan2(dx, distanceYZ );
-    if( vcl_fabs(angleX ) > m_ApertureAngleX * deg2rad )
+    const double angleX = vcl_atan2(dx, distanceYZ);
+    if ( vcl_fabs(angleX) > m_ApertureAngleX * deg2rad )
       {
       return 0;
       }
 
     //  Check planes along Y
-    const double angleY = vcl_atan2(dy, dz );
-      
-    if( vcl_cos(angleY  + ( 180.0 + m_AngleZ ) * deg2rad )  < 
-        vcl_cos(deg2rad * m_ApertureAngleY ) )
+    const double angleY = vcl_atan2(dy, dz);
+
+    if ( vcl_cos(angleY  + ( 180.0 + m_AngleZ ) * deg2rad)  <
+         vcl_cos(deg2rad * m_ApertureAngleY) )
       {
       return 0;
       }
 
     return 1;
-    }  
-  else 
+    }
+  else
     {
-    itkExceptionMacro( << "Rotation plane not set!" );
+    itkExceptionMacro(<< "Rotation plane not set!");
     }
   return 0;
 }
 
-template <unsigned int VImageDimension,typename TInput>
+template< unsigned int VImageDimension, typename TInput >
 void
-FrustumSpatialFunction<VImageDimension,TInput>::
-PrintSelf(std::ostream& os, Indent indent) const
+FrustumSpatialFunction< VImageDimension, TInput >::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "Apex: " << m_Apex << std::endl;
   os << indent << "AngleZ: " << m_AngleZ << std::endl;
   os << indent << "ApertureAngleX: " << m_ApertureAngleX << std::endl;

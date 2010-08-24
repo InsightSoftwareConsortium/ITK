@@ -22,29 +22,27 @@
 #include "vnl/vnl_sample.h"
 #include <new>
 
-
-namespace itk {
-
-namespace bio {
-  
+namespace itk
+{
+namespace bio
+{
 /**
  *    Constructor Lonely Cell
- */ 
-template<unsigned int NSpaceDimension>
-Cell<NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
+Cell< NSpaceDimension >
 ::Cell()
 {
-
-  m_Force.Fill( 0.0f );
+  m_Force.Fill(0.0f);
 
   // Genome pointers are set to NULL in the superclass.
 }
 
 /**
- *    Destructor   
- */ 
-template<unsigned int NSpaceDimension>
-Cell<NSpaceDimension>
+ *    Destructor
+ */
+template< unsigned int NSpaceDimension >
+Cell< NSpaceDimension >
 ::~Cell()
 {
   // Genomes are released in the destructor of the superclass.
@@ -52,28 +50,28 @@ Cell<NSpaceDimension>
 
 /**
  *    Cell Division
- */ 
+ */
 
-template<unsigned int NSpaceDimension>
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::Mitosis(void) 
+Cell< NSpaceDimension >
+::Mitosis(void)
 {
   // Create the two daughters.
-  Cell * siblingA = new Cell;
-  Cell * siblingB = new Cell;
+  Cell *siblingA = new Cell;
+  Cell *siblingB = new Cell;
 
   // Broad compensation for Volume distribution among daugthers.
   // The type of root should depend on the Dimension...
-  siblingA->m_Radius   = m_Radius / vcl_sqrt(2.0f );
-  siblingB->m_Radius   = m_Radius / vcl_sqrt(2.0f );
+  siblingA->m_Radius   = m_Radius / vcl_sqrt(2.0f);
+  siblingB->m_Radius   = m_Radius / vcl_sqrt(2.0f);
 
   // Update Teleomeres
-  siblingA->m_Generation = m_Generation + 1; 
+  siblingA->m_Generation = m_Generation + 1;
   siblingB->m_Generation = m_Generation + 1;
 
   // Prepare to separate them by a specific distance.
-  // This helps to avoid infinite interaction forces 
+  // This helps to avoid infinite interaction forces
   // just after cellular division.
   const double perturbationLength = m_Radius * 0.75;
 
@@ -90,26 +88,26 @@ Cell<NSpaceDimension>
   m_GenomeCopy = NULL;
 
   // Register both daughter cells with the CellularAggregate.
-  CellularAggregateBase * aggregate = this->GetCellularAggregate();
-  aggregate->Add( siblingA, siblingB, perturbationLength );
+  CellularAggregateBase *aggregate = this->GetCellularAggregate();
+  aggregate->Add(siblingA, siblingB, perturbationLength);
 
   // Mark this cell for being removed from the Aggregate and deleted.
   this->MarkForRemoval();
-
 }
 
 /**
  *    Create a New Egg Cell
- *    this method behave like a factory, it is 
- *    intended to be overloaded in any class 
+ *    this method behave like a factory, it is
+ *    intended to be overloaded in any class
  *    deriving from Cell.
- */ 
-template<unsigned int NSpaceDimension>
-Cell<NSpaceDimension> *
-Cell<NSpaceDimension>
-::CreateEgg(void) 
+ */
+template< unsigned int NSpaceDimension >
+Cell< NSpaceDimension > *
+Cell< NSpaceDimension >
+::CreateEgg(void)
 {
-  Cell * cell = new Cell;
+  Cell *cell = new Cell;
+
   cell->m_ParentIdentifier = 0;
   cell->m_SelfIdentifier = 1;
   cell->m_Generation = 0;
@@ -124,22 +122,22 @@ Cell<NSpaceDimension>
 
 /**
  *    Clear the cumulator for applied forces
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::ClearForce(void) 
+Cell< NSpaceDimension >
+::ClearForce(void)
 {
-  m_Force.Fill( 0.0f );
+  m_Force.Fill(0.0f);
   m_Pressure  = 0.0f;
 }
 
 /**
  *    Return the cumulated force
- */ 
-template<unsigned int NSpaceDimension>
-const typename Cell<NSpaceDimension>::VectorType &
-Cell<NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
+const typename Cell< NSpaceDimension >::VectorType &
+Cell< NSpaceDimension >
 ::GetForce(void) const
 {
   return m_Force;
@@ -147,21 +145,21 @@ Cell<NSpaceDimension>
 
 /**
  *    Return a pointer to the Cellular Aggregate
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 CellularAggregateBase *
-Cell<NSpaceDimension>
-::GetCellularAggregate(void) 
+Cell< NSpaceDimension >
+::GetCellularAggregate(void)
 {
   return m_Aggregate;
 }
 
 /**
  *    Return a const pointer to the Cellular Aggregate
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 const CellularAggregateBase *
-Cell<NSpaceDimension>
+Cell< NSpaceDimension >
 ::GetCellularAggregate(void) const
 {
   return m_Aggregate;
@@ -169,27 +167,27 @@ Cell<NSpaceDimension>
 
 /**
  *   Set Cellular Aggregate
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::SetCellularAggregate( CellularAggregateBase * cells ) 
+Cell< NSpaceDimension >
+::SetCellularAggregate(CellularAggregateBase *cells)
 {
   m_Aggregate = cells;
 }
 
 /**
  *    Add a force to the cumulator
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::AddForce( const VectorType & force )
+Cell< NSpaceDimension >
+::AddForce(const VectorType & force)
 {
-  if( m_ChemoAttractantLevel > ChemoAttractantLowThreshold &&
-      m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
+  if ( m_ChemoAttractantLevel > ChemoAttractantLowThreshold
+       && m_ChemoAttractantLevel < ChemoAttractantHighThreshold   )
     {
-    double factor = 1.0 / vcl_pow(m_Radius, (double)(NSpaceDimension) );
+    double factor = 1.0 / vcl_pow( m_Radius, (double)( NSpaceDimension ) );
     m_Force += force;
     m_Pressure += force.GetNorm() * factor;
     }
@@ -200,22 +198,21 @@ Cell<NSpaceDimension>
 }
 
 /**
- *    Programmed Cell Death 
+ *    Programmed Cell Death
  *    This is the cellular equivalent of suicide.
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::Apoptosis(void) 
+Cell< NSpaceDimension >
+::Apoptosis(void)
 {
   // This call will release the Genomes
-  this->Superclass::Apoptosis(); 
+  this->Superclass::Apoptosis();
 
-  CellularAggregateBase * aggregate = GetCellularAggregate();
+  CellularAggregateBase *aggregate = GetCellularAggregate();
 
   // "this" cell will be destroyed here
-  aggregate->Remove( this ); 
-
+  aggregate->Remove(this);
 }
 
 /**
@@ -227,14 +224,14 @@ Cell<NSpaceDimension>
  *    If conditions allow it, the cell will grow
  *    The position will be updated according to
  *    applied forces
- */ 
-template<unsigned int NSpaceDimension>
+ */
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::AdvanceTimeStep(void) 
+Cell< NSpaceDimension >
+::AdvanceTimeStep(void)
 {
   // get input from the environment
-  this->ReceptorsReading(); 
+  this->ReceptorsReading();
 
   // update the level of expression of all the
   // genes in the gene network
@@ -248,21 +245,20 @@ Cell<NSpaceDimension>
 
   // If this happens, it is an
   // emergency situation: Do it first.
-  if( this->CheckPointApoptosis() )
+  if ( this->CheckPointApoptosis() )
     {
     m_CycleState = Apop;
     }
 
-
-  switch( m_CycleState )
+  switch ( m_CycleState )
     {
     case M: // Mitosis
       m_CycleState = Gap1;
       break;
-    case Gap1: 
+    case Gap1:
       {
       // Gap 1 : growing
-      if( this->CheckPointDNAReplication() )
+      if ( this->CheckPointDNAReplication() )
         {
         m_CycleState = S;
         }
@@ -272,7 +268,7 @@ Cell<NSpaceDimension>
       m_CycleState = Gap2;
       break;
     case Gap2:
-      if( this->CheckPointMitosis() )
+      if ( this->CheckPointMitosis() )
         {
         m_CycleState = M;
         }
@@ -287,11 +283,11 @@ Cell<NSpaceDimension>
     }
 
   // Atomaton : Execute action
-  switch( m_CycleState )
+  switch ( m_CycleState )
     {
     case M:  // Mitosis
-      // This is a terminal action. The implementation of the cell 
-      // is destroyed after division. Our abstraction assumes that 
+      // This is a terminal action. The implementation of the cell
+      // is destroyed after division. Our abstraction assumes that
       // the cell disapears and two new cell are created.
       this->Mitosis();
       break;
@@ -307,7 +303,7 @@ Cell<NSpaceDimension>
       break;
     case S:
       this->DNAReplication();
-      break; 
+      break;
     case Gap2:
       break;
     case Apop:
@@ -319,21 +315,18 @@ Cell<NSpaceDimension>
 /**
  *    Reading substrate using receptors
  */
-template<unsigned int NSpaceDimension>
+template< unsigned int NSpaceDimension >
 void
-Cell<NSpaceDimension>
-::ReceptorsReading(void) 
+Cell< NSpaceDimension >
+::ReceptorsReading(void)
 {
-  m_Genome->SetExpressionLevel( Pressurin, m_Pressure );
-  
-  float substrate0 = m_Aggregate->GetSubstrateValue( m_SelfIdentifier, 0 );
+  m_Genome->SetExpressionLevel(Pressurin, m_Pressure);
+
+  float substrate0 = m_Aggregate->GetSubstrateValue(m_SelfIdentifier, 0);
 
   m_ChemoAttractantLevel = substrate0;
-
 }
-
 }  // end namespace bio
-
 }  // end namespace itk
 
 #endif

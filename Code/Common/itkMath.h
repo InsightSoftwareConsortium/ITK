@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,18 +21,15 @@
 #ifndef __itkMath_h
 #define __itkMath_h
 
-
 #include "itkConfigure.h"
 #include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
 
-
-namespace itk 
+namespace itk
 {
-namespace Math 
+namespace Math
 {
-
 // These constants originate from VXL's vnl_math.h. They have been
 // moved here to improve visibility, and to ensure that the constants
 // are available during compile time ( as opposed to static const
@@ -67,34 +64,33 @@ static const double sqrt2            = 1.41421356237309504880;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
 static const double sqrt1_2          = 0.70710678118654752440;
 
-
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
  *  bit, the 64 bit or the vanilla version */
-#define itkTemplateFloatingToIntegerMacro(name)                         \
-  template <typename TReturn,typename TInput>                           \
-  inline TReturn name(TInput x)                                         \
-  {                                                                     \
-                                                                        \
-    if (sizeof(TReturn) <= 4)                                           \
-      {                                                                 \
-      return static_cast<TReturn>(Detail::name##_32(x));                \
-      }                                                                 \
-    else if (sizeof(TReturn) <= 8)                                      \
-      {                                                                 \
-      return static_cast<TReturn>(Detail::name##_64(x));                \
-      }                                                                 \
-    else                                                                \
-      {                                                                 \
-      return static_cast<TReturn>(Detail::name##_base<TReturn,TInput>(x)); \
-      }                                                                 \
-   }
+#define itkTemplateFloatingToIntegerMacro(name)                                     \
+  template< typename TReturn, typename TInput >                                     \
+  inline TReturn name(TInput x)                                                     \
+    {                                                                               \
+                                                                                    \
+    if ( sizeof( TReturn ) <= 4 )                                                   \
+      {                                                                             \
+      return static_cast< TReturn >( Detail::name##_32(x) );                      \
+      }                                                                             \
+    else if ( sizeof( TReturn ) <= 8 )                                              \
+      {                                                                             \
+      return static_cast< TReturn >( Detail::name##_64(x) );                      \
+      }                                                                             \
+    else                                                                            \
+      {                                                                             \
+      return static_cast< TReturn >( Detail::name##_base< TReturn, TInput >(x) ); \
+      }                                                                             \
+    }
 
 /** \brief Round towards nearest integer
- * 
+ *
  *  \tparam TReturn must be an interger type
  *  \tparam TInput must be float or double
- * 
+ *
  *          halfway cases are rounded towards the nearest even
  *          integer, e.g.
  *  \code
@@ -103,66 +99,66 @@ static const double sqrt1_2          = 0.70710678118654752440;
  *          RoundHalfIntegerToEven( 2.5) ==  2
  *          RoundHalfIntegerToEven( 3.5) ==  4
  *  \endcode
- * 
+ *
  *  The behavior of overflow is undefined due to numerous implementations.
- * 
+ *
  *  \warning We assume that the rounding mode is not changed from the default
  *  one (or at least that it is always restored to the default one).
  */
 itkTemplateFloatingToIntegerMacro(RoundHalfIntegerToEven);
 
 /** \brief Round towards nearest integer
- * 
+ *
  *  \tparam TReturn must be an interger type
  *  \tparam TInput must be float or double
- * 
+ *
  *          halfway cases are rounded upward, e.g.
  *  \code
  *          RoundHalfIntegerUp( 1.5) ==  2
  *          RoundHalfIntegerUp(-1.5) == -1
  *          RoundHalfIntegerUp( 2.5) ==  3
  *  \endcode
- * 
+ *
  *  The behavior of overflow is undefined due to numerous implementations.
- * 
+ *
  *  \warning The argument absolute value must be less than
  *  NumbericTraits<TReturn>::max()/2 for RoundHalfIntegerUp to be
- *  guaranteed to work. 
- * 
+ *  guaranteed to work.
+ *
  *  \warning We also assume that the rounding mode is not changed from
  *  the default one (or at least that it is always restored to the
- *  default one). 
+ *  default one).
  */
 itkTemplateFloatingToIntegerMacro(RoundHalfIntegerUp);
 
 /** \brief Round towards nearest integer (This is a synonym for RoundHalfIntegerUp)
- * 
+ *
  *  \tparam TReturn must be an interger type
  *  \tparam TInput must be float or double
- * 
+ *
  *  \sa RoundHalfIntegerUp<TReturn, TInput>()
  */
-template <typename TReturn, typename TInput>
-inline TReturn Round(TInput x) { return RoundHalfIntegerUp<TReturn,TInput>(x); }
+template< typename TReturn, typename TInput >
+inline TReturn Round(TInput x) { return RoundHalfIntegerUp< TReturn, TInput >(x); }
 
 /** \brief Round towards minus infinity
- * 
+ *
  *  The behavior of overflow is undefined due to numerous implementations.
- * 
+ *
  *  \warning argument absolute value must be less than
  *  NumbericTraits<TReturn>::max()/2 for vnl_math_floor to be
- *  guaranteed to work. 
- * 
+ *  guaranteed to work.
+ *
  *  \warning We also assume that the rounding mode is not changed from
  *  the default one (or at least that it is always restored to the
- *  default one). 
+ *  default one).
  */
 itkTemplateFloatingToIntegerMacro(Floor);
 
 /** \brief Round towards plus infinity
- * 
+ *
  *  The behavior of overflow is undefined due to numerous implementations.
- * 
+ *
  *  \warning argument absolute value must be less than INT_MAX/2
  *  for vnl_math_ceil to be guaranteed to work.
  *  \warning We also assume that the rounding mode is not changed from
@@ -171,44 +167,40 @@ itkTemplateFloatingToIntegerMacro(Floor);
  */
 itkTemplateFloatingToIntegerMacro(Ceil);
 
-
 #undef  itkTemplateFloatingToIntegerMacro
 
-
-template <typename TReturn,typename TInput>
+template< typename TReturn, typename TInput >
 inline TReturn CastWithRangeCheck(TInput x)
 {
-
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkConceptMacro( OnlyDefinedForIntegerTypes1, (itk::Concept::IsInteger<TReturn>) );
-  itkConceptMacro( OnlyDefinedForIntegerTypes2, (itk::Concept::IsInteger<TInput>) );
+  itkConceptMacro( OnlyDefinedForIntegerTypes1, ( itk::Concept::IsInteger< TReturn > ) );
+  itkConceptMacro( OnlyDefinedForIntegerTypes2, ( itk::Concept::IsInteger< TInput > ) );
 #endif // ITK_USE_CONCEPT_CHECKING
 
-  TReturn ret = static_cast<TReturn>(x);
-  if ( sizeof (TReturn) > sizeof(TInput) && 
-       !( !itk::NumericTraits<TReturn>::is_signed &&  itk::NumericTraits<TInput>::is_signed ) )
-    { 
+  TReturn ret = static_cast< TReturn >( x );
+  if ( sizeof( TReturn ) > sizeof( TInput )
+       && !( !itk::NumericTraits< TReturn >::is_signed &&  itk::NumericTraits< TInput >::is_signed ) )
+    {
     // if the output type is bigger and we are not converting a signed
     // interger to an unsigned interger then we have no problems
     return ret;
     }
-  else if ( sizeof (TReturn) >= sizeof(TInput) )
+  else if ( sizeof( TReturn ) >= sizeof( TInput ) )
     {
-    if ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) )
-     {
-     itk::RangeError _e(__FILE__, __LINE__);
-     throw _e;
-     }
+    if ( itk::NumericTraits< TInput >::IsPositive(x) != itk::NumericTraits< TReturn >::IsPositive(ret) )
+      {
+      itk::RangeError _e(__FILE__, __LINE__);
+      throw _e;
+      }
     }
-  else if ( static_cast<TInput>(ret) != x ||
-            ( itk::NumericTraits<TInput>::IsPositive(x) != itk::NumericTraits<TReturn>::IsPositive(ret) ) )
+  else if ( static_cast< TInput >( ret ) != x
+            || ( itk::NumericTraits< TInput >::IsPositive(x) != itk::NumericTraits< TReturn >::IsPositive(ret) ) )
     {
     itk::RangeError _e(__FILE__, __LINE__);
     throw _e;
     }
   return ret;
 }
-
 } // end namespace Math
 } // end namespace itk
 #endif // end of itkMath.h

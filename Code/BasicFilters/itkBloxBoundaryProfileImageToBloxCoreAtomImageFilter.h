@@ -31,26 +31,25 @@
 
 namespace itk
 {
-
 /** \class BloxBoundaryProfileImageToBloxCoreAtomImageFilter
  * \brief Converts a blox boundary profile image to an image of core atoms.
  */
 template< typename TInputImage, typename TOutputImage, typename TSourceImage >
-class ITK_EXPORT BloxBoundaryProfileImageToBloxCoreAtomImageFilter :
-public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_EXPORT BloxBoundaryProfileImageToBloxCoreAtomImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef BloxBoundaryProfileImageToBloxCoreAtomImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>     Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef ImageToImageFilter< TInputImage, TOutputImage >   Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BloxBoundaryProfileImageToBloxCoreAtomImageFilter, ImageToImageFilter );
+  itkTypeMacro(BloxBoundaryProfileImageToBloxCoreAtomImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
@@ -58,42 +57,42 @@ public:
   /** Typedefs */
   typedef TInputImage                           InputImageType;
   typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType; 
-  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType    OutputImagePixelType; 
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
   typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
   typedef typename OutputImageType::IndexType    OutputImageIndexType;
 
   typedef TSourceImage                           SourceImageType;
   typedef typename SourceImageType::Pointer      SourceImagePointer;
-  typedef typename SourceImageType::RegionType   SourceImageRegionType; 
-  typedef typename SourceImageType::PixelType    SourceImagePixelType; 
+  typedef typename SourceImageType::RegionType   SourceImageRegionType;
+  typedef typename SourceImageType::PixelType    SourceImagePixelType;
   typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
   typedef typename SourceImageType::IndexType    SourceImageIndexType;
 
   /** Image size typedef */
-  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
+  typedef Size< itkGetStaticConstMacro(NDimensions) > SizeType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
+  typedef Point< double, itkGetStaticConstMacro(NDimensions) > PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, itkGetStaticConstMacro(NDimensions)> GradientType;
+  typedef CovariantVector< double, itkGetStaticConstMacro(NDimensions) > GradientType;
 
   /** Walk the input image, find core atoms, store them.  */
   void FindCoreAtoms();
 
   /** Find core atoms given a specific boundary point. */
-  typedef BloxBoundaryProfileItem<itkGetStaticConstMacro(NDimensions)> BloxProfileItemType;
-  void FindCoreAtomsAtBoundaryPoint(BloxProfileItemType* pItem);
+  typedef BloxBoundaryProfileItem< itkGetStaticConstMacro(NDimensions) > BloxProfileItemType;
+  void FindCoreAtomsAtBoundaryPoint(BloxProfileItemType *pItem);
 
   /** Gets and sets for member variables. */
   itkSetMacro(DistanceMin, double);
@@ -105,26 +104,28 @@ public:
   void GenerateInputRequestedRegion();
 
   /** Set the two input images */
-  void SetInput1(const SourceImageType * image1);
-  void SetInput2(const InputImageType * image2);
+  void SetInput1(const SourceImageType *image1);
+
+  void SetInput2(const InputImageType *image2);
 
 protected:
   BloxBoundaryProfileImageToBloxCoreAtomImageFilter();
-  virtual ~BloxBoundaryProfileImageToBloxCoreAtomImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~BloxBoundaryProfileImageToBloxCoreAtomImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryPointImage. */
   void GenerateData();
 
 private:
-  BloxBoundaryProfileImageToBloxCoreAtomImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  //purposely not implemented
+  BloxBoundaryProfileImageToBloxCoreAtomImageFilter(const Self &);
+  void operator=(const Self &);
 
   /** Pointers to input and output images */
   InputImageConstPointer  m_BoundaryProfileImagePtr;
   OutputImagePointer      m_OutputPtr;
   SourceImageConstPointer m_SourceImagePtr;
-  
+
   /** Parameters used to establish conic shell iterator regions.
    * See the documentation for itkConicShellInteriorExteriorSpatialFunction
    * for how these affect the iterator. */
@@ -137,7 +138,6 @@ private:
   bool         m_CreateCoreAtom;
   int          m_CoreAtomsCreated;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

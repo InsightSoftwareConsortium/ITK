@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,12 +30,12 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
+ *
  * \ingroup IntensityImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT VotingBinaryImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT VotingBinaryImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -49,17 +49,17 @@ public:
   typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef VotingBinaryImageFilter                              Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  typedef VotingBinaryImageFilter                               Self;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VotingBinaryImageFilter, ImageToImageFilter);
-  
+
   /** Image typedef support. */
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
@@ -74,17 +74,17 @@ public:
 
   /** Get the radius of the neighborhood used to compute the median */
   itkGetConstReferenceMacro(Radius, InputSizeType);
-  
-  /** Set the value associated with the Foreground (or the object) on 
+
+  /** Set the value associated with the Foreground (or the object) on
       the binary input image and the Background . */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkSetMacro(ForegroundValue, InputPixelType);
 
-  /** Get the value associated with the Foreground (or the object) on the 
+  /** Get the value associated with the Foreground (or the object) on the
       binary input image and the Background . */
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
- 
+
   /** Birth threshold. Pixels that are OFF will turn ON when the number of
    * neighbors ON is larger than the value defined in this threshold. */
   itkGetConstReferenceMacro(BirthThreshold, unsigned int);
@@ -101,27 +101,27 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputPixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputPixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputPixelType, OutputPixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputPixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputPixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputPixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VotingBinaryImageFilter();
   virtual ~VotingBinaryImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** VotingBinaryImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -133,22 +133,21 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  VotingBinaryImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VotingBinaryImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   InputSizeType m_Radius;
 
-  InputPixelType     m_ForegroundValue;
-  InputPixelType     m_BackgroundValue;
+  InputPixelType m_ForegroundValue;
+  InputPixelType m_BackgroundValue;
 
-  unsigned int       m_BirthThreshold;
-  unsigned int       m_SurvivalThreshold;
+  unsigned int m_BirthThreshold;
+  unsigned int m_SurvivalThreshold;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

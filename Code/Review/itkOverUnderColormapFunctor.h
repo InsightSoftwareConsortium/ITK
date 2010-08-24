@@ -19,16 +19,16 @@
 
 #include "itkColormapFunctor.h"
 
-namespace itk {
-
-namespace Functor {
-
+namespace itk
+{
+namespace Functor
+{
 /**
  * \class OverUnderColormapFunctor
  * \brief Function object which maps a scalar value into an RGB colormap value.
  *
  * \author Nicholas Tustison, Hui Zhang, Gaetan Lehmann, Paul Yushkevich and James C. Gee
- * 
+ *
  * This code was contributed in the Insight Journal paper:
  *
  * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"
@@ -37,37 +37,33 @@ namespace Functor {
  *
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT OverUnderColormapFunctor
-: public ColormapFunctor<TScalar, TRGBPixel>
+class ITK_EXPORT OverUnderColormapFunctor:
+  public ColormapFunctor< TScalar, TRGBPixel >
 {
 public:
 
-  typedef OverUnderColormapFunctor               Self;
-  typedef ColormapFunctor<TScalar, TRGBPixel>    Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  typedef OverUnderColormapFunctor              Self;
+  typedef ColormapFunctor< TScalar, TRGBPixel > Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  typedef typename Superclass::RGBPixelType      RGBPixelType;
-  typedef typename Superclass::ScalarType        ScalarType;
-  typedef typename Superclass::RealType          RealType;
+  typedef typename Superclass::RGBPixelType RGBPixelType;
+  typedef typename Superclass::ScalarType   ScalarType;
+  typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()( const TScalar & ) const;
+  virtual RGBPixelType operator()(const TScalar &) const;
 
 protected:
-  OverUnderColormapFunctor() {};
-  ~OverUnderColormapFunctor() {};
-
+  OverUnderColormapFunctor() {}
+  ~OverUnderColormapFunctor() {}
 private:
-  OverUnderColormapFunctor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  OverUnderColormapFunctor(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 };
-
 } // end namespace functor
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

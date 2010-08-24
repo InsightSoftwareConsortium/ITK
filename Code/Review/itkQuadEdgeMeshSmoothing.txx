@@ -37,37 +37,36 @@ QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >
 
 template< class TInputMesh, class TOutputMesh >
 QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::~QuadEdgeMeshSmoothing()
-{
-}
+{}
 
 template< class TInputMesh, class TOutputMesh >
-void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::
-GenerateData()
+void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::GenerateData()
 {
   OutputMeshPointer mesh = OutputMeshType::New();
 
   OutputPointsContainerPointer temp = OutputPointsContainer::New();
+
   temp->Reserve( this->GetInput()->GetNumberOfPoints() );
 
-  OutputPointsContainerPointer points;
+  OutputPointsContainerPointer  points;
   OutputPointsContainerIterator it;
 
-  OutputPointType p;
-  OutputPointType q;
-  OutputPointType r;
+  OutputPointType  p;
+  OutputPointType  q;
+  OutputPointType  r;
   OutputVectorType v;
 
   OutputCoordType coeff;
   OutputCoordType sum_coeff;
   OutputCoordType den;
 
-  OutputQEType * qe;
-  OutputQEType * qe_it;
+  OutputQEType *qe;
+  OutputQEType *qe_it;
 
-  if( this->m_DelaunayConforming )
+  if ( this->m_DelaunayConforming )
     {
     m_InputDelaunayFilter->SetInput( this->GetInput() );
-    if( m_NumberOfIterations == 0 )
+    if ( m_NumberOfIterations == 0 )
       {
       m_InputDelaunayFilter->GraftOutput( this->GetOutput() );
       m_InputDelaunayFilter->Update();
@@ -81,7 +80,7 @@ GenerateData()
     }
   else
     {
-    if( m_NumberOfIterations == 0 )
+    if ( m_NumberOfIterations == 0 )
       {
       this->CopyInputMeshToOutputMesh();
       }
@@ -91,18 +90,18 @@ GenerateData()
       }
     }
 
-  for( unsigned int iter = 0; iter < m_NumberOfIterations; ++iter )
+  for ( unsigned int iter = 0; iter < m_NumberOfIterations; ++iter )
     {
     points = mesh->GetPoints();
 
-    for( it = points->Begin(); it != points->End(); ++it )
+    for ( it = points->Begin(); it != points->End(); ++it )
       {
       p = it.Value();
       qe = p.GetEdge();
-      if( qe != 0 )
+      if ( qe != 0 )
         {
         r = p;
-        v.Fill( 0.0 );
+        v.Fill(0.0);
         qe_it = qe;
         sum_coeff = 0.;
         do
@@ -114,29 +113,30 @@ GenerateData()
 
           v += coeff * ( q - p );
           qe_it = qe_it->GetOnext();
-          } while( qe_it != qe );
+          }
+        while ( qe_it != qe );
 
         den = 1.0 / static_cast< OutputCoordType >( sum_coeff );
         v *= den;
 
         r += m_RelaxationFactor * v;
-        r.SetEdge( qe );
-        temp->SetElement( it.Index(), r );
+        r.SetEdge(qe);
+        temp->SetElement(it.Index(), r);
         }
       else
         {
-        temp->SetElement( it.Index(), p );
+        temp->SetElement(it.Index(), p);
         }
       }
 
-    mesh->SetPoints( temp );
+    mesh->SetPoints(temp);
 
-    if( this->m_DelaunayConforming )
+    if ( this->m_DelaunayConforming )
       {
       mesh->DisconnectPipeline();
-      m_OutputDelaunayFilter->SetInput( mesh );
+      m_OutputDelaunayFilter->SetInput(mesh);
 
-      if( iter + 1 == m_NumberOfIterations )
+      if ( iter + 1 == m_NumberOfIterations )
         {
         m_OutputDelaunayFilter->GraftOutput( this->GetOutput() );
         m_OutputDelaunayFilter->Update();
@@ -149,9 +149,9 @@ GenerateData()
         }
       }
 
-    if( iter + 1 == m_NumberOfIterations )
+    if ( iter + 1 == m_NumberOfIterations )
       {
-      this->GraftOutput( mesh );
+      this->GraftOutput(mesh);
       }
     }
 }

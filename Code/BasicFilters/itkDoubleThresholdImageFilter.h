@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class DoubleThresholdImageFilter
  * \brief Binarize an input image using double thresholding.
  *
@@ -50,16 +49,16 @@ namespace itk
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT DoubleThresholdImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DoubleThresholdImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef DoubleThresholdImageFilter                   Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef DoubleThresholdImageFilter                      Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,35 +74,35 @@ public:
   typedef typename TInputImage::PixelType  InputPixelType;
   typedef typename TOutputImage::PixelType OutputPixelType;
 
-  /** Set the "outside" pixel value. The default value 
+  /** Set the "outside" pixel value. The default value
    * NumericTraits<OutputPixelType>::Zero. */
-  itkSetMacro(OutsideValue,OutputPixelType);
-  
-  /** Get the "outside" pixel value. */
-  itkGetConstMacro(OutsideValue,OutputPixelType);
+  itkSetMacro(OutsideValue, OutputPixelType);
 
-  /** Set the "inside" pixel value. The default value 
+  /** Get the "outside" pixel value. */
+  itkGetConstMacro(OutsideValue, OutputPixelType);
+
+  /** Set the "inside" pixel value. The default value
    * NumericTraits<OutputPixelType>::max() */
-  itkSetMacro(InsideValue,OutputPixelType);
-  
+  itkSetMacro(InsideValue, OutputPixelType);
+
   /** Get the "inside" pixel value. */
-  itkGetConstMacro(InsideValue,OutputPixelType);
+  itkGetConstMacro(InsideValue, OutputPixelType);
 
   /** Set the thresholds. Four thresholds should be specified.  The
    * two lower thresholds default to
    * NumericTraits<InputPixelType>::NonpositiveMin(). The two upper
    * thresholds default NumericTraits<InputPixelType>::max.
    * Threshold1 <= Threshold2 <= Threshold3 <= Threshold4. */
-  itkSetMacro( Threshold1, InputPixelType );
-  itkSetMacro( Threshold2, InputPixelType );
-  itkSetMacro( Threshold3, InputPixelType );
-  itkSetMacro( Threshold4, InputPixelType );
-                 
+  itkSetMacro(Threshold1, InputPixelType);
+  itkSetMacro(Threshold2, InputPixelType);
+  itkSetMacro(Threshold3, InputPixelType);
+  itkSetMacro(Threshold4, InputPixelType);
+
   /** Get the threshold values. */
-  itkGetConstMacro( Threshold1, InputPixelType );
-  itkGetConstMacro( Threshold2, InputPixelType );
-  itkGetConstMacro( Threshold3, InputPixelType );
-  itkGetConstMacro( Threshold4, InputPixelType );
+  itkGetConstMacro(Threshold1, InputPixelType);
+  itkGetConstMacro(Threshold2, InputPixelType);
+  itkGetConstMacro(Threshold3, InputPixelType);
+  itkGetConstMacro(Threshold4, InputPixelType);
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -117,21 +116,20 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-                  (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(InputComparableCheck,
-                  (Concept::Comparable<InputPixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-                  (Concept::OStreamWritable<InputPixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-                  (Concept::OStreamWritable<OutputPixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputPixelType > ) );
+  itkConceptMacro( InputComparableCheck,
+                   ( Concept::Comparable< InputPixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputPixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DoubleThresholdImageFilter();
   virtual ~DoubleThresholdImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** DoubleThresholdImageFilter needs all of the input. So it must
    * provide an implementation of GenerateInputRequestedRegion() */
@@ -139,30 +137,29 @@ protected:
 
   /** DoubleThresholdImageFilter produces all of the output and must
    * provide an implementation of EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
   /** Single threaded version of
    * GenerateData(). DoubleThresholdImageFilter delegates its
    * implementation to the GrayscaleGeodesicDilateImageFilter. */
   void GenerateData();
-  
+
 private:
-  DoubleThresholdImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DoubleThresholdImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
-  InputPixelType      m_Threshold1;
-  InputPixelType      m_Threshold2;
-  InputPixelType      m_Threshold3;
-  InputPixelType      m_Threshold4;
+  InputPixelType m_Threshold1;
+  InputPixelType m_Threshold2;
+  InputPixelType m_Threshold3;
+  InputPixelType m_Threshold4;
 
-  OutputPixelType     m_InsideValue;
-  OutputPixelType     m_OutsideValue;
+  OutputPixelType m_InsideValue;
+  OutputPixelType m_OutsideValue;
 
-  unsigned long       m_NumberOfIterationsUsed;
+  unsigned long m_NumberOfIterationsUsed;
 
-  bool                m_FullyConnected;
+  bool m_FullyConnected;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

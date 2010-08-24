@@ -19,29 +19,27 @@
 #include "itkJPEG2000ImageIO.h"
 #include "itkVersion.h"
 
-
 namespace itk
 {
 JPEG2000ImageIOFactory::JPEG2000ImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkJPEG2000ImageIO",
-                         "JPEG2000 Image IO",
-                         1,
-                         CreateObjectFunction<JPEG2000ImageIO>::New());
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkJPEG2000ImageIO",
+                          "JPEG2000 Image IO",
+                          1,
+                          CreateObjectFunction< JPEG2000ImageIO >::New() );
 }
 
 JPEG2000ImageIOFactory::~JPEG2000ImageIOFactory()
-{
-}
+{}
 
-const char*
+const char *
 JPEG2000ImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 JPEG2000ImageIOFactory::GetDescription() const
 {
   return "JPEG2000 ImageIO Factory, allows the loading of JPEG2000 images into insight";
@@ -53,13 +51,11 @@ JPEG2000ImageIOFactory::GetDescription() const
 //
 extern "C"
 #ifdef _WIN32
-__declspec( dllexport )
+__declspec(dllexport)
 #endif
-itk::ObjectFactoryBase* itkLoad()
-{
+itk::ObjectFactoryBase * itkLoad()
+  {
   std::cout << "Calling JPEG2000ImageIO itkLoad()" << std::endl;
   return itk::JPEG2000ImageIOFactory::FactoryNew();
-}
-
-
+  }
 } // end namespace itk

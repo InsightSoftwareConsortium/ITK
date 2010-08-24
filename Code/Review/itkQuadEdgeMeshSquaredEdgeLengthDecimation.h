@@ -27,47 +27,46 @@ namespace itk
  * \brief
  */
 template< class TInput, class TOutput, class TCriterion >
-class QuadEdgeMeshSquaredEdgeLengthDecimation :
+class QuadEdgeMeshSquaredEdgeLengthDecimation:
   public QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >
 {
 public:
-  typedef QuadEdgeMeshSquaredEdgeLengthDecimation         Self;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  typedef QuadEdgeMeshEdgeMergeDecimationFilter< 
+  typedef QuadEdgeMeshSquaredEdgeLengthDecimation Self;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
+  typedef QuadEdgeMeshEdgeMergeDecimationFilter<
     TInput, TOutput, TCriterion >                         Superclass;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuadEdgeMeshSquaredEdgeLengthDecimation, QuadEdgeMeshEdgeMergeDecimationFilter );
+  itkTypeMacro(QuadEdgeMeshSquaredEdgeLengthDecimation, QuadEdgeMeshEdgeMergeDecimationFilter);
 
   /** New macro for creation of through a Smart Pointer   */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  typedef TInput                                            InputMeshType;
-  typedef typename InputMeshType::Pointer                   InputMeshPointer;
+  typedef TInput                          InputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
 
-  typedef TOutput                                           OutputMeshType;
-  typedef typename OutputMeshType::Pointer                  OutputMeshPointer;
-  typedef typename OutputMeshType::PointIdentifier          OutputPointIdentifier;
-  typedef typename OutputMeshType::PointType                OutputPointType;
-  typedef typename OutputMeshType::QEType                   OutputQEType;
-  typedef typename OutputMeshType::EdgeCellType             OutputEdgeCellType;
-  typedef typename OutputMeshType::CellsContainerIterator   OutputCellsContainerIterator;
+  typedef TOutput                                         OutputMeshType;
+  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
+  typedef typename OutputMeshType::PointIdentifier        OutputPointIdentifier;
+  typedef typename OutputMeshType::PointType              OutputPointType;
+  typedef typename OutputMeshType::QEType                 OutputQEType;
+  typedef typename OutputMeshType::EdgeCellType           OutputEdgeCellType;
+  typedef typename OutputMeshType::CellsContainerIterator OutputCellsContainerIterator;
 
-  typedef TCriterion                                        CriterionType;
-  typedef typename CriterionType::MeasureType               MeasureType;
+  typedef TCriterion                          CriterionType;
+  typedef typename CriterionType::MeasureType MeasureType;
 
-  typedef typename Superclass::PriorityType                 PriorityType;
-  typedef typename Superclass::PriorityQueueItemType        PriorityQueueItemType;
-  typedef typename Superclass::PriorityQueueType            PriorityQueueType;
-  typedef typename Superclass::PriorityQueuePointer         PriorityQueuePointer;
+  typedef typename Superclass::PriorityType          PriorityType;
+  typedef typename Superclass::PriorityQueueItemType PriorityQueueItemType;
+  typedef typename Superclass::PriorityQueueType     PriorityQueueType;
+  typedef typename Superclass::PriorityQueuePointer  PriorityQueuePointer;
 
-  typedef typename Superclass::QueueMapType                 QueueMapType;
-  typedef typename Superclass::QueueMapIterator             QueueMapIterator;
+  typedef typename Superclass::QueueMapType     QueueMapType;
+  typedef typename Superclass::QueueMapIterator QueueMapIterator;
 
-  typedef typename Superclass::OperatorType                 OperatorType;
-  typedef typename Superclass::OperatorPointer              OperatorPointer;
-
+  typedef typename Superclass::OperatorType    OperatorType;
+  typedef typename Superclass::OperatorPointer OperatorPointer;
 protected:
 
   QuadEdgeMeshSquaredEdgeLengthDecimation();
@@ -78,32 +77,30 @@ protected:
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
-  inline MeasureType MeasureEdge( OutputQEType* iEdge )
-    {
+  inline MeasureType MeasureEdge(OutputQEType *iEdge)
+  {
     OutputMeshPointer output = this->GetOutput();
 
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
 
-    OutputPointType org = output->GetPoint( id_org );
-    OutputPointType dest = output->GetPoint( id_dest );
+    OutputPointType org = output->GetPoint(id_org);
+    OutputPointType dest = output->GetPoint(id_dest);
 
-    return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo( dest ) );
-    }
+    return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo(dest) );
+  }
 
   /**
    * \brief
    * \param[in]
    * \return
    */
-  OutputPointType Relocate( OutputQEType* iEdge );
+  OutputPointType Relocate(OutputQEType *iEdge);
 
 private:
-  QuadEdgeMeshSquaredEdgeLengthDecimation( const Self& );
-  void operator = ( const Self& );
-
+  QuadEdgeMeshSquaredEdgeLengthDecimation(const Self &);
+  void operator=(const Self &);
 };
-
 }
 
 #include "itkQuadEdgeMeshSquaredEdgeLengthDecimation.txx"

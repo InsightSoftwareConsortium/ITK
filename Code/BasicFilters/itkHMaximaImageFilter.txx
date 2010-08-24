@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,10 +25,10 @@
 #include "itkProgressAccumulator.h"
 #include "itkReconstructionByDilationImageFilter.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
-HMaximaImageFilter<TInputImage, TOutputImage>
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+HMaximaImageFilter< TInputImage, TOutputImage >
 ::HMaximaImageFilter()
 {
   m_Height = 2;
@@ -36,70 +36,68 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   m_FullyConnected = false;
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-HMaximaImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+HMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
+  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  if ( input )
     {
     input->SetRequestedRegion( input->GetLargestPossibleRegion() );
     }
 }
 
-
-template <class TInputImage, class TOutputImage>
-void 
-HMaximaImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+HMaximaImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-HMaximaImageFilter<TInputImage, TOutputImage>
+HMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
-  
+
   // construct a marker image to manipulate using reconstruction by
   // dilation. the marker image is the input image minus the height
   // parameter.
-  typedef ShiftScaleImageFilter<TInputImage, TInputImage> ShiftFilterType;
+  typedef ShiftScaleImageFilter< TInputImage, TInputImage > ShiftFilterType;
   typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
   shift->SetInput( this->GetInput() );
-  shift->SetShift( -1.0 * static_cast<typename ShiftFilterType::RealType>(m_Height) );
+  shift->SetShift( -1.0 * static_cast< typename ShiftFilterType::RealType >( m_Height ) );
 
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
-    dilate
-    = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
+  typename ReconstructionByDilationImageFilter< TInputImage, TInputImage >::Pointer
+  dilate =
+    ReconstructionByDilationImageFilter< TInputImage, TInputImage >::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter(dilate,1.0f);
+  progress->RegisterInternalFilter(dilate, 1.0f);
 
   // set up the dilate filter
   //dilate->RunOneIterationOff();             // run to convergence
   dilate->SetMarkerImage( shift->GetOutput() );
   dilate->SetMaskImage( this->GetInput() );
-  dilate->SetFullyConnected( m_FullyConnected );
+  dilate->SetFullyConnected(m_FullyConnected);
 
   // Must cast to the output type
-  typename CastImageFilter<TInputImage, TOutputImage>::Pointer cast
-    = CastImageFilter<TInputImage, TOutputImage>::New();
+  typename CastImageFilter< TInputImage, TOutputImage >::Pointer cast =
+    CastImageFilter< TInputImage, TOutputImage >::New();
   cast->SetInput( dilate->GetOutput() );
   cast->InPlaceOn();
 
@@ -116,21 +114,19 @@ HMaximaImageFilter<TInputImage, TOutputImage>
   this->GraftOutput( cast->GetOutput() );
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-HMaximaImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+HMaximaImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Height of local maxima (contrast): "
-     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Height)
+     << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Height )
      << std::endl;
   os << indent << "Number of iterations used to produce current output: "
      << m_NumberOfIterationsUsed << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
-  
-}// end namespace itk
+} // end namespace itk
 #endif

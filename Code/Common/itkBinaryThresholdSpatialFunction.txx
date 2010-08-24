@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,50 +21,45 @@
 
 namespace itk
 {
-
-template <typename TFunction>
-BinaryThresholdSpatialFunction<TFunction>
+template< typename TFunction >
+BinaryThresholdSpatialFunction< TFunction >
 ::BinaryThresholdSpatialFunction()
 {
-  m_LowerThreshold = NumericTraits<FunctionOutputType>::NonpositiveMin();
-  m_UpperThreshold = NumericTraits<FunctionOutputType>::max();
+  m_LowerThreshold = NumericTraits< FunctionOutputType >::NonpositiveMin();
+  m_UpperThreshold = NumericTraits< FunctionOutputType >::max();
   m_Function = NULL;
-
 }
 
-template <typename TFunction>
-BinaryThresholdSpatialFunction<TFunction>
+template< typename TFunction >
+BinaryThresholdSpatialFunction< TFunction >
 ::~BinaryThresholdSpatialFunction()
-{
+{}
 
-}
-
-template <typename TFunction>
+template< typename TFunction >
 void
-BinaryThresholdSpatialFunction<TFunction>
-::PrintSelf(std::ostream& os, Indent indent) const
+BinaryThresholdSpatialFunction< TFunction >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << " m_LowerThreshold: " << m_LowerThreshold << std::endl;
   os << indent << " m_UpperThreshold: " << m_UpperThreshold << std::endl;
   os << indent << " m_Function: " << m_Function.GetPointer() << std::endl;
-
 }
 
-template <typename TFunction>
-typename BinaryThresholdSpatialFunction<TFunction>
+template< typename TFunction >
+typename BinaryThresholdSpatialFunction< TFunction >
 ::OutputType
-BinaryThresholdSpatialFunction<TFunction>
-::Evaluate( const InputType& point ) const
+BinaryThresholdSpatialFunction< TFunction >
+::Evaluate(const InputType & point) const
 {
-  FunctionOutputType value = m_Function->Evaluate( point );
+  FunctionOutputType value = m_Function->Evaluate(point);
+
   if ( m_LowerThreshold <= value && value <= m_UpperThreshold )
     {
     return true;
     }
   return false;
 }
-
 } // end namespace itk
 
 #endif

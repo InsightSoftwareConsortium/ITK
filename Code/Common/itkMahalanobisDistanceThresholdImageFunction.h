@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class MahalanobisDistanceThresholdImageFunction
  * \brief Returns true if the pixel value of a vector image has a
  * Mahalanobis distance below the value specified by the threshold.
@@ -41,19 +40,19 @@ namespace itk
  * image index.
  *
  * \ingroup ImageFunctions
- * 
+ *
  * */
-template <class TInputImage, class TCoordRep = float>
-class ITK_EXPORT MahalanobisDistanceThresholdImageFunction : 
-  public ImageFunction<TInputImage,bool,TCoordRep> 
+template< class TInputImage, class TCoordRep = float >
+class ITK_EXPORT MahalanobisDistanceThresholdImageFunction:
+  public ImageFunction< TInputImage, bool, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
-  typedef MahalanobisDistanceThresholdImageFunction Self;
-  typedef ImageFunction<TInputImage,bool,TCoordRep> Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
-  
+  typedef MahalanobisDistanceThresholdImageFunction     Self;
+  typedef ImageFunction< TInputImage, bool, TCoordRep > Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MahalanobisDistanceThresholdImageFunction, ImageFunction);
 
@@ -62,12 +61,12 @@ public:
 
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
-  
+
   /** Typedef to describe the type of pixel. */
   typedef typename TInputImage::PixelType PixelType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
@@ -79,11 +78,11 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Type used to represent the Covariance matrix of the vector population */
-  typedef vnl_matrix<double> CovarianceMatrixType;
-  
+  typedef vnl_matrix< double > CovarianceMatrixType;
+
   /** Type used to represent the Mean Vector of the vector population */
-  typedef vnl_vector<double> MeanVectorType;
-  
+  typedef vnl_vector< double > MeanVectorType;
+
   /** BinaryThreshold the image at a point position
    *
    * Returns true if the image intensity at the specified point position
@@ -92,7 +91,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool Evaluate( const PointType& point ) const;
+  virtual bool Evaluate(const PointType & point) const;
 
   /** BinaryThreshold the image at a continuous index position
    *
@@ -102,8 +101,8 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtContinuousIndex( 
-                        const ContinuousIndexType & index ) const;
+  virtual bool EvaluateAtContinuousIndex(
+    const ContinuousIndexType & index) const;
 
   /** BinaryThreshold the image at an index position.
    *
@@ -113,61 +112,63 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtIndex( const IndexType & index ) const;
+  virtual bool EvaluateAtIndex(const IndexType & index) const;
 
-  /** 
+  /**
    *
    * Returns the actual value of the MahalanobisDistance at that point.
    * The point is assumed to lie within the image buffer.
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateDistance( const PointType& point ) const;
+  virtual double EvaluateDistance(const PointType & point) const;
 
-  /** 
+  /**
    *
    * Returns the actual value of the MahalanobisDistance at that Index.
    * The point is assumed to lie within the image buffer.
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual double EvaluateDistanceAtIndex( const IndexType & index ) const;
+  virtual double EvaluateDistanceAtIndex(const IndexType & index) const;
 
   /** Get the lower threshold value. */
-  itkGetConstReferenceMacro(Threshold,double);
-  itkSetMacro(Threshold,double);
+  itkGetConstReferenceMacro(Threshold, double);
+  itkSetMacro(Threshold, double);
 
   /** Method to set mean */
-  void SetMean(const MeanVectorType &mean);
+  void SetMean(const MeanVectorType & mean);
+
   const MeanVectorType & GetMean() const;
- 
+
   /**
    * Method to set covariance matrix
-   * Also, this function calculates inverse covariance and pre factor of 
+   * Also, this function calculates inverse covariance and pre factor of
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetCovariance(const CovarianceMatrixType &cov); 
+  void SetCovariance(const CovarianceMatrixType & cov);
+
   const CovarianceMatrixType & GetCovariance() const;
-  
 
 protected:
   MahalanobisDistanceThresholdImageFunction();
-  ~MahalanobisDistanceThresholdImageFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~MahalanobisDistanceThresholdImageFunction(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MahalanobisDistanceThresholdImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  MahalanobisDistanceThresholdImageFunction(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
 
-  double  m_Threshold;
+  // implemented
+
+  double m_Threshold;
 
   // This is intended only for Image of Vector pixel type.
   typedef Statistics::MahalanobisDistanceMembershipFunction<
-                                            PixelType 
-                                              >  MahalanobisDistanceFunctionType;
+    PixelType
+    >  MahalanobisDistanceFunctionType;
 
   typedef typename MahalanobisDistanceFunctionType::Pointer MahalanobisDistanceFunctionPointer;
   MahalanobisDistanceFunctionPointer m_MahalanobisDistanceMembershipFunction;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

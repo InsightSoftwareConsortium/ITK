@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class RegularizedHeavisideStepFunction
  *
  * \brief Base class of the Regularized (smoothed) Heaviside functions.
@@ -52,27 +51,27 @@ namespace itk
  *
  */
 template< class TInput = float, class TOutput = double >
-class RegularizedHeavisideStepFunction : public HeavisideStepFunctionBase< TInput, TOutput >
+class RegularizedHeavisideStepFunction:public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef RegularizedHeavisideStepFunction                Self;
-  typedef HeavisideStepFunctionBase< TInput, TOutput >    Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef RegularizedHeavisideStepFunction             Self;
+  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
-  typedef typename Superclass::InputType                  InputType;
-  typedef typename Superclass::OutputType                 OutputType;
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
 
-  typedef typename NumericTraits< InputType >::RealType            RealType;
+  typedef typename NumericTraits< InputType >::RealType RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const = 0;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative( const InputType& input ) const = 0;
+  virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
 
-  void SetEpsilon( const RealType & ieps )
-    {
+  void SetEpsilon(const RealType & ieps)
+  {
     this->m_Epsilon = ieps;
 
     if ( ieps > vnl_math::eps )
@@ -81,37 +80,35 @@ public:
       }
     else
       {
-      itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than " << vnl_math::eps );
+      itkGenericExceptionMacro("ERROR: Epsilon needs to be greater than " << vnl_math::eps);
       }
-    }
+  }
 
   RealType GetEpsilon() const
-    {
+  {
     return this->m_Epsilon;
-    }
+  }
 
   RealType GetOneOverEpsilon() const
-    {
+  {
     return this->m_OneOverEpsilon;
-    }
+  }
 
 protected:
   RegularizedHeavisideStepFunction()
-    {
+  {
     this->m_Epsilon = 1.0;
     this->m_OneOverEpsilon = 1.0;
-    }
+  }
 
   virtual ~RegularizedHeavisideStepFunction() {}
-
 private:
-  RegularizedHeavisideStepFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
+  RegularizedHeavisideStepFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
-  RealType      m_Epsilon;
-  RealType      m_OneOverEpsilon;
+  RealType m_Epsilon;
+  RealType m_OneOverEpsilon;
 };
-
 }
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,18 +20,18 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
 
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined( USE_FFTWF ) || defined( USE_FFTWD )
 #include "fftw3.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class CurvatureRegistrationFilter
  * \brief Deformably register two images using the fast curvature algorithm.
  *
- * CurvatureRegistrationFilter implements the fast (i.e., O(n log n) ) 
- * registration method described in B. Fischer and J. Modersitzki, 
- * "A unified approach to fast image registration and a new curvature 
- * based registration technique," Linear Algebra and its Applications, 
+ * CurvatureRegistrationFilter implements the fast (i.e., O(n log n) )
+ * registration method described in B. Fischer and J. Modersitzki,
+ * "A unified approach to fast image registration and a new curvature
+ * based registration technique," Linear Algebra and its Applications,
  * vol. 380, pp. 107-124, 2004.
  *
  * A deformation field is represented as a image whose pixel type is some
@@ -66,16 +66,16 @@ namespace itk {
  * In fact, they seem to be off by orders of magnitude. This may be an
  * effect of different normalization of the image forces, or this implementation
  * may be incorrect. Be aware.
- * 
+ *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
  *
- * \warning There is something sketchy going on with the DCT (see FFTW 
+ * \warning There is something sketchy going on with the DCT (see FFTW
  * documentation) regarding numerical stability of the "ordinary" DCT.
  * Also, F&M are slightly ambiguous in their use of the DCT operator. So
  * it is quite possible that the implementation of their algorithm is
  * not quite correct. Ultimately, they are saying that the curvature
- * smoother is equivalent to a special low-pass filter that is applied 
+ * smoother is equivalent to a special low-pass filter that is applied
  * to the DCT coefficients.
  *
  * \note This class was developed with funding from:
@@ -87,68 +87,67 @@ namespace itk {
  * NIAAA AA13521, PI: A. Pfefferbaum
  *
  *
- * \sa CurvatureRegistrationFunction 
+ * \sa CurvatureRegistrationFunction
  * \ingroup DeformableImageRegistration MultiThreaded
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  */
-template<class TFixedImage, class TMovingImage, class TDeformationField,
-  class TImageForceFunction =
-  MeanSquareRegistrationFunction<TFixedImage,TMovingImage,TDeformationField> >
-class ITK_EXPORT CurvatureRegistrationFilter :
-    public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                            TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField,
+          class TImageForceFunction =
+            MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDeformationField > >
+class ITK_EXPORT CurvatureRegistrationFilter:
+  public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
+                                          TDeformationField >
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvatureRegistrationFilter             Self;
-  typedef PDEDeformableRegistrationFilter<
-    TFixedImage, TMovingImage,TDeformationField>  Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef CurvatureRegistrationFilter                                                     Self;
+  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField > Superclass;
+  typedef SmartPointer< Self >                                                            Pointer;
+  typedef SmartPointer< const Self >                                                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( CurvatureRegistrationFilter, 
-                PDEDeformableRegistrationFilter );
+  itkTypeMacro(CurvatureRegistrationFilter,
+               PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  typedef typename Superclass::TimeStepType  TimeStepType;
+  typedef typename Superclass::TimeStepType TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType     FixedImageType;
-  typedef typename Superclass::FixedImagePointer  FixedImagePointer;
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension );
+  typedef typename Superclass::FixedImageType    FixedImageType;
+  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType     MovingImageType;
-  typedef typename Superclass::MovingImagePointer  MovingImagePointer;
-  
+  typedef typename Superclass::MovingImageType    MovingImageType;
+  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType 
-                                                   DeformationFieldType;
-  typedef typename Superclass::DeformationFieldPointer  
-                                                   DeformationFieldPointer;
+  typedef typename Superclass::DeformationFieldType
+  DeformationFieldType;
+  typedef typename Superclass::DeformationFieldPointer
+  DeformationFieldPointer;
 
   typedef typename TDeformationField::PixelType         DeformationFieldPixelType;
   typedef typename DeformationFieldPixelType::ValueType DeformationFieldComponentType;
-  itkStaticConstMacro(DeformationVectorDimension, unsigned int, DeformationFieldPixelType::Dimension );
+  itkStaticConstMacro(DeformationVectorDimension, unsigned int, DeformationFieldPixelType::Dimension);
 
-  #if defined(USE_FFTWD)
+  #if defined( USE_FFTWD )
   //Prefer to use double precision
   typedef double RealTypeDFT;
   #else
-    #if defined(USE_FFTWF)
-      //Allow to use single precision
+    #if defined( USE_FFTWF )
+  //Allow to use single precision
       #warning "Using single precision for FFT computations!"
-      typedef double RealTypeDFT;
+  typedef double RealTypeDFT;
     #endif
   #endif
 
-  typedef Image<RealTypeDFT,TDeformationField::ImageDimension> DeformationFieldComponentImageType;
-  typedef typename DeformationFieldComponentImageType::Pointer DeformationFieldComponentImagePointer;
+  typedef Image< RealTypeDFT, TDeformationField::ImageDimension > DeformationFieldComponentImageType;
+  typedef typename DeformationFieldComponentImageType::Pointer    DeformationFieldComponentImagePointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename Superclass::FiniteDifferenceFunctionType
@@ -156,24 +155,24 @@ public:
 
   /** CurvatureRegistrationFilterFunction type. */
   typedef TImageForceFunction RegistrationFunctionType;
-  
+
   /** Set the constraint vs. image forces weight. */
-  void SetConstraintWeight( const float w ) { m_ConstraintWeight = w; }
+  void SetConstraintWeight(const float w) { m_ConstraintWeight = w; }
 
   /** Set the time step. */
-  void SetTimeStep( const TimeStepType ts ) { m_TimeStep = ts; }
+  void SetTimeStep(const TimeStepType ts) { m_TimeStep = ts; }
 
-  /** Get the metric value. The metric value is the mean square difference 
-   * in intensity between the fixed image and transforming moving image 
-   * computed over the the overlapping region between the two images. 
-   * This is value is only available for the previous iteration and 
+  /** Get the metric value. The metric value is the mean square difference
+   * in intensity between the fixed image and transforming moving image
+   * computed over the the overlapping region between the two images.
+   * This is value is only available for the previous iteration and
    * NOT the current iteration. */
   virtual double GetMetric() const;
 
 protected:
   CurvatureRegistrationFilter();
   ~CurvatureRegistrationFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Initialize the state of filter before starting first iteration. */
   virtual void Initialize();
@@ -182,13 +181,13 @@ protected:
   virtual void ApplyUpdate(TimeStepType dt);
 
 private:
-  CurvatureRegistrationFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CurvatureRegistrationFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 
   unsigned int m_FixedImageDimensions[ImageDimension];
 
-  RealTypeDFT* m_DeformationFieldComponentImage;
-  RealTypeDFT* m_DeformationFieldComponentImageDCT;
+  RealTypeDFT *m_DeformationFieldComponentImage;
+  RealTypeDFT *m_DeformationFieldComponentImageDCT;
 
   float m_ConstraintWeight;
 
@@ -197,10 +196,8 @@ private:
 
   TimeStepType m_TimeStep;
 
-  RealTypeDFT* m_DiagonalElements[ImageDimension];
+  RealTypeDFT *m_DiagonalElements[ImageDimension];
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

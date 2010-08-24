@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,6 @@
 #include "itkMacro.h"
 namespace itk
 {
-
 /** \class PixelAccessor
  * \brief Give access to partial aspects of a type
  *
@@ -39,7 +38,7 @@ namespace itk
  * reduction in performance.
  *
  * ImageAdaptors are templated over a PixelAccessor class that
- * will define what kind of transformation is applied to the 
+ * will define what kind of transformation is applied to the
  * pixel data.  Typical uses of PixelAccessor include basic type
  * casting, (e.g. make a float image looks like a unsigned int image).
  *
@@ -49,8 +48,8 @@ namespace itk
  *
  * \ingroup ImageAdaptors
  */
-template <class TInternalType, class TExternalType >
-class ITK_EXPORT PixelAccessor  
+template< class TInternalType, class TExternalType >
+class ITK_EXPORT PixelAccessor
 {
 public:
   /** External typedef. It defines the external aspect
@@ -62,13 +61,11 @@ public:
   typedef TInternalType InternalType;
 
   inline void Set(TInternalType & output, const TExternalType & input) const
-    {output = (TInternalType) input;}
+  { output = (TInternalType)input; }
 
-  inline TExternalType Get( const TInternalType & input ) const
-    {return (TExternalType)input;}
+  inline TExternalType Get(const TInternalType & input) const
+  { return (TExternalType)input; }
 };
-  
 } // end namespace itk
-  
 
 #endif

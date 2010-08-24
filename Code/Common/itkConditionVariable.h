@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,9 +31,8 @@
 #include "itkMutexLock.h"
 #include "itkLightObject.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class ConditionVariable
  * \brief A thread synchronization object used to suspend execution until some
  * condition on shared data is met.
@@ -64,25 +63,25 @@ namespace itk {
  * http://www.cs.wustl.edu/~schmidt/win32-cv-1.html
  *
  */
-class ITKCommon_EXPORT ConditionVariable : public LightObject
+class ITKCommon_EXPORT ConditionVariable:public LightObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ConditionVariable        Self;
-  typedef LightObject              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  
+  typedef ConditionVariable          Self;
+  typedef LightObject                Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConditionVariable, LightObject);
 
   /** Suspend execution of this thread until the condition is signaled. The
    *  argument is a SimpleMutex object that must be locked prior to calling
    *  this method.  */
-  void Wait(SimpleMutexLock * mutex);
+  void Wait(SimpleMutexLock *mutex);
 
   /** Signal that the condition is true and release one waiting thread */
   void Signal();
@@ -93,20 +92,20 @@ public:
 protected:
   ConditionVariable();
   ~ConditionVariable();
-
 private:
   ConditionVariable(const Self & other);
-  const Self & operator=( const Self & );
+  const Self & operator=(const Self &);
+
 #ifdef ITK_USE_PTHREADS
   pthread_cond_t m_ConditionVariable;
   MutexType      m_Mutex;
 #else
   int m_NumberOfWaiters;                   // number of waiting threads
 #ifdef WIN32
-  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to 
+  CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to
                                            // m_NumberOfWaiters
 
-  HANDLE m_Semaphore;                      // Semaphore to queue threads 
+  HANDLE m_Semaphore;                      // Semaphore to queue threads
   HANDLE m_WaitersAreDone;                 // Auto-reset event used by the
                                            // broadcast/signal thread to
                                            // wait for all the waiting
@@ -118,7 +117,6 @@ private:
 #endif
 #endif
 };
-
 } // end namespace itk
 
 #endif

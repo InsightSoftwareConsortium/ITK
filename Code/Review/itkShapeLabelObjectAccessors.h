@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,13 +18,10 @@
 #define __itkShapeLabelObjectAccessors_h
 #include "itkLabelObjectAccessors.h"
 
-
 namespace itk
 {
-
-namespace Functor 
+namespace Functor
 {
-
 template< class TLabelObject >
 class ITK_EXPORT SizeLabelObjectAccessor
 {
@@ -32,10 +29,10 @@ public:
   typedef TLabelObject  LabelObjectType;
   typedef unsigned long AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetSize();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -45,10 +42,10 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::RegionType AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetRegion();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -58,10 +55,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetPhysicalSize();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -71,10 +68,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetRegionElongation();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -84,10 +81,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetSizeRegionRatio();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -97,10 +94,10 @@ public:
   typedef TLabelObject  LabelObjectType;
   typedef unsigned long AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetSizeOnBorder();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -110,10 +107,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetPhysicalSizeOnBorder();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -123,10 +120,10 @@ public:
   typedef TLabelObject                           LabelObjectType;
   typedef typename LabelObjectType::CentroidType AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetCentroid();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -136,10 +133,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetFeretDiameter();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -149,10 +146,10 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::VectorType AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetBinaryPrincipalMoments();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -162,10 +159,10 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::MatrixType AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetBinaryPrincipalAxes();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -175,10 +172,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetBinaryElongation();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -188,10 +185,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetPerimeter();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -201,10 +198,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetRoundness();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -214,10 +211,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetEquivalentRadius();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -227,10 +224,10 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetEquivalentPerimeter();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -240,10 +237,10 @@ public:
   typedef TLabelObject                         LabelObjectType;
   typedef typename LabelObjectType::VectorType AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetEquivalentEllipsoidSize();
-    }
+  }
 };
 
 template< class TLabelObject >
@@ -253,14 +250,12 @@ public:
   typedef TLabelObject LabelObjectType;
   typedef double       AttributeValueType;
 
-  inline AttributeValueType operator()( const LabelObjectType * labelObject ) const
-    {
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
     return labelObject->GetBinaryFlatness();
-    }
+  }
 };
-
 }
-
 } // end namespace itk
 
 #endif

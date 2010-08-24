@@ -19,16 +19,15 @@
 #include <cstring>
 #include <string.h>
 
-
 namespace itk
 {
-const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName"; 
+const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName";
 const char *const ITK_ImageFileBaseName = "ITK_ImageFileBaseName";
 const char *const ITK_VoxelUnits = "ITK_VoxelUnits";
 const char *const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
 const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
 const char *const ITK_FileNotes = "ITK_FileNotes";
-#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
+#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
 const char *const ITK_CoordinateOrientation = "ITK_CoordinateOrientation";
 #endif
 const char *const ITK_Origin = "ITK_Origin";
@@ -57,7 +56,7 @@ const char *const ROI_SCAN_ID = "ROI_SCAN_ID";
 std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 {
-  switch(pixelType)
+  switch ( pixelType )
     {
     case ITK_UCHAR:
       return "unsigned char";
@@ -98,42 +97,41 @@ std::string IOCommon
 unsigned int IOCommon
 ::ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType)
 {
-  switch (pixelType)
+  switch ( pixelType )
     {
     case ITK_CHAR:
-      return static_cast<unsigned int>( sizeof(char) );
+      return static_cast< unsigned int >( sizeof( char ) );
       break;
     case ITK_UCHAR:
-      return static_cast<unsigned int>( sizeof(unsigned char) );
+      return static_cast< unsigned int >( sizeof( unsigned char ) );
       break;
     case ITK_SHORT:
-      return static_cast<unsigned int>( sizeof(short) );
+      return static_cast< unsigned int >( sizeof( short ) );
       break;
     case ITK_USHORT:
-      return static_cast<unsigned int>( sizeof(unsigned short) );
+      return static_cast< unsigned int >( sizeof( unsigned short ) );
       break;
     case ITK_INT:
-      return static_cast<unsigned int>( sizeof(int) );
+      return static_cast< unsigned int >( sizeof( int ) );
       break;
     case ITK_UINT:
-      return static_cast<unsigned int>( sizeof(unsigned int) );
+      return static_cast< unsigned int >( sizeof( unsigned int ) );
       break;
     case ITK_LONG:
-      return static_cast<unsigned int>( sizeof(long) );
+      return static_cast< unsigned int >( sizeof( long ) );
       break;
     case ITK_ULONG:
-      return static_cast<unsigned int>( sizeof(unsigned long) );
+      return static_cast< unsigned int >( sizeof( unsigned long ) );
       break;
     case ITK_FLOAT:
-      return static_cast<unsigned int>( sizeof(float) );
+      return static_cast< unsigned int >( sizeof( float ) );
       break;
     case ITK_DOUBLE:
-      return static_cast<unsigned int>( sizeof(double) );
+      return static_cast< unsigned int >( sizeof( double ) );
       break;
     default:
-      return static_cast<unsigned int>( sizeof(char) );
+      return static_cast< unsigned int >( sizeof( char ) );
       break;
     }
 }
-
 } // namespace itk

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,27 +26,25 @@ namespace itk
 {
 LSMImageIOFactory::LSMImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkLSMImageIO",
-                         "LSM Image IO",
-                         1,
-                         CreateObjectFunction<LSMImageIO>::New());
-}
-  
-LSMImageIOFactory::~LSMImageIOFactory()
-{
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkLSMImageIO",
+                          "LSM Image IO",
+                          1,
+                          CreateObjectFunction< LSMImageIO >::New() );
 }
 
-const char* 
+LSMImageIOFactory::~LSMImageIOFactory()
+{}
+
+const char *
 LSMImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char *
 LSMImageIOFactory::GetDescription() const
 {
   return "LSM ImageIO Factory, allows the loading of LSM images into ITK";
 }
-
 } // end namespace itk

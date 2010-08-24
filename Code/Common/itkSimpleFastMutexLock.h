@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,8 +25,8 @@
 #ifdef ITK_USE_PTHREADS
 #include <pthread.h>
 #endif
- 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+
+#if defined( _WIN32 ) && !defined( ITK_USE_PTHREADS )
 #include "itkWindows.h"
 #endif
 
@@ -36,8 +36,8 @@ namespace itk
 #include <pthread.h>
 typedef pthread_mutex_t FastMutexType;
 #endif
- 
-#if defined(_WIN32) && !defined(ITK_USE_PTHREADS)
+
+#if defined( _WIN32 ) && !defined( ITK_USE_PTHREADS )
 #include <winbase.h>
 typedef CRITICAL_SECTION FastMutexType;
 #endif
@@ -50,7 +50,7 @@ typedef int FastMutexType;
 
 /** \class SimpleFastMutexLock
  * \brief Critical section locking class that can be allocated on the stack.
- * 
+ *
  * SimpleFastMutexLock is used by FastMutexLock to perform mutex locking.
  * SimpleFastMutexLock is not a subclass of Object and is designed to be
  * allocated on the stack.
@@ -63,12 +63,13 @@ class ITKCommon_EXPORT SimpleFastMutexLock
 {
 public:
   /** Standard class typedefs.  */
-  typedef SimpleFastMutexLock       Self;
-  
-  /** Constructor and destructor left public purposely because of stack allocation. */
+  typedef SimpleFastMutexLock Self;
+
+  /** Constructor and destructor left public purposely because of stack
+    allocation. */
   SimpleFastMutexLock();
   ~SimpleFastMutexLock();
-  
+
   /** Lock access. */
   void Lock() const;
 
@@ -76,8 +77,7 @@ public:
   void Unlock() const;
 
 protected:
-  mutable FastMutexType   m_FastMutexLock;
+  mutable FastMutexType m_FastMutexLock;
 };
-
-}//end itk namespace
+} //end itk namespace
 #endif

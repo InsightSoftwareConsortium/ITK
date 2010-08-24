@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,23 +25,22 @@
 #include "itkFixedArray.h"
 #include "itkProgressReporter.h"
 
-
 namespace itk
 {
-
-template <class TInputImage, class TOutputImage>
-void 
-ZeroCrossingImageFilter<TInputImage,TOutputImage>
-::GenerateInputRequestedRegion() throw(InvalidRequestedRegionError)
+template< class TInputImage, class TOutputImage >
+void
+ZeroCrossingImageFilter< TInputImage, TOutputImage >
+::GenerateInputRequestedRegion()
+throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr = 
-    const_cast<TInputImage *>( this->GetInput() );
+  typename Superclass::InputImagePointer inputPtr =
+    const_cast< TInputImage * >( this->GetInput() );
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-  
+
   if ( !inputPtr || !outputPtr )
     {
     return;
@@ -49,19 +48,19 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
 
   // Build an operator so that we can determine the kernel size
   unsigned long radius = 1;
-  
+
   // get a copy of the input requested region (should equal the output
   // requested region)
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( radius );
+  inputRequestedRegion.PadByRadius(radius);
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -70,95 +69,95 @@ ZeroCrossingImageFilter<TInputImage,TOutputImage>
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
+
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
-    
     }
 }
 
 template< class TInputImage, class TOutputImage >
 void
 ZeroCrossingImageFilter< TInputImage, TOutputImage >
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
   unsigned int i;
-  ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
-  ConstNeighborhoodIterator<TInputImage> bit;
-  ImageRegionIterator<TOutputImage> it;
-  
-  typename OutputImageType::Pointer      output = this->GetOutput();
+  ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
+
+  ConstNeighborhoodIterator< TInputImage > bit;
+  ImageRegionIterator< TOutputImage >      it;
+
+  typename OutputImageType::Pointer output = this->GetOutput();
   typename  InputImageType::ConstPointer input  = this->GetInput();
-  
+
   // Calculate iterator radius
-  Size<ImageDimension> radius;
+  Size< ImageDimension > radius;
   radius.Fill(1);
-  
+
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
-    FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::
+  FaceListType faceList;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > bC;
   faceList = bC(input, outputRegionForThread, radius);
-  
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::
-    FaceListType::iterator fit;
-  
+
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::
+  FaceListType::iterator fit;
+
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-    
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
   InputImagePixelType this_one, that, abs_this_one, abs_that;
-  InputImagePixelType zero = NumericTraits<InputImagePixelType>::Zero;
+  InputImagePixelType zero = NumericTraits< InputImagePixelType >::Zero;
 
-  FixedArray<long, 2 * ImageDimension> offset;
+  FixedArray< long, 2 *ImageDimension > offset;
 
-  bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                  input,
-                                                  *faceList.begin());
+  bit = ConstNeighborhoodIterator< InputImageType >( radius,
+                                                     input,
+                                                     *faceList.begin() );
   //Set the offset of the neighbors to the center pixel.
-  for ( i = 0; i < ImageDimension; i++)
+  for ( i = 0; i < ImageDimension; i++ )
     {
-    offset[i] = -1 * static_cast<long>( bit.GetStride(i));
-    offset[i+ImageDimension] =  bit.GetStride(i);
+    offset[i] = -1 * static_cast< long >( bit.GetStride(i) );
+    offset[i + ImageDimension] =  bit.GetStride(i);
     }
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (fit=faceList.begin(); fit != faceList.end(); ++fit)
-    { 
-    bit = ConstNeighborhoodIterator<InputImageType>(radius,
-                                                    input, *fit);
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
+    {
+    bit = ConstNeighborhoodIterator< InputImageType >(radius,
+                                                      input, *fit);
+    it = ImageRegionIterator< OutputImageType >(output, *fit);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
-    
-    const unsigned long center = bit.Size()/2;
-    while ( ! bit.IsAtEnd() )
+
+    const unsigned long center = bit.Size() / 2;
+    while ( !bit.IsAtEnd() )
       {
       this_one = bit.GetPixel(center);
       it.Set(m_BackgroundValue);
-      for( i = 0; i< ImageDimension * 2; i++)
+      for ( i = 0; i < ImageDimension * 2; i++ )
         {
         that = bit.GetPixel(center + offset[i]);
-        if( ((this_one < zero) && (that > zero))
-            || ((this_one > zero) && (that < zero)) 
-            || ((this_one == zero) && (that != zero))
-            || ((this_one != zero) && (that == zero))  )
+        if ( ( ( this_one < zero ) && ( that > zero ) )
+             || ( ( this_one > zero ) && ( that < zero ) )
+             || ( ( this_one == zero ) && ( that != zero ) )
+             || ( ( this_one != zero ) && ( that == zero ) ) )
           {
           abs_this_one =  vnl_math_abs(this_one);
           abs_that = vnl_math_abs(that);
-          if(abs_this_one < abs_that)
+          if ( abs_this_one < abs_that )
             {
             it.Set(m_ForegroundValue);
             break;
             }
-          else if(abs_this_one == abs_that && i >= ImageDimension)
+          else if ( abs_this_one == abs_that && i >= ImageDimension )
             {
             it.Set(m_ForegroundValue);
             break;
@@ -175,18 +174,17 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
 template< class TInputImage, class TOutputImage >
 void
 ZeroCrossingImageFilter< TInputImage, TOutputImage >
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "ForegroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ForegroundValue)
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ForegroundValue )
      << std::endl;
   os << indent << "BackgroundValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue)
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue )
      << std::endl;
 }
-
-}//end of itk namespace
+} //end of itk namespace
 
 #endif

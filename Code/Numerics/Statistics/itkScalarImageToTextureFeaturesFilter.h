@@ -27,9 +27,10 @@
 #include "itkScalarImageToCooccurrenceMatrixFilter.h"
 #include "itkDenseFrequencyContainer2.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ScalarImageToTextureFeaturesFilter
  *  \brief This class computes texture descriptions from an image.
  *
@@ -57,20 +58,20 @@ namespace Statistics {
  * The default is to use a dense frequency container.
  *
  * Inputs and parameters:
- * -# An image
- * -# A mask defining the region over which texture features will be
+ * -#An image
+ * -#A mask defining the region over which texture features will be
  *    calculated. (Optional)
- * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
+ * -#The pixel value that defines the "inside" of the mask. (Optional, defaults
  *    to 1 if a mask is set.)
- * -# The set of features to be calculated. These features are defined
+ * -#The set of features to be calculated. These features are defined
  *    in the GreyLevelCooccurrenceMatrixTextureCoefficientsCalculator class. (Optional,
  *    defaults to {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
  *    ClusterProminence}, as in Conners, Trivedi and Harlow.)
- * -# The number of intensity bins. (Optional, defaults to 256.)
- * -# The set of directions (offsets) to average across. (Optional, defaults to
+ * -#The number of intensity bins. (Optional, defaults to 256.)
+ * -#The set of directions (offsets) to average across. (Optional, defaults to
  *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously for ND
  *    images.)
- * -# The pixel intensity range over which the features will be calculated.
+ * -#The pixel intensity range over which the features will be calculated.
  *    (Optional, defaults to the full dynamic range of the pixel type.)
  *
  * In general, the default parameter values should be sufficient.
@@ -106,14 +107,14 @@ namespace Statistics {
 
 template< class TImageType,
           class THistogramFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_EXPORT ScalarImageToTextureFeaturesFilter : public ProcessObject
+class ITK_EXPORT ScalarImageToTextureFeaturesFilter:public ProcessObject
 {
 public:
   /** Standard typedefs */
-  typedef ScalarImageToTextureFeaturesFilter        Self;
-  typedef ProcessObject                             Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef ScalarImageToTextureFeaturesFilter Self;
+  typedef ProcessObject                      Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToTextureFeaturesFilter, ProcessObject);
@@ -121,46 +122,49 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef THistogramFrequencyContainer                FrequencyContainerType;
-  typedef TImageType                                  ImageType;
-  typedef typename ImageType::Pointer                 ImagePointer;
+  typedef THistogramFrequencyContainer FrequencyContainerType;
+  typedef TImageType                   ImageType;
+  typedef typename ImageType::Pointer  ImagePointer;
 
-  typedef typename ImageType::PixelType               PixelType;
-  typedef typename ImageType::OffsetType              OffsetType;
-  typedef VectorContainer<unsigned char, OffsetType>  OffsetVector;
-  typedef typename OffsetVector::Pointer              OffsetVectorPointer;
-  typedef typename OffsetVector::ConstPointer         OffsetVectorConstPointer;
+  typedef typename ImageType::PixelType                PixelType;
+  typedef typename ImageType::OffsetType               OffsetType;
+  typedef VectorContainer< unsigned char, OffsetType > OffsetVector;
+  typedef typename OffsetVector::Pointer               OffsetVectorPointer;
+  typedef typename OffsetVector::ConstPointer          OffsetVectorConstPointer;
 
   typedef ScalarImageToCooccurrenceMatrixFilter<
     ImageType, FrequencyContainerType >               CooccurrenceMatrixFilterType;
 
   typedef typename CooccurrenceMatrixFilterType::HistogramType
-                                                      HistogramType;
+  HistogramType;
 
   typedef HistogramToTextureFeaturesFilter< HistogramType >
-                                                      TextureFeaturesFilterType;
+  TextureFeaturesFilterType;
 
-  typedef typename TextureFeaturesFilterType::TextureFeatureName  TextureFeatureName;
-  typedef VectorContainer<unsigned char, TextureFeatureName>      FeatureNameVector;
+  typedef typename TextureFeaturesFilterType::TextureFeatureName TextureFeatureName;
+  typedef VectorContainer< unsigned char, TextureFeatureName >   FeatureNameVector;
 
-  typedef typename FeatureNameVector::Pointer         FeatureNameVectorPointer;
-  typedef typename FeatureNameVector::ConstPointer    FeatureNameVectorConstPointer;
-  typedef VectorContainer<unsigned char, double>      FeatureValueVector;
-  typedef typename FeatureValueVector::Pointer        FeatureValueVectorPointer;
+  typedef typename FeatureNameVector::Pointer      FeatureNameVectorPointer;
+  typedef typename FeatureNameVector::ConstPointer FeatureNameVectorConstPointer;
+  typedef VectorContainer< unsigned char, double > FeatureValueVector;
+  typedef typename FeatureValueVector::Pointer     FeatureValueVectorPointer;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer                   DataObjectPointer;
+  typedef DataObject::Pointer DataObjectPointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef DataObjectDecorator<FeatureValueVector>
-                                    FeatureValueVectorDataObjectType;
+  typedef DataObjectDecorator< FeatureValueVector >
+  FeatureValueVectorDataObjectType;
 
   const FeatureValueVectorDataObjectType * GetFeatureMeansOutput() const;
+
   const FeatureValueVectorDataObjectType * GetFeatureStandardDeviationsOutput() const;
 
-  /** Connects the input image for which the features are going to be computed */
-  void SetInput( const ImageType * );
-  const ImageType* GetInput() const;
+  /** Connects the input image for which the features are going to be computed
+    */
+  void SetInput(const ImageType *);
+
+  const ImageType * GetInput() const;
 
   /** Return the feature means and deviations.  */
   itkGetConstReferenceObjectMacro(FeatureMeans, FeatureValueVector);
@@ -177,16 +181,17 @@ public:
 
   /** Set number of histogram bins along each axis.
       Optional; for default value see above. */
-  void SetNumberOfBinsPerAxis( unsigned int );
+  void SetNumberOfBinsPerAxis(unsigned int);
 
   /** Set the min and max (inclusive) pixel value that will be used for
       feature calculations. Optional; for default value see above. */
-  void SetPixelValueMinMax( PixelType min, PixelType max );
+  void SetPixelValueMinMax(PixelType min, PixelType max);
 
   /** Connects the mask image for which the histogram is going to be computed.
       Optional; for default value see above. */
-  void SetMaskImage(const ImageType * );
-  const ImageType* GetMaskImage() const;
+  void SetMaskImage(const ImageType *);
+
+  const ImageType * GetMaskImage() const;
 
   /** Set the pixel value of the mask that should be considered "inside" the
       object. Optional; for default value see above. */
@@ -195,31 +200,30 @@ public:
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);
   itkBooleanMacro(FastCalculations);
-
 protected:
   ScalarImageToTextureFeaturesFilter();
-  virtual ~ScalarImageToTextureFeaturesFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~ScalarImageToTextureFeaturesFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void FastCompute();
+
   void FullCompute();
 
   /** This method causes the filter to generate its output. */
   virtual void GenerateData();
 
   /** Make a DataObject to be used for output output. */
-  virtual DataObjectPointer MakeOutput( unsigned int );
+  virtual DataObjectPointer MakeOutput(unsigned int);
 
 private:
   typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator;
 
-  FeatureValueVectorPointer         m_FeatureMeans;
-  FeatureValueVectorPointer         m_FeatureStandardDeviations;
-  FeatureNameVectorConstPointer     m_RequestedFeatures;
-  OffsetVectorConstPointer          m_Offsets;
-  bool                              m_FastCalculations;
+  FeatureValueVectorPointer     m_FeatureMeans;
+  FeatureValueVectorPointer     m_FeatureStandardDeviations;
+  FeatureNameVectorConstPointer m_RequestedFeatures;
+  OffsetVectorConstPointer      m_Offsets;
+  bool                          m_FastCalculations;
 };
-
 } // end of namespace Statistics
 } // end of namespace itk
 

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,10 +27,8 @@
 #include "itkSimpleFastMutexLock.h"
 #include "itkLogOutput.h"
 
-
 namespace itk
 {
-
 /** \class StdStreamLogOutput
  *  \brief Class StdStreamLogOutput represents a standard stream output stream.
  *  This class provides thread safety for the standard stream output stream.
@@ -42,28 +40,28 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
-class ITKCommon_EXPORT StdStreamLogOutput : public LogOutput
+class ITKCommon_EXPORT StdStreamLogOutput:public LogOutput
 {
-
 public:
 
-  typedef StdStreamLogOutput        Self;
-  typedef LogOutput                 Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef StdStreamLogOutput         Self;
+  typedef LogOutput                  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  typedef std::ostream  StreamType;
-  typedef std::ostream* StreamPointerType;
+  typedef std::ostream StreamType;
+
+  typedef std::ostream *StreamPointerType;
 
   itkTypeMacro(StdStreamLogOutput, LogOutput);
-  
+
   itkNewMacro(StdStreamLogOutput);
 
   itkGetConstMacro(Stream, StreamPointerType);
 
   /** Set a standard stream pointer */
-  void SetStream(StreamType &Stream);
-  
+  void SetStream(StreamType & Stream);
+
   /** flush a buffer */
   virtual void Flush();
 
@@ -71,10 +69,10 @@ public:
   virtual void Write(double timestamp);
 
   /** Write to a buffer */
-  virtual void Write(std::string const &content);
+  virtual void Write(std::string const & content);
 
   /** Write to a buffer */
-  virtual void Write(std::string const &content, double timestamp);
+  virtual void Write(std::string const & content, double timestamp);
 
 protected:
   /** Constructor */
@@ -83,7 +81,7 @@ protected:
   /** Destructor */
   virtual ~StdStreamLogOutput();
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
@@ -91,7 +89,6 @@ private:
 
   SimpleFastMutexLock m_Mutex;
 };
-
 }
 
 #endif //__itkStdStreamLogOutput_h

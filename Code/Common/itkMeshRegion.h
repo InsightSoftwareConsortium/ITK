@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,12 +26,11 @@
 
 namespace itk
 {
-
 /** \class MeshRegion
  * \brief A mesh region represents an unstructured region of data.
  *
  * MeshRegion is an class that represents some unstructured portion or
- * piece of a Mesh. The MeshRegion is described as piece i out of N 
+ * piece of a Mesh. The MeshRegion is described as piece i out of N
  * total pieces.
  *
  * \sa Region
@@ -39,13 +38,13 @@ namespace itk
  *
  * \ingroup MeshObjects
  */
-class ITKCommon_EXPORT MeshRegion: public Region
+class ITKCommon_EXPORT MeshRegion:public Region
 {
 public:
   /** Standard class typedefs. */
-  typedef MeshRegion              Self;
-  typedef Region                  Superclass;
-  
+  typedef MeshRegion Self;
+  typedef Region     Superclass;
+
   /** Standard part of all itk objects. */
   itkTypeMacro(MeshRegion, Region);
 
@@ -59,35 +58,35 @@ public:
 
   /** Return the region type. Meshes are described with unstructured regions. */
   virtual RegionType GetRegionType() const
-    {return Superclass::ITK_UNSTRUCTURED_REGION;}
+  { return Superclass::ITK_UNSTRUCTURED_REGION; }
 
   /** Get the number of regions. */
   unsigned long GetNumberOfRegions() const
-    { return m_NumberOfRegions; };
+  { return m_NumberOfRegions; }
 
   /** Set the number of regions. */
   void SetNumberOfRegions(unsigned long num)
-    { if ((num >= 1) && (num <= NumericTraits<unsigned long>::max()))
-      { m_NumberOfRegions = num; } }
+  {
+    if ( ( num >= 1 ) && ( num <= NumericTraits< unsigned long >::max() ) )
+              { m_NumberOfRegions = num; } }
 
   /** Get the current region. */
   unsigned long GetRegion() const
-    { return m_Region; }
+  { return m_Region; }
 
   /** Set the number of regions. */
   void SetRegion(unsigned long region)
-    { if ((region >= 1) && (region <= NumericTraits<unsigned long>::max()))
-      { m_Region = region; } }
+  {
+    if ( ( region >= 1 ) && ( region <= NumericTraits< unsigned long >::max() ) )
+              { m_Region = region; } }
 
 private:
   // The maximum number of regions possible.
-  unsigned long int    m_NumberOfRegions;
+  unsigned long int m_NumberOfRegions;
 
   // The specified region.
-  unsigned long int    m_Region;
-
+  unsigned long int m_Region;
 };
-  
 } // end namespace itk
 
 #endif

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,51 +29,49 @@
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
-::GrayscaleGrindPeakImageFilter()
-  : m_NumberOfIterationsUsed( 1 )
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
+::GrayscaleGrindPeakImageFilter():
+  m_NumberOfIterationsUsed(1)
 {
   m_FullyConnected = false;
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  
+
   // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
+  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  if ( input )
     {
     input->SetRequestedRegion( input->GetLargestPossibleRegion() );
     }
 }
 
-
-template <class TInputImage, class TOutputImage>
-void 
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
+GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
-  
+
   // construct a marker image to manipulate using reconstruction by
   // dilation. the marker image will have the same pixel values as the
   // input image on the boundary of the image and will have the
@@ -82,14 +80,14 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   //
 
   // compute the minimum pixel value in the input
-  typename MinimumMaximumImageCalculator<TInputImage>::Pointer calculator
-    = MinimumMaximumImageCalculator<TInputImage>::New();
+  typename MinimumMaximumImageCalculator< TInputImage >::Pointer calculator =
+    MinimumMaximumImageCalculator< TInputImage >::New();
   calculator->SetImage( this->GetInput() );
   calculator->ComputeMinimum();
 
   InputImagePixelType minValue;
   minValue = calculator->GetMinimum();
-  
+
   // allocate a marker image
   InputImagePointer markerPtr = InputImageType::New();
   markerPtr->SetRegions( this->GetInput()->GetRequestedRegion() );
@@ -97,16 +95,16 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   markerPtr->Allocate();
 
   // fill the marker image with the maximum value from the input
-  markerPtr->FillBuffer( minValue );
+  markerPtr->FillBuffer(minValue);
 
   // copy the borders of the input image to the marker image
   //
-  ImageRegionExclusionConstIteratorWithIndex<TInputImage>
-    inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion());
+  ImageRegionExclusionConstIteratorWithIndex< TInputImage >
+  inputBoundaryIt( this->GetInput(), this->GetInput()->GetRequestedRegion() );
   inputBoundaryIt.SetExclusionRegionToInsetRegion();
 
-  ImageRegionExclusionIteratorWithIndex<TInputImage>
-    markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
+  ImageRegionExclusionIteratorWithIndex< TInputImage >
+  markerBoundaryIt( markerPtr, this->GetInput()->GetRequestedRegion() );
   markerBoundaryIt.SetExclusionRegionToInsetRegion();
 
   // copy the boundary pixels
@@ -118,25 +116,24 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
     ++markerBoundaryIt;
     ++inputBoundaryIt;
     }
-    
-  
+
   // Delegate to a geodesic dilation filter.
   //
   //
-  typename ReconstructionByDilationImageFilter<TInputImage, TInputImage>::Pointer
-    dilate
-       = ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
+  typename ReconstructionByDilationImageFilter< TInputImage, TInputImage >::Pointer
+  dilate =
+    ReconstructionByDilationImageFilter< TInputImage, TInputImage >::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  progress->RegisterInternalFilter(dilate,1.0f);
+  progress->RegisterInternalFilter(dilate, 1.0f);
 
   // set up the dilate filter
   //dilate->RunOneIterationOff();             // run to convergence
-  dilate->SetMarkerImage( markerPtr );
+  dilate->SetMarkerImage(markerPtr);
   dilate->SetMaskImage( this->GetInput() );
-  dilate->SetFullyConnected( m_FullyConnected );
+  dilate->SetFullyConnected(m_FullyConnected);
 
   // graft our output to the dilate filter to force the proper regions
   // to be generated
@@ -149,14 +146,12 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( dilate->GetOutput() );
-
 }
 
-
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream &os, Indent indent) const
+GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -164,6 +159,5 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>
      << m_NumberOfIterationsUsed << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
-  
-}// end namespace itk
+} // end namespace itk
 #endif

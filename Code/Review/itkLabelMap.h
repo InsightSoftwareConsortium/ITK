@@ -47,23 +47,22 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \ingroup ImageObjects 
+ * \ingroup ImageObjects
  * \ingroup LabeledImageObject
  */
-template <class TLabelObject >
-class ITK_EXPORT LabelMap : public ImageBase< ::itk::GetImageDimension<TLabelObject>::ImageDimension>
+template< class TLabelObject >
+class ITK_EXPORT LabelMap:public ImageBase< ::itk::GetImageDimension< TLabelObject >::ImageDimension >
 {
 public:
   /** Standard class typedefs */
-  typedef LabelMap                                 Self;
-  typedef ImageBase< ::itk::GetImageDimension<TLabelObject>::ImageDimension>
-                                                   Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
-  typedef WeakPointer<const Self>                  ConstWeakPointer;
+  typedef LabelMap                                                              Self;
+  typedef ImageBase< ::itk::GetImageDimension< TLabelObject >::ImageDimension > Superclass;
+  typedef SmartPointer< Self >                                                  Pointer;
+  typedef SmartPointer< const Self >                                            ConstPointer;
+  typedef WeakPointer< const Self >                                             ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,8 +81,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, LabelObjectType::ImageDimension);
 
   /** Label typedef support. */
-  typedef typename LabelObjectType::LabelType  LabelType;
-  typedef LabelType                            PixelType;
+  typedef typename LabelObjectType::LabelType LabelType;
+  typedef LabelType                           PixelType;
 
   /** the LabelObject container type */
   typedef std::map< LabelType, LabelObjectPointerType > LabelObjectContainerType;
@@ -93,19 +92,20 @@ public:
   typedef std::vector< LabelObjectPointerType > LabelObjectVectorType;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
   typedef typename Superclass::OffsetType OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType  SizeType;
+  typedef typename Superclass::SizeType SizeType;
 
   /** Direction typedef support. A matrix of direction cosines. */
-  typedef typename Superclass::DirectionType  DirectionType;
+  typedef typename Superclass::DirectionType DirectionType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef typename Superclass::RegionType  RegionType;
+  /** Region typedef support. A region is used to specify a subset of an image.
+    */
+  typedef typename Superclass::RegionType RegionType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
@@ -121,20 +121,21 @@ public:
   /** Convenience methods to set the LargestPossibleRegion,
    *  BufferedRegion and RequestedRegion. Allocate must still be called.
    */
-  void SetRegions( const RegionType & region )
-    {
+  void SetRegions(const RegionType & region)
+  {
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    }
+  }
 
-  void SetRegions( const SizeType & size )
-    {
+  void SetRegions(const SizeType & size)
+  {
     RegionType region; region.SetSize(size);
+
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    }
+  }
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
@@ -150,34 +151,34 @@ public:
    * This method thorws an exception if the label doesn't exist in this image,
    * or if the label is the background one.
    */
-  LabelObjectType * GetLabelObject( const LabelType & label );
+  LabelObjectType * GetLabelObject(const LabelType & label);
 
-  const LabelObjectType * GetLabelObject( const LabelType & label ) const;
+  const LabelObjectType * GetLabelObject(const LabelType & label) const;
 
   /**
    * Return true is the image contains the label given in parameter and false
    * otherwise. If the label is the background one, true is also returned, so
    * this method may not be a good enough test before calling GetLabelObject().
    */
-  bool HasLabel( const LabelType label ) const;
-  
+  bool HasLabel(const LabelType label) const;
+
   /**
    * Return the LabelObject with at the position given in parameter.
    * This method can be useful when the labels are not consecutives, but is quite
    * inefficient.
    * This method thorws an exception if the index doesn't exist in this image.
    */
-  LabelObjectType * GetNthLabelObject( const unsigned long & pos );
+  LabelObjectType * GetNthLabelObject(const unsigned long & pos);
 
-  const LabelObjectType * GetNthLabelObject( const unsigned long & pos ) const;
+  const LabelObjectType * GetNthLabelObject(const unsigned long & pos) const;
 
   /**
    * Return the pixel value at a given index in the image. This method
    * has a worst case complexity of O(L) where L is the number of lines in the
    * image - use it with care.
    */
-  const LabelType & GetPixel( const IndexType & idx ) const;
-  
+  const LabelType & GetPixel(const IndexType & idx) const;
+
   /**
    * Set the pixel value at a given index in the image.
    * If no label object has this pixel value, a new label object is created. If
@@ -186,7 +187,7 @@ public:
    * lines in the image. However, the execution time will be quite low if the
    * pixels are set in the image in raster mode.
    */
-  void SetPixel( const IndexType & idx, const LabelType & label );
+  void SetPixel(const IndexType & idx, const LabelType & label);
 
   /**
    * Set a full line in the image. If no label object has this label in the image,
@@ -195,36 +196,36 @@ public:
    * contain several time the same pixel after have run that method.
    * This method runs in constant time.
    */
-  void SetLine( const IndexType & idx, const unsigned long & length, const LabelType & label );
+  void SetLine(const IndexType & idx, const unsigned long & length, const LabelType & label);
 
   /**
    * Return the label object at a given index. This method
    * has a worst case complexity of O(L) where L is the number of lines in the
    * image - use it with care.
    */
-  LabelObjectType * GetLabelObject( const IndexType & idx ) const;
-  
+  LabelObjectType * GetLabelObject(const IndexType & idx) const;
+
   /**
    * Add a label object to the image. If a label object already has the label,
    * it is overiden.
    */
-  void AddLabelObject( LabelObjectType * labelObject );
-  
+  void AddLabelObject(LabelObjectType *labelObject);
+
   /**
-   * Add a label object to the image. The label of the label object is 
+   * Add a label object to the image. The label of the label object is
    * ignored, and a new label is given to the label object.
    */
-  void PushLabelObject( LabelObjectType * labelObject );
-  
+  void PushLabelObject(LabelObjectType *labelObject);
+
   /**
    * Remove a label object.
    */
-  void RemoveLabelObject( LabelObjectType * labelObject );
-  
+  void RemoveLabelObject(LabelObjectType *labelObject);
+
   /**
    * Remove a label object.
    */
-  void RemoveLabel( const LabelType & label );
+  void RemoveLabel(const LabelType & label);
 
   /**
    * Remove all the labels in the image
@@ -235,13 +236,14 @@ public:
    * Return the label object container
    */
   const LabelObjectContainerType & GetLabelObjectContainer() const;
+
   LabelObjectContainerType & GetLabelObjectContainer();
 
   /**
    * Return the numbner of label objects in the image
    */
   unsigned long GetNumberOfLabelObjects() const;
-  
+
   /**
    * Return the labels of the label objects available in the label map
    */
@@ -251,22 +253,23 @@ public:
    * Return the the label objects available in the label map
    */
   LabelObjectVectorType GetLabelObjects() const;
-  
+
   /**
    * Set/Get the background label
    */
   itkGetConstMacro(BackgroundValue, LabelType);
   itkSetMacro(BackgroundValue, LabelType);
-  
+
   /**
    * Print all the objects stored in that collection - a convenient method
    * for prototyping.
    */
-  void PrintLabelObjects(std::ostream& os) const;
+  void PrintLabelObjects(std::ostream & os) const;
+
   void PrintLabelObjects() const
-    {
-    this->PrintLabelObjects( std::cerr );
-    }
+  {
+    this->PrintLabelObjects(std::cerr);
+  }
 
   /**
    * Optimize the line representation of all the lable objects referenced in the LabelMap
@@ -275,22 +278,20 @@ public:
 
 protected:
   LabelMap();
-  virtual ~LabelMap() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~LabelMap() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  LabelMap(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LabelMap(const Self &);       //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   LabelObjectContainerType m_LabelObjectContainer;
   LabelType                m_BackgroundValue;
 };
-
 } // end namespace itk
 
-
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkLabelMap.txx"
+#include "itkLabelMap.txx"
 #endif
 
 #endif

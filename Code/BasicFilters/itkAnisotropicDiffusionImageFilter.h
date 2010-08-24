@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkAnisotropicDiffusionFunction.h"
 #include "itkNumericTraits.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class AnisotropicDiffusionImageFilter
  *  This filter is the base class for a set of filters that iteratively diffuse
  *  images by solving non-linear partial differential equations based on the
@@ -36,7 +36,7 @@ namespace itk {
  *  dimensionality of the input and output are defined by subclasses.  In
  *  general, these filters expect images of real-valued types.  This means
  *  pixel types of floats, doubles, or a user-defined type with floating point
- *  accuracy and arithmetic operations.  
+ *  accuracy and arithmetic operations.
  *
  *  \par Parameters
  *  Set/GetNumberOfIterations specifies the number of iterations (time-step updates)
@@ -66,17 +66,16 @@ namespace itk {
  *  \sa CurvatureAnisotropicDiffusionImageFilter
  *  \sa VectorCurvatureAnisotropicDiffusionImageFilter
  * \ingroup ImageEnhancement */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT AnisotropicDiffusionImageFilter
-  : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT AnisotropicDiffusionImageFilter:
+  public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AnisotropicDiffusionImageFilter Self;
-  typedef DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-                                          Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef AnisotropicDiffusionImageFilter                               Self;
+  typedef DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                          Pointer;
+  typedef SmartPointer< const Self >                                    ConstPointer;
 
   /** Run-time type information. */
   itkTypeMacro(AnisotropicDiffusionImageFilter,
@@ -89,7 +88,7 @@ public:
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
@@ -115,25 +114,25 @@ public:
   itkSetMacro(ConductanceScalingParameter, double);
   itkGetConstMacro(ConductanceScalingParameter, double);
 
-  /** Supplies a fixed value for the average gradient magnitude of the image to 
-      the AnisotropicDiffusionFunction at each iteration.  The average gradient 
+  /** Supplies a fixed value for the average gradient magnitude of the image to
+      the AnisotropicDiffusionFunction at each iteration.  The average gradient
       magnitude is normally calculated over the entire image before each
       iteration and is used as a scaling factor in the calculations of change
       at a pixel.  This method is  useful in streaming applications to avoid
       block artifacts by overriding the normal gradient magnitude calculation
       (i.e. all image chunks are scaled uniformly). */
   void SetFixedAverageGradientMagnitude(double a)
-    {
-    m_FixedAverageGradientMagnitude= a;
+  {
+    m_FixedAverageGradientMagnitude = a;
     this->Modified();
     m_GradientMagnitudeIsFixed = true;
-    }
+  }
+
   itkGetConstMacro(FixedAverageGradientMagnitude, double);
-  
 protected:
   AnisotropicDiffusionImageFilter();
   ~AnisotropicDiffusionImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
@@ -143,20 +142,17 @@ protected:
   virtual void InitializeIteration();
 
   bool m_GradientMagnitudeIsFixed;
-  
 private:
-  AnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  double           m_ConductanceParameter;
-  double           m_ConductanceScalingParameter;
-  unsigned int     m_ConductanceScalingUpdateInterval;
-  double           m_FixedAverageGradientMagnitude;
+  AnisotropicDiffusionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 
-  TimeStepType     m_TimeStep;
-  
+  double       m_ConductanceParameter;
+  double       m_ConductanceScalingParameter;
+  unsigned int m_ConductanceScalingUpdateInterval;
+  double       m_FixedAverageGradientMagnitude;
+
+  TimeStepType m_TimeStep;
 };
-
 } // end namspace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,14 +27,13 @@
 
 namespace itk
 {
-  
 /** \class SymmetricEigenSystem
  * \brief wrapper of the vnl_symmetric_eigensystem algorithm
  *
  * This class is not thread-safe. If you are interested in thread-safety please
  * use the class SymmetricEigenAnalysis in Insight/Code/Common.
- * 
- * \warning THIS CLASS IS DEPRECATED AND IT IS SCHEDULED FOR BEING REMOVED 
+ *
+ * \warning THIS CLASS IS DEPRECATED AND IT IS SCHEDULED FOR BEING REMOVED
  *   FROM THE TOOLKIT IN RELEASE 2.4
  *
  * \sa SymmetricEigenAnalysis
@@ -43,17 +42,17 @@ namespace itk
  */
 
 template< class TMatrixElement, int VNumberOfRows >
-class ITK_EXPORT SymmetricEigenSystem : public Object
+class ITK_EXPORT SymmetricEigenSystem:public Object
 {
 public:
   /** Standard "Self" typedef. */
-  typedef SymmetricEigenSystem     Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  
+  typedef SymmetricEigenSystem       Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SymmetricEigenSystem, Object );
+  itkTypeMacro(SymmetricEigenSystem, Object);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,11 +77,11 @@ public:
 
   /** Set/Get the target matrix for the eigen analysis */
   itkSetObjectMacro(Matrix, MatrixType);
-  MatrixType* GetMatrix()
-    { return m_Matrix; }
+  MatrixType * GetMatrix()
+  { return m_Matrix; }
 
   /** Set/Get the absolute order flag.
-   * By setting this flag true, after the calculation of eigen vectors 
+   * By setting this flag true, after the calculation of eigen vectors
    * and values, if the absolute eigen value of eigen vector[j > i] is
    * greater that of eigen vector[i], reorder the eigen vectors so that
    * every absolute eigen values of eigen vector[j < i] is always greater than or
@@ -91,36 +90,35 @@ public:
   itkGetMacro(UseAbsoluteOrder, bool);
 
   /** returns the eigen vectors in a 2D array */
-  EigenVectorArrayType* GetEigenVectors()
-    { return &m_EigenVectors; } 
+  EigenVectorArrayType * GetEigenVectors()
+  { return &m_EigenVectors; }
 
   /** returns the eigen values in an 1D array */
-  EigenValueArrayType* GetEigenValues()
-    { return &m_EigenValues; }
+  EigenValueArrayType * GetEigenValues()
+  { return &m_EigenValues; }
 
-  /** dummy method that calls the GenerateData method to 
+  /** dummy method that calls the GenerateData method to
    * produce the eigen vectors and values. */
   void Update()
-    { this->GenerateData(); }
-
+  { this->GenerateData(); }
 protected:
   SymmetricEigenSystem();
   virtual ~SymmetricEigenSystem();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Produces the eigen vectors and values. */
   void GenerateData();
 
 private:
-  SymmetricEigenSystem(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SymmetricEigenSystem(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 
   /** the target matrix */
-  MatrixType* m_Matrix;
+  MatrixType *m_Matrix;
 
   /** eigen vectors output */
   EigenVectorArrayType m_EigenVectors;
-  
+
   /** eigen values output */
   EigenValueArrayType m_EigenValues;
 
@@ -128,7 +126,6 @@ private:
    * eigen values */
   bool m_UseAbsoluteOrder;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

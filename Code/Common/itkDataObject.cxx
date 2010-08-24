@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,44 +23,40 @@
 #include "itkSmartPointerForwardReference.txx"
 
 // Manual instantiation is necessary to prevent link errors
-template class itk::SmartPointerForwardReference<itk::ProcessObject>;
+template class itk::SmartPointerForwardReference< itk::ProcessObject >;
 
 namespace itk
 {
-  
 // after use by filter
-bool DataObject::m_GlobalReleaseDataFlag = false;
+bool DataObject:: m_GlobalReleaseDataFlag = false;
 
 DataObjectError
-::DataObjectError()
-  : ExceptionObject(), m_DataObject(0)
-{
-}
-  
-DataObjectError
-::DataObjectError(const char *file, unsigned int lineNumber)
-  : ExceptionObject(file, lineNumber), m_DataObject(0)
-{
-}
+::DataObjectError():
+  ExceptionObject(), m_DataObject(0)
+{}
 
 DataObjectError
-::DataObjectError(const std::string& file, unsigned int lineNumber)
-  : ExceptionObject(file, lineNumber), m_DataObject(0)
-{
-}  
+::DataObjectError(const char *file, unsigned int lineNumber):
+  ExceptionObject(file, lineNumber), m_DataObject(0)
+{}
 
 DataObjectError
-::DataObjectError(const DataObjectError &orig)
-  : ExceptionObject( orig )
+::DataObjectError(const std::string & file, unsigned int lineNumber):
+  ExceptionObject(file, lineNumber), m_DataObject(0)
+{}
+
+DataObjectError
+::DataObjectError(const DataObjectError & orig):
+  ExceptionObject(orig)
 {
   m_DataObject = orig.m_DataObject;
 }
 
-DataObjectError&
+DataObjectError &
 DataObjectError
-::operator=( const DataObjectError& orig)
+::operator=(const DataObjectError & orig)
 {
-  ExceptionObject::operator= (orig);
+  ExceptionObject::operator=(orig);
   m_DataObject = orig.m_DataObject;
   return *this;
 }
@@ -72,25 +68,24 @@ DataObjectError
   m_DataObject = dobj;
 }
 
-DataObject*
+DataObject *
 DataObjectError
 ::GetDataObject()
 {
   return m_DataObject;
 }
 
-
 void
 DataObjectError
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  ExceptionObject::Print( os);
-    
+  ExceptionObject::Print(os);
+
   os << indent << "Data object: ";
-  if (m_DataObject)
+  if ( m_DataObject )
     {
     os << std::endl;
-    m_DataObject->PrintSelf(os, indent.GetNextIndent());
+    m_DataObject->PrintSelf( os, indent.GetNextIndent() );
     }
   else
     {
@@ -98,50 +93,43 @@ DataObjectError
     }
 }
 
+InvalidRequestedRegionError
+::InvalidRequestedRegionError():
+  DataObjectError()
+{}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError()
-  : DataObjectError()
-{
-}
+::InvalidRequestedRegionError(const char *file, unsigned int lineNumber):
+  DataObjectError(file, lineNumber)
+{}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const char *file, unsigned int lineNumber)
-  : DataObjectError(file, lineNumber)
-{
-}
+::InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber):
+  DataObjectError(file, lineNumber)
+{}
 
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const std::string& file, unsigned int lineNumber)
-  : DataObjectError(file, lineNumber)
-{
-}  
+::InvalidRequestedRegionError(const InvalidRequestedRegionError & orig):
+  DataObjectError(orig)
+{}
 
+InvalidRequestedRegionError &
 InvalidRequestedRegionError
-::InvalidRequestedRegionError(const InvalidRequestedRegionError &orig)
-  : DataObjectError( orig )
+::operator=(const InvalidRequestedRegionError & orig)
 {
-}
-
-InvalidRequestedRegionError&
-InvalidRequestedRegionError
-::operator=( const InvalidRequestedRegionError& orig)
-{
-  DataObjectError::operator= (orig);
+  DataObjectError::operator=(orig);
   return *this;
 }
 
 void
 InvalidRequestedRegionError
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  DataObjectError::PrintSelf( os, indent );
+  DataObjectError::PrintSelf(os, indent);
 }
 
-
 //----------------------------------------------------------------------------
-DataObject::
-DataObject() : m_UpdateMTime()
+DataObject::DataObject():m_UpdateMTime()
 {
   m_Source = 0;
   m_SourceOutputIndex = 0;
@@ -157,12 +145,10 @@ DataObject() : m_UpdateMTime()
 //----------------------------------------------------------------------------
 DataObject
 ::~DataObject()
-{
-}
-
+{}
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::Initialize()
 {
@@ -172,11 +158,11 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::SetGlobalReleaseDataFlag(bool val)
 {
-  if (val == m_GlobalReleaseDataFlag)
+  if ( val == m_GlobalReleaseDataFlag )
     {
     return;
     }
@@ -184,7 +170,7 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-bool 
+bool
 DataObject
 ::GetGlobalReleaseDataFlag()
 {
@@ -192,7 +178,7 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::ReleaseData()
 {
@@ -201,7 +187,7 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-bool 
+bool
 DataObject
 ::ShouldIReleaseData() const
 {
@@ -211,14 +197,14 @@ DataObject
 //----------------------------------------------------------------------------
 // Set the process object that generates this data object.
 //
-void 
+void
 DataObject
-::DisconnectPipeline() 
+::DisconnectPipeline()
 {
-  itkDebugMacro( "disconnecting from the pipeline." );
+  itkDebugMacro("disconnecting from the pipeline.");
 
   // disconnect ourselves from the current process object
-  if (m_Source)
+  if ( m_Source )
     {
     m_Source->SetNthOutput(m_SourceOutputIndex, 0);
     }
@@ -231,18 +217,17 @@ DataObject
   // reset our PipelineMTime (there is now nothing upstream from us)
   m_PipelineMTime = 0;
 
-  this->Modified(); 
+  this->Modified();
 }
-
 
 bool
 DataObject
 ::DisconnectSource(ProcessObject *arg, unsigned long idx) const
 {
-  if ( m_Source == arg && m_SourceOutputIndex == idx)
+  if ( m_Source == arg && m_SourceOutputIndex == idx )
     {
-    itkDebugMacro( "disconnecting source  " << arg
-                   << ", source output index " << idx);
+    itkDebugMacro("disconnecting source  " << arg
+                                           << ", source output index " << idx);
 
     m_Source = 0;
     m_SourceOutputIndex = 0;
@@ -251,8 +236,8 @@ DataObject
     }
   else
     {
-    itkDebugMacro( "could not disconnect source  " << arg
-                   << ", source output index " << idx);
+    itkDebugMacro("could not disconnect source  " << arg
+                                                  << ", source output index " << idx);
     return false;
     }
 }
@@ -261,10 +246,10 @@ bool
 DataObject
 ::ConnectSource(ProcessObject *arg, unsigned long idx) const
 {
-  if ( m_Source != arg || m_SourceOutputIndex != idx)
+  if ( m_Source != arg || m_SourceOutputIndex != idx )
     {
-    itkDebugMacro( "connecting source  " << arg
-                   << ", source output index " << idx);
+    itkDebugMacro("connecting source  " << arg
+                                        << ", source output index " << idx);
 
     m_Source = arg;
     m_SourceOutputIndex = idx;
@@ -273,21 +258,20 @@ DataObject
     }
   else
     {
-    itkDebugMacro( "could not connect source  " << arg
-                   << ", source output index " << idx);
+    itkDebugMacro("could not connect source  " << arg
+                                               << ", source output index " << idx);
 
     return false;
     }
 }
 
-
 //----------------------------------------------------------------------------
 
-SmartPointerForwardReference<ProcessObject>
+SmartPointerForwardReference< ProcessObject >
 DataObject
 ::GetSource() const
 {
-  itkDebugMacro("returning Source address " << m_Source.GetPointer() );
+  itkDebugMacro( "returning Source address " << m_Source.GetPointer() );
   return m_Source.GetPointer();
 }
 
@@ -295,17 +279,16 @@ unsigned int
 DataObject
 ::GetSourceOutputIndex() const
 {
-  itkDebugMacro("returning Source index " << m_SourceOutputIndex );
+  itkDebugMacro("returning Source index " << m_SourceOutputIndex);
   return m_SourceOutputIndex;
 }
 
-
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Object::PrintSelf(os,indent);
+  Object::PrintSelf(os, indent);
 
   if ( m_Source )
     {
@@ -318,14 +301,14 @@ DataObject
     os << indent << "Source output index:  0\n";
     }
 
-  os << indent << "Release Data: " 
-     << (m_ReleaseDataFlag ? "On\n" : "Off\n");
+  os << indent << "Release Data: "
+     << ( m_ReleaseDataFlag ? "On\n" : "Off\n" );
 
-  os << indent << "Data Released: " 
-     << (m_DataReleased ? "True\n" : "False\n");
-  
-  os << indent << "Global Release Data: " 
-     << (m_GlobalReleaseDataFlag ? "On\n" : "Off\n");
+  os << indent << "Data Released: "
+     << ( m_DataReleased ? "True\n" : "False\n" );
+
+  os << indent << "Global Release Data: "
+     << ( m_GlobalReleaseDataFlag ? "On\n" : "Off\n" );
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
@@ -335,7 +318,7 @@ DataObject
 //
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::Update()
 {
@@ -344,12 +327,11 @@ DataObject
   this->UpdateOutputData();
 }
 
-
 void
 DataObject
 ::UpdateOutputInformation()
 {
-  if (this->GetSource())
+  if ( this->GetSource() )
     {
     this->GetSource()->UpdateOutputInformation();
     }
@@ -366,64 +348,64 @@ void
 DataObject
 ::PropagateResetPipeline()
 {
-  if (m_Source)
+  if ( m_Source )
     {
     m_Source->PropagateResetPipeline();
     }
 }
 
-
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
-::PropagateRequestedRegion() throw (InvalidRequestedRegionError)
+::PropagateRequestedRegion()
+throw ( InvalidRequestedRegionError )
 {
   // If we need to update due to PipelineMTime, or the fact that our
-  // data was released, then propagate the update region to the source 
+  // data was released, then propagate the update region to the source
   // if there is one.
-  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
-       this->RequestedRegionIsOutsideOfTheBufferedRegion() )
+  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased
+       || this->RequestedRegionIsOutsideOfTheBufferedRegion() )
     {
     if ( m_Source )
       {
       m_Source->PropagateRequestedRegion(this);
       }
     }
-  
+
   // Check that the requested region lies within the largest possible region
-  if ( ! this->VerifyRequestedRegion() )
+  if ( !this->VerifyRequestedRegion() )
     {
     // invalid requested region, throw an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
     e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(this);
-    
+
     throw e;
     // return;
     }
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::UpdateOutputData()
 {
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the UpdateOutputData to the source
   // if there is one.
-  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased ||
-       this->RequestedRegionIsOutsideOfTheBufferedRegion() )
+  if ( m_UpdateMTime < m_PipelineMTime || m_DataReleased
+       || this->RequestedRegionIsOutsideOfTheBufferedRegion() )
     {
     if ( m_Source )
       {
       m_Source->UpdateOutputData(this);
-      } 
-    } 
+      }
+    }
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 DataObject
 ::DataHasBeenGenerated()
 {
@@ -433,11 +415,10 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-unsigned long 
+unsigned long
 DataObject
 ::GetUpdateMTime() const
 {
   return m_UpdateMTime.GetMTime();
 }
-
 } // end namespace itk

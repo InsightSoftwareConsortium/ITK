@@ -9,14 +9,14 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkCurvatureRegistrationFilter_txx
 #define __itkCurvatureRegistrationFilter_txx
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined( USE_FFTWF ) || defined( USE_FFTWD )
 #include "itkCurvatureRegistrationFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -25,24 +25,23 @@
 
 #include "vnl/vnl_math.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * Default constructor
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
 ::CurvatureRegistrationFilter()
 {
- 
   typename RegistrationFunctionType::Pointer drfp;
   drfp = RegistrationFunctionType::New();
 
-  this->SetDifferenceFunction( static_cast<FiniteDifferenceFunctionType *>(
+  this->SetDifferenceFunction( static_cast< FiniteDifferenceFunctionType * >(
                                  drfp.GetPointer() ) );
 
-  this->SetTimeStep( 100.0 );
-  this->SetConstraintWeight( 0.01 );
+  this->SetTimeStep(100.0);
+  this->SetConstraintWeight(0.01);
 
   m_PlanBackwardDCT = m_PlanForwardDCT = NULL;
   m_DeformationFieldComponentImage = m_DeformationFieldComponentImageDCT = NULL;
@@ -53,51 +52,57 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
     }
 }
 
-
 /**
  * Destructor.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
 ::~CurvatureRegistrationFilter()
 {
   if ( m_PlanForwardDCT )
-    fftw_destroy_plan( m_PlanForwardDCT );
+    {
+    fftw_destroy_plan(m_PlanForwardDCT);
+    }
   if ( m_PlanBackwardDCT )
-    fftw_destroy_plan( m_PlanBackwardDCT );
+    {
+    fftw_destroy_plan(m_PlanBackwardDCT);
+    }
 
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
+    {
     if ( m_DiagonalElements[dim] )
+      {
       delete[] m_DiagonalElements[dim];
+      }
+    }
 }
 
-
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
-::PrintSelf(std::ostream& os, Indent indent) const
-{ 
-  Superclass::PrintSelf( os, indent );
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 /**
  * Set the function state values before each iteration
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
 ::Initialize()
 {
-  RegistrationFunctionType *drfp = 
-    dynamic_cast<RegistrationFunctionType *>
-    (this->GetDifferenceFunction().GetPointer());
- 
-  if( !drfp )
+  RegistrationFunctionType *drfp =
+    dynamic_cast< RegistrationFunctionType * >
+    ( this->GetDifferenceFunction().GetPointer() );
+
+  if ( !drfp )
     {
-    itkExceptionMacro( << 
-                       "Could not cast difference function to CurvatureRegistrationFunction" );
+    itkExceptionMacro(
+      << "Could not cast difference function to CurvatureRegistrationFunction");
     }
-   
+
   drfp->SetDeformationField( this->GetDeformationField() );
 
   const size_t numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
@@ -105,32 +110,36 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   // allocate temporary storage for DCT, potentially aligned for SIMD processing
   if ( m_DeformationFieldComponentImage )
     {
-    fftw_free( m_DeformationFieldComponentImage );
+    fftw_free(m_DeformationFieldComponentImage);
     }
-  m_DeformationFieldComponentImage = static_cast<RealTypeDFT*>( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
+  m_DeformationFieldComponentImage = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
 
   if ( m_DeformationFieldComponentImageDCT )
     {
-    fftw_free( m_DeformationFieldComponentImageDCT );
+    fftw_free(m_DeformationFieldComponentImageDCT);
     }
-  m_DeformationFieldComponentImageDCT = static_cast<RealTypeDFT*>( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
-  
+  m_DeformationFieldComponentImageDCT = static_cast< RealTypeDFT * >( fftw_malloc( numberOfPixels * sizeof( RealTypeDFT ) ) );
+
   fftw_r2r_kind fftForward[ImageDimension];
   fftw_r2r_kind fftBackward[ImageDimension];
 
   int fixedImageDimensionsFFTW[ImageDimension];
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
-    const unsigned int currSize=this->GetFixedImage()->GetLargestPossibleRegion().GetSize( dim );
+    const unsigned int currSize = this->GetFixedImage()->GetLargestPossibleRegion().GetSize(dim);
     m_FixedImageDimensions[dim] = currSize;
-    fixedImageDimensionsFFTW[ImageDimension-1-dim] = static_cast<int>(currSize); // reverse order for FFTW!
+    fixedImageDimensionsFFTW[ImageDimension - 1 - dim] = static_cast< int >( currSize ); //
+                                                                                         // reverse
+                                                                                         // order
+                                                                                         // for
+                                                                                         // FFTW!
 
 #ifdef SLOW_DCT
     fftForward[dim] = FFTW_REDFT00;
     fftBackward[dim] = FFTW_REDFT00;
 #else
 /**
- * There is something funky going on numerically with DCTs, so FFTW 
+ * There is something funky going on numerically with DCTs, so FFTW
  * gives us the choice to either take a factor-2 performance hit
  * (which is what we're doing) or use the following: */
     fftForward[dim] = FFTW_REDFT01;
@@ -148,19 +157,19 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
 
   if ( m_PlanForwardDCT )
     {
-    fftw_destroy_plan( m_PlanForwardDCT );
+    fftw_destroy_plan(m_PlanForwardDCT);
     }
   m_PlanForwardDCT = fftw_plan_r2r
-    ( ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImage, 
-      m_DeformationFieldComponentImageDCT, fftForward, FFTW_MEASURE | FFTW_DESTROY_INPUT );
+                       (ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImage,
+                       m_DeformationFieldComponentImageDCT, fftForward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
 
   if ( m_PlanBackwardDCT )
     {
-    fftw_destroy_plan( m_PlanBackwardDCT );
+    fftw_destroy_plan(m_PlanBackwardDCT);
     }
   m_PlanBackwardDCT = fftw_plan_r2r
-    ( ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImageDCT, 
-      m_DeformationFieldComponentImage, fftBackward, FFTW_MEASURE | FFTW_DESTROY_INPUT ); 
+                        (ImageDimension, fixedImageDimensionsFFTW, m_DeformationFieldComponentImageDCT,
+                        m_DeformationFieldComponentImage, fftBackward, FFTW_MEASURE | FFTW_DESTROY_INPUT);
 
   // compute components of diagonal matrix elements
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -173,9 +182,9 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
     for ( unsigned int idx = 0; idx < m_FixedImageDimensions[dim]; ++idx )
       {
 #ifdef SLOW_DCT
-      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * idx / m_FixedImageDimensions[dim] );
+      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * idx / m_FixedImageDimensions[dim]);
 #else
-      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * (idx+1) / m_FixedImageDimensions[dim] );
+      m_DiagonalElements[dim][idx] = -2 + 2 * vcl_cos(vnl_math::pi * ( idx + 1 ) / m_FixedImageDimensions[dim]);
 #endif
       }
     }
@@ -184,105 +193,107 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
   Superclass::Initialize();
 }
 
-
 /*
  * Get the metric value from the difference function
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
 double
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
 ::GetMetric() const
 {
- 
-  RegistrationFunctionType *drfp = 
-    dynamic_cast<RegistrationFunctionType *>
-    (this->GetDifferenceFunction().GetPointer());
- 
-  if( !drfp )
-    {
-    itkExceptionMacro( << 
-                       "Could not cast difference function to CurvatureRegistrationFunction" );
-    }
-   
-  return drfp->GetMetric(); 
-}
+  RegistrationFunctionType *drfp =
+    dynamic_cast< RegistrationFunctionType * >
+    ( this->GetDifferenceFunction().GetPointer() );
 
+  if ( !drfp )
+    {
+    itkExceptionMacro(
+      << "Could not cast difference function to CurvatureRegistrationFunction");
+    }
+
+  return drfp->GetMetric();
+}
 
 /*
  * Get the metric value from the difference function
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction>
+template< class TFixedImage, class TMovingImage, class TDeformationField, class TImageForceFunction >
 void
-CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageForceFunction>
+CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDeformationField, TImageForceFunction >
 ::ApplyUpdate(TimeStepType dt)
 {
   // unused dt parameter
-  (void) dt;
+  (void)dt;
   DeformationFieldPointer update = this->GetUpdateBuffer();
 
-  ImageRegionConstIterator<DeformationFieldType> itInDeformation;
-  ImageRegionIterator<DeformationFieldType> itOutDeformation;
-  ImageRegionConstIterator<DeformationFieldType> itInUpdate;
-  ImageRegionConstIteratorWithIndex<FixedImageType> fixedImageIteratorWithIndex;
+  ImageRegionConstIterator< DeformationFieldType >    itInDeformation;
+  ImageRegionIterator< DeformationFieldType >         itOutDeformation;
+  ImageRegionConstIterator< DeformationFieldType >    itInUpdate;
+  ImageRegionConstIteratorWithIndex< FixedImageType > fixedImageIteratorWithIndex;
 
-  itInDeformation = ImageRegionConstIterator<DeformationFieldType>
-    ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
-  itOutDeformation = ImageRegionIterator<DeformationFieldType>
-    ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
-  itInUpdate = ImageRegionConstIterator<DeformationFieldType>
-    ( update, update->GetLargestPossibleRegion() );
-  fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex<FixedImageType>
-    ( this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion() );
+  itInDeformation = ImageRegionConstIterator< DeformationFieldType >
+                      ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
+  itOutDeformation = ImageRegionIterator< DeformationFieldType >
+                       ( this->GetDeformationField(), this->GetDeformationField()->GetLargestPossibleRegion() );
+  itInUpdate = ImageRegionConstIterator< DeformationFieldType >
+                 ( update, update->GetLargestPossibleRegion() );
+  fixedImageIteratorWithIndex = ImageRegionConstIteratorWithIndex< FixedImageType >
+                                  ( this->GetFixedImage(), this->GetFixedImage()->GetLargestPossibleRegion() );
 
   const size_t numberOfPixels = this->GetFixedImage()->GetLargestPossibleRegion().GetNumberOfPixels();
 
-  RealTypeDFT normFactorDCT = 
+  RealTypeDFT normFactorDCT =
 #ifdef SLOW_DCT
-    1.0 / (numberOfPixels-1); // norm factor for fw/bw DCT
+    1.0 / ( numberOfPixels - 1 ); // norm factor for fw/bw DCT
 #else
-  1.0 / numberOfPixels; // norm factor for fw/bw DCT
+    1.0 / numberOfPixels; // norm factor for fw/bw DCT
 #endif
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
+    {
     normFactorDCT *= 0.5;
+    }
 
   for ( unsigned int l = 0; l < DeformationVectorDimension; ++l )
     {
     // extract l-th component of deformation field.
     itInDeformation.GoToBegin();
     itInUpdate.GoToBegin();
-    for ( size_t offset1 = 0; (offset1 < numberOfPixels) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd(); ++offset1 )
+    for ( size_t offset1 = 0;
+          ( offset1 < numberOfPixels ) && !itInDeformation.IsAtEnd() && !itInUpdate.IsAtEnd();
+          ++offset1 )
       {
-      this->m_DeformationFieldComponentImage[offset1] = this->m_TimeStep * itInUpdate.Value()[l] + itInDeformation.Value()[l];
+      this->m_DeformationFieldComponentImage[offset1] = this->m_TimeStep *itInUpdate. Value()[l]
+                                                        + itInDeformation.Value()[l];
       ++itInUpdate;
       ++itInDeformation;
       }
 
     // run DFT
-    fftw_execute( this->m_PlanForwardDCT );
+    fftw_execute(this->m_PlanForwardDCT);
 
     // multiply matrix diagonal elements
     fixedImageIteratorWithIndex.GoToBegin();
     size_t offset = 0;
-    while ( ! fixedImageIteratorWithIndex.IsAtEnd() )
+    while ( !fixedImageIteratorWithIndex.IsAtEnd() )
       {
       typename TFixedImage::IndexType index = fixedImageIteratorWithIndex.GetIndex();
       RealTypeDFT d = 0;
       for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
         {
-        d += m_DiagonalElements[dim][ index[ dim ] ];
+        d += m_DiagonalElements[dim][index[dim]];
         }
-      d *= (d * this->m_TimeStep * this->m_ConstraintWeight);
+      d *= ( d * this->m_TimeStep * this->m_ConstraintWeight );
       d += 1.0;
       this->m_DeformationFieldComponentImageDCT[offset++] /= d;
       ++fixedImageIteratorWithIndex;
       }
 
     // run (inverse) DFT
-    fftw_execute( this->m_PlanBackwardDCT );
+    fftw_execute(this->m_PlanBackwardDCT);
 
     // update deformation field
     itOutDeformation.GoToBegin();
-    for ( size_t offset1 = 0; (offset1 < numberOfPixels) && ! itOutDeformation.IsAtEnd(); ++offset1 )
+    for ( size_t offset1 = 0; ( offset1 < numberOfPixels ) && !itOutDeformation.IsAtEnd(); ++offset1 )
       {
       itOutDeformation.Value()[l] = this->m_DeformationFieldComponentImage[offset1] * normFactorDCT;
       ++itOutDeformation;
@@ -291,7 +302,6 @@ CurvatureRegistrationFilter<TFixedImage,TMovingImage,TDeformationField,TImageFor
 
   this->GetDeformationField()->Modified();
 }
-
 } // end namespace itk
 
 #endif //defined(USE_FFTWF) || defined(USE_FFTWD)

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** Constructor */
 TransformFileReader
 ::TransformFileReader()
@@ -33,34 +32,31 @@ TransformFileReader
 /** Destructor */
 TransformFileReader
 ::~TransformFileReader()
-{
-}
-
+{}
 
 void TransformFileReader
 ::Update()
-{  
-  if(m_FileName == "")
+{
+  if ( m_FileName == "" )
     {
-    itkExceptionMacro ( "No file name given" );
+    itkExceptionMacro ("No file name given");
     }
-  TransformIOBase::Pointer transformIO = 
+  TransformIOBase::Pointer transformIO =
     TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
-                                      TransformIOFactory::ReadMode );
-  if(transformIO.IsNull())
+                                          TransformIOFactory::ReadMode);
+  if ( transformIO.IsNull() )
     {
-    itkExceptionMacro( "Can't Create IO object for file " <<
-                       m_FileName);
+    itkExceptionMacro("Can't Create IO object for file "
+                      << m_FileName);
     }
 
   transformIO->SetFileName(m_FileName);
   transformIO->Read();
-  for(TransformListType::iterator it =
-        transformIO->GetTransformList().begin();
-      it != transformIO->GetTransformList().end(); ++it)
+  for ( TransformListType::iterator it =
+          transformIO->GetTransformList().begin();
+        it != transformIO->GetTransformList().end(); ++it )
     {
-    this->m_TransformList.push_back(TransformPointer(*it));
+    this->m_TransformList.push_back( TransformPointer(*it) );
     }
 }
-
 } // namespace itk

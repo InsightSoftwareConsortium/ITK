@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class ShapePriorMAPCostFunction
  * \brief Represents the maximum aprior (MAP) cost function used
  * ShapePriorSegmentationLevelSetImageFilter to estimate the shape paramaeters.
@@ -32,7 +31,7 @@ namespace itk
  * Using the negative function make this cost function compatible
  * with generic optimizers which seeks the minimum of a cost function.
  *
- * This class has two template parameters, the feature image type representing the 
+ * This class has two template parameters, the feature image type representing the
  * edge potential map and the pixel type used to
  * represent the output level set in the ShapePriorSegmentationLevelSetImageFilter.
  *
@@ -45,119 +44,116 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  */
-template <class TFeatureImage, class TOutputPixel>
-class ITK_EXPORT ShapePriorMAPCostFunction : 
-          public ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel>
+template< class TFeatureImage, class TOutputPixel >
+class ITK_EXPORT ShapePriorMAPCostFunction:
+  public ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 {
 public:
   /** Standard class typedefs. */
-  typedef ShapePriorMAPCostFunction    Self;
-  typedef ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixel>
-                                       Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
+  typedef ShapePriorMAPCostFunction                                    Self;
+  typedef ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel > Superclass;
+  typedef SmartPointer< Self >                                         Pointer;
+  typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-   
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ShapePriorMAPCostFunction, ShapePriorMAPCostFunctionBase );
- 
+  itkTypeMacro(ShapePriorMAPCostFunction, ShapePriorMAPCostFunctionBase);
+
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType    ParametersType;
+  typedef typename Superclass::ParametersType ParametersType;
 
   /** Type of the feature image representing the edge potential map. */
-  typedef typename Superclass::FeatureImageType       FeatureImageType;
-  typedef typename Superclass::FeatureImagePointer    FeatureImagePointer;
+  typedef typename Superclass::FeatureImageType    FeatureImageType;
+  typedef typename Superclass::FeatureImagePointer FeatureImagePointer;
 
   /** Type of the return measure value. */
   typedef typename Superclass::MeasureType MeasureType;
 
   /** Dimension constant. */
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Type of pixel used to represent the level set. */
   typedef typename Superclass::PixelType PixelType;
 
   /** Type of node used to represent the active region around the zero set. */
-  typedef typename Superclass::NodeType  NodeType;
+  typedef typename Superclass::NodeType NodeType;
 
   /** Type of container used to store the level set nodes. */
-  typedef typename Superclass::NodeContainerType     NodeContainerType;
+  typedef typename Superclass::NodeContainerType NodeContainerType;
 
   /** Type of the shape signed distance function. */
-  typedef typename Superclass::ShapeFunctionType  ShapeFunctionType;
+  typedef typename Superclass::ShapeFunctionType ShapeFunctionType;
 
-  /** Type of the array for storing shape parameter mean and standard deivation. */
-  typedef Array<double> ArrayType;
+  /** Type of the array for storing shape parameter mean and standard deivation.
+    */
+  typedef Array< double > ArrayType;
 
   /** Set/Get the array of shape parameters mean. */
-  itkSetMacro( ShapeParameterMeans, ArrayType );
-  itkGetConstMacro( ShapeParameterMeans, ArrayType );
+  itkSetMacro(ShapeParameterMeans, ArrayType);
+  itkGetConstMacro(ShapeParameterMeans, ArrayType);
 
   /** Set/Get the array of shape parameters standard deviation. */
-  itkSetMacro( ShapeParameterStandardDeviations, ArrayType );
-  itkGetConstMacro( ShapeParameterStandardDeviations, ArrayType );
+  itkSetMacro(ShapeParameterStandardDeviations, ArrayType);
+  itkGetConstMacro(ShapeParameterStandardDeviations, ArrayType);
 
-  /** Set/Get the weights for each term. Default is a vector of all ones. 
+  /** Set/Get the weights for each term. Default is a vector of all ones.
    * The weights are applied to terms in the following order:
    * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and
    * LogPosePriorTerm. */
-  typedef FixedArray<double,4> WeightsType;
-  itkSetMacro( Weights, WeightsType );
-  itkGetConstReferenceMacro( Weights, WeightsType );  
+  typedef FixedArray< double, 4 > WeightsType;
+  itkSetMacro(Weights, WeightsType);
+  itkGetConstReferenceMacro(Weights, WeightsType);
 
-  /** Compute the inside term component of the MAP cost function. 
+  /** Compute the inside term component of the MAP cost function.
    * In particular, the method sums the number of pixels inside
-   * the current contour (defined by nodes of the active region 
+   * the current contour (defined by nodes of the active region
    * that are less than zero) which are outside the shape
    * specified by the input parameters. */
-  virtual MeasureType ComputeLogInsideTerm( const ParametersType & parameters ) const;
+  virtual MeasureType ComputeLogInsideTerm(const ParametersType & parameters) const;
 
-  /** Compute the gradient term component of the MAP cost function. 
+  /** Compute the gradient term component of the MAP cost function.
    * In particular, this method assume that ( 1 - FeatureImage ) approximates
    * a Gaussian (zero mean, unit variance) algon the normal of the evolving contour.
    * The gradient term is then given by a Laplacian of the goodness of fit of
    * the Gaussian. */
-  virtual MeasureType ComputeLogGradientTerm( const ParametersType & parameters ) const;
+  virtual MeasureType ComputeLogGradientTerm(const ParametersType & parameters) const;
 
-  /** Compute the shape prior component of the MAP cost function. 
+  /** Compute the shape prior component of the MAP cost function.
    * In particular, the method assumes that the shape parameters comes from
    * independent Gaussian distributions defined by the ShapeParameterMeans
    * and ShapeParameterVariances array. */
-  virtual MeasureType ComputeLogShapePriorTerm( const ParametersType & parameters ) const;
+  virtual MeasureType ComputeLogShapePriorTerm(const ParametersType & parameters) const;
 
-  /** Compute the pose prior component of the MAP cost function. 
+  /** Compute the pose prior component of the MAP cost function.
    * In particular, this method assumes that the pose parameters are
    * uniformly distributed and returns a constant of zero. */
-  virtual MeasureType ComputeLogPosePriorTerm( const ParametersType & parameters ) const;
+  virtual MeasureType ComputeLogPosePriorTerm(const ParametersType & parameters) const;
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize(void) throw ( ExceptionObject );
-  
+  virtual void Initialize(void)
+  throw ( ExceptionObject );
+
 protected:
   ShapePriorMAPCostFunction();
-  virtual ~ShapePriorMAPCostFunction() {};
+  virtual ~ShapePriorMAPCostFunction() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ShapePriorMAPCostFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ShapePriorMAPCostFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  ArrayType      m_ShapeParameterMeans;
-  ArrayType      m_ShapeParameterStandardDeviations;
-  WeightsType    m_Weights;
+  ArrayType   m_ShapeParameterMeans;
+  ArrayType   m_ShapeParameterStandardDeviations;
+  WeightsType m_Weights;
 
-  typename GaussianKernelFunction::Pointer  m_GaussianFunction;
-
+  typename GaussianKernelFunction::Pointer m_GaussianFunction;
 };
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShapePriorMAPCostFunction.txx"

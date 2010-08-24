@@ -27,20 +27,20 @@ namespace itk
  *
  * \brief Join the two facets which are on both sides of a given internal edge.
  */
-template < class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction :
-   public QuadEdgeMeshFunctionBase< TMesh, TQEType* >
+template< class TMesh, class TQEType >
+class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction:
+  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction      Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >     Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  
-  itkNewMacro( Self );
+  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction   Self;
+  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+
+  itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro( QuadEdgeMeshEulerOperatorJoinFacetFunction, QuadEdgeMeshFunctionBase );
+  itkTypeMacro(QuadEdgeMeshEulerOperatorJoinFacetFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
@@ -49,18 +49,17 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( QEType* e );
+  virtual OutputType Evaluate(QEType *e);
 
 protected:
-  QuadEdgeMeshEulerOperatorJoinFacetFunction(){};
-  ~QuadEdgeMeshEulerOperatorJoinFacetFunction(){};
-
+  QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
+  ~QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
 private:
-  QuadEdgeMeshEulerOperatorJoinFacetFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& );        //purposely not implemented
-
+  QuadEdgeMeshEulerOperatorJoinFacetFunction(const Self &); //purposely not
+                                                            // implemented
+  void operator=(const Self &);                             //purposely not
+                                                            // implemented
 };
-
 } // namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.txx"

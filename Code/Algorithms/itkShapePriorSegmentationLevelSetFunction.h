@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,12 +20,12 @@
 #include "itkSegmentationLevelSetFunction.h"
 #include "itkShapeSignedDistanceFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ShapePriorSegmentationLevelSetFunction
  *
  * \brief This function is used in ShapePriorSegmentationLevelSetFilter to
- * segment structures in an image based on user supplied edge potential map and 
+ * segment structures in an image based on user supplied edge potential map and
  * shape model.
  *
  * This class extends the basic LevelSetFunction with a shape prior term
@@ -36,7 +36,7 @@ namespace itk {
  * where \f$ \phi^{*} \f$ is the signed distance function from a target shape
  * and \f$ \zeta \f$ is a scalar constant.
  *
- * The target shape signed distance function is supplied through a 
+ * The target shape signed distance function is supplied through a
  * ShapeSignedDistanceFunction object.
  *
  * \sa LevelSetFunction
@@ -49,24 +49,24 @@ namespace itk {
  *
  * \ingroup FiniteDifferenceFunctions
  */
-template <class TImageType, class TFeatureImageType = TImageType>
-class ITK_EXPORT ShapePriorSegmentationLevelSetFunction
-  : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
+template< class TImageType, class TFeatureImageType = TImageType >
+class ITK_EXPORT ShapePriorSegmentationLevelSetFunction:
+  public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
   /** Standard class typedefs. */
   typedef ShapePriorSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction<TImageType,TFeatureImageType>
-                                                 Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
-  typedef TFeatureImageType                      FeatureImageType;
+  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  typedef TFeatureImageType          FeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ShapePriorSegmentationLevelSetFunction, SegmentationLevelSetFunction );
+  itkTypeMacro(ShapePriorSegmentationLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
   typedef typename Superclass::ImageType           ImageType;
@@ -86,70 +86,69 @@ public:
                       Superclass::ImageDimension);
 
   /** ShapeFunction typedef support. */
-  typedef ShapeSignedDistanceFunction<double,
-                                      itkGetStaticConstMacro(ImageDimension)> ShapeFunctionType;
-  typedef typename ShapeFunctionType::ConstPointer           ShapeFunctionPointer;
+  typedef ShapeSignedDistanceFunction< double,
+                                       itkGetStaticConstMacro(ImageDimension) > ShapeFunctionType;
+  typedef typename ShapeFunctionType::ConstPointer ShapeFunctionPointer;
 
   /** Zeta. The ShapePriorWeight scales the shape prior term values. */
-  void SetShapePriorWeight( const ScalarValueType p )
-    { m_ShapePriorWeight = p; }
+  void SetShapePriorWeight(const ScalarValueType p)
+  { m_ShapePriorWeight = p; }
   ScalarValueType GetShapePriorWeight() const
-    { return m_ShapePriorWeight; }
+  { return m_ShapePriorWeight; }
 
   /** The ShapeFunction encapsulates the signed distance to the shape used to
    * influence the evolution of the level set. */
-  void SetShapeFunction( const ShapeFunctionType * ptr )
-    { m_ShapeFunction = ptr; }
+  void SetShapeFunction(const ShapeFunctionType *ptr)
+  { m_ShapeFunction = ptr; }
   const ShapeFunctionType * GetShapeFunction() const
-    { return m_ShapeFunction; }
-
+  { return m_ShapeFunction; }
 
   /** Compute the equation value with the additional shape prior term. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                                  void *globalData,
-                                  const FloatOffsetType& = FloatOffsetType(0.0));
-  
-  /** Compute global time step from the global data structure. */
-  virtual TimeStepType ComputeGlobalTimeStep( void *globalData ) const;
+  virtual PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
+                                   void *globalData,
+                                   const FloatOffsetType & = FloatOffsetType(0.0) );
 
-  /** A global data type used to store values needed to compute the time step. */
+  /** Compute global time step from the global data structure. */
+  virtual TimeStepType ComputeGlobalTimeStep(void *globalData) const;
+
+  /** A global data type used to store values needed to compute the time step.
+    */
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
-  struct ShapePriorGlobalDataStruct : public GlobalDataStruct
-    {
+  struct ShapePriorGlobalDataStruct:public GlobalDataStruct {
     ScalarValueType m_MaxShapePriorChange;
-    };
+  };
 
   /** Returns a pointer to a global data structure for computing time step. */
-  virtual void *GetGlobalDataPointer() const
-    {
+  virtual void * GetGlobalDataPointer() const
+  {
     ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
-    ans->m_MaxAdvectionChange   = NumericTraits<ScalarValueType>::Zero;
-    ans->m_MaxPropagationChange = NumericTraits<ScalarValueType>::Zero;
-    ans->m_MaxCurvatureChange   = NumericTraits<ScalarValueType>::Zero;
-    ans->m_MaxShapePriorChange  = NumericTraits<ScalarValueType>::Zero;
-    return ans; 
-    }
+
+    ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxCurvatureChange   = NumericTraits< ScalarValueType >::Zero;
+    ans->m_MaxShapePriorChange  = NumericTraits< ScalarValueType >::Zero;
+    return ans;
+  }
 
   /** Release the global data structure. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    { delete (ShapePriorGlobalDataStruct *) GlobalData; }
-  
+  { delete (ShapePriorGlobalDataStruct *)GlobalData; }
 protected:
   ShapePriorSegmentationLevelSetFunction();
   virtual ~ShapePriorSegmentationLevelSetFunction() {}
 
-  ShapePriorSegmentationLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ShapePriorSegmentationLevelSetFunction(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
+                                                        // implemented
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
-  ShapeFunctionPointer   m_ShapeFunction;
-  ScalarValueType        m_ShapePriorWeight;
-  
+  ShapeFunctionPointer m_ShapeFunction;
+  ScalarValueType      m_ShapePriorWeight;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

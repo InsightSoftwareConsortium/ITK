@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,6 @@
 
 namespace itk
 {
-
-
 /** \class DefaultImageTraits
  *
  * \brief Default ImageTraits for any PixelType.
@@ -31,9 +29,9 @@ namespace itk
  * \sa Image
  * \ingroup ImageObjects
  */
-template <typename TPixelType,
+template< typename TPixelType,
           unsigned int VImageDimension,
-          typename TPixelContainer = ValarrayImageContainer<unsigned long, TPixelType> >
+          typename TPixelContainer = ValarrayImageContainer< unsigned long, TPixelType > >
 class DefaultImageTraits
 {
 public:
@@ -42,24 +40,23 @@ public:
 
   /** The dimension of the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  
+
   /** The container of Pixels for the image. */
   typedef TPixelContainer PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
+  typedef Index< VImageDimension > IndexType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
-  typedef Offset<VImageDimension>  OffsetType;
+  typedef Offset< VImageDimension > OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
+  typedef Size< VImageDimension > SizeType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<VImageDimension>  RegionType;
+  /** Region typedef support. A region is used to specify a subset of an image.
+    */
+  typedef ImageRegion< VImageDimension > RegionType;
 };
-
-
 } // namespace itk
 
 #endif

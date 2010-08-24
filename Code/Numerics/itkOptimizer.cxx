@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -35,7 +34,7 @@ Optimizer
 /**
  * Set scaling as an array of factors
  */
-void 
+void
 Optimizer
 ::SetScales(const ScalesType & scales)
 {
@@ -48,31 +47,31 @@ Optimizer
 /**
  * Set the initial position
  */
-void 
+void
 Optimizer
-::SetInitialPosition( const ParametersType & param )
+::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
   this->Modified();
 }
 
-
 /**
  * Set the current position
  */
-void 
+void
 Optimizer
-::SetCurrentPosition( const ParametersType &  param )
+::SetCurrentPosition(const ParametersType &  param)
 {
   m_CurrentPosition = param;
   this->Modified();
 }
 
-const std::string 
+const std::string
 Optimizer
 ::GetStopConditionDescription() const
 {
   std::ostringstream description;
+
   description << this->GetNameOfClass() << ": "
               << "Optimizer did not provide a stop condition description";
   return description.str();
@@ -83,30 +82,29 @@ Optimizer
  */
 void
 Optimizer
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "InitialPosition: "
      << m_InitialPosition << std::endl;
   os << indent << "CurrentPosition: "
      << m_CurrentPosition << std::endl;
 
-  if(m_ScalesInitialized)
+  if ( m_ScalesInitialized )
     {
     os << indent << "Scales: "
        << m_Scales << std::endl;
     }
   else
     {
-    os << indent << "Scales: not defined (default 1)" 
+    os << indent << "Scales: not defined (default 1)"
        << std::endl;
     }
 
-  os << indent << "StopConditionDescription: " 
+  os << indent << "StopConditionDescription: "
      << this->GetStopConditionDescription() << std::endl;
 }
-
 } // end namespace itk
 
 #endif

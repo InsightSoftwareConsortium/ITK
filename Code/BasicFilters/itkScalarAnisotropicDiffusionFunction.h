@@ -9,19 +9,18 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkScalarAnisotropicDiffusionFunction_h
 #define __itkScalarAnisotropicDiffusionFunction_h
 
-
 #include "itkAnisotropicDiffusionFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class ScalarAnisotropicDiffusionFunction
  * This class forms the base for any anisotropic diffusion function that
@@ -35,20 +34,20 @@ namespace itk {
  * \sa VectorAnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement */
-template <class TImage>
-class ITK_EXPORT ScalarAnisotropicDiffusionFunction :
-    public AnisotropicDiffusionFunction<TImage>
+template< class TImage >
+class ITK_EXPORT ScalarAnisotropicDiffusionFunction:
+  public AnisotropicDiffusionFunction< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarAnisotropicDiffusionFunction   Self;
-  typedef AnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef ScalarAnisotropicDiffusionFunction     Self;
+  typedef AnisotropicDiffusionFunction< TImage > Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
 
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
+                      Superclass::ImageDimension);
 
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
@@ -61,19 +60,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,
                AnisotropicDiffusionFunction);
-  
+
   virtual void CalculateAverageGradientMagnitudeSquared(TImage *);
 
 protected:
   ScalarAnisotropicDiffusionFunction() {}
   ~ScalarAnisotropicDiffusionFunction() {}
-
 private:
-  ScalarAnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarAnisotropicDiffusionFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkScalarAnisotropicDiffusionFunction.txx"

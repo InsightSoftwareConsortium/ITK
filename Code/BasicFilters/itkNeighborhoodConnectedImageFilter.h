@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,27 +20,27 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class NeighborhoodConnectedImageFilter
  * \brief Label pixels that are connected to a seed and lie within a neighborhood
- * 
+ *
  * NeighborhoodConnectedImageFilter labels pixels with ReplaceValue that
  * are connected to an initial Seed AND whose neighbors all lie within a
  * Lower and Upper threshold range.
  *
- * \ingroup RegionGrowingSegmentation 
+ * \ingroup RegionGrowingSegmentation
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT NeighborhoodConnectedImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef NeighborhoodConnectedImageFilter             Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef NeighborhoodConnectedImageFilter                Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,17 +51,17 @@ public:
 
   typedef TInputImage                         InputImageType;
   typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType  InputImagePixelType; 
+  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::PixelType  InputImagePixelType;
   typedef typename InputImageType::IndexType  IndexType;
   typedef typename InputImageType::SizeType   InputImageSizeType;
-  
+
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType  OutputImagePixelType; 
-  
-  void PrintSelf ( std::ostream& os, Indent indent ) const;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Clear the seeds */
   void ClearSeeds();
@@ -70,7 +70,7 @@ public:
   void SetSeed(const IndexType & seed);
 
   /** Add a seed point */
-  void AddSeed ( const IndexType & seed );
+  void AddSeed(const IndexType & seed);
 
   /** Set/Get the lower threshold. The default is 0. */
   itkSetMacro(Lower, InputImagePixelType);
@@ -80,7 +80,7 @@ public:
    *  value for the InputPixelType. */
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstMacro(Upper, InputImagePixelType);
-  
+
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
@@ -101,42 +101,42 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   NeighborhoodConnectedImageFilter();
-  ~NeighborhoodConnectedImageFilter(){};
-  std::vector<IndexType> m_Seeds;
-  InputImagePixelType    m_Lower;
-  InputImagePixelType    m_Upper;
-  OutputImagePixelType   m_ReplaceValue;
-  InputImageSizeType     m_Radius;
+  ~NeighborhoodConnectedImageFilter(){}
+  std::vector< IndexType > m_Seeds;
 
-  
+  InputImagePixelType m_Lower;
+  InputImagePixelType m_Upper;
+
+  OutputImagePixelType m_ReplaceValue;
+
+  InputImageSizeType m_Radius;
+
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
+
   void GenerateData();
-  
+
 private:
-  NeighborhoodConnectedImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  NeighborhoodConnectedImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

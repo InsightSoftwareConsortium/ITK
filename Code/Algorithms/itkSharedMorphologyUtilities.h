@@ -20,24 +20,24 @@
 
 #include <list>
 
-
-namespace itk {
-#if defined(_MSC_VER) && _MSC_VER >= 1300
-template <class TRegion, class TLine>
+namespace itk
+{
+#if defined( _MSC_VER ) && _MSC_VER >= 1300
+template< class TRegion, class TLine >
 bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line);
 
-template <class TImage, class TBres, class TLine>
+template< class TImage, class TBres, class TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
                     const typename TBres::OffsetArray LineOffsets,
                     const typename TImage::RegionType AllImage,
-                    unsigned &start,
-                    unsigned &end);
+                    unsigned & start,
+                    unsigned & end);
 
-template <class TImage, class TBres, class TLine>
+template< class TImage, class TBres, class TLine >
 int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,
@@ -48,11 +48,11 @@ int FillLineBuffer(typename TImage::ConstPointer input,
                    unsigned int &start,
                    unsigned int &end);
 
-template <class TImage, class TBres>
+template< class TImage, class TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
-                     const typename TImage::PixelType * outbuffer,
+                     const typename TImage::PixelType *outbuffer,
                      const unsigned start,
                      const unsigned end);
 
@@ -62,16 +62,17 @@ void CopyLineToImage(const typename TImage::Pointer output,
 // of the region will not touch the image. This approach is necessary
 // because we want to be able to sweep the lines in a fashion that
 // does not have overlap between them.
-template <class TInputImage, class TLine>
+template< class TInputImage, class TLine >
 typename TInputImage::RegionType
-MakeEnlargedFace(const TInputImage * input,
-               const typename TInputImage::RegionType AllImage,
-               const TLine line);
+MakeEnlargedFace(const TInputImage *input,
+                 const typename TInputImage::RegionType AllImage,
+                 const TLine line);
 
 // figure out the correction factor for length->pixel count based on
 // line angle
-template <class TLine>
+template< class TLine >
 unsigned int GetLinePixels(const TLine line);
+
 #endif
 } // namespace itk
 

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -41,13 +41,15 @@ namespace itk
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
- * \ingroup GradientFilters 
+ *
+ * \ingroup GradientFilters
  */
-template <class TInputImage, class TOperatorValueType=float, class TOutputValueType=float>
-class ITK_EXPORT GradientImageFilter :
-    public ImageToImageFilter< TInputImage,
-                               Image<CovariantVector<TOutputValueType, ::itk::GetImageDimension<TInputImage>::ImageDimension>,  ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+template< class TInputImage, class TOperatorValueType = float, class TOutputValueType = float >
+class ITK_EXPORT GradientImageFilter:
+  public ImageToImageFilter< TInputImage,
+                             Image< CovariantVector< TOutputValueType,
+                                                     ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                                    ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 {
 public:
   /** Extract dimension from input image. */
@@ -60,52 +62,53 @@ public:
   typedef GradientImageFilter Self;
 
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                       InputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef Image<CovariantVector<
-    TOutputValueType, itkGetStaticConstMacro(OutputImageDimension)>,
-                itkGetStaticConstMacro(OutputImageDimension)>
-                                            OutputImageType;
+  typedef TInputImage                      InputImageType;
+  typedef typename InputImageType::Pointer InputImagePointer;
+  typedef Image< CovariantVector<
+                   TOutputValueType, itkGetStaticConstMacro(OutputImageDimension) >,
+                 itkGetStaticConstMacro(OutputImageDimension) >
+  OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Standard class typedefs. */
-  typedef ImageToImageFilter< InputImageType, OutputImageType> Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientImageFilter, ImageToImageFilter);
-  
+
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef TOperatorValueType                   OperatorValueType;
-  typedef TOutputValueType                     OutputValueType;
+  typedef typename InputImageType::PixelType InputPixelType;
+  typedef TOperatorValueType                 OperatorValueType;
+  typedef TOutputValueType                   OutputValueType;
   typedef CovariantVector<
-    OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>
-                                               OutputPixelType;
+    OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >
+  OutputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
-  
+
   /** GradientImageFilter needs a larger input requested region than
    * the output requested region.  As such, GradientImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
-    { this->SetUseImageSpacing(true); }
-  
+  { this->SetUseImageSpacing(true); }
+
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
   void SetUseImageSpacingOff()
-    { this->SetUseImageSpacing(false); }
-  
+  { this->SetUseImageSpacing(false); }
+
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
@@ -113,10 +116,10 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputPixelType, OutputValueType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputValueType>));
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputPixelType, OutputValueType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputValueType > ) );
   /** End concept checking */
 #endif
 
@@ -130,14 +133,13 @@ public:
    * flag is OFF.
    * The default value of this flag is On.
    */
-  itkSetMacro( UseImageDirection, bool );
-  itkGetConstMacro( UseImageDirection, bool );
-  itkBooleanMacro( UseImageDirection );
-
+  itkSetMacro(UseImageDirection, bool);
+  itkGetConstMacro(UseImageDirection, bool);
+  itkBooleanMacro(UseImageDirection);
 protected:
   GradientImageFilter();
   virtual ~GradientImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -149,21 +151,19 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  GradientImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GradientImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 
   bool m_UseImageSpacing;
 
   // flag to take or not the image direction into account
   // when computing the derivatives.
   bool m_UseImageDirection;
-
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

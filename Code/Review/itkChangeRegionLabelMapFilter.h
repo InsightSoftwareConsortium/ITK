@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-  
 /** \class ChangeRegionLabelMapFilter
  * \brief Change the region of a label map.
  *
@@ -36,22 +35,21 @@ namespace itk
  * \sa LabelMapMaskImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template <class TInputImage>
-class ITK_EXPORT ChangeRegionLabelMapFilter : public InPlaceLabelMapFilter<TInputImage>
+template< class TInputImage >
+class ITK_EXPORT ChangeRegionLabelMapFilter:public InPlaceLabelMapFilter< TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ChangeRegionLabelMapFilter          Self;
-  typedef InPlaceLabelMapFilter<TInputImage>  Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
-  
-  
+  typedef ChangeRegionLabelMapFilter           Self;
+  typedef InPlaceLabelMapFilter< TInputImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeRegionLabelMapFilter, InPlaceImageFilter);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageType       OutputImageType;
@@ -63,18 +61,18 @@ public:
   typedef TInputImage                              InputImageType;
   typedef typename InputImageType::Pointer         InputImagePointer;
   typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType; 
+  typedef typename InputImageType::RegionType      InputImageRegionType;
   typedef typename InputImageType::PixelType       InputImagePixelType;
   typedef typename InputImageType::LabelObjectType LabelObjectType;
 
-  typedef typename InputImageType::PixelType       PixelType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::IndexValueType  IndexValueType;
-  typedef typename InputImageType::SizeType        SizeType;
-  typedef typename InputImageType::RegionType      RegionType;
+  typedef typename InputImageType::PixelType      PixelType;
+  typedef typename InputImageType::IndexType      IndexType;
+  typedef typename InputImageType::IndexValueType IndexValueType;
+  typedef typename InputImageType::SizeType       SizeType;
+  typedef typename InputImageType::RegionType     RegionType;
 
   typedef TInputImage TOutputImage;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
@@ -83,31 +81,28 @@ public:
   /** The output region to use */
   itkSetMacro(Region, OutputImageRegionType);
   itkGetConstReferenceMacro(Region, OutputImageRegionType);
-
 protected:
-  ChangeRegionLabelMapFilter() {};
-  ~ChangeRegionLabelMapFilter() {};
+  ChangeRegionLabelMapFilter() {}
+  ~ChangeRegionLabelMapFilter() {}
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
-  
+  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject);
+
   void GenerateInputRequestedRegion();
 
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
   virtual void GenerateOutputInformation();
-  
+
   void GenerateData();
 
 private:
-  ChangeRegionLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ChangeRegionLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
+
   OutputImageRegionType m_Region;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

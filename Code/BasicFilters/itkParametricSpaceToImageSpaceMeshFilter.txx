@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,39 +23,35 @@
 
 namespace itk
 {
-  
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
-ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
+ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::ParametricSpaceToImageSpaceMeshFilter()
 {
-  this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredInputs(1);
 }
-
 
 /**
  *
  */
-template <class TInputMesh, class TOutputMesh>
-void 
-ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputMesh, class TOutputMesh >
+void
+ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 
 /**
  * This method causes the filter to generate its output.
  */
-template <class TInputMesh, class TOutputMesh>
-void 
-ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
-::GenerateData(void) 
+template< class TInputMesh, class TOutputMesh >
+void
+ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
+::GenerateData(void)
 {
-  
   typedef typename TInputMesh::PointsContainer  InputPointsContainer;
   typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
 
@@ -68,90 +64,86 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
   typedef typename TInputMesh::PointDataContainerPointer  InputPointDataContainerPointer;
   typedef typename TOutputMesh::PointDataContainerPointer OutputPointDataContainerPointer;
 
-  const InputMeshType * inputMesh    =  this->GetInput();
-  OutputMeshPointer   outputMesh     =  this->GetOutput();
-  
-  if( !inputMesh )
+  const InputMeshType *inputMesh    =  this->GetInput();
+  OutputMeshPointer    outputMesh     =  this->GetOutput();
+
+  if ( !inputMesh )
     {
-    itkExceptionMacro( <<"Missing Input Mesh" );
+    itkExceptionMacro(<< "Missing Input Mesh");
     }
 
-  if( !outputMesh )
+  if ( !outputMesh )
     {
-    itkExceptionMacro( <<"Missing Output Mesh" );
+    itkExceptionMacro(<< "Missing Output Mesh");
     }
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
 
-  const InputPointsContainer *  inPoints = inputMesh->GetPoints();
+  const InputPointsContainer * inPoints = inputMesh->GetPoints();
   OutputPointsContainerPointer outPoints = OutputPointsContainer::New();
 
   outPoints->Reserve( inputMesh->GetNumberOfPoints() );
-                         
-  const InputPointDataContainer *  inData = inputMesh->GetPointData();
+
+  const InputPointDataContainer * inData = inputMesh->GetPointData();
   OutputPointDataContainerPointer outData = OutputPointDataContainer::New();
 
   outData->Reserve( inputMesh->GetNumberOfPoints() );
 
-  outputMesh->SetPoints( outPoints.GetPointer()  );
+  outputMesh->SetPoints( outPoints.GetPointer() );
   outputMesh->SetPointData( outData.GetPointer() );
 
-                         
-  if( !inData )
+  if ( !inData )
     {
     return;
     }
 
-  if( !inPoints )
+  if ( !inPoints )
     {
     return;
     }
 
-  typename InputPointsContainer::ConstIterator    inputPoint   = inPoints->Begin();
+  typename InputPointsContainer::ConstIterator inputPoint   = inPoints->Begin();
   typename InputPointDataContainer::ConstIterator inputData    = inData->Begin();
 
-  typename OutputPointsContainer::Iterator        outputPoint  = outPoints->Begin();
-  typename OutputPointDataContainer::Iterator      outputData  = outData->Begin();
+  typename OutputPointsContainer::Iterator outputPoint  = outPoints->Begin();
+  typename OutputPointDataContainer::Iterator outputData  = outData->Begin();
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, 0, inPoints->Size());
-    
+  ProgressReporter progress( this, 0, inPoints->Size() );
+
   const unsigned long OutputDimension = TOutputMesh::PointDimension;
-    
+
   typename TOutputMesh::PointType point;
 
-  while( inputPoint != inPoints->End() ) 
+  while ( inputPoint != inPoints->End() )
     {
-    for(unsigned int i=0; i<OutputDimension; i++)
+    for ( unsigned int i = 0; i < OutputDimension; i++ )
       {
       // Conver Index coordinates to MeshSpace
-      point[i] = inputData.Value()[i]; 
+      point[i] = inputData.Value()[i];
       }
 
     outputPoint.Value() = point;
     outputData.Value()  = inputPoint.Value();
-    
+
     ++inputData;
     ++inputPoint;
     ++outputPoint;
     ++outputData;
     progress.CompletedPixel();
     }
-
 }
 
 /**
  * copy information from first input to all outputs
  */
-template <class TInputMesh, class TOutputMesh>
-void 
-ParametricSpaceToImageSpaceMeshFilter<TInputMesh,TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
+void
+ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateOutputInformation()
 {
   // No additional information needs to be copied
 }
-
-
 } // end namespace itk
 
 #endif

@@ -21,9 +21,10 @@
 #include "itkSubsample.h"
 #include "itkProcessObject.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class SampleToSubsampleFilter
  * \brief Base class of filters intended to select subsamples from samples.
  *
@@ -41,14 +42,14 @@ namespace Statistics {
  */
 
 template< class TSample >
-class ITK_EXPORT SampleToSubsampleFilter : public ProcessObject
+class ITK_EXPORT SampleToSubsampleFilter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef SampleToSubsampleFilter     Self;
-  typedef ProcessObject               Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  typedef SampleToSubsampleFilter    Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard macros */
   itkTypeMacro(SampleToSubsampleFilter, ProcessObject);
@@ -61,21 +62,21 @@ public:
   typedef typename SampleType::InstanceIdentifier    InstanceIdentifier;
 
   /** Declare the output type */
-  typedef Subsample< SampleType >                    SubsampleType;
-  typedef SubsampleType                              OutputType;
+  typedef Subsample< SampleType > SubsampleType;
+  typedef SubsampleType           OutputType;
 
   /** Set/Get the input sample */
-  virtual void SetInput( const SampleType * sample );
+  virtual void SetInput(const SampleType *sample);
+
   virtual const SampleType * GetInput() const;
 
   /** Get the output subsample */
   const OutputType  * GetOutput() const;
 
-
 protected:
   SampleToSubsampleFilter();
   virtual ~SampleToSubsampleFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -86,11 +87,9 @@ protected:
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 private:
-  SampleToSubsampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  SampleToSubsampleFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
+};                                       // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

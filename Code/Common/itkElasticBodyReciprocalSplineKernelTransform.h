@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,10 +19,8 @@
 
 #include "itkKernelTransform.h"
 
-
 namespace itk
 {
-
 /** \class ElasticBodyReciprocalSplineKernelTransform
  * This class defines the elastic body spline (EBS) transformation.
  * It is implemented in as straightforward a manner as possible from
@@ -35,46 +33,48 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template <class TScalarType = double,   // Data type for scalars (float or double)
-          unsigned int NDimensions = 3>          // Number of dimensions
-class ITK_EXPORT ElasticBodyReciprocalSplineKernelTransform : 
-          public KernelTransform<  TScalarType, NDimensions>
+template< class TScalarType = double,   // Data type for scalars (float or
+                                        // double)
+          unsigned int NDimensions = 3 >
+// Number of dimensions
+class ITK_EXPORT ElasticBodyReciprocalSplineKernelTransform:
+  public KernelTransform<  TScalarType, NDimensions >
 {
 public:
   /** Standard class typedefs. */
-  typedef ElasticBodyReciprocalSplineKernelTransform   Self;
-  typedef KernelTransform<  TScalarType, 
-                            NDimensions> Superclass;
+  typedef ElasticBodyReciprocalSplineKernelTransform Self;
+  typedef KernelTransform<  TScalarType,
+                            NDimensions > Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-    
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ElasticBodyReciprocalSplineKernelTransform, KernelTransform );
+  itkTypeMacro(ElasticBodyReciprocalSplineKernelTransform, KernelTransform);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
+  typedef typename Superclass::ParametersType ParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
+  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
   /** Set alpha.  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$\alpha = 8 ( 1 - \nu ) - 1\f$
    */
-  itkSetMacro( Alpha, TScalarType );
-  
+  itkSetMacro(Alpha, TScalarType);
+
   /** Get alpha */
-  itkGetConstMacro( Alpha, TScalarType );
-  
+  itkGetConstMacro(Alpha, TScalarType);
+
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
   typedef typename Superclass::InputPointType            InputPointType;
@@ -83,13 +83,11 @@ public:
   typedef typename Superclass::OutputVectorType          OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-    
-
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
   virtual ~ElasticBodyReciprocalSplineKernelTransform();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
   typedef typename Superclass::GMatrixType GMatrixType;
@@ -104,35 +102,37 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
-  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
+  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
 
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
-
 private:
-  ElasticBodyReciprocalSplineKernelTransform(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ElasticBodyReciprocalSplineKernelTransform(const Self &); //purposely not
+                                                            // implemented
+  void operator=(const Self &);                             //purposely not
 
+  // implemented
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ElasticBodyReciprocalSplineKernelTransform(_, EXPORT, TypeX, TypeY) \
-    namespace itk { \
-  _(2(class EXPORT ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX >)) \
-  namespace Templates { \
-    typedef ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX > \
-                               ElasticBodyReciprocalSplineKernelTransform##TypeY; \
-    } \
+#define ITK_TEMPLATE_ElasticBodyReciprocalSplineKernelTransform(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                              \
+  {                                                                                          \
+  _( 2 ( class EXPORT ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                        \
+  {                                                                                          \
+  typedef ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX >                 \
+  ElasticBodyReciprocalSplineKernelTransform##TypeY;                                       \
+  }                                                                                          \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkElasticBodyReciprocalSplineKernelTransform+-.h"
+#include "Templates/itkElasticBodyReciprocalSplineKernelTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkElasticBodyReciprocalSplineKernelTransform.txx"
+#include "itkElasticBodyReciprocalSplineKernelTransform.txx"
 #endif
 
 #endif // __itkElasticBodyReciprocalSplineKernelTransform_h

@@ -21,84 +21,80 @@
 
 namespace itk
 {
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< TMesh, TQEType >::
-Evaluate( QEType* e )
+QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {
   // Is there any input ?
-#ifndef NDEBUG  
-  if( !e )
+#ifndef NDEBUG
+  if ( !e )
     {
-    itkDebugMacro( "Input is not an edge." );
-    return( (QEType*) 0 );
+    itkDebugMacro("Input is not an edge.");
+    return ( (QEType *)0 );
     }
-  
-  if( !this->m_Mesh )
+
+  if ( !this->m_Mesh )
     {
-    itkDebugMacro( "No mesh present." );
-    return( (OutputType) 0 );
+    itkDebugMacro("No mesh present.");
+    return ( (OutputType)0 );
     }
 
   // Is left face set ?
-  if ( !e->IsLeftSet( ) )
+  if ( !e->IsLeftSet() )
     {
-    itkDebugMacro( "Argument edge has no left face." );
-    return( (OutputType) 0 );
+    itkDebugMacro("Argument edge has no left face.");
+    return ( (OutputType)0 );
     }
 #endif
- 
+
   // remove left face
-  this->m_Mesh->DeleteFace( e->GetLeft( ) );
-   
-  // create new point geometry  
+  this->m_Mesh->DeleteFace( e->GetLeft() );
+
+  // create new point geometry
   unsigned int sum = 0;
-  VectorType vec;
-  vec.Fill( 0 );
-  PointIdentifier pid = this->m_Mesh->FindFirstUnusedPointIndex( );
-  typedef std::map< QEType*, PointIdentifier >       AssociatedBarycenters;
+  VectorType   vec;
+  vec.Fill(0);
+  PointIdentifier pid = this->m_Mesh->FindFirstUnusedPointIndex();
+  typedef std::map< QEType *, PointIdentifier > AssociatedBarycenters;
   AssociatedBarycenters m_AssocBary;
   typedef typename QEType::IteratorGeom QEIterator;
-  QEIterator lit = e->BeginGeomLnext( );
-  while( lit != e->EndGeomLnext( ) )
+  QEIterator lit = e->BeginGeomLnext();
+  while ( lit != e->EndGeomLnext() )
     {
-    QEType* g = lit.Value( );
-    vec += this->m_Mesh->GetVector( g->GetOrigin( ) );
+    QEType *g = lit.Value();
+    vec += this->m_Mesh->GetVector( g->GetOrigin() );
     sum++;
-    m_AssocBary[ g ] = pid;
+    m_AssocBary[g] = pid;
     lit++;
     } // rof
-  vec /= CoordRepType( sum );
+  vec /= CoordRepType(sum);
   PointType p;
-  for( unsigned int i = 0; i<3; i++)
+  for ( unsigned int i = 0; i < 3; i++ )
     {
     p[i] = vec[i];
     }
- 
+
   // add new point to mesh
-  this->m_NewPointID = this->m_Mesh->AddPoint( p );
+  this->m_NewPointID = this->m_Mesh->AddPoint(p);
   PointIdentifier tempPoint;
-   
+
   // create edges and faces
-  tempPoint = e->GetDestination( );
-  this->m_Mesh->AddFaceTriangle( this->m_NewPointID, 
-                                 e->GetOrigin( ), 
-                                 tempPoint );
-  QEType* edgeRef = this->m_Mesh->FindEdge( this->m_NewPointID, tempPoint );
-  while ( !edgeRef->IsLeftSet( ) )
+  tempPoint = e->GetDestination();
+  this->m_Mesh->AddFaceTriangle(this->m_NewPointID,
+                                e->GetOrigin(),
+                                tempPoint);
+  QEType *edgeRef = this->m_Mesh->FindEdge(this->m_NewPointID, tempPoint);
+  while ( !edgeRef->IsLeftSet() )
     {
-    tempPoint = edgeRef->GetLnext( )->GetDestination( );
-    this->m_Mesh->AddFaceTriangle( this->m_NewPointID,
-                                   edgeRef->GetLnext( )->GetOrigin( ),
-                                   tempPoint );
-    edgeRef = this->m_Mesh->FindEdge( this->m_NewPointID, tempPoint );
+    tempPoint = edgeRef->GetLnext()->GetDestination();
+    this->m_Mesh->AddFaceTriangle(this->m_NewPointID,
+                                  edgeRef->GetLnext()->GetOrigin(),
+                                  tempPoint);
+    edgeRef = this->m_Mesh->FindEdge(this->m_NewPointID, tempPoint);
     }
 
-   
-  return( e->GetLnext( ) );
-
+  return ( e->GetLnext() );
 }
-
 } // namespace itk
 
 #endif

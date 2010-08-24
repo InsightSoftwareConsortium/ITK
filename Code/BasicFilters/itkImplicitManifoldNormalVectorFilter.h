@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
@@ -22,8 +22,8 @@
 #include "itkFiniteDifferenceSparseImageFilter.h"
 #include "itkVector.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class ImplicitManifoldNormalVectorFilter
  *
@@ -36,7 +36,7 @@ namespace itk {
  * processed in a band where the values of the input image fall in the region
  * [IsoLevelLow, IsoLevelHigh]. The processing is done by m_NormalFunction.
  * This class also defines a Halt method which uses the iteration counter and
- * the parameter m_MaxIteration to determine when to stop the processing. 
+ * the parameter m_MaxIteration to determine when to stop the processing.
  *
  * \par INPUTS
  * The input is a scalar image. Even though this can be any scalar image, this
@@ -57,7 +57,7 @@ namespace itk {
  * The MinVectorNorm parameter determines the minumum vector norm allowed
  * (to avoid divide by 0). The default for MinVectorNorm is 10^-6 which is designed
  * to work with an input image of floats. This value can be lowered to 10^-12
- * if the input image is doubles. 
+ * if the input image is doubles.
  *
  * \par IMPORTANT
  * The TSparseOutputImage template parameter must be a sparse image templated
@@ -65,21 +65,22 @@ namespace itk {
  * m_InputData, m_Update and m_MAnifoldNormal.
  * Depending on the Function object being used it might need other
  * members. For instance, NormalVectorDiffusionFunction will also require that
- * the NodeType has the following additional members: m_Flux. 
+ * the NodeType has the following additional members: m_Flux.
  */
-template <class TInputImage, class TSparseOutputImage>
-class ITK_EXPORT ImplicitManifoldNormalVectorFilter  
-  : public FiniteDifferenceSparseImageFilter <TInputImage, TSparseOutputImage>
+template< class TInputImage, class TSparseOutputImage >
+class ITK_EXPORT ImplicitManifoldNormalVectorFilter:
+  public FiniteDifferenceSparseImageFilter< TInputImage, TSparseOutputImage >
 {
-public:  
+public:
   /** Standard class typedef */
   typedef ImplicitManifoldNormalVectorFilter Self;
-  typedef FiniteDifferenceSparseImageFilter <
+  typedef FiniteDifferenceSparseImageFilter<
     TInputImage,
-    TSparseOutputImage>                      Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
-  
+    TSparseOutputImage >                      Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods) */
   itkTypeMacro(ImplicitManifoldNormalVectorFilter,
                FiniteDifferenceSparseImageFilter);
@@ -88,33 +89,33 @@ public:
   itkNewMacro(Self);
 
   /** Standard get dimension macro. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
-  
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+
   /** Typedefs from the superclass */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::IndexType       IndexType;
-  typedef typename Superclass::NodeDataType    NormalVectorType;
-  typedef typename Superclass::NodeValueType   NodeValueType;
+  typedef typename Superclass::InputImageType InputImageType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::NodeDataType   NormalVectorType;
+  typedef typename Superclass::NodeValueType  NodeValueType;
   typedef typename Superclass::FiniteDifferenceFunctionType
-                                               FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
   typedef typename Superclass::SparseOutputImageType SparseOutputImageType;
   typedef typename Superclass::OutputNodeType        NormalBandNodeType;
   typedef typename Superclass::NodeListType          NodeListType;
-  
+
   /** The iterator for the input image. */
-  typedef ConstNeighborhoodIterator <InputImageType> InputImageIteratorType;
-  
+  typedef ConstNeighborhoodIterator< InputImageType > InputImageIteratorType;
+
   /** This is the finite difference function type for processing the normal
       vectors */
-  typedef NormalVectorFunctionBase <SparseOutputImageType> NormalFunctionType;
-  
+  typedef NormalVectorFunctionBase< SparseOutputImageType > NormalFunctionType;
+
   /** This is the radius type for the image neigborhoods. */
   typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;
-  
+
   /** This method is used to set the finite difference function. */
-  void SetNormalFunction( NormalFunctionType *nf );  
-  
+  void SetNormalFunction(NormalFunctionType *nf);
+
   itkSetMacro(MaxIteration, unsigned int);
   itkGetConstMacro(MaxIteration, unsigned int);
   itkSetMacro(IsoLevelLow,  NodeValueType);
@@ -127,32 +128,31 @@ public:
   itkGetConstMacro(UnsharpMaskingFlag, bool);
   itkSetMacro(UnsharpMaskingWeight, NodeValueType);
   itkGetConstMacro(UnsharpMaskingWeight, NodeValueType);
- 
-protected:   
-  ImplicitManifoldNormalVectorFilter();  
-  ~ImplicitManifoldNormalVectorFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+protected:
+  ImplicitManifoldNormalVectorFilter();
+  ~ImplicitManifoldNormalVectorFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This calls SetNormalBand to create the band of normals to process. */
   virtual void Initialize();
 
   /** This function sets the band for normal vector processing. */
   void SetNormalBand();
-  
+
   /** This function precomputes information for normal vector
    * processing. */
-  void InitializeNormalBandNode( NormalBandNodeType *node,
-                                 const InputImageIteratorType &it );
-  
+  void InitializeNormalBandNode(NormalBandNodeType *node,
+                                const InputImageIteratorType & it);
+
   /** This function does nothing. The output initialization
       is handled by Initialize. */
-  virtual void CopyInputToOutput() {};
-    
+  virtual void CopyInputToOutput() {}
+
   /** This is the stopping criterion function used in the iterative finite
       difference scheme. */
   virtual bool Halt()
-    {
-    if (this->GetElapsedIterations() == m_MaxIteration)
+  {
+    if ( this->GetElapsedIterations() == m_MaxIteration )
       {
       return true;
       }
@@ -160,23 +160,24 @@ protected:
       {
       return false;
       }
-    }
+  }
+
 protected:
-  /** This function implements the unit norm constraint for normal vectors. */  
-  virtual NormalVectorType DataConstraint( const NormalVectorType &data ) const 
-    {
-    return (data / (m_MinVectorNorm + data.GetNorm()));
-    }
+  /** This function implements the unit norm constraint for normal vectors. */
+  virtual NormalVectorType DataConstraint(const NormalVectorType & data) const
+  {
+    return ( data / ( m_MinVectorNorm + data.GetNorm() ) );
+  }
 
   /** This function implements unsharp masking which is turned ON/OFF by the
       UnsharpMaskingFlag and controlled by the UnsharpMaskingWeight
       parameters. */
   virtual void PostProcessOutput();
-  
+
 private:
-  ImplicitManifoldNormalVectorFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-    
+  ImplicitManifoldNormalVectorFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
+
   /** The finite difference function. */
   NormalFunctionType *m_NormalFunction;
 
@@ -196,17 +197,15 @@ private:
   /** The weight determining the extent of enhancement if unsharp masking is
       turned on. */
   NodeValueType m_UnsharpMaskingWeight;
-  
+
   /** Constants used in computations. */
   unsigned long m_Indicator[itkGetStaticConstMacro(ImageDimension)];
   unsigned int  m_NumVertex;
   NodeValueType m_DimConst;
   NodeValueType m_DimConst2;
   RadiusType    m_ManifoldRadius;
-
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImplicitManifoldNormalVectorFilter.txx"

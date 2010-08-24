@@ -25,9 +25,10 @@
 #include "itkKdTreeGenerator.h"
 #include "itkStatisticsAlgorithm.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class WeightedCentroidKdTreeGenerator
  *  \brief This class generates a KdTree object with centroid information.
  *
@@ -62,16 +63,16 @@ namespace Statistics {
  * KdTreeTerminalNode, KdTreeGenerator
  */
 
-template < class TSample >
-class ITK_EXPORT WeightedCentroidKdTreeGenerator :
-    public KdTreeGenerator< TSample >
+template< class TSample >
+class ITK_EXPORT WeightedCentroidKdTreeGenerator:
+  public KdTreeGenerator< TSample >
 {
 public:
   /** Standard class typedefs */
-  typedef WeightedCentroidKdTreeGenerator           Self;
-  typedef KdTreeGenerator< TSample >                Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef WeightedCentroidKdTreeGenerator Self;
+  typedef KdTreeGenerator< TSample >      Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
@@ -86,8 +87,6 @@ public:
   typedef typename Superclass::SubsamplePointer      SubsamplePointer;
   typedef typename Superclass::KdTreeType            KdTreeType;
   typedef typename Superclass::KdTreeNodeType        KdTreeNodeType;
-
-
 protected:
   /** Constructor */
   WeightedCentroidKdTreeGenerator();
@@ -95,26 +94,25 @@ protected:
   /** Destructor */
   virtual ~WeightedCentroidKdTreeGenerator() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Nonterminal node generation routine */
-  virtual KdTreeNodeType* GenerateNonterminalNode(unsigned int beginIndex,
-                                                  unsigned int endIndex,
-                                                  MeasurementVectorType
-                                                  &lowerBound,
-                                                  MeasurementVectorType
-                                                  &upperBound,
-                                                  unsigned int level);
+  virtual KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
+                                                   unsigned int endIndex,
+                                                   MeasurementVectorType
+                                                   & lowerBound,
+                                                   MeasurementVectorType
+                                                   & upperBound,
+                                                   unsigned int level);
 
 private:
-  WeightedCentroidKdTreeGenerator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  WeightedCentroidKdTreeGenerator(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 
   MeasurementVectorType m_TempLowerBound;
   MeasurementVectorType m_TempUpperBound;
   MeasurementVectorType m_TempMean;
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,50 +25,51 @@
 
 namespace itk
 {
-
 /** \class ByteSwapper
  * \brief Perform machine dependent byte swapping.
  *
  * ByteSwapper is used by I/O classes to perform machine dependent byte
- * swapping. Byte swapping is often used when reading or writing binary 
+ * swapping. Byte swapping is often used when reading or writing binary
  * files. Files can either be Big Endian (BE) or Little Endian (LE).
  *
  * \ingroup IOFilters
- * \ingroup OSSystemObjects 
+ * \ingroup OSSystemObjects
  */
 
-template <class T>
-class ITK_EXPORT ByteSwapper : public Object
+template< class T >
+class ITK_EXPORT ByteSwapper:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ByteSwapper               Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef ByteSwapper                Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Work around MSVC bug (including ByteSwapper.h in a templated class). */
   typedef std::ostream OStreamType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ByteSwapper,Object);
+  itkTypeMacro(ByteSwapper, Object);
 
   /** Query the machine Endian-ness. */
-  static bool SystemIsBigEndian ();
-  static bool SystemIsBE () { return SystemIsBigEndian(); }
-  static bool SystemIsLittleEndian ();
-  static bool SystemIsLE () { return SystemIsLittleEndian(); }
-    
+  static bool SystemIsBigEndian();
+
+  static bool SystemIsBE() { return SystemIsBigEndian(); }
+  static bool SystemIsLittleEndian();
+
+  static bool SystemIsLE() { return SystemIsLittleEndian(); }
+
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
   static void SwapFromSystemToBigEndian(T *p);
-  
+
   /** Type for representing large buffers, including those in 64bits
    * architectures */
-  typedef  ::size_t      BufferSizeType;
+  typedef::size_t BufferSizeType;
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
@@ -76,7 +77,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
   static void SwapRangeFromSystemToBigEndian(T *p, BufferSizeType num);
-  
+
   /** Generic swap method handles type T. The data is
    * swapped and written (in binary) to the ostream
    * given. A total of num values of type T are written
@@ -84,9 +85,9 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  static void SwapWriteRangeFromSystemToBigEndian(T *p, int num, 
+  static void SwapWriteRangeFromSystemToBigEndian(T *p, int num,
                                                   OStreamType *fp);
-  
+
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
@@ -108,9 +109,9 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  static void SwapWriteRangeFromSystemToLittleEndian(T *p, int num, 
+  static void SwapWriteRangeFromSystemToLittleEndian(T *p, int num,
                                                      OStreamType *fp);
-  
+
 protected:
   ByteSwapper() {}
   ~ByteSwapper() {}
@@ -118,44 +119,42 @@ protected:
   /** Swap 2 bytes. */
   static void Swap2(void *p);
 
-  /** Swap a range of two-byte words. Num is the number of two-byte 
+  /** Swap a range of two-byte words. Num is the number of two-byte
    * words to swap. */
   static void Swap2Range(void *p, BufferSizeType num);
 
-  /** Swap and write a range of two-byte words. Num is the number of two-byte 
+  /** Swap and write a range of two-byte words. Num is the number of two-byte
    * words to swap and write. */
   static void SwapWrite2Range(void *p, BufferSizeType num, OStreamType *fp);
 
   /** Swap four bytes. */
   static void Swap4(void *p);
 
-  /** Swap a range of four-byte words. Num is the number of four-byte words 
+  /** Swap a range of four-byte words. Num is the number of four-byte words
    * to swap. */
   static void Swap4Range(void *p, BufferSizeType num);
 
-  /** Swap and write a range of four-byte words. Num is the number of four-byte 
+  /** Swap and write a range of four-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void SwapWrite4Range(void *p, BufferSizeType num, OStreamType *fp);
 
   /** Swap 8 bytes. */
   static void Swap8(void *p);
 
-  /** Swap a range of 8-byte words. Num is the number of four-byte words 
+  /** Swap a range of 8-byte words. Num is the number of four-byte words
    * to swap. */
   static void Swap8Range(void *p, BufferSizeType num);
 
-  /** Swap and write a range of 8-byte words. Num is the number of four-byte 
+  /** Swap and write a range of 8-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void SwapWrite8Range(void *p, BufferSizeType num, OStreamType *fp);
 
 private:
-  ByteSwapper(const ByteSwapper&); //purposely not implemented
-  void operator=(const ByteSwapper&); //purposely not implemented
-  
+  ByteSwapper(const ByteSwapper &);    //purposely not implemented
+  void operator=(const ByteSwapper &); //purposely not implemented
 };
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkByteSwapper.txx"
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,16 +23,15 @@
 
 namespace itk
 {
-
-class TransformFileReader : public LightProcessObject
+class TransformFileReader:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileReader Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef TransformFileReader  Self;
+  typedef SmartPointer< Self > Pointer;
 
-  typedef TransformBase       TransformType;
+  typedef TransformBase TransformType;
 
   typedef TransformType::ParametersType      ParametersType;
   typedef TransformIOBase::TransformPointer  TransformPointer;
@@ -55,23 +54,21 @@ public:
   void Update();
 
   /** Get the list of transform */
-  TransformListType * GetTransformList() {return & m_TransformList;}
-
+  TransformListType * GetTransformList() { return &m_TransformList; }
 protected:
   TransformIOBase::Pointer m_TransformIO;
-  TransformFileReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-   
+  TransformFileReader(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
+
   std::string m_FileName;
 
   TransformFileReader();
   virtual ~TransformFileReader();
-  void CreateTransform(TransformPointer &ptr, const std::string &ClassName);
+  void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
+
 private:
-  TransformListType    m_TransformList;
+  TransformListType m_TransformList;
 };
-
 } // namespace itk
-
 
 #endif // __itkTransformFileReader_h

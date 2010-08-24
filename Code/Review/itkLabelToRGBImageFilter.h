@@ -9,12 +9,11 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 
 #ifndef __itkLabelToRGBImageFilter_h
 #define __itkLabelToRGBImageFilter_h
@@ -24,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class LabelToRGBImageFilter
  * \brief Apply a colormap to a label image
  *
@@ -40,24 +38,24 @@ namespace itk
  * \ingroup Multithreaded
  *
  */
-template <class TLabelImage, typename  TOutputImage>
-class ITK_EXPORT LabelToRGBImageFilter :
-    public
-UnaryFunctorImageFilter<TLabelImage, TOutputImage, 
-                        Functor::LabelToRGBFunctor< 
-  typename TLabelImage::PixelType, 
-  typename TOutputImage::PixelType>   >
+template< class TLabelImage, typename  TOutputImage >
+class ITK_EXPORT LabelToRGBImageFilter:
+  public
+  UnaryFunctorImageFilter< TLabelImage, TOutputImage,
+                           Functor::LabelToRGBFunctor<
+                             typename TLabelImage::PixelType,
+                             typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelToRGBImageFilter     Self;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef LabelToRGBImageFilter      Self;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  typedef UnaryFunctorImageFilter<TLabelImage, TOutputImage, 
-                        Functor::LabelToRGBFunctor< 
-                            typename TLabelImage::PixelType, 
-                            typename TOutputImage::PixelType>   >  Superclass;
+  typedef UnaryFunctorImageFilter< TLabelImage, TOutputImage,
+                                   Functor::LabelToRGBFunctor<
+                                     typename TLabelImage::PixelType,
+                                     typename TOutputImage::PixelType >   >  Superclass;
 
   typedef TOutputImage OutputImageType;
   typedef TLabelImage  LabelImageType;
@@ -71,51 +69,48 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Set/Get the background value */
-  itkSetMacro( BackgroundValue, LabelPixelType );
-  itkGetConstReferenceMacro( BackgroundValue, LabelPixelType );
+  itkSetMacro(BackgroundValue, LabelPixelType);
+  itkGetConstReferenceMacro(BackgroundValue, LabelPixelType);
 
   /** Set/Get the background color in the output image */
-  itkSetMacro( BackgroundColor, OutputPixelType );
-  itkGetConstReferenceMacro( BackgroundColor, OutputPixelType );
+  itkSetMacro(BackgroundColor, OutputPixelType);
+  itkGetConstReferenceMacro(BackgroundColor, OutputPixelType);
 
   /** Empty the color LUT container */
   void ResetColors();
-  
+
   /** Get number of colors in the LUT container */
   unsigned int GetNumberOfColors() const;
-  
+
   /** Type of the color component */
-  typedef typename OutputPixelType::ComponentType  ComponentType;
+  typedef typename OutputPixelType::ComponentType ComponentType;
 
   /** Add color to the LUT container */
-  void AddColor( ComponentType r, ComponentType g, ComponentType b );
-   
+  void AddColor(ComponentType r, ComponentType g, ComponentType b);
+
 protected:
   LabelToRGBImageFilter();
-  virtual ~LabelToRGBImageFilter() {};
+  virtual ~LabelToRGBImageFilter() {}
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
-  LabelToRGBImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  OutputPixelType   m_BackgroundColor;
-  LabelPixelType    m_BackgroundValue;
+  LabelToRGBImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
+
+  OutputPixelType m_BackgroundColor;
+  LabelPixelType  m_BackgroundValue;
 };
-
-
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLabelToRGBImageFilter.txx"
 #endif
-  
+
 #endif

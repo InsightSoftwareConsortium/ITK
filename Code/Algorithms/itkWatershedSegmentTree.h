@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,30 +28,30 @@ namespace itk
 namespace watershed
 {
 /** \class SegmentTree
- * A data structure for storing segment merge information used in filters of  
+ * A data structure for storing segment merge information used in filters of
  * the watershed segmentation algorithm.  See itk::WatershedImageFilter for an
  * overview.
  *
  * \par
  * This class is the implemenation of the ``merge tree'' referred to in the
- * documentation for itk::WatershedImageFilter and other watershed segmentation 
+ * documentation for itk::WatershedImageFilter and other watershed segmentation
  * component classes.  It holds a list of merges among image segments at
  * various saliency levels. The list is actually a representation of a binary
  * tree, whose nodes are segments and edges are saliencies.
  *
  * \ingroup WatershedSegmentation
- * \sa itk::WatershedImageFilter 
+ * \sa itk::WatershedImageFilter
  *
  */
-template <class TScalarType>
-class ITK_EXPORT SegmentTree : public DataObject
+template< class TScalarType >
+class ITK_EXPORT SegmentTree:public DataObject
 {
 public:
   /** Define itk Smart Pointers for this object */
-  typedef SegmentTree              Self;
-  typedef DataObject               Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SegmentTree                Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTree, DataObject);
   typedef TScalarType ScalarType;
@@ -59,120 +59,117 @@ public:
   /** Elements of the list (nodes of the tree).  A record of a merge
    * between two segments (unsigned long labels) at a particular
    * saliency.   */
-  struct merge_t
-    {
+  struct merge_t {
     unsigned long from;
     unsigned long to;
     ScalarType saliency;
-    };
+  };
 
   /** Define the container type used in this list data structure */
-  typedef std::deque<merge_t>                DequeType;
+  typedef std::deque< merge_t >              DequeType;
   typedef typename DequeType::iterator       Iterator;
   typedef typename DequeType::const_iterator ConstIterator;
   typedef typename DequeType::value_type     ValueType;
-    
+
   /** Boolean comparison functor for use in sorting functions.  */
-  struct merge_comp : public std::binary_function<bool, const merge_t&,
-                      const merge_t& >
-    {
+  struct merge_comp:public std:: binary_function< bool, const merge_t &,
+                                                  const merge_t & > {
     merge_comp() {}
-    bool operator()(const merge_t &a, const merge_t &b)
-      {
-      return b.saliency < a.saliency;
-      }
-    };
-  
-  /** Boolean comparison functor for use in sorting functions.   */
-  struct sort_comp : public std::binary_function<bool, const merge_t&,
-                     const merge_t& >
+    bool operator()(const merge_t & a, const merge_t & b)
     {
-    bool operator()(const merge_t &a, const merge_t &b)
-      {
+      return b.saliency < a.saliency;
+    }
+  };
+
+  /** Boolean comparison functor for use in sorting functions.   */
+  struct sort_comp:public std:: binary_function< bool, const merge_t &,
+                                                 const merge_t & > {
+    bool operator()(const merge_t & a, const merge_t & b)
+    {
       return a.saliency < b.Saliency;
-      }
-    };
+    }
+  };
 
   /** Returns the size of the list.   */
   typename DequeType::size_type Size() const
-    { return m_Deque.size(); }
+  { return m_Deque.size(); }
 
   /** Returns TRUE if the SegmentTree is empty, FALSE if the SegmentTree is not
    * empty.    */
   bool Empty() const
-    { return m_Deque.empty();    }
+  { return m_Deque.empty();    }
 
   /** Returns a const reference to the front of the list (node with the least
    * saliency value).    */
-  const merge_t &Front() const
-    { return m_Deque.front(); }
+  const merge_t & Front() const
+  { return m_Deque.front(); }
 
   /** Returns a const reference to the back of the list (node with the greatest
    * saliency value).   */
-  const merge_t &Back() const
-    { return m_Deque.back(); } 
+  const merge_t & Back() const
+  { return m_Deque.back(); }
 
   /** Returns a reference to the front of the list   */
-  merge_t &Front()
-    { return m_Deque.front(); }
+  merge_t & Front()
+  { return m_Deque.front(); }
 
   /** Returns a reference to the back of the list   */
-  merge_t &Back()
-    { return m_Deque.back(); }
+  merge_t & Back()
+  { return m_Deque.back(); }
 
   /** Inserts a node at the front of the list.   */
-  void PushFront(const ValueType &t)
-    { m_Deque.push_front(t); }
+  void PushFront(const ValueType & t)
+  { m_Deque.push_front(t); }
 
   /** Inserts a node at the back of the list   */
-  void PushBack( const ValueType &t)
-    { m_Deque.push_back(t); }
+  void PushBack(const ValueType & t)
+  { m_Deque.push_back(t); }
 
   /** Erases the node at the front of the list.   */
   void PopFront()
-    { m_Deque.pop_front(); }
+  { m_Deque.pop_front(); }
 
   /** Erases the node at the back of the list.   */
   void PopBack()
-    { m_Deque.pop_back(); }
+  { m_Deque.pop_back(); }
 
   /** Returns an iterator pointing to the first element in the list.   */
   Iterator Begin()
-    { return m_Deque.begin(); }
+  { return m_Deque.begin(); }
 
   /** Returns a const iterator pointing to the first element in the list. */
   ConstIterator Begin() const
-    { return m_Deque.begin(); }
+  { return m_Deque.begin(); }
 
   /** Returns an iterator pointing one element past the last element in the
    * list.    */
   Iterator End()
-    { return m_Deque.end(); }
+  { return m_Deque.end(); }
 
   /** Returns a const iterator pointing one element past the last element in the
    * list.    */
   ConstIterator End() const
-    { return m_Deque.end(); }
+  { return m_Deque.end(); }
 
   /** Clears the Deque completely */
   void Clear()
-    { m_Deque.clear(); }
-  
+  { m_Deque.clear(); }
+
   /** Standard DataObject routine to initialize.  Returns the segment
    * tree to a default state, deallocating memory. */
   void Initialize();
-  
+
 protected:
   SegmentTree() {}
   virtual ~SegmentTree() {}
-  SegmentTree(const Self&) {}
-  void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  SegmentTree(const Self &) {}
+  void operator=(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   DequeType m_Deque;
 };
-}// end namespace watershed
-}// end namespace itk
+} // end namespace watershed
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWatershedSegmentTree.txx"

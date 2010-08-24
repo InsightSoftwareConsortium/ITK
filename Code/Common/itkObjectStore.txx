@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,10 +19,10 @@
 
 #include "itkObjectStore.h"
 
-namespace itk {
-
-template <class TObjectType>
-ObjectStore<TObjectType>
+namespace itk
+{
+template< class TObjectType >
+ObjectStore< TObjectType >
 ::ObjectStore()
 {
   m_Size  = 0;
@@ -30,40 +30,43 @@ ObjectStore<TObjectType>
   m_GrowthStrategy = EXPONENTIAL_GROWTH;
 }
 
-template <class TObjectType>
-ObjectStore<TObjectType>
+template< class TObjectType >
+ObjectStore< TObjectType >
 ::~ObjectStore()
 {
   this->Clear();
 }
 
-template <class TObjectType>
+template< class TObjectType >
 void
-ObjectStore<TObjectType>
+ObjectStore< TObjectType >
 ::Reserve(::size_t n)
 {
   // No need to grow? Do nothing.
-  if ( n <= m_Size ) return;
+  if ( n <= m_Size ) { return; }
 
   // Need to grow.  Allocate a new block of memory and copy that block's
   // pointers into the m_FreeList.  Updates m_Size appropriately.
-  MemoryBlock new_block( n - m_Size );
-  m_Store.push_back( new_block );
+  MemoryBlock new_block(n - m_Size);
+  m_Store.push_back(new_block);
 
   m_FreeList.reserve(n);
-  for (ObjectType *ptr = new_block.Begin;
-       ptr < new_block.Begin + new_block.Size; ptr++)
-    {      m_FreeList.push_back(ptr);    }
+  for ( ObjectType *ptr = new_block.Begin;
+        ptr < new_block.Begin + new_block.Size; ptr++ )
+    {
+    m_FreeList.push_back(ptr);
+    }
   m_Size += ( n - m_Size );
 }
 
-template <class TObjectType>
-typename ObjectStore<TObjectType>::ObjectType *
-ObjectStore<TObjectType>
+template< class TObjectType >
+typename ObjectStore< TObjectType >::ObjectType *
+ObjectStore< TObjectType >
 ::Borrow()
 {
   ObjectType *p;
-  if (m_FreeList.empty() ) // must allocate more memory
+
+  if ( m_FreeList.empty() ) // must allocate more memory
     {
     this->Reserve( m_Size + this->GetGrowthSize() );
     }
@@ -75,14 +78,14 @@ ObjectStore<TObjectType>
   //that blocks know when they can be deleted.
 }
 
-template <class TObjectType>
+template< class TObjectType >
 void
-ObjectStore<TObjectType>
+ObjectStore< TObjectType >
 ::Return(ObjectType *p)
 {
   // For speed, does no checking.
   m_FreeList.push_back(p);
-  
+
   //  if ( m_FreeList.size() != m_Size )
   //    {  m_FreeList.push_back(p); }
   // else object has been used incorrectly
@@ -98,19 +101,19 @@ ObjectStore<TObjectType>
   // it?
 }
 
-template <class TObjectType>
+template< class TObjectType >
 ::size_t
-ObjectStore<TObjectType>
+ObjectStore< TObjectType >
 ::GetGrowthSize()
 {
-  switch (m_GrowthStrategy)
+  switch ( m_GrowthStrategy )
     {
     case LINEAR_GROWTH:
       return m_LinearGrowthSize;
       break;
     case EXPONENTIAL_GROWTH:
-      if (m_Size == 0) return m_LinearGrowthSize;
-      else return m_Size;
+      if ( m_Size == 0 ) { return m_LinearGrowthSize; }
+      else { return m_Size; }
       break;
     default:
       return m_LinearGrowthSize;
@@ -122,25 +125,24 @@ ObjectStore<TObjectType>
   return m_LinearGrowthSize;
 }
 
-template <class TObjectType>
+template< class TObjectType >
 void
-ObjectStore<TObjectType>
+ObjectStore< TObjectType >
 ::Squeeze()
 {
   // Not implemented yet.
-
 }
 
-template <class TObjectType>
+template< class TObjectType >
 void
-ObjectStore<TObjectType>
+ObjectStore< TObjectType >
 ::Clear()
 {
   // Clear the free list.
   m_FreeList.clear();
-  
+
   // Empty the MemoryBlock list and deallocate all memory blocks.
-  while ( ! m_Store.empty() )
+  while ( !m_Store.empty() )
     {
     m_Store.back().Delete();
     m_Store.pop_back();
@@ -148,21 +150,20 @@ ObjectStore<TObjectType>
   m_Size = 0;
 }
 
-template <class TObjectType>
+template< class TObjectType >
 void
-ObjectStore<TObjectType>
-::PrintSelf(std::ostream& os, Indent indent) const
+ObjectStore< TObjectType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "m_GrowthStrategy: " << m_GrowthStrategy << std::endl;
   os << indent << "m_Size: " << m_Size << std::endl;
-  os << indent << "m_LinearGrowthSize: " << static_cast<unsigned long>( m_LinearGrowthSize ) << std::endl;
-  os << indent << "Free list size: " << static_cast<unsigned long>( m_FreeList.size() ) << std::endl;
-  os << indent << "Free list capacity: " << static_cast<unsigned long>( m_FreeList.capacity() ) << std::endl;
-  os << indent << "Number of blocks in store: " << static_cast<unsigned long>( m_Store.size() ) << std::endl;
+  os << indent << "m_LinearGrowthSize: " << static_cast< unsigned long >( m_LinearGrowthSize ) << std::endl;
+  os << indent << "Free list size: " << static_cast< unsigned long >( m_FreeList.size() ) << std::endl;
+  os << indent << "Free list capacity: " << static_cast< unsigned long >( m_FreeList.capacity() ) << std::endl;
+  os << indent << "Number of blocks in store: " << static_cast< unsigned long >( m_Store.size() ) << std::endl;
 }
-
 } // end namespace itk
 
 #endif

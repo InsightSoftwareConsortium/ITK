@@ -22,8 +22,8 @@
 #include "itkScalarChanAndVeseLevelSetFunctionData.h"
 #include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ScalarChanAndVeseLevelSetFunction
  *
  * \brief LevelSet function that computes a speed image based on regional integrals of probabilities
@@ -64,90 +64,90 @@ namespace itk {
  *
  *
  */
-template < class TInputImage,
-class TFeatureImage,
-class TSharedData=ConstrainedRegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage,
-     ScalarChanAndVeseLevelSetFunctionData< TInputImage, TFeatureImage > > >
-class ITK_EXPORT ScalarChanAndVeseLevelSetFunction
-: public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
+template< class TInputImage,
+          class TFeatureImage,
+          class TSharedData = ConstrainedRegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage,
+                                                                                ScalarChanAndVeseLevelSetFunctionData<
+                                                                                  TInputImage, TFeatureImage > > >
+class ITK_EXPORT ScalarChanAndVeseLevelSetFunction:
+  public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
-  typedef ScalarChanAndVeseLevelSetFunction           Self;
-  typedef ScalarRegionBasedLevelSetFunction<
-    TInputImage, TFeatureImage, TSharedData >         Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef ScalarChanAndVeseLevelSetFunction                                            Self;
+  typedef ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData > Superclass;
+  typedef SmartPointer< Self >                                                         Pointer;
+  typedef SmartPointer< const Self >                                                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunction );
+  itkTypeMacro(ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunction);
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TFeatureImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
-  typedef TInputImage                                   InputImageType;
-  typedef typename Superclass::InputImageConstPointer   InputImageConstPointer;
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::InputPixelType           InputPixelType;
-  typedef typename Superclass::InputIndexType           InputIndexType;
-  typedef typename Superclass::InputIndexValueType      InputIndexValueType;
-  typedef typename Superclass::InputSizeType            InputSizeType;
-  typedef typename Superclass::InputSizeValueType       InputSizeValueType;
-  typedef typename Superclass::InputRegionType          InputRegionType;
-  typedef typename Superclass::InputPointType           InputPointType;
+  typedef TInputImage                                 InputImageType;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::InputPixelType         InputPixelType;
+  typedef typename Superclass::InputIndexType         InputIndexType;
+  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
+  typedef typename Superclass::InputSizeType          InputSizeType;
+  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
+  typedef typename Superclass::InputRegionType        InputRegionType;
+  typedef typename Superclass::InputPointType         InputPointType;
 
-  typedef TFeatureImage                                 FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer       FeatureImageConstPointer;
-  typedef typename Superclass::FeaturePixelType         FeaturePixelType;
-  typedef typename Superclass::FeatureIndexType         FeatureIndexType;
-  typedef typename Superclass::FeatureOffsetType        FeatureOffsetType;
+  typedef TFeatureImage                           FeatureImageType;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename Superclass::FeaturePixelType   FeaturePixelType;
+  typedef typename Superclass::FeatureIndexType   FeatureIndexType;
+  typedef typename Superclass::FeatureOffsetType  FeatureOffsetType;
 
-  typedef typename Superclass::ScalarValueType          ScalarValueType;
-  typedef typename Superclass::NeighborhoodType         NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType          FloatOffsetType;
-  typedef typename Superclass::RadiusType               RadiusType;
-  typedef typename Superclass::TimeStepType             TimeStepType;
-  typedef typename Superclass::GlobalDataStruct         GlobalDataStruct;
-  typedef typename Superclass::PixelType                PixelType;
-  typedef typename Superclass::VectorType               VectorType;
+  typedef typename Superclass::ScalarValueType  ScalarValueType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  typedef typename Superclass::RadiusType       RadiusType;
+  typedef typename Superclass::TimeStepType     TimeStepType;
+  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef typename Superclass::PixelType        PixelType;
+  typedef typename Superclass::VectorType       VectorType;
 
-  typedef typename Superclass::SharedDataType           SharedDataType;
-  typedef typename Superclass::SharedDataPointer        SharedDataPointer;
+  typedef typename Superclass::SharedDataType    SharedDataType;
+  typedef typename Superclass::SharedDataPointer SharedDataPointer;
 
   typedef typename Superclass::ImageIteratorType        ImageIteratorType;
   typedef typename Superclass::ConstImageIteratorType   ConstImageIteratorType;
   typedef typename Superclass::FeatureImageIteratorType FeatureImageIteratorType;
   typedef typename Superclass::ConstFeatureIteratorType ConstFeatureIteratorType;
 
-  typedef typename Superclass::ListPixelType            ListPixelType;
-  typedef typename Superclass::ListPixelConstIterator   ListPixelConstIterator;
-  typedef typename Superclass::ListPixelIterator        ListPixelIterator;
-  typedef typename Superclass::ListImageType            ListImageType;
-
+  typedef typename Superclass::ListPixelType          ListPixelType;
+  typedef typename Superclass::ListPixelConstIterator ListPixelConstIterator;
+  typedef typename Superclass::ListPixelIterator      ListPixelIterator;
+  typedef typename Superclass::ListImageType          ListImageType;
 protected:
-  ScalarChanAndVeseLevelSetFunction() : Superclass() {}
+  ScalarChanAndVeseLevelSetFunction():Superclass() {}
   ~ScalarChanAndVeseLevelSetFunction(){}
 
   void ComputeParameters();
+
   void UpdateSharedDataParameters();
 
-  ScalarValueType ComputeInternalTerm( const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx );
+  ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
+                                      const FeatureIndexType & iIdx);
 
-  ScalarValueType ComputeExternalTerm( const FeaturePixelType& iValue,
-    const FeatureIndexType& iIdx );
+  ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
+                                      const FeatureIndexType & iIdx);
 
-  void UpdateSharedDataInsideParameters( const unsigned int& iId,
-    const FeaturePixelType& iVal, const ScalarValueType& iChange );
-  void UpdateSharedDataOutsideParameters( const unsigned int& iId,
-    const FeaturePixelType& iVal, const ScalarValueType& iChange );
+  void UpdateSharedDataInsideParameters(const unsigned int & iId,
+                                        const FeaturePixelType & iVal, const ScalarValueType & iChange);
+
+  void UpdateSharedDataOutsideParameters(const unsigned int & iId,
+                                         const FeaturePixelType & iVal, const ScalarValueType & iChange);
 
 private:
-  ScalarChanAndVeseLevelSetFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarChanAndVeseLevelSetFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

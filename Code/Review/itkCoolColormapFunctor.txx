@@ -19,17 +19,17 @@
 
 #include "itkCoolColormapFunctor.h"
 
-namespace itk {
-
-namespace Functor {
-
-template <class TScalar, class TRGBPixel>
-typename CoolColormapFunctor<TScalar, TRGBPixel>::RGBPixelType
-CoolColormapFunctor<TScalar, TRGBPixel>
-::operator()( const TScalar & v ) const
+namespace itk
+{
+namespace Functor
+{
+template< class TScalar, class TRGBPixel >
+typename CoolColormapFunctor< TScalar, TRGBPixel >::RGBPixelType
+CoolColormapFunctor< TScalar, TRGBPixel >
+::operator()(const TScalar & v) const
 {
   // Map the input scalar between [0, 1].
-  RealType value = this->RescaleInputValue( v );
+  RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
   RealType red = value;
@@ -41,16 +41,13 @@ CoolColormapFunctor<TScalar, TRGBPixel>
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;
 
-  pixel[0] = this->RescaleRGBComponentValue( red );
-  pixel[1] = this->RescaleRGBComponentValue( green );
-  pixel[2] = this->RescaleRGBComponentValue( blue );
+  pixel[0] = this->RescaleRGBComponentValue(red);
+  pixel[1] = this->RescaleRGBComponentValue(green);
+  pixel[2] = this->RescaleRGBComponentValue(blue);
 
   return pixel;
 }
-
 } // end namespace Functor
-
 } // end namespace itk
-
 
 #endif

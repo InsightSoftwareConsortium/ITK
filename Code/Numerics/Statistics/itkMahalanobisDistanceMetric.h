@@ -27,10 +27,10 @@
 
 #include "itkDistanceMetric.h"
 
-
-namespace itk {
-namespace Statistics{
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class MahalanobisDistanceMetric
  * \brief MahalanobisDistanceMetric class computes a Mahalanobis
  *  distance given a mean and covariance.
@@ -41,39 +41,37 @@ namespace Statistics{
  */
 
 template< class TVector >
-class ITK_EXPORT MahalanobisDistanceMetric :
-    public DistanceMetric< TVector >
+class ITK_EXPORT MahalanobisDistanceMetric:
+  public DistanceMetric< TVector >
 {
 public:
   /** Standard class typedefs */
-  typedef MahalanobisDistanceMetric                 Self;
-  typedef DistanceMetric< TVector >                 Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef MahalanobisDistanceMetric  Self;
+  typedef DistanceMetric< TVector >  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMetric, DistanceMetric);
   itkNewMacro(Self);
 
-
   /** Typedef to represent the measurement vector type */
-  typedef typename Superclass::MeasurementVectorType  MeasurementVectorType;
+  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
 
   /** Typedef to represent the length of measurement vectors */
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-
 
   /** Type used for representing the mean vector */
   typedef typename Superclass::OriginType MeanVectorType;
 
   /** Type used for representing the covariance matrix */
-  typedef vnl_matrix<double>  CovarianceMatrixType;
+  typedef vnl_matrix< double > CovarianceMatrixType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize( MeasurementVectorSizeType );
+  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType);
 
   /** Method to set mean */
-  void SetMean(const MeanVectorType &mean);
+  void SetMean(const MeanVectorType & mean);
 
   /** Method to get mean */
   const MeanVectorType & GetMean() const;
@@ -82,53 +80,50 @@ public:
    * Method to set covariance matrix
    * Also, this function calculates inverse covariance and pre factor of
    * MahalanobisDistance Distribution to speed up GetProbability */
-  void SetCovariance(const CovarianceMatrixType &cov);
+  void SetCovariance(const CovarianceMatrixType & cov);
 
   /** Method to get covariance matrix */
-  itkGetConstReferenceMacro( Covariance, CovarianceMatrixType );
+  itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
   /**
    * Method to set inverse covariance matrix */
-  void SetInverseCovariance(const CovarianceMatrixType &invcov);
+  void SetInverseCovariance(const CovarianceMatrixType & invcov);
 
   /** Method to get covariance matrix */
-  itkGetConstReferenceMacro( InverseCovariance, CovarianceMatrixType );
+  itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
 
   /**
    * Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  double Evaluate(const MeasurementVectorType &measurement) const;
+  double Evaluate(const MeasurementVectorType & measurement) const;
 
   /** Gets the distance between x1 and x2. */
-  double Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const;
 
   /** Set/Get tolerance values */
-  itkSetMacro( Epsilon, double );
-  itkGetConstMacro( Epsilon, double );
+  itkSetMacro(Epsilon, double);
+  itkGetConstMacro(Epsilon, double);
 
-  itkSetMacro( DoubleMax, double );
-  itkGetConstMacro( DoubleMax, double );
-
+  itkSetMacro(DoubleMax, double);
+  itkGetConstMacro(DoubleMax, double);
 protected:
   MahalanobisDistanceMetric(void);
   virtual ~MahalanobisDistanceMetric(void) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MeanVectorType        m_Mean;              // mean
-  CovarianceMatrixType  m_Covariance;        // covariance matrix
+  MeanVectorType       m_Mean;               // mean
+  CovarianceMatrixType m_Covariance;         // covariance matrix
 
   // inverse covariance matrix which is automatically calculated
   // when covariace matirx is set.  This speed up the GetProbability()
-  CovarianceMatrixType  m_InverseCovariance;
+  CovarianceMatrixType m_InverseCovariance;
 
-  double       m_Epsilon;
-  double       m_DoubleMax;
+  double m_Epsilon;
+  double m_DoubleMax;
 
   void CalculateInverseCovariance();
-
 };
-
 } // end of namespace Statistics
 } // end namespace itk
 

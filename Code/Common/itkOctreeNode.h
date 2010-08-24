@@ -9,26 +9,25 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkOctreeNode_h
 #define __itkOctreeNode_h
 #include "itkMacro.h"
-namespace itk {
-
-enum LeafIdentifier { ZERO=0,ONE=1,TWO=2,THREE=3,FOUR=4,FIVE=5,SIX=6,SEVEN=7 };
-
+namespace itk
+{
+enum LeafIdentifier { ZERO = 0, ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7 };
 
 //A forward-declaration
 class OctreeNodeBranch;
 class OctreeBase;
-  
+
 /**
  * \class OctreeNode
- * OctreeNode data structure,  OctreeNodes have two states: 1) They are a Colored node and the 
+ * OctreeNode data structure,  OctreeNodes have two states: 1) They are a Colored node and the
  * m_Branch is a sentinal value indicating the color, or 2) they are a branch node, and m_Branch
  * is a dynamically allocated array of 8 pointers to OctreeNodes.  In the second state, the 8 child
  * OctreeNodes are instantiated by the parent node.
@@ -61,17 +60,20 @@ public:
    * @{
    */
   OctreeNode & GetChild(const enum LeafIdentifier ChildID) const;
+
   OctreeNode & GetChild(const enum LeafIdentifier ChildID);
+
   /** @} */
   /**
    * Determines the color value of the specified Child for for this OctreeNode
    * \author Hans J. Johnson
    * \param ChildID The numerical identifier of the desired child.
    * \return A value between 0 and 255 to indicate the color of the Disired child.
-   * \pre Must determine that the specified node is colored (Use IsNodeColored() 
+   * \pre Must determine that the specified node is colored (Use IsNodeColored()
    * member function.  Behavior is undefined when the child is another Octree.
    */
   int GetColor(void) const;
+
   /**
    * Sets the color value of the specified Child for for this OctreeNode
    * \author Hans J. Johnson
@@ -80,7 +82,8 @@ public:
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
-  void SetColor( int NodeColor);
+  void SetColor(int NodeColor);
+
   /**
    * Sets the color value of the specified Child for for this OctreeNode
    * \author Hans J. Johnson
@@ -89,7 +92,8 @@ public:
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */
-  void SetBranch(OctreeNodeBranch * NewBranch);
+  void SetBranch(OctreeNodeBranch *NewBranch);
+
   /**
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
    * \author Hans J. Johnson
@@ -97,40 +101,44 @@ public:
    * \return true if it is colored, false if it is not
    */
   bool IsNodeColored(void) const;
+
   inline void SetParentOctree(OctreeBase *parent)
-    {
+  {
     m_Parent = parent;
-    }
+  }
+
 protected:
 private:
   /**
-   * Removes all children from this node down, and sets the value 
+   * Removes all children from this node down, and sets the value
    * value of the children to background.
    * \author Hans J. Johnson
    */
   void RemoveChildren(void);
 
   /**
-   * Each element holds COLOR or pointer to another octree node 
+   * Each element holds COLOR or pointer to another octree node
    */
-  OctreeNodeBranch * m_Branch; 
-  OctreeBase       * m_Parent;
+  OctreeNodeBranch *m_Branch;
+  OctreeBase *      m_Parent;
 };
 
 class OctreeNodeBranch
 {
 public:
   OctreeNodeBranch(OctreeBase *parent)
-    {
-    for(int i = 0; i < 8; i++)
+  {
+    for ( int i = 0; i < 8; i++ )
       {
       m_Leaves[i].SetParentOctree(parent);
       }
-    }
-  inline OctreeNode *GetLeaf(enum LeafIdentifier LeafID)
-    {
+  }
+
+  inline OctreeNode * GetLeaf(enum LeafIdentifier LeafID)
+  {
     return &m_Leaves[LeafID];
-    }
+  }
+
 private:
   OctreeNode m_Leaves[8];
 };

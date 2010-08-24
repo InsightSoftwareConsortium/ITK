@@ -20,10 +20,10 @@
 
 #include "itkBresenhamLine.h"
 
-namespace itk {
-
-template<unsigned int VDimension>
-typename BresenhamLine<VDimension>::OffsetArray BresenhamLine<VDimension>
+namespace itk
+{
+template< unsigned int VDimension >
+typename BresenhamLine< VDimension >::OffsetArray BresenhamLine< VDimension >
 ::BuildLine(LType Direction, unsigned int length)
 {
   // copied from the line iterator
@@ -52,49 +52,49 @@ typename BresenhamLine<VDimension>::OffsetArray BresenhamLine<VDimension>
   OffsetArray result(length);
 
   IndexType m_CurrentImageIndex, StartIndex, LastIndex;
+
   Direction.Normalize();
   // we are going to start at 0
   m_CurrentImageIndex.Fill(0);
   StartIndex.Fill(0);
-  for (unsigned i = 0; i<VDimension;i++)
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
-    LastIndex[i] = (IndexValueType)(length*Direction[i]);
+    LastIndex[i] = (IndexValueType)( length * Direction[i] );
     }
   // Find the dominant direction
   IndexValueType maxDistance = 0;
-  unsigned int maxDistanceDimension = 0;
-  for (unsigned i = 0; i<VDimension;i++)
+  unsigned int   maxDistanceDimension = 0;
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
     IndexValueType distance = abs(LastIndex[i]);
-    if (distance > maxDistance)
+    if ( distance > maxDistance )
       {
       maxDistance = distance;
       maxDistanceDimension = i;
       }
-    m_IncrementError[i] = 2*distance;
-    m_OverflowIncrement[i] = (LastIndex[i] < 0 ? -1 : 1);
+    m_IncrementError[i] = 2 * distance;
+    m_OverflowIncrement[i] = ( LastIndex[i] < 0 ? -1 : 1 );
     }
   m_MainDirection = maxDistanceDimension;
   m_MaximalError.Fill(maxDistance);
-  m_ReduceErrorAfterIncrement.Fill(2*maxDistance);
+  m_ReduceErrorAfterIncrement.Fill(2 * maxDistance);
   m_AccumulateError.Fill(0);
   unsigned int steps = 1;
   result[0] = m_CurrentImageIndex - StartIndex;
-  while (steps < length)
+  while ( steps < length )
     {
     // This part is from ++ in LineConstIterator
     // We need to modify m_AccumulateError, m_CurrentImageIndex, m_IsAtEnd
-    for (unsigned int i = 0; i < VDimension; ++i)
+    for ( unsigned int i = 0; i < VDimension; ++i )
       {
-      if (i == m_MainDirection)
+      if ( i == m_MainDirection )
         {
-
         m_CurrentImageIndex[i] += m_OverflowIncrement[i];
         }
       else
         {
         m_AccumulateError[i] += m_IncrementError[i];
-        if (m_AccumulateError[i] >= m_MaximalError[i])
+        if ( m_AccumulateError[i] >= m_MaximalError[i] )
           {
           m_CurrentImageIndex[i] += m_OverflowIncrement[i];
           m_AccumulateError[i] -= m_ReduceErrorAfterIncrement[i];
@@ -106,10 +106,8 @@ typename BresenhamLine<VDimension>::OffsetArray BresenhamLine<VDimension>
 
     ++steps;
     }
-  return(result);
+  return ( result );
 }
-
 } // namespace itk
-
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class GrayscaleGeodesicDilateImageFilter
  * \brief geodesic gray scale dilation of an image
  *
@@ -52,41 +52,40 @@ namespace itk {
  * their implementation have been converted to use the
  * ReconstructionByDilationImageFilter. The
  * GrayscaleGeodesicDilateImageFilter is maintained for backward
- * compatibility. 
+ * compatibility.
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter,
  * GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter, ReconstructionByDilationImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT GrayscaleGeodesicDilateImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT GrayscaleGeodesicDilateImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GrayscaleGeodesicDilateImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                             Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef GrayscaleGeodesicDilateImageFilter              Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              MarkerImageType;
-  typedef typename MarkerImageType::Pointer        MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
-  typedef TInputImage                              MaskImageType;
-  typedef typename MaskImageType::Pointer          MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType       MaskImageRegionType;
-  typedef typename MaskImageType::PixelType        MaskImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            MarkerImageType;
+  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
+  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
+  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
+  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
+  typedef TInputImage                            MaskImageType;
+  typedef typename MaskImageType::Pointer        MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
+  typedef typename MaskImageType::RegionType     MaskImageRegionType;
+  typedef typename MaskImageType::PixelType      MaskImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(MarkerImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -96,23 +95,25 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(GrayscaleGeodesicDilateImageFilter, 
+  itkTypeMacro(GrayscaleGeodesicDilateImageFilter,
                ImageToImageFilter);
-  
+
   /** Set/Get the marker image. The marker image must be pixelwise
    * less than or equal to the mask image. The marker image the
    * image that is dilated by this filter. */
   void SetMarkerImage(const MarkerImageType *);
-  const MarkerImageType* GetMarkerImage();
+
+  const MarkerImageType * GetMarkerImage();
 
   /** Set/Get the mask image. The mask image is used to "mask" the
    * dilated marker image. The mask operation is a pixelwise
    * minimum. */
   void SetMaskImage(const MaskImageType *);
-  const MaskImageType* GetMaskImage();
+
+  const MaskImageType * GetMaskImage();
 
   /** Set/Get whether the filter should run one iteration or until
    * convergence. When run to convergence, this filter is equivalent
@@ -137,19 +138,18 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputComparableCheck,
-    (Concept::Comparable<MarkerImagePixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< MarkerImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputComparableCheck,
+                   ( Concept::Comparable< MarkerImagePixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< MarkerImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   GrayscaleGeodesicDilateImageFilter();
-  ~GrayscaleGeodesicDilateImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~GrayscaleGeodesicDilateImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GrayscaleGeodesicDilateImageFilter needs to request enough of the
    * marker image to account for the elementary structuring element.
@@ -163,7 +163,7 @@ protected:
    * all of the output if the filter is configured to run to
    * convergence.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
   /** Single-threaded version of GenerateData.  This version is used
    * when the filter is configured to run to convergence. This method
@@ -172,27 +172,25 @@ protected:
    * delegate to a separate instance to run each iteration until the
    * filter converges. */
   void GenerateData();
-  
+
   /** Multi-thread version GenerateData. This version is used when the
    * filter is configured to run a single iteration. When the filter
    * is configured to run to convergence, the GenerateData() method is
    * called. */
-  void ThreadedGenerateData (const OutputImageRegionType& 
-                             outputRegionForThread,
-                             int threadId);
+  void ThreadedGenerateData(const OutputImageRegionType &
+                            outputRegionForThread,
+                            int threadId);
 
 private:
-  GrayscaleGeodesicDilateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GrayscaleGeodesicDilateImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
   bool          m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;
   bool          m_FullyConnected;
-
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGrayscaleGeodesicDilateImageFilter.txx"
 #endif

@@ -32,7 +32,8 @@
 
 #include <vector>
 
-namespace itk {
+namespace itk
+{
 /**
  *  \class MultiphaseSparseFiniteDifferenceImageFilter
  *
@@ -176,121 +177,119 @@ namespace itk {
  *      http://hdl.handle.net/1926/1533
  *
  */
-template < class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-  typename TIdCell = unsigned int >
-class ITK_EXPORT MultiphaseSparseFiniteDifferenceImageFilter :
+template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
+          typename TIdCell = unsigned int >
+class ITK_EXPORT MultiphaseSparseFiniteDifferenceImageFilter:
   public MultiphaseFiniteDifferenceImageFilter< TInputImage,
-  TFeatureImage, TOutputImage, TFunction, TIdCell >
+                                                TFeatureImage, TOutputImage, TFunction, TIdCell >
 {
 public:
   /** Standard class typedefs */
-  typedef MultiphaseSparseFiniteDifferenceImageFilter     Self;
+  typedef MultiphaseSparseFiniteDifferenceImageFilter Self;
   typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
-    TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter );
+  itkTypeMacro(MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter);
 
-  itkStaticConstMacro( ImageDimension, unsigned int, Superclass::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::TimeStepType               TimeStepType;
+  typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Information derived from the image types. */
-  typedef typename Superclass::InputImageType             InputImageType;
-  typedef typename Superclass::InputImagePointer          InputImagePointer;
-  typedef typename Superclass::InputRegionType            InputRegionType;
-  typedef typename Superclass::InputSizeType              InputSizeType;
-  typedef typename Superclass::InputSizeValueType         InputSizeValueType;
-  typedef typename Superclass::InputIndexType             InputIndexType;
-  typedef typename Superclass::InputIndexValueType        InputIndexValueType;
-  typedef typename Superclass::InputPixelType             InputPixelType;
-  typedef typename Superclass::InputPointType             InputPointType;
-  typedef typename Superclass::InputSpacingType           InputSpacingType;
+  typedef typename Superclass::InputImageType      InputImageType;
+  typedef typename Superclass::InputImagePointer   InputImagePointer;
+  typedef typename Superclass::InputRegionType     InputRegionType;
+  typedef typename Superclass::InputSizeType       InputSizeType;
+  typedef typename Superclass::InputSizeValueType  InputSizeValueType;
+  typedef typename Superclass::InputIndexType      InputIndexType;
+  typedef typename Superclass::InputIndexValueType InputIndexValueType;
+  typedef typename Superclass::InputPixelType      InputPixelType;
+  typedef typename Superclass::InputPointType      InputPointType;
+  typedef typename Superclass::InputSpacingType    InputSpacingType;
 
-  typedef typename Superclass::FeatureImageType           FeatureImageType;
-  typedef typename Superclass::FeatureSizeType            FeatureSizeType;
-  typedef typename Superclass::FeatureImagePointer        FeatureImagePointer;
-  typedef typename Superclass::FeatureRegionType          FeatureRegionType;
-  typedef typename Superclass::FeatureSpacingType         FeatureSpacingType;
-  typedef typename Superclass::FeaturePointType           FeaturePointType;
+  typedef typename Superclass::FeatureImageType    FeatureImageType;
+  typedef typename Superclass::FeatureSizeType     FeatureSizeType;
+  typedef typename Superclass::FeatureImagePointer FeatureImagePointer;
+  typedef typename Superclass::FeatureRegionType   FeatureRegionType;
+  typedef typename Superclass::FeatureSpacingType  FeatureSpacingType;
+  typedef typename Superclass::FeaturePointType    FeaturePointType;
 
-  typedef typename Superclass::OutputImageType            OutputImageType;
-  typedef typename Superclass::OutputImagePointer         OutputImagePointer;
-  typedef typename Superclass::OutputRegionType           OutputRegionType;
-  typedef typename Superclass::OutputSizeType             OutputSizeType;
-  typedef typename Superclass::OutputIndexType            OutputIndexType;
-  typedef typename Superclass::OutputIndexValueType       OutputIndexValueType;
-  typedef typename Superclass::OutputPixelType            OutputPixelType;
+  typedef typename Superclass::OutputImageType      OutputImageType;
+  typedef typename Superclass::OutputImagePointer   OutputImagePointer;
+  typedef typename Superclass::OutputRegionType     OutputRegionType;
+  typedef typename Superclass::OutputSizeType       OutputSizeType;
+  typedef typename Superclass::OutputIndexType      OutputIndexType;
+  typedef typename Superclass::OutputIndexValueType OutputIndexValueType;
+  typedef typename Superclass::OutputPixelType      OutputPixelType;
 
-  typedef typename InputImageType::ValueType              ValueType;
-  typedef typename Superclass::IdCellType                 IdCellType;
+  typedef typename InputImageType::ValueType ValueType;
+  typedef typename Superclass::IdCellType    IdCellType;
 
   typedef typename Superclass::FiniteDifferenceFunctionType
-    FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
   typedef typename Superclass::FiniteDifferenceFunctionPointer
-    FiniteDifferenceFunctionPointer;
+  FiniteDifferenceFunctionPointer;
   typedef typename FiniteDifferenceFunctionType::FloatOffsetType
-    FiniteDifferenceFunctionFloatOffsetType;
+  FiniteDifferenceFunctionFloatOffsetType;
 
   /** Node type used in sparse field layer lists. */
-  typedef SparseFieldLevelSetNode< OutputIndexType >    LayerNodeType;
+  typedef SparseFieldLevelSetNode< OutputIndexType > LayerNodeType;
 
   /** A list type used in the algorithm. */
-  typedef SparseFieldLayer< LayerNodeType >             LayerType;
-  typedef typename LayerType::Pointer                   LayerPointerType;
-  typedef typename LayerType::Iterator                  LayerIterator;
-  typedef typename LayerType::ConstIterator             LayerConstIterator;
+  typedef SparseFieldLayer< LayerNodeType > LayerType;
+  typedef typename LayerType::Pointer       LayerPointerType;
+  typedef typename LayerType::Iterator      LayerIterator;
+  typedef typename LayerType::ConstIterator LayerConstIterator;
 
   /** A type for a list of LayerPointerTypes */
-  typedef std::vector< LayerPointerType >               LayerListType;
-  typedef typename LayerListType::iterator              LayerListIterator;
-  typedef typename LayerListType::const_iterator        LayerListConstIterator;
-
+  typedef std::vector< LayerPointerType >        LayerListType;
+  typedef typename LayerListType::iterator       LayerListIterator;
+  typedef typename LayerListType::const_iterator LayerListConstIterator;
 
   /** Type used for storing status information */
-  typedef signed char                                   StatusType;
+  typedef signed char StatusType;
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
   typedef Image< StatusType, itkGetStaticConstMacro(ImageDimension) >
-                                                        StatusImageType;
-  typedef typename StatusImageType::Pointer             StatusImagePointer;
+  StatusImageType;
+  typedef typename StatusImageType::Pointer StatusImagePointer;
 
-  typedef ZeroCrossingImageFilter< InputImageType, InputImageType>
-    ZeroCrossingFilterType;
+  typedef ZeroCrossingImageFilter< InputImageType, InputImageType >
+  ZeroCrossingFilterType;
   typedef typename ZeroCrossingFilterType::Pointer
-    ZeroCrossingFilterPointer;
+  ZeroCrossingFilterPointer;
 
   typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType > BFCType;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
-  typedef ObjectStore< LayerNodeType >            LayerNodeStorageType;
-  typedef typename LayerNodeStorageType::Pointer  LayerNodeStoragePointer;
+  typedef ObjectStore< LayerNodeType >           LayerNodeStorageType;
+  typedef typename LayerNodeStorageType::Pointer LayerNodeStoragePointer;
 
   /** Container type used to store updates to the active layer. */
   typedef std::vector< ValueType >                  UpdateBufferType;
   typedef typename UpdateBufferType::const_iterator UpdateBufferConstIterator;
 
-  typedef SparseFieldCityBlockNeighborList<
-    NeighborhoodIterator<OutputImageType> >       NeighborListType;
-  typedef typename NeighborListType::OffsetType   OffsetType;
+  typedef SparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > > NeighborListType;
+  typedef typename NeighborListType::OffsetType                                       OffsetType;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers +1   */
-  itkSetMacro( NumberOfLayers, unsigned int );
-  itkGetConstMacro( NumberOfLayers, unsigned int );
+  itkSetMacro(NumberOfLayers, unsigned int);
+  itkGetConstMacro(NumberOfLayers, unsigned int);
 
   /** Set/Get the value of the isosurface to use in the input image. */
-  itkSetMacro( IsoSurfaceValue, ValueType );
-  itkGetConstMacro( IsoSurfaceValue, ValueType );
+  itkSetMacro(IsoSurfaceValue, ValueType);
+  itkGetConstMacro(IsoSurfaceValue, ValueType);
 
   /** Get/Set the value of the InterpolateSurfaceLocation flag.  This flag
    *  tells the solver whether or not to interpolate for the surface location
@@ -301,59 +300,56 @@ public:
 
   /** See Get/SetInterpolateSurfaceLocation */
   void InterpolateSurfaceLocationOn()
-  { this->SetInterpolateSurfaceLocation( true ); }
+  { this->SetInterpolateSurfaceLocation(true); }
   void InterpolateSurfaceLocationOff()
-  { this->SetInterpolateSurfaceLocation( false ); }
+  { this->SetInterpolateSurfaceLocation(false); }
 
-  void SetFunctionCount( const IdCellType& n )
-    {
-    this->Superclass::SetFunctionCount( n );
+  void SetFunctionCount(const IdCellType & n)
+  {
+    this->Superclass::SetFunctionCount(n);
 
-    m_SparseData.resize( this->m_FunctionCount, 0 );
+    m_SparseData.resize(this->m_FunctionCount, 0);
 
-    for( IdCellType i = 0; i < this->m_FunctionCount; i++ )
+    for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
       {
-      m_SparseData[i] = new SparseDataStruct( i );
+      m_SparseData[i] = new SparseDataStruct(i);
       }
-    }
-
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<typename TOutputImage::PixelType>));
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, typename TOutputImage::PixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<typename TOutputImage::PixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< typename TOutputImage::PixelType > ) );
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   MultiphaseSparseFiniteDifferenceImageFilter();
   ~MultiphaseSparseFiniteDifferenceImageFilter()
-    {
-    while( !m_SparseData.empty() )
+  {
+    while ( !m_SparseData.empty() )
       {
-      if( m_SparseData.back() )
+      if ( m_SparseData.back() )
         {
         delete m_SparseData.back();
         }
       m_SparseData.pop_back();
       }
-    }
+  }
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   // This data structure is created for each phase
-  struct SparseDataStruct
+  struct SparseDataStruct {
+    SparseDataStruct(const IdCellType & index)
     {
-    SparseDataStruct( const IdCellType& index )
-      {
       m_LayerNodeStore = LayerNodeStorageType::New();
       m_LayerNodeStore->SetGrowthStrategyToExponential();
       m_Index = index;
-      }
+    }
 
     /** An array which contains all of the layers needed in the sparse
     * field. Layers are organized as follows: m_Layer[0] = active layer,
@@ -372,7 +368,7 @@ protected:
     UpdateBufferType m_UpdateBuffer;
 
     IdCellType m_Index;
-    };
+  };
 
   /** Connectivity information for examining neighbor pixels.   */
   NeighborListType m_NeighborList;
@@ -385,13 +381,13 @@ protected:
    * follows the standard finite difference scheme of scaling the change by the
    * timestep and adding to the value of the previous iteration. */
   inline virtual ValueType CalculateUpdateValue(
-    const OutputIndexType &itkNotUsed(idx),
-    const TimeStepType &dt,
-    const ValueType &value,
-    const ValueType &change)
-    {
-    return (value + dt * change);
-    }
+    const OutputIndexType & itkNotUsed(idx),
+    const TimeStepType & dt,
+    const ValueType & value,
+    const ValueType & change)
+  {
+    return ( value + dt * change );
+  }
 
   /**This method packages the output(s) into a consistent format.  The default
    * implementation produces a volume with the final solution values in the
@@ -428,7 +424,7 @@ protected:
    * layer. Builds the list of nodes in m_Layer[to] using m_Layer[from].
    * Marks values in the m_StatusImage. */
   void ConstructLayer(SparseDataStruct *sparsePtr, StatusType from, StatusType
-to);
+                      to);
 
   /** Constructs the active layer and initialize the first layers inside and
    * outside of the active layer.  The active layer defines the position of the
@@ -451,7 +447,7 @@ to);
    *  propagation is inwards (more negative).  "InOrOut" == 2 indicates this
    *  propagation is outwards (more positive). */
   void PropagateLayerValues(SparseDataStruct *sparsePtr, StatusType from,
-    StatusType to, StatusType promote, int InOrOut);
+                            StatusType to, StatusType promote, int InOrOut);
 
   /** Adjusts the values associated with all the index layers of the sparse
    * field by propagating out one layer at a time from the active set. This
@@ -459,29 +455,30 @@ to);
    * marked in the status image as having been moved to other layers. */
   void PropagateAllLayerValues();
 
-  void PropagateFunctionLayerValues( unsigned int functionIndex );
+  void PropagateFunctionLayerValues(unsigned int functionIndex);
 
   /** Updates the active layer values using m_UpdateBuffer. Also creates an
    *  "up" and "down" list for promotion/demotion of indices leaving the
    *  active set. */
-  void UpdateActiveLayerValues( TimeStepType dt, LayerType *StatusUpList,
-    LayerType *StatusDownList );
+  void UpdateActiveLayerValues(TimeStepType dt, LayerType *StatusUpList,
+                               LayerType *StatusDownList);
 
   /** */
-  void ProcessStatusList( LayerType *InputList, LayerType *OutputList,
-    StatusType ChangeToStatus, StatusType SearchForStatus);
+  void ProcessStatusList(LayerType *InputList, LayerType *OutputList,
+                         StatusType ChangeToStatus, StatusType SearchForStatus);
 
   /** */
   void ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus);
 
   void InitializeIteration();
 
-  virtual void UpdatePixel(unsigned int itkNotUsed(functionIndex), unsigned int itkNotUsed(idx),
-    NeighborhoodIterator< InputImageType> & itkNotUsed(iterator), ValueType & itkNotUsed(newValue),
-    bool & itkNotUsed(status) ){};
+  virtual void UpdatePixel( unsigned int itkNotUsed(functionIndex), unsigned int itkNotUsed(idx),
+                            NeighborhoodIterator< InputImageType > & itkNotUsed(iterator), ValueType & itkNotUsed(
+                              newValue),
+                            bool & itkNotUsed(status) ){}
 
-  itkGetConstMacro( ValueZero, ValueType );
-  itkGetConstMacro( ValueOne, ValueType );
+  itkGetConstMacro(ValueZero, ValueType);
+  itkGetConstMacro(ValueOne, ValueType);
 
   /** The constant gradient to maintain between isosurfaces in the
       sparse-field of the level-set image.  This value defaults to 1.0 */
@@ -513,7 +510,7 @@ to);
       meaningful status. */
   static const StatusType m_StatusNull;
 
-  std::vector< SparseDataStruct* > m_SparseData;
+  std::vector< SparseDataStruct * > m_SparseData;
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
@@ -531,12 +528,11 @@ to);
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation;
-
 private:
-  MultiphaseSparseFiniteDifferenceImageFilter(const Self&);
-  void operator=(const Self&);      //purposely not implemented
+  MultiphaseSparseFiniteDifferenceImageFilter(const Self &);
+  void operator=(const Self &);      //purposely not implemented
 
-  unsigned int    m_CurrentFunctionIndex;
+  unsigned int m_CurrentFunctionIndex;
 
   double       m_RMSSum;
   unsigned int m_RMSCounter;
@@ -545,8 +541,6 @@ private:
       false when methods do not need to check for boundary conditions. */
   bool m_BoundsCheckingActive;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

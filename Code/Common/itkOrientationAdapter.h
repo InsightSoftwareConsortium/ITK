@@ -12,12 +12,11 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-
 
 #ifndef __itkOrientationAdapter_h
 #define __itkOrientationAdapter_h
@@ -33,24 +32,26 @@ namespace itk
  * conversion relation between a method of representing orientation, and the
  * direction cosines managed in itk::ImageBase.
  */
-template<class OrientationType, unsigned int Dimension = 3>
+template< class OrientationType, unsigned int Dimension = 3 >
 class OrientationAdapterBase
 {
 public:
   /** typedef for matching ImageBase */
-  typedef ImageBase<Dimension> ImageType;
-  
+  typedef ImageBase< Dimension > ImageType;
+
   /** typedef for matching Direction Cosines type */
   typedef typename ImageType::DirectionType DirectionType;
 
   /** Convert direction cosines to the Orientation type */
-  virtual OrientationType FromDirectionCosines(const DirectionType &Dir) = 0;
+  virtual OrientationType FromDirectionCosines(const DirectionType & Dir) = 0;
+
   /** Convert Orientation type direction cosines */
-  virtual DirectionType ToDirectionCosines(const OrientationType &Orient) = 0;
+  virtual DirectionType ToDirectionCosines(const OrientationType & Orient) = 0;
+
 protected:
-  /** destructor, to silence "virtual class has non-virtual destructor()" warnings */
+  /** destructor, to silence "virtual class has non-virtual destructor()"
+    warnings */
   virtual ~OrientationAdapterBase() {}
 };
-
 } // namespace itk
 #endif // __itkOrientationAdapter_h

@@ -9,19 +9,17 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-#include<iostream>
-#include"itkStdStreamLogOutput.h"
-
+#include <iostream>
+#include "itkStdStreamLogOutput.h"
 
 namespace itk
 {
-
 /** Constructor */
 StdStreamLogOutput::StdStreamLogOutput()
 {
@@ -31,72 +29,66 @@ StdStreamLogOutput::StdStreamLogOutput()
 /** Destructor */
 StdStreamLogOutput::~StdStreamLogOutput()
 {
-  if( this->m_Stream )
+  if ( this->m_Stream )
     {
     this->m_Stream->flush();
     }
 }
 
-
 /** Set file stream */
-void StdStreamLogOutput::SetStream(StreamType &Stream)
+void StdStreamLogOutput::SetStream(StreamType & Stream)
 {
   this->m_Stream = &Stream;
   this->m_Stream->precision(30);
 }
 
-
 /** flush a buffer */
 void StdStreamLogOutput::Flush()
 {
   StdStreamLogOutput::m_Mutex.Lock();
-  if( this->m_Stream )
+  if ( this->m_Stream )
     {
     this->m_Stream->flush();
     }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
-
 /** Write to a buffer */
 void StdStreamLogOutput::Write(double timestamp)
 {
   StdStreamLogOutput::m_Mutex.Lock();
-  if( this->m_Stream )
+  if ( this->m_Stream )
     {
-    (*this->m_Stream) << timestamp;
+    ( *this->m_Stream ) << timestamp;
     }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
-
 /** Write to a buffer */
-void StdStreamLogOutput::Write(std::string const &content)
+void StdStreamLogOutput::Write(std::string const & content)
 {
   StdStreamLogOutput::m_Mutex.Lock();
-  if( this->m_Stream )
-  {
-    (*this->m_Stream) << content;
-  }
+  if ( this->m_Stream )
+    {
+    ( *this->m_Stream ) << content;
+    }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
-
 /** Write to a buffer */
-void StdStreamLogOutput::Write(std::string const &content, double timestamp)
+void StdStreamLogOutput::Write(std::string const & content, double timestamp)
 {
   StdStreamLogOutput::m_Mutex.Lock();
-  if( this->m_Stream )
-  {
-    (*this->m_Stream) << timestamp << "  :  " << content;
-  }
+  if ( this->m_Stream )
+    {
+    ( *this->m_Stream ) << timestamp << "  :  " << content;
+    }
   StdStreamLogOutput::m_Mutex.Unlock();
 }
 
-void StdStreamLogOutput::PrintSelf(std::ostream &os, Indent indent) const
+void StdStreamLogOutput::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Stream: " << m_Stream << std::endl;
 }
-
 }

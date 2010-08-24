@@ -21,9 +21,10 @@
 #include "itkDistanceMetric.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk  {
-namespace Statistics  {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class EuclideanSquareDistanceMetric
  * \brief Computes Euclidean distance between origin and given measurement vector.
  *
@@ -32,15 +33,15 @@ namespace Statistics  {
  * \sa ManhattanDistanceMetric
  */
 template< class TVector >
-class ITK_EXPORT EuclideanSquareDistanceMetric :
-    public DistanceMetric< TVector >
+class ITK_EXPORT EuclideanSquareDistanceMetric:
+  public DistanceMetric< TVector >
 {
 public:
   /** Standard "Self" typedef. */
-  typedef EuclideanSquareDistanceMetric       Self;
-  typedef DistanceMetric< TVector >           Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef EuclideanSquareDistanceMetric Self;
+  typedef DistanceMetric< TVector >     Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
 
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
   typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
@@ -52,16 +53,15 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType &x) const;
+  double Evaluate(const MeasurementVectorType & x) const;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType &x1, const MeasurementVectorType &x2) const;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const;
 
 protected:
   EuclideanSquareDistanceMetric() {}
   virtual ~EuclideanSquareDistanceMetric() {}
-}; // end of class
-
+};  // end of class
 } // end of namespace Statistics
 } // end of namespace itk
 

@@ -9,18 +9,16 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkSTLConstContainerAdaptor_h
 #define __itkSTLConstContainerAdaptor_h
 
-
-namespace itk {
-
-
+namespace itk
+{
 /** \class STLConstContainerAdaptor
  * An adapter object that casts a [const itk::XxxContainer] into [const std::xxx]
  * and enables access to the underlying data structure.
@@ -33,42 +31,37 @@ namespace itk {
  *     // do things with vec ...
  */
 
-
-template<typename TContainer>
+template< typename TContainer >
 class STLConstContainerAdaptor
 {
 public:
 
-  typedef const TContainer                      AdapteeType;
+  typedef const TContainer AdapteeType;
 
-  typedef const typename AdapteeType::Element            ElementType;
-  typedef const typename AdapteeType::STLContainerType   TargetType;
-  
-
+  typedef const typename AdapteeType::Element          ElementType;
+  typedef const typename AdapteeType::STLContainerType TargetType;
 private:
 
   AdapteeType & m_AdapteeRef;
-  
-  /** hide the copy constructor to allow only direct construction of the adapter */
+
+  /** hide the copy constructor to allow only direct construction of the adapter
+    */
   STLConstContainerAdaptor(const STLConstContainerAdaptor & r);
-  
+
   /* hide and avoid operator= */
   const STLConstContainerAdaptor & operator=(const STLConstContainerAdaptor & r);
-  
-  
+
 public:
 
-  STLConstContainerAdaptor(AdapteeType & adaptee) : m_AdapteeRef(adaptee) {}
-  
-  STLConstContainerAdaptor(AdapteeType * adaptee) : m_AdapteeRef(*adaptee) {}
-  
-  TargetType & GetSTLConstContainerRef()
-    {
-    return m_AdapteeRef.CastToSTLConstContainer(); 
-    }
-  
-};
+  STLConstContainerAdaptor(AdapteeType & adaptee):m_AdapteeRef(adaptee) {}
 
+  STLConstContainerAdaptor(AdapteeType *adaptee):m_AdapteeRef(*adaptee) {}
+
+  TargetType & GetSTLConstContainerRef()
+  {
+    return m_AdapteeRef.CastToSTLConstContainer();
+  }
+};
 }   // end namespace itk
 
 #endif

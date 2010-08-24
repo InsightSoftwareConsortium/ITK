@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,11 +23,10 @@
 
 namespace itk
 {
-
 /** \class PowellOptimizer
  * \brief Implements Powell optimization using Brent line search.
  *
- * The code in this class was adapted from the Wikipedia and the 
+ * The code in this class was adapted from the Wikipedia and the
  * netlib.org zeroin function.
  *
  * http://www.netlib.org/go/zeroin.f
@@ -57,37 +56,37 @@ namespace itk
  *
  */
 
-class ITK_EXPORT PowellOptimizer: 
-    public SingleValuedNonLinearOptimizer
+class ITK_EXPORT PowellOptimizer:
+  public SingleValuedNonLinearOptimizer
 {
 public:
   /** Standard "Self" typedef. */
   typedef PowellOptimizer                Self;
   typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   typedef SingleValuedNonLinearOptimizer::ParametersType
-                                              ParametersType;
-  
+  ParametersType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
- 
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PowellOptimizer, SingleValuedNonLinearOptimizer );
-  
+  itkTypeMacro(PowellOptimizer, SingleValuedNonLinearOptimizer);
+
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction         CostFunctionType;
-  typedef  CostFunctionType::Pointer        CostFunctionPointer;
+  typedef  SingleValuedCostFunction  CostFunctionType;
+  typedef  CostFunctionType::Pointer CostFunctionPointer;
 
   /** Set if the Optimizer should Maximize the metric */
-  itkSetMacro( Maximize, bool );
-  itkBooleanMacro( Maximize);
-  itkGetConstReferenceMacro( Maximize, bool );
+  itkSetMacro(Maximize, bool);
+  itkBooleanMacro(Maximize);
+  itkGetConstReferenceMacro(Maximize, bool);
 
   /** Set/Get maximum iteration limit. */
-  itkSetMacro( MaximumIteration, unsigned int );
-  itkGetConstReferenceMacro( MaximumIteration, unsigned int );
+  itkSetMacro(MaximumIteration, unsigned int);
+  itkGetConstReferenceMacro(MaximumIteration, unsigned int);
 
   /** Set/Get the maximum number of line search iterations */
   itkSetMacro(MaximumLineIteration, unsigned int);
@@ -95,38 +94,38 @@ public:
 
   /** Set/Get StepLength for the (scaled) spacing of the sampling of
    * parameter space while bracketing the extremum */
-  itkSetMacro( StepLength, double );
-  itkGetConstReferenceMacro( StepLength, double );
+  itkSetMacro(StepLength, double);
+  itkGetConstReferenceMacro(StepLength, double);
 
   /** Set/Get StepTolerance.  Once the local extreme is known to be within this
    * distance of the current parameter values, optimization terminates */
-  itkSetMacro( StepTolerance, double );
-  itkGetConstReferenceMacro( StepTolerance, double );
+  itkSetMacro(StepTolerance, double);
+  itkGetConstReferenceMacro(StepTolerance, double);
 
   /** Set/Get ValueTolerance.  Once this current cost function value is known
    * to be within this tolerance of the cost function value at the local
    * extreme, optimization terminates */
-  itkSetMacro( ValueTolerance, double );
-  itkGetConstReferenceMacro( ValueTolerance, double );
+  itkSetMacro(ValueTolerance, double);
+  itkGetConstReferenceMacro(ValueTolerance, double);
 
   /** Return Current Value */
-  itkGetConstReferenceMacro( CurrentCost, MeasureType );
+  itkGetConstReferenceMacro(CurrentCost, MeasureType);
   MeasureType GetValue() const { return this->GetCurrentCost(); }
 
   /** Return Current Iteration */
-  itkGetConstReferenceMacro( CurrentIteration, unsigned int);
+  itkGetConstReferenceMacro(CurrentIteration, unsigned int);
 
   /** Get the current line search iteration */
-  itkGetConstReferenceMacro( CurrentLineIteration, unsigned int);
+  itkGetConstReferenceMacro(CurrentLineIteration, unsigned int);
 
   /** Start optimization. */
   void StartOptimization();
 
   /** When users call StartOptimization, this value will be set false.
-   * By calling StopOptimization, this flag will be set true, and 
+   * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  void StopOptimization() 
-    { m_Stop = true; }
+  void StopOptimization()
+  { m_Stop = true; }
 
   itkGetConstReferenceMacro(CatchGetValueException, bool);
   itkSetMacro(CatchGetValueException, bool);
@@ -138,16 +137,16 @@ public:
 
 protected:
   PowellOptimizer();
-  PowellOptimizer(const PowellOptimizer&);
+  PowellOptimizer(const PowellOptimizer &);
   virtual ~PowellOptimizer();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   itkSetMacro(CurrentCost, double);
 
   /** Used to specify the line direction through the n-dimensional parameter
    * space the is currently being bracketed and optimized. */
   void SetLine(const ParametersType & origin,
-               const vnl_vector<double> & direction);
+               const vnl_vector< double > & direction);
 
   /** Get the value of the n-dimensional cost function at this scalar step
    * distance along the current line direction from the current line origin.
@@ -185,72 +184,70 @@ protected:
                              ParametersType & tempCoord);
 
   /** Given a bracketing triple of points and their function values, returns
-   * a bounded extreme.  These values are in parameter space, along the 
+   * a bounded extreme.  These values are in parameter space, along the
    * current line and wrt the current origin set via SetLine.   Optimization
-   * terminates based on MaximumIteration, StepTolerance, or ValueTolerance. 
+   * terminates based on MaximumIteration, StepTolerance, or ValueTolerance.
    * Implemented as Brent line optimers from NRC.  */
   virtual void   BracketedLineOptimize(double ax, double bx, double cx,
                                        double fa, double fb, double fc,
-                                       double * extX, double * extVal);
+                                       double *extX, double *extVal);
 
   virtual void   BracketedLineOptimize(double ax, double bx, double cx,
                                        double fa, double fb, double fc,
-                                       double * extX, double * extVal,
+                                       double *extX, double *extVal,
                                        ParametersType & tempCoord);
 
   itkGetMacro(SpaceDimension, unsigned int);
-  void SetSpaceDimension( unsigned int dim )
-    {
+  void SetSpaceDimension(unsigned int dim)
+  {
     this->m_SpaceDimension = dim;
-    this->m_LineDirection.set_size( dim );
-    this->m_LineOrigin.set_size( dim );
-    this->m_CurrentPosition.set_size( dim );
+    this->m_LineDirection.set_size(dim);
+    this->m_LineOrigin.set_size(dim);
+    this->m_CurrentPosition.set_size(dim);
     this->Modified();
-    }
+  }
 
   itkSetMacro(CurrentIteration, unsigned int);
 
   itkGetMacro(Stop, bool);
   itkSetMacro(Stop, bool);
-
 private:
-  unsigned int       m_SpaceDimension;
+  unsigned int m_SpaceDimension;
 
   /** Current iteration */
-  unsigned int       m_CurrentIteration;
-  unsigned int       m_CurrentLineIteration;
+  unsigned int m_CurrentIteration;
+  unsigned int m_CurrentLineIteration;
 
   /** Maximum iteration limit. */
-  unsigned int       m_MaximumIteration;
-  unsigned int       m_MaximumLineIteration;
+  unsigned int m_MaximumIteration;
+  unsigned int m_MaximumLineIteration;
 
-  bool               m_CatchGetValueException;
-  double             m_MetricWorstPossibleValue;
+  bool   m_CatchGetValueException;
+  double m_MetricWorstPossibleValue;
 
   /** Set if the Metric should be maximized: Default = False */
-  bool               m_Maximize;
+  bool m_Maximize;
 
   /** The minimal size of search */
-  double             m_StepLength;
-  double             m_StepTolerance;
+  double m_StepLength;
+  double m_StepTolerance;
 
-  ParametersType     m_LineOrigin;
-  vnl_vector<double> m_LineDirection;
+  ParametersType       m_LineOrigin;
+  vnl_vector< double > m_LineDirection;
 
-  double             m_ValueTolerance;
+  double m_ValueTolerance;
 
   /** Internal storage for the value type / used as a cache  */
-  MeasureType        m_CurrentCost;
+  MeasureType m_CurrentCost;
 
   /** this is user-settable flag to stop optimization.
    * when users call StartOptimization, this value will be set false.
-   * By calling StopOptimization, this flag will be set true, and 
+   * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  bool               m_Stop;
+  bool m_Stop;
 
-  std::ostringstream  m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription;
 }; // end of class
-
 } // end of namespace itk
 
 #endif

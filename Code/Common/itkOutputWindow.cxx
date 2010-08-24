@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,8 +25,7 @@
 
 namespace itk
 {
-  
-OutputWindow::Pointer OutputWindow::m_Instance = 0;
+OutputWindow::Pointer OutputWindow:: m_Instance = 0;
 
 /**
  * Prompting off by default
@@ -39,70 +38,67 @@ OutputWindow
 
 OutputWindow
 ::~OutputWindow()
-{
-}
+{}
 
-void 
-OutputWindowDisplayText(const char* message)
+void
+OutputWindowDisplayText(const char *message)
 {
   OutputWindow::GetInstance()->DisplayText(message);
 }
 
-void 
-OutputWindowDisplayErrorText(const char* message)
+void
+OutputWindowDisplayErrorText(const char *message)
 {
   OutputWindow::GetInstance()->DisplayErrorText(message);
 }
 
-void 
-OutputWindowDisplayWarningText(const char* message)
+void
+OutputWindowDisplayWarningText(const char *message)
 {
   OutputWindow::GetInstance()->DisplayWarningText(message);
 }
 
-void 
-OutputWindowDisplayGenericOutputText(const char* message)
+void
+OutputWindowDisplayGenericOutputText(const char *message)
 {
   OutputWindow::GetInstance()->DisplayGenericOutputText(message);
 }
 
-void 
-OutputWindowDisplayDebugText(const char* message)
+void
+OutputWindowDisplayDebugText(const char *message)
 {
   OutputWindow::GetInstance()->DisplayDebugText(message);
 }
 
-
-void 
+void
 OutputWindow
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "OutputWindow (single instance): "
-     << (void*)OutputWindow::m_Instance << std::endl;
+     << (void *)OutputWindow::m_Instance << std::endl;
 
-  os << indent << "Prompt User: " << (m_PromptUser ? "On\n" : "Off\n");
+  os << indent << "Prompt User: " << ( m_PromptUser ? "On\n" : "Off\n" );
 }
-
 
 /**
  * default implementation outputs to cerr only
  */
-void 
+void
 OutputWindow
-::DisplayText(const char* txt)
+::DisplayText(const char *txt)
 {
   std::cerr << txt;
   if ( m_PromptUser )
     {
     char c = 'n';
-    std::cerr << "\nDo you want to suppress any further messages (y,n)?." 
+    std::cerr << "\nDo you want to suppress any further messages (y,n)?."
               << std::endl;
     std::cin >> c;
     if ( c == 'y' || c == 'Y' )
       {
-      Object::GlobalWarningDisplayOff(); 
+      Object::GlobalWarningDisplayOff();
       }
     }
 }
@@ -117,9 +113,9 @@ OutputWindow
   if ( !OutputWindow::m_Instance )
     {
     // Try the factory first
-    OutputWindow::m_Instance  = ObjectFactory<Self>::Create();
+    OutputWindow::m_Instance  = ObjectFactory< Self >::Create();
     // if the factory did not provide one, then create it here
-    if( ! OutputWindow::m_Instance )
+    if ( !OutputWindow::m_Instance )
       {
       // For the windows OS, use a special output window
 #ifdef _WIN32
@@ -137,9 +133,9 @@ OutputWindow
   return OutputWindow::m_Instance;
 }
 
-void 
+void
 OutputWindow
-::SetInstance(OutputWindow* instance)
+::SetInstance(OutputWindow *instance)
 {
   if ( OutputWindow::m_Instance == instance )
     {
@@ -151,12 +147,10 @@ OutputWindow
 /**
  * This just calls GetInstance
  */
-OutputWindow::Pointer 
+OutputWindow::Pointer
 OutputWindow
 ::New()
-{ 
+{
   return GetInstance();
 }
-
-
 } // end namespace itk

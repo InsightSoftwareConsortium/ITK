@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,14 +22,13 @@
 
 namespace itk
 {
-
 /** */
-HWND Win32OutputWindow::m_OutputWindow = 0;
+HWND Win32OutputWindow:: m_OutputWindow = 0;
 
 Win32OutputWindow
 ::~Win32OutputWindow()
 {
-  if (Win32OutputWindow::m_OutputWindow)
+  if ( Win32OutputWindow::m_OutputWindow )
     {
     DestroyWindow(Win32OutputWindow::m_OutputWindow);
     Win32OutputWindow::m_OutputWindow = NULL;
@@ -37,13 +36,13 @@ Win32OutputWindow
 }
 
 /** */
-LRESULT APIENTRY 
+LRESULT APIENTRY
 Win32OutputWindow
-::WndProc(HWND hWnd, UINT message, 
-          WPARAM wParam, 
+::WndProc(HWND hWnd, UINT message,
+          WPARAM wParam,
           LPARAM lParam)
-{ 
-  switch (message) 
+{
+  switch ( message )
     {
     case WM_SIZE:
       {
@@ -52,7 +51,7 @@ Win32OutputWindow
 
       /** height of client area */
       int h = HIWORD(lParam);
-        
+
       MoveWindow(Win32OutputWindow::m_OutputWindow,
                  0, 0, w, h, true);
       }
@@ -62,7 +61,7 @@ Win32OutputWindow
       Object::GlobalWarningDisplayOff();
       break;
     case WM_CLOSE:
-      if (Win32OutputWindow::m_OutputWindow)
+      if ( Win32OutputWindow::m_OutputWindow )
         {
         DestroyWindow(Win32OutputWindow::m_OutputWindow);
         Win32OutputWindow::m_OutputWindow = NULL;
@@ -73,11 +72,11 @@ Win32OutputWindow
     }
   return DefWindowProc(hWnd, message, wParam, lParam);
 }
- 
+
 /** Display text in the window, and translate the \n to \r\n. */
-void 
+void
 Win32OutputWindow
-::DisplayText(const char* text)
+::DisplayText(const char *text)
 {
   if ( !text )
     {
@@ -89,19 +88,19 @@ Win32OutputWindow
     this->PromptText(text);
     return;
     }
-  
+
   /** Create a buffer big enough to hold the entire text */
-  char* buffer = new char[strlen(text)+1];
+  char *buffer = new char[strlen(text) + 1];
 
   /** Start at the begining */
-  const char* NewLinePos = text;
+  const char *NewLinePos = text;
   while ( NewLinePos )
     {
     int len;
     /** Find the next new line in text */
     NewLinePos = strchr(text, '\n');
     /** if no new line is found then just add the text */
-    if(NewLinePos == 0)
+    if ( NewLinePos == 0 )
       {
       Win32OutputWindow::AddText(text);
       }
@@ -112,50 +111,49 @@ Win32OutputWindow
       len = NewLinePos - text;
       strncpy(buffer, text, len);
       buffer[len] = 0;
-      text = NewLinePos+1;
+      text = NewLinePos + 1;
       Win32OutputWindow::AddText(buffer);
       Win32OutputWindow::AddText("\r\n");
       }
     }
-  delete [] buffer;
+  delete[] buffer;
 }
 
-
 /** Add some text to the EDIT control. */
-void 
+void
 Win32OutputWindow
-::AddText(const char* text)
+::AddText(const char *text)
 {
-  if(!Initialize()  || (strlen(text) == 0))
+  if ( !Initialize()  || ( strlen(text) == 0 ) )
     {
     return;
     }
-  
+
   /** move to the end of the text area */
-  SendMessage( Win32OutputWindow::m_OutputWindow, EM_SETSEL, 
-               (WPARAM)-1, (LPARAM)-1 ); 
+  SendMessage(Win32OutputWindow::m_OutputWindow, EM_SETSEL,
+              (WPARAM)-1, (LPARAM)-1);
 
   /** Append the text to the control */
-  SendMessage( Win32OutputWindow::m_OutputWindow, EM_REPLACESEL, 
-               0, (LPARAM)text );
+  SendMessage(Win32OutputWindow::m_OutputWindow, EM_REPLACESEL,
+              0, (LPARAM)text);
 }
 
 /** initialize the output window with an EDIT control and
  *  a container window. */
-int 
+int
 Win32OutputWindow
 ::Initialize()
 {
   /** check to see if it is already initialized */
-  if(Win32OutputWindow::m_OutputWindow)
+  if ( Win32OutputWindow::m_OutputWindow )
     {
     return 1;
     }
   /** Initialized the output window */
-  
-  WNDCLASS wndClass;   
+
+  WNDCLASS wndClass;
   /** has the class been registered ? */
-  if (!GetClassInfo(GetModuleHandle(NULL),"OutputWindow",&wndClass))
+  if ( !GetClassInfo(GetModuleHandle(NULL), "OutputWindow", &wndClass) )
     {
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
     wndClass.lpfnWndProc = Win32OutputWindow::WndProc;
@@ -178,7 +176,7 @@ Win32OutputWindow
     WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
     0, 0, 512, 512,
     NULL, NULL, GetModuleHandle(NULL), NULL);
-  
+
   /** Now create child window with text display box */
   CREATESTRUCT lpParam;
   lpParam.hInstance = GetModuleHandle(NULL);
@@ -188,10 +186,10 @@ Win32OutputWindow
   lpParam.cy = 512;
   lpParam.x = 0;
   lpParam.y = 0;
-  lpParam.style = ES_MULTILINE | ES_READONLY | WS_CHILD 
-    | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VISIBLE | WS_MAXIMIZE
-    | WS_VSCROLL | WS_HSCROLL;
-  
+  lpParam.style = ES_MULTILINE | ES_READONLY | WS_CHILD
+                  | ES_AUTOVSCROLL | ES_AUTOHSCROLL | WS_VISIBLE | WS_MAXIMIZE
+                  | WS_VSCROLL | WS_HSCROLL;
+
   lpParam.lpszName = "Output Control";
   lpParam.lpszClass = "EDIT";  // use the RICHEDIT control widget
   lpParam.dwExStyle = 0;
@@ -199,41 +197,39 @@ Win32OutputWindow
   /**Create the EDIT window as a child of win */
   Win32OutputWindow::m_OutputWindow = CreateWindow(
     lpParam.lpszClass,  // pointer to registered class name
-    "", // pointer to window name
-    lpParam.style,        // window style
-    lpParam.x,                // horizontal position of window
-    lpParam.y,                // vertical position of window
-    lpParam.cx,           // window width
-    lpParam.cy,          // window height
-    lpParam.hwndParent,      // handle to parent or owner window
-    NULL,          // handle to menu or child-window identifier
-    lpParam.hInstance,     // handle to application instance
-    &lpParam        // pointer to window-creation data
+    "",                 // pointer to window name
+    lpParam.style,      // window style
+    lpParam.x,          // horizontal position of window
+    lpParam.y,          // vertical position of window
+    lpParam.cx,         // window width
+    lpParam.cy,         // window height
+    lpParam.hwndParent, // handle to parent or owner window
+    NULL,               // handle to menu or child-window identifier
+    lpParam.hInstance,  // handle to application instance
+    &lpParam            // pointer to window-creation data
     );
   const int maxsize = 5242880;
-  
-  SendMessage(Win32OutputWindow::m_OutputWindow, 
+
+  SendMessage(Win32OutputWindow::m_OutputWindow,
               EM_LIMITTEXT, maxsize, 0L);
 
-  
   /** show the top level container window */
   ShowWindow(win, SW_SHOW);
   return 1;
 }
 
-
 /** Prompt some text */
-void 
+void
 Win32OutputWindow
-::PromptText(const char* text)
+::PromptText(const char *text)
 {
   std::ostringstream msg;
+
   msg << text << "\nPress Cancel to supress any further messages.";
-  if (MessageBox(NULL, msg.str().c_str(), "Error",
-                 MB_ICONERROR | MB_OKCANCEL) == IDCANCEL) 
-    { 
-    Object::GlobalWarningDisplayOff(); 
+  if ( MessageBox(NULL, msg.str().c_str(), "Error",
+                  MB_ICONERROR | MB_OKCANCEL) == IDCANCEL )
+    {
+    Object::GlobalWarningDisplayOff();
     }
 }
-
 } // end namespace itk

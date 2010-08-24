@@ -77,14 +77,15 @@ namespace itk
 #endif
 
 //This is probably better, but requires a lot of extra work
-//for gettting ExplicitInstantiation to work properly. #define itkStaticConstMacro(name, type, value) static const type name = value
-#define itkStaticConstMacro(name,type,value) enum { name = value }
+//for gettting ExplicitInstantiation to work properly. #define
+// itkStaticConstMacro(name, type, value) static const type name = value
+#define itkStaticConstMacro(name, type, value) enum { name = value }
 
 #define itkGetStaticConstMacro(name) (Self::name)
 
 /** Set an input. This defines the Set"name"Input() method */
 #define itkSetInputMacro(name, type, number)                                      \
-  virtual void Set##name##Input(const type * _arg)                            \
+  virtual void Set##name##Input(const type *_arg)                             \
     {                                                                             \
     itkDebugMacro("setting input " #name " to " << _arg);                        \
     if ( _arg != static_cast< type * >( this->ProcessObject::GetInput(number) ) ) \

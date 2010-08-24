@@ -42,24 +42,24 @@ namespace itk
 /**
  * Constructor
  */
-template <class TOutputImage, class TTransformPrecisionType>
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::TransformToDeformationFieldSource()
+template< class TOutputImage, class TTransformPrecisionType >
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::TransformToDeformationFieldSource()
 {
   this->m_OutputSpacing.Fill(1.0);
   this->m_OutputOrigin.Fill(0.0);
   this->m_OutputDirection.SetIdentity();
 
   SizeType size;
-  size.Fill( 0 );
-  this->m_OutputRegion.SetSize( size );
+  size.Fill(0);
+  this->m_OutputRegion.SetSize(size);
 
   IndexType index;
-  index.Fill( 0 );
-  this->m_OutputRegion.SetIndex( index );
+  index.Fill(0);
+  this->m_OutputRegion.SetIndex(index);
 
-  this->m_Transform
-    = IdentityTransform<TTransformPrecisionType, ImageDimension>::New();
+  this->m_Transform =
+    IdentityTransform< TTransformPrecisionType, ImageDimension >::New();
 } // end Constructor
 
 /**
@@ -67,12 +67,12 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
  *
  * \todo Add details about this class
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::PrintSelf( std::ostream & os, Indent indent ) const
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "OutputRegion: " << this->m_OutputRegion << std::endl;
   os << indent << "OutputSpacing: " << this->m_OutputSpacing << std::endl;
@@ -84,23 +84,23 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 /**
  * Set the output image size.
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::SetOutputSize( const SizeType & size )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::SetOutputSize(const SizeType & size)
 {
-  this->m_OutputRegion.SetSize( size );
+  this->m_OutputRegion.SetSize(size);
 }
 
 /**
  * Get the output image size.
  */
-template <class TOutputImage, class TTransformPrecisionType>
-const typename TransformToDeformationFieldSource<TOutputImage,
-  TTransformPrecisionType>
-  ::SizeType &
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::GetOutputSize()
+template< class TOutputImage, class TTransformPrecisionType >
+const typename TransformToDeformationFieldSource< TOutputImage,
+                                                  TTransformPrecisionType >
+::SizeType &
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::GetOutputSize()
 {
   return this->m_OutputRegion.GetSize();
 }
@@ -108,23 +108,23 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 /**
  * Set the output image index.
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::SetOutputIndex( const IndexType & index )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::SetOutputIndex(const IndexType & index)
 {
-  this->m_OutputRegion.SetIndex( index );
+  this->m_OutputRegion.SetIndex(index);
 }
 
 /**
  * Get the output image index.
  */
-template <class TOutputImage, class TTransformPrecisionType>
-const typename TransformToDeformationFieldSource<TOutputImage,
-  TTransformPrecisionType>
-  ::IndexType &
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::GetOutputIndex()
+template< class TOutputImage, class TTransformPrecisionType >
+const typename TransformToDeformationFieldSource< TOutputImage,
+                                                  TTransformPrecisionType >
+::IndexType &
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::GetOutputIndex()
 {
   return this->m_OutputRegion.GetIndex();
 }
@@ -132,34 +132,34 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 /**
  * Set the output image spacing.
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::SetOutputSpacing( const double *spacing )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::SetOutputSpacing(const double *spacing)
 {
-  SpacingType s( spacing );
+  SpacingType s(spacing);
 
-  this->SetOutputSpacing( s );
+  this->SetOutputSpacing(s);
 } // end SetOutputSpacing()
 
 /**
  * Set the output image origin.
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::SetOutputOrigin( const double *origin )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::SetOutputOrigin(const double *origin)
 {
-  OriginType p( origin );
+  OriginType p(origin);
 
-  this->SetOutputOrigin( p );
+  this->SetOutputOrigin(p);
 }
 
 /** Helper method to set the output parameters based on this image */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::SetOutputParametersFromImage ( const ImageBaseType *image )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::SetOutputParametersFromImage(const ImageBaseType *image)
 {
   if ( !image )
     {
@@ -177,10 +177,10 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be set up before ThreadedGenerateData
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::BeforeThreadedGenerateData( void )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::BeforeThreadedGenerateData(void)
 {
   if ( !this->m_Transform )
     {
@@ -191,40 +191,40 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 /**
  * ThreadedGenerateData
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::ThreadedGenerateData(
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  int threadId )
+  int threadId)
 {
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
   if ( this->m_Transform->IsLinear() )
     {
-    this->LinearThreadedGenerateData( outputRegionForThread, threadId );
+    this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     return;
     }
 
   // Otherwise, we use the normal method where the transform is called
   // for computing the transformation of every point.
-  this->NonlinearThreadedGenerateData( outputRegionForThread, threadId );
+  this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
 } // end ThreadedGenerateData()
 
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::NonlinearThreadedGenerateData(
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::NonlinearThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  int threadId )
+  int threadId)
 {
   // Get the output pointer
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex<TOutputImage> OutputIteratorType;
-  OutputIteratorType outIt( outputPtr, outputRegionForThread );
+  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIteratorType;
+  OutputIteratorType outIt(outputPtr, outputRegionForThread);
 
   // Define a few variables that will be used to translate from an input pixel
   // to an output pixel
@@ -234,27 +234,27 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 
   // Support for progress methods/callbacks
   ProgressReporter progress( this, threadId,
-                            outputRegionForThread.GetNumberOfPixels() );
+                             outputRegionForThread.GetNumberOfPixels() );
 
   // Walk the output region
   outIt.GoToBegin();
   while ( !outIt.IsAtEnd() )
     {
     // Determine the index of the current output pixel
-    outputPtr->TransformIndexToPhysicalPoint( outIt.GetIndex(), outputPoint );
+    outputPtr->TransformIndexToPhysicalPoint(outIt.GetIndex(), outputPoint);
 
     // Compute corresponding input pixel position
-    transformedPoint = this->m_Transform->TransformPoint( outputPoint );
+    transformedPoint = this->m_Transform->TransformPoint(outputPoint);
 
     // Compute the deformation
     for ( unsigned int i = 0; i < ImageDimension; ++i )
       {
-      deformation[i] = static_cast<PixelValueType>(
+      deformation[i] = static_cast< PixelValueType >(
         transformedPoint[i] - outputPoint[i] );
       }
 
     // Set it
-    outIt.Set( deformation );
+    outIt.Set(deformation);
 
     // Update progress and iterator
     progress.CompletedPixel();
@@ -262,21 +262,21 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
     }
 } // end NonlinearThreadedGenerateData()
 
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::LinearThreadedGenerateData(
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::LinearThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
-  int threadId )
+  int threadId)
 {
   // Get the output pointer
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageLinearIteratorWithIndex<TOutputImage> OutputIteratorType;
-  OutputIteratorType outIt( outputPtr, outputRegionForThread );
+  typedef ImageLinearIteratorWithIndex< TOutputImage > OutputIteratorType;
+  OutputIteratorType outIt(outputPtr, outputRegionForThread);
 
-  outIt.SetDirection( 0 );
+  outIt.SetDirection(0);
 
   // Define a few indices that will be used to translate from an input pixel
   // to an output pixel
@@ -288,15 +288,15 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 
   // Support for progress methods/callbacks
   ProgressReporter progress( this, threadId,
-                            outputRegionForThread.GetNumberOfPixels() );
+                             outputRegionForThread.GetNumberOfPixels() );
 
   // Determine the position of the first pixel in the scanline
   outIt.GoToBegin();
   index = outIt.GetIndex();
-  outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
+  outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
 
   // Compute corresponding transformed pixel position
-  transformedPoint = this->m_Transform->TransformPoint( outputPoint );
+  transformedPoint = this->m_Transform->TransformPoint(outputPoint);
 
   // Compare with the ResampleImageFilter
 
@@ -306,9 +306,9 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
   typedef typename PointType::VectorType VectorType;
   VectorType delta;
   ++index[0];
-  outputPtr->TransformIndexToPhysicalPoint( index, outputPointNeighbour );
+  outputPtr->TransformIndexToPhysicalPoint(index, outputPointNeighbour);
   transformedPointNeighbour = this->m_Transform->TransformPoint(
-    outputPointNeighbour );
+    outputPointNeighbour);
   delta = transformedPointNeighbour - transformedPoint
           - ( outputPointNeighbour - outputPoint );
 
@@ -317,22 +317,22 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
     {
     // Get current point
     index = outIt.GetIndex();
-    outputPtr->TransformIndexToPhysicalPoint( index, outputPoint );
+    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
 
     // Compute transformed point
-    transformedPoint = this->m_Transform->TransformPoint( outputPoint );
+    transformedPoint = this->m_Transform->TransformPoint(outputPoint);
 
     while ( !outIt.IsAtEndOfLine() )
       {
       // Compute the deformation
       for ( unsigned int i = 0; i < ImageDimension; ++i )
         {
-        deformation[i] = static_cast<PixelValueType>(
+        deformation[i] = static_cast< PixelValueType >(
           transformedPoint[i] - outputPoint[i] );
         }
 
       // Set it
-      outIt.Set( deformation );
+      outIt.Set(deformation);
 
       // Update stuff
       progress.CompletedPixel();
@@ -347,10 +347,10 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
 /**
  * Inform pipeline of required output region
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 void
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::GenerateOutputInformation( void )
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::GenerateOutputInformation(void)
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
@@ -362,20 +362,20 @@ TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
     return;
     }
 
-  outputPtr->SetLargestPossibleRegion( m_OutputRegion );
+  outputPtr->SetLargestPossibleRegion(m_OutputRegion);
 
-  outputPtr->SetSpacing( m_OutputSpacing );
-  outputPtr->SetOrigin( m_OutputOrigin );
-  outputPtr->SetDirection( m_OutputDirection );
+  outputPtr->SetSpacing(m_OutputSpacing);
+  outputPtr->SetOrigin(m_OutputOrigin);
+  outputPtr->SetDirection(m_OutputDirection);
 } // end GenerateOutputInformation()
 
 /**
  * Verify if any of the components has been modified.
  */
-template <class TOutputImage, class TTransformPrecisionType>
+template< class TOutputImage, class TTransformPrecisionType >
 unsigned long
-TransformToDeformationFieldSource<TOutputImage, TTransformPrecisionType>
-  ::GetMTime( void ) const
+TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
+::GetMTime(void) const
 {
   unsigned long latestTime = Object::GetMTime();
 

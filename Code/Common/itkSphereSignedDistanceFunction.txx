@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,25 +22,23 @@
 
 namespace itk
 {
-
 // Constructor with default arguments
-template<typename TCoordRep, unsigned int VSpaceDimension>
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
+template< typename TCoordRep, unsigned int VSpaceDimension >
+SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
 ::SphereSignedDistanceFunction()
 {
-  this->GetParameters().SetSize( SpaceDimension + 1 );
-  this->GetParameters().Fill( 0.0 );
+  this->GetParameters().SetSize(SpaceDimension + 1);
+  this->GetParameters().Fill(0.0);
   this->GetParameters()[0] = 1.0;
-  m_Translation.Fill( 0.0 );
+  m_Translation.Fill(0.0);
   m_Radius = 1.0;
 }
-    
 
 // Set the parameters
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template< typename TCoordRep, unsigned int VSpaceDimension >
 void
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
-::SetParameters( const ParametersType & parameters )
+SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
+::SetParameters(const ParametersType & parameters)
 {
   if ( parameters != this->GetParameters() )
     {
@@ -48,9 +46,9 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 
     m_Radius = parameters[0];
 
-    for( unsigned int i=0; i<SpaceDimension; i++ )
+    for ( unsigned int i = 0; i < SpaceDimension; i++ )
       {
-      m_Translation[i] = parameters[i+1];
+      m_Translation[i] = parameters[i + 1];
       }
 
     this->Modified();
@@ -58,38 +56,36 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
 }
 
 // Print self
-template<typename TCoordRep, unsigned int VSpaceDimension>
+template< typename TCoordRep, unsigned int VSpaceDimension >
 void
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
-::PrintSelf(std::ostream &os, Indent indent) const
+SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "Translation: " << m_Translation << std::endl;
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 
 // Evaluate the signed distance
-template<typename TCoordRep, unsigned int VSpaceDimension>
-typename SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
+template< typename TCoordRep, unsigned int VSpaceDimension >
+typename SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
 ::OutputType
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>
-::Evaluate( const PointType& point ) const
+SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
+::Evaluate(const PointType & point) const
 {
-  typedef typename NumericTraits<OutputType>::RealType RealType;
+  typedef typename NumericTraits< OutputType >::RealType RealType;
   RealType output = 0.0;
 
-  for( unsigned int j = 0; j < SpaceDimension; j++ )
+  for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
     output += vnl_math_sqr( ( point[j] - m_Translation[j] ) );
     }
-  
+
   output = vcl_sqrt(output) - m_Radius;
 
   return output;
-
 }
-  
 } // end namespace itk
 
 #endif

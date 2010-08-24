@@ -24,11 +24,8 @@
 // (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
 // for Medical Research, Grant U54 EB005149.
 
-
 namespace itk
 {
-
-
 /** \class NumericTraits<VariableLengthVector< T > >
  * \brief Define numeric traits for VariableLengthVector.
  *
@@ -51,73 +48,78 @@ namespace itk
  * \sa NumericTraits
  * \ingroup DataRepresentation
  */
-template < typename T >
-class NumericTraits<VariableLengthVector< T > >
+template< typename T >
+class NumericTraits< VariableLengthVector< T > >
 {
 public:
 
-  typedef typename NumericTraits<T>::AbsType        ElementAbsType;
-  typedef typename NumericTraits<T>::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits<T>::FloatType      ElementFloatType;
-  typedef typename NumericTraits<T>::PrintType      ElementPrintType;
-  typedef typename NumericTraits<T>::RealType       ElementRealType;
-
+  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
+  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
+  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
+  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
+  typedef typename NumericTraits< T >::RealType       ElementRealType;
 
   /** Return the type of the native component type. */
-  typedef T                                             ValueType;
+  typedef T ValueType;
 
-  typedef VariableLengthVector<T>                       Self;
+  typedef VariableLengthVector< T > Self;
 
   /** Unsigned component type */
-  typedef VariableLengthVector<ElementAbsType>          AbsType;
+  typedef VariableLengthVector< ElementAbsType > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef VariableLengthVector<ElementAccumulateType>   AccumulateType;
+  typedef VariableLengthVector< ElementAccumulateType > AccumulateType;
 
-  /** Typedef for operations that use floating point instead of real precision */
-  typedef VariableLengthVector<ElementFloatType>        FloatType;
+  /** Typedef for operations that use floating point instead of real precision
+    */
+  typedef VariableLengthVector< ElementFloatType > FloatType;
 
   /** Return the type that can be printed. */
-  typedef VariableLengthVector<ElementPrintType>        PrintType;
+  typedef VariableLengthVector< ElementPrintType > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef VariableLengthVector<ElementRealType>         RealType;
+  typedef VariableLengthVector< ElementRealType > RealType;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType                               ScalarRealType;
+  typedef ElementRealType ScalarRealType;
 
   /** Component wise defined element
    *
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
-  static const Self max( const Self & a )
-    {
-      Self b(a.Size());
-      b.Fill( NumericTraits< T >::max() );
-      return b;
-    }
-  static const Self min( const Self & a )
-    {
-      Self b(a.Size());
-      b.Fill( NumericTraits< T >::min() );
-      return b;
-    }
-  static const Self Zero( const Self  & a )
+  static const Self max(const Self & a)
   {
-    Self b(a.Size());
-    b.Fill( NumericTraits< T >::Zero );
+    Self b( a.Size() );
+
+    b.Fill( NumericTraits< T >::max() );
     return b;
   }
-  static const Self One( const Self & a )
+
+  static const Self min(const Self & a)
   {
-    Self b(a.Size());
-    b.Fill( NumericTraits< T >::One );
+    Self b( a.Size() );
+
+    b.Fill( NumericTraits< T >::min() );
+    return b;
+  }
+
+  static const Self Zero(const Self  & a)
+  {
+    Self b( a.Size() );
+
+    b.Fill(NumericTraits< T >::Zero);
+    return b;
+  }
+
+  static const Self One(const Self & a)
+  {
+    Self b( a.Size() );
+
+    b.Fill(NumericTraits< T >::One);
     return b;
   }
 };
-
-
 } // end namespace itk
 
 #endif // __itkNumericTraitsVariableLengthVector_h

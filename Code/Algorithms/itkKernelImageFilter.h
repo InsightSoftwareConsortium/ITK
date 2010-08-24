@@ -22,9 +22,8 @@
 #include "itkCastImageFilter.h"
 #include "itkFlatStructuringElement.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /**
  * \class KernelImageFilter
  * \brief A base class for all the filters working on an arbitrary shaped neighborhood
@@ -37,16 +36,17 @@ namespace itk {
  * \author Gaetan Lehmann
  */
 
-template<class TInputImage, class TOutputImage, class TKernel/*=Neighborhood<bool, TInputImage::ImageDimension>*/ >
-class ITK_EXPORT KernelImageFilter :
-public BoxImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage, class TKernel /*=Neighborhood<bool,
+                                                                 TInputImage::ImageDimension>*/                     >
+class ITK_EXPORT KernelImageFilter:
+  public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef KernelImageFilter                         Self;
-  typedef BoxImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef KernelImageFilter                           Self;
+  typedef BoxImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -56,16 +56,16 @@ public:
                BoxImageFilter);
 
   /** Image related typedefs. */
-  typedef TInputImage                               InputImageType;
-  typedef typename TInputImage::RegionType          RegionType;
-  typedef typename TInputImage::SizeType            SizeType;
-  typedef typename TInputImage::IndexType           IndexType;
-  typedef typename TInputImage::OffsetType          OffsetType;
+  typedef TInputImage                      InputImageType;
+  typedef typename TInputImage::RegionType RegionType;
+  typedef typename TInputImage::SizeType   SizeType;
+  typedef typename TInputImage::IndexType  IndexType;
+  typedef typename TInputImage::OffsetType OffsetType;
 
-  typedef typename TInputImage::PixelType           InputPixelType;
+  typedef typename TInputImage::PixelType InputPixelType;
 
-  typedef TOutputImage                              OutputImageType;
-  typedef typename TOutputImage::PixelType          OutputPixelType;
+  typedef TOutputImage                     OutputImageType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   typedef TKernel KernelType;
 
@@ -74,37 +74,36 @@ public:
                       TInputImage::ImageDimension);
   /** Kernel type used to create box kernel, in SetRadius() method */
   typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
-                                                    FlatKernelType;
+  FlatKernelType;
   /** n-dimensional Kernel radius. */
   typedef typename TInputImage::SizeType RadiusType;
 
   /** Set kernel (structuring element). */
-  virtual void SetKernel( const KernelType& kernel );
+  virtual void SetKernel(const KernelType & kernel);
+
   itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Set the kernel to a box kernel of given radius. */
-  virtual void SetRadius( const RadiusType & radius );
-  virtual void SetRadius( const unsigned long & radius )
-    {
+  virtual void SetRadius(const RadiusType & radius);
+
+  virtual void SetRadius(const unsigned long & radius)
+  {
     // needed because of the overloading of the method
-    Superclass::SetRadius( radius );
-    }
+    Superclass::SetRadius(radius);
+  }
 
 protected:
   KernelImageFilter();
-  ~KernelImageFilter() {};
+  ~KernelImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
-
 private:
-  KernelImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  KernelImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

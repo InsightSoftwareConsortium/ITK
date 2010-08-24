@@ -20,8 +20,8 @@
 
 #include "itkAnchorHistogram.h"
 #include "itkIndent.h"
-namespace itk {
-
+namespace itk
+{
 /**
  * \class AnchorErodeDilateLine
  * \brief class to implement erosions and dilations using anchor
@@ -32,78 +32,75 @@ namespace itk {
  * same data structures. Hopefully these sections occupy a very minor
  * proportion of the time.
  */
-template<class TInputPix, class TFunction1, class TFunction2>
+template< class TInputPix, class TFunction1, class TFunction2 >
 class ITK_EXPORT AnchorErodeDilateLine
 {
 public:
   /** Some convenient typedefs. */
   typedef TInputPix InputImagePixelType;
 
-  void DoLine(InputImagePixelType * buffer, InputImagePixelType * inbuffer,
+  void DoLine(InputImagePixelType *buffer, InputImagePixelType *inbuffer,
               unsigned bufflength);
 
   void SetSize(unsigned int size)
-    {
+  {
     m_Size = size;
-    }
+  }
 
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   AnchorErodeDilateLine();
   ~AnchorErodeDilateLine()
-    {
+  {
     delete m_Histo;
-    }
-
+  }
 
 private:
   unsigned int m_Size;
   TFunction1   m_TF1;
   TFunction2   m_TF2;
 
-  bool         m_UseVec;
+  bool m_UseVec;
 
-  typedef MorphologyHistogram<InputImagePixelType>               Histogram;
-  typedef MorphologyHistogramVec<InputImagePixelType,TFunction1> VHistogram;
-  typedef MorphologyHistogramMap<InputImagePixelType,TFunction1> MHistogram;
+  typedef MorphologyHistogram< InputImagePixelType >                Histogram;
+  typedef MorphologyHistogramVec< InputImagePixelType, TFunction1 > VHistogram;
+  typedef MorphologyHistogramMap< InputImagePixelType, TFunction1 > MHistogram;
 
-  bool StartLine(InputImagePixelType * buffer,
-                 InputImagePixelType * inbuffer,
-                 InputImagePixelType &Extreme,
-                 Histogram &histo,
-                 int &outLeftP,
-                 int &outRightP,
-                 int &inLeftP,
-                 int &inRightP,
+  bool StartLine(InputImagePixelType *buffer,
+                 InputImagePixelType *inbuffer,
+                 InputImagePixelType & Extreme,
+                 Histogram & histo,
+                 int & outLeftP,
+                 int & outRightP,
+                 int & inLeftP,
+                 int & inRightP,
                  int middle, unsigned bufflength);
 
-  void FinishLine(InputImagePixelType * buffer,
-                  InputImagePixelType * inbuffer,
-                  InputImagePixelType &Extreme,
-                  Histogram &histo,
-                  int &outLeftP,
-                  int &outRightP,
-                  int &inLeftP,
-                  int &inRightP,
+  void FinishLine(InputImagePixelType *buffer,
+                  InputImagePixelType *inbuffer,
+                  InputImagePixelType & Extreme,
+                  Histogram & histo,
+                  int & outLeftP,
+                  int & outRightP,
+                  int & inLeftP,
+                  int & inRightP,
                   int middle, unsigned bufflength);
 
   bool UseVectorBasedHistogram()
-    {
-    // bool, short and char are acceptable for vector based algorithm: they do not require
+  {
+    // bool, short and char are acceptable for vector based algorithm: they do
+    // not require
     // too much memory. Other types are not usable with that algorithm
-    return typeid(InputImagePixelType) == typeid(unsigned char)
-        || typeid(InputImagePixelType) == typeid(signed char)
-        || typeid(InputImagePixelType) == typeid(unsigned short)
-        || typeid(InputImagePixelType) == typeid(signed short)
-        || typeid(InputImagePixelType) == typeid(bool);
-    }
+    return typeid( InputImagePixelType ) == typeid( unsigned char )
+           || typeid( InputImagePixelType ) == typeid( signed char )
+           || typeid( InputImagePixelType ) == typeid( unsigned short )
+           || typeid( InputImagePixelType ) == typeid( signed short )
+           || typeid( InputImagePixelType ) == typeid( bool );
+  }
 
-  Histogram * m_Histo;
-
+  Histogram *m_Histo;
 }; // end of class
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAnchorErodeDilateLine.txx"

@@ -30,8 +30,8 @@
 #include "itkFlatStructuringElement.h"
 #include "itkNeighborhood.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class MorphologicalGradientImageFilter
  * \brief gray scale dilation of an image
@@ -47,16 +47,16 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
 
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT MorphologicalGradientImageFilter :
-    public KernelImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT MorphologicalGradientImageFilter:
+  public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef MorphologicalGradientImageFilter                      Self;
-  typedef KernelImageFilter<TInputImage,TOutputImage, TKernel>  Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef MorphologicalGradientImageFilter                        Self;
+  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+  typedef SmartPointer< Self >                                    Pointer;
+  typedef SmartPointer< const Self >                              ConstPointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -70,46 +70,49 @@ public:
                       TInputImage::ImageDimension);
 
   /** Image related typedefs. */
-  typedef TInputImage                                           InputImageType;
-  typedef TOutputImage                                          OutputImageType;
-  typedef typename TInputImage::RegionType                      RegionType;
-  typedef typename TInputImage::SizeType                        SizeType;
-  typedef typename TInputImage::IndexType                       IndexType;
-  typedef typename TInputImage::PixelType                       PixelType;
-  typedef typename TInputImage::OffsetType                      OffsetType;
-  typedef typename Superclass::OutputImageRegionType            OutputImageRegionType;
+  typedef TInputImage                                InputImageType;
+  typedef TOutputImage                               OutputImageType;
+  typedef typename TInputImage::RegionType           RegionType;
+  typedef typename TInputImage::SizeType             SizeType;
+  typedef typename TInputImage::IndexType            IndexType;
+  typedef typename TInputImage::PixelType            PixelType;
+  typedef typename TInputImage::OffsetType           OffsetType;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
-                                                                FlatKernelType;
+  FlatKernelType;
   typedef MovingHistogramMorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
-                                                                HistogramFilterType;
+  HistogramFilterType;
   typedef BasicDilateImageFilter< TInputImage, TInputImage, TKernel >
-                                                                BasicDilateFilterType;
+  BasicDilateFilterType;
   typedef BasicErodeImageFilter< TInputImage, TInputImage, TKernel >
-                                                                BasicErodeFilterType;
+  BasicErodeFilterType;
   typedef AnchorDilateImageFilter< TInputImage, FlatKernelType >
-                                                                AnchorDilateFilterType;
+  AnchorDilateFilterType;
   typedef AnchorErodeImageFilter< TInputImage, FlatKernelType > AnchorErodeFilterType;
   typedef VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >
-                                                                VHGWDilateFilterType;
+  VHGWDilateFilterType;
   typedef VanHerkGilWermanErodeImageFilter< TInputImage, FlatKernelType >
-                                                                VHGWErodeFilterType;
+  VHGWErodeFilterType;
   typedef SubtractImageFilter< TInputImage, TInputImage, TOutputImage >
-                                                                SubtractFilterType;
+  SubtractFilterType;
 
   /** Kernel typedef. */
-  typedef TKernel                                               KernelType;
+  typedef TKernel KernelType;
 //   typedef typename KernelType::Superclass KernelSuperClass;
-//   typedef Neighborhood< typename KernelType::PixelType, ImageDimension > KernelSuperClass;
+//   typedef Neighborhood< typename KernelType::PixelType, ImageDimension >
+// KernelSuperClass;
 
   /** Set kernel (structuring element). */
-  void SetKernel( const KernelType& kernel );
+  void SetKernel(const KernelType & kernel);
 
   /** Set/Get the backend filter class. */
-  void SetAlgorithm(int algo );
+  void SetAlgorithm(int algo);
+
   itkGetConstMacro(Algorithm, int);
 
-  /** MorphologicalGradientImageFilter need to set its internal filters as modified */
+  /** MorphologicalGradientImageFilter need to set its internal filters as
+    modified */
   virtual void Modified() const;
 
   /** define values used to determine which algorithm to use */
@@ -118,34 +121,36 @@ public:
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-  } AlgorithmChoice;
-
-
+    } AlgorithmChoice;
 protected:
   MorphologicalGradientImageFilter();
-  ~MorphologicalGradientImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~MorphologicalGradientImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
 private:
-  MorphologicalGradientImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MorphologicalGradientImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
   // the filters used internally
-  typename HistogramFilterType::Pointer    m_HistogramFilter;
-  typename BasicDilateFilterType::Pointer  m_BasicDilateFilter;
-  typename BasicErodeFilterType::Pointer   m_BasicErodeFilter;
+  typename HistogramFilterType::Pointer m_HistogramFilter;
+
+  typename BasicDilateFilterType::Pointer m_BasicDilateFilter;
+
+  typename BasicErodeFilterType::Pointer m_BasicErodeFilter;
+
   typename AnchorDilateFilterType::Pointer m_AnchorDilateFilter;
-  typename AnchorErodeFilterType::Pointer  m_AnchorErodeFilter;
-  typename VHGWDilateFilterType::Pointer   m_VanHerkGilWermanDilateFilter;
-  typename VHGWErodeFilterType::Pointer    m_VanHerkGilWermanErodeFilter;
+
+  typename AnchorErodeFilterType::Pointer m_AnchorErodeFilter;
+
+  typename VHGWDilateFilterType::Pointer m_VanHerkGilWermanDilateFilter;
+
+  typename VHGWErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter;
 
   // and the name of the filter
-  int                                      m_Algorithm;
-
+  int m_Algorithm;
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

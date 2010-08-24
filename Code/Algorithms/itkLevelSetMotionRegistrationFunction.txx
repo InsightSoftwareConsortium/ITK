@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,19 +21,19 @@
 #include "itkExceptionObject.h"
 #include "vnl/vnl_math.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * Default constructor
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::LevelSetMotionRegistrationFunction()
 {
-
-  RadiusType r;
+  RadiusType   r;
   unsigned int j;
-  for( j = 0; j < ImageDimension; j++ )
+
+  for ( j = 0; j < ImageDimension; j++ )
     {
     r[j] = 0;
     }
@@ -49,34 +49,33 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();
 
-  m_MovingImageInterpolator = static_cast<InterpolatorType*>(
+  m_MovingImageInterpolator = static_cast< InterpolatorType * >(
     interp.GetPointer() );
 
-  m_Metric = NumericTraits<double>::max();
+  m_Metric = NumericTraits< double >::max();
   m_SumOfSquaredDifference = 0.0;
   m_NumberOfPixelsProcessed = 0L;
-  m_RMSChange = NumericTraits<double>::max();
+  m_RMSChange = NumericTraits< double >::max();
   m_SumOfSquaredChange = 0.0;
   m_UseImageSpacing = true;
 
   m_MovingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
   m_MovingImageSmoothingFilter
-    ->SetSigma( m_GradientSmoothingStandardDeviations );
+  ->SetSigma(m_GradientSmoothingStandardDeviations);
   m_MovingImageSmoothingFilter->SetNormalizeAcrossScale(false);
 
-  m_SmoothMovingImageInterpolator
-    = static_cast<InterpolatorType *>(
-      DefaultInterpolatorType::New().GetPointer());
+  m_SmoothMovingImageInterpolator =
+    static_cast< InterpolatorType * >(
+      DefaultInterpolatorType::New().GetPointer() );
 }
-
 
 /*
  * Standard "PrintSelf" method.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::PrintSelf(std::ostream& os, Indent indent) const
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -99,16 +98,14 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   os << m_RMSChange << std::endl;
   os << indent << "SumOfSquaredChange: ";
   os << m_SumOfSquaredChange << std::endl;
-
 }
-
 
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::SetAlpha(double alpha)
 {
   m_Alpha = alpha;
@@ -117,9 +114,9 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 double
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::GetAlpha() const
 {
   return m_Alpha;
@@ -128,9 +125,9 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -139,21 +136,20 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 double
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
 }
 
-
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::SetGradientMagnitudeThreshold(double threshold)
 {
   m_GradientMagnitudeThreshold = threshold;
@@ -162,21 +158,20 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 double
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::GetGradientMagnitudeThreshold() const
 {
   return m_GradientMagnitudeThreshold;
 }
 
-
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::SetGradientSmoothingStandardDeviations(double sigma)
 {
   m_GradientSmoothingStandardDeviations = sigma;
@@ -185,9 +180,9 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  *
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 double
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::GetGradientSmoothingStandardDeviations() const
 {
   return m_GradientSmoothingStandardDeviations;
@@ -197,22 +192,22 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
  * Return the flag that defines whether the image spacing should be taken into
  * account in computations.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 bool
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::GetUseImageSpacing() const
 {
   return this->m_UseImageSpacing;
 }
- 
+
 /**
  * Set the flag that defines whether the image spacing should be taken into
  * account in computations.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::SetUseImageSpacing( bool useImageSpacing )
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+::SetUseImageSpacing(bool useImageSpacing)
 {
   this->m_UseImageSpacing = useImageSpacing;
 }
@@ -220,28 +215,28 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  * Set the function state values before each iteration
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::InitializeIteration()
 {
-  if( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
+  if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
     {
-    itkExceptionMacro( << "MovingImage, FixedImage and/or Interpolator not set" );
+    itkExceptionMacro(<< "MovingImage, FixedImage and/or Interpolator not set");
     }
 
   // create a smoothed version of the moving image for the calculation
   // of gradients.  due to the pipeline structure, this will only be
   // calculated once. InitializeIteration() is called in a single
-  // threaded execution model. 
+  // threaded execution model.
   m_MovingImageSmoothingFilter->SetInput( this->GetMovingImage() );
   m_MovingImageSmoothingFilter
-    ->SetSigma( m_GradientSmoothingStandardDeviations );
+  ->SetSigma(m_GradientSmoothingStandardDeviations);
   m_MovingImageSmoothingFilter->Update();
 
   m_SmoothMovingImageInterpolator
-     ->SetInputImage( m_MovingImageSmoothingFilter->GetOutput() );
-  
+  ->SetInputImage( m_MovingImageSmoothingFilter->GetOutput() );
+
   // setup moving image interpolator
   m_MovingImageInterpolator->SetInputImage( this->GetMovingImage() );
 
@@ -249,38 +244,38 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_SumOfSquaredDifference  = 0.0;
   m_NumberOfPixelsProcessed = 0L;
   m_SumOfSquaredChange      = 0.0;
-
 }
 
 /**
  * Compute update at a specify neighbourhood
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
-typename LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+typename LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::PixelType
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ComputeUpdate(const NeighborhoodType &it, void * gd,
-                const FloatOffsetType& itkNotUsed(offset))
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+::ComputeUpdate( const NeighborhoodType & it, void *gd,
+                 const FloatOffsetType & itkNotUsed(offset) )
 {
   const IndexType index = it.GetIndex();
 
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const double fixedValue = (double) this->GetFixedImage()->GetPixel( index );
+  const double fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
   // Get moving image related information
   PointType mappedPoint;
+
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-  for(unsigned int j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     mappedPoint[j] += it.GetCenterPixel()[j];
     }
   PixelType update;
-  double movingValue;
-  if( m_MovingImageInterpolator->IsInsideBuffer( mappedPoint ) )
+  double    movingValue;
+  if ( m_MovingImageInterpolator->IsInsideBuffer(mappedPoint) )
     {
-    movingValue = m_MovingImageInterpolator->Evaluate( mappedPoint );
+    movingValue = m_MovingImageInterpolator->Evaluate(mappedPoint);
     }
   else
     {
@@ -297,25 +292,25 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // smooth image. Do we need to structure the gradient calculation to
   // take into account the Jacobian of the deformation field? i.e. in
   // which coordinate frame do we ultimately want the gradient vector?
-  
+
   MovingSpacingType mSpacing = this->GetMovingImage()->GetSpacing();
 
-  if( !this->m_UseImageSpacing )
+  if ( !this->m_UseImageSpacing )
     {
-    mSpacing.Fill( 1.0 );
+    mSpacing.Fill(1.0);
     }
 
-  PointType mPoint( mappedPoint );
-  const double centralValue = m_SmoothMovingImageInterpolator->Evaluate( mPoint );
-  double forwardDifferences[ImageDimension];
-  double backwardDifferences[ImageDimension];
-  for (unsigned int j=0; j < ImageDimension; j++)
+  PointType    mPoint(mappedPoint);
+  const double centralValue = m_SmoothMovingImageInterpolator->Evaluate(mPoint);
+  double       forwardDifferences[ImageDimension];
+  double       backwardDifferences[ImageDimension];
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     mPoint[j] += mSpacing[j];
-    if( m_SmoothMovingImageInterpolator->IsInsideBuffer( mPoint ) )
+    if ( m_SmoothMovingImageInterpolator->IsInsideBuffer(mPoint) )
       {
       forwardDifferences[j] = m_SmoothMovingImageInterpolator->Evaluate(mPoint)
-        - centralValue;
+                              - centralValue;
       forwardDifferences[j] /= mSpacing[j];
       }
     else
@@ -323,11 +318,11 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       forwardDifferences[j] = 0.0;
       }
 
-    mPoint[j] -= (2.0 * mSpacing[j]);
-    if( m_SmoothMovingImageInterpolator->IsInsideBuffer( mPoint ) )
+    mPoint[j] -= ( 2.0 * mSpacing[j] );
+    if ( m_SmoothMovingImageInterpolator->IsInsideBuffer(mPoint) )
       {
       backwardDifferences[j] = centralValue
-        - m_SmoothMovingImageInterpolator->Evaluate( mPoint );
+                               - m_SmoothMovingImageInterpolator->Evaluate(mPoint);
       backwardDifferences[j] /= mSpacing[j];
       }
     else
@@ -347,14 +342,14 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   // gradient[j] = m(forwardDifferences[j], backwardDifferences[j])
   //
   CovariantVectorType gradient;
-  double gradientMagnitude = 0.0;
-  for(unsigned int j = 0; j < ImageDimension; j++ )
+  double              gradientMagnitude = 0.0;
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    if (forwardDifferences[j] * backwardDifferences[j] > 0.0)
+    if ( forwardDifferences[j] * backwardDifferences[j] > 0.0 )
       {
       const double bvalue = vnl_math_abs(backwardDifferences[j]);
-      double gvalue = vnl_math_abs(forwardDifferences[j]);
-      if (gvalue > bvalue)
+      double       gvalue = vnl_math_abs(forwardDifferences[j]);
+      if ( gvalue > bvalue )
         {
         gvalue = bvalue;
         }
@@ -364,9 +359,9 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
       {
       gradient[j] = 0.0;
       }
-    gradientMagnitude += vnl_math_sqr( gradient[j] );
+    gradientMagnitude += vnl_math_sqr(gradient[j]);
     }
-  gradientMagnitude = vcl_sqrt( gradientMagnitude );
+  gradientMagnitude = vcl_sqrt(gradientMagnitude);
 
   /**
    * Compute Update.
@@ -376,11 +371,11 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
   if ( globalData )
     {
-    globalData->m_SumOfSquaredDifference += vnl_math_sqr( speedValue );
+    globalData->m_SumOfSquaredDifference += vnl_math_sqr(speedValue);
     globalData->m_NumberOfPixelsProcessed += 1;
     }
 
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold 
+  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold
        || gradientMagnitude < m_GradientMagnitudeThreshold )
     {
     update.Fill(0.0);
@@ -388,24 +383,24 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
     }
 
   double L1norm = 0.0;
-  for(unsigned int j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * gradient[j] / (gradientMagnitude + m_Alpha);
+    update[j] = speedValue * gradient[j] / ( gradientMagnitude + m_Alpha );
     if ( globalData )
       {
-      globalData->m_SumOfSquaredChange += vnl_math_sqr( update[j] );
+      globalData->m_SumOfSquaredChange += vnl_math_sqr(update[j]);
 
       // build up the L1norm of the update, normalized by the pixel
       // spacing. we will use this to calculate a timestep which
       // converts the update (measured in intensity) to a vector
       // measured in physical units (mm).
-      L1norm += (vnl_math_abs(update[j]) / mSpacing[j]);
+      L1norm += ( vnl_math_abs(update[j]) / mSpacing[j] );
       }
     }
 
   // Store the L1 norm of the update vector if it is the largest
   // update.  This is used in calculating the timestep.
-  if (globalData && (L1norm > globalData->m_MaxL1Norm))
+  if ( globalData && ( L1norm > globalData->m_MaxL1Norm ) )
     {
     globalData->m_MaxL1Norm = L1norm;
     }
@@ -415,16 +410,16 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
 /**
  * Compute the global time step for this iteration.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
-typename LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>::TimeStepType
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
+typename LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >::TimeStepType
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 ::ComputeGlobalTimeStep(void *GlobalData) const
 {
   TimeStepType dt = 1.0;
 
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
 
-  if (d->m_MaxL1Norm > 0.0)
+  if ( d->m_MaxL1Norm > 0.0 )
     {
     dt = 1.0 / d->m_MaxL1Norm;
     // std::cout << "Computed timestep: " << dt << std::endl;
@@ -437,16 +432,15 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   return dt;
 }
 
-
 /*
  * Update the metric and release the per-thread-global data.
  */
-template <class TFixedImage, class TMovingImage, class TDeformationField>
+template< class TFixedImage, class TMovingImage, class TDeformationField >
 void
-LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
-::ReleaseGlobalDataPointer( void *gd ) const
+LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct * globalData = (GlobalDataStruct *) gd;
+  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;
@@ -454,16 +448,15 @@ LevelSetMotionRegistrationFunction<TFixedImage,TMovingImage,TDeformationField>
   m_SumOfSquaredChange += globalData->m_SumOfSquaredChange;
   if ( m_NumberOfPixelsProcessed )
     {
-    m_Metric = m_SumOfSquaredDifference / 
-               static_cast<double>( m_NumberOfPixelsProcessed ); 
-    m_RMSChange = vcl_sqrt( m_SumOfSquaredChange / 
-               static_cast<double>( m_NumberOfPixelsProcessed ) ); 
+    m_Metric = m_SumOfSquaredDifference
+               / static_cast< double >( m_NumberOfPixelsProcessed );
+    m_RMSChange = vcl_sqrt( m_SumOfSquaredChange
+                            / static_cast< double >( m_NumberOfPixelsProcessed ) );
     }
   m_MetricCalculationLock.Unlock();
 
   delete globalData;
 }
-
 } // end namespace itk
 
 #endif

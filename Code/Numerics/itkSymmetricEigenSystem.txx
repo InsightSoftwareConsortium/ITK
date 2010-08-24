@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -31,9 +30,9 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 {
   m_Matrix = 0;
   m_UseAbsoluteOrder = true;
-  m_EigenValues.Fill( NumericTraits< TMatrixElement >::Zero );
+  m_EigenValues.Fill(NumericTraits< TMatrixElement >::Zero);
   ArrayType temp;
-  temp.Fill( NumericTraits< TMatrixElement >::Zero );
+  temp.Fill(NumericTraits< TMatrixElement >::Zero);
   m_EigenVectors.Fill(temp);
 }
 
@@ -43,20 +42,19 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 template< class TMatrixElement, int VNumberOfRows >
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::~SymmetricEigenSystem()
-{
-}
+{}
 
 template< class TMatrixElement, int VNumberOfRows >
 void
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
-::PrintSelf(std::ostream& os, Indent indent) const 
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Matrix:";
 
   if ( m_Matrix != 0 )
-    { 
+    {
     os << m_Matrix << std::endl;
     }
   else
@@ -69,42 +67,41 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
   os << indent << "Absolute order " << m_UseAbsoluteOrder << std::endl;
 }
 
-
 /**
  * Compute the eigen values and vectors
  */
 template< class TMatrixElement, int VNumberOfRows >
 void
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
-::GenerateData( void )
+::GenerateData(void)
 {
   int i, j, k;
 
-  InternalEigenSystemType internalEigenSystem(m_Matrix->GetVnlMatrix());
+  InternalEigenSystemType internalEigenSystem( m_Matrix->GetVnlMatrix() );
 
-  typedef vnl_vector< TMatrixElement > EigenVectorType; 
+  typedef vnl_vector< TMatrixElement > EigenVectorType;
   EigenVectorType tempVector;
 
-  for (i = 0; i < VNumberOfRows; i++)
+  for ( i = 0; i < VNumberOfRows; i++ )
     {
     tempVector = internalEigenSystem.get_eigenvector(i);
     m_EigenValues[i] = internalEigenSystem.get_eigenvalue(i);
-    for (j = 0; j < VNumberOfRows; j++)
+    for ( j = 0; j < VNumberOfRows; j++ )
       {
       m_EigenVectors[i][j] = tempVector[j];
       }
     }
 
   double temp;
-  for(i = 0; i < (VNumberOfRows - 1); i++)
+  for ( i = 0; i < ( VNumberOfRows - 1 ); i++ )
     {
-    for(j = i + 1; j < VNumberOfRows; j++)
+    for ( j = i + 1; j < VNumberOfRows; j++ )
       {
-      if( (m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder) ||
-          ( (vnl_math_abs( m_EigenValues[j] ) > vnl_math_abs( m_EigenValues[i] ) ) 
-            && m_UseAbsoluteOrder) )
+      if ( ( m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder )
+           || ( ( vnl_math_abs(m_EigenValues[j]) > vnl_math_abs(m_EigenValues[i]) )
+                && m_UseAbsoluteOrder ) )
         {
-        temp= m_EigenValues[i];
+        temp = m_EigenValues[i];
         m_EigenValues[i] = m_EigenValues[j];
         m_EigenValues[j] = temp;
         for ( k = 0; k < VNumberOfRows; k++ )
@@ -117,7 +114,6 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
       }
     }
 }
-
 } // end namespace itk
 
 #endif

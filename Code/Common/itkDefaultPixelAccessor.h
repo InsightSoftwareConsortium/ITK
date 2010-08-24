@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * \class DefaultPixelAccessor
  * \brief Give access to partial aspects a type
@@ -49,8 +48,8 @@ namespace itk
  *
  */
 
-template <class TType>
-class ITK_EXPORT DefaultPixelAccessor  
+template< class TType >
+class ITK_EXPORT DefaultPixelAccessor
 {
 public:
 
@@ -67,19 +66,16 @@ public:
 
   /** Set the pixel. */
   inline void Set(TType & output, const TType & input) const
-    {output = input;}
+  { output = input; }
 
   /** Get the pixel. */
-  inline TType & Get( TType & input ) const
-    {return input;}
+  inline TType & Get(TType & input) const
+  { return input; }
 
   /** Get a const reference to the pixel. */
-  inline const TType & Get( const TType & input ) const
-    {return input;}
-  
+  inline const TType & Get(const TType & input) const
+  { return input; }
 };
-
-  
 } // end namespace itk
 
 #endif

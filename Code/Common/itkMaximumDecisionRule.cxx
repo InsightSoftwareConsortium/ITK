@@ -9,31 +9,31 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkMaximumDecisionRule.h"
 
-namespace itk{ 
-
-void 
-MaximumDecisionRule::PrintSelf(std::ostream& os, Indent indent) const 
-{ 
-  Superclass::PrintSelf(os, indent); 
-}
- 
-
-unsigned int 
-MaximumDecisionRule::Evaluate(const VectorType &discriminantScores) const
+namespace itk
 {
-  double max = discriminantScores[0];
+void
+MaximumDecisionRule::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
+unsigned int
+MaximumDecisionRule::Evaluate(const VectorType & discriminantScores) const
+{
+  double       max = discriminantScores[0];
   unsigned int maxIndex = 0;
   unsigned int i;
-  for (i = 1; i < discriminantScores.size(); i++)
+
+  for ( i = 1; i < discriminantScores.size(); i++ )
     {
-    if (discriminantScores[i] > max) 
+    if ( discriminantScores[i] > max )
       {
       max = discriminantScores[i];
       maxIndex = i;
@@ -42,16 +42,16 @@ MaximumDecisionRule::Evaluate(const VectorType &discriminantScores) const
   return maxIndex;
 }
 
- 
-unsigned int 
-MaximumDecisionRule::Evaluate(const ArrayType &discriminantScores) const
+unsigned int
+MaximumDecisionRule::Evaluate(const ArrayType & discriminantScores) const
 {
-  double max = discriminantScores[0];
+  double       max = discriminantScores[0];
   unsigned int maxIndex = 0;
   unsigned int i;
-  for (i = 1; i < discriminantScores.Size(); i++)
+
+  for ( i = 1; i < discriminantScores.Size(); i++ )
     {
-    if (discriminantScores[i] > max) 
+    if ( discriminantScores[i] > max )
       {
       max = discriminantScores[i];
       maxIndex = i;
@@ -60,15 +60,16 @@ MaximumDecisionRule::Evaluate(const ArrayType &discriminantScores) const
   return maxIndex;
 }
 
-unsigned int 
-MaximumDecisionRule::Evaluate(const VariableLengthVectorType &discriminantScores) const
+unsigned int
+MaximumDecisionRule::Evaluate(const VariableLengthVectorType & discriminantScores) const
 {
-  double max = discriminantScores[0];
+  double       max = discriminantScores[0];
   unsigned int maxIndex = 0;
   unsigned int i;
-  for (i = 1; i < discriminantScores.Size(); i++)
+
+  for ( i = 1; i < discriminantScores.Size(); i++ )
     {
-    if (discriminantScores[i] > max) 
+    if ( discriminantScores[i] > max )
       {
       max = discriminantScores[i];
       maxIndex = i;
@@ -76,6 +77,4 @@ MaximumDecisionRule::Evaluate(const VariableLengthVectorType &discriminantScores
     }
   return maxIndex;
 }
-
-
 } // end of namespace itk

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,16 +23,16 @@
 #include "itkEventObject.h"
 #include "itkFiniteDifferenceImageFilter.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::FiniteDifferenceImageFilter()
-{ 
+{
   m_UseImageSpacing    = false;
   m_ElapsedIterations  = 0;
   m_DifferenceFunction = 0;
-  m_NumberOfIterations = NumericTraits<unsigned int>::max();
+  m_NumberOfIterations = NumericTraits< unsigned int >::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
   m_State = UNINITIALIZED;
@@ -40,25 +40,24 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   this->InPlaceOff();
 }
 
-template <class TInputImage, class TOutputImage>
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::~FiniteDifferenceImageFilter()
-{
-}
+{}
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   // Test whether the output pixel type (or its components) are not of type
   // float or double:
-  if( NumericTraits< OutputPixelValueType >::is_integer )
+  if ( NumericTraits< OutputPixelValueType >::is_integer )
     {
-    itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors"); 
+    itkWarningMacro("Output pixel type MUST be float or double to prevent computational errors");
     }
 
-  if (this->GetState() == UNINITIALIZED)
+  if ( this->GetState() == UNINITIALIZED )
     {
     // Allocate the output image
     this->AllocateOutputs();
@@ -67,12 +66,13 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     // directly on the output image and the update buffer.
     this->CopyInputToOutput();
 
-    // Set the coefficients of the Function and consider the use of images spacing.
+    // Set the coefficients of the Function and consider the use of images
+    // spacing.
     this->InitializeFunctionCoefficients();
 
     // Perform any other necessary pre-iteration initialization.
     this->Initialize();
-    
+
     // Allocate the internal update buffer.  This takes place entirely within
     // the subclass, since this class cannot define an update buffer type.
     this->AllocateUpdateBuffer();
@@ -80,11 +80,11 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     this->SetStateToInitialized();
     m_ElapsedIterations = 0;
     }
-    
+
   // Iterative algorithm
   TimeStepType dt;
 
-  while ( ! this->Halt() )
+  while ( !this->Halt() )
     {
     this->InitializeIteration(); // An optional method for precalculating
                                  // global values, or otherwise setting up
@@ -95,15 +95,15 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 
     // Invoke the iteration event.
     this->InvokeEvent( IterationEvent() );
-    if( this->GetAbortGenerateData() )
+    if ( this->GetAbortGenerateData() )
       {
       this->InvokeEvent( IterationEvent() );
-      this->ResetPipeline(); 
-      throw ProcessAborted(__FILE__,__LINE__);
+      this->ResetPipeline();
+      throw ProcessAborted(__FILE__, __LINE__);
       }
     }
 
-  if (m_ManualReinitialization == false)
+  if ( m_ManualReinitialization == false )
     {
     this->SetStateToUninitialized(); // Reset the state once execution is
                                      // completed
@@ -112,12 +112,12 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   this->PostProcessOutput();
 }
 
-/** 
+/**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-FiniteDifferenceImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -125,8 +125,8 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  typename Superclass::InputImagePointer  inputPtr  = 
-    const_cast< TInputImage * >( this->GetInput());
+  typename Superclass::InputImagePointer inputPtr  =
+    const_cast< TInputImage * >( this->GetInput() );
 
   if ( !inputPtr )
     {
@@ -149,15 +149,17 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
   inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( radius );
+  inputRequestedRegion.PadByRadius(radius);
 
-//     std::cout << "inputRequestedRegion: " << inputRequestedRegion << std::endl;
-//     std::cout << "largestPossibleRegion: " << inputPtr->GetLargestPossibleRegion() << std::endl;
+//     std::cout << "inputRequestedRegion: " << inputRequestedRegion <<
+// std::endl;
+//     std::cout << "largestPossibleRegion: " <<
+// inputPtr->GetLargestPossibleRegion() << std::endl;
 
   // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() ) )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
     }
   else
@@ -166,8 +168,8 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
     // possible region).  Throw an exception.
 
     // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    
+    inputPtr->SetRequestedRegion(inputRequestedRegion);
+
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
@@ -175,99 +177,100 @@ FiniteDifferenceImageFilter<TInputImage,TOutputImage>
     e.SetDataObject(inputPtr);
     throw e;
     }
-
 }
 
-template <class TInputImage, class TOutputImage>
-typename FiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+typename FiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ResolveTimeStep(const TimeStepType *timeStepList, const bool *valid, int size)
-{  
+{
   TimeStepType min;
-  bool flag;
-  min = NumericTraits<TimeStepType>::Zero;
-  
+  bool         flag;
+
+  min = NumericTraits< TimeStepType >::Zero;
+
   // grab first valid value
   flag = false;
-  for (int i = 0; i < size; ++i)
+  for ( int i = 0; i < size; ++i )
     {
-    if (valid[i])
+    if ( valid[i] )
       {
       min = timeStepList[i];
       flag = true;
       break;
       }
     }
-  
-  if (!flag)
-    {  // no values!
+
+  if ( !flag )
+    {
+    // no values!
     throw ExceptionObject(__FILE__, __LINE__);
     }
 
   // find minimum value
-  for (int i = 0; i < size; ++i)
-    {      if ( valid[i] && (timeStepList[i] < min) )   min = timeStepList[i];      }
+  for ( int i = 0; i < size; ++i )
+    {
+    if ( valid[i] && ( timeStepList[i] < min ) ) { min = timeStepList[i]; } }
 
   return min;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 bool
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::Halt()
 {
-  if (m_NumberOfIterations != 0)
+  if ( m_NumberOfIterations != 0 )
     {
-    this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
-                          static_cast<float>( m_NumberOfIterations ) );
+    this->UpdateProgress( static_cast< float >( this->GetElapsedIterations() )
+                          / static_cast< float >( m_NumberOfIterations ) );
     }
 
-  if (this->GetElapsedIterations() >= m_NumberOfIterations)
+  if ( this->GetElapsedIterations() >= m_NumberOfIterations )
     {
     return true;
     }
-  else if ( this->GetElapsedIterations() == 0)
+  else if ( this->GetElapsedIterations() == 0 )
     {
-    return false; 
+    return false;
     }
   else if ( this->GetMaximumRMSError() > m_RMSChange )
     {
     return true;
     }
   else
-    { 
-    return false; 
+    {
+    return false;
     }
 }
 
-
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::InitializeFunctionCoefficients()
 {
   // Set the coefficients for the derivatives
   double coeffs[TOutputImage::ImageDimension];
-  
+
   if ( this->m_UseImageSpacing )
     {
-    const TOutputImage * outputImage =  this->GetOutput();
-    if( outputImage == NULL )
+    const TOutputImage *outputImage =  this->GetOutput();
+    if ( outputImage == NULL )
       {
       itkExceptionMacro("Output image is NULL");
       }
 
     typedef typename TOutputImage::SpacingType SpacingType;
     const SpacingType spacing = outputImage->GetSpacing();
-    
-    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+
+    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       coeffs[i] = 1.0 / spacing[i];
       }
     }
   else
     {
-    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+    for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
       {
       coeffs[i] = 1.0;
       }
@@ -275,25 +278,25 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
   m_DifferenceFunction->SetScaleCoefficients(coeffs);
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-FiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+FiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
-  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
   os << indent << "State: " << m_State << std::endl;
   os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
   os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
   os << indent << "RMSChange: " << m_RMSChange << std::endl;
   os << std::endl;
-  if (m_DifferenceFunction)
+  if ( m_DifferenceFunction )
     {
     os << indent << "DifferenceFunction: " << std::endl;
-    m_DifferenceFunction->Print(os,indent.GetNextIndent());
+    m_DifferenceFunction->Print( os, indent.GetNextIndent() );
     }
   else
     {
@@ -301,8 +304,6 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>
     }
   os << std::endl;
 }
-
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

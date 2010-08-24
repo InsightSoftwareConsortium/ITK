@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,15 +24,15 @@
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
 void
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CopyInputToOutput()
 {
-  typename TInputImage::ConstPointer  input  = this->GetInput();
-  typename TOutputImage::Pointer      output = this->GetOutput();
+  typename TInputImage::ConstPointer input  = this->GetInput();
+  typename TOutputImage::Pointer output = this->GetOutput();
 
   if ( !input || !output )
     {
@@ -42,53 +42,55 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // Check if we are doing in-place filtering
   if ( this->GetInPlace() && this->CanRunInPlace() )
     {
-    typename TInputImage::Pointer tempPtr = 
-      dynamic_cast<TInputImage *>( output.GetPointer() );
+    typename TInputImage::Pointer tempPtr =
+      dynamic_cast< TInputImage * >( output.GetPointer() );
     if ( tempPtr && tempPtr->GetPixelContainer() == input->GetPixelContainer() )
       {
       // the input and output container are the same - no need to copy
       return;
       }
     }
-  
-  ImageRegionConstIterator<TInputImage>  in(input, output->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
 
-  while( ! out.IsAtEnd() )
+  ImageRegionConstIterator< TInputImage > in( input, output->GetRequestedRegion() );
+  ImageRegionIterator< TOutputImage >     out( output, output->GetRequestedRegion() );
+
+  while ( !out.IsAtEnd() )
     {
-    out.Value() =  static_cast<PixelType>(in.Get());  // Supports input image adaptors only
+    out.Value() =  static_cast< PixelType >( in.Get() );  // Supports input
+                                                          // image adaptors only
     ++in;
     ++out;
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::AllocateUpdateBuffer()
 {
   // The update buffer looks just like the output.
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  m_UpdateBuffer->SetOrigin(output->GetOrigin());
-  m_UpdateBuffer->SetSpacing(output->GetSpacing());
-  m_UpdateBuffer->SetDirection(output->GetDirection());
-  m_UpdateBuffer->SetLargestPossibleRegion(output->GetLargestPossibleRegion());
-  m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
-  m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
+  m_UpdateBuffer->SetOrigin( output->GetOrigin() );
+  m_UpdateBuffer->SetSpacing( output->GetSpacing() );
+  m_UpdateBuffer->SetDirection( output->GetDirection() );
+  m_UpdateBuffer->SetLargestPossibleRegion( output->GetLargestPossibleRegion() );
+  m_UpdateBuffer->SetRequestedRegion( output->GetRequestedRegion() );
+  m_UpdateBuffer->SetBufferedRegion( output->GetBufferedRegion() );
   m_UpdateBuffer->Allocate();
 }
 
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdate(TimeStepType dt)
 {
   // Set up for multithreaded processing.
   DenseFDThreadStruct str;
+
   str.Filter = this;
   str.TimeStep = dt;
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
   this->GetMultiThreader()->SetSingleMethod(this->ApplyUpdateThreaderCallback,
                                             &str);
   // Multithread the execution
@@ -101,18 +103,18 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   this->GetOutput()->Modified();
 }
 
-template<class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 ITK_THREAD_RETURN_TYPE
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::ApplyUpdateThreaderCallback( void * arg )
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::ApplyUpdateThreaderCallback(void *arg)
 {
-  DenseFDThreadStruct * str;
-  int total, threadId, threadCount;
+  DenseFDThreadStruct *str;
+  int                  total, threadId, threadCount;
 
-  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (DenseFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+  str = (DenseFDThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -120,8 +122,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   ThreadRegionType splitRegion;
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
-  
-  if (threadId < total)
+
+  if ( threadId < total )
     {
     str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
     }
@@ -129,40 +131,43 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 typename
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CalculateChange()
 {
-  int threadCount;
+  int          threadCount;
   TimeStepType dt;
 
   // Set up for multithreaded processing.
   DenseFDThreadStruct str;
+
   str.Filter = this;
-  str.TimeStep = NumericTraits<TimeStepType>::Zero;  // Not used during the
+  str.TimeStep = NumericTraits< TimeStepType >::Zero;  // Not used during the
   // calculate change step.
-  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
   this->GetMultiThreader()->SetSingleMethod(this->CalculateChangeThreaderCallback,
                                             &str);
 
   // Initialize the list of time step values that will be generated by the
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.
-  threadCount = this->GetMultiThreader()->GetNumberOfThreads();  
+  threadCount = this->GetMultiThreader()->GetNumberOfThreads();
   str.TimeStepList = new TimeStepType[threadCount];
   str.ValidTimeStepList = new bool[threadCount];
-  for (int i =0; i < threadCount; ++i)
-    {      str.ValidTimeStepList[i] = false;    } 
+  for ( int i = 0; i < threadCount; ++i )
+    {
+    str.ValidTimeStepList[i] = false;
+    }
 
   // Multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
 
   // Resolve the single value time step to return
   dt = this->ResolveTimeStep(str.TimeStepList, str.ValidTimeStepList, threadCount);
-  delete [] str.TimeStepList;
-  delete [] str.ValidTimeStepList;
+  delete[] str.TimeStepList;
+  delete[] str.ValidTimeStepList;
 
   // Explicitely call Modified on m_UpdateBuffer here
   // since ThreadedCalculateChange changes this buffer
@@ -170,21 +175,21 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // update buffer timestamp
   this->m_UpdateBuffer->Modified();
 
-  return  dt;
+  return dt;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 ITK_THREAD_RETURN_TYPE
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::CalculateChangeThreaderCallback( void * arg )
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::CalculateChangeThreaderCallback(void *arg)
 {
-  DenseFDThreadStruct * str;
-  int total, threadId, threadCount;
+  DenseFDThreadStruct *str;
+  int                  total, threadId, threadCount;
 
-  threadId = ((MultiThreader::ThreadInfoStruct *)(arg))->ThreadID;
-  threadCount = ((MultiThreader::ThreadInfoStruct *)(arg))->NumberOfThreads;
+  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  str = (DenseFDThreadStruct *)(((MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+  str = (DenseFDThreadStruct *)( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -194,66 +199,67 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   total = str->Filter->SplitRequestedRegion(threadId, threadCount,
                                             splitRegion);
 
-  if (threadId < total)
-    { 
-    str->TimeStepList[threadId]
-      = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
+  if ( threadId < total )
+    {
+    str->TimeStepList[threadId] =
+      str->Filter->ThreadedCalculateChange(splitRegion, threadId);
     str->ValidTimeStepList[threadId] = true;
     }
 
-  return ITK_THREAD_RETURN_VALUE;  
+  return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType &regionToProcess,
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::ThreadedApplyUpdate(TimeStepType dt, const ThreadRegionType & regionToProcess,
                       int)
 {
-  ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer,    regionToProcess);
-  ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
+  ImageRegionIterator< UpdateBufferType > u(m_UpdateBuffer,    regionToProcess);
+  ImageRegionIterator< OutputImageType >  o(this->GetOutput(), regionToProcess);
 
   u = u.Begin();
   o = o.Begin();
 
   while ( !u.IsAtEnd() )
     {
-    o.Value() += static_cast<PixelType>(u.Value() * dt);  // no adaptor support here
+    o.Value() += static_cast< PixelType >( u.Value() * dt );  // no adaptor
+                                                              // support here
     ++o;
     ++u;
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 typename
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::ThreadedCalculateChange(const ThreadRegionType &regionToProcess, int)
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::ThreadedCalculateChange(const ThreadRegionType & regionToProcess, int)
 {
-  typedef typename OutputImageType::RegionType        RegionType;
-  typedef typename OutputImageType::SizeType          SizeType;
-  typedef typename OutputImageType::SizeValueType     SizeValueType;
-  typedef typename OutputImageType::IndexType         IndexType;
-  typedef typename OutputImageType::IndexValueType    IndexValueType;
-  typedef typename 
-    FiniteDifferenceFunctionType::NeighborhoodType    NeighborhoodIteratorType;
-  typedef ImageRegionIterator<UpdateBufferType>       UpdateIteratorType;
+  typedef typename OutputImageType::RegionType                    RegionType;
+  typedef typename OutputImageType::SizeType                      SizeType;
+  typedef typename OutputImageType::SizeValueType                 SizeValueType;
+  typedef typename OutputImageType::IndexType                     IndexType;
+  typedef typename OutputImageType::IndexValueType                IndexValueType;
+  typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
+
+  typedef ImageRegionIterator< UpdateBufferType > UpdateIteratorType;
 
   typename OutputImageType::Pointer output = this->GetOutput();
 
   TimeStepType timeStep;
-  void *globalData;
+  void *       globalData;
 
   // Get the FiniteDifferenceFunction to use in calculations.
-  const typename FiniteDifferenceFunctionType::Pointer df
-    = this->GetDifferenceFunction();
-  const SizeType  radius = df->GetRadius();
-  
+  const typename FiniteDifferenceFunctionType::Pointer df =
+    this->GetDifferenceFunction();
+  const SizeType radius = df->GetRadius();
+
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions.  We operate
   // on the output region because input has been copied to output.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
-    FaceCalculatorType;
+  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType >
+  FaceCalculatorType;
 
   typedef typename FaceCalculatorType::FaceListType FaceListType;
 
@@ -273,7 +279,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   NeighborhoodIteratorType nD(radius, output, *fIt);
   UpdateIteratorType       nU(m_UpdateBuffer,  *fIt);
   nD.GoToBegin();
-  while( !nD.IsAtEnd() )
+  while ( !nD.IsAtEnd() )
     {
     nU.Value() = df->ComputeUpdate(nD, globalData);
     ++nD;
@@ -283,12 +289,12 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   // Process each of the boundary faces.
 
   NeighborhoodIteratorType bD;
-  UpdateIteratorType   bU;
-  for (++fIt; fIt != faceList.end(); ++fIt)
+  UpdateIteratorType       bU;
+  for ( ++fIt; fIt != faceList.end(); ++fIt )
     {
     bD = NeighborhoodIteratorType(radius, output, *fIt);
     bU = UpdateIteratorType  (m_UpdateBuffer, *fIt);
-     
+
     bD.GoToBegin();
     bU.GoToBegin();
     while ( !bD.IsAtEnd() )
@@ -308,16 +314,13 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
   return timeStep;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
-  
 }
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

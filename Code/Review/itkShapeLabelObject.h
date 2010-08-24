@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class ShapeLabelObject
  *  \brief A Label object to store the common attributes related to the shape of the object
  *
@@ -33,22 +32,22 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \ingroup DataRepresentation 
+ * \ingroup DataRepresentation
  */
-template < class TLabel, unsigned int VImageDimension >
-class ITK_EXPORT ShapeLabelObject : public LabelObject< TLabel, VImageDimension >
+template< class TLabel, unsigned int VImageDimension >
+class ITK_EXPORT ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
 {
 public:
   /** Standard class typedefs */
   typedef ShapeLabelObject                       Self;
   typedef LabelObject< TLabel, VImageDimension > Superclass;
   typedef typename Superclass::LabelObjectType   LabelObjectType;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
-  typedef WeakPointer<const Self>                ConstWeakPointer;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
+  typedef WeakPointer< const Self >              ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,87 +89,87 @@ public:
   itkStaticConstMacro(EQUIVALENT_ELLIPSOID_RADIUS, AttributeType, 116);
   itkStaticConstMacro(BINARY_FLATNESS, AttributeType, 117);
 
-  static AttributeType GetAttributeFromName( const std::string & s )
-    {
-    if( s == "Size" )
+  static AttributeType GetAttributeFromName(const std::string & s)
+  {
+    if ( s == "Size" )
       {
       return SIZE;
       }
-    else if( s == "PhysicalSize" )
+    else if ( s == "PhysicalSize" )
       {
       return PHYSICAL_SIZE;
       }
-    else if( s == "RegionElongation" )
+    else if ( s == "RegionElongation" )
       {
       return REGION_ELONGATION;
       }
-    else if( s == "SizeRegionRatio" )
+    else if ( s == "SizeRegionRatio" )
       {
       return SIZE_REGION_RATIO;
       }
-    else if( s == "Centroid" )
+    else if ( s == "Centroid" )
       {
       return CENTROID;
       }
-    else if( s == "Region" )
+    else if ( s == "Region" )
       {
       return REGION;
       }
-    else if( s == "SizeOnBorder" )
+    else if ( s == "SizeOnBorder" )
       {
       return SIZE_ON_BORDER;
       }
-    else if( s == "PhysicalSizeOnBorder" )
+    else if ( s == "PhysicalSizeOnBorder" )
       {
       return PHYSICAL_SIZE_ON_BORDER;
       }
-    else if( s == "FeretDiameter" )
+    else if ( s == "FeretDiameter" )
       {
       return FERET_DIAMETER;
       }
-    else if( s == "BinaryPrincipalMoments" )
+    else if ( s == "BinaryPrincipalMoments" )
       {
       return BINARY_PRINCIPAL_MOMENTS;
       }
-    else if( s == "BinaryPrincipalAxes" )
+    else if ( s == "BinaryPrincipalAxes" )
       {
       return BINARY_PRINCIPAL_AXES;
       }
-    else if( s == "BinaryElongation" )
+    else if ( s == "BinaryElongation" )
       {
       return BINARY_ELONGATION;
       }
-    else if( s == "Perimeter" )
+    else if ( s == "Perimeter" )
       {
       return PERIMETER;
       }
-    else if( s == "Roundness" )
+    else if ( s == "Roundness" )
       {
       return ROUNDNESS;
       }
-    else if( s == "EquivalentRadius" )
+    else if ( s == "EquivalentRadius" )
       {
       return EQUIVALENT_RADIUS;
       }
-    else if( s == "EquivalentPerimeter" )
+    else if ( s == "EquivalentPerimeter" )
       {
       return EQUIVALENT_PERIMETER;
       }
-    else if( s == "EquivalentEllipsoidSize" )
+    else if ( s == "EquivalentEllipsoidSize" )
       {
       return EQUIVALENT_ELLIPSOID_RADIUS;
       }
-    else if( s == "BinaryFlatness" )
+    else if ( s == "BinaryFlatness" )
       {
       return BINARY_FLATNESS;
       }
     // can't recognize the name
-    return Superclass::GetAttributeFromName( s );
-    }
+    return Superclass::GetAttributeFromName(s);
+  }
 
-  static std::string GetNameFromAttribute( const AttributeType & a )
-    {
-    switch( a )
+  static std::string GetNameFromAttribute(const AttributeType & a)
+  {
+    switch ( a )
       {
       case SIZE:
         return "Size";
@@ -227,263 +226,261 @@ public:
         break;
       }
     // can't recognize the name
-    return Superclass::GetNameFromAttribute( a );
-    }
+    return Superclass::GetNameFromAttribute(a);
+  }
 
   typedef ImageRegion< VImageDimension > RegionType;
 
-  typedef Point<double, VImageDimension> CentroidType;
+  typedef Point< double, VImageDimension > CentroidType;
 
-  typedef Matrix< double, VImageDimension, VImageDimension >   MatrixType;
+  typedef Matrix< double, VImageDimension, VImageDimension > MatrixType;
 
   typedef Vector< double, VImageDimension > VectorType;
 
   const RegionType & GetRegion() const
-    {
+  {
     return m_Region;
-    }
+  }
 
-  void SetRegion( const RegionType & v )
-    {
+  void SetRegion(const RegionType & v)
+  {
     m_Region = v;
-    }
+  }
 
   const double & GetPhysicalSize() const
-    {
+  {
     return m_PhysicalSize;
-    }
+  }
 
-  void SetPhysicalSize( const double & v )
-    {
+  void SetPhysicalSize(const double & v)
+  {
     m_PhysicalSize = v;
-    }
+  }
 
   const unsigned long & GetSize() const
-    {
+  {
     return m_Size;
-    }
+  }
 
-  void SetSize( const unsigned long & v )
-    {
+  void SetSize(const unsigned long & v)
+  {
     m_Size = v;
-    }
+  }
 
   const CentroidType & GetCentroid() const
-    {
+  {
     return m_Centroid;
-    }
+  }
 
-  void SetCentroid( const CentroidType & centroid )
-    {
+  void SetCentroid(const CentroidType & centroid)
+  {
     m_Centroid = centroid;
-    }
+  }
 
   const double & GetRegionElongation() const
-    {
+  {
     return m_RegionElongation;
-    }
+  }
 
-  void SetRegionElongation( const double & v )
-    {
+  void SetRegionElongation(const double & v)
+  {
     m_RegionElongation = v;
-    }
+  }
 
   const double & GetSizeRegionRatio() const
-    {
+  {
     return m_SizeRegionRatio;
-    }
+  }
 
-  void SetSizeRegionRatio( const double & v )
-    {
+  void SetSizeRegionRatio(const double & v)
+  {
     m_SizeRegionRatio = v;
-    }
+  }
 
   const unsigned long & GetSizeOnBorder() const
-    {
+  {
     return m_SizeOnBorder;
-    }
+  }
 
-  void SetSizeOnBorder( const unsigned long & v )
-    {
+  void SetSizeOnBorder(const unsigned long & v)
+  {
     m_SizeOnBorder = v;
-    }
+  }
 
   const double & GetPhysicalSizeOnBorder() const
-    {
+  {
     return m_PhysicalSizeOnBorder;
-    }
+  }
 
-  void SetPhysicalSizeOnBorder( const double & v )
-    {
+  void SetPhysicalSizeOnBorder(const double & v)
+  {
     m_PhysicalSizeOnBorder = v;
-    }
+  }
 
   const double & GetFeretDiameter() const
-    {
+  {
     return m_FeretDiameter;
-    }
+  }
 
-  void SetFeretDiameter( const double & v )
-    {
+  void SetFeretDiameter(const double & v)
+  {
     m_FeretDiameter = v;
-    }
+  }
 
   const VectorType & GetBinaryPrincipalMoments() const
-    {
+  {
     return m_BinaryPrincipalMoments;
-    }
+  }
 
-  void SetBinaryPrincipalMoments( const VectorType & v )
-    {
+  void SetBinaryPrincipalMoments(const VectorType & v)
+  {
     m_BinaryPrincipalMoments = v;
-    }
+  }
 
   const MatrixType & GetBinaryPrincipalAxes() const
-    {
+  {
     return m_BinaryPrincipalAxes;
-    }
+  }
 
-  void SetBinaryPrincipalAxes( const MatrixType & v )
-    {
+  void SetBinaryPrincipalAxes(const MatrixType & v)
+  {
     m_BinaryPrincipalAxes = v;
-    }
+  }
 
   const double & GetBinaryElongation() const
-    {
+  {
     return m_BinaryElongation;
-    }
+  }
 
-  void SetBinaryElongation( const double & v )
-    {
+  void SetBinaryElongation(const double & v)
+  {
     m_BinaryElongation = v;
-    }
+  }
 
   const double & GetPerimeter() const
-    {
+  {
     return m_Perimeter;
-    }
+  }
 
-  void SetPerimeter( const double & v )
-    {
+  void SetPerimeter(const double & v)
+  {
     m_Perimeter = v;
-    }
+  }
 
   const double & GetRoundness() const
-    {
+  {
     return m_Roundness;
-    }
+  }
 
-  void SetRoundness( const double & v )
-    {
+  void SetRoundness(const double & v)
+  {
     m_Roundness = v;
-    }
+  }
 
   const double & GetEquivalentRadius() const
-    {
+  {
     return m_EquivalentRadius;
-    }
+  }
 
-  void SetEquivalentRadius( const double & v )
-    {
+  void SetEquivalentRadius(const double & v)
+  {
     m_EquivalentRadius = v;
-    }
+  }
 
   const double & GetEquivalentPerimeter() const
-    {
+  {
     return m_EquivalentPerimeter;
-    }
+  }
 
-  void SetEquivalentPerimeter( const double & v )
-    {
+  void SetEquivalentPerimeter(const double & v)
+  {
     m_EquivalentPerimeter = v;
-    }
+  }
 
   const VectorType & GetEquivalentEllipsoidSize() const
-    {
+  {
     return m_EquivalentEllipsoidSize;
-    }
+  }
 
-  void SetEquivalentEllipsoidSize( const VectorType & v )
-    {
+  void SetEquivalentEllipsoidSize(const VectorType & v)
+  {
     m_EquivalentEllipsoidSize = v;
-    }
+  }
 
   const double & GetBinaryFlatness() const
-    {
+  {
     return m_BinaryFlatness;
-    }
+  }
 
-  void SetBinaryFlatness( const double & v )
-    {
+  void SetBinaryFlatness(const double & v)
+  {
     m_BinaryFlatness = v;
-    }
-
+  }
 
   // some helper methods - not really required, but really useful!
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform<double,VImageDimension>   AffineTransformType;
-  typedef typename AffineTransformType::Pointer     AffineTransformPointer;
+  typedef AffineTransform< double, VImageDimension > AffineTransformType;
+  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */
   AffineTransformPointer GetBinaryPrincipalAxesToPhysicalAxesTransform() const
-    {
+  {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < VImageDimension; i++) 
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       offset[i]  = m_Centroid[i];
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
         }
       }
-  
+
     AffineTransformPointer result = AffineTransformType::New();
-      
+
     result->SetMatrix(matrix);
     result->SetOffset(offset);
-  
+
     return result;
-    }
+  }
 
   /** Get the affine transform from physical axes to principal axes
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
   AffineTransformPointer GetPhysicalAxesToBinaryPrincipalAxesTransform(void) const
-    {
+  {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < VImageDimension; i++) 
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       offset[i]    = m_Centroid[i];
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         matrix[j][i] = m_BinaryPrincipalAxes[i][j];    // Note the transposition
         }
       }
-  
+
     AffineTransformPointer result = AffineTransformType::New();
     result->SetMatrix(matrix);
     result->SetOffset(offset);
-  
+
     AffineTransformPointer inverse = AffineTransformType::New();
     result->GetInverse(inverse);
-  
+
     return inverse;
-    }
+  }
 
-
-  virtual void CopyAttributesFrom( const LabelObjectType * lo )
-    {
-    Superclass::CopyAttributesFrom( lo );
+  virtual void CopyAttributesFrom(const LabelObjectType *lo)
+  {
+    Superclass::CopyAttributesFrom(lo);
 
     // copy the data of the current type if possible
-    const Self * src = dynamic_cast<const Self *>( lo );
-    if( src == NULL )
+    const Self *src = dynamic_cast< const Self * >( lo );
+    if ( src == NULL )
       {
       return;
       }
@@ -505,11 +502,11 @@ public:
     m_EquivalentPerimeter = src->m_EquivalentPerimeter;
     m_EquivalentEllipsoidSize = src->m_EquivalentEllipsoidSize;
     m_BinaryFlatness = src->m_BinaryFlatness;
-    }
+  }
 
 protected:
   ShapeLabelObject()
-    {
+  {
     m_Size = 0;
     m_PhysicalSize = 0;
     m_Centroid.Fill(0);
@@ -527,15 +524,15 @@ protected:
     m_EquivalentPerimeter = 0;
     m_EquivalentEllipsoidSize.Fill(0);
     m_BinaryFlatness = 0;
-    }
+  }
 
-  void PrintSelf(std::ostream& os, Indent indent) const
-    {
-    Superclass::PrintSelf( os, indent );
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
 
     os << indent << "Centroid: " << m_Centroid << std::endl;
     os << indent << "Region: ";
-    m_Region.Print( os, indent );
+    m_Region.Print(os, indent);
     os << indent << "PhysicalSize: " << m_PhysicalSize << std::endl;
     os << indent << "Size: " << m_Size << std::endl;
     os << indent << "RegionElongation: " << m_RegionElongation << std::endl;
@@ -552,11 +549,11 @@ protected:
     os << indent << "EquivalentRadius: " << m_EquivalentRadius << std::endl;
     os << indent << "EquivalentPerimeter: " << m_EquivalentPerimeter << std::endl;
     os << indent << "EquivalentEllipsoidSize: " << m_EquivalentEllipsoidSize << std::endl;
-    }
+  }
 
 private:
-  ShapeLabelObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ShapeLabelObject(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 
   RegionType    m_Region;
   unsigned long m_Size;
@@ -576,9 +573,7 @@ private:
   double        m_EquivalentPerimeter;
   VectorType    m_EquivalentEllipsoidSize;
   double        m_BinaryFlatness;
-
 };
-
 } // end namespace itk
 
 #endif

@@ -22,55 +22,53 @@
 #include "itkProgressAccumulator.h"
 #include "itkFlatStructuringElement.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage, class TKernel>
-KernelImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::KernelImageFilter()
 {
-  this->SetRadius( 1UL );
+  this->SetRadius(1UL);
 }
 
-
-template <class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-KernelImageFilter<TInputImage, TOutputImage, TKernel>
-::SetRadius( const RadiusType & radius )
+KernelImageFilter< TInputImage, TOutputImage, TKernel >
+::SetRadius(const RadiusType & radius)
 {
   // Try to use a FlatStructuringElement if possible, because it is
   // much efficient with van Herk / Gil Werman filters
   // check that the type is exactly FlatKernelType, to be sure to
   // not replace m_Kernel data with the data of a FlatKernelType
   // if KernelType is a subclass of FlatKernelType.
-  if( typeid(KernelType) == typeid(FlatKernelType) )
+  if ( typeid( KernelType ) == typeid( FlatKernelType ) )
     {
     // SetKernel() must be called, because it can be overloaded in a subclass
     // - MovingHistogramImageFilterBase for example.
-    FlatKernelType flatKernel = FlatKernelType::Box( radius );
-    KernelType * kernel = reinterpret_cast< KernelType* >( & flatKernel );
-    this->SetKernel( *kernel );
+    FlatKernelType flatKernel = FlatKernelType::Box(radius);
+    KernelType *   kernel = reinterpret_cast< KernelType * >( &flatKernel );
+    this->SetKernel(*kernel);
     }
   else
     {
     // Superclass::SetRadius() is called in SetKenel() - no need to call it here
     // Superclass::SetRadius( radius );
     KernelType kernel;
-    kernel.SetRadius( radius );
-    for( typename KernelType::Iterator kit=kernel.Begin(); kit != kernel.End(); kit++ )
+    kernel.SetRadius(radius);
+    for ( typename KernelType::Iterator kit = kernel.Begin(); kit != kernel.End(); kit++ )
       {
       *kit = 1;
       }
-    this->SetKernel( kernel );
+    this->SetKernel(kernel);
     }
 }
 
-
-template <class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-KernelImageFilter<TInputImage, TOutputImage, TKernel>
-::SetKernel( const KernelType & kernel )
+KernelImageFilter< TInputImage, TOutputImage, TKernel >
+::SetKernel(const KernelType & kernel)
 {
-  if( m_Kernel != kernel )
+  if ( m_Kernel != kernel )
     {
     m_Kernel = kernel;
     this->Modified();
@@ -79,18 +77,15 @@ KernelImageFilter<TInputImage, TOutputImage, TKernel>
   Superclass::SetRadius( kernel.GetRadius() );
 }
 
-
-template <class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-KernelImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+KernelImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Kernel: " << m_Kernel << std::endl;
 }
-
 }
-
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,11 +19,10 @@
 
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
 
-namespace itk {
-
-
-template <class TInputImage, class TFeatureImage, class TOutputType>
-ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+namespace itk
+{
+template< class TInputImage, class TFeatureImage, class TOutputType >
+ThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::ThresholdSegmentationLevelSetImageFilter()
 {
   m_ThresholdFunction = ThresholdFunctionType::New();
@@ -32,17 +31,15 @@ ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType
 
   this->SetSegmentationFunction(m_ThresholdFunction);
 }
- 
-template <class TInputImage, class TFeatureImage, class TOutputType>
+
+template< class TInputImage, class TFeatureImage, class TOutputType >
 void
-ThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
-::PrintSelf(std::ostream &os, Indent indent) const
+ThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "ThresholdFunction: " << m_ThresholdFunction;
 }
-
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

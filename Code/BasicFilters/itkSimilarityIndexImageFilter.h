@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,10 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 
-namespace itk {
-
-/** \class SimilarityIndexImageFilter 
- * \brief Measures the similarity between the set of non-zero pixels of 
+namespace itk
+{
+/** \class SimilarityIndexImageFilter
+ * \brief Measures the similarity between the set of non-zero pixels of
  * two images.
  *
  * SimilarityIndexImageFilter measures the similarity between the set
@@ -36,7 +36,7 @@ namespace itk {
  *
  * The measure is derived from a reliability measure known as the kappa
  * statistic. \f$S\f$ is sensitive to both differences in size and in
- * location and have been in the literature for comparing two segmentation masks. 
+ * location and have been in the literature for comparing two segmentation masks.
  * For more information see:
  * "Morphometric Analysis of White Matter Lesions in MR Images: Method and
  * Validation", A. P. Zijdenbos, B. M. Dawant, R. A. Margolin and
@@ -44,9 +44,9 @@ namespace itk {
  *
  *
  * This filter requires the largest possible region of the first image
- * and the same corresponding region in the second image. 
+ * and the same corresponding region in the second image.
  * It behaves as filter with
- * two input and one output. Thus it can be inserted in a pipeline with 
+ * two input and one output. Thus it can be inserted in a pipeline with
  * other filters. The filter passes the first input through unmodified.
  *
  * This filter is templated over the two input image type. It assume
@@ -54,23 +54,23 @@ namespace itk {
  *
  * \ingroup MultiThreaded
  */
-template<class TInputImage1, class TInputImage2>
-class ITK_EXPORT SimilarityIndexImageFilter : 
-    public ImageToImageFilter<TInputImage1, TInputImage1>
+template< class TInputImage1, class TInputImage2 >
+class ITK_EXPORT SimilarityIndexImageFilter:
+  public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
   /** Standard Self typedef */
-  typedef SimilarityIndexImageFilter                     Self;
-  typedef ImageToImageFilter<TInputImage1,TInputImage1>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
-  
+  typedef SimilarityIndexImageFilter                       Self;
+  typedef ImageToImageFilter< TInputImage1, TInputImage1 > Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(SimilarityIndexImageFilter, ImageToImageFilter);
-  
+
   /** Image related typedefs. */
   typedef TInputImage1                        InputImage1Type;
   typedef TInputImage2                        InputImage2Type;
@@ -85,59 +85,59 @@ public:
 
   typedef typename TInputImage1::PixelType InputImage1PixelType;
   typedef typename TInputImage2::PixelType InputImage2PixelType;
-  
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage1::ImageDimension );
+                      TInputImage1::ImageDimension);
 
   /** Type to use form computations. */
-  typedef typename NumericTraits<InputImage1PixelType>::RealType RealType;
+  typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1( const InputImage1Type * image )
-    { this->SetInput( image ); }
+  void SetInput1(const InputImage1Type *image)
+  { this->SetInput(image); }
 
   /** Set the second input. */
-  void SetInput2( const InputImage2Type * image );
+  void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-    { return this->GetInput(); }
-  
+  { return this->GetInput(); }
+
   /** Get the secong input. */
   const InputImage2Type * GetInput2(void);
-  
+
   /** Return the computed similarity index. */
-  itkGetConstMacro(SimilarityIndex,RealType);
+  itkGetConstMacro(SimilarityIndex, RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(Input1HasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputImage1PixelType>));
-  itkConceptMacro(Input2HasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputImage2PixelType>));
+  itkConceptMacro( Input1HasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
+  itkConceptMacro( Input2HasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImage2PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   SimilarityIndexImageFilter();
-  ~SimilarityIndexImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~SimilarityIndexImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    * AllocateOutputs method. */
   void AllocateOutputs();
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData ();
-  
-  /** Do final mean and variance computation from data accumulated in threads. */
-  void AfterThreadedGenerateData ();
-  
+  void BeforeThreadedGenerateData();
+
+  /** Do final mean and variance computation from data accumulated in threads.
+    */
+  void AfterThreadedGenerateData();
+
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const RegionType& 
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const RegionType &
+                             outputRegionForThread,
+                             int threadId);
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -146,19 +146,17 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
-  SimilarityIndexImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SimilarityIndexImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
   RealType m_SimilarityIndex;
 
-  Array<unsigned long> m_CountOfImage1;
-  Array<unsigned long> m_CountOfImage2;
-  Array<unsigned long> m_CountOfIntersection;
-
+  Array< unsigned long > m_CountOfImage1;
+  Array< unsigned long > m_CountOfImage2;
+  Array< unsigned long > m_CountOfIntersection;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSimilarityIndexImageFilter.txx"
 #endif

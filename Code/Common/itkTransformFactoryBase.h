@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,18 +28,19 @@ namespace itk
  * \brief Create instances of Transforms
  */
 
-class ITKCommon_EXPORT TransformFactoryBase : public ObjectFactoryBase
+class ITKCommon_EXPORT TransformFactoryBase:public ObjectFactoryBase
 {
-public:  
+public:
   /** Standard class typedefs. */
-  typedef TransformFactoryBase        Self;
-  typedef ObjectFactoryBase           Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
-  
+  typedef TransformFactoryBase       Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformFactoryBase, ObjectFactoryBase);
@@ -51,36 +52,36 @@ public:
   static void RegisterDefaultTransforms();
 
   /** Register this transform */
-  static TransformFactoryBase* GetFactory () 
-    {
+  static TransformFactoryBase * GetFactory()
+  {
     if ( m_Factory == 0 )
       {
       // Make and register the factory
       TransformFactoryBase::Pointer p = TransformFactoryBase::New();
       m_Factory = p.GetPointer();
-      ObjectFactoryBase::RegisterFactory ( p );
+      ObjectFactoryBase::RegisterFactory (p);
       p->RegisterDefaultTransforms ();
       }
     return m_Factory;
-    }
+  }
 
-  void RegisterTransform(const char* classOverride,
-      const char* overrideClassName,
-      const char* description,
-      bool enableFlag,
-      CreateObjectFunctionBase* createFunction)
-    {
-    this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
-    }
-  
+  void RegisterTransform(const char *classOverride,
+                         const char *overrideClassName,
+                         const char *description,
+                         bool enableFlag,
+                         CreateObjectFunctionBase *createFunction)
+  {
+    this->RegisterOverride (classOverride, overrideClassName, description, enableFlag, createFunction);
+  }
+
 protected:
   TransformFactoryBase();
   virtual ~TransformFactoryBase();
-
 private:
-  TransformFactoryBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  static TransformFactoryBase* m_Factory;
+  TransformFactoryBase(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
+
+  static TransformFactoryBase *m_Factory;
 };
 } // end namespace itk
 

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,49 +22,46 @@
 
 namespace itk
 {
-TxtTransformIO::
-TxtTransformIO()
-{
-}
+TxtTransformIO::TxtTransformIO()
+{}
 
 TxtTransformIO::
 ~TxtTransformIO()
-{
-}
+{}
 
 bool
-TxtTransformIO::
-CanReadFile(const char *fileName)
+TxtTransformIO::CanReadFile(const char *fileName)
 {
   bool recognizedExtension = false;
-  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
-  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm");
+
+  recognizedExtension |= ( itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt" );
+  recognizedExtension |= ( itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm" );
   return recognizedExtension;
 }
 
 bool
-TxtTransformIO::
-CanWriteFile(const char *fileName)
+TxtTransformIO::CanWriteFile(const char *fileName)
 {
   bool recognizedExtension = false;
-  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt");
-  recognizedExtension |= (itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm");
+
+  recognizedExtension |= ( itksys::SystemTools::GetFilenameLastExtension(fileName) == ".txt" );
+  recognizedExtension |= ( itksys::SystemTools::GetFilenameLastExtension(fileName) == ".tfm" );
   return recognizedExtension;
 }
 
-std::string 
-TxtTransformIO::
-trim(std::string const& source, char const* delims)
+std::string
+TxtTransformIO::trim(std::string const & source, char const *delims)
 {
-  std::string result(source);
+  std::string            result(source);
   std::string::size_type index = result.find_last_not_of(delims);
-  if(index != std::string::npos)
+
+  if ( index != std::string::npos )
     {
     result.erase(++index);
     }
 
   index = result.find_first_not_of(delims);
-  if(index != std::string::npos)
+  if ( index != std::string::npos )
     {
     result.erase(0, index);
     }
@@ -75,37 +72,37 @@ trim(std::string const& source, char const* delims)
   return result;
 }
 
-void 
-TxtTransformIO::
-Read()
-{  
+void
+TxtTransformIO::Read()
+{
   TransformPointer transform;
-  std::ifstream in;
-  in.open ( this->GetFileName(), std::ios::in | std::ios::binary );
-  if( in.fail() )
+  std::ifstream    in;
+
+  in.open (this->GetFileName(), std::ios::in | std::ios::binary);
+  if ( in.fail() )
     {
     in.close();
-    itkExceptionMacro ( "The file could not be opened for read access "
-                        << std::endl << "Filename: \"" << this->GetFileName() << "\"" );
+    itkExceptionMacro ("The file could not be opened for read access "
+                       << std::endl << "Filename: \"" << this->GetFileName() << "\"");
     }
 
   std::ostringstream InData;
 
   // in.get ( InData );
   std::filebuf *pbuf;
-  pbuf=in.rdbuf();
+  pbuf = in.rdbuf();
 
   // get file size using buffer's members
-  int size=pbuf->pubseekoff (0,std::ios::end,std::ios::in);
-  pbuf->pubseekpos (0,std::ios::in);
+  int size = pbuf->pubseekoff (0, std::ios::end, std::ios::in);
+  pbuf->pubseekpos (0, std::ios::in);
 
   // allocate memory to contain file data
-  char* buffer=new char[size+1];
+  char *buffer = new char[size + 1];
 
-  // get file data  
-  pbuf->sgetn (buffer,size); 
-  buffer[size]='\0';
-  itkDebugMacro ( "Read file transform Data" );
+  // get file data
+  pbuf->sgetn (buffer, size);
+  buffer[size] = '\0';
+  itkDebugMacro ("Read file transform Data");
   InData << buffer;
 
   delete[] buffer;
@@ -113,11 +110,11 @@ Read()
   in.close();
 
   // Read line by line
-  vnl_vector<double> VectorBuffer;
+  vnl_vector< double >   VectorBuffer;
   std::string::size_type position = 0;
-  
-  Array<double> TmpParameterArray;
-  Array<double> TmpFixedParameterArray;
+
+  Array< double > TmpParameterArray;
+  Array< double > TmpFixedParameterArray;
   TmpParameterArray.clear();
   TmpFixedParameterArray.clear();
   bool haveFixedParameters = false;
@@ -125,50 +122,50 @@ Read()
   //
   // check for line end convention
   std::string line_end("\n");
-  if(data.find('\n') == std::string::npos)
+  if ( data.find('\n') == std::string::npos )
     {
-    if(data.find('\r') == std::string::npos)
+    if ( data.find('\r') == std::string::npos )
       {
-      itkExceptionMacro ( "No line ending character found, not a valid ITK Transform TXT file" );
+      itkExceptionMacro ("No line ending character found, not a valid ITK Transform TXT file");
       }
     line_end = "\r";
     }
   while ( position < data.size() )
     {
     // Find the next string
-    std::string::size_type end = data.find ( line_end, position );
-    std::string line = trim ( data.substr ( position, end - position ) );
-    position = end+1;
-    itkDebugMacro ("Found line: \"" << line << "\"" );
+    std::string::size_type end = data.find (line_end, position);
+    std::string            line = trim ( data.substr (position, end - position) );
+    position = end + 1;
+    itkDebugMacro ("Found line: \"" << line << "\"");
 
     if ( line.length() == 0 )
       {
       continue;
       }
-    if (line[0] == '#' || std::string::npos == line.find_first_not_of (" \t"))
+    if ( line[0] == '#' || std::string::npos == line.find_first_not_of (" \t") )
       {
       // Skip lines beginning with #, or blank lines
       continue;
       }
 
     // Get the name
-    end = line.find ( ":" );
+    end = line.find (":");
     if ( end == std::string::npos )
       {
       // Throw an error
-      itkExceptionMacro ( "Tags must be delimited by :" );
+      itkExceptionMacro ("Tags must be delimited by :");
       }
-    std::string Name = trim ( line.substr ( 0, end ) );
+    std::string Name = trim ( line.substr (0, end) );
     std::string Value = trim ( line.substr ( end + 1, line.length() ) );
-    // Push back 
-    itkDebugMacro ( "Name: \"" << Name << "\"" );
-    itkDebugMacro ( "Value: \"" << Value << "\"" );
-    itksys_ios::istringstream parse ( Value );
+    // Push back
+    itkDebugMacro ("Name: \"" << Name << "\"");
+    itkDebugMacro ("Value: \"" << Value << "\"");
+    itksys_ios::istringstream parse (Value);
     VectorBuffer.clear();
     if ( Name == "Transform" )
       {
-      this->CreateTransform(transform,Value);
-      this->GetReadTransformList().push_back ( transform );
+      this->CreateTransform(transform, Value);
+      this->GetReadTransformList().push_back (transform);
       }
     else if ( Name == "Parameters" || Name == "FixedParameters" )
       {
@@ -176,44 +173,44 @@ Read()
 
       // Read them
       parse >> VectorBuffer;
-      itkDebugMacro ( "Parsed: " << VectorBuffer );
+      itkDebugMacro ("Parsed: " << VectorBuffer);
       if ( Name == "Parameters" )
         {
         TmpParameterArray = VectorBuffer;
-        itkDebugMacro ( "Setting Parameters: " << TmpParameterArray );
+        itkDebugMacro ("Setting Parameters: " << TmpParameterArray);
         if ( haveFixedParameters )
           {
-          transform->SetFixedParameters ( TmpFixedParameterArray );
-          itkDebugMacro ( "Set Transform Fixed Parameters" );
-          transform->SetParametersByValue ( TmpParameterArray );
-          itkDebugMacro ( "Set Transform Parameters" );
+          transform->SetFixedParameters (TmpFixedParameterArray);
+          itkDebugMacro ("Set Transform Fixed Parameters");
+          transform->SetParametersByValue (TmpParameterArray);
+          itkDebugMacro ("Set Transform Parameters");
           TmpParameterArray.clear();
-          TmpFixedParameterArray.clear(); 
+          TmpFixedParameterArray.clear();
           haveFixedParameters = false;
           haveParameters = false;
           }
         else
           {
           haveParameters = true;
-          }   
+          }
         }
       else if ( Name == "FixedParameters" )
         {
         TmpFixedParameterArray = VectorBuffer;
-        itkDebugMacro ( "Setting Fixed Parameters: " << TmpFixedParameterArray );
+        itkDebugMacro ("Setting Fixed Parameters: " << TmpFixedParameterArray);
         if ( !transform )
           {
           itkExceptionMacro ("Please set the transform before parameters"
-                             "or fixed parameters" );
+                             "or fixed parameters");
           }
         if ( haveParameters )
           {
-          transform->SetFixedParameters ( TmpFixedParameterArray );
-          itkDebugMacro ( "Set Transform Fixed Parameters" );
-          transform->SetParametersByValue ( TmpParameterArray );
-          itkDebugMacro ( "Set Transform Parameters" );
+          transform->SetFixedParameters (TmpFixedParameterArray);
+          itkDebugMacro ("Set Transform Fixed Parameters");
+          transform->SetParametersByValue (TmpParameterArray);
+          itkDebugMacro ("Set Transform Parameters");
           TmpParameterArray.clear();
-          TmpFixedParameterArray.clear(); 
+          TmpFixedParameterArray.clear();
           haveFixedParameters = false;
           haveParameters = false;
           }
@@ -226,30 +223,29 @@ Read()
     }
 }
 
-void 
-TxtTransformIO::
-Write()
+void
+TxtTransformIO::Write()
 {
   ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
-  vnl_vector<double> TempArray;
-  std::ofstream out;
-  this->OpenStream(out,false);
+
+  vnl_vector< double > TempArray;
+  std::ofstream        out;
+  this->OpenStream(out, false);
 
   out << "#Insight Transform File V1.0" << std::endl;
   int count = 0;
-  while(it != this->GetWriteTransformList().end())
+  while ( it != this->GetWriteTransformList().end() )
     {
-    out << "# Transform " << count << std::endl;
-    out << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;
+    out << "#Transform " << count << std::endl;
+    out << "Transform: " << ( *it )->GetTransformTypeAsString() << std::endl;
 
-    TempArray = (*it)->GetParameters();
+    TempArray = ( *it )->GetParameters();
     out << "Parameters: " << TempArray << std::endl;
-    TempArray = (*it)->GetFixedParameters();
+    TempArray = ( *it )->GetFixedParameters();
     out << "FixedParameters: " << TempArray << std::endl;
     it++;
     count++;
     }
   out.close();
 }
-
 }

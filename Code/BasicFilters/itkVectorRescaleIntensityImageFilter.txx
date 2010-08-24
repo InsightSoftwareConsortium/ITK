@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,88 +24,82 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::VectorRescaleIntensityImageFilter()
 {
   m_OutputMaximumMagnitude   = NumericTraits< OutputRealType >::Zero;
   m_InputMaximumMagnitude    = NumericTraits< InputRealType  >::Zero;
-  
+
   m_Scale = 1.0;
 }
 
-
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TOutputImage >
+void
+VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Output Maximum Magnitude: "
-     << static_cast<typename NumericTraits<OutputRealType>::PrintType>(m_OutputMaximumMagnitude)
+     << static_cast< typename NumericTraits< OutputRealType >::PrintType >( m_OutputMaximumMagnitude )
      << std::endl;
   os << indent << "Input Maximum Magnitude: "
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_InputMaximumMagnitude)
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_InputMaximumMagnitude )
      << std::endl;
   os << indent << "Internal Scale : "
-     << static_cast<typename NumericTraits<InputRealType>::PrintType>(m_Scale)
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Scale )
      << std::endl;
 }
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-
-  if ( m_OutputMaximumMagnitude < NumericTraits<OutputRealType>::Zero )
+  if ( m_OutputMaximumMagnitude < NumericTraits< OutputRealType >::Zero )
     {
-    itkExceptionMacro(<<"Maximum output value cannot be negative. You are passing " << m_OutputMaximumMagnitude);
+    itkExceptionMacro(<< "Maximum output value cannot be negative. You are passing " << m_OutputMaximumMagnitude);
     return;
     }
 
   InputImagePointer inputImage =   this->GetInput();
 
-  typedef ImageRegionConstIterator< InputImageType >  InputIterator;
+  typedef ImageRegionConstIterator< InputImageType > InputIterator;
 
   InputIterator it( inputImage, inputImage->GetBufferedRegion() );
 
   it.GoToBegin();
 
-  InputRealType maximumSquaredMagnitude = NumericTraits<InputRealType>::Zero;
+  InputRealType maximumSquaredMagnitude = NumericTraits< InputRealType >::Zero;
 
-  while( !it.IsAtEnd() )
+  while ( !it.IsAtEnd() )
     {
     InputRealType magnitude = it.Get().GetSquaredNorm();
-    if( magnitude > maximumSquaredMagnitude )
+    if ( magnitude > maximumSquaredMagnitude )
       {
       maximumSquaredMagnitude = magnitude;
       }
     ++it;
     }
 
-  m_InputMaximumMagnitude = vcl_sqrt(maximumSquaredMagnitude );
+  m_InputMaximumMagnitude = vcl_sqrt(maximumSquaredMagnitude);
 
-  m_Scale = static_cast<InputRealType>( m_OutputMaximumMagnitude ) /
-            static_cast<InputRealType>( m_InputMaximumMagnitude  );
-  
+  m_Scale = static_cast< InputRealType >( m_OutputMaximumMagnitude )
+            / static_cast< InputRealType >( m_InputMaximumMagnitude  );
+
   // set up the functor values
-  this->GetFunctor().SetFactor( m_Scale );
-  
+  this->GetFunctor().SetFactor(m_Scale);
 }
-
-
 } // end namespace itk
 
 #endif

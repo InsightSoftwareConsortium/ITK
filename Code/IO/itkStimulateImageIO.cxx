@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 StimulateImageIO::StimulateImageIO()
 {
   this->SetNumberOfDimensions(4);
@@ -37,17 +36,16 @@ StimulateImageIO::StimulateImageIO()
 }
 
 StimulateImageIO::~StimulateImageIO()
-{
-}
+{}
 
-bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream& os, 
-                                                   const char* filename)
-                                       
+bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream & os,
+                                                   const char *filename)
+
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
@@ -56,12 +54,12 @@ bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for reading
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  os.open( filename, std::ios::in | std::ios::binary );
+  os.open(filename, std::ios::in | std::ios::binary);
 
   if ( os.fail() )
     {
@@ -71,15 +69,14 @@ bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream& os,
   return true;
 }
 
+bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream & os,
+                                                   const char *filename)
 
-bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os, 
-                                                   const char* filename)
-                                       
 {
-  // Make sure that we have a file to 
+  // Make sure that we have a file to
   if ( *filename == 0 )
     {
-    itkExceptionMacro(<<"A FileName must be specified.");
+    itkExceptionMacro(<< "A FileName must be specified.");
     return false;
     }
 
@@ -88,14 +85,14 @@ bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os,
     {
     os.close();
     }
-  
+
   // Open the new file for writing
   itkDebugMacro(<< "Initialize: opening file " << filename);
 
   // Actually open the file
-  os.open( filename, std::ios::out | std::ios::binary );
+  os.open(filename, std::ios::out | std::ios::binary);
 
-  if( os.fail() )
+  if ( os.fail() )
     {
     itkExceptionMacro(<< "Could not open file for writing: " << filename);
     return false;
@@ -106,45 +103,45 @@ bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream& os,
 
 // This method will only test if the header looks like a
 //Stimulate image file.
-bool StimulateImageIO::CanReadFile(const char* filename) 
-{ 
+bool StimulateImageIO::CanReadFile(const char *filename)
+{
   std::ifstream file;
-  char buffer[256];
-  std::string fname(filename);
+  char          buffer[256];
+  std::string   fname(filename);
 
-  if( fname == "" )
+  if ( fname == "" )
     {
-    itkDebugMacro(<<"No filename specified.");
+    itkDebugMacro(<< "No filename specified.");
     return false;
     }
 
-  bool extensionFound = false;
+  bool                   extensionFound = false;
   std::string::size_type sprPos = fname.rfind(".spr");
-  if ((sprPos != std::string::npos)
-      && (sprPos == fname.length() - 4))
+  if ( ( sprPos != std::string::npos )
+       && ( sprPos == fname.length() - 4 ) )
     {
     extensionFound = true;
     }
 
-  if( !extensionFound )
+  if ( !extensionFound )
     {
-    itkDebugMacro(<<"The filename extension is not recognized");
+    itkDebugMacro(<< "The filename extension is not recognized");
     return false;
     }
 
-  if ( ! this->OpenStimulateFileForReading(file, filename))
+  if ( !this->OpenStimulateFileForReading(file, filename) )
     {
     return false;
     }
 
   // Check to see if its a spr file
-  file.getline(buffer,255);
+  file.getline(buffer, 255);
 
   fname = buffer;
 
-  if ( fname.find("numDim:") < fname.length() ||
-       fname.find("dim:") < fname.length() ||
-       fname.find("dataType:") < fname.length() )
+  if ( fname.find("numDim:") < fname.length()
+       || fname.find("dim:") < fname.length()
+       || fname.find("dataType:") < fname.length() )
     {
     return true;
     }
@@ -153,81 +150,88 @@ bool StimulateImageIO::CanReadFile(const char* filename)
     return false;
     }
 }
-  
 
-void StimulateImageIO::Read(void* buffer)
+void StimulateImageIO::Read(void *buffer)
 {
   std::ifstream file;
 
   //read header information file:
   this->InternalReadImageInformation(file);
-  
+
   //read data file
   std::ifstream file_data;
 
-  if( m_DataFileName == "" )
+  if ( m_DataFileName == "" )
     {
-    //if no data filename was specified try to guess one:   
+    //if no data filename was specified try to guess one:
     //based on filename.spr , options are:
     //1: filename.spr.sdt
     //2: filename.sdt
 
     //option 1:
     m_DataFileName = m_FileName;
-    m_DataFileName.replace(m_DataFileName.length(), 4, ".sdt" );
- 
+    m_DataFileName.replace(m_DataFileName.length(), 4, ".sdt");
+
     // Actually open the file
-    file_data.open( m_DataFileName.c_str(), std::ios::in | std::ios::binary );
+    file_data.open(m_DataFileName.c_str(), std::ios::in | std::ios::binary);
     if ( file_data.fail() )
       {
       //option 2:
       m_DataFileName = m_FileName;
-      m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
-      file_data.open( m_DataFileName.c_str(), std::ios::in | std::ios::binary );
+      m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt");
+      file_data.open(m_DataFileName.c_str(), std::ios::in | std::ios::binary);
       if ( file_data.fail() )
         {
-        itkExceptionMacro(<<"No Data file was specified in header (spr) file and guessing file data name failed." );
+        itkExceptionMacro(<< "No Data file was specified in header (spr) file and guessing file data name failed.");
         return;
         }
       }
-    }//a filename was found for data file
+    } //a filename was found for data file
 
-  if( !OpenStimulateFileForReading( file_data, m_DataFileName.c_str()) )
+  if ( !OpenStimulateFileForReading( file_data, m_DataFileName.c_str() ) )
     {
-    itkExceptionMacro("StimulateImageIO could not open file: "
-                      << m_DataFileName << " for reading."
-                      << std::endl
-                      << "Reason: "
-                      << itksys::SystemTools::GetLastSystemError());
+    itkExceptionMacro( "StimulateImageIO could not open file: "
+                       << m_DataFileName << " for reading."
+                       << std::endl
+                       << "Reason: "
+                       << itksys::SystemTools::GetLastSystemError() );
     return;
     }
 
-  if( !this->ReadBufferAsBinary( file_data, buffer, this->GetImageSizeInBytes()) )
+  if ( !this->ReadBufferAsBinary( file_data, buffer, this->GetImageSizeInBytes() ) )
     {
-    itkExceptionMacro(<<"Read failed: Wanted " 
+    itkExceptionMacro(<< "Read failed: Wanted "
                       << this->GetImageSizeInBytes()
-                      << " bytes, but read " 
+                      << " bytes, but read "
                       << file_data.gcount() << " bytes."
-                      << " from file " << m_DataFileName );
+                      << " from file " << m_DataFileName);
     }
 
   //byte swapping depending on pixel type:
-  switch (this->GetComponentType())
+  switch ( this->GetComponentType() )
     {
     case CHAR:
-      ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+      ByteSwapper< char >::SwapRangeFromSystemToBigEndian( (char *)buffer,
+                                                           static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
       break;
     case SHORT:
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+      ByteSwapper< short >::SwapRangeFromSystemToBigEndian( (short *)buffer,
+                                                            static_cast< unsigned long >( this->
+                                                                                          GetImageSizeInComponents() ) );
       break;
     case INT:
-      ByteSwapper<int>::SwapRangeFromSystemToBigEndian((int *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+      ByteSwapper< int >::SwapRangeFromSystemToBigEndian( (int *)buffer,
+                                                          static_cast< unsigned long >( this->GetImageSizeInComponents() ) );
       break;
     case FLOAT:
-      ByteSwapper<float>::SwapRangeFromSystemToBigEndian((float *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+      ByteSwapper< float >::SwapRangeFromSystemToBigEndian( (float *)buffer,
+                                                            static_cast< unsigned long >( this->
+                                                                                          GetImageSizeInComponents() ) );
       break;
     case DOUBLE:
-      ByteSwapper<double>::SwapRangeFromSystemToBigEndian((double *)buffer, static_cast<unsigned long>(this->GetImageSizeInComponents()) );
+      ByteSwapper< double >::SwapRangeFromSystemToBigEndian( (double *)buffer,
+                                                             static_cast< unsigned long >( this->
+                                                                                           GetImageSizeInComponents() ) );
       break;
     default:
       break;
@@ -238,33 +242,33 @@ void StimulateImageIO::Read(void* buffer)
   file_data.close();
 }
 
-void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
+void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 {
-  char line[255];
+  char        line[255];
   std::string text;
 
   //read .sdt file (header)
 
-  if ( ! this->OpenStimulateFileForReading(file, m_FileName.c_str()) )
+  if ( !this->OpenStimulateFileForReading( file, m_FileName.c_str() ) )
     {
-    itkExceptionMacro("StimulateImageIO could not open sdt file: "
-                      << m_FileName << " for reading."
-                      << std::endl
-                      << "Reason: "
-                      << itksys::SystemTools::GetLastSystemError());
+    itkExceptionMacro( "StimulateImageIO could not open sdt file: "
+                       << m_FileName << " for reading."
+                       << std::endl
+                       << "Reason: "
+                       << itksys::SystemTools::GetLastSystemError() );
     }
 
   // re open in ascii mode
   file.close();
-  file.open( m_FileName.c_str(), std::ios::in );
+  file.open(m_FileName.c_str(), std::ios::in);
 
   //extract dimensions, spacing, origin
   unsigned int dim;
   unsigned int dims[4];
-  float spacing[4];
-  float origin[4];
-  float fov[4];
-  
+  float        spacing[4];
+  float        origin[4];
+  float        fov[4];
+
   // set values in case we don't find them
   this->SetNumberOfDimensions(4);
   m_Spacing[0] = 1.0;
@@ -277,36 +281,36 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
   m_Origin[2] = 0.0;
   m_Origin[3] = 0.0;
 
-  char pixelType[256];
+  char  pixelType[256];
   float range[2];
-  
-  //char fidName[256] = "";   
+
+  //char fidName[256] = "";
   //char orient[256] = "";
 
   bool fov_specified = false;
   bool origin_specified = false;
   bool spacing_specified = false;
-  while((file.getline(line, 255), file.gcount() > 0))
+  while ( ( file.getline(line, 255), file.gcount() > 0 ) )
     {
     text = line;
 #ifdef __CYGWIN__
     // If terminated with \r\n, getline only removes \n. Explictly
     // strip \r.
-    if (text.size() > 0 
-        && (text[text.size() - 1] == '\r'))
+    if ( text.size() > 0
+         && ( text[text.size() - 1] == '\r' ) )
       {
       text.resize(text.size() - 1);
       }
 #endif
-    
-    if ( text.find("numDim") < text.length())
+
+    if ( text.find("numDim") < text.length() )
       {
       sscanf(line, "%*s %d", &dim);
       this->SetNumberOfDimensions(dim);
       }
-    else if ( text.find("dim") < text.length())
+    else if ( text.find("dim") < text.length() )
       {
-      sscanf(line, "%*s %d %d %d %d", dims, dims+1, dims+2 , dims+3);
+      sscanf(line, "%*s %d %d %d %d", dims, dims + 1, dims + 2, dims + 3);
       if ( m_NumberOfDimensions > 3 && dims[3] <= 1 )
         {
         this->SetNumberOfDimensions(3);
@@ -315,55 +319,59 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
         {
         this->SetNumberOfDimensions(2);
         }
-      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+      for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
         {
         m_Dimensions[i] = dims[i];
         }
       }
-    else if ( text.find("origin") < text.length())
+    else if ( text.find("origin") < text.length() )
       {
       //origin
-      //Position of the center of the first voxel. One value for each dimension. If
+      //Position of the center of the first voxel. One value for each dimension.
+      // If
       //the origin is not specified, but the fov is, then the image is assumed
       //to be centered:
 
-      sscanf(line, "%*s %f %f %f %f", origin, origin+1, origin+2 , origin+3);
-      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+      sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
+      for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
         {
         m_Origin[i] = origin[i];
         }
       origin_specified = true;
       }
-    else if ( text.find("extent") < text.length())
+    else if ( text.find("extent") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"Extent was specified");
+      itkDebugMacro(<< "Extent was specified");
       }
-    else if ( text.find("fov") < text.length())
+    else if ( text.find("fov") < text.length() )
       {
       //fov
-      //Field of view: The distance between the outside edges of the first and last
-      //voxel along each dimension; one value for each dimension. If the fov is not
+      //Field of view: The distance between the outside edges of the first and
+      // last
+      //voxel along each dimension; one value for each dimension. If the fov is
+      // not
       //specified it is calculated according to: fov = interval * dim
-      
-      sscanf(line, "%*s %f %f %f %f", fov, fov+1, fov+2 , fov+3);
+
+      sscanf(line, "%*s %f %f %f %f", fov, fov + 1, fov + 2, fov + 3);
       fov_specified = true;
       }
-    else if ( text.find("interval") < text.length())
+    else if ( text.find("interval") < text.length() )
       {
       //interval
-      //The center to center distance between adjacent voxels along each dimension;
+      //The center to center distance between adjacent voxels along each
+      // dimension;
       //one value for each dimension. If the interval is not specified it is
       //calculated according to: interval = fov / dim
 
-      sscanf(line, "%*s %f %f %f %f", spacing, spacing+1, spacing+2 , spacing+3);
-      for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+      sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
+      for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
         {
         m_Spacing[i] = spacing[i];
         }
       spacing_specified = true;
       }
-    else if ( text.find("dataType") < text.length())
+    else if ( text.find("dataType") < text.length() )
       {
       sscanf(line, "%*s %s", pixelType);
       text = pixelType;
@@ -391,67 +399,71 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
         }
       else
         {
-        itkExceptionMacro(<<"Unrecognized type");
+        itkExceptionMacro(<< "Unrecognized type");
         }
-      }//found scalars
-    else if ( text.find("displayRange") < text.length())
+      } //found scalars
+    else if ( text.find("displayRange") < text.length() )
       {
       //displayRange:
       //Two values giving the low_value and high_value. Voxel values below the
       //low_value will be displayed as black and voxels with values above the
-      //high_value will be displayed as white. Voxels with values within the display
-      //range are displayed with a grey value that is scaled linearly between the
+      //high_value will be displayed as white. Voxels with values within the
+      // display
+      //range are displayed with a grey value that is scaled linearly between
+      // the
       //low_value and high_value.
-      
-      sscanf(line, "%*s %f %f", range, range+1);
+
+      sscanf(line, "%*s %f %f", range, range + 1);
       m_DisplayRange[0] = range[0];
       m_DisplayRange[1] = range[1];
       }
-    else if ( text.find("fidName") < text.length())
+    else if ( text.find("fidName") < text.length() )
       {
       //Not well documented
-      //This is a bit tricky to get the value as there is sometime no white space
+      //This is a bit tricky to get the value as there is sometime no white
+      // space
       //only a ':' separate field from value, we assume there is no other ':'
       char *pch;
-      pch = strchr(line,':');
+      pch = strchr(line, ':');
       sscanf(++pch, "%s", m_FidName);  //delete any white space left
-      itkDebugMacro(<<"fidName was specified");
+      itkDebugMacro(<< "fidName was specified");
       }
-    else if ( text.find("sdtOrient") < text.length())
+    else if ( text.find("sdtOrient") < text.length() )
       {
       //Not used now, but later when  ITK Dictionary will be ready
       //don't know for now the format in which to save this.
-      //This is a bit tricky to get the value as there is sometime no white space
+      //This is a bit tricky to get the value as there is sometime no white
+      // space
       //only a ':' separate field from value, we assume there is no other ':'
       char *pch;
-      pch = strchr(line,':');
+      pch = strchr(line, ':');
       sscanf(++pch, "%s", m_SdtOrient);  //delete any white space left
-      itkDebugMacro(<<"Orientation was specified");
+      itkDebugMacro(<< "Orientation was specified");
       }
-    else if ( text.find("dsplyThres") < text.length())
+    else if ( text.find("dsplyThres") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"Display threshold was specified");
+      itkDebugMacro(<< "Display threshold was specified");
       }
-    else if ( text.find("endian") < text.length())
+    else if ( text.find("endian") < text.length() )
       {
       //BigEndian ieee-be / LittleEndian: ieee-le
-      if ( text.find("ieee-le") < text.length())
+      if ( text.find("ieee-le") < text.length() )
         {
-        itkExceptionMacro(<<"Little Endian Stimulate files are not handled.");
+        itkExceptionMacro(<< "Little Endian Stimulate files are not handled.");
         }
       }
-    else if ( text.find("mapParmFileName") < text.length())
+    else if ( text.find("mapParmFileName") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"mapParmFileName was specified");
+      itkDebugMacro(<< "mapParmFileName was specified");
       }
-    else if ( text.find("mapTypeName") < text.length())
+    else if ( text.find("mapTypeName") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"mapTypeName was specified");
+      itkDebugMacro(<< "mapTypeName was specified");
       }
-    else if ( text.find("stimFileName:") < text.length())
+    else if ( text.find("stimFileName:") < text.length() )
       {
       //file data name is explicitely specified
       std::string datafilename;
@@ -464,9 +476,9 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
       //otherwise prepend the path of the .spr file.
       std::string datafilenamePath =
         ::itksys::SystemTools::GetFilenamePath (datafilename);
-      if (datafilenamePath == "")
+      if ( datafilenamePath == "" )
         {
-        std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath (m_FileName.c_str());
+        std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath ( m_FileName.c_str() );
         m_DataFileName = fileNamePath + "/" + datafilename;
         }
       else
@@ -474,76 +486,76 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream& file)
         m_DataFileName = datafilename;
         }
       }
-    else if ( text.find("mapConf") < text.length())
+    else if ( text.find("mapConf") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"mapConf was specified");
+      itkDebugMacro(<< "mapConf was specified");
       }
-    else if ( text.find("periodStr") < text.length())
+    else if ( text.find("periodStr") < text.length() )
       {
       //not documented
-      itkDebugMacro(<<"periodStr was specified");
+      itkDebugMacro(<< "periodStr was specified");
       }
     }
-
 
   //compute any missing informations:
-  if( !spacing_specified && fov_specified)
+  if ( !spacing_specified && fov_specified )
     {
-    for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+    for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
       {
-      m_Spacing[i] = fov[i]/dims[i];
+      m_Spacing[i] = fov[i] / dims[i];
       }
     }
-  if( !origin_specified && fov_specified)
+  if ( !origin_specified && fov_specified )
     {
-    for ( unsigned int i=0; i < m_NumberOfDimensions; i++ )
+    for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
       {
-      m_Origin[i] = (m_Spacing[i] - fov[i])/2.;
+      m_Origin[i] = ( m_Spacing[i] - fov[i] ) / 2.;
       }
-    }//otherwise default spacing & origin are used.
+    } //otherwise default spacing & origin are used.
 }
 
 void StimulateImageIO::ReadImageInformation()
 {
   std::ifstream file;
+
   this->InternalReadImageInformation(file);
 }
 
-
-bool StimulateImageIO::CanWriteFile( const char* name )
+bool StimulateImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if( filename == "" )
+  if ( filename == "" )
     {
-    itkDebugMacro(<<"No filename specified.");
+    itkDebugMacro(<< "No filename specified.");
     return false;
     }
 
-  bool extensionFound = false;
+  bool                   extensionFound = false;
   std::string::size_type sprPos = filename.rfind(".spr");
-  if ((sprPos != std::string::npos)
-      && (sprPos == filename.length() - 4))
+  if ( ( sprPos != std::string::npos )
+       && ( sprPos == filename.length() - 4 ) )
     {
     extensionFound = true;
     }
 
-  if( !extensionFound )
+  if ( !extensionFound )
     {
-    itkDebugMacro(<<"The filename extension is not recognized");
+    itkDebugMacro(<< "The filename extension is not recognized");
     return false;
     }
 
   return true;
 }
 
-void StimulateImageIO::Write(const void* buffer)
+void StimulateImageIO::Write(const void *buffer)
 {
   unsigned int i;
 
   std::ofstream file;
-  if ( ! this->OpenStimulateFileForWriting(file, m_FileName.c_str()) )
+
+  if ( !this->OpenStimulateFileForWriting( file, m_FileName.c_str() ) )
     {
     return;
     }
@@ -552,7 +564,7 @@ void StimulateImageIO::Write(const void* buffer)
   unsigned int numDims = this->GetNumberOfDimensions();
   if ( numDims < 2 || numDims > 4 )
     {
-    itkExceptionMacro(<<"Stimulate Writer can only write 2,3 or 4-dimensional images");
+    itkExceptionMacro(<< "Stimulate Writer can only write 2,3 or 4-dimensional images");
     return;
     }
 
@@ -561,67 +573,71 @@ void StimulateImageIO::Write(const void* buffer)
 
   // Write characteristics of the data
   file << "\ndim:";
-  for(i=0; i < m_NumberOfDimensions; i++)
+  for ( i = 0; i < m_NumberOfDimensions; i++ )
     {
     file << " " << m_Dimensions[i];
     }
 
   file << "\norigin:";
-  for(i=0; i < m_NumberOfDimensions; i++)
+  for ( i = 0; i < m_NumberOfDimensions; i++ )
     {
     file << " " << m_Origin[i];
     }
 
   file << "\nfov:";
-  for(i=0; i < m_NumberOfDimensions; i++)
+  for ( i = 0; i < m_NumberOfDimensions; i++ )
     {
-    file << " " << m_Spacing[i]*m_Dimensions[i]; //fov = interval * dim
+    file << " " << m_Spacing[i] * m_Dimensions[i]; //fov = interval * dim
     }
 
   file << "\ninterval:";
-  for(i=0; i < m_NumberOfDimensions; i++)
+  for ( i = 0; i < m_NumberOfDimensions; i++ )
     {
     file << " " << m_Spacing[i];
     }
 
   //preparation for writing buffer:
-  const unsigned long numberOfBytes      = static_cast<unsigned long>(this->GetImageSizeInBytes());
-  const unsigned long numberOfComponents = static_cast<unsigned long>(this->GetImageSizeInComponents());
+  const unsigned long numberOfBytes      = static_cast< unsigned long >( this->GetImageSizeInBytes() );
+  const unsigned long numberOfComponents = static_cast< unsigned long >( this->GetImageSizeInComponents() );
 
   file << "\ndataType: ";
-  {
-    char * tempmemory=new char[numberOfBytes];
-    memcpy(tempmemory,buffer,numberOfBytes);
-    switch(this->GetComponentType())
+    {
+    char *tempmemory = new char[numberOfBytes];
+    memcpy(tempmemory, buffer, numberOfBytes);
+    switch ( this->GetComponentType() )
       {
       case CHAR:
         file << "BYTE";
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory), numberOfComponents );
+        ByteSwapper< char >::SwapRangeFromSystemToBigEndian(reinterpret_cast< char * >( tempmemory ),
+                                                            numberOfComponents);
         break;
       case SHORT:
         file << "WORD";
-        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int *>(tempmemory), numberOfComponents );
+        ByteSwapper< short int >::SwapRangeFromSystemToBigEndian(reinterpret_cast< short int * >( tempmemory ),
+                                                                 numberOfComponents);
         break;
       case INT:
         file << "LWORD";
-        ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory), numberOfComponents );
+        ByteSwapper< int >::SwapRangeFromSystemToBigEndian(reinterpret_cast< int * >( tempmemory ), numberOfComponents);
         break;
       case FLOAT:
         file << "REAL";
-        ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), numberOfComponents );
+        ByteSwapper< float >::SwapRangeFromSystemToBigEndian(reinterpret_cast< float * >( tempmemory ),
+                                                             numberOfComponents);
         break;
       case DOUBLE:
         file << "COMPLEX";
-        ByteSwapper<double>::SwapRangeFromSystemToBigEndian(reinterpret_cast<double *>(tempmemory), numberOfComponents );
+        ByteSwapper< double >::SwapRangeFromSystemToBigEndian(reinterpret_cast< double * >( tempmemory ),
+                                                              numberOfComponents);
         break;
       default:
         break;
       }
-  
+
     //add the data filename to the header
     //determine datafile given the spr filename
     m_DataFileName = m_FileName;
-    m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt" );
+    m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt");
     file << "\nstimFileName: " << m_DataFileName.c_str();
 
     //Last carrier return:
@@ -630,23 +646,22 @@ void StimulateImageIO::Write(const void* buffer)
     //actually read data file
     std::ofstream file_data;
 
-    if ( ! this->OpenStimulateFileForWriting(file_data, m_DataFileName.c_str()) )
+    if ( !this->OpenStimulateFileForWriting( file_data, m_DataFileName.c_str() ) )
       {
       return;
       }
 
     // Write the actual pixel data
-    file_data.write( static_cast<const char *>(tempmemory) , numberOfBytes );
-    delete [] tempmemory;
+    file_data.write(static_cast< const char * >( tempmemory ), numberOfBytes);
+    delete[] tempmemory;
     file_data.close();
     }
   file.close();
 }
 
-void StimulateImageIO::PrintSelf(std::ostream& os, Indent indent) const
+void StimulateImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "\nDisplayRange: " << m_DisplayRange[0] << " " << m_DisplayRange[1];
 }
-
 } // end namespace itk

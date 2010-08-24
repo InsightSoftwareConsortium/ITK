@@ -38,9 +38,10 @@
 #include <algorithm>
 #include <iostream>
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ScalarImageToCooccurrenceListSampleFilter
  *  \brief Converts pixel data into a list of pairs in order to compute a cooccurrence Histogram.
  *
@@ -51,9 +52,9 @@ namespace Statistics {
  * \ingroup Statistics
  */
 
-template < class TImage >
-class ITK_EXPORT ScalarImageToCooccurrenceListSampleFilter
-  : public ProcessObject
+template< class TImage >
+class ITK_EXPORT ScalarImageToCooccurrenceListSampleFilter:
+  public ProcessObject
 {
 public:
   typedef TImage ImageType;
@@ -61,29 +62,30 @@ public:
   typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType;
 
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-  typedef typename SampleType::MeasurementVectorSizeType MeasurementVectorSizeType;
+  typedef typename SampleType::MeasurementVectorSizeType       MeasurementVectorSizeType;
 
   /** Standard class typedefs */
   typedef ScalarImageToCooccurrenceListSampleFilter Self;
   typedef ProcessObject                             Superclass;
   typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef SmartPointer< const Self >                ConstPointer;
 
   /** Neighborhood iterator type. */
   typedef itk::ShapedNeighborhoodIterator<
-                  TImage ,
-                  ConstantBoundaryCondition<TImage>
-                                       > ShapedNeighborhoodIteratorType;
+    TImage,
+    ConstantBoundaryCondition< TImage >
+    > ShapedNeighborhoodIteratorType;
 
   /** Offset type used for Neighborhoods */
   typedef typename ShapedNeighborhoodIteratorType::OffsetType OffsetType;
-  typedef std::vector<OffsetType>                             OffsetTable;
+  typedef std::vector< OffsetType >                           OffsetTable;
 
   void UseNeighbor(const OffsetType & offset);
 
   /** Method to set/get the image */
-  void SetInput( const ImageType* image );
-  const ImageType* GetInput() const;
+  void SetInput(const ImageType *image);
+
+  const ImageType * GetInput() const;
 
   /** method to get the List sample */
   const SampleType * GetOutput() const;
@@ -100,12 +102,10 @@ public:
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImage::ImageDimension);
-
-
 protected:
   ScalarImageToCooccurrenceListSampleFilter();
   virtual ~ScalarImageToCooccurrenceListSampleFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   typedef DataObject::Pointer DataObjectPointer;
   virtual DataObjectPointer MakeOutput(unsigned int idx);
@@ -113,14 +113,14 @@ protected:
   /** This method causes the filter to generate its output. */
   virtual void GenerateData();
 
-
 private:
-  ScalarImageToCooccurrenceListSampleFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ScalarImageToCooccurrenceListSampleFilter(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
+                                                           // implemented
 
-  OffsetTable                  m_OffsetTable;
-}; // end of class ScalarImageToListSampleFilter
-
+  OffsetTable m_OffsetTable;
+};  // end of class ScalarImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk
 

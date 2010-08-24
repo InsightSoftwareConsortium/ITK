@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,24 +32,24 @@ namespace itk
  *
  * SetDirection specifies the direction of the derivative with respect to the
  * coordinate axes of the image.
- * 
+ *
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
- * \ingroup ImageFeatureExtraction 
+ *
+ * \ingroup ImageFeatureExtraction
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT DerivativeImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DerivativeImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef DerivativeImageFilter                           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -62,7 +62,7 @@ public:
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Image typedef support. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
@@ -76,8 +76,8 @@ public:
   /** The output pixel type must be signed. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SignedOutputPixelType,
-                  (Concept::Signed<OutputPixelType>));
+  itkConceptMacro( SignedOutputPixelType,
+                   ( Concept::Signed< OutputPixelType > ) );
   /** End concept checking */
 #endif
 
@@ -90,18 +90,18 @@ public:
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void SetUseImageSpacingOn()
-    { this->SetUseImageSpacing(true); }
-  
+  { this->SetUseImageSpacing(true); }
+
   /** Ignore the image spacing. Use this option if you want derivatives in
       isotropic pixel space.  Default is UseImageSpacingOn. */
   void SetUseImageSpacingOff()
-    { this->SetUseImageSpacing(false); }
-  
+  { this->SetUseImageSpacing(false); }
+
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-  
+
   /** DerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
    * derivative).  As such, DerivativeImageFilter needs to provide an
@@ -109,17 +109,19 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
 protected:
   DerivativeImageFilter()
-    {
+  {
     m_Order = 1;
     m_Direction = 0;
     m_UseImageSpacing = true;
-    }
+  }
+
   virtual ~DerivativeImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -129,8 +131,8 @@ protected:
   void GenerateData();
 
 private:
-  DerivativeImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DerivativeImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   /** The order of the derivative. */
   unsigned int m_Order;
@@ -139,9 +141,7 @@ private:
   unsigned int m_Direction;
 
   bool m_UseImageSpacing;
-  
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
