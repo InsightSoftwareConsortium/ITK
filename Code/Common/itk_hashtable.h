@@ -282,7 +282,7 @@ static const unsigned long prime_list[num_primes] =
   1572869,    3145739,    6291469,   12582917,  25165843,
   50331653,   100663319,  201326611, 402653189, 805306457,
   1610612741, 3221225473U, 4294967291U
-  }
+  };
 
 inline unsigned long next_prime(unsigned long n)
 {
