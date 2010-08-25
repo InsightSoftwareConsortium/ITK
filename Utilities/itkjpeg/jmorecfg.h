@@ -1,7 +1,8 @@
 /*
  * jmorecfg.h
  *
- * Copyright (C) 1991-1998, Thomas G. Lane.
+ * Copyright (C) 1991-1997, Thomas G. Lane.
+ * Modified 1997-2009 by Guido Vollbeding.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -10,7 +11,6 @@
  * optimizations.  Most users will not need to touch this file.
  */
 
-#include "itkjpeg/jpegDllConfig.h"
 
 /*
  * Define BITS_IN_JSAMPLE as either
@@ -21,8 +21,8 @@
  * We do not support run-time selection of data precision, sorry.
  */
 
-/*#define BITS_IN_JSAMPLE  8*//* use 8 or 12 (or 16 only for lossless) */
-#define BITS_IN_JSAMPLE @CMAKE_BITS_IN_JSAMPLE@
+#define BITS_IN_JSAMPLE  8	/* use 8 or 12 */
+
 
 /*
  * Maximum number of components (color channels) allowed in JPEG image.
@@ -33,7 +33,7 @@
  * bytes of storage, whether actually used in an image or not.)
  */
 
-#define MAX_COMPONENTS  10  /* maximum number of image components */
+#define MAX_COMPONENTS  10	/* maximum number of image components */
 
 
 /*
@@ -71,8 +71,8 @@ typedef char JSAMPLE;
 
 #endif /* HAVE_UNSIGNED_CHAR */
 
-#define MAXJSAMPLE  255
-#define CENTERJSAMPLE  128
+#define MAXJSAMPLE	255
+#define CENTERJSAMPLE	128
 
 #endif /* BITS_IN_JSAMPLE == 8 */
 
@@ -85,37 +85,10 @@ typedef char JSAMPLE;
 typedef short JSAMPLE;
 #define GETJSAMPLE(value)  ((int) (value))
 
-#define MAXJSAMPLE  4095
-#define CENTERJSAMPLE  2048
+#define MAXJSAMPLE	4095
+#define CENTERJSAMPLE	2048
 
 #endif /* BITS_IN_JSAMPLE == 12 */
-
-
-#if BITS_IN_JSAMPLE == 16
-/* JSAMPLE should be the smallest type that will hold the values 0..65535.
- * You can use a signed short by having GETJSAMPLE mask it with 0xFFFF.
- */
-
-#ifdef HAVE_UNSIGNED_SHORT
-
-typedef unsigned short JSAMPLE;
-#define GETJSAMPLE(value)  ((int) (value))
-
-#else /* not HAVE_UNSIGNED_SHORT */
-
-typedef short JSAMPLE;
-#ifdef SHORT_IS_UNSIGNED
-#define GETJSAMPLE(value)  ((int) (value))
-#else
-#define GETJSAMPLE(value)  ((int) (value) & 0xFFFF)
-#endif /* SHORT_IS_UNSIGNED */
-
-#endif /* HAVE_UNSIGNED_SHORT */
-
-#define MAXJSAMPLE  65535
-#define CENTERJSAMPLE  32768
-
-#endif /* BITS_IN_JSAMPLE == 16 */
 
 
 /* Representation of a DCT frequency coefficient.
@@ -125,13 +98,6 @@ typedef short JSAMPLE;
  */
 
 typedef short JCOEF;
-
-
-/* Representation of a spatial difference value.
- * This should be a signed value of at least 16 bits; int is usually OK.
- */
-
-typedef int JDIFF;
 
 
 /* Compressed datastreams are represented as arrays of JOCTET.
@@ -186,15 +152,20 @@ typedef unsigned int UINT16;
 
 /* INT16 must hold at least the values -32768..32767. */
 
-#ifndef XMD_H      /* X11/xmd.h correctly defines INT16 */
+#ifndef XMD_H			/* X11/xmd.h correctly defines INT16 */
 typedef short INT16;
 #endif
 
 /* INT32 must hold at least signed 32-bit values. */
-/* X11/xmd.h and basetsd.h correctly defines INT32 */
 
-#if !defined(XMD_H) && !(defined(_BASETSD_H_) || defined(_BASETSD_H))
-typedef int INT32;
+#ifndef XMD_H			/* X11/xmd.h correctly defines INT32 */
+#ifndef _BASETSD_H_		/* Microsoft defines it in basetsd.h */
+#ifndef _BASETSD_H		/* MinGW is slightly different */
+#ifndef QGLOBAL_H		/* Qt defines it in qglobal.h */
+typedef long INT32;
+#endif
+#endif
+#endif
 #endif
 
 /* Datatype used for image dimensions.  The JPEG standard only supports
@@ -217,29 +188,13 @@ typedef unsigned int JDIMENSION;
  */
 
 /* a function called through method pointers: */
-#define METHODDEF(type)    static type
+#define METHODDEF(type)		static type
 /* a function used only in its module: */
-#define LOCAL(type)    static type
+#define LOCAL(type)		static type
 /* a function referenced thru EXTERNs: */
-#if defined( _WIN32 ) && defined (JPEGDLL)
-#define GLOBAL(type)            __declspec(dllexport) type
-#else
-#define GLOBAL(type)            type
-#endif
-
+#define GLOBAL(type)		type
 /* a reference to a GLOBAL function: */
-#if defined(_WIN32) && !defined(JPEGSTATIC)
-#ifdef JPEGDLL
-/* Win32, building a dll */
-#define EXTERN(type)            __declspec(dllexport) type
-#else
-/* Win32, not building a dll but using the dll */
-#define EXTERN(type)            __declspec(dllimport) type
-#endif
-#else
-/* not a Win32 system or building a static Win32 lib */
-#define EXTERN(type)            extern type
-#endif
+#define EXTERN(type)		extern type
 
 
 /* This macro is used to declare a "method", that is, a function pointer.
@@ -280,11 +235,11 @@ typedef unsigned int JDIMENSION;
 #ifndef HAVE_BOOLEAN
 typedef int boolean;
 #endif
-#ifndef FALSE      /* in case these macros already exist */
-#define FALSE  0    /* values of boolean */
+#ifndef FALSE			/* in case these macros already exist */
+#define FALSE	0		/* values of boolean */
 #endif
 #ifndef TRUE
-#define TRUE  1
+#define TRUE	1
 #endif
 
 
@@ -310,45 +265,41 @@ typedef int boolean;
  * (You may HAVE to do that if your compiler doesn't like null source files.)
  */
 
-/* Arithmetic coding is unsupported for legal reasons.  Complaints to IBM. */
-
 /* Capability options common to encoder and decoder: */
 
-#define DCT_ISLOW_SUPPORTED  /* slow but accurate integer algorithm */
-#define DCT_IFAST_SUPPORTED  /* faster, less accurate integer method */
-#define DCT_FLOAT_SUPPORTED  /* floating-point: accurate, fast on fast HW */
+#define DCT_ISLOW_SUPPORTED	/* slow but accurate integer algorithm */
+#define DCT_IFAST_SUPPORTED	/* faster, less accurate integer method */
+#define DCT_FLOAT_SUPPORTED	/* floating-point: accurate, fast on fast HW */
 
 /* Encoder capability options: */
 
-#undef  C_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
+#define C_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
 #define C_MULTISCAN_FILES_SUPPORTED /* Multiple-scan JPEG files? */
-#define C_PROGRESSIVE_SUPPORTED      /* Progressive JPEG? (Requires MULTISCAN)*/
-#define C_LOSSLESS_SUPPORTED      /* Lossless JPEG? */
-#define ENTROPY_OPT_SUPPORTED      /* Optimization of entropy coding parms? */
+#define C_PROGRESSIVE_SUPPORTED	    /* Progressive JPEG? (Requires MULTISCAN)*/
+#define DCT_SCALING_SUPPORTED	    /* Input rescaling via DCT? (Requires DCT_ISLOW)*/
+#define ENTROPY_OPT_SUPPORTED	    /* Optimization of entropy coding parms? */
 /* Note: if you selected 12-bit data precision, it is dangerous to turn off
  * ENTROPY_OPT_SUPPORTED.  The standard Huffman tables are only good for 8-bit
- * precision, so jcshuff.c normally uses entropy optimization to compute
+ * precision, so jchuff.c normally uses entropy optimization to compute
  * usable tables for higher precision.  If you don't want to do optimization,
  * you'll have to supply different default Huffman tables.
- * The exact same statements apply for progressive and lossless JPEG:
- * the default tables don't work for progressive mode or lossless mode.
- * (This may get fixed, however.)
+ * The exact same statements apply for progressive JPEG: the default tables
+ * don't work for progressive mode.  (This may get fixed, however.)
  */
 #define INPUT_SMOOTHING_SUPPORTED   /* Input image smoothing option? */
 
 /* Decoder capability options: */
 
-#undef  D_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
+#define D_ARITH_CODING_SUPPORTED    /* Arithmetic coding back end? */
 #define D_MULTISCAN_FILES_SUPPORTED /* Multiple-scan JPEG files? */
-#define D_PROGRESSIVE_SUPPORTED      /* Progressive JPEG? (Requires MULTISCAN)*/
-#define D_LOSSLESS_SUPPORTED      /* Lossless JPEG? */
-#define SAVE_MARKERS_SUPPORTED      /* jpeg_save_markers() needed? */
+#define D_PROGRESSIVE_SUPPORTED	    /* Progressive JPEG? (Requires MULTISCAN)*/
+#define IDCT_SCALING_SUPPORTED	    /* Output rescaling via IDCT? */
+#define SAVE_MARKERS_SUPPORTED	    /* jpeg_save_markers() needed? */
 #define BLOCK_SMOOTHING_SUPPORTED   /* Block smoothing? (Progressive only) */
-#define IDCT_SCALING_SUPPORTED      /* Output rescaling via IDCT? */
 #undef  UPSAMPLE_SCALING_SUPPORTED  /* Output rescaling at upsample stage? */
 #define UPSAMPLE_MERGING_SUPPORTED  /* Fast path for sloppy upsampling? */
-#define QUANT_1PASS_SUPPORTED      /* 1-pass color quantization? */
-#define QUANT_2PASS_SUPPORTED      /* 2-pass color quantization? */
+#define QUANT_1PASS_SUPPORTED	    /* 1-pass color quantization? */
+#define QUANT_2PASS_SUPPORTED	    /* 2-pass color quantization? */
 
 /* more capability options later, no doubt */
 
@@ -368,10 +319,10 @@ typedef int boolean;
  *    can't use color quantization if you change that value.
  */
 
-#define RGB_RED    0  /* Offset of Red in an RGB scanline element */
-#define RGB_GREEN  1  /* Offset of Green */
-#define RGB_BLUE  2  /* Offset of Blue */
-#define RGB_PIXELSIZE  3  /* JSAMPLEs per RGB scanline element */
+#define RGB_RED		0	/* Offset of Red in an RGB scanline element */
+#define RGB_GREEN	1	/* Offset of Green */
+#define RGB_BLUE	2	/* Offset of Blue */
+#define RGB_PIXELSIZE	3	/* JSAMPLEs per RGB scanline element */
 
 
 /* Definitions for speed-related optimizations. */
@@ -382,11 +333,11 @@ typedef int boolean;
  */
 
 #ifndef INLINE
-#ifdef __GNUC__      /* for instance, GNU C knows about inline */
+#ifdef __GNUC__			/* for instance, GNU C knows about inline */
 #define INLINE __inline__
 #endif
 #ifndef INLINE
-#define INLINE      /* default is to define it as empty */
+#define INLINE			/* default is to define it as empty */
 #endif
 #endif
 
@@ -397,7 +348,7 @@ typedef int boolean;
  */
 
 #ifndef MULTIPLIER
-#define MULTIPLIER  int    /* type for fastest integer multiply */
+#define MULTIPLIER  int		/* type for fastest integer multiply */
 #endif
 
 
@@ -416,22 +367,5 @@ typedef int boolean;
 #define FAST_FLOAT  double
 #endif
 #endif
-
-#if defined ( _MSC_VER )
-#pragma warning ( disable : 4100 )
-#pragma warning ( disable : 4115 )
-#pragma warning ( disable : 4127 )
-#pragma warning ( disable : 4244 )
-#pragma warning ( disable : 4251 )
-#pragma warning ( disable : 4267 )
-#pragma warning ( disable : 4305 )
-#pragma warning ( disable : 4309 )
-#pragma warning ( disable : 4706 )
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable : 4057 )
-#pragma warning ( disable : 4189 )
-#pragma warning ( disable : 4505 )
-#endif
-
 
 #endif /* JPEG_INTERNAL_OPTIONS */
