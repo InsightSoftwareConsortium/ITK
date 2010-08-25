@@ -80,6 +80,11 @@ IF(NOT ITK_USE_SYSTEM_GDCM)
     ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/DataDictionary
     ${ITK_BINARY_DIR}/Utilities/gdcm/Source/Common # generated gdcmConfigure.h
     )
+  IF(MSVC)
+    SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+      ${ITK_SOURCE_DIR}/Utilities/gdcm/Utilities/C99
+    )
+  ENDIF(MSVC)
 ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 
 # LIBXML2 include directories.
