@@ -82,7 +82,7 @@ public:
   std::string textcolor() const {
     char command[16];
     int n = sprintf(command, "%c[%d;%d;%dm", 0x1B, attribute, fgcolor + 30, bgcolor + 40);
-    assert( n < 16 );
+    assert( n < 16 ); (void)n;
     return command;
   }
   void set_attributes(int color) {

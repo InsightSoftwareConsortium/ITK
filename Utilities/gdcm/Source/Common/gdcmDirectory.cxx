@@ -81,7 +81,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
   DIR* dir = opendir(dirName.c_str());
   if (!dir)
     {
-    const char *str = strerror(errno);
+    const char *str = strerror(errno); (void)str;
     gdcmErrorMacro( "Error was: " << str << " when opening directory: " << dirName );
     return 0;
     }
@@ -100,7 +100,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
     fileName = dirName + d->d_name;
     if( stat(fileName.c_str(), &buf) != 0 )
       {
-      const char *str = strerror(errno);
+      const char *str = strerror(errno); (void)str;
       gdcmErrorMacro( "Last Error was: " << str << " for file: " << fileName );
       break;
       }
@@ -133,7 +133,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
     }
   if( closedir(dir) != 0 )
     {
-    const char *str = strerror(errno);
+    const char *str = strerror(errno); (void)str;
     gdcmErrorMacro( "Last error was: " << str << " when closing directory: " << fileName );
     }
 #endif
