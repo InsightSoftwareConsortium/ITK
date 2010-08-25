@@ -77,7 +77,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   if ( mask )
     {
     maskFilter->SetInput(input);
-    maskFilter->SetInput2(mask);
+    maskFilter->SetMaskImage(mask);
     maskFilter->Update();
     m_Input = maskFilter->GetOutput();
     }
