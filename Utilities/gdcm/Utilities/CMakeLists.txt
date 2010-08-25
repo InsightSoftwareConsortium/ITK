@@ -75,7 +75,7 @@ IF(WIN32 AND NOT CYGWIN)
   SUBDIRS(getopt)
 ENDIF(WIN32 AND NOT CYGWIN)
 
-SUBDIRS(doxygen)
+#SUBDIRS(doxygen)
 
 # you could be running mingw32 on linux in which case you do NOT want the gdcmuuid lib
 APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmuuid/COPYING)
@@ -120,5 +120,5 @@ APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/wxWidgets/Copyright.txt)
 #ENDIF(NOT GDCM_INSTALL_NO_DEVELOPMENT)
 
 #IF(GDCM_USE_KWSTYLE)
-  SUBDIRS(KWStyle)
+#  SUBDIRS(KWStyle)
 #ENDIF(GDCM_USE_KWSTYLE)

@@ -37,8 +37,8 @@ ENDIF(INSOURCE OR INSOURCESUBDIR)
 
 #-----------------------------------------------------------------------------
 SET(GDCM_MAJOR_VERSION 2)
-SET(GDCM_MINOR_VERSION 1)
-SET(GDCM_BUILD_VERSION 0)
+SET(GDCM_MINOR_VERSION 0)
+SET(GDCM_BUILD_VERSION 17)
 SET(GDCM_VERSION
   "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 SET(GDCM_API_VERSION
@@ -371,10 +371,10 @@ SET(BUILD_EXAMPLES ${GDCM_BUILD_EXAMPLES})
 #-----------------------------------------------------------------------------
 # Add the testing directories
 OPTION(GDCM_BUILD_TESTING "Build testing." ${GDCM_BUILD_TESTING_DEFAULT})
-SET(BUILD_TESTING ${GDCM_BUILD_TESTING} CACHE BOOL "" FORCE)
+SET(BUILD_TESTING ${GDCM_BUILD_TESTING}) # CACHE BOOL "" FORCE)
 # Hide BUILD_TESTING as user tend to always turn all options on and then complains when something
 # does not work 'by default'
-MARK_AS_ADVANCED(BUILD_TESTING) # GDCM_BUILD_TESTING)
+#MARK_AS_ADVANCED(BUILD_TESTING) # GDCM_BUILD_TESTING)
 
 #-----------------------------------------------------------------------------
 IF(GDCM_TESTING_USE_LC_NUMERIC)
