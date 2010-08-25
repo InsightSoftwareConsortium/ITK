@@ -26,17 +26,8 @@
 #include <stdio.h>
 #include <itksys/SystemTools.hxx>
 
-extern "C"
-{
-// The regular jpeg lossy lib is the 8bits one:
-  #include <itkjpeg/8/jpeglib.h>
-  #include <setjmp.h>
-}
-
-#ifndef itk_secret_symbol_mangled_jpeg8
-#error \
-  Sorry something went wrong with your configuration, you are using a system jpeglib.h instead of the special mangled one
-#endif
+#include <itk_jpeg.h>
+#include <setjmp.h>
 
 // create an error handler for jpeg that
 // can longjmp out of the jpeg library
