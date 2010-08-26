@@ -58,6 +58,15 @@ ELSE(GDCM_NO_EXECUTABLE_PROPERTIES)
   SET(python_site_package "")
 ENDIF(GDCM_NO_EXECUTABLE_PROPERTIES)
 
+SET(GDCM_STANDALONE 0)
+# Top level project (eg. ITK) should set GDCM_TARGETS_NAME
+# to define a particular behavior where GDCM does not call
+# install(EXPORT...)
+# This sets the default value for GDCM_STANDALONE
+IF(NOT GDCM_TARGETS_NAME)
+  SET(GDCM_TARGETS_NAME GDCMTargets)
+  SET(GDCM_STANDALONE 1)
+ENDIF(NOT GDCM_TARGETS_NAME)
 #-----------------------------------------------------------------------------
 INCLUDE(${GDCM_SOURCE_DIR}/CMake/UseCopyright.cmake)
 CREATE_COPYRIGHT_FILE(${CMAKE_CURRENT_BINARY_DIR}/Copyright.txt)
