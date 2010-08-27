@@ -1,0 +1,28 @@
+ISO_IR 100 : 28591 : Latin Alphabet No. 1 Unextended
+ISO_IR 101 : 28592 : Latin Alphabet No. 2 Unextended
+ISO_IR 109 : 28593 : Latin Alphabet No. 3 Unextended
+ISO_IR 110 : 28594 : Latin Alphabet No. 4 Unextended
+ISO_IR 144 : 28595 : Cyrillic Unextended
+ISO_IR 127 : 28596 : Arabic Unextended
+ISO_IR 126 : 28597 : Greek Unextended
+ISO_IR 138 : 28598 : Hebrew Unextended
+ISO_IR 148 : 28599 : Latin Alphabet No. 5 (Turkish) Unextended
+ISO_IR 13 : 932 : JIS X 0201 (Shift JIS) Unextended
+ISO_IR 166 : 874 : TIS 620-2533 (Thai) Unextended
+ISO_IR 192 : 65001 : Unicode in UTF-8
+ISO 2022 IR 6 : 28591 : Default
+ISO 2022 IR 100 : 28591 : Latin Alphabet No. 1 Extended
+ISO 2022 IR 101 : 28592 : Latin Alphabet No. 2 Extended
+ISO 2022 IR 109 : 28593 : Latin Alphabet No. 3 Extended
+ISO 2022 IR 110 : 28594 : Latin Alphabet No. 4 Extended
+ISO 2022 IR 144 : 28595 : Cyrillic Extended
+ISO 2022 IR 127 : 28596 : Arabic Extended
+ISO 2022 IR 126 : 28597 : Greek Extended
+ISO 2022 IR 138 : 28598 : Hebrew Extended
+ISO 2022 IR 148 : 28599 : Latin Alphabet No. 5 (Turkish) Extended
+ISO 2022 IR 13 : 50222 : JIS X 0201 (Shift JIS) Extended
+ISO 2022 IR 166 : 874 : TIS 620-2533 (Thai) Extended
+ISO 2022 IR 87 : 50222 : JIS X 0208 (Kanji) Extended
+ISO 2022 IR 159 : 50222 : JIS X 0212 (Kanji) Extended
+ISO 2022 IR 149 : 20949 : KS X 1001 (Hangul and Hanja) Extended
+GB18030 : 54936 : Chinese (Simplified) Extended

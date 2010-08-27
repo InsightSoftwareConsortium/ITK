@@ -74,9 +74,17 @@ ENDIF(NOT ITK_USE_SYSTEM_VXL)
 # GDCM include directories.
 IF(NOT ITK_USE_SYSTEM_GDCM)
   SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
-    ${ITK_BINARY_DIR}/Utilities/gdcm
-    ${ITK_SOURCE_DIR}/Utilities/gdcm/src
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/Common
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/DataStructureAndEncodingDefinition
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/MediaStorageAndFileFormat
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/DataDictionary
+    ${ITK_BINARY_DIR}/Utilities/gdcm/Source/Common # generated gdcmConfigure.h
     )
+  IF(MSVC)
+    SET(ITK_INCLUDE_DIRS_BUILD_TREE ${ITK_INCLUDE_DIRS_BUILD_TREE}
+      ${ITK_SOURCE_DIR}/Utilities/gdcm/Utilities/C99
+    )
+  ENDIF(MSVC)
 ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 
 # LIBXML2 include directories.
@@ -154,8 +162,10 @@ ENDIF(NOT ITK_USE_SYSTEM_VXL)
 
 IF(NOT ITK_USE_SYSTEM_GDCM)
   SET(ITK_INCLUDE_RELATIVE_DIRS ${ITK_INCLUDE_RELATIVE_DIRS}
-    gdcm
-    gdcm/src
+    gdcm/Source/Common
+    gdcm/Source/DataStructureAndEncodingDefinition
+    gdcm/Source/MediaStorageAndFileFormat
+    gdcm/Source/DataDictionary
     )
 ENDIF(NOT ITK_USE_SYSTEM_GDCM)
 

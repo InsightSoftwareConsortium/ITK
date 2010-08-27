@@ -2177,8 +2177,9 @@ void GDCMImageIO::Write(const void *buffer)
   gdcm::DataElement pixeldata( gdcm::Tag(0x7fe0, 0x0010) );
   // Handle rescaler here:
   // Whenever shift / scale is needed... do it !
-  if ( m_RescaleIntercept != 0 || m_RescaleSlope != 1 )
+  if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
     {
+    assert( m_RescaleIntercept != 0 || m_RescaleSlope != 1 );
     // rescale from float to unsigned short
     gdcm::Rescaler ir;
     ir.SetIntercept(m_RescaleIntercept);

@@ -38,22 +38,55 @@ SET(KWSYS_INSTALL_COMPONENT_NAME_DEVELOPMENT Development)
 ADD_SUBDIRECTORY(kwsys)
 
 #------------------------------------------------------------------------------
-# Build jpeg first because tiff needs it
-ADD_SUBDIRECTORY(itkjpeg)
-
-#------------------------------------------------------------------------------
 # Build third-party utilities.
 
 ITK_THIRD_PARTY_SUBDIR(ZLIB itkzlib)
 ITK_THIRD_PARTY_SUBDIR(PNG  itkpng)
+# Build jpeg first because tiff needs it
+ITK_THIRD_PARTY_SUBDIR(JPEG itkjpeg)
 ITK_THIRD_PARTY_SUBDIR(TIFF itktiff)
 SET(OPJ_PREFIX "itk")
 ITK_THIRD_PARTY_SUBDIR(OpenJPEG openjpeg)
+
+# GDCM needs expat
+ADD_SUBDIRECTORY(expat)
+
+SET(GDCM_TARGETS_NAME ITKTargets)
+SET(GDCM_BUILD_TESTING_DEFAULT OFF)
+SET(GDCM_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS} CACHE BOOL "" FORCE)
+SET(GDCM_USE_SYSTEM_EXPAT ON CACHE BOOL "" FORCE)
+# ITKEXPAT can not be a system one:
+SET(EXPAT_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/expat" CACHE PATH "" FORCE)
+SET(EXPAT_LIBRARY ITKEXPAT CACHE FILEPATH "" FORCE)
+# ITKOpenJPEG can not be a system one:
+SET(GDCM_USE_SYSTEM_OPENJPEG ON CACHE BOOL "" FORCE)
+SET(OPENJPEG_MAJOR_VERSION 2)
+# FIXME: Simply fill in values from ITK
+SET(OPENJPEG_LIBRARY itkopenjpeg CACHE FILEPATH "" FORCE)
+SET(OPENJPEG_INCLUDE_DIR ${ITK_SOURCE_DIR}/Utilities/openjpeg CACHE FILEPATH "" FORCE)
+# ZLIB
+SET(GDCM_USE_SYSTEM_ZLIB ON CACHE BOOL "" FORCE)
+IF(NOT ITK_USE_SYSTEM_ZLIB)
+  SET(ZLIB_INCLUDE_DIR ${ITK_SOURCE_DIR}/Utilities/itkzlib CACHE FILEPATH "" FORCE)
+  SET(ZLIB_LIBRARY itkzlib CACHE FILEPATH "" FORCE)
+ENDIF()
 ITK_THIRD_PARTY_SUBDIR(GDCM gdcm)
+MARK_AS_ADVANCED(
+  GDCM_BUILD_APPLICATIONS
+  GDCM_BUILD_EXAMPLES
+  GDCM_BUILD_SHARED_LIBS
+  GDCM_BUILD_TESTING
+  GDCM_DOCUMENTATION
+  GDCM_USE_VTK
+  GDCM_WRAP_CSHARP
+  GDCM_WRAP_JAVA
+  GDCM_WRAP_PYTHON
+  OpenJPEG_DIR
+  )
 
 #
 # Handle the special case of building libxml2
-#  Fetch libxml2 using subversion if requested 
+#  Fetch libxml2 using subversion if requested
 IF(ITK_USE_LIBXML2)
   IF(NOT ITK_USE_SYSTEM_LIBXML2)
     IF(EXISTS "${ITK_BINARY_DIR}/Utilities/itklibxml2/VERSION_2_6_27_1.txt")
@@ -101,7 +134,6 @@ ENDIF(ITK_USE_LIBXML2)
 # Other utilities libraries
 ADD_SUBDIRECTORY(MetaIO)
 ADD_SUBDIRECTORY(NrrdIO)
-ADD_SUBDIRECTORY(expat)
 ADD_SUBDIRECTORY(nifti)
 ADD_SUBDIRECTORY(itkExtHdrs)
 ADD_SUBDIRECTORY(KWStyle)
@@ -161,6 +193,7 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h
     ${ITK_SOURCE_DIR}/Utilities/itk_zlib.h
     ${ITK_SOURCE_DIR}/Utilities/itk_tiff.h
+    ${ITK_SOURCE_DIR}/Utilities/itk_jpeg.h
     ${ITK_SOURCE_DIR}/Utilities/itk_png.h
     ${ITK_SOURCE_DIR}/Utilities/metaIOConfig.h
     ${ITK_BINARY_DIR}/Utilities/NrrdIO/NrrdConfigure.h
