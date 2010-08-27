@@ -329,18 +329,16 @@ add_test(itkSquaredDifferenceImageFilterTest ${BASIC_FILTERS_TESTS2} itkSquaredD
 add_test(itkStatisticsImageFilterTest ${BASIC_FILTERS_TESTS2} itkStatisticsImageFilterTest)
 add_test(itkStreamingImageFilterTest ${BASIC_FILTERS_TESTS2} itkStreamingImageFilterTest)
 add_test(itkStreamingImageFilterTest2 ${BASIC_FILTERS_TESTS2} itkStreamingImageFilterTest2)
-# MANTIS BUG 8524
-# these test demostrate this bug, enable these test when patch is applied
-#add_test(itkStreamingImageFilterTest3_1 ${BASIC_FILTERS_TESTS2}
-#  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
-#  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
-#  itkStreamingImageFilterTest3
-#  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
-#add_test(itkStreamingImageFilterTest3_2 ${BASIC_FILTERS_TESTS2}
-#  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
-#  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
-#  itkStreamingImageFilterTest3
-#  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
+add_test(itkStreamingImageFilterTest3_1 ${BASIC_FILTERS_TESTS2}
+  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
+  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
+  itkStreamingImageFilterTest3
+  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
+add_test(itkStreamingImageFilterTest3_2 ${BASIC_FILTERS_TESTS2}
+  --compare ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png
+  ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
+  itkStreamingImageFilterTest3
+  ${ITK_DATA_ROOT}/Input/CellsFluorescence1.png ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
 add_test(itkSubtractImageFilterTest ${BASIC_FILTERS_TESTS2} itkSubtractImageFilterTest)
 add_test(itkTanImageFilterAndAdaptorTest ${BASIC_FILTERS_TESTS2} itkTanImageFilterAndAdaptorTest)
 add_test(itkTernaryMagnitudeImageFilterTest ${BASIC_FILTERS_TESTS2} itkTernaryMagnitudeImageFilterTest)
