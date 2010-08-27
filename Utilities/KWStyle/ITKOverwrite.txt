@@ -91,6 +91,10 @@ itkNodeList.h InternalVariables Disable
 itkNumericTraitsCovariantVectorPixel.h InternalVariables Disable
 itkNumericTraitsTensorPixel.h InternalVariables Disable
 itkNumericTraitsVectorPixel.h InternalVariables Disable
+itkNumericTraitsDiffusionTensor3DPixel.h InternalVariables Disable
+itkNumericTraitsFixedArrayPixel.h InternalVariables Disable
+itkNumericTraitsRGBPixel.h InternalVariables Disable
+itkNumericTraitsRGBAPixel.h InternalVariables Disable
 itkNumericTraits.cxx Typedefs Disable
 itkObjectFactoryBase.cxx Namespace Disable
 itkSecondaryNodeList.h InternalVariables Disable
