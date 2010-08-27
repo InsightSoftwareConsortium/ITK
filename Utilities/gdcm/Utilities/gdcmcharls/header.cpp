@@ -11,7 +11,7 @@
 
 
 // JFIF\0
-BYTE jfifID[] = {'J','F','I','F','\0'};
+static BYTE jfifID[] = {'J','F','I','F','\0'};
 
 
 bool IsDefault(const JlsCustomParameters* pcustom)
