@@ -192,7 +192,7 @@ public:
     }
 
     // added for completeness
-    LabelStatistics & operator=(const LabelStatistics & l)
+    void operator= (const LabelStatistics& l)
     {
       m_Count = l.m_Count;
       m_Minimum = l.m_Minimum;
