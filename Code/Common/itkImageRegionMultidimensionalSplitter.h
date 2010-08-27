@@ -107,6 +107,11 @@ protected:
 private:
   ImageRegionMultidimensionalSplitter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented
+
+  static unsigned int ComputeSplits(unsigned int numberOfPieces,
+                                    const RegionType &region,
+                                    unsigned int splits[]);
+
 };
 } // end namespace itk
 
