@@ -663,32 +663,6 @@ private:
   typedef typename TSample::Iterator      Iterator;
   typedef typename TSample::ConstIterator ConstIterator;
 
-  Iterator Begin()
-  {
-    typename TSample::ConstIterator iter = m_Sample->Begin();
-    return iter;
-  }
-
-  Iterator End()
-  {
-    Iterator iter = m_Sample->End();
-
-    return iter;
-  }
-
-  ConstIterator Begin() const
-  {
-    typename TSample::ConstIterator iter = m_Sample->Begin();
-    return iter;
-  }
-
-  ConstIterator End() const
-  {
-    ConstIterator iter = m_Sample->End();
-
-    return iter;
-  }
-
 protected:
   /** Constructor */
   KdTree();
