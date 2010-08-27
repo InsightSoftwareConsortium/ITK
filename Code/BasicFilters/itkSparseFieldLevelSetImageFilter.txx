@@ -89,17 +89,15 @@ SparseFieldCityBlockNeighborList< TNeighborhoodType >
 //double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 //::m_ConstantGradientValue = 1.0;
 
-template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
-SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueOne = NumericTraits< ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage,
-                                                                           TOutputImage >::ValueType >::One;
+template<class TInputImage, class TOutputImage>
+ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_ValueOne = 1;
 
-template< class TInputImage, class TOutputImage >
-ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
-SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueZero = NumericTraits< ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage,
-                                                                            TOutputImage >::ValueType >::Zero;
+template<class TInputImage, class TOutputImage>
+ITK_TYPENAME SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+::m_ValueZero = 0;
 
 template< class TInputImage, class TOutputImage >
 ITK_TYPENAME SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
