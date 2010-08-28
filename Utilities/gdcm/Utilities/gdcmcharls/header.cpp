@@ -2,6 +2,12 @@
 // (C) Jan de Vaan 2007-2009, all rights reserved. See the accompanying "License.txt" for licensed use.
 //
 
+// Those blocker are required, for SunOS compiler (see "definitions separate")
+// section of manual:
+// http://docs.sun.com/source/819-0496/Compiling_Templates.html#21553
+#ifndef CHARLS_HEADER_CXX
+#define CHARLS_HEADER_CXX
+
 #include "stdafx.h"
 #include "header.h"
 #include "streams.h"
@@ -565,3 +571,5 @@ void JLSInputStream::ReadColorXForm()
       throw JlsException(InvalidCompressedData);
   }
 }
+
+#endif // CHARLS_HEADER_CXX
