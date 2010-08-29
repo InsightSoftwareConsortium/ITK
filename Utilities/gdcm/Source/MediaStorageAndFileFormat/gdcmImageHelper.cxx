@@ -26,6 +26,8 @@
 #include "gdcmImage.h"
 #include "gdcmDirectionCosines.h"
 
+#include <math.h> // fabs
+
   /* TODO:
    *
    * (0028,9145) SQ (Sequence with undefined length #=1)     # u/l, 1 PixelValueTransformationSequence
@@ -605,7 +607,7 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
       interceptslope.resize( 2 );
       interceptslope[0] = 0;
       interceptslope[1] = 1;
-      bool b = GetRescaleInterceptSlopeValueFromDataSet(ds, interceptslope);
+      bool b = GetRescaleInterceptSlopeValueFromDataSet(ds, interceptslope); (void)b;
       return interceptslope;
       }
     }
@@ -624,7 +626,7 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
  || ForceRescaleInterceptSlope
   )
     {
-    bool b = GetRescaleInterceptSlopeValueFromDataSet(ds, interceptslope);
+    bool b = GetRescaleInterceptSlopeValueFromDataSet(ds, interceptslope); (void)b;
     }
 
   // \post condition slope can never be 0:
