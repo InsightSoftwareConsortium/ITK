@@ -111,6 +111,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     //gdcmWarningMacro( "Assuming 16 bits VR for Tag=" <<
     //  TagField << " in order to read a buggy DICOM file." );
     //VRField = VR::INVALID;
+    (void)ex; //compiler warning
     ParseException pe;
     pe.SetLastElement( *this );
     throw pe;
