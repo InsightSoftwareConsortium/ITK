@@ -215,7 +215,7 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
 }
 
 /* return output length */
-int rle_encode(char *output, unsigned int outputlength, const char *input, unsigned int inputlength)
+ptrdiff_t rle_encode(char *output, unsigned int outputlength, const char *input, unsigned int inputlength)
 {
   char *pout = output;
   const char *pin = input;
@@ -497,7 +497,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
       // Do not cross row boundary:
       for(unsigned int y = 0; y < dims[1]; ++y)
         {
-        int llength = rle_encode(outbuf, n, ptr + y*dims[0], partition / dims[1] /*image_len*/);
+        ptrdiff_t llength = rle_encode(outbuf, n, ptr + y*dims[0], partition / dims[1] /*image_len*/);
         if( llength < 0 )
           {
           std::cerr << "RLE compressor error" << std::endl;
