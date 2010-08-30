@@ -97,8 +97,8 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
   if( this->GetPixelFormat() == PixelFormat::UINT12 ||
     this->GetPixelFormat() == PixelFormat::INT12 )
     {
-    unsigned long len = str.size() * 16 / 12;
-    char * copy = new char[len];
+    size_t len = str.size() * 16 / 12;
+    char * copy = new char[len];//why use an array, and not a vector?
     Unpacker12Bits u12;
     bool b = u12.Unpack(copy, &str[0], str.size() );
     assert( b );
@@ -109,7 +109,8 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
     }
   else
     {
-    out.SetByteValue( &str[0], str.size() );
+      VL::Type strSize = (VL::Type) str.size();
+    out.SetByteValue( &str[0], strSize);
     }
 
   return r;
