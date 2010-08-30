@@ -99,10 +99,11 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
     {
     size_t len = str.size() * 16 / 12;
     char * copy = new char[len];//why use an array, and not a vector?
-    Unpacker12Bits u12;
-    bool b = u12.Unpack(copy, &str[0], str.size() );
+    bool b = Unpacker12Bits::Unpack(copy, &str[0], str.size() );
     assert( b );
-    out.SetByteValue( copy, len );
+    (void)b;
+    VL::Type lenSize = (VL::Type)len;
+    out.SetByteValue( copy, lenSize );
     delete[] copy;
 
     this->GetPixelFormat().SetBitsAllocated( 16 );
