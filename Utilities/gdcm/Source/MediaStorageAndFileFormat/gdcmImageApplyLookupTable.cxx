@@ -49,7 +49,8 @@ bool ImageApplyLookupTable::Apply()
 
   DataElement &de = Output->GetDataElement();
   std::string str = os.str();
-  de.SetByteValue( str.c_str(), str.size() );
+  VL::Type strSize = (VL::Type)str.size();
+  de.SetByteValue( str.c_str(), strSize);
   Output->GetLUT().Clear();
   Output->SetPhotometricInterpretation( PhotometricInterpretation::RGB );
   Output->GetPixelFormat().SetSamplesPerPixel( 3 );

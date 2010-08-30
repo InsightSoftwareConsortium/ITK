@@ -242,7 +242,7 @@ bool r = true;
     std::string str = os.str();
     assert( str.size() );
     VL::Type strSize = (VL::Type)str.size();
-    out.SetByteValue( &str[0], str.size() );
+    out.SetByteValue( &str[0], strSize );
 
 
     return true;

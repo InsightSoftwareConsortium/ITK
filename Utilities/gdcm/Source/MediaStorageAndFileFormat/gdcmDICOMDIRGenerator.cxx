@@ -47,11 +47,11 @@ public:
 
 bool DICOMDIRGenerator::ComputeDirectoryRecordsOffset(const SequenceOfItems *sqi, VL start)
 {
-  unsigned int nitems = sqi->GetNumberOfItems();
+  gdcm::SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
   std::vector<uint32_t> &offsets = Internals->OffsetTable;
   Internals->OffsetTable.resize( nitems + 1 );
   offsets[0] = start;
-  for(unsigned int i = 1; i <= nitems; ++i)
+  for(gdcm::SequenceOfItems::SizeType i = 1; i <= nitems; ++i)
     {
     const Item &item = sqi->GetItem(i);
     offsets[i] = offsets[i-1] + item.GetLength<ExplicitDataElement>();
@@ -261,8 +261,8 @@ unsigned int DICOMDIRGenerator::FindLowerLevelDirectoryRecord( unsigned int item
   if( !lowerdirectorytype ) return 0;
 
   const SequenceOfItems *sqi = GetDirectoryRecordSequence();
-  unsigned int nitems = sqi->GetNumberOfItems();
-  for(unsigned int i = item1 + 1; i <= nitems; ++i)
+  gdcm::SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
+  for(gdcm::SequenceOfItems::SizeType i = item1 + 1; i <= nitems; ++i)
     {
     const Item &item = sqi->GetItem(i);
     const DataSet &ds = item.GetNestedDataSet();
@@ -296,8 +296,8 @@ unsigned int DICOMDIRGenerator::FindNextDirectoryRecord( unsigned int item1, con
 {
   if( !directorytype ) return 0;
   const SequenceOfItems *sqi = GetDirectoryRecordSequence();
-  unsigned int nitems = sqi->GetNumberOfItems();
-  for(unsigned int i = item1 + 1; i <= nitems; ++i)
+  gdcm::SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
+  for(gdcm::SequenceOfItems::SizeType i = item1 + 1; i <= nitems; ++i)
     {
     const Item &item = sqi->GetItem(i);
     const DataSet &ds = item.GetNestedDataSet();
@@ -326,22 +326,22 @@ bool DICOMDIRGenerator::TraverseDirectoryRecords(VL start )
 
   ComputeDirectoryRecordsOffset(sqi, start);
 
-  unsigned int nitems = sqi->GetNumberOfItems();
-  for(unsigned int i = 1; i <= nitems; ++i)
+  gdcm::SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
+  for(gdcm::SequenceOfItems::SizeType i = 1; i <= nitems; ++i)
     {
     Item &item = sqi->GetItem(i);
     DataSet &ds = item.GetNestedDataSet();
     Attribute<0x4,0x1430> directoryrecordtype;
     directoryrecordtype.Set( ds );
     //std::cout << "FOUND DIRECTORY TYPE:" << directoryrecordtype.GetValue() << std::endl;
-    unsigned int next = FindNextDirectoryRecord( i, directoryrecordtype.GetValue() );
+    size_t next = FindNextDirectoryRecord( i, directoryrecordtype.GetValue() );
     if( next )
       {
       Attribute<0x4,0x1400> offsetofthenextdirectoryrecord = {0};
       offsetofthenextdirectoryrecord.SetValue( Internals->OffsetTable[ next - 1 ] );
       ds.Replace( offsetofthenextdirectoryrecord.GetAsDataElement() );
       }
-    unsigned int lower = FindLowerLevelDirectoryRecord( i, directoryrecordtype.GetValue() );
+    size_t lower = FindLowerLevelDirectoryRecord( i, directoryrecordtype.GetValue() );
     if( lower )
       {
       Attribute<0x4,0x1420> offsetofreferencedlowerleveldirectoryentity = {0};
@@ -722,7 +722,8 @@ bool DICOMDIRGenerator::AddImageDirectoryRecord()
     if( ttv.find( imagetype.GetTag() ) != ttv.end() )
       {
       const char *v = ttv.find(imagetype.GetTag())->second;
-      de2.SetByteValue( v, strlen(v) );
+      VL::Type strlenV = (VL::Type)strlen(v);
+      de2.SetByteValue( v, strlenV );
       }
     ds.Insert( de2 );
 
@@ -754,7 +755,8 @@ static bool IsCompatibleWithISOIEC9660MediaFormat(const char *filename)
     {
     copy.push_back( ' ' );
     }
-  de.SetByteValue( copy.c_str(), copy.size() ) ;
+  VL::Type copySize = (VL::Type)copy.size();
+  de.SetByteValue( copy.c_str(), copySize ) ;
   at.SetFromDataElement( de );
   unsigned int n = at.GetNumberOfValues();
   // A volume may have at most 8 levels of directories, where the root
@@ -998,7 +1000,7 @@ the File-set.
 {
   //const gdcm::DataElement &de_drs = ds.GetDataElement( Tag(0x4,0x1220) ); // DirectoryRecordSequence
   SmartPointer<SequenceOfItems> sqi = de_drs.GetValueAsSQ();
-  unsigned int n = sqi->GetNumberOfItems();
+  gdcm::SequenceOfItems::SizeType n = sqi->GetNumberOfItems();
   const Item &item = sqi->GetItem( n ); // last item
   VL sub = item.GetLength<ExplicitDataElement>();
   // Let's substract item length as well as the item sequence delimiter end (tag + vl => 8)

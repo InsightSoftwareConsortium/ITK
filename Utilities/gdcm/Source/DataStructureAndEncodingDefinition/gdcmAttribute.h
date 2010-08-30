@@ -199,7 +199,8 @@ public:
           }
         }
       }
-    ret.SetByteValue( os.str().c_str(), os.str().size() );
+    VL::Type osStrSize = (VL::Type)os.str().size();
+    ret.SetByteValue( os.str().c_str(), osStrSize );
     return ret;
   }
 
@@ -426,7 +427,8 @@ public:
       }
     ret.SetVR( GetVR() );
     assert( ret.GetVR() != VR::SQ );
-    ret.SetByteValue( os.str().c_str(), os.str().size() );
+    VL::Type osStrSize = (VL::Type) os.str().size();
+    ret.SetByteValue( os.str().c_str(), osStrSize);
     return ret;
   }
   void SetFromDataElement(DataElement const &de) {

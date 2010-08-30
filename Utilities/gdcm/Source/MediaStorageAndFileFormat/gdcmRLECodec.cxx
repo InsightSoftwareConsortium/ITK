@@ -521,7 +521,8 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
     assert( str.size() );
     Fragment frag;
     //frag.SetTag( itemStart );
-    frag.SetByteValue( &str[0], str.size() );
+    VL::Type strSize = (VL::Type)str.size();
+    frag.SetByteValue( &str[0], strSize );
     sq->AddFragment( frag );
     }
 
@@ -571,7 +572,8 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
     std::string str = os.str();
     std::string::size_type check = str.size();
     assert( check == len );
-    out.SetByteValue( &str[0], check );
+    VL::Type checkCast = (VL::Type)check;
+    out.SetByteValue( &str[0], checkCast );
     return true;
     }
   else if ( NumberOfDimensions == 3 )
@@ -605,7 +607,7 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
         {
         // Indeed the length of the RLE stream has been padded with a \0
         // which is discarded
-        uint32_t check = bv.GetLength() - p;
+          std::streamoff check = bv.GetLength() - p;
         // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
         assert( check == 0 || check == 1 || check == 2 );
         if( check ) gdcmWarningMacro( "tiny offset detected in between RLE segments" );
@@ -681,7 +683,7 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
       // This should be at most the \0 padding
       //gdcmWarningMacro( "RLE Header says: " << frame.Header.Offset[i] <<
       //   " when it should says: " << pos << std::endl );
-      uint32_t check = frame.Header.Offset[i] - pos;
+      uint32_t check = frame.Header.Offset[i] - pos;//should it be a streampos or a uint32? mmr
       // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
       assert( check == 1 || check == 2);
       is.seekg( frame.Header.Offset[i], std::ios::beg );

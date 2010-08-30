@@ -294,7 +294,8 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
     {
     return s;
     }
-  unsigned int count = VM::GetNumberOfElementsFromArray(value, len);
+  VL::Type castLen = (VL::Type)len;
+  VL::Type count = VM::GetNumberOfElementsFromArray(value, castLen);
   VL vl = vm.GetLength() * vr.GetSizeof();
   if( vm.GetLength() == 0 )
     {
