@@ -72,7 +72,6 @@ public:
     assert( DES.empty() );
   }
 
-  typedef SizeType DataElementSet::size_type;
   SizeType Size() const {
     return DES.size();
   }
