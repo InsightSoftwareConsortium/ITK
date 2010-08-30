@@ -136,7 +136,7 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
           gdcmWarningMacro( "Illegal: Explicit SQ found in a file with "
             "TransferSyntax=Implicit for tag: " << TagField );
           }
-        catch( Exception &ex )
+        catch( Exception & )
           {
           // MR_ELSCINT1_00e1_1042_SQ_feff_00e0_Item.dcm
           std::streampos current = is.tellg();
@@ -145,9 +145,8 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
           assert( diff == -14 );
           ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField);
           }
-        catch( std::exception &ex )
+        catch( std::exception & )
           {
-          (void)ex;
           ValueLengthField = ValueField->GetLength();
           }
         return is;

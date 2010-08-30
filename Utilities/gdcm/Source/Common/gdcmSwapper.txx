@@ -165,9 +165,9 @@ namespace gdcm
     return Tag( Swap((uint32_t)val.GetElementTag()) );
     }
 
-  template <> inline void SwapperDoOp::SwapArray(uint8_t *, unsigned int ) {}
+  template <> inline void SwapperDoOp::SwapArray(uint8_t *, size_t ) {}
 
-  template <> inline void SwapperDoOp::SwapArray(float *array, unsigned int n)
+  template <> inline void SwapperDoOp::SwapArray(float *array, size_t n)
     {
     switch( sizeof(float) )
       {
@@ -179,7 +179,7 @@ namespace gdcm
       }
     }
 
-  template <> inline void SwapperDoOp::SwapArray(double *array, unsigned int n)
+  template <> inline void SwapperDoOp::SwapArray(double *array, size_t n)
     {
     switch( sizeof(double) )
       {

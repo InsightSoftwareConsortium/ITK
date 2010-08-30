@@ -207,7 +207,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
           assert(0);
           }
         }
-      catch( std::exception &ex)
+      catch( std::exception &)
         {
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
