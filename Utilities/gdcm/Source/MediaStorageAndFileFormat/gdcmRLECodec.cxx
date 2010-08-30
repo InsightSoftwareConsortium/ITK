@@ -493,7 +493,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
 
       std::stringstream data;
       assert( partition % dims[1] == 0 );
-      int length = 0;
+      size_t length = 0;
       // Do not cross row boundary:
       for(unsigned int y = 0; y < dims[1]; ++y)
         {
