@@ -176,7 +176,8 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
 
     out = in;
 
-    out.SetByteValue( (char*)&rgbyteOut[0], rgbyteOut.size() );
+    VL::Type rgByteOutSize = (VL::Type)rgbyteOut.size();
+    out.SetByteValue( (char*)&rgbyteOut[0], rgByteOutSize );
     return true;
     }
   else if( NumberOfDimensions == 3 )
@@ -240,6 +241,7 @@ bool r = true;
       }
     std::string str = os.str();
     assert( str.size() );
+    VL::Type strSize = (VL::Type)str.size();
     out.SetByteValue( &str[0], str.size() );
 
 
@@ -356,7 +358,8 @@ Found 8fd82891d8c7f146656aa88160c69b0b instead of faff9970b905458c0844400b5b869e
     assert( cbyteCompressed < rgbyteCompressed.size() );
 
     Fragment frag;
-    frag.SetByteValue( (char*)&rgbyteCompressed[0], cbyteCompressed );
+    VL::Type cbyteCompressedLen = (VL::Type)cbyteCompressed;
+    frag.SetByteValue( (char*)&rgbyteCompressed[0], cbyteCompressedLen );
     sq->AddFragment( frag );
     }
 
