@@ -523,7 +523,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       pointData->SetElement(
         FilledPointID,
         pointData->GetElement( lastData.Index( ) )
-        )
+        );
       }
 
     // make sure that all the edges/faces now refer to the new ID
