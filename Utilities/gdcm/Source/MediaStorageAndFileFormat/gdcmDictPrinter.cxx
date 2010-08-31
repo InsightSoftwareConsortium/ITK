@@ -436,7 +436,7 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
   const Dicts &dicts = g.GetDicts();
 
   //const SequenceOfItems *sqi = de.GetSequenceOfItems();
-  const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
+  //const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
   const char *owner = 0;
@@ -502,7 +502,7 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
       {
       const Item &item = *it;
       const DataSet &ds = item.GetNestedDataSet();
-      const DataElement &deitem = item;
+      //const DataElement &deitem = item;
       PrintDataSet2(os, ds);
       }
     }

@@ -171,6 +171,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
 
     JLS_ERROR result = JpegLsDecode(&rgbyteOut[0], rgbyteOut.size(), pbyteCompressed, cbyteCompressed);
     ASSERT(result == OK);
+    (void)result;//warning removal
 
     delete[] buffer;
 
@@ -228,6 +229,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
 
     JLS_ERROR result = JpegLsDecode(&rgbyteOut[0], rgbyteOut.size(), pbyteCompressed, cbyteCompressed);
     ASSERT(result == OK);
+    (void)result;//warning removal
 bool r = true;
 
 

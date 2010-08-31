@@ -90,7 +90,7 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
   assert( r );
 
   std::string str = os.str();
-  std::string::size_type check = str.size();
+  //std::string::size_type check = str.size();
 
   out = in;
 

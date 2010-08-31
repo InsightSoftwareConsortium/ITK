@@ -598,6 +598,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
     return false;
   }
   assert( encrypted_len <= encrypted_len2 );
+  (void)encrypted_len2;//warning removal
 
     {
     // Create a Sequence
@@ -982,6 +983,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
     return false;
     }
   assert( encrypted_len <= encrypted_len2 );
+  (void)encrypted_len2;//warning removal
 
   std::stringstream ss;
   ss.str( std::string((char*)buf, encrypted_len) );
@@ -1012,7 +1014,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
   delete[] orig;
 
   // 2. The application shall move all Attributes contained in the single item of the Modified Attributes
-  // Sequence (0400,0550) of the decoded dataset into the main dataset, replacing¿dummy value¿
+  // Sequence (0400,0550) of the decoded dataset into the main dataset, replacing dummy value
   // Attributes that may be present in the main dataset.
   //assert( dummy.GetVR() == VR::SQ );
 {

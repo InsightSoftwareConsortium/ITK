@@ -116,7 +116,7 @@ std::istream& Read(std::istream &is)
         }
       assert( frag.GetTag() == seqDelItem && frag.GetVL() == 0 );
       }
-    catch(Exception &)
+    catch(Exception &ex)
       {
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
       // that's ok ! In all cases the whole file was read, because Fragment::Read only fail on eof() reached

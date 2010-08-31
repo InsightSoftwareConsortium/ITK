@@ -315,7 +315,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
   const Tag itemStart(0xfffe, 0xe000);
   //sq->GetTable().SetTag( itemStart );
   // FIXME  ? Is this compulsary ?
-  const char dummy[4] = {};
+  //const char dummy[4] = {};
   //sq->GetTable().SetByteValue( dummy, sizeof(dummy) );
 
   const ByteValue *bv = in.GetByteValue();
@@ -569,6 +569,7 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
       std::stringstream os;
       bool r = Decode(is, os);
       assert( r == true );
+      (void)r; //warning removal
     std::string str = os.str();
     std::string::size_type check = str.size();
     assert( check == len );
@@ -601,6 +602,7 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
       SetLength( llen );
       bool r = Decode(is, os);
       assert( r == true );
+      (void)r; //warning removal
       std::streampos p = is.tellg();
       // http://groups.google.com/group/microsoft.public.vc.stl/browse_thread/thread/96740930d0e4e6b8
       if( !!is )
@@ -686,6 +688,7 @@ bool RLECodec::Decode(std::istream &is, std::ostream &os)
       uint32_t check = frame.Header.Offset[i] - pos;//should it be a streampos or a uint32? mmr
       // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
       assert( check == 1 || check == 2);
+      (void)check; //warning removal
       is.seekg( frame.Header.Offset[i], std::ios::beg );
       }
 

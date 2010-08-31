@@ -31,6 +31,7 @@ bool ImageApplyLookupTable::Apply()
   const gdcm::LookupTable &lut = image.GetLUT();
   int bitsample = lut.GetBitSample();
   assert( bitsample );
+  (void)bitsample;//warning removal
 
   //const DataElement& pixeldata = image.GetDataElement();
   //const ByteValue *bv = pixeldata.GetByteValue();

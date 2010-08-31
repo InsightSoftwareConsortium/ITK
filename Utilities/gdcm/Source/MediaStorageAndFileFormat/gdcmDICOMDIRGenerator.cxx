@@ -416,6 +416,7 @@ bool DICOMDIRGenerator::AddPatientDirectoryRecord()
       {
       const char *fn = scanner.GetFilenameFromTagToValue(patientid.GetTag(), pid);
       gdcmErrorMacro( "Missing Patient ID from file: " << fn );
+      (void)fn; //warning removal
       return false;
       }
     gdcmAssertAlwaysMacro( pid && *pid );
@@ -489,6 +490,7 @@ bool DICOMDIRGenerator::AddStudyDirectoryRecord()
       {
       const char *fn = scanner.GetFilenameFromTagToValue(studyinstanceuid.GetTag(), studyuid);
       gdcmErrorMacro( "Missing Study Instance UID from file: " << fn );
+      (void)fn;//warning removal
       return false;
       }
     gdcmAssertAlwaysMacro( studyuid && *studyuid );
@@ -589,6 +591,7 @@ bool DICOMDIRGenerator::AddSeriesDirectoryRecord()
       {
       const char *fn = scanner.GetFilenameFromTagToValue(seriesinstanceuid.GetTag(), seriesuid);
       gdcmErrorMacro( "Missing Study Instance UID from file: " << fn );
+      (void)fn;//warning removal
       return false;
       }
     gdcmAssertAlwaysMacro( seriesuid && *seriesuid );

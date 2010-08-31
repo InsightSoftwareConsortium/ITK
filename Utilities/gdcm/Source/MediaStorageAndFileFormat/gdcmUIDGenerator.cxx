@@ -108,6 +108,7 @@ const char* UIDGenerator::Generate2()
     unsigned char node[6];
     int res = System::GetHardwareAddress(node);
     assert( res );
+    (void)res;//warning removal
     char buffer[15]; // 15 is max possible when all node[i] == 255
     int len = System::EncodeBytes(buffer, node, sizeof(node)); (void)len;
     assert( strlen(buffer) < 15 );
@@ -299,7 +300,7 @@ bool UIDGenerator::IsValid(const char *uid_)
   - Each component of a UID is a number and shall consist of one or more digits. The first digit of
   each component shall not be zero unless the component is a single digit.
   Note: Registration authorities may distribute components with non-significant leading zeroes. The leading
-  zeroes should be ignored when being encoded (ie. ¿00029¿ would be encoded ¿29¿).
+  zeroes should be ignored when being encoded (ie. 00029 would be encoded 29).
   - Each component numeric value shall be encoded using the characters 0-9 of the Basic G0 Set
   of the International Reference Version of ISO 646:1990 (the DICOM default character
   repertoire).

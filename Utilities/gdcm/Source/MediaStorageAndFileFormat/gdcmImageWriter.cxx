@@ -90,6 +90,7 @@ bool ImageWriter::Write()
   const size_t datelen = 8;
   int res = System::GetCurrentDateTime(date);
   assert( res );
+  (void)res;//warning removal
   if( !ds.FindDataElement( Tag(0x0008,0x0020) ) )
     {
     DataElement de( Tag(0x0008,0x0020) );
