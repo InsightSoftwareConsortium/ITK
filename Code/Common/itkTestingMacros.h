@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -37,7 +37,7 @@
     {  \
     std::cout << "Caught expected exception" << std::endl;  \
     std::cout << excp << std::endl; \
-    }  
+    }
 
 
 #define TRY_EXPECT_NO_EXCEPTION( command ) \
@@ -50,7 +50,7 @@
     {  \
     std::cerr << excp << std::endl; \
     return EXIT_FAILURE;  \
-    }  
+    }
 
 
 #define TEST_SET_GET( variable, command ) \
