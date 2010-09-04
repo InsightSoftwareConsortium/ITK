@@ -180,7 +180,8 @@ bool PNMCodec::Read(const char *filename, DataElement &out) const
   if( !is.eof() ) return false;
 
   out.SetTag( gdcm::Tag(0x7fe0,0x0010) );
-  out.SetByteValue( buf, pdlen );
+  VL::Type pdLenSize = (VL::Type)pdlen;
+  out.SetByteValue( buf, pdLenSize );
   delete[] buf;
 
   is.close();

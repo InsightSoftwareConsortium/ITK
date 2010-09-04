@@ -320,6 +320,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
     unsigned long check = outbv->GetLength();  // FIXME
     // DermaColorLossLess.dcm
     assert( check == len || check == len + 1 );
+    (void)check;// removing warning
     if(buffer) memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
     return r;
     }
@@ -413,7 +414,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
 
 bool Bitmap::TryJPEGCodec2(std::ostream &os) const
 {
-  unsigned long len = GetBufferLength();
+  //unsigned long len = GetBufferLength();
   const TransferSyntax &ts = GetTransferSyntax();
 
   JPEGCodec codec;

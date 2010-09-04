@@ -49,20 +49,20 @@ public:
     assert( i < Curves.size() );
     return Curves[i];
   }
-  unsigned int GetNumberOfCurves() const { return Curves.size(); }
-  void SetNumberOfCurves(unsigned int n) { Curves.resize(n); }
+  size_t GetNumberOfCurves() const { return Curves.size(); }
+  void SetNumberOfCurves(size_t n) { Curves.resize(n); }
 
   /// Overlay: group 60xx
-  Overlay& GetOverlay(unsigned int i = 0) {
+  Overlay& GetOverlay(size_t i = 0) {
     assert( i < Overlays.size() );
     return Overlays[i];
   }
-  const Overlay& GetOverlay(unsigned int i = 0) const {
+  const Overlay& GetOverlay(size_t i = 0) const {
     assert( i < Overlays.size() );
     return Overlays[i];
   }
-  unsigned int GetNumberOfOverlays() const { return Overlays.size(); }
-  void SetNumberOfOverlays(unsigned int n) { Overlays.resize(n); }
+  size_t GetNumberOfOverlays() const { return Overlays.size(); }
+  void SetNumberOfOverlays(size_t n) { Overlays.resize(n); }
 
   /// Set/Get Icon Image
   const IconImage &GetIconImage() const { return Icon; }

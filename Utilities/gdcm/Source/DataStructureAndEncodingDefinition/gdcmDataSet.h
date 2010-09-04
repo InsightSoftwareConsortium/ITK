@@ -72,7 +72,7 @@ public:
     assert( DES.empty() );
   }
 
-  unsigned int Size() const {
+  SizeType Size() const {
     return DES.size();
   }
 

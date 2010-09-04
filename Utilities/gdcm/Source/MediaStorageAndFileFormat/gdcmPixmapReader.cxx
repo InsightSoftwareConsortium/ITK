@@ -339,9 +339,9 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
             (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
           //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
-          unsigned long check =
-            (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
-            * el_us3.GetValue(2) / 8;
+          //unsigned long check =
+          //  (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
+          //  * el_us3.GetValue(2) / 8;
           //assert( check == lut_raw->GetLength() ); (void)check;
           }
         else
@@ -668,7 +668,7 @@ void DoOverlays(const DataSet& ds, Pixmap& pixeldata)
         std::ostringstream unpack;
         ov.Decompress( unpack );
         std::string s = unpack.str();
-        size_t l = s.size();
+        //size_t l = s.size();
         // The following line will fail with images like XA_GE_JPEG_02_with_Overlays.dcm
         // since the overlays are stored in the unused bit of the PixelData
         if( !ov.IsEmpty() )
@@ -712,6 +712,7 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
     const char *str = ds.GetDataElement( trecognitioncode ).GetByteValue()->GetPointer();
     assert( strncmp( str, "ACR-NEMA", strlen( "ACR-NEMA" ) ) == 0 ||
       strncmp( str, "ACRNEMA", strlen( "ACRNEMA" ) ) == 0 );
+    (void)str;//warning removal
     }
 
   // Ok we have the dataset let's feed the Image (PixelData)
@@ -1083,9 +1084,9 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
           lut->Clear();
           }
 
-        unsigned long check =
-          (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
-          * el_us3.GetValue(2) / 8;
+        //unsigned long check =
+        //  (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
+         // * el_us3.GetValue(2) / 8;
         //assert( check == lut_raw->GetLength() ); (void)check;
         }
       else

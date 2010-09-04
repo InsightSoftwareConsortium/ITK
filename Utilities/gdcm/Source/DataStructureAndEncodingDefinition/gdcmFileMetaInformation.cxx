@@ -133,7 +133,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
       const char *msstr = ms.GetString();
       if( msstr )
         {
-        xde.SetByteValue( msstr, strlen(msstr) );
+        VL::Type strlenMsstr = (VL::Type) strlen(msstr);
+        xde.SetByteValue( msstr, strlenMsstr );
         xde.SetTag( Tag(0x0002, 0x0002) );
           {
           xde.SetVR( VR::UI );
@@ -249,7 +250,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
       || strcmp( currentts.c_str(), datasetts ) != 0 )
       {
       xde = tsuid;
-      xde.SetByteValue( datasetts, strlen(datasetts) );
+      VL::Type strlenDatasetts = (VL::Type) strlen(datasetts);
+      xde.SetByteValue( datasetts, strlenDatasetts );
       Replace( xde );
       }
     if( tsuid.GetVR() != VR::UI )
@@ -269,7 +271,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
       throw gdcm::Exception( "No TransferSyntax specified." );
       }
     const char* str = TransferSyntax::GetTSString(DataSetTS);
-    xde.SetByteValue(str,strlen(str));
+    VL::Type strlenStr = (VL::Type) strlen(str);
+    xde.SetByteValue( str, strlenStr );
     xde.SetVR( VR::UI );
     xde.SetTag( Tag(0x0002,0x0010) );
     Insert( xde );
@@ -281,7 +284,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     xde.SetVR( VR::UI );
     //const char implementation[] = GDCM_IMPLEMENTATION_CLASS_UID;
     const char *implementation = FileMetaInformation::GetImplementationClassUID();
-    xde.SetByteValue( implementation, strlen(implementation) );
+    VL::Type strlenImplementation = (VL::Type) strlen(implementation);
+    xde.SetByteValue( implementation, strlenImplementation );
     Insert( xde );
     }
   else
@@ -304,7 +308,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     xde.SetVR( VR::SH );
     //const char version[] = GDCM_IMPLEMENTATION_VERSION_NAME;
     SHComp version = FileMetaInformation::GetImplementationVersionName();
-    xde.SetByteValue( version, strlen(version) );
+    VL::Type strlenVersion = (VL::Type)strlen(version);
+    xde.SetByteValue( version, strlenVersion );
     Insert( xde );
     }
   // Source Application Entity Title (0002,0016) -> ??
@@ -314,7 +319,8 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     xde.SetVR( VR::AE );
     //const char title[] = GDCM_SOURCE_APPLICATION_ENTITY_TITLE;
     const char *title = FileMetaInformation::GetSourceApplicationEntityTitle();
-    xde.SetByteValue(title, strlen(title) );
+    VL::Type strlenTitle = (VL::Type)strlen(title);
+    xde.SetByteValue( title, strlenTitle );
     Insert( xde );
     }
   // Do this one last !

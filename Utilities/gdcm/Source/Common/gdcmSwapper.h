@@ -48,7 +48,7 @@ class SwapperNoOp
 {
 public:
   template <typename T> static T Swap(T val) {return val;}
-  template <typename T> static void SwapArray(T *, unsigned int ) {}
+  template <typename T> static void SwapArray(T *, size_t ) {}
 };
 
 class SwapperDoOp
@@ -56,10 +56,10 @@ class SwapperDoOp
 public:
   template <typename T> static T Swap(T val);
   template <typename T>
-  static void SwapArray(T *array, unsigned int n)
+  static void SwapArray(T *array, size_t n)
   {
     // TODO: need to unroll loop:
-    for(unsigned int i = 0; i < n; ++i)
+    for(size_t i = 0; i < n; ++i)
     {
       array[i] = Swap<T>(array[i]);
     }
