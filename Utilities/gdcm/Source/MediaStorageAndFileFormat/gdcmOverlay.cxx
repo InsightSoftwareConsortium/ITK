@@ -458,7 +458,7 @@ void Overlay::Decode(std::istream &is, std::ostream &os)
 
 bool Overlay::GetBuffer(char *buffer) const
 {
-  unsigned long length = Internal->Data.size();
+  size_t length = Internal->Data.size();
   std::copy(buffer, buffer+length, Internal->Data.begin());
   return true;
 }

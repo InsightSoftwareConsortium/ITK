@@ -151,11 +151,6 @@ struct TransformShifted
     typename TRANSFORM::INVERSE _inverseTransform;
   };
 
-  TransformShifted(const TransformShifted& transform) :
-    _shift(transform._shift),
-    _colortransform(transform._colortransform)
-  {
-  }
 
   TransformShifted(int shift) :
      _shift(shift)

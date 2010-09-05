@@ -170,7 +170,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPair(const Tag& t, Dat
     std::ostringstream os;
     if( bv )
       {
-      VM::VMType vm = entry.GetVM();
+      //VM::VMType vm = entry.GetVM();//!!mmr-- can I remove this, or will it mess with the stream?
       //assert( vm == VM::VM1 );
       if( vr.IsDual() ) // This mean vr was read from a dict entry:
         {
@@ -294,7 +294,8 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
     {
     return s;
     }
-  unsigned int count = VM::GetNumberOfElementsFromArray(value, len);
+  VL::Type castLen = (VL::Type)len;
+  VL::Type count = VM::GetNumberOfElementsFromArray(value, castLen);
   VL vl = vm.GetLength() * vr.GetSizeof();
   if( vm.GetLength() == 0 )
     {

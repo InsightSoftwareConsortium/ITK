@@ -167,6 +167,9 @@ bool PhotometricInterpretation::IsLossless() const
   case YBR_ICT:
     return false;
     break;
+  default:
+    assert(0);
+    return false;
     }
 
   assert( 0 ); // technically one should not reach here, unless UNKNOW ...

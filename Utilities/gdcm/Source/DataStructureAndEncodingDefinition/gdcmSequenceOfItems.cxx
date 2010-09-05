@@ -26,7 +26,7 @@ void SequenceOfItems::AddItem(Item const &item)
     }
 }
 
-Item &SequenceOfItems::GetItem(unsigned int position)
+Item &SequenceOfItems::GetItem(SizeType position)
 {
   if( position < 1 || position > Items.size() )
     {
@@ -35,7 +35,7 @@ Item &SequenceOfItems::GetItem(unsigned int position)
   return Items[position-1];
 }
 
-const Item &SequenceOfItems::GetItem(unsigned int position) const
+const Item &SequenceOfItems::GetItem(SizeType position) const
 {
   if( position < 1 || position > Items.size() )
     {

@@ -196,11 +196,11 @@ public:
   /** Set the fixed parameters and update internal transformation. */
   virtual void SetParameters(const ParametersType &) {}
 protected:
-  IdentityTransform():Transform< TScalarType, NDimensions, NDimensions >(NDimensions, 1)
+  IdentityTransform():Transform< TScalarType, NDimensions, NDimensions >(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the
     // constructor.
-    this->m_Jacobian = JacobianType(NDimensions, 1);
+    this->m_Jacobian = JacobianType(NDimensions, 0);
     this->m_Jacobian.Fill(0.0);
   }
 

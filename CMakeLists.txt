@@ -629,6 +629,11 @@ ENDIF(HAVE_UNISTD_H)
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
+IF(NOT ITK_DATA_ROOT)
+  IF(BUILD_TESTING)
+    MESSAGE(WARNING "ITK_DATA_ROOT was not found.  ctest will not run properly.")
+  ENDIF()
+ENDIF()
 MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
 #-----------------------------------------------------------------------------

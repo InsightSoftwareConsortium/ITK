@@ -111,6 +111,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
     //gdcmWarningMacro( "Assuming 16 bits VR for Tag=" <<
     //  TagField << " in order to read a buggy DICOM file." );
     //VRField = VR::INVALID;
+    (void)ex; //compiler warning
     ParseException pe;
     pe.SetLastElement( *this );
     throw pe;
@@ -206,7 +207,7 @@ std::istream &ExplicitDataElement::Read(std::istream &is)
           assert(0);
           }
         }
-      catch( std::exception &ex)
+      catch( std::exception &)
         {
         // Must be one of those non-cp246 file...
         // but for some reason seekg back to previous offset + Read
