@@ -23,22 +23,13 @@
 
 #include <fstream>
 #include "itkStreamingImageIOBase.h"
-
-#define USE_OPJ_DEPRECATED
-
-#ifndef ITK_BUILD_SHARED_LIBS
-# define OPJ_STATIC
-#endif
-
-extern "C"
-{
-  #include "openjpeg.h"
-  #include "j2k.h"
-  #include "jp2.h"
-}
+#include "itkAutoPointer.h"
 
 namespace itk
 {
+
+class JPEG2000ImageIOInternal;
+
 /** \class JPEG2000ImageIO
  *
  * \brief Supports for the JPEG2000 file format based on openjpeg
@@ -97,11 +88,8 @@ public:
   /** Method required by the base class StreamingImageIOBase */
   virtual SizeType GetHeaderSize(void) const;
 
-  void SetTileSize(int x, int y)
-  {
-    m_TileWidth = x;
-    m_TileHeight = y;
-  }
+  /** Define the tile size to use when writing out an image. */
+  void SetTileSize(int x, int y);
 
   /** Currently JPEG2000 does not support streamed writing
    *
@@ -118,35 +106,12 @@ protected:
   ~JPEG2000ImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  opj_dparameters_t m_DecompressionParameters;  /* decompression parameters */
+
 private:
   JPEG2000ImageIO(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
 
-  typedef enum {
-    J2K_CFMT = 0,
-    JP2_CFMT = 1,
-    JPT_CFMT = 2,
-    MJ2_CFMT = 3
-    } DecodingFormatType;
-
-  typedef enum {
-    PXM_DFMT = 0,
-    PGX_DFMT = 1,
-    BMP_DFMT = 2,
-    YUV_DFMT = 3
-    } DFMFormatType;
-
-  opj_codec_t *m_Dinfo;
-
-  OPJ_UINT32 m_TileWidth;
-  OPJ_UINT32 m_TileHeight;
-
-  OPJ_UINT32 m_TileStartX;
-  OPJ_UINT32 m_TileStartY;
-
-  OPJ_UINT32 m_NumberOfTilesInX;
-  OPJ_UINT32 m_NumberOfTilesInY;
+  AutoPointer< JPEG2000ImageIOInternal >  m_Internal;
 
   typedef ImageIORegion::SizeValueType  SizeValueType;
   typedef ImageIORegion::IndexValueType IndexValueType;
