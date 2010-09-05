@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -35,7 +35,7 @@ int itkIdentityTransformTest(int ,char *[] )
 
   typedef itk::IdentityTransform<double>  IdentityTransformType;
   IdentityTransformType::Pointer transform = IdentityTransformType::New();
- 
+
   std::cout << "Testing TransformPoint: ";
   IdentityTransformType::InputPointType::ValueType pInit[2] = {10,10};
   IdentityTransformType::InputPointType p = pInit;
@@ -47,11 +47,11 @@ int itkIdentityTransformTest(int ,char *[] )
      if( vcl_fabs( p[i]- r[i] ) > epsilon )
      {
         Ok = false;
-        break;    
+        break;
      }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error Transforming Point" << std::endl;
     return EXIT_FAILURE;
   }
@@ -74,11 +74,11 @@ int itkIdentityTransformTest(int ,char *[] )
      if( vcl_fabs( vout[i]-vin[i] ) > epsilon )
      {
         Ok = false;
-        break;    
+        break;
      }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error with TransformVector itk::Vector" << std::endl;
     return EXIT_FAILURE;
   }
@@ -100,11 +100,11 @@ int itkIdentityTransformTest(int ,char *[] )
      if( vcl_fabs( vnlout[i]-vnlin[i] ) > epsilon )
      {
         Ok = false;
-        break;    
+        break;
      }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error with TransformVector vnlVector" << std::endl;
     return EXIT_FAILURE;
   }
@@ -126,11 +126,11 @@ int itkIdentityTransformTest(int ,char *[] )
      if( vcl_fabs( vcout[i]-vcin[i] ) > epsilon )
      {
         Ok = false;
-        break;    
+        break;
      }
   }
   if( !Ok )
-  { 
+  {
     std::cerr << "Error with TransformVector CovariantVector" << std::endl;
     return EXIT_FAILURE;
   }
@@ -141,17 +141,28 @@ int itkIdentityTransformTest(int ,char *[] )
 
   // Test the Set/Get Parameters
   std::cout << "Testing Set/GetParameters():";
-  IdentityTransformType::ParametersType params(1);
+  IdentityTransformType::ParametersType params(0);
   transform->SetParameters(params);
   std::cout << " [ PASSED ] " << std::endl;
 
+  // Test the GetNumberOfParameters() method
+  std::cout << "Testing GetNumberOfParameters():";
+  unsigned int numParams = transform->GetNumberOfParameters();
+  if ( numParams != 0)
+    {
+    std::cerr << "Error with GetNumberOfParameters" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+      std::cout << " [ PASSED ] " << std::endl;
+    }
 
   // Testing the Jacobian
   std::cout << "Testing Jacobian: ";
   IdentityTransformType::JacobianType jacobian =  transform->GetJacobian(p);
 
-  if( 
-    (jacobian[0][0] != 0.0) || (jacobian[1][0] != 0.0)) 
+  if( jacobian.rows() != 3 || jacobian.columns() != 0 )
     {
     std::cerr << "Error with Jacobian: " << jacobian << std::endl;
     return EXIT_FAILURE;
