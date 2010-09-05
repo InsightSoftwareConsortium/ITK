@@ -468,44 +468,93 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   return ( pid );
 }
 
+
+/**
+ *  The point container being a map, after deleting a point
+ *  it is very likely that one index will be missing.
+ *  This method "squeeze" the indexes by relocating the points
+ *  and their data from the end of their respective container
+ *  to the "empty" locations.
+ */
 template< typename TPixel, unsigned int VDimension, typename TTraits >
 void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::SqueezePointsIds()
 {
-  PointsContainerPointer       points = this->GetPoints();
-  PointsContainerConstIterator last = points->End();
 
+  // sanity check
+  if( m_FreePointIndexes.size() == 0 )
+    {
+    return;
+    }
+
+  // Get hold on the last point in the container
+  PointsContainerPointer points = this->GetPoints();
+  PointsContainerConstIterator last = points->End();
   --last;
 
-  PointIdentifier FilledPointID;
-  QEType *        EdgeRingEntry;
-  QEType *        EdgeRingIter;
+  // Check if there is any data
+  PointDataContainerPointer pointData = this->GetPointData();
+  bool HasPointData = ( pointData->Size() != 0 );
 
-  // if there is empty slots in PointCont
-  while ( ( m_FreePointIndexes.size() != 0 )
-          && ( last.Index() >= this->GetNumberOfPoints() ) )
+  // if there is get hold on the last point's data
+  PointDataContainerIterator lastData = pointData->End();
+  if( HasPointData )
     {
+    --lastData;
+    }
+
+  // Some Temp var to be used in the while loop
+  PointIdentifier FilledPointID;
+  QEType* EdgeRingEntry;
+  QEType* EdgeRingIter;
+
+  // for all the free indexes and while there is any gap
+  while( ( m_FreePointIndexes.size() != 0 )
+    && ( last.Index() >= this->GetNumberOfPoints() ) )
+    {
+
     // duplicate last point into the empty slot and pop the id from freeID list
-    FilledPointID = AddPoint( GetPoint( last.Index() ) );
+    FilledPointID = AddPoint( GetPoint( last.Index( ) ) );
+
+    // same thing for the data if any
+    if( HasPointData )
+      {
+      pointData->SetElement(
+        FilledPointID,
+        pointData->GetElement( lastData.Index( ) )
+        );
+      }
 
     // make sure that all the edges/faces now refer to the new ID
-    EdgeRingEntry = GetPoint( last.Index() ).GetEdge();
-    if ( EdgeRingEntry )
+    // i.e. enforce the integrity at the QE level now.
+    EdgeRingEntry = GetPoint( last.Index( ) ).GetEdge( );
+    if( EdgeRingEntry )
       {
       EdgeRingIter  = EdgeRingEntry;
       do
         {
-        EdgeRingIter->SetOrigin(FilledPointID);
-        EdgeRingIter = EdgeRingIter->GetOnext();
+        EdgeRingIter->SetOrigin( FilledPointID );
+        EdgeRingIter = EdgeRingIter->GetOnext( );
         }
-      while ( EdgeRingIter != EdgeRingEntry );
+      while( EdgeRingIter != EdgeRingEntry );
       }
-    // Delete the point directly from the container
-    points->DeleteIndex( last.Index() );
+
+    // pop the duplicated point from the container, increment iterator
+    points->DeleteIndex( last.Index( ) );
     last = points->End();
     --last;
+
+    // same thing for data, if any
+    if( HasPointData )
+      {
+      pointData->DeleteIndex( lastData.Index() );
+      lastData = pointData->End();
+      --lastData;
+      }
+
     }
+
 }
 
 /**
@@ -527,16 +576,32 @@ template< typename TPixel, unsigned int VDimension, typename TTraits >
 void QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::DeletePoint(const PointIdentifier & pid)
 {
-  PointType pointToDelete = this->GetPoint(pid);
+  // We suppose point index is valid
+  // otherwise we should test with
+  // this->GetPoints()->IndexExists( pid );
+  PointType pointToDelete = this->GetPoint( pid);
 
-  if ( pointToDelete.GetEdge() )
+  // Check that there is no cell that use this point anymore
+  // i.e. that the o-next-ring is empty
+  if( pointToDelete.GetEdge() )
     {
     itkDebugMacro("Point is not isolated.");
     return;
     }
 
-  this->GetPoints()->DeleteIndex(pid);
-  m_FreePointIndexes.push(pid);
+  // Remove the point from the points container
+  this->GetPoints()->DeleteIndex( pid );
+
+  // Check if there is associated poindata and eventually delete them
+  if( this->GetPointData()->Size() > 0 )
+    {
+    this->GetPointData()->DeleteIndex( pid );
+    }
+
+  // store the delete index to later squeeze the ID list
+  // needed to write files that expect incremental IDs
+  // like vtk
+  m_FreePointIndexes.push( pid );
 }
 
 /**
@@ -1050,11 +1115,15 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-  if ( this->GetEdgeCells()->size() == 0 ) { return ( (QEPrimal *)0 ); }
+  if ( this->GetEdgeCells()->size() == 0 )
+    {
+    return ( (QEPrimal *)0 );
+    }
 
-  const CellsContainer *      edgeCells = this->GetEdgeCells();
+  const CellsContainer* edgeCells = this->GetEdgeCells();
   CellsContainerConstIterator cit = edgeCells->Begin();
-  EdgeCellType *              e = dynamic_cast< EdgeCellType * >( cit.Value() );
+  EdgeCellType* e = dynamic_cast< EdgeCellType * >( cit.Value() );
+
   return ( e->GetQEGeom() );
 }
 

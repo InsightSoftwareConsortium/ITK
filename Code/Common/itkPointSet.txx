@@ -116,8 +116,11 @@ typename PointSet< TPixelType, VDimension, TMeshTraits >::PointDataContainer *
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::GetPointData(void)
 {
-  itkDebugMacro("returning PointData container of "
-                << m_PointDataContainer);
+  if ( !m_PointDataContainer )
+    {
+    this->SetPointData( PointDataContainer::New() );
+    }
+  itkDebugMacro("returning PointData container of " << m_PointDataContainer);
   return m_PointDataContainer;
 }
 
