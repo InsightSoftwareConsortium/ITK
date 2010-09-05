@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 
 /**
- * This module tests the functionality of the 
+ * This module tests the functionality of the
  * NearestNeighborExtrapolateImageFunction class.
  *
  */
@@ -32,7 +32,10 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   typedef double CoordRep;
   const unsigned int ImageDimension = 2;
   typedef unsigned char PixelType;
+  const   unsigned int VectorDimension = 4;
+  typedef itk::Vector< PixelType, VectorDimension > VectorPixelType;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image< VectorPixelType, ImageDimension > VectorImageType;
 
   ImageType::SizeType imageSize;
   imageSize[0] = 5;
@@ -42,7 +45,11 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   ImageType::Pointer image = ImageType::New();
   image->SetRegions( imageRegion );
   image->Allocate();
-  
+
+  VectorImageType::Pointer vectorimage = VectorImageType::New();
+  vectorimage->SetRegions( imageRegion );
+  vectorimage->Allocate();
+
   typedef itk::ImageRegionIterator<ImageType> Iterator;
   Iterator iter( image, imageRegion );
   iter.GoToBegin();
@@ -54,35 +61,66 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     ++iter;
     }
 
+  typedef itk::ImageRegionIterator<VectorImageType> VectorIterator;
+  VectorIterator vectoriter( vectorimage, imageRegion );
+  vectoriter.GoToBegin();
+  counter = 0;
+
+  while( !vectoriter.IsAtEnd() )
+    {
+    VectorPixelType & vectorpixel = vectoriter.Value();
+    vectorpixel.Fill( counter++ );
+    ++vectoriter;
+    }
+
   // set up the extrapolator
   typedef itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRep> FunctionType;
   FunctionType::Pointer function = FunctionType::New();
 
+  typedef itk::NearestNeighborExtrapolateImageFunction<VectorImageType,CoordRep> VectorFunctionType;
+  VectorFunctionType::Pointer vectorfunction = VectorFunctionType::New();
+
   function->SetInputImage( image );
+
+  vectorfunction->SetInputImage( vectorimage );
 
   FunctionType::IndexType index;
   FunctionType::PointType point;
   FunctionType::OutputType value;
   FunctionType::OutputType trueValue;
 
+  VectorFunctionType::OutputType vectorvalue;
+  VectorFunctionType::OutputType trueVectorValue;
+
   // evaluate at point inside the image
-  point[0] = 2.25; 
+  point[0] = 2.25;
   point[1] = 3.25;
   value = function->Evaluate( point );
 
+  vectorvalue = vectorfunction->Evaluate( point );
+
   trueValue = itk::Math::Round<int>( point[0] ) +
     ( itk::Math::Round<int>( point[1] ) )  * static_cast<double>( imageSize[0] );
+  trueVectorValue.Fill( trueValue );
 
-  std::cout << "Point: " << point << " Value: " << value << std::endl;
+  std::cout << "Point: " << point << " Value: " << value
+            << " Vector Value: " << vectorvalue << std::endl;
   if ( value != trueValue )
     {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
+    }
+
+  if ( vectorvalue != trueVectorValue )
+    {
+    std::cout << "Vector Value not the same as trueVectorValue: " << trueVectorValue << std::endl;
+    std::cout << "Test failed. " << std::endl;
+    return EXIT_FAILURE;
     }
 
   // evaluate at point outside the image
-  point[0] = 2.25; 
+  point[0] = 2.25;
   point[1] = 8.0;
   value = function->Evaluate( point );
 
@@ -94,7 +132,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
 
   // evaluate at index inside the image
@@ -110,7 +148,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
 
 
@@ -127,7 +165,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     {
     std::cout << "Value not the same as trueValue: " << trueValue << std::endl;
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE; 
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
