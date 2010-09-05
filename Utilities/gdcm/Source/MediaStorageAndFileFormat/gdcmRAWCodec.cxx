@@ -90,26 +90,28 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
   assert( r );
 
   std::string str = os.str();
-  std::string::size_type check = str.size();
+  //std::string::size_type check = str.size();
 
   out = in;
 
   if( this->GetPixelFormat() == PixelFormat::UINT12 ||
     this->GetPixelFormat() == PixelFormat::INT12 )
     {
-    unsigned long len = str.size() * 16 / 12;
-    char * copy = new char[len];
-    Unpacker12Bits u12;
-    bool b = u12.Unpack(copy, &str[0], str.size() );
+    size_t len = str.size() * 16 / 12;
+    char * copy = new char[len];//why use an array, and not a vector?
+    bool b = Unpacker12Bits::Unpack(copy, &str[0], str.size() );
     assert( b );
-    out.SetByteValue( copy, len );
+    (void)b;
+    VL::Type lenSize = (VL::Type)len;
+    out.SetByteValue( copy, lenSize );
     delete[] copy;
 
     this->GetPixelFormat().SetBitsAllocated( 16 );
     }
   else
     {
-    out.SetByteValue( &str[0], str.size() );
+      VL::Type strSize = (VL::Type) str.size();
+    out.SetByteValue( &str[0], strSize);
     }
 
   return r;

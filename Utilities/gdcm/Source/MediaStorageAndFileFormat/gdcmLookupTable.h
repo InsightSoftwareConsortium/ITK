@@ -45,6 +45,7 @@ public:
   /// Allocate the LUT
   void Allocate( unsigned short bitsample = 8 );
   /// Generic interface:
+  //TODO: check to see if length should be unsigned short, unsigned int, or whatever
   void InitializeLUT(LookupTableType type, unsigned short length,
     unsigned short subscript, unsigned short bitsize);
   unsigned int GetLUTLength(LookupTableType type) const;

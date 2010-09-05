@@ -111,13 +111,16 @@ namespace gdcm
             const Tag itemPMSStart2(0x3f3f, 0x3f00);
 
             // same player ...
+            //this to fix a broken dicom implementation
+            //for philips medical systems
             std::stringstream ss;
-            ss.str( s );
+            ss.str(s);
             Tag item;
             item.Read<SwapperNoOp>(ss);
             assert( item == itemPMSStart );
             ss.seekg(-4,std::ios::cur);
             sqi->Read<ExplicitDataElement,SwapperDoOp>( ss );
+            (void)ex;//cast to avoid the warning message
             }
           return sqi;
           }

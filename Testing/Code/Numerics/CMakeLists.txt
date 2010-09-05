@@ -1,4 +1,4 @@
-##TODO Need to update to new statistics framework  SUBDIRS(Statistics)
+SUBDIRS(Statistics)
 
 SUBDIRS(FEM)
 SUBDIRS(NeuralNetworks)
