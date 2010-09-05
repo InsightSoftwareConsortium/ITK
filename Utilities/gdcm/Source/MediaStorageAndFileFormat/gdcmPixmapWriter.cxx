@@ -43,13 +43,13 @@ void PixmapWriter::SetPixmap(Pixmap const &img)
 void PixmapWriter::DoIconImage(DataSet & rootds, Pixmap const & image)
 {
   //const Tag ticonimage(0x0088,0x0200);
-  Attribute<0x0088,0x0200> iiat;
   const IconImage &icon = image.GetIconImage();
   if( !icon.IsEmpty() )
     {
     //DataElement iconimagesq = rootds.GetDataElement( ticonimage );
     //iconimagesq.SetTag( ticonimage );
     DataElement iconimagesq;
+    Attribute<0x0088,0x0200> iiat;
     iconimagesq.SetTag( iiat.GetTag() );
     iconimagesq.SetVR( VR::SQ );
     SmartPointer<SequenceOfItems> sq = new SequenceOfItems;
@@ -102,7 +102,8 @@ void PixmapWriter::DoIconImage(DataSet & rootds, Pixmap const & image)
 Attribute<0x0028,0x0004> piat;
     const char *pistr = PhotometricInterpretation::GetPIString(pi);
     DataElement de( Tag(0x0028, 0x0004 ) );
-    de.SetByteValue( pistr, strlen(pistr) );
+    VL::Type strlenPistr = (VL::Type)strlen(pistr);
+    de.SetByteValue( pistr, strlenPistr );
     de.SetVR( piat.GetVR() );
     ds.Replace( de );
 
@@ -278,7 +279,8 @@ bool PixmapWriter::PrepareWrite()
     assert( pi != PhotometricInterpretation::UNKNOW );
     const char *pistr = PhotometricInterpretation::GetPIString(pi);
     DataElement de( Tag(0x0028, 0x0004 ) );
-    de.SetByteValue( pistr, strlen(pistr) );
+    VL::Type strlenPistr = (VL::Type)strlen(pistr);
+    de.SetByteValue( pistr, strlenPistr );
     de.SetVR( Attribute<0x0028,0x0004>::GetVR() );
     ds.Replace( de );
     }
@@ -316,8 +318,8 @@ bool PixmapWriter::PrepareWrite()
     }
 
   // Overlay Data 60xx
-  unsigned int nOv = PixelData->GetNumberOfOverlays();
-  for( unsigned int ovidx = 0; ovidx < nOv; ++ovidx )
+  gdcm::SequenceOfItems::SizeType nOv = PixelData->GetNumberOfOverlays();
+  for(gdcm::SequenceOfItems::SizeType ovidx = 0; ovidx < nOv; ++ovidx )
     {
     // (6000,0010) US 484                                      #   2, 1 OverlayRows
     // (6000,0011) US 484                                      #   2, 1 OverlayColumns
@@ -490,7 +492,8 @@ bool PixmapWriter::PrepareWrite()
   if( !ds.FindDataElement( Tag(0x0008, 0x0016) ) )
     {
     DataElement de( Tag(0x0008, 0x0016 ) );
-    de.SetByteValue( msstr, strlen(msstr) );
+    VL::Type strlenMsstr = (VL::Type)strlen(msstr);
+    de.SetByteValue( msstr, strlenMsstr);
     de.SetVR( Attribute<0x0008, 0x0016>::GetVR() );
     ds.Insert( de );
     }
@@ -500,7 +503,8 @@ bool PixmapWriter::PrepareWrite()
     if( strncmp( bv->GetPointer(), msstr, bv->GetLength() ) != 0 )
       {
       DataElement de = ds.GetDataElement( Tag(0x0008,0x0016) );
-      de.SetByteValue( msstr, strlen(msstr) );
+      VL::Type strlenMsstr = (VL::Type) strlen(msstr);
+      de.SetByteValue( msstr, strlenMsstr );
       ds.Replace( de );
       }
     else
@@ -567,7 +571,8 @@ bool PixmapWriter::PrepareWrite()
     {
     const char *sop = uid.Generate();
     DataElement de( Tag(0x0008,0x0018) );
-    de.SetByteValue( sop, strlen(sop) );
+    VL::Type strlenSOP = (VL::Type) strlen(sop);
+    de.SetByteValue( sop, strlenSOP );
     de.SetVR( Attribute<0x0008, 0x0018>::GetVR() );
     ds.ReplaceEmpty( de );
     }
@@ -577,7 +582,8 @@ bool PixmapWriter::PrepareWrite()
     {
     const char *study = uid.Generate();
     DataElement de( Tag(0x0020,0x000d) );
-    de.SetByteValue( study, strlen(study) );
+    VL::Type strlenStudy= (VL::Type)strlen(study);
+    de.SetByteValue( study, strlenStudy );
     de.SetVR( Attribute<0x0020, 0x000d>::GetVR() );
     ds.ReplaceEmpty( de );
     }
@@ -587,7 +593,8 @@ bool PixmapWriter::PrepareWrite()
     {
     const char *series = uid.Generate();
     DataElement de( Tag(0x0020,0x000e) );
-    de.SetByteValue( series, strlen(series) );
+    VL::Type strlenSeries= (VL::Type)strlen(series);
+    de.SetByteValue( series, strlenSeries );
     de.SetVR( Attribute<0x0020, 0x000e>::GetVR() );
     ds.ReplaceEmpty( de );
     }
@@ -598,7 +605,8 @@ bool PixmapWriter::PrepareWrite()
     {
     const char *tsuid = TransferSyntax::GetTSString( ts );
     DataElement de( Tag(0x0002,0x0010) );
-    de.SetByteValue( tsuid, strlen(tsuid) );
+    VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
+    de.SetByteValue( tsuid, strlenTSUID );
     de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
     fmi.Replace( de );
     fmi.SetDataSetTransferSyntax(ts);

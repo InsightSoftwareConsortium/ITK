@@ -31,10 +31,11 @@ public:
   NestedModuleEntries(const char *name = "", const char *type = "3", const char *description = ""):ModuleEntry(name,type,description) { }
   friend std::ostream& operator<<(std::ostream& _os, const NestedModuleEntries &_val);
 
-  unsigned int GetNumberOfModuleEntries() { return ModuleEntriesList.size(); }
+  typedef std::vector<ModuleEntry>::size_type SizeType;
+  SizeType GetNumberOfModuleEntries() { return ModuleEntriesList.size(); }
 
-  const ModuleEntry &GetModuleEntry(unsigned int idx) const { return ModuleEntriesList[idx]; }
-  ModuleEntry &GetModuleEntry(unsigned int idx) { return ModuleEntriesList[idx]; }
+  const ModuleEntry &GetModuleEntry(SizeType idx) const { return ModuleEntriesList[idx]; }
+  ModuleEntry &GetModuleEntry(SizeType idx) { return ModuleEntriesList[idx]; }
 
   void AddModuleEntry(const ModuleEntry &me) { ModuleEntriesList.push_back( me ); }
 

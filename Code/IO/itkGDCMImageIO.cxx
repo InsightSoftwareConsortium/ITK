@@ -1898,6 +1898,7 @@ void GDCMImageIO::Write(const void *buffer)
   gdcm::FileMetaInformation::SetSourceApplicationEntityTitle( project_name.c_str() );
 
   gdcm::ImageWriter   writer;
+  gdcm::FileMetaInformation &     fmi = writer.GetFile().GetHeader();
   gdcm::DataSet &     header = writer.GetFile().GetDataSet();
   gdcm::Global &      g = gdcm::Global::GetInstance();
   const gdcm::Dicts & dicts = g.GetDicts();
@@ -1947,7 +1948,8 @@ void GDCMImageIO::Write(const void *buffer)
           gdcm::DataElement de(tag);
           de.SetByteValue( (char *)bin, decodedLengthActual );
           de.SetVR( dictEntry.GetVR() );
-          header.Insert(de);
+          if ( tag.GetGroup() == 0x2 ) fmi.Insert(de);
+          else header.Insert(de);
           }
         delete[] bin;
         }
@@ -1974,7 +1976,8 @@ void GDCMImageIO::Write(const void *buffer)
           std::string si = sf.FromString( tag, value.c_str(), value.size() );
           de.SetByteValue( si.c_str(), si.size() );
 #endif
-          header.Insert(de);   //value, tag.GetGroup(), tag.GetElement());
+          if ( tag.GetGroup() == 0x2 ) fmi.Insert(de);
+          else header.Insert(de);   //value, tag.GetGroup(), tag.GetElement());
           }
         }
       }

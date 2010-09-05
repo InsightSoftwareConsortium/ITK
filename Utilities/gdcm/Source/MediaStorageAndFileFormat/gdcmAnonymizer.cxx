@@ -106,10 +106,11 @@ bool Anonymizer::Remove( Tag const &t )
 
 bool Anonymizer::Replace( Tag const &t, const char *value )
 {
-  size_t len = 0;
+  VL::Type len = 0; //to avoid the size_t warning on 64 bit windows
   if( value )
     {
-    len = strlen( value );
+      len = (VL::Type)strlen( value );//strlen returns size_t, but it should be VL::Type
+      //strlen shouldn't be more than 4gb anyway
     }
   return Replace( t, value, len );
 }
@@ -245,7 +246,8 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
           {
           de.SetVR( dictentry.GetVR() );
           }
-        de.SetByteValue( padded.c_str(), padded.size() );
+        const VL::Type paddedSize = (VL::Type) padded.size();//casting to avoid size_t warning on 64
+        de.SetByteValue( padded.c_str(), paddedSize );
         ds.Replace( de );
         ret = true;
         }
@@ -283,8 +285,8 @@ static bool Anonymizer_RemoveRetired(File const &file, DataSet &ds)
         SmartPointer<SequenceOfItems> sq = de.GetValueAsSQ();
         if( sq )
           {
-          unsigned int n = sq->GetNumberOfItems();
-          for( unsigned int i = 1; i <= n; i++) // item starts at 1, not 0
+            gdcm::SequenceOfItems::SizeType n = sq->GetNumberOfItems();
+          for( gdcm::SequenceOfItems::SizeType i = 1; i <= n; i++) // item starts at 1, not 0
             {
             Item &item = sq->GetItem( i );
             DataSet &nested = item.GetNestedDataSet();
@@ -329,8 +331,8 @@ static bool Anonymizer_RemoveGroupLength(File const &file, DataSet &ds)
         SmartPointer<SequenceOfItems> sq = de.GetValueAsSQ();
         if( sq )
           {
-          unsigned int n = sq->GetNumberOfItems();
-          for( unsigned int i = 1; i <= n; i++) // item starts at 1, not 0
+            gdcm::SequenceOfItems::SizeType n = sq->GetNumberOfItems();
+          for( gdcm::SequenceOfItems::SizeType i = 1; i <= n; i++) // item starts at 1, not 0
             {
             Item &item = sq->GetItem( i );
             DataSet &nested = item.GetNestedDataSet();
@@ -375,8 +377,8 @@ static bool Anonymizer_RemovePrivateTags(File const &file, DataSet &ds)
         SmartPointer<SequenceOfItems> sq = de.GetValueAsSQ();
         if( sq )
           {
-          unsigned int n = sq->GetNumberOfItems();
-          for( unsigned int i = 1; i <= n; i++) // item starts at 1, not 0
+          gdcm::SequenceOfItems::SizeType n = sq->GetNumberOfItems();
+          for( gdcm::SequenceOfItems::SizeType i = 1; i <= n; i++) // item starts at 1, not 0
             {
             Item &item = sq->GetItem( i );
             DataSet &nested = item.GetNestedDataSet();
@@ -446,8 +448,8 @@ bool Anonymizer::CheckIfSequenceContainsAttributeToAnonymize(File const &file, S
   if( found ) return true;
 
   // now look into sub-sequence:
-  unsigned int n = sqi->GetNumberOfItems();
-  for( unsigned int i = 1; i <= n; i++) // item starts at 1, not 0
+  gdcm::SequenceOfItems::SizeType n = sqi->GetNumberOfItems();
+  for( gdcm::SequenceOfItems::SizeType i = 1; i <= n; i++) // item starts at 1, not 0
     {
     Item &item = sqi->GetItem( i );
     DataSet &nested = item.GetNestedDataSet();
@@ -596,6 +598,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
     return false;
   }
   assert( encrypted_len <= encrypted_len2 );
+  (void)encrypted_len2;//warning removal
 
     {
     // Create a Sequence
@@ -608,11 +611,13 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
     // <entry group="0400" element="0510" vr="UI" vm="1" name="Encrypted Content Transfer Syntax UID"/>
     DataElement encrypted_ts_de( Tag(0x400,0x510) );
     encrypted_ts_de.SetVR( Attribute<0x0400, 0x0510>::GetVR() );
-    encrypted_ts_de.SetByteValue( encrypted_ts.GetString(), strlen(encrypted_ts.GetString()) );
+    const VL::Type encryptedStrLen = (VL::Type)strlen(encrypted_ts.GetString());
+    encrypted_ts_de.SetByteValue( encrypted_ts.GetString(), encryptedStrLen );
     // <entry group="0400" element="0520" vr="OB" vm="1" name="Encrypted Content"/>
     DataElement encrypted_de( Tag(0x400,0x520) );
     encrypted_de.SetVR( Attribute<0x0400, 0x0520>::GetVR() );
-    encrypted_de.SetByteValue( (char*)buf, encrypted_len );
+    const VL::Type encryptedLenSize = (VL::Type)encrypted_len;
+    encrypted_de.SetByteValue( (char*)buf, encryptedLenSize );
     delete[] buf;
     delete[] orig;
 
@@ -667,7 +672,8 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
   }
   catch(std::exception &ex)
   {
-  gdcmDebugMacro( "Problem during RecurseDataSet" );
+  gdcmDebugMacro( "Problem during RecurseDataSet");
+  (void)ex; //to get rid of the warning.  TODO: spit out the exception
   return false;
   }
 catch(...)
@@ -834,7 +840,8 @@ bool Anonymizer::BALCPProtect(DataSet &ds, Tag const & tag, IOD const & iod)
         }
       }
     std::string &v = dummymap[ tvk ];
-    copy.SetByteValue( v.c_str(), v.size() );
+    VL::Type vSize = (VL::Type)v.size();
+    copy.SetByteValue( v.c_str(), vSize );
     ds.Replace( copy );
     }
   else
@@ -889,8 +896,8 @@ void Anonymizer::RecurseDataSet( DataSet & ds )
       assert( sqi->IsUndefinedLength() );
       //de.GetVL().SetToUndefined();
       //sqi->SetLengthToUndefined();
-      unsigned int n = sqi->GetNumberOfItems();
-      for( unsigned int i = 1; i <= n; ++i )
+      gdcm::SequenceOfItems::SizeType n = sqi->GetNumberOfItems();
+      for( gdcm::SequenceOfItems::SizeType i = 1; i <= n; ++i )
         {
         Item &item = sqi->GetItem( i );
         DataSet &nested = item.GetNestedDataSet();
@@ -976,6 +983,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
     return false;
     }
   assert( encrypted_len <= encrypted_len2 );
+  (void)encrypted_len2;//warning removal
 
   std::stringstream ss;
   ss.str( std::string((char*)buf, encrypted_len) );
@@ -1006,7 +1014,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile2()
   delete[] orig;
 
   // 2. The application shall move all Attributes contained in the single item of the Modified Attributes
-  // Sequence (0400,0550) of the decoded dataset into the main dataset, replacing¿dummy value¿
+  // Sequence (0400,0550) of the decoded dataset into the main dataset, replacing dummy value
   // Attributes that may be present in the main dataset.
   //assert( dummy.GetVR() == VR::SQ );
 {

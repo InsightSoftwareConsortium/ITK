@@ -201,9 +201,9 @@ bool ComputeZSpacingFromIPP(const DataSet &ds, double &zspacing)
 
   // For each item
   std::vector<double> distances;
-  unsigned int nitems = sqi->GetNumberOfItems();
+  gdcm::SequenceOfItems::SizeType nitems = sqi->GetNumberOfItems();
   std::vector<double> dircos_subds2; dircos_subds2.resize(6);
-  for(unsigned int i = 1; i <= nitems; ++i)
+  for(gdcm::SequenceOfItems::SizeType i = 1; i <= nitems; ++i)
     {
     const Item &item = sqi->GetItem(i);
     const DataSet & subds = item.GetNestedDataSet();
@@ -1107,7 +1107,8 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
           el.Write( os );
           de.SetVR( VR::DS );
           if( os.str().size() % 2 ) os << " ";
-          de.SetByteValue( os.str().c_str(), os.str().size() );
+          VL::Type osStrSize = (VL::Type)os.str().size();
+          de.SetByteValue( os.str().c_str(),osStrSize );
           ds.Replace( de );
           }
         break;
@@ -1125,7 +1126,8 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
           el.Write( os );
           de.SetVR( VR::IS );
           if( os.str().size() % 2 ) os << " ";
-          de.SetByteValue( os.str().c_str(), os.str().size() );
+          VL::Type osStrSize = (VL::Type)os.str().size();
+          de.SetByteValue( os.str().c_str(), osStrSize );
           ds.Replace( de );
           }
         break;
@@ -1167,7 +1169,8 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
             std::stringstream os;
             el.Write( os );
             de.SetVR( VR::DS );
-            de.SetByteValue( os.str().c_str(), os.str().size() );
+            VL::Type osStrSize = (VL::Type)os.str().size();
+            de.SetByteValue( os.str().c_str(), osStrSize );
             ds.Replace( de );
 
         }
@@ -1189,7 +1192,8 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
             el.Write( os );
             de.SetVR( VR::DS );
             if( os.str().size() % 2 ) os << " ";
-            de.SetByteValue( os.str().c_str(), os.str().size() );
+            VL::Type osStrSize = (VL::Type)os.str().size();
+            de.SetByteValue( os.str().c_str(), osStrSize );
             ds.Replace( de );
             }
           break;
@@ -1579,7 +1583,7 @@ bool ImageHelper::ComputeSpacingFromImagePositionPatient(const std::vector<doubl
     spacing[1] += y;
     spacing[2] += z;
     }
-  int n = imageposition.size() / 3;
+  size_t n = imageposition.size() / 3;
   spacing[0] /= n;
   spacing[1] /= n;
   spacing[2] /= n;
