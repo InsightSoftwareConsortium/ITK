@@ -117,7 +117,8 @@ bool SplitMosaicFilter::Split()
   bool b = reorganize_mosaic((unsigned short*)&buf[0], inputimage.GetDimensions(), div, dims, (unsigned short*)&outbuf[0] );
   (void)b;
 
-  pixeldata.SetByteValue( &outbuf[0], outbuf.size() );
+  VL::Type outbufSize = (VL::Type)outbuf.size();
+  pixeldata.SetByteValue( &outbuf[0], outbufSize );
   //const gdcm::DataElement & pixeldata = ds.GetDataElement( gdcm::Tag(0x7fe1,0x1010) );
   //const gdcm::DataElement & pixeldata = ds.GetDataElement( gdcm::Tag(0x7fe0,0x0010) );
   //const gdcm::VL &l = pixeldata.GetVL();
@@ -171,7 +172,8 @@ bool SplitMosaicFilter::Split()
     }
   gdcm::DataElement de( gdcm::Tag(0x0008, 0x0016) );
   const char* msstr = gdcm::MediaStorage::GetMSString(ms);
-  de.SetByteValue( msstr, strlen(msstr) );
+  VL::Type strlenMsstr = (VL::Type)strlen(msstr);
+  de.SetByteValue( msstr, strlenMsstr );
   de.SetVR( gdcm::Attribute<0x0008, 0x0016>::GetVR() );
   ds.Replace( de );
 
