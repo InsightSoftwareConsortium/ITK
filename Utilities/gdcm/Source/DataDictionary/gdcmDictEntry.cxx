@@ -62,7 +62,7 @@ Problem with: 3DRenderingType vs ThreeDRenderingType
     found_mu = str.find( "µ" );
     }
 
-  str.erase(remove_if(str.begin(), str.end(), IsToBeRemoved), str.end());
+  str.erase(std::remove_if(str.begin(), str.end(), IsToBeRemoved), str.end());
 
   if( System::StrCaseCmp(str.c_str(), keyword) == 0 ) return true;
 

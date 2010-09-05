@@ -81,7 +81,7 @@ public:
 
 JPEG2000ImageIO::JPEG2000ImageIO()
 {
-  this->m_Internal = new JPEG2000ImageIOInternal;
+  this->m_Internal.TakeOwnership( new JPEG2000ImageIOInternal );
 
   //   opj_dparameters_t m_DecompressionParameters;
   opj_set_default_decoder_parameters(& this->m_Internal->m_DecompressionParameters);
@@ -99,11 +99,18 @@ JPEG2000ImageIO::JPEG2000ImageIO()
 
   this->m_Internal->m_NumberOfTilesInX = 0;
   this->m_Internal->m_NumberOfTilesInY = 0;
+
+  this->AddSupportedReadExtension(".j2k");
+  this->AddSupportedReadExtension(".jp2");
+  this->AddSupportedReadExtension(".jpt");
+
+  this->AddSupportedWriteExtension(".j2k");
+  this->AddSupportedWriteExtension(".jp2");
+  this->AddSupportedWriteExtension(".jpt");
 }
 
 JPEG2000ImageIO::~JPEG2000ImageIO()
 {
-  delete this->m_Internal;
 }
 
 void JPEG2000ImageIO::PrintSelf(std::ostream & os, Indent indent) const
@@ -113,7 +120,7 @@ void JPEG2000ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 bool JPEG2000ImageIO::CanReadFile(const char *filename)
 {
-  std::cout << "JPEG2000ImageIO::CanReadFile() " << std::endl;
+  itkDebugMacro(<< "JPEG2000ImageIO::CanReadFile()");
 
   //
   // If the file exists, and have extension .j2k or jp2 or jpt, then we are good
@@ -121,23 +128,15 @@ bool JPEG2000ImageIO::CanReadFile(const char *filename)
   //
   if ( !itksys::SystemTools::FileExists(filename) )
     {
-    std::cout << "File doesn't exist" << std::endl;
+    itkDebugMacro(<< "File doesn't exist");
     return false;
     }
 
   std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
 
-  if ( extension == ".j2k" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jp2" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jpt" )
+  if( extension == ".j2k" ||
+      extension == ".jp2" ||
+      extension == ".jpt" )
     {
     return true;
     }
@@ -155,7 +154,7 @@ void JPEG2000ImageIO::SetTileSize(int x, int y)
 
 void JPEG2000ImageIO::ReadImageInformation()
 {
-  std::cout << "ReadImageInformation() " << std::endl;
+  itkDebugMacro(<< "ReadImageInformation()");
 
   FILE *l_file = NULL;
 
@@ -243,7 +242,7 @@ void JPEG2000ImageIO::ReadImageInformation()
   OPJ_UINT32 l_nb_tiles_x;
   OPJ_UINT32 l_nb_tiles_y;
 
-  std::cout << "Trying to read header now..." << std::endl;
+  itkDebugMacro(<< "Trying to read header now...");
 
   bool bResult = opj_read_header(
     this->m_Internal->m_Dinfo,
@@ -275,29 +274,47 @@ void JPEG2000ImageIO::ReadImageInformation()
   this->m_Internal->m_NumberOfTilesInX = l_nb_tiles_x;
   this->m_Internal->m_NumberOfTilesInY = l_nb_tiles_y;
 
-  std::cout << "Number of Components = " << l_image->numcomps << std::endl;
-  this->SetNumberOfComponents(l_image->numcomps);
+
+  itkDebugMacro(<< "Number of Components = " << l_image->numcomps);
+  this->SetNumberOfComponents(  l_image->numcomps );
 
   if ( l_image->comps[0].prec  == 8 )
     {
-    this->SetPixelType(SCALAR);
-    this->SetComponentType(UCHAR);
+    this->SetComponentType( UCHAR );
     }
-
-  if ( l_image->comps[0].prec  == 16 )
+  else if ( l_image->comps[0].prec  == 16 )
     {
-    this->SetPixelType(SCALAR);
-    this->SetComponentType(USHORT);
+    this->SetComponentType( USHORT );
+    }
+  else
+    {
+    itkExceptionMacro( << "Unknown precision in file: " << l_image->comps[0].prec );
     }
 
-  std::cout << "bits per pixel = " << l_image->comps[0].prec << std::endl;
-  std::cout << "Color space = " << l_image->color_space << std::endl;
-  std::cout << "Tile Start X = " << this->m_Internal->m_TileStartX << std::endl;
-  std::cout << "Tile Start Y = " << this->m_Internal->m_TileStartY << std::endl;
-  std::cout << "Tile Width = " << this->m_Internal->m_TileWidth << std::endl;
-  std::cout << "Tile Height = " << this->m_Internal->m_TileHeight << std::endl;
-  std::cout << "Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX << std::endl;
-  std::cout << "Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY << std::endl;
+  switch (this->GetNumberOfComponents())
+    {
+    case 1:
+      this->SetPixelType( SCALAR );
+      break;
+    case 3:
+      if ( l_image->color_space != CLRSPC_SRGB )
+        {
+        itkWarningMacro(<< "file does not specify color space, assuming sRGB");
+        }
+      this->SetPixelType( RGB );
+      break;
+    default:
+      this->SetPixelType( VECTOR );
+    }
+
+  itkDebugMacro(<< "bits per pixel = " << l_image->comps[0].prec);
+  itkDebugMacro(<< "Color space = " << l_image->color_space);
+  itkDebugMacro(<< "Tile Start X = " << this->m_Internal->m_TileStartX);
+  itkDebugMacro(<< "Tile Start Y = " << this->m_Internal->m_TileStartY);
+  itkDebugMacro(<< "Tile Width = " << this->m_Internal->m_TileWidth);
+  itkDebugMacro(<< "Tile Height = " << this->m_Internal->m_TileHeight);
+  itkDebugMacro(<< "Number of Tiles X = " << this->m_Internal->m_NumberOfTilesInX);
+  itkDebugMacro(<< "Number of Tiles Y = " << this->m_Internal->m_NumberOfTilesInY);
 
   if ( !l_image )
     {
@@ -308,8 +325,8 @@ void JPEG2000ImageIO::ReadImageInformation()
     itkExceptionMacro("ERROR -> j2k_to_image: failed to decode image!");
     }
 
-  std::cout << "image->x1 = " <<  l_image->x1 << std::endl;
-  std::cout << "image->y1 = " <<  l_image->y1 << std::endl;
+  itkDebugMacro(<< "image->x1 = " <<  l_image->x1);
+  itkDebugMacro(<< "image->y1 = " <<  l_image->y1);
 
   this->SetDimensions(0,  l_image->x1);
   this->SetDimensions(1,  l_image->y1);
@@ -330,7 +347,7 @@ void JPEG2000ImageIO::ReadImageInformation()
 
 void JPEG2000ImageIO::Read(void *buffer)
 {
-  std::cout << "JPEG2000ImageIO::Read() Begin" << std::endl;
+  itkDebugMacro(<< "JPEG2000ImageIO::Read() Begin");
 
   FILE *l_file = NULL;
 
@@ -430,11 +447,11 @@ void JPEG2000ImageIO::Read(void *buffer)
   OPJ_INT32 p_end_x   = static_cast< OPJ_INT32 >( startx + sizex );
   OPJ_INT32 p_end_y   = static_cast< OPJ_INT32 >( starty + sizey );
 
-  std::cout << "opj_set_decode_area() before " << std::endl;
-  std::cout << "p_start_x = " << p_start_x << std::endl;
-  std::cout << "p_start_y = " << p_start_y << std::endl;
-  std::cout << "p_end_x = " << p_end_x << std::endl;
-  std::cout << "p_end_y = " << p_end_y << std::endl;
+  itkDebugMacro(<< "opj_set_decode_area() before");
+  itkDebugMacro(<< "p_start_x = " << p_start_x);
+  itkDebugMacro(<< "p_start_y = " << p_start_y);
+  itkDebugMacro(<< "p_end_x = " << p_end_x);
+  itkDebugMacro(<< "p_end_y = " << p_end_y);
 
   bResult = opj_set_decode_area(
     this->m_Internal->m_Dinfo,
@@ -444,7 +461,7 @@ void JPEG2000ImageIO::Read(void *buffer)
     p_end_y
     );
 
-  std::cout << "opj_set_decode_area() after " << std::endl;
+  itkDebugMacro(<< "opj_set_decode_area() after");
 
   if ( !bResult )
     {
@@ -495,14 +512,14 @@ void JPEG2000ImageIO::Read(void *buffer)
       itkExceptionMacro("Error opj_read_tile_header");
       }
 
-    std::cout << "l_tile_index " << l_tile_index << std::endl;
-    std::cout << "l_data_size " << l_data_size << std::endl;
-    std::cout << "l_current_tile_x0 " << l_current_tile_x0 << std::endl;
-    std::cout << "l_current_tile_y0 " << l_current_tile_y0 << std::endl;
-    std::cout << "l_current_tile_x1 " << l_current_tile_x1 << std::endl;
-    std::cout << "l_current_tile_y1 " << l_current_tile_y1 << std::endl;
-    std::cout << "l_nb_comps " << l_nb_comps << std::endl;
-    std::cout << "l_go_on " << l_go_on << std::endl;
+    itkDebugMacro(<< "l_tile_index " << l_tile_index);
+    itkDebugMacro(<< "l_data_size " << l_data_size);
+    itkDebugMacro(<< "l_current_tile_x0 " << l_current_tile_x0);
+    itkDebugMacro(<< "l_current_tile_y0 " << l_current_tile_y0);
+    itkDebugMacro(<< "l_current_tile_x1 " << l_current_tile_x1);
+    itkDebugMacro(<< "l_current_tile_y1 " << l_current_tile_y1);
+    itkDebugMacro(<< "l_nb_comps " << l_nb_comps);
+    itkDebugMacro(<< "l_go_on " << l_go_on);
 
     if ( l_go_on )
       {
@@ -519,7 +536,7 @@ void JPEG2000ImageIO::Read(void *buffer)
           itkExceptionMacro("Error reallocating memory");
           }
 
-        std::cout << "reallocated for " << l_data_size << std::endl;
+        itkDebugMacro(<< "reallocated for " << l_data_size);
 
         l_max_data_size = l_data_size;
         }
@@ -550,10 +567,9 @@ void JPEG2000ImageIO::Read(void *buffer)
       const unsigned int sizePerComponentInBytes = l_data_size / ( numberOfPixels * numberOfComponents );
       const unsigned int sizePerChannelInBytes = l_data_size / ( numberOfComponents );
 
-      std::cout << "sizePerComponentInBytes: " << sizePerComponentInBytes << std::endl;
-      std::cout << "sizePerChannelInBytes:   " << sizePerChannelInBytes << std::endl;
+      itkDebugMacro(<< "sizePerComponentInBytes: " << sizePerComponentInBytes);
+      itkDebugMacro(<< "sizePerChannelInBytes:   " << sizePerChannelInBytes);
 
-      const unsigned int sizePerStrideYInBytes = sizePerChannelInBytes / tsizex;
       const unsigned int sizePerStrideXInBytes = sizePerChannelInBytes / tsizey;
       const unsigned int initialStrideInBytes =
         ( l_current_tile_y0 - p_start_y ) * sizex * sizePerComponentInBytes * numberOfComponents;
@@ -562,11 +578,11 @@ void JPEG2000ImageIO::Read(void *buffer)
       const unsigned int postStrideInBytes =
         ( p_end_x - l_current_tile_x1 ) * sizePerComponentInBytes * numberOfComponents;
 
-      std::cout << "sizePerStrideYInBytes:   " << sizePerStrideYInBytes << std::endl;
-      std::cout << "sizePerStrideXInBytes:   " << sizePerStrideXInBytes << std::endl;
-      std::cout << "initialStrideInBytes:    " << initialStrideInBytes << std::endl;
-      std::cout << "priorStrideInBytes:      " << priorStrideInBytes << std::endl;
-      std::cout << "postStrideInBytes:       " << postStrideInBytes << std::endl;
+      itkDebugMacro(<< "sizePerStrideYInBytes:   " << sizePerChannelInBytes / tsizex );
+      itkDebugMacro(<< "sizePerStrideXInBytes:   " << sizePerStrideXInBytes);
+      itkDebugMacro(<< "initialStrideInBytes:    " << initialStrideInBytes);
+      itkDebugMacro(<< "priorStrideInBytes:      " << priorStrideInBytes);
+      itkDebugMacro(<< "postStrideInBytes:       " << postStrideInBytes);
 
       //TODO: Read the void buffer within the tile ROI. How do we specify the
       // tile ROI iteration
@@ -623,24 +639,16 @@ void JPEG2000ImageIO::Read(void *buffer)
     this->m_Internal->m_Dinfo = NULL;
     }
 
-  std::cout << "JPEG2000ImageIO::Read() End" << std::endl;
+  itkDebugMacro(<< "JPEG2000ImageIO::Read() End");
 }
 
 bool JPEG2000ImageIO::CanWriteFile(const char *filename)
 {
   std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename);
 
-  if ( extension == ".j2k" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jp2" )
-    {
-    return true;
-    }
-
-  if ( extension == ".jpt" )
+  if( extension == ".j2k" ||
+      extension == ".jp2" ||
+      extension == ".jpt" )
     {
     return true;
     }
@@ -652,7 +660,7 @@ void
 JPEG2000ImageIO
 ::WriteImageInformation(void)
 {
-  std::cout << "WriteImageInformation()" << std::endl;
+  itkDebugMacro(<< "WriteImageInformation()");
 
   // the IORegion is not requred to be set so we must use GetNumberOfDimensions
   if ( this->GetNumberOfDimensions() != 2 )
@@ -680,7 +688,7 @@ void
 JPEG2000ImageIO
 ::Write(const void *buffer)
 {
-  std::cout << "Write() " <<  this->GetNumberOfComponents() << std::endl;
+  itkDebugMacro(<< "Write() " <<  this->GetNumberOfComponents() );
 
   bool bSuccess;
 
@@ -720,8 +728,10 @@ JPEG2000ImageIO
     {
     if ( parameters.POC[i].prg == -1 )
       {
-      std::cerr << "Unrecognized progression order in option -P (POC n " << i + 1;
-      std::cerr << ") [LRCP, RLCP, RPCL, PCRL, CPRL] !!" << std::endl;
+      // TODO should this be and excpetion? can we continue loading
+      // and expect good results
+      std::cerr << "Unrecognized progression order in option -P (POC n " << i+1;
+      std::cerr << ") [LRCP, RLCP, RPCL, PCRL, CPRL] !!"  << std::endl;
       }
     }
 
@@ -761,7 +771,8 @@ JPEG2000ImageIO
 
   if ( this->GetNumberOfComponents() == 3 )
     {
-    color_space = CLRSPC_SRGB;
+
+    color_space = ( this->GetPixelType() == RGB ) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
 
     /* initialize image components */
     memset( &cmptparm[0], 0, 3 * sizeof( opj_image_cmptparm_t ) );
@@ -823,7 +834,7 @@ JPEG2000ImageIO
   // HERE, copy the buffer
   size_t index = 0;
   size_t numberOfPixels = size_t(w) * size_t(h);
-  std::cout << " START COPY BUFFER" << std::endl;
+  itkDebugMacro(<< " START COPY BUFFER");
   if ( this->GetComponentType() == UCHAR )
     {
     unsigned char *charBuffer = (unsigned char *)buffer;
@@ -849,7 +860,7 @@ JPEG2000ImageIO
       index++;
       }
     }
-  std::cout << " END COPY BUFFER" << std::endl;
+  itkDebugMacro(<< " END COPY BUFFER");
 //--------------------------------------------------------------------
 
   opj_codec_t *cinfo = NULL;
@@ -926,8 +937,8 @@ ImageIORegion
 JPEG2000ImageIO
 ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
 {
-  std::cout << "JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion()" << std::endl;
-  std::cout << "Requested region = " << requestedRegion << std::endl;
+  itkDebugMacro(<< "JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion()");
+  itkDebugMacro(<< "Requested region = " << requestedRegion );
 
   ImageIORegion streamableRegion(this->m_NumberOfDimensions);
 
@@ -948,7 +959,7 @@ JPEG2000ImageIO
     this->ComputeRegionInTileBoundaries(1, this->m_Internal->m_TileHeight, streamableRegion);
     }
 
-  std::cout << "Streamable region = " << streamableRegion << std::endl;
+  itkDebugMacro(<< "Streamable region = " << streamableRegion );
 
   return streamableRegion;
 }
@@ -983,4 +994,26 @@ JPEG2000ImageIO
   streamableRegion.SetSize(dimension, sizeQuantizedInTileSize);
   streamableRegion.SetIndex(dimension, startQuantizedInTileSize);
 }
+
+bool
+JPEG2000ImageIO
+::CanStreamWrite( void )
+{
+  // we currently can't stream write for now...
+  return false;
+}
+
+unsigned int
+JPEG2000ImageIO
+::GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
+                                                          const ImageIORegion &pasteRegion,
+                                                          const ImageIORegion &largestPossibleRegion )
+{
+  // just use the default implementation form ImageIOBase which checks
+  // CanStreamWrite, and take the correct action.
+  return ImageIOBase::GetActualNumberOfSplitsForWriting( numberOfRequestedSplits,
+                                                         pasteRegion,
+                                                         largestPossibleRegion );
+}
+
 } // end namespace itk

@@ -36,6 +36,7 @@ class GDCM_EXPORT IOD
 {
 public:
   typedef std::vector<IODEntry> MapIODEntry;
+  typedef MapIODEntry::size_type SizeType;
 
   IOD() {}
   friend std::ostream& operator<<(std::ostream& _os, const IOD &_val);
@@ -47,11 +48,11 @@ public:
     IODInternal.push_back(iode);
     }
 
-  unsigned int GetNumberOfIODs() const {
+  SizeType GetNumberOfIODs() const {
     return IODInternal.size();
   }
 
-  const IODEntry& GetIODEntry(unsigned int idx) const
+  const IODEntry& GetIODEntry(SizeType idx) const
     {
     return IODInternal[idx];
     }

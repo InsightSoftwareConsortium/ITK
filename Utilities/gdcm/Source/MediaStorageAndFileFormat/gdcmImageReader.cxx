@@ -61,7 +61,7 @@ bool ImageReader::ReadImage(MediaStorage const &ms)
     {
     return false;
     }
-  const DataSet &ds = F->GetDataSet();
+  //const DataSet &ds = F->GetDataSet();
   Image& pixeldata = GetImage();
 
   // 4 1/2 Let's do Pixel Spacing

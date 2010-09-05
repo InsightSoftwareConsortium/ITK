@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include "itkStreamingImageIOBase.h"
+#include "itkAutoPointer.h"
 
 namespace itk
 {
@@ -90,6 +91,16 @@ public:
   /** Define the tile size to use when writing out an image. */
   void SetTileSize(int x, int y);
 
+  /** Currently JPEG2000 does not support streamed writing
+   *
+   * These methods are re-overridden to not support streaming for
+   * now...
+   */
+  virtual bool CanStreamWrite( void );
+  virtual unsigned int GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
+                                                          const ImageIORegion &pasteRegion,
+                                                          const ImageIORegion &largestPossibleRegion );
+
 protected:
   JPEG2000ImageIO();
   ~JPEG2000ImageIO();
@@ -100,7 +111,7 @@ private:
   JPEG2000ImageIO(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented
 
-  JPEG2000ImageIOInternal * m_Internal;
+  AutoPointer< JPEG2000ImageIOInternal >  m_Internal;
 
   typedef ImageIORegion::SizeValueType  SizeValueType;
   typedef ImageIORegion::IndexValueType IndexValueType;

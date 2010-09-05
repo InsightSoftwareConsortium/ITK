@@ -136,18 +136,17 @@ std::istream &ImplicitDataElement::Read(std::istream &is)
           gdcmWarningMacro( "Illegal: Explicit SQ found in a file with "
             "TransferSyntax=Implicit for tag: " << TagField );
           }
-        catch( Exception &ex )
+        catch( Exception & )
           {
           // MR_ELSCINT1_00e1_1042_SQ_feff_00e0_Item.dcm
           std::streampos current = is.tellg();
-          int diff = start - current;
+          std::streamoff diff = start - current;
           is.seekg( diff, std::ios::cur );
           assert( diff == -14 );
           ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField);
           }
-        catch( std::exception &ex )
+        catch( std::exception & )
           {
-          (void)ex;
           ValueLengthField = ValueField->GetLength();
           }
         return is;
@@ -347,18 +346,17 @@ std::istream &ImplicitDataElement::ReadWithLength(std::istream &is, VL & length)
           gdcmWarningMacro( "Illegal: Explicit SQ found in a file with "
             "TransferSyntax=Implicit for tag: " << TagField );
           }
-        catch( Exception &ex )
+        catch( Exception &)
           {
           // MR_ELSCINT1_00e1_1042_SQ_feff_00e0_Item.dcm
           std::streampos current = is.tellg();
-          int diff = start - current;
+          std::streamoff diff = start - current;//could be bad, if the specific implementation does not support negative streamoff values.
           is.seekg( diff, std::ios::cur );
           assert( diff == -14 );
           ValueIO<ImplicitDataElement,SwapperDoOp>::Read(is,*ValueField);
           }
-        catch( std::exception &ex )
+        catch( std::exception & )
           {
-          (void)ex;
           ValueLengthField = ValueField->GetLength();
           }
         return is;

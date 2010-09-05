@@ -140,7 +140,7 @@ public:
   }
   const MaskImageType * GetMaskImage()
   {
-    return this->GetInput(1);
+    return static_cast<const MaskImageType*>(this->ProcessObject::GetInput(1));
   }
 
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */

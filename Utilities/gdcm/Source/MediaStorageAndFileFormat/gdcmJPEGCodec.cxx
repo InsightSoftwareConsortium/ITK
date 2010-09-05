@@ -190,7 +190,8 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
     }
   //assert( pos == len );
   std::string str = os.str();
-  out.SetByteValue( &str[0], str.size() );
+  VL::Type strSize = (VL::Type)str.size();
+  out.SetByteValue( &str[0], strSize );
   return true;
 }
 
@@ -291,7 +292,8 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
     assert( str.size() );
     Fragment frag;
     //frag.SetTag( itemStart );
-    frag.SetByteValue( &str[0], str.size() );
+    VL::Type strSize = (VL::Type)str.size();
+    frag.SetByteValue( &str[0], strSize );
     sq->AddFragment( frag );
 
     }
