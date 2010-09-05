@@ -43,7 +43,9 @@ public:
         Length++;
         }
   }
-  ByteValue(std::vector<char> &v):Internal(v),Length(v.size()) {}
+
+  /// \warning casting to uint32_t
+  ByteValue(std::vector<char> &v):Internal(v),Length((uint32_t)v.size()) {}
   //ByteValue(std::ostringstream const &os) {
   //  (void)os;
   //   assert(0); // TODO

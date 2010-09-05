@@ -320,6 +320,7 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
     unsigned long check = outbv->GetLength();  // FIXME
     // DermaColorLossLess.dcm
     assert( check == len || check == len + 1 );
+    (void)check;// removing warning
     if(buffer) memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );  // FIXME
     return r;
     }
@@ -444,7 +445,7 @@ bool Bitmap::TryJPEGCodec2(std::ostream &os) const
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
-    assert( outbv->GetLength() < len );
+    assert( outbv->GetLength() < len ); (void)len;
     //memcpy(buffer, outbv->GetPointer(), outbv->GetLength() );
     os.write( outbv->GetPointer(), outbv->GetLength() );
 
