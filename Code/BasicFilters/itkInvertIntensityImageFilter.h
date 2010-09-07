@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,47 +21,46 @@
 
 namespace itk
 {
-
-namespace Functor {  
- 
-template< typename TInput, typename  TOutput>
+namespace Functor
+{
+template< typename TInput, typename  TOutput >
 class InvertIntensityTransform
 {
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
-  InvertIntensityTransform() {m_Maximum = NumericTraits< TInput >::max();}
+  InvertIntensityTransform() { m_Maximum = NumericTraits< TInput >::max(); }
   ~InvertIntensityTransform() {}
 
-  void SetMaximum( TOutput max ) { m_Maximum = max; }
+  void SetMaximum(TOutput max) { m_Maximum = max; }
 
-  bool operator!=( const InvertIntensityTransform & other ) const
-    {
-    if( m_Maximum != other.m_Maximum )
+  bool operator!=(const InvertIntensityTransform & other) const
+  {
+    if ( m_Maximum != other.m_Maximum )
       {
       return true;
       }
     return false;
-    }
+  }
 
-  bool operator==( const InvertIntensityTransform & other ) const
-    {
-    return !(*this != other);
-    }
+  bool operator==(const InvertIntensityTransform & other) const
+  {
+    return !( *this != other );
+  }
 
-  inline TOutput operator()( const TInput & x ) const
-    {
-    TOutput  result = static_cast<TOutput>( m_Maximum - x );
+  inline TOutput operator()(const TInput & x) const
+  {
+    TOutput result = static_cast< TOutput >( m_Maximum - x );
+
     return result;
-    }
-private:
-  TInput  m_Maximum;
-}; 
+  }
 
+private:
+  TInput m_Maximum;
+};
 }  // end namespace functor
 
-
 /** \class InvertIntensityImageFilter
- * \brief Invert intensity of an image 
+ * \brief Invert intensity of an image
  *
  * InvertIntensityImageFilter invert intensity of pixels by
  * subtracting pixel value to a maximum value. The maximum value can
@@ -75,68 +74,63 @@ private:
  * \ingroup IntensityImageFilters  Multithreaded
  *
  */
-template <typename  TInputImage, typename  TOutputImage=TInputImage>
-class ITK_EXPORT InvertIntensityImageFilter :
-    public
-    UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                            Functor::InvertIntensityTransform< 
-  typename TInputImage::PixelType, 
-  typename TOutputImage::PixelType>   >
+template< typename  TInputImage, typename  TOutputImage = TInputImage >
+class ITK_EXPORT InvertIntensityImageFilter:
+  public
+  UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                           Functor::InvertIntensityTransform<
+                             typename TInputImage::PixelType,
+                             typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef InvertIntensityImageFilter    Self;
-  typedef UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                                  Functor::InvertIntensityTransform< 
-    typename TInputImage::PixelType, 
-    typename TOutputImage::PixelType> > Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef InvertIntensityImageFilter Self;
+  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                                   Functor::InvertIntensityTransform<
+                                     typename TInputImage::PixelType,
+                                     typename TOutputImage::PixelType > > Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  typedef typename TOutputImage::PixelType                 OutputPixelType;
-  typedef typename TInputImage::PixelType                  InputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType RealType;
+  typedef typename TOutputImage::PixelType                   OutputPixelType;
+  typedef typename TInputImage::PixelType                    InputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Runtime information support. */
-  itkTypeMacro(InvertIntensityImageFilter, 
+  itkTypeMacro(InvertIntensityImageFilter,
                UnaryFunctorImageFilter);
 
-  itkSetMacro( Maximum, InputPixelType );
-  itkGetConstReferenceMacro( Maximum, InputPixelType );
+  itkSetMacro(Maximum, InputPixelType);
+  itkGetConstReferenceMacro(Maximum, InputPixelType);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   InvertIntensityImageFilter();
-  virtual ~InvertIntensityImageFilter() {};
-
+  virtual ~InvertIntensityImageFilter() {}
 private:
-  InvertIntensityImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  InvertIntensityImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
-  InputPixelType        m_Maximum;
+  InputPixelType m_Maximum;
 };
-
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkInvertIntensityImageFilter.txx"
 #endif
-  
+
 #endif

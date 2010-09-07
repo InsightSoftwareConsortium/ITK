@@ -21,7 +21,7 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 #include "itkImage.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkVersor.h"
 #include "itkImageRegionIterator.h"
 
@@ -306,12 +306,12 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   }
 
   std::cout << std::endl << std::endl;
-  std::cout << "Running tests with itk::OrientedImage" << std::endl;
+  std::cout << "Running tests with itk::Image" << std::endl;
   {
   // Create Images
 
-  typedef itk::OrientedImage<unsigned char, Dimension>     FixedImageType;
-  typedef itk::OrientedImage<unsigned char, Dimension>     MovingImageType;
+  typedef itk::Image<unsigned char, Dimension>     FixedImageType;
+  typedef itk::Image<unsigned char, Dimension>     MovingImageType;
 
   typedef FixedImageType::SizeType                 SizeType;
   typedef FixedImageType::SpacingType              SpacingType;

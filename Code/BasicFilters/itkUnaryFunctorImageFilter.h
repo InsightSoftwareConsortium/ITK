@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class UnaryFunctorImageFilter
  * \brief Implements pixel-wise generic operation on one image.
  *
@@ -34,34 +33,34 @@ namespace itk
  * to be larger than the input dimension. Thus subclasses of the
  * UnaryFunctorImageFilter (like the CastImageFilter) can be used
  * to promote a 2D image to a 3D image, etc.
- * 
+ *
  * \sa BinaryFunctorImageFilter TernaryFunctorImageFilter
  *
  * \ingroup   IntensityImageFilters     Multithreaded
  */
-template <class TInputImage, class TOutputImage, class TFunction >
-class ITK_EXPORT UnaryFunctorImageFilter : public InPlaceImageFilter<TInputImage,TOutputImage> 
+template< class TInputImage, class TOutputImage, class TFunction >
+class ITK_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef UnaryFunctorImageFilter                       Self;
-  typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef UnaryFunctorImageFilter                         Self;
+  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(UnaryFunctorImageFilter, InPlaceImageFilter);
 
   /** Some typedefs. */
-  typedef TFunction                                   FunctorType;
+  typedef TFunction FunctorType;
 
   typedef TInputImage                              InputImageType;
   typedef typename    InputImageType::ConstPointer InputImagePointer;
-  typedef typename    InputImageType::RegionType   InputImageRegionType; 
-  typedef typename    InputImageType::PixelType    InputImagePixelType; 
+  typedef typename    InputImageType::RegionType   InputImageRegionType;
+  typedef typename    InputImageType::PixelType    InputImagePixelType;
 
   typedef TOutputImage                             OutputImageType;
   typedef typename     OutputImageType::Pointer    OutputImagePointer;
@@ -72,8 +71,8 @@ public:
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
-  FunctorType& GetFunctor() { return m_Functor; };
-  const FunctorType& GetFunctor() const { return m_Functor; }
+  FunctorType &       GetFunctor() { return m_Functor; }
+  const FunctorType & GetFunctor() const { return m_Functor; }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -81,18 +80,18 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(const FunctorType& functor)
-    {
-    if (m_Functor != functor)
+  void SetFunctor(const FunctorType & functor)
+  {
+    if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
       }
-    }
-  
+  }
+
 protected:
   UnaryFunctorImageFilter();
-  virtual ~UnaryFunctorImageFilter() {};
+  virtual ~UnaryFunctorImageFilter() {}
 
   /** UnaryFunctorImageFilter can produce an image which is a different
    * resolution than its input image.  As such, UnaryFunctorImageFilter
@@ -114,16 +113,15 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  UnaryFunctorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  UnaryFunctorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   FunctorType m_Functor;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

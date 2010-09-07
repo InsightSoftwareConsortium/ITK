@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkMorphologicalGradientImageFilter.txx
+  Module:    itkOptMorphologicalGradientImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,158 +9,235 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMorphologicalGradientImageFilter_txx
 #define __itkMorphologicalGradientImageFilter_txx
 
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptMorphologicalGradientImageFilter.h"
-#else
-
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkMorphologicalGradientImageFilter.h"
-#include "itkGrayscaleErodeImageFilter.h"
-#include "itkGrayscaleDilateImageFilter.h"
-#include "itkSubtractImageFilter.h"
+#include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
+#include <string>
 
-
-namespace itk {
-
-template <class TInputImage, class TOutputImage, class TKernel>
-MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>
-::MorphologicalGradientImageFilter()
-  : m_Kernel()
+namespace itk
 {
+template< class TInputImage, class TOutputImage, class TKernel >
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
+::MorphologicalGradientImageFilter()
+{
+  m_BasicDilateFilter = BasicDilateFilterType::New();
+  m_BasicErodeFilter = BasicErodeFilterType::New();
+  m_HistogramFilter = HistogramFilterType::New();
+  m_AnchorDilateFilter = AnchorDilateFilterType::New();
+  m_AnchorErodeFilter = AnchorErodeFilterType::New();
+  m_VanHerkGilWermanDilateFilter = VHGWDilateFilterType::New();
+  m_VanHerkGilWermanErodeFilter = VHGWErodeFilterType::New();
+  m_Algorithm = HISTO;
 }
 
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>
-::GenerateInputRequestedRegion()
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
+::SetKernel(const KernelType & kernel)
 {
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
+  const FlatKernelType *flatKernel = NULL;
 
-  // get pointers to the input and output
-  typename Superclass::InputImagePointer  inputPtr =
-    const_cast< TInputImage * >( this->GetInput() );
-
-  if ( !inputPtr )
+  try
     {
-    return;
+    flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
     }
+  catch ( ... )
+                  {}
 
-  // get a copy of the input requested region (should equal the output
-  // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
-
-  // pad the input requested region by the operator radius
-  inputRequestedRegion.PadByRadius( m_Kernel.GetRadius() );
-
-  // crop the input requested region at the input's largest possible region
-  if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
+  if ( flatKernel != NULL && flatKernel->GetDecomposable() )
     {
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
+    m_AnchorDilateFilter->SetKernel(*flatKernel);
+    m_AnchorErodeFilter->SetKernel(*flatKernel);
+    m_Algorithm = ANCHOR;
+    }
+  else if ( m_HistogramFilter->GetUseVectorBasedAlgorithm() )
+    {
+    // histogram based filter is as least as good as the basic one, so always
+    // use it
+    m_Algorithm = HISTO;
+    m_HistogramFilter->SetKernel(kernel);
     }
   else
     {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region).  Throw an exception.
+    // basic filter can be better than the histogram based one
+    // apply a poor heuristic to find the best one. What is very important is to
+    // select the histogram for large kernels
 
-    // store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
+    // we need to set the kernel on the histogram filter to compare basic and
+    // histogram algorithm
+    m_HistogramFilter->SetKernel(kernel);
 
-    // build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    OStringStream msg;
-    msg << static_cast<const char *>(this->GetNameOfClass())
-        << "::GenerateInputRequestedRegion()";
-    e.SetLocation(msg.str().c_str());
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
-    e.SetDataObject(inputPtr);
-    throw e;
+    if ( this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 4.0 )
+      {
+      m_BasicDilateFilter->SetKernel(kernel);
+      m_BasicErodeFilter->SetKernel(kernel);
+      m_Algorithm = BASIC;
+      }
+    else
+      {
+      m_Algorithm = HISTO;
+      }
+    }
+
+  Superclass::SetKernel(kernel);
+}
+
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
+::SetAlgorithm(int algo)
+{
+  const FlatKernelType *flatKernel = NULL;
+
+  try
+    {
+    flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
+    }
+  catch ( ... )
+                  {}
+
+  if ( m_Algorithm != algo )
+    {
+    if ( algo == BASIC )
+      {
+      m_BasicDilateFilter->SetKernel( this->GetKernel() );
+      m_BasicErodeFilter->SetKernel( this->GetKernel() );
+      }
+    else if ( algo == HISTO )
+      {
+      m_HistogramFilter->SetKernel( this->GetKernel() );
+      }
+    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == ANCHOR )
+      {
+      m_AnchorDilateFilter->SetKernel(*flatKernel);
+      m_AnchorErodeFilter->SetKernel(*flatKernel);
+      }
+    else if ( flatKernel != NULL && flatKernel->GetDecomposable() && algo == VHGW )
+      {
+      m_VanHerkGilWermanDilateFilter->SetKernel(*flatKernel);
+      m_VanHerkGilWermanErodeFilter->SetKernel(*flatKernel);
+      }
+    else
+      {
+      itkExceptionMacro(<< "Invalid algorithm");
+      }
+
+    m_Algorithm = algo;
+    this->Modified();
     }
 }
 
-
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
-  
+
   // Delegate to a dilate filter.
-  typename GrayscaleDilateImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    dilate = GrayscaleDilateImageFilter<TInputImage, TInputImage, TKernel>::New();
-  dilate->SetInput( this->GetInput() );
-  dilate->SetKernel( this->m_Kernel );
-  dilate->SetNumberOfThreads( this->GetNumberOfThreads() );
-  progress->RegisterInternalFilter( dilate,.45f );
-  
-  // Delegate to an erode filter.
-  typename GrayscaleErodeImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    erode = GrayscaleErodeImageFilter<TInputImage, TInputImage, TKernel>::New();
-  erode->SetInput( this->GetInput() );
-  erode->SetKernel( this->m_Kernel );
-  erode->SetNumberOfThreads( this->GetNumberOfThreads() );
-  progress->RegisterInternalFilter( erode,.45f );
-  
-  // Need to subtract the eroded image from the dialted one
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
-    subtract=SubtractImageFilter<TInputImage,TInputImage,TOutputImage>::New();
-  subtract->SetInput1( dilate->GetOutput() );
-  subtract->SetInput2( erode->GetOutput() );
-  subtract->SetNumberOfThreads( this->GetNumberOfThreads() );
+  if ( m_Algorithm == BASIC )
+    {
+//     std::cout << "BasicDilateImageFilter" << std::endl;
+    m_BasicDilateFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_BasicDilateFilter, 0.4f);
 
-  // graft our output to the subtract filter to force the proper regions
-  // to be generated
-  subtract->GraftOutput( this->GetOutput() );
+    m_BasicErodeFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_BasicErodeFilter, 0.4f);
 
-  // run the algorithm
-  progress->RegisterInternalFilter( subtract,.1f );
+    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    sub->SetInput1( m_BasicDilateFilter->GetOutput() );
+    sub->SetInput2( m_BasicErodeFilter->GetOutput() );
+    progress->RegisterInternalFilter(sub, 0.1f);
 
-  subtract->Update();
+    sub->GraftOutput( this->GetOutput() );
+    sub->Update();
+    this->GraftOutput( sub->GetOutput() );
+    }
+  else if ( m_Algorithm == HISTO )
+    {
+//     std::cout << "MovingHistogramDilateImageFilter" << std::endl;
+    m_HistogramFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_HistogramFilter, 1.0f);
 
-  // graft the output of the subtract filter back onto this filter's
-  // output. this is needed to get the appropriate regions passed
-  // back.
-  this->GraftOutput( subtract->GetOutput() );
+    m_HistogramFilter->GraftOutput( this->GetOutput() );
+    m_HistogramFilter->Update();
+    this->GraftOutput( m_HistogramFilter->GetOutput() );
+    }
+  else if ( m_Algorithm == ANCHOR )
+    {
+    // std::cout << "AnchorDilateImageFilter" << std::endl;
+    m_AnchorDilateFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_AnchorDilateFilter, 0.4f);
 
+    m_AnchorErodeFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_AnchorErodeFilter, 0.4f);
+
+    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    sub->SetInput1( m_AnchorDilateFilter->GetOutput() );
+    sub->SetInput2( m_AnchorErodeFilter->GetOutput() );
+    progress->RegisterInternalFilter(sub, 0.1f);
+
+    sub->GraftOutput( this->GetOutput() );
+    sub->Update();
+    this->GraftOutput( sub->GetOutput() );
+    }
+  else if ( m_Algorithm == VHGW )
+    {
+//     std::cout << "VanHerkGilWermanDilateImageFilter" << std::endl;
+    m_VanHerkGilWermanDilateFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_VanHerkGilWermanDilateFilter, 0.4f);
+
+    m_VanHerkGilWermanErodeFilter->SetInput( this->GetInput() );
+    progress->RegisterInternalFilter(m_VanHerkGilWermanErodeFilter, 0.4f);
+
+    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    sub->SetInput1( m_VanHerkGilWermanDilateFilter->GetOutput() );
+    sub->SetInput2( m_VanHerkGilWermanErodeFilter->GetOutput() );
+    progress->RegisterInternalFilter(sub, 0.1f);
+
+    sub->GraftOutput( this->GetOutput() );
+    sub->Update();
+    this->GraftOutput( sub->GetOutput() );
+    }
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
+::Modified() const
+{
+  Superclass::Modified();
+  m_BasicDilateFilter->Modified();
+  m_BasicErodeFilter->Modified();
+  m_HistogramFilter->Modified();
+  m_AnchorDilateFilter->Modified();
+  m_AnchorErodeFilter->Modified();
+  m_VanHerkGilWermanDilateFilter->Modified();
+  m_VanHerkGilWermanErodeFilter->Modified();
+}
+
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
+  os << indent << "Algorithm: " << m_Algorithm << std::endl;
 }
-
-}// end namespace itk
-#endif
-
+} // end namespace itk
 #endif

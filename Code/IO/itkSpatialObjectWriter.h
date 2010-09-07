@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,28 +25,27 @@
 
 namespace itk
 {
-
 /** \class SpatialObjectWriter
- * 
+ *
  * \brief TODO
  */
-template <unsigned int NDimensions = 3, 
+template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits< PixelType ,
+          typename TMeshTraits = DefaultStaticMeshTraits< PixelType,
                                                           NDimensions,
                                                           NDimensions >
-         >
-class SpatialObjectWriter : public Object
+          >
+class SpatialObjectWriter:public Object
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef SpatialObjectWriter Self;
-  typedef SmartPointer<Self>  Pointer;
+  typedef SpatialObjectWriter  Self;
+  typedef SmartPointer< Self > Pointer;
 
-  typedef SpatialObject<NDimensions> SpatialObjectType; 
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer; 
-  typedef SceneSpatialObject<NDimensions> SceneType; 
+  typedef SpatialObject< NDimensions >        SpatialObjectType;
+  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  typedef SceneSpatialObject< NDimensions >   SceneType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -65,24 +64,23 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set the Input  */
-  void SetInput(SpatialObjectType * input){m_SpatialObject=input;}
+  void SetInput(SpatialObjectType *input){ m_SpatialObject = input; }
 
-  void SetInput(SceneType * input){m_Scene=input;}
+  void SetInput(SceneType *input){ m_Scene = input; }
 
-  itkSetMacro(BinaryPoints,bool);
-  itkGetConstMacro(BinaryPoints,bool);
+  itkSetMacro(BinaryPoints, bool);
+  itkGetConstMacro(BinaryPoints, bool);
 
   void SetTransformPrecision(unsigned int precision);
+
   unsigned int GetTransformPrecision();
 
   /** Set/Get if the images should be written in a different file */
-  itkSetMacro(WriteImagesInSeparateFile,bool);
-  itkGetConstMacro(WriteImagesInSeparateFile,bool);
-
-
+  itkSetMacro(WriteImagesInSeparateFile, bool);
+  itkGetConstMacro(WriteImagesInSeparateFile, bool);
 protected:
-  SpatialObjectWriter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SpatialObjectWriter(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 
   std::string m_FileName;
   bool        m_BinaryPoints;
@@ -90,18 +88,15 @@ protected:
 
   SpatialObjectWriter();
   virtual ~SpatialObjectWriter();
-
 private:
 
-  SpatialObjectPointer           m_SpatialObject;
-  SceneType *                    m_Scene;
+  SpatialObjectPointer m_SpatialObject;
+  SceneType *          m_Scene;
 
-  MetaSceneConverter<NDimensions,PixelType,TMeshTraits> 
-                                 m_MetaToSpatialConverter;
+  MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
+  m_MetaToSpatialConverter;
 };
-
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSpatialObjectWriter.txx"

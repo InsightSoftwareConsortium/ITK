@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class GeometricalQuadEdge
  * \brief This class extends the QuadEdge by adding a reference to the Origin.
  *
@@ -51,40 +50,39 @@ namespace itk
  *
  * This implementation was contributed as a paper to the Insight Journal
  * http://insight-journal.org/midas/handle.php?handle=1926/306
- 
+
  *
  * \sa QuadEdge
  *
  * \ingroup MeshObjects
  */
 template< typename TVRef,  typename TFRef,
-          typename TPrimalData, typename TDualData, 
+          typename TPrimalData, typename TDualData,
           bool PrimalDual = true >
-class GeometricalQuadEdge : public QuadEdge
+class GeometricalQuadEdge:public QuadEdge
 {
 public:
   /** Hierarchy typedefs. */
-  typedef GeometricalQuadEdge   Self;
-  typedef QuadEdge              Superclass;
-  typedef Self*                 RawPointer;
+  typedef GeometricalQuadEdge Self;
+  typedef QuadEdge            Superclass;
+  typedef Self *              RawPointer;
 
   /**
    * Dual type, basically the same type with swapped template
    * parameters.
    *
    */
-  typedef GeometricalQuadEdge< TFRef, TVRef, 
-    TDualData, TPrimalData, !PrimalDual >         DualType;
+  typedef GeometricalQuadEdge< TFRef, TVRef,
+                               TDualData, TPrimalData, !PrimalDual >         DualType;
 
   /** Input template parameters & values convenient renaming. */
-  typedef TVRef               OriginRefType;
-  typedef TFRef               DualOriginRefType;
-  typedef TPrimalData         PrimalDataType;
-  typedef TDualData           DualDataType;
+  typedef TVRef       OriginRefType;
+  typedef TFRef       DualOriginRefType;
+  typedef TPrimalData PrimalDataType;
+  typedef TDualData   DualDataType;
   // Line Cell Id in Mesh Cell Container
   // used to go up to LineCell level
-  typedef TFRef  LineCellIdentifier;
-
+  typedef TFRef LineCellIdentifier;
 public:
 
   /** Iterator types. */
@@ -92,41 +90,39 @@ public:
   typedef QuadEdgeMeshConstIteratorGeom< Self > ConstIteratorGeom;
 
   /** Basic iterators methods. */
-  inline itkQEDefineIteratorGeomMethodsMacro( Onext );
-  inline itkQEDefineIteratorGeomMethodsMacro( Sym );
-  inline itkQEDefineIteratorGeomMethodsMacro( Lnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( Rnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( Dnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( Oprev );
-  inline itkQEDefineIteratorGeomMethodsMacro( Lprev );
-  inline itkQEDefineIteratorGeomMethodsMacro( Rprev );
-  inline itkQEDefineIteratorGeomMethodsMacro( Dprev );
-  inline itkQEDefineIteratorGeomMethodsMacro( InvOnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( InvLnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( InvRnext );
-  inline itkQEDefineIteratorGeomMethodsMacro( InvDnext );
-
+  inline itkQEDefineIteratorGeomMethodsMacro(Onext);
+  inline itkQEDefineIteratorGeomMethodsMacro(Sym);
+  inline itkQEDefineIteratorGeomMethodsMacro(Lnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(Rnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(Dnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(Oprev);
+  inline itkQEDefineIteratorGeomMethodsMacro(Lprev);
+  inline itkQEDefineIteratorGeomMethodsMacro(Rprev);
+  inline itkQEDefineIteratorGeomMethodsMacro(Dprev);
+  inline itkQEDefineIteratorGeomMethodsMacro(InvOnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(InvLnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(InvRnext);
+  inline itkQEDefineIteratorGeomMethodsMacro(InvDnext);
 
   /** QE macros. */
-  itkQEAccessorsMacro( Superclass, Self, DualType );
-
+  itkQEAccessorsMacro(Superclass, Self, DualType);
 public:
   /** Memory creation methods. */
   GeometricalQuadEdge();
-  virtual ~GeometricalQuadEdge() {};
+  virtual ~GeometricalQuadEdge() {}
 
   /** Set methods. */
-  inline void SetOrigin( const OriginRefType v )
-    { m_Origin = v; }
+  inline void SetOrigin(const OriginRefType v)
+  { m_Origin = v; }
 
-  inline void SetDestination( const OriginRefType v )
-    { this->GetSym()->SetOrigin( v ); }
+  inline void SetDestination(const OriginRefType v)
+  { this->GetSym()->SetOrigin(v); }
 
-  inline void SetRight( const DualOriginRefType v )
-    { this->GetRot()->SetOrigin( v ); }
+  inline void SetRight(const DualOriginRefType v)
+  { this->GetRot()->SetOrigin(v); }
 
-  inline void SetLeft( const DualOriginRefType v )
-    { this->GetInvRot()->SetOrigin( v ); }
+  inline void SetLeft(const DualOriginRefType v)
+  { this->GetInvRot()->SetOrigin(v); }
 
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
@@ -135,8 +131,8 @@ public:
    * @param  maxSize Sets at most maxSize edges in the Lnext() ring.
    * @return Returns true on success. False otherwise.
    */
-  bool SetLnextRingWithSameLeftFace( const DualOriginRefType faceGeom,
-                                     int maxSize = 100 );
+  bool SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeom,
+                                    int maxSize = 100);
 
   inline void UnsetOrigin()   { m_Origin = m_NoPoint; }
   inline void UnsetDestination()  { this->GetSym()->UnsetOrigin(); }
@@ -146,22 +142,25 @@ public:
   /** Get methods. */
   //ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitely assumes that the Onext order is counter-clockwise !
-  inline const OriginRefType GetOrigin() const  { return( m_Origin ); }
-  inline const OriginRefType GetDestination()  const { return( GetSym()->GetOrigin() ); }
-  inline const DualOriginRefType GetRight() const { return( GetRot()->GetOrigin() ); }
-  inline const DualOriginRefType GetLeft() const  { return( GetInvRot()->GetOrigin() ); }
+  inline const OriginRefType GetOrigin() const { return ( m_Origin ); }
+  inline const OriginRefType GetDestination()  const { return ( GetSym()->GetOrigin() ); }
+  inline const DualOriginRefType GetRight() const { return ( GetRot()->GetOrigin() ); }
+  inline const DualOriginRefType GetLeft() const { return ( GetInvRot()->GetOrigin() ); }
 
   /** Boolean accessors. */
   bool IsOriginSet() const;
+
   bool IsDestinationSet() const;
+
   bool IsRightSet() const;
+
   bool IsLeftSet() const;
 
   /** Extra data set methods. */
-  inline void SetPrimalData( const PrimalDataType data )
+  inline void SetPrimalData(const PrimalDataType data)
   { m_Data = data; this->SetPrimalData(); }
-  inline void SetDualData( const DualDataType data )
-  { this->GetRot()->SetPrimalData( data ); }
+  inline void SetDualData(const DualDataType data)
+  { this->GetRot()->SetPrimalData(data); }
 
   inline void SetPrimalData() { m_DataSet = true; }
   inline void SetDualData()   { this->GetRot()->SetPrimalData(); }
@@ -170,21 +169,21 @@ public:
   inline void UnsetDualData()   { this->GetRot()->UnsetPrimalData(); }
 
   /** Extra data get methods. */
-  inline PrimalDataType GetPrimalData() { return( m_Data ); }
+  inline PrimalDataType GetPrimalData() { return ( m_Data ); }
   inline DualDataType   GetDualData()
-    { return( this->GetRot()->GetPrimalData() ); }
+  { return ( this->GetRot()->GetPrimalData() ); }
 
   /** Boolean accessors. */
-  inline bool IsPrimalDataSet() { return( m_DataSet ); }
+  inline bool IsPrimalDataSet() { return ( m_DataSet ); }
   inline bool IsDualDataSet()
-    { return( this->GetRot()->IsPrimalDataSet() ); }
+  { return ( this->GetRot()->IsPrimalDataSet() ); }
 
   /**
    * @return Returns true when "this" has no faces set on both sides.
    *         Return false otherwise.
    */
   inline bool IsWire()
-    { return( !( this->IsLeftSet() ) && !( this->IsRightSet() ) ); }
+  { return ( !( this->IsLeftSet() ) && !( this->IsRightSet() ) ); }
 
   /**
    * @return Returns true when "this" is on the boundary i.e.
@@ -192,60 +191,63 @@ public:
    *         otherwise.
    */
   inline bool IsAtBorder()
-    {
-    return( ( this->IsLeftSet() && !this->IsRightSet() ) ||
-            ( !this->IsLeftSet() && this->IsRightSet() ) );
-    }
+  {
+    return ( ( this->IsLeftSet() && !this->IsRightSet() )
+             || ( !this->IsLeftSet() && this->IsRightSet() ) );
+  }
 
   /**
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
   inline bool IsInternal() const
-    { return( this->IsLeftSet() && this->IsRightSet() ); }
+  { return ( this->IsLeftSet() && this->IsRightSet() ); }
 
   bool IsOriginInternal() const;
-  bool IsLnextSharingSameFace( int maxSize = 100 );
+
+  bool IsLnextSharingSameFace(int maxSize = 100);
+
   bool IsLnextOfTriangle();
-  bool IsInOnextRing( Self* );
-  bool IsInLnextRing( Self* );
 
-  Self* GetNextBorderEdgeWithUnsetLeft( Self* edgeTest = 0 );
+  bool IsInOnextRing(Self *);
 
-  bool InsertAfterNextBorderEdgeWithUnsetLeft( Self* isol,
-                                               Self* hint = 0 );
+  bool IsInLnextRing(Self *);
 
-  bool ReorderOnextRingBeforeAddFace( Self* second );
+  Self * GetNextBorderEdgeWithUnsetLeft(Self *edgeTest = 0);
+
+  bool InsertAfterNextBorderEdgeWithUnsetLeft(Self *isol,
+                                              Self *hint = 0);
+
+  bool ReorderOnextRingBeforeAddFace(Self *second);
 
   /** Disconnection methods. */
   inline bool IsOriginDisconnected()
-    { return( this == this->GetOnext() ); }
+  { return ( this == this->GetOnext() ); }
   inline bool IsDestinationDisconnected()
-    { return( this->GetSym()->IsOriginDisconnected() ); }
+  { return ( this->GetSym()->IsOriginDisconnected() ); }
   inline bool IsDisconnected()
-    { return( this->IsOriginDisconnected() &&
-              this->IsDestinationDisconnected() ); }
+  {
+    return ( this->IsOriginDisconnected()
+             && this->IsDestinationDisconnected() );
+  }
+
   void Disconnect();
 
-  inline void SetIdent( const LineCellIdentifier& User_Value ) { this->m_LineCellIdent = User_Value; };
-  inline LineCellIdentifier GetIdent( ) { return( this->m_LineCellIdent ); };
-
+  inline void SetIdent(const LineCellIdentifier & User_Value) { this->m_LineCellIdent = User_Value; }
+  inline LineCellIdentifier GetIdent() { return ( this->m_LineCellIdent ); }
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
   static const OriginRefType m_NoPoint;
-
 protected:
   OriginRefType      m_Origin;    // Geometrical information
   PrimalDataType     m_Data;      // User data associated to this edge.
   bool               m_DataSet;   // Indicates if the data is set.
   LineCellIdentifier m_LineCellIdent;
-
 };
-
-} 
+}
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeometricalQuadEdge.txx"
 #endif
 
-#endif 
+#endif

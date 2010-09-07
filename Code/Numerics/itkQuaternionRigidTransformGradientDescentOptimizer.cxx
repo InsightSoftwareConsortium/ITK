@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,32 +23,30 @@
 
 namespace itk
 {
-
 /**
  * Advance one Step following the gradient direction
  */
 void
 QuaternionRigidTransformGradientDescentOptimizer
-::AdvanceOneStep( void )
-{ 
-
+::AdvanceOneStep(void)
+{
   double direction;
-  if( m_Maximize ) 
+
+  if ( m_Maximize )
     {
     direction = 1.0;
     }
-  else 
+  else
     {
     direction = -1.0;
     }
-
 
   ScalesType scales = this->GetScales();
 
   const unsigned int spaceDimension =  m_CostFunction->GetNumberOfParameters();
 
   // Make sure the scales have been set
-  if (scales.size() != spaceDimension)
+  if ( scales.size() != spaceDimension )
     {
     itkExceptionMacro(<< "The size of Scales is "
                       << scales.size()
@@ -57,8 +55,8 @@ QuaternionRigidTransformGradientDescentOptimizer
                       << ".");
     }
 
-  DerivativeType transformedGradient( spaceDimension);
-  for ( unsigned int i=0; i< spaceDimension; i++)
+  DerivativeType transformedGradient(spaceDimension);
+  for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
     transformedGradient[i] = m_Gradient[i] / scales[i];
     }
@@ -66,37 +64,35 @@ QuaternionRigidTransformGradientDescentOptimizer
   ParametersType currentPosition = this->GetCurrentPosition();
 
   // compute new quaternion value
-  vnl_quaternion<double> newQuaternion;
-  for ( unsigned int j=0; j < 4; j++ )
+  vnl_quaternion< double > newQuaternion;
+  for ( unsigned int j = 0; j < 4; j++ )
     {
-    newQuaternion[j] = currentPosition[j] + direction * m_LearningRate *
-      transformedGradient[j];
+    newQuaternion[j] = currentPosition[j] + direction * m_LearningRate
+                       * transformedGradient[j];
     }
 
   newQuaternion.normalize();
 
-  ParametersType newPosition( spaceDimension );
+  ParametersType newPosition(spaceDimension);
   // update quaternion component of currentPosition
-  for ( unsigned int j=0; j < 4; j++ )
+  for ( unsigned int j = 0; j < 4; j++ )
     {
     newPosition[j] = newQuaternion[j];
     }
-  
-  // update the translation component
-  for (unsigned int j=4; j< spaceDimension; j++)
-    {
-    newPosition[j] = currentPosition[j] + 
-      direction * m_LearningRate * transformedGradient[j];
-    }
 
+  // update the translation component
+  for ( unsigned int j = 4; j < spaceDimension; j++ )
+    {
+    newPosition[j] = currentPosition[j]
+                     + direction * m_LearningRate * transformedGradient[j];
+    }
 
   // First invoke the event, so the current position
   // still corresponds to the metric values.
   this->InvokeEvent( IterationEvent() );
 
-  this->SetCurrentPosition( newPosition );
+  this->SetCurrentPosition(newPosition);
 }
-
 } // end namespace itk
 
 #endif

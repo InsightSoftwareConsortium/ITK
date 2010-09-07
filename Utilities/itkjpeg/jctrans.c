@@ -2,6 +2,7 @@
  * jctrans.c
  *
  * Copyright (C) 1995-1998, Thomas G. Lane.
+ * Modified 2000-2009 by Guido Vollbeding.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -13,16 +14,13 @@
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jlossy.h"    /* Private declarations for lossy codec */
 
 
 /* Forward declarations */
 LOCAL(void) transencode_master_selection
-  JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
-LOCAL(void) transencode_codec
-  JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
+	JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
 LOCAL(void) transencode_coef_controller
-  JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
+	JPP((j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays));
 
 
 /*
@@ -50,7 +48,7 @@ jpeg_write_coefficients (j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays)
   /* Perform master selection of active modules */
   transencode_master_selection(cinfo, coef_arrays);
   /* Wait for jpeg_finish_compress() call */
-  cinfo->next_scanline = 0;  /* so jpeg_write_marker works */
+  cinfo->next_scanline = 0;	/* so jpeg_write_marker works */
   cinfo->global_state = CSTATE_WRCOEFS;
 }
 
@@ -64,7 +62,7 @@ jpeg_write_coefficients (j_compress_ptr cinfo, jvirt_barray_ptr * coef_arrays)
 
 GLOBAL(void)
 jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
-             j_compress_ptr dstinfo)
+			       j_compress_ptr dstinfo)
 {
   JQUANT_TBL ** qtblptr;
   jpeg_component_info *incomp, *outcomp;
@@ -79,6 +77,10 @@ jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
   dstinfo->image_height = srcinfo->image_height;
   dstinfo->input_components = srcinfo->num_components;
   dstinfo->in_color_space = srcinfo->jpeg_color_space;
+  dstinfo->jpeg_width = srcinfo->output_width;
+  dstinfo->jpeg_height = srcinfo->output_height;
+  dstinfo->min_DCT_h_scaled_size = srcinfo->min_DCT_h_scaled_size;
+  dstinfo->min_DCT_v_scaled_size = srcinfo->min_DCT_v_scaled_size;
   /* Initialize all parameters to default values */
   jpeg_set_defaults(dstinfo);
   /* jpeg_set_defaults may choose wrong colorspace, eg YCbCr if input is RGB.
@@ -92,10 +94,10 @@ jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
     if (srcinfo->quant_tbl_ptrs[tblno] != NULL) {
       qtblptr = & dstinfo->quant_tbl_ptrs[tblno];
       if (*qtblptr == NULL)
-  *qtblptr = jpeg_alloc_quant_table((j_common_ptr) dstinfo);
+	*qtblptr = jpeg_alloc_quant_table((j_common_ptr) dstinfo);
       MEMCOPY((*qtblptr)->quantval,
-        srcinfo->quant_tbl_ptrs[tblno]->quantval,
-        SIZEOF((*qtblptr)->quantval));
+	      srcinfo->quant_tbl_ptrs[tblno]->quantval,
+	      SIZEOF((*qtblptr)->quantval));
       (*qtblptr)->sent_table = FALSE;
     }
   }
@@ -105,7 +107,7 @@ jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
   dstinfo->num_components = srcinfo->num_components;
   if (dstinfo->num_components < 1 || dstinfo->num_components > MAX_COMPONENTS)
     ERREXIT2(dstinfo, JERR_COMPONENT_COUNT, dstinfo->num_components,
-       MAX_COMPONENTS);
+	     MAX_COMPONENTS);
   for (ci = 0, incomp = srcinfo->comp_info, outcomp = dstinfo->comp_info;
        ci < dstinfo->num_components; ci++, incomp++, outcomp++) {
     outcomp->component_id = incomp->component_id;
@@ -118,14 +120,14 @@ jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
      */
     tblno = outcomp->quant_tbl_no;
     if (tblno < 0 || tblno >= NUM_QUANT_TBLS ||
-  srcinfo->quant_tbl_ptrs[tblno] == NULL)
+	srcinfo->quant_tbl_ptrs[tblno] == NULL)
       ERREXIT1(dstinfo, JERR_NO_QUANT_TABLE, tblno);
     slot_quant = srcinfo->quant_tbl_ptrs[tblno];
     c_quant = incomp->quant_table;
     if (c_quant != NULL) {
       for (coefi = 0; coefi < DCTSIZE2; coefi++) {
-  if (c_quant->quantval[coefi] != slot_quant->quantval[coefi])
-    ERREXIT1(dstinfo, JERR_MISMATCHED_QUANT_TABLE, tblno);
+	if (c_quant->quantval[coefi] != slot_quant->quantval[coefi])
+	  ERREXIT1(dstinfo, JERR_MISMATCHED_QUANT_TABLE, tblno);
       }
     }
     /* Note: we do not copy the source's Huffman table assignments;
@@ -159,18 +161,20 @@ jpeg_copy_critical_parameters (j_decompress_ptr srcinfo,
 
 LOCAL(void)
 transencode_master_selection (j_compress_ptr cinfo,
-            jvirt_barray_ptr * coef_arrays)
+			      jvirt_barray_ptr * coef_arrays)
 {
-  cinfo->data_unit = DCTSIZE;
-  /* Although we don't actually use input_components for transcoding,
-   * jcmaster.c's initial_setup will complain if input_components is 0.
-   */
-  cinfo->input_components = 1;
   /* Initialize master control (includes parameter checking/processing) */
   jinit_c_master_control(cinfo, TRUE /* transcode only */);
 
-  /* We need a special compression codec. */
-  transencode_codec(cinfo, coef_arrays);
+  /* Entropy encoding: either Huffman or arithmetic coding. */
+  if (cinfo->arith_code)
+    jinit_arith_encoder(cinfo);
+  else {
+    jinit_huff_encoder(cinfo);
+  }
+
+  /* We need a special coefficient buffer controller. */
+  transencode_coef_controller(cinfo, coef_arrays);
 
   jinit_marker_writer(cinfo);
 
@@ -196,27 +200,28 @@ transencode_master_selection (j_compress_ptr cinfo,
 /* Private buffer controller object */
 
 typedef struct {
-  JDIMENSION iMCU_row_num;  /* iMCU row # within image */
-  JDIMENSION mcu_ctr;    /* counts MCUs processed in current row */
-  int MCU_vert_offset;    /* counts MCU rows within iMCU row */
-  int MCU_rows_per_iMCU_row;  /* number of such rows needed */
+  struct jpeg_c_coef_controller pub; /* public fields */
+
+  JDIMENSION iMCU_row_num;	/* iMCU row # within image */
+  JDIMENSION mcu_ctr;		/* counts MCUs processed in current row */
+  int MCU_vert_offset;		/* counts MCU rows within iMCU row */
+  int MCU_rows_per_iMCU_row;	/* number of such rows needed */
 
   /* Virtual block array for each component. */
   jvirt_barray_ptr * whole_image;
 
   /* Workspace for constructing dummy blocks at right/bottom edges. */
-  JBLOCKROW dummy_buffer[C_MAX_DATA_UNITS_IN_MCU];
-} c_coef_controller;
+  JBLOCKROW dummy_buffer[C_MAX_BLOCKS_IN_MCU];
+} my_coef_controller;
 
-typedef c_coef_controller * c_coef_ptr;
+typedef my_coef_controller * my_coef_ptr;
 
 
 LOCAL(void)
 start_iMCU_row (j_compress_ptr cinfo)
 /* Reset within-iMCU-row counters for a new row */
 {
-  j_lossy_c_ptr lossyc = (j_lossy_c_ptr) cinfo->codec;
-  c_coef_ptr coef = (c_coef_ptr) lossyc->coef_private;
+  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
 
   /* In an interleaved scan, an MCU row is the same as an iMCU row.
    * In a noninterleaved scan, an iMCU row has v_samp_factor MCU rows.
@@ -243,8 +248,7 @@ start_iMCU_row (j_compress_ptr cinfo)
 METHODDEF(void)
 start_pass_coef (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
 {
-  j_lossy_c_ptr lossyc = (j_lossy_c_ptr) cinfo->codec;
-  c_coef_ptr coef = (c_coef_ptr) lossyc->coef_private;
+  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
 
   if (pass_mode != JBUF_CRANK_DEST)
     ERREXIT(cinfo, JERR_BAD_BUFFER_MODE);
@@ -267,18 +271,16 @@ start_pass_coef (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
 METHODDEF(boolean)
 compress_output (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 {
-  j_lossy_c_ptr lossyc = (j_lossy_c_ptr) cinfo->codec;
-  c_coef_ptr coef = (c_coef_ptr) lossyc->coef_private;
-  JDIMENSION MCU_col_num;  /* index of current MCU within row */
+  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+  JDIMENSION MCU_col_num;	/* index of current MCU within row */
   JDIMENSION last_MCU_col = cinfo->MCUs_per_row - 1;
   JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
   int blkn, ci, xindex, yindex, yoffset, blockcnt;
   JDIMENSION start_col;
   JBLOCKARRAY buffer[MAX_COMPS_IN_SCAN];
-  JBLOCKROW MCU_buffer[C_MAX_DATA_UNITS_IN_MCU];
+  JBLOCKROW MCU_buffer[C_MAX_BLOCKS_IN_MCU];
   JBLOCKROW buffer_ptr;
   jpeg_component_info *compptr;
-  (void)input_buf;
 
   /* Align the virtual buffers for the components used in this scan. */
   for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
@@ -293,44 +295,44 @@ compress_output (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
   for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
        yoffset++) {
     for (MCU_col_num = coef->mcu_ctr; MCU_col_num < cinfo->MCUs_per_row;
-   MCU_col_num++) {
+	 MCU_col_num++) {
       /* Construct list of pointers to DCT blocks belonging to this MCU */
-      blkn = 0;      /* index of current DCT block within MCU */
+      blkn = 0;			/* index of current DCT block within MCU */
       for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
-  compptr = cinfo->cur_comp_info[ci];
-  start_col = MCU_col_num * compptr->MCU_width;
-  blockcnt = (MCU_col_num < last_MCU_col) ? compptr->MCU_width
-            : compptr->last_col_width;
-  for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
-    if (coef->iMCU_row_num < last_iMCU_row ||
-        yindex+yoffset < compptr->last_row_height) {
-      /* Fill in pointers to real blocks in this row */
-      buffer_ptr = buffer[ci][yindex+yoffset] + start_col;
-      for (xindex = 0; xindex < blockcnt; xindex++)
-        MCU_buffer[blkn++] = buffer_ptr++;
-    } else {
-      /* At bottom of image, need a whole row of dummy blocks */
-      xindex = 0;
-    }
-    /* Fill in any dummy blocks needed in this row.
-     * Dummy blocks are filled in the same way as in jccoefct.c:
-     * all zeroes in the AC entries, DC entries equal to previous
-     * block's DC value.  The init routine has already zeroed the
-     * AC entries, so we need only set the DC entries correctly.
-     */
-    for (; xindex < compptr->MCU_width; xindex++) {
-      MCU_buffer[blkn] = coef->dummy_buffer[blkn];
-      MCU_buffer[blkn][0][0] = MCU_buffer[blkn-1][0][0];
-      blkn++;
-    }
-  }
+	compptr = cinfo->cur_comp_info[ci];
+	start_col = MCU_col_num * compptr->MCU_width;
+	blockcnt = (MCU_col_num < last_MCU_col) ? compptr->MCU_width
+						: compptr->last_col_width;
+	for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
+	  if (coef->iMCU_row_num < last_iMCU_row ||
+	      yindex+yoffset < compptr->last_row_height) {
+	    /* Fill in pointers to real blocks in this row */
+	    buffer_ptr = buffer[ci][yindex+yoffset] + start_col;
+	    for (xindex = 0; xindex < blockcnt; xindex++)
+	      MCU_buffer[blkn++] = buffer_ptr++;
+	  } else {
+	    /* At bottom of image, need a whole row of dummy blocks */
+	    xindex = 0;
+	  }
+	  /* Fill in any dummy blocks needed in this row.
+	   * Dummy blocks are filled in the same way as in jccoefct.c:
+	   * all zeroes in the AC entries, DC entries equal to previous
+	   * block's DC value.  The init routine has already zeroed the
+	   * AC entries, so we need only set the DC entries correctly.
+	   */
+	  for (; xindex < compptr->MCU_width; xindex++) {
+	    MCU_buffer[blkn] = coef->dummy_buffer[blkn];
+	    MCU_buffer[blkn][0][0] = MCU_buffer[blkn-1][0][0];
+	    blkn++;
+	  }
+	}
       }
       /* Try to write the MCU. */
-      if (! (*lossyc->entropy_encode_mcu) (cinfo, MCU_buffer)) {
-  /* Suspension forced; update state counters and exit */
-  coef->MCU_vert_offset = yoffset;
-  coef->mcu_ctr = MCU_col_num;
-  return FALSE;
+      if (! (*cinfo->entropy->encode_mcu) (cinfo, MCU_buffer)) {
+	/* Suspension forced; update state counters and exit */
+	coef->MCU_vert_offset = yoffset;
+	coef->mcu_ctr = MCU_col_num;
+	return FALSE;
       }
     }
     /* Completed an MCU row, but perhaps not an iMCU row */
@@ -347,23 +349,24 @@ compress_output (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
  * Initialize coefficient buffer controller.
  *
  * Each passed coefficient array must be the right size for that
- * coefficient: width_in_data_units wide and height_in_data_units high,
+ * coefficient: width_in_blocks wide and height_in_blocks high,
  * with unitheight at least v_samp_factor.
  */
 
 LOCAL(void)
 transencode_coef_controller (j_compress_ptr cinfo,
-           jvirt_barray_ptr * coef_arrays)
+			     jvirt_barray_ptr * coef_arrays)
 {
-  j_lossy_c_ptr lossyc = (j_lossy_c_ptr) cinfo->codec;
-  c_coef_ptr coef;
+  my_coef_ptr coef;
   JBLOCKROW buffer;
   int i;
 
-  coef = (c_coef_ptr)
+  coef = (my_coef_ptr)
     (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-        SIZEOF(c_coef_controller));
-  lossyc->coef_private = (struct jpeg_c_coef_controller *) coef;
+				SIZEOF(my_coef_controller));
+  cinfo->coef = (struct jpeg_c_coef_controller *) coef;
+  coef->pub.start_pass = start_pass_coef;
+  coef->pub.compress_data = compress_output;
 
   /* Save pointer to virtual arrays */
   coef->whole_image = coef_arrays;
@@ -371,51 +374,9 @@ transencode_coef_controller (j_compress_ptr cinfo,
   /* Allocate and pre-zero space for dummy DCT blocks. */
   buffer = (JBLOCKROW)
     (*cinfo->mem->alloc_large) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-        C_MAX_DATA_UNITS_IN_MCU * SIZEOF(JBLOCK));
-  jzero_far((void FAR *) buffer, C_MAX_DATA_UNITS_IN_MCU * SIZEOF(JBLOCK));
-  for (i = 0; i < C_MAX_DATA_UNITS_IN_MCU; i++) {
+				C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
+  jzero_far((void FAR *) buffer, C_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
+  for (i = 0; i < C_MAX_BLOCKS_IN_MCU; i++) {
     coef->dummy_buffer[i] = buffer + i;
   }
-}
-
-
-/*
- * Initialize the transencoer codec.
- * This is called only once, during master selection.
- */
-
-LOCAL(void)
-transencode_codec (j_compress_ptr cinfo,
-       jvirt_barray_ptr * coef_arrays)
-{
-  j_lossy_c_ptr lossyc;
-
-  /* Create subobject in permanent pool */
-  lossyc = (j_lossy_c_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
-        SIZEOF(jpeg_lossy_c_codec));
-  cinfo->codec = (struct jpeg_c_codec *) lossyc;
-
-  /* Initialize sub-modules */
-
-  /* Entropy encoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
-    jinit_arith_encoder(cinfo);
-  } else {
-    if (cinfo->process == JPROC_PROGRESSIVE) {
-#ifdef C_PROGRESSIVE_SUPPORTED
-      jinit_phuff_encoder(cinfo);
-#else
-      ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-    } else
-      jinit_shuff_encoder(cinfo);
-  }
-
-  /* We need a special coefficient buffer controller. */
-  transencode_coef_controller(cinfo, coef_arrays);
-
-  /* Initialize method pointers */
-  lossyc->pub.start_pass = start_pass_coef;
-  lossyc->pub.compress_data = compress_output;
 }

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,9 +25,8 @@
 
 namespace itk
 {
-
 /** \class GaussianSpatialObject
- * 
+ *
  * \brief Represents a multivariate Gaussian function.
  *
  * The Gaussian function G(x) is given by
@@ -42,17 +41,16 @@ namespace itk
  * Sigma\f$.
  */
 
-template < unsigned int TDimension = 3 >
-class ITK_EXPORT GaussianSpatialObject 
-  : public SpatialObject< TDimension >
+template< unsigned int TDimension = 3 >
+class ITK_EXPORT GaussianSpatialObject:
+  public SpatialObject< TDimension >
 {
-
 public:
 
   typedef GaussianSpatialObject                Self;
   typedef double                               ScalarType;
-  typedef SmartPointer < Self >                Pointer;
-  typedef SmartPointer < const Self >          ConstPointer;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
   typedef SpatialObject< TDimension >          Superclass;
   typedef SmartPointer< Superclass >           SuperclassPointer;
   typedef typename Superclass::PointType       PointType;
@@ -62,53 +60,53 @@ public:
   itkStaticConstMacro(NumberOfDimensions, unsigned int,
                       TDimension);
 
-  itkNewMacro( Self );
-  itkTypeMacro( GaussianSpatialObject, SpatialObject );
+  itkNewMacro(Self);
+  itkTypeMacro(GaussianSpatialObject, SpatialObject);
 
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with
    * z-score less than the radius are in the object.  */
-  itkSetMacro(Radius,ScalarType);
-  itkGetConstReferenceMacro(Radius,ScalarType);
+  itkSetMacro(Radius, ScalarType);
+  itkGetConstReferenceMacro(Radius, ScalarType);
 
   /** The Sigma parameter determines the fallout of the Gaussian inside of the
    * region defined by the Radius parameter. */
-  itkSetMacro(Sigma,ScalarType);
-  itkGetConstReferenceMacro(Sigma,ScalarType);
+  itkSetMacro(Sigma, ScalarType);
+  itkGetConstReferenceMacro(Sigma, ScalarType);
 
   /** The maximum value of the Gaussian (its value at the origin of
    * the spatial object coordinate system). */
-  itkSetMacro(Maximum,ScalarType);
-  itkGetConstReferenceMacro(Maximum,ScalarType);
+  itkSetMacro(Maximum, ScalarType);
+  itkGetConstReferenceMacro(Maximum, ScalarType);
 
   /** If the matrix S is returned by
    * this->GetIndexToObjectTransform()->GetMatrix(), then SquaredZScore(x)
    * returns |Sx| squared.  */
-  ScalarType SquaredZScore( const PointType& point ) const;
+  ScalarType SquaredZScore(const PointType & point) const;
 
-  /** Returns the value of the Gaussian at the given point.  */ 
-  virtual bool ValueAt( const PointType & point, ScalarType & value, 
-                        unsigned int depth=0,
-                        char * name=NULL) const;
-     
-  /** Return true if the object provides a method to evaluate the value 
+  /** Returns the value of the Gaussian at the given point.  */
+  virtual bool ValueAt(const PointType & point, ScalarType & value,
+                       unsigned int depth = 0,
+                       char *name = NULL) const;
+
+  /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
-  virtual bool IsEvaluableAt( const PointType & point, 
-                              unsigned int depth=0,
-                              char * name=NULL) const;
+  virtual bool IsEvaluableAt(const PointType & point,
+                             unsigned int depth = 0,
+                             char *name = NULL) const;
 
-  /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point,
-                         unsigned int depth,
-                         char * name) const;
-  
-  /** Test whether a point is inside or outside the object 
+  /** Test whether a point is inside or outside the object */
+  virtual bool IsInside(const PointType & point,
+                        unsigned int depth,
+                        char *name) const;
+
+  /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */ 
-  virtual bool IsInside( const PointType & point) const;
+   *  check the name of the class and the current depth */
+  virtual bool IsInside(const PointType & point) const;
 
   /** This function needs to be called every time one of the object's
-   *  components is changed. */ 
+   *  components is changed. */
   virtual bool ComputeLocalBoundingBox() const;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
@@ -116,21 +114,19 @@ public:
   typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
 protected:
-  GaussianSpatialObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-   
-  GaussianSpatialObject( void );
-  ~GaussianSpatialObject( void );
+  GaussianSpatialObject(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
+
+  GaussianSpatialObject(void);
+  ~GaussianSpatialObject(void);
 
   ScalarType m_Maximum;
   ScalarType m_Radius;
   ScalarType m_Sigma;
 
   /** Print the object information in a stream. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
-
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

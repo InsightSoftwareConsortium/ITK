@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,8 +24,8 @@
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include <math.h>
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class NormalBandNode
  *
@@ -33,7 +33,7 @@ namespace itk {
  * the SparseImage class.
  *
  */
-template <class TImageType>
+template< class TImageType >
 class NormalBandNode
 {
 public:
@@ -41,14 +41,14 @@ public:
   typedef TImageType LevelSetImageType;
 
   /** The pixel type of the scalar image. Expected to be float or double. */
-  typedef typename LevelSetImageType::PixelType  NodeValueType;
+  typedef typename LevelSetImageType::PixelType NodeValueType;
 
   /** The index type for the scalar image. */
-  typedef typename LevelSetImageType::IndexType  IndexType;
+  typedef typename LevelSetImageType::IndexType IndexType;
 
   /** The definition for the normal vector type of the scalar image. */
-  typedef Vector <NodeValueType,
-                  ::itk::GetImageDimension<TImageType>::ImageDimension>
+  typedef Vector< NodeValueType,
+                  ::itk::GetImageDimension< TImageType >::ImageDimension >
   NodeDataType;
 
   /** Container for output data (normal vectors). */
@@ -63,10 +63,10 @@ public:
   /** Container for the manifold normal vector. These are computed once at
       initialization and later used for computing intrinsic derivatives. */
   NodeDataType
-  m_ManifoldNormal[::itk::GetImageDimension<TImageType>::ImageDimension];
+    m_ManifoldNormal[::itk::GetImageDimension < TImageType > ::ImageDimension];
 
   /** Intermediate flux computations used in computing the update. */
-  NodeDataType m_Flux [::itk::GetImageDimension<TImageType>::ImageDimension];
+  NodeDataType m_Flux[::itk::GetImageDimension < TImageType > ::ImageDimension];
 
   /** Curvature computed from the output normal vectors. Used by
       LevelSetFunctionWithRefitTerm for its propagation term. */
@@ -74,13 +74,13 @@ public:
 
   /** This flag is true if the curvature value at this node is valid, false
       otherwise. */
-  bool          m_CurvatureFlag;
+  bool m_CurvatureFlag;
 
   /** The position of this node in the sparse image. */
-  IndexType m_Index;  
+  IndexType m_Index;
 
   /** Pointers to previous and next nodes in the list. */
-  NormalBandNode *Next;  
+  NormalBandNode *Next;
   NormalBandNode *Previous;
 };
 
@@ -100,7 +100,7 @@ public:
  * of a sparse image templated with the NormalBandNode type. We then compute
  * curvatures from that output and store them in the SparseImage as well. This
  * SparseImage is passed onto the LevelSetFunctionWithRefitTerm filter class to
- * be used as a target in the propagation term. 
+ * be used as a target in the propagation term.
  *
  * \par INPUT and OUTPUT
  * Same as SparseFieldLevelSetImageFilter
@@ -148,25 +148,25 @@ public:
  * documentation for ImplicitManifoldNormalVectorFilter.
  *
  * \par IMPORTANT
- * Users of this class must define the Halt function. 
+ * Users of this class must define the Halt function.
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter
-  : public SparseFieldLevelSetImageFilter <TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter:
+  public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs */
-  typedef SparseFieldFourthOrderLevelSetImageFilter                 Self;
-  typedef SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef SparseFieldFourthOrderLevelSetImageFilter                   Self;
+  typedef SparseFieldLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                        Pointer;
+  typedef SmartPointer< const Self >                                  ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SparseFieldFourthOrderLevelSetImageFilter,
                SparseFieldLevelSetImageFilter);
-  
+
   /** Standard image dimension macro. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs derived from the superclass. */
   typedef typename Superclass::OutputImageType        OutputImageType;
@@ -178,39 +178,39 @@ public:
 
   /** The storage class used as the node type for the sparse normal vector
       image. */
-  typedef NormalBandNode <OutputImageType> NodeType;
-  
+  typedef NormalBandNode< OutputImageType > NodeType;
+
   /** The sparse image type used for processing the normal vectors. */
-  typedef SparseImage <NodeType,
-                       itkGetStaticConstMacro(ImageDimension)> SparseImageType;
+  typedef SparseImage< NodeType,
+                       itkGetStaticConstMacro(ImageDimension) > SparseImageType;
 
   /** The normal vector type. */
   typedef typename NodeType::NodeDataType NormalVectorType;
 
   /** The iterator type for the sparse image. */
-  typedef NeighborhoodIterator <SparseImageType> SparseImageIteratorType;
+  typedef NeighborhoodIterator< SparseImageType > SparseImageIteratorType;
 
   /** The filter type for processing the normal vectors of the level set. */
-  typedef ImplicitManifoldNormalVectorFilter <OutputImageType, SparseImageType>
+  typedef ImplicitManifoldNormalVectorFilter< OutputImageType, SparseImageType >
   NormalVectorFilterType;
 
   /** The function type for processing the normal vector neigborhood. */
-  typedef NormalVectorDiffusionFunction <SparseImageType>
+  typedef NormalVectorDiffusionFunction< SparseImageType >
   NormalVectorFunctionType;
 
   /** The radius type derived from the normal vector function. */
   //typedef typename NormalVectorFunctionType::RadiusType RadiusType;
 
   /** The level set function with refitting term type. */
-  typedef LevelSetFunctionWithRefitTerm <OutputImageType,
-                                         SparseImageType> LevelSetFunctionType; 
-  
-  itkGetConstReferenceMacro(MaxRefitIteration,unsigned int);
-  itkSetMacro(MaxRefitIteration,unsigned int);
-  itkGetConstReferenceMacro(MaxNormalIteration,unsigned int);
-  itkSetMacro(MaxNormalIteration,unsigned int);
-  itkGetConstReferenceMacro(CurvatureBandWidth,ValueType);
-  itkSetMacro(CurvatureBandWidth,ValueType);
+  typedef LevelSetFunctionWithRefitTerm< OutputImageType,
+                                         SparseImageType > LevelSetFunctionType;
+
+  itkGetConstReferenceMacro(MaxRefitIteration, unsigned int);
+  itkSetMacro(MaxRefitIteration, unsigned int);
+  itkGetConstReferenceMacro(MaxNormalIteration, unsigned int);
+  itkSetMacro(MaxNormalIteration, unsigned int);
+  itkGetConstReferenceMacro(CurvatureBandWidth, ValueType);
+  itkSetMacro(CurvatureBandWidth, ValueType);
   itkGetConstReferenceMacro(RMSChangeNormalProcessTrigger, ValueType);
   itkSetMacro(RMSChangeNormalProcessTrigger, ValueType);
   itkGetConstReferenceMacro(NormalProcessType, int);
@@ -224,44 +224,45 @@ public:
 
   /** Set the level set function. Must LevelSetFunctionWithRefitTerm or a
       subclass. */
-  void SetLevelSetFunction( LevelSetFunctionType *lsf );
+  void SetLevelSetFunction(LevelSetFunctionType *lsf);
 
   /** Compute the number of layers that must be used in
       SparseFieldLevelSetImageFilter to accomodate the desired normal
       processing band. */
   unsigned int GetMinimumNumberOfLayers() const
-    {
-    return (int)vcl_ceil(m_CurvatureBandWidth+
-                     itkGetStaticConstMacro(ImageDimension));
-    }
+  {
+    return (int)vcl_ceil( m_CurvatureBandWidth
+                          + itkGetStaticConstMacro(ImageDimension) );
+  }
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make
       sure we have enough layers to do what we need. */
-  virtual void SetNumberOfLayers( const unsigned int n )
-    {
-    unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n );
-    if (nm != this->GetNumberOfLayers())
+  virtual void SetNumberOfLayers(const unsigned int n)
+  {
+    unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n);
+
+    if ( nm != this->GetNumberOfLayers() )
       {
       Superclass::SetNumberOfLayers (nm);
       this->Modified();
       }
-    }
-  
+  }
+
   /** This method first calls the Superclass InitializeIteration method. Then
       it determines whether ProcessNormals should be called. */
   virtual void InitializeIteration()
-    {
+  {
     Superclass::InitializeIteration();
     ValueType rmschange = this->GetRMSChange();
 
-    if ( ( this->GetElapsedIterations() == 0 ) ||
-         ( m_RefitIteration == m_MaxRefitIteration ) ||
-         ( rmschange <= m_RMSChangeNormalProcessTrigger ) ||
-         ( this->ActiveLayerCheckBand() ) )
+    if ( ( this->GetElapsedIterations() == 0 )
+         || ( m_RefitIteration == m_MaxRefitIteration )
+         || ( rmschange <= m_RMSChangeNormalProcessTrigger )
+         || ( this->ActiveLayerCheckBand() ) )
       {
-      if ( ( this->GetElapsedIterations() != 0 ) &&
-           ( rmschange <= m_RMSChangeNormalProcessTrigger ) &&
-           ( m_RefitIteration <= 1) )
+      if ( ( this->GetElapsedIterations() != 0 )
+           && ( rmschange <= m_RMSChangeNormalProcessTrigger )
+           && ( m_RefitIteration <= 1 ) )
         {
         m_ConvergenceFlag = true;
         }
@@ -269,33 +270,31 @@ public:
       m_RefitIteration = 0;
       ProcessNormals();
       }
-    
+
     m_RefitIteration++;
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<ValueType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< ValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
-  ~SparseFieldFourthOrderLevelSetImageFilter() {};
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-
+  ~SparseFieldFourthOrderLevelSetImageFilter() {}
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */
   ValueType ComputeCurvatureFromSparseImageNeighborhood
-  ( SparseImageIteratorType &neighborhood ) const;
+    (SparseImageIteratorType & neighborhood) const;
 
   /** This method computes curvature from the processed normal vectors over
    *  the region specified by the CurvatureBandWidth parameter. The
    *  curvatures are stored in the sparse image. */
-  void ComputeCurvatureTarget( const OutputImageType *distanceImage,
-                               SparseImageType *sparseImage ) const;
+  void ComputeCurvatureTarget(const OutputImageType *distanceImage,
+                              SparseImageType *sparseImage) const;
 
   /** The method for processing the normal vectors. */
   void ProcessNormals();
@@ -305,7 +304,7 @@ protected:
    * computed. This is one of the conditions for triggering the ProcessNormals
    * method. */
   bool ActiveLayerCheckBand() const;
-  
+
 private:
   /** This is a iteration counter that gets reset to 0 every time
       ProcessNormals method is called. */
@@ -332,7 +331,7 @@ private:
   /** The level set function with the term for refitting the level set to the
       processed normal vectors. */
   LevelSetFunctionType *m_LevelSetFunction;
-  
+
   /** This parameter determines the width of the band where we compute
    * curvature from the processed normals. The wider the band, the more level set
    * iterations that can be performed between calls to ProcessNormals. It is
@@ -354,16 +353,15 @@ private:
   /** The weight that controls the extent of enhancement if the
       NormalProcessUnsharpFlag is ON. */
   ValueType m_NormalProcessUnsharpWeight;
-  
+
   /** Constants used in the computations. */
   static const unsigned long m_NumVertex;
-  static const ValueType     m_DimConst;
+  static const ValueType m_DimConst;
 
-  SparseFieldFourthOrderLevelSetImageFilter(const Self&);
+  SparseFieldFourthOrderLevelSetImageFilter(const Self &);
   //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

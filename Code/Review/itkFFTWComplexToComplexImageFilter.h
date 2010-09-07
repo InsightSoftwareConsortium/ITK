@@ -18,7 +18,7 @@
 #ifndef __itkFFTWComplexToComplexImageFilter_h
 #define __itkFFTWComplexToComplexImageFilter_h
 
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined( USE_FFTWF ) || defined( USE_FFTWD )
 
 #include "itkFFTComplexToComplexImageFilter.h"
 #include "fftw3.h"
@@ -34,7 +34,7 @@ namespace itk
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
  *
- * \note Attribution Notice. This research work was made possible by 
+ * \note Attribution Notice. This research work was made possible by
  * Grant Number R01 RR021885 (PI Simon K. Warfield, Ph.D.) from
  * the National Center for Research Resources (NCRR), a component of the
  * National Institutes of Health (NIH).  Its contents are solely the
@@ -43,31 +43,30 @@ namespace itk
  *
  */
 
-template <typename TPixel,unsigned int NDimension = 3 >
+template< typename TPixel, unsigned int NDimension = 3 >
 class FFTWComplexToComplexImageFilter:
-    public FFTComplexToComplexImageFilter< TPixel, NDimension >
+  public FFTComplexToComplexImageFilter< TPixel, NDimension >
 {
 //#error Invalid Type Listed for TPixel
 };
 
-template <unsigned int NDimension>
-class FFTWComplexToComplexImageFilter<float,NDimension>:
-    public FFTComplexToComplexImageFilter<float,NDimension>
+template< unsigned int NDimension >
+class FFTWComplexToComplexImageFilter< float, NDimension > :
+  public FFTComplexToComplexImageFilter< float, NDimension >
 {
 // TODO:  There should be compile time type checks so that
 //        if only USE_FFTWF is defined, then only floats are valid.
 //        and if USE_FFTWD is defined, then only doubles are valid.
 public:
-  typedef float                                       TPixel;
-  typedef FFTWComplexToComplexImageFilter             Self;
-  typedef FFTComplexToComplexImageFilter<
-    TPixel,NDimension>                                Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef float                                                TPixel;
+  typedef FFTWComplexToComplexImageFilter                      Self;
+  typedef FFTComplexToComplexImageFilter< TPixel, NDimension > Superclass;
+  typedef SmartPointer< Self >                                 Pointer;
+  typedef SmartPointer< const Self >                           ConstPointer;
 
   /** Standard class typedefs. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::OutputImageType        OutputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,59 +76,55 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef InputImageType                          ImageType;
-  typedef typename ImageType::SizeType            ImageSizeType;
-
-
+  typedef InputImageType               ImageType;
+  typedef typename ImageType::SizeType ImageSizeType;
 protected:
 
   FFTWComplexToComplexImageFilter()
-    {
-    this->m_PlanComputed= false;
-    }
+  {
+    this->m_PlanComputed = false;
+  }
 
   virtual ~FFTWComplexToComplexImageFilter()
-    {
-    if(m_PlanComputed)
+  {
+    if ( m_PlanComputed )
       {
       fftwf_destroy_plan(m_Plan);
       }
-    }
-  
-  /** 
+  }
+
+  /**
    * these methods should be defined in every FFT filter class
    */
   virtual void GenerateData();  // generates output from input
+
   virtual bool FullMatrix();
 
-
 private:
-  FFTWComplexToComplexImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FFTWComplexToComplexImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 
-  bool            m_PlanComputed;
-  fftwf_plan      m_Plan;
+  bool       m_PlanComputed;
+  fftwf_plan m_Plan;
 };
 
-
-template <unsigned int NDimension>
-class FFTWComplexToComplexImageFilter<double,NDimension>:
-    public FFTComplexToComplexImageFilter<double,NDimension>
+template< unsigned int NDimension >
+class FFTWComplexToComplexImageFilter< double, NDimension > :
+  public FFTComplexToComplexImageFilter< double, NDimension >
 {
 // TODO:  There should be compile time type checks so that
 //        if only USE_FFTWF is defined, then only floats are valid.
 //        and if USE_FFTWD is defined, then only doubles are valid.
 public:
-  typedef double                                  TPixel;
-  typedef FFTWComplexToComplexImageFilter         Self;
-  typedef FFTComplexToComplexImageFilter<
-    TPixel,NDimension>                            Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
+  typedef double                                               TPixel;
+  typedef FFTWComplexToComplexImageFilter                      Self;
+  typedef FFTComplexToComplexImageFilter< TPixel, NDimension > Superclass;
+  typedef SmartPointer< Self >                                 Pointer;
+  typedef SmartPointer< const Self >                           ConstPointer;
 
   /** Standard class typedefs. */
-  typedef typename Superclass::InputImageType     InputImageType;
-  typedef typename Superclass::OutputImageType    OutputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -139,37 +134,36 @@ public:
                FFTComplexToComplexImageFilter);
 
   /** Image type typedef support. */
-  typedef InputImageType                          ImageType;
-  typedef typename ImageType::SizeType            ImageSizeType;
-
+  typedef InputImageType               ImageType;
+  typedef typename ImageType::SizeType ImageSizeType;
 protected:
 
   FFTWComplexToComplexImageFilter()
-    {
-    m_PlanComputed= false;
-    }
+  {
+    m_PlanComputed = false;
+  }
 
   virtual ~FFTWComplexToComplexImageFilter()
-    {
-    if( this->m_PlanComputed )
+  {
+    if ( this->m_PlanComputed )
       {
-      fftw_destroy_plan( this->m_Plan );
+      fftw_destroy_plan(this->m_Plan);
       }
-    }
+  }
 
   //
   // these should be defined in every FFT filter class
   virtual void GenerateData();  // generates output from input
+
   virtual bool FullMatrix();
 
 private:
-  FFTWComplexToComplexImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FFTWComplexToComplexImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 
-  bool                      m_PlanComputed;
-  fftw_plan                 m_Plan;
+  bool      m_PlanComputed;
+  fftw_plan m_Plan;
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

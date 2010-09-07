@@ -28,18 +28,19 @@ namespace itk
 /** \class MRCImageIOFactory
  * \brief Create instances of MRCImageIO objects using an object factory.
  */
-class ITK_EXPORT MRCImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT MRCImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MRCImageIOFactory        Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef MRCImageIOFactory          Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Class Methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -49,22 +50,19 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     MRCImageIOFactory::Pointer vtkFactory = MRCImageIOFactory::New();
+
     ObjectFactoryBase::RegisterFactory(vtkFactory);
-    }
+  }
 
 protected:
   MRCImageIOFactory();
   ~MRCImageIOFactory();
-
 private:
-  MRCImageIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  MRCImageIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,7 @@
 #include "itkListSample.h"
 #include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
-#include "itkEuclideanDistance.h"
+#include "itkEuclideanDistanceMetric.h"
 
 #include <iostream>
 #include <fstream>
@@ -62,7 +62,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
     {
     sample->PushBack( mv );
     pntFile >> mv[0] >> mv[1];
-    } 
+    }
   while( !pntFile.eof() );
 
   pntFile.close();
@@ -77,14 +77,14 @@ int itkKdTreeTest2( int argc, char * argv [] )
   treeGenerator->Update();
 
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::NearestNeighbors NeighborsType;
-  typedef TreeType::KdTreeNodeType NodeType;
+  typedef TreeType::NearestNeighbors    NeighborsType;
+  typedef TreeType::KdTreeNodeType      NodeType;
 
   bool testFailed = false;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
-    
-  typedef itk::Statistics::EuclideanDistance< MeasurementVectorType > 
+
+  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >
     DistanceMetricType;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
@@ -98,10 +98,10 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   for( unsigned int k = 0; k < sample->Size(); k++ )
     {
-    
+
     queryPoint = sample->GetMeasurementVector(k);
 
-    for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
+    for ( unsigned int i = 0; i < sample->GetMeasurementVectorSize(); ++i )
       {
       origin[i] = queryPoint[i];
       }
@@ -111,24 +111,24 @@ int itkKdTreeTest2( int argc, char * argv [] )
     std::cout << "Origin = " << origin << std::endl;
 
     distanceMetric->SetOrigin( origin );
-    
+
     unsigned int numberOfNeighbors = 1;
     TreeType::InstanceIdentifierVectorType neighbors;
-    
-    tree->Search( queryPoint, numberOfNeighbors, neighbors ) ; 
-    
-    std::cout << "kd-tree knn search result:" << std::endl 
+
+    tree->Search( queryPoint, numberOfNeighbors, neighbors );
+
+    std::cout << "kd-tree knn search result:" << std::endl
               << "query point = [" << queryPoint << "]" << std::endl
               << "k = " << numberOfNeighbors << std::endl;
     std::cout << "measurement vector : distance" << std::endl;
 
-    for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
+    for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
       {
-      const double distance = 
+      const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
 
       std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
-                << "] : "  
+                << "] : "
                 << distance << std::endl;
 
       if( distance > vnl_math::eps )

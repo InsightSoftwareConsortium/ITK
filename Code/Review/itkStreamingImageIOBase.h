@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class StreamingImageIOBase
  *
  * \brief A base class for specific ImageIO file formats which support
@@ -38,53 +37,52 @@ namespace itk
  * GenerateStreamableReadRegionFromRequestedRegion GetActualNumberOfSplitsForWriting
  *
  * Additionaly low level IO methods are provided to read and write an IORegion from
- * a file. 
+ * a file.
  * \sa StreamReadBufferAsBinary StreamWriteBufferAsBinary
- * 
+ *
  * \sa itk::ImageFileReader itk::ImageFileWriter
  * \ingroup IOFilters
  */
-class ITK_EXPORT StreamingImageIOBase : public ImageIOBase
+class ITK_EXPORT StreamingImageIOBase:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
   typedef StreamingImageIOBase Self;
   typedef ImageIOBase          Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  
+  typedef SmartPointer< Self > Pointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(StreamingImageIOBase, ImageIOBase);
-  
-  // see super class for documentation
-  // 
-  // overidden to return true
-  virtual bool CanStreamWrite( void );
 
   // see super class for documentation
   //
   // overidden to return true
-  virtual bool CanStreamRead( void );
+  virtual bool CanStreamWrite(void);
+
+  // see super class for documentation
+  //
+  // overidden to return true
+  virtual bool CanStreamRead(void);
 
   // see super class for documentation
   //
   // If UseStreamedReading is true, then returned region is the
-  // requested region parameter. 
-  virtual ImageIORegion GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requested ) const;
+  // requested region parameter.
+  virtual ImageIORegion GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const;
 
   // see super class for documentation
   //
   // Verifies the set file name meets the pasting requirements, then calls
-  // GetActualNumberOfSplitsForWritingCanStreamWrite 
-  virtual unsigned int GetActualNumberOfSplitsForWriting( unsigned int numberOfRequestedSplits,
-                                                          const ImageIORegion &pasteRegion,
-                                                          const ImageIORegion &largestPossibleRegion );
-    
+  // GetActualNumberOfSplitsForWritingCanStreamWrite
+  virtual unsigned int GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+                                                         const ImageIORegion & pasteRegion,
+                                                         const ImageIORegion & largestPossibleRegion);
+
 protected:
   StreamingImageIOBase();
   // virtual ~StreamingImageIOBase(); not needed
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  
   /** \brief Returns true if GetIORegion is not the same size as the
    * largest region give by GetNumberOfDimensions.
    *
@@ -92,25 +90,22 @@ protected:
    * file. With out regaurd to the dimensions of either, if the
    * images represent the same region then false is returned.
    */
-  virtual bool RequestedToStream( void ) const;
-  
+  virtual bool RequestedToStream(void) const;
 
   /** \brief Reimplemented from super class to get around 2GB
    * read/write limitation
    *
    * \todo Move this method to itk::ImageIOBase
    */
-  virtual bool ReadBufferAsBinary( std::istream& is, void *buffer, SizeType num );
+  virtual bool ReadBufferAsBinary(std::istream & is, void *buffer, SizeType num);
 
-  
   /** \brief Reimplemented from super class to get around 2GB
    * read/write limitation.
    *
    * \todo Move this methods to itk::ImageIOBase
    */
-  virtual bool WriteBufferAsBinary( std::ostream& is, const void *buffer, SizeType num );
+  virtual bool WriteBufferAsBinary(std::ostream & is, const void *buffer, SizeType num);
 
-  
   /** \brief Reads the set IORegion from os into buffer
    *
    * \param os is an istream presumed to be opened for reading in binary
@@ -120,15 +115,15 @@ protected:
    *
    * This methods relies on GetDataPosition to determin where the
    * data is located in the file. It uses m_IORegion to determin the
-   * requested region to read.  
+   * requested region to read.
    *
    * The files data is assumed to be unpadded and continuous in the
    * file for the size of the image in the dimensions of the
    * m_IORegion. This means that the image file could be broken into
    * slices, but not blocks for this methods to be used.
    */
-  virtual bool StreamReadBufferAsBinary(std::istream& os, void *buffer);
-  
+  virtual bool StreamReadBufferAsBinary(std::istream & os, void *buffer);
+
   /** \brief Writes the set IORegion from buffer into os
    *
    * \param os is an ostream presumed to be opened for writing and
@@ -138,27 +133,25 @@ protected:
    *
    * This methods relies on GetDataPosition to determin where the data
    * is located in the file. It usesy m_IORegion determin the requested
-   * region to written.  
+   * region to written.
    */
-  virtual bool StreamWriteBufferAsBinary(std::ostream& os, const void *buffer);
-
+  virtual bool StreamWriteBufferAsBinary(std::ostream & os, const void *buffer);
 
   /** \brief Returns the size of the header in the file */
-  virtual SizeType GetHeaderSize(void ) const = 0;
+  virtual SizeType GetHeaderSize(void) const = 0;
 
   /** \brief Returns the byte offset into the file where the data is located
    *
-   * The default implementation is to return the header size. 
+   * The default implementation is to return the header size.
    */
-  virtual SizeType GetDataPosition( void ) const { return this->GetHeaderSize(); };
+  virtual SizeType GetDataPosition(void) const { return this->GetHeaderSize(); }
 
-  
   /** \brief Opens a file for reading and random access
    *
    * The stream is closed if it's already opened. If an error is
    * encountered then an exception will be thrown.
    */
-  virtual void OpenFileForReading(std::ifstream& os, const char* filename);
+  virtual void OpenFileForReading(std::ifstream & os, const char *filename);
 
   /** \brief Opens a file for writing and random access
    *
@@ -167,16 +160,12 @@ protected:
    * The stream is closed if it's already opened. If an error is
    * encountered then an exception will be thrown.
    */
-  virtual void OpenFileForWriting(std::ofstream& os, const char* filename, bool truncate);
+  virtual void OpenFileForWriting(std::ofstream & os, const char *filename, bool truncate);
 
 private:
-  StreamingImageIOBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-
+  StreamingImageIOBase(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
 };
-
 } // namespace itk
-
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 #include <iostream>
 #include "itkConstNeighborhoodIterator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class NeighborhoodIterator
  * \brief  Defines iteration of a local N-dimensional neighborhood of pixels
@@ -63,7 +63,7 @@ namespace itk {
  *   std::cout << "Derivative at index " << iterator.GetIndex() << is <<
  *     IP(iterator, operator) << std::endl;
  *   ++iterator;
- * } 
+ * }
  * \endcode
  *
  * Most of the work for the programmer in the code above is in setting up for
@@ -93,7 +93,7 @@ namespace itk {
  *
  * A \em pixel \em neighborhood is defined as a central pixel location and an
  * N-dimensional radius extending outward from that location.
- 
+
  * Pixels in a neighborhood can be accessed through a NeighborhoodIterator
  * like elements in an array.  For example, a 2D neighborhood with radius 2x1
  * has indices:
@@ -129,7 +129,7 @@ namespace itk {
  * std::cout << iterator.GetPixel(c)      << std::endl;
  * std::cout << iterator.GetPixel(c-1)    << std::endl;
  * std::cout << iterator.GetPixel(c-s)    << std::endl;
- * std::cout << iterator.GetPixel(c-s-1)  << std::endl; 
+ * std::cout << iterator.GetPixel(c-s-1)  << std::endl;
  * std::cout << *iterator[c]              << std::endl;
  *
  * \endcode
@@ -168,7 +168,7 @@ namespace itk {
  * internal loop variables and offsets to trigger wraps at itk::Image region
  * boundaries, and to identify the end of the itk::Image region.
  *
- * 
+ *
  * \todo Better support for regions with negative indicies.
  * \todo Add Begin() and End() methods?
  *
@@ -183,39 +183,39 @@ namespace itk {
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup Operators
  */
-template<class TImage, class TBoundaryCondition
-                       = ZeroFluxNeumannBoundaryCondition<TImage> >
-class ITK_EXPORT NeighborhoodIterator
-  :  public ConstNeighborhoodIterator<TImage,TBoundaryCondition>
+template< class TImage, class TBoundaryCondition =
+            ZeroFluxNeumannBoundaryCondition< TImage > >
+class ITK_EXPORT NeighborhoodIterator:
+  public ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:
   /** Standard class typedefs. */
-  typedef NeighborhoodIterator                                 Self;
-  typedef ConstNeighborhoodIterator<TImage,TBoundaryCondition> Superclass;
-  
+  typedef NeighborhoodIterator                                    Self;
+  typedef ConstNeighborhoodIterator< TImage, TBoundaryCondition > Superclass;
+
   /** Extract typedefs from superclass. */
   typedef typename Superclass::InternalPixelType InternalPixelType;
   typedef typename Superclass::PixelType         PixelType;
@@ -230,38 +230,38 @@ public:
   typedef typename Superclass::Iterator          Iterator;
   typedef typename Superclass::ConstIterator     ConstIterator;
   typedef typename Superclass::ImageBoundaryConditionPointerType
-                                                 ImageBoundaryConditionPointerType;
-    
+  ImageBoundaryConditionPointerType;
+
   /** Default constructor. */
-  NeighborhoodIterator(): Superclass() {}
-  
+  NeighborhoodIterator():Superclass() {}
+
   /** Copy constructor */
-  NeighborhoodIterator( const NeighborhoodIterator &n ) : Superclass(n) {}
-  
+  NeighborhoodIterator(const NeighborhoodIterator & n):Superclass(n) {}
+
   /** Assignment operator */
-  Self &operator=(const Self& orig)
-    {
-      Superclass::operator=(orig);
-      return *this;
-    }
-  
+  Self & operator=(const Self & orig)
+  {
+    Superclass::operator=(orig);
+    return *this;
+  }
+
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  NeighborhoodIterator(const SizeType &radius, ImageType * ptr,
-                       const RegionType &region)
-    : Superclass(radius, ptr, region) { }
+  NeighborhoodIterator(const SizeType & radius, ImageType *ptr,
+                       const RegionType & region):
+    Superclass(radius, ptr, region) {}
 
   /** Standard print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
   /** Returns the central memory pointer of the neighborhood. */
-  InternalPixelType *GetCenterPointer()
-    { return (this->operator[]((this->Size())>>1)); }
+  InternalPixelType * GetCenterPointer()
+  { return ( this->operator[]( ( this->Size() ) >> 1 ) ); }
 
   /** Returns the central pixel of the neighborhood. */
-  virtual void SetCenterPixel(const PixelType &p)
-  { this->m_NeighborhoodAccessorFunctor.Set(this->operator[]((this->Size())>>1), p); }
-  
+  virtual void SetCenterPixel(const PixelType & p)
+  { this->m_NeighborhoodAccessorFunctor.Set(this->operator[]( ( this->Size() ) >> 1 ), p); }
+
   /** Virtual function that replaces the pixel values in the image
    * neighborhood that are pointed to by this NeighborhoodIterator with
    * the pixel values contained in a Neighborhood. */
@@ -269,55 +269,59 @@ public:
 
   /** Special SetPixel method which quietly ignores out-of-bounds attempts.
    *  Sets status TRUE if pixel has been set, FALSE otherwise.  */
-  virtual void SetPixel(const unsigned i, const PixelType &v,
-                        bool  &status);
-  
+  virtual void SetPixel(const unsigned i, const PixelType & v,
+                        bool  & status);
+
   /** Set the pixel at the ith location. */
-  virtual void SetPixel(const unsigned i, const PixelType &v);
+  virtual void SetPixel(const unsigned i, const PixelType & v);
+
   //  { *(this->operator[](i)) = v; }
-  
+
   /** Set the pixel at offset o from the neighborhood center */
-  virtual void SetPixel(const OffsetType o, const PixelType &v)
+  virtual void SetPixel(const OffsetType o, const PixelType & v)
   { this->SetPixel(this->GetNeighborhoodIndex(o), v); }
-    //  { *(this->operator[](o)) = v; }
+  //  { *(this->operator[](o)) = v; }
 
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the positive specified ``axis'' direction. No bounds checking is done on
       the size of the neighborhood. */
   virtual void SetNext(const unsigned axis, const unsigned i,
-                            const PixelType &v)
-  {   this->SetPixel(this->GetCenterNeighborhoodIndex()
-                     + (i * this->GetStride(axis)), v); }
-  
-  
+                       const PixelType & v)
+  {
+    this->SetPixel(this->GetCenterNeighborhoodIndex()
+                   + ( i * this->GetStride(axis) ), v);
+  }
+
   /** Sets the pixel value located one pixel distant from the neighborhood center in
       the specifed positive axis direction. No bounds checking is done on the
       size of the neighborhood. */
-  virtual void SetNext(const unsigned axis, const PixelType &v)
-    {   this->SetPixel(this->GetCenterNeighborhoodIndex()
-                       + this->GetStride(axis), v); }
-  
+  virtual void SetNext(const unsigned axis, const PixelType & v)
+  {
+    this->SetPixel(this->GetCenterNeighborhoodIndex()
+                   + this->GetStride(axis), v);
+  }
+
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the negative specified ``axis'' direction. No bounds checking is done on
       the size of the neighborhood. */
   virtual void SetPrevious(const unsigned axis, const unsigned i,
-                                const PixelType &v)
-    { this->SetPixel(this->GetCenterNeighborhoodIndex()
-                     - (i * this->GetStride(axis)), v); }
-  
-  
+                           const PixelType & v)
+  {
+    this->SetPixel(this->GetCenterNeighborhoodIndex()
+                   - ( i * this->GetStride(axis) ), v);
+  }
+
   /** Sets the pixel value located one pixel distant from the neighborhood center in
       the specifed negative axis direction. No bounds checking is done on the
       size of the neighborhood. */
   virtual void SetPrevious(const unsigned axis,
-                                const PixelType &v)
-    { this->SetPixel(this->GetCenterNeighborhoodIndex()
-                     - this->GetStride(axis), v); }
-  
+                           const PixelType & v)
+  {
+    this->SetPixel(this->GetCenterNeighborhoodIndex()
+                   - this->GetStride(axis), v);
+  }
 };
-
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNeighborhoodIterator.txx"

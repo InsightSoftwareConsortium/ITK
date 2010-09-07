@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,9 @@
 
 namespace itk
 {
-  
 /** \class RGBToLuminanceImageFilter
  * \brief Converts an RGB image into a grayscale image.
- * 
+ *
  * This filters converts an RGB image into a Luminance on by computing
  * pixel-wise a linear combination on the Red, Green and Blue channels. The
  * pixel type of the input image must have a GetLuminance() method. This is the
@@ -32,9 +31,9 @@ namespace itk
  *
  * \ingroup IntensityImageFilters  Multithreaded
  */
-namespace Function {  
-  
-template< class TInput, class TOutput>
+namespace Function
+{
+template< class TInput, class TOutput >
 class RGBToLuminance
 {
 public:
@@ -43,62 +42,60 @@ public:
 
   RGBToLuminance() {}
   ~RGBToLuminance() {}
-  bool operator!=( const RGBToLuminance & ) const
-    {
+  bool operator!=(const RGBToLuminance &) const
+  {
     return false;
-    }
-  bool operator==( const RGBToLuminance & other ) const
-    {
-    return !(*this != other);
-    }
-  inline TOutput operator()( const TInput & A ) const
-    { return static_cast<TOutput>( A.GetLuminance() ); }
-}; 
+  }
+
+  bool operator==(const RGBToLuminance & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput & A) const
+  { return static_cast< TOutput >( A.GetLuminance() ); }
+};
 }
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT RGBToLuminanceImageFilter :
-    public
-UnaryFunctorImageFilter<TInputImage,TOutputImage, 
-                        Function::RGBToLuminance< 
-  typename TInputImage::PixelType, 
-  typename TOutputImage::PixelType>   >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT RGBToLuminanceImageFilter:
+  public
+  UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                           Function::RGBToLuminance<
+                             typename TInputImage::PixelType,
+                             typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef RGBToLuminanceImageFilter                               Self;
+  typedef RGBToLuminanceImageFilter Self;
   typedef UnaryFunctorImageFilter<
-    TInputImage,TOutputImage, 
-    Function::RGBToLuminance<typename TInputImage::PixelType, 
-                             typename TOutputImage::PixelType> >  Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+    TInputImage, TOutputImage,
+    Function::RGBToLuminance< typename TInputImage::PixelType,
+                              typename TOutputImage::PixelType > >  Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(RGBToLuminanceImageFilter, 
+  itkTypeMacro(RGBToLuminanceImageFilter,
                UnaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType::ComponentType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ComponentType > ) );
   /** End concept checking */
 #endif
-
 protected:
   RGBToLuminanceImageFilter() {}
   virtual ~RGBToLuminanceImageFilter() {}
-
 private:
-  RGBToLuminanceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  RGBToLuminanceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

@@ -29,8 +29,8 @@ namespace itk
 {
 /** \class QuadEdgeMeshTraits
  *  \brief Class holding the traits of the QuadEdgeMesh.
- * 
- *  This class is a variant of the MeshTraits that adds the traits 
+ *
+ *  This class is a variant of the MeshTraits that adds the traits
  *  defined in the QuadEdgeMeshCellTraitsInfo class.
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
@@ -42,21 +42,21 @@ namespace itk
  *  \sa DefaultStaticMeshTraits
  */
 template< typename TPixel, unsigned int VPointDimension,
-          typename TPData, typename TDData, 
-          typename TCoordRep=float, typename TInterpolationWeight=float >
+          typename TPData, typename TDData,
+          typename TCoordRep = float, typename TInterpolationWeight = float >
 class QuadEdgeMeshTraits
 {
 public:
   /** Basic types for a mesh trait class. */
-  typedef QuadEdgeMeshTraits                Self;
-  typedef TPixel                            PixelType;
-  typedef TPixel                            CellPixelType;
-  typedef TCoordRep                         CoordRepType;
-  typedef TInterpolationWeight              InterpolationWeightType;
+  typedef QuadEdgeMeshTraits   Self;
+  typedef TPixel               PixelType;
+  typedef TPixel               CellPixelType;
+  typedef TCoordRep            CoordRepType;
+  typedef TInterpolationWeight InterpolationWeightType;
 
-  itkStaticConstMacro( PointDimension, unsigned int, VPointDimension );
-  itkStaticConstMacro( MaxTopologicalDimension, unsigned int,
-                       VPointDimension );
+  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
+                      VPointDimension);
 
   typedef unsigned long PointIdentifier;
   typedef unsigned long CellIdentifier;
@@ -69,9 +69,9 @@ public:
   typedef TPData PrimalDataType;
   typedef TDData DualDataType;
   typedef GeometricalQuadEdge< PointIdentifier, CellIdentifier,
-                        PrimalDataType, DualDataType > QEPrimal;
+                               PrimalDataType, DualDataType > QEPrimal;
   //typedef QEPrimal QEType;
-  typedef typename QEPrimal::DualType             QEDual;
+  typedef typename QEPrimal::DualType QEDual;
   // FOR LEO typedef typename QEPrimal::Superclass     QEType;
   // FOR LEO typedef typename QEPrimal::Dual           QEDual;
   typedef typename QEPrimal::OriginRefType     VertexRefType;
@@ -79,34 +79,33 @@ public:
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  typedef Point< CoordRepType, VPointDimension >       PointHashType;
+  typedef Point< CoordRepType, VPointDimension > PointHashType;
 
   /** Points have an entry in the Onext ring */
-  typedef QuadEdgeMeshPoint< 
-    CoordRepType, VPointDimension, QEPrimal >           PointType;
-  typedef MapContainer< PointIdentifier, PointType >    PointsContainer;
+  typedef QuadEdgeMeshPoint< CoordRepType, VPointDimension, QEPrimal > PointType;
+  typedef MapContainer< PointIdentifier, PointType >                   PointsContainer;
 
   /** Standard cell interface. */
-  typedef QuadEdgeMeshCellTraitsInfo< 
+  typedef QuadEdgeMeshCellTraitsInfo<
     VPointDimension, CoordRepType,
     InterpolationWeightType, PointIdentifier,
     CellIdentifier,          CellFeatureIdentifier,
     PointType,               PointsContainer,
     UsingCellsContainer,     QEPrimal >                 CellTraits;
-  typedef CellInterface< CellPixelType, CellTraits >    CellType;
-  typedef typename CellType::CellAutoPointer            CellAutoPointer;
+
+  typedef CellInterface< CellPixelType, CellTraits > CellType;
+  typedef typename CellType::CellAutoPointer         CellAutoPointer;
 
   /** Containers types. */
   typedef MapContainer< PointIdentifier,
                         PointCellLinksContainer >       CellLinksContainer;
-  typedef MapContainer< CellIdentifier, CellType* >     CellsContainer;
+  typedef MapContainer< CellIdentifier, CellType * >    CellsContainer;
   typedef MapContainer< PointIdentifier, PixelType >    PointDataContainer;
   typedef MapContainer< CellIdentifier, CellPixelType > CellDataContainer;
 
   /** Other useful types. */
   typedef typename PointType::VectorType VectorType;
 };
+}
 
-} 
-
-#endif 
+#endif

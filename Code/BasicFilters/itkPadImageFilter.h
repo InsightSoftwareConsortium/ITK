@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,35 +22,34 @@
 
 namespace itk
 {
-
 /** \class PadImageFilter
  * \brief Increase the image size by padding. Superclass for filters that fill
  * in extra pixels.
  *
- * PadImageFilter changes the image boundary of an image by padding each 
+ * PadImageFilter changes the image boundary of an image by padding each
  * dimension with subclass defined algorithms.  The number of pixels to pad
  * for the upper and lower bounds of each dimension must be specified.
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
- * 
+ *
  * \ingroup GeometricTransforms
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter
  *
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT PadImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef PadImageFilter                                Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef PadImageFilter                                  Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Typedef to describe the output and input image region types. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
@@ -61,42 +60,41 @@ public:
   typedef typename TInputImage::PixelType  InputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TOutputImage::IndexType      OutputImageIndexType;
-  typedef typename TInputImage::IndexType       InputImageIndexType;
-  typedef typename TOutputImage::SizeType       OutputImageSizeType;
-  typedef typename TInputImage::SizeType        InputImageSizeType;
-  typedef typename TInputImage::SizeValueType   SizeValueType;
+  typedef typename TOutputImage::IndexType    OutputImageIndexType;
+  typedef typename TInputImage::IndexType     InputImageIndexType;
+  typedef typename TOutputImage::SizeType     OutputImageSizeType;
+  typedef typename TInputImage::SizeType      InputImageSizeType;
+  typedef typename TInputImage::SizeValueType SizeValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
 
-  /** Set/Get the output image padding.  Default is no padding 
+  /** Set/Get the output image padding.  Default is no padding
    *  (same as input). */
   itkSetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
   itkSetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
   itkGetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
   itkGetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
-                 
-  
+
   void SetPadLowerBound(const InputImageSizeType & bound)
-    {
-    this->SetPadLowerBound( bound.m_Size );
-    }
-    
+  {
+    this->SetPadLowerBound(bound.m_Size);
+  }
+
   void SetPadUpperBound(const InputImageSizeType & bound)
-    {
-    this->SetPadUpperBound( bound.m_Size );
-    }
-    
+  {
+    this->SetPadUpperBound(bound.m_Size);
+  }
+
   void SetPadBound(const InputImageSizeType & bound)
-    {
-    this->SetPadLowerBound( bound );
-    this->SetPadUpperBound( bound );
-    }
+  {
+    this->SetPadLowerBound(bound);
+    this->SetPadUpperBound(bound);
+  }
 
   /** PadImageFilter produces an image which is a different resolution
    * than its input image.  As such, PadImageFilter needs to
@@ -115,22 +113,20 @@ public:
 
 protected:
   PadImageFilter();
-  ~PadImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~PadImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  PadImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  PadImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  SizeValueType    m_PadLowerBound[ImageDimension];
-  SizeValueType    m_PadUpperBound[ImageDimension];
+  SizeValueType m_PadLowerBound[ImageDimension];
+  SizeValueType m_PadUpperBound[ImageDimension];
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPadImageFilter.txx"
 #endif
-  
+
 #endif

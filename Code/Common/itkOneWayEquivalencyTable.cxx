@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,19 +18,18 @@
 
 namespace itk
 {
-  
 bool OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 {
   //
   // Unlike EquivalencyTable, the order of the equivalence is important.
   //
-  std::pair<Iterator, bool> result;
-  if (a == b) return false;
+  std::pair< Iterator, bool > result;
+  if ( a == b ) { return false; }
   result = m_HashMap.insert( ValueType(a, b) );
 
   return result.second;
 }
-  
+
 //void OneWayEquivalencyTable::PrintHashTable()
 //{
 //  ConstIterator it = this->Begin();
@@ -44,9 +43,10 @@ bool OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 void OneWayEquivalencyTable::Flatten()
 {
   Iterator it = this->Begin();
+
   while ( it != this->End() )
     {
-    (*it).second = this->RecursiveLookup((*it).first);
+    ( *it ).second = this->RecursiveLookup( ( *it ).first );
     it++;
     }
 }
@@ -54,25 +54,28 @@ void OneWayEquivalencyTable::Flatten()
 unsigned long OneWayEquivalencyTable::RecursiveLookup(const unsigned long a) const
 {
   unsigned long ans = a;
-  unsigned long last_ans=a;
+  unsigned long last_ans = a;
 
   ConstIterator it;
   ConstIterator hashEnd = m_HashMap.end();
-  while ( (it = m_HashMap.find(ans)) != hashEnd )
+
+  while ( ( it = m_HashMap.find(ans) ) != hashEnd )
     {
-    ans = (*it).second;
-    if (ans == a ) return last_ans; // about to cycle again.
+    ans = ( *it ).second;
+    if ( ans == a )
+      {
+      return last_ans;              // about to cycle again.
+      }
     last_ans = ans;
     }
 
   return ans;
 }
 
-void 
+void
 OneWayEquivalencyTable
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
-}// end namespace itk
+} // end namespace itk

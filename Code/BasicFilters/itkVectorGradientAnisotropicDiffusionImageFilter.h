@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorGradientAnisotropicDiffusionImageFilter
  *
  * This filter performs anisotropic diffusion on a vector itk::Image using the
@@ -31,7 +31,7 @@ namespace itk {
  * anisotropic diffusion see itkAnisotropicDiffusionFunction,
  * itkVectorGradientNDAnisotropicDiffusionFunction, and
  * itkGradientAnisotropicDiffusionFunction.
- * 
+ *
  * \par Inputs and Outputs
  * The input to this filter must be an itk::Image with pixel
  * type which is either an itk::Vector, or a subclass of an itk::Vector.
@@ -51,17 +51,17 @@ namespace itk {
  *
  * \ingroup ImageEnhancement
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter
-  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT VectorGradientAnisotropicDiffusionImageFilter:
+  public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef VectorGradientAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-                                                        Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Instantiation through the object factory. */
   itkNewMacro(Self);
@@ -69,37 +69,38 @@ public:
   /** Run-time type information. */
   itkTypeMacro(VectorGradientAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
-  
+
   /** Extract information from the superclass. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
 
   /** Determine the image dimension from the  superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
+                      Superclass::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
-    {
-    typename VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer p
-      = VectorGradientNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+  {
+    typename VectorGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer p =
+      VectorGradientNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
     this->SetDifferenceFunction(p);
-    }
+  }
+
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
-
 private:
-  VectorGradientAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  VectorGradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
+                                                               // implemented
+  void operator=(const Self &);                                //purposely not
 
+  // implemented
+};
 } // end namspace itk
 
 #endif

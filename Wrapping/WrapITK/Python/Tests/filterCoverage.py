@@ -45,8 +45,6 @@ excluded = set([
   "FFTWComplexConjugateToRealImageFilter",
   "FFTRealToComplexConjugateImageFilter",
   "FFTComplexConjugateToRealImageFilter",
-  "SCSLComplexConjugateToRealImageFilter",
-  "SCSLRealToComplexConjugateImageFilter",
   "BinaryMorphologyImageFilter",
   "BinaryFunctorImageFilter",
   "TernaryFunctorImageFilter",

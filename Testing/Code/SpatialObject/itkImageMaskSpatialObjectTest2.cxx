@@ -34,7 +34,6 @@ PURPOSE.  See the above copyright notices for more information.
  */
 
 #include "itkImage.h"
-#include "itkOrientedImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
 #include "itkPoint.h"
@@ -51,7 +50,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   typedef itk::ImageMaskSpatialObject<NDimensions> ImageMaskSpatialObject;
   typedef ImageMaskSpatialObject::PixelType  PixelType;
   typedef itk::Image<PixelType,NDimensions>  ImageType;
-  typedef itk::OrientedImage<PixelType,NDimensions>  ImageType2;
+  typedef itk::Image<PixelType,NDimensions>  ImageType2;
   typedef ImageMaskSpatialObject::BoundingBoxType BoundingBox;
   typedef itk::ImageRegionIterator<ImageType> Iterator;
   typedef itk::ImageRegionIterator<ImageType2> Iterator2;

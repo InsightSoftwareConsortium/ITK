@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#define ITK_LEAN_AND_MEAN
-
 // Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Translation Transform,

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkWhiteTopHatImageFilter.txx
+  Module:    itkOptWhiteTopHatImageFilter.txx
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -9,23 +9,13 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkWhiteTopHatImageFilter_txx
 #define __itkWhiteTopHatImageFilter_txx
-
-// First make sure that the configuration is available.
-// This line can be removed once the optimized versions
-// gets integrated into the main directories.
-#include "itkConfigure.h"
-
-#ifdef ITK_USE_CONSOLIDATED_MORPHOLOGY
-#include "itkOptWhiteTopHatImageFilter.h"
-#else
-
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -34,67 +24,49 @@
 #include "itkSubtractImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-
-namespace itk {
-
-template <class TInputImage, class TOutputImage, class TKernel>
-WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TKernel >
+WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::WhiteTopHatImageFilter()
-  : m_Kernel()
 {
   m_SafeBorder = true;
+  m_Algorithm = HISTO;
+  m_ForceAlgorithm = false;
 }
 
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
-::GenerateInputRequestedRegion()
-{
-  // call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-  
-  // We need all the input.
-  InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if( input )
-    {
-    input->SetRequestedRegion( input->GetLargestPossibleRegion() );
-    }
-}
-
-
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
-::EnlargeOutputRequestedRegion(DataObject *)
-{
-  this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
-}
-
-
-template <class TInputImage, class TOutputImage, class TKernel>
-void 
-WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+void
+WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
-  
+
   // Delegate to an opening filter.
-  typename GrayscaleMorphologicalOpeningImageFilter<TInputImage, TInputImage, TKernel>::Pointer
-    open = GrayscaleMorphologicalOpeningImageFilter<TInputImage, TInputImage, TKernel>::New();
+  typename GrayscaleMorphologicalOpeningImageFilter< TInputImage, TInputImage, TKernel >::Pointer
+  open = GrayscaleMorphologicalOpeningImageFilter< TInputImage, TInputImage, TKernel >::New();
 
   open->SetInput( this->GetInput() );
   open->SetKernel( this->GetKernel() );
-  open->SetSafeBorder( m_SafeBorder );
-  
+  open->SetSafeBorder(m_SafeBorder);
+  if ( m_ForceAlgorithm )
+    {
+    open->SetAlgorithm(m_Algorithm);
+    }
+  else
+    {
+    m_Algorithm = open->GetAlgorithm();
+    }
+
   // Need to subtract the opened image from the input
-  typename SubtractImageFilter<TInputImage, TInputImage, TOutputImage>::Pointer
-    subtract=SubtractImageFilter<TInputImage,TInputImage,TOutputImage>::New();
+  typename SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::Pointer
+  subtract = SubtractImageFilter< TInputImage, TInputImage, TOutputImage >::New();
 
   subtract->SetInput1( this->GetInput() );
   subtract->SetInput2( open->GetOutput() );
@@ -104,8 +76,8 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   subtract->GraftOutput( this->GetOutput() );
 
   // run the algorithm
-  progress->RegisterInternalFilter(open,.9f);
-  progress->RegisterInternalFilter(subtract,.1f);
+  progress->RegisterInternalFilter(open, .9f);
+  progress->RegisterInternalFilter(subtract, .1f);
 
   subtract->Update();
 
@@ -113,21 +85,18 @@ WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( subtract->GetOutput() );
-
 }
 
-template<class TInputImage, class TOutputImage, class TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
 void
-WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
+  os << indent << "Algorithm: " << m_Algorithm << std::endl;
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;
+  os << indent << "ForceAlgorithm: " << m_ForceAlgorithm << std::endl;
 }
-
-}// end namespace itk
-#endif
-
+} // end namespace itk
 #endif

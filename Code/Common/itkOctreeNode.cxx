@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,9 +18,8 @@
 #include "itkOctree.h"
 #include "itkOctreeNode.h"
 
-namespace itk {
-
-
+namespace itk
+{
 /*
      * ====================================================================================
      * ====================================================================================
@@ -49,27 +48,30 @@ OctreeNode & OctreeNode::GetChild(const enum LeafIdentifier ChildID)
 
 int OctreeNode::GetColor(void) const
 {
-  int x = reinterpret_cast<const char *>(m_Branch) - m_Parent->GetColorTable();
+  int x = reinterpret_cast< const char * >( m_Branch ) - m_Parent->GetColorTable();
+
   //
   // you'll want to indicate that the branch
   // is a subtree and not in fact a color.
-  if(x >= 0 && x < m_Parent->GetColorTableSize())
+  if ( x >= 0 && x < m_Parent->GetColorTableSize() )
+    {
     return x;
+    }
   return -1;
 }
 
 void OctreeNode::SetColor(int color)
 {
   this->RemoveChildren();
-  m_Branch = reinterpret_cast<OctreeNodeBranch *>
-    (const_cast<char *>(m_Parent->GetColorTable()) + color);
+  m_Branch = reinterpret_cast< OctreeNodeBranch * >
+             ( const_cast< char * >( m_Parent->GetColorTable() ) + color );
   return;
 }
 
-void OctreeNode::SetBranch(OctreeNodeBranch * NewBranch)
+void OctreeNode::SetBranch(OctreeNodeBranch *NewBranch)
 {
   this->RemoveChildren();
-  m_Branch=NewBranch;
+  m_Branch = NewBranch;
   return;
 }
 
@@ -80,24 +82,26 @@ void OctreeNode::SetBranch(OctreeNodeBranch * NewBranch)
  */
 bool OctreeNode::IsNodeColored(void) const
 {
-  const char *colorTable = m_Parent->GetColorTable();
-  const OctreeNodeBranch *first = 
-    reinterpret_cast<const OctreeNodeBranch *>(&(colorTable[0]));
-  const OctreeNodeBranch *last = 
-    reinterpret_cast<const OctreeNodeBranch *>(&(colorTable[m_Parent->GetColorTableSize()-1]));
-  if(this->m_Branch >= first && this->m_Branch <= last)
+  const char *            colorTable = m_Parent->GetColorTable();
+  const OctreeNodeBranch *first =
+    reinterpret_cast< const OctreeNodeBranch * >( &( colorTable[0] ) );
+  const OctreeNodeBranch *last =
+    reinterpret_cast< const OctreeNodeBranch * >( &( colorTable[m_Parent->GetColorTableSize() - 1] ) );
+
+  if ( this->m_Branch >= first && this->m_Branch <= last )
+    {
     return true;
+    }
   return false;
 }
 
 void OctreeNode::RemoveChildren(void)
 {
-  if(m_Branch != 0 && !this->IsNodeColored())
+  if ( m_Branch != 0 && !this->IsNodeColored() )
     {
     delete m_Branch;
-    m_Branch = reinterpret_cast<OctreeNodeBranch *>
-      (&(const_cast<char *>(m_Parent->GetColorTable())[0]));
+    m_Branch = reinterpret_cast< OctreeNodeBranch * >
+               ( &( const_cast< char * >( m_Parent->GetColorTable() )[0] ) );
     }
 }
-
 } //End of itk Namespace

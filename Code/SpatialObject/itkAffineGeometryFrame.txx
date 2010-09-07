@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,9 @@
 
 namespace itk
 {
-
 /** Constructor */
-template<class TScalarType, unsigned int NDimensions>
-AffineGeometryFrame<TScalarType, NDimensions>
+template< class TScalarType, unsigned int NDimensions >
+AffineGeometryFrame< TScalarType, NDimensions >
 ::AffineGeometryFrame()
 {
   m_BoundingBox = NULL;
@@ -38,58 +37,56 @@ AffineGeometryFrame<TScalarType, NDimensions>
 }
 
 /** Destructor */
-template<class TScalarType, unsigned int NDimensions>
-AffineGeometryFrame<TScalarType, NDimensions>
+template< class TScalarType, unsigned int NDimensions >
+AffineGeometryFrame< TScalarType, NDimensions >
 ::~AffineGeometryFrame()
-{
-
-}
-
+{}
 
 /** Initialize the transform */
-template<class TScalarType, unsigned int NDimensions>
-void AffineGeometryFrame<TScalarType, NDimensions>
+template< class TScalarType, unsigned int NDimensions >
+void AffineGeometryFrame< TScalarType, NDimensions >
 ::Initialize()
 {
-  TScalarType b[2*NDimensions];
+  TScalarType  b[2 * NDimensions];
   unsigned int i;
-  for(i=0; i<2*NDimensions; ++i)
+
+  for ( i = 0; i < 2 * NDimensions; ++i )
     {
-    b[i]=i%2-1;
+    b[i] = i % 2 - 1;
     }
-  SetBounds(b); 
+  SetBounds(b);
   m_IndexToObjectTransform = TransformType::New();
   m_IndexToObjectTransform->SetIdentity();
   m_ObjectToNodeTransform = TransformType::New();
-  m_ObjectToNodeTransform->SetIdentity();  
+  m_ObjectToNodeTransform->SetIdentity();
 }
 
 /** Set the bounds */
-template<class TScalarType, unsigned int NDimensions>
-void AffineGeometryFrame<TScalarType, NDimensions>
-::SetBounds(const BoundsArrayType& bounds)
+template< class TScalarType, unsigned int NDimensions >
+void AffineGeometryFrame< TScalarType, NDimensions >
+::SetBounds(const BoundsArrayType & bounds)
 {
   SetBoundsArray(bounds, m_BoundingBox);
 }
 
 /** Set the bounds array */
-template<class TScalarType, unsigned int NDimensions>
-void AffineGeometryFrame<TScalarType, NDimensions>
-::SetBoundsArray(const BoundsArrayType& bounds, BoundingBoxPointer& boundingBox)
+template< class TScalarType, unsigned int NDimensions >
+void AffineGeometryFrame< TScalarType, NDimensions >
+::SetBoundsArray(const BoundsArrayType & bounds, BoundingBoxPointer & boundingBox)
 {
   boundingBox = BoundingBoxType::New();
-  
+
   typename BoundingBoxType::PointsContainer::Pointer pointscontainer =
-           BoundingBoxType::PointsContainer::New();
-  typename BoundingBoxType::PointType p; 
+    BoundingBoxType::PointsContainer::New();
+  typename BoundingBoxType::PointType p;
   typename BoundingBoxType::PointIdentifier pointid;
-  
-  for(pointid=0; pointid<2;++pointid)
+
+  for ( pointid = 0; pointid < 2; ++pointid )
     {
     unsigned int i;
-    for(i=0; i<NDimensions; ++i)
+    for ( i = 0; i < NDimensions; ++i )
       {
-      p[i] = bounds[2*i+pointid];
+      p[i] = bounds[2 * i + pointid];
       }
     pointscontainer->InsertElement(pointid, p);
     }
@@ -100,9 +97,9 @@ void AffineGeometryFrame<TScalarType, NDimensions>
 }
 
 /** Clone the geometry */
-template<class TScalarType, unsigned int NDimensions>
-typename AffineGeometryFrame<TScalarType, NDimensions>::Pointer
-AffineGeometryFrame<TScalarType, NDimensions>
+template< class TScalarType, unsigned int NDimensions >
+typename AffineGeometryFrame< TScalarType, NDimensions >::Pointer
+AffineGeometryFrame< TScalarType, NDimensions >
 ::Clone() const
 {
   typename Self::Pointer newGeometry = Self::New();
@@ -112,29 +109,29 @@ AffineGeometryFrame<TScalarType, NDimensions>
 }
 
 /** Initialize the geometry */
-template<class TScalarType, unsigned int NDimensions>
-void 
-AffineGeometryFrame<TScalarType, NDimensions>
-::InitializeGeometry(AffineGeometryFrame * newGeometry) const
+template< class TScalarType, unsigned int NDimensions >
+void
+AffineGeometryFrame< TScalarType, NDimensions >
+::InitializeGeometry(AffineGeometryFrame *newGeometry) const
 {
-  newGeometry->SetBounds(m_BoundingBox->GetBounds());
+  newGeometry->SetBounds( m_BoundingBox->GetBounds() );
   // we have to create a new transform!!
   typename TransformType::Pointer indexToObjecttransform = TransformType::New();
   indexToObjecttransform->SetCenter( m_IndexToObjectTransform->GetCenter() );
   indexToObjecttransform->SetMatrix( m_IndexToObjectTransform->GetMatrix() );
   indexToObjecttransform->SetOffset( m_IndexToObjectTransform->GetOffset() );
   newGeometry->SetIndexToObjectTransform(indexToObjecttransform);
-  
+
   typename TransformType::Pointer objectToNodeTransform = TransformType::New();
   objectToNodeTransform->SetCenter( m_ObjectToNodeTransform->GetCenter() );
   objectToNodeTransform->SetMatrix( m_ObjectToNodeTransform->GetMatrix() );
   objectToNodeTransform->SetOffset( m_ObjectToNodeTransform->GetOffset() );
   newGeometry->SetObjectToNodeTransform(objectToNodeTransform);
 
-  if(m_IndexToWorldTransform)
+  if ( m_IndexToWorldTransform )
     {
     typename TransformType::Pointer indexToWorldTransform =
-             TransformType::New();
+      TransformType::New();
     indexToWorldTransform->SetCenter( m_IndexToWorldTransform->GetCenter() );
     indexToWorldTransform->SetMatrix( m_IndexToWorldTransform->GetMatrix() );
     indexToWorldTransform->SetOffset( m_IndexToWorldTransform->GetOffset() );
@@ -142,32 +139,31 @@ AffineGeometryFrame<TScalarType, NDimensions>
     }
 }
 
-/** Print the object */ 
-template<class TScalarType, unsigned int NDimensions>
-void 
-AffineGeometryFrame<TScalarType, NDimensions>
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  Superclass::PrintSelf( os, indent ); 
-  
-  if (m_BoundingBox)
+/** Print the object */
+template< class TScalarType, unsigned int NDimensions >
+void
+AffineGeometryFrame< TScalarType, NDimensions >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  if ( m_BoundingBox )
     {
     os << indent << "BoundingBox: "
        << m_BoundingBox << std::endl;
     }
   os << indent << "IndexToObjectTransform: "
      << m_IndexToObjectTransform << std::endl;
-  os << indent << "ObjectToNodeTransform: " 
+  os << indent << "ObjectToNodeTransform: "
      << m_ObjectToNodeTransform << std::endl;
   os << indent << "IndexToNodeTransform: "
      << m_IndexToNodeTransform << std::endl;
-  if (m_IndexToWorldTransform)
+  if ( m_IndexToWorldTransform )
     {
     os << indent << "IndexToWorldTransform: "
        << m_IndexToWorldTransform << std::endl;
     }
 }
-
 } //namespace
 
 #endif

@@ -9,8 +9,6 @@
 <Tabs>1</Tabs>
 <Spaces>3</Spaces>
 <Comments>/**, *, */,true</Comments>
-<Header>@ITK_SOURCE_DIR@/Utilities/KWStyle/ITKHeader.h,false,true</Header>
-<Indent>SPACE,2,true,true</Indent>
 <Namespace>itk</Namespace>
 <NameOfClass>[NameOfClass],itk</NameOfClass>
 <IfNDefDefine>__[NameOfClass]_[Extension]</IfNDefDefine>

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkCurvatureNDAnisotropicDiffusionFunction.h"
 #include "itkMacro.h"
-namespace itk {
-
+namespace itk
+{
 /**
  * \class CurvatureAnisotropicDiffusionImageFilter
  *
@@ -51,17 +51,17 @@ namespace itk {
  * \sa AnisotropicDiffusionFunction
  * \sa CurvatureNDAnisotropicDiffusionFunction
  * \ingroup ImageEnhancement */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT CurvatureAnisotropicDiffusionImageFilter
-  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT CurvatureAnisotropicDiffusionImageFilter:
+  public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef CurvatureAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
-                                                   Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
@@ -69,45 +69,47 @@ public:
   /** Run-time information. */
   itkTypeMacro(CurvatureAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
-  
+
   /** Extract superclass information. */
   typedef typename Superclass::UpdateBufferType UpdateBufferType;
-  
+
   /** Extract superclass image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
-    {
-    typename CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::Pointer q
-      = CurvatureNDAnisotropicDiffusionFunction<UpdateBufferType>::New();
+  {
+    typename CurvatureNDAnisotropicDiffusionFunction< UpdateBufferType >::Pointer q =
+      CurvatureNDAnisotropicDiffusionFunction< UpdateBufferType >::New();
     this->SetDifferenceFunction(q);
-    }
+  }
+
   ~CurvatureAnisotropicDiffusionImageFilter() {}
 
   virtual void InitializeIteration()
-    {
+  {
     Superclass::InitializeIteration();
-    if (this->GetTimeStep() >  0.5 / vcl_pow(2.0, static_cast<double>(ImageDimension))  )
+    if ( this->GetTimeStep() >  0.5 / vcl_pow( 2.0, static_cast< double >( ImageDimension ) ) )
       {
-      itkWarningMacro(<< "Anisotropic diffusion is using a time step which may introduce instability into the solution." );
+      itkWarningMacro(
+        << "Anisotropic diffusion is using a time step which may introduce instability into the solution.");
       }
-    }
-  
+  }
+
 private:
-  CurvatureAnisotropicDiffusionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CurvatureAnisotropicDiffusionImageFilter(const Self &); //purposely not
+                                                          // implemented
+  void operator=(const Self &);                           //purposely not
 
+  // implemented
 };
-
 } // end namspace itk
 
 #endif

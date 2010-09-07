@@ -17,11 +17,10 @@
 #ifndef __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
 #define __itkQuadEdgeMeshBoundaryEdgesMeshFunction_h
 
-#include<itkFunctionBase.h>
+#include <itkFunctionBase.h>
 
 namespace itk
 {
-
 /**
  * \class QuadEdgeMeshBoundaryEdgesMeshFunction
  *
@@ -34,14 +33,14 @@ namespace itk
  *        components.
  */
 template< class TMesh >
-class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
-   : public FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
+class ITK_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction:
+  public FunctionBase< TMesh, typename TMesh::EdgeListPointerType >
 {
 public:
   // Standard types
-  typedef QuadEdgeMeshBoundaryEdgesMeshFunction  Self;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  typedef QuadEdgeMeshBoundaryEdgesMeshFunction Self;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
   typedef FunctionBase< TMesh,
                         typename  TMesh::EdgeListPointerType > Superclass;
 
@@ -55,23 +54,23 @@ public:
   typedef typename MeshType::EdgeCellType EdgeCellType;
   typedef typename MeshType::EdgeListType EdgeListType;
 
-  itkTypeMacro( QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase );
-  itkNewMacro( Self );
+  itkTypeMacro(QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase);
+  itkNewMacro(Self);
 
-  virtual OutputType Evaluate( const InputType& mesh ) const;
+  virtual OutputType Evaluate(const InputType & mesh) const;
 
 protected:
-  QuadEdgeMeshBoundaryEdgesMeshFunction( ) { };
-
+  QuadEdgeMeshBoundaryEdgesMeshFunction() {}
 private:
-  QuadEdgeMeshBoundaryEdgesMeshFunction( const Self& ); //purposely not implemented 
-  void operator=( const Self& );     //purposely not implemented 
+  QuadEdgeMeshBoundaryEdgesMeshFunction(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
+                                                       // implemented
 };
-
-} 
+}
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.txx"
 #endif
 
-#endif 
+#endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,46 +24,45 @@
 
 namespace itk
 {
-
 /** \class BinomialBlurImageFilter
  * \brief Performs a separable blur on each dimension of an image
  *
  * The binomial blur consists of a nearest neighbor average along each
  * image dimension. The net result after n-iterations approaches
  * convultion with a gaussian.
- * 
+ *
  * \ingroup ImageEnhancement
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT BinomialBlurImageFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BinomialBlurImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef BinomialBlurImageFilter                       Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef BinomialBlurImageFilter                         Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BinomialBlurImageFilter, ImageToImageFilter );
+  itkTypeMacro(BinomialBlurImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(NOutputDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** typedef for images */
-  typedef TInputImage                             InputImageType;
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef TInputImage                           InputImageType;
+  typedef TOutputImage                          OutputImageType;
+  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
   /** Image size typedef */
-  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
+  typedef Size< itkGetStaticConstMacro(NDimensions) > SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
@@ -86,32 +85,30 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<itkGetStaticConstMacro(NDimensions),
-                            itkGetStaticConstMacro(NOutputDimensions)>));
-  itkConceptMacro(InputConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TInputImage::PixelType, double>));
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, PixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(NDimensions),
+                                             itkGetStaticConstMacro(NOutputDimensions) > ) );
+  itkConceptMacro( InputConvertibleToDoubleCheck,
+                   ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   BinomialBlurImageFilter();
-  virtual ~BinomialBlurImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~BinomialBlurImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData();
 
 private:
-  BinomialBlurImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinomialBlurImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   /** How many times should we apply the blur? */
   unsigned int m_Repetitions;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

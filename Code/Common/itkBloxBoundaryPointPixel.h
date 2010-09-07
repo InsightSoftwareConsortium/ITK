@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,38 +22,41 @@
 
 namespace itk
 {
-
 /**
  * \class BloxBoundaryPointPixel
  * \brief Holds a linked list of itk::BloxBoundaryPointItem's.
  *
- * \ingroup ImageObjects 
+ * \ingroup ImageObjects
  * */
 
-template <unsigned int NDimensions>
-class ITK_EXPORT BloxBoundaryPointPixel : public BloxPixel< 
-                                          BloxBoundaryPointItem<NDimensions> >
+template< unsigned int NDimensions >
+class ITK_EXPORT BloxBoundaryPointPixel:public BloxPixel<
+    BloxBoundaryPointItem< NDimensions > >
 {
 public:
   BloxBoundaryPointPixel();
   ~BloxBoundaryPointPixel();
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxBoundaryPointPixel(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxBoundaryPointPixel< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxBoundaryPointPixel< ITK_TEMPLATE_1 x > \
-                                            BloxBoundaryPointPixel##y; } \
+#define ITK_TEMPLATE_BloxBoundaryPointPixel(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                          \
+  {                                                                      \
+  _( 1 ( class EXPORT BloxBoundaryPointPixel< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                    \
+  {                                                                      \
+  typedef BloxBoundaryPointPixel< ITK_TEMPLATE_1 TypeX >                 \
+  BloxBoundaryPointPixel##TypeY;                                       \
+  }                                                                      \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxBoundaryPointPixel+-.h"
+#include "Templates/itkBloxBoundaryPointPixel+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxBoundaryPointPixel.txx"
+#include "itkBloxBoundaryPointPixel.txx"
 #endif
 
 #endif

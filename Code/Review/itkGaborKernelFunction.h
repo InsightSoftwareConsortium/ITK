@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,21 +23,20 @@
 
 namespace itk
 {
-
 /** \class GaborKernelFunction
  * \brief Gabor kernel used for various computer vision tasks.
  *
- * This class encapsulates a complex Gabor kernel used for 
- * various computer vision tasks such as texture segmentation, 
+ * This class encapsulates a complex Gabor kernel used for
+ * various computer vision tasks such as texture segmentation,
  * motion analysis, and object recognition.  It is essentially
- * a complex sinusoid enveloped within a gaussian. 
- * See the discussion in 
+ * a complex sinusoid enveloped within a gaussian.
+ * See the discussion in
  *
  *   Andreas Klein, Forester Lee, and Amir A. Amini, "Quantitative
  *   Coronary Angiography with Deformable Spline Models", IEEE-TMI
  *   16(5):468-482, October 1997.
  *
- * for a basic discussion including additional references.   
+ * for a basic discussion including additional references.
  *
  * This implementation was contributed as a paper to the Insight Journal
  * http://hdl.handle.net/1926/500
@@ -46,62 +45,62 @@ namespace itk
  *
  * \ingroup Functions
  */
-class ITK_EXPORT GaborKernelFunction : public KernelFunction
+class ITK_EXPORT GaborKernelFunction:public KernelFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef GaborKernelFunction Self;
-  typedef KernelFunction      Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef GaborKernelFunction  Self;
+  typedef KernelFunction       Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self ); 
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GaborKernelFunction, KernelFunction ); 
+  itkTypeMacro(GaborKernelFunction, KernelFunction);
 
   /** Evaluate the function. */
-  inline double Evaluate ( const double &u ) const
-    { 
-    double parameter = vnl_math_sqr( u / this->m_Sigma );
-    double envelope = vcl_exp( -0.5 * parameter );
-    double phase = 2.0 * vnl_math::pi * this->m_Frequency * u 
-      + this->m_PhaseOffset;
+  inline double Evaluate(const double & u) const
+  {
+    double parameter = vnl_math_sqr(u / this->m_Sigma);
+    double envelope = vcl_exp(-0.5 * parameter);
+    double phase = 2.0 * vnl_math::pi * this->m_Frequency * u
+                   + this->m_PhaseOffset;
+
     if ( this->m_CalculateImaginaryPart )
       {
-      return envelope * vcl_sin( phase );
+      return envelope * vcl_sin(phase);
       }
     else
       {
-      return envelope * vcl_cos( phase );
+      return envelope * vcl_cos(phase);
       }
-    }
+  }
 
-  itkSetMacro( Sigma, double );
-  itkGetConstMacro( Sigma, double );
-  
-  itkSetMacro( Frequency, double );
-  itkGetConstMacro( Frequency, double );
-  
-  itkSetMacro( PhaseOffset, double );
-  itkGetConstMacro( PhaseOffset, double );
-  
-  itkSetMacro( CalculateImaginaryPart, bool );
-  itkGetConstMacro( CalculateImaginaryPart, bool );
-  itkBooleanMacro( CalculateImaginaryPart );
+  itkSetMacro(Sigma, double);
+  itkGetConstMacro(Sigma, double);
 
+  itkSetMacro(Frequency, double);
+  itkGetConstMacro(Frequency, double);
+
+  itkSetMacro(PhaseOffset, double);
+  itkGetConstMacro(PhaseOffset, double);
+
+  itkSetMacro(CalculateImaginaryPart, bool);
+  itkGetConstMacro(CalculateImaginaryPart, bool);
+  itkBooleanMacro(CalculateImaginaryPart);
 protected:
-  GaborKernelFunction(); 
+  GaborKernelFunction();
   ~GaborKernelFunction();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GaborKernelFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  GaborKernelFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 
   /** Standard deviation of the Gaussian envelope */
   double m_Sigma;
- 
+
   /** Modulation frequency of the sine or cosine component */
   double m_Frequency;
 
@@ -111,7 +110,6 @@ private:
   /** Evaluate using the complex part */
   bool m_CalculateImaginaryPart;
 };
-
 } // end namespace itk
 
 #endif

@@ -36,9 +36,9 @@ namespace itk
  * The use of label voting for combination of multiple segmentations is
  * described in
  *
- * T. Rohlfing and C. R. Maurer, Jr., "Multi-classifier framework for 
+ * T. Rohlfing and C. R. Maurer, Jr., "Multi-classifier framework for
  * atlas-based image segmentation," Pattern Recognition Letters, 2005.
- * 
+ *
  * \par INPUTS
  * All input volumes to this filter must be segmentations of an image,
  * that is, they must have discrete pixel values where each value represents
@@ -52,7 +52,7 @@ namespace itk
  * The voting filter produces a single output volume. Each output pixel
  * contains the label that occured most often among the labels assigned to
  * this pixel in all the input volumes, that is, the label that received the
- * maximum number of "votes" from the input pixels.. If the maximum number of 
+ * maximum number of "votes" from the input pixels.. If the maximum number of
  * votes is not unique, i.e., if more than one label have a maximum number of
  * votes, an "undecided" label is assigned to that output pixel.
  *
@@ -63,30 +63,30 @@ namespace itk
  * image.
  *
  * \par PARAMETERS
- * The label used for "undecided" labels can be set using 
+ * The label used for "undecided" labels can be set using
  * SetLabelForUndecidedPixels. This functionality can be unset by calling
  * UnsetLabelForUndecidedPixels.
  *
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  *
  */
-template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT LabelVotingImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
+class ITK_EXPORT LabelVotingImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef LabelVotingImageFilter                          Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(LabelVotingImageFilter, ImageToImageFilter);
-  
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
@@ -95,28 +95,28 @@ public:
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Image typedef support */
   typedef TInputImage                           InputImageType;
   typedef TOutputImage                          OutputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
-  
+
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Set label value for undecided pixels.
     */
-  void SetLabelForUndecidedPixels( const OutputPixelType l )
-    {
+  void SetLabelForUndecidedPixels(const OutputPixelType l)
+  {
     this->m_LabelForUndecidedPixels = l;
     this->m_HasLabelForUndecidedPixels = true;
     this->Modified();
-    }
-  
+  }
+
   /** Get label value used for undecided pixels.
    * After updating the filter, this function returns the actual label value
    * used for undecided pixels in the current output. Note that this value
@@ -124,66 +124,65 @@ public:
    * value only becomes effective upon the next filter update.
    */
   OutputPixelType GetLabelForUndecidedPixels() const
-    {
+  {
     return this->m_LabelForUndecidedPixels;
-    }
-  
+  }
+
   /** Unset label value for undecided pixels and turn on automatic selection.
     */
   void UnsetLabelForUndecidedPixels()
-    {
+  {
     if ( this->m_HasLabelForUndecidedPixels )
       {
       this->m_HasLabelForUndecidedPixels = false;
       this->Modified();
       }
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputPixelType, OutputPixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputPixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(InputConvertibleToUnsignedIntCheck,
-    (Concept::Convertible<InputPixelType, unsigned int>));
-  itkConceptMacro(IntConvertibleToOutputPixelType,
-    (Concept::Convertible<int, OutputPixelType>));
-  itkConceptMacro(InputPlusIntCheck,
-    (Concept::AdditiveOperators<InputPixelType, int>));
-  itkConceptMacro(InputIncrementDecrementOperatorsCheck,
-    (Concept::IncrementDecrementOperators<InputPixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputPixelType>));
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputPixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
+  itkConceptMacro( InputConvertibleToUnsignedIntCheck,
+                   ( Concept::Convertible< InputPixelType, unsigned int > ) );
+  itkConceptMacro( IntConvertibleToOutputPixelType,
+                   ( Concept::Convertible< int, OutputPixelType > ) );
+  itkConceptMacro( InputPlusIntCheck,
+                   ( Concept::AdditiveOperators< InputPixelType, int > ) );
+  itkConceptMacro( InputIncrementDecrementOperatorsCheck,
+                   ( Concept::IncrementDecrementOperators< InputPixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   LabelVotingImageFilter() { this->m_HasLabelForUndecidedPixels = false; }
-  virtual ~LabelVotingImageFilter() {}  
+  virtual ~LabelVotingImageFilter() {}
 
   /** Determine maximum label value in all input images and initialize
    * global data. */
-  void BeforeThreadedGenerateData ();
+  void BeforeThreadedGenerateData();
+
   void ThreadedGenerateData
-    ( const OutputImageRegionType &outputRegionForThread, int threadId);
-  
-  void PrintSelf(std::ostream&, Indent) const;
+    (const OutputImageRegionType & outputRegionForThread, int threadId);
+
+  void PrintSelf(std::ostream &, Indent) const;
 
   /** Determine maximum value among all input images' pixels */
   InputPixelType ComputeMaximumInputValue();
 
 private:
-  LabelVotingImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LabelVotingImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   OutputPixelType m_LabelForUndecidedPixels;
   bool            m_HasLabelForUndecidedPixels;
   InputPixelType  m_TotalLabelCount;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class AtanRegularizedHeavisideStepFunction
  *
  * \brief Atan-based implementation of the Regularized (smoothed) Heaviside functions.
@@ -50,46 +49,46 @@ namespace itk
  *
  */
 template< class TInput = float, class TOutput = double >
-class AtanRegularizedHeavisideStepFunction : 
- public RegularizedHeavisideStepFunction< TInput, TOutput >
+class AtanRegularizedHeavisideStepFunction:
+  public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
-  typedef AtanRegularizedHeavisideStepFunction                  Self;
-  typedef RegularizedHeavisideStepFunction< TInput, TOutput >   Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef AtanRegularizedHeavisideStepFunction                Self;
+  typedef RegularizedHeavisideStepFunction< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
 
-  itkNewMacro( Self );
- 
-  itkTypeMacro( AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction );
+  itkNewMacro(Self);
 
-  typedef typename Superclass::InputType                        InputType;
-  typedef typename Superclass::OutputType                       OutputType;
-  typedef typename Superclass::RealType                         RealType;
+  itkTypeMacro(AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
+
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const
-    {
+  virtual OutputType Evaluate(const InputType & input) const
+  {
     return 0.5 + ( vnl_math::one_over_pi * vcl_atan( input * this->GetOneOverEpsilon() ) );
-    }
+  }
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative( const InputType& input ) const
-    {
+  virtual OutputType EvaluateDerivative(const InputType & input) const
+  {
     const RealType t = ( input * this->GetOneOverEpsilon() );
-    return static_cast< OutputType>( vnl_math::one_over_pi / (1.0 + t * t ) );
-    }
+
+    return static_cast< OutputType >( vnl_math::one_over_pi / ( 1.0 + t * t ) );
+  }
 
 protected:
   AtanRegularizedHeavisideStepFunction() {}
   virtual ~AtanRegularizedHeavisideStepFunction() {}
-
 private:
-  AtanRegularizedHeavisideStepFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
-
+  AtanRegularizedHeavisideStepFunction(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 };
-
 }
 
 #endif

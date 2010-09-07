@@ -21,7 +21,8 @@
 
 #include "itkNumericTraits.h"
 
-namespace itk {
+namespace itk
+{
 /** \class ReconstructionByDilationImageFilter
  * \brief grayscale reconstruction by dilation of an image
  *
@@ -55,35 +56,35 @@ OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter, Reconstr
  * \ingroup MathematicalMorphologyImageFilters
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ReconstructionByDilationImageFilter :
-  public ReconstructionImageFilter<TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType> >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ReconstructionByDilationImageFilter:
+  public ReconstructionImageFilter< TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >
 {
 public:
   typedef ReconstructionByDilationImageFilter Self;
   typedef ReconstructionImageFilter<
-    TInputImage, TOutputImage, std::greater<typename TOutputImage::PixelType> >
-                                              Superclass;
+    TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >
+  Superclass;
 
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              MarkerImageType;
-  typedef typename MarkerImageType::Pointer        MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
-  typedef TInputImage                              MaskImageType;
-  typedef typename MaskImageType::Pointer          MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType       MaskImageRegionType;
-  typedef typename MaskImageType::PixelType        MaskImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
+  typedef TInputImage                            MarkerImageType;
+  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
+  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
+  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
+  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
+  typedef TInputImage                            MaskImageType;
+  typedef typename MaskImageType::Pointer        MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
+  typedef typename MaskImageType::RegionType     MaskImageRegionType;
+  typedef typename MaskImageType::PixelType      MaskImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(MarkerImageDimension, unsigned int,
@@ -97,23 +98,21 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByDilationImageFilter, 
+  itkTypeMacro(ReconstructionByDilationImageFilter,
                ReconstructionImageFilter);
-
-
 protected:
   ReconstructionByDilationImageFilter()
-    {
-    this->m_MarkerValue = NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::NonpositiveMin();
-    }
+  {
+    this->m_MarkerValue = NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::NonpositiveMin();
+  }
+
   virtual ~ReconstructionByDilationImageFilter() {}
-
 private:
-  ReconstructionByDilationImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end ReconstructionByDilationImageFilter
-
+  //purposely not implemented
+  ReconstructionByDilationImageFilter(const Self &);
+  void operator=(const Self &);
+};
+// end ReconstructionByDilationImageFilter
 }
 
 #endif

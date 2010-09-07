@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,70 +18,64 @@
 #define __itkVoronoiDiagram2DGenerator_txx
 #include "itkVoronoiDiagram2DGenerator.h"
 
-
 #include <algorithm>
 #include "vnl/vnl_sample.h"
 
 namespace itk
 {
-
 const double NUMERIC_TOLERENCE = 1.0e-10;
 const double DIFF_TOLERENCE = 0.001;
 
-template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::
-VoronoiDiagram2DGenerator()
+template< typename TCoordRepType >
+VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator()
 {
   m_NumberOfSeeds = 0;
   m_Pxmin = 0;
   m_Pymin = 0;
-  m_OutputVD=this->GetOutput();
+  m_OutputVD = this->GetOutput();
 }
 
-template <typename TCoordRepType>
-VoronoiDiagram2DGenerator<TCoordRepType>::
+template< typename TCoordRepType >
+VoronoiDiagram2DGenerator< TCoordRepType >::
 ~VoronoiDiagram2DGenerator()
-{
-}
+{}
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-PrintSelf(std::ostream& os, Indent indent) const
+VoronoiDiagram2DGenerator< TCoordRepType >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Seeds: " 
+  os << indent << "Number Of Seeds: "
      << m_NumberOfSeeds << std::endl;
 }
 
 /* Set random seed points. Specify the number of seeds as "num". */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-SetRandomSeeds(int num)
+VoronoiDiagram2DGenerator< TCoordRepType >::SetRandomSeeds(int num)
 {
   PointType curr;
+
   m_Seeds.clear();
-  double ymax = (double)(m_VorBoundary[1]);
-  double xmax = (double)(m_VorBoundary[0]);
-  for(int i = 0; i < num; ++i)
+  double ymax = (double)( m_VorBoundary[1] );
+  double xmax = (double)( m_VorBoundary[0] );
+  for ( int i = 0; i < num; ++i )
     {
-    curr[0] = (CoordRepType)(vnl_sample_uniform(0,xmax));
-    curr[1] = (CoordRepType)(vnl_sample_uniform(0,ymax));
+    curr[0] = (CoordRepType)( vnl_sample_uniform(0, xmax) );
+    curr[1] = (CoordRepType)( vnl_sample_uniform(0, ymax) );
     m_Seeds.push_back(curr);
     }
   m_NumberOfSeeds = num;
 }
 
 /* Set the seed points. Specify the number of seeds as "num". */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-SetSeeds(int num,  SeedsIterator begin)
+VoronoiDiagram2DGenerator< TCoordRepType >::SetSeeds(int num,  SeedsIterator begin)
 {
   m_Seeds.clear();
   SeedsIterator ii(begin);
-  for(int i = 0; i < num; ++i)
+  for ( int i = 0; i < num; ++i )
     {
     m_Seeds.push_back(*ii++);
     }
@@ -89,58 +83,61 @@ SetSeeds(int num,  SeedsIterator begin)
 }
 
 /* Set the rectangle that encloses the Voronoi Diagram. */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-SetBoundary(PointType vorsize)
+VoronoiDiagram2DGenerator< TCoordRepType >::SetBoundary(PointType vorsize)
 {
   m_VorBoundary[0] = vorsize[0];
   m_VorBoundary[1] = vorsize[1];
-  m_OutputVD->SetBoundary(vorsize); 
+  m_OutputVD->SetBoundary(vorsize);
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-SetOrigin(PointType vorsize)
+VoronoiDiagram2DGenerator< TCoordRepType >::SetOrigin(PointType vorsize)
 {
   m_Pxmin = vorsize[0];
   m_Pymin = vorsize[1];
-  m_OutputVD->SetOrigin(vorsize); 
+  m_OutputVD->SetOrigin(vorsize);
 }
 
-/* Compare point coordinates  in the y direction. */ 
-template <typename TCoordRepType>
+/* Compare point coordinates  in the y direction. */
+template< typename TCoordRepType >
 bool
-VoronoiDiagram2DGenerator<TCoordRepType>::
-comp(PointType arg1,PointType arg2)
+VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
 {
-  if(arg1[1]<arg2[1]) return 1;
-  else if(arg1[1]>arg2[1]) return 0;
-  else if(arg1[0]<arg2[0]) return 1;
-  else if(arg1[0]>arg2[0]) return 0;
-  else return 1;
+  if ( arg1[1] < arg2[1] ) { return 1; }
+  else if ( arg1[1] > arg2[1] )
+    {
+    return 0;
+    }
+  else if ( arg1[0] < arg2[0] )
+    {
+    return 1;
+    }
+  else if ( arg1[0] > arg2[0] )
+    {
+    return 0;
+    }
+  else { return 1; }
 }
-
 
 /* Sort the seeds with their y coordinates. */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-SortSeeds(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds(void)
 {
-  std::sort(m_Seeds.begin(),m_Seeds.end(),comp);
+  std::sort(m_Seeds.begin(), m_Seeds.end(), comp);
 }
 
-
 /* Add seeds. Specify the number of seeds to be added as "num". */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-AddSeeds(int num,  SeedsIterator begin)
+VoronoiDiagram2DGenerator< TCoordRepType >::AddSeeds(int num,  SeedsIterator begin)
 {
   SeedsIterator ii(begin);
-  for(int i = 0; i < num; ++i)
+
+  for ( int i = 0; i < num; ++i )
     {
     m_Seeds.push_back(*ii++);
     }
@@ -148,226 +145,229 @@ AddSeeds(int num,  SeedsIterator begin)
 }
 
 /* Add one seed. */
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-AddOneSeed(PointType inputSeed)
+VoronoiDiagram2DGenerator< TCoordRepType >::AddOneSeed(PointType inputSeed)
 {
   m_Seeds.push_back(inputSeed);
   m_NumberOfSeeds++;
 }
 
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::PointType 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-GetSeed(int SeedID)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::PointType
+VoronoiDiagram2DGenerator< TCoordRepType >::GetSeed(int SeedID)
 {
   PointType answer;
-  answer[0]=m_Seeds[SeedID][0];
-  answer[1]=m_Seeds[SeedID][1];
+
+  answer[0] = m_Seeds[SeedID][0];
+  answer[1] = m_Seeds[SeedID][1];
   return answer;
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-GenerateData(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateData(void)
 {
   SortSeeds();
-  m_OutputVD->SetSeeds(m_NumberOfSeeds, m_Seeds.begin());
+  m_OutputVD->SetSeeds( m_NumberOfSeeds, m_Seeds.begin() );
   this->GenerateVDFortune();
   this->ConstructDiagram();
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-UpdateDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram(void)
 {
   this->GenerateData();
 }
 
-
-/** Methods to convert the result from Fortune Algorithm into 
+/** Methods to convert the result from Fortune Algorithm into
  * itkMesh structure. */
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 bool
-VoronoiDiagram2DGenerator<TCoordRepType>::
-differentPoint(PointType p1,PointType p2)
+VoronoiDiagram2DGenerator< TCoordRepType >::differentPoint(PointType p1, PointType p2)
 {
-  double diffx = p1[0]-p2[0];
-  double diffy = p1[1]-p2[1];
-  return ( (diffx<-DIFF_TOLERENCE) || (diffx>DIFF_TOLERENCE) 
-           || (diffy<-DIFF_TOLERENCE) || (diffy>DIFF_TOLERENCE) );   
+  double diffx = p1[0] - p2[0];
+  double diffy = p1[1] - p2[1];
 
+  return ( ( diffx < -DIFF_TOLERENCE ) || ( diffx > DIFF_TOLERENCE )
+           || ( diffy < -DIFF_TOLERENCE ) || ( diffy > DIFF_TOLERENCE ) );
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 bool
-VoronoiDiagram2DGenerator<TCoordRepType>::
-almostsame(CoordRepType p1,CoordRepType p2)
+VoronoiDiagram2DGenerator< TCoordRepType >::almostsame(CoordRepType p1, CoordRepType p2)
 {
-  double diff = p1-p2;
-  bool save;
-  save = ( (diff<-DIFF_TOLERENCE) || (diff>DIFF_TOLERENCE) );
-  return (!save);
+  double diff = p1 - p2;
+  bool   save;
+
+  save = ( ( diff < -DIFF_TOLERENCE ) || ( diff > DIFF_TOLERENCE ) );
+  return ( !save );
 }
 
-template <typename TCoordRepType>
-unsigned char 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-Pointonbnd(int VertID)
+template< typename TCoordRepType >
+unsigned char
+VoronoiDiagram2DGenerator< TCoordRepType >::Pointonbnd(int VertID)
 {
   PointType currVert = m_OutputVD->GetVertex(VertID);
-  if(almostsame(currVert[0],m_Pxmin))
+
+  if ( almostsame(currVert[0], m_Pxmin) )
+    {
     return 1;
-  else if(almostsame(currVert[1],m_Pymax))
+    }
+  else if ( almostsame(currVert[1], m_Pymax) )
+    {
     return 2;
-  else if(almostsame(currVert[0],m_Pxmax))
+    }
+  else if ( almostsame(currVert[0], m_Pxmax) )
+    {
     return 3;
-  else if(almostsame(currVert[1],m_Pymin))
+    }
+  else if ( almostsame(currVert[1], m_Pymin) )
+    {
     return 4;
+    }
   else
+    {
     return 0;
+    }
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-ConstructDiagram(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
 {
   EdgeInfoDQ *rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
 
   m_OutputVD->Reset();
 
   EdgeInfo currentPtID;
-  int edges = m_OutputVD->EdgeListSize();
+  int      edges = m_OutputVD->EdgeListSize();
 
-  EdgeInfo LRsites; 
-  for (int i = 0; i < edges; i++)
+  EdgeInfo LRsites;
+  for ( int i = 0; i < edges; i++ )
     {
     currentPtID = m_OutputVD->GetEdgeEnd(i);
-    LRsites = m_OutputVD->GetLine(m_OutputVD->GetEdgeLineID(i));
+    LRsites = m_OutputVD->GetLine( m_OutputVD->GetEdgeLineID(i) );
     rawEdges[LRsites[0]].push_back(currentPtID);
     rawEdges[LRsites[1]].push_back(currentPtID);
-    m_OutputVD->AddCellNeighbor(LRsites); 
+    m_OutputVD->AddCellNeighbor(LRsites);
     }
 
-
   PointType corner[4];
-  int cornerID[4];
+  int       cornerID[4];
 
-  corner[0][0]=m_Pxmin;
-  corner[0][1]=m_Pymin;
-  cornerID[0]=m_Nvert;
+  corner[0][0] = m_Pxmin;
+  corner[0][1] = m_Pymin;
+  cornerID[0] = m_Nvert;
   m_Nvert++;
   m_OutputVD->AddVert(corner[0]);
-  corner[1][0]=m_Pxmin;
-  corner[1][1]=m_Pymax;
-  cornerID[1]=m_Nvert;
+  corner[1][0] = m_Pxmin;
+  corner[1][1] = m_Pymax;
+  cornerID[1] = m_Nvert;
   m_Nvert++;
   m_OutputVD->AddVert(corner[1]);
-  corner[2][0]=m_Pxmax;
-  corner[2][1]=m_Pymax;
-  cornerID[2]=m_Nvert;
+  corner[2][0] = m_Pxmax;
+  corner[2][1] = m_Pymax;
+  cornerID[2] = m_Nvert;
   m_Nvert++;
   m_OutputVD->AddVert(corner[2]);
-  corner[3][0]=m_Pxmax;
-  corner[3][1]=m_Pymin;
-  cornerID[3]=m_Nvert;
+  corner[3][0] = m_Pxmax;
+  corner[3][1] = m_Pymin;
+  cornerID[3] = m_Nvert;
   m_Nvert++;
   m_OutputVD->AddVert(corner[3]);
 
-  std::list<EdgeInfo> buildEdges;
-  typename std::list<EdgeInfo>::iterator BEiter;
+  std::list< EdgeInfo > buildEdges;
+  typename std::list< EdgeInfo >::iterator BEiter;
   EdgeInfo curr;
   EdgeInfo curr1;
   EdgeInfo curr2;
 
-  unsigned char frontbnd;
-  unsigned char backbnd;
-  std::vector<unsigned long> cellPoints;
-  for(unsigned int i = 0; i < m_NumberOfSeeds; i++)
+  unsigned char                frontbnd;
+  unsigned char                backbnd;
+  std::vector< unsigned long > cellPoints;
+  for ( unsigned int i = 0; i < m_NumberOfSeeds; i++ )
     {
     buildEdges.clear();
-    curr=rawEdges[i].front();
+    curr = rawEdges[i].front();
     rawEdges[i].pop_front();
     buildEdges.push_back(curr);
-    EdgeInfo front=curr;
-    EdgeInfo back=curr;
-    int maxStop= static_cast< int >( rawEdges[i].size() );
-    while(!(rawEdges[i].empty()))
+    EdgeInfo front = curr;
+    EdgeInfo back = curr;
+    int      maxStop = static_cast< int >( rawEdges[i].size() );
+    while ( !( rawEdges[i].empty() ) )
       {
       maxStop--;
-      curr=rawEdges[i].front();
+      curr = rawEdges[i].front();
       rawEdges[i].pop_front();
-      frontbnd=Pointonbnd(front[0]);
-      backbnd=Pointonbnd(back[1]);
-      if(curr[0]==back[1])
+      frontbnd = Pointonbnd(front[0]);
+      backbnd = Pointonbnd(back[1]);
+      if ( curr[0] == back[1] )
         {
         buildEdges.push_back(curr);
-        back=curr;
+        back = curr;
         }
-      else if(curr[1]==front[0])
+      else if ( curr[1] == front[0] )
         {
         buildEdges.push_front(curr);
-        front=curr;
+        front = curr;
         }
-      else if(curr[1]==back[1])
+      else if ( curr[1] == back[1] )
         {
-        curr1[1]=curr[0];
-        curr1[0]=curr[1];
+        curr1[1] = curr[0];
+        curr1[0] = curr[1];
         buildEdges.push_back(curr1);
-        back=curr1;
+        back = curr1;
         }
-      else if(curr[0]==front[0])
+      else if ( curr[0] == front[0] )
         {
-        curr1[0]=curr[1];
-        curr1[1]=curr[0];
+        curr1[0] = curr[1];
+        curr1[1] = curr[0];
         buildEdges.push_front(curr1);
-        front=curr1;
+        front = curr1;
         }
-      else if( (frontbnd != 0) || (backbnd != 0) )
+      else if ( ( frontbnd != 0 ) || ( backbnd != 0 ) )
         {
-        unsigned char cfrontbnd=Pointonbnd(curr[0]);
-        unsigned char cbackbnd=Pointonbnd(curr[1]);
+        unsigned char cfrontbnd = Pointonbnd(curr[0]);
+        unsigned char cbackbnd = Pointonbnd(curr[1]);
 
-        if((cfrontbnd == backbnd) &&(backbnd))
+        if ( ( cfrontbnd == backbnd ) && ( backbnd ) )
           {
-          curr1[0]=back[1];
-          curr1[1]=curr[0];
+          curr1[0] = back[1];
+          curr1[1] = curr[0];
           buildEdges.push_back(curr1);
           buildEdges.push_back(curr);
-          back=curr;
+          back = curr;
           }
-        else if((cbackbnd == frontbnd)&&(frontbnd))
+        else if ( ( cbackbnd == frontbnd ) && ( frontbnd ) )
           {
-          curr1[0]=curr[1];
-          curr1[1]=front[0];
+          curr1[0] = curr[1];
+          curr1[1] = front[0];
           buildEdges.push_front(curr1);
           buildEdges.push_front(curr);
-          front=curr;
+          front = curr;
           }
-        else if((cfrontbnd == frontbnd)&&(frontbnd))
+        else if ( ( cfrontbnd == frontbnd ) && ( frontbnd ) )
           {
-          curr1[0]=curr[0];
-          curr1[1]=front[0];
+          curr1[0] = curr[0];
+          curr1[1] = front[0];
           buildEdges.push_front(curr1);
-          curr1[0]=curr[1];
-          curr1[1]=curr[0];
+          curr1[0] = curr[1];
+          curr1[1] = curr[0];
           buildEdges.push_front(curr1);
-          front=curr1;
+          front = curr1;
           }
-        else if((cbackbnd == backbnd)&&(backbnd))
+        else if ( ( cbackbnd == backbnd ) && ( backbnd ) )
           {
-          curr1[0]=back[1];
-          curr1[1]=curr[1];
+          curr1[0] = back[1];
+          curr1[1] = curr[1];
           buildEdges.push_back(curr1);
-          curr1[0]=curr[1];
-          curr1[1]=curr[0];
+          curr1[0] = curr[1];
+          curr1[1] = curr[0];
           buildEdges.push_back(curr1);
-          back=curr1;
+          back = curr1;
           }
         else
           {
@@ -380,41 +380,41 @@ ConstructDiagram(void)
         }
       }
 
-    curr=buildEdges.front();
-    curr1=buildEdges.back();
-    if(curr[0] != curr1[1])
+    curr = buildEdges.front();
+    curr1 = buildEdges.back();
+    if ( curr[0] != curr1[1] )
       {
-      frontbnd=Pointonbnd(curr[0]);
-      backbnd=Pointonbnd(curr1[1]);
-      if( (frontbnd!=0) && (backbnd!=0) )
+      frontbnd = Pointonbnd(curr[0]);
+      backbnd = Pointonbnd(curr1[1]);
+      if ( ( frontbnd != 0 ) && ( backbnd != 0 ) )
         {
-        if(frontbnd == backbnd)
+        if ( frontbnd == backbnd )
           {
-          curr2[0]=curr1[1];
-          curr2[1]=curr[0];
+          curr2[0] = curr1[1];
+          curr2[1] = curr[0];
           buildEdges.push_back(curr2);
           }
-        else if((frontbnd == backbnd+1) || (frontbnd == backbnd-3) )
+        else if ( ( frontbnd == backbnd + 1 ) || ( frontbnd == backbnd - 3 ) )
           {
-          curr2[0]=cornerID[frontbnd-1];
-          curr2[1]=curr[0];
+          curr2[0] = cornerID[frontbnd - 1];
+          curr2[1] = curr[0];
           buildEdges.push_front(curr2);
-          curr2[1]=curr2[0];
-          curr2[0]=curr1[1];
+          curr2[1] = curr2[0];
+          curr2[0] = curr1[1];
           buildEdges.push_front(curr2);
           }
-        else if((frontbnd == backbnd-1) || (frontbnd == backbnd+3) )
+        else if ( ( frontbnd == backbnd - 1 ) || ( frontbnd == backbnd + 3 ) )
           {
-          curr2[0]=cornerID[backbnd-1];
-          curr2[1]=curr[0];
+          curr2[0] = cornerID[backbnd - 1];
+          curr2[1] = curr[0];
           buildEdges.push_front(curr2);
-          curr2[1]=curr2[0];
-          curr2[0]=curr1[1];
+          curr2[1] = curr2[0];
+          curr2[0] = curr1[1];
           buildEdges.push_front(curr2);
           }
         else
           {
-          itkDebugMacro(<<"Numerical problem 1"<<curr[0]<<" "<<curr1[1]);
+          itkDebugMacro(<< "Numerical problem 1" << curr[0] << " " << curr1[1]);
           }
         }
       }
@@ -423,75 +423,74 @@ ConstructDiagram(void)
 
     m_OutputVD->ClearRegion(i);
 
-    for(BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter)
+    for ( BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter )
       {
       pp = *BEiter;
-      m_OutputVD->VoronoiRegionAddPointId(i,pp[0]);
+      m_OutputVD->VoronoiRegionAddPointId(i, pp[0]);
       }
     m_OutputVD->BuildEdge(i);
     }
   m_OutputVD->InsertCells();
 
-  delete [] rawEdges;
+  delete[] rawEdges;
 }
 
 /**
  * Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
  * Infomations are stored in m_VertexList, m_EdgeList and m_LineList. */
 
-template <typename TCoordRepType>
-bool 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-right_of(FortuneHalfEdge *el, PointType *p)
+template< typename TCoordRepType >
+bool
+VoronoiDiagram2DGenerator< TCoordRepType >::right_of(FortuneHalfEdge *el, PointType *p)
 {
   FortuneEdge *e = el->m_Edge;
   FortuneSite *topsite = e->m_Reg[1];
 
-  bool right_of_site = ( ((*p)[0]) > (topsite->m_Coord[0]) );
-  if (right_of_site && (!(el->m_RorL)) ) return (1);
-  if ( (!right_of_site) && (el->m_RorL) ) return (0);
+  bool right_of_site = ( ( ( *p )[0] ) > ( topsite->m_Coord[0] ) );
+
+  if ( right_of_site && ( !( el->m_RorL ) ) ) { return ( 1 ); }
+  if ( ( !right_of_site ) && ( el->m_RorL ) ) { return ( 0 ); }
   bool above;
   bool fast;
-  if (e->m_A == 1.0)
+  if ( e->m_A == 1.0 )
     {
-    double dyp = ((*p)[1]) - (topsite->m_Coord[1]);
-    double dxp = ((*p)[0]) - (topsite->m_Coord[0]);
+    double dyp = ( ( *p )[1] ) - ( topsite->m_Coord[1] );
+    double dxp = ( ( *p )[0] ) - ( topsite->m_Coord[0] );
     fast = 0;
-    if( ((!right_of_site) && ((e->m_B)<0.0)) || 
-        (right_of_site && ((e->m_B)>=0.0)) )
+    if ( ( ( !right_of_site ) && ( ( e->m_B ) < 0.0 ) )
+         || ( right_of_site && ( ( e->m_B ) >= 0.0 ) ) )
       {
-      above = ( dyp >= (e->m_B)*dxp );
+      above = ( dyp >= ( e->m_B ) * dxp );
       fast = above;
       }
     else
       {
-      above = ( (((*p)[0]) + ((*p)[1])*(e->m_B)) > e->m_C );
-      if(e->m_B < 0.0 ) above = !above;
-      if(!above) fast = 1;
+      above = ( ( ( ( *p )[0] ) + ( ( *p )[1] ) * ( e->m_B ) ) > e->m_C );
+      if ( e->m_B < 0.0 ) { above = !above; }
+      if ( !above ) { fast = 1; }
       }
-    if(!fast)
+    if ( !fast )
       {
-      double dxs = topsite->m_Coord[0] - ((e->m_Reg[0])->m_Coord[0]);
-      above = ( ((e->m_B)*(dxp*dxp-dyp*dyp))<(dxs*dyp*(1.0+2.0*dxp/dxs+(e->m_B)*(e->m_B))) );
-      if((e->m_B) < 0.0) above = !above;
+      double dxs = topsite->m_Coord[0] - ( ( e->m_Reg[0] )->m_Coord[0] );
+      above =
+        ( ( ( e->m_B ) * ( dxp * dxp - dyp * dyp ) ) < ( dxs * dyp * ( 1.0 + 2.0 * dxp / dxs + ( e->m_B ) * ( e->m_B ) ) ) );
+      if ( ( e->m_B ) < 0.0 ) { above = !above; }
       }
     }
-  else 
-    { // e->m_B == 1.0 
-    double y1 = (e->m_C) - (e->m_A)*((*p)[0]);
-    double t1 = ((*p)[1]) -y1;
-    double t2 = ((*p)[0]) - topsite->m_Coord[0];
+  else
+    { // e->m_B == 1.0
+    double y1 = ( e->m_C ) - ( e->m_A ) * ( ( *p )[0] );
+    double t1 = ( ( *p )[1] ) - y1;
+    double t2 = ( ( *p )[0] ) - topsite->m_Coord[0];
     double t3 = y1 - topsite->m_Coord[1];
-    above = ( (t1*t1) > (t2*t2+t3*t3) );
+    above = ( ( t1 * t1 ) > ( t2 * t2 + t3 * t3 ) );
     }
-  return (el->m_RorL? (!above):above);
+  return ( el->m_RorL ? ( !above ) : above );
 }
 
-
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e, bool pm)
+VoronoiDiagram2DGenerator< TCoordRepType >::createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e, bool pm)
 {
   task->m_Edge = e;
   task->m_RorL = pm;
@@ -499,318 +498,306 @@ createHalfEdge(FortuneHalfEdge *task, FortuneEdge *e, bool pm)
   task->m_Vert = NULL;
 }
 
-
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-PQshowMin(PointType *answer)
+VoronoiDiagram2DGenerator< TCoordRepType >::PQshowMin(PointType *answer)
 {
-  while( (m_PQHash[m_PQmin].m_Next) == NULL)
+  while ( ( m_PQHash[m_PQmin].m_Next ) == NULL )
     {
     m_PQmin += 1;
     }
-  (*answer)[0] = m_PQHash[m_PQmin].m_Next->m_Vert->m_Coord[0];
-  (*answer)[1] = m_PQHash[m_PQmin].m_Next->m_Ystar;
+  ( *answer )[0] = m_PQHash[m_PQmin].m_Next->m_Vert->m_Coord[0];
+  ( *answer )[1] = m_PQHash[m_PQmin].m_Next->m_Ystar;
 }
 
-
-template <typename TCoordRepType>
-void 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-deletePQ(FortuneHalfEdge *task)
+template< typename TCoordRepType >
+void
+VoronoiDiagram2DGenerator< TCoordRepType >::deletePQ(FortuneHalfEdge *task)
 {
   FortuneHalfEdge *last;
-  if( (task->m_Vert) != NULL)
+
+  if ( ( task->m_Vert ) != NULL )
     {
-    last = &(m_PQHash[PQbucket(task)]);
-    while ((last->m_Next) != task)
+    last = &( m_PQHash[PQbucket(task)] );
+    while ( ( last->m_Next ) != task )
+      {
       last = last->m_Next;
-    last->m_Next = (task->m_Next);
+      }
+    last->m_Next = ( task->m_Next );
     m_PQcount--;
     task->m_Vert = NULL;
     }
 }
 
-template <typename TCoordRepType>
-void 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-deleteEdgeList(FortuneHalfEdge *task)
+template< typename TCoordRepType >
+void
+VoronoiDiagram2DGenerator< TCoordRepType >::deleteEdgeList(FortuneHalfEdge *task)
 {
-  (task->m_Left)->m_Right = task->m_Right;
-  (task->m_Right)->m_Left = task->m_Left;
-  task->m_Edge = &(m_DELETED);
+  ( task->m_Left )->m_Right = task->m_Right;
+  ( task->m_Right )->m_Left = task->m_Left;
+  task->m_Edge = &( m_DELETED );
 }
 
-
-template <typename TCoordRepType>
-int 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-PQbucket(FortuneHalfEdge *task)
+template< typename TCoordRepType >
+int
+VoronoiDiagram2DGenerator< TCoordRepType >::PQbucket(FortuneHalfEdge *task)
 {
   int bucket;
-  bucket = (int) ((task->m_Ystar - m_Pymin)/m_Deltay * m_PQhashsize);
-  if(bucket < 0)
+
+  bucket = (int)( ( task->m_Ystar - m_Pymin ) / m_Deltay * m_PQhashsize );
+  if ( bucket < 0 )
     {
     bucket = 0;
     }
-  if(bucket >= static_cast<int>(m_PQhashsize))
+  if ( bucket >= static_cast< int >( m_PQhashsize ) )
     {
-    bucket = m_PQhashsize -1;
+    bucket = m_PQhashsize - 1;
     }
-  if(bucket < static_cast<int>(m_PQmin))
+  if ( bucket < static_cast< int >( m_PQmin ) )
     {
     m_PQmin = bucket;
     }
-  return(bucket);
+  return ( bucket );
 }
 
-template <typename TCoordRepType>
-void 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-insertPQ(FortuneHalfEdge *he, FortuneSite *v, double offset)
+template< typename TCoordRepType >
+void
+VoronoiDiagram2DGenerator< TCoordRepType >::insertPQ(FortuneHalfEdge *he, FortuneSite *v, double offset)
 {
   he->m_Vert = v;
-  he->m_Ystar = (v->m_Coord[1]) + offset;
-  FortuneHalfEdge *last = &(m_PQHash[PQbucket(he)]);
+  he->m_Ystar = ( v->m_Coord[1] ) + offset;
+  FortuneHalfEdge *last = &( m_PQHash[PQbucket(he)] );
   FortuneHalfEdge *enext;
 
-  while( ((enext = (last->m_Next)) != NULL) && 
-         ( ((he->m_Ystar) > (enext->m_Ystar)) ||
-           ( ((he->m_Ystar) == (enext->m_Ystar)) && 
-             ( (v->m_Coord[0])> (enext->m_Vert->m_Coord[0]) ))))
-    {last = enext;}
-  he->m_Next = (last->m_Next);
+  while ( ( ( enext = ( last->m_Next ) ) != NULL )
+          && ( ( ( he->m_Ystar ) > ( enext->m_Ystar ) )
+               || ( ( ( he->m_Ystar ) == ( enext->m_Ystar ) )
+                    && ( ( v->m_Coord[0] ) > ( enext->m_Vert->m_Coord[0] ) ) ) ) )
+    {
+    last = enext;
+    }
+  he->m_Next = ( last->m_Next );
   last->m_Next = he;
   m_PQcount += 1;
 }
 
-template <typename TCoordRepType>
-double 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-dist(FortuneSite *s1,FortuneSite *s2)
+template< typename TCoordRepType >
+double
+VoronoiDiagram2DGenerator< TCoordRepType >::dist(FortuneSite *s1, FortuneSite *s2)
 {
-  double dx = (s1->m_Coord[0])-(s2->m_Coord[0]);
-  double dy = (s1->m_Coord[1])-(s2->m_Coord[1]);
-  return(vcl_sqrt(dx*dx+dy*dy));
+  double dx = ( s1->m_Coord[0] ) - ( s2->m_Coord[0] );
+  double dy = ( s1->m_Coord[1] ) - ( s2->m_Coord[1] );
+
+  return ( vcl_sqrt(dx * dx + dy * dy) );
 }
 
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-ELgethash( int b)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
+VoronoiDiagram2DGenerator< TCoordRepType >::ELgethash(int b)
 {
-  if( (b<0) || (b>=static_cast<int>(m_ELhashsize)) )
+  if ( ( b < 0 ) || ( b >= static_cast< int >( m_ELhashsize ) ) )
     {
-    return (NULL);
+    return ( NULL );
     }
   FortuneHalfEdge *he = m_ELHash[b];
-  if(he==NULL)
+  if ( he == NULL )
     {
-    return (he);
+    return ( he );
     }
-  if(he->m_Edge == NULL)
+  if ( he->m_Edge == NULL )
     {
-    return (he);
+    return ( he );
     }
-  if((he->m_Edge) != (&m_DELETED)) 
+  if ( ( he->m_Edge ) != ( &m_DELETED ) )
     {
-    return (he);
+    return ( he );
     }
   m_ELHash[b] = NULL;
 
-  return (NULL);
+  return ( NULL );
 }
 
-
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge * 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-findLeftHE(PointType *p)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
+VoronoiDiagram2DGenerator< TCoordRepType >::findLeftHE(PointType *p)
 {
   int i;
-  int bucket = (int)( (((*p)[0]) - m_Pxmin)/m_Deltax * m_ELhashsize );
-  if(bucket < 0)
+  int bucket = (int)( ( ( ( *p )[0] ) - m_Pxmin ) / m_Deltax * m_ELhashsize );
+
+  if ( bucket < 0 )
     {
     bucket = 0;
     }
-  if(bucket >= static_cast<int>(m_ELhashsize))
+  if ( bucket >= static_cast< int >( m_ELhashsize ) )
     {
-    bucket = static_cast<int>(m_ELhashsize) - 1;
+    bucket = static_cast< int >( m_ELhashsize ) - 1;
     }
   FortuneHalfEdge *he = ELgethash(bucket);
-  if(he == NULL)
+  if ( he == NULL )
     {
-    for(i = 1; 1; i++)
+    for ( i = 1; 1; i++ )
       {
-      if( (he=ELgethash(bucket-i)) != NULL) break;
-      if( (he=ELgethash(bucket+i)) != NULL) break;
+      if ( ( he = ELgethash(bucket - i) ) != NULL ) { break; }
+      if ( ( he = ELgethash(bucket + i) ) != NULL ) { break; }
       }
     }
 
-  if( (he==(&m_ELleftend)) || ((he!=(&m_ELrightend)) && right_of(he,p)) )
+  if ( ( he == ( &m_ELleftend ) ) || ( ( he != ( &m_ELrightend ) ) && right_of(he, p) ) )
     {
     do
       {
       he = he->m_Right;
       }
-    while ( (he!=(&m_ELrightend)) && (right_of(he,p)) );
+    while ( ( he != ( &m_ELrightend ) ) && ( right_of(he, p) ) );
     he = he->m_Left;
     }
-  else 
+  else
     {
     do
       {
       he = he->m_Left;
       }
-    while ( (he!=(&m_ELleftend)) && (!right_of(he,p)) );
+    while ( ( he != ( &m_ELleftend ) ) && ( !right_of(he, p) ) );
     }
 
-  if( (bucket>0) && (bucket<static_cast<int>(m_ELhashsize)-1) )
+  if ( ( bucket > 0 ) && ( bucket < static_cast< int >( m_ELhashsize ) - 1 ) )
     {
     m_ELHash[bucket] = he;
     }
-  return (he);
+  return ( he );
 }
 
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
-VoronoiDiagram2DGenerator<TCoordRepType>::
-getRightReg(FortuneHalfEdge *he)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneSite *
+VoronoiDiagram2DGenerator< TCoordRepType >::getRightReg(FortuneHalfEdge *he)
 {
-  if( (he->m_Edge) == NULL )
+  if ( ( he->m_Edge ) == NULL )
     {
-    return(m_BottomSite);
+    return ( m_BottomSite );
     }
-  else if(he->m_RorL)
+  else if ( he->m_RorL )
     {
-    return(he->m_Edge->m_Reg[0]);
+    return ( he->m_Edge->m_Reg[0] );
     }
-  else 
+  else
     {
-    return(he->m_Edge->m_Reg[1]);
+    return ( he->m_Edge->m_Reg[1] );
     }
 }
 
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
-VoronoiDiagram2DGenerator<TCoordRepType>::
-getLeftReg(FortuneHalfEdge *he)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneSite *
+VoronoiDiagram2DGenerator< TCoordRepType >::getLeftReg(FortuneHalfEdge *he)
 {
-  if( (he->m_Edge) == NULL )
+  if ( ( he->m_Edge ) == NULL )
     {
-    return(m_BottomSite);
+    return ( m_BottomSite );
     }
-  else if(he->m_RorL)
+  else if ( he->m_RorL )
     {
-    return(he->m_Edge->m_Reg[1]);
+    return ( he->m_Edge->m_Reg[1] );
     }
-  else 
+  else
     {
-    return(he->m_Edge->m_Reg[0]);
+    return ( he->m_Edge->m_Reg[0] );
     }
 }
 
-
-template <typename TCoordRepType>
-void 
-VoronoiDiagram2DGenerator<TCoordRepType>::
-insertEdgeList(FortuneHalfEdge *lbase, FortuneHalfEdge *lnew)
+template< typename TCoordRepType >
+void
+VoronoiDiagram2DGenerator< TCoordRepType >::insertEdgeList(FortuneHalfEdge *lbase, FortuneHalfEdge *lnew)
 {
   lnew->m_Left = lbase;
   lnew->m_Right = lbase->m_Right;
-  (lbase->m_Right)->m_Left = lnew;
+  ( lbase->m_Right )->m_Left = lnew;
   lbase->m_Right = lnew;
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-bisect(FortuneEdge *answer, FortuneSite *s1, FortuneSite *s2)
+VoronoiDiagram2DGenerator< TCoordRepType >::bisect(FortuneEdge *answer, FortuneSite *s1, FortuneSite *s2)
 {
   answer->m_Reg[0] = s1;
   answer->m_Reg[1] = s2;
   answer->m_Ep[0] = NULL;
   answer->m_Ep[1] = NULL;
 
-  double dx = (s2->m_Coord[0]) - (s1->m_Coord[0]);
-  double dy = (s2->m_Coord[1]) - (s1->m_Coord[1]);
-  double adx = (dx>0)?dx:-dx;
-  double ady = (dy>0)?dy:-dy;
+  double dx = ( s2->m_Coord[0] ) - ( s1->m_Coord[0] );
+  double dy = ( s2->m_Coord[1] ) - ( s1->m_Coord[1] );
+  double adx = ( dx > 0 ) ? dx : -dx;
+  double ady = ( dy > 0 ) ? dy : -dy;
 
-  answer->m_C = (s1->m_Coord[0])*dx + (s1->m_Coord[1])*dy + (dx*dx+dy*dy)*0.5;
-  if(adx > ady)
+  answer->m_C = ( s1->m_Coord[0] ) * dx + ( s1->m_Coord[1] ) * dy + ( dx * dx + dy * dy ) * 0.5;
+  if ( adx > ady )
     {
     answer->m_A = 1.0;
-    answer->m_B = dy/dx;
+    answer->m_B = dy / dx;
     answer->m_C /= dx;
     }
-  else 
+  else
     {
-    answer->m_A = dx/dy;
+    answer->m_A = dx / dy;
     answer->m_B = 1.0;
     answer->m_C /= dy;
     }
   answer->m_Edgenbr = m_Nedges;
   m_Nedges++;
-  Point<int, 2> outline;
+  Point< int, 2 > outline;
   outline[0] = answer->m_Reg[0]->m_Sitenbr;
   outline[1] = answer->m_Reg[1]->m_Sitenbr;
   m_OutputVD->AddLine(outline);
-
 }
 
-
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
+VoronoiDiagram2DGenerator< TCoordRepType >::intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
 {
-  FortuneEdge *e1 = el1->m_Edge;
-  FortuneEdge *e2 = el2->m_Edge;
+  FortuneEdge *    e1 = el1->m_Edge;
+  FortuneEdge *    e2 = el2->m_Edge;
   FortuneHalfEdge *saveHE;
-  FortuneEdge *saveE;
+  FortuneEdge *    saveE;
 
-  if(e1 == NULL)
+  if ( e1 == NULL )
     {
     newV->m_Sitenbr = -1;
     return;
     }
-  if(e2 == NULL)
+  if ( e2 == NULL )
     {
     newV->m_Sitenbr = -2;
     return;
     }
-  if( (e1->m_Reg[1]) == (e2->m_Reg[1]) )
+  if ( ( e1->m_Reg[1] ) == ( e2->m_Reg[1] ) )
     {
     newV->m_Sitenbr = -3;
     return;
     }
 
-  double d = (e1->m_A)*(e2->m_B) - (e1->m_B)*(e2->m_A);
+  double d = ( e1->m_A ) * ( e2->m_B ) - ( e1->m_B ) * ( e2->m_A );
 
-  if ( (d>-NUMERIC_TOLERENCE) && (d<NUMERIC_TOLERENCE) )
+  if ( ( d > -NUMERIC_TOLERENCE ) && ( d < NUMERIC_TOLERENCE ) )
     {
     newV->m_Sitenbr = -4;
     return;
     }
 
-  double xmeet = ( (e1->m_C)*(e2->m_B) - (e2->m_C)*(e1->m_B) )/d;
-  double ymeet = ( (e2->m_C)*(e1->m_A) - (e1->m_C)*(e2->m_A) )/d;
+  double xmeet = ( ( e1->m_C ) * ( e2->m_B ) - ( e2->m_C ) * ( e1->m_B ) ) / d;
+  double ymeet = ( ( e2->m_C ) * ( e1->m_A ) - ( e1->m_C ) * ( e2->m_A ) ) / d;
 
-  if( comp(e1->m_Reg[1]->m_Coord, e2->m_Reg[1]->m_Coord) )
+  if ( comp(e1->m_Reg[1]->m_Coord, e2->m_Reg[1]->m_Coord) )
     {
     saveHE = el1;
     saveE = e1;
-    }  
-  else 
+    }
+  else
     {
     saveHE = el2;
     saveE = e2;
     }
 
-  bool right_of_site = (xmeet >= (saveE->m_Reg[1]->m_Coord[0]) );
-  if( (right_of_site && (!(saveHE->m_RorL))) ||
-      ( (!right_of_site) && (saveHE->m_RorL)) )
+  bool right_of_site = ( xmeet >= ( saveE->m_Reg[1]->m_Coord[0] ) );
+  if ( ( right_of_site && ( !( saveHE->m_RorL ) ) )
+       || ( ( !right_of_site ) && ( saveHE->m_RorL ) ) )
     {
     newV->m_Sitenbr = -4;
     return;
@@ -821,32 +808,32 @@ intersect(FortuneSite *newV, FortuneHalfEdge *el1, FortuneHalfEdge *el2)
   newV->m_Sitenbr = -5;
 }
 
-template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
-VoronoiDiagram2DGenerator<TCoordRepType>::
-getPQmin(void)
+template< typename TCoordRepType >
+typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
+VoronoiDiagram2DGenerator< TCoordRepType >::getPQmin(void)
 {
   FortuneHalfEdge *curr = m_PQHash[m_PQmin].m_Next;
+
   m_PQHash[m_PQmin].m_Next = curr->m_Next;
   m_PQcount--;
-  return(curr);
+  return ( curr );
 }
 
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-clip_line(FortuneEdge *task)
+VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
 {
 /* clip line */
-  FortuneSite *s1;  
-  FortuneSite *s2;  
-  double x1,y1,x2,y2;
-  if( ((task->m_A) == 1.0) && ((task->m_B) >= 0.0) )
+  FortuneSite *s1;
+  FortuneSite *s2;
+  double       x1, y1, x2, y2;
+
+  if ( ( ( task->m_A ) == 1.0 ) && ( ( task->m_B ) >= 0.0 ) )
     {
     s1 = task->m_Ep[1];
     s2 = task->m_Ep[0];
     }
-  else 
+  else
     {
     s2 = task->m_Ep[1];
     s1 = task->m_Ep[0];
@@ -854,12 +841,12 @@ clip_line(FortuneEdge *task)
 
   int id1;
   int id2;
-  if( (task->m_A) == 1.0)
+  if ( ( task->m_A ) == 1.0 )
     {
-    if( (s1 != NULL) && ((s1->m_Coord[1]) >m_Pymin) )
+    if ( ( s1 != NULL ) && ( ( s1->m_Coord[1] ) > m_Pymin ) )
       {
       y1 = s1->m_Coord[1];
-      if(y1 > m_Pymax)
+      if ( y1 > m_Pymax )
         {
         return;
         }
@@ -869,64 +856,66 @@ clip_line(FortuneEdge *task)
     else
       {
       y1 = m_Pymin;
-      x1 = (task->m_C) - (task->m_B)*y1;
+      x1 = ( task->m_C ) - ( task->m_B ) * y1;
       id1 = -1;
       }
 
-    if ( (s2 != NULL) && ((s2->m_Coord[1]) <m_Pymax) )
+    if ( ( s2 != NULL ) && ( ( s2->m_Coord[1] ) < m_Pymax ) )
       {
       y2 = s2->m_Coord[1];
-      if(y2 < m_Pymin)
+      if ( y2 < m_Pymin )
+        {
         return;
+        }
       x2 = s2->m_Coord[0];
       id2 = s2->m_Sitenbr;
       }
     else
       {
       y2 = m_Pymax;
-      x2 = (task->m_C) - (task->m_B)*y2;
+      x2 = ( task->m_C ) - ( task->m_B ) * y2;
       id2 = -1;
       }
 
-    if( (x1>m_Pxmax) && (x2>m_Pxmax) )
+    if ( ( x1 > m_Pxmax ) && ( x2 > m_Pxmax ) )
       {
       return;
       }
-    if( (x1<m_Pxmin) && (x2<m_Pxmin) )
+    if ( ( x1 < m_Pxmin ) && ( x2 < m_Pxmin ) )
       {
       return;
       }
-    if(x1 > m_Pxmax)
+    if ( x1 > m_Pxmax )
       {
       x1 = m_Pxmax;
-      y1 = ((task->m_C)-x1)/(task->m_B);
+      y1 = ( ( task->m_C ) - x1 ) / ( task->m_B );
       id1 = -1;
       }
-    if(x1 <m_Pxmin)
+    if ( x1 < m_Pxmin )
       {
       x1 = m_Pxmin;
-      y1 = ((task->m_C)-x1)/(task->m_B);
+      y1 = ( ( task->m_C ) - x1 ) / ( task->m_B );
       id1 = -1;
       }
-    if(x2 > m_Pxmax)
+    if ( x2 > m_Pxmax )
       {
       x2 = m_Pxmax;
-      y2 = ((task->m_C)-x2)/(task->m_B);
+      y2 = ( ( task->m_C ) - x2 ) / ( task->m_B );
       id2 = -1;
       }
-    if(x2 <m_Pxmin)
+    if ( x2 < m_Pxmin )
       {
       x2 = m_Pxmin;
-      y2 = ((task->m_C)-x2)/(task->m_B);
+      y2 = ( ( task->m_C ) - x2 ) / ( task->m_B );
       id2 = -1;
       }
     }
   else
     {
-    if( (s1 != NULL) && ((s1->m_Coord[0]) >m_Pxmin) )
+    if ( ( s1 != NULL ) && ( ( s1->m_Coord[0] ) > m_Pxmin ) )
       {
       x1 = s1->m_Coord[0];
-      if(x1 > m_Pxmax)
+      if ( x1 > m_Pxmax )
         {
         return;
         }
@@ -936,51 +925,55 @@ clip_line(FortuneEdge *task)
     else
       {
       x1 = m_Pxmin;
-      y1 = (task->m_C) - (task->m_A)*x1;
+      y1 = ( task->m_C ) - ( task->m_A ) * x1;
       id1 = -1;
       }
-    if ( (s2 != NULL) && ((s2->m_Coord[0]) <m_Pxmax) )
+    if ( ( s2 != NULL ) && ( ( s2->m_Coord[0] ) < m_Pxmax ) )
       {
       x2 = s2->m_Coord[0];
-      if(x2 < m_Pxmin)
+      if ( x2 < m_Pxmin )
+        {
         return;
+        }
       y2 = s2->m_Coord[1];
       id2 = s2->m_Sitenbr;
       }
     else
       {
       x2 = m_Pxmax;
-      y2 = (task->m_C) - (task->m_A)*x2;
+      y2 = ( task->m_C ) - ( task->m_A ) * x2;
       id2 = -1;
       }
-    if( (y1>m_Pymax) && (y2>m_Pymax) )
+    if ( ( y1 > m_Pymax ) && ( y2 > m_Pymax ) )
       {
       return;
       }
-    if( (y1<m_Pymin) && (y2<m_Pymin) )
+    if ( ( y1 < m_Pymin ) && ( y2 < m_Pymin ) )
+      {
       return;
-    if(y1 > m_Pymax)
+      }
+    if ( y1 > m_Pymax )
       {
       y1 = m_Pymax;
-      x1 = ((task->m_C)-y1)/(task->m_A);
+      x1 = ( ( task->m_C ) - y1 ) / ( task->m_A );
       id1 = -1;
       }
-    if(y1 <m_Pymin)
+    if ( y1 < m_Pymin )
       {
       y1 = m_Pymin;
-      x1 = ((task->m_C)-y1)/(task->m_A);
+      x1 = ( ( task->m_C ) - y1 ) / ( task->m_A );
       id1 = -1;
       }
-    if(y2 > m_Pymax)
+    if ( y2 > m_Pymax )
       {
       y2 = m_Pymax;
-      x2 = ((task->m_C)-y2)/(task->m_A);
+      x2 = ( ( task->m_C ) - y2 ) / ( task->m_A );
       id2 = -1;
       }
-    if(y2 <m_Pymin)
+    if ( y2 < m_Pymin )
       {
       y2 = m_Pymin;
-      x2 = ((task->m_C)-y2)/(task->m_A);
+      x2 = ( ( task->m_C ) - y2 ) / ( task->m_A );
       id2 = -1;
       }
     }
@@ -992,7 +985,7 @@ clip_line(FortuneEdge *task)
   newInfo.m_Right[1] = y2;
   newInfo.m_LineID = task->m_Edgenbr;
 
-  if(id1>-1)
+  if ( id1 > -1 )
     {
     newInfo.m_LeftID = id1;
     }
@@ -1001,12 +994,12 @@ clip_line(FortuneEdge *task)
     newInfo.m_LeftID = m_Nvert;
     m_Nvert++;
     PointType newv;
-    newv[0]=x1;
-    newv[1]=y1;
+    newv[0] = x1;
+    newv[1] = y1;
     m_OutputVD->AddVert(newv);
     }
 
-  if(id2>-1)
+  if ( id2 > -1 )
     {
     newInfo.m_RightID = id2;
     }
@@ -1015,39 +1008,35 @@ clip_line(FortuneEdge *task)
     newInfo.m_RightID = m_Nvert;
     m_Nvert++;
     PointType newv;
-    newv[0]=x2;
-    newv[1]=y2;
+    newv[0] = x2;
+    newv[1] = y2;
     m_OutputVD->AddVert(newv);
     }
   m_OutputVD->AddEdge(newInfo);
 }
 
-
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends)
+VoronoiDiagram2DGenerator< TCoordRepType >::makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends)
 {
   task->m_Ep[lr] = ends;
-  if ((task->m_Ep[1-lr]) == NULL)
+  if ( ( task->m_Ep[1 - lr] ) == NULL )
+    {
     return;
+    }
 
   clip_line(task);
-
 }
 
-
-template <typename TCoordRepType>
+template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator<TCoordRepType>::
-GenerateVDFortune(void)
+VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
 {
-
   unsigned int i;
 
   /* Build SeedSites. */
   m_SeedSites.resize(m_NumberOfSeeds);
-  for(i = 0; i < m_NumberOfSeeds; i++)
+  for ( i = 0; i < m_NumberOfSeeds; i++ )
     {
     m_SeedSites[i].m_Coord = m_Seeds[i];
     m_SeedSites[i].m_Sitenbr = i;
@@ -1058,7 +1047,7 @@ GenerateVDFortune(void)
 
   m_Deltay = m_Pymax - m_Pymin;
   m_Deltax = m_Pxmax - m_Pxmin;
-  m_SqrtNSites = vcl_sqrt((float) (m_NumberOfSeeds + 4));
+  m_SqrtNSites = vcl_sqrt( (float)( m_NumberOfSeeds + 4 ) );
 
   /* Initialize outputLists. */
   m_Nedges = 0;
@@ -1070,29 +1059,29 @@ GenerateVDFortune(void)
   /* Initialize the Hash Table for Circle Event and Point Event. */
   m_PQcount = 0;
   m_PQmin = 0;
-  m_PQhashsize = (int)(4 * m_SqrtNSites);
+  m_PQhashsize = (int)( 4 * m_SqrtNSites );
   m_PQHash.resize(m_PQhashsize);
-  for (i = 0; i < m_PQhashsize; i++)
+  for ( i = 0; i < m_PQhashsize; i++ )
     {
     m_PQHash[i].m_Next = NULL;
     }
-  m_ELhashsize = (int)(2 * m_SqrtNSites);
+  m_ELhashsize = (int)( 2 * m_SqrtNSites );
   m_ELHash.resize(m_ELhashsize);
-  for (i = 0; i < m_ELhashsize; i++)
+  for ( i = 0; i < m_ELhashsize; i++ )
     {
     m_ELHash[i] = NULL;
     }
-  createHalfEdge(&(m_ELleftend), NULL, 0);
-  createHalfEdge(&(m_ELrightend), NULL, 0);
+  createHalfEdge(&( m_ELleftend ), NULL, 0);
+  createHalfEdge(&( m_ELrightend ), NULL, 0);
   m_ELleftend.m_Left = NULL;
-  m_ELleftend.m_Right = &(m_ELrightend);
-  m_ELrightend.m_Left = &(m_ELleftend);
+  m_ELleftend.m_Right = &( m_ELrightend );
+  m_ELrightend.m_Left = &( m_ELleftend );
   m_ELrightend.m_Right = NULL;
-  m_ELHash[0] = &(m_ELleftend);
-  m_ELHash[m_ELhashsize - 1] = &(m_ELrightend);
+  m_ELHash[0] = &( m_ELleftend );
+  m_ELHash[m_ELhashsize - 1] = &( m_ELrightend );
 
-  m_BottomSite = &(m_SeedSites[0]);
-  FortuneSite *currentSite = &(m_SeedSites[1]);
+  m_BottomSite = &( m_SeedSites[0] );
+  FortuneSite *currentSite = &( m_SeedSites[1] );
 
   PointType currentCircle;
   currentCircle.Fill(0.0);
@@ -1101,20 +1090,20 @@ GenerateVDFortune(void)
   FortuneHalfEdge *left2HalfEdge;
   FortuneHalfEdge *right2HalfEdge;
   FortuneHalfEdge *newHE;
-  FortuneSite *findSite;
-  FortuneSite *topSite;
-  FortuneSite *saveSite;
-  FortuneEdge *newEdge;
-  FortuneSite *meetSite;
-  FortuneSite *newVert;
-  bool saveBool;
+  FortuneSite *    findSite;
+  FortuneSite *    topSite;
+  FortuneSite *    saveSite;
+  FortuneEdge *    newEdge;
+  FortuneSite *    meetSite;
+  FortuneSite *    newVert;
+  bool             saveBool;
 
-  std::vector<FortuneHalfEdge> HEpool;
-  std::vector<FortuneEdge> Edgepool;
-  std::vector<FortuneSite> Sitepool;
-  HEpool.resize(5*m_NumberOfSeeds);
-  Edgepool.resize(5*m_NumberOfSeeds);
-  Sitepool.resize(5*m_NumberOfSeeds);
+  std::vector< FortuneHalfEdge > HEpool;
+  std::vector< FortuneEdge >     Edgepool;
+  std::vector< FortuneSite >     Sitepool;
+  HEpool.resize(5 * m_NumberOfSeeds);
+  Edgepool.resize(5 * m_NumberOfSeeds);
+  Sitepool.resize(5 * m_NumberOfSeeds);
 
   int HEid = 0;
   int Edgeid = 0;
@@ -1122,61 +1111,61 @@ GenerateVDFortune(void)
 
   i = 2;
   bool ok = 1;
-  while(ok)
+  while ( ok )
     {
-    if(m_PQcount != 0)
+    if ( m_PQcount != 0 )
       {
       PQshowMin(&currentCircle);
       }
-    if( (i <= m_NumberOfSeeds) && ((m_PQcount == 0) || comp(currentSite->m_Coord, currentCircle)) )
+    if ( ( i <= m_NumberOfSeeds ) && ( ( m_PQcount == 0 ) || comp(currentSite->m_Coord, currentCircle) ) )
       {
       /* Handling Site Event. */
-      leftHalfEdge = findLeftHE(&(currentSite->m_Coord));
+      leftHalfEdge = findLeftHE( &( currentSite->m_Coord ) );
       rightHalfEdge = leftHalfEdge->m_Right;
 
       findSite = getRightReg(leftHalfEdge);
 
-      bisect(&(Edgepool[Edgeid]),findSite, currentSite);
-      newEdge = &(Edgepool[Edgeid]);
+      bisect(&( Edgepool[Edgeid] ), findSite, currentSite);
+      newEdge = &( Edgepool[Edgeid] );
       Edgeid++;
 
-      createHalfEdge( &(HEpool[HEid]), newEdge, 0);
-      newHE = &(HEpool[HEid]);
+      createHalfEdge(&( HEpool[HEid] ), newEdge, 0);
+      newHE = &( HEpool[HEid] );
       HEid++;
 
       insertEdgeList(leftHalfEdge, newHE);
 
-      intersect(&(Sitepool[Siteid]),leftHalfEdge, newHE);
-      meetSite = &(Sitepool[Siteid]);
+      intersect(&( Sitepool[Siteid] ), leftHalfEdge, newHE);
+      meetSite = &( Sitepool[Siteid] );
 
-      if((meetSite->m_Sitenbr) == -5)
+      if ( ( meetSite->m_Sitenbr ) == -5 )
         {
         deletePQ(leftHalfEdge);
-        insertPQ(leftHalfEdge, meetSite, dist(meetSite, currentSite));
+        insertPQ( leftHalfEdge, meetSite, dist(meetSite, currentSite) );
         Siteid++;
         }
 
       leftHalfEdge = newHE;
-      createHalfEdge( &(HEpool[HEid]), newEdge, 1);
-      newHE = &(HEpool[HEid]);
+      createHalfEdge(&( HEpool[HEid] ), newEdge, 1);
+      newHE = &( HEpool[HEid] );
       HEid++;
 
       insertEdgeList(leftHalfEdge, newHE);
 
-      intersect(&(Sitepool[Siteid]),newHE, rightHalfEdge);
-      meetSite = &(Sitepool[Siteid]);
-      if((meetSite->m_Sitenbr) == -5)
+      intersect(&( Sitepool[Siteid] ), newHE, rightHalfEdge);
+      meetSite = &( Sitepool[Siteid] );
+      if ( ( meetSite->m_Sitenbr ) == -5 )
         {
         Siteid++;
-        insertPQ(newHE, meetSite, dist(meetSite, currentSite));
+        insertPQ( newHE, meetSite, dist(meetSite, currentSite) );
         }
-      if (i < m_SeedSites.size())
+      if ( i < m_SeedSites.size() )
         {
-        currentSite = &(m_SeedSites[i]);
+        currentSite = &( m_SeedSites[i] );
         }
       i++;
       }
-    else if(m_PQcount != 0)
+    else if ( m_PQcount != 0 )
       {
       /* Handling Circle Event. */
 
@@ -1199,7 +1188,7 @@ GenerateVDFortune(void)
       deleteEdgeList(rightHalfEdge);
 
       saveBool = 0;
-      if( (findSite->m_Coord[1]) > (topSite->m_Coord[1]) )
+      if ( ( findSite->m_Coord[1] ) > ( topSite->m_Coord[1] ) )
         {
         saveSite = findSite;
         findSite = topSite;
@@ -1207,50 +1196,49 @@ GenerateVDFortune(void)
         saveBool = 1;
         }
 
-      bisect(&(Edgepool[Edgeid]),findSite, topSite);
-      newEdge = &(Edgepool[Edgeid]);
+      bisect(&( Edgepool[Edgeid] ), findSite, topSite);
+      newEdge = &( Edgepool[Edgeid] );
       Edgeid++;
 
-      createHalfEdge( &(HEpool[HEid]), newEdge, saveBool);
-      newHE = &(HEpool[HEid]);
+      createHalfEdge(&( HEpool[HEid] ), newEdge, saveBool);
+      newHE = &( HEpool[HEid] );
       HEid++;
 
       insertEdgeList(left2HalfEdge, newHE);
-      makeEndPoint(newEdge, 1-saveBool, newVert);
+      makeEndPoint(newEdge, 1 - saveBool, newVert);
 
-      intersect(&(Sitepool[Siteid]),left2HalfEdge, newHE);
-      meetSite = &(Sitepool[Siteid]);
+      intersect(&( Sitepool[Siteid] ), left2HalfEdge, newHE);
+      meetSite = &( Sitepool[Siteid] );
 
-      if((meetSite->m_Sitenbr) == -5)
+      if ( ( meetSite->m_Sitenbr ) == -5 )
         {
         Siteid++;
         deletePQ(left2HalfEdge);
-        insertPQ(left2HalfEdge, meetSite, dist(meetSite, findSite));
+        insertPQ( left2HalfEdge, meetSite, dist(meetSite, findSite) );
         }
 
-      intersect(&(Sitepool[Siteid]),newHE, right2HalfEdge);
-      meetSite = &(Sitepool[Siteid]);
-      if((meetSite->m_Sitenbr) == -5)
+      intersect(&( Sitepool[Siteid] ), newHE, right2HalfEdge);
+      meetSite = &( Sitepool[Siteid] );
+      if ( ( meetSite->m_Sitenbr ) == -5 )
         {
         Siteid++;
-        insertPQ(newHE, meetSite, dist(meetSite, findSite));
+        insertPQ( newHE, meetSite, dist(meetSite, findSite) );
         }
       }
     else
       {
-      ok = 0; 
+      ok = 0;
       }
     }
 
-  for( (leftHalfEdge=m_ELleftend.m_Right); 
-       (leftHalfEdge != (&m_ELrightend)); 
-       (leftHalfEdge=(leftHalfEdge->m_Right)) )
+  for ( ( leftHalfEdge = m_ELleftend.m_Right );
+        ( leftHalfEdge != ( &m_ELrightend ) );
+        ( leftHalfEdge = ( leftHalfEdge->m_Right ) ) )
     {
     newEdge = leftHalfEdge->m_Edge;
     clip_line(newEdge);
     }
 }
-
-}//end namespace
+} //end namespace
 
 #endif

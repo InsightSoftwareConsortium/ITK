@@ -43,18 +43,19 @@
 
 namespace itk
 {
-
+//HACK:  Need to remove this function also
+#if 1
 /**
  * Due to a bug in MSVC, an enum value cannot be accessed out of a template
  * parameter until the template class opens.  In order for templated classes
  * to access the dimension of an image template parameter in defining their
  * own dimension, this class is needed as a work-around.
  */
-template <typename TImage>
-struct GetImageDimension
-{
+template< typename TImage >
+struct GetImageDimension {
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 };
+#endif
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
@@ -83,15 +84,15 @@ struct GetImageDimension
  * \ingroup ITKSystemObjects
  *
  */
-template<unsigned int VImageDimension=2>
-class ITK_EXPORT ImageBase : public DataObject
+template< unsigned int VImageDimension = 2 >
+class ITK_EXPORT ImageBase:public DataObject
 {
 public:
   /** Standard typedefs. */
-  typedef ImageBase                     Self;
-  typedef DataObject                    Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef ImageBase                  Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,55 +104,57 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>                  IndexType;
-  typedef typename IndexType::IndexValueType      IndexValueType;
+  typedef Index< VImageDimension >           IndexType;
+  typedef typename IndexType::IndexValueType IndexValueType;
 
   /** Offset typedef support. An offset represent relative position
    * between indices. */
-  typedef Offset<VImageDimension>                 OffsetType;
-  typedef typename OffsetType::OffsetValueType    OffsetValueType;
+  typedef Offset< VImageDimension >            OffsetType;
+  typedef typename OffsetType::OffsetValueType OffsetValueType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>                   SizeType;
-  typedef typename SizeType::SizeValueType        SizeValueType;
+  typedef Size< VImageDimension >          SizeType;
+  typedef typename SizeType::SizeValueType SizeValueType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion<VImageDimension>            RegionType;
+  /** Region typedef support. A region is used to specify a subset of an image.
+    */
+  typedef ImageRegion< VImageDimension > RegionType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. ITK only
    * supports positive spacing value: negative values may cause
    * undesirable results.  */
-  typedef double                                    SpacingValueType;
-  typedef Vector<SpacingValueType, VImageDimension> SpacingType;
+  typedef double                                      SpacingValueType;
+  typedef Vector< SpacingValueType, VImageDimension > SpacingType;
 
   /** Origin typedef support.  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef double                                    PointValueType;
-  typedef Point<PointValueType, VImageDimension>    PointType;
+  typedef double                                   PointValueType;
+  typedef Point< PointValueType, VImageDimension > PointType;
 
   /** Direction typedef support.  The Direction is a matix of
    * direction cosines that specify the direction between samples.
    * */
-  typedef Matrix<double, VImageDimension, VImageDimension> DirectionType;
+  typedef Matrix< double, VImageDimension, VImageDimension > DirectionType;
 
   /** Restore object to initialized state. */
   void Initialize();
 
   /** Image dimension. The dimension of an image is fixed at construction. */
   static unsigned int GetImageDimension()
-    { return VImageDimension; }
+  { return VImageDimension; }
 
   /** Set the origin of the image. The origin is the geometric
    * coordinates of the image origin.  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin( const double origin[VImageDimension] );
-  virtual void SetOrigin( const float origin[VImageDimension] );
+  virtual void SetOrigin(const double origin[VImageDimension]);
+
+  virtual void SetOrigin(const float origin[VImageDimension]);
 
   /** Set the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
@@ -179,7 +182,7 @@ public:
    * http://www.itk.org/Wiki/Proposals:Orientation#Some_notes_on_the_DICOM_convention_and_current_ITK_usage
    *
    * \sa GetDirection() */
-  virtual void SetDirection( const DirectionType direction );
+  virtual void SetDirection(const DirectionType direction);
 
   /** Get the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
@@ -204,7 +207,7 @@ public:
    * This method should be pure virtual, if backwards compatibility
    *  was not required.
    */
-  virtual void Allocate() {};
+  virtual void Allocate() {}
 
   /** Set the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -212,7 +215,7 @@ public:
    * entire dataset.  It is also used to determine boundary
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion() */
-  virtual void SetLargestPossibleRegion(const RegionType &region);
+  virtual void SetLargestPossibleRegion(const RegionType & region);
 
   /** Get the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -220,19 +223,19 @@ public:
    * entire dataset.  It is also used to determine boundary
    * conditions.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion() */
-  virtual const RegionType& GetLargestPossibleRegion() const
-    { return m_LargestPossibleRegion;};
+  virtual const RegionType & GetLargestPossibleRegion() const
+  { return m_LargestPossibleRegion; }
 
   /** Set the region object that defines the size and starting index
    * of the region of the image currently loaded in memory.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
-  virtual void SetBufferedRegion(const RegionType &region);
+  virtual void SetBufferedRegion(const RegionType & region);
 
   /** Get the region object that defines the size and starting index
    * of the region of the image currently loaded in memory.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
-  virtual const RegionType& GetBufferedRegion() const
-  { return m_BufferedRegion;};
+  virtual const RegionType & GetBufferedRegion() const
+  { return m_BufferedRegion; }
 
   /** Set the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -241,7 +244,7 @@ public:
    * internally by the pipeline and therefore bypasses the modified
    * time calculation.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
-  virtual void SetRequestedRegion(const RegionType &region);
+  virtual void SetRequestedRegion(const RegionType & region);
 
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method
@@ -256,8 +259,8 @@ public:
    * for the region of the image requested (i.e., the region of the
    * image to be operated on by a filter).
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
-  virtual const RegionType& GetRequestedRegion() const
-  { return m_RequestedRegion;};
+  virtual const RegionType & GetRequestedRegion() const
+  { return m_RequestedRegion; }
 
   /** Get the offset table.  The offset table gives increments for
    * moving from one pixel to next in the current row, column, slice,
@@ -269,7 +272,7 @@ public:
    * [VImageDimension+1] size array, simplifies the implementation of
    * some data accessing algorithms. The entries in the offset table
    * are only valid after the BufferedRegion is set. */
-  const OffsetValueType *GetOffsetTable() const { return m_OffsetTable; };
+  const OffsetValueType * GetOffsetTable() const { return m_OffsetTable; }
 
   /** Compute an offset from the beginning of the buffer for a pixel
    * at the specified index. The index is not checked as to whether it
@@ -278,34 +281,36 @@ public:
    * one can call ImageRegion::IsInside(ind) on the BufferedRegion
    * prior to calling ComputeOffset. */
 
-
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
-  inline OffsetValueType ComputeOffset(const IndexType &ind) const
-    {
+  inline OffsetValueType ComputeOffset(const IndexType & ind) const
+  {
     OffsetValueType offset = 0;
-    ImageHelper<VImageDimension,VImageDimension>::ComputeOffset(this->GetBufferedRegion().GetIndex(),
-                                                                ind,
-                                                                m_OffsetTable,
-                                                                offset);
+
+    ImageHelper< VImageDimension, VImageDimension >::ComputeOffset(this->GetBufferedRegion().GetIndex(),
+                                                                   ind,
+                                                                   m_OffsetTable,
+                                                                   offset);
     return offset;
-    }
+  }
+
 #else
-  OffsetValueType ComputeOffset(const IndexType &ind) const
-    {
+  OffsetValueType ComputeOffset(const IndexType & ind) const
+  {
     // need to add bounds checking for the region/buffer?
-    OffsetValueType offset=0;
-    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+    OffsetValueType   offset = 0;
+    const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
 
     // data is arranged as [][][][slice][row][col]
     // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for (int i=VImageDimension-1; i > 0; i--)
+    for ( int i = VImageDimension - 1; i > 0; i-- )
       {
-      offset += (ind[i] - bufferedRegionIndex[i])*m_OffsetTable[i];
+      offset += ( ind[i] - bufferedRegionIndex[i] ) * m_OffsetTable[i];
       }
-    offset += (ind[0] - bufferedRegionIndex[0]);
+    offset += ( ind[0] - bufferedRegionIndex[0] );
 
     return offset;
-    }
+  }
+
 #endif
   /** Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region. Bounds checking is not
@@ -316,31 +321,34 @@ public:
    * ImageRegion::GetNumberOfPixels()). */
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline IndexType ComputeIndex(OffsetValueType offset) const
-    {
-    IndexType index;
-    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
-    ImageHelper<VImageDimension,VImageDimension>::ComputeIndex(bufferedRegionIndex,
-                                                               offset,
-                                                               m_OffsetTable,
-                                                               index);
+  {
+    IndexType         index;
+    const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+
+    ImageHelper< VImageDimension, VImageDimension >::ComputeIndex(bufferedRegionIndex,
+                                                                  offset,
+                                                                  m_OffsetTable,
+                                                                  index);
     return index;
-    }
+  }
+
 #else
   IndexType ComputeIndex(OffsetValueType offset) const
-    {
-    IndexType index;
-    const IndexType &bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+  {
+    IndexType         index;
+    const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
 
-    for (int i=VImageDimension-1; i > 0; i--)
+    for ( int i = VImageDimension - 1; i > 0; i-- )
       {
-      index[i] = static_cast<IndexValueType>(offset / m_OffsetTable[i]);
-      offset -= (index[i] * m_OffsetTable[i]);
+      index[i] = static_cast< IndexValueType >( offset / m_OffsetTable[i] );
+      offset -= ( index[i] * m_OffsetTable[i] );
       index[i] += bufferedRegionIndex[i];
       }
-    index[0] = bufferedRegionIndex[0] + static_cast<IndexValueType>(offset);
+    index[0] = bufferedRegionIndex[0] + static_cast< IndexValueType >( offset );
 
     return index;
-    }
+  }
+
 #endif
 
   /** Set the spacing (size of a pixel) of the image. The
@@ -349,104 +357,100 @@ public:
    * float. These methods also pre-compute the Index to Physical
    * point transforms of the image.
    * \sa GetSpacing() */
-  virtual void SetSpacing (const SpacingType & spacing);
-  virtual void SetSpacing (const double spacing[VImageDimension]);
-  virtual void SetSpacing (const float spacing[VImageDimension]);
+  virtual void SetSpacing(const SpacingType & spacing);
 
+  virtual void SetSpacing(const double spacing[VImageDimension]);
+
+  virtual void SetSpacing(const float spacing[VImageDimension]);
 
   /** Get the index (discrete) of a voxel from a physical point.
    * Floating point index results are rounded to integers
-   * if ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is on
-   * and truncated otherwise.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
-  template<class TCoordRep>
+  template< class TCoordRep >
   bool TransformPhysicalPointToIndex(
-    const Point<TCoordRep, VImageDimension>& point,
-    IndexType & index ) const
-    {
-      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformPhysicalPointToIndex(
-        this->m_PhysicalPointToIndex, this->m_Origin, point, index);
+    const Point< TCoordRep, VImageDimension > & point,
+    IndexType & index) const
+  {
+    ImageTransformHelper< VImageDimension, VImageDimension - 1, VImageDimension - 1 >::TransformPhysicalPointToIndex(
+      this->m_PhysicalPointToIndex, this->m_Origin, point, index);
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
     return isInside;
-    }
+  }
+
 #else
-  template<class TCoordRep>
+  template< class TCoordRep >
   bool TransformPhysicalPointToIndex(
-            const Point<TCoordRep, VImageDimension>& point,
-            IndexType & index                                ) const
-    {
-    for (unsigned int i = 0; i < VImageDimension; i++)
+    const Point< TCoordRep, VImageDimension > & point,
+    IndexType & index) const
+  {
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
-      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
-        sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+        sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
         }
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      index[i] = Math::RoundHalfIntegerUp< IndexValueType>( sum );
-#else
-      index[i] = static_cast< IndexValueType>( sum );
-#endif
+      index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
       }
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
 
     return isInside;
-    }
+  }
+
 #endif
 
   /** \brief Get the continuous index from a physical point
    *
    * Returns true if the resulting index is within the image, false otherwise.
    * \sa Transform */
-  template<class TCoordRep>
+  template< class TCoordRep >
   bool TransformPhysicalPointToContinuousIndex(
-              const Point<TCoordRep, VImageDimension>& point,
-              ContinuousIndex<TCoordRep, VImageDimension>& index   ) const
-    {
-    Vector<double, VImageDimension> cvector;
+    const Point< TCoordRep, VImageDimension > & point,
+    ContinuousIndex< TCoordRep, VImageDimension > & index) const
+  {
+    Vector< double, VImageDimension > cvector;
 
-    for( unsigned int k = 0; k < VImageDimension; k++ )
+    for ( unsigned int k = 0; k < VImageDimension; k++ )
       {
       cvector[k] = point[k] - this->m_Origin[k];
       }
     cvector = m_PhysicalPointToIndex * cvector;
-    for( unsigned int i = 0; i < VImageDimension; i++ )
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
-      index[i] = static_cast<TCoordRep>(cvector[i]);
+      index[i] = static_cast< TCoordRep >( cvector[i] );
       }
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = this->GetLargestPossibleRegion().IsInside( index );
+    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
 
     return isInside;
-    }
-
+  }
 
   /** Get a physical point (in the space which
    * the origin and spacing infomation comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template<class TCoordRep>
+  template< class TCoordRep >
   void TransformContinuousIndexToPhysicalPoint(
-            const ContinuousIndex<TCoordRep, VImageDimension>& index,
-            Point<TCoordRep, VImageDimension>& point        ) const
-    {
-    for( unsigned int r=0; r<VImageDimension; r++)
+    const ContinuousIndex< TCoordRep, VImageDimension > & index,
+    Point< TCoordRep, VImageDimension > & point) const
+  {
+    for ( unsigned int r = 0; r < VImageDimension; r++ )
       {
-      TCoordRep sum = NumericTraits<TCoordRep>::Zero;
-      for( unsigned int c=0; c<VImageDimension; c++ )
+      TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+      for ( unsigned int c = 0; c < VImageDimension; c++ )
         {
-        sum += this->m_IndexToPhysicalPoint(r,c) * index[c];
+        sum += this->m_IndexToPhysicalPoint(r, c) * index[c];
         }
       point[r] = sum + this->m_Origin[r];
       }
-    }
+  }
 
   /** Get a physical point (in the space which
    * the origin and spacing infomation comes from)
@@ -454,31 +458,32 @@ public:
    *
    * \sa Transform */
 #ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
-  template<class TCoordRep>
+  template< class TCoordRep >
   void TransformIndexToPhysicalPoint(
-                      const IndexType & index,
-                      Point<TCoordRep, VImageDimension>& point ) const
-    {
-      ImageTransformHelper<VImageDimension,VImageDimension-1,VImageDimension-1>::TransformIndexToPhysicalPoint(
-        this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
-    }
+    const IndexType & index,
+    Point< TCoordRep, VImageDimension > & point) const
+  {
+    ImageTransformHelper< VImageDimension, VImageDimension - 1, VImageDimension - 1 >::TransformIndexToPhysicalPoint(
+      this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
+  }
+
 #else
-  template<class TCoordRep>
+  template< class TCoordRep >
   void TransformIndexToPhysicalPoint(
-                      const IndexType & index,
-                      Point<TCoordRep, VImageDimension>& point ) const
-    {
-    for (unsigned int i = 0; i < VImageDimension; i++)
+    const IndexType & index,
+    Point< TCoordRep, VImageDimension > & point) const
+  {
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       point[i] = this->m_Origin[i];
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
         }
       }
-    }
-#endif
+  }
 
+#endif
 
   /** Get a physical point (in the space which
    * the origin and spacing infomation comes from)
@@ -489,41 +494,36 @@ public:
   /** Take a vector or covariant vector that has been computed in the
    * coordinate system parallel to the image grid and rotate it by the
    * direction cosines in order to get it in terms of the coordinate system of
-   * the image acquisition device.  This implementation in the OrientedImage
+   * the image acquisition device.  This implementation in the Image
    * multiply the array (vector or covariant vector) by the matrix of Direction
    * Cosines. The arguments of the method are of type FixedArray to make
    * possible to use this method with both Vector and CovariantVector.
    * The Method is implemented differently in the itk::Image.
    *
    * \sa Image
-   */ 
-  template<class TCoordRep>
+   */
+  template< class TCoordRep >
   void TransformLocalVectorToPhysicalVector(
-    const FixedArray<TCoordRep, VImageDimension> & inputGradient,
-          FixedArray<TCoordRep, VImageDimension> & outputGradient ) const
-    {
+    const FixedArray< TCoordRep, VImageDimension > & inputGradient,
+    FixedArray< TCoordRep, VImageDimension > & outputGradient) const
+  {
     //
-    // This temporary implementation should be replaced with Template MetaProgramming.
-    // 
-#ifdef ITK_USE_ORIENTED_IMAGE_DIRECTION
+    //TODO: This temporary implementation should be replaced with Template
+    // MetaProgramming.
+    //
     const DirectionType & direction = this->GetDirection();
-    for (unsigned int i = 0; i < VImageDimension; i++)
+
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
-      typedef typename NumericTraits<TCoordRep>::AccumulateType CoordSumType;
-      CoordSumType sum = NumericTraits<CoordSumType>::Zero;
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
+      CoordSumType sum = NumericTraits< CoordSumType >::Zero;
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
         {
         sum += direction[i][j] * inputGradient[j];
         }
-      outputGradient[i] = static_cast<TCoordRep>( sum );
+      outputGradient[i] = static_cast< TCoordRep >( sum );
       }
-#else
-    for (unsigned int i = 0; i < VImageDimension; i++)
-      {
-      outputGradient[i] = inputGradient[i];
-      }
-#endif
-    }
+  }
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
@@ -609,12 +609,13 @@ public:
    * images this is 1. Even for Image< RGBPixel< T >, 3 >.
    * This is >= 1 only for time-series images such as itk::VectorImage. */
   virtual unsigned int GetNumberOfComponentsPerPixel() const;
-  virtual void SetNumberOfComponentsPerPixel( unsigned int );
+
+  virtual void SetNumberOfComponentsPerPixel(unsigned int);
 
 protected:
   ImageBase();
   ~ImageBase();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Calculate the offsets needed to move from one pixel to the next
    * along a row, column, slice, volume, etc. These offsets are based
@@ -626,54 +627,61 @@ protected:
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
-   * account.  */ 
+   * account.  */
   virtual void ComputeIndexToPhysicalPointMatrices();
 
 protected:
   /** Origin and spacing of physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType         m_Spacing;
-  PointType           m_Origin;
-  DirectionType       m_Direction;
+  SpacingType m_Spacing;
+
+  PointType m_Origin;
+
+  DirectionType m_Direction;
 
   /** Matrices intended to help with the conversion of Index coordinates
    *  to PhysicalPoint coordinates */
-  DirectionType       m_IndexToPhysicalPoint;
-  DirectionType       m_PhysicalPointToIndex;
+  DirectionType m_IndexToPhysicalPoint;
+  DirectionType m_PhysicalPointToIndex;
 
   /** Restores the buffered region to it's default state
    *  This method does not call Modify because Initialization is
-   *  called by ReleaseData and can not modify the MTime 
+   *  called by ReleaseData and can not modify the MTime
    * \sa  ReleaseData, Initialize, SetBufferedRegion */
   virtual void InitializeBufferedRegion(void);
 
 private:
-  ImageBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageBase(const Self &);      //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-  OffsetValueType  m_OffsetTable[VImageDimension+1];
+  OffsetValueType m_OffsetTable[VImageDimension + 1];
 
-  RegionType          m_LargestPossibleRegion;
-  RegionType          m_RequestedRegion;
-  RegionType          m_BufferedRegion;
-
+  RegionType m_LargestPossibleRegion;
+  RegionType m_RequestedRegion;
+  RegionType m_BufferedRegion;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageBase(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageBase< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageBase< ITK_TEMPLATE_1 x > ImageBase##y; } \
+#define ITK_TEMPLATE_ImageBase(_, EXPORT, TypeX, TypeY)         \
+  namespace itk                                                 \
+  {                                                             \
+  _( 1 ( class EXPORT ImageBase< ITK_TEMPLATE_1 TypeX > ) )     \
+  namespace Templates                                           \
+  {                                                             \
+  typedef ImageBase< ITK_TEMPLATE_1 TypeX > ImageBase##TypeY; \
+  }                                                             \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageBase+-.h"
+//template <unsigned int VImageDimension> const unsigned int
+// itk::ImageBase<VImageDimension>::ImageDimension;
+#include "Templates/itkImageBase+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageBase.txx"
+#include "itkImageBase.txx"
 #endif
 
 #endif

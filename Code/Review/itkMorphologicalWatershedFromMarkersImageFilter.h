@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-    This software is distributed WITHOUT ANY WARRANTY; without even 
-    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+    This software is distributed WITHOUT ANY WARRANTY; without even
+    the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
     PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class MorphologicalWatershedFromMarkersImageFilter
  * \brief Morphological watershed transform from markers
  *
@@ -31,7 +31,7 @@ namespace itk {
  * practical algorithms. If an image is considered as a terrain and divided
  * into catchment basins then the hope is that each catchment basin would
  * contain an object of interest.
- * 
+ *
  * The output is a label image. A label image, sometimes referred to as a
  * categorical image, has unique values for each region. For example, if a
  * watershed produces 2 regions, all pixels belonging to one region would have
@@ -68,68 +68,67 @@ namespace itk {
  * \sa WatershedImageFilter, MorphologicalWatershedImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TLabelImage>
-class ITK_EXPORT MorphologicalWatershedFromMarkersImageFilter : 
-    public ImageToImageFilter<TInputImage, TLabelImage>
+template< class TInputImage, class TLabelImage >
+class ITK_EXPORT MorphologicalWatershedFromMarkersImageFilter:
+  public ImageToImageFilter< TInputImage, TLabelImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef MorphologicalWatershedFromMarkersImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TLabelImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef MorphologicalWatershedFromMarkersImageFilter   Self;
+  typedef ImageToImageFilter< TInputImage, TLabelImage > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef TLabelImage                             LabelImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType;
-  typedef typename InputImageType::PixelType      InputImagePixelType;
-  typedef typename LabelImageType::Pointer        LabelImagePointer;
-  typedef typename LabelImageType::ConstPointer   LabelImageConstPointer;
-  typedef typename LabelImageType::RegionType     LabelImageRegionType;
-  typedef typename LabelImageType::PixelType      LabelImagePixelType;
-  
-  typedef typename LabelImageType::IndexType      IndexType;
-  
+  typedef TInputImage                           InputImageType;
+  typedef TLabelImage                           LabelImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+  typedef typename LabelImageType::Pointer      LabelImagePointer;
+  typedef typename LabelImageType::ConstPointer LabelImageConstPointer;
+  typedef typename LabelImageType::RegionType   LabelImageRegionType;
+  typedef typename LabelImageType::PixelType    LabelImagePixelType;
+
+  typedef typename LabelImageType::IndexType IndexType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalWatershedFromMarkersImageFilter, 
+  itkTypeMacro(MorphologicalWatershedFromMarkersImageFilter,
                ImageToImageFilter);
-  
 
-   /** Set the marker image */
+  /** Set the marker image */
   void SetMarkerImage(const TLabelImage *input)
-    {
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TLabelImage *>(input) );
-    }
+    this->SetNthInput( 1, const_cast< TLabelImage * >( input ) );
+  }
 
   /** Get the marker image */
   const LabelImageType * GetMarkerImage() const
-    {
-    return static_cast<LabelImageType*>(
-      const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  {
+    return static_cast< LabelImageType * >(
+             const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+  }
 
   /** Set the input image */
   void SetInput1(const TInputImage *input)
-    {
-    this->SetInput( input );
-    }
+  {
+    this->SetInput(input);
+  }
 
   /** Set the marker image */
   void SetInput2(const TLabelImage *input)
-    {
-    this->SetMarkerImage( input );
-    }
+  {
+    this->SetMarkerImage(input);
+  }
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -149,11 +148,10 @@ public:
   itkSetMacro(MarkWatershedLine, bool);
   itkGetConstReferenceMacro(MarkWatershedLine, bool);
   itkBooleanMacro(MarkWatershedLine);
-
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
-  ~MorphologicalWatershedFromMarkersImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~MorphologicalWatershedFromMarkersImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
    * entire input images.
@@ -163,24 +161,22 @@ protected:
   /** This filter will enlarge the output requested region to produce
    * all of the output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
 
   /** The filter is single threaded. */
   void GenerateData();
-  
+
 private:
   //purposely not implemented
-  MorphologicalWatershedFromMarkersImageFilter(const Self&);
-  void operator=(const Self&); //purposely not implemented
+  MorphologicalWatershedFromMarkersImageFilter(const Self &);
+  void operator=(const Self &); //purposely not implemented
 
   bool m_FullyConnected;
 
   bool m_MarkWatershedLine;
-
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMorphologicalWatershedFromMarkersImageFilter.txx"
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,14 +31,14 @@ namespace itk
  * This class is parametrized over the type of the input image
  * and the type of the output image.
  *
- * The input is assumed to be a binary image.  
+ * The input is assumed to be a binary image.
  *
  * This filter is a sequential pruning algorithm and known to be computational time
  * dependable of the image size.  The algorithm is the N-dimensional version
  * of that given for two dimensions in:
- * 
- * Rafael C. Gonzales and Richard E. Woods. 
- * Digital Image Processing. 
+ *
+ * Rafael C. Gonzales and Richard E. Woods.
+ * Digital Image Processing.
  * Addison Wesley, 491-494, (1993).
  *
  * \sa MorphologyImageFilter
@@ -48,50 +48,50 @@ namespace itk
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
 
-template <class TInputImage,class TOutputImage>
-class ITK_EXPORT BinaryPruningImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BinaryPruningImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryPruningImageFilter                     Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef BinaryPruningImageFilter                        Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BinaryPruningImageFilter, ImageToImageFilter );
+  itkTypeMacro(BinaryPruningImageFilter, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef   TInputImage       InputImageType;
+  typedef   TInputImage InputImageType;
 
   /** Type for output image: Skelenton of the object.  */
-  typedef   TOutputImage      OutputImageType;
+  typedef   TOutputImage OutputImageType;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType   RegionType;
+  typedef typename InputImageType::RegionType RegionType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType  IndexType;
+  typedef typename RegionType::IndexType IndexType;
 
   /** Type for the index of the input image. */
   typedef typename InputImageType::PixelType PixelType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType   SizeType;
+  typedef typename RegionType::SizeType SizeType;
 
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
 
   /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  
+
   /** Neighborhood iterator type */
-  typedef NeighborhoodIterator<TInputImage> NeighborhoodIteratorType;
-  
+  typedef NeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
+
   /** Get Skelenton by thinning image. */
   OutputImageType * GetPruning(void);
 
@@ -101,29 +101,28 @@ public:
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Start concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameTypeCheck,
-    (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
-  itkConceptMacro(AdditiveOperatorsCheck,
-    (Concept::AdditiveOperators<PixelType>));
-  itkConceptMacro(IntConvertibleToPixelTypeCheck,
-    (Concept::Convertible<int, PixelType>));
-  itkConceptMacro(PixelLessThanIntCheck,
-    (Concept::LessThanComparable<PixelType, int>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( SameTypeCheck,
+                   ( Concept::SameType< PixelType, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( AdditiveOperatorsCheck,
+                   ( Concept::AdditiveOperators< PixelType > ) );
+  itkConceptMacro( IntConvertibleToPixelTypeCheck,
+                   ( Concept::Convertible< int, PixelType > ) );
+  itkConceptMacro( PixelLessThanIntCheck,
+                   ( Concept::LessThanComparable< PixelType, int > ) );
   /** End concept checking */
 #endif
-
 protected:
   BinaryPruningImageFilter();
-  virtual ~BinaryPruningImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~BinaryPruningImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Compute thinning Image. */
   void GenerateData();
@@ -134,15 +133,12 @@ protected:
   /**  Compute thinning Image. */
   void ComputePruneImage();
 
+private:
+  BinaryPruningImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 
-private:   
-  BinaryPruningImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-  unsigned int                  m_Iteration;
-
+  unsigned int m_Iteration;
 }; // end of BinaryThinningImageFilter class
-
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

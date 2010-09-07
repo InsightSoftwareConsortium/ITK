@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,8 +24,6 @@
 
 namespace itk
 {
-
-
 /** \class DataObjectDecorator
  * \brief Decorates any subclass of itkObject with a DataObject API
  *
@@ -54,20 +52,20 @@ namespace itk
  * \ingroup ITKSystemObjects
  *
  */
-template<class T>
-class ITK_EXPORT DataObjectDecorator : public DataObject
+template< class T >
+class ITK_EXPORT DataObjectDecorator:public DataObject
 {
 public:
   /** Standard typedefs. */
-  typedef DataObjectDecorator           Self;
-  typedef DataObject                    Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef DataObjectDecorator        Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
-  typedef T                             ComponentType;
-  typedef typename T::ConstPointer      ComponentConstPointer;
-  
+  typedef T                        ComponentType;
+  typedef typename T::ConstPointer ComponentConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -75,25 +73,23 @@ public:
   itkTypeMacro(DataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(const T * val);
-  
+  virtual void Set(const T *val);
+
   /** Get the contained object */
-  virtual const T* Get() const;
-  
+  virtual const T * Get() const;
+
 protected:
   DataObjectDecorator();
   ~DataObjectDecorator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 protected:
-
 private:
-  DataObjectDecorator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DataObjectDecorator(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 
   ComponentConstPointer m_Component;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -33,7 +33,7 @@
 
 namespace itk
 {
-/** 
+/**
  * \class DirectFourierReconstructionImageToImageFilter
  * \brief Direct fourier reconstruction filter of a tomographic volume.
  *
@@ -47,28 +47,28 @@ namespace itk
  * \ingroup ImageFilters
  */
 template< class TInputPixelType = double, class TOutputPixelType = double >
- class ITK_EXPORT DirectFourierReconstructionImageToImageFilter :
+class ITK_EXPORT DirectFourierReconstructionImageToImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 3 >, Image< TOutputPixelType, 3 > >
- {
+{
 public:
-   /** Standard Self typedef */
+  /** Standard Self typedef */
   typedef DirectFourierReconstructionImageToImageFilter Self;
   /** InputImageType from TInputPixelType */
   typedef Image< TInputPixelType, 3 > InputImageType;
   /** OutputImageType from TOutputPixelType */
   typedef Image< TOutputPixelType, 3 > OutputImageType;
-  
+
   /** Standard Superclass typedef */
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  
+
   /** Standard Pointer typedef */
   typedef SmartPointer< Self > Pointer;
   /** Standard ConstPointer typedef */
   typedef SmartPointer< const Self > ConstPointer;
-  
-  itkNewMacro( Self );
-  itkTypeMacro( DirectFourierReconstructionImageToImageFilter, ImageToImageFilter );
-  
+
+  itkNewMacro(Self);
+  itkTypeMacro(DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
+
   /** Class RegionType */
   typedef typename InputImageType::RegionType RegionType;
   /** Class IndexType */
@@ -79,47 +79,48 @@ public:
   typedef typename InputImageType::PointType PointType;
   /** Class SpacingType */
   typedef typename InputImageType::SpacingType SpacingType;
-  
+
   /** Standard (const) InputImagePointer */
   typedef typename InputImageType::ConstPointer ConstInputImagePointer;
   /** Special (non-const) InputImagePointer */
   typedef typename InputImageType::Pointer InputImagePointer;
   /** OutputImagePointer */
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  
-  itkSetMacro( ZeroPadding, unsigned short int );
-  itkGetConstMacro( ZeroPadding, unsigned short int );
-  itkSetMacro( OverSampling, unsigned short int );
-  itkGetConstMacro( OverSampling, unsigned short int );
-  itkSetMacro( Cutoff, double );
-  itkGetConstMacro( Cutoff, double );
-  itkSetMacro( AlphaRange, double );
-  itkGetConstMacro( AlphaRange, double );
-  itkSetMacro( AlphaDirection, unsigned short int );
-  itkGetConstMacro( AlphaDirection, unsigned short int );
-  itkSetMacro( ZDirection, unsigned short int );
-  itkGetConstMacro( ZDirection, unsigned short int );
-  itkSetMacro( RDirection, unsigned short int );
-  itkGetConstMacro( RDirection, unsigned short int );
-  itkSetMacro( RadialSplineOrder, unsigned short int );
-  itkGetConstMacro( RadialSplineOrder, unsigned short int ); 
-  
+
+  itkSetMacro(ZeroPadding, unsigned short int);
+  itkGetConstMacro(ZeroPadding, unsigned short int);
+  itkSetMacro(OverSampling, unsigned short int);
+  itkGetConstMacro(OverSampling, unsigned short int);
+  itkSetMacro(Cutoff, double);
+  itkGetConstMacro(Cutoff, double);
+  itkSetMacro(AlphaRange, double);
+  itkGetConstMacro(AlphaRange, double);
+  itkSetMacro(AlphaDirection, unsigned short int);
+  itkGetConstMacro(AlphaDirection, unsigned short int);
+  itkSetMacro(ZDirection, unsigned short int);
+  itkGetConstMacro(ZDirection, unsigned short int);
+  itkSetMacro(RDirection, unsigned short int);
+  itkGetConstMacro(RDirection, unsigned short int);
+  itkSetMacro(RadialSplineOrder, unsigned short int);
+  itkGetConstMacro(RadialSplineOrder, unsigned short int);
 protected:
   /** Constructor */
   DirectFourierReconstructionImageToImageFilter();
   /** Destructor */
-  ~DirectFourierReconstructionImageToImageFilter() {};
-  
+  ~DirectFourierReconstructionImageToImageFilter() {}
+
   /** Output class information */
-  void PrintSelf( std::ostream &os, Indent indent ) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Generate metadata for output image */
   void GenerateOutputInformation();
+
   /** Calculate the required input region */
   void GenerateInputRequestedRegion();
+
   /** Actual filter computation */
   void GenerateData();
-  
+
 private:
   /** Const slice iterator type of the input image */
   typedef ImageSliceConstIteratorWithIndex< InputImageType > InputSliceIteratorType;
@@ -134,7 +135,7 @@ private:
   typedef ImageRegionIteratorWithIndex< FFTLineType > FFTLineIteratorType;
   /** 1D FFT line B-Spline interpolator */
   typedef ComplexBSplineInterpolateImageFunction< FFTLineType, double, double > FFTLineInterpolatorType;
-  
+
   /** 2D inverse FFT filter type */
   typedef VnlFFTComplexConjugateToRealImageFilter< double, 2 > IFFTSliceFilterType;
   /** Derived 2D FFT image type */
@@ -145,26 +146,31 @@ private:
   typedef ImageRegionIteratorWithIndex< FFTSliceType > FFTSliceIteratorType;
   /** 2D output slice iterator */
   typedef ImageRegionIteratorWithIndex< OutputSliceType > OutputSliceIteratorType;
- 
- 
+
   unsigned short int m_ZeroPadding;       /**< n-fold zero-padding */
   unsigned short int m_OverSampling;      /**< n-fold oversampling */
-  double             m_Cutoff;            /**< Radial lowpass cut-off frequency */
-  double             m_AlphaRange;        /**< Covered angular range */
-  
-  unsigned short int m_ZDirection;        /**< Axial index in the input image  */
-  unsigned short int m_AlphaDirection;    /**< Angular index in the input image */
-  unsigned short int m_RDirection;        /**< Radial index in the input image  */
-  unsigned short int m_RadialSplineOrder; /**< Spline order for the radial BSpline interpolation  */
-  
-  double m_PI; /**< The constant pi....  */
-  
-  RegionType m_InputRequestedRegion; /**< The region requested from* the input image   */
- 
-  DirectFourierReconstructionImageToImageFilter(const Self&); /**< purposely not implemented  */
-  void operator=(const Self&); /**< purposely not implemented  */
-};
 
+  double m_Cutoff;                        /**< Radial lowpass cut-off frequency
+                                            */
+  double m_AlphaRange;                    /**< Covered angular range */
+
+  unsigned short int m_ZDirection;        /**< Axial index in the input image */
+  unsigned short int m_AlphaDirection;    /**< Angular index in the input image
+                                            */
+  unsigned short int m_RDirection;        /**< Radial index in the input image
+                                            */
+  unsigned short int m_RadialSplineOrder; /**< Spline order for the radial
+                                            BSpline interpolation  */
+
+  double m_PI; /**< The constant pi....  */
+
+  RegionType m_InputRequestedRegion; /**< The region requested from* the input
+                                       image   */
+
+  /**< purposely not implemented */
+  DirectFourierReconstructionImageToImageFilter(const Self &);
+  void operator=(const Self &);
+};
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

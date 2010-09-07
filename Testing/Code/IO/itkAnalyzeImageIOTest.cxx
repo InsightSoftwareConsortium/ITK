@@ -40,7 +40,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkNiftiImageIOTest.h"
 #include "itkRGBPixel.h"
 
-#if defined(_WIN32) && (defined(_MSC_VER) || defined(__BORLANDC__))
+#if defined(_WIN32) && defined(_MSC_VER)
 #include <stdlib.h>
 #define _unlink unlink
 #else

@@ -19,7 +19,7 @@
 #endif
 
 #include "itkImageFileReader.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkCentralDifferenceImageFunction.h"
 
 int itkOrientedImage2DTest( int ac, char * av[] )
@@ -41,7 +41,7 @@ int itkOrientedImage2DTest( int ac, char * av[] )
   const unsigned int Dimension = 2;
   typedef unsigned char PixelType;
 
-  typedef itk::OrientedImage<PixelType, Dimension>    ImageType;
+  typedef itk::Image<PixelType, Dimension>    ImageType;
   typedef itk::ImageFileReader< ImageType >           ReaderType;
 
   typedef ImageType::IndexType                        IndexType;

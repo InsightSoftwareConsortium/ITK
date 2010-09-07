@@ -197,7 +197,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
       continue;
       }
 
-    itk::OStringStream filename;
+    std::ostringstream filename;
     char buffer[50];
     sprintf(buffer,"%3.3d",label);
     filename << "OrientedLabelImage" << buffer << ".mhd";
@@ -216,7 +216,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
 
     typedef itk::ImageFileWriter< IntensityImageType > IntensityWriterType;
     typename IntensityWriterType::Pointer intensityWriter = IntensityWriterType::New();
-    itk::OStringStream filename2;
+    std::ostringstream filename2;
     filename2 << "OrientedIntensityImage" << buffer << ".mhd";
     intensityWriter->SetFileName( filename2.str().c_str() );
     intensityWriter->SetInput( labelGeometryFilter2->GetOrientedIntensityImage(label) );

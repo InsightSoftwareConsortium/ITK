@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-  
 /** \class InPlaceImageFilter
  * \brief Base class for filters that take an image as input and overwrite that image as the output
  *
@@ -58,19 +57,18 @@ namespace itk
  *
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputImage=TInputImage>
-class ITK_EXPORT InPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage = TInputImage >
+class ITK_EXPORT InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef InPlaceImageFilter                             Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
-  
-  
+  typedef InPlaceImageFilter                              Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(InPlaceImageFilter,ImageToImageFilter);
+  itkTypeMacro(InPlaceImageFilter, ImageToImageFilter);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageType       OutputImageType;
@@ -79,12 +77,12 @@ public:
   typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType; 
-  typedef typename InputImageType::PixelType      InputImagePixelType; 
-  
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -109,15 +107,15 @@ public:
    * CanRunInPlace may also be overridded by InPlaceImageFilter
    * subclasses to fine tune its behavior. */
   virtual bool CanRunInPlace() const
-    {
-    return (typeid(TInputImage) == typeid(TOutputImage));
-    }
+  {
+    return ( typeid( TInputImage ) == typeid( TOutputImage ) );
+  }
 
 protected:
   InPlaceImageFilter();
   ~InPlaceImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceImageFilter's can use an
@@ -142,30 +140,33 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
-  virtual void ReleaseInputs(); 
+  virtual void ReleaseInputs();
 
 private:
-  InPlaceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  InPlaceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
   bool m_InPlace;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_InPlaceImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT InPlaceImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef InPlaceImageFilter< ITK_TEMPLATE_2 x > InPlaceImageFilter##y; } \
+#define ITK_TEMPLATE_InPlaceImageFilter(_, EXPORT, TypeX, TypeY)                  \
+  namespace itk                                                                   \
+  {                                                                               \
+  _( 2 ( class EXPORT InPlaceImageFilter< ITK_TEMPLATE_2 TypeX > ) )              \
+  namespace Templates                                                             \
+  {                                                                               \
+  typedef InPlaceImageFilter< ITK_TEMPLATE_2 TypeX > InPlaceImageFilter##TypeY; \
+  }                                                                               \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkInPlaceImageFilter+-.h"
+#include "Templates/itkInPlaceImageFilter+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkInPlaceImageFilter.txx"
+#include "itkInPlaceImageFilter.txx"
 #endif
 
 #endif

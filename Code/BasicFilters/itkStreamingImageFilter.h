@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class StreamingImageFilter
  * \brief Pipeline object to control data streaming for large data processing.
  *
@@ -38,34 +37,34 @@ namespace itk
  * filters will do their processing in pieces.
  *
  * \ingroup ITKSystemObjects
- * \ingroup DataProcessing 
+ * \ingroup DataProcessing
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef StreamingImageFilter                           Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef StreamingImageFilter                            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StreamingImageFilter,ImageToImageFilter);
+  itkTypeMacro(StreamingImageFilter, ImageToImageFilter);
 
   /** Some typedefs for the input and output. */
   typedef TInputImage                         InputImageType;
   typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType; 
-  typedef typename InputImageType::PixelType  InputImagePixelType; 
+  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::PixelType  InputImagePixelType;
 
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType    OutputImagePixelType; 
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
   typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
   /** Dimension of input image. */
@@ -75,17 +74,17 @@ public:
                       OutputImageType::ImageDimension);
 
   /** SmartPointer to a region splitting object */
-  typedef ImageRegionSplitter<itkGetStaticConstMacro(InputImageDimension)>
+  typedef ImageRegionSplitter< itkGetStaticConstMacro(InputImageDimension) >
   SplitterType;
   typedef typename SplitterType::Pointer RegionSplitterPointer;
-  
+
   /** Set the number of pieces to divide the input.  The upstream pipeline
    * will be executed this many times. */
-  itkSetMacro(NumberOfStreamDivisions,unsigned int);
+  itkSetMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Get the number of pieces to divide the input. The upstream pipeline
    * will be executed this many times. */
-  itkGetConstReferenceMacro(NumberOfStreamDivisions,unsigned int);
+  itkGetConstReferenceMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Set the helper class for dividing the input into chunks. */
   itkSetObjectMacro(RegionSplitter, SplitterType);
@@ -99,36 +98,36 @@ public:
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
   virtual void UpdateOutputData(DataObject *output);
-  
+
   /** Override PropagateRequestedRegion from ProcessObject
    *  Since inside UpdateOutputData we iterate over streaming pieces
    *  we don't need to proapage up the pipeline
    */
   virtual void PropagateRequestedRegion(DataObject *output);
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   StreamingImageFilter();
   ~StreamingImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  StreamingImageFilter(const StreamingImageFilter&); //purposely not implemented
-  void operator=(const StreamingImageFilter&); //purposely not implemented
+  StreamingImageFilter(const StreamingImageFilter &); //purposely not
+                                                      // implemented
+  void operator=(const StreamingImageFilter &);       //purposely not
+
+  // implemented
 
   unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

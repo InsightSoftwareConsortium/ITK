@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,38 +23,39 @@
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class LabelImageToStatisticsLabelMapFilter
  * \brief a convenient class to convert a label image to a label map and valuate the statistics attributes at once
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, LabelStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TFeatureImage, class TOutputImage=LabelMap< StatisticsLabelObject< ITK_TYPENAME TInputImage::PixelType, ::itk::GetImageDimension<TInputImage>::ImageDimension> > >
-class ITK_EXPORT LabelImageToStatisticsLabelMapFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TFeatureImage, class TOutputImage =
+            LabelMap< StatisticsLabelObject< ITK_TYPENAME TInputImage::PixelType,
+                                             ::itk::GetImageDimension< TInputImage >::ImageDimension > > >
+class ITK_EXPORT LabelImageToStatisticsLabelMapFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelImageToStatisticsLabelMapFilter          Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef LabelImageToStatisticsLabelMapFilter            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
 
   typedef TOutputImage                              OutputImageType;
   typedef typename OutputImageType::Pointer         OutputImagePointer;
@@ -62,11 +63,11 @@ public:
   typedef typename OutputImageType::RegionType      OutputImageRegionType;
   typedef typename OutputImageType::PixelType       OutputImagePixelType;
   typedef typename OutputImageType::LabelObjectType LabelObjectType;
-  
-  typedef TFeatureImage                              FeatureImageType;
-  typedef typename FeatureImageType::Pointer         FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer    FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType       FeatureImagePixelType;
+
+  typedef TFeatureImage                           FeatureImageType;
+  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename FeatureImageType::PixelType    FeatureImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -76,24 +77,24 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef LabelImageToLabelMapFilter< InputImageType, OutputImageType >               LabelizerType;
-  typedef StatisticsLabelMapFilter< OutputImageType, FeatureImageType >               LabelObjectValuatorType;
+  typedef LabelImageToLabelMapFilter< InputImageType, OutputImageType > LabelizerType;
+  typedef StatisticsLabelMapFilter< OutputImageType, FeatureImageType > LabelObjectValuatorType;
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelImageToStatisticsLabelMapFilter, 
+  itkTypeMacro(LabelImageToStatisticsLabelMapFilter,
                ImageToImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputImagePixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
 
@@ -120,30 +121,30 @@ public:
   itkGetConstReferenceMacro(ComputePerimeter, bool);
   itkBooleanMacro(ComputePerimeter);
 
-   /** Set the feature image */
+  /** Set the feature image */
   void SetFeatureImage(const TFeatureImage *input)
-    {
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
-    }
+    this->SetNthInput( 1, const_cast< TFeatureImage * >( input ) );
+  }
 
   /** Get the feature image */
   const FeatureImageType * GetFeatureImage()
-    {
-    return static_cast<FeatureImageType*>(this->ProcessObject::GetInput(1));
-    }
+  {
+    return static_cast< FeatureImageType * >( this->ProcessObject::GetInput(1) );
+  }
 
-   /** Set the input image */
+  /** Set the input image */
   void SetInput1(const InputImageType *input)
-    {
-    this->SetInput( input );
-    }
+  {
+    this->SetInput(input);
+  }
 
   /** Set the feature image */
   void SetInput2(const FeatureImageType *input)
-    {
-    this->SetFeatureImage( input );
-    }
+  {
+    this->SetFeatureImage(input);
+  }
 
   /**
    * Set/Get whether the histogram should be attached to the label object or not.
@@ -162,12 +163,10 @@ public:
    */
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
-
-
 protected:
   LabelImageToStatisticsLabelMapFilter();
-  ~LabelImageToStatisticsLabelMapFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~LabelImageToStatisticsLabelMapFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** LabelImageToStatisticsLabelMapFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -175,27 +174,26 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** LabelImageToStatisticsLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-  
 
 private:
-  LabelImageToStatisticsLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LabelImageToStatisticsLabelMapFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 
-  OutputImagePixelType  m_BackgroundValue;
-  bool                  m_ComputeFeretDiameter;
-  bool                  m_ComputePerimeter;
-  unsigned int          m_NumberOfBins;
-  bool                  m_ComputeHistogram;
-
+  OutputImagePixelType m_BackgroundValue;
+  bool                 m_ComputeFeretDiameter;
+  bool                 m_ComputePerimeter;
+  unsigned int         m_NumberOfBins;
+  bool                 m_ComputeHistogram;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkLabelImageToStatisticsLabelMapFilter.txx"
 #endif

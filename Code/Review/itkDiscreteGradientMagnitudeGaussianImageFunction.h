@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /**
  * \class DiscreteGradientMagnitudeGaussianImageFunction
  * \brief Compute the discrete gradient magnitude gaussian of an the image
@@ -45,79 +44,79 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa ImageFunction
  */
-template <class TInputImage,class TOutput=double>
-class ITK_EXPORT DiscreteGradientMagnitudeGaussianImageFunction :
+template< class TInputImage, class TOutput = double >
+class ITK_EXPORT DiscreteGradientMagnitudeGaussianImageFunction:
   public ImageFunction< TInputImage, TOutput, TOutput >
 {
 public:
 
   /**Standard "Self" typedef */
-  typedef DiscreteGradientMagnitudeGaussianImageFunction   Self;
+  typedef DiscreteGradientMagnitudeGaussianImageFunction Self;
 
   /** Standard "Superclass" typedef */
-  typedef ImageFunction<TInputImage, TOutput, TOutput>  Superclass;
+  typedef ImageFunction< TInputImage, TOutput, TOutput > Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction );
+  itkTypeMacro(DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction);
 
   /** Image dependent types */
-  typedef typename Superclass::InputImageType       InputImageType;
-  typedef typename Superclass::InputPixelType       InputPixelType;
-  typedef typename Superclass::IndexType            IndexType;
-  typedef typename Superclass::IndexValueType       IndexValueType;
-  typedef typename Superclass::ContinuousIndexType  ContinuousIndexType;
-  typedef typename Superclass::PointType            PointType;
+  typedef typename Superclass::InputImageType      InputImageType;
+  typedef typename Superclass::InputPixelType      InputPixelType;
+  typedef typename Superclass::IndexType           IndexType;
+  typedef typename Superclass::IndexValueType      IndexValueType;
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  typedef typename Superclass::PointType           PointType;
 
   /** Dimension of the underlying image */
   itkStaticConstMacro(ImageDimension2, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Output type */
-  typedef typename Superclass::OutputType     OutputType;
+  typedef typename Superclass::OutputType OutputType;
 
   /** Arrays for native types */
-  typedef FixedArray<double,itkGetStaticConstMacro(ImageDimension2)>        VarianceArrayType;
-  typedef FixedArray<unsigned int,itkGetStaticConstMacro(ImageDimension2)>  OrderArrayType;
+  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension2) >       VarianceArrayType;
+  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) > OrderArrayType;
 
-  typedef itk::GaussianDerivativeOperator<TOutput,
-    itkGetStaticConstMacro(ImageDimension2)>    GaussianDerivativeOperatorType;
+  typedef itk::GaussianDerivativeOperator< TOutput,
+                                           itkGetStaticConstMacro(ImageDimension2) >    GaussianDerivativeOperatorType;
 
   /** Array to store gaussian derivative operators one for each dimension */
-  typedef FixedArray<GaussianDerivativeOperatorType,
-    2*itkGetStaticConstMacro(ImageDimension2)>            GaussianDerivativeOperatorArrayType;
+  typedef FixedArray< GaussianDerivativeOperatorType,
+                      2 *itkGetStaticConstMacro(ImageDimension2) >            GaussianDerivativeOperatorArrayType;
 
   /** Precomputed N-dimensional derivative kernel */
-  typedef Neighborhood<TOutput,itkGetStaticConstMacro(ImageDimension2)>  KernelType;
+  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) > KernelType;
 
-  /** Array to store precomputed N-dimensional kernels for the gradient components */
-  typedef FixedArray<KernelType,itkGetStaticConstMacro(ImageDimension2)>      KernelArrayType;
+  /** Array to store precomputed N-dimensional kernels for the gradient
+    components */
+  typedef FixedArray< KernelType, itkGetStaticConstMacro(ImageDimension2) > KernelArrayType;
 
   /** Image function that performs convolution with the neighborhood operator */
   typedef NeighborhoodOperatorImageFunction
-    <InputImageType, TOutput>                           OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer   OperatorImageFunctionPointer;
+  < InputImageType, TOutput >                           OperatorImageFunctionType;
+  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
 
   /** Interpolation modes */
   enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };
-
 public:
 
   /** Evalutate the  in the given dimension at specified point */
-  virtual OutputType Evaluate(const PointType& point) const;
+  virtual OutputType Evaluate(const PointType & point) const;
 
   /** Evaluate the function at specified Index position */
-  virtual OutputType EvaluateAtIndex( const IndexType & index ) const;
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
 
   /** Evaluate the function at specified ContinousIndex position */
   virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index ) const;
+    const ContinuousIndexType & index) const;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
    * Sets the variance for individual dimensions. The default is 0.0 in each dimension.
@@ -125,76 +124,76 @@ public:
    * If UseImageSpacing is false then the units are pixels */
   itkSetMacro(Variance, VarianceArrayType);
   itkGetConstMacro(Variance, const VarianceArrayType);
-  itkSetVectorMacro( Variance, double, VarianceArrayType::Length );
+  itkSetVectorMacro(Variance, double, VarianceArrayType::Length);
 
   /** Convenience method for setting the variance for all dimensions */
-  virtual void SetVariance( double variance )
-    {
-    m_Variance.Fill( variance );
+  virtual void SetVariance(double variance)
+  {
+    m_Variance.Fill(variance);
     this->Modified();
-    }
+  }
 
-  /** Convenience method for setting the variance through the standard deviation */
-  void SetSigma( const double sigma )
-    {
-    SetVariance( sigma * sigma );
-    }
+  /** Convenience method for setting the variance through the standard deviation
+    */
+  void SetSigma(const double sigma)
+  {
+    SetVariance(sigma * sigma);
+  }
 
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value is clamped between 0.00001 and
    * 0.99999. */
-  itkSetClampMacro( MaximumError, double, 0.00001, 0.99999 );
-  itkGetConstMacro( MaximumError, double );
+  itkSetClampMacro(MaximumError, double, 0.00001, 0.99999);
+  itkGetConstMacro(MaximumError, double);
 
   /** Set/Get the flag for calculating scale-space normalized derivatives.
     * Normalized derivatives are obtained multiplying by the scale
     * parameter t. */
-  itkSetMacro( NormalizeAcrossScale, bool );
-  itkGetConstMacro( NormalizeAcrossScale, bool );
-  itkBooleanMacro( NormalizeAcrossScale );
+  itkSetMacro(NormalizeAcrossScale, bool);
+  itkGetConstMacro(NormalizeAcrossScale, bool);
+  itkBooleanMacro(NormalizeAcrossScale);
 
   /** Set/Get the flag for using image spacing when calculating derivatives. */
-  itkSetMacro( UseImageSpacing, bool );
-  itkGetConstMacro( UseImageSpacing, bool );
-  itkBooleanMacro( UseImageSpacing );
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
 
   /** Set/Get a limit for growth of the kernel. Small maximum error values with
    *  large variances will yield very large kernel sizes. This value can be
    *  used to truncate a kernel in such instances. A warning will be given on
    *  truncation of the kernel. */
-  itkSetMacro( MaximumKernelWidth, unsigned int );
-  itkGetConstMacro( MaximumKernelWidth, unsigned int );
+  itkSetMacro(MaximumKernelWidth, unsigned int);
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
   /** Set/Get the interpolation mode. */
-  itkSetMacro( InterpolationMode, InterpolationModeType );
-  itkGetConstMacro( InterpolationMode, InterpolationModeType );
+  itkSetMacro(InterpolationMode, InterpolationModeType);
+  itkGetConstMacro(InterpolationMode, InterpolationModeType);
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage( const InputImageType * ptr );
+  virtual void SetInputImage(const InputImageType *ptr);
 
   /** Initialize the Gaussian kernel. Call this method before evaluating the function.
    * This method MUST be called after any changes to function parameters. */
-  virtual void Initialize( ) { RecomputeGaussianKernel(); }
-
+  virtual void Initialize() { RecomputeGaussianKernel(); }
 protected:
 
   DiscreteGradientMagnitudeGaussianImageFunction();
-  DiscreteGradientMagnitudeGaussianImageFunction( const Self& ){};
+  DiscreteGradientMagnitudeGaussianImageFunction(const Self &){}
 
-  ~DiscreteGradientMagnitudeGaussianImageFunction(){};
+  ~DiscreteGradientMagnitudeGaussianImageFunction(){}
 
-  void operator=( const Self& ){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void operator=(const Self &){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void RecomputeGaussianKernel();
- // void RecomputeContinuousGaussianKernel(
-   //        const double* offset) const;
 
+  // void RecomputeContinuousGaussianKernel(
+  //        const double* offset) const;
 private:
 
   /** Desired variance of the discrete Gaussian function */
@@ -212,13 +211,13 @@ private:
   /** Array of derivative operators, one for each dimension and order.
     * First N zero-rder operators are stored, then N first-order making
     * 2*N operators altogether where N=ImageDimension */
-  GaussianDerivativeOperatorArrayType   m_OperatorArray;
+  GaussianDerivativeOperatorArrayType m_OperatorArray;
 
   /** Array of N-dimensional kernels used to calculate gradient components */
-  KernelArrayType  m_KernelArray;
+  KernelArrayType m_KernelArray;
 
   /** OperatorImageFunction */
-  OperatorImageFunctionPointer  m_OperatorImageFunction;
+  OperatorImageFunctionPointer m_OperatorImageFunction;
 
   /** Flag for scale-space normalization of derivatives */
   bool m_NormalizeAcrossScale;
@@ -227,25 +226,30 @@ private:
   bool m_UseImageSpacing;
 
   /** Interpolation mode */
-  InterpolationModeType  m_InterpolationMode;
-
+  InterpolationModeType m_InterpolationMode;
 };
-
 } // namespace itk
 
+#if 0 //HACK:  Not yet implemented
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_DiscreteGradientMagnitudeGaussianImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 x > \
-                        DiscreteGradientMagnitudeGaussianImageFunction##y; } \
+#define ITK_TEMPLATE_DiscreteGradientMagnitudeGaussianImageFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                                  \
+  {                                                                                              \
+  _( 2 ( class EXPORT DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                            \
+  {                                                                                              \
+  typedef DiscreteGradientMagnitudeGaussianImageFunction< ITK_TEMPLATE_2 TypeX >                 \
+  DiscreteGradientMagnitudeGaussianImageFunction##TypeY;                                       \
+  }                                                                                              \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkDiscreteGradientMagnitudeGaussianImageFunction+-.h"
+#include "Templates/itkDiscreteGradientMagnitudeGaussianImageFunction+-.h"
+#endif
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkDiscreteGradientMagnitudeGaussianImageFunction.txx"
+#include "itkDiscreteGradientMagnitudeGaussianImageFunction.txx"
 #endif
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,20 +29,20 @@ namespace itk
  * This filter uses the Sobel operator to calculate the image gradient and then
  * finds the magnitude of this gradient vector.  The Sobel gradient magnitude
  * (square-root sum of squares) is an indication of edge strength.
- * 
+ *
  * \sa ImageToImageFilter
  * \sa SobelOperator
  * \sa Neighborhood
  * \sa NeighborhoodOperator
  * \sa NeighborhoodIterator
- * 
- * \ingroup ImageFeatureExtraction 
+ *
+ * \ingroup ImageFeatureExtraction
  *
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT SobelEdgeDetectionImageFilter : 
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT SobelEdgeDetectionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
@@ -60,10 +60,10 @@ public:
   typedef typename TInputImage::PixelType          InputPixelType;
   typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
-  
+                      TInputImage::ImageDimension);
+
   /**
    * Image typedef support
    */
@@ -71,17 +71,17 @@ public:
   typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /**
    * Run-time type information (and related methods)
    */
   itkTypeMacro(SobelEdgeDetectionImageFilter, ImageToImageFilter);
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -96,27 +96,27 @@ public:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
-  itkConceptMacro(OutputPixelIsFloatingPointCheck,
-    (Concept::IsFloatingPoint<OutputPixelType>));
+  itkConceptMacro( OutputPixelIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< OutputPixelType > ) );
 #endif
 
   /** End concept checking */
 #endif
-
 protected:
   SobelEdgeDetectionImageFilter() {}
   virtual ~SobelEdgeDetectionImageFilter() {}
-  SobelEdgeDetectionImageFilter(const Self&) {}
+  SobelEdgeDetectionImageFilter(const Self &) {}
   //void operator=(const Self&) {}
 
   /**
@@ -127,14 +127,11 @@ protected:
    * multithreaded by default.
    */
   void GenerateData();
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf(os,indent); }
 
-  
+  void PrintSelf(std::ostream & os, Indent indent) const
+  { Superclass::PrintSelf(os, indent); }
 private:
-
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,10 @@
 #include "itkImage.h"
 
 namespace itk
-{/**
- * The purpose of this program is to produce the connected components 
+{
+/**
+ * \class HardConnectedComponentImageFilter
+ * The purpose of this program is to produce the connected components
  * for any input binary image of dimensionality n.
  *
  * The program does a forward pass line by line through the entire image.
@@ -34,22 +36,16 @@ namespace itk
  * the forward pass goes through the entire image, we merge the different
  * connected components corresponding to the equivalence labels in the table.
  * We implement this strategy in function GenerateData().
-
- * There are two options in the program. 
+ *
+ * There are two options in the program.
  * 1. Take an nD binary image as input, and produce an nD gray image, where intensity indicates label assigned to a connected component.
  * 2. Take an nD binary image and a set of seed points as input, and output an nD binary image containing the cells connected to the seeds.
-For option 2, users need to assign the member variable std::list<IndexType> m_Seeds before calling function GenerateData().
-
-
+ *    For option 2, users need to assign the member variable std::list<IndexType> m_Seeds before calling function GenerateData().
  * \sa ImageToImageFilter
- * 
- * 
- *
  */
-
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT HardConnectedComponentImageFilter : 
-    public ImageToImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT HardConnectedComponentImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
@@ -70,70 +66,67 @@ public:
                       TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /**
    * Image typedef support
    */
-  typedef TInputImage                             InputImageType;
-  typedef TOutputImage                            OutputImageType;
-  typedef   typename TInputImage::IndexType       IndexType;
-  typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType     RegionType;
-  typedef   std::list<IndexType>                  ListType;
-  /** 
-   * Smart pointer typedef support 
+  typedef TInputImage                         InputImageType;
+  typedef TOutputImage                        OutputImageType;
+  typedef   typename TInputImage::IndexType   IndexType;
+  typedef   typename TInputImage::SizeType    SizeType;
+  typedef   typename TOutputImage::RegionType RegionType;
+  typedef   std::list< IndexType >            ListType;
+  /**
+   * Smart pointer typedef support
    */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /**
    * Run-time type information (and related methods)
    */
   itkTypeMacro(HardConnectedComponentImageFilter, ImageToImageFilter);
-  
+
   /**
    * Method for creation through the object factory.
    */
   itkNewMacro(Self);
 
   /** Setting the seed points for specified object. */
-  void SetObjectSeed( const IndexType &seed)
-    {m_Seeds.push_front(seed);} 
+  void SetObjectSeed(const IndexType & seed)
+  { m_Seeds.push_front(seed); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, OutputPixelType>));
-  itkConceptMacro(UnsignedShortConvertibleToOutputCheck,
-    (Concept::Convertible<unsigned short, OutputPixelType>));
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(UnsignedCharConvertibleToOutputCheck,
-    (Concept::Convertible<unsigned char, OutputPixelType>));
-  itkConceptMacro(OutputIncrementDecrementOperatorsCheck,
-    (Concept::IncrementDecrementOperators<OutputPixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
+  itkConceptMacro( IntConvertibleToOutputCheck,
+                   ( Concept::Convertible< int, OutputPixelType > ) );
+  itkConceptMacro( UnsignedShortConvertibleToOutputCheck,
+                   ( Concept::Convertible< unsigned short, OutputPixelType > ) );
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputPixelType > ) );
+  itkConceptMacro( UnsignedCharConvertibleToOutputCheck,
+                   ( Concept::Convertible< unsigned char, OutputPixelType > ) );
+  itkConceptMacro( OutputIncrementDecrementOperatorsCheck,
+                   ( Concept::IncrementDecrementOperators< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   HardConnectedComponentImageFilter() {}
   virtual ~HardConnectedComponentImageFilter() {}
-  HardConnectedComponentImageFilter(const Self&) {}
+  HardConnectedComponentImageFilter(const Self &) {}
 
   /**
-   * Standard pipeline method. 
+   * Standard pipeline method.
    */
   void GenerateData();
-  void PrintSelf(std::ostream& os, Indent indent) const
-  { Superclass::PrintSelf(os,indent); }
 
-  
+  void PrintSelf(std::ostream & os, Indent indent) const
+  { Superclass::PrintSelf(os, indent); }
 private:
-  ListType    m_Seeds;
+  ListType m_Seeds;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

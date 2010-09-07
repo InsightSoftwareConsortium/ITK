@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,10 +22,10 @@
 #include "itkArray.h"
 #include "itkImage.h"
 
-namespace itk {
-
-/** \class DirectedHausdorffDistanceImageFilter 
- * \brief Computes the directed Hausdorff distance between the set of 
+namespace itk
+{
+/** \class DirectedHausdorffDistanceImageFilter
+ * \brief Computes the directed Hausdorff distance between the set of
  * non-zero pixels of two images.
  *
  * DirectedHausdorffDistanceImageFilter computes the distance between the set
@@ -37,7 +37,7 @@ namespace itk {
  * to the nearest neighbor in \f$B\f$. Note that this function is not
  * is not symmetric and hence is not a true distance.
  *
- * In particular, this filter uses the DanielssonDistanceMapImageFilter inside to 
+ * In particular, this filter uses the DanielssonDistanceMapImageFilter inside to
  * compute distance map from all non-zero pixels in the second image. It then
  * find the largest distance (in pixels) within the set of all non-zero pixels in the first
  * image.
@@ -45,9 +45,9 @@ namespace itk {
  * Use HausdorffDistanceImageFilter to compute the full Hausdorff distance.
  *
  * This filter requires the largest possible region of the first image
- * and the same corresponding region in the second image. 
+ * and the same corresponding region in the second image.
  * It behaves as filter with
- * two input and one output. Thus it can be inserted in a pipeline with 
+ * two input and one output. Thus it can be inserted in a pipeline with
  * other filters. The filter passes the first input through unmodified.
  *
  * This filter is templated over the two input image type. It assume
@@ -58,23 +58,23 @@ namespace itk {
  *
  * \ingroup MultiThreaded
  */
-template<class TInputImage1, class TInputImage2>
-class ITK_EXPORT DirectedHausdorffDistanceImageFilter : 
-    public ImageToImageFilter<TInputImage1, TInputImage1>
+template< class TInputImage1, class TInputImage2 >
+class ITK_EXPORT DirectedHausdorffDistanceImageFilter:
+  public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
   /** Standard Self typedef */
-  typedef DirectedHausdorffDistanceImageFilter           Self;
-  typedef ImageToImageFilter<TInputImage1,TInputImage1>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
-  
+  typedef DirectedHausdorffDistanceImageFilter             Self;
+  typedef ImageToImageFilter< TInputImage1, TInputImage1 > Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
-  
+
   /** Image related typedefs. */
   typedef TInputImage1                        InputImage1Type;
   typedef TInputImage2                        InputImage2Type;
@@ -89,58 +89,58 @@ public:
 
   typedef typename TInputImage1::PixelType InputImage1PixelType;
   typedef typename TInputImage2::PixelType InputImage2PixelType;
-  
+
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage1::ImageDimension);
 
   /** Type to use form computations. */
-  typedef typename NumericTraits<InputImage1PixelType>::RealType RealType;
+  typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
 
   /** Set the first input. */
-  void SetInput1( const InputImage1Type * image )
-    { this->SetInput( image ); }
+  void SetInput1(const InputImage1Type *image)
+  { this->SetInput(image); }
 
   /** Set the second input. */
-  void SetInput2( const InputImage2Type * image );
+  void SetInput2(const InputImage2Type *image);
 
   /** Get the first input. */
   const InputImage1Type * GetInput1(void)
-    { return this->GetInput(); }
-  
+  { return this->GetInput(); }
+
   /** Get the second input. */
   const InputImage2Type * GetInput2(void);
-  
+
   /** Return the computed directed Hausdorff distance. */
-  itkGetConstMacro(DirectedHausdorffDistance,RealType);
-  itkGetConstMacro(AverageHausdorffDistance,RealType);
+  itkGetConstMacro(DirectedHausdorffDistance, RealType);
+  itkGetConstMacro(AverageHausdorffDistance, RealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImage1PixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImage1PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DirectedHausdorffDistanceImageFilter();
-  ~DirectedHausdorffDistanceImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~DirectedHausdorffDistanceImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Pass the input through unmodified. Do this by Grafting in the
    * AllocateOutputs method. */
   void AllocateOutputs();
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData ();
-  
-  /** Do final mean and variance computation from data accumulated in threads. */
-  void AfterThreadedGenerateData ();
-  
+  void BeforeThreadedGenerateData();
+
+  /** Do final mean and variance computation from data accumulated in threads.
+    */
+  void AfterThreadedGenerateData();
+
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const RegionType& 
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const RegionType &
+                             outputRegionForThread,
+                             int threadId);
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
@@ -149,22 +149,24 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
-  DirectedHausdorffDistanceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DirectedHausdorffDistanceImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
 
-  typedef Image<RealType,itkGetStaticConstMacro(ImageDimension)> DistanceMapType;
-  
-  typename DistanceMapType::Pointer   m_DistanceMap;
-  Array<RealType>                     m_MaxDistance;
-  Array<unsigned int>                 m_PixelCount;
-  Array<RealType>                     m_Sum;
-  RealType                            m_DirectedHausdorffDistance;
-  RealType                            m_AverageHausdorffDistance;
+  // implemented
 
+  typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) > DistanceMapType;
+
+  typename DistanceMapType::Pointer m_DistanceMap;
+
+  Array< RealType >     m_MaxDistance;
+  Array< unsigned int > m_PixelCount;
+  Array< RealType >     m_Sum;
+  RealType              m_DirectedHausdorffDistance;
+  RealType              m_AverageHausdorffDistance;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkDirectedHausdorffDistanceImageFilter.txx"
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-  
 /** \class ImageMaskSpatialObject
  * \brief Implementation of an image mask as spatial object.
  *
@@ -34,50 +33,49 @@ namespace itk
  * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
  */
 
-template < unsigned int TDimension = 3 >
-class ITK_EXPORT ImageMaskSpatialObject 
-  : public ImageSpatialObject< TDimension, unsigned char >
+template< unsigned int TDimension = 3 >
+class ITK_EXPORT ImageMaskSpatialObject:
+  public ImageSpatialObject< TDimension, unsigned char >
 {
-
 public:
- 
-  typedef ImageMaskSpatialObject< TDimension >        Self;
-  typedef ImageSpatialObject< TDimension >            Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
 
-  typedef typename Superclass::ScalarType             ScalarType; 
-  typedef typename Superclass::PixelType              PixelType; 
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::ImagePointer           ImagePointer;
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::RegionType             RegionType;
-  typedef typename Superclass::SizeType               SizeType;
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef ImageMaskSpatialObject< TDimension > Self;
+  typedef ImageSpatialObject< TDimension >     Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
-  typedef itk::ImageSliceConstIteratorWithIndex< ImageType >  
-                                                      SliceIteratorType;
+  typedef typename Superclass::ScalarType      ScalarType;
+  typedef typename Superclass::PixelType       PixelType;
+  typedef typename Superclass::ImageType       ImageType;
+  typedef typename Superclass::ImagePointer    ImagePointer;
+  typedef typename Superclass::IndexType       IndexType;
+  typedef typename Superclass::RegionType      RegionType;
+  typedef typename Superclass::SizeType        SizeType;
+  typedef typename Superclass::TransformType   TransformType;
+  typedef typename Superclass::PointType       PointType;
+  typedef typename Superclass::BoundingBoxType BoundingBoxType;
+
+  typedef itk::ImageSliceConstIteratorWithIndex< ImageType >
+  SliceIteratorType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ImageMaskSpatialObject, ImageSpatialObject );
+  itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside( const PointType & point,
-                 unsigned int depth, char *name) const;
+  bool IsInside(const PointType & point,
+                unsigned int depth, char *name) const;
 
-  /** Test whether a point is inside or outside the object 
+  /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */ 
-  virtual bool IsInside( const PointType & point) const;
+   *  check the name of the class and the current depth */
+  virtual bool IsInside(const PointType & point) const;
 
   /** Compute axis aligned bounding box from the image mask. The bounding box
    * is returned as an image region. Each call to this function will recompute
-   * the region. 
+   * the region.
    * This function is useful in cases, where you may have a mask image
    * resulting from say a segmentation and you want to get the smallest box
    * region that encapsulates the mask image. Currently this is done only for 3D
@@ -85,16 +83,14 @@ public:
   RegionType GetAxisAlignedBoundingBoxRegion() const;
 
 protected:
-  ImageMaskSpatialObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageMaskSpatialObject(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   ImageMaskSpatialObject();
   virtual ~ImageMaskSpatialObject();
 
-  void PrintSelf( std::ostream& os, Indent indent ) const;
-
+  void PrintSelf(std::ostream & os, Indent indent) const;
 };
-
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

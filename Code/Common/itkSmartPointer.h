@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class SmartPointer
  * \brief Implements transparent reference counting.
  *
@@ -38,124 +37,123 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
  */
-template <class TObjectType>
-class SmartPointer 
+template< class TObjectType >
+class SmartPointer
 {
 public:
   typedef TObjectType ObjectType;
-  
+
   /** Constructor  */
-  SmartPointer () 
-    { m_Pointer = 0; }
+  SmartPointer ()
+  { m_Pointer = 0; }
 
   /** Copy constructor  */
-  SmartPointer (const SmartPointer<ObjectType> &p):
+  SmartPointer (const SmartPointer< ObjectType > & p):
     m_Pointer(p.m_Pointer)
-    { this->Register(); }
-  
+  { this->Register(); }
+
   /** Constructor to pointer p  */
   SmartPointer (ObjectType *p):
     m_Pointer(p)
-    { this->Register(); }
-  
+  { this->Register(); }
+
   /** Destructor  */
   ~SmartPointer ()
-    {
+  {
     this->UnRegister();
-    m_Pointer = 0;  
-    }
-  
+    m_Pointer = 0;
+  }
+
   /** Overload operator ->  */
-  ObjectType *operator -> () const
-    { return m_Pointer; }
+  ObjectType * operator->() const
+  { return m_Pointer; }
 
   /** Return pointer to object.  */
-  operator ObjectType * () const 
-    { return m_Pointer; }
-  
+  operator ObjectType *() const
+        { return m_Pointer; }
+
   /** Test if the pointer has been initialized */
   bool IsNotNull() const
-    { return m_Pointer != 0; }
+  { return m_Pointer != 0; }
   bool IsNull() const
-    { return m_Pointer == 0; }
+  { return m_Pointer == 0; }
 
   /** Template comparison operators. */
-  template <typename TR>
-  bool operator == ( TR r ) const
-    { return (m_Pointer == static_cast<const ObjectType*>(r) ); }
+  template< typename TR >
+  bool operator==(TR r) const
+  { return ( m_Pointer == static_cast< const ObjectType * >( r ) ); }
 
-  template <typename TR>
-  bool operator != ( TR r ) const
-    { return (m_Pointer != static_cast<const ObjectType*>(r) ); }
-    
+  template< typename TR >
+  bool operator!=(TR r) const
+  { return ( m_Pointer != static_cast< const ObjectType * >( r ) ); }
+
   /** Access function to pointer. */
-  ObjectType *GetPointer () const 
-    { return m_Pointer; }
-  
+  ObjectType * GetPointer() const
+  { return m_Pointer; }
+
   /** Comparison of pointers. Less than comparison.  */
-  bool operator < (const SmartPointer &r) const
-    { return (void*)m_Pointer < (void*) r.m_Pointer; }
-  
+  bool operator<(const SmartPointer & r) const
+  { return (void *)m_Pointer < (void *)r.m_Pointer; }
+
   /** Comparison of pointers. Greater than comparison.  */
-  bool operator > (const SmartPointer &r) const
-    { return (void*)m_Pointer > (void*) r.m_Pointer; }
+  bool operator>(const SmartPointer & r) const
+  { return (void *)m_Pointer > (void *)r.m_Pointer; }
 
   /** Comparison of pointers. Less than or equal to comparison.  */
-  bool operator <= (const SmartPointer &r) const
-    { return (void*)m_Pointer <= (void*) r.m_Pointer; }
+  bool operator<=(const SmartPointer & r) const
+  { return (void *)m_Pointer <= (void *)r.m_Pointer; }
 
   /** Comparison of pointers. Greater than or equal to comparison.  */
-  bool operator >= (const SmartPointer &r) const
-    { return (void*)m_Pointer >= (void*) r.m_Pointer; }
+  bool operator>=(const SmartPointer & r) const
+  { return (void *)m_Pointer >= (void *)r.m_Pointer; }
 
   /** Overload operator assignment.  */
-  SmartPointer &operator = (const SmartPointer &r)
-    { return this->operator = (r.GetPointer()); }
-  
+  SmartPointer & operator=(const SmartPointer & r)
+  { return this->operator=( r.GetPointer() ); }
+
   /** Overload operator assignment.  */
-  SmartPointer &operator = (ObjectType *r)
-    {
-    if (m_Pointer != r)
+  SmartPointer & operator=(ObjectType *r)
+  {
+    if ( m_Pointer != r )
       {
-      ObjectType* tmp = m_Pointer; //avoid recursive unregisters by retaining temporarily
+      ObjectType *tmp = m_Pointer; //avoid recursive unregisters by retaining
+                                   // temporarily
       m_Pointer = r;
       this->Register();
       if ( tmp ) { tmp->UnRegister(); }
       }
     return *this;
-    }
-  
+  }
+
   /** Function to print object pointed to  */
-  ObjectType *Print (std::ostream& os) const 
-    { 
-    // This prints the object pointed to by the pointer  
-    (*m_Pointer).Print(os);  
+  ObjectType * Print(std::ostream & os) const
+  {
+    // This prints the object pointed to by the pointer
+    ( *m_Pointer ).Print(os);
     return m_Pointer;
-    } 
+  }
 
 private:
   /** The pointer to the object referrred to by this smart pointer. */
-  ObjectType* m_Pointer;
+  ObjectType *m_Pointer;
 
   void Register()
-    { 
-    if(m_Pointer) { m_Pointer->Register(); }
-    }
-  
-  void UnRegister()
-    {
-    if(m_Pointer) { m_Pointer->UnRegister(); }
-    }
-};  
+  {
+    if ( m_Pointer ) { m_Pointer->Register(); }
+  }
 
-  
-template <typename T>
-std::ostream& operator<< (std::ostream& os, SmartPointer<T> p) 
+  void UnRegister()
+  {
+    if ( m_Pointer ) { m_Pointer->UnRegister(); }
+  }
+};
+
+template< typename T >
+std::ostream & operator<<(std::ostream & os, SmartPointer< T > p)
 {
-  p.Print(os); 
+  p.Print(os);
   return os;
 }
-
 } // end namespace itk
-  
+
 #endif

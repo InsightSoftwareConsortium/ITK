@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,8 +23,7 @@
 #include "itkObject.h"
 
 namespace itk
-{ 
-  
+{
 /** \class HistogramAlgorithmBase
  * \brief base class for algorithms operating on histograms
  *
@@ -34,7 +33,7 @@ namespace itk
  */
 
 template< class TInputHistogram >
-class ITK_EXPORT HistogramAlgorithmBase : public Object
+class ITK_EXPORT HistogramAlgorithmBase:public Object
 {
 public:
   /**Standard class typedefs. */
@@ -45,34 +44,33 @@ public:
 
   /**Standard Macros */
   itkTypeMacro(HistogramAlgorithmBase, Object);
-  
+
   /** Histogram typedefs alias */
   typedef TInputHistogram InputHistogramType;
 
   /** Stores the histogram pointer */
-  void SetInputHistogram( const TInputHistogram * histogram ) 
-    {
+  void SetInputHistogram(const TInputHistogram *histogram)
+  {
     if ( m_InputHistogram != histogram )
       {
       m_InputHistogram = histogram;
       this->Modified();
       }
-    }
+  }
 
   /** Returns the histogram const pointer */
   const TInputHistogram * GetInputHistogram() const
-    { return m_InputHistogram.GetPointer(); }
+  { return m_InputHistogram.GetPointer(); }
 
   /** dummy function that calls the GenerateData() function to generate
-   * output. It exists for future compatibility with ProcessObject 
+   * output. It exists for future compatibility with ProcessObject
    * without streaming */
   void Update()
-    { this->GenerateData(); }
-    
+  { this->GenerateData(); }
 protected:
   HistogramAlgorithmBase();
   virtual ~HistogramAlgorithmBase() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData() = 0;
 
@@ -80,8 +78,7 @@ private:
   /** Target histogram data pointer */
   typename TInputHistogram::ConstPointer m_InputHistogram;
 }; // end of class
-    
-} // end of namespace itk 
+} // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkHistogramAlgorithmBase.txx"

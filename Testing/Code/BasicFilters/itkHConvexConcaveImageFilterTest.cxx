@@ -110,14 +110,6 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
-  // Output the number of iterations used
-  std::cout << "Hconvex took " << hconvex->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "Hconcave took " << hconcave->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "<DartMeasurement name=\"HConvexNumberOfIterations\" type=\"numeric/integer\">" << hconvex->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  std::cout << "<DartMeasurement name=\"HConcaveNumberOfIterations\" type=\"numeric/integer\">" << hconcave->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  
-
   return EXIT_SUCCESS;
-
 }
 

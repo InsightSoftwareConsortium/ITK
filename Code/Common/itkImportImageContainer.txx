@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,9 +27,8 @@
 
 namespace itk
 {
-
-template <typename TElementIdentifier, typename TElement>
-ImportImageContainer<TElementIdentifier , TElement>
+template< typename TElementIdentifier, typename TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::ImportImageContainer()
 {
   m_ImportPointer = 0;
@@ -38,37 +37,35 @@ ImportImageContainer<TElementIdentifier , TElement>
   m_Size = 0;
 }
 
-
-template <typename TElementIdentifier, typename TElement>
-ImportImageContainer< TElementIdentifier , TElement >
+template< typename TElementIdentifier, typename TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::~ImportImageContainer()
 {
   DeallocateManagedMemory();
 }
 
-
 /**
  * Tell the container to allocate enough memory to allow at least
- * as many elements as the size given to be stored.  
+ * as many elements as the size given to be stored.
  */
-template <typename TElementIdentifier, typename TElement>
+template< typename TElementIdentifier, typename TElement >
 void
-ImportImageContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::Reserve(ElementIdentifier size)
 {
   // Reserve has a Resize semantics. We keep it that way for
   // backwards compatibility .
   // See http://www.itk.org/Bug/view.php?id=2893 for details
-  if (m_ImportPointer)
+  if ( m_ImportPointer )
     {
-    if (size > m_Capacity)
+    if ( size > m_Capacity )
       {
-      TElement* temp = this->AllocateElements(size);
+      TElement *temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
-      memcpy(temp, m_ImportPointer, m_Size*sizeof(TElement));
-      
+      memcpy( temp, m_ImportPointer, m_Size * sizeof( TElement ) );
+
       DeallocateManagedMemory();
-      
+
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
       m_Capacity = size;
@@ -91,26 +88,25 @@ ImportImageContainer< TElementIdentifier , TElement >
     }
 }
 
-
 /**
  * Tell the container to try to minimize its memory usage for storage of
- * the current number of elements.  
+ * the current number of elements.
  */
-template <typename TElementIdentifier, typename TElement>
+template< typename TElementIdentifier, typename TElement >
 void
-ImportImageContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::Squeeze(void)
 {
-  if (m_ImportPointer)
+  if ( m_ImportPointer )
     {
-    if (m_Size < m_Capacity)
+    if ( m_Size < m_Capacity )
       {
       const TElementIdentifier size = m_Size;
-      TElement* temp = this->AllocateElements(size);
-      memcpy(temp, m_ImportPointer, size*sizeof(TElement));
+      TElement *               temp = this->AllocateElements(size);
+      memcpy( temp, m_ImportPointer, size * sizeof( TElement ) );
 
       DeallocateManagedMemory();
-      
+
       m_ImportPointer = temp;
       m_ContainerManageMemory = true;
       m_Capacity = size;
@@ -121,26 +117,24 @@ ImportImageContainer< TElementIdentifier , TElement >
     }
 }
 
-
 /**
  * Tell the container to try to minimize its memory usage for storage of
- * the current number of elements.  
+ * the current number of elements.
  */
-template <typename TElementIdentifier, typename TElement>
+template< typename TElementIdentifier, typename TElement >
 void
-ImportImageContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::Initialize(void)
 {
-  if (m_ImportPointer)
+  if ( m_ImportPointer )
     {
     DeallocateManagedMemory();
-    
+
     m_ContainerManageMemory = true;
-    
+
     this->Modified();
     }
 }
-
 
 /**
  * Set the pointer from which the image data is imported.  "num" is
@@ -150,9 +144,9 @@ ImportImageContainer< TElementIdentifier , TElement >
  * "LetContainerManageMemory" is true, then this class will free the
  * memory when this object is destroyed.
  */
-template <typename TElementIdentifier, typename TElement>
+template< typename TElementIdentifier, typename TElement >
 void
-ImportImageContainer< TElementIdentifier , TElement >
+ImportImageContainer< TElementIdentifier, TElement >
 ::SetImportPointer(TElement *ptr, TElementIdentifier num,
                    bool LetContainerManageMemory)
 {
@@ -165,23 +159,24 @@ ImportImageContainer< TElementIdentifier , TElement >
   this->Modified();
 }
 
-template <typename TElementIdentifier, typename TElement>
-TElement* ImportImageContainer< TElementIdentifier , TElement >
+template< typename TElementIdentifier, typename TElement >
+TElement *ImportImageContainer< TElementIdentifier, TElement >
 ::AllocateElements(ElementIdentifier size) const
 {
   // Encapsulate all image memory allocation here to throw an
   // exception when memory allocation fails even when the compiler
   // does not do this by default.
-  TElement* data;
+  TElement *data;
+
   try
     {
     data = new TElement[size];
     }
-  catch(...)
+  catch ( ... )
     {
     data = 0;
     }
-  if(!data)
+  if ( !data )
     {
     // We cannot construct an error string here because we may be out
     // of memory.  Do not use the exception macro.
@@ -192,34 +187,33 @@ TElement* ImportImageContainer< TElementIdentifier , TElement >
   return data;
 }
 
-template <typename TElementIdentifier, typename TElement>
-void ImportImageContainer< TElementIdentifier , TElement >
+template< typename TElementIdentifier, typename TElement >
+void ImportImageContainer< TElementIdentifier, TElement >
 ::DeallocateManagedMemory()
 {
   // Encapsulate all image memory deallocation here
-  if (m_ImportPointer && m_ContainerManageMemory)
+  if ( m_ImportPointer && m_ContainerManageMemory )
     {
-    delete [] m_ImportPointer;
+    delete[] m_ImportPointer;
     }
   m_ImportPointer = 0;
   m_Capacity = 0;
   m_Size = 0;
 }
 
-template <typename TElementIdentifier, typename TElement>
+template< typename TElementIdentifier, typename TElement >
 void
-ImportImageContainer< TElementIdentifier , TElement >
-::PrintSelf(std::ostream& os, Indent indent) const
+ImportImageContainer< TElementIdentifier, TElement >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "Pointer: " << static_cast<void *>(m_ImportPointer) << std::endl;
+  os << indent << "Pointer: " << static_cast< void * >( m_ImportPointer ) << std::endl;
   os << indent << "Container manages memory: "
-     << (m_ContainerManageMemory ? "true" : "false") << std::endl;
+     << ( m_ContainerManageMemory ? "true" : "false" ) << std::endl;
   os << indent << "Size: " << m_Size << std::endl;
   os << indent << "Capacity: " << m_Capacity << std::endl;
 }
-
 } // end namespace itk
 
 #endif

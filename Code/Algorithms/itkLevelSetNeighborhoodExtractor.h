@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class LevelSetNeighborhoodExtractor
  * \brief Locate pixels of a particular level set.
  *
@@ -34,8 +33,8 @@ namespace itk
  * pixel, an estimated distance to the particular level set is also
  * calculated.
  *
- * The containers InsidePoints and OutsidePoints can then be used 
- * in FastMarchingImageFilter to produce a signed distance map from 
+ * The containers InsidePoints and OutsidePoints can then be used
+ * in FastMarchingImageFilter to produce a signed distance map from
  * the specified level set.
  *
  * This class is templated over the image type representing
@@ -49,19 +48,19 @@ namespace itk
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
- * \ingroup LevelSetSegmentation 
- * 
+ * \ingroup LevelSetSegmentation
+ *
  */
-template <class TLevelSet>
-class ITK_EXPORT LevelSetNeighborhoodExtractor :
-    public LightProcessObject
+template< class TLevelSet >
+class ITK_EXPORT LevelSetNeighborhoodExtractor:
+  public LightProcessObject
 {
 public:
   /** Standard class typdedefs. */
   typedef LevelSetNeighborhoodExtractor Self;
   typedef LightProcessObject            Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +69,7 @@ public:
   itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
 
   /** LevelSetType typedef support. */
-  typedef LevelSetTypeDefault<TLevelSet>              LevelSetType;
+  typedef LevelSetTypeDefault< TLevelSet >            LevelSetType;
   typedef typename LevelSetType::LevelSetImageType    LevelSetImageType;
   typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
   typedef typename LevelSetType::LevelSetConstPointer LevelSetConstPointer;
@@ -84,48 +83,49 @@ public:
                       LevelSetType::SetDimension);
 
   /** Index typedef support. */
-  typedef Index<itkGetStaticConstMacro(SetDimension)> IndexType;
+  typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
 
   /** Set the input level set. */
-  itkSetConstObjectMacro( InputLevelSet, LevelSetImageType );
+  itkSetConstObjectMacro(InputLevelSet, LevelSetImageType);
 
   /** Get the input level set. */
-  itkGetConstObjectMacro( InputLevelSet, LevelSetImageType );
+  itkGetConstObjectMacro(InputLevelSet, LevelSetImageType);
 
   /** Set the value of the level set to be located. Default is 0. */
-  itkSetMacro( LevelSetValue, double );
+  itkSetMacro(LevelSetValue, double);
 
   /** Get the value of the level set to be located. */
-  itkGetConstMacro( LevelSetValue, double );
+  itkGetConstMacro(LevelSetValue, double);
 
   /** Set the narrow band width. Default is 12. */
-  itkSetClampMacro( NarrowBandwidth, double, 0.0, 
-                    NumericTraits<double>::max());
+  itkSetClampMacro( NarrowBandwidth, double, 0.0,
+                    NumericTraits< double >::max() );
 
   /** Get the narrow band width. */
-  itkGetConstMacro( NarrowBandwidth, double );
+  itkGetConstMacro(NarrowBandwidth, double);
 
   /** Set the narrowbanding flag. */
-  itkSetMacro( NarrowBanding, bool );
+  itkSetMacro(NarrowBanding, bool);
 
   /** Get the narrowbanding flag. */
-  itkGetConstMacro( NarrowBanding, bool );
-  itkBooleanMacro( NarrowBanding );
+  itkGetConstMacro(NarrowBanding, bool);
+  itkBooleanMacro(NarrowBanding);
 
   /** Set/Get the input narrowband. A narrowband is represented as
    * a VectorContainer of LevelSetNodes. */
-  void SetInputNarrowBand( NodeContainer * ptr );
-  itkGetObjectMacro( InputNarrowBand, NodeContainer );
+  void SetInputNarrowBand(NodeContainer *ptr);
+
+  itkGetObjectMacro(InputNarrowBand, NodeContainer);
 
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetInsidePoints()
-    { return m_InsidePoints; }
+  { return m_InsidePoints; }
 
   /** Get the container of outside points. The outside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer GetOutsidePoints(void)
-    { return m_OutsidePoints; }
+  { return m_OutsidePoints; }
 
   /** Locate the level set. This method evokes the level set
    * location algorithm. */
@@ -133,51 +133,49 @@ public:
 
 protected:
   LevelSetNeighborhoodExtractor();
-  ~LevelSetNeighborhoodExtractor(){};
-  void PrintSelf( std::ostream& os, Indent indent ) const;
+  ~LevelSetNeighborhoodExtractor(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   typename LevelSetImageType::PixelType GetLargeValue() const
   { return m_LargeValue; }
 
-  const NodeType& GetNodeUsedInCalculation(unsigned int idx) const
+  const NodeType & GetNodeUsedInCalculation(unsigned int idx) const
   { return m_NodesUsed[idx]; }
 
   virtual void Initialize();
-  virtual double CalculateDistance( IndexType& index );
+
+  virtual double CalculateDistance(IndexType & index);
 
   void GenerateData();
 
   bool GetLastPointIsInside() const
-    { return m_LastPointIsInside; }
-
+  { return m_LastPointIsInside; }
 private:
-  LevelSetNeighborhoodExtractor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  LevelSetNeighborhoodExtractor(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
+
   void      GenerateDataFull();
+
   void      GenerateDataNarrowBand();
 
-  double                                        m_LevelSetValue;
+  double m_LevelSetValue;
 
-  NodeContainerPointer                          m_InsidePoints;
-  NodeContainerPointer                          m_OutsidePoints;
+  NodeContainerPointer m_InsidePoints;
+  NodeContainerPointer m_OutsidePoints;
 
-  LevelSetConstPointer                          m_InputLevelSet;
+  LevelSetConstPointer m_InputLevelSet;
 
-  bool                                          m_NarrowBanding;
-  double                                        m_NarrowBandwidth;
-  NodeContainerPointer                          m_InputNarrowBand;
+  bool                 m_NarrowBanding;
+  double               m_NarrowBandwidth;
+  NodeContainerPointer m_InputNarrowBand;
 
-  signed long                                   m_ImageSize[SetDimension];
-  typename LevelSetImageType::PixelType         m_LargeValue;
+  signed long m_ImageSize[SetDimension];
+  typename LevelSetImageType::PixelType m_LargeValue;
 
-  std::vector<NodeType>                         m_NodesUsed;
+  std::vector< NodeType > m_NodesUsed;
 
-  bool                                          m_LastPointIsInside;
-
+  bool m_LastPointIsInside;
 };
-
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

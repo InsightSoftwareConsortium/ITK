@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class IndexedContainerInterface
  * This should only be used for reference when writing containers
  * conforming to this interface.  ITK uses generic programming to
@@ -45,35 +44,35 @@ namespace itk
  *    It must have a < operator defined for ordering.
  *
  * TElement =
- *    The element type stored in the container.  
+ *    The element type stored in the container.
  *
  * \ingroup DataRepresentation
  */
 
-template <typename TElementIdentifier, typename TElement>
-class IndexedContainerInterface: public Object
+template< typename TElementIdentifier, typename TElement >
+class IndexedContainerInterface:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef IndexedContainerInterface      Self;
-  typedef Object                         Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
-  
+  typedef IndexedContainerInterface  Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Standard part of every itk Object. */
   itkTypeMacro(IndexedContainerInterface, Object);
 
   /** Save the template parameters. */
-  typedef TElementIdentifier  ElementIdentifier;
-  typedef TElement            Element;
-  
+  typedef TElementIdentifier ElementIdentifier;
+  typedef TElement           Element;
+
   /** Get a reference to an existing element.
    * It is NOT guaranteed that the element will or will not be created if it
    * doesn't exist.  This behavior is implementation-specific.
    *
    * It is assumed that the value of the element is modified through the
    * reference. */
-  Element& ElementAt(ElementIdentifier);
+  Element & ElementAt(ElementIdentifier);
 
   /** Get a reference to an existing element.
    * It is guaranteed that the element will be inserted with a default
@@ -81,21 +80,21 @@ public:
    *
    * It is assumed that the value of the element is modified through the
    * reference. */
-  Element& CreateElementAt(ElementIdentifier);
-  
+  Element & CreateElementAt(ElementIdentifier);
+
   /** Get a copy of an element without range checking. */
   Element GetElement(ElementIdentifier) const;
-  
+
   /** Set the value of an element.
    * It is NOT guaranteed whether a spot for the element will be created
    * automatically.  This is implementation-defined. */
   void SetElement(ElementIdentifier, Element);
-  
+
   /** Set the value of an element.
    * It is guaranteed that a spot for the element will be created if it
    * doesn't exist. */
   void InsertElement(ElementIdentifier, Element);
-  
+
   /** Test if there is an entry in the container corresponding to the given
    * index. */
   bool IndexExists(ElementIdentifier) const;
@@ -105,8 +104,8 @@ public:
    * If true is returned, then the identifier was found.  In this case,
    * if the element pointer given as input is not null, the element is filled
    * in with the value of the element found. */
-  bool GetElementIfIndexExists(ElementIdentifier, Element*) const;
-  
+  bool GetElementIfIndexExists(ElementIdentifier, Element *) const;
+
   /** Create an entry in the container corresponding to the given index.
    * The entry will be initialized with the default element.
    * If an entry already exists, its value will be overwritten with the
@@ -120,14 +119,14 @@ public:
    * If the identifier's location is left behind, though, it will have the
    * value of the default element. */
   void DeleteIndex(ElementIdentifier);
-  
+
   /** \class Iterator
    * \brief Support iteration operations through a container.
    * Dereferencing the iterator must provide an object with the following
    * methods:
    *   ElementIdentifier Index(void) const;
    *   Element&          Value(void); */
-  class Iterator {}; 
+  class Iterator {};
 
   /** \class ConstIterator
    * \brief Support const iteration operations through a container.
@@ -135,17 +134,17 @@ public:
    * methods:
    *   ElementIdentifier Index(void) const;
    *   const Element&    Value(void) const; */
-  class ConstIterator {}; 
-  
-  /** Get a begin iterator for the container. */  
+  class ConstIterator {};
+
+  /** Get a begin iterator for the container. */
   Iterator Begin();
-  
+
   /** Get an end iterator for the container. */
   Iterator End();
 
-  /** Get a begin const iterator for the container. */  
+  /** Get a begin const iterator for the container. */
   ConstIterator Begin() const;
-  
+
   /** Get an end const iterator for the container. */
   ConstIterator End() const;
 
@@ -157,18 +156,16 @@ public:
    * guaranteed to actually allocate any memory, but is useful if the
    * implementation of the container allocates contiguous storage. */
   void Reserve(ElementIdentifier);
-  
+
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
   void Squeeze(void);
-  
+
   /** Tell the container to release any memory it may have allocated and
    * return itself to its initial state. */
   void Initialize(void);
-
 };
-
 } // end namespace itk
-  
+
 #endif

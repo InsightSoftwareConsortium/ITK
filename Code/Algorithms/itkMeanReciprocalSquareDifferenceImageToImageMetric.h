@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,6 @@
 #include "itkImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkPoint.h"
-
 
 namespace itk
 {
@@ -34,85 +33,83 @@ namespace itk
  * the moving image and pixels in the fixed image after passing the squared
  * difference through a function of type \f$ \frac{1}{1+x} \f$.
 
- * Spatial correspondance between both images is established through a 
- * Transform. Pixel values are taken from the Moving image. Their positions 
- * are mapped to the Fixed image and result in general in non-grid position 
- * on it. Values at these non-grid position of the Fixed image are interpolated 
+ * Spatial correspondance between both images is established through a
+ * Transform. Pixel values are taken from the Moving image. Their positions
+ * are mapped to the Fixed image and result in general in non-grid position
+ * on it. Values at these non-grid position of the Fixed image are interpolated
  * using a user-selected Interpolator.
  *
  * \ingroup RegistrationMetrics
  */
-template < class TFixedImage, class TMovingImage > 
-class ITK_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric : 
-    public ImageToImageMetric< TFixedImage, TMovingImage>
+template< class TFixedImage, class TMovingImage >
+class ITK_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric:
+  public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef MeanReciprocalSquareDifferenceImageToImageMetric  Self;
-  typedef ImageToImageMetric<TFixedImage, TMovingImage >    Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef MeanReciprocalSquareDifferenceImageToImageMetric Self;
+  typedef ImageToImageMetric< TFixedImage, TMovingImage >  Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
- 
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanReciprocalSquareDifferenceImageToImageMetric, ImageToImageMetric);
 
- 
   /** Types transferred from the base class */
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename Superclass::TransformParametersType  TransformParametersType;
-  typedef typename Superclass::TransformJacobianType    TransformJacobianType;
-  typedef typename Superclass::InputPointType           InputPointType;
-  typedef typename Superclass::OutputPointType          OutputPointType;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::TransformPointer        TransformPointer;
+  typedef typename Superclass::TransformParametersType TransformParametersType;
+  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
+  typedef typename Superclass::InputPointType          InputPointType;
+  typedef typename Superclass::OutputPointType         OutputPointType;
 
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::FixedImageType           FixedImageType;
-  typedef typename Superclass::MovingImageType          MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer  MovingImageConstPointer;
-
+  typedef typename Superclass::MeasureType             MeasureType;
+  typedef typename Superclass::DerivativeType          DerivativeType;
+  typedef typename Superclass::FixedImageType          FixedImageType;
+  typedef typename Superclass::MovingImageType         MovingImageType;
+  typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
+  typedef typename Superclass::MovingImageConstPointer MovingImageConstPointer;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative( const TransformParametersType & parameters,
-                      DerivativeType  & derivative ) const;
+  void GetDerivative(const TransformParametersType & parameters,
+                     DerivativeType  & derivative) const;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue( const TransformParametersType & parameters ) const;
+  MeasureType GetValue(const TransformParametersType & parameters) const;
 
   /**  Get value and derivatives for multiple valued optimizers. */
-  void GetValueAndDerivative( const TransformParametersType & parameters,
-                              MeasureType& Value, DerivativeType& derivative ) const;
+  void GetValueAndDerivative(const TransformParametersType & parameters,
+                             MeasureType & Value, DerivativeType & derivative) const;
 
-  /** Set/Get Lambda value. This factor regulates the capture radius of 
+  /** Set/Get Lambda value. This factor regulates the capture radius of
       this metric */
-  itkGetConstMacro( Lambda, double );
-  itkSetMacro( Lambda, double );
+  itkGetConstMacro(Lambda, double);
+  itkSetMacro(Lambda, double);
 
   /** Set/Get Delta value. This value is used as the differential in the
    * computation of the metric derivative using the finite differences method. */
-  itkGetConstMacro( Delta, double );
-  itkSetMacro( Delta, double );
-
-
+  itkGetConstMacro(Delta, double);
+  itkSetMacro(Delta, double);
 protected:
   MeanReciprocalSquareDifferenceImageToImageMetric();
-  virtual ~MeanReciprocalSquareDifferenceImageToImageMetric() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-
+  virtual ~MeanReciprocalSquareDifferenceImageToImageMetric() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MeanReciprocalSquareDifferenceImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MeanReciprocalSquareDifferenceImageToImageMetric(const Self &); //purposely
+                                                                  // not
+                                                                  // implemented
+  void operator=(const Self &);                                   //purposely
+                                                                  // not
+                                                                  // implemented
 
   double m_Lambda;
   double m_Delta;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

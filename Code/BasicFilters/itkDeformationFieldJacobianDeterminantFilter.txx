@@ -29,37 +29,34 @@
 
 namespace itk
 {
-
-template <typename TInputImage, typename TRealType, typename TOutputImage>
-DeformationFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
+template< typename TInputImage, typename TRealType, typename TOutputImage >
+DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 ::DeformationFieldJacobianDeterminantFilter()
-{
-}
+{}
 
-template <typename TInputImage, typename TRealType, typename TOutputImage>
+template< typename TInputImage, typename TRealType, typename TOutputImage >
 TRealType
 DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
-::EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const
+::EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
 {
-  vnl_matrix_fixed<TRealType,ImageDimension,VectorDimension> J;
-  for (unsigned int i = 0; i < ImageDimension; ++i)
+  vnl_matrix_fixed< TRealType, ImageDimension, VectorDimension > J;
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    for (unsigned int j = 0; j < VectorDimension; ++j)
+    for ( unsigned int j = 0; j < VectorDimension; ++j )
       {
-      J[i][j] = this->m_HalfDerivativeWeights[i] * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
+      J[i][j] = this->m_HalfDerivativeWeights[i] * ( it.GetNext(i)[j] - it.GetPrevious(i)[j] );
       }
     }
   return vnl_det(J);
 }
 
-template <typename TInputImage, typename TRealType, typename TOutputImage>
+template< typename TInputImage, typename TRealType, typename TOutputImage >
 void
 DeformationFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
 } // end namespace itk
 
 #endif

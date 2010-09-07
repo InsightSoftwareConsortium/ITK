@@ -26,34 +26,35 @@ class VNLSparseLUSolverTraits
 {
 public:
 
-  typedef double                            ValueType;
-  typedef vnl_sparse_matrix< ValueType >    MatrixType;
-  typedef vnl_vector< ValueType >           VectorType;
-  typedef vnl_sparse_lu                     SolverType;
-  
+  typedef double                         ValueType;
+  typedef vnl_sparse_matrix< ValueType > MatrixType;
+  typedef vnl_vector< ValueType >        VectorType;
+  typedef vnl_sparse_lu                  SolverType;
+
   VNLSparseLUSolverTraits();
 
-  MatrixType InitializeSparseMatrix( const unsigned int& iN )
-    {
-    return MatrixType( iN, iN );
-    }
+  MatrixType InitializeSparseMatrix(const unsigned int & iN)
+  {
+    return MatrixType(iN, iN);
+  }
 
-  VectorType InitializeVector( const unsigned int& iN )
-    {
-    return VectorType( iN );
-    }
-  
-  void FillMatrix( MatrixType& iA, const unsigned int& iR, const unsigned int& iC, const ValueType& iV )
-    {
-    iA( iR, iC ) = iV;
-    }
-  
-  bool Solve( const MatrixType& iA, const VectorType& iB, VectorType& oX )
-    {
-    vnl_sparse_lu lu_solver( iA );
-    return lu_solver.solve( iB );
-    }
-  
+  VectorType InitializeVector(const unsigned int & iN)
+  {
+    return VectorType(iN);
+  }
+
+  void FillMatrix(MatrixType & iA, const unsigned int & iR, const unsigned int & iC, const ValueType & iV)
+  {
+    iA(iR, iC) = iV;
+  }
+
+  bool Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
+  {
+    vnl_sparse_lu lu_solver(iA);
+
+    return lu_solver.solve(iB);
+  }
+
 private:
   MatrixType m_Matrix;
 };

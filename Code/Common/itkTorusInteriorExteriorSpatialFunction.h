@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /**
  * \class TorusInteriorExteriorSpatialFunction
  * \brief Spatial function implementation of torus symmetric about the z-axis in 3D
@@ -34,20 +33,20 @@ namespace itk
  *
  * */
 
-template <unsigned int VDimension=3, typename TInput=Point<double,3> >
+template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
 class ITK_EXPORT TorusInteriorExteriorSpatialFunction:
-    public InteriorExteriorSpatialFunction<VDimension, TInput>
+  public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef TorusInteriorExteriorSpatialFunction        Self;
-  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef TorusInteriorExteriorSpatialFunction          Self;
+  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
 
   /** Run time information. */
-  itkTypeMacro(TorusInteriorExteriorSpatialFunction,InteriorExteriorSpatialFunction);
+  itkTypeMacro(TorusInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,31 +56,32 @@ public:
 
   /** Output type for the function. */
   typedef typename Superclass::OutputType OutputType;
-  
+
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType& position) const;
+  OutputType Evaluate(const InputType & position) const;
 
   /** Set/Get the origin of the torus (the point from which the major
    * radius is measured). */
-  itkGetConstMacro( Origin, InputType);
-  itkSetMacro( Origin, InputType);
-  
+  itkGetConstMacro(Origin, InputType);
+  itkSetMacro(Origin, InputType);
+
   /** Set/Get the major radius of the torus. */
-  itkGetConstMacro( MajorRadius, double);
-  itkSetMacro( MajorRadius, double);
-  
+  itkGetConstMacro(MajorRadius, double);
+  itkSetMacro(MajorRadius, double);
+
   /** Set/Get the major radius of the torus. */
-  itkGetConstMacro( MinorRadius, double);
-  itkSetMacro( MinorRadius, double);
-       
+  itkGetConstMacro(MinorRadius, double);
+  itkSetMacro(MinorRadius, double);
 protected:
   TorusInteriorExteriorSpatialFunction();
   virtual ~TorusInteriorExteriorSpatialFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  TorusInteriorExteriorSpatialFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  TorusInteriorExteriorSpatialFunction(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 
   /** The origin of the torus (the point from which the major
    * radius is measured) */
@@ -92,24 +92,27 @@ private:
 
   /** The diameter of the "tube" */
   double m_MinorRadius;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TorusInteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
-                                           TorusInteriorExteriorSpatialFunction##y; } \
+#define ITK_TEMPLATE_TorusInteriorExteriorSpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                        \
+  {                                                                                    \
+  _( 2 ( class EXPORT TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                  \
+  {                                                                                    \
+  typedef TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
+  TorusInteriorExteriorSpatialFunction##TypeY;                                       \
+  }                                                                                    \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkTorusInteriorExteriorSpatialFunction+-.h"
+#include "Templates/itkTorusInteriorExteriorSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkTorusInteriorExteriorSpatialFunction.txx"
+#include "itkTorusInteriorExteriorSpatialFunction.txx"
 #endif
 
 #endif

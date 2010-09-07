@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class PointSetToImageRegistrationMethod
  * \brief Base class for PointSet to Image Registration Methods
  *
@@ -59,38 +58,37 @@ namespace itk
  *
  * \ingroup RegistrationFilters
  */
-template <typename TFixedPointSet, typename TMovingImage>
-class ITK_EXPORT PointSetToImageRegistrationMethod : public ProcessObject 
+template< typename TFixedPointSet, typename TMovingImage >
+class ITK_EXPORT PointSetToImageRegistrationMethod:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef PointSetToImageRegistrationMethod  Self;
-  typedef ProcessObject                      Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef PointSetToImageRegistrationMethod Self;
+  typedef ProcessObject                     Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(PointSetToImageRegistrationMethod, ProcessObject);
 
   /**  Type of the Fixed PointSet. */
-  typedef          TFixedPointSet                   FixedPointSetType;
-  typedef typename FixedPointSetType::ConstPointer  FixedPointSetConstPointer;
+  typedef          TFixedPointSet                  FixedPointSetType;
+  typedef typename FixedPointSetType::ConstPointer FixedPointSetConstPointer;
 
   /**  Type of the Moving image. */
-  typedef          TMovingImage                     MovingImageType;
-  typedef typename MovingImageType::ConstPointer    MovingImageConstPointer;
+  typedef          TMovingImage                  MovingImageType;
+  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
 
   /**  Type of the metric. */
-  typedef PointSetToImageMetric< FixedPointSetType,
-                                 MovingImageType >    MetricType;
-  typedef typename MetricType::Pointer                MetricPointer;
+  typedef PointSetToImageMetric< FixedPointSetType, MovingImageType > MetricType;
+  typedef typename MetricType::Pointer                                MetricPointer;
 
   /**  Type of the Transform . */
-  typedef  typename MetricType::TransformType      TransformType;
-  typedef  typename TransformType::Pointer         TransformPointer;
+  typedef  typename MetricType::TransformType TransformType;
+  typedef  typename TransformType::Pointer    TransformPointer;
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
@@ -99,15 +97,15 @@ public:
   typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
 
   /**  Type of the Interpolator. */
-  typedef  typename MetricType::InterpolatorType   InterpolatorType;
-  typedef  typename InterpolatorType::Pointer      InterpolatorPointer;
+  typedef  typename MetricType::InterpolatorType InterpolatorType;
+  typedef  typename InterpolatorType::Pointer    InterpolatorPointer;
 
   /**  Type of the optimizer. */
-  typedef   SingleValuedNonLinearOptimizer         OptimizerType;
+  typedef   SingleValuedNonLinearOptimizer OptimizerType;
 
   /** Type of the Transformation parameters This is the same type used to
    *  represent the search space of the optimization algorithm */
-  typedef  typename MetricType::TransformParametersType    ParametersType;
+  typedef  typename MetricType::TransformParametersType ParametersType;
 
   /** Smart Pointer type to a DataObject. */
   typedef typename DataObject::Pointer DataObjectPointer;
@@ -116,40 +114,41 @@ public:
   void StartRegistration(void);
 
   /** Set/Get the Fixed image. */
-  itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
-  itkGetConstObjectMacro( FixedPointSet, FixedPointSetType ); 
+  itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
+  itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
 
   /** Set/Get the Moving image. */
-  itkSetConstObjectMacro( MovingImage, MovingImageType );
-  itkGetConstObjectMacro( MovingImage, MovingImageType );
+  itkSetConstObjectMacro(MovingImage, MovingImageType);
+  itkGetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Set/Get the Optimizer. */
-  itkSetObjectMacro( Optimizer,  OptimizerType );
-  itkGetObjectMacro( Optimizer,  OptimizerType );
+  itkSetObjectMacro(Optimizer,  OptimizerType);
+  itkGetObjectMacro(Optimizer,  OptimizerType);
 
   /** Set/Get the Metric. */
-  itkSetObjectMacro( Metric, MetricType );
-  itkGetObjectMacro( Metric, MetricType );
+  itkSetObjectMacro(Metric, MetricType);
+  itkGetObjectMacro(Metric, MetricType);
 
   /** Set/Get the Transfrom. */
-  itkSetObjectMacro( Transform, TransformType );
-  itkGetObjectMacro( Transform, TransformType );
+  itkSetObjectMacro(Transform, TransformType);
+  itkGetObjectMacro(Transform, TransformType);
 
   /** Set/Get the Interpolator. */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkSetObjectMacro(Interpolator, InterpolatorType);
+  itkGetObjectMacro(Interpolator, InterpolatorType);
 
   /** Set/Get the initial transformation parameters. */
-  virtual void SetInitialTransformParameters( const ParametersType & param );
-  itkGetConstReferenceMacro( InitialTransformParameters, ParametersType );
+  virtual void SetInitialTransformParameters(const ParametersType & param);
 
-  /** Get the last transformation parameters visited by 
+  itkGetConstReferenceMacro(InitialTransformParameters, ParametersType);
+
+  /** Get the last transformation parameters visited by
    * the optimizer. */
-  itkGetConstReferenceMacro( LastTransformParameters, ParametersType );
-
+  itkGetConstReferenceMacro(LastTransformParameters, ParametersType);
 
   /** Initialize by setting the interconnects between the components. */
-  void Initialize() throw (ExceptionObject);
+  void Initialize()
+  throw ( ExceptionObject );
 
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;
@@ -160,38 +159,34 @@ public:
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  unsigned long GetMTime() const;  
+  unsigned long GetMTime() const;
 
 protected:
   PointSetToImageRegistrationMethod();
-  virtual ~PointSetToImageRegistrationMethod() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~PointSetToImageRegistrationMethod() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** Method invoked by the pipeline in order to trigger the computation of 
+  /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData ();
-  
+  void  GenerateData();
+
 private:
-  PointSetToImageRegistrationMethod(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  MetricPointer                    m_Metric;
-  OptimizerType::Pointer           m_Optimizer;
+  PointSetToImageRegistrationMethod(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
-  MovingImageConstPointer          m_MovingImage;
-  FixedPointSetConstPointer        m_FixedPointSet;
+  MetricPointer          m_Metric;
+  OptimizerType::Pointer m_Optimizer;
 
-  TransformPointer                 m_Transform;
-  InterpolatorPointer              m_Interpolator;
+  MovingImageConstPointer   m_MovingImage;
+  FixedPointSetConstPointer m_FixedPointSet;
 
-  ParametersType                   m_InitialTransformParameters;
-  ParametersType                   m_LastTransformParameters;
-  
+  TransformPointer    m_Transform;
+  InterpolatorPointer m_Interpolator;
+
+  ParametersType m_InitialTransformParameters;
+  ParametersType m_LastTransformParameters;
 };
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPointSetToImageRegistrationMethod.txx"

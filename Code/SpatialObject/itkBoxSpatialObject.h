@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,81 +24,77 @@
 
 namespace itk
 {
-
 /** \class BoxSpatialObject
- *  
+ *
  * \brief
- * The class may be used to represent N-dimensional boxes. 
+ * The class may be used to represent N-dimensional boxes.
  * In two dimensions it is a rectangle, In three dimensions it is a cuboid...
- *  
+ *
  */
-template < unsigned int TDimension = 3 >
-class ITK_EXPORT BoxSpatialObject 
-  : public SpatialObject< TDimension >
+template< unsigned int TDimension = 3 >
+class ITK_EXPORT BoxSpatialObject:
+  public SpatialObject< TDimension >
 {
-
 public:
 
-  typedef BoxSpatialObject                          Self;
-  typedef double                                    ScalarType;
-  typedef SmartPointer < Self >                     Pointer;
-  typedef SmartPointer < const Self >               ConstPointer;
-  typedef SpatialObject< TDimension >               Superclass;
-  typedef SmartPointer<Superclass>                  SuperclassPointer;
-  typedef typename Superclass::PointType            PointType;
-  typedef typename Superclass::TransformType        TransformType;
-  typedef typename Superclass::BoundingBoxType      BoundingBoxType;
-  typedef FixedArray<double,TDimension>             SizeType;
-  typedef VectorContainer<unsigned long,PointType>  PointContainerType;
-  
-  itkNewMacro( Self );
-  itkTypeMacro( BoxSpatialObject, SpatialObject );
+  typedef BoxSpatialObject                            Self;
+  typedef double                                      ScalarType;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef SpatialObject< TDimension >                 Superclass;
+  typedef SmartPointer< Superclass >                  SuperclassPointer;
+  typedef typename Superclass::PointType              PointType;
+  typedef typename Superclass::TransformType          TransformType;
+  typedef typename Superclass::BoundingBoxType        BoundingBoxType;
+  typedef FixedArray< double, TDimension >            SizeType;
+  typedef VectorContainer< unsigned long, PointType > PointContainerType;
+
+  itkNewMacro(Self);
+  itkTypeMacro(BoxSpatialObject, SpatialObject);
 
   /** Set/Get the size of the box spatial object. */
-  itkSetMacro( Size, SizeType );
-  itkGetConstReferenceMacro( Size, SizeType);
+  itkSetMacro(Size, SizeType);
+  itkGetConstReferenceMacro(Size, SizeType);
 
-  /** Returns a degree of membership to the object. 
-   *  That's useful for fuzzy objects. */ 
-  virtual bool ValueAt( const PointType & point, double & value, 
-                        unsigned int depth=0,
-                        char * name=NULL) const;
-     
-  /** Return true if the object provides a method to evaluate the value 
+  /** Returns a degree of membership to the object.
+   *  That's useful for fuzzy objects. */
+  virtual bool ValueAt(const PointType & point, double & value,
+                       unsigned int depth = 0,
+                       char *name = NULL) const;
+
+  /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
-  virtual bool IsEvaluableAt( const PointType & point, 
-                              unsigned int depth=0,
-                              char * name=NULL) const;
+  virtual bool IsEvaluableAt(const PointType & point,
+                             unsigned int depth = 0,
+                             char *name = NULL) const;
 
-  /** Test whether a point is inside or outside the object */ 
-  virtual bool IsInside( const PointType & point,
-                         unsigned int depth,
-                         char *) const;
+  /** Test whether a point is inside or outside the object */
+  virtual bool IsInside(const PointType & point,
+                        unsigned int depth,
+                        char *) const;
 
-  /** Test whether a point is inside or outside the object 
+  /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */ 
-  virtual bool IsInside( const PointType & point) const;
+   *  check the name of the class and the current depth */
+  virtual bool IsInside(const PointType & point) const;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
-   *  changed. */ 
+   *  changed. */
   virtual bool ComputeLocalBoundingBox() const;
 
 protected:
-  BoxSpatialObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-   
-  BoxSpatialObject( void );
-  ~BoxSpatialObject( void );
+  BoxSpatialObject(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
+
+  BoxSpatialObject(void);
+  ~BoxSpatialObject(void);
 
   SizeType m_Size;
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const; 
-
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

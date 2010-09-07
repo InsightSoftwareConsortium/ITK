@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class GaussianSpatialFunction
  * \brief N-dimensional gaussian spatial function class
  *
@@ -37,19 +36,19 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  */
-template <typename TOutput=double, 
-          unsigned int VImageDimension=3,
-          typename TInput=Point<double, VImageDimension> >
-class ITK_EXPORT GaussianSpatialFunction 
-: public SpatialFunction<TOutput, VImageDimension, TInput>
+template< typename TOutput = double,
+          unsigned int VImageDimension = 3,
+          typename TInput = Point< double, VImageDimension > >
+class ITK_EXPORT GaussianSpatialFunction:
+  public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianSpatialFunction                                 Self;
-  typedef SpatialFunction<TOutput, VImageDimension, TInput>       Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
-  
+  typedef GaussianSpatialFunction                             Self;
+  typedef SpatialFunction< TOutput, VImageDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -63,10 +62,10 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Type used to store gaussian parameters. */
-  typedef FixedArray<double, VImageDimension> ArrayType;
+  typedef FixedArray< double, VImageDimension > ArrayType;
 
   /** Evaluate the function at a given position. */
-  OutputType Evaluate(const TInput& position) const;
+  OutputType Evaluate(const TInput & position) const;
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -77,15 +76,14 @@ public:
   itkGetConstMacro(Sigma, ArrayType);
   itkSetMacro(Mean, ArrayType);
   itkGetConstMacro(Mean, ArrayType);
-
 protected:
   GaussianSpatialFunction();
   virtual ~GaussianSpatialFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GaussianSpatialFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GaussianSpatialFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   /** The standard deviation in each direction. */
   ArrayType m_Sigma;
@@ -98,25 +96,27 @@ private:
 
   /** Whether or not to normalize the Gaussian. */
   bool m_Normalized;
-
 };
-
 } // end namespace itk
 
-
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT GaussianSpatialFunction< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef GaussianSpatialFunction< ITK_TEMPLATE_3 x >\
-                                                 GaussianSpatialFunction##y; } \
+#define ITK_TEMPLATE_GaussianSpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                           \
+  {                                                                       \
+  _( 3 ( class EXPORT GaussianSpatialFunction< ITK_TEMPLATE_3 TypeX > ) ) \
+  namespace Templates                                                     \
+  {                                                                       \
+  typedef GaussianSpatialFunction< ITK_TEMPLATE_3 TypeX >                 \
+  GaussianSpatialFunction##TypeY;                                       \
+  }                                                                       \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkGaussianSpatialFunction+-.h"
+#include "Templates/itkGaussianSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkGaussianSpatialFunction.txx"
+#include "itkGaussianSpatialFunction.txx"
 #endif
 
 #endif

@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /**
  * \class GaussianBlurImageFunction
  * \brief Compute the convolution of a neighborhood operator with the image
@@ -35,8 +34,8 @@ namespace itk
  * \sa NeighborhoodOperator
  * \sa ImageFunction
  */
-template <class TInputImage,class TOutput=double>
-class ITK_EXPORT GaussianBlurImageFunction :
+template< class TInputImage, class TOutput = double >
+class ITK_EXPORT GaussianBlurImageFunction:
   public ImageFunction< TInputImage, TOutput >
 {
 public:
@@ -45,61 +44,59 @@ public:
   typedef GaussianBlurImageFunction Self;
 
   /** Standard "Superclass" typedef */
-  typedef ImageFunction<TInputImage, TOutput> Superclass;
+  typedef ImageFunction< TInputImage, TOutput > Superclass;
 
   /** Smart pointer typedef support. */
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GaussianBlurImageFunction, ImageFunction );
+  itkTypeMacro(GaussianBlurImageFunction, ImageFunction);
 
   /** InputImageType typedef support. */
-  typedef TInputImage                                 InputImageType;
-  typedef typename InputImageType::PixelType          InputPixelType;
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::ContinuousIndexType    ContinuousIndexType;
-
+  typedef TInputImage                              InputImageType;
+  typedef typename InputImageType::PixelType       InputPixelType;
+  typedef typename Superclass::IndexType           IndexType;
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
   typedef GaussianOperator<
-    TOutput, itkGetStaticConstMacro(ImageDimension)>                            GaussianOperatorType;
-  typedef Neighborhood<TOutput, itkGetStaticConstMacro(ImageDimension)>         NeighborhoodType;
-  typedef FixedArray<NeighborhoodType,itkGetStaticConstMacro(ImageDimension)>   OperatorArrayType;
+    TOutput, itkGetStaticConstMacro(ImageDimension) >                            GaussianOperatorType;
+  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >        NeighborhoodType;
+  typedef FixedArray< NeighborhoodType, itkGetStaticConstMacro(ImageDimension) > OperatorArrayType;
 
-  typedef GaussianSpatialFunction<TOutput,1>                                    GaussianFunctionType;
-  typedef typename GaussianFunctionType::Pointer                                GaussianFunctionPointer;
-  typedef itk::Image<double,itkGetStaticConstMacro(ImageDimension)>             InternalImageType;
-  typedef typename InternalImageType::Pointer                                   InternalImagePointer;
+  typedef GaussianSpatialFunction< TOutput, 1 >                        GaussianFunctionType;
+  typedef typename GaussianFunctionType::Pointer                       GaussianFunctionPointer;
+  typedef itk::Image< double, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
+  typedef typename InternalImageType::Pointer                          InternalImagePointer;
 
-  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput>        OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer                           OperatorImageFunctionPointer;
+  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput > OperatorImageFunctionType;
+  typedef typename OperatorImageFunctionType::Pointer                     OperatorImageFunctionPointer;
 
-  typedef itk::CastImageFilter<InputImageType,InternalImageType>                CastImageFilterType;
-  typedef typename CastImageFilterType::Pointer                                 CastImageFilterPointer;
+  typedef itk::CastImageFilter< InputImageType, InternalImageType > CastImageFilterType;
+  typedef typename CastImageFilterType::Pointer                     CastImageFilterPointer;
 
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     ErrorArrayType;
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     ExtentArrayType;
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >     SigmaArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ErrorArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ExtentArrayType;
+  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
 
   /** Evalutate the  in the given dimension at specified point */
-   virtual TOutput Evaluate(const PointType& point) const;
-
+  virtual TOutput Evaluate(const PointType & point) const;
 
   /** Evaluate the function at specified Index position */
-  virtual TOutput EvaluateAtIndex( const IndexType & index ) const;
+  virtual TOutput EvaluateAtIndex(const IndexType & index) const;
 
   /** Evaluate the function at specified ContinousIndex position. */
   virtual TOutput EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index ) const;
+    const ContinuousIndexType & index) const;
 
   /** The standard deviation for the discrete Gaussian kernel.  Sets the
    * standard deviation independently for each dimension.
@@ -107,78 +104,82 @@ public:
    * If UseImageSpacing is true (default), the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are pixels.
    */
-  void SetSigma( const double* sigma);
-  void SetSigma( const float* sigma);
-  void SetSigma( const double sigma);
-  itkSetMacro( Sigma, SigmaArrayType );
-  itkGetConstReferenceMacro( Sigma, SigmaArrayType );
+  void SetSigma(const double *sigma);
+
+  void SetSigma(const float *sigma);
+
+  void SetSigma(const double sigma);
+
+  itkSetMacro(Sigma, SigmaArrayType);
+  itkGetConstReferenceMacro(Sigma, SigmaArrayType);
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage( const InputImageType * ptr );
+  virtual void SetInputImage(const InputImageType *ptr);
 
   /** Set/Get the Extent of the array holding the coefficients
    *  of the Gaussian kernel computed by the GaussianOperator.
    */
-  itkSetMacro( Extent, ExtentArrayType );
-  itkGetConstReferenceMacro( Extent, ExtentArrayType );
-  void SetExtent( const double* extent);
-  void SetExtent( const double extent);
+  itkSetMacro(Extent, ExtentArrayType);
+  itkGetConstReferenceMacro(Extent, ExtentArrayType);
+  void SetExtent(const double *extent);
+
+  void SetExtent(const double extent);
 
   /** Set/Get the maximum error acceptable for the approximation
    *  of the Gaussian kernel with the GaussianOperator.
    */
-  itkSetMacro( MaximumError, ErrorArrayType );
-  itkGetConstReferenceMacro( MaximumError, ErrorArrayType );
+  itkSetMacro(MaximumError, ErrorArrayType);
+  itkGetConstReferenceMacro(MaximumError, ErrorArrayType);
 
   /** Set/GetMaximumKernelWidth() This value is used by the underling
    *  GaussianOperator for computing the number of coefficients to be
    *  used in the Gaussian kernel
    */
-  itkSetMacro( MaximumKernelWidth, int );
-  itkGetConstMacro( MaximumKernelWidth, int );
+  itkSetMacro(MaximumKernelWidth, int);
+  itkGetConstMacro(MaximumKernelWidth, int);
 
   /** Set/GetUseImageSpacing() This flag is used by the underling
    *  GaussianOperator to decide if the image spacing should be used
    *  to scale the value of sigma or not. The methods UseImageSpacingOn()
    *  and UseImageSpacingOff() provide a similar functionality.
    */
-  itkSetMacro( UseImageSpacing, bool );
-  itkGetConstMacro( UseImageSpacing, bool );
-  itkBooleanMacro( UseImageSpacing );
-
-
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
 protected:
   GaussianBlurImageFunction();
-  GaussianBlurImageFunction( const Self& ){};
+  GaussianBlurImageFunction(const Self &);
 
-  ~GaussianBlurImageFunction(){};
+  ~GaussianBlurImageFunction(){}
 
-  void operator=( const Self& ){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void operator=(const Self &);
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void RecomputeGaussianKernel();
-  void RecomputeContinuousGaussianKernel(const double* offset) const;
+
+  void RecomputeContinuousGaussianKernel(const double *offset) const;
 
 private:
 
-  virtual TOutput EvaluateAtIndex( 
-    const IndexType & index, const OperatorArrayType & operatorArray ) const;
+  virtual TOutput EvaluateAtIndex(
+    const IndexType & index, const OperatorArrayType & operatorArray) const;
 
-  SigmaArrayType                m_Sigma;
-  OperatorImageFunctionPointer  m_OperatorImageFunction;
-  mutable OperatorArrayType     m_OperatorArray;
-  mutable OperatorArrayType     m_ContinuousOperatorArray;
-  InternalImagePointer          m_InternalImage;
-  CastImageFilterPointer        m_Caster;
+  SigmaArrayType               m_Sigma;
+  OperatorImageFunctionPointer m_OperatorImageFunction;
+  mutable OperatorArrayType    m_OperatorArray;
+  mutable OperatorArrayType    m_ContinuousOperatorArray;
+  InternalImagePointer         m_InternalImage;
+  CastImageFilterPointer       m_Caster;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  ErrorArrayType                m_MaximumError;
-  ExtentArrayType               m_Extent;
+  ErrorArrayType  m_MaximumError;
+  ExtentArrayType m_Extent;
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
@@ -193,22 +194,26 @@ private:
   /** Neighborhood Image Function */
   GaussianFunctionPointer m_GaussianFunction;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianBlurImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT GaussianBlurImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef GaussianBlurImageFunction< ITK_TEMPLATE_2 x > \
-                                                  GaussianBlurImageFunction##y; } \
+#define ITK_TEMPLATE_GaussianBlurImageFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                             \
+  {                                                                         \
+  _( 2 ( class EXPORT GaussianBlurImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                       \
+  {                                                                         \
+  typedef GaussianBlurImageFunction< ITK_TEMPLATE_2 TypeX >                 \
+  GaussianBlurImageFunction##TypeY;                                       \
+  }                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkGaussianBlurImageFunction+-.h"
+#include "Templates/itkGaussianBlurImageFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkGaussianBlurImageFunction.txx"
+#include "itkGaussianBlurImageFunction.txx"
 #endif
 
 #endif

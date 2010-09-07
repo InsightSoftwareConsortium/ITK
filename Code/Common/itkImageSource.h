@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class ImageSource
  *  \brief Base class for all process objects that output image data.
  *
@@ -48,21 +47,21 @@ namespace itk
  *
  * \ingroup DataSources
  */
-template <class TOutputImage>
-class ITK_EXPORT ImageSource : public ProcessObject
+template< class TOutputImage >
+class ITK_EXPORT ImageSource:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageSource               Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef ImageSource                Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageSource,ProcessObject);
+  itkTypeMacro(ImageSource, ProcessObject);
 
   /** Some convenient typedefs. */
   typedef TOutputImage                         OutputImageType;
@@ -70,7 +69,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-   /** ImageDimension constant */
+  /** ImageDimension constant */
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
@@ -90,7 +89,7 @@ public:
    * \endcode
    *
    * In this situation, \a someFilter and \a anotherFilter are said
-   * to constitute a \b pipeline.  
+   * to constitute a \b pipeline.
    *
    * \code
    *   image = someFilter->GetOutput();
@@ -105,7 +104,7 @@ public:
    * either order.)
    *
    * Note that Update() is not called automatically except within a
-   * pipeline as in the first example.  When \b streaming (using a 
+   * pipeline as in the first example.  When \b streaming (using a
    * StreamingImageFilter) is activated, it may be more efficient to
    * use a pipeline than to call Update() once for each filter in
    * turn.
@@ -122,8 +121,9 @@ public:
    * outputs.
    */
   OutputImageType * GetOutput(void);
+
   OutputImageType * GetOutput(unsigned int idx);
-  
+
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's bulk
    * data to used as its output's own bulk data. It also copies the
@@ -138,7 +138,7 @@ public:
    * \code
    *    // setup the mini-pipeline to process the input to this filter
    *    firstFilterInMiniPipeline->SetInput( this->GetInput() );
-   
+
    *    // setup the mini-pipeline to calculate the correct regions
    *    // and write to the appropriate bulk data block
    *    lastFilterInMiniPipeline->GraftOutput( this->GetOutput() );
@@ -183,11 +183,11 @@ public:
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
-  
+
 protected:
   ImageSource();
   virtual ~ImageSource() {}
-  
+
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
    * multiple threads. The buffer is allocated by this method. Then
@@ -228,9 +228,8 @@ protected:
    *
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId ) ITK_NO_RETURN;
-
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId) ITK_NO_RETURN;
 
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
@@ -249,8 +248,8 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void BeforeThreadedGenerateData() {};
-  
+  virtual void BeforeThreadedGenerateData() {}
+
   /** If an imaging filter needs to perform processing after all
    * processing threads have completed, the filter can can provide an
    * implementation for AfterThreadedGenerateData(). The execution
@@ -261,47 +260,49 @@ protected:
    *      4) Call AfterThreadedGenerateData()
    * Note that this flow of control is only available if a filter provides
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
-  virtual void AfterThreadedGenerateData() {};
-  
+  virtual void AfterThreadedGenerateData() {}
+
   /** Split the output's RequestedRegion into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The
    * regions must not overlap. The method returns the number of pieces that
    * the routine is capable of splitting the output RequestedRegion,
    * i.e. return value is less than or equal to "num". */
   virtual
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
+  int SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion);
 
   /** Static function used as a "callback" by the MultiThreader.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to ThreadedGenerateData(). */
-  static ITK_THREAD_RETURN_TYPE ThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
 
-  /** Internal structure used for passing image data into the threading library */
-  struct ThreadStruct
-    {
+  /** Internal structure used for passing image data into the threading library
+    */
+  struct ThreadStruct {
     Pointer Filter;
-    };
-  
+  };
 private:
-  ImageSource(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  ImageSource(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageSource(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageSource< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageSource< ITK_TEMPLATE_1 x > ImageSource##y; } \
+#define ITK_TEMPLATE_ImageSource(_, EXPORT, TypeX, TypeY)           \
+  namespace itk                                                     \
+  {                                                                 \
+  _( 1 ( class EXPORT ImageSource< ITK_TEMPLATE_1 TypeX > ) )       \
+  namespace Templates                                               \
+  {                                                                 \
+  typedef ImageSource< ITK_TEMPLATE_1 TypeX > ImageSource##TypeY; \
+  }                                                                 \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageSource+-.h"
+#include "Templates/itkImageSource+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageSource.txx"
+#include "itkImageSource.txx"
 #endif
 
 #endif

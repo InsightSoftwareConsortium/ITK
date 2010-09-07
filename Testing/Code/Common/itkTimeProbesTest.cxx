@@ -20,7 +20,7 @@
 
 #include "itkTimeProbesCollectorBase.h"
 #include "itkImage.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkPoint.h"
 #include "itkImageRegion.h"
 #include "itkIndex.h"
@@ -119,10 +119,9 @@ int itkTimeProbesTest(int, char* [] )
   collector.Stop("Loop2");
 
   typedef itk::Image<float,3> Image3DType;
-  typedef itk::OrientedImage<float,3> OrientedImage3DType;
 
   Image3DType::Pointer image3D = Image3DType::New();
-  OrientedImage3DType::Pointer orientedImage3D = OrientedImage3DType::New();
+  Image3DType::Pointer orientedImage3D = Image3DType::New();
 
   Image3DType::PointType point3D;
 
@@ -142,11 +141,11 @@ int itkTimeProbesTest(int, char* [] )
   collector.Stop("i->TransformPhysicalPointToIndex");
 
   collector.Start("o->TransformIndexToPhysicalPoint");
-  TestTransformIndexToPhysicalPoint<OrientedImage3DType> (orientedImage3D);
+  TestTransformIndexToPhysicalPoint<Image3DType> (orientedImage3D);
   collector.Stop("o->TransformIndexToPhysicalPoint");
 
   collector.Start("o->TransformPhysicalPointToIndex");
-  TestTransformPhysicalPointToIndex<OrientedImage3DType> (orientedImage3D);
+  TestTransformPhysicalPointToIndex<Image3DType> (orientedImage3D);
   collector.Stop("o->TransformPhysicalPointToIndex");
 
   // Print the results of the time probes

@@ -27,21 +27,22 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 /** \class MatlabTransformIOFactory
- *  \brief Create instances of MatlabTransformIO objects using an 
+ *  \brief Create instances of MatlabTransformIO objects using an
  *  object factory.
  */
-class ITK_EXPORT MatlabTransformIOFactory : public ObjectFactoryBase
+class ITK_EXPORT MatlabTransformIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MatlabTransformIOFactory      Self;
-  typedef ObjectFactoryBase             Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef MatlabTransformIOFactory   Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -51,24 +52,22 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
-    MatlabTransformIOFactory::Pointer metaFactory = 
+  {
+    MatlabTransformIOFactory::Pointer metaFactory =
       MatlabTransformIOFactory::New();
+
     ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
+  }
 
 protected:
   MatlabTransformIOFactory();
   ~MatlabTransformIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MatlabTransformIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  MatlabTransformIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #endif

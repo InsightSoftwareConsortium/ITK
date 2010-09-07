@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,14 +31,13 @@ namespace itk
            and if USE_FFTWD is defined, then only doubles are valid.
 */
 
-template <typename TPixel, unsigned int VDimension>
+template< typename TPixel, unsigned int VDimension >
 void
-FFTWRealToComplexConjugateImageFilter<TPixel,VDimension>::
-GenerateData()
+FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::GenerateData()
 {
   // get pointers to the input and output
-  typename TInputImageType::ConstPointer  inputPtr  = this->GetInput();
-  typename TOutputImageType::Pointer      outputPtr = this->GetOutput();
+  typename TInputImageType::ConstPointer inputPtr  = this->GetInput();
+  typename TOutputImageType::Pointer outputPtr = this->GetOutput();
 
   if ( !inputPtr || !outputPtr )
     {
@@ -53,97 +52,96 @@ GenerateData()
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  const typename TInputImageType::SizeType&   inputSize
-    = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TOutputImageType::SizeType&   outputSize
-    = outputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImageType::SizeType &   inputSize =
+    inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TOutputImageType::SizeType &   outputSize =
+    outputPtr->GetLargestPossibleRegion().GetSize();
 
   // figure out sizes
-  // size of input and output aren't the same which is handled in the superclass,
+  // size of input and output aren't the same which is handled in the
+  // superclass,
   // sort of.
   // the input size and output size only differ in the fastest moving dimension
   unsigned int total_inputSize = 1;
   unsigned int total_outputSize = 1;
 
-  for(unsigned i = 0; i < VDimension; i++)
+  for ( unsigned i = 0; i < VDimension; i++ )
     {
     total_inputSize *= inputSize[i];
     total_outputSize *= outputSize[i];
     }
 
-  if(this->m_PlanComputed)            // if we've already computed a plan
+  if ( this->m_PlanComputed )            // if we've already computed a plan
     {
     // if the image sizes aren't the same,
     // we have to compute the plan again
-    if(this->m_LastImageSize != total_inputSize)
+    if ( this->m_LastImageSize != total_inputSize )
       {
-      delete [] this->m_InputBuffer;
-      delete [] this->m_OutputBuffer;
+      delete[] this->m_InputBuffer;
+      delete[] this->m_OutputBuffer;
       FFTWProxyType::DestroyPlan(this->m_Plan);
       this->m_PlanComputed = false;
       }
     }
-  if(!this->m_PlanComputed)
+  if ( !this->m_PlanComputed )
     {
     this->m_InputBuffer = new TPixel[total_inputSize];
-    this->m_OutputBuffer = 
+    this->m_OutputBuffer =
       new typename FFTWProxyType::ComplexType[total_outputSize];
     this->m_LastImageSize = total_inputSize;
-    switch(VDimension)
+    switch ( VDimension )
       {
       case 1:
         this->m_Plan = FFTWProxyType::Plan_dft_r2c_1d(inputSize[0],
-                                             this->m_InputBuffer,
-                                             this->m_OutputBuffer,
-                                             FFTW_ESTIMATE);
+                                                      this->m_InputBuffer,
+                                                      this->m_OutputBuffer,
+                                                      FFTW_ESTIMATE);
         break;
       case 2:
         this->m_Plan = FFTWProxyType::Plan_dft_r2c_2d(inputSize[1],
-                                             inputSize[0],
-                                             this->m_InputBuffer,
-                                             this->m_OutputBuffer,
-                                             FFTW_ESTIMATE);
+                                                      inputSize[0],
+                                                      this->m_InputBuffer,
+                                                      this->m_OutputBuffer,
+                                                      FFTW_ESTIMATE);
         break;
       case 3:
         this->m_Plan = FFTWProxyType::Plan_dft_r2c_3d(inputSize[2],
-                                             inputSize[1],
-                                             inputSize[0],
-                                             this->m_InputBuffer,
-                                             this->m_OutputBuffer,
-                                             FFTW_ESTIMATE);
+                                                      inputSize[1],
+                                                      inputSize[0],
+                                                      this->m_InputBuffer,
+                                                      this->m_OutputBuffer,
+                                                      FFTW_ESTIMATE);
         break;
       default:
         int *sizes = new int[VDimension];
-        for(unsigned int i = 0; i < VDimension; i++)
+        for ( unsigned int i = 0; i < VDimension; i++ )
           {
-          sizes[(VDimension - 1) - i] = inputSize[i];
+          sizes[( VDimension - 1 ) - i] = inputSize[i];
           }
 
-        this->m_Plan = FFTWProxyType::Plan_dft_r2c(VDimension,sizes,
-                                          this->m_InputBuffer,
-                                          this->m_OutputBuffer,
-                                          FFTW_ESTIMATE);
-        delete [] sizes;
+        this->m_Plan = FFTWProxyType::Plan_dft_r2c(VDimension, sizes,
+                                                   this->m_InputBuffer,
+                                                   this->m_OutputBuffer,
+                                                   FFTW_ESTIMATE);
+        delete[] sizes;
       }
     this->m_PlanComputed = true;
     }
-  memcpy(this->m_InputBuffer,
-         inputPtr->GetBufferPointer(),
-         total_inputSize * sizeof(TPixel));
+  memcpy( this->m_InputBuffer,
+          inputPtr->GetBufferPointer(),
+          total_inputSize * sizeof( TPixel ) );
   FFTWProxyType::Execute(this->m_Plan);
-  memcpy(outputPtr->GetBufferPointer(),
-         this->m_OutputBuffer,
-         total_outputSize * sizeof(typename FFTWProxyType::ComplexType));
+  memcpy( outputPtr->GetBufferPointer(),
+          this->m_OutputBuffer,
+          total_outputSize * sizeof( typename FFTWProxyType::ComplexType ) );
 }
 
-template <typename TPixel,unsigned int VDimension>
+template< typename TPixel, unsigned int VDimension >
 bool
-FFTWRealToComplexConjugateImageFilter<TPixel,VDimension>::
-FullMatrix()
+FFTWRealToComplexConjugateImageFilter< TPixel, VDimension >::FullMatrix()
 {
   return false;
 }
-
 } // namespace itk
 
 #endif //_itkFFTWRealToComplexConjugateImageFilter_txx

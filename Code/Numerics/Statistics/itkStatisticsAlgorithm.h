@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,10 +20,13 @@
 #include "itkSample.h"
 #include "itkSubsample.h"
 
-namespace itk {
-namespace Statistics {
-
-#if !defined(_MSC_VER)
+namespace itk
+{
+namespace Statistics
+{
+namespace Algorithm
+{
+#if !defined( _MSC_VER )
 
 template< class TSize >
 TSize FloorLog(TSize size);
@@ -32,19 +35,19 @@ template< class TValue >
 TValue MedianOfThree(const TValue a, const TValue b, const TValue c);
 
 template< class TSample >
-void FindSampleBound(const TSample* sample,
+void FindSampleBound(const TSample * sample,
                      typename TSample::ConstIterator begin,
                      typename TSample::ConstIterator end,
-                     typename TSample::MeasurementVectorType &min,
-                     typename TSample::MeasurementVectorType &max);
-  
+                     typename TSample::MeasurementVectorType & min,
+                     typename TSample::MeasurementVectorType & max);
+
 template< class TSubsample >
-void FindSampleBoundAndMean(const TSubsample* sample,
+void FindSampleBoundAndMean(const TSubsample * sample,
                             int beginIndex,
                             int endIndex,
-                            typename TSubsample::MeasurementVectorType &min,
-                            typename TSubsample::MeasurementVectorType &max,
-                            typename TSubsample::MeasurementVectorType &mean);
+                            typename TSubsample::MeasurementVectorType & min,
+                            typename TSubsample::MeasurementVectorType & max,
+                            typename TSubsample::MeasurementVectorType & mean);
 
 /** The Partition algorithm performs partial sorting in a sample. Given a
  * partitionValue, the algorithm moves to the beginning of the sample all
@@ -59,7 +62,7 @@ void FindSampleBoundAndMean(const TSubsample* sample,
  * range of [beginIndex,endIndex] pointing to the element with activeDimension
  * component closest to the partitionValue. */
 template< class TSubsample >
-int Partition(TSubsample* sample,
+int Partition(TSubsample *sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex,
               const typename TSubsample::MeasurementType partitionValue);
@@ -73,8 +76,8 @@ int Partition(TSubsample* sample,
  * activeDimension component in the MeasurementVector located in the kth position.
  * http://en.wikipedia.org/wiki/Selection_algorithm */
 template< class TSubsample >
-typename TSubsample::MeasurementType 
-QuickSelect(TSubsample* sample,
+typename TSubsample::MeasurementType
+QuickSelect(TSubsample * sample,
             unsigned int activeDimension,
             int beginIndex, int endIndex,
             int kth,
@@ -84,11 +87,11 @@ QuickSelect(TSubsample* sample,
  * In this case, only of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
- * passed as arguments.  
+ * passed as arguments.
  * http://en.wikipedia.org/wiki/Selection_algorithm. */
 template< class TSubsample >
-typename TSubsample::MeasurementType 
-QuickSelect(TSubsample* sample,
+typename TSubsample::MeasurementType
+QuickSelect(TSubsample *sample,
             unsigned int activeDimension,
             int beginIndex, int endIndex,
             int kth);
@@ -97,49 +100,48 @@ QuickSelect(TSubsample* sample,
  * In this case, only of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
- * passed as arguments. This algorithm was based on the procedure used in the STL 
+ * passed as arguments. This algorithm was based on the procedure used in the STL
  * nth_element method.*/
 template< class TSubsample >
-typename TSubsample::MeasurementType 
-NthElement(TSubsample* sample,
-            unsigned int activeDimension,
-            int beginIndex, int endIndex,
-            int nth);
+typename TSubsample::MeasurementType
+NthElement(TSubsample *sample,
+           unsigned int activeDimension,
+           int beginIndex, int endIndex,
+           int nth);
 
 template< class TSubsample >
-void InsertSort(TSubsample* sample, 
+void InsertSort(TSubsample *sample,
                 unsigned int activeDimension,
                 int beginIndex, int endIndex);
 
 template< class TSubsample >
-void DownHeap(TSubsample* sample,
+void DownHeap(TSubsample *sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex, int node);
 
 template< class TSubsample >
-void HeapSort(TSubsample* sample, 
-                unsigned int activeDimension,
-                int beginIndex, int endIndex);
-
-
-template< class TSubsample >
-void IntrospectiveSortLoop(TSubsample* sample, 
-                                  unsigned int activeDimension,
-                                  int beginIndex,
-                                  int endIndex,
-                                  int depthLimit, 
-                                  int sizeThreshold);
+void HeapSort(TSubsample *sample,
+              unsigned int activeDimension,
+              int beginIndex, int endIndex);
 
 template< class TSubsample >
-void IntrospectiveSort(TSubsample* sample,
+void IntrospectiveSortLoop(TSubsample *sample,
+                           unsigned int activeDimension,
+                           int beginIndex,
+                           int endIndex,
+                           int depthLimit,
+                           int sizeThreshold);
+
+template< class TSubsample >
+void IntrospectiveSort(TSubsample *sample,
                        unsigned int activeDimension,
                        int beginIndex, int endIndex,
                        int sizeThreshold);
 
 #endif // #if defined(_MSC_VER)
-
-} // end of namespace Statistics 
-} // end of namespace itk 
+} // end of namespace Algorithm
+} // end of namespace Statistics
+} // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkStatisticsAlgorithm.txx"

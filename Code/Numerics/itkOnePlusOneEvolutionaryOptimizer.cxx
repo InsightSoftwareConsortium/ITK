@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 #include "vnl/vnl_matrix.h"
 namespace itk
 {
-
 OnePlusOneEvolutionaryOptimizer
 ::OnePlusOneEvolutionaryOptimizer()
 {
@@ -30,7 +29,7 @@ OnePlusOneEvolutionaryOptimizer
   m_MetricWorstPossibleValue = 0;
 
   m_Maximize = false;
-  m_Epsilon = (double) 1.5e-4; 
+  m_Epsilon = (double)1.5e-4;
   m_RandomGenerator = 0;
 
   m_Initialized = false;
@@ -46,13 +45,12 @@ OnePlusOneEvolutionaryOptimizer
 }
 
 OnePlusOneEvolutionaryOptimizer
-::~OnePlusOneEvolutionaryOptimizer() 
-{
-}
+::~OnePlusOneEvolutionaryOptimizer()
+{}
 
-void 
+void
 OnePlusOneEvolutionaryOptimizer
-::SetNormalVariateGenerator(NormalVariateGeneratorType* generator)
+::SetNormalVariateGenerator(NormalVariateGeneratorType *generator)
 {
   if ( m_RandomGenerator != generator )
     {
@@ -61,13 +59,13 @@ OnePlusOneEvolutionaryOptimizer
     }
 }
 
-void 
+void
 OnePlusOneEvolutionaryOptimizer
-::Initialize(double initialRadius, double grow, double shrink) 
+::Initialize(double initialRadius, double grow, double shrink)
 {
   m_InitialRadius = initialRadius;
 
-  if (grow == -1)
+  if ( grow == -1 )
     {
     m_GrowthFactor = 1.05;
     }
@@ -75,7 +73,7 @@ OnePlusOneEvolutionaryOptimizer
     {
     m_GrowthFactor = grow;
     }
-  if (shrink == -1)
+  if ( shrink == -1 )
     {
     m_ShrinkFactor = vcl_pow(m_GrowthFactor, -0.25);
     }
@@ -89,8 +87,7 @@ void
 OnePlusOneEvolutionaryOptimizer
 ::StartOptimization()
 {
-  
-  if( m_CostFunction.IsNull() )
+  if ( m_CostFunction.IsNull() )
     {
     return;
     }
@@ -98,17 +95,17 @@ OnePlusOneEvolutionaryOptimizer
   this->InvokeEvent( StartEvent() );
   m_Stop = false;
 
-  unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
-  vnl_matrix<double> A(spaceDimension, spaceDimension);
-  vnl_vector<double> parent(this->GetInitialPosition()); 
-  vnl_vector<double> f_norm(spaceDimension);
-  vnl_vector<double> child(spaceDimension);
-  vnl_vector<double> delta(spaceDimension);
+  unsigned int         spaceDimension = m_CostFunction->GetNumberOfParameters();
+  vnl_matrix< double > A(spaceDimension, spaceDimension);
+  vnl_vector< double > parent( this->GetInitialPosition() );
+  vnl_vector< double > f_norm(spaceDimension);
+  vnl_vector< double > child(spaceDimension);
+  vnl_vector< double > delta(spaceDimension);
 
-  ParametersType parentPosition( spaceDimension );
+  ParametersType parentPosition(spaceDimension);
   ParametersType childPosition(spaceDimension);
 
-  for( unsigned int i=0; i<spaceDimension; i++)
+  for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
     parentPosition[i] = parent[i];
     }
@@ -118,9 +115,9 @@ OnePlusOneEvolutionaryOptimizer
     {
     pvalue = m_CostFunction->GetValue(parentPosition);
     }
-  catch( ... )
+  catch ( ... )
     {
-    if(m_CatchGetValueException)
+    if ( m_CatchGetValueException )
       {
       pvalue = m_MetricWorstPossibleValue;
       }
@@ -130,14 +127,14 @@ OnePlusOneEvolutionaryOptimizer
       }
     }
 
-  itkDebugMacro(<< ": initial position: " << parentPosition); 
-  itkDebugMacro(<< ": initial fitness: " << pvalue); 
+  itkDebugMacro(<< ": initial position: " << parentPosition);
+  itkDebugMacro(<< ": initial fitness: " << pvalue);
 
   this->SetCurrentPosition(parentPosition);
-  const Optimizer::ScalesType& scales = this->GetScales();
+  const Optimizer::ScalesType & scales = this->GetScales();
 
   // Make sure the scales have been set properly
-  if (scales.size() != spaceDimension)
+  if ( scales.size() != spaceDimension )
     {
     itkExceptionMacro(<< "The size of Scales is "
                       << scales.size()
@@ -147,13 +144,13 @@ OnePlusOneEvolutionaryOptimizer
     }
 
   A.set_identity();
-  for(unsigned int i = 0; i < spaceDimension; i++) 
+  for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
-    A(i,i) = m_InitialRadius / scales[i];
+    A(i, i) = m_InitialRadius / scales[i];
     }
   m_CurrentIteration = 0;
 
-  for (unsigned int iter = 0; iter < m_MaximumIteration; iter++) 
+  for ( unsigned int iter = 0; iter < m_MaximumIteration; iter++ )
     {
     if ( m_Stop )
       {
@@ -165,9 +162,9 @@ OnePlusOneEvolutionaryOptimizer
 
     ++m_CurrentIteration;
 
-    for (unsigned int i=0; i < spaceDimension; i++) 
+    for ( unsigned int i = 0; i < spaceDimension; i++ )
       {
-      if(!m_RandomGenerator)
+      if ( !m_RandomGenerator )
         {
         itkExceptionMacro(<< "Random Generator is not set!");
         }
@@ -177,7 +174,7 @@ OnePlusOneEvolutionaryOptimizer
     delta  = A * f_norm;
     child  = parent + delta;
 
-    for( unsigned int i=0; i<spaceDimension; i++)
+    for ( unsigned int i = 0; i < spaceDimension; i++ )
       {
       childPosition[i] = child[i];
       }
@@ -187,9 +184,9 @@ OnePlusOneEvolutionaryOptimizer
       {
       cvalue = m_CostFunction->GetValue(childPosition);
       }
-    catch( ... )
+    catch ( ... )
       {
-      if(m_CatchGetValueException)
+      if ( m_CatchGetValueException )
         {
         cvalue = m_MetricWorstPossibleValue;
         }
@@ -199,33 +196,33 @@ OnePlusOneEvolutionaryOptimizer
         }
       }
 
-    itkDebugMacro(<< "iter: " << iter << ": parent position: " 
+    itkDebugMacro(<< "iter: " << iter << ": parent position: "
                   << parentPosition);
-    itkDebugMacro(<< "iter: " << iter << ": parent fitness: " 
-                  << pvalue); 
-    itkDebugMacro(<< "iter: " << iter << ": random vector: " << f_norm); 
-    itkDebugMacro(<< "iter: " << iter << ": A: " << std::endl << A); 
-    itkDebugMacro(<< "iter: " << iter << ": delta: " << delta); 
-    itkDebugMacro(<< "iter: " << iter << ": child position: " 
-                  << childPosition); 
-    itkDebugMacro(<< "iter: " << iter << ": child fitness: " 
-                  << cvalue); 
+    itkDebugMacro(<< "iter: " << iter << ": parent fitness: "
+                  << pvalue);
+    itkDebugMacro(<< "iter: " << iter << ": random vector: " << f_norm);
+    itkDebugMacro(<< "iter: " << iter << ": A: " << std::endl << A);
+    itkDebugMacro(<< "iter: " << iter << ": delta: " << delta);
+    itkDebugMacro(<< "iter: " << iter << ": child position: "
+                  << childPosition);
+    itkDebugMacro(<< "iter: " << iter << ": child fitness: "
+                  << cvalue);
 
     double adjust = m_ShrinkFactor;
-    if( m_Maximize )
+    if ( m_Maximize )
       {
-      if (cvalue > pvalue) 
+      if ( cvalue > pvalue )
         {
         itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
-        adjust = m_GrowthFactor; 
-        for( unsigned int i=0; i<spaceDimension; i++)
+        adjust = m_GrowthFactor;
+        for ( unsigned int i = 0; i < spaceDimension; i++ )
           {
           parentPosition[i] = parent[i];
           }
         this->SetCurrentPosition(parentPosition);
-        } 
+        }
       else
         {
         itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
@@ -233,13 +230,13 @@ OnePlusOneEvolutionaryOptimizer
       }
     else
       {
-      if (cvalue < pvalue) 
+      if ( cvalue < pvalue )
         {
         itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
         pvalue = cvalue;
         parent.swap(child);
-        adjust = m_GrowthFactor; 
-        for( unsigned int i=0; i<spaceDimension; i++)
+        adjust = m_GrowthFactor;
+        for ( unsigned int i = 0; i < spaceDimension; i++ )
           {
           parentPosition[i] = parent[i];
           }
@@ -248,28 +245,28 @@ OnePlusOneEvolutionaryOptimizer
       else
         {
         itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
-        } 
+        }
       }
 
     m_CurrentCost = pvalue;
     // convergence criterion: f-norm of A < epsilon_A
-    // Compute double precision sum of absolute values of 
+    // Compute double precision sum of absolute values of
     // a single precision vector
     m_FrobeniusNorm = A.fro_norm();
     itkDebugMacro(<< "A f-norm:" << m_FrobeniusNorm);
-    if (m_FrobeniusNorm <= m_Epsilon) 
+    if ( m_FrobeniusNorm <= m_Epsilon )
       {
       itkDebugMacro(<< "converges at iteration = " << iter);
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": ";
-      m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm 
+      m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm
                                  << ") is less than Epsilon (" << m_Epsilon
-                                 << " at iteration # " << iter;
+                                 << " at iteration #" << iter;
       break;
       }
-      
+
     // A += (adjust - 1)/ (f_norm * f_norm) * A * f_norm * f_norm;
-    // Blas_R1_Update(A, A * f_norm, f_norm, 
+    // Blas_R1_Update(A, A * f_norm, f_norm,
     //             ((adjust - 1) / Blas_Dot_Prod(f_norm, f_norm)));
     // = DGER(Fortran)
     //   performs the rank 1 operation
@@ -281,17 +278,17 @@ OnePlusOneEvolutionaryOptimizer
     // f_norm, f_norm)
 
     //A = A + (adjust - 1.0) * A;
-    double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
+    double alpha = ( ( adjust - 1.0 ) / dot_product(f_norm, f_norm) );
     for ( unsigned int c = 0; c < spaceDimension; c++ )
       {
-      for (unsigned int r = 0; r < spaceDimension; r++)
+      for ( unsigned int r = 0; r < spaceDimension; r++ )
         {
         A(r, c) += alpha * delta[r] * f_norm[c];
         }
       }
 
-    this->InvokeEvent( IterationEvent() );   
-    itkDebugMacro(<< "Current position: " << this->GetCurrentPosition());
+    this->InvokeEvent( IterationEvent() );
+    itkDebugMacro( << "Current position: " << this->GetCurrentPosition() );
     }
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
@@ -300,7 +297,7 @@ OnePlusOneEvolutionaryOptimizer
                              << ") exceeded. ";
   this->InvokeEvent( EndEvent() );
 }
- 
+
 /**
  *
  */
@@ -317,11 +314,11 @@ OnePlusOneEvolutionaryOptimizer
  */
 void
 OnePlusOneEvolutionaryOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  if (m_RandomGenerator)
+  if ( m_RandomGenerator )
     {
     os << indent << "Random Generator  " << m_RandomGenerator.GetPointer()  << std::endl;
     }
@@ -339,11 +336,10 @@ OnePlusOneEvolutionaryOptimizer
   os << indent << "Current Iteration " << GetCurrentIteration() << std::endl;
   os << indent << "Frobenius Norm    " << GetFrobeniusNorm()    << std::endl;
   os << indent << "Maximize On/Off   " << GetMaximize()         << std::endl;
-  os << indent << "CatchGetValueException   " << GetCatchGetValueException() 
-               << std::endl;
-  os << indent << "MetricWorstPossibleValue " << GetMetricWorstPossibleValue() 
-               << std::endl;
+  os << indent << "CatchGetValueException   " << GetCatchGetValueException()
+     << std::endl;
+  os << indent << "MetricWorstPossibleValue " << GetMetricWorstPossibleValue()
+     << std::endl;
 }
-
 } // end of namespace itk
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,14 +33,10 @@
 
 int itkOptImageToImageMetricsTest2(int , char* argv[])
 {
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
 
-  std::cout << "Default number of threads : " 
-            << itk::MultiThreader::GetGlobalDefaultNumberOfThreads() 
+  std::cout << "Default number of threads : "
+            << itk::MultiThreader::GetGlobalDefaultNumberOfThreads()
             << std::endl;
 
   typedef itk::Image< unsigned int > FixedImageType;
@@ -57,7 +53,7 @@ int itkOptImageToImageMetricsTest2(int , char* argv[])
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //  First run the experiments with the default number of threads,
-  //  as set from the command line arguments, the system defaults 
+  //  as set from the command line arguments, the system defaults
   //  or the ITK environment variable:
   //  ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -68,37 +64,8 @@ int itkOptImageToImageMetricsTest2(int , char* argv[])
   std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
   std::cout << std::endl;
 
-  itk::BSplineLinearTest( fixedImageReader.GetPointer(), 
+  itk::BSplineLinearTest( fixedImageReader.GetPointer(),
                        movingImageReader.GetPointer() );
 
-  return(EXIT_SUCCESS);
-
-#if 0
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-  std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
-
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  // Then, do experiments with number of threads set to 1!!!!!!!!!!
-  // In this way we can compare the results with N threads versus 1.
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << "Now Running tests with : " << std::endl;
-  std::cout << "\t itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1); " << std::endl;
-  std::cout << "\t itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1); " << std::endl;
-  std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
-  std::cout << std::endl;
-
-  itk::BSplineLinearTest( fixedImageReader.GetPointer(),
-                          movingImageReader.GetPointer() );
-
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
-  std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
-#endif
   return(EXIT_SUCCESS);
 }

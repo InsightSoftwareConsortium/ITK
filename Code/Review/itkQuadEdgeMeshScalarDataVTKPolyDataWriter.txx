@@ -22,30 +22,28 @@
 
 namespace itk
 {
-
-// 
+//
 // Constructor
-// 
+//
 template< class TMesh >
-QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh> 
-::QuadEdgeMeshScalarDataVTKPolyDataWriter() 
+QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
+::QuadEdgeMeshScalarDataVTKPolyDataWriter()
 {
   m_CellDataName = "";
   m_PointDataName = "";
 }
 
-// 
+//
 // Destructor
-// 
+//
 template< class TMesh >
-QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh> 
+QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::~QuadEdgeMeshScalarDataVTKPolyDataWriter()
-{
-}
+{}
 
 template< class TMesh >
 void
-QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh> 
+QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::GenerateData()
 {
   this->Superclass::GenerateData();
@@ -55,54 +53,54 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>
 
 template< class TMesh >
 void
-QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh> 
+QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::WriteCellData()
 {
   CellDataContainerConstPointer celldata = this->m_Input->GetCellData();
 
-  if( celldata )
+  if ( celldata )
     {
-    if( celldata->Size() != 0 )
+    if ( celldata->Size() != 0 )
       {
-      std::ofstream outputFile( this->m_FileName.c_str(), std::ios_base::app );
+      std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-      outputFile <<"CELL_DATA " <<this->m_Input->GetNumberOfFaces() <<std::endl;
-      outputFile <<"SCALARS ";
+      outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << std::endl;
+      outputFile << "SCALARS ";
 
-      if( m_CellDataName != "" )
+      if ( m_CellDataName != "" )
         {
-        outputFile <<m_CellDataName <<" " <<m_CellDataName <<std::endl;
+        outputFile << m_CellDataName << " " << m_CellDataName << std::endl;
         }
       else
         {
-        outputFile <<"double double" <<std::endl;
+        outputFile << "double double" << std::endl;
         }
-      
-      outputFile <<"LOOKUP_TABLE default" <<std::endl;
+
+      outputFile << "LOOKUP_TABLE default" << std::endl;
 
       unsigned long k(0);
 
-      CellsContainerConstPointer cells = this->m_Input->GetCells();
+      CellsContainerConstPointer  cells = this->m_Input->GetCells();
       CellsContainerConstIterator it = cells->Begin();
 
       CellDataContainerConstIterator c_it = celldata->Begin();
 
-      while( c_it != celldata->End() )
+      while ( c_it != celldata->End() )
         {
-        CellType* cellPointer = it.Value();
-        if( cellPointer->GetType() != 1 )
+        CellType *cellPointer = it.Value();
+        if ( cellPointer->GetType() != 1 )
           {
-          outputFile <<c_it.Value();
-          if( k++ % 3 == 0 )
+          outputFile << c_it.Value();
+          if ( k++ % 3 == 0 )
             {
-            outputFile <<std::endl;
+            outputFile << std::endl;
             }
           }
 
         ++c_it;
         ++it;
         }
-      outputFile <<std::endl;
+      outputFile << std::endl;
       outputFile.close();
       }
     }
@@ -110,39 +108,39 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>
 
 template< class TMesh >
 void
-QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh> 
+QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::WritePointData()
 {
   PointDataContainerConstPointer pointdata = this->m_Input->GetPointData();
 
-  if( pointdata )
+  if ( pointdata )
     {
-    std::ofstream outputFile( this->m_FileName.c_str(), std::ios_base::app );
+    std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-    outputFile <<"POINT_DATA " <<this->m_Input->GetNumberOfPoints() <<std::endl;
-    outputFile <<"SCALARS ";
+    outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << std::endl;
+    outputFile << "SCALARS ";
 
-    if( m_PointDataName != "" )
+    if ( m_PointDataName != "" )
       {
-      outputFile <<m_PointDataName <<" " <<m_PointDataName <<std::endl;
+      outputFile << m_PointDataName << " " << m_PointDataName << std::endl;
       }
     else
       {
-      outputFile <<"double double"<<std::endl;
+      outputFile << "double double" << std::endl;
       }
 
-    outputFile <<"LOOKUP_TABLE default" <<std::endl; 
+    outputFile << "LOOKUP_TABLE default" << std::endl;
 
     unsigned long k = 0;
 
     PointDataContainerIterator c_it = pointdata->Begin();
 
-    while(  c_it != pointdata->End() )
+    while ( c_it != pointdata->End() )
       {
-      outputFile <<c_it.Value() <<" ";
-      if( k % 3 == 0 )
+      outputFile << c_it.Value() << " ";
+      if ( k % 3 == 0 )
         {
-        outputFile <<std::endl;
+        outputFile << std::endl;
         }
 
       ++c_it;
@@ -153,7 +151,6 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>
     outputFile.close();
     }
 }
-
 }
 
 #endif

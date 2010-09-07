@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,36 +31,37 @@ namespace itk
  *
  * \ingroup Transforms
  */
-template <class TScalarType,         // Data type for scalars (float or double)
-          unsigned int NDimensions = 3>          // Number of dimensions
-class ITK_EXPORT ThinPlateR2LogRSplineKernelTransform : 
-                public KernelTransform<   TScalarType, NDimensions>
+template< class TScalarType,         // Data type for scalars (float or double)
+          unsigned int NDimensions = 3 >
+// Number of dimensions
+class ITK_EXPORT ThinPlateR2LogRSplineKernelTransform:
+  public KernelTransform<   TScalarType, NDimensions >
 {
 public:
   /** Standard class typedefs. */
-  typedef ThinPlateR2LogRSplineKernelTransform            Self;
-  typedef KernelTransform<    TScalarType, NDimensions>   Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
-  
+  typedef ThinPlateR2LogRSplineKernelTransform           Self;
+  typedef KernelTransform<    TScalarType, NDimensions > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
+
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ThinPlateR2LogRSplineKernelTransform, KernelTransform );
+  itkTypeMacro(ThinPlateR2LogRSplineKernelTransform, KernelTransform);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
+  typedef typename Superclass::ParametersType ParametersType;
 
   /** Jacobian Type */
-  typedef typename Superclass::JacobianType  JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int,Superclass::SpaceDimension);
-                              
+  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
+
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited */
   typedef typename Superclass::InputPointType            InputPointType;
@@ -70,16 +71,14 @@ public:
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
   typedef typename Superclass::PointsIterator            PointsIterator;
-    
-
 protected:
-  ThinPlateR2LogRSplineKernelTransform() {};
+  ThinPlateR2LogRSplineKernelTransform() {}
   virtual ~ThinPlateR2LogRSplineKernelTransform() {}
-  
+
   /** These (rather redundant) typedefs are needed because on SGI, typedefs
    * are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
-  
+
   /** Compute G(x)
    * For the thin plate spline, this is:
    * G(x) = r(x)*I
@@ -88,39 +87,39 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  virtual void ComputeG(const InputVectorType& landmarkVector, GMatrixType & gmatrix) const;
-  /**
-   * \deprecated in ITK 3.6, please use void ComputeG(vector,gmatrix) instead.
-   */
-  itkLegacyMacro( virtual const GMatrixType & ComputeG(const InputVectorType& landmarkVector) const );
-
+  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  virtual void ComputeDeformationContribution( const InputPointType & inputPoint,
-                                                     OutputPointType & result ) const;
+  virtual void ComputeDeformationContribution(const InputPointType & inputPoint,
+                                              OutputPointType & result) const;
 
 private:
-  ThinPlateR2LogRSplineKernelTransform(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  ThinPlateR2LogRSplineKernelTransform(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ThinPlateR2LogRSplineKernelTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 x > \
-                                                  ThinPlateR2LogRSplineKernelTransform##y; } \
+#define ITK_TEMPLATE_ThinPlateR2LogRSplineKernelTransform(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                        \
+  {                                                                                    \
+  _( 2 ( class EXPORT ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                  \
+  {                                                                                    \
+  typedef ThinPlateR2LogRSplineKernelTransform< ITK_TEMPLATE_2 TypeX >                 \
+  ThinPlateR2LogRSplineKernelTransform##TypeY;                                       \
+  }                                                                                    \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkThinPlateR2LogRSplineKernelTransform+-.h"
+#include "Templates/itkThinPlateR2LogRSplineKernelTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkThinPlateR2LogRSplineKernelTransform.txx"
+#include "itkThinPlateR2LogRSplineKernelTransform.txx"
 #endif
 
 #endif // __itkThinPlateR2LogRSplineKernelTransform_h

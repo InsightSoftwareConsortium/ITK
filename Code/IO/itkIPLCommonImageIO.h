@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -44,13 +44,13 @@ namespace itk
   *
   * \ingroup IOFilters
   */
-class ITK_EXPORT IPLCommonImageIO : public ImageIOBase
+class ITK_EXPORT IPLCommonImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef IPLCommonImageIO    Self;
-  typedef ImageIOBase         Superclass;
-  typedef SmartPointer<Self>  Pointer;
+  typedef IPLCommonImageIO     Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   typedef unsigned char  U8;
   typedef signed char    S8;
@@ -70,29 +70,29 @@ public:
   itkTypeMacro(IPLCommonImageIO, Superclass);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
-  
+
   /** Determine if the file can be read with this ImageIO implementation.
     * \author Hans J Johnson
     * \param FileNameToRead The name of the file to test for reading.
     * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
     * \return Returns true if this ImageIO can read the file specified.
     */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Optionally, modify spacing, origin and direction */
-  virtual void ModifyImageInformation() {};
+  virtual void ModifyImageInformation() {}
 
   /** Get the type of the pixel.  */
-  virtual const std::type_info& GetPixelTypeInfo() const;
+  virtual const std::type_info & GetPixelTypeInfo() const;
 
   /** Get the component type of the pixel.  */
-  virtual const std::type_info& GetComponentTypeInfo() const;
-  
+  virtual const std::type_info & GetComponentTypeInfo() const;
+
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /** Compute the size (in bytes) of the components of a pixel. For
        * example, and RGB pixel of unsigned char would have a
@@ -107,14 +107,14 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile(const char * FileNameToWrite);
+  virtual bool CanWriteFile(const char *FileNameToWrite);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer);
+  virtual void Write(const void *buffer);
 
   /** Set sorting method by name ascending. */
   virtual void SortImageListByNameAscend();
@@ -122,23 +122,27 @@ public:
   /** Set sorting method by name descending. */
   virtual void SortImageListByNameDescend();
 
-
 protected:
   IPLCommonImageIO();
   ~IPLCommonImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  int AddElementToList(char const * const filename,
+  int AddElementToList(char const *const filename,
                        const float sliceLocation,
                        const int offset,
                        const int XDim,
                        const int YDim,
                        const int Key1,
-                       const int Key2 );
-  void sortImageListAscend ();
-  void sortImageListDescend ();
-  int statTimeToAscii (void *clock, char *timeString);
-  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
+                       const int Key2);
+
+  void sortImageListAscend();
+
+  void sortImageListDescend();
+
+  int statTimeToAscii(void *clock, char *timeString);
+
+  virtual GEImageHeader * ReadHeader(const char *FileNameToRead);
+
   //
   // data members
   GEImageHeader         *m_ImageHeader;
@@ -146,39 +150,47 @@ protected:
   IPLFileNameList       *m_FilenameList;
   //
   // return 0 on success, -1 on failure
-  int GetStringAt(std::ifstream &f,std::streamoff Offset,char *buf,
+  int GetStringAt(std::ifstream & f, std::streamoff Offset, char *buf,
                   size_t amount, bool throw_exception = true);
-  int GetIntAt(std::ifstream &f,std::streamoff Offset,int *ip,
+
+  int GetIntAt(std::ifstream & f, std::streamoff Offset, int *ip,
                bool throw_exception = true);
-  int GetShortAt(std::ifstream &f,std::streamoff Offset,short *ip,
+
+  int GetShortAt(std::ifstream & f, std::streamoff Offset, short *ip,
                  bool throw_exception = true);
-  int GetFloatAt(std::ifstream &f,std::streamoff Offset,float *ip,
+
+  int GetFloatAt(std::ifstream & f, std::streamoff Offset, float *ip,
                  bool throw_exception = true);
-  int GetDoubleAt(std::ifstream &f,std::streamoff Offset,double *ip,
+
+  int GetDoubleAt(std::ifstream & f, std::streamoff Offset, double *ip,
                   bool throw_exception = true);
 
   short hdr2Short(char *hdr);
+
   int hdr2Int(char *hdr);
+
   float hdr2Float(char *hdr);
+
   double hdr2Double(char *hdr);
+
 private:
-  IPLCommonImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  IPLCommonImageIO(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 };
-
 } // end namespace itk
-#define RAISE_EXCEPTION() \
-        { ExceptionObject exception(__FILE__, __LINE__); \
-        exception.SetDescription("File cannot be read"); \
-        throw exception; }
+#define RAISE_EXCEPTION()                                    \
+            { ExceptionObject exception(__FILE__, __LINE__); \
+            exception.SetDescription("File cannot be read"); \
+            throw exception; }
 
-#define IOCHECK() \
-      if(f.fail()) \
-      { \
-  if(f.is_open()) \
-    f.close(); \
-  RAISE_EXCEPTION(); \
-      }
-
+#define IOCHECK()      \
+  if ( f.fail() )      \
+    {                  \
+    if ( f.is_open() ) \
+      {                \
+      f.close();       \
+      }                \
+    RAISE_EXCEPTION(); \
+    }
 
 #endif // __itkAnalyzeImageIO_h

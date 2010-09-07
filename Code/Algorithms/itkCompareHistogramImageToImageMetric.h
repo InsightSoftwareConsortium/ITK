@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,7 @@ namespace itk
  *   a Training Histogram.
  *
  *  This class is templated over the type of the fixed and moving
- *  images to be compared. 
+ *  images to be compared.
  *
  *  This metric computes the similarity between the histogram produced
  *  by two images overlapping and a training histogram.
@@ -49,122 +49,118 @@ namespace itk
  *  \author Samson Timoner.
  *
  *  \ingroup RegistrationMetrics */
-template <class TFixedImage, class TMovingImage>
-class ITK_EXPORT CompareHistogramImageToImageMetric :
-public HistogramImageToImageMetric<TFixedImage, TMovingImage>
+template< class TFixedImage, class TMovingImage >
+class ITK_EXPORT CompareHistogramImageToImageMetric:
+  public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef CompareHistogramImageToImageMetric                     Self;
-  typedef HistogramImageToImageMetric<TFixedImage, TMovingImage> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  typedef CompareHistogramImageToImageMetric                       Self;
+  typedef HistogramImageToImageMetric< TFixedImage, TMovingImage > Superclass;
+  typedef SmartPointer< Self >                                     Pointer;
+  typedef SmartPointer< const Self >                               ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CompareHistogramImageToImageMetric,
-    HistogramImageToImageMetric);
+               HistogramImageToImageMetric);
 
   /** Types transferred from the base class */
-  typedef typename Superclass::RealType                 RealType;
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename TransformType::ConstPointer          TransformConstPointer;
+  typedef typename Superclass::RealType         RealType;
+  typedef typename Superclass::TransformType    TransformType;
+  typedef typename Superclass::TransformPointer TransformPointer;
+  typedef typename TransformType::ConstPointer  TransformConstPointer;
 
-  typedef typename Superclass::TransformParametersType
-                                                        TransformParametersType;
-  typedef typename Superclass::TransformJacobianType    TransformJacobianType;
-  typedef typename Superclass::GradientPixelType        GradientPixelType;
+  typedef typename Superclass::TransformParametersType TransformParametersType;
+  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
+  typedef typename Superclass::GradientPixelType       GradientPixelType;
 
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::FixedImageType           FixedImageType;
-  typedef typename Superclass::MovingImageType          MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
+  typedef typename Superclass::MeasureType            MeasureType;
+  typedef typename Superclass::DerivativeType         DerivativeType;
+  typedef typename Superclass::FixedImageType         FixedImageType;
+  typedef typename Superclass::MovingImageType        MovingImageType;
+  typedef typename Superclass::FixedImageConstPointer FixedImageConstPointer;
   typedef typename Superclass::MovingImageConstPointer
-                                                        MovingImageConstPointer;
+  MovingImageConstPointer;
 
   typedef typename Superclass::HistogramType            HistogramType;
   typedef typename Superclass::HistogramSizeType        HistogramSizeType;
-  typedef typename HistogramType::MeasurementVectorType
-                                                        HistogramMeasurementVectorType;
-#ifdef ITK_USE_REVIEW_STATISTICS
+  typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
   typedef typename HistogramType::AbsoluteFrequencyType HistogramAbsoluteFrequencyType;
-#else
-  typedef typename HistogramType::FrequencyType         HistogramAbsoluteFrequencyType;
-#endif
   typedef HistogramAbsoluteFrequencyType                HistogramFrequencyType;
 
-  typedef typename HistogramType::Iterator              HistogramIteratorType;
-  typedef typename HistogramType::Pointer               HistogramPointerType;
+  typedef typename HistogramType::Iterator HistogramIteratorType;
+  typedef typename HistogramType::Pointer  HistogramPointerType;
 
   typedef typename Superclass::InterpolatorType    InterpolatorType;
   typedef typename Superclass::InterpolatorPointer InterpolatorPointer;
 
-  typedef typename Superclass::FixedImageRegionType 
-                                                         FixedImageRegionType;
+  typedef typename Superclass::FixedImageRegionType
+  FixedImageRegionType;
 
   /** Set the histogram to be used in the metric calculation */
-  itkSetMacro( TrainingHistogram, HistogramPointerType );
+  itkSetMacro(TrainingHistogram, HistogramPointerType);
 
   /** Get the histogram to be used in the metric calculation */
-  itkGetConstReferenceMacro( TrainingHistogram, HistogramPointerType );
+  itkGetConstReferenceMacro(TrainingHistogram, HistogramPointerType);
 
   /** Set the Training Fixed Image.  */
-  itkSetConstObjectMacro( TrainingFixedImage, FixedImageType );
+  itkSetConstObjectMacro(TrainingFixedImage, FixedImageType);
 
   /** Get the Training Fixed Image. */
-  itkGetConstObjectMacro( TrainingFixedImage, FixedImageType );
+  itkGetConstObjectMacro(TrainingFixedImage, FixedImageType);
 
   /** Set the Training Moving Image.  */
-  itkSetConstObjectMacro( TrainingMovingImage, MovingImageType );
+  itkSetConstObjectMacro(TrainingMovingImage, MovingImageType);
 
   /** Get the Training Moving Image. */
-  itkGetConstObjectMacro( TrainingMovingImage, MovingImageType );
+  itkGetConstObjectMacro(TrainingMovingImage, MovingImageType);
 
   /** Set the Training Transform. */
-  itkSetObjectMacro( TrainingTransform, TransformType );
+  itkSetObjectMacro(TrainingTransform, TransformType);
 
   /** Get a pointer to the Transform.  */
-  itkGetObjectMacro( TrainingTransform, TransformType );
+  itkGetObjectMacro(TrainingTransform, TransformType);
 
   /** Set the Interpolator. */
-  itkSetObjectMacro( TrainingInterpolator, InterpolatorType );
+  itkSetObjectMacro(TrainingInterpolator, InterpolatorType);
 
   /** Get a pointer to the Interpolator.  */
-  itkGetObjectMacro( TrainingInterpolator, InterpolatorType );
+  itkGetObjectMacro(TrainingInterpolator, InterpolatorType);
 
   /** Set the region over which the training histogram will be computed */
-  itkSetMacro( TrainingFixedImageRegion, FixedImageRegionType );
+  itkSetMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Get the region over which the training histogram will be computed */
-  itkGetConstReferenceMacro( TrainingFixedImageRegion, FixedImageRegionType );
+  itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const 
+  unsigned int GetNumberOfParameters(void) const
   { return this->GetTransform()->GetNumberOfParameters(); }
- 
+
   /** Forms the histogram of the training images to prepare to evaluate the
    * metric. Must set all parameters first. */
-  void Initialize() throw (ExceptionObject);
+  void Initialize()
+  throw ( ExceptionObject );
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CompareHistogramImageToImageMetric();
   virtual ~CompareHistogramImageToImageMetric(){}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Form the Histogram for the Training data */
-  void FormTrainingHistogram() throw (ExceptionObject);
+  void FormTrainingHistogram()
+  throw ( ExceptionObject );
 
-  /** Evaluates the comparison histogram metric. All sub-classes must 
+  /** Evaluates the comparison histogram metric. All sub-classes must
       re-implement method. */
-  virtual MeasureType EvaluateMeasure(HistogramType& histogram) const = 0;
+  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const = 0;
 
 private:
   // Purposely not implemented.
-  CompareHistogramImageToImageMetric(Self const&);
-  void operator=(Self const&); // Purposely not implemented.
+  CompareHistogramImageToImageMetric(Self const &);
+  void operator=(Self const &); // Purposely not implemented.
 
   FixedImageConstPointer  m_TrainingFixedImage;
   MovingImageConstPointer m_TrainingMovingImage;
@@ -172,9 +168,7 @@ private:
   InterpolatorPointer     m_TrainingInterpolator;
   FixedImageRegionType    m_TrainingFixedImageRegion;
   HistogramPointerType    m_TrainingHistogram;
-
 };
-
 } // End namespace itk.
 
 #ifndef ITK_MANUAL_INSTANTIATION

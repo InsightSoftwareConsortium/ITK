@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,11 +19,10 @@
 
 #include "itkImageToImageFilter.h"
 
-
-namespace itk {
-  
+namespace itk
+{
 /** \class EigenAnalysis2DImageFilter
- * \brief Computes pixel-wise the eigen values and eigen vectors 
+ * \brief Computes pixel-wise the eigen values and eigen vectors
  *        of a 2D symmetrical matrix.
  *
  * The filter expects three inputs images { A, B, C } representing
@@ -33,32 +32,32 @@ namespace itk {
  *                    | B  c |
  *
  * The eigen values are stored in two output images, and the eigen
- * vector associated with the maximum eigenvalue is stored in an 
+ * vector associated with the maximum eigenvalue is stored in an
  * image using vector as pixel type.
- * 
+ *
  * \ingroup ShouldBeThreaded IntensityImageFilters
  */
 
-template <class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
 class ITK_EXPORT EigenAnalysis2DImageFilter:
-    public ImageToImageFilter<TInputImage,TEigenValueImage>
+  public ImageToImageFilter< TInputImage, TEigenValueImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef EigenAnalysis2DImageFilter                       Self;
-  typedef ImageToImageFilter<TInputImage,TEigenValueImage> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
-  
+  typedef EigenAnalysis2DImageFilter                          Self;
+  typedef ImageToImageFilter< TInputImage, TEigenValueImage > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( EigenAnalysis2DImageFilter, ImageToImageFilter );
+  itkTypeMacro(EigenAnalysis2DImageFilter, ImageToImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Typedef for the vector type representing the eigen vectors */
-  typedef typename TEigenVectorImage::PixelType     EigenVectorType;
-  typedef typename EigenVectorType::ValueType       VectorComponentType;
+  typedef typename TEigenVectorImage::PixelType EigenVectorType;
+  typedef typename EigenVectorType::ValueType   VectorComponentType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -66,8 +65,8 @@ public:
   /** Some convenient typedefs. */
   typedef TEigenValueImage                          EigenValueImageType;
   typedef typename EigenValueImageType::Pointer     EigenValueImagePointer;
-  typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType; 
-  typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType; 
+  typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType;
+  typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType;
   typedef TEigenVectorImage                         EigenVectorImageType;
   typedef typename EigenVectorImageType::Pointer    EigenVectorImagePointer;
   typedef typename EigenVectorImageType::RegionType EigenVectorImageRegionType;
@@ -79,50 +78,47 @@ public:
 
   /** Connect the image containting the elements [0,0]
    * of the input 2D matrix */
-  void SetInput1( TInputImage * image1);
+  void SetInput1(TInputImage *image1);
 
   /** Connect the image containting the elements [0,1]
    * of the input 2D matrix. This is the same [1,0]
    * element given that the input matrix is expected
    * to be symmetric */
-  void SetInput2( TInputImage * image2);
+  void SetInput2(TInputImage *image2);
 
   /** Connect the image containting the elements [1,1]
    * of the input 2D matrix */
-  void SetInput3( TInputImage * image3);
+  void SetInput3(TInputImage *image3);
 
   /** Get the Output image with the greatest eigenvalue */
-  EigenValueImageType * GetMaxEigenValue( void );
+  EigenValueImageType * GetMaxEigenValue(void);
 
   /** Get the Output image with the smallest eigenvalue */
-  EigenValueImageType * GetMinEigenValue( void );
+  EigenValueImageType * GetMinEigenValue(void);
 
   /** Get the Output image with the eigen vector associated with
    * the greatest eigen value */
-  EigenVectorImageType * GetMaxEigenVector( void );
+  EigenVectorImageType * GetMaxEigenVector(void);
 
   /**  Create the Output */
   DataObject::Pointer MakeOutput(unsigned int idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(VectorComponentHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<VectorComponentType>));
+  itkConceptMacro( VectorComponentHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< VectorComponentType > ) );
   /** End concept checking */
 #endif
-
 protected:
   EigenAnalysis2DImageFilter();
-  virtual ~EigenAnalysis2DImageFilter() {};
-  
-  void GenerateData( void );
+  virtual ~EigenAnalysis2DImageFilter() {}
+
+  void GenerateData(void);
 
 private:
-  EigenAnalysis2DImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  EigenAnalysis2DImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

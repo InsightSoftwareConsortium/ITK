@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /** \class NrrdImageIO
  *
  * \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
@@ -36,13 +35,13 @@ namespace itk
  *
  *  \ingroup IOFilters
  */
-class ITK_EXPORT NrrdImageIO : public ImageIOBase
+class ITK_EXPORT NrrdImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef NrrdImageIO        Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef NrrdImageIO          Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,45 +54,44 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool SupportsDimension(unsigned long );
+  virtual bool SupportsDimension(unsigned long);
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*);
+  virtual bool CanReadFile(const char *);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char*);
+  virtual bool CanWriteFile(const char *);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer);
+  virtual void Write(const void *buffer);
 
 protected:
   NrrdImageIO() {}
   ~NrrdImageIO() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Utility functions for converting between enumerated data type
       representations */
-  int ITKToNrrdComponentType( const ImageIOBase::IOComponentType ) const;
-  ImageIOBase::IOComponentType NrrdToITKComponentType( const int ) const;
+  int ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
+
+  ImageIOBase::IOComponentType NrrdToITKComponentType(const int) const;
 
 private:
-  NrrdImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  NrrdImageIO(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif // __itkNrrdImageIO_h

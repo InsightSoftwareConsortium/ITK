@@ -168,31 +168,24 @@ TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 ADD_EXECUTABLE(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
 TARGET_LINK_LIBRARIES(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
 
-IF(NOT BORLAND)
 
-  ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
 
-  ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
-  TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
+ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
+TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
 
-  IF (NOT ITK_USE_REVIEW_STATISTICS)
-    ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-    TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter 
-                          ITKIO ITKStatistics ITKNumerics)
-  ENDIF (NOT ITK_USE_REVIEW_STATISTICS)
+#TODO needs updating to new statistics  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+#TODO needs updating to new statistics  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKIO ITKStatistics ITKNumerics)
 
-  ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-  TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-  ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-  TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
-
-ENDIF(NOT BORLAND)
-
+ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
 
 ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
 TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
@@ -208,7 +201,6 @@ IF( NOT ITK_DISABLE_CXX_TESTING )
 
 IF(BUILD_TESTING)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1TestPixelCentered.png
@@ -219,20 +211,7 @@ ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
         ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration1Test.png
-            ${TEMP}/ImageRegistration1Test.png
-  ImageRegistration1oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration1Test.png
-        ${TEMP}/ImageRegistration1DifferenceAfterTest.png
-        ${TEMP}/ImageRegistration1DifferenceBeforeTest.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1od1TestPixelCentered.png
@@ -243,18 +222,6 @@ ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration1od1DifferenceAfterTestPixelCentered.png
         ${TEMP}/ImageRegistration1od1DifferenceBeforeTestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration1Test.png
-            ${TEMP}/ImageRegistration1od1Test.png
-  ImageRegistration1oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
-        ${TEMP}/ImageRegistration1od1Test.png
-        ${TEMP}/ImageRegistration1od1DifferenceAfterTest.png
-        ${TEMP}/ImageRegistration1od1DifferenceBeforeTest.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration2Test.png
@@ -272,7 +239,6 @@ ADD_TEST(ImageRegistration2od1Test ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration2od1Test.mhd
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration3TestPixelCentered.png
             ${TEMP}/ImageRegistration3TestPixelCentered.png
@@ -281,17 +247,6 @@ ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration3TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration3Test.png
-            ${TEMP}/ImageRegistration3Test.png
-  ImageRegistration3oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration3Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
 
 ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration4Test.png
@@ -304,7 +259,6 @@ ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration4AfterTest.png
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5oTest1PixelCentered.png
             ${TEMP}/ImageRegistration5oTest1PixelCentered.png
@@ -313,18 +267,7 @@ ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
         ${TEMP}/ImageRegistration5oTest1PixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration5Test1.png
-            ${TEMP}/ImageRegistration5oTest1.png
-  ImageRegistration5oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
-        ${TEMP}/ImageRegistration5oTest1.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5Test2PixelCentered.png
             ${TEMP}/ImageRegistration5Test2PixelCentered.png
@@ -333,18 +276,7 @@ ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration5Test2PixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration5Test2.png
-            ${TEMP}/ImageRegistration5Test2.png
-  ImageRegistration5oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration5Test2.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration6TestPixelCentered.png
             ${TEMP}/ImageRegistration6oTestPixelCentered.png
@@ -353,18 +285,7 @@ ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration6oTestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration6Test.png
-            ${TEMP}/ImageRegistration6oTest.png
-  ImageRegistration6oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration6oTest.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1TestPixelCentered.png
@@ -375,18 +296,6 @@ ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
         ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
-  --compare ${BASELINE}/ImageRegistration1Test.png
-            ${TEMP}/ImageRegistration1Test.png
-  ImageRegistration1Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration1Test.png
-        ${TEMP}/ImageRegistration1DifferenceAfterTest.png
-        ${TEMP}/ImageRegistration1DifferenceBeforeTest.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration2Test.png
@@ -399,7 +308,6 @@ ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration2AfterTest.png
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration3TestPixelCentered.png
             ${TEMP}/ImageRegistration3TestPixelCentered.png
@@ -408,16 +316,6 @@ ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration3TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
-  --compare ${BASELINE}/ImageRegistration3Test.png
-            ${TEMP}/ImageRegistration3Test.png
-  ImageRegistration3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration3Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration4Test.png
@@ -453,7 +351,6 @@ ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
         5 10000 0
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test1PixelCentered.png
             ${TEMP}/ImageRegistration5Test1PixelCentered.png
@@ -462,18 +359,7 @@ ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
         ${TEMP}/ImageRegistration5Test1PixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
-  --compare ${BASELINE}/ImageRegistration5Test1.png
-            ${TEMP}/ImageRegistration5Test1.png
-  ImageRegistration5Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
-        ${TEMP}/ImageRegistration5Test1.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test2PixelCentered.png
             ${TEMP}/ImageRegistration5Test2PixelCentered.png
@@ -482,18 +368,7 @@ ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration5Test2PixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
-  --compare ${BASELINE}/ImageRegistration5Test2.png
-            ${TEMP}/ImageRegistration5Test2.png
-  ImageRegistration5Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration5Test2.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration6TestPixelCentered.png
             ${TEMP}/ImageRegistration6TestPixelCentered.png
@@ -502,42 +377,18 @@ ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration6TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
-  --compare ${BASELINE}/ImageRegistration6Test.png
-            ${TEMP}/ImageRegistration6Test.png
-  ImageRegistration6Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration6Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration7TestPixelCentered.png
             ${TEMP}/ImageRegistration7TestPixelCentered.png
   ImageRegistration7Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17S12.png
-        ${TEMP}/ImageRegistration7TestPixelCentered.png 
+        ${TEMP}/ImageRegistration7TestPixelCentered.png
         ${TEMP}/ImageRegistration7BeforeTestPixelCentered.png
         ${TEMP}/ImageRegistration7AfterTestPixelCentered.png
         1.0   1.0  0.0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
-  --compare ${BASELINE}/ImageRegistration7Test.png
-            ${TEMP}/ImageRegistration7Test.png
-  ImageRegistration7Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17S12.png
-        ${TEMP}/ImageRegistration7Test.png 
-        ${TEMP}/ImageRegistration7BeforeTest.png
-        ${TEMP}/ImageRegistration7AfterTest.png
-        1.0   1.0  0.0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 IF(ITK_BRAINWEB_DATA_ROOT)
 ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
@@ -556,9 +407,9 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
 )
 
 IF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
-  # This test is computationally demanding. 
+  # This test is computationally demanding.
   # Therefore we only run it in a Release build
-  ADD_TEST(ImageRegistration20Test 
+  ADD_TEST(ImageRegistration20Test
     ${CXX_TEST_PATH}/ImageRegistration20
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
@@ -573,7 +424,6 @@ ENDIF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
 
 ENDIF(ITK_BRAINWEB_DATA_ROOT)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration9TestPixelCentered.png
             ${TEMP}/ImageRegistration9TestPixelCentered.png
@@ -582,18 +432,7 @@ ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration9TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
-  --compare ${BASELINE}/ImageRegistration9Test.png
-            ${TEMP}/ImageRegistration9Test.png
-  ImageRegistration9Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration9Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration10TestPixelCentered.png
             ${TEMP}/ImageRegistration10TestPixelCentered.png
@@ -604,20 +443,7 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration10DifferenceTestPixelCentered.png
         -11 -13
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
-  --compare ${BASELINE}/ImageRegistration10Test.png
-            ${TEMP}/ImageRegistration10Test.png
-  ImageRegistration10Test
-        ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Segmentation/WatershedSegmentation1Test1.png
-        ${ITK_SOURCE_DIR}/Testing/Data/Baseline/Segmentation/WatershedSegmentation1Test2.png
-        ${TEMP}/ImageRegistration10Test.png
-        ${TEMP}/ImageRegistration10DifferenceTest.png
-        -11 -13
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13TestPixelCentered.png
@@ -627,19 +453,7 @@ ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
         ${TEMP}/ImageRegistration13TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
-  --compare ${BASELINE}/ImageRegistration13Test.png
-            ${TEMP}/ImageRegistration13Test.png
-  --compareNumberOfPixelsTolerance 5
-  ImageRegistration13Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration13Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test2PixelCentered.png
@@ -650,20 +464,7 @@ ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test2PixelCentered.png
         0 0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
-  --compare ${BASELINE}/ImageRegistration13Test.png
-            ${TEMP}/ImageRegistration13Test2.png
-  --compareNumberOfPixelsTolerance 10
-  ImageRegistration13Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration13Test2.png
-        0 0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test3PixelCentered.png
@@ -674,20 +475,7 @@ ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test3PixelCentered.png
         0 1
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
-  --compare ${BASELINE}/ImageRegistration13Test.png
-            ${TEMP}/ImageRegistration13Test3.png
-  --compareNumberOfPixelsTolerance 10
-  ImageRegistration13Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration13Test3.png
-        0 1
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test4PixelCentered.png
@@ -698,20 +486,7 @@ ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test4PixelCentered.png
         1 0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
-  --compare ${BASELINE}/ImageRegistration13Test.png
-            ${TEMP}/ImageRegistration13Test4.png
-  --compareNumberOfPixelsTolerance 5
-  ImageRegistration13Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration13Test4.png
-        1 0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test5PixelCentered.png
@@ -722,19 +497,6 @@ ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13Test5PixelCentered.png
         1 1
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
-  --compare ${BASELINE}/ImageRegistration13Test.png
-            ${TEMP}/ImageRegistration13Test5.png
-  --compareNumberOfPixelsTolerance 5
-  ImageRegistration13Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration13Test5.png
-        1 1
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
 
 ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
@@ -746,7 +508,6 @@ ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration14Test.png 32 0.01 0.1  0.15  10.0  14.0
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration15TestPixelCentered.png
             ${TEMP}/ImageRegistration15TestPixelCentered.png
@@ -755,19 +516,7 @@ ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration15TestPixelCentered.png 32 0.1 0.05  0.0 0.0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
-  --compare ${BASELINE}/ImageRegistration15Test.png
-            ${TEMP}/ImageRegistration15Test.png
-  ImageRegistration15Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration15Test.png 32 0.1 0.05  0.0 0.0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration16TestPixelCentered.png
             ${TEMP}/ImageRegistration16TestPixelCentered.png
@@ -776,18 +525,7 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration16TestPixelCentered.png 0.0 0.0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
-  --compare ${BASELINE}/ImageRegistration16Test.png
-            ${TEMP}/ImageRegistration16Test.png
-  ImageRegistration16Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration16Test.png 0.0 0.0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration16TestPixelCentered.png
             ${TEMP}/ImageRegistration16Test2PixelCentered.png
@@ -797,21 +535,7 @@ ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration16Test2PixelCentered.png 0.0 0.0
         0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
-  --compare ${BASELINE}/ImageRegistration16Test.png
-            ${TEMP}/ImageRegistration16Test2.png
-  ImageRegistration16Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration16Test2.png 0.0 0.0
-        0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-
-
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration17TestPixelCentered.png
             ${TEMP}/ImageRegistration17TestPixelCentered.png
@@ -820,30 +544,20 @@ ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration17TestPixelCentered.png 0.0 0.0
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
-  --compare ${BASELINE}/ImageRegistration17Test.png
-            ${TEMP}/ImageRegistration17Test.png
-  ImageRegistration17Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration17Test.png 0.0 0.0
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-ADD_TEST(ImageRegistration18Test 
+ADD_TEST(ImageRegistration18Test
   ${CXX_TEST_PATH}/ImageRegistration18
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration18Test.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration19Test 
+ADD_TEST(ImageRegistration19Test
   ${CXX_TEST_PATH}/ImageRegistration19
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
-        ${TEMP}/ImageRegistration19Test.png 
-        ${TEMP}/ImageRegistration19DifferenceTest.png 
+        ${TEMP}/ImageRegistration19Test.png
+        ${TEMP}/ImageRegistration19DifferenceTest.png
         2.0 2.0 # Initial translation parameters
 )
 
@@ -855,8 +569,8 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration1Test.png 100
-        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png  
-        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png  
+        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest.png
+        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png
 )
 
 ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
@@ -867,8 +581,8 @@ ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration1Test2.png 100
-        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png  
-        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png  
+        ${TEMP}/MultiResImageRegistration1CheckerBoardBeforeTest2.png
+        ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest2.png
         0
 )
 
@@ -881,8 +595,8 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/MultiResImageRegistration2Test.png  0
-        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest.png  
-        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest.png  
+        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest.png
+        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest.png
 )
 
 
@@ -893,9 +607,9 @@ ADD_TEST(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
   MultiResImageRegistration2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/MultiResImageRegistration2Test2.png 0 
-        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest2.png  
-        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest2.png  
+        ${TEMP}/MultiResImageRegistration2Test2.png 0
+        ${TEMP}/MultiResImageRegistration2CheckerBoardBeforeTest2.png
+        ${TEMP}/MultiResImageRegistration2CheckerBoardAfterTest2.png
         0
 )
 
@@ -919,7 +633,6 @@ ADD_TEST(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration3Test.png
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/DeformableRegistration4TestPixelCentered.png
             ${TEMP}/DeformableRegistration4TestPixelCentered.png
@@ -928,16 +641,6 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration4TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
-  --compare ${BASELINE}/DeformableRegistration4Test.png
-            ${TEMP}/DeformableRegistration4Test.png
-  DeformableRegistration4Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
-        ${TEMP}/DeformableRegistration4Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration5Test.png
@@ -949,7 +652,6 @@ ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration5Test.png
 )
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
   --compare ${BASELINE}/DeformableRegistration6TestPixelCentered.png
             ${TEMP}/DeformableRegistration6TestPixelCentered.png
@@ -958,17 +660,6 @@ ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
         ${TEMP}/DeformableRegistration6TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
-  --compare ${BASELINE}/DeformableRegistration6Test.png
-            ${TEMP}/DeformableRegistration6Test.png
-  DeformableRegistration6Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
-        ${TEMP}/DeformableRegistration6Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
 
 ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/BSplineWarping1Test.png
@@ -1267,11 +958,11 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
 )
 ENDIF( DART_TESTING_TIMEOUT GREATER 3000 )
 
-ADD_TEST(ChangeInformationTest1 
+ADD_TEST(ChangeInformationTest1
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
-        1.05 
+        1.05
         1.0 2.0 0.0
         10.0
 )
@@ -1385,7 +1076,7 @@ SET_TESTS_PROPERTIES(
   DeformableRegistration8Test7
   DeformableRegistration8Test8
   DeformableRegistration8Test9
-  DeformableRegistration8Test10    
+  DeformableRegistration8Test10
   PROPERTIES
   RUN_SERIAL 1
   )
@@ -1421,7 +1112,7 @@ ADD_TEST(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
 # Due to the large memory requirements this tests must be run one by one
   SET_TESTS_PROPERTIES(
     DeformableRegistration8Test11
-    DeformableRegistration8Test12   
+    DeformableRegistration8Test12
     PROPERTIES
     RUN_SERIAL 1
     )
@@ -1462,7 +1153,6 @@ ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/LandmarkWarping2Test.png
 )
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
   --compare ${BASELINE}/ImageRegistration12TestPixelCentered.png
             ${TEMP}/ImageRegistration12TestPixelCentered.png
@@ -1473,20 +1163,6 @@ ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${TEMP}/ImageRegistration12TestPixelCentered.png
 )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
-  --compare ${BASELINE}/ImageRegistration12Test.png
-            ${TEMP}/ImageRegistration12Test.png
-  ImageRegistration12Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
-        ${TEMP}/ImageRegistration12Test.png
-)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
-
-
 
 ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES10}
   ModelToImageRegistration2Test

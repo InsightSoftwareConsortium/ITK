@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /** \class KLMDynamicBorderArray
  * \brief  Object maintaining a reference to a list of borders associated
  * with a region.
@@ -38,7 +37,7 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  */
 
-template <class TBorder>
+template< class TBorder >
 class KLMDynamicBorderArray
 {
 public:
@@ -49,11 +48,11 @@ public:
    *  merged regions do not gain more borders than other regions,
    *  thus avoiding pathologically slow behavior.
    */
-  bool operator> (const KLMDynamicBorderArray<TBorder>& rhs) const
-    {
-    if( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
+  bool operator>(const KLMDynamicBorderArray< TBorder > & rhs) const
+  {
+    if ( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
       {
-      if( m_Pointer->GetLambda() < 0 )
+      if ( m_Pointer->GetLambda() < 0 )
         {
         return ( m_Pointer > rhs.m_Pointer );
         }
@@ -66,24 +65,24 @@ public:
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
         double v1 = vnl_math_max(
-          static_cast< double>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< double>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
+          static_cast< double >( m_Pointer->GetRegion1()->GetRegionBorderSize() ),
+          static_cast< double >( m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
         double v2 = vnl_math_max(
-          static_cast< double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
+          static_cast< double >( rhs.m_Pointer->GetRegion1()->GetRegionBorderSize() ),
+          static_cast< double >( rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
         return ( v1 > v2 );
         }
       }
-    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() );
-    }
+    return ( m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() );
+  }
 
-  bool operator> (const KLMDynamicBorderArray<TBorder>* rhs) const
-    {
-    if( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
+  bool operator>(const KLMDynamicBorderArray< TBorder > *rhs) const
+  {
+    if ( m_Pointer->GetLambda() == rhs.m_Pointer->GetLambda() )
       {
-      if( m_Pointer->GetLambda() < 0 )
+      if ( m_Pointer->GetLambda() < 0 )
         {
         return ( m_Pointer > rhs.m_Pointer );
         }
@@ -96,18 +95,18 @@ public:
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
         double v1 = vnl_math_max(
-          static_cast< double>(m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< double>(m_Pointer->GetRegion2()->GetRegionBorderSize() ));
+          static_cast< double >( m_Pointer->GetRegion1()->GetRegionBorderSize() ),
+          static_cast< double >( m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
         double v2 = vnl_math_max(
-          static_cast< double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
-          static_cast< double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()) );
+          static_cast< double >( rhs.m_Pointer->GetRegion1()->GetRegionBorderSize() ),
+          static_cast< double >( rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
         return ( v1 > v2 );
         }
       }
-    return(m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() );
-    }
+    return ( m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda() );
+  }
 
   TBorder *m_Pointer;
 };
@@ -132,33 +131,32 @@ public:
 
 class KLMSegmentationRegion;
 
-class ITKCommon_EXPORT KLMSegmentationBorder : public SegmentationBorder
+class ITKCommon_EXPORT KLMSegmentationBorder:public SegmentationBorder
 {
-
 public:
   /** Standard class typedefs. */
-  typedef KLMSegmentationBorder     Self;
-  typedef SegmentationBorder        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef KLMSegmentationBorder      Self;
+  typedef SegmentationBorder         Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KLMSegmentationBorder,SegmentationBorder);
+  itkTypeMacro(KLMSegmentationBorder, SegmentationBorder);
 
   /** Set the region 1 associated with the border */
   void SetRegion1(KLMSegmentationRegion *Region1);
 
   /** Get the region 1 associated with the border. */
-  KLMSegmentationRegion *GetRegion1();
+  KLMSegmentationRegion * GetRegion1();
 
   /** Set the region 2 associated with the border. */
   void SetRegion2(KLMSegmentationRegion *Region2);
 
   /** Get the region 2 associated with the border. */
-  KLMSegmentationRegion *GetRegion2();
+  KLMSegmentationRegion * GetRegion2();
 
   /** Set/Get the Lambda parameter associate with the borders
    * in the KLM algorithm */
@@ -179,20 +177,16 @@ protected:
   ~KLMSegmentationBorder();
 
   /** Print self identity */
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  KLMSegmentationBorder(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  KLMSegmentationBorder(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   double                 m_Lambda;
   KLMSegmentationRegion *m_Region1;
   KLMSegmentationRegion *m_Region2;
-
 };
-
-
 } // end namespace itk
-
 
 #endif

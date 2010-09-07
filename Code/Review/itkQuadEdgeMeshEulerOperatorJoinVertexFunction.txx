@@ -25,88 +25,84 @@
 
 namespace itk
 {
-
-template < class TMesh, class TQEType >
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-QuadEdgeMeshEulerOperatorJoinVertexFunction() : Superclass(),
-  m_OldPointID( 0 ), m_EdgeStatus( STANDARD_CONFIG )
+template< class TMesh, class TQEType >
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::QuadEdgeMeshEulerOperatorJoinVertexFunction():Superclass(),
+  m_OldPointID(0), m_EdgeStatus(STANDARD_CONFIG)
 {}
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 void
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-PrintSelf( std::ostream& os, Indent indent ) const
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_OldPointID: " << m_OldPointID <<std::endl;
+  os << indent << "m_OldPointID: " << m_OldPointID << std::endl;
   os << indent << "m_EdgeStatus: ";
 
-  switch( m_EdgeStatus )
+  switch ( m_EdgeStatus )
     {
     default:
     case STANDARD_CONFIG:
-      os << "STANDARD_CONFIG" <<std::endl;
+      os << "STANDARD_CONFIG" << std::endl;
       break;
     case QUADEDGE_ISOLATED:
-      os << "QUADEDGE_ISOLATED" <<std::endl;
+      os << "QUADEDGE_ISOLATED" << std::endl;
       break;
     case FACE_ISOLATED:
-      os << "FACE_ISOLATED" <<std::endl;
+      os << "FACE_ISOLATED" << std::endl;
       break;
     case EDGE_NULL:
-      os << "EDGE_NULL" <<std::endl;
+      os << "EDGE_NULL" << std::endl;
       break;
     case MESH_NULL:
-      os << "MESH_NULL" <<std::endl;
+      os << "MESH_NULL" << std::endl;
       break;
     case EDGE_ISOLATED:
-      os << "EDGE_ISOLATED" <<std::endl;
+      os << "EDGE_ISOLATED" << std::endl;
       break;
     case TOO_MANY_COMMON_VERTICES:
-      os << "TOO_MANY_COMMON_VERTICES" <<std::endl;
+      os << "TOO_MANY_COMMON_VERTICES" << std::endl;
       break;
     case TETRAHEDRON_CONFIG:
-      os << "TETRAHEDRON_CONFIG" <<std::endl;
+      os << "TETRAHEDRON_CONFIG" << std::endl;
       break;
     case SAMOSA_CONFIG:
-      os << "SAMOSA_CONFIG" <<std::endl;
+      os << "SAMOSA_CONFIG" << std::endl;
       break;
     case EYE_CONFIG:
-      os << "EYE_CONFIG" <<std::endl;
+      os << "EYE_CONFIG" << std::endl;
       break;
     case EDGE_JOINING_DIFFERENT_BORDERS:
-      os << "EDGE_JOINING_DIFFERENT_BORDERS" <<std::endl;
+      os << "EDGE_JOINING_DIFFERENT_BORDERS" << std::endl;
       break;
     }
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-Evaluate( QEType* e )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {
-  std::stack< QEType* > edges_to_be_deleted;
+  std::stack< QEType * > edges_to_be_deleted;
 
-  m_EdgeStatus = CheckStatus( e, edges_to_be_deleted );
+  m_EdgeStatus = CheckStatus(e, edges_to_be_deleted);
 
-  switch( m_EdgeStatus )
+  switch ( m_EdgeStatus )
     {
     default:
     case STANDARD_CONFIG:
-      return Process( e );
+      return Process(e);
 
     // ******************************************************************
     // Isolated quad edge
     case QUADEDGE_ISOLATED:
-      return ProcessIsolatedQuadEdge( e );
+      return ProcessIsolatedQuadEdge(e);
 
     // ******************************************************************
     // Isolated face
     case FACE_ISOLATED:
-      return ProcessIsolatedFace( e, edges_to_be_deleted );
+      return ProcessIsolatedFace(e, edges_to_be_deleted);
 
     // ******************************************************************
     // e == 0
@@ -123,32 +119,29 @@ Evaluate( QEType* e )
     case SAMOSA_CONFIG:
     // Eye case
     case EYE_CONFIG:
-      return( (QEType*) 0 );
+      return ( (QEType *)0 );
     case EDGE_JOINING_DIFFERENT_BORDERS:
-      return( (QEType*) 0 );
+      return ( (QEType *)0 );
     }
 }
 
-
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
-TQEType*
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-Process( QEType* e )
+TQEType *
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e)
 {
-  QEType* e_sym = e->GetSym();
+  QEType *e_sym = e->GetSym();
 
   // General case
-  bool wasLeftFace     = e->IsLeftSet( );
-  bool wasRiteFace     = e->IsRightSet( );
-  bool wasLeftTriangle = e->IsLnextOfTriangle( );
-  bool wasRiteTriangle = e_sym->IsLnextOfTriangle( );
+  bool wasLeftFace     = e->IsLeftSet();
+  bool wasRiteFace     = e->IsRightSet();
+  bool wasLeftTriangle = e->IsLnextOfTriangle();
+  bool wasRiteTriangle = e_sym->IsLnextOfTriangle();
 
-  PointIdentifier NewDest = e->GetDestination( );
-  PointIdentifier NewOrg  = e->GetOrigin( );
-  QEType* leftZip = e->GetLnext( );
-  QEType* riteZip = e->GetOprev( );
-
+  PointIdentifier NewDest = e->GetDestination();
+  PointIdentifier NewOrg  = e->GetOrigin();
+  QEType *        leftZip = e->GetLnext();
+  QEType *        riteZip = e->GetOprev();
 
   //
   //                    \   |   /                //
@@ -167,8 +160,8 @@ Process( QEType* e )
   //                     /  |  \                 //
   //                    /   |   \                //
   //
-  this->m_Mesh->LightWeightDeleteEdge( e );
-  this->m_OldPointID = this->m_Mesh->Splice( leftZip, riteZip );
+  this->m_Mesh->LightWeightDeleteEdge(e);
+  this->m_OldPointID = this->m_Mesh->Splice(leftZip, riteZip);
 
   //
   //                            |      /       __Y  //
@@ -196,68 +189,68 @@ Process( QEType* e )
   //
 
   typedef QuadEdgeMeshZipMeshFunction< MeshType, QEType > Zip;
-  if( wasLeftTriangle )
+  if ( wasLeftTriangle )
     {
-    typename Zip::Pointer zip = Zip::New( );
-    zip->SetInput( this->m_Mesh );
-    if( QEType::m_NoPoint != zip->Evaluate( leftZip ) )
+    typename Zip::Pointer zip = Zip::New();
+    zip->SetInput(this->m_Mesh);
+    if ( QEType::m_NoPoint != zip->Evaluate(leftZip) )
       {
-      itkDebugMacro( "Zip must return NoPoint (left)." );
-      return( (QEType*) 0 );
+      itkDebugMacro("Zip must return NoPoint (left).");
+      return ( (QEType *)0 );
       }
     }
   else
     {
-    if( wasLeftFace )
+    if ( wasLeftFace )
       {
-      this->m_Mesh->AddFace( leftZip );
+      this->m_Mesh->AddFace(leftZip);
       }
     }
 
   // NewOrg = riteZip->GetOprev( )->GetDestination( );
-  if( wasRiteTriangle )
+  if ( wasRiteTriangle )
     {
-    NewOrg = riteZip->GetDestination( );
-    typename Zip::Pointer zip = Zip::New( );
-    zip->SetInput( this->m_Mesh );
-    if( QEType::m_NoPoint != zip->Evaluate( riteZip ) )
+    NewOrg = riteZip->GetDestination();
+    typename Zip::Pointer zip = Zip::New();
+    zip->SetInput(this->m_Mesh);
+    if ( QEType::m_NoPoint != zip->Evaluate(riteZip) )
       {
-      itkDebugMacro( "Zip must return NoPoint (right)." );
-      return( (QEType*) 0 );
+      itkDebugMacro("Zip must return NoPoint (right).");
+      return ( (QEType *)0 );
       }
     }
   else
     {
-    NewOrg = riteZip->GetLprev( )->GetOrigin( );
-    if( wasRiteFace )
+    NewOrg = riteZip->GetLprev()->GetOrigin();
+    if ( wasRiteFace )
       {
-      this->m_Mesh->AddFace( riteZip );
+      this->m_Mesh->AddFace(riteZip);
       }
     }
 
-  OutputType result = this->m_Mesh->FindEdge( NewOrg, NewDest );
-  if( !result)
+  OutputType result = this->m_Mesh->FindEdge(NewOrg, NewDest);
+  if ( !result )
     {
-    result = this->m_Mesh->FindEdge( NewDest )->GetSym( );
+    result = this->m_Mesh->FindEdge(NewDest)->GetSym();
     }
-  return( result );
+  return ( result );
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
-TQEType*
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-ProcessIsolatedQuadEdge( QEType* e )
+template< class TMesh, class TQEType >
+TQEType *
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedQuadEdge(QEType *e)
 {
-  QEType* temp = ( e->IsIsolated() == true ) ? e->GetSym() : e;
-  QEType* rebuildEdge = temp->GetOprev();
+  QEType *temp = ( e->IsIsolated() == true ) ? e->GetSym() : e;
+  QEType *rebuildEdge = temp->GetOprev();
+
   m_OldPointID = temp->GetSym()->GetOrigin();
 
-  bool e_leftset = e->IsLeftSet( );
-  this->m_Mesh->LightWeightDeleteEdge( e );
-  if( e_leftset )
+  bool e_leftset = e->IsLeftSet();
+  this->m_Mesh->LightWeightDeleteEdge(e);
+  if ( e_leftset )
     {
-    this->m_Mesh->AddFace( rebuildEdge );
+    this->m_Mesh->AddFace(rebuildEdge);
     }
 
   // this case has no symetric case in SPlitVertex
@@ -265,21 +258,22 @@ ProcessIsolatedQuadEdge( QEType* e )
   // case using SplitVertex. Thus the return value is
   // of less interest.
   // We return an edge whose dest is a, whichever.
-  return( rebuildEdge );
+  return ( rebuildEdge );
 }
-
 
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
-TQEType*
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-ProcessIsolatedFace( QEType* e, std::stack< QEType* >& EdgesToBeDeleted )
+TQEType *
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedFace(
+  QEType *e,
+  std::stack< QEType * > &
+  EdgesToBeDeleted)
 {
   PointIdentifier org = e->GetOrigin();
   PointIdentifier dest = e->GetDestination();
 
   // delete all elements
-  while( !EdgesToBeDeleted.empty() )
+  while ( !EdgesToBeDeleted.empty() )
     {
     this->m_Mesh->LightWeightDeleteEdge( EdgesToBeDeleted.top() );
     EdgesToBeDeleted.pop();
@@ -287,80 +281,79 @@ ProcessIsolatedFace( QEType* e, std::stack< QEType* >& EdgesToBeDeleted )
 
   // it now retuns one edge from NewDest or NewOrg if there are any
   // else NULL
-  QEType* temp = this->m_Mesh->FindEdge( dest );
-  if( temp != 0 )
+  QEType *temp = this->m_Mesh->FindEdge(dest);
+  if ( temp != 0 )
     {
     return temp;
     }
   else
     {
-    return this->m_Mesh->FindEdge( org );
+    return this->m_Mesh->FindEdge(org);
     }
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-IsFaceIsolated( QEType* e,
-  const bool& iWasLeftFace,
-  std::stack< TQEType* >& oToBeDeleted )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsFaceIsolated(QEType *e,
+                                                                              const bool & iWasLeftFace,
+                                                                              std::stack< TQEType * > & oToBeDeleted)
 {
-  bool border;
-  QEType* e_sym = e->GetSym();
+  bool    border;
+  QEType *e_sym = e->GetSym();
 
   // turn around the face (left or right one) while edges are on the border
   // and push them into a stack (which will be used to delete properly all
   // elements )
-  QEType* temp = ( iWasLeftFace == true ) ? e : e_sym;
-  QEType* e_it = temp;
+  QEType *temp = ( iWasLeftFace == true ) ? e : e_sym;
+  QEType *e_it = temp;
 
-  oToBeDeleted.push( e_it );
+  oToBeDeleted.push(e_it);
   e_it = e_it->GetLnext();
 
   do
     {
-    oToBeDeleted.push( e_it );
+    oToBeDeleted.push(e_it);
     border = e_it->IsAtBorder();
     e_it = e_it->GetLnext();
-    } while( ( e_it != temp ) && border );
+    }
+  while ( ( e_it != temp ) && border );
 
   return border;
 }
+
 //--------------------------------------------------------------------------
 template< class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType
->::EdgeStatusType
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
+                                                      >::EdgeStatusType
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CheckStatus(QEType *e,
+                                                                           std::stack< TQEType * > & oToBeDeleted)
 {
-
 #ifndef NDEBUG
-  if( !e )
+  if ( !e )
     {
-    itkDebugMacro( "Input is not an edge." );
+    itkDebugMacro("Input is not an edge.");
     return EDGE_NULL;
     }
 
-  if( !this->m_Mesh )
+  if ( !this->m_Mesh )
     {
-    itkDebugMacro( "No mesh present." );
+    itkDebugMacro("No mesh present.");
     return MESH_NULL;
     }
 #endif
 
-  QEType* e_sym = e->GetSym();
+  QEType *e_sym = e->GetSym();
 
-  bool IsEdgeIsolated = e->IsIsolated( );
-  bool IsSymEdgeIsolated = e_sym->IsIsolated( );
-  if( IsEdgeIsolated || IsSymEdgeIsolated )
+  bool IsEdgeIsolated = e->IsIsolated();
+  bool IsSymEdgeIsolated = e_sym->IsIsolated();
+  if ( IsEdgeIsolated || IsSymEdgeIsolated )
     {
-
-    if( IsEdgeIsolated && IsSymEdgeIsolated )
+    if ( IsEdgeIsolated && IsSymEdgeIsolated )
       {
       // We could shrink the edge to a point,
       // But we consider this case to be degenerated.
-      itkDebugMacro( "Argument edge isolated." );
+      itkDebugMacro("Argument edge isolated.");
       return EDGE_ISOLATED;
       }
 
@@ -387,51 +380,51 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
     return QUADEDGE_ISOLATED;
     }
 
-  size_t number_common_vertices = CommonVertexNeighboor( e );
-  if( number_common_vertices > 2 )
+  size_t number_common_vertices = CommonVertexNeighboor(e);
+  if ( number_common_vertices > 2 )
     {
     itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
     return TOO_MANY_COMMON_VERTICES;
     }
 
-  if( number_common_vertices == 2 )
+  if ( number_common_vertices == 2 )
     {
-    if( IsTetrahedron( e ) )
+    if ( IsTetrahedron(e) )
       {
-      itkDebugMacro( "It forms a tetrahedron." );
+      itkDebugMacro("It forms a tetrahedron.");
       return TETRAHEDRON_CONFIG;
       }
     }
 
   // General case
-  bool wasLeftFace     = e->IsLeftSet( );
-  bool wasRiteFace     = e->IsRightSet( );
+  bool wasLeftFace     = e->IsLeftSet();
+  bool wasRiteFace     = e->IsRightSet();
 
-  if( wasLeftFace && wasRiteFace )
+  if ( wasLeftFace && wasRiteFace )
     {
-    if( IsSamosa( e ) )
+    if ( IsSamosa(e) )
       {
-      itkDebugMacro( "SAMOSA_CONFIG." );
+      itkDebugMacro("SAMOSA_CONFIG.");
       return SAMOSA_CONFIG;
       }
-    if( IsEye( e ) )
+    if ( IsEye(e) )
       {
-      itkDebugMacro( "EYE_CONFIG." );
+      itkDebugMacro("EYE_CONFIG.");
       return EYE_CONFIG;
       }
-    if( IsEdgeLinkingTwoDifferentBorders( e ) )
+    if ( IsEdgeLinkingTwoDifferentBorders(e) )
       {
-      itkDebugMacro( "EDGE_JOINING_DIFFERENT_BORDERS." );
+      itkDebugMacro("EDGE_JOINING_DIFFERENT_BORDERS.");
       return EDGE_JOINING_DIFFERENT_BORDERS;
       }
     }
   else
     {
-    if( wasLeftFace || wasRiteFace )
+    if ( wasLeftFace || wasRiteFace )
       {
-      if( IsFaceIsolated( e, wasLeftFace, oToBeDeleted ) )
+      if ( IsFaceIsolated(e, wasLeftFace, oToBeDeleted) )
         {
-        itkDebugMacro( "FACE_ISOLATED." );
+        itkDebugMacro("FACE_ISOLATED.");
         return FACE_ISOLATED;
         }
       }
@@ -439,28 +432,28 @@ CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted )
 
   return STANDARD_CONFIG;
 }
-//--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
-bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-IsTetrahedron( QEType* e )
-{
-  if( e->GetOrder() == 3 )
-    {
-    QEType* e_sym = e->GetSym();
-    if( e_sym->GetOrder() == 3 )
-      {
-      if( e->GetLprev()->GetOrder() == 3 )
-        {
-        if( e_sym->GetLprev()->GetOrder() == 3 )
-          {
-          bool left_triangle = e->IsLnextOfTriangle( );
-          bool right_triangle = e_sym->IsLnextOfTriangle( );
 
-          if( left_triangle && right_triangle )
+//--------------------------------------------------------------------------
+template< class TMesh, class TQEType >
+bool
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsTetrahedron(QEType *e)
+{
+  if ( e->GetOrder() == 3 )
+    {
+    QEType *e_sym = e->GetSym();
+    if ( e_sym->GetOrder() == 3 )
+      {
+      if ( e->GetLprev()->GetOrder() == 3 )
+        {
+        if ( e_sym->GetLprev()->GetOrder() == 3 )
+          {
+          bool left_triangle = e->IsLnextOfTriangle();
+          bool right_triangle = e_sym->IsLnextOfTriangle();
+
+          if ( left_triangle && right_triangle )
             {
             CellIdentifier id_left_right_triangle;
-            if( e->GetLprev()->IsRightSet() )
+            if ( e->GetLprev()->IsRightSet() )
               {
               id_left_right_triangle = e->GetLprev()->GetRight();
               }
@@ -470,7 +463,7 @@ IsTetrahedron( QEType* e )
               }
 
             CellIdentifier id_left_left_triangle;
-            if( e->GetLnext()->IsRightSet() )
+            if ( e->GetLnext()->IsRightSet() )
               {
               id_left_left_triangle = e->GetLnext()->GetRight();
               }
@@ -480,7 +473,7 @@ IsTetrahedron( QEType* e )
               }
 
             CellIdentifier id_right_left_triangle;
-            if( e_sym->GetLnext()->IsRightSet() )
+            if ( e_sym->GetLnext()->IsRightSet() )
               {
               id_right_left_triangle = e_sym->GetLnext()->GetRight();
               }
@@ -490,7 +483,7 @@ IsTetrahedron( QEType* e )
               }
 
             CellIdentifier id_right_right_triangle;
-            if( e_sym->GetLprev()->IsRightSet() )
+            if ( e_sym->GetLprev()->IsRightSet() )
               {
               id_right_right_triangle = e_sym->GetLprev()->GetRight();
               }
@@ -499,8 +492,8 @@ IsTetrahedron( QEType* e )
               return false;
               }
 
-            if( ( id_left_right_triangle == id_right_left_triangle ) &&
-                ( id_left_left_triangle == id_right_right_triangle ) )
+            if ( ( id_left_right_triangle == id_right_left_triangle )
+                 && ( id_left_left_triangle == id_right_right_triangle ) )
               {
               return true;
               }
@@ -512,36 +505,34 @@ IsTetrahedron( QEType* e )
 
   return false;
 }
+
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-IsSamosa( QEType* e )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsSamosa(QEType *e)
 {
   return ( ( e->GetOrder() == 2 ) &&  ( e->GetSym()->GetOrder() == 2 ) );
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-IsEye( QEType* e )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEye(QEType *e)
 {
-  bool OriginOrderIsTwo = ( e->GetOrder( ) == 2 );
-  bool DestinationOrderIsTwo = ( e->GetSym()->GetOrder( ) == 2 );
+  bool OriginOrderIsTwo = ( e->GetOrder() == 2 );
+  bool DestinationOrderIsTwo = ( e->GetSym()->GetOrder() == 2 );
 
-  return ( ( OriginOrderIsTwo && !DestinationOrderIsTwo ) ||
-           ( !OriginOrderIsTwo && DestinationOrderIsTwo ) );
+  return ( ( OriginOrderIsTwo && !DestinationOrderIsTwo )
+           || ( !OriginOrderIsTwo && DestinationOrderIsTwo ) );
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 size_t
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-CommonVertexNeighboor( QEType* e )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeighboor(QEType *e)
 {
-  QEType* qe = e;
-  QEType* e_it  = qe->GetOnext( );
+  QEType *qe = e;
+  QEType *e_it  = qe->GetOnext();
 
   typedef std::list< PointIdentifier > PointIdentifierList;
   PointIdentifierList dir_list;
@@ -552,9 +543,10 @@ CommonVertexNeighboor( QEType* e )
   do
     {
     id = e_it->GetDestination();
-    dir_list.push_back( id );
+    dir_list.push_back(id);
     e_it = e_it->GetOnext();
-    } while( e_it != qe );
+    }
+  while ( e_it != qe );
 
   qe = qe->GetSym();
   e_it = qe;
@@ -562,36 +554,37 @@ CommonVertexNeighboor( QEType* e )
   do
     {
     id = e_it->GetDestination();
-    sym_list.push_back( id );
+    sym_list.push_back(id);
     e_it = e_it->GetOnext();
-    } while( e_it != qe );
+    }
+  while ( e_it != qe );
 
   dir_list.sort();
   sym_list.sort();
 
   std::set_intersection( dir_list.begin(), dir_list.end(),
-    sym_list.begin(), sym_list.end(),
-    std::back_inserter( intersection_list ) );
+                         sym_list.begin(), sym_list.end(),
+                         std::back_inserter(intersection_list) );
 
   return intersection_list.size();
 }
 
 //--------------------------------------------------------------------------
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 bool
-QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::
-IsEdgeLinkingTwoDifferentBorders( QEType* e )
+QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEdgeLinkingTwoDifferentBorders(QEType *e)
 {
-  QEType* t = e;
-  QEType* e_it = t;
-  bool org_border;
+  QEType *t = e;
+  QEType *e_it = t;
+  bool    org_border;
 
   do
     {
     org_border = e_it->IsAtBorder();
     e_it = e_it->GetOnext();
-    } while( ( e_it != t ) && ( !org_border ) );
-  if( !org_border )
+    }
+  while ( ( e_it != t ) && ( !org_border ) );
+  if ( !org_border )
     {
     return false;
     }
@@ -604,9 +597,10 @@ IsEdgeLinkingTwoDifferentBorders( QEType* e )
       {
       dest_border = e_it->IsAtBorder();
       e_it = e_it->GetOnext();
-      } while( ( e_it != t ) && ( !dest_border ) );
+      }
+    while ( ( e_it != t ) && ( !dest_border ) );
 
-    if( !dest_border )
+    if ( !dest_border )
       {
       return false;
       }
@@ -616,7 +610,6 @@ IsEdgeLinkingTwoDifferentBorders( QEType* e )
       }
     }
 }
-
 } // namespace itkQE
 
 #endif

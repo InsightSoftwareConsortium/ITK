@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,23 +20,21 @@
 #include "itkStatisticsRelabelLabelMapFilter.h"
 #include "itkProgressReporter.h"
 
-
-namespace itk {
-
-template <class TImage>
-StatisticsRelabelLabelMapFilter<TImage>
+namespace itk
+{
+template< class TImage >
+StatisticsRelabelLabelMapFilter< TImage >
 ::StatisticsRelabelLabelMapFilter()
 {
   this->m_Attribute = LabelObjectType::MEAN;
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-StatisticsRelabelLabelMapFilter<TImage>
+StatisticsRelabelLabelMapFilter< TImage >
 ::GenerateData()
 {
-  switch( this->m_Attribute )
+  switch ( this->m_Attribute )
     {
     case LabelObjectType::MINIMUM:
       {
@@ -120,6 +118,5 @@ StatisticsRelabelLabelMapFilter<TImage>
       break;
     }
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

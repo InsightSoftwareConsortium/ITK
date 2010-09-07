@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,55 +21,49 @@
 #include "vnl/vnl_math.h"
 #include "itkNeighborhoodInnerProduct.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * Constructor
  */
-template<class TImage>
-BinaryMinMaxCurvatureFlowFunction<TImage>
+template< class TImage >
+BinaryMinMaxCurvatureFlowFunction< TImage >
 ::BinaryMinMaxCurvatureFlowFunction()
 {
-
   m_Threshold = 0.0;
-
 }
 
 /**
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
-template<class TImage>
-typename BinaryMinMaxCurvatureFlowFunction<TImage>::PixelType
-BinaryMinMaxCurvatureFlowFunction<TImage>
-::ComputeUpdate(const NeighborhoodType &it, void * globalData,
-                const FloatOffsetType& offset)
+template< class TImage >
+typename BinaryMinMaxCurvatureFlowFunction< TImage >::PixelType
+BinaryMinMaxCurvatureFlowFunction< TImage >
+::ComputeUpdate(const NeighborhoodType & it, void *globalData,
+                const FloatOffsetType & offset)
 {
-
-  typedef CurvatureFlowFunction<TImage> CurvatureFlowFunctionType;
+  typedef CurvatureFlowFunction< TImage > CurvatureFlowFunctionType;
   PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
-    it, globalData, offset );
-  
+    it, globalData, offset);
+
   if ( update == 0.0 )
     {
     return update;
     }
 
-
-  NeighborhoodInnerProduct<ImageType> innerProduct;
-  PixelType avgValue = innerProduct( it, this->m_StencilOperator );
+  NeighborhoodInnerProduct< ImageType > innerProduct;
+  PixelType                             avgValue = innerProduct(it, this->m_StencilOperator);
 
   if ( avgValue < m_Threshold )
     {
-    return ( vnl_math_min( update, NumericTraits<PixelType>::Zero ) );
+    return ( vnl_math_min(update, NumericTraits< PixelType >::Zero) );
     }
   else
     {
-    return ( vnl_math_max( update, NumericTraits<PixelType>::Zero ) );
+    return ( vnl_math_max(update, NumericTraits< PixelType >::Zero) );
     }
-
 }
-
 } // end namespace itk
 
 #endif

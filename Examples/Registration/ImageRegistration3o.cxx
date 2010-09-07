@@ -64,7 +64,7 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -284,8 +284,8 @@ int main( int argc, char *argv[] )
   const    unsigned int    Dimension = 2;
   typedef  unsigned short  PixelType;
   
-  typedef itk::OrientedImage< PixelType, Dimension >  FixedImageType;
-  typedef itk::OrientedImage< PixelType, Dimension >  MovingImageType;
+  typedef itk::Image< PixelType, Dimension >  FixedImageType;
+  typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
   typedef itk::TranslationTransform< double, Dimension > TransformType;
 
@@ -509,7 +509,7 @@ int main( int argc, char *argv[] )
   //
   typedef  unsigned char  OutputPixelType;
 
-  typedef itk::OrientedImage< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   
   typedef itk::CastImageFilter< 
                         FixedImageType,

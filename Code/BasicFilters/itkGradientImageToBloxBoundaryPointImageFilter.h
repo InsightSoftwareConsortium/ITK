@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,18 +23,18 @@
 
 namespace itk
 {
-
 /** \class GradientImageToBloxBoundaryPointImageFilter
  * \brief Converts a gradient image to an BloxImage of BloxBoundaryPoints
  *
  * Thresholds the magnitude of a gradient image to produce
  * a BloxBoundaryPointImage
- * 
+ *
  * \ingroup ImageEnhancement
  */
-template<typename TInputImage>
-class ITK_EXPORT GradientImageToBloxBoundaryPointImageFilter :
-    public ImageToImageFilter<TInputImage, BloxBoundaryPointImage< ::itk::GetImageDimension<TInputImage>::ImageDimension> >
+template< typename TInputImage >
+class ITK_EXPORT GradientImageToBloxBoundaryPointImageFilter:
+  public ImageToImageFilter< TInputImage,
+                             BloxBoundaryPointImage< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
 {
 public:
   /** Number of dimensions */
@@ -42,27 +42,27 @@ public:
 
   /** Standard class typedefs. */
   typedef GradientImageToBloxBoundaryPointImageFilter Self;
-  typedef ImageToImageFilter<TInputImage,
-                             BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)> > Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageToImageFilter< TInputImage,
+                              BloxBoundaryPointImage< itkGetStaticConstMacro(NDimensions) > > Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( GradientImageToBloxBoundaryPointImageFilter, ImageToImageFilter );
+  itkTypeMacro(GradientImageToBloxBoundaryPointImageFilter, ImageToImageFilter);
 
   /** typedef for images */
-  typedef TInputImage                             InputImageType;
-  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)>     TOutputImage;
-  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)>     OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
+  typedef TInputImage                                                   InputImageType;
+  typedef BloxBoundaryPointImage< itkGetStaticConstMacro(NDimensions) > TOutputImage;
+  typedef BloxBoundaryPointImage< itkGetStaticConstMacro(NDimensions) > OutputImageType;
+  typedef typename OutputImageType::Pointer                             OutputImagePointer;
+  typedef typename InputImageType::Pointer                              InputImagePointer;
+  typedef typename InputImageType::ConstPointer                         InputImageConstPointer;
 
   /** Image size typedef */
-  typedef Size<itkGetStaticConstMacro(NDimensions)> SizeType;
+  typedef Size< itkGetStaticConstMacro(NDimensions) > SizeType;
 
   /** Image index typedef */
   typedef typename TOutputImage::IndexType IndexType;
@@ -74,7 +74,7 @@ public:
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
   /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, itkGetStaticConstMacro(NDimensions)> TPositionType;
+  typedef Point< double, itkGetStaticConstMacro(NDimensions) > TPositionType;
 
   /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Threshold, double);
@@ -84,8 +84,8 @@ public:
    *  This is the number of input pixels "contained" within
    *  each blox pixel
    */
-  void SetBloxResolution( float bloxResolution[] );
-  void SetBloxResolution( float bloxResolution );
+  void SetBloxResolution(float bloxResolution[]);
+  void SetBloxResolution(float bloxResolution);
 
   void GenerateInputRequestedRegion();
 
@@ -93,15 +93,18 @@ public:
 
 protected:
   GradientImageToBloxBoundaryPointImageFilter();
-  virtual ~GradientImageToBloxBoundaryPointImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~GradientImageToBloxBoundaryPointImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryPointImage. */
   void GenerateData();
 
 private:
-  GradientImageToBloxBoundaryPointImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GradientImageToBloxBoundaryPointImageFilter(const Self &); //purposely not
+                                                             // implemented
+  void operator=(const Self &);                              //purposely not
+
+  // implemented
 
   /** The threshold used to decide whether or not a gradient indicates
     * a boundary point that should be included */
@@ -110,7 +113,6 @@ private:
   /** The resolution of the blox in each dimension */
   float m_BloxResolution[NDimensions];
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

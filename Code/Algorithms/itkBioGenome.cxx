@@ -16,92 +16,86 @@
 =========================================================================*/
 #include "itkBioGenome.h"
 
-namespace itk {
-
-namespace bio {
-
+namespace itk
+{
+namespace bio
+{
 /**
- *    Constructor 
- */ 
+ *    Constructor
+ */
 Genome
 ::Genome()
-{
-}
+{}
 
 /**
- *    Destructor   
- */ 
+ *    Destructor
+ */
 Genome
 ::~Genome()
-{
-}
+{}
 
 /**
  *    Copy from another genome
- */ 
+ */
 void
 Genome
-::Copy( const Genome & genome )
+::Copy(const Genome & genome)
 {
-
   m_Map.clear();
   typedef  Genome::MapType::const_iterator IteratorType;
 
-  IteratorType  begin = genome.m_Map.begin(); 
-  IteratorType  end   = genome.m_Map.end();
+  IteratorType begin = genome.m_Map.begin();
+  IteratorType end   = genome.m_Map.end();
 
-  IteratorType  gene = begin;
-  while( gene != end )
+  IteratorType gene = begin;
+  while ( gene != end )
     {
-    m_Map[ gene->first ] = gene->second;
+    m_Map[gene->first] = gene->second;
     ++gene;
     }
-
 }
 
 /**
- *    Inset a gene in the genome   
- */ 
+ *    Inset a gene in the genome
+ */
 void
 Genome
-::InsertGene( const GeneIdType & geneId )
+::InsertGene(const GeneIdType & geneId)
 {
   // operator[] will create the geneId if
   // it doesn't exist yet
   // By default the gene is inhibited
-  m_Map[ geneId ] = 0.0;
+  m_Map[geneId] = 0.0;
 }
 
 /**
- *    Knockout a gene in the genome   
- */ 
+ *    Knockout a gene in the genome
+ */
 void
 Genome
-::KnockOutGene( const GeneIdType & geneId )
+::KnockOutGene(const GeneIdType & geneId)
 {
-  m_Map.erase( geneId );
+  m_Map.erase(geneId);
 }
 
 /**
  *    Return the level of expression of a particular gene
- */ 
+ */
 double
 Genome
-::GetExpressionLevel( const GeneIdType & geneId )
+::GetExpressionLevel(const GeneIdType & geneId)
 {
-  return m_Map[ geneId ];
+  return m_Map[geneId];
 }
 
 /**
  *    Set the level of expression of a particular gene
- */ 
+ */
 void
 Genome
-::SetExpressionLevel( const GeneIdType & geneId, double level )
+::SetExpressionLevel(const GeneIdType & geneId, double level)
 {
-  m_Map[ geneId ] = level;
+  m_Map[geneId] = level;
 }
- 
 }  // end namespace bio
-
 }  // end namespace itk

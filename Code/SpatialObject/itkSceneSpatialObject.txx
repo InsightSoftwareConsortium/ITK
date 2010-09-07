@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,110 +22,106 @@
 
 namespace itk
 {
-  
 /** Constructor */
-template <unsigned int TSpaceDimension>
-SceneSpatialObject<TSpaceDimension>
+template< unsigned int TSpaceDimension >
+SceneSpatialObject< TSpaceDimension >
 ::SceneSpatialObject()
-{
-}
+{}
 
 /** Destructor */
-template <unsigned int TSpaceDimension>
-SceneSpatialObject<TSpaceDimension>
+template< unsigned int TSpaceDimension >
+SceneSpatialObject< TSpaceDimension >
 ::~SceneSpatialObject()
-{
-}
+{}
 
 /** Add a spatial object to the SceneSpatialObject */
-template <unsigned int TSpaceDimension>
-void 
-SceneSpatialObject<TSpaceDimension>
-::AddSpatialObject( SpatialObject<TSpaceDimension> * pointer )
+template< unsigned int TSpaceDimension >
+void
+SceneSpatialObject< TSpaceDimension >
+::AddSpatialObject(SpatialObject< TSpaceDimension > *pointer)
 {
-  m_Objects.push_back( pointer );
+  m_Objects.push_back(pointer);
   this->Modified();
 }
 
 /** Remove a spatial object from the SceneSpatialObject */
-template <unsigned int TSpaceDimension>
-void 
-SceneSpatialObject<TSpaceDimension>
-::RemoveSpatialObject( SpatialObject<TSpaceDimension> * pointer )
+template< unsigned int TSpaceDimension >
+void
+SceneSpatialObject< TSpaceDimension >
+::RemoveSpatialObject(SpatialObject< TSpaceDimension > *pointer)
 {
   typename ObjectListType::iterator it;
-  it = std::find(m_Objects.begin(),m_Objects.end(),pointer);
+  it = std::find(m_Objects.begin(), m_Objects.end(), pointer);
 
-  if( it != m_Objects.end() )
+  if ( it != m_Objects.end() )
     {
-    if( *it == pointer )
+    if ( *it == pointer )
       {
-      m_Objects.erase( it );
+      m_Objects.erase(it);
       this->Modified();
       }
     }
   else
-    { 
-    //throw an exception object to let user know that 
+    {
+    //throw an exception object to let user know that
     // he tried to remove an object
     // which is not in the list of the children.
     }
 }
 
-
 /** Return the modification time of the SceneSpatialObject */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 unsigned long
-SceneSpatialObject<TSpaceDimension>
-::GetMTime( void ) const
+SceneSpatialObject< TSpaceDimension >
+::GetMTime(void) const
 {
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
- 
+
   unsigned long latestTime = Superclass::GetMTime();
   unsigned long localTime;
-  while(it!=itEnd)
+  while ( it != itEnd )
     {
-    localTime = (*it)->GetMTime();
-    if( localTime > latestTime )
+    localTime = ( *it )->GetMTime();
+    if ( localTime > latestTime )
       {
       latestTime = localTime;
       }
     it++;
-    } 
+    }
   return latestTime;
 }
 
 /** Returns a new list of objects in the scene */
-template <unsigned int TSpaceDimension>
-typename SceneSpatialObject<TSpaceDimension>::ObjectListType *
-SceneSpatialObject<TSpaceDimension>
-::GetObjects( unsigned int depth, char * name )
+template< unsigned int TSpaceDimension >
+typename SceneSpatialObject< TSpaceDimension >::ObjectListType *
+SceneSpatialObject< TSpaceDimension >
+::GetObjects(unsigned int depth, char *name)
 {
-  ObjectListType * newList = new ObjectListType;
+  ObjectListType *newList = new ObjectListType;
 
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
-  while(it != itEnd)
+  while ( it != itEnd )
     {
-    if(name == NULL || strstr(typeid(**it).name(), name))
+    if ( name == NULL || strstr(typeid( **it ).name(), name) )
       {
       newList->push_back(*it);
       }
-    if(depth>0)
+    if ( depth > 0 )
       {
-      typedef typename SpatialObject<TSpaceDimension>::ChildrenListType
-        ChildListType;
-      ChildListType * childList = 
-        dynamic_cast<SpatialObject<TSpaceDimension> *>((*it).GetPointer())->
-        GetChildren(depth-1, name);
+      typedef typename SpatialObject< TSpaceDimension >::ChildrenListType
+      ChildListType;
+      ChildListType *childList =
+        dynamic_cast< SpatialObject< TSpaceDimension > * >( ( *it ).GetPointer() )->
+        GetChildren(depth - 1, name);
       typename ChildListType::const_iterator cIt = childList->begin();
       typename ChildListType::const_iterator cItEnd = childList->end();
 
-      while(cIt != cItEnd)
+      while ( cIt != cItEnd )
         {
-        newList->push_back(dynamic_cast< ObjectType * >((*cIt).GetPointer()));
+        newList->push_back( dynamic_cast< ObjectType * >( ( *cIt ).GetPointer() ) );
         cIt++;
         }
 
@@ -138,27 +134,27 @@ SceneSpatialObject<TSpaceDimension>
 }
 
 /** Set the children list */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 void
-SceneSpatialObject<TSpaceDimension>
-::SetObjects( ObjectListType & children )
-{ 
+SceneSpatialObject< TSpaceDimension >
+::SetObjects(ObjectListType & children)
+{
   m_Objects = children;
 }
 
 /** Return the number of objects in the SceneSpatialObject */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 unsigned int
-SceneSpatialObject<TSpaceDimension>
-::GetNumberOfObjects( unsigned int depth, char * name )
+SceneSpatialObject< TSpaceDimension >
+::GetNumberOfObjects(unsigned int depth, char *name)
 {
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
   unsigned int cnt = 0;
-  while(it != itEnd)
+  while ( it != itEnd )
     {
-    if(name == NULL || strstr(typeid(**it).name(), name))
+    if ( name == NULL || strstr(typeid( **it ).name(), name) )
       {
       cnt++;
       }
@@ -167,36 +163,36 @@ SceneSpatialObject<TSpaceDimension>
 
   it = m_Objects.begin();
   itEnd = m_Objects.end();
-  if( depth > 0 )
+  if ( depth > 0 )
     {
-    while(it != itEnd)
+    while ( it != itEnd )
       {
-      cnt += 
-        (dynamic_cast<SpatialObject<TSpaceDimension> * >((*it).GetPointer()))->
-                                           GetNumberOfChildren( depth-1, name );
+      cnt +=
+        ( dynamic_cast< SpatialObject< TSpaceDimension > * >( ( *it ).GetPointer() ) )->
+        GetNumberOfChildren(depth - 1, name);
       it++;
       }
     }
 
   return cnt;
-} 
+}
 
 /** Print the object */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 void
-SceneSpatialObject<TSpaceDimension>
-::PrintSelf( std::ostream& os, Indent indent ) const
+SceneSpatialObject< TSpaceDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "Number of objects: " 
+  os << indent << "Number of objects: "
      << m_Objects.size() << std::endl;
   os << indent << "List of objects: ";
 
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
-  while(it != itEnd)
+  while ( it != itEnd )
     {
-    os << "[" << (*it) << "] ";
+    os << "[" << ( *it ) << "] ";
     it++;
     }
   os << std::endl;
@@ -204,39 +200,39 @@ SceneSpatialObject<TSpaceDimension>
   Superclass::PrintSelf(os, indent);
 }
 
-/** Return a SpatialObject in the SceneSpatialObject 
+/** Return a SpatialObject in the SceneSpatialObject
  *  given a parent ID */
-template <unsigned int TSpaceDimension>
-SpatialObject<TSpaceDimension> *
-SceneSpatialObject<TSpaceDimension>
+template< unsigned int TSpaceDimension >
+SpatialObject< TSpaceDimension > *
+SceneSpatialObject< TSpaceDimension >
 ::GetObjectById(int Id)
 {
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
   typedef typename SpatialObjectType::ChildrenListType ChildListType;
-  ChildListType * cList;
+  ChildListType *cList;
   typename ChildListType::iterator cIt;
   typename ChildListType::iterator cItEnd;
-    
-  while( it != itEnd )
+
+  while ( it != itEnd )
     {
-    if( (*it)->GetId() == Id )
-      { 
+    if ( ( *it )->GetId() == Id )
+      {
       return *it;
       }
     else
       {
       //cList = (dynamic_cast<SpatialObject<TSpaceDimension> *>(*it))->
-      //  GetChildren(SpatialObjectType::MaximumDepth); 
-      cList = (*it)->GetChildren(SpatialObjectType::MaximumDepth); 
+      //  GetChildren(SpatialObjectType::MaximumDepth);
+      cList = ( *it )->GetChildren(SpatialObjectType::MaximumDepth);
       cIt = cList->begin();
       cItEnd = cList->end();
-      while(cIt != cItEnd)
+      while ( cIt != cItEnd )
         {
-        if( (*cIt)->GetId() == Id )
+        if ( ( *cIt )->GetId() == Id )
           {
-          SpatialObject<TSpaceDimension> * tmp;
+          SpatialObject< TSpaceDimension > *tmp;
           tmp = *cIt;
           delete cList;
           return tmp;
@@ -252,9 +248,10 @@ SceneSpatialObject<TSpaceDimension>
 
   return NULL;
 }
-template <unsigned int TSpaceDimension>
+
+template< unsigned int TSpaceDimension >
 bool
-SceneSpatialObject<TSpaceDimension>
+SceneSpatialObject< TSpaceDimension >
 ::FixHierarchy(void)
 {
   typename ObjectListType::iterator it = m_Objects.begin();
@@ -262,26 +259,26 @@ SceneSpatialObject<TSpaceDimension>
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
   bool ret = true;
-  while( it != itEnd)
+  while ( it != itEnd )
     {
-    int pID = (*it)->GetParentId();
-    if(pID >= 0)
+    int pID = ( *it )->GetParentId();
+    if ( pID >= 0 )
       {
-      SpatialObject<TSpaceDimension> * pObj =
-        static_cast<SpatialObject<TSpaceDimension> * >
-        (this->GetObjectById(pID));
-      if(pObj == NULL)
+      SpatialObject< TSpaceDimension > *pObj =
+        static_cast< SpatialObject< TSpaceDimension > * >
+        ( this->GetObjectById(pID) );
+      if ( pObj == NULL )
         {
         ret = false;
         it++;
         }
       else
         {
-        pObj->AddSpatialObject(dynamic_cast<SpatialObject<TSpaceDimension> *>
-                               ((*it).GetPointer()));
+        pObj->AddSpatialObject( dynamic_cast< SpatialObject< TSpaceDimension > * >
+                                ( ( *it ).GetPointer() ) );
         oldIt = it;
         it++;
-        m_Objects.erase( oldIt );
+        m_Objects.erase(oldIt);
         }
       }
     else
@@ -293,29 +290,28 @@ SceneSpatialObject<TSpaceDimension>
   return ret;
 }
 
-
 /** Check if the parent objects have a defined ID */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 bool
-SceneSpatialObject<TSpaceDimension>
+SceneSpatialObject< TSpaceDimension >
 ::CheckIdValidity(void)
 {
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
   bool ret = true;
-  while( it != itEnd)
+  while ( it != itEnd )
     {
     // For every object in the scene we check the ID validity
-    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
+    typename ObjectType::ChildrenListType * children = ( *it )->GetChildren();
     typename ObjectType::ChildrenListType::const_iterator
-                                               itChild = children->begin();
-    
-    while( itChild != children->end())
+    itChild = children->begin();
+
+    while ( itChild != children->end() )
       {
-      if( (*itChild)->HasParent())
+      if ( ( *itChild )->HasParent() )
         {
-        if((*itChild)->GetParent()->GetId()<0)
+        if ( ( *itChild )->GetParent()->GetId() < 0 )
           {
           delete children;
           return false;
@@ -329,27 +325,27 @@ SceneSpatialObject<TSpaceDimension>
   return ret;
 }
 
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 void
-SceneSpatialObject<TSpaceDimension>
+SceneSpatialObject< TSpaceDimension >
 ::FixIdValidity(void)
 {
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
-  while( it != itEnd)
+  while ( it != itEnd )
     {
     // For every object in the scene we check the ID validity
-    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
+    typename ObjectType::ChildrenListType * children = ( *it )->GetChildren();
     typename ObjectType::ChildrenListType::iterator itChild = children->begin();
-    
-    while( itChild != children->end())
+
+    while ( itChild != children->end() )
       {
-      if( (*itChild)->HasParent())
+      if ( ( *itChild )->HasParent() )
         {
-        if((*itChild)->GetParent()->GetId()<0)
+        if ( ( *itChild )->GetParent()->GetId() < 0 )
           {
-          (*itChild)->GetParent()->SetId(this->GetNextAvailableId());
+          ( *itChild )->GetParent()->SetId( this->GetNextAvailableId() );
           }
         }
       itChild++;
@@ -359,11 +355,10 @@ SceneSpatialObject<TSpaceDimension>
     }
 }
 
-
 /** Return the next available Id. For speed reason the MaxID+1 is returned */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 int
-SceneSpatialObject<TSpaceDimension>
+SceneSpatialObject< TSpaceDimension >
 ::GetNextAvailableId()
 {
   int Id = 0;
@@ -371,17 +366,17 @@ SceneSpatialObject<TSpaceDimension>
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
-  while( it != itEnd)
+  while ( it != itEnd )
     {
-    typename ObjectType::ChildrenListType* children = (*it)->GetChildren();
-    typename ObjectType::ChildrenListType::iterator 
-                                               itChild = children->begin();
-    
-    while( itChild != children->end())
+    typename ObjectType::ChildrenListType * children = ( *it )->GetChildren();
+    typename ObjectType::ChildrenListType::iterator
+    itChild = children->begin();
+
+    while ( itChild != children->end() )
       {
-      if((*itChild)->GetId() >= Id)
+      if ( ( *itChild )->GetId() >= Id )
         {
-        Id = (*itChild)->GetId()+1;
+        Id = ( *itChild )->GetId() + 1;
         }
       itChild++;
       }
@@ -392,16 +387,14 @@ SceneSpatialObject<TSpaceDimension>
 }
 
 /** Clear function : Remove all the objects in the scene */
-template <unsigned int TSpaceDimension>
+template< unsigned int TSpaceDimension >
 void
-SceneSpatialObject<TSpaceDimension>
+SceneSpatialObject< TSpaceDimension >
 ::Clear()
 {
   m_Objects.clear();
   this->Modified();
 }
-
-
-} // end of namespace itk 
+} // end of namespace itk
 
 #endif

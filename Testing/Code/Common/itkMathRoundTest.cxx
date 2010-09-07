@@ -169,24 +169,6 @@ int itkMathRoundTest( int, char *[] )
   ok &= math_test_helper("ceil(-9.0001)  == -9 ", itk::Math::Ceil<IndexValueType>(-9.0001)  == -9);
   ok &= math_test_helper("ceil(-9.0001f) == -9 ", itk::Math::Ceil<IndexValueType>(-9.0001f) == -9);
 
-
-#if !defined(ITK_LEGACY_REMOVE) && !VCL_TEMPLATE_MATCHES_TOO_OFTEN
-  ok &= math_test_helper("rnd(-9.4999)  == -9 ", itk::Math::Round(-9.4999)   == -9);
-  ok &= math_test_helper("rnd(-9.4999f) == -9 ", itk::Math::Round(-9.4999f)  == -9);
-  
-  ok &= math_test_helper("rnd_halfinttoeven(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerToEven(-9.4999) == -9);
-  ok &= math_test_helper("rnd_halfinttoeven(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerToEven(-9.4999f)== -9);
-  
-  ok &= math_test_helper("rnd_halfintup(-9.4999)  == -9 ", itk::Math::RoundHalfIntegerUp(-9.4999) == -9);
-  ok &= math_test_helper("rnd_halfintup(-9.4999f) == -9 ", itk::Math::RoundHalfIntegerUp(-9.4999f)== -9);
-  
-  ok &= math_test_helper("floor(9.0)      ==  9 ", itk::Math::Floor(9.0)      ==  9);
-  ok &= math_test_helper("floor(9.0f)     ==  9 ", itk::Math::Floor(9.0f)     ==  9);
-  
-  ok &= math_test_helper("ceil(9.0)      ==  9 ", itk::Math::Ceil(9.0)      ==  9);
-  ok &= math_test_helper("ceil(9.0f)     ==  9 ", itk::Math::Ceil(9.0f)     ==  9);
-#endif // end of ITK_LEGACY_REMOVE
-
   if (!ok)
     {
     return EXIT_FAILURE;

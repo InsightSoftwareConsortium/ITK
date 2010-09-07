@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /**
  * \class MeshFunctionBase
  * \ingroup QEMeshModifierFunctions
@@ -45,22 +44,22 @@ namespace itk
  * function objects that apply reduced and localised modifications
  * (geometry, or connectivity) on the InputType mesh.
  *
- * This class is template over the mesh type (to be modified) and 
+ * This class is template over the mesh type (to be modified) and
  * the output (usually a created/deleted vertex or face) type.
  *
  * \ingroup Functions
- * 
+ *
  */
-template < class TMesh, class TOutput >
-class ITK_EXPORT QuadEdgeMeshFunctionBase : public Object
+template< class TMesh, class TOutput >
+class ITK_EXPORT QuadEdgeMeshFunctionBase:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshFunctionBase      Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
-  
+  typedef QuadEdgeMeshFunctionBase   Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshFunctionBase, Object);
 
@@ -72,34 +71,31 @@ public:
   typedef TOutput OutputType;
 
   /** Set the mesh to be modified */
-  virtual void SetInput( MeshType* input )
-    {
+  virtual void SetInput(MeshType *input)
+  {
     this->m_Mesh = input;
-    }
+  }
 
   /** Evaluate at the specified input position */
   //virtual OutputType Evaluate( )
   //  {
   //  return( (OutputType) 0 );
   //  }
-
 protected:
   QuadEdgeMeshFunctionBase()
-    {
-    m_Mesh = (MeshType*) 0;
-    }
-  ~QuadEdgeMeshFunctionBase(){};
+  {
+    m_Mesh = (MeshType *)0;
+  }
 
+  ~QuadEdgeMeshFunctionBase(){}
 private:
-  QuadEdgeMeshFunctionBase(const Self& ); //purposely not implemented
-  void operator=(const Self& );   //purposely not implemented
+  QuadEdgeMeshFunctionBase(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 
 protected:
   /** Mesh on which to apply the modification */
-  MeshType* m_Mesh;
-
+  MeshType *m_Mesh;
 };
-
 } // namespace itk
 
 #endif

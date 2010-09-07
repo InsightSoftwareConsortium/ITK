@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,34 +26,30 @@
 
 namespace itk
 {
-
 /** \class ImageFileReaderException
  *
  * \brief Base exception class for IO conflicts.
  */
-class ImageFileReaderException : public ExceptionObject 
+class ImageFileReaderException:public ExceptionObject
 {
 public:
   /** Run-time information. */
-  itkTypeMacro( ImageFileReaderException, ExceptionObject );
+  itkTypeMacro(ImageFileReaderException, ExceptionObject);
 
   /** Constructor. */
-  ImageFileReaderException(const char *file, unsigned int line, 
-                           const char* message = "Error in IO",
-                           const char* loc = "Unknown") :
+  ImageFileReaderException(const char *file, unsigned int line,
+                           const char *message = "Error in IO",
+                           const char *loc = "Unknown"):
     ExceptionObject(file, line, message, loc)
-  {
-  }
+  {}
 
   /** Constructor. */
-  ImageFileReaderException(const std::string &file, unsigned int line, 
-                           const char* message = "Error in IO",
-                           const char* loc = "Unknown") : 
+  ImageFileReaderException(const std::string & file, unsigned int line,
+                           const char *message = "Error in IO",
+                           const char *loc = "Unknown"):
     ExceptionObject(file, line, message, loc)
-  {
-  }
+  {}
 };
-
 
 /** \brief Data source that reads image data from a single file.
  *
@@ -67,8 +63,8 @@ public:
  *
  * TOutputImage is the type expected by the external users of the
  * filter. If data stored in the file is stored in a different format
- * then specified by TOutputImage, than this filter converts data 
- * between the file type and the external expected type.  The 
+ * then specified by TOutputImage, than this filter converts data
+ * between the file type and the external expected type.  The
  * ConvertTraits template argument is used to do the conversion.
  *
  * A Pluggable factory pattern is used this allows different kinds of readers
@@ -87,17 +83,17 @@ public:
  */
 /** \class ImageFileReader
  */
-template <class TOutputImage,
-          class ConvertPixelTraits=DefaultConvertPixelTraits< 
-                   ITK_TYPENAME TOutputImage::IOPixelType > >
-class ITK_EXPORT ImageFileReader : public ImageSource<TOutputImage>
+template< class TOutputImage,
+          class ConvertPixelTraits = DefaultConvertPixelTraits<
+            ITK_TYPENAME TOutputImage::IOPixelType > >
+class ITK_EXPORT ImageFileReader:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageFileReader           Self;
-  typedef ImageSource<TOutputImage> Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  
+  typedef ImageFileReader             Self;
+  typedef ImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -105,30 +101,31 @@ public:
   itkTypeMacro(ImageFileReader, ImageSource);
 
   /** The size of the output image. */
-  typedef typename TOutputImage::SizeType  SizeType;
+  typedef typename TOutputImage::SizeType SizeType;
 
   /** The size of the output image. */
-  typedef typename TOutputImage::IndexType  IndexType;
+  typedef typename TOutputImage::IndexType IndexType;
 
   /** The region of the output image. */
-  typedef typename TOutputImage::RegionType  ImageRegionType;
+  typedef typename TOutputImage::RegionType ImageRegionType;
 
   /** The pixel type of the output image. */
   typedef typename TOutputImage::InternalPixelType OutputImagePixelType;
-  
+
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-  
+
   /** Set/Get the ImageIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular ImageIO can
-   * read a certain file. This method provides a way to get the ImageIO 
+   * read a certain file. This method provides a way to get the ImageIO
    * instance that is created. Or you can directly specify the ImageIO
    * to use to read a particular file in case the factory mechanism will
    * not work properly (e.g., unknown or unusual extension). */
-  void  SetImageIO( ImageIOBase * imageIO );
-  itkGetObjectMacro(ImageIO,ImageIOBase);
-  
+  void  SetImageIO(ImageIOBase *imageIO);
+
+  itkGetObjectMacro(ImageIO, ImageIOBase);
+
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
   virtual void GenerateOutputInformation(void);
@@ -139,19 +136,18 @@ public:
    * cannot read a portion of an image), so the ImageFileReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
-  
-  /** Set the stream On or Off */
-  itkSetMacro(UseStreaming,bool);
-  itkGetConstReferenceMacro(UseStreaming,bool);
-  itkBooleanMacro(UseStreaming);
 
+  /** Set the stream On or Off */
+  itkSetMacro(UseStreaming, bool);
+  itkGetConstReferenceMacro(UseStreaming, bool);
+  itkBooleanMacro(UseStreaming);
 protected:
   ImageFileReader();
   ~ImageFileReader();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Convert a block of pixels from one type to another. */
-  void DoConvertBuffer(void* buffer, size_t numberOfPixels);
+  void DoConvertBuffer(void *buffer, size_t numberOfPixels);
 
   /** Test whether the given filename exist and it is readable, this
     * is intended to be called before attempting to use  ImageIO
@@ -164,24 +160,23 @@ protected:
   virtual void GenerateData();
 
   ImageIOBase::Pointer m_ImageIO;
-  bool                 m_UserSpecifiedImageIO; // keep track whether the
-                                               // ImageIO is user specified 
+
+  bool m_UserSpecifiedImageIO; // keep track whether the
+                               // ImageIO is user specified
 
   std::string m_FileName; // The file to be read
 
   bool m_UseStreaming;
-  
 private:
-  ImageFileReader(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  std::string m_ExceptionMessage;  
+  ImageFileReader(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
+
+  std::string m_ExceptionMessage;
 
   // The region that the ImageIO class will return when we ask to
   // produce the requested region.
-  ImageIORegion m_ActualIORegion; 
+  ImageIORegion m_ActualIORegion;
 };
-
-
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION

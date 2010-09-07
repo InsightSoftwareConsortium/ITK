@@ -208,11 +208,7 @@ int itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char*[] itkNotUsed(a
   result_ul = DoRegistration<unsigned long>();
   result_l  = DoRegistration<long>();
   result_f  = DoRegistration<float>();
-#ifndef __BORLANDC__
   result_d  = DoRegistration<double>();
-#else
-  result_d = true;
-#endif
 
   std::cout << "<unsigned char>:  " << result_uc << std::endl;
   std::cout << "<char>:           " << result_c  << std::endl;

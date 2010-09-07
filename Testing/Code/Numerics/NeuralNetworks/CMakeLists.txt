@@ -45,14 +45,11 @@ ENDIF(ITK_BINARY_DIR)
   ADD_TEST(NNetClassifierTest4 ${NNET_OBJECT_TESTS3} 
            NNetClassifierTest4 ${ITK_DATA_ROOT}/Input/NeuralNetworks/train.txt 
                                ${ITK_DATA_ROOT}/Input/NeuralNetworks/test.txt)
-IF(NOT BORLAND)
   ADD_TEST(RBFTest1 ${NNET_OBJECT_TESTS2} 
            RBFTest1 ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_train.txt
                     ${ITK_DATA_ROOT}/Input/NeuralNetworks/rbf_multivar_gauss_test.txt)
   
   ADD_TEST( itkNeuralNetworksPrintTest ${NNET_OBJECT_TESTS2} itkNeuralNetworksPrintTest)
-ENDIF(NOT BORLAND)
-
 
    SET(NNET_SRCS
       XORTest1.cxx
@@ -77,10 +74,8 @@ ENDIF(NOT BORLAND)
   ADD_EXECUTABLE(itkNeuralNetworkTests itkNeuralNetworkTests.cxx ${NNET_SRCS})
   TARGET_LINK_LIBRARIES(itkNeuralNetworkTests ITKIO ITKNumerics ITKStatistics)
 
-IF(NOT BORLAND)
   ADD_EXECUTABLE(itkNeuralNetworkTests2 itkNeuralNetworkTests2.cxx ${NNET_SRCS2})
   TARGET_LINK_LIBRARIES(itkNeuralNetworkTests2 ITKIO ITKNumerics ITKStatistics)
-ENDIF(NOT BORLAND)
 
   ADD_EXECUTABLE(itkNeuralNetworkTests3 itkNeuralNetworkTests3.cxx ${NNET_SRCS3})
   TARGET_LINK_LIBRARIES(itkNeuralNetworkTests3 ITKIO ITKNumerics ITKStatistics)

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,10 +19,10 @@
 
 #include "itkNeighborhood.h"
 
-namespace itk {
-  
+namespace itk
+{
 /** \class BinaryBallStructuringElement
- * \brief A Neighborhood that represents a ball structuring element 
+ * \brief A Neighborhood that represents a ball structuring element
  *       (ellipsoid) with binary elements.
  *
  * This class defines a Neighborhood whose elements are either 0 or 1
@@ -43,89 +43,90 @@ namespace itk {
  * \sa MorphologyImageFilter
  * \sa BinaryDilateImageFilter
  * \sa BinaryErodeImageFilter
- * 
+ *
  * \ingroup Operators
  * \ingroup ImageIterators
  */
 
-template<class TPixel, unsigned int VDimension = 2,
-         class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT BinaryBallStructuringElement
-  : public Neighborhood<TPixel, VDimension, TAllocator>
+template< class TPixel, unsigned int VDimension = 2,
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT BinaryBallStructuringElement:
+  public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryBallStructuringElement                 Self;
-  typedef Neighborhood<TPixel, VDimension, TAllocator> Superclass;
+  typedef BinaryBallStructuringElement                   Self;
+  typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
 
   /** External support for allocator type. */
   typedef TAllocator AllocatorType;
 
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
-  
+
   /** External support for pixel type. */
   typedef TPixel PixelType;
-  
+
   /** Iterator typedef support. Note the naming is intentional, i.e.,
   * ::iterator and ::const_iterator, because the allocator may be a
   * vnl object or other type, which uses this form. */
   typedef typename AllocatorType::iterator       Iterator;
   typedef typename AllocatorType::const_iterator ConstIterator;
-  
+
   /** Size and value typedef support. */
   typedef typename Superclass::SizeType      SizeType;
   typedef typename Superclass::SizeValueType SizeValueType;
-  
+
   /** Radius typedef support. */
   typedef typename Superclass::RadiusType RadiusType;
 
   /** External slice iterator type typedef support. */
-  typedef SliceIterator<TPixel, Self> SliceIteratorType;
-  
+  typedef SliceIterator< TPixel, Self > SliceIteratorType;
+
   /** Default constructor. */
   BinaryBallStructuringElement() {}
 
   /** Default destructor. */
   virtual ~BinaryBallStructuringElement() {}
-    
+
   /** Copy constructor. */
-  BinaryBallStructuringElement(const Self& other)
-    : Neighborhood<TPixel, VDimension, TAllocator>(other)
-    {
-    }
+  BinaryBallStructuringElement(const Self & other):
+    Neighborhood< TPixel, VDimension, TAllocator >(other)
+  {}
 
   /** Assignment operator. */
-  Self &operator=(const Self& other)
-    {
+  Self & operator=(const Self & other)
+  {
     Superclass::operator=(other);
     return *this;
-    }
+  }
 
   /** Build the structuring element */
-  void CreateStructuringElement();   
-  
+  void CreateStructuringElement();
+
 protected:
-  
 private:
-
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BinaryBallStructuringElement(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT BinaryBallStructuringElement< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef BinaryBallStructuringElement< ITK_TEMPLATE_2 x > \
-                                                  BinaryBallStructuringElement##y; } \
+#define ITK_TEMPLATE_BinaryBallStructuringElement(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                \
+  {                                                                            \
+  _( 2 ( class EXPORT BinaryBallStructuringElement< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                          \
+  {                                                                            \
+  typedef BinaryBallStructuringElement< ITK_TEMPLATE_2 TypeX >                 \
+  BinaryBallStructuringElement##TypeY;                                       \
+  }                                                                            \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBinaryBallStructuringElement+-.h"
+#include "Templates/itkBinaryBallStructuringElement+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBinaryBallStructuringElement.txx"
+#include "itkBinaryBallStructuringElement.txx"
 #endif
 
 #endif

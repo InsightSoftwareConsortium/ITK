@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,65 +25,63 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <class TInputImage, class TOutputImage  >
-ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage  >
+ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 ::ScalarToArrayCastImageFilter()
 {
   this->SetNumberOfRequiredInputs
-    ( PixelTraits< OutputImagePixelType >::Dimension );
+    (PixelTraits< OutputImagePixelType >::Dimension);
 }
-
 
 /**
  * ThreadedGenerateData Performs the pixel-wise addition
  */
-template <class TInputImage, class TOutputImage  >
+template< class TInputImage, class TOutputImage  >
 void
-ScalarToArrayCastImageFilter<TInputImage,TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
-                        int threadId)
+ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                       int threadId)
 {
-  unsigned int length = 
+  unsigned int length =
     PixelTraits< OutputImagePixelType >::Dimension;
-  std::vector< const TInputImage* > inputs;
+
+  std::vector< const TInputImage * >                     inputs;
   std::vector< ImageRegionConstIterator< TInputImage > > i_iters;
 
   for ( unsigned int i = 0; i < length; i++ )
     {
-    inputs.push_back(this->GetInput(i));
+    inputs.push_back( this->GetInput(i) );
     i_iters.push_back(
       ImageRegionConstIterator< TInputImage >
-      (inputs[i], outputRegionForThread) );
-    (i_iters[i]).GoToBegin();
+        (inputs[i], outputRegionForThread) );
+    ( i_iters[i] ).GoToBegin();
     }
 
   typename TOutputImage::Pointer outputPtr = this->GetOutput(0);
-  
-  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
-  ProgressReporter progress(this, 
-                            threadId, 
-                            outputRegionForThread.GetNumberOfPixels());
+  ImageRegionIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
+
+  ProgressReporter progress( this,
+                             threadId,
+                             outputRegionForThread.GetNumberOfPixels() );
   outputIt.GoToBegin();
   typename TOutputImage::PixelType arrayPixel;
 
-  while( !outputIt.IsAtEnd() ) 
+  while ( !outputIt.IsAtEnd() )
     {
     for ( unsigned int j = 0; j < length; j++ )
       {
-      arrayPixel[j] = (i_iters[j]).Get();
-      ++(i_iters[j]);
+      arrayPixel[j] = ( i_iters[j] ).Get();
+      ++( i_iters[j] );
       }
-    outputIt.Set( arrayPixel );
+    outputIt.Set(arrayPixel);
     ++outputIt;
     progress.CompletedPixel();
     }
 }
-
 } // end namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,18 +21,18 @@
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkIsoContourDistanceImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ApproximateSignedDistanceMapImageFilter
  * \brief Create a map of the approximate signed distance from the boundaries of
- * a binary image. 
+ * a binary image.
  *
  * The ApproximateSignedDistanceMapImageFilter takes as input a binary image and
- * produces a signed distance map. Each pixel value in the output contains the 
+ * produces a signed distance map. Each pixel value in the output contains the
  * approximate distance from that pixel to the nearest "object" in the binary
  * image. This filter differs from the DanielssonDistanceMapImageFilter in that
  * it calculates the distance to the "object edge" for pixels within the object.
- * 
+ *
  * Negative values in the output indicate that the pixel at that position is
  * within an object in the input image. The absolute value of a negative pixel
  * represents the approximate distance to the nearest object boundary pixel.
@@ -54,7 +54,7 @@ namespace itk {
  * slightly faster if the inside value is less than the outside value. Otherwise
  * an extra iteration through the image is required.
  *
- * This filter uses the FastChamferDistanceImageFilter and the 
+ * This filter uses the FastChamferDistanceImageFilter and the
  * IsoContourDistanceImageFilter inernally to perform the distance calculations.
  *
  * \sa DanielssonDistanceMapImageFilter, SignedDanielssonDistanceMapImageFilter
@@ -62,16 +62,16 @@ namespace itk {
  *
  * \author Zach Pincus
  */
-  
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT ApproximateSignedDistanceMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ApproximateSignedDistanceMapImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard typedefs */
-  typedef ApproximateSignedDistanceMapImageFilter       Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef ApproximateSignedDistanceMapImageFilter         Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ApproximateSignedDistanceMapImageFilter, ImageToImageFilter);
@@ -81,13 +81,13 @@ public:
 
   /** Type for input image. */
   typedef TInputImage InputImageType;
-  
+
   /** Type for the output image. */
   typedef TOutputImage OutputImageType;
-  
+
   /** Type for the pixels of the input image. */
   typedef typename InputImageType::PixelType InputPixelType;
-  
+
   /** Type for the pixels of the output image. */
   typedef typename OutputImageType::PixelType OutputPixelType;
 
@@ -97,50 +97,52 @@ public:
   /** The dimension of the input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
-    
+
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
-  
+
   /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  
-  /** Set/Get intensity value representing the interior of objects in the mask */
+
+  /** Set/Get intensity value representing the interior of objects in the mask
+    */
   itkSetMacro(InsideValue, InputPixelType);
   itkGetConstMacro(InsideValue, InputPixelType);
- 
+
   /** Set/Get intensity value representing non-objects in the mask */
   itkSetMacro(OutsideValue, InputPixelType);
   itkGetConstMacro(OutsideValue, InputPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<typename InputImageType::PixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< typename InputImageType::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ApproximateSignedDistanceMapImageFilter();
-  virtual ~ApproximateSignedDistanceMapImageFilter() {};
+  virtual ~ApproximateSignedDistanceMapImageFilter() {}
   virtual void GenerateData();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ApproximateSignedDistanceMapImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ApproximateSignedDistanceMapImageFilter(const Self &); //purposely not
+                                                         // implemented
+  void operator=(const Self &);                          //purposely not
 
-  typedef IsoContourDistanceImageFilter<InputImageType, OutputImageType> IsoContourType;
-  typedef FastChamferDistanceImageFilter<OutputImageType, OutputImageType> ChamferType;
+  // implemented
+
+  typedef IsoContourDistanceImageFilter< InputImageType, OutputImageType >   IsoContourType;
+  typedef FastChamferDistanceImageFilter< OutputImageType, OutputImageType > ChamferType;
   typename IsoContourType::Pointer m_IsoContourFilter;
-  typename ChamferType::Pointer    m_ChamferFilter;
-  
+
+  typename ChamferType::Pointer m_ChamferFilter;
+
   InputPixelType m_InsideValue;
   InputPixelType m_OutsideValue;
-  
 };
-
-} // end of namespace itk 
+} // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkApproximateSignedDistanceMapImageFilter.txx"

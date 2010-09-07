@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,30 +19,28 @@
 
 #include "itkScalarImageToHistogramGenerator.h"
 
-
-namespace itk { 
-namespace Statistics {
-
-
-template < class TImage >
+namespace itk
+{
+namespace Statistics
+{
+template< class TImage >
 ScalarImageToHistogramGenerator< TImage >
-::ScalarImageToHistogramGenerator() 
+::ScalarImageToHistogramGenerator()
 {
   m_ImageToListAdaptor = AdaptorType::New();
   m_HistogramGenerator = GeneratorType::New();
-  m_HistogramGenerator->SetListSample( m_ImageToListAdaptor );
+  m_HistogramGenerator->SetInput(m_ImageToListAdaptor);
 }
 
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::SetInput( const ImageType * image ) 
+::SetInput(const ImageType *image)
 {
-  m_ImageToListAdaptor->SetImage( image );
+  m_ImageToListAdaptor->SetImage(image);
 }
 
-
-template < class TImage >
+template< class TImage >
 const typename ScalarImageToHistogramGenerator< TImage >::HistogramType *
 ScalarImageToHistogramGenerator< TImage >
 ::GetOutput() const
@@ -50,67 +48,67 @@ ScalarImageToHistogramGenerator< TImage >
   return m_HistogramGenerator->GetOutput();
 }
 
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::Compute() 
+::Compute()
 {
   m_HistogramGenerator->Update();
 }
 
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::SetNumberOfBins( unsigned int numberOfBins ) 
+::SetNumberOfBins(unsigned int numberOfBins)
 {
   typename HistogramType::SizeType size;
-  size.Fill( numberOfBins );
-  m_HistogramGenerator->SetNumberOfBins( size );
+  size.SetSize(1);
+  size.Fill(numberOfBins);
+  m_HistogramGenerator->SetHistogramSize(size);
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::SetHistogramMin( RealPixelType minimumValue ) 
+::SetHistogramMin(RealPixelType minimumValue)
 {
-  typedef typename GeneratorType::MeasurementVectorType     MeasurementVectorType;
+  typedef typename GeneratorType::HistogramMeasurementVectorType MeasurementVectorType;
   MeasurementVectorType minVector;
+  MeasurementVectorTraits::SetLength(minVector, 1);
   minVector[0] = minimumValue;
-  m_HistogramGenerator->SetHistogramMin( minVector );
+  m_HistogramGenerator->SetHistogramBinMinimum(minVector);
 }
 
-
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::SetHistogramMax( RealPixelType maximumValue ) 
+::SetHistogramMax(RealPixelType maximumValue)
 {
-  typedef typename GeneratorType::MeasurementVectorType     MeasurementVectorType;
+  typedef typename GeneratorType::HistogramMeasurementVectorType MeasurementVectorType;
   MeasurementVectorType maxVector;
+  MeasurementVectorTraits::SetLength(maxVector, 1);
   maxVector[0] = maximumValue;
-  m_HistogramGenerator->SetHistogramMax( maxVector );
+  m_HistogramGenerator->SetHistogramBinMaximum(maxVector);
 }
 
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::SetMarginalScale( double marginalScale )
+::SetMarginalScale(double marginalScale)
 {
-  m_HistogramGenerator->SetMarginalScale( marginalScale );
+  m_HistogramGenerator->SetMarginalScale(marginalScale);
 }
 
-template < class TImage >
+template< class TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << "ImageToListSample adaptor = " << m_ImageToListAdaptor << std::endl;
   os << "HistogramGenerator = " << m_HistogramGenerator << std::endl;
 }
-
-} // end of namespace Statistics 
+} // end of namespace Statistics
 } // end of namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class GaussianKernelFunction
  * \brief Gaussian kernel used for density estimation and nonparameteric
  *  regression.
@@ -36,38 +35,34 @@ namespace itk
  *
  * \ingroup Functions
  */
-class ITKCommon_EXPORT GaussianKernelFunction : public KernelFunction
+class ITKCommon_EXPORT GaussianKernelFunction:public KernelFunction
 {
 public:
   /** Standard class typedefs. */
-  typedef GaussianKernelFunction      Self;
-  typedef KernelFunction              Superclass;
-  typedef SmartPointer<Self>          Pointer;
+  typedef GaussianKernelFunction Self;
+  typedef KernelFunction         Superclass;
+  typedef SmartPointer< Self >   Pointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self); 
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GaussianKernelFunction, KernelFunction); 
+  itkTypeMacro(GaussianKernelFunction, KernelFunction);
 
   /** Evaluate the function. */
-  inline double Evaluate (const double& u) const
-    { return ( vcl_exp(-0.5 * vnl_math_sqr( u ) ) * m_Factor ); }
-
+  inline double Evaluate(const double & u) const
+  { return ( vcl_exp( -0.5 * vnl_math_sqr(u) ) * m_Factor ); }
 protected:
   GaussianKernelFunction();
   ~GaussianKernelFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const
-    { Superclass::PrintSelf( os, indent ); }  
-
+  void PrintSelf(std::ostream & os, Indent indent) const
+  { Superclass::PrintSelf(os, indent); }
 private:
-  GaussianKernelFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GaussianKernelFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   static const double m_Factor;
-
 };
-
 } // end namespace itk
 
 #endif

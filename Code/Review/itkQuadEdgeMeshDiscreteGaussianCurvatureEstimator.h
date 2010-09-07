@@ -35,53 +35,52 @@ namespace itk
  * \author: Arnaud Gelas, Alexandre Gouaillard
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteGaussianCurvatureEstimator :
+class QuadEdgeMeshDiscreteGaussianCurvatureEstimator:
   public QuadEdgeMeshDiscreteCurvatureEstimator< TInputMesh, TOutputMesh >
 {
 public:
-  typedef QuadEdgeMeshDiscreteGaussianCurvatureEstimator        Self;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
-  typedef QuadEdgeMeshDiscreteCurvatureEstimator< 
+  typedef QuadEdgeMeshDiscreteGaussianCurvatureEstimator Self;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
+  typedef QuadEdgeMeshDiscreteCurvatureEstimator<
     TInputMesh, TOutputMesh >                                   Superclass;
 
-  typedef typename Superclass::InputMeshType                    InputMeshType;
-  typedef typename Superclass::InputMeshPointer                 InputMeshPointer;
+  typedef typename Superclass::InputMeshType    InputMeshType;
+  typedef typename Superclass::InputMeshPointer InputMeshPointer;
 
-  typedef typename Superclass::OutputMeshType                   OutputMeshType;
-  typedef typename Superclass::OutputMeshPointer                OutputMeshPointer;
-  typedef typename Superclass::OutputPointsContainerPointer     OutputPointsContainerPointer;
-  typedef typename Superclass::OutputPointsContainerIterator    OutputPointsContainerIterator;
-  typedef typename Superclass::OutputPointType                  OutputPointType;
-  typedef typename Superclass::OutputVectorType                 OutputVectorType;
-  typedef typename Superclass::OutputCoordType                  OutputCoordType;
-  typedef typename Superclass::OutputPointIdentifier            OutputPointIdentifier;
-  typedef typename Superclass::OutputCellIdentifier             OutputCellIdentifier;
-  typedef typename Superclass::OutputQEType                     OutputQEType;
-  typedef typename Superclass::OutputMeshTraits                 OutputMeshTraits;
-  typedef typename Superclass::OutputCurvatureType              OutputCurvatureType;
-  typedef typename Superclass::TriangleType                     TriangleType;
-  
+  typedef typename Superclass::OutputMeshType                OutputMeshType;
+  typedef typename Superclass::OutputMeshPointer             OutputMeshPointer;
+  typedef typename Superclass::OutputPointsContainerPointer  OutputPointsContainerPointer;
+  typedef typename Superclass::OutputPointsContainerIterator OutputPointsContainerIterator;
+  typedef typename Superclass::OutputPointType               OutputPointType;
+  typedef typename Superclass::OutputVectorType              OutputVectorType;
+  typedef typename Superclass::OutputCoordType               OutputCoordType;
+  typedef typename Superclass::OutputPointIdentifier         OutputPointIdentifier;
+  typedef typename Superclass::OutputCellIdentifier          OutputCellIdentifier;
+  typedef typename Superclass::OutputQEType                  OutputQEType;
+  typedef typename Superclass::OutputMeshTraits              OutputMeshTraits;
+  typedef typename Superclass::OutputCurvatureType           OutputCurvatureType;
+  typedef typename Superclass::TriangleType                  TriangleType;
+
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuadEdgeMeshDiscreteGaussianCurvatureEstimator, QuadEdgeMeshDiscreteCurvatureEstimator );
+  itkTypeMacro(QuadEdgeMeshDiscreteGaussianCurvatureEstimator, QuadEdgeMeshDiscreteCurvatureEstimator);
 
   /** New macro for creation of through a Smart Pointer   */
-  itkNewMacro( Self );
-
+  itkNewMacro(Self);
 protected:
   QuadEdgeMeshDiscreteGaussianCurvatureEstimator() {}
   ~QuadEdgeMeshDiscreteGaussianCurvatureEstimator() {}
 
-  virtual OutputCurvatureType EstimateCurvature( const OutputPointType& iP )
-    {
+  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP)
+  {
     OutputMeshPointer output = this->GetOutput();
 
-    OutputQEType* qe = iP.GetEdge( );
+    OutputQEType *qe = iP.GetEdge();
 
-    if( qe != 0 )
+    if ( qe != 0 )
       {
-      OutputQEType* qe_it = qe;
-      OutputQEType* qe_it2;
+      OutputQEType *qe_it = qe;
+      OutputQEType *qe_it2;
 
       OutputPointType q0, q1;
 
@@ -97,25 +96,24 @@ protected:
 
         // Compute Angle;
         sum_theta += static_cast< OutputCurvatureType >(
-              TriangleType::ComputeAngle( q0, iP, q1 ) );
-        area += ComputeMixedArea( qe_it, qe_it2 );
+          TriangleType::ComputeAngle(q0, iP, q1) );
+        area += ComputeMixedArea(qe_it, qe_it2);
         qe_it = qe_it2;
-        } while( qe_it != qe );
+        }
+      while ( qe_it != qe );
 
       return ( 2.0 * vnl_math::pi - sum_theta ) / area;
-
       }
 
     return 0.;
-  
-    }
+  }
 
 private:
-  QuadEdgeMeshDiscreteGaussianCurvatureEstimator( const Self& ); // purposely not implemented
-  void operator = ( const Self& ); // purposely not implemented
-
+  QuadEdgeMeshDiscreteGaussianCurvatureEstimator(const Self &); // purposely not
+                                                                // implemented
+  void operator=(const Self &);                                 // purposely not
+                                                                // implemented
 };
-
 }
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,234 +19,275 @@
 #endif
 
 #include "itkFixedArray.h"
-#include "itkCovarianceCalculator.h"
-// #include "itkDecisionRuleBase.h" // abstract class
-#include "itkDenseFrequencyContainer.h"
-// #include "itkDensityFunction.h" // abstract class
-#include "itkDistanceMetric.h"
-#include "itkDistanceToCentroidMembershipFunction.h"
-#include "itkEuclideanDistance.h"
-#include "itkExpectationMaximizationMixtureModelEstimator.h"
-#include "itkGaussianDensityFunction.h"
-#include "itkGaussianGoodnessOfFitComponent.h"
-#include "itkGaussianMixtureModelComponent.h"
-#include "itkGoodnessOfFitFunctionBase.h"
-#include "itkGoodnessOfFitMixtureModelCostFunction.h"
+#include "itkImage.h"
+#include "itkPointSet.h"
+
+// #include "itkSample.h"   // abstract class
+// #include "itkSampleToSubsampleFilter.h"   // abstract class
 #include "itkHistogram.h"
-#include "itkHypersphereKernelMeanShiftModeSeeker.h"
-#include "itkImageToListAdaptor.h"
-#include "itkJointDomainImageToListAdaptor.h"
-#include "itkKdTree.h"
-#include "itkKdTreeBasedKmeansEstimator.h"
-#include "itkKdTreeGenerator.h"
 #include "itkListSample.h"
-#include "itkListSampleToHistogramFilter.h"
-#include "itkListSampleToHistogramGenerator.h"
-#include "itkLogLikelihoodGoodnessOfFitFunction.h"
-#include "itkMahalanobisDistanceMembershipFunction.h"
-#include "itkMeanCalculator.h"
-#include "itkMeanShiftModeCacheMethod.h"
-#include "itkMembershipSample.h"
-#include "itkMembershipSampleGenerator.h"
-#include "itkMixtureModelComponentBase.h"
-#include "itkNeighborhoodSampler.h"
-#include "itkPointSetToListAdaptor.h"
-// #include "itkRandomVariateGeneratorBase.h" // abstract class
-#include "itkSampleAlgorithmBase.h"
-#include "itkSampleClassifier.h"
-#include "itkSampleClassifierWithMask.h"
-#include "itkSampleMeanShiftBlurringFilter.h"
-#include "itkSampleMeanShiftClusteringFilter.h"
-#include "itkSampleSelectiveMeanShiftBlurringFilter.h"
-#include "itkSampleToHistogramProjectionFilter.h"
-#include "itkSelectiveSubsampleGenerator.h"
-#include "itkSparseFrequencyContainer.h"
 #include "itkSubsample.h"
+#include "itkSampleClassifierFilter.h"
+#include "itkSampleToHistogramFilter.h"
+#include "itkMembershipSample.h"
+#include "itkNeighborhoodSampler.h"
+#include "itkImageToListSampleFilter.h"
+#include "itkScalarImageToCooccurrenceMatrixFilter.h"
+#include "itkScalarImageToCooccurrenceListSampleFilter.h"
+#include "itkHistogramToTextureFeaturesFilter.h"
+#include "itkScalarImageToTextureFeaturesFilter.h"
+#include "itkMeanSampleFilter.h"
+#include "itkWeightedMeanSampleFilter.h"
+#include "itkCovarianceSampleFilter.h"
+#include "itkWeightedCovarianceSampleFilter.h"
+#include "itkImageToListSampleAdaptor.h"
+#include "itkPointSetToListSampleAdaptor.h"
+#include "itkJointDomainImageToListSampleAdaptor.h"
+#include "itkDenseFrequencyContainer2.h"
+#include "itkSparseFrequencyContainer2.h"
+#include "itkMembershipFunctionBase.h"
+#include "itkDistanceToCentroidMembershipFunction.h"
+#include "itkGaussianMembershipFunction.h"
+#include "itkDistanceMetric.h"
+#include "itkMaximumDecisionRule2.h"
+#include "itkMinimumDecisionRule2.h"
+#include "itkEuclideanDistanceMetric.h"
+#include "itkEuclideanSquareDistanceMetric.h"
+#include "itkMahalanobisDistanceMetric.h"
+#include "itkManhattanDistanceMetric.h"
+#include "itkImageClassifierFilter.h"
+#include "itkImageClassifierFilter.h"
+#include "itkKdTreeBasedKmeansEstimator.h"
+#include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-#include "itkWeightedCovarianceCalculator.h"
-#include "itkWeightedMeanCalculator.h"
+#include "itkKdTree.h"
 
 int itkStatisticsPrintTest(int , char* [])
 {
-  typedef float MeasurementType ;
-  typedef float FrequencyType ;
-  typedef itk::FixedArray< MeasurementType, 2 > MeasurementVectorType ;
-  typedef itk::Image< MeasurementVectorType, 3 > ImageType ;
-  typedef itk::PointSet< MeasurementType > PointSetType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType >
-    SampleType ;
-  typedef itk::Statistics::Histogram< MeasurementType, 2 > HistogramType ;
+  typedef float TMeasurementType;
+  typedef float FrequencyType;
 
-  itk::Statistics::CovarianceCalculator< SampleType >::Pointer CovarianceCalculatorObj=
-    itk::Statistics::CovarianceCalculator< SampleType >::New();
-  std::cout << "----------CovarianceCalculator " << CovarianceCalculatorObj;
+  typedef itk::FixedArray< TMeasurementType, 2 >  TMeasurementVectorType;
+  typedef itk::Image< TMeasurementVectorType, 3 > ImageType;
+  typedef itk::Image< unsigned char, 3>           ScalarImageType;
+  typedef itk::PointSet< TMeasurementType, 2 >    PointSetType;
+  typedef itk::Image< unsigned long , 3 >         OutputImageType;
 
-  itk::Statistics::DenseFrequencyContainer::Pointer DenseFrequencyContainerObj=
-    itk::Statistics::DenseFrequencyContainer::New();
-  std::cout << "----------DenseFrequencyContainer " << DenseFrequencyContainerObj;
+  typedef itk::Statistics::ListSample< TMeasurementVectorType > SampleType;
 
-  itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >::Pointer
-    DistanceToCentroidMembershipFunctionObj= 
-    itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >::New();
-  std::cout << "----------DistanceToCentroidMembershipFunction " << DistanceToCentroidMembershipFunctionObj;
+  typedef itk::Statistics::Subsample< SampleType > SubSampleType;
 
-  itk::Statistics::EuclideanDistance< MeasurementVectorType >::Pointer EuclideanDistanceObj=
-    itk::Statistics::EuclideanDistance< MeasurementVectorType >::New();
-  std::cout << "----------EuclideanDistance " << EuclideanDistanceObj;
+  typedef itk::Statistics::Histogram< TMeasurementType > HistogramType;
 
-  itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType >::Pointer ExpectationMaximizationMixtureModelEstimatorObj=
-    itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType >::New();
-  std::cout << "----------ExpectationMaximizationMixtureModelEstimator " << ExpectationMaximizationMixtureModelEstimatorObj;
+  typedef itk::Statistics::SampleToHistogramFilter<
+    SampleType, HistogramType > SampleToHistogramFilterType;
 
-  itk::Statistics::GaussianDensityFunction< MeasurementVectorType >::Pointer GaussianDensityFunctionObj=
-    itk::Statistics::GaussianDensityFunction< MeasurementVectorType >::New();
-  std::cout << "----------GaussianDensityFunction " << GaussianDensityFunctionObj;
+  typedef itk::Statistics::SampleClassifierFilter<
+    SampleType > SampleClassifierFilterType;
 
-  itk::Statistics::GaussianGoodnessOfFitComponent< SampleType >::Pointer GaussianGoodnessOfFitComponentObj=
-    itk::Statistics::GaussianGoodnessOfFitComponent< SampleType >::New();
-  std::cout << "----------GaussianGoodnessOfFitComponent " << GaussianGoodnessOfFitComponentObj;
+  typedef itk::Statistics::ImageClassifierFilter<
+    SampleType, ImageType, OutputImageType > ImageClassifierFilterType;
 
-  itk::Statistics::GaussianMixtureModelComponent< SampleType >::Pointer GaussianMixtureModelComponentObj=
-    itk::Statistics::GaussianMixtureModelComponent< SampleType >::New();
-  std::cout << "----------GaussianMixtureModelComponent " << GaussianMixtureModelComponentObj;
+  typedef itk::Statistics::ImageToListSampleFilter<
+    ImageType, ScalarImageType > ImageToListSampleFilterType;
 
-  itk::Statistics::GoodnessOfFitFunctionBase< HistogramType >::Pointer GoodnessOfFitFunctionBaseObj=
-    itk::Statistics::GoodnessOfFitFunctionBase< HistogramType >::New();
-  std::cout << "----------GoodnessOfFitFunctionBase " << GoodnessOfFitFunctionBaseObj;
+  typedef itk::Statistics::ImageToListSampleAdaptor<
+    ImageType> ImageToListSampleAdaptorType;
 
-  itk::Statistics::GoodnessOfFitMixtureModelCostFunction< SampleType >::Pointer GoodnessOfFitMixtureModelCostFunctionObj=
-    itk::Statistics::GoodnessOfFitMixtureModelCostFunction< SampleType >::New();
-  std::cout << "----------GoodnessOfFitMixtureModelCostFunction " << GoodnessOfFitMixtureModelCostFunctionObj;
+  typedef itk::Statistics::JointDomainImageToListSampleAdaptor<
+    ImageType> JointDomainImageToListSampleAdaptorType;
+
+  typedef itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<
+    ScalarImageType > ScalarImageToCooccurrenceMatrixFilterType;
+
+  typedef itk::Statistics::ScalarImageToCooccurrenceListSampleFilter<
+    ScalarImageType > ScalarImageToCooccurrenceListSampleFilterType;
+
+  typedef itk::Statistics::ScalarImageToTextureFeaturesFilter<
+    ScalarImageType > ScalarImageToTextureFeaturesFilterType;
+
+  typedef itk::Statistics::MembershipSample< SampleType > MembershipSampleType;
+
+  typedef itk::Statistics::MembershipFunctionBase< TMeasurementVectorType > MembershipFunctionBaseType;
+
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction<
+            TMeasurementVectorType > DistanceToCentroidMembershipFunctionType;
+
+  typedef itk::Statistics::DistanceMetric< TMeasurementVectorType >
+    DistanceType;
+
+  typedef itk::Statistics::EuclideanDistanceMetric< TMeasurementVectorType >
+    EuclideanDistanceMetricType;
+
+  typedef itk::Statistics::EuclideanSquareDistanceMetric< TMeasurementVectorType >
+    EuclideanSquareDistanceMetricType;
+
+  typedef itk::Statistics::MahalanobisDistanceMetric< TMeasurementVectorType >
+    MahalanobisDistanceMetricType;
+
+  typedef itk::Statistics::ManhattanDistanceMetric< TMeasurementVectorType >
+    ManhattanDistanceMetricType;
+
+  typedef itk::Statistics::MaximumDecisionRule2 MaximumDecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule2 MinimumDecisionRuleType;
+
+
+  typedef itk::Statistics::HistogramToTextureFeaturesFilter<
+    HistogramType > HistogramToTextureFeaturesFilterType;
+
+  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanSampleFilterType;
+
+  typedef itk::Statistics::WeightedMeanSampleFilter< SampleType > WeightedMeanSampleFilterType;
+
+  typedef itk::Statistics::CovarianceSampleFilter< SampleType > CovarianceSampleFilterType;
+
+  typedef itk::Statistics::WeightedCovarianceSampleFilter< SampleType > WeightedCovarianceSampleFilterType;
+
+  typedef itk::Statistics::NeighborhoodSampler< SampleType > NeighborhoodSamplerType;
+
+  typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType > PointSetToListSampleAdaptorType;
+
+  typedef itk::Statistics::DenseFrequencyContainer2 DenseFrequencyContainer2Type;
+
+  typedef itk::Statistics::SparseFrequencyContainer2 SparseFrequencyContainer2Type;
+
+  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< SampleType > EMEstimatorType;
+
+  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >  TreeGeneratorType;
+
+  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeGeneratorType::KdTreeType >  KdTreeBasedKMeansEstimatorType;
+
+  SampleType::Pointer sampleObj = SampleType::New();
+  std::cout << "----------ListSample " << sampleObj;
+
+  SubSampleType::Pointer subsampleObj = SubSampleType::New();
+  std::cout << "----------Subsample " << subsampleObj;
 
   HistogramType::Pointer HistogramObj=
     HistogramType::New();
   std::cout << "----------Histogram " << HistogramObj;
 
-  itk::Statistics::HypersphereKernelMeanShiftModeSeeker< SampleType >::Pointer HypersphereKernelMeanShiftModeSeekerObj=
-    itk::Statistics::HypersphereKernelMeanShiftModeSeeker< SampleType >::New();
-  std::cout << "----------HypersphereKernelMeanShiftModeSeeker " << HypersphereKernelMeanShiftModeSeekerObj;
+  SampleToHistogramFilterType::Pointer SampleToHistogramFilterObj =
+    SampleToHistogramFilterType::New();
+  std::cout << "----------SampleToHistogramFilter ";
+  std::cout << SampleToHistogramFilterObj;
 
-   itk::Statistics::ImageToListAdaptor< ImageType >::Pointer ImageToListAdaptorObj=
-    itk::Statistics::ImageToListAdaptor< ImageType >::New();
-  std::cout << "----------ImageToListAdaptor " << ImageToListAdaptorObj;
+  SampleClassifierFilterType::Pointer SampleClassifierFilterObj =
+    SampleClassifierFilterType::New();
+  std::cout << "----------SampleClassifierFilter ";
+  std::cout << SampleClassifierFilterObj;
 
-   itk::Statistics::JointDomainImageToListAdaptor< ImageType >::Pointer JointDomainImageToListAdaptorObj=
-    itk::Statistics::JointDomainImageToListAdaptor< ImageType >::New();
-  std::cout << "----------JointDomainImageToListAdaptor " << JointDomainImageToListAdaptorObj;
+  ImageToListSampleFilterType::Pointer ImageToListSampleFilterObj =
+    ImageToListSampleFilterType::New();
+  std::cout << "----------ImageToListSampleFilter ";
+  std::cout << ImageToListSampleFilterObj;
 
-  itk::Statistics::KdTree< SampleType >::Pointer KdTreeObj=
-    itk::Statistics::KdTree< SampleType >::New();
-  std::cout << "----------KdTree " << KdTreeObj;
+  ImageToListSampleAdaptorType::Pointer ImageToListSampleAdaptorObj =
+    ImageToListSampleAdaptorType::New();
+  std::cout << "----------ImageToListSampleAdaptor ";
+  std::cout << ImageToListSampleAdaptorObj;
 
-  typedef itk::Statistics::KdTree< SampleType > KdTreeType ;
+  JointDomainImageToListSampleAdaptorType::Pointer JointDomainImageToListSampleAdaptorObj =
+    JointDomainImageToListSampleAdaptorType::New();
+  std::cout << "----------JointDomainImageToListSampleAdaptor ";
+  std::cout << JointDomainImageToListSampleAdaptorObj;
 
-  itk::Statistics::KdTreeBasedKmeansEstimator< KdTreeType >::Pointer KdTreeBasedKmeansEstimatorObj=
-    itk::Statistics::KdTreeBasedKmeansEstimator< KdTreeType >::New();
-  std::cout << "----------KdTreeBasedKmeansEstimator " << KdTreeBasedKmeansEstimatorObj;
+  PointSetToListSampleAdaptorType::Pointer PointSetToListSampleAdaptorObj =
+    PointSetToListSampleAdaptorType::New();
+  std::cout << "----------PointSetToListSampleAdaptor ";
+  std::cout << PointSetToListSampleAdaptorObj;
 
-  itk::Statistics::KdTreeGenerator< SampleType >::Pointer KdTreeGeneratorObj=
-    itk::Statistics::KdTreeGenerator< SampleType >::New();
-  std::cout << "----------KdTreeGenerator " << KdTreeGeneratorObj;
+  ScalarImageToCooccurrenceMatrixFilterType::Pointer ScalarImageToCooccurrenceMatrixFilterObj =
+    ScalarImageToCooccurrenceMatrixFilterType::New();
+  std::cout << "----------ScalarImageToCooccurrenceMatrixFilter ";
+  std::cout << ScalarImageToCooccurrenceMatrixFilterObj;
 
-  itk::Statistics::ListSample< MeasurementVectorType >::Pointer ListSampleObj=
-    itk::Statistics::ListSample< MeasurementVectorType >::New();
-  std::cout << "----------ListSample " << ListSampleObj;
+  ScalarImageToCooccurrenceListSampleFilterType::Pointer ScalarImageToCooccurrenceListSampleFilterObj =
+    ScalarImageToCooccurrenceListSampleFilterType::New();
+  std::cout << "----------ScalarImageToCooccurrenceListSampleFilter ";
+  std::cout << ScalarImageToCooccurrenceListSampleFilterObj;
 
-  itk::Statistics::ListSampleToHistogramFilter< SampleType, HistogramType >::Pointer ListSampleToHistogramFilterObj=
-    itk::Statistics::ListSampleToHistogramFilter< SampleType, HistogramType >::New();
-  std::cout << "----------ListSampleToHistogramFilter " << ListSampleToHistogramFilterObj;
+  ScalarImageToTextureFeaturesFilterType::Pointer ScalarImageToTextureFeaturesFilterObj =
+    ScalarImageToTextureFeaturesFilterType::New();
+  std::cout << "----------ScalarImageToCooccurrenceMatrixFilter ";
+  std::cout << ScalarImageToCooccurrenceMatrixFilterObj;
 
-  itk::Statistics::ListSampleToHistogramGenerator< SampleType, float >::Pointer ListSampleToHistogramGeneratorObj=
-    itk::Statistics::ListSampleToHistogramGenerator< SampleType, float >::New();
-  std::cout << "----------ListSampleToHistogramGenerator " << ListSampleToHistogramGeneratorObj;
 
-  itk::Statistics::LogLikelihoodGoodnessOfFitFunction< HistogramType >::Pointer LogLikelihoodGoodnessOfFitFunctionObj=
-    itk::Statistics::LogLikelihoodGoodnessOfFitFunction< HistogramType >::New();
-  std::cout << "----------LogLikelihoodGoodnessOfFitFunction " << LogLikelihoodGoodnessOfFitFunctionObj;
+  HistogramToTextureFeaturesFilterType::Pointer HistogramToTextureFeaturesFilterObj=
+    HistogramToTextureFeaturesFilterType::New();
+  std::cout << "----------HistogramToTextureFeaturesFilter " << HistogramToTextureFeaturesFilterObj;
 
-  itk::Statistics::MahalanobisDistanceMembershipFunction< MeasurementVectorType >::Pointer MahalanobisDistanceMembershipFunctionObj=
-    itk::Statistics::MahalanobisDistanceMembershipFunction< MeasurementVectorType >::New();
-  std::cout << "----------MahalanobisDistanceMembershipFunction " << MahalanobisDistanceMembershipFunctionObj;
-
-  itk::Statistics::MeanCalculator< SampleType >::Pointer MeanCalculatorObj=
-    itk::Statistics::MeanCalculator< SampleType >::New();
-  std::cout << "----------MeanCalculator " << MeanCalculatorObj;
-
-  itk::Statistics::MeanShiftModeCacheMethod< MeasurementVectorType >::Pointer MeanShiftModeCacheMethodObj=
-    itk::Statistics::MeanShiftModeCacheMethod< MeasurementVectorType >::New();
-  std::cout << "----------MeanShiftModeCacheMethod " << MeanShiftModeCacheMethodObj;
-
-  itk::Statistics::MembershipSample< SampleType >::Pointer MembershipSampleObj=
-    itk::Statistics::MembershipSample< SampleType >::New();
+  MembershipSampleType::Pointer MembershipSampleObj =
+    MembershipSampleType::New();
   std::cout << "----------MembershipSample " << MembershipSampleObj;
 
-  itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::Pointer MembershipSampleGeneratorObj=
-    itk::Statistics::MembershipSampleGenerator< SampleType, SampleType >::New();
-  std::cout << "----------MembershipSampleGenerator " << MembershipSampleGeneratorObj;
+  DistanceToCentroidMembershipFunctionType::Pointer DistanceToCentroidMembershipFunctionObj =
+    DistanceToCentroidMembershipFunctionType::New();
+  std::cout << "----------DistanceToCentroidMembershipFunction " << DistanceToCentroidMembershipFunctionObj;
 
-  itk::Statistics::MixtureModelComponentBase< SampleType >::Pointer MixtureModelComponentBaseObj=
-    itk::Statistics::MixtureModelComponentBase< SampleType >::New();
-  std::cout << "----------MixtureModelComponentBase " << MixtureModelComponentBaseObj;
+  MeanSampleFilterType::Pointer meanFilterObj =
+    MeanSampleFilterType::New();
+  std::cout << "----------Mean filter " << meanFilterObj;
 
-  itk::Statistics::NeighborhoodSampler< SampleType >::Pointer NeighborhoodSamplerObj=
-    itk::Statistics::NeighborhoodSampler< SampleType >::New();
-  std::cout << "----------NeighborhoodSampler " << NeighborhoodSamplerObj;
+  WeightedMeanSampleFilterType::Pointer weighedMeanSampleFilterObj =
+    WeightedMeanSampleFilterType::New();
+  std::cout << "----------WeightedMean filter " << weighedMeanSampleFilterObj;
 
-  itk::Statistics::PointSetToListAdaptor< PointSetType >::Pointer PointSetToListAdaptorObj=
-    itk::Statistics::PointSetToListAdaptor< PointSetType >::New();
-  std::cout << "----------PointSetToListAdaptor " << PointSetToListAdaptorObj;
+  CovarianceSampleFilterType::Pointer covarianceFilterObj =
+    CovarianceSampleFilterType::New();
+  std::cout << "----------Covariance filter " << covarianceFilterObj;
 
-  itk::Statistics::SampleAlgorithmBase< SampleType >::Pointer SampleAlgorithmBaseObj=
-    itk::Statistics::SampleAlgorithmBase< SampleType >::New();
-  std::cout << "----------SampleAlgorithmBase " << SampleAlgorithmBaseObj;
+  WeightedCovarianceSampleFilterType::Pointer weighedCovarianceSampleFilterObj =
+    WeightedCovarianceSampleFilterType::New();
+  std::cout << "----------WeightedCovariance filter " << weighedCovarianceSampleFilterObj;
 
-  itk::Statistics::SampleClassifier< SampleType >::Pointer SampleClassifierObj=
-    itk::Statistics::SampleClassifier< SampleType >::New();
-  std::cout << "----------SampleClassifier " << SampleClassifierObj;
+  NeighborhoodSamplerType::Pointer neighborhoodSamplerObj =
+    NeighborhoodSamplerType::New();
+  std::cout << "----------NeighborhoodSamplerType filter " << neighborhoodSamplerObj;
 
-  itk::Statistics::SampleClassifierWithMask< SampleType, SampleType >::Pointer SampleClassifierWithMaskObj=
-    itk::Statistics::SampleClassifierWithMask< SampleType, SampleType >::New();
-  std::cout << "----------SampleClassifierWithMask " << SampleClassifierWithMaskObj;
+  DenseFrequencyContainer2Type::Pointer DenseFrequencyContainer2Obj=
+    DenseFrequencyContainer2Type::New();
+  std::cout << "----------DenseFrequencyContainer " << DenseFrequencyContainer2Obj;
 
-  itk::Statistics::SampleToHistogramProjectionFilter< SampleType, MeasurementType >::Pointer SampleToHistogramProjectionFilterObj=
-    itk::Statistics::SampleToHistogramProjectionFilter< SampleType, MeasurementType >::New();
-  std::cout << "----------SampleToHistogramProjectionFilter " << SampleToHistogramProjectionFilterObj;
+  SparseFrequencyContainer2Type::Pointer SparseFrequencyContainer2Obj=
+    SparseFrequencyContainer2Type::New();
+  std::cout << "----------SparseFrequencyContainer2 " << SparseFrequencyContainer2Obj;
 
-  itk::Statistics::SampleMeanShiftBlurringFilter< SampleType >::Pointer SampleMeanShiftBlurringFilterObj=
-    itk::Statistics::SampleMeanShiftBlurringFilter< SampleType >::New();
-  std::cout << "----------SampleMeanShiftBlurringFilter " << SampleMeanShiftBlurringFilterObj;
+  EuclideanDistanceMetricType::Pointer euclideanDistance=
+    EuclideanDistanceMetricType::New();
+  std::cout << "----------EuclideanDistanceMetricType " << euclideanDistance;
 
-  itk::Statistics::SampleMeanShiftClusteringFilter< SampleType >::Pointer SampleMeanShiftClusteringFilterObj=
-    itk::Statistics::SampleMeanShiftClusteringFilter< SampleType >::New();
-  std::cout << "----------SampleMeanShiftClusteringFilter " << SampleMeanShiftClusteringFilterObj;
+  EuclideanSquareDistanceMetricType::Pointer euclideanSquareDistance=
+    EuclideanSquareDistanceMetricType::New();
+  std::cout << "----------EuclideanSquareDistanceMetricType " << euclideanSquareDistance;
 
-  itk::Statistics::SampleSelectiveMeanShiftBlurringFilter< SampleType >::Pointer SampleSelectiveMeanShiftBlurringFilterObj=
-    itk::Statistics::SampleSelectiveMeanShiftBlurringFilter< SampleType >::New();
-  std::cout << "----------SampleSelectiveMeanShiftBlurringFilter " << SampleSelectiveMeanShiftBlurringFilterObj;
+  MahalanobisDistanceMetricType::Pointer mahalanobisDistance=
+    MahalanobisDistanceMetricType::New();
+  std::cout << "----------MahalanobisDistanceMetricType " << mahalanobisDistance;
 
-  itk::Statistics::SelectiveSubsampleGenerator< SampleType, SampleType >::Pointer SelectiveSubsampleGeneratorObj=
-    itk::Statistics::SelectiveSubsampleGenerator< SampleType, SampleType >::New();
-  std::cout << "----------SelectiveSubsampleGenerator " << SelectiveSubsampleGeneratorObj;
+  ManhattanDistanceMetricType::Pointer manhattanDistance=
+    ManhattanDistanceMetricType::New();
+  std::cout << "----------ManhattanDistanceMetricType " << manhattanDistance;
 
-  itk::Statistics::SparseFrequencyContainer::Pointer SparseFrequencyContainerObj=
-    itk::Statistics::SparseFrequencyContainer::New();
-  std::cout << "----------SparseFrequencyContainer " << SparseFrequencyContainerObj;
+  MaximumDecisionRuleType::Pointer maximumDecsion=
+    MaximumDecisionRuleType::New();
+  std::cout << "----------MaximumDecisionRuleType " << maximumDecsion;
 
-  itk::Statistics::Subsample< SampleType >::Pointer SubsampleObj=
-    itk::Statistics::Subsample< SampleType >::New();
-  std::cout << "----------Subsample " << SubsampleObj;
+  MinimumDecisionRuleType::Pointer minimumDecsion=
+    MinimumDecisionRuleType::New();
+  std::cout << "----------MinimumDecisionRuleType " << minimumDecsion;
 
-  itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >::Pointer WeightedCentroidKdTreeGeneratorObj=
-    itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >::New();
-  std::cout << "----------WeightedCentroidKdTreeGenerator " << WeightedCentroidKdTreeGeneratorObj;
+  ImageClassifierFilterType::Pointer classifierFilter=
+   ImageClassifierFilterType::New();
+  std::cout << "----------ImageClassifierFilterType " << classifierFilter;
 
-  itk::Statistics::WeightedCovarianceCalculator< SampleType >::Pointer WeightedCovarianceCalculatorObj=
-    itk::Statistics::WeightedCovarianceCalculator< SampleType >::New();
-  std::cout << "----------WeightedCovarianceCalculator " << WeightedCovarianceCalculatorObj;
+  EMEstimatorType::Pointer emEstimator=
+   EMEstimatorType::New();
+  std::cout << "----------EMEstimatorType " << emEstimator;
 
-  itk::Statistics::WeightedMeanCalculator< SampleType >::Pointer WeightedMeanCalculatorObj=
-    itk::Statistics::WeightedMeanCalculator< SampleType >::New();
-  std::cout << "----------WeightedMeanCalculator " << WeightedMeanCalculatorObj;
+  KdTreeBasedKMeansEstimatorType::Pointer kdTreeBasedEstimator=
+   KdTreeBasedKMeansEstimatorType::New();
+  std::cout << "----------KdTreeBasedKMeansEstimatorType " << kdTreeBasedEstimator;
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -89,12 +89,6 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   writer->SetInput( connectedOpening->GetOutput() );
   writer->Update();
 
-  // Output the number of iterations used
-  std::cout << "ConnectedOpening took " << connectedOpening->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << connectedOpening->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  
-
   return EXIT_SUCCESS;
-
 }
 

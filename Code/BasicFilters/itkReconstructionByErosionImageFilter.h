@@ -21,7 +21,8 @@
 
 #include "itkNumericTraits.h"
 
-namespace itk {
+namespace itk
+{
 /** \class ReconstructionByErosionImageFilter
  * \brief grayscale reconstruction by erosion of an image
  *
@@ -55,34 +56,34 @@ OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter, Reconstr
  * \ingroup MathematicalMorphologyImageFilters
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ReconstructionByErosionImageFilter :
-  public ReconstructionImageFilter<TInputImage, TOutputImage, std::less<typename TOutputImage::PixelType> >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ReconstructionByErosionImageFilter:
+  public ReconstructionImageFilter< TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > >
 {
 public:
   typedef ReconstructionByErosionImageFilter Self;
   typedef ReconstructionImageFilter<
-    TInputImage, TOutputImage, std::less<typename TOutputImage::PixelType> >
-                                             Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+    TInputImage, TOutputImage, std::less< typename TOutputImage::PixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              MarkerImageType;
-  typedef typename MarkerImageType::Pointer        MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer   MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType     MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType      MarkerImagePixelType;
-  typedef TInputImage                              MaskImageType;
-  typedef typename MaskImageType::Pointer          MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer     MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType       MaskImageRegionType;
-  typedef typename MaskImageType::PixelType        MaskImagePixelType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
+  typedef TInputImage                            MarkerImageType;
+  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
+  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
+  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
+  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
+  typedef TInputImage                            MaskImageType;
+  typedef typename MaskImageType::Pointer        MaskImagePointer;
+  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
+  typedef typename MaskImageType::RegionType     MaskImageRegionType;
+  typedef typename MaskImageType::PixelType      MaskImagePixelType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(MarkerImageDimension, unsigned int,
@@ -96,23 +97,24 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReconstructionByErosionImageFilter, 
+  itkTypeMacro(ReconstructionByErosionImageFilter,
                ReconstructionImageFilter);
-
-
 protected:
   ReconstructionByErosionImageFilter()
-    {
-    this->m_MarkerValue = NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::max();
-    }
+  {
+    this->m_MarkerValue = NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::max();
+  }
+
   virtual ~ReconstructionByErosionImageFilter() {}
-
 private:
-  ReconstructionByErosionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end ReconstructionByErosionImageFilter
-
+  ReconstructionByErosionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
+};                                                  // end
+                                                    //
+                                                    //
+                                                    //
+                                                    //
+                                                    // ReconstructionByErosionImageFilter
 }
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,44 +22,43 @@
 
 namespace itk
 {
-
-
 /**
  * \brief Affine transformation with a specified center of rotation.
  *
  * This class implements an Affine transform in which the rotation center can be explicitly selected.
  *
- * 
+ *
  * \ingroup Transforms
  *
  *
  */
 
-template <
- class TScalarType=double,      // Data type for scalars (e.g. float or double)
- unsigned int NDimensions=3>    // Number of dimensions in the input space
-class ITK_EXPORT FixedCenterOfRotationAffineTransform :
+template<
+  class TScalarType = double,   // Data type for scalars (e.g. float or double)
+  unsigned int NDimensions = 3 >
+// Number of dimensions in the input space
+class ITK_EXPORT FixedCenterOfRotationAffineTransform:
   public ScalableAffineTransform< TScalarType, NDimensions >
 {
 public:
   /** Standard typedefs   */
-  typedef FixedCenterOfRotationAffineTransform                 Self;
-  typedef ScalableAffineTransform< TScalarType, NDimensions >  Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
-    
+  typedef FixedCenterOfRotationAffineTransform                Self;
+  typedef ScalableAffineTransform< TScalarType, NDimensions > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( FixedCenterOfRotationAffineTransform, ScalableAffineTransform );
-  
+  itkTypeMacro(FixedCenterOfRotationAffineTransform, ScalableAffineTransform);
+
   /** New macro for creation of through a Smart Pointer   */
-  itkNewMacro( Self );
-  
+  itkNewMacro(Self);
+
   /** Dimension of the domain space. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(ParametersDimension, unsigned int,
-                      NDimensions*(NDimensions+2));
+  itkStaticConstMacro( ParametersDimension, unsigned int,
+                       NDimensions * ( NDimensions + 2 ) );
 
   /** Types taken from the Superclass */
   typedef typename Superclass::ParametersType            ParametersType;
@@ -78,61 +77,62 @@ public:
   typedef typename Superclass::CenterType                CenterType;
   typedef typename Superclass::TranslationType           TranslationType;
   typedef typename Superclass::OffsetType                OffsetType;
-    
+
   /** Set and Get the center of rotation */
-  void SetCenterOfRotationComponent(const InputPointType &cor)
-    { this->SetCenter( cor ); }
+  void SetCenterOfRotationComponent(const InputPointType & cor)
+  { this->SetCenter(cor); }
   InputPointType GetCenterOfRotationComponent(void) const
-    { return this->GetCenter(); }
-   
+  { return this->GetCenter(); }
+
   /** Set the matrix of the transform. The matrix should not include
    *  scale */
-  void SetMatrixComponent(const MatrixType &matrix)
-    { this->SetMatrix( matrix ); }
+  void SetMatrixComponent(const MatrixType & matrix)
+  { this->SetMatrix(matrix); }
   /** Get matrix of the transform  */
-  const MatrixType & GetMatrixComponent() const 
-    { return this->GetMatrix(); }
+  const MatrixType & GetMatrixComponent() const
+  { return this->GetMatrix(); }
 
   /** Set offset (origin) of the Transform. */
-  void SetOffsetComponent(const OffsetType &offset)
-    { this->SetTranslation( offset ); }
+  void SetOffsetComponent(const OffsetType & offset)
+  { this->SetTranslation(offset); }
 
   /** Get offset of the transform. */
-  const OffsetType & GetOffsetComponent(void) const 
-    { return this->GetTranslation(); }
-
+  const OffsetType & GetOffsetComponent(void) const
+  { return this->GetTranslation(); }
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
-  FixedCenterOfRotationAffineTransform(const MatrixType &matrix,
-                                       const OutputVectorType &offset);
+  FixedCenterOfRotationAffineTransform(const MatrixType & matrix,
+                                       const OutputVectorType & offset);
   FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDimension,
                                        unsigned int parametersDimension);
   FixedCenterOfRotationAffineTransform();
-   
+
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
   virtual ~FixedCenterOfRotationAffineTransform();
-    
 private:
   FixedCenterOfRotationAffineTransform(const Self & other);
-  const Self & operator=( const Self & );
-
+  const Self & operator=(const Self &);
 }; //class FixedCenterOfRotationAffineTransform
-  
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FixedCenterOfRotationAffineTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 x > \
-                                            FixedCenterOfRotationAffineTransform##y; } \
+#define ITK_TEMPLATE_FixedCenterOfRotationAffineTransform(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                        \
+  {                                                                                    \
+  _( 2 ( class EXPORT FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                  \
+  {                                                                                    \
+  typedef FixedCenterOfRotationAffineTransform< ITK_TEMPLATE_2 TypeX >                 \
+  FixedCenterOfRotationAffineTransform##TypeY;                                       \
+  }                                                                                    \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkFixedCenterOfRotationAffineTransform+-.h"
+#include "Templates/itkFixedCenterOfRotationAffineTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkFixedCenterOfRotationAffineTransform.txx"
+#include "itkFixedCenterOfRotationAffineTransform.txx"
 #endif
 
 #endif /* __itkFixedCenterOfRotationAffineTransform_h */

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class LightProcessObject
  * \brief LightProcessObject is the base class for all process objects (source,
           filters, mappers) in the Insight data processing pipeline.
@@ -39,10 +38,10 @@ namespace itk
  * not use inputs (the source) or outputs (mappers). In this case, the
  * inputs or outputs is just ignored.
  *
- * LightProcessObject invokes the following events: 
+ * LightProcessObject invokes the following events:
  * , Command::StartEvent, Command::EndEvent
  * These are convenience events you can use for any purpose
- * (e.g., debugging info, highlighting/notifying user interface, etc.) 
+ * (e.g., debugging info, highlighting/notifying user interface, etc.)
  * See Command and LightObject for information on using AddObserver.
  *
  * Another event Command::ProgressEvent can be observed. Some filters invoke
@@ -68,62 +67,60 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataProcessing
  */
-class ITKCommon_EXPORT LightProcessObject : public Object
+class ITKCommon_EXPORT LightProcessObject:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef LightProcessObject       Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
-  
+  typedef LightProcessObject         Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LightProcessObject,Object);
+  itkTypeMacro(LightProcessObject, Object);
 
   /** Set the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */
-  itkSetMacro(AbortGenerateData,bool);
+  itkSetMacro(AbortGenerateData, bool);
 
   /** Get the AbortGenerateData flag for the process object. Process objects
    *  may handle premature termination of execution in different ways.  */
-  itkGetConstReferenceMacro(AbortGenerateData,bool);
-  
+  itkGetConstReferenceMacro(AbortGenerateData, bool);
+
   /** Turn on and off the AbortGenerateData flag. */
-  itkBooleanMacro(AbortGenerateData); 
-  
+  itkBooleanMacro(AbortGenerateData);
+
   /** Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution. */
-  itkSetClampMacro(Progress,float,0.0f,1.0f);
+  itkSetClampMacro(Progress, float, 0.0f, 1.0f);
 
   /** Get the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution. */
-  itkGetConstReferenceMacro(Progress,float);
+  itkGetConstReferenceMacro(Progress, float);
 
   /** Update the progress of the process object. If a ProgressMethod exists,
    * executes it.  Then set the Progress ivar to amount. The parameter amount
    * should range between (0,1).  */
   void UpdateProgress(float amount);
-  
+
   /** Actually generate new output.  */
   virtual void UpdateOutputData();
 
 protected:
   LightProcessObject();
   ~LightProcessObject();
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}
-
-
 private:
-  LightProcessObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  LightProcessObject(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 
   /**
    * These support the progress method and aborting filter execution.
@@ -131,7 +128,6 @@ private:
   bool  m_AbortGenerateData;
   float m_Progress;
 };
-
 } // end namespace itk
 
 #endif

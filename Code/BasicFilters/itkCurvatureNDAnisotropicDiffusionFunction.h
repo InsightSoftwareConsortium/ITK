@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class CurvatureNDAnisotropicDiffusionFunction
  *
@@ -32,7 +32,7 @@ namespace itk {
  * itkGradientNDAnisotropicDiffusionFunction.  This object is a level-set
  * analog of that equation and will be referred to below as the \em modified
  * \em curvature \em diffusion \em equation (MCDE).  MCDE does not exhibit
- * the edge enhancing properties of classic anisotropic diffusion, which can under 
+ * the edge enhancing properties of classic anisotropic diffusion, which can under
  * certain conditions undergo a ``negative'' diffusion,which enhances the
  * contrast of edges.  Equations of the form of MCDE always undergo positive
  * diffusion, with the conductance term only varying the strength of that
@@ -46,7 +46,7 @@ namespace itk {
  * itkGradientNDAnisotropicDiffusionFunction.  Each iteration of the solution
  * takes roughly twice as long.  Fewer iterations, however, may be required to
  * reach an acceptable solution.
- * 
+ *
  * \par
  * The MCDE equation is given as:
  *
@@ -59,33 +59,33 @@ namespace itk {
  * \f[ \nabla \cdot \frac{\nabla f}{\mid \nabla f \mid} \f] .
  *
  * \par References
- *  R. Whitaker and X. Xue. Variable-Conductance, Level-Set Curvature for 
+ *  R. Whitaker and X. Xue. Variable-Conductance, Level-Set Curvature for
  *  Image Denoising, International Conference on Image Processing, 2001
  *  pp. 142-145, Vol.3.
  *
- *  
+ *
  * \sa AnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
  * \todo References */
-template <class TImage>
-class ITK_EXPORT CurvatureNDAnisotropicDiffusionFunction :
-    public ScalarAnisotropicDiffusionFunction<TImage>
+template< class TImage >
+class ITK_EXPORT CurvatureNDAnisotropicDiffusionFunction:
+  public ScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef CurvatureNDAnisotropicDiffusionFunction    Self;
-  typedef ScalarAnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  typedef CurvatureNDAnisotropicDiffusionFunction      Self;
+  typedef ScalarAnisotropicDiffusionFunction< TImage > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( CurvatureNDAnisotropicDiffusionFunction,
-                ScalarAnisotropicDiffusionFunction );
-  
+  itkTypeMacro(CurvatureNDAnisotropicDiffusionFunction,
+               ScalarAnisotropicDiffusionFunction);
+
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
@@ -95,55 +95,53 @@ public:
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Compute incremental update. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
+  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-    );
+                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
+                                  );
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-    {
-    m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
-                                 this->GetConductanceParameter() *
-                                 this->GetConductanceParameter() * -2.0f);
-    }
-  
+  {
+    m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
+                                    * this->GetConductanceParameter()
+                                    * this->GetConductanceParameter() * -2.0f );
+  }
+
 protected:
   CurvatureNDAnisotropicDiffusionFunction();
   ~CurvatureNDAnisotropicDiffusionFunction() {}
-  
 private:
-  CurvatureNDAnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CurvatureNDAnisotropicDiffusionFunction(const Self &); //purposely not
+                                                         // implemented
+  void operator=(const Self &);                          //purposely not
+
+  // implemented
 
   /** Inner product function. */
-  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  NeighborhoodInnerProduct< ImageType > m_InnerProduct;
 
   /** Slices for the ND neighborhood. */
-  std::slice  x_slice[ImageDimension];
+  std::slice x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension][ImageDimension];
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator */
-  DerivativeOperator<PixelType, itkGetStaticConstMacro(ImageDimension)> dx_op;
+  DerivativeOperator< PixelType, itkGetStaticConstMacro(ImageDimension) > dx_op;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
 
   /** */
   static double m_MIN_NORM;
-  
+
   unsigned long m_Center;
   unsigned long m_Stride[ImageDimension];
-
 };
-
-
-  
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCurvatureNDAnisotropicDiffusionFunction.txx"

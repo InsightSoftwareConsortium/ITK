@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /** \class ImageRegionMultidimensionalSplitter
  * \brief Divide a region into several pieces.
  *
@@ -35,7 +34,7 @@ namespace itk
  * the StreamingImageFilter to divide a requested output region into a
  * series of smaller requests of the pipeline.  This object has two
  * basic methods: GetNumberOfSplits() and GetSplit().
- * 
+ *
 
  * GetNumberOfSplits() is used to determine how may subregions a given
  * region can be divided.  You call GetNumberOfSplits with an argument
@@ -57,33 +56,33 @@ namespace itk
  * \ingroup DataProcessing
  */
 
-template <unsigned int VImageDimension>
-class ITK_EXPORT ImageRegionMultidimensionalSplitter: public ImageRegionSplitter<VImageDimension>
+template< unsigned int VImageDimension >
+class ITK_EXPORT ImageRegionMultidimensionalSplitter:public ImageRegionSplitter< VImageDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionMultidimensionalSplitter             Self;
-  typedef ImageRegionSplitter<VImageDimension>            Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
-  
+  typedef ImageRegionMultidimensionalSplitter    Self;
+  typedef ImageRegionSplitter< VImageDimension > Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageRegionMultidimensionalSplitter,ImageRegionSplitter);
+  itkTypeMacro(ImageRegionMultidimensionalSplitter, ImageRegionSplitter);
 
   /** Dimension of the image available at compile time. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
-  
+
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
+  typedef Index< VImageDimension > IndexType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
+  typedef Size< VImageDimension > SizeType;
 
   /** Region typedef support.   */
-  typedef ImageRegion<VImageDimension> RegionType;
+  typedef ImageRegion< VImageDimension > RegionType;
 
   /** How many pieces can the specifed region be split? A given region
    * cannot always be divided into the requested number of pieces.  For
@@ -91,42 +90,44 @@ public:
    * a certain dimensions, then some splits will not be possible. This
    * method returns a number less than or equal to the requested number
    * of pieces.  */
-  virtual unsigned int GetNumberOfSplits(const RegionType &region,
+  virtual unsigned int GetNumberOfSplits(const RegionType & region,
                                          unsigned int requestedNumber);
 
   /** Get a region definition that represents the ith piece a specified region.
    * The "numberOfPieces" must be equal to what
    * GetNumberOfSplits() returns. */
   virtual RegionType GetSplit(unsigned int i, unsigned int numberOfPieces,
-                              const RegionType &region);
+                              const RegionType & region);
 
 protected:
   ImageRegionMultidimensionalSplitter() {}
   ~ImageRegionMultidimensionalSplitter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ImageRegionMultidimensionalSplitter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  ImageRegionMultidimensionalSplitter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 };
-
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionMultidimensionalSplitter(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 x > \
-                                               ImageRegionMultidimensionalSplitter##y; } \
+#define ITK_TEMPLATE_ImageRegionMultidimensionalSplitter(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                       \
+  {                                                                                   \
+  _( 1 ( class EXPORT ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                                 \
+  {                                                                                   \
+  typedef ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 TypeX >                 \
+  ImageRegionMultidimensionalSplitter##TypeY;                                       \
+  }                                                                                   \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageRegionMultidimensionalSplitter+-.h"
+#include "Templates/itkImageRegionMultidimensionalSplitter+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageRegionMultidimensionalSplitter.txx"
+#include "itkImageRegionMultidimensionalSplitter.txx"
 #endif
 
 #endif

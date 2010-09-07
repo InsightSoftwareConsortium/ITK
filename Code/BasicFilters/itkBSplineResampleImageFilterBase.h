@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,18 +25,19 @@
 
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"   // Used for the output iterator needs to match filter program
+#include "itkImageRegionIterator.h"   // Used for the output iterator needs to
+                                      // match filter program
 #include "itkProgressReporter.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
 /** \class BSplineResampleImageFilterBase
- *  \brief Uses the "l2" spline pyramid implementation of B-Spline Filters to 
+ *  \brief Uses the "l2" spline pyramid implementation of B-Spline Filters to
  *        up/down sample an image by a factor of 2.
  *
  * This class defines N-Dimension B-Spline transformation.
- * It is based on: 
+ * It is based on:
  *    [1] M. Unser,
  *       "Splines: A Perfect Fit for Signal and Image Processing,"
  *        IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
@@ -50,7 +51,7 @@ namespace itk
  *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
  *        February 1993.
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
- * 
+ *
  * Limitations:  Spline order for the l2 pyramid must be between 0 and 3.
  *               This code cannot be multi-threaded since the entire image must be
  *                      traversed in the proper order.
@@ -70,22 +71,20 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup CannotBeStreamed
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT BSplineResampleImageFilterBase : 
-    public ImageToImageFilter<TInputImage,TOutputImage>  
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT BSplineResampleImageFilterBase:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
-
 public:
   /** Standard class typedefs. */
-  typedef BSplineResampleImageFilterBase                Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef BSplineResampleImageFilterBase                  Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
 
- 
   /** New macro for creation of through a Smart Pointer */
   //  Must be sustantiated through another class. itkNewMacro( Self );
 
@@ -109,77 +108,76 @@ public:
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
 
   /** Iterator typedef support */
-  typedef itk::ImageLinearConstIteratorWithIndex<TInputImage> ConstInputImageIterator;
+  typedef itk::ImageLinearConstIteratorWithIndex< TInputImage > ConstInputImageIterator;
 
   /** Iterator typedef support */
-  typedef itk::ImageLinearConstIteratorWithIndex<TOutputImage> ConstOutputImageIterator;
+  typedef itk::ImageLinearConstIteratorWithIndex< TOutputImage > ConstOutputImageIterator;
 
   /** Output Iterator typedef support */
-  typedef itk::ImageLinearIteratorWithIndex<TOutputImage> OutputImageIterator;
+  typedef itk::ImageLinearIteratorWithIndex< TOutputImage > OutputImageIterator;
 
-  /** Set the spline order for interpolation.  Value must be between 0 and 3 with a 
+  /** Set the spline order for interpolation.  Value must be between 0 and 3 with a
    * default of 0. */
   void SetSplineOrder(int SplineOrder);
 
   /** Get the spline order */
   itkGetConstMacro(SplineOrder, int);
-
-
 protected:
   /** Reduces an N-dimension image by a factor of 2 in each dimension. */
-  void ReduceNDImage(OutputImageIterator &OutItr);
+  void ReduceNDImage(OutputImageIterator & OutItr);
 
   /** Expands an N-dimension image by a factor of 2 in each dimension. */
-  void ExpandNDImage(OutputImageIterator &OutItr);
+  void ExpandNDImage(OutputImageIterator & OutItr);
 
   /** Initializes the pyramid spline coefficients.  Called when Spline order
    *   has been set. */
   virtual void InitializePyramidSplineFilter(int SplineOrder);
 
   /** The basic operator for reducing a line of data by a factor of 2 */
-  virtual void Reduce1DImage( 
-    const std::vector<double> & In, 
-    OutputImageIterator & Iter, 
+  virtual void Reduce1DImage(
+    const std::vector< double > & In,
+    OutputImageIterator & Iter,
     unsigned int traverseSize,
-    ProgressReporter &progress
+    ProgressReporter & progress
     );
 
   /** The basic operator for expanding a line of data by a factor of 2 */
-  virtual void Expand1DImage( 
-    const std::vector<double> & In, 
-    OutputImageIterator & Iter, 
+  virtual void Expand1DImage(
+    const std::vector< double > & In,
+    OutputImageIterator & Iter,
     unsigned int traverseSize,
-    ProgressReporter &progress
+    ProgressReporter & progress
     );
 
   BSplineResampleImageFilterBase();
-  virtual ~BSplineResampleImageFilterBase() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~BSplineResampleImageFilterBase() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  int                       m_SplineOrder;// User specified spline order 
-  int                       m_GSize;      // downsampling filter size
-  int                       m_HSize;      // upsampling filter size
-  std::vector<double>       m_G;          // downsampling filter coefficients
-  std::vector<double>       m_H;          // upsampling filter coefficients
+  int m_SplineOrder;                      // User specified spline order
+  int m_GSize;                            // downsampling filter size
+  int m_HSize;                            // upsampling filter size
 
+  std::vector< double >       m_G;        // downsampling filter coefficients
+  std::vector< double >       m_H;        // upsampling filter coefficients
 private:
 
   // Resizes m_Scratch Variable based on image sizes
   void InitializeScratch(SizeType DataLength);
 
-  // Copies a line of data from the input to the m_Scratch for subsequent processing
+  // Copies a line of data from the input to the m_Scratch for subsequent
+  // processing
   void CopyInputLineToScratch(ConstInputImageIterator & Iter);
+
   void CopyOutputLineToScratch(ConstOutputImageIterator & Iter);
+
   void CopyLineToScratch(ConstInputImageIterator & Iter);
 
+  std::vector< double >       m_Scratch;        // temp storage for processing
+                                                // of Coefficients
 
-  std::vector<double>       m_Scratch;        // temp storage for processing of Coefficients
-
-  BSplineResampleImageFilterBase( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
-  
+  BSplineResampleImageFilterBase(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

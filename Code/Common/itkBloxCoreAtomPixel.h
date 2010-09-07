@@ -30,7 +30,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-
 /**
  * \class BloxCoreAtomPixel
  * \brief Holds a linked list of itk::BloxCoreAtomItem's
@@ -38,46 +37,46 @@ namespace itk
  * \ingroup ImageObjects
  * */
 
-template <unsigned int NDimensions>
-class ITK_EXPORT BloxCoreAtomPixel : public BloxPixel< 
-                                            BloxCoreAtomItem<NDimensions> >
+template< unsigned int NDimensions >
+class ITK_EXPORT BloxCoreAtomPixel:public BloxPixel<
+    BloxCoreAtomItem< NDimensions > >
 {
 public:
 
   /** Standard class typedefs. */
   typedef BloxCoreAtomPixel                            Self;
-  typedef BloxPixel< BloxCoreAtomItem<NDimensions> >   Superclass; 
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef BloxPixel< BloxCoreAtomItem< NDimensions > > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** The type of core atom item we process. */
-  typedef BloxCoreAtomItem<NDimensions> CoreAtomItemType;
+  typedef BloxCoreAtomItem< NDimensions > CoreAtomItemType;
 
   /** The type of boundary point item we process. */
-  typedef BloxBoundaryPointItem<NDimensions> BPItemType;
+  typedef BloxBoundaryPointItem< NDimensions > BPItemType;
 
   /** The type used to store the position of the BoundaryPointItem. */
-  typedef Point<double, NDimensions> PositionType;
+  typedef Point< double, NDimensions > PositionType;
 
   /** The type of vector used to store the gradient of the BoundaryPointItem. */
-  typedef CovariantVector<double, NDimensions> GradientType;
+  typedef CovariantVector< double, NDimensions > GradientType;
 
   /** VNL type used in eigenanalysis. */
-  typedef vnl_vector_fixed<double, NDimensions> VectorType;
+  typedef vnl_vector_fixed< double, NDimensions > VectorType;
 
   /** Vector type used to store eigenvalues. */
-  typedef vnl_vector_fixed<double, NDimensions> EigenvalueType;
+  typedef vnl_vector_fixed< double, NDimensions > EigenvalueType;
 
   /** Matrix type used to store eigenvectors. */
-  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> EigenvectorType;
+  typedef vnl_matrix_fixed< double, NDimensions, NDimensions > EigenvectorType;
 
   /** Generalized matrix type used for several different tasks. */
-  typedef vnl_matrix_fixed<double, NDimensions, NDimensions> MatrixType;
+  typedef vnl_matrix_fixed< double, NDimensions, NDimensions > MatrixType;
 
   /** Calculate and store the mean of core atom diameters. */
   double CalcMeanCoreAtomDiameter();
 
-  /** Perform eigenanalysis on the population of core atoms 
+  /** Perform eigenanalysis on the population of core atoms
    *  stored in this pixel. */
   bool DoCoreAtomEigenanalysis();
 
@@ -85,20 +84,24 @@ public:
   void DoVotedEigenanalysis();
 
   /** Get statements */
-  double GetMeanCoreAtomDiameter() {return m_MeanCoreAtomDiameter;}
-  double GetMeanCoreAtomIntensity() {return m_MeanCoreAtomIntensity;}
-  EigenvalueType GetEigenvalues() {return m_Eigenvalues;}
-  EigenvalueType GetVotedEigenvalues() {return m_VotedEigenvalues;}
-  EigenvectorType GetEigenvectors() {return m_Eigenvectors;}
-  EigenvectorType GetVotedEigenvectors() {return m_VotedEigenvectors;}
-  PositionType GetLocationSums() {return m_LocationSums;}
-  double GetWeightSum() {return m_WeightSum;}
+  double GetMeanCoreAtomDiameter() { return m_MeanCoreAtomDiameter; }
+  double GetMeanCoreAtomIntensity()
+  {
+    return m_MeanCoreAtomIntensity; \
+  }
+
+  EigenvalueType GetEigenvalues() { return m_Eigenvalues; }
+  EigenvalueType GetVotedEigenvalues() { return m_VotedEigenvalues; }
+  EigenvectorType GetEigenvectors() { return m_Eigenvectors; }
+  EigenvectorType GetVotedEigenvectors() { return m_VotedEigenvectors; }
+  PositionType GetLocationSums() { return m_LocationSums; }
+  double GetWeightSum() { return m_WeightSum; }
 
   /** Get the raw CMatrix (prior to voting) */
-  MatrixType* GetRawCMatrixPointer() {return &m_RawCMatrix;}
+  MatrixType * GetRawCMatrixPointer() { return &m_RawCMatrix; }
 
   /** Collect a vote and update m_VotedCMatrix */
-  void CollectVote(MatrixType* pMatrix, double strength, double count);
+  void CollectVote(MatrixType *pMatrix, double strength, double count);
 
   /** Re-normalizes the voted CMatrix after all votes are cast */
   void NormalizeVotedCMatrix();
@@ -106,14 +109,13 @@ public:
   /** Calculate location of the pixel based on core atoms voting for
    * it.
    */
-  void CalcWeightedCoreAtomLocation(double weight_factor, Self * votingPixel);
+  void CalcWeightedCoreAtomLocation(double weight_factor, Self *votingPixel);
 
   /** Returns the calculated voted location */
   PositionType GetVotedLocation();
 
   BloxCoreAtomPixel();
   ~BloxCoreAtomPixel();
-
 private:
 
   /** Average (arithmetic mean) of core atom diameters stored in this pixel. */
@@ -156,23 +158,26 @@ private:
   /** Total weights used to compute voted location */
   double m_MeanCoreAtomIntensity;
 };
-
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxCoreAtomPixel(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxCoreAtomPixel< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxCoreAtomPixel< ITK_TEMPLATE_1 x > \
-                               BloxCoreAtomPixel##y; } \
+#define ITK_TEMPLATE_BloxCoreAtomPixel(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                     \
+  {                                                                 \
+  _( 1 ( class EXPORT BloxCoreAtomPixel< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                               \
+  {                                                                 \
+  typedef BloxCoreAtomPixel< ITK_TEMPLATE_1 TypeX >                 \
+  BloxCoreAtomPixel##TypeY;                                       \
+  }                                                                 \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxCoreAtomPixel+-.h"
+#include "Templates/itkBloxCoreAtomPixel+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxCoreAtomPixel.txx"
+#include "itkBloxCoreAtomPixel.txx"
 #endif
 
 #endif

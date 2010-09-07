@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -40,48 +40,45 @@
 
 namespace itk
 {
-
 ImageIOBase::Pointer
-ImageIOFactory::CreateImageIO(const char* path, FileModeType mode)
+ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
 {
-
   RegisterBuiltInFactories();
 
-  std::list<ImageIOBase::Pointer> possibleImageIO;
-  std::list<LightObject::Pointer> allobjects =
+  std::list< ImageIOBase::Pointer > possibleImageIO;
+  std::list< LightObject::Pointer > allobjects =
     ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-  for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
-      i != allobjects.end(); ++i)
+  for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
+        i != allobjects.end(); ++i )
     {
-    ImageIOBase* io = dynamic_cast<ImageIOBase*>(i->GetPointer());
-    if(io)
+    ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
+    if ( io )
       {
       possibleImageIO.push_back(io);
       }
     else
       {
       std::cerr << "Error ImageIO factory did not return an ImageIOBase: "
-                << (*i)->GetNameOfClass()
+                << ( *i )->GetNameOfClass()
                 << std::endl;
       }
     }
-  for(std::list<ImageIOBase::Pointer>::iterator k = possibleImageIO.begin();
-      k != possibleImageIO.end(); ++k)
+  for ( std::list< ImageIOBase::Pointer >::iterator k = possibleImageIO.begin();
+        k != possibleImageIO.end(); ++k )
     {
-    if( mode == ReadMode )
+    if ( mode == ReadMode )
       {
-      if((*k)->CanReadFile(path))
+      if ( ( *k )->CanReadFile(path) )
         {
         return *k;
         }
       }
-    else if( mode == WriteMode )
+    else if ( mode == WriteMode )
       {
-      if((*k)->CanWriteFile(path))
+      if ( ( *k )->CanWriteFile(path) )
         {
         return *k;
         }
-
       }
     }
   return 0;
@@ -93,30 +90,37 @@ ImageIOFactory::RegisterBuiltInFactories()
   static bool firstTime = true;
 
   static SimpleMutexLock mutex;
+
     {
     // This helper class makes sure the Mutex is unlocked
     // in the event an exception is thrown.
-    MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
-    if( firstTime )
+    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
+    if ( firstTime )
       {
-      ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() ); //should be before GDCM
+      ObjectFactoryBase::RegisterFactory( BioRadImageIOFactory::New() ); //should
+                                                                         // be
+                                                                         // before
+                                                                         // GDCM
       ObjectFactoryBase::RegisterFactory( GDCMImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( MetaImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( PNGImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( VTKImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( GiplImageIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New()); //should be before TIFF
+      ObjectFactoryBase::RegisterFactory( LSMImageIOFactory::New() ); //should
+                                                                      // be
+                                                                      // before
+                                                                      // TIFF
       // ITK Teleconference 2008-02-22 determined that
       // AnalyzeImageIOFactory MUST be the default for reading all
       // non-nifti identified .hdr/.img images.  This requires
       // that the AnalyzeImageIOFactory can now come before the Nifti
       // Factory because AnalyzeImageIO->CanRead() has been instrumented to
       // reject .hdr/.img files with the nifti magic number tags.
-      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New());
-      ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New());
+      ObjectFactoryBase::RegisterFactory( AnalyzeImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( NiftiImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( StimulateImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( JPEGImageIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( TIFFImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( NrrdImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( BMPImageIOFactory::New() );
       ObjectFactoryBase::RegisterFactory( DICOMImageIO2Factory::New() );
@@ -124,5 +128,4 @@ ImageIOFactory::RegisterBuiltInFactories()
       }
     }
 }
-
 } // end namespace itk

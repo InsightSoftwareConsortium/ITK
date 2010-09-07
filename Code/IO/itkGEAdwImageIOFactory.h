@@ -29,18 +29,19 @@ namespace itk
 /** \class GEAdwImageIOFactory
    * \brief Create instances of GEAdwImageIO objects using an object factory.
    */
-class ITK_EXPORT GEAdwImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GEAdwImageIOFactory      Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef GEAdwImageIOFactory        Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -50,22 +51,21 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     GEAdwImageIOFactory::Pointer metaFactory = GEAdwImageIOFactory::New();
+
     ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
+  }
 
 protected:
   GEAdwImageIOFactory();
   ~GEAdwImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GEAdwImageIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  GEAdwImageIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

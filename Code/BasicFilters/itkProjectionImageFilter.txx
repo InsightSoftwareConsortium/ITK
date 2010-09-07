@@ -24,32 +24,29 @@
 #include "itkProgressReporter.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 
-
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <class TInputImage, class TOutputImage, class TAccumulator>
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::ProjectionImageFilter()
 {
-  this->SetNumberOfRequiredInputs( 1 );
-  m_ProjectionDimension=InputImageDimension-1;
+  this->SetNumberOfRequiredInputs(1);
+  m_ProjectionDimension = InputImageDimension - 1;
 }
 
-
-template <class TInputImage, class TOutputImage, class TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
 void
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::GenerateOutputInformation()
 {
   itkDebugMacro("GenerateOutputInformation Start");
 
-  if(m_ProjectionDimension>=TInputImage::ImageDimension)
+  if ( m_ProjectionDimension >= TInputImage::ImageDimension )
     {
-    itkExceptionMacro(<<"Invalid ProjectionDimension. ProjectionDimension is "
+    itkExceptionMacro(<< "Invalid ProjectionDimension. ProjectionDimension is "
                       << m_ProjectionDimension
                       << " but input ImageDimension is "
                       << TInputImage::ImageDimension);
@@ -57,8 +54,8 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 
   typename TOutputImage::RegionType outputRegion;
   typename TInputImage::IndexType inputIndex;
-  typename TInputImage::SizeType  inputSize;
-  typename TOutputImage::SizeType  outputSize;
+  typename TInputImage::SizeType inputSize;
+  typename TOutputImage::SizeType outputSize;
   typename TOutputImage::IndexType outputIndex;
   typename TInputImage::SpacingType inSpacing;
   typename TInputImage::PointType inOrigin;
@@ -67,7 +64,7 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
 
   // Get pointers to the input and output
   typename Superclass::OutputImagePointer output = this->GetOutput();
-  typename Superclass::InputImagePointer input = 
+  typename Superclass::InputImagePointer input =
     const_cast< TInputImage * >( this->GetInput() );
 
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
@@ -78,12 +75,12 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
 
-  if( static_cast< unsigned int >( InputImageDimension ) == 
-      static_cast< unsigned int >( OutputImageDimension )    )
+  if ( static_cast< unsigned int >( InputImageDimension ) ==
+       static_cast< unsigned int >( OutputImageDimension ) )
     {
-    for(unsigned int i = 0; i<InputImageDimension; i++)
+    for ( unsigned int i = 0; i < InputImageDimension; i++ )
       {
-      if (i != m_ProjectionDimension)
+      if ( i != m_ProjectionDimension )
         {
         outputSize[i]  = inputSize[i];
         outputIndex[i] = inputIndex[i];
@@ -94,17 +91,17 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
         {
         outputSize[i]  = 1;
         outputIndex[i] = 0;
-        outSpacing[i] = inSpacing[i]*inputSize[i];
-        outOrigin[i]  = inOrigin[i] + (i-1)*inSpacing[i]/2;
+        outSpacing[i] = inSpacing[i] * inputSize[i];
+        outOrigin[i]  = inOrigin[i] + ( i - 1 ) * inSpacing[i] / 2;
         }
       }
     }
   else
     {
     // Then OutputImageDimension = InputImageDimension - 1
-    for(unsigned int i = 0; i<OutputImageDimension; i++)
+    for ( unsigned int i = 0; i < OutputImageDimension; i++ )
       {
-      if (i != m_ProjectionDimension)
+      if ( i != m_ProjectionDimension )
         {
         outputSize[i]  = inputSize[i];
         outputIndex[i] = inputIndex[i];
@@ -130,17 +127,16 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   itkDebugMacro("GenerateOutputInformation End");
 }
 
-
-template <class TInputImage, class  TOutputImage, class TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
 void
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::GenerateInputRequestedRegion()
 {
   itkDebugMacro("GenerateInputRequestedRegion Start");
 
-  if(m_ProjectionDimension>=TInputImage::ImageDimension)
+  if ( m_ProjectionDimension >= TInputImage::ImageDimension )
     {
-    itkExceptionMacro(<<"Invalid ProjectionDimension "
+    itkExceptionMacro(<< "Invalid ProjectionDimension "
                       << m_ProjectionDimension
                       << " but ImageDimension is "
                       << TInputImage::ImageDimension);
@@ -151,11 +147,11 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
   if ( this->GetInput() )
     {
     typename TInputImage::RegionType RequestedRegion;
-    typename TInputImage::SizeType  inputSize;
+    typename TInputImage::SizeType inputSize;
     typename TInputImage::IndexType inputIndex;
-    typename TInputImage::SizeType  inputLargSize;
+    typename TInputImage::SizeType inputLargSize;
     typename TInputImage::IndexType inputLargIndex;
-    typename TOutputImage::SizeType  outputSize;
+    typename TOutputImage::SizeType outputSize;
     typename TOutputImage::IndexType outputIndex;
 
     outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
@@ -163,28 +159,28 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
     inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
 
-    if( static_cast< unsigned int >( InputImageDimension ) == 
-        static_cast< unsigned int >( OutputImageDimension )    )
+    if ( static_cast< unsigned int >( InputImageDimension ) ==
+         static_cast< unsigned int >( OutputImageDimension ) )
       {
-      for(unsigned int i=0; i<TInputImage::ImageDimension; i++)
+      for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
         {
-        if(i!=m_ProjectionDimension)
+        if ( i != m_ProjectionDimension )
           {
           inputSize[i] = outputSize[i];
           inputIndex[i] = outputIndex[i];
           }
         else
           {
-          inputSize[i]=inputLargSize[i];
-          inputIndex[i]=inputLargIndex[i];
+          inputSize[i] = inputLargSize[i];
+          inputIndex[i] = inputLargIndex[i];
           }
         }
       }
     else
       {
-      for(unsigned int i=0; i<OutputImageDimension; i++)
+      for ( unsigned int i = 0; i < OutputImageDimension; i++ )
         {
-        if(i!=m_ProjectionDimension)
+        if ( i != m_ProjectionDimension )
           {
           inputSize[i] = outputSize[i];
           inputIndex[i] = outputIndex[i];
@@ -197,75 +193,74 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
           inputIndex[InputImageDimension - 1] = outputIndex[i];
           }
         }
-        inputSize[m_ProjectionDimension] = 
-                     inputLargSize[m_ProjectionDimension];
-        inputIndex[m_ProjectionDimension] = 
-                     inputLargIndex[m_ProjectionDimension];
+      inputSize[m_ProjectionDimension] =
+        inputLargSize[m_ProjectionDimension];
+      inputIndex[m_ProjectionDimension] =
+        inputLargIndex[m_ProjectionDimension];
       }
 
     RequestedRegion.SetSize(inputSize);
     RequestedRegion.SetIndex(inputIndex);
-    InputImagePointer input = const_cast< TInputImage * > ( this->GetInput() );
+    InputImagePointer input = const_cast< TInputImage * >( this->GetInput() );
     input->SetRequestedRegion (RequestedRegion);
     }
 
   itkDebugMacro("GenerateInputRequestedRegion End");
 }
 
-
 /**
  * GenerateData Performs the accumulation
  */
-template <class TInputImage, class TOutputImage, class TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
 void
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, 
-                       int threadId )
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                       int threadId)
 {
-  if(m_ProjectionDimension>=TInputImage::ImageDimension)
+  if ( m_ProjectionDimension >= TInputImage::ImageDimension )
     {
-    itkExceptionMacro(<<"Invalid ProjectionDimension "
+    itkExceptionMacro(<< "Invalid ProjectionDimension "
                       << m_ProjectionDimension
                       << " but ImageDimension is "
                       << TInputImage::ImageDimension);
     }
 
-  // use the output image to report the progress: there is no need to 
+  // use the output image to report the progress: there is no need to
   // call CompletedPixel() for all input pixel
-  ProgressReporter progress(this, threadId, 
-                            outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress( this, threadId,
+                             outputRegionForThread.GetNumberOfPixels() );
 
   typedef typename TOutputImage::PixelType OutputPixelType;
-  
-  // get some values, just to be easier to manipulate
-  typename Superclass::InputImageConstPointer  inputImage = this->GetInput();
 
-  typename TInputImage::RegionType inputRegion = 
-                       inputImage->GetLargestPossibleRegion();
+  // get some values, just to be easier to manipulate
+  typename Superclass::InputImageConstPointer inputImage = this->GetInput();
+
+  typename TInputImage::RegionType inputRegion =
+    inputImage->GetLargestPossibleRegion();
 
   typename TInputImage::SizeType inputSize = inputRegion.GetSize();
   typename TInputImage::IndexType inputIndex = inputRegion.GetIndex();
 
   typename TOutputImage::Pointer outputImage = this->GetOutput();
-  typename TOutputImage::RegionType outputRegion = 
-                       outputImage->GetLargestPossibleRegion();
+  typename TOutputImage::RegionType outputRegion =
+    outputImage->GetLargestPossibleRegion();
 
-  typename TOutputImage::SizeType outputSizeForThread = 
-                       outputRegionForThread.GetSize();
-  typename TOutputImage::IndexType outputIndexForThread = 
-                       outputRegionForThread.GetIndex();
+  typename TOutputImage::SizeType outputSizeForThread =
+    outputRegionForThread.GetSize();
+  typename TOutputImage::IndexType outputIndexForThread =
+    outputRegionForThread.GetIndex();
 
   // compute the input region for this thread
   typename TInputImage::RegionType inputRegionForThread = inputRegion;
   typename TInputImage::SizeType inputSizeForThread = inputSize;
   typename TInputImage::IndexType inputIndexForThread = inputIndex;
-  
-  if( static_cast< unsigned int >( InputImageDimension ) == 
-      static_cast< unsigned int >( OutputImageDimension )    )
+
+  if ( static_cast< unsigned int >( InputImageDimension ) ==
+       static_cast< unsigned int >( OutputImageDimension ) )
     {
-    for( unsigned int i=0; i< InputImageDimension; i++ )
+    for ( unsigned int i = 0; i < InputImageDimension; i++ )
       {
-      if( i != m_ProjectionDimension )
+      if ( i != m_ProjectionDimension )
         {
         inputSizeForThread[i] = outputSizeForThread[i];
         inputIndexForThread[i] = outputIndexForThread[i];
@@ -274,9 +269,9 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     }
   else
     {
-    for(unsigned int i=0; i<OutputImageDimension; i++)
+    for ( unsigned int i = 0; i < OutputImageDimension; i++ )
       {
-      if(i!=m_ProjectionDimension)
+      if ( i != m_ProjectionDimension )
         {
         inputSizeForThread[i] = outputSizeForThread[i];
         inputIndexForThread[i] = outputIndexForThread[i];
@@ -289,32 +284,32 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
         inputIndexForThread[InputImageDimension - 1] = outputIndexForThread[i];
         }
       }
-      inputSizeForThread[m_ProjectionDimension] = 
-                                 inputSize[m_ProjectionDimension];
-      inputIndexForThread[m_ProjectionDimension] = 
-                                 inputIndex[m_ProjectionDimension];
+    inputSizeForThread[m_ProjectionDimension] =
+      inputSize[m_ProjectionDimension];
+    inputIndexForThread[m_ProjectionDimension] =
+      inputIndex[m_ProjectionDimension];
     }
-  inputRegionForThread.SetSize( inputSizeForThread );
-  inputRegionForThread.SetIndex( inputIndexForThread );
+  inputRegionForThread.SetSize(inputSizeForThread);
+  inputRegionForThread.SetIndex(inputIndexForThread);
 
   unsigned long projectionSize = inputSize[m_ProjectionDimension];
 
   // create the iterators for input and output image
-  typedef ImageLinearConstIteratorWithIndex<TInputImage> InputIteratorType;
-  InputIteratorType iIt( inputImage, inputRegionForThread );
-  iIt.SetDirection( m_ProjectionDimension );
+  typedef ImageLinearConstIteratorWithIndex< TInputImage > InputIteratorType;
+  InputIteratorType iIt(inputImage, inputRegionForThread);
+  iIt.SetDirection(m_ProjectionDimension);
   iIt.GoToBegin();
 
   // instantiate the accumulator
-  AccumulatorType accumulator = this->NewAccumulator( projectionSize );
+  AccumulatorType accumulator = this->NewAccumulator(projectionSize);
 
   // ok, everything is ready... lets the linear iterator do its job !
-  while( !iIt.IsAtEnd() )
+  while ( !iIt.IsAtEnd() )
     {
     // init the accumulator before a new set of pixels
     accumulator.Initialize();
 
-    while( !iIt.IsAtEndOfLine() )
+    while ( !iIt.IsAtEndOfLine() )
       {
       accumulator( iIt.Get() );
       ++iIt;
@@ -324,38 +319,38 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     typename TOutputImage::IndexType oIdx;
     typename TInputImage::IndexType iIdx = iIt.GetIndex();
 
-    if( static_cast< unsigned int >( InputImageDimension ) == 
-        static_cast< unsigned int >( OutputImageDimension )    )
+    if ( static_cast< unsigned int >( InputImageDimension ) ==
+         static_cast< unsigned int >( OutputImageDimension ) )
       {
-      for( unsigned int i=0; i< InputImageDimension; i++ )
+      for ( unsigned int i = 0; i < InputImageDimension; i++ )
         {
-        if( i != m_ProjectionDimension )
-          { 
-          oIdx[i] = iIdx[i]; 
+        if ( i != m_ProjectionDimension )
+          {
+          oIdx[i] = iIdx[i];
           }
         else
-          { 
-          oIdx[i] = 0; 
+          {
+          oIdx[i] = 0;
           }
         }
       }
     else
       {
-      for( unsigned int i=0; i< OutputImageDimension; i++ )
+      for ( unsigned int i = 0; i < OutputImageDimension; i++ )
         {
-        if( i != m_ProjectionDimension )
+        if ( i != m_ProjectionDimension )
           {
-          oIdx[i] = iIdx[i]; 
+          oIdx[i] = iIdx[i];
           }
         else
-          { 
-          oIdx[i] = iIdx[InputImageDimension - 1]; 
+          {
+          oIdx[i] = iIdx[InputImageDimension - 1];
           }
         }
       }
 
-    outputImage->SetPixel( oIdx, 
-                        static_cast<OutputPixelType>( accumulator.GetValue() ) );
+    outputImage->SetPixel( oIdx,
+                           static_cast< OutputPixelType >( accumulator.GetValue() ) );
 
     // one more line done !
     progress.CompletedPixel();
@@ -363,31 +358,23 @@ ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>
     // continue with the next one
     iIt.NextLine();
     }
-
 }
 
-
-template <class TInputImage, class TOutputImage, class TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
 TAccumulator
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>::
-NewAccumulator( unsigned long size ) const
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::NewAccumulator(unsigned long size) const
 {
-  return TAccumulator( size );
+  return TAccumulator(size);
 }
 
-
-template <class TInputImage, class TOutputImage, class TAccumulator>
+template< class TInputImage, class TOutputImage, class TAccumulator >
 void
-ProjectionImageFilter<TInputImage,TOutputImage,TAccumulator>::
-PrintSelf(std::ostream& os, Indent indent) const
+ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "ProjectionDimension: " << m_ProjectionDimension << std::endl;
 }
-
-
 } // end namespace itk
-
 
 #endif

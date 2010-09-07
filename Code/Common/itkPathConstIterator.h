@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /**
  * \class PathConstIterator
  * \brief PathConstIterator iterates (traces) over a path through an image.
@@ -50,33 +49,33 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
  * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
  * \sa SliceIterator \sa ImageConstIteratorWithIndex */
-template<class TImage, class TPath>
+template< class TImage, class TPath >
 class ITK_EXPORT PathConstIterator
 {
 public:
   /** Standard class typedefs. */
   typedef PathConstIterator Self;
 
-  /** Dimension of the image the iterator walks.  This constant is needed so 
+  /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
@@ -84,98 +83,98 @@ public:
                       TImage::ImageDimension);
 
   /** Index typedef support. */
-  typedef typename TImage::IndexType          IndexType;
-  typedef typename TImage::IndexValueType     IndexValueType;
+  typedef typename TImage::IndexType      IndexType;
+  typedef typename TImage::IndexValueType IndexValueType;
 
   /** Offset typedef support. */
-  typedef typename TImage::OffsetType         OffsetType;
-  typedef typename TImage::OffsetValueType    OffsetValueType;
+  typedef typename TImage::OffsetType      OffsetType;
+  typedef typename TImage::OffsetValueType OffsetValueType;
 
   /** Size typedef support. */
-  typedef typename TImage::SizeType           SizeType;
-  typedef typename TImage::SizeValueType      SizeValueType;
+  typedef typename TImage::SizeType      SizeType;
+  typedef typename TImage::SizeValueType SizeValueType;
 
   /** Region typedef support */
-  typedef typename TImage::RegionType         RegionType;
+  typedef typename TImage::RegionType RegionType;
 
   /** Spacing typedef support */
-  typedef typename TImage::SpacingType        SpacingType;
+  typedef typename TImage::SpacingType SpacingType;
 
   /** Origin typedef support */
-  typedef typename TImage::PointType          PointType;
-  
+  typedef typename TImage::PointType PointType;
+
   /** Image typedef support. */
-  typedef TImage                              ImageType;
+  typedef TImage ImageType;
 
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer     PixelContainer;
-  typedef typename PixelContainer::Pointer    PixelContainerPointer;
-  
+  typedef typename TImage::PixelContainer  PixelContainer;
+  typedef typename PixelContainer::Pointer PixelContainerPointer;
+
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType  InternalPixelType;
+  typedef typename TImage::InternalPixelType InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType          PixelType;
+  typedef typename TImage::PixelType PixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename TImage::AccessorType       AccessorType;
+  typedef typename TImage::AccessorType AccessorType;
 
   /** Path typedef support */
-  typedef TPath                               PathType;
+  typedef TPath PathType;
 
   /** Path 1D Input Type */
-  typedef typename PathType::InputType        PathInputType;
+  typedef typename PathType::InputType PathInputType;
 
   /** Path ND Output Type, which is not necessarily an index type */
-  typedef typename PathType::OutputType       PathOutputType;
-  
+  typedef typename PathType::OutputType PathOutputType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(PathConstIterator, None);
-  
+
   /** Get the dimension (size) of the index. */
-  static unsigned int GetImageIteratorDimension() 
-    {
+  static unsigned int GetImageIteratorDimension()
+  {
     return TImage::ImageDimension;
-    }
+  }
 
   /** Get the input. This provides a read only reference to the input. */
   const PathInputType GetPathPosition()
-    {
+  {
     return m_CurrentPathPosition;
-    }
+  }
 
   /** Get the index. This provides a read only reference to the index. */
   const IndexType GetIndex()
-    {
+  {
     return m_CurrentImageIndex;
-    }
+  }
 
   /** Get the pixel value */
   const PixelType & Get(void) const
-    {
-    return m_Image->GetPixel(m_CurrentImageIndex );
-    }
- 
+  {
+    return m_Image->GetPixel(m_CurrentImageIndex);
+  }
+
   /** Is the iterator at the end of the path?
    * Note that for a closed path, it may be possible to increment back to the
    * start of the path. */
   bool IsAtEnd()
-    {
+  {
     return m_IsAtEnd;
-    }
+  }
 
   /** Should GoToBegin() initially skip the first index of a closed path so that
    * the first index will only be visited once--at the end of the path?  If set
    * to false, then GoToBegin() will always move to the 1'st index.  The
    * constructor presets m_VisitStartIndexAsLastIndexIfClosed to true. */
   inline virtual void VisitStartIndexAsLastIndexIfClosed(bool flag)
-    {
+  {
     m_VisitStartIndexAsLastIndexIfClosed = flag;
-    }
-  
+  }
+
   /** Move an iterator to the beginning of the path.  If the starting and ending
    * indicies of the path are coincident, then move to the 2'nd index of the
    * path, since the 1'st index will be visited later as the last index.
@@ -188,17 +187,16 @@ public:
 
   /** operator= is provided to make sure the handles to the image and path are
    * properly reference counted. */
-  Self &operator=(const Self& it);
+  Self & operator=(const Self & it);
 
   /** Constructor establishes an iterator to walk along a path */
   PathConstIterator(const ImageType *imagePtr, const PathType  *pathPtr);
 
   /** Default Destructor. */
-  virtual ~PathConstIterator() {};
-
-protected: //made protected so other iterators can access 
+  virtual ~PathConstIterator() {}
+protected: //made protected so other iterators can access
   // This "constant" is initialized in the constructor
-  OffsetType  m_ZeroOffset; // = 0 for all dimensions
+  OffsetType m_ZeroOffset;  // = 0 for all dimensions
 
   /** Smart pointer to the source image. */
   typename ImageType::ConstWeakPointer m_Image;
@@ -211,19 +209,19 @@ protected: //made protected so other iterators can access
 
   /** The origin of the source image */
   PointType m_ImageOrigin;
-  
+
   /** The spacing of the source image */
   SpacingType m_ImageSpacing;
 
   /** Size of the source image */
-  const SizeValueType * m_ImageSize;
-  
+  const SizeValueType *m_ImageSize;
+
   /** Should GoToBegin() initially skip the first index of a closed path so that
-   * the first index will only be visited once--at the end of the path?  If 
+   * the first index will only be visited once--at the end of the path?  If
    * false, then GoToBegin() will always move to the 1'st index.  The default
    * value is true, which is set the constructor. */
   bool m_VisitStartIndexAsLastIndexIfClosed;
-  
+
   /** Is the iterator at the end of its walk? */
   bool m_IsAtEnd;
 
@@ -233,11 +231,10 @@ protected: //made protected so other iterators can access
   /** Current ND index position in the image of the path */
   IndexType m_CurrentImageIndex;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPathConstIterator.txx"
 #endif
 
-#endif 
+#endif

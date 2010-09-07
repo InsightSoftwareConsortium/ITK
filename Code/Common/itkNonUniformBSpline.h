@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -18,7 +18,7 @@
 #ifndef __itkNonUniformBSpline_h
 #define __itkNonUniformBSpline_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 
@@ -29,54 +29,54 @@
 #include "itkObjectFactory.h"
 #include "itkArray.h"
 
-namespace itk {
-
-/** 
+namespace itk
+{
+/**
  * \class NonUniformBSpline
  * \brief BSpline with nonuniform knot spacing.
  *
- * This class is a bspline with nonuniform knot spacing. The 
- * use can specify a set of points and a set of knots and the 
- * spline will attempt to find the control points which will 
- * cause the spline to interpolate the points. 
+ * This class is a bspline with nonuniform knot spacing. The
+ * use can specify a set of points and a set of knots and the
+ * spline will attempt to find the control points which will
+ * cause the spline to interpolate the points.
  *
  * CAUTION: THIS CLASS IS STILL UNDER DEVELOPMENT.
  *
  */
 
-template < unsigned int TDimension = 3 >
-class NonUniformBSpline 
-  : public Object
+template< unsigned int TDimension = 3 >
+class NonUniformBSpline:
+  public Object
 {
 public:
   /**
   Typedefs
   */
-  typedef NonUniformBSpline                            Self;
-  typedef Object                                       Superclass;
-  typedef SmartPointer < Self >                        Pointer;
-  typedef SmartPointer < const Self >                  ConstPointer;
-  typedef double                                       ScalarType;
-  typedef itk::Point< ScalarType, TDimension >         PointType;
-  typedef std::vector < PointType >                    PointListType;
-  typedef PointListType *                              PointListPointer;
-  typedef std::vector < double >                       KnotListType;
-  typedef std::vector<double>                          CoordinateListType;
-  typedef itk::Point<double, TDimension >              ControlPointType;
-  typedef std::vector< ControlPointType >              ControlPointListType;
-  typedef ControlPointListType *                       ControlPointListPointer;
-  typedef std::vector<double>                          ChordLengthListType;
+  typedef NonUniformBSpline                    Self;
+  typedef Object                               Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
+  typedef double                               ScalarType;
+  typedef itk::Point< ScalarType, TDimension > PointType;
+  typedef std::vector< PointType >             PointListType;
+  typedef PointListType *                      PointListPointer;
+  typedef std::vector< double >                KnotListType;
+  typedef std::vector< double >                CoordinateListType;
+  typedef itk::Point< double, TDimension >     ControlPointType;
+  typedef std::vector< ControlPointType >      ControlPointListType;
+  typedef ControlPointListType *               ControlPointListPointer;
+  typedef std::vector< double >                ChordLengthListType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( NonUniformBSpline, Object );
+  itkTypeMacro(NonUniformBSpline, Object);
 
   /**
    * Set points which the spline will attempt to interpolate.
    */
-  void SetPoints( PointListType & newPoints );
+  void SetPoints(PointListType & newPoints);
 
   /**
    * Get the points the spline is trying to interpolate.
@@ -87,7 +87,7 @@ public:
    * Set the knot vector. Knots may be nonuniformly spaced.
    * Knots will be rescaled to be between 0 and 1.
    */
-  void SetKnots( KnotListType & newKnots);
+  void SetKnots(KnotListType & newKnots);
 
   /**
    * Get the knot vector.
@@ -103,8 +103,9 @@ public:
    * Methods for evaluating the spline.
    * The parameterization is always between 0 and 1.
    */
-  PointType  EvaluateSpline(const Array<double> & p) const;
-  PointType  EvaluateSpline( double t ) const;
+  PointType  EvaluateSpline(const Array< double > & p) const;
+
+  PointType  EvaluateSpline(double t) const;
 
   /**
    * Compute the control points.
@@ -114,7 +115,7 @@ public:
   /**
    * Set the control points for the spline.
    */
-  void SetControlPoints( ControlPointListType& ctrlpts );
+  void SetControlPoints(ControlPointListType & ctrlpts);
 
   /**
    * Get the control points for the spline
@@ -122,7 +123,7 @@ public:
   const ControlPointListType & GetControlPoints() const;
 
   /**
-   * Evaluate the basis functions directly. 
+   * Evaluate the basis functions directly.
    * order - order of the basis function, i.e. 3 = cubic.
    * i - basis function number, zero based.
    * t - parameter of the spline.
@@ -132,10 +133,8 @@ public:
   /**
    * Set the order of the spline.
    */
-  itkSetMacro( SplineOrder, unsigned int );
-  itkGetConstReferenceMacro( SplineOrder, unsigned int );
-
-
+  itkSetMacro(SplineOrder, unsigned int);
+  itkGetConstReferenceMacro(SplineOrder, unsigned int);
 protected:
 
   /**
@@ -148,53 +147,50 @@ protected:
    */
   virtual ~NonUniformBSpline();
 
-  /** 
+  /**
    * Method to print the object.
    */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * Points that the spline attempts to intepolate.
    */
-  PointListType         m_Points;  
+  PointListType m_Points;
 
   /**
    * The knots of spline.
    */
-  KnotListType          m_Knots;
+  KnotListType m_Knots;
 
   /**
    * The control points of the spline.
    */
-  ControlPointListType  m_ControlPoints;
+  ControlPointListType m_ControlPoints;
 
   /**
    * The chord length computed from m_Points.
    */
-  ChordLengthListType   m_ChordLength;  
+  ChordLengthListType m_ChordLength;
 
   /**
    * The cumulative chord length computed from m_Points
    */
-  ChordLengthListType   m_CumulativeChordLength;
+  ChordLengthListType m_CumulativeChordLength;
 
   /**
    * The order of the spline.
    */
-  unsigned int          m_SplineOrder;
+  unsigned int m_SplineOrder;
 
   /**
    * The spatial dimension. Saved from the template parameter.
    */
-  unsigned int          m_SpatialDimension;
-
+  unsigned int m_SpatialDimension;
 };
-
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION 
-#include "itkNonUniformBSpline.txx" 
-#endif 
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkNonUniformBSpline.txx"
+#endif
 
 #endif // __itkNonUniformBSpline_h

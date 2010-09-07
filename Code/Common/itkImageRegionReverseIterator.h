@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,13 +22,12 @@
 
 namespace itk
 {
-
 /** \class ImageRegionReverseIterator
  * \brief Multi-dimensional image iterator which only walks a region.
- * 
+ *
  * ImageRegionReverseIterator is a templated class to represent a multi-dimensional
  * iterator. ImageRegionReverseIterator is templated over the image type
- * ImageRegionReverseIterator is constrained to walk only within the 
+ * ImageRegionReverseIterator is constrained to walk only within the
  * specified region and along a line parallel to one of the coordinate axis.
  *
  * Most of the functionality is inherited from the ImageRegionReverseConstIterator.
@@ -43,56 +42,55 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
-template<typename TImage>
-class ITK_EXPORT ImageRegionReverseIterator : public ImageRegionReverseConstIterator<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageRegionReverseIterator:public ImageRegionReverseConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionReverseIterator                  Self;
-  typedef ImageRegionReverseConstIterator<TImage>     Superclass;
-  
-   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::IndexValueType         IndexValueType;
-  typedef typename Superclass::SizeType               SizeType;
-  typedef typename Superclass::SizeValueType          SizeValueType;
-  typedef typename Superclass::OffsetType             OffsetType;
-  typedef typename Superclass::OffsetValueType        OffsetValueType;
-  typedef typename Superclass::RegionType             RegionType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelContainer         PixelContainer;
-  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType      InternalPixelType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::AccessorType           AccessorType;
+  typedef ImageRegionReverseIterator                Self;
+  typedef ImageRegionReverseConstIterator< TImage > Superclass;
 
+  /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionReverseIterator();
-  
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionReverseIterator(ImageType *ptr, const RegionType& region);
+  ImageRegionReverseIterator(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
    * ImageRegionReverseIterator. Many routines return an ImageConstIterator but for a
@@ -100,52 +98,53 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageConstIterators and uses constructors to cast from an
    * ImageConstIterator to a ImageRegionReverseIterator. */
-  ImageRegionReverseIterator( const ImageConstIterator<TImage> &it);
-  
-  /** Set the pixel value */
-  void Set( const PixelType & value) const  
-    { this->m_PixelAccessor.Set(*const_cast<InternalPixelType  *>((this->m_Buffer+this->m_Offset)),value); }
+  ImageRegionReverseIterator(const ImageConstIterator< TImage > & it);
 
-  /** Return a reference to the pixel 
+  /** Set the pixel value */
+  void Set(const PixelType & value) const
+  { this->m_PixelAccessor.Set(*const_cast< InternalPixelType  * >( ( this->m_Buffer + this->m_Offset ) ), value); }
+
+  /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
-    { return *const_cast<InternalPixelType  *>((this->m_Buffer+this->m_Offset)); }
-  
+  PixelType & Value(void)
+  { return *const_cast< InternalPixelType  * >( ( this->m_Buffer + this->m_Offset ) ); }
+
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead */
   Self Begin(void) const;
 
   /** Return an iterator for the end of the region. "End" is defined
-   * as one pixel past the last pixel of the region. 
+   * as one pixel past the last pixel of the region.
    * \deprecated Use GoToEnd() instead */
   Self End(void) const;
-
 
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
-  ImageRegionReverseIterator( const ImageRegionReverseConstIterator<TImage> &it);
-  Self & operator=(const ImageRegionReverseConstIterator<TImage> & it);
- 
-
+  ImageRegionReverseIterator(const ImageRegionReverseConstIterator< TImage > & it);
+  Self & operator=(const ImageRegionReverseConstIterator< TImage > & it);
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionReverseIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageRegionReverseIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageRegionReverseIterator< ITK_TEMPLATE_1 x > ImageRegionReverseIterator##y; } \
+#define ITK_TEMPLATE_ImageRegionReverseIterator(_, EXPORT, TypeX, TypeY)                          \
+  namespace itk                                                                                   \
+  {                                                                                               \
+  _( 1 ( class EXPORT ImageRegionReverseIterator< ITK_TEMPLATE_1 TypeX > ) )                      \
+  namespace Templates                                                                             \
+  {                                                                                               \
+  typedef ImageRegionReverseIterator< ITK_TEMPLATE_1 TypeX > ImageRegionReverseIterator##TypeY; \
+  }                                                                                               \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageRegionReverseIterator+-.h"
+#include "Templates/itkImageRegionReverseIterator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageRegionReverseIterator.txx"
+#include "itkImageRegionReverseIterator.txx"
 #endif
 
-#endif 
+#endif

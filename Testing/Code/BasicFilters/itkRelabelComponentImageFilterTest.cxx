@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -45,7 +45,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   typedef   unsigned long   LabelPixelType;
   typedef   unsigned char   WritePixelType;
   const     unsigned int    Dimension = 2;
-  
+
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   typedef itk::Image< LabelPixelType, Dimension>   LabelImageType;
   typedef itk::Image<WritePixelType, Dimension> WriteImageType;
@@ -63,11 +63,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
 
   typedef itk::NumericTraits<InternalPixelType>::RealType RealType;
 
-#ifdef ITK_USE_REVIEW_STATISTICS
   typedef itk::Statistics::Histogram<RealType> HistogramType;
-#else
-  typedef itk::Statistics::Histogram<RealType,1> HistogramType;
-#endif
 
   typedef HistogramType::IndexType HIndexType;
   int NumBins = 13;
@@ -82,7 +78,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   RelabelComponentType::Pointer relabel = RelabelComponentType::New();
   FinalThresholdFilterType::Pointer finalThreshold = FinalThresholdFilterType::New();
   StatisticsFilterType::Pointer statistics = StatisticsFilterType::New();
-  
+
   FilterWatcher watcher(relabel);
   FilterWatcher statswatcher(statistics);
 
@@ -118,14 +114,14 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   relabel->Update();
   std::cout << "NumberOfObjects: " << relabel->GetNumberOfObjects() << " OriginalNumberOfObjects: " <<
     relabel->GetOriginalNumberOfObjects() << " MinimumObjectSize: " << relabel->GetMinimumObjectSize() << std::endl;
-  
+
   // pull out the largest object
   finalThreshold->SetInput( relabel->GetOutput() );
   finalThreshold->SetLowerThreshold( 1 ); // object #1
   finalThreshold->SetUpperThreshold( 1 ); // object #1
   finalThreshold->SetInsideValue(255);
   finalThreshold->SetOutsideValue(itk::NumericTraits<WritePixelType>::Zero);
-  
+
   try
     {
     writer->SetInput (finalThreshold->GetOutput());
@@ -224,12 +220,12 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
         std::cout <<  std::endl;
         }
       }
-      
+
     }
   catch (...)
     {
     std::cerr << "Exception caught while printing statistics" << std::endl;
     }
-  
+
   return EXIT_SUCCESS;
 }

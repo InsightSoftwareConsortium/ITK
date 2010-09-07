@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,11 +25,11 @@
 #include "itkConceptChecking.h"
 #include <stack>
 
-namespace itk {
-
-/** \class ValuedRegionalExtremaImageFilter 
+namespace itk
+{
+/** \class ValuedRegionalExtremaImageFilter
  * \brief Uses a flooding algorithm to set all voxels that are not a
- * regional extrema to the max or min of the pixel type. 
+ * regional extrema to the max or min of the pixel type.
  *
  * This is the class used by ValuedRegionalMinimaImageFilter and
  * ValuedRegionalMaximaImageFilter. There is no supression of regional
@@ -57,45 +57,45 @@ namespace itk {
  *    is less than the maximum for the pixel type.
  *
  * The implementation uses the functor model from itkMaximumImageFilter.
- * 
- * This class was contributed to the Insight Journal by 
+ *
+ * This class was contributed to the Insight Journal by
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
- *       http://insight-journal.org/midas/handle.php?handle=1926/153 
+ *       http://insight-journal.org/midas/handle.php?handle=1926/153
  *
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
  * \sa  HMinimaImageFilter
  * \ingroup MathematicalMorphologyImageFilters
  */
 
-template<class TInputImage, class TOutputImage, 
-      class TFunction1, class TFunction2>
-class ITK_EXPORT ValuedRegionalExtremaImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage,
+          class TFunction1, class TFunction2 >
+class ITK_EXPORT ValuedRegionalExtremaImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ValuedRegionalExtremaImageFilter Self;
 
-  typedef ImageToImageFilter<TInputImage, TOutputImage>
-                                           Superclass;
+  typedef ImageToImageFilter< TInputImage, TOutputImage >
+  Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::SizeType        ISizeType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename InputImageType::SizeType      ISizeType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -103,12 +103,11 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalExtremaImageFilter, 
+  itkTypeMacro(ValuedRegionalExtremaImageFilter,
                ImageToImageFilter);
-
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -119,7 +118,7 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
   /**
    * Set/Get the value used to mark all pixels which are not extrema.
    */
@@ -133,17 +132,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasPixelTraitsCheck,
-    (Concept::HasPixelTraits<InputImagePixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro( InputHasPixelTraitsCheck,
+                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ValuedRegionalExtremaImageFilter();
-  ~ValuedRegionalExtremaImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ValuedRegionalExtremaImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -151,29 +149,27 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** ValuedRegionalExtremaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   void GenerateData();
-  
 
 private:
-  ValuedRegionalExtremaImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ValuedRegionalExtremaImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
-  typename TInputImage::PixelType                         m_MarkerValue;
-  bool                                                    m_FullyConnected;
-  bool                                                    m_Flat;
+  typename TInputImage::PixelType m_MarkerValue;
 
-  typedef typename OutputImageType::IndexType             OutIndexType;
-  typedef typename InputImageType::IndexType              InIndexType;
-  typedef ConstShapedNeighborhoodIterator<InputImageType> ConstInputIterator;
-  typedef ShapedNeighborhoodIterator<OutputImageType>     NOutputIterator;
-  typedef std::stack<OutIndexType>                        IndexStack;
+  bool m_FullyConnected;
+  bool m_Flat;
 
+  typedef typename OutputImageType::IndexType               OutIndexType;
+  typedef typename InputImageType::IndexType                InIndexType;
+  typedef ConstShapedNeighborhoodIterator< InputImageType > ConstInputIterator;
+  typedef ShapedNeighborhoodIterator< OutputImageType >     NOutputIterator;
+  typedef std::stack< OutIndexType >                        IndexStack;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkValuedRegionalExtremaImageFilter.txx"
 #endif

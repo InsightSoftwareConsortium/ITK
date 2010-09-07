@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,12 +24,11 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage>
-ChangeInformationImageFilter<TInputImage>
+template< class TInputImage >
+ChangeInformationImageFilter< TInputImage >
 ::ChangeInformationImageFilter()
 {
   m_ReferenceImage = 0;
@@ -41,20 +40,20 @@ ChangeInformationImageFilter<TInputImage>
 
   m_CenterImage = false;
   m_UseReferenceImage = false;
-  
+
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     m_OutputOffset[i] = 0;
     }
 }
 
-template <class TInputImage>
-void 
-ChangeInformationImageFilter<TInputImage>
+template< class TInputImage >
+void
+ChangeInformationImageFilter< TInputImage >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -62,22 +61,22 @@ ChangeInformationImageFilter<TInputImage>
   unsigned int i;
 
   typename TInputImage::RegionType outputRegion;
-  typename TInputImage::SizeType  inputSize;
-  typename TInputImage::SizeType  outputSize;
+  typename TInputImage::SizeType inputSize;
+  typename TInputImage::SizeType outputSize;
   typename TInputImage::IndexType outputIndex;
   typename TInputImage::IndexType inputIndex;
-  PointType origin;
-  SpacingType spacing;
+  PointType     origin;
+  SpacingType   spacing;
   DirectionType direction;
 
   itkDebugMacro("GenerateOutputInformation Start");
 
   // Get pointers to the input and output
   typename Superclass::OutputImagePointer output = this->GetOutput();
-  typename Superclass::InputImagePointer input = 
+  typename Superclass::InputImagePointer input =
     const_cast< TInputImage * >( this->GetInput() );
 
-  if( !output || !input )
+  if ( !output || !input )
     {
     return;
     }
@@ -86,13 +85,13 @@ ChangeInformationImageFilter<TInputImage>
 
   // Default is to copy input's information
   output->CopyInformation(input);
-  
+
   // Output size is always the same as input size
   inputSize = input->GetLargestPossibleRegion().GetSize();
   outputSize = inputSize;
 
   // Establish the source of the image information
-  if (m_UseReferenceImage && m_ReferenceImage)
+  if ( m_UseReferenceImage && m_ReferenceImage )
     {
     outputIndex = m_ReferenceImage->GetLargestPossibleRegion().GetIndex();
     origin = m_ReferenceImage->GetOrigin();
@@ -110,26 +109,26 @@ ChangeInformationImageFilter<TInputImage>
     origin = m_OutputOrigin;
     spacing = m_OutputSpacing;
     direction = m_OutputDirection;
-    for (i = 0; i < ImageDimension; i++)
+    for ( i = 0; i < ImageDimension; i++ )
       {
       m_Shift[i] = m_OutputOffset[i];
       }
     }
 
   // Change the output spacing
-  if (m_ChangeSpacing)
+  if ( m_ChangeSpacing )
     {
     output->SetSpacing(spacing);
     }
 
   // Change the output origin
-  if (m_ChangeOrigin)
+  if ( m_ChangeOrigin )
     {
     output->SetOrigin(origin);
     }
 
   // Change the output direction
-  if (m_ChangeDirection)
+  if ( m_ChangeDirection )
     {
     output->SetDirection(direction);
     }
@@ -138,17 +137,17 @@ ChangeInformationImageFilter<TInputImage>
   // The center of the image is computed using the index to point
   // transformation. This ensures that the computation will work for
   // both images and oriented images.
-  if (m_CenterImage)  
+  if ( m_CenterImage )
     {
     typename TInputImage::PointType centerPoint;
-    ContinuousIndex<double,ImageDimension> centerIndex;
+    ContinuousIndex< double, ImageDimension > centerIndex;
 
-    for (i = 0; i < ImageDimension; i++)
+    for ( i = 0; i < ImageDimension; i++ )
       {
-      centerIndex[i] = static_cast<double>((outputSize[i]-1)/2.0);
+      centerIndex[i] = static_cast< double >( ( outputSize[i] - 1 ) / 2.0 );
       }
     output->TransformContinuousIndexToPhysicalPoint(centerIndex, centerPoint);
-    for (i = 0; i < ImageDimension; i++)
+    for ( i = 0; i < ImageDimension; i++ )
       {
       origin[i] = output->GetOrigin()[i] - centerPoint[i];
       }
@@ -156,7 +155,7 @@ ChangeInformationImageFilter<TInputImage>
     }
 
   // Change the output's largest possible region
-  if (m_ChangeRegion)
+  if ( m_ChangeRegion )
     {
     outputRegion.SetSize(outputSize);
     outputRegion.SetIndex(outputIndex + m_Shift);
@@ -169,9 +168,9 @@ ChangeInformationImageFilter<TInputImage>
   itkDebugMacro("GenerateOutputInformation End");
 }
 
-template <class TInputImage>
-void 
-ChangeInformationImageFilter<TInputImage>
+template< class TInputImage >
+void
+ChangeInformationImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -179,30 +178,30 @@ ChangeInformationImageFilter<TInputImage>
   if ( this->GetInput() )
     {
     typename TInputImage::RegionType region;
-    region.SetSize(this->GetOutput()->GetRequestedRegion().GetSize());
+    region.SetSize( this->GetOutput()->GetRequestedRegion().GetSize() );
     region.SetIndex(this->GetOutput()->GetRequestedRegion().GetIndex() - m_Shift);
-    InputImagePointer input = 
+    InputImagePointer input =
       const_cast< TInputImage * >( this->GetInput() );
     input->SetRequestedRegion (region);
     }
 }
 
-template <class TInputImage>
-void 
-ChangeInformationImageFilter<TInputImage>
+template< class TInputImage >
+void
+ChangeInformationImageFilter< TInputImage >
 ::GenerateData()
 {
   // Get pointers to the input and output
   InputImagePointer output = this->GetOutput();
-  InputImagePointer input = 
-    const_cast< TInputImage * >( this->GetInput());
-  
+  InputImagePointer input =
+    const_cast< TInputImage * >( this->GetInput() );
+
   // No need to copy the bulk data
-  output->SetPixelContainer(input->GetPixelContainer());
+  output->SetPixelContainer( input->GetPixelContainer() );
 
   // Shift the output's buffer region
   typename TInputImage::RegionType region;
-  region.SetSize(this->GetInput()->GetBufferedRegion().GetSize());
+  region.SetSize( this->GetInput()->GetBufferedRegion().GetSize() );
   region.SetIndex(this->GetInput()->GetBufferedRegion().GetIndex() + m_Shift);
 
   output->SetBufferedRegion(region);
@@ -211,20 +210,20 @@ ChangeInformationImageFilter<TInputImage>
 /**
  *
  */
-template <class TInputImage>
-void 
-ChangeInformationImageFilter<TInputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage >
+void
+ChangeInformationImageFilter< TInputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "CenterImage: " << (m_CenterImage ? "On" : "Off") << std::endl;
-  os << indent << "ChangeSpacing: " << (m_ChangeSpacing ? "On" : "Off") << std::endl;
-  os << indent << "ChangeOrigin: " << (m_ChangeOrigin ? "On" : "Off") << std::endl;
-  os << indent << "ChangeDirection: " << (m_ChangeDirection ? "On" : "Off") << std::endl;
-  os << indent << "ChangeRegion: " << (m_ChangeRegion ? "On" : "Off") << std::endl;
-  os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
-  if (m_ReferenceImage)
+  os << indent << "CenterImage: " << ( m_CenterImage ? "On" : "Off" ) << std::endl;
+  os << indent << "ChangeSpacing: " << ( m_ChangeSpacing ? "On" : "Off" ) << std::endl;
+  os << indent << "ChangeOrigin: " << ( m_ChangeOrigin ? "On" : "Off" ) << std::endl;
+  os << indent << "ChangeDirection: " << ( m_ChangeDirection ? "On" : "Off" ) << std::endl;
+  os << indent << "ChangeRegion: " << ( m_ChangeRegion ? "On" : "Off" ) << std::endl;
+  os << indent << "UseReferenceImage: " << ( m_UseReferenceImage ? "On" : "Off" ) << std::endl;
+  if ( m_ReferenceImage )
     {
     os << indent << "ReferenceImage: " << m_ReferenceImage.GetPointer() << std::endl;
     }
@@ -233,44 +232,41 @@ ChangeInformationImageFilter<TInputImage>
     os << indent << "ReferenceImage: 0" << std::endl;
     }
   os << indent << "OutputSpacing: [";
-  if (ImageDimension >= 1) 
+  if ( ImageDimension >= 1 )
     {
     os << m_OutputSpacing[0];
     }
-  for( unsigned int j = 1; j < ImageDimension; j++ )
+  for ( unsigned int j = 1; j < ImageDimension; j++ )
     {
     os << ", " << m_OutputSpacing[j];
-    } 
+    }
   os << "]" << std::endl;
- 
+
   os << indent << "OutputOrigin: [";
-  if (ImageDimension >= 1) 
+  if ( ImageDimension >= 1 )
     {
     os << m_OutputOrigin[0];
     }
-  for( unsigned int j = 1; j < ImageDimension; j++ )
+  for ( unsigned int j = 1; j < ImageDimension; j++ )
     {
     os << ", " << m_OutputOrigin[j];
-    } 
+    }
   os << "]" << std::endl;
 
   os << indent << "OutputDirection:" << std::endl;
   os << m_OutputDirection << std::endl;
 
   os << indent << "OutputOffset: [";
-  if (ImageDimension >= 1) 
+  if ( ImageDimension >= 1 )
     {
     os << m_OutputOffset[0];
     }
-  for( unsigned int j = 1; j < ImageDimension; j++ )
+  for ( unsigned int j = 1; j < ImageDimension; j++ )
     {
     os << ", " << m_OutputOffset[j];
-    } 
+    }
   os << "]" << std::endl;
-
 }
-
-
 } // end namespace itk
 
 #endif

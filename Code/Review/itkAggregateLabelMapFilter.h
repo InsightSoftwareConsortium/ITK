@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,7 +19,7 @@
 
 #include "itkInPlaceLabelMapFilter.h"
 
-namespace itk 
+namespace itk
 {
 /** \class AggregateLabelMapFilter
  * \brief Collapses all labels into the first label.
@@ -29,7 +29,7 @@ namespace itk
  * execution of this filter, the map will contain a single filter.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
@@ -38,16 +38,16 @@ namespace itk
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TImage >
-class ITK_EXPORT AggregateLabelMapFilter : 
-    public InPlaceLabelMapFilter<TImage>
+template< class TImage >
+class ITK_EXPORT AggregateLabelMapFilter:
+  public InPlaceLabelMapFilter< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AggregateLabelMapFilter       Self;
-  typedef InPlaceLabelMapFilter<TImage> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef AggregateLabelMapFilter         Self;
+  typedef InPlaceLabelMapFilter< TImage > Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TImage                              ImageType;
@@ -56,7 +56,7 @@ public:
   typedef typename ImageType::PixelType       PixelType;
   typedef typename ImageType::IndexType       IndexType;
   typedef typename ImageType::LabelObjectType LabelObjectType;
-  
+
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
@@ -74,27 +74,24 @@ public:
     (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputOStreamWritableCheck,
     (Concept::OStreamWritable<InputImagePixelType>));*/
-  /** End concept checking */
+/** End concept checking */
 #endif
-
 protected:
-  AggregateLabelMapFilter() {};
-  ~AggregateLabelMapFilter() {};
+  AggregateLabelMapFilter() {}
+  ~AggregateLabelMapFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
 private:
-  AggregateLabelMapFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AggregateLabelMapFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
   typedef typename Superclass::LabelObjectContainerType LabelObjectContainerType;
-
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAggregateLabelMapFilter.txx"
 #endif

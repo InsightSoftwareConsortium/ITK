@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,18 +29,19 @@ namespace itk
 /** \class SiemensVisionImageIOFactory
    * \brief Create instances of SiemensVisionImageIO objects using an object factory.
    */
-class ITK_EXPORT SiemensVisionImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT SiemensVisionImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
   typedef SiemensVisionImageIOFactory Self;
   typedef ObjectFactoryBase           Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -50,23 +51,21 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     SiemensVisionImageIOFactory::Pointer metaFactory = SiemensVisionImageIOFactory::New();
+
     ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
+  }
 
 protected:
   SiemensVisionImageIOFactory();
   ~SiemensVisionImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SiemensVisionImageIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  SiemensVisionImageIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #endif

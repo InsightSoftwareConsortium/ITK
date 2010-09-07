@@ -143,21 +143,12 @@ ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterWithResampleFilterTest2 ${
 ADD_TEST(itkRecursiveMultiResolutionPyramidImageFilterWithShrinkFilterTest2 ${ALGORITHMS_TESTS3} itkMultiResolutionPyramidImageFilterTest Shrink TestRecursive)
 
 ADD_TEST(itkMutualInformationHistogramImageToImageMetricTest ${ALGORITHMS_TESTS3} itkMutualInformationHistogramImageToImageMetricTest)
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
   --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
   --compareNumberOfPixelsTolerance 20
   itkMultiResolutionPDEDeformableRegistrationTest
             ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png)
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkMultiResolutionPDEDeformableRegistrationTest ${ALGORITHMS_TESTS3}
-  --compare ${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTest.png
-            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png
-  --compareNumberOfPixelsTolerance 20
-  itkMultiResolutionPDEDeformableRegistrationTest
-            ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTest.png)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest ${ALGORITHMS_TESTS3}   
 itkMultiResolutionImageRegistrationMethodTest  )
 ADD_TEST(itkMultiResolutionImageRegistrationMethodTest_1 ${ALGORITHMS_TESTS3}   
@@ -237,12 +228,6 @@ IF(USE_FFTWD)
        ADD_TEST(itkCurvatureRegistrationFilterTest ${ALGORITHMS_TESTS4} itkCurvatureRegistrationFilterTest)
 ENDIF(USE_FFTWD)
 
-IF(USE_SCSL)
-       ADD_TEST(itkSCSLFFTTest ${ALGORITHMS_TESTS4} itkSCSLFFTTest)
-       ADD_TEST(itkVnlSCSL_FFTTest ${ALGORITHMS_TESTS4} itkVnlSCSL_FFTTest)
-ENDIF(USE_SCSL)
-
-
 ADD_TEST(itkMIRegistrationFunctionTest ${ALGORITHMS_TESTS2} itkMIRegistrationFunctionTest)
 ADD_TEST(itkSymmetricForcesDemonsRegistrationFilterTest ${ALGORITHMS_TESTS2} itkSymmetricForcesDemonsRegistrationFilterTest)
 ADD_TEST(itkVoronoiDiagram2DTest ${ALGORITHMS_TESTS2} itkVoronoiDiagram2DTest)
@@ -256,9 +241,7 @@ ADD_TEST(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
     itkCurvatureFlowTest ${ITK_TEST_OUTPUT_DIR}/itkCurvatureFlowTest.vtk)
 
 # Metric fails when centered pixel coordinates not in use
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-  ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
+ADD_TEST(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
 
 SET(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx

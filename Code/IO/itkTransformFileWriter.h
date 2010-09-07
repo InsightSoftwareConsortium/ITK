@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,25 +26,23 @@
 #include "itkTransformFileWriterWithFactory.h"
 #else
 
-
 #include "itkLightProcessObject.h"
 #include "metaTransform.h"
 #include "itkTransformBase.h"
 
 namespace itk
 {
-
 /** \class TransformFileWriter
- * 
+ *
  * \brief TODO
  */
-class TransformFileWriter : public LightProcessObject
+class TransformFileWriter:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
   typedef TransformFileWriter    Self;
-  typedef SmartPointer<Self>     Pointer;
+  typedef SmartPointer< Self >   Pointer;
   typedef TransformBase          TransformType;
   typedef TransformType::Pointer TransformPointer;
 
@@ -62,41 +60,43 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set/Get the write mode (append/overwrite) for the Filter */
-  void SetAppendOff( );
-  void SetAppendOn( );
+  void SetAppendOff();
+
+  void SetAppendOn();
+
   void SetAppendMode(bool mode);
-  bool GetAppendMode( );
+
+  bool GetAppendMode();
 
   /** Set/Get the input transform to write */
-  void SetInput(const TransformType* transform);
-  const TransformType * GetInput() {return *(m_TransformList.begin());}
+  void SetInput(const TransformType *transform);
+
+  const TransformType * GetInput() { return *( m_TransformList.begin() ); }
 
   /** Add a transform to be written */
-  void AddTransform(const TransformType* transform);
+  void AddTransform(const TransformType *transform);
 
   /** Set/Get the precision of the writing */
-  itkSetMacro(Precision,unsigned int);
-  itkGetConstMacro(Precision,unsigned int);
+  itkSetMacro(Precision, unsigned int);
+  itkGetConstMacro(Precision, unsigned int);
 
   /** Write out the transform */
   void Update();
 
 protected:
-  TransformFileWriter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-   
+  TransformFileWriter(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
+
   std::string m_FileName;
 
   TransformFileWriter();
   virtual ~TransformFileWriter();
-
 private:
 
-  std::list<const TransformType*>  m_TransformList;
-  unsigned int                     m_Precision;
-  bool                             m_AppendMode;
+  std::list< const TransformType * > m_TransformList;
+  unsigned int                       m_Precision;
+  bool                               m_AppendMode;
 };
-
 } // namespace itk
 
 #endif

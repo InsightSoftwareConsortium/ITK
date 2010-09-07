@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkImageToImageFilter.h"
 #include "itkConceptChecking.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class RegionalMaximaImageFilter
  * \brief Produce a binary image where foreground is the regional maxima of the
  * input image
@@ -31,7 +31,7 @@ namespace itk {
  * If the input image is constant, the entire image can be considered as a
  * maxima or not.  The desired behavior can be selected with the
  * SetFlatIsMaxima() method.
- * 
+ *
  * \author Gaetan Lehmann
  *
  * This class was contributed to the Insight Journal by author Gaetan Lehmann.
@@ -40,36 +40,36 @@ namespace itk {
  * http://insight-journal.org/midas/handle.php?handle=1926/153
  *
  * \sa ValuedRegionalMaximaImageFilter
- * \sa HConvexImageFilter 
+ * \sa HConvexImageFilter
  * \sa RegionalMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT RegionalMaximaImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT RegionalMaximaImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef RegionalMaximaImageFilter Self;
 
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
+  typedef TInputImage                            InputImageType;
+  typedef TOutputImage                           OutputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -77,7 +77,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(RegionalMaximaImageFilter, ImageToImageFilter);
@@ -91,7 +91,7 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
   /**
    * Set/Get the value in the output image to consider as "foreground".
    * Defaults to maximum value of PixelType.
@@ -116,18 +116,16 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasPixelTraitsCheck,
-    (Concept::HasPixelTraits<InputImagePixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro( InputHasPixelTraitsCheck,
+                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
-
 protected:
   RegionalMaximaImageFilter();
-  ~RegionalMaximaImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~RegionalMaximaImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** RegionalMaximaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -135,26 +133,23 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** RegionalMaximaImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-  
 
 private:
-  RegionalMaximaImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RegionalMaximaImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  bool                                              m_FullyConnected;
-  bool                                              m_FlatIsMaxima;
-  OutputImagePixelType                              m_ForegroundValue;
-  OutputImagePixelType                              m_BackgroundValue;
-
+  bool                 m_FullyConnected;
+  bool                 m_FlatIsMaxima;
+  OutputImagePixelType m_ForegroundValue;
+  OutputImagePixelType m_BackgroundValue;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRegionalMaximaImageFilter.txx"
 #endif

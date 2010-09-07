@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,8 +19,8 @@
 #include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkCurvatureFlowFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class AntiAliasBinaryImageFilter
  *
@@ -37,9 +37,9 @@ namespace itk {
  * on this movement as follows:
  *
  * \par
- * \f[ u_{i,j,k}^{n+1} = \left\{ \begin{array}{ll} 
+ * \f[ u_{i,j,k}^{n+1} = \left\{ \begin{array}{ll}
  * \mbox{max} (u_{i,j,k}^{n} + \Delta t H_{i,j,k}^{n}, 0) & \mbox{$B_{i,j,k} = 1$} \\
- * \mbox{min} (u_{i,j,k}^{n} + \Delta t H_{i,j,k}^{n}, 0) & \mbox{$B_{i,j,k} = -1$} 
+ * \mbox{min} (u_{i,j,k}^{n} + \Delta t H_{i,j,k}^{n}, 0) & \mbox{$B_{i,j,k} = -1$}
  * \end{array}\right.  \f]
  *
  * \par
@@ -53,12 +53,12 @@ namespace itk {
  * narrow band implementation described in the reference below, which may
  * introduce some differences in how fast and how accurately (in terms of RMS
  * error) the solution converges.
- * 
+ *
  * \par REFERENCES
  * Whitaker, Ross.  "Reducing Aliasing Artifacts In Iso-Surfaces of Binary
  * Volumes"  IEEE Volume Visualization and Graphics Symposium, October 2000,
  * pp.23-32.
- * 
+ *
  * \par PARAMETERS
  *  The MaximumRMSChange parameter is used to determine when the solution has
  *  converged.  A lower value will result in a tighter-fitting solution, but
@@ -70,13 +70,13 @@ namespace itk {
  *  The MaximumIterations parameter can be used to halt the solution after a
  *  specified number of iterations.
  *
- * \par INPUT 
+ * \par INPUT
  *  The input is an N-dimensional image of any type. It is assumed to be a
  *  binary image. The filter will use an isosurface value that is halfway
  *  between the min and max values in the image.  A signed data type is *not*
  *  necessary for the input.
  *
- * \par OUTPUT 
+ * \par OUTPUT
  *  The filter will output a level set image of real, signed values.  The zero
  *  crossings of this (N-dimensional) image represent the position of the
  *  isosurface value of interest. Values outside the zero level set are
@@ -96,16 +96,16 @@ namespace itk {
  *  MaximumRMSChange parameter, which determines when the solver halts.
  *
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT AntiAliasBinaryImageFilter
-  : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT AntiAliasBinaryImageFilter:
+  public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs */
-  typedef AntiAliasBinaryImageFilter                                Self;
-  typedef SparseFieldLevelSetImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef AntiAliasBinaryImageFilter                                  Self;
+  typedef SparseFieldLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                                        Pointer;
+  typedef SmartPointer< const Self >                                  ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType       ValueType;
@@ -114,13 +114,12 @@ public:
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::InputImageType  InputImageType;
 
-  
   /** The function type which will calculate the curvature flow */
-  typedef CurvatureFlowFunction<OutputImageType> CurvatureFunctionType;
-  
+  typedef CurvatureFlowFunction< OutputImageType > CurvatureFunctionType;
+
   /** ValueType of the input binary image */
-  typedef typename TInputImage::ValueType  BinaryValueType;
-  
+  typedef typename TInputImage::ValueType BinaryValueType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -133,53 +132,53 @@ public:
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
-  void SetMaximumIterations (unsigned int i)
-    {
+  void SetMaximumIterations(unsigned int i)
+  {
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
-    }
+  }
+
   unsigned int GetMaximumIterations()
-    {
+  {
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
-    } 
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-                  (Concept::Convertible<double, typename TOutputImage::PixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-                  (Concept::OStreamWritable<typename TInputImage::PixelType>));
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   AntiAliasBinaryImageFilter();
   ~AntiAliasBinaryImageFilter() {}
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Overridden from the parent class to indroduce a constraint on
    *  surface flow under certain conditions. */
-  inline virtual ValueType CalculateUpdateValue(const IndexType &idx,
-                                                const TimeStepType &dt,
-                                                const ValueType &value,
-                                                const ValueType &change);
-  
+  inline virtual ValueType CalculateUpdateValue(const IndexType & idx,
+                                                const TimeStepType & dt,
+                                                const ValueType & value,
+                                                const ValueType & change);
+
   /** Overridden from ProcessObject to set certain values before starting the
     * finite difference solver and then create an appropriate output */
   void GenerateData();
-  
-private:
-  AntiAliasBinaryImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&);             //purposely not implemented
-  
-  BinaryValueType                         m_UpperBinaryValue;
-  BinaryValueType                         m_LowerBinaryValue;
-  typename CurvatureFunctionType::Pointer m_CurvatureFunction;
-  const TInputImage *                     m_InputImage;
-  
-};
 
+private:
+  AntiAliasBinaryImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
+
+  BinaryValueType m_UpperBinaryValue;
+  BinaryValueType m_LowerBinaryValue;
+
+  typename CurvatureFunctionType::Pointer m_CurvatureFunction;
+
+  const TInputImage *m_InputImage;
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

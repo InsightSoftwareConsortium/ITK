@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,20 +22,20 @@
 
 namespace itk
 {
- 
-namespace Accessor {
+namespace Accessor
+{
 /**
  * \class AsinPixelAccessor
  * \brief Give access to the vcl_asin() function of a value
  *
  * AsinPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
- * applies the function to it and cast the result according 
+ * applies the function to it and cast the result according
  * to the types defined as template parameters
- * 
+ *
  * \ingroup ImageAdaptors */
-template <class TInternalType, class TExternalType >
-class ITK_EXPORT AsinPixelAccessor  
+template< class TInternalType, class TExternalType >
+class ITK_EXPORT AsinPixelAccessor
 {
 public:
 
@@ -47,14 +47,12 @@ public:
    * representation of data. */
   typedef TInternalType InternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = (TInternalType)vcl_asin((double)input);}
+  static inline void Set(TInternalType & output, const TExternalType & input)
+  { output = (TInternalType)vcl_asin( (double)input ); }
 
-  static inline TExternalType Get( const TInternalType & input ) 
-    {return (TExternalType)vcl_asin((double)input);}
+  static inline TExternalType Get(const TInternalType & input)
+  { return (TExternalType)vcl_asin( (double)input ); }
 };
-
-  
 } // end namespace Accessor
 
 /**
@@ -65,37 +63,34 @@ public:
  * types following C++ default casting rules.
  *
  * \ingroup ImageAdaptors */
-template <class TImage, class TOutputPixelType>
-class ITK_EXPORT AsinImageAdaptor : public
-      ImageAdaptor<TImage,
-                   Accessor::AsinPixelAccessor<
-                                      typename TImage::PixelType,
-                                      TOutputPixelType>   >
+template< class TImage, class TOutputPixelType >
+class ITK_EXPORT AsinImageAdaptor:public
+  ImageAdaptor< TImage,
+                Accessor::AsinPixelAccessor<
+                  typename TImage::PixelType,
+                  TOutputPixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef AsinImageAdaptor                                    Self;
-  typedef ImageAdaptor<TImage,Accessor::AsinPixelAccessor<
-                                       typename TImage::PixelType,
-                                       TOutputPixelType> >    Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
-  
+  typedef AsinImageAdaptor Self;
+  typedef ImageAdaptor< TImage,
+                        Accessor::AsinPixelAccessor< typename TImage::PixelType, TOutputPixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro( AsinImageAdaptor, ImageAdaptor );
+  itkTypeMacro(AsinImageAdaptor, ImageAdaptor);
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
-
+  itkNewMacro(Self);
 protected:
   AsinImageAdaptor() {}
   virtual ~AsinImageAdaptor() {}
-  
 private:
-  AsinImageAdaptor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AsinImageAdaptor(const Self &); //purposely not implemented
+  void operator=(const Self &);   //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

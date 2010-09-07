@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,9 +20,10 @@
 #include "itkProbabilityDistribution.h"
 #include "itkNumericTraits.h"
 
-namespace itk { 
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class ChiSquareDistribution
  * \brief ChiSquareDistribution class defines the interface for a
  * univariate Chi-Square distribution (pdfs, cdfs, etc.).
@@ -49,17 +50,17 @@ namespace Statistics {
  * Computing (NAMIC), funded by the National Institutes of Health
  * through the NIH Roadmap for Medical Research, Grant U54 EB005149.
  * Information on the National Centers for Biomedical Computing
- * can be obtained from http://nihroadmap.nih.gov/bioinformatics.  
+ * can be obtained from http://nihroadmap.nih.gov/bioinformatics.
  */
-class ITK_EXPORT ChiSquareDistribution :
-    public ProbabilityDistribution
+class ITK_EXPORT ChiSquareDistribution:
+  public ProbabilityDistribution
 {
 public:
   /** Standard class typedefs */
-  typedef ChiSquareDistribution    Self;
-  typedef ProbabilityDistribution  Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ChiSquareDistribution      Self;
+  typedef ProbabilityDistribution    Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Strandard macros */
   itkTypeMacro(ChiSquareDistribution, ProbabilityDistribution);
@@ -70,7 +71,7 @@ public:
   /** Return the number of parameters.  For a Chi-Square
    * distribution, the number of parameters is 1 (degrees of freedom) */
   virtual unsigned long GetNumberOfParameters() const { return 1; }
-  
+
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
   virtual double EvaluatePDF(double x) const;
@@ -78,12 +79,12 @@ public:
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  virtual double EvaluatePDF(double x, const ParametersType&) const;
+  virtual double EvaluatePDF(double x, const ParametersType &) const;
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
   virtual double EvaluatePDF(double x, long degreesOfFreedom) const;
-  
+
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
   virtual double EvaluateCDF(double x) const;
@@ -91,8 +92,8 @@ public:
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degreesOfFreedom). */
-  virtual double EvaluateCDF(double x, const ParametersType&) const;
-  
+  virtual double EvaluateCDF(double x, const ParametersType &) const;
+
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
   virtual double EvaluateCDF(double x, long degreesOfFreedom) const;
@@ -106,8 +107,8 @@ public:
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  virtual double EvaluateInverseCDF(double p, const ParametersType&) const;
-  
+  virtual double EvaluateInverseCDF(double p, const ParametersType &) const;
+
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * of the distribution are passed as separate parameters. */
@@ -123,30 +124,29 @@ public:
 
   /** Does the Chi-Square distribution have a mean? */
   virtual bool HasMean() const { return true; }
-  
+
   /** Get the mean of the distribution. */
   virtual double GetMean() const;
 
   /** Does the Chi-Square distribution have a variance? */
   virtual bool HasVariance() const { return true; }
-  
+
   /** Get the variance of the distribution. */
   virtual double GetVariance() const;
 
-    
   /** Static method to evaluate the probability density function (pdf)
    * of a Chi-Square with a specified number of degrees of freedom. The
    * static method provides optimized access without requiring an
    * instance of the class. The degrees of freedom for the
    * distribution are passed in a parameters vector. */
-  static double PDF(double x, const ParametersType&);
+  static double PDF(double x, const ParametersType &);
 
   /** Static method to evaluate the probability density function (pdf)
    * of a Chi-Square with a specified number of degrees of freedom. The
    * static method provides optimized access without requiring an
    * instance of the class. */
   static double PDF(double x, long degreesOfFreedom);
-  
+
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a Chi-Square with a specified number of degrees of
    * freedom. The static method provides optimized access without
@@ -156,7 +156,7 @@ public:
    * This is based on Abramowitz and Stegun 26.7.1. Accuracy is
    * approximately 10^-14.
    */
-  static double CDF(double x, const ParametersType&);
+  static double CDF(double x, const ParametersType &);
 
   /** Static method to evaluate the cumulative distribution function
    * (cdf) of a Chi-Square with a specified number of degrees of
@@ -178,7 +178,7 @@ public:
    * Newton iterations to improve the precision at low degrees of
    * freedom. Accuracy is approximately 10^-10.
    **/
-  static double InverseCDF(double p, const ParametersType&);
+  static double InverseCDF(double p, const ParametersType &);
 
   /** Static method to evaluate the inverse cumulative distribution
    * function of a Chi-Square with a specified number of degrees of
@@ -196,14 +196,12 @@ protected:
   ChiSquareDistribution(void);
   virtual ~ChiSquareDistribution(void) {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ChiSquareDistribution(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-}; // end of class
-
+  ChiSquareDistribution(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
+};                                     // end of class
 } // end of namespace Statistics
 } // end namespace itk
 

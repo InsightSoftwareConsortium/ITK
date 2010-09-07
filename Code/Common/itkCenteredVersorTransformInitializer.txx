@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,10 +22,9 @@
 
 namespace itk
 {
-
-template < class TFixedImage, class TMovingImage >
-CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
-::CenteredVersorTransformInitializer() 
+template< class TFixedImage, class TMovingImage >
+CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
+::CenteredVersorTransformInitializer()
 {
   // Force to use Moments computation since we need here the second
   // order moments in order to estimate a rotation
@@ -34,39 +33,36 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
   this->m_ComputeRotation = false;
 }
 
-
-template < class TFixedImage, class TMovingImage >
-void 
-CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
+template< class TFixedImage, class TMovingImage >
+void
+CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
 ::InitializeTransform()
 {
   // Compute moments and initialize center of rotaion and translation
   this->Superclass::InitializeTransform();
 
-  if( this->m_ComputeRotation )
+  if ( this->m_ComputeRotation )
     {
-    typedef typename Superclass::FixedImageCalculatorType::MatrixType   FixedMatrixType;
-    typedef typename Superclass::MovingImageCalculatorType::MatrixType  MovingMatrixType;
-    
-    FixedMatrixType   fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes(); 
-    MovingMatrixType  movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes(); 
-    
-    MovingMatrixType  rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
+    typedef typename Superclass::FixedImageCalculatorType::MatrixType  FixedMatrixType;
+    typedef typename Superclass::MovingImageCalculatorType::MatrixType MovingMatrixType;
 
-    this->GetTransform()->SetMatrix( rotationMatrix );
+    FixedMatrixType  fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes();
+    MovingMatrixType movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes();
+
+    MovingMatrixType rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
+
+    this->GetTransform()->SetMatrix(rotationMatrix);
     }
 }
-  
 
-template < class TFixedImage, class TMovingImage >
-void 
-CenteredVersorTransformInitializer<TFixedImage, TMovingImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TFixedImage, class TMovingImage >
+void
+CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  this->Superclass::PrintSelf(os,indent);
+  this->Superclass::PrintSelf(os, indent);
   os << indent << "Compute Rotation " << this->m_ComputeRotation << std::endl;
 }
- 
 }  // namespace itk
 
 #endif /* __itkCenteredVersorTransformInitializer_txx */

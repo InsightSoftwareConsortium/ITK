@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,7 +30,7 @@ namespace itk
  *
  * This class resample the image intensity at a non-integer position
  * from the input BSpline coefficient image.
- * 
+ *
  * Spline order may be from 0 to 5.
  *
  * In ITK, BSpline coefficient can be generated using a
@@ -44,47 +44,45 @@ namespace itk
  *
  * \ingroup ImageFunctions
  */
-template <class TImageType, class TCoordRep = float>
-class ITK_EXPORT BSplineResampleImageFunction : 
-    public BSplineInterpolateImageFunction<
-  TImageType,TCoordRep,ITK_TYPENAME TImageType::PixelType > 
+template< class TImageType, class TCoordRep = float >
+class ITK_EXPORT BSplineResampleImageFunction:
+  public BSplineInterpolateImageFunction<
+    TImageType, TCoordRep, ITK_TYPENAME TImageType::PixelType >
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineResampleImageFunction                          Self;
+  typedef BSplineResampleImageFunction Self;
   typedef BSplineInterpolateImageFunction<
-    TImageType,TCoordRep, ITK_TYPENAME TImageType::PixelType >  Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+    TImageType, TCoordRep, ITK_TYPENAME TImageType::PixelType >  Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineResampleImageFunction, 
+  itkTypeMacro(BSplineResampleImageFunction,
                BSplineInterpolateImageFunction);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Set the input image representing the BSplineCoefficients */
-  virtual void SetInputImage(const TImageType * inputData)
-    {
+  virtual void SetInputImage(const TImageType *inputData)
+  {
     // bypass my superclass
-    this->InterpolateImageFunction<TImageType,TCoordRep>::SetInputImage(inputData);
+    this->InterpolateImageFunction< TImageType, TCoordRep >::SetInputImage(inputData);
     this->m_Coefficients = inputData;
     if ( this->m_Coefficients.IsNotNull() )
       {
       this->m_DataLength = this->m_Coefficients->GetBufferedRegion().GetSize();
       }
-    }
+  }
 
 protected:
-  BSplineResampleImageFunction() {};
-  virtual ~BSplineResampleImageFunction() {};
-
+  BSplineResampleImageFunction() {}
+  virtual ~BSplineResampleImageFunction() {}
 private:
-  BSplineResampleImageFunction(const Self&);//purposely not implemented
+  BSplineResampleImageFunction(const Self &); //purposely not implemented
 };
-
 } // namespace itk
-
 
 #endif

@@ -364,7 +364,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   thresholder->SetOutsideValue( 0 );
   thresholder->SetInsideValue( 255 );
   thresholder->Update();
-#ifndef __BORLANDC__
+
   /**
    * Compute overlap between the true shape and the segmented shape
    */
@@ -450,7 +450,6 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
     return EXIT_FAILURE;
     }
 
-#endif
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 

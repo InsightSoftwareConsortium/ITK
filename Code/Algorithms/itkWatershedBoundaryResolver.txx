@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,9 +24,8 @@ namespace itk
 {
 namespace watershed
 {
-
-template <class TPixelType, unsigned int TDimension>
-void BoundaryResolver<TPixelType, TDimension>
+template< class TPixelType, unsigned int TDimension >
+void BoundaryResolver< TPixelType, TDimension >
 ::GenerateData()
 {
   //
@@ -35,7 +34,7 @@ void BoundaryResolver<TPixelType, TDimension>
   //       See itkWatershedSegmenter for details. City-block style connectivity
   //       is assumed (ie 4-, 6- for 2d, 3d). jc 11/14/01
   //
-  typedef typename BoundaryType::face_t   FaceType;
+  typedef typename BoundaryType::face_t FaceType;
   typename BoundaryType::IndexType idxA;
   typename BoundaryType::IndexType idxB;
 
@@ -68,13 +67,13 @@ void BoundaryResolver<TPixelType, TDimension>
   // This constructs equivalencies between both flat regions and
   // non-flat regions.
   //
-  ImageRegionIterator<FaceType> itA(boundaryA->GetFace(idxA),
-                                    boundaryA->GetFace(idxA)->GetRequestedRegion());
+  ImageRegionIterator< FaceType > itA( boundaryA->GetFace(idxA),
+                                       boundaryA->GetFace(idxA)->GetRequestedRegion() );
 
-  ImageRegionIterator<FaceType> itB(boundaryB->GetFace(idxB),
-                                    boundaryB->GetFace(idxB)->GetRequestedRegion());
+  ImageRegionIterator< FaceType > itB( boundaryB->GetFace(idxB),
+                                       boundaryB->GetFace(idxB)->GetRequestedRegion() );
 
-  for (itA = itA.Begin(), itB = itB.Begin(); !itA.IsAtEnd(); ++itA, ++itB )
+  for ( itA = itA.Begin(), itB = itB.Begin(); !itA.IsAtEnd(); ++itA, ++itB )
     {
     if ( itA.Get().flow != SegmenterType::NULL_FLOW )
       {
@@ -88,35 +87,32 @@ void BoundaryResolver<TPixelType, TDimension>
 
   equivTable->Flatten();
 }
-  
+
 // ------------------------------------------------------------
 // --------------------PIPELINE METHODS------------------------
 // ------------------------------------------------------------
-template <class TPixelType, unsigned int TDimension>
-void BoundaryResolver<TPixelType, TDimension>
+template< class TPixelType, unsigned int TDimension >
+void BoundaryResolver< TPixelType, TDimension >
 ::GenerateOutputRequestedRegion(DataObject *)
+{}
+
+template< class TPixelType, unsigned int TDimension >
+typename BoundaryResolver< TPixelType, TDimension >::DataObjectPointer
+BoundaryResolver< TPixelType, TDimension >
+::MakeOutput(unsigned int)
 {
+  return static_cast< DataObject * >( EquivalencyTable::New().GetPointer() );
 }
 
-template<class TPixelType, unsigned int TDimension>
-typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
-BoundaryResolver<TPixelType, TDimension>
-::MakeOutput(unsigned int )
+template< class TPixelType, unsigned int TDimension >
+void
+BoundaryResolver< TPixelType, TDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  return static_cast<DataObject*>(EquivalencyTable::New().GetPointer());
-}
-
-template<class TPixelType, unsigned int TDimension>
-void 
-BoundaryResolver<TPixelType, TDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Face = " << m_Face << std::endl;
 }
-
-
 } // end namespace watershed
 } // end namespace itk
 

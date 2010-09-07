@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -26,20 +26,19 @@
 #include <iostream>
 #include <typeinfo>
 
-#if defined(_WIN32)
+#if defined( _WIN32 )
 // To get LONG defined
   #include "itkWindows.h"
-#elif defined(__APPLE__)
+#elif defined( __APPLE__ )
 // To get MAC_OS_X_VERSION_MIN_REQUIRED defined
   #include <AvailabilityMacros.h>
 #endif
 
 namespace itk
 {
-  
 /** \class LightObject
  * \brief Light weight base class for most itk classes.
- * 
+ *
  * LightObject is the highest level base class for most itk objects. It
  * implements reference counting and the API for object printing.
  * It can be used as a lightweight base class in preference to Object.
@@ -51,14 +50,14 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  */
-class ITKCommon_EXPORT LightObject 
+class ITKCommon_EXPORT LightObject
 {
 public:
   /** Standard clas typedefs. */
-  typedef LightObject               Self;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef LightObject                Self;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
   static Pointer New();
 
@@ -77,24 +76,28 @@ public:
   /** Return the name of this class as a string. Used by the object factory
    * (implemented in New()) to instantiate objects of a named type. Also
    * used for debugging and other output information.  */
-  virtual const char *GetNameOfClass() const 
-    {return "LightObject";}
+  virtual const char * GetNameOfClass() const
+  { return "LightObject"; }
 
 #ifdef _WIN32
   /** Used to avoid dll boundary problems.  */
-  void* operator new(size_t);
-  void* operator new[](size_t);
-  void operator delete(void*);
-  void operator delete[](void*, size_t);
-#endif 
-  
-  /** Cause the object to print itself out. */
-  void Print(std::ostream& os, Indent indent=0) const;
+  void * operator new(size_t);
 
-  /** This method is called when itkExceptionMacro executes. It allows 
+  void * operator new[](size_t);
+
+  void operator delete(void *);
+
+  void operator delete[](void *, size_t);
+
+#endif
+
+  /** Cause the object to print itself out. */
+  void Print(std::ostream & os, Indent indent = 0) const;
+
+  /** This method is called when itkExceptionMacro executes. It allows
    * the debugger to break on error.  */
   static void BreakOnError();
-  
+
   /** Increase the reference count (mark as used by another object).  */
   virtual void Register() const;
 
@@ -102,8 +105,8 @@ public:
   virtual void UnRegister() const;
 
   /** Gets the reference count on this object. */
-  virtual int GetReferenceCount() const 
-    {return static_cast<int>(m_ReferenceCount);}
+  virtual int GetReferenceCount() const
+  { return static_cast< int >( m_ReferenceCount ); }
 
   /** Sets the reference count on this object. This is a dangerous
    * method, use it with care. */
@@ -111,45 +114,43 @@ public:
 
 protected:
   LightObject():m_ReferenceCount(1) {}
-  virtual ~LightObject(); 
+  virtual ~LightObject();
 
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual void PrintHeader(std::ostream& os, Indent indent) const;
-  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
+  virtual void PrintHeader(std::ostream & os, Indent indent) const;
+
+  virtual void PrintTrailer(std::ostream & os, Indent indent) const;
 
   /** Define the type of the reference count according to the
       target. This allows the use of atomic operations */
-#if (defined(WIN32) || defined(_WIN32))
+#if ( defined( WIN32 ) || defined( _WIN32 ) )
   typedef LONG InternalReferenceCountType;
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if defined (__LP64__) && __LP64__
+#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
+ #if defined ( __LP64__ ) && __LP64__
   typedef volatile int64_t InternalReferenceCountType;
  #else
   typedef volatile int32_t InternalReferenceCountType;
  #endif
-#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
   typedef _Atomic_word InternalReferenceCountType;
 #else
   typedef int InternalReferenceCountType;
 #endif
-  
+
   /** Number of uses of this object by other objects. */
   mutable InternalReferenceCountType m_ReferenceCount;
 
   /** Mutex lock to protect modification to the reference count */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
-
 private:
-  LightObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  
+  LightObject(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 } // end namespace itk
-  
+
 #endif

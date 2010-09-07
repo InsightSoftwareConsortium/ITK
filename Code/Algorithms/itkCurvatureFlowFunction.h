@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,10 +20,10 @@
 #include "itkFiniteDifferenceFunction.h"
 #include "itkMacro.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class CurvatureFlowFunction
- *  
+ *
  * \brief
  * This class encapsulate the finite difference equation which drives a
  * curvature flow denoising algorithm.
@@ -34,27 +34,27 @@ namespace itk {
  * This class operates as part of the finite difference solver hierarchy.
  *
  * \sa CurvatureFlowImageFilter
- * \sa ZeroFluxNeumannBoundaryCondition 
+ * \sa ZeroFluxNeumannBoundaryCondition
  * \ingroup FiniteDifferenceFunctions
  */
-template <class TImage>
-class ITK_EXPORT CurvatureFlowFunction :
-    public FiniteDifferenceFunction<TImage>
+template< class TImage >
+class ITK_EXPORT CurvatureFlowFunction:
+  public FiniteDifferenceFunction< TImage >
 {
 public:
   /**  Standard class typedefs. */
-  typedef CurvatureFlowFunction            Self;
-  typedef FiniteDifferenceFunction<TImage> Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef CurvatureFlowFunction              Self;
+  typedef FiniteDifferenceFunction< TImage > Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( CurvatureFlowFunction,
-                FiniteDifferenceFunction );
-  
+  itkTypeMacro(CurvatureFlowFunction,
+               FiniteDifferenceFunction);
+
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType              ImageType;
   typedef typename Superclass::PixelType              PixelType;
@@ -67,16 +67,16 @@ public:
   typedef typename Superclass::TimeStepType           TimeStepType;
 
   /** Extract superclass dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
    * the nature of the equations.  This global data cannot be kept in the
    * instance of the equation object itself since the equation object must
    * remain stateless for thread safety.  The global data is therefore managed
-   * for each thread by the finite difference solver filters. 
+   * for each thread by the finite difference solver filters.
    *
-   * Currently, this function returns the user specified constant time step. 
+   * Currently, this function returns the user specified constant time step.
    * \todo compute timestep based on CFL condition.
    */
   virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const;
@@ -86,65 +86,62 @@ public:
    * holds the state of any global values needed to calculate the time step,
    * while the equation object performs the actual calculations.  The global
    * data should also be initialized in this method. */
-  virtual void *GetGlobalDataPointer() const
-    {  
+  virtual void * GetGlobalDataPointer() const
+  {
     GlobalDataStruct *ans = new GlobalDataStruct();
-    ans->m_MaxChange   = NumericTraits<ScalarValueType>::Zero;
-    return ans; 
-    }
+
+    ans->m_MaxChange   = NumericTraits< ScalarValueType >::Zero;
+    return ans;
+  }
 
   /** When the finite difference solver filter has finished using a global
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
-    { delete (GlobalDataStruct *) GlobalData; }
+  { delete (GlobalDataStruct *)GlobalData; }
 
   /** Set the time step parameter */
-  void SetTimeStep( const TimeStepType & t )
-    { m_TimeStep = t; }
+  void SetTimeStep(const TimeStepType & t)
+  { m_TimeStep = t; }
 
   /** Get the time step parameter */
-  const TimeStepType &GetTimeStep() const
-    { return m_TimeStep; }
+  const TimeStepType & GetTimeStep() const
+  { return m_TimeStep; }
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
-                                  void * globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-    );
+  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+                                  void *globalData,
+                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
+                                  );
 
 protected:
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step. */
-  /// @cond 
-  struct GlobalDataStruct
-    {
+  /// @cond
+  struct GlobalDataStruct {
     GlobalDataStruct()
-      {
-      m_MaxChange = NumericTraits<ScalarValueType>::Zero;
-      }
+    {
+      m_MaxChange = NumericTraits< ScalarValueType >::Zero;
+    }
+
     ~GlobalDataStruct() {}
-    
+
     ScalarValueType m_MaxChange;
-    };
-  /// @endcond 
+  };
+  /// @endcond
 
   CurvatureFlowFunction();
   ~CurvatureFlowFunction() {}
-
 private:
-  CurvatureFlowFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CurvatureFlowFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
-  TimeStepType       m_TimeStep;
-  
-  
+  TimeStepType m_TimeStep;
 };
-
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCurvatureFlowFunction.txx"

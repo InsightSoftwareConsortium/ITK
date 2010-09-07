@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 
 namespace itk
 {
-
-template <unsigned int VDimension, typename TInput>
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+template< unsigned int VDimension, typename TInput >
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::ConicShellInteriorExteriorSpatialFunction()
 {
   m_Origin.Fill(0.0);
@@ -35,16 +34,14 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   m_Epsilon = 0;
 }
 
-template <unsigned int VDimension, typename TInput>
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+template< unsigned int VDimension, typename TInput >
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::~ConicShellInteriorExteriorSpatialFunction()
-{
+{}
 
-}
-
-template <unsigned int VDimension, typename TInput>
+template< unsigned int VDimension, typename TInput >
 void
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::SetOriginGradient(GradientType grad)
 {
   m_OriginGradient = grad;
@@ -53,26 +50,26 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   m_OriginGradient.GetVnlVector().normalize();
 }
 
-template <unsigned int VDimension, typename TInput>
-typename ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
+template< unsigned int VDimension, typename TInput >
+typename ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::OutputType
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
-::Evaluate(const InputType& position) const
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
+::Evaluate(const InputType & position) const
 {
   // As from the header...
   /**
-   * We are creating search areas from BoundaryPoint1 in which to look for 
-   * candidate BoundaryPoint2's with which to form core atoms.  Assume the 
+   * We are creating search areas from BoundaryPoint1 in which to look for
+   * candidate BoundaryPoint2's with which to form core atoms.  Assume the
    * "worst case" that BoundaryPoint2 is somewhere in that search area pointing
-   * directly at BoundaryPoint1. 
+   * directly at BoundaryPoint1.
    *
-   * The search area (ConicShell?) from each BoundaryPoint1 has the following 
-   * parameters: 
+   * The search area (ConicShell?) from each BoundaryPoint1 has the following
+   * parameters:
    *
-   * DistanceMax and DistanceMin from the location of the BoundaryPoint 
+   * DistanceMax and DistanceMin from the location of the BoundaryPoint
    *
    * AngleMax from the line along the gradient at the boundary point.
-   * This is determined in n dimensions by taking the dot product of 
+   * This is determined in n dimensions by taking the dot product of
    * two vectors,
    * (1) the normalized gradient at BoundaryPoint1 and
    * (2) the normalized vector from BoundaryPoint1 to BoundaryPoint2.
@@ -86,7 +83,7 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   // O means the direction that the gradient is pointing,
   // 1 means the opposite direction
 
-  typedef Vector<double, VDimension> VectorType;
+  typedef Vector< double, VDimension > VectorType;
 
   // Compute the vector from the origin to the point we're testing
   VectorType vecOriginToTest = position - m_Origin;
@@ -96,9 +93,10 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   double vecDistance = vecOriginToTest.GetNorm();
 
   // Check to see if this an allowed distance
-  if( !( (vecDistance > m_DistanceMin)&&(vecDistance < m_DistanceMax) ) )
+  if ( !( ( vecDistance > m_DistanceMin ) && ( vecDistance < m_DistanceMax ) ) )
+    {
     return 0; // not inside the conic shell
-
+    }
   // Normalize it
   // vecOriginToTest.GetVnlVector().normalize();
   vecOriginToTest.Normalize();
@@ -109,43 +107,42 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   // Now compute the dot product
   double dotprod = originGradient * vecOriginToTest;
 
-  if(m_Polarity==1)
+  if ( m_Polarity == 1 )
     {
     dotprod = dotprod * -1;
     }
 
   // Check to see if it meet's the angle criterior
   OutputType result;
-  if( dotprod > (1 - m_Epsilon) )
+  if ( dotprod > ( 1 - m_Epsilon ) )
     {
     result = 1; // it's inside the shell
     }
-  else 
+  else
     {
     result = 0; // it's not inside the shell
     }
 
   return result;
-
 }
 
-template <unsigned int VDimension, typename TInput>
+template< unsigned int VDimension, typename TInput >
 void
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
-::PrintSelf(std::ostream& os, Indent indent) const
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   unsigned int i;
   os << indent << "Origin: [";
-  for (i=0; i < VDimension - 1; i++)
+  for ( i = 0; i < VDimension - 1; i++ )
     {
     os << m_Origin[i] << ", ";
     }
   os << "]" << std::endl;
 
   os << indent << "Gradient at origin: [";
-  for (i=0; i < VDimension - 1; i++)
+  for ( i = 0; i < VDimension - 1; i++ )
     {
     os << m_OriginGradient[i] << ", ";
     }
@@ -156,7 +153,6 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>
   os << indent << "Epsilon: " << m_Epsilon << std::endl;
   os << indent << "Polarity: " << m_Polarity << std::endl;
 }
-
 } // end namespace itk
 
 #endif

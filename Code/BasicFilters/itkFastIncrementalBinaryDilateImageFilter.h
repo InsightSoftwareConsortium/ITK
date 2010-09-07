@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -42,7 +42,7 @@ namespace itk
  * arbitrary structuring elements", and
  *
  * N.Nikopoulos et al. "An efficient algorithm for 3d binary
- * morphological transformations with 3d structuring elements 
+ * morphological transformations with 3d structuring elements
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
  *
@@ -53,9 +53,9 @@ namespace itk
  * \deprecated
  * \sa BinaryDilateImageFilter
  */
-template <class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT FastIncrementalBinaryDilateImageFilter :
-    public BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT FastIncrementalBinaryDilateImageFilter:
+  public BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Extract dimension from input and output image. */
@@ -67,7 +67,7 @@ public:
   /** Extract the dimension of the kernel */
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
-  
+
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
@@ -75,28 +75,26 @@ public:
 
   /** Standard class typedefs. */
   typedef FastIncrementalBinaryDilateImageFilter Self;
-  typedef BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType>
-                                                 Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  typedef BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastIncrementalBinaryDilateImageFilter, ImageToImageFilter);
-
-  
 protected:
-  FastIncrementalBinaryDilateImageFilter() {};
+  FastIncrementalBinaryDilateImageFilter() {}
   virtual ~FastIncrementalBinaryDilateImageFilter(){}
-  
 private:
-  FastIncrementalBinaryDilateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FastIncrementalBinaryDilateImageFilter(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
 
+  // implemented
 };
-
 } // end namespace itk
 
 #endif

@@ -58,7 +58,7 @@ TImageType::PointType GetImageCenterPhysicalPoint(TImageType::Pointer & image)
   itk::ContinuousIndex<double, TImageType::ImageDimension> centerIndex;
   itk::ContinuousIndex<double, TImageType::ImageDimension> firstIndex;
   itk::ContinuousIndex<double, TImageType::ImageDimension> lastIndex;
-  for( int q=0;q<TImageType::ImageDimension;q++ )
+  for( unsigned int q=0;q<TImageType::ImageDimension;q++ )
     {
     lastIndex[q]=(imageOverallSize[q]-1);
     firstIndex[q]=0;
@@ -127,7 +127,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   TImageType::SpacingType newSpacing;
   TImageType::PointType newOrigin;
 
-  for( int i =0; i < TImageType::ImageDimension; i++ )
+  for( unsigned int i =0; i < TImageType::ImageDimension; i++ )
     {
     newSize[i]=32;
     newSpacing[i]=(1.0+3.0*i);
@@ -135,12 +135,10 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
     }
   TImageType::DirectionType newDirection;
   newDirection.SetIdentity();
-#if defined(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
   newDirection[0][0]=0;
   newDirection[0][1]=-1;
   newDirection[1][0]=1;
   newDirection[1][1]=0;
-#endif
   newOrigin=newDirection*newOrigin;
 
   TImageType::Pointer image=TImageType::New();
@@ -179,7 +177,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   smoother->SetMaximumError( MyPyramid->GetMaximumError() );
   // compute shrink factors and variances
   double variance[2];
-  for(int idim = 0; idim < TImageType::ImageDimension; idim++ )
+  for( unsigned int idim = 0; idim < TImageType::ImageDimension; idim++ )
     {
     variance[idim] = vnl_math_sqr( 0.5 * static_cast<float>( 4 ) );
     }

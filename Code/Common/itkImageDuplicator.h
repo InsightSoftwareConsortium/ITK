@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class ImageDuplicator
  * \brief This helper class create an image which is perfect copy of the input image.
  *
@@ -45,15 +44,15 @@ namespace itk
  * because the ImageDuplicator is not a pipeline filter.
  *
  */
-template <class TInputImage>
-class ITK_EXPORT ImageDuplicator : public Object
+template< class TInputImage >
+class ITK_EXPORT ImageDuplicator:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageDuplicator               Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef ImageDuplicator            Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,52 +61,55 @@ public:
   itkTypeMacro(ImageDuplicator, Object);
 
   /** Type definitions for the input image. */
-  typedef TInputImage                           ImageType;
-  typedef typename TInputImage::Pointer         ImagePointer;
-  typedef typename TInputImage::ConstPointer    ImageConstPointer;
-  typedef typename TInputImage::PixelType       PixelType;
-  typedef typename TInputImage::IndexType       IndexType;
+  typedef TInputImage                        ImageType;
+  typedef typename TInputImage::Pointer      ImagePointer;
+  typedef typename TInputImage::ConstPointer ImageConstPointer;
+  typedef typename TInputImage::PixelType    PixelType;
+  typedef typename TInputImage::IndexType    IndexType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Set the input image. */
-  itkSetConstObjectMacro(InputImage,ImageType);
+  itkSetConstObjectMacro(InputImage, ImageType);
 
   /** Get the output image. */
-  itkGetObjectMacro(Output,ImageType);
+  itkGetObjectMacro(Output, ImageType);
 
   /** Compute of the input image. */
   void Update(void);
 
 protected:
   ImageDuplicator();
-  virtual ~ImageDuplicator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~ImageDuplicator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ImageDuplicator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageDuplicator(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
-  ImageConstPointer       m_InputImage;
-  ImagePointer            m_Output;
-  unsigned long           m_InternalImageTime;
-
+  ImageConstPointer m_InputImage;
+  ImagePointer      m_Output;
+  unsigned long     m_InternalImageTime;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageDuplicator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageDuplicator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageDuplicator< ITK_TEMPLATE_1 x > ImageDuplicator##y; } \
+#define ITK_TEMPLATE_ImageDuplicator(_, EXPORT, TypeX, TypeY)               \
+  namespace itk                                                             \
+  {                                                                         \
+  _( 1 ( class EXPORT ImageDuplicator< ITK_TEMPLATE_1 TypeX > ) )           \
+  namespace Templates                                                       \
+  {                                                                         \
+  typedef ImageDuplicator< ITK_TEMPLATE_1 TypeX > ImageDuplicator##TypeY; \
+  }                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageDuplicator+-.h"
+#include "Templates/itkImageDuplicator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageDuplicator.txx"
+#include "itkImageDuplicator.txx"
 #endif
 
 #endif /* __itkImageDuplicator_h */

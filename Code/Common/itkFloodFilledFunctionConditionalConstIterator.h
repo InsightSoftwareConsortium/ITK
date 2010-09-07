@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,17 +27,16 @@
 
 namespace itk
 {
-
 /**
  * \class FloodFilledFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled spatial function. 
+ * \brief Iterates over a flood-filled spatial function.
  *
  * \ingroup ImageIterators
  *
  */
-template<class TImage, class TFunction>
+template< class TImage, class TFunction >
 class ITK_EXPORT FloodFilledFunctionConditionalConstIterator:
-    public ConditionalConstIterator<TImage>
+  public ConditionalConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */
@@ -50,22 +49,22 @@ public:
   typedef typename TFunction::InputType FunctionInputType;
 
   /** Index typedef support. */
-  typedef typename TImage::IndexType  IndexType;
+  typedef typename TImage::IndexType IndexType;
 
   /** Size typedef support. */
-  typedef typename TImage::SizeType    SizeType;
+  typedef typename TImage::SizeType SizeType;
 
   /** Region typedef support */
-  typedef typename TImage::RegionType    RegionType;
+  typedef typename TImage::RegionType RegionType;
 
   /** Image typedef support. */
-  typedef TImage   ImageType;
+  typedef TImage ImageType;
 
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType   InternalPixelType;
+  typedef typename TImage::InternalPixelType InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType   PixelType;
+  typedef typename TImage::PixelType PixelType;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -77,15 +76,15 @@ public:
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr,
-                                     IndexType startIndex);
+                                              FunctionType *fnPtr,
+                                              IndexType startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * a list of seed pixels for the flood fill */
   FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr,
-                                     std::vector<IndexType> & startIndices);
+                                              FunctionType *fnPtr,
+                                              std::vector< IndexType > & startIndices);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
@@ -106,57 +105,57 @@ public:
   void InitializeIterator();
 
   /** Default Destructor. */
-  virtual ~FloodFilledFunctionConditionalConstIterator() {};
+  virtual ~FloodFilledFunctionConditionalConstIterator() {}
 
   /** Compute whether the index of interest should be included in the flood */
   virtual bool IsPixelIncluded(const IndexType & index) const = 0;
-  
+
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self &operator=(const Self& it)
-    {
+  Self & operator=(const Self & it)
+  {
     this->m_Image = it.m_Image;     // copy the smart pointer
     this->m_Region = it.m_Region;
     return *this;
-    } 
-  
+  }
+
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension() 
-    {return TImage::ImageDimension;}
+  static unsigned int GetIteratorDimension()
+  { return TImage::ImageDimension; }
 
   /** Get the index. This provides a read only reference to the index.
    * This causes the index to be calculated from pointer arithmetic and is
    * therefore an expensive operation.
    * \sa SetIndex */
   const IndexType GetIndex()
-    { return m_IndexStack.front();}
+  { return m_IndexStack.front(); }
 
   /** Get the pixel value */
   const PixelType & Get(void) const
-    { return this->m_Image->GetPixel(m_IndexStack.front() ); }
- 
+  { return this->m_Image->GetPixel( m_IndexStack.front() ); }
+
   /** Is the iterator at the end of the region? */
   bool IsAtEnd()
-    { return this->m_IsAtEnd; }
+  { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */
-  void AddSeed ( const IndexType seed )
-    {
-    m_StartIndices.push_back ( seed );
-    }
+  void AddSeed(const IndexType seed)
+  {
+    m_StartIndices.push_back (seed);
+  }
 
   /** Clear all the seeds */
-  void ClearSeeds ()
-    {
+  void ClearSeeds()
+  {
     m_StartIndices.clear();
-    }
-  
+  }
+
   /** Move an iterator to the beginning of the region. "Begin" is
    * defined as the first pixel in the region. */
   void GoToBegin()
-    {
+  {
     // Clear the queue
-    while (!m_IndexStack.empty())
+    while ( !m_IndexStack.empty() )
       {
       m_IndexStack.pop();
       }
@@ -164,65 +163,64 @@ public:
     this->m_IsAtEnd = true;
     // Initialize the temporary image
     m_TemporaryPointer->FillBuffer(
-      NumericTraits<ITK_TYPENAME TTempImage::PixelType>::Zero
+      NumericTraits< ITK_TYPENAME TTempImage::PixelType >::Zero
       );
-    
+
     for ( unsigned int i = 0; i < m_StartIndices.size(); i++ )
       {
-      if( this->m_Image->GetBufferedRegion().IsInside ( m_StartIndices[i] ) &&
-          this->IsPixelIncluded(m_StartIndices[i]) )
+      if ( this->m_Image->GetBufferedRegion().IsInside (m_StartIndices[i])
+           && this->IsPixelIncluded(m_StartIndices[i]) )
         {
         // Push the seed onto the queue
         m_IndexStack.push(m_StartIndices[i]);
-        
+
         // Obviously, we're at the beginning
         this->m_IsAtEnd = false;
-        
+
         // Mark the start index in the temp image as inside the
         // function, neighbor check incomplete
         m_TemporaryPointer->SetPixel(m_StartIndices[i], 2);
         }
       }
-    }
+  }
 
   /** Walk forward one index */
   void operator++()
-    { this->DoFloodStep(); }
+  { this->DoFloodStep(); }
 
   void DoFloodStep();
-  
-  virtual SmartPointer<FunctionType> GetFunction() const
-    {
+
+  virtual SmartPointer< FunctionType > GetFunction() const
+  {
     return m_Function;
-    }
+  }
 
-
-protected: //made protected so other iterators can access 
+protected: //made protected so other iterators can access
   /** Smart pointer to the function we're evaluating */
-  SmartPointer<FunctionType> m_Function;
+  SmartPointer< FunctionType > m_Function;
 
   /** A temporary image used for storing info about indices
    * 0 = pixel has not yet been processed
    * 1 = pixel is not inside the function
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
-  typedef Image<unsigned char, itkGetStaticConstMacro(NDimensions)> TTempImage;
+  typedef Image< unsigned char, itkGetStaticConstMacro(NDimensions) > TTempImage;
   typename TTempImage::Pointer m_TemporaryPointer;
-  
+
   /** A list of locations to start the recursive fill */
-  std::vector<IndexType> m_StartIndices;
+  std::vector< IndexType > m_StartIndices;
 
   /** The origin of the source image */
   typename ImageType::PointType m_ImageOrigin;
-  
+
   /** The spacing of the source image */
   typename ImageType::SpacingType m_ImageSpacing;
 
   /** Region of the source image */
-  RegionType   m_ImageRegion;
+  RegionType m_ImageRegion;
 
   /** Stack used to hold the path of the iterator through the image */
-  std::queue<IndexType> m_IndexStack;
+  std::queue< IndexType > m_IndexStack;
 
   /** Location vector used in the flood algorithm */
   FunctionInputType m_LocationVector;
@@ -234,22 +232,26 @@ protected: //made protected so other iterators can access
   /** Indicates whether or not an index is valid (inside an image)/ */
   bool m_IsValidIndex;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FloodFilledFunctionConditionalConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 x > \
-                        FloodFilledFunctionConditionalConstIterator##y; } \
+#define ITK_TEMPLATE_FloodFilledFunctionConditionalConstIterator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                               \
+  {                                                                                           \
+  _( 2 ( class EXPORT FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                         \
+  {                                                                                           \
+  typedef FloodFilledFunctionConditionalConstIterator< ITK_TEMPLATE_2 TypeX >                 \
+  FloodFilledFunctionConditionalConstIterator##TypeY;                                       \
+  }                                                                                           \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkFloodFilledFunctionConditionalConstIterator+-.h"
+#include "Templates/itkFloodFilledFunctionConditionalConstIterator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkFloodFilledFunctionConditionalConstIterator.txx"
+#include "itkFloodFilledFunctionConditionalConstIterator.txx"
 #endif
 
-#endif 
+#endif

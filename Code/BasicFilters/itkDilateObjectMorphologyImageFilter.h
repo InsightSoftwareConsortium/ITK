@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,41 +19,41 @@
 
 #include "itkObjectMorphologyImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class DilateObjectMorphologyImageFilter
  * \brief dilation of an object in an image
  *
- * Dilate an image using binary morphology. 
- * Pixel values matching the object value are considered the 
+ * Dilate an image using binary morphology.
+ * Pixel values matching the object value are considered the
  * "foreground" and all other pixels are "background". This is useful
  * in processing mask images containing only one object.
  *
  * If a pixel's value is equal to the object
  * value and the pixel is adjacent to a non-object valued pixel, then
- * the kernel is centered on the object-value pixel and neighboring 
- * pixels covered by the kernel are assigned the object value.  
+ * the kernel is centered on the object-value pixel and neighboring
+ * pixels covered by the kernel are assigned the object value.
  * The structuring element is assumed to be composed of binary values
- * (zero or one). 
+ * (zero or one).
  *
  * \sa ObjectMorphologyImageFilter, ErodeObjectMorphologyImageFilter
  * \sa BinaryDilateImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TOutputImage, class TKernel>
-class ITK_EXPORT DilateObjectMorphologyImageFilter : 
-    public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
+template< class TInputImage, class TOutputImage, class TKernel >
+class ITK_EXPORT DilateObjectMorphologyImageFilter:
+  public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
   /** Standard class typedefs. */
-  typedef DilateObjectMorphologyImageFilter Self;
-  typedef ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
-  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef DilateObjectMorphologyImageFilter                                 Self;
+  typedef ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Standard New method */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support */
   itkTypeMacro(DilateObjectMorphologyImageFilter, ObjectMorphologyImageFilter);
@@ -68,46 +68,42 @@ public:
   typedef typename KernelType::ConstIterator KernelIteratorType;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef NeighborhoodIterator<TOutputImage> OutputNeighborhoodIteratorType;
+  typedef NeighborhoodIterator< TOutputImage > OutputNeighborhoodIteratorType;
 
-  typedef typename Superclass::DefaultBoundaryConditionType 
-                                             DefaultBoundaryConditionType;
+  typedef typename Superclass::DefaultBoundaryConditionType
+  DefaultBoundaryConditionType;
 
   /** Type of the pixels in the Kernel. */
-  typedef typename TKernel::PixelType            KernelPixelType;
+  typedef typename TKernel::PixelType KernelPixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(KernelGreaterThanComparableCheck,
-    (Concept::GreaterThanComparable<KernelPixelType>));
+  itkConceptMacro( KernelGreaterThanComparableCheck,
+                   ( Concept::GreaterThanComparable< KernelPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DilateObjectMorphologyImageFilter();
-  ~DilateObjectMorphologyImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~DilateObjectMorphologyImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
    * object value.  */
-  void Evaluate(OutputNeighborhoodIteratorType &nit,
-                const KernelType &kernel);
+  void Evaluate(OutputNeighborhoodIteratorType & nit,
+                const KernelType & kernel);
 
 private:
-  DilateObjectMorphologyImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DilateObjectMorphologyImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
   // Default boundary condition for dilation filter, defaults to
   // NumericTraits<PixelType>::NonpositiveMin()
   DefaultBoundaryConditionType m_DilateBoundaryCondition;
-
-
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkDilateObjectMorphologyImageFilter.txx"
 #endif

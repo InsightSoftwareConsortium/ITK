@@ -31,7 +31,8 @@ public class CannyEdgeDetectionImageFilter
     outputCast.SetOutputMaximum( outputMaximum );
 
     filter.SetVariance(  Float.parseFloat( argv[2] ) );
-    filter.SetThreshold( Float.parseFloat( argv[3] ) );
+    filter.SetLowerThreshold( Float.parseFloat( argv[3] ) );
+    filter.SetUpperThreshold( Float.parseFloat( argv[4] ) );
 
     writer.Update();
   }

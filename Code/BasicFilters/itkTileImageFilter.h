@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,9 +20,9 @@
 #include "itkImageToImageFilter.h"
 #include "itkFixedArray.h"
 
-namespace itk {
-
-/** \class TileImageFilter 
+namespace itk
+{
+/** \class TileImageFilter
  * \brief Tile multiple input images into a single output image.
  *
  * This filter will tile multiple images using a user-specified
@@ -37,30 +37,30 @@ namespace itk {
  * must have a dimension less than or equal to the output image. The
  * output image have a larger dimension than the input images. This
  * filter can be used to create a volume from a series of inputs by
- * specifying a layout of 1,1,0. 
+ * specifying a layout of 1,1,0.
  */
 
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT TileImageFilter : 
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT TileImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef TileImageFilter                               Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
-  
+  typedef TileImageFilter                                 Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(TileImageFilter, ImageToImageFilter);
-  
+
   /** Image pixel value typedef. */
-  typedef typename TInputImage::PixelType    InputPixelType;
-  typedef typename TOutputImage::PixelType   OutputPixelType;
-  
+  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+
   /** Image related typedefs. */
   typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TOutputImage::Pointer OutputImagePointer;
@@ -72,75 +72,73 @@ public:
   typedef typename TOutputImage::IndexType  OutputIndexType;
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-
   /** Image related typedefs. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
+                      TOutputImage::ImageDimension);
   /** \class TileInfo
    * Define a tile structure  */
   class TileInfo
-    {
-    public:
-      int m_ImageNumber;
-      OutputImageRegionType m_Region;
-      TileInfo() : m_ImageNumber(-1) {}
-    };
+  {
+public:
+    int                   m_ImageNumber;
+    OutputImageRegionType m_Region;
+    TileInfo():m_ImageNumber(-1) {}
+  };
 
-  typedef Image<TileInfo,itkGetStaticConstMacro(OutputImageDimension)> TileImageType;
+  typedef Image< TileInfo, itkGetStaticConstMacro(OutputImageDimension) > TileImageType;
 
   /** LayoutArray type. */
-  typedef FixedArray<unsigned int, itkGetStaticConstMacro(OutputImageDimension)> LayoutArrayType;
+  typedef FixedArray< unsigned int, itkGetStaticConstMacro(OutputImageDimension) > LayoutArrayType;
 
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
    * the filter will compute a value that will acoomodate all of the
    * images. */
-  itkSetMacro(Layout,LayoutArrayType);
-  itkGetConstMacro(Layout,LayoutArrayType);
+  itkSetMacro(Layout, LayoutArrayType);
+  itkGetConstMacro(Layout, LayoutArrayType);
 
   /** Set the pixel value for locations that are not covered by an
    * input image. The default default pixel value is Zero. */
-  itkSetMacro(DefaultPixelValue,OutputPixelType);
+  itkSetMacro(DefaultPixelValue, OutputPixelType);
 
   /** Get the pixel value for locations that are not covered by an
    * input image. */
-  itkGetConstMacro(DefaultPixelValue,OutputPixelType);
+  itkGetConstMacro(DefaultPixelValue, OutputPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-                  (Concept::EqualityComparable<OutputPixelType>));
-  itkConceptMacro(SameTypeCheck,
-                  (Concept::SameType<InputPixelType, OutputPixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-                  (Concept::OStreamWritable<OutputPixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputPixelType > ) );
+  itkConceptMacro( SameTypeCheck,
+                   ( Concept::SameType< InputPixelType, OutputPixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   TileImageFilter();
-  ~TileImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~TileImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateInputRequestedRegion();
+
   void GenerateOutputInformation();
 
-  void  GenerateData ();
+  void  GenerateData();
 
 private:
-  TileImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  TileImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
   typename TileImageType::Pointer m_TileImage;
-  OutputPixelType                 m_DefaultPixelValue;
-  LayoutArrayType                 m_Layout;
 
+  OutputPixelType m_DefaultPixelValue;
+
+  LayoutArrayType m_Layout;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTileImageFilter.txx"
 #endif

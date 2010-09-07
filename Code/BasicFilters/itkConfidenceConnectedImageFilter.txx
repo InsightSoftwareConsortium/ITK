@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -30,60 +30,59 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <class TInputImage, class TOutputImage>
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::ConfidenceConnectedImageFilter()
 {
   m_Multiplier = 2.5;
   m_NumberOfIterations = 4;
   m_Seeds.clear();
   m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits<OutputImagePixelType>::One;
+  m_ReplaceValue = NumericTraits< OutputImagePixelType >::One;
   m_Mean     = NumericTraits< InputRealType >::Zero;
   m_Variance = NumericTraits< InputRealType >::Zero;
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::SetSeed(const IndexType & seed)
 {
   this->m_Seeds.clear();
-  this->AddSeed( seed );
+  this->AddSeed(seed);
 }
-  
-template <class TInputImage, class TOutputImage>
+
+template< class TInputImage, class TOutputImage >
 void
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
 {
-  if( this->m_Seeds.size() > 0 )
+  if ( this->m_Seeds.size() > 0 )
     {
     this->m_Seeds.clear();
     this->Modified();
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::AddSeed(const IndexType & seed)
 {
-  this->m_Seeds.push_back( seed );
+  this->m_Seeds.push_back(seed);
   this->Modified();
 }
 
 /**
  * Standard PrintSelf method.
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Number of iterations: " << m_NumberOfIterations
@@ -91,19 +90,19 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>
   os << indent << "Multiplier for confidence interval: " << m_Multiplier
      << std::endl;
   os << indent << "ReplaceValue: "
-     << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
      << std::endl;
-  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius 
+  os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius
      << std::endl;
-  os << indent << "Mean of the connected region: " << m_Mean 
+  os << indent << "Mean of the connected region: " << m_Mean
      << std::endl;
-  os << indent << "Variance of the connected region: " << m_Variance 
+  os << indent << "Variance of the connected region: " << m_Variance
      << std::endl;
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -115,123 +114,122 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template <class TInputImage, class TOutputImage>
-void 
-ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+void
+ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typedef BinaryThresholdImageFunction<InputImageType,double> FunctionType;
-  typedef BinaryThresholdImageFunction<OutputImageType,double> SecondFunctionType;
+  typedef BinaryThresholdImageFunction< InputImageType, double >  FunctionType;
+  typedef BinaryThresholdImageFunction< OutputImageType, double > SecondFunctionType;
 
-  typedef FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType> IteratorType;
-  typedef FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType> SecondIteratorType;
+  typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >           IteratorType;
+  typedef FloodFilledImageFunctionConditionalConstIterator< InputImageType, SecondFunctionType > SecondIteratorType;
 
   unsigned int loop;
-  
+
   typename Superclass::InputImageConstPointer inputImage  = this->GetInput();
-  typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  typename Superclass::OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
-  outputImage->SetBufferedRegion( region );
+  outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
+  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
 
   // Compute the statistics of the seed point
   typedef MeanImageFunction< InputImageType,
-                              double> MeanImageFunctionType;
+                             double > MeanImageFunctionType;
 
   typedef SumOfSquaresImageFunction< InputImageType,
-                                      double > SumOfSquaresImageFunctionType;
-  
-  typename MeanImageFunctionType::Pointer meanFunction = 
-                                    MeanImageFunctionType::New();
+                                     double > SumOfSquaresImageFunctionType;
 
-  meanFunction->SetInputImage( inputImage );
-  meanFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
+  typename MeanImageFunctionType::Pointer meanFunction =
+    MeanImageFunctionType::New();
+
+  meanFunction->SetInputImage(inputImage);
+  meanFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
 
   typename SumOfSquaresImageFunctionType::Pointer sumOfSquaresFunction =
-                                    SumOfSquaresImageFunctionType::New();
-  
-  sumOfSquaresFunction->SetInputImage( inputImage );
-  sumOfSquaresFunction->SetNeighborhoodRadius( m_InitialNeighborhoodRadius );
-  
+    SumOfSquaresImageFunctionType::New();
+
+  sumOfSquaresFunction->SetInputImage(inputImage);
+  sumOfSquaresFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
+
   // Set up the image function used for connectivity
   typename FunctionType::Pointer function = FunctionType::New();
-  function->SetInputImage ( inputImage );
+  function->SetInputImage (inputImage);
 
   InputRealType lower;
   InputRealType upper;
 
-  m_Mean     = itk::NumericTraits<InputRealType>::Zero;
-  m_Variance = itk::NumericTraits<InputRealType>::Zero;
+  m_Mean     = itk::NumericTraits< InputRealType >::Zero;
+  m_Variance = itk::NumericTraits< InputRealType >::Zero;
 
-  if( m_InitialNeighborhoodRadius > 0 )
+  if ( m_InitialNeighborhoodRadius > 0 )
     {
-    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::Zero;
+    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::Zero;
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
-    while( si != li )
+    while ( si != li )
       {
-      m_Mean += meanFunction->EvaluateAtIndex( *si );
-      sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex( *si );
+      m_Mean += meanFunction->EvaluateAtIndex(*si);
+      sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex(*si);
       si++;
       }
     const unsigned int num = m_Seeds.size();
     const unsigned int totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
     m_Mean /= num;
-    m_Variance = (sumOfSquares - (m_Mean * m_Mean * double(totalNum))) / (double(totalNum) - 1.0);
+    m_Variance = ( sumOfSquares - ( m_Mean * m_Mean * double(totalNum) ) ) / ( double(totalNum) - 1.0 );
     }
-  else 
+  else
     {
-    InputRealType sum = itk::NumericTraits<InputRealType>::Zero;
-    InputRealType sumOfSquares = itk::NumericTraits<InputRealType>::Zero;
+    InputRealType sum = itk::NumericTraits< InputRealType >::Zero;
+    InputRealType sumOfSquares = itk::NumericTraits< InputRealType >::Zero;
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
-    while( si != li )
+    while ( si != li )
       {
-      const InputRealType value = 
-        static_cast< InputRealType >( inputImage->GetPixel( *si ) );
+      const InputRealType value =
+        static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
       sum += value;
       sumOfSquares += value * value;
       si++;
       }
     const unsigned int num = m_Seeds.size();
-    m_Mean      = sum/double(num);
-    m_Variance  = (sumOfSquares - (sum*sum / double(num))) / (double(num) - 1.0);
+    m_Mean      = sum / double(num);
+    m_Variance  = ( sumOfSquares - ( sum * sum / double(num) ) ) / ( double(num) - 1.0 );
     }
 
+  lower = m_Mean - m_Multiplier *vcl_sqrt(m_Variance);
+  upper = m_Mean + m_Multiplier *vcl_sqrt(m_Variance);
 
-  lower = m_Mean - m_Multiplier * vcl_sqrt(m_Variance );
-  upper = m_Mean + m_Multiplier * vcl_sqrt(m_Variance );
-  
   // Find the highest and lowest seed intensity.
-  InputRealType lowestSeedIntensity = itk::NumericTraits<InputImagePixelType>::max();
-  InputRealType highestSeedIntensity = itk::NumericTraits<InputImagePixelType>::Zero;
+  InputRealType lowestSeedIntensity = itk::NumericTraits< InputImagePixelType >::max();
+  InputRealType highestSeedIntensity = itk::NumericTraits< InputImagePixelType >::Zero;
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
-  while( si != li )
+  while ( si != li )
     {
-    const InputRealType seedIntensity = 
-      static_cast<InputRealType>(inputImage->GetPixel( *si ));
+    const InputRealType seedIntensity =
+      static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
-    if (lowestSeedIntensity > seedIntensity)
+    if ( lowestSeedIntensity > seedIntensity )
       {
       lowestSeedIntensity = seedIntensity;
       }
-    if (highestSeedIntensity < seedIntensity)
+    if ( highestSeedIntensity < seedIntensity )
       {
       highestSeedIntensity = seedIntensity;
       }
@@ -239,34 +237,35 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     si++;
     }
 
-
-  // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
+  // Adjust lower and upper to always contain the seed's intensity, otherwise,
+  // no pixels will be
   // returned by the iterator and a zero variance will result
-  if (lower > lowestSeedIntensity)
+  if ( lower > lowestSeedIntensity )
     {
     lower = lowestSeedIntensity;
     }
-  if (upper < highestSeedIntensity)
+  if ( upper < highestSeedIntensity )
     {
     upper = highestSeedIntensity;
     }
 
-  // Make sure the lower and upper limit are not outside the valid range of the input 
-  if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+  // Make sure the lower and upper limit are not outside the valid range of the
+  // input
+  if ( lower < static_cast< InputRealType >( NumericTraits< InputImagePixelType >::NonpositiveMin() ) )
     {
-    lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+    lower = static_cast< InputRealType >( NumericTraits< InputImagePixelType >::NonpositiveMin() );
     }
-  if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+  if ( upper > static_cast< InputRealType >( NumericTraits< InputImagePixelType >::max() ) )
     {
-    upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+    upper = static_cast< InputRealType >( NumericTraits< InputImagePixelType >::max() );
     }
 
+  function->ThresholdBetween( static_cast< InputImagePixelType >( lower ),
+                              static_cast< InputImagePixelType >( upper ) );
 
-  function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
-                             static_cast<InputImagePixelType>(upper));
-
-  itkDebugMacro(<< "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance ));
-
+  itkDebugMacro(
+    << "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
+    << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
 
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As
@@ -275,17 +274,17 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
   // the [lower, upper] bounds prescribed, the pixel is added to the
   // output segmentation and its neighbors become candidates for the
   // iterator to walk.
-  IteratorType it = IteratorType ( outputImage, function, m_Seeds );
+  IteratorType it = IteratorType (outputImage, function, m_Seeds);
   it.GoToBegin();
-  while( !it.IsAtEnd())
+  while ( !it.IsAtEnd() )
     {
     it.Set(m_ReplaceValue);
     ++it;
     }
 
-  ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations );
+  ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations);
 
-  for (loop = 0; loop < m_NumberOfIterations; ++loop)
+  for ( loop = 0; loop < m_NumberOfIterations; ++loop )
     {
     // Now that we have an initial segmentation, let's recalculate the
     // statistics.  Since we have already labelled the output, we visit
@@ -294,76 +293,75 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // image (so Get() will get pixel values from the input) and constrain
     // iterator such it only visits pixels that were set in the output.
     typename SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
-    secondFunction->SetInputImage ( outputImage );
-    secondFunction->ThresholdBetween( m_ReplaceValue, m_ReplaceValue );
+    secondFunction->SetInputImage (outputImage);
+    secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
-    typename NumericTraits<ITK_TYPENAME InputImageType::PixelType>::RealType sum, sumOfSquares;
-    sum = NumericTraits<InputRealType>::Zero;
-    sumOfSquares = NumericTraits<InputRealType>::Zero;
+    typename NumericTraits< ITK_TYPENAME InputImageType::PixelType >::RealType sum, sumOfSquares;
+    sum = NumericTraits< InputRealType >::Zero;
+    sumOfSquares = NumericTraits< InputRealType >::Zero;
     unsigned long numberOfSamples = 0;
-    
-    SecondIteratorType sit
-      = SecondIteratorType ( inputImage, secondFunction, m_Seeds );
+
+    SecondIteratorType sit =
+      SecondIteratorType (inputImage, secondFunction, m_Seeds);
     sit.GoToBegin();
-    while( !sit.IsAtEnd())
+    while ( !sit.IsAtEnd() )
       {
-      const InputRealType value = static_cast<InputRealType>(sit.Get());
+      const InputRealType value = static_cast< InputRealType >( sit.Get() );
       sum += value;
       sumOfSquares += value * value;
       ++numberOfSamples;
       ++sit;
       }
     m_Mean      = sum / double(numberOfSamples);
-    m_Variance  = (sumOfSquares - (sum*sum / double(numberOfSamples))) / (double(numberOfSamples) - 1.0);
+    m_Variance  = ( sumOfSquares - ( sum * sum / double(numberOfSamples) ) ) / ( double(numberOfSamples) - 1.0 );
     // if the variance is zero, there is no point in continuing
     if ( m_Variance == 0 )
       {
-      itkDebugMacro(<< "\nLower intensity = " << lower 
-                    << ", Upper intensity = " << upper
-                    << "\nmean = " << m_Mean 
-                    << ", variance = " << m_Variance 
-                    << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance));
-      itkDebugMacro(<< "\nsum = " << sum 
+      itkDebugMacro( << "\nLower intensity = " << lower
+                     << ", Upper intensity = " << upper
+                     << "\nmean = " << m_Mean
+                     << ", variance = " << m_Variance
+                     << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
+      itkDebugMacro(<< "\nsum = " << sum
                     << ", sumOfSquares = "
                     << sumOfSquares << "\nnumberOfSamples = "
                     << numberOfSamples);
       break;
       }
-    lower = m_Mean - m_Multiplier * vcl_sqrt(m_Variance );
-    upper = m_Mean + m_Multiplier * vcl_sqrt(m_Variance );
+    lower = m_Mean - m_Multiplier *vcl_sqrt(m_Variance);
+    upper = m_Mean + m_Multiplier *vcl_sqrt(m_Variance);
 
-    // Adjust lower and upper to always contain the seed's intensity, otherwise, no pixels will be
+    // Adjust lower and upper to always contain the seed's intensity, otherwise,
+    // no pixels will be
     // returned by the iterator and a zero variance will result
-    if (lower > lowestSeedIntensity)
+    if ( lower > lowestSeedIntensity )
       {
       lower = lowestSeedIntensity;
       }
-    if (upper < highestSeedIntensity)
+    if ( upper < highestSeedIntensity )
       {
       upper = highestSeedIntensity;
       }
-    // Make sure the lower and upper limit are not outside the valid range of the input 
-    if (lower < static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin()))
+    // Make sure the lower and upper limit are not outside the valid range of
+    // the input
+    if ( lower < static_cast< InputRealType >( NumericTraits< InputImagePixelType >::NonpositiveMin() ) )
       {
-      lower = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::NonpositiveMin());
+      lower = static_cast< InputRealType >( NumericTraits< InputImagePixelType >::NonpositiveMin() );
       }
-    if (upper > static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max()))
+    if ( upper > static_cast< InputRealType >( NumericTraits< InputImagePixelType >::max() ) )
       {
-      upper = static_cast<InputRealType>(NumericTraits<InputImagePixelType>::max());
+      upper = static_cast< InputRealType >( NumericTraits< InputImagePixelType >::max() );
       }
 
+    function->ThresholdBetween( static_cast< InputImagePixelType >( lower ),
+                                static_cast< InputImagePixelType >( upper ) );
 
-    function->ThresholdBetween(static_cast<InputImagePixelType>(lower),
-                               static_cast<InputImagePixelType>(upper));
-    
-    itkDebugMacro(<< "\nLower intensity = " << lower
-                  << ", Upper intensity = " << upper
-                  << "\nmean = " << m_Mean
-                  << ", variance = " << m_Variance
-                  << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance ));
+    itkDebugMacro( << "\nLower intensity = " << lower
+                   << ", Upper intensity = " << upper
+                   << "\nmean = " << m_Mean
+                   << ", variance = " << m_Variance
+                   << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
-    
-
 
     // Rerun the segmentation, the iterator walks the output image,
     // starting at the seed point.  As the iterator walks, if the
@@ -372,36 +370,32 @@ ConfidenceConnectedImageFilter<TInputImage,TOutputImage>
     // upper] bounds prescribed, the pixel is added to the output
     // segmentation and its neighbors become candidates for the
     // iterator to walk.
-    outputImage->FillBuffer ( NumericTraits<OutputImagePixelType>::Zero );
-    IteratorType thirdIt = IteratorType ( outputImage, function, m_Seeds );
+    outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
+    IteratorType thirdIt = IteratorType (outputImage, function, m_Seeds);
     thirdIt.GoToBegin();
     try
       {
-      while( !thirdIt.IsAtEnd())
+      while ( !thirdIt.IsAtEnd() )
         {
         thirdIt.Set(m_ReplaceValue);
         ++thirdIt;
         progress.CompletedPixel();  // potential exception thrown here
         }
-
-      } 
-    catch( ProcessAborted & )
+      }
+    catch ( ProcessAborted & )
       {
       break; // interrupt the iterations loop
       }
-    
     }  // end iteration loop
 
-  if( this->GetAbortGenerateData() )
+  if ( this->GetAbortGenerateData() )
     {
-    ProcessAborted e(__FILE__,__LINE__);
+    ProcessAborted e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
     e.SetDescription("Process aborted.");
-    throw ProcessAborted(__FILE__,__LINE__);
+    throw ProcessAborted(__FILE__, __LINE__);
     }
 }
-
-
 } // end namespace itk
 
 #endif

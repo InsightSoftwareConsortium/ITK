@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,30 +21,27 @@
 
 namespace itk
 {
-
 TIFFImageIOFactory::TIFFImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkTIFFImageIO",
-                         "TIFF Image IO",
-                         1,
-                         CreateObjectFunction<TIFFImageIO>::New());
-}
-  
-TIFFImageIOFactory::~TIFFImageIOFactory()
-{
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkTIFFImageIO",
+                          "TIFF Image IO",
+                          1,
+                          CreateObjectFunction< TIFFImageIO >::New() );
 }
 
-const char* 
+TIFFImageIOFactory::~TIFFImageIOFactory()
+{}
+
+const char *
 TIFFImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char *
 TIFFImageIOFactory::GetDescription(void) const
 {
   return "TIFF ImageIO Factory, allows the loading of TIFF images into insight";
 }
-
 } // end namespace itk

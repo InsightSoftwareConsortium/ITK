@@ -23,11 +23,7 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-#include "itkLinearInterpolateImageFunction.h"
-#else
 #include "itkNearestNeighborInterpolateImageFunction.h"
-#endif
 #include "itkExpandImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
@@ -123,11 +119,7 @@ int itkExpandImageFilterTest(int, char* [] )
   typedef itk::ExpandImageFilter<ImageType,ImageType> ExpanderType;
   ExpanderType::Pointer expander = ExpanderType::New();
 
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  typedef itk::LinearInterpolateImageFunction<ImageType,double> InterpolatorType;
-#else
   typedef itk::NearestNeighborInterpolateImageFunction<ImageType,double> InterpolatorType;
-#endif
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   expander->SetInterpolator( interpolator );
@@ -139,7 +131,7 @@ int itkExpandImageFilterTest(int, char* [] )
   ImageType::PixelType padValue = 4.0;
   expander->SetInput( input );
   expander->SetExpandFactors( factors );
-  expander->SetEdgePaddingValue( padValue );
+//TEST_RMV20100728   expander->SetEdgePaddingValue( padValue );
 
 
   ShowProgressObject progressWatch(expander);
@@ -163,22 +155,7 @@ int itkExpandImageFilterTest(int, char* [] )
     expander->GetOutput()->GetLargestPossibleRegion();
   ImageType::SizeType validSize = validRegion.GetSize();
 
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    validSize[j] -= (factors[j] - 1);
-    }
-#endif
-
   validRegion.SetSize( validSize );
-
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  // adjust the pattern coefficients to match
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    pattern.coeff[j] /= (double) factors[j];
-    }
-#endif
 
   while( !outIter.IsAtEnd() )
     {
@@ -188,15 +165,11 @@ int itkExpandImageFilterTest(int, char* [] )
     if( validRegion.IsInside( index ) )
       {
 
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-      double trueValue = pattern.Evaluate( outIter.GetIndex() );
-#else
       ImageType::PointType point;
       ImageType::IndexType inputIndex;
       expander->GetOutput()->TransformIndexToPhysicalPoint( outIter.GetIndex(), point );
       input->TransformPhysicalPointToIndex(point, inputIndex );
       double trueValue = pattern.Evaluate( inputIndex );
-#endif
 
       if( vnl_math_abs( trueValue - value ) > 1e-4 )
         {
@@ -234,7 +207,7 @@ int itkExpandImageFilterTest(int, char* [] )
 
   expander2->SetInput( caster->GetOutput() );
   expander2->SetExpandFactors( expander->GetExpandFactors() );
-  expander2->SetEdgePaddingValue( expander->GetEdgePaddingValue() );
+//TEST_RMV20100728   expander2->SetEdgePaddingValue( expander->GetEdgePaddingValue() );
   expander2->SetInterpolator( expander->GetInterpolator() );
 
   typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;

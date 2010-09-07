@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,33 +22,35 @@
 
 namespace itk
 {
-  
-namespace Function {  
-  
+namespace Function
+{
 template< class TInput >
 class Compose2DCovariantVector
 {
 public:
-  typedef CovariantVector<TInput,2> OutputType;
+  typedef CovariantVector< TInput, 2 > OutputType;
   Compose2DCovariantVector() {}
   ~Compose2DCovariantVector() {}
-  bool operator!=( const Compose2DCovariantVector & ) const
-    {
+  bool operator!=(const Compose2DCovariantVector &) const
+  {
     return false;
-    }
-  bool operator==( const Compose2DCovariantVector & other ) const
-    {
-    return !(*this != other);
-    }
-  inline OutputType operator()(  const TInput & s1, 
-                                 const TInput & s2 ) const
-    {
+  }
+
+  bool operator==(const Compose2DCovariantVector & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline OutputType operator()(const TInput & s1,
+                               const TInput & s2) const
+  {
     OutputType v;
+
     v[0] = s1;
     v[1] = s2;
     return v;
-    }
-}; 
+  }
+};
 }
 
 /** \class Compose2DCovariantVectorImageFilter
@@ -62,56 +64,49 @@ public:
  * \ingroup IntensityImageFilters
  */
 
-template <typename TInputImage, 
-          typename TOutputImage= 
-          Image< CovariantVector< ITK_TYPENAME TInputImage::PixelType,2 >,
-                 ::itk::GetImageDimension<TInputImage>::ImageDimension > >
-class ITK_EXPORT Compose2DCovariantVectorImageFilter :
-    public
-BinaryFunctorImageFilter<TInputImage,TInputImage,
-                          TOutputImage, 
-                          Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType >   >
+template< typename TInputImage,
+          typename TOutputImage =
+            Image< CovariantVector< ITK_TYPENAME TInputImage::PixelType, 2 >,
+                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+class ITK_EXPORT Compose2DCovariantVectorImageFilter:
+  public
+  BinaryFunctorImageFilter< TInputImage, TInputImage,
+                            TOutputImage,
+                            Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef Compose2DCovariantVectorImageFilter  Self;
+  typedef Compose2DCovariantVectorImageFilter Self;
   typedef BinaryFunctorImageFilter<
-    TInputImage,TInputImage,
-    TOutputImage, 
-    Function::Compose2DCovariantVector< 
-      ITK_TYPENAME TInputImage::PixelType > >
-                                               Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+    TInputImage, TInputImage,
+    TOutputImage,
+    Function::Compose2DCovariantVector< ITK_TYPENAME TInputImage::PixelType > > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   typedef typename Superclass::OutputImageType OutputImageType;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(Compose2DCovariantVectorImageFilter, 
+  itkTypeMacro(Compose2DCovariantVectorImageFilter,
                BinaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   Compose2DCovariantVectorImageFilter() {}
   virtual ~Compose2DCovariantVectorImageFilter() {}
-
 private:
-  Compose2DCovariantVectorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-
+  Compose2DCovariantVectorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 };
-
 } // end namespace itk
-
 
 #endif

@@ -29,9 +29,9 @@
 @file j2k_lib.h
 @brief Internal functions
 
-The functions in J2K_LIB.C are internal utilities mainly used for memory management.
+The functions in J2K_LIB.C are internal utilities mainly used for timing.
 */
-
+#include "openjpeg.h"
 /** @defgroup MISC MISC - Miscellaneous internal functions */
 /*@{*/
 
@@ -43,28 +43,7 @@ The functions in J2K_LIB.C are internal utilities mainly used for memory managem
 Difference in successive opj_clock() calls tells you the elapsed time
 @return Returns time in seconds
 */
-double opj_clock(void);
-
-/**
-Allocate a memory block with elements initialized to 0
-@param size Bytes to allocate
-@return Returns a void pointer to the allocated space, or NULL if there is insufficient memory available
-*/
-void* opj_malloc( size_t size );
-
-/**
-Reallocate memory blocks.
-@param memblock Pointer to previously allocated memory block
-@param size New size in bytes
-@return Returns a void pointer to the reallocated (and possibly moved) memory block
-*/
-void* opj_realloc( void *memblock, size_t size );
-
-/**
-Deallocates or frees a memory block.
-@param memblock Previously allocated memory block to be freed
-*/
-void opj_free( void *memblock );
+OPJ_FLOAT64 opj_clock(void);
 
 /* ----------------------------------------------------------------------- */
 /*@}*/

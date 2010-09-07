@@ -49,19 +49,12 @@ public:
       }
     }
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     double Evaluate( const IndexType& index , const SizeType& size,
                      const SizeType& clampSize, const PixelType& padValue)
     {
-#else
-    double Evaluate( const IndexType& index , const SizeType&,
-                     const SizeType&, const PixelType&)
-    {
-#endif
     double accum = offset;
     for( int j = 0; j < VDimension; j++ )
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
          if ( index[j] < static_cast<IndexValueType>(size[j]) )
            {
            if ( index[j] >= static_cast<IndexValueType>(clampSize[j]) )
@@ -79,10 +72,6 @@ public:
            accum = padValue;
            break; 
            }     
-#else         
-         accum += coeff[j] * (double) index[j];         
-
-#endif
       }
             
     return accum;
@@ -235,12 +224,6 @@ int itkWarpImageFilterTest(int, char* [] )
   ImageType::RegionType validRegion;
   ImageType::SizeType validSize = validRegion.GetSize();
 
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    validSize[j] = size[j] * factors[j] - (factors[j] - 1);
-    }
-#else
   //Needed to deal with incompatibility of various IsInside()s &
   //nearest-neighbour type interpolation on half-band at perimeter of
   //image. Evaluate() now has logic for this outer half-band.   
@@ -277,7 +260,6 @@ int itkWarpImageFilterTest(int, char* [] )
       }
     clampSize[j]= validSize[j] - clampSizeDecrement[j];
     }
-#endif
 
   validRegion.SetSize( validSize );
   
@@ -296,11 +278,7 @@ int itkWarpImageFilterTest(int, char* [] )
     if( validRegion.IsInside( index ) )
       {
          
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     double trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
-#else
-    double trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, validSize, padValue );   
-#endif
 
       if( vnl_math_abs( trueValue - value ) > 1e-4 )
         {

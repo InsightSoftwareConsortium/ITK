@@ -45,7 +45,7 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   FloatImage2DType::PointValueType origin[2] = {15, 400};
   random->SetOrigin( origin );
     
-  itk::OStringStream *os;
+  std::ostringstream *os;
 
   // Test #1, filter goes out of scope
   itk::OutputWindow::GetInstance()->DisplayText( "Test #1: Filter goes out of scope -----------------" );
@@ -62,15 +62,15 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
             << ", "
             << threshold->GetOutput()->GetSpacing()[1] << std::endl;
 
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Filter: " << threshold.GetPointer();
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #0: " << threshold->GetOutput(0);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #1: " << threshold->GetOutput(1);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
@@ -93,15 +93,15 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Filter: " << threshold.GetPointer();
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #0: " << threshold->GetOutput(0);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #1: " << threshold->GetOutput(1);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
@@ -126,15 +126,15 @@ int itkTwoOutputExampleImageFilterTest(int, char* [] )
   threshold->SetInput(random->GetOutput());
   threshold->Update();
 
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Filter: " << threshold.GetPointer();
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #0: " << threshold->GetOutput(0);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;
-  os = new itk::OStringStream();
+  os = new std::ostringstream();
   *os << "Output #1: " << threshold->GetOutput(1);
   itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
   delete os;

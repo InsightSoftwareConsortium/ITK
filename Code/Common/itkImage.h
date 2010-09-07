@@ -77,16 +77,16 @@ namespace itk
  * \example DataRepresentation/Image/VectorImage.cxx
  *
  * \ingroup ImageObjects */
-template <class TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT Image : public ImageBase<VImageDimension>
+template< class TPixel, unsigned int VImageDimension = 2 >
+class ITK_EXPORT Image:public ImageBase< VImageDimension >
 {
 public:
   /** Standard class typedefs */
   typedef Image                        Self;
-  typedef ImageBase<VImageDimension>   Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
-  typedef WeakPointer<const Self>      ConstWeakPointer;
+  typedef ImageBase< VImageDimension > Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
+  typedef WeakPointer< const Self >    ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -111,12 +111,12 @@ public:
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  typedef DefaultPixelAccessor< PixelType >    AccessorType;
-  typedef DefaultPixelAccessorFunctor< Self >  AccessorFunctorType;
+  typedef DefaultPixelAccessor< PixelType >   AccessorType;
+  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
 
   /** Typedef for the functor used to access a neighborhood of pixel
    * pointers. */
-  typedef NeighborhoodAccessorFunctor< Self >  NeighborhoodAccessorFunctorType;
+  typedef NeighborhoodAccessorFunctor< Self > NeighborhoodAccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -125,24 +125,25 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
   /** Container used to store pixels in the image. */
-  typedef ImportImageContainer<unsigned long, PixelType> PixelContainer;
+  typedef ImportImageContainer< unsigned long, PixelType > PixelContainer;
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType       IndexType;
-  typedef typename Superclass::IndexValueType  IndexValueType;
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
 
   /** Offset typedef support. An offset is used to access pixel values. */
   typedef typename Superclass::OffsetType OffsetType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType       SizeType;
-  typedef typename Superclass::SizeValueType  SizeValueType;
+  typedef typename Superclass::SizeType      SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
 
   /** Direction typedef support. A matrix of direction cosines. */
-  typedef typename Superclass::DirectionType  DirectionType;
+  typedef typename Superclass::DirectionType DirectionType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef typename Superclass::RegionType  RegionType;
+  /** Region typedef support. A region is used to specify a subset of an image.
+    */
+  typedef typename Superclass::RegionType RegionType;
 
   /** Spacing typedef support.  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
@@ -153,8 +154,8 @@ public:
   typedef typename Superclass::PointType PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer        PixelContainerPointer;
-  typedef typename PixelContainer::ConstPointer   PixelContainerConstPointer;
+  typedef typename PixelContainer::Pointer      PixelContainerPointer;
+  typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
 
   /** Offset typedef (relative position between indices) */
   typedef typename Superclass::OffsetValueType OffsetValueType;
@@ -167,19 +168,20 @@ public:
    *  BufferedRegion and RequestedRegion. Allocate must still be called.
    */
   void SetRegions(RegionType region)
-    {
+  {
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    };
+  }
 
   void SetRegions(SizeType size)
-    {
+  {
     RegionType region; region.SetSize(size);
+
     this->SetLargestPossibleRegion(region);
     this->SetBufferedRegion(region);
     this->SetRequestedRegion(region);
-    }
+  }
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
@@ -187,70 +189,70 @@ public:
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
-  void FillBuffer (const TPixel& value);
+  void FillBuffer(const TPixel & value);
 
   /** \brief Set a pixel value.
    *
    * Allocate() needs to have been called first -- for efficiency,
    * this function does not check that the image has actually been
    * allocated yet. */
-  void SetPixel(const IndexType &index, const TPixel& value)
-    {
+  void SetPixel(const IndexType & index, const TPixel & value)
+  {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
-    (*m_Buffer)[offset] = value;
-    }
+    ( *m_Buffer )[offset] = value;
+  }
 
   /** \brief Get a pixel (read only version).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel& GetPixel(const IndexType &index) const
-    {
+  const TPixel & GetPixel(const IndexType & index) const
+  {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
-    return ( (*m_Buffer)[offset] );
-    }
+    return ( ( *m_Buffer )[offset] );
+  }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel& GetPixel(const IndexType &index)
-    {
+  TPixel & GetPixel(const IndexType & index)
+  {
     typename Superclass::OffsetValueType offset = this->ComputeOffset(index);
-    return ( (*m_Buffer)[offset] );
-    }
+    return ( ( *m_Buffer )[offset] );
+  }
 
   /** \brief Access a pixel. This version can be an lvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  TPixel & operator[](const IndexType &index)
-    { return this->GetPixel(index); }
+  TPixel & operator[](const IndexType & index)
+  { return this->GetPixel(index); }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  const TPixel& operator[](const IndexType &index) const
-     { return this->GetPixel(index); }
+  const TPixel & operator[](const IndexType & index) const
+  { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TPixel *GetBufferPointer()
-    { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
-  const TPixel *GetBufferPointer() const
-    { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  TPixel * GetBufferPointer()
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  const TPixel * GetBufferPointer() const
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
 
   /** Return a pointer to the container. */
-  PixelContainer* GetPixelContainer()
-    { return m_Buffer.GetPointer(); }
+  PixelContainer * GetPixelContainer()
+  { return m_Buffer.GetPointer(); }
 
-  const PixelContainer* GetPixelContainer() const
-    { return m_Buffer.GetPointer(); }
+  const PixelContainer * GetPixelContainer() const
+  { return m_Buffer.GetPointer(); }
 
   /** Set the container to use. Note that this does not cause the
    * DataObject to be modified. */
-  void SetPixelContainer( PixelContainer *container );
+  void SetPixelContainer(PixelContainer *container);
 
   /** Graft the data and information from one image to another. This
    * is a convenience method to setup a second image with all the meta
@@ -264,58 +266,62 @@ public:
    * and then copies over the pixel container. */
   virtual void Graft(const DataObject *data);
 
-
   /** Return the Pixel Accessor object */
-  AccessorType GetPixelAccessor( void )
-    { return AccessorType(); }
+  AccessorType GetPixelAccessor(void)
+  { return AccessorType(); }
 
   /** Return the Pixel Accesor object */
-  const AccessorType GetPixelAccessor( void ) const
-    { return AccessorType(); }
+  const AccessorType GetPixelAccessor(void) const
+  { return AccessorType(); }
 
   /** Return the NeighborhoodAccessor functor */
   NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
-    { return NeighborhoodAccessorFunctorType(); }
+  { return NeighborhoodAccessorFunctorType(); }
 
   /** Return the NeighborhoodAccessor functor */
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
-    { return NeighborhoodAccessorFunctorType(); }
-
+  { return NeighborhoodAccessorFunctorType(); }
 protected:
   Image();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   virtual ~Image() {}
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
-   * account.  */ 
+   * account.  */
   virtual void ComputeIndexToPhysicalPointMatrices();
 
 private:
-  Image(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  Image(const Self &);          //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Image(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT Image< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef Image< ITK_TEMPLATE_2 x > Image##y; } \
+#define ITK_TEMPLATE_Image(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                         \
+  {                                                     \
+  _( 2 ( class EXPORT Image< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                   \
+  {                                                     \
+  typedef Image< ITK_TEMPLATE_2 TypeX > Image##TypeY; \
+  }                                                     \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImage+-.h"
+//template <class TPixel, unsigned int VImageDimension> const unsigned int
+// itk::Image<TPixel,VImageDimension>::ImageDimension;
+#include "Templates/itkImage+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImage.txx"
+#include "itkImage.txx"
 #endif
 
 #endif

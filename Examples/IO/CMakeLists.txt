@@ -110,11 +110,9 @@ IF(ITK_VISIBLEHUMAN_DATA_ROOT)
     )
 ENDIF(ITK_VISIBLEHUMAN_DATA_ROOT)
 
-IF(NOT BORLAND)
-  ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
-  TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
+ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
+TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
 
-  ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
-  TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
-ENDIF(NOT BORLAND)
+ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
+TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
 

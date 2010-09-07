@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,51 +22,57 @@
 
 namespace itk
 {
-template <unsigned int TImageDimension>
-class ITK_EXPORT BloxBoundaryProfileItem : public BloxItem
+template< unsigned int TImageDimension >
+class ITK_EXPORT BloxBoundaryProfileItem:public BloxItem
 {
 public:
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BloxBoundaryProfileItem, BloxItem );
+  itkTypeMacro(BloxBoundaryProfileItem, BloxItem);
 
   /** The point type used to store the position of the boundary profile */
-  typedef Point<double, TImageDimension> PositionType;
+  typedef Point< double, TImageDimension > PositionType;
 
   /** The type of vector used to store the gradient of the BoundaryPointItem
    */
-  typedef CovariantVector<double, TImageDimension> GradientType;
+  typedef CovariantVector< double, TImageDimension > GradientType;
 
   /** Vector type */
-  typedef vnl_vector<double> VectorType;
+  typedef vnl_vector< double > VectorType;
 
   /** The type of boundary point item we store pointers to */
-  typedef BloxBoundaryPointItem<TImageDimension> BPItemType;
+  typedef BloxBoundaryPointItem< TImageDimension > BPItemType;
 
   /** Set the position of the first boundary point in physical space */
-  void SetBoundaryPoint(BPItemType * point);
+  void SetBoundaryPoint(BPItemType *point);
 
   /** Set and get lower intensity estimates */
   void SetLowerIntensity(double lowerIntensity);
+
   double GetLowerIntensity(void);
 
   /** Set and get upper intensity estimates */
   void SetUpperIntensity(double upperIntensity);
+
   double GetUpperIntensity(void);
 
   /** Set and get mean estimates */
   void SetMean(double mean);
+
   double GetMean(void);
 
   /** Set and get the length of profile */
   void SetProfileLength(unsigned int profileLength);
+
   unsigned int GetProfileLength(void);
 
   /** Set and get mean normalized by profile length */
   void SetMeanNormalized(void);
+
   double GetMeanNormalized(void);
-  
+
   /** Set and get standard deviation */
   void SetStandardDeviation(double standardDeviation);
+
   double GetStandardDeviation(void);
 
   /** Set and get standard deviation normalized by profile length */
@@ -75,21 +81,21 @@ public:
   double GetStandardDeviationNormalized(void);
 
   /** Set and get optimal boundary location */
-  void SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector, 
-                                                      VectorType orientation);
+  void SetOptimalBoundaryLocation(VectorType spatialFunctionOriginVector,
+                                  VectorType orientation);
 
   PositionType GetOptimalBoundaryLocation(void);
 
   /** Set and get the gradient of the boundary profile * */
-  void SetGradient(GradientType * gradient);
+  void SetGradient(GradientType *gradient);
+
   GradientType * GetGradient();
 
-  void SetGradient2(GradientType gradient) {m_Gradient2 = gradient;}
-  GradientType GetGradient2() {return m_Gradient2;}
+  void SetGradient2(GradientType gradient) { m_Gradient2 = gradient; }
+  GradientType GetGradient2() { return m_Gradient2; }
 
   BloxBoundaryProfileItem();
   ~BloxBoundaryProfileItem();
-
 private:
   /** Lower estimated intensity */
   double m_LowerIntensity;
@@ -113,33 +119,36 @@ private:
   double m_StandardDeviationNormalized;
 
   /** The boundary point to construct a profile from */
-  BPItemType * m_BoundaryPoint;
+  BPItemType *m_BoundaryPoint;
 
   /** The position of the estimated boundary location */
   PositionType m_OptimalBoundaryLocation;
 
   /** The gradient of the boundary point (non-normalized) */
-  GradientType * m_Gradient;
+  GradientType *m_Gradient;
 
   GradientType m_Gradient2;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxBoundaryProfileItem(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxBoundaryProfileItem< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxBoundaryProfileItem< ITK_TEMPLATE_1 x > \
-                               BloxBoundaryProfileItem##y; } \
+#define ITK_TEMPLATE_BloxBoundaryProfileItem(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                           \
+  {                                                                       \
+  _( 1 ( class EXPORT BloxBoundaryProfileItem< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                     \
+  {                                                                       \
+  typedef BloxBoundaryProfileItem< ITK_TEMPLATE_1 TypeX >                 \
+  BloxBoundaryProfileItem##TypeY;                                       \
+  }                                                                       \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxBoundaryProfileItem+-.h"
+#include "Templates/itkBloxBoundaryProfileItem+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxBoundaryProfileItem.txx"
+#include "itkBloxBoundaryProfileItem.txx"
 #endif
 
 #endif

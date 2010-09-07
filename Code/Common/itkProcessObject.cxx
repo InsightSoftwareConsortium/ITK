@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /**
  * Instantiate object with no start, end, or progress methods.
  */
@@ -41,7 +40,7 @@ ProcessObject
   m_AbortGenerateData = false;
   m_Progress = 0.0f;
   m_Updating = false;
-  
+
   m_Threader = MultiThreader::New();
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 
@@ -58,9 +57,9 @@ DataObject::Pointer
 ProcessObject
 ::MakeOutput(unsigned int)
 {
-  return static_cast<DataObject*>(DataObject::New().GetPointer());
+  return static_cast< DataObject * >( DataObject::New().GetPointer() );
 }
-  
+
 /**
  * Destructor for the ProcessObject class. We've got to
  * UnRegister() the use of any input classes.
@@ -68,15 +67,16 @@ ProcessObject
 ProcessObject
 ::~ProcessObject()
 {
-  // Tell each output that we are going away.  If other objects have a 
+  // Tell each output that we are going away.  If other objects have a
   // reference to one of these outputs, the data object will not be deleted
   // when the process object is deleted.  However, the data object's source
   // will still point back to the now nonexistent process object if we do not
   // clean things up now.
   unsigned int idx;
-  for (idx = 0; idx < m_Outputs.size(); ++idx)
+
+  for ( idx = 0; idx < m_Outputs.size(); ++idx )
     {
-    if (m_Outputs[idx])
+    if ( m_Outputs[idx] )
       {
       // let the output know we no longer want to associate with the object
       m_Outputs[idx]->DisconnectSource(this, idx);
@@ -91,12 +91,12 @@ ProcessObject
 /**
  * Called by constructor to set up input array.
  */
-void 
+void
 ProcessObject
 ::SetNumberOfInputs(unsigned int num)
 {
   // in case nothing has changed.
-  if (num == m_Inputs.size())
+  if ( num == m_Inputs.size() )
     {
     return;
     }
@@ -112,7 +112,8 @@ ProcessObject
 ::GetNumberOfValidRequiredInputs() const
 {
   DataObjectPointerArraySizeType num;
-  if (m_NumberOfRequiredInputs < m_Inputs.size())
+
+  if ( m_NumberOfRequiredInputs < m_Inputs.size() )
     {
     num = m_NumberOfRequiredInputs;
     }
@@ -124,42 +125,41 @@ ProcessObject
   // this used to use std::count_if, but that function object
   // did not work correctly with SunPro CC 5.6.
   int count = 0;
-  for(std::vector<DataObjectPointer>::const_iterator i = m_Inputs.begin();
-      i < (m_Inputs.begin() + num); ++i)
+  for ( std::vector< DataObjectPointer >::const_iterator i = m_Inputs.begin();
+        i < ( m_Inputs.begin() + num ); ++i )
     {
-    if((*i).IsNotNull())
+    if ( ( *i ).IsNotNull() )
       {
       count++;
       }
     }
   return count;
 }
- 
+
 /**
  * Adds an input to the first null position in the input list.
  * Expands the list memory if necessary
  */
-void 
+void
 ProcessObject
 ::AddInput(DataObject *input)
 {
   DataObjectPointerArraySizeType idx;
-  
+
   this->Modified();
-  
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (!m_Inputs[idx])
+    if ( !m_Inputs[idx] )
       {
       m_Inputs[idx] = input;
       return;
       }
     }
-  
-  this->SetNumberOfInputs( static_cast<int>( m_Inputs.size() + 1 ) );
-  m_Inputs[ static_cast<int>( m_Inputs.size() ) - 1] = input;
-}
 
+  this->SetNumberOfInputs( static_cast< int >( m_Inputs.size() + 1 ) );
+  m_Inputs[static_cast< int >( m_Inputs.size() ) - 1] = input;
+}
 
 /**
  * Remove an input.
@@ -168,20 +168,20 @@ ProcessObject
  * inputs to this ProcessObject.  If it's the last object on the
  * list, shortens the list.
  */
-void 
+void
 ProcessObject
 ::RemoveInput(DataObject *input)
 {
-  if (!input)
+  if ( !input )
     {
     return;
     }
-  
+
   // find the input in the list of inputs
-  DataObjectPointerArray::iterator pos = 
+  DataObjectPointerArray::iterator pos =
     std::find(m_Inputs.begin(), m_Inputs.end(), input);
 
-  if(pos == m_Inputs.end())
+  if ( pos == m_Inputs.end() )
     {
     itkDebugMacro("tried to remove an input that was not in the list");
     return;
@@ -191,21 +191,21 @@ ProcessObject
   *pos = 0;
 
   // if that was the last input, then shrink the list
-  if (pos == m_Inputs.end() - 1 )
+  if ( pos == m_Inputs.end() - 1 )
     {
-    this->SetNumberOfInputs( static_cast<int>( m_Inputs.size() ) - 1);
+    this->SetNumberOfInputs(static_cast< int >( m_Inputs.size() ) - 1);
     }
 
   this->Modified();
 }
 
 /**
- * Set an Input of this filter. This method 
+ * Set an Input of this filter. This method
  * does Register()/UnRegister() manually to
  * deal with the fact that smart pointers aren't
  * around to do the reference counting.
  */
-void 
+void
 ProcessObject
 ::SetNthInput(unsigned int idx, DataObject *input)
 {
@@ -214,13 +214,13 @@ ProcessObject
     {
     return;
     }
-  
+
   // Expand array if necessary.
-  if (idx >= m_Inputs.size())
+  if ( idx >= m_Inputs.size() )
     {
     this->SetNumberOfInputs(idx + 1);
     }
-  
+
   m_Inputs[idx] = input;
 
   this->Modified();
@@ -233,7 +233,7 @@ void
 ProcessObject
 ::PushBackInput(const DataObject *input)
 {
-  m_Inputs.push_back(const_cast<DataObject*>(input));
+  m_Inputs.push_back( const_cast< DataObject * >( input ) );
   this->Modified();
 }
 
@@ -244,7 +244,7 @@ void
 ProcessObject
 ::PopBackInput()
 {
-  if (!m_Inputs.empty())
+  if ( !m_Inputs.empty() )
     {
     m_Inputs.pop_back();
     this->Modified();
@@ -252,22 +252,22 @@ ProcessObject
 }
 
 /**
- * 
+ *
  */
 void
 ProcessObject
-::PushFrontInput(const DataObject* input)
+::PushFrontInput(const DataObject *input)
 {
   // add an empty element to the end of the vector to make sure that
   // we have enough space for the copy
   m_Inputs.push_back(0);
 
   // shift the current inputs down by one place
-  std::copy_backward(m_Inputs.begin(), m_Inputs.end()-1,
-                     m_Inputs.end());
+  std::copy_backward( m_Inputs.begin(), m_Inputs.end() - 1,
+                      m_Inputs.end() );
 
   // put in the new input in the front
-  m_Inputs[0] = const_cast<DataObject*>(input);
+  m_Inputs[0] = const_cast< DataObject * >( input );
 
   this->Modified();
 }
@@ -279,67 +279,66 @@ void
 ProcessObject
 ::PopFrontInput()
 {
-  if (!m_Inputs.empty())
+  if ( !m_Inputs.empty() )
     {
-    std::copy(m_Inputs.begin()+1, m_Inputs.end(),
-              m_Inputs.begin());
+    std::copy( m_Inputs.begin() + 1, m_Inputs.end(),
+               m_Inputs.begin() );
 
     m_Inputs.pop_back();
     this->Modified();
     }
 }
 
-void 
+void
 ProcessObject
 ::RemoveOutput(DataObject *output)
 {
-  if (!output)
+  if ( !output )
     {
     return;
     }
-  
+
   // find the input in the list of inputs
-  DataObjectPointerArray::iterator pos = 
+  DataObjectPointerArray::iterator pos =
     std::find(m_Outputs.begin(), m_Outputs.end(), output);
 
-  if(pos == m_Outputs.end())
+  if ( pos == m_Outputs.end() )
     {
     itkDebugMacro("tried to remove an output that was not in the list");
     return;
     }
 
   // let the output know we no longer want to associate with the object
-  (*pos)->DisconnectSource(this, pos - m_Outputs.begin());
+  ( *pos )->DisconnectSource( this, pos - m_Outputs.begin() );
   // let go of our reference to the data object
   *pos = 0;
 
   // if that was the last output, then shrink the list
-  if (pos == m_Outputs.end() - 1 )
+  if ( pos == m_Outputs.end() - 1 )
     {
-    this->SetNumberOfOutputs( static_cast<int>( m_Outputs.size() ) - 1);
+    this->SetNumberOfOutputs(static_cast< int >( m_Outputs.size() ) - 1);
     }
 
   this->Modified();
 }
 
-
 /**
  * Set an output of this filter. This method specifically
- * does not do a Register()/UnRegister() because of the 
+ * does not do a Register()/UnRegister() because of the
  * desire to break the reference counting loop.
  */
-void 
+void
 ProcessObject
 ::SetNthOutput(unsigned int idx, DataObject *output)
 {
   // does this change anything?
-  if ( idx < m_Outputs.size() && output == m_Outputs[idx])
+  if ( idx < m_Outputs.size() && output == m_Outputs[idx] )
     {
     return;
     }
 
   // Expand array if necessary.
-  if (idx >= m_Outputs.size())
+  if ( idx >= m_Outputs.size() )
     {
     this->SetNumberOfOutputs(idx + 1);
     }
@@ -353,7 +352,7 @@ ProcessObject
     m_Outputs[idx]->DisconnectSource(this, idx);
     }
 
-  if (output)
+  if ( output )
     {
     output->ConnectSource(this, idx);
     }
@@ -363,17 +362,17 @@ ProcessObject
   // if we are clearing an output, we need to create a new blank output
   // so we are prepared for the next Update(). this copies the requested
   // region ivar
-  if (!m_Outputs[idx])
+  if ( !m_Outputs[idx] )
     {
-    itkDebugMacro( " creating new output object." );
+    itkDebugMacro(" creating new output object.");
     DataObjectPointer newOutput = this->MakeOutput(idx);
     this->SetNthOutput(idx, newOutput);
 
     // If we had an output object before, copy the requested region
     // ivars and release data flag to the the new output
-    if (oldOutput)
+    if ( oldOutput )
       {
-      newOutput->SetRequestedRegion( oldOutput );
+      newOutput->SetRequestedRegion(oldOutput);
       newOutput->SetReleaseDataFlag( oldOutput->GetReleaseDataFlag() );
       }
     }
@@ -385,33 +384,33 @@ ProcessObject
  * Adds an output to the first null position in the output list.
  * Expands the list memory if necessary
  */
-void 
+void
 ProcessObject
 ::AddOutput(DataObject *output)
 {
   unsigned int idx;
-  
-  for (idx = 0; idx < m_Outputs.size(); ++idx)
+
+  for ( idx = 0; idx < m_Outputs.size(); ++idx )
     {
     if ( m_Outputs[idx].IsNull() )
       {
       m_Outputs[idx] = output;
 
-      if (output)
+      if ( output )
         {
         output->ConnectSource(this, idx);
         }
       this->Modified();
-  
+
       return;
       }
     }
-  
-  this->SetNumberOfOutputs( static_cast<int>( m_Outputs.size() ) + 1);
-  m_Outputs[ static_cast<int>( m_Outputs.size() ) - 1] = output;
-  if (output)
+
+  this->SetNumberOfOutputs(static_cast< int >( m_Outputs.size() ) + 1);
+  m_Outputs[static_cast< int >( m_Outputs.size() ) - 1] = output;
+  if ( output )
     {
-    output->ConnectSource(this, static_cast<int>( m_Outputs.size() ) - 1 );
+    output->ConnectSource(this, static_cast< int >( m_Outputs.size() ) - 1);
     }
   this->Modified();
 }
@@ -419,20 +418,18 @@ ProcessObject
 /**
  * Called by constructor to set up output array.
  */
-void 
+void
 ProcessObject
 ::SetNumberOfOutputs(unsigned int num)
 {
-
   // in case nothing has changed.
-  if (num == m_Outputs.size())
+  if ( num == m_Outputs.size() )
     {
     return;
     }
   m_Outputs.resize(num);
   this->Modified();
 }
-
 
 /**
  *
@@ -441,11 +438,11 @@ DataObject *
 ProcessObject
 ::GetOutput(unsigned int i)
 {
-  if (m_Outputs.size() < i+1)
+  if ( m_Outputs.size() < i + 1 )
     {
     return NULL;
     }
-  
+
   return m_Outputs[i].GetPointer();
 }
 
@@ -453,14 +450,13 @@ const DataObject *
 ProcessObject
 ::GetOutput(unsigned int i) const
 {
-  if (m_Outputs.size() < i+1)
+  if ( m_Outputs.size() < i + 1 )
     {
     return NULL;
     }
-  
+
   return m_Outputs[i].GetPointer();
 }
-
 
 /**
  *
@@ -469,11 +465,11 @@ DataObject *
 ProcessObject
 ::GetInput(unsigned int i)
 {
-  if (m_Inputs.size() < i+1)
+  if ( m_Inputs.size() < i + 1 )
     {
     return NULL;
     }
-  
+
   return m_Inputs[i].GetPointer();
 }
 
@@ -481,21 +477,20 @@ const DataObject *
 ProcessObject
 ::GetInput(unsigned int i) const
 {
-  if (m_Inputs.size() < i+1)
+  if ( m_Inputs.size() < i + 1 )
     {
     return NULL;
     }
-  
+
   return m_Inputs[i].GetPointer();
 }
 
-
 /**
- * Update the progress of the process object. If a ProgressMethod exists, 
- * execute it. Then set the Progress ivar to amount. The parameter amount 
+ * Update the progress of the process object. If a ProgressMethod exists,
+ * execute it. Then set the Progress ivar to amount. The parameter amount
  * should range between (0,1).
  */
-void 
+void
 ProcessObject
 ::UpdateProgress(float amount)
 {
@@ -503,50 +498,47 @@ ProcessObject
   this->InvokeEvent( ProgressEvent() );
 }
 
-
 /**
  *
  */
-bool 
+bool
 ProcessObject
 ::GetReleaseDataFlag() const
 {
-  if (this->GetOutput(0))
+  if ( this->GetOutput(0) )
     {
     return this->GetOutput(0)->GetReleaseDataFlag();
     }
-  itkWarningMacro(<<"Output doesn't exist!");
+  itkWarningMacro(<< "Output doesn't exist!");
   return false;
 }
-
 
 /**
  *
  */
-void 
+void
 ProcessObject
 ::SetReleaseDataFlag(bool val)
 {
   unsigned int idx;
-  
-  for (idx = 0; idx < m_Outputs.size(); idx++)
+
+  for ( idx = 0; idx < m_Outputs.size(); idx++ )
     {
-    if (m_Outputs[idx])
+    if ( m_Outputs[idx] )
       {
       m_Outputs[idx]->SetReleaseDataFlag(val);
       }
     }
 }
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Number Of Required Inputs: "
      << m_NumberOfRequiredInputs << std::endl;
@@ -557,44 +549,44 @@ ProcessObject
   os << indent << "Number Of Threads: "
      << m_NumberOfThreads << std::endl;
 
-  os << indent << "ReleaseDataFlag: " 
-     << (this->GetReleaseDataFlag() ? "On" : "Off") << std::endl;
+  os << indent << "ReleaseDataFlag: "
+     << ( this->GetReleaseDataFlag() ? "On" : "Off" ) << std::endl;
 
   os << indent << "ReleaseDataBeforeUpdateFlag: "
-     << (m_ReleaseDataBeforeUpdateFlag ? "On" : "Off") << std::endl;
-  
-  if ( m_Inputs.size())
+     << ( m_ReleaseDataBeforeUpdateFlag ? "On" : "Off" ) << std::endl;
+
+  if ( m_Inputs.size() )
     {
     DataObjectPointerArraySizeType idx;
-    for (idx = 0; idx < m_Inputs.size(); ++idx)
+    for ( idx = 0; idx < m_Inputs.size(); ++idx )
       {
-      os << indent << "Input " << static_cast<int>( idx );
+      os << indent << "Input " << static_cast< int >( idx );
       os << ": (" << m_Inputs[idx].GetPointer() << ")\n";
       }
     }
   else
     {
-    os << indent <<"No Inputs\n";
+    os << indent << "No Inputs\n";
     }
-  if ( m_Outputs.size())
+  if ( m_Outputs.size() )
     {
     DataObjectPointerArraySizeType idx;
-    for (idx = 0; idx < m_Outputs.size(); ++idx)
+    for ( idx = 0; idx < m_Outputs.size(); ++idx )
       {
-      os << indent << "Output " << static_cast<int>( idx );
+      os << indent << "Output " << static_cast< int >( idx );
       os << ": (" << m_Outputs[idx].GetPointer() << ")\n";
       }
     }
   else
     {
-    os << indent <<"No Output\n";
+    os << indent << "No Output\n";
     }
 
-  os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
+  os << indent << "AbortGenerateData: " << ( m_AbortGenerateData ? "On\n" : "Off\n" );
   os << indent << "Progress: " << m_Progress << "\n";
 
   os << indent << "Multithreader: " << std::endl;
-  m_Threader->PrintSelf(os, indent.GetNextIndent());
+  m_Threader->PrintSelf( os, indent.GetNextIndent() );
 }
 
 /**
@@ -602,15 +594,14 @@ ProcessObject
  * data processing pipeline.
  */
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
 ::Update()
 {
-  if (this->GetOutput(0))
+  if ( this->GetOutput(0) )
     {
     this->GetOutput(0)->Update();
     }
@@ -620,7 +611,7 @@ void
 ProcessObject
 ::ResetPipeline()
 {
-  if (this->GetOutput(0))
+  if ( this->GetOutput(0) )
     {
     this->GetOutput(0)->ResetPipeline();
     }
@@ -630,7 +621,7 @@ void
 ProcessObject
 ::PropagateResetPipeline()
 {
-  // 
+  //
   // Reset this object.
   //
   // Clear the updating flag.
@@ -639,11 +630,11 @@ ProcessObject
   //
   // Loop through the inputs
   //
-  unsigned int idx;
+  unsigned int        idx;
   DataObject::Pointer input;
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       input = m_Inputs[idx];
 
@@ -655,18 +646,17 @@ ProcessObject
     }
 }
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
 ::UpdateOutputInformation()
 {
-  unsigned long t1, t2;
+  unsigned long                  t1, t2;
   DataObjectPointerArraySizeType idx;
-  DataObject *input;
-  DataObject *output;
+  DataObject *                   input;
+  DataObject *                   output;
 
   /**
    * Watch out for loops in the pipeline
@@ -694,9 +684,9 @@ ProcessObject
   /**
    * Loop through the inputs
    */
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       input = m_Inputs[idx];
 
@@ -706,24 +696,24 @@ ProcessObject
       m_Updating = true;
       input->UpdateOutputInformation();
       m_Updating = false;
-      
+
       /**
        * What is the PipelineMTime of this input? Compare this against
        * our current computation to find the largest one.
        */
       t2 = input->GetPipelineMTime();
 
-      if (t2 > t1)
+      if ( t2 > t1 )
         {
         t1 = t2;
         }
 
       /**
-       * Pipeline MTime of the input does not include the MTime of the 
+       * Pipeline MTime of the input does not include the MTime of the
        * data object itself. Factor these mtimes into the next PipelineMTime
        */
       t2 = input->GetMTime();
-      if (t2 > t1)
+      if ( t2 > t1 )
         {
         t1 = t2;
         }
@@ -737,17 +727,17 @@ ProcessObject
    * necessary. Otherwise, we may cause this source to be modified which
    * will cause it to execute again on the next update.
    */
-  if (t1 > m_OutputInformationMTime.GetMTime())
+  if ( t1 > m_OutputInformationMTime.GetMTime() )
     {
-    for (idx = 0; idx < m_Outputs.size(); ++idx)
+    for ( idx = 0; idx < m_Outputs.size(); ++idx )
       {
-      output = this->GetOutput( static_cast<int>( idx ) );
-      if (output)
+      output = this->GetOutput( static_cast< int >( idx ) );
+      if ( output )
         {
         output->SetPipelineMTime(t1);
-        }  
+        }
       }
-    
+
     this->GenerateOutputInformation();
 
     /**
@@ -757,18 +747,17 @@ ProcessObject
     }
 }
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
 ::PropagateRequestedRegion(DataObject *output)
 {
   /**
    * check flag to avoid executing forever if there is a loop
    */
-  if (m_Updating)
+  if ( m_Updating )
     {
     return;
     }
@@ -780,7 +769,7 @@ ProcessObject
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
    */
-  this->EnlargeOutputRequestedRegion( output );
+  this->EnlargeOutputRequestedRegion(output);
 
   /**
    * Give the subclass a chance to define how to set the requested
@@ -789,15 +778,15 @@ ProcessObject
    * requested regions the same.  A subclass may need to override this
    * method if each output is a different resolution.
    */
-  this->GenerateOutputRequestedRegion( output );
-  
+  this->GenerateOutputRequestedRegion(output);
+
   /**
-   * Give the subclass a chance to request a larger requested region on 
+   * Give the subclass a chance to request a larger requested region on
    * the inputs. This is necessary when, for example, a filter
-   * requires more data at the "internal" boundaries to 
+   * requires more data at the "internal" boundaries to
    * produce the boundary values - such as an image filter that
-   * derives a new pixel value by applying some operation to a 
-   * neighborhood of surrounding original values. 
+   * derives a new pixel value by applying some operation to a
+   * neighborhood of surrounding original values.
    */
   this->GenerateInputRequestedRegion();
 
@@ -807,9 +796,9 @@ ProcessObject
    */
   m_Updating = true;
   DataObjectPointerArraySizeType idx;
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       m_Inputs[idx]->PropagateRequestedRegion();
       }
@@ -817,102 +806,99 @@ ProcessObject
   m_Updating = false;
 }
 
-
 /**
  * By default we require all the input to produce the output. This is
  * overridden in the subclasses since we can often produce the output with
  * just a portion of the input data.
  */
-void 
+void
 ProcessObject
 ::GenerateInputRequestedRegion()
 {
   DataObjectPointerArraySizeType idx;
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       m_Inputs[idx]->SetRequestedRegionToLargestPossibleRegion();
       }
-    }  
+    }
 }
-
 
 /**
  * By default we set all the output requested regions to be the same.
  */
-void 
+void
 ProcessObject
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
   DataObjectPointerArraySizeType idx;
-  for (idx = 0; idx < m_Outputs.size(); ++idx)
+
+  for ( idx = 0; idx < m_Outputs.size(); ++idx )
     {
-    if (m_Outputs[idx] && m_Outputs[idx] != output)
+    if ( m_Outputs[idx] && m_Outputs[idx] != output )
       {
       m_Outputs[idx]->SetRequestedRegion(output);
       }
-    }  
+    }
 }
-
 
 /**
  *
  */
-void 
+void
 ProcessObject
 ::PrepareOutputs()
-{  
+{
   unsigned int idx;
-  
-  if (this->GetReleaseDataBeforeUpdateFlag())
+
+  if ( this->GetReleaseDataBeforeUpdateFlag() )
     {
-    for (idx = 0; idx < m_Outputs.size(); idx++)
+    for ( idx = 0; idx < m_Outputs.size(); idx++ )
       {
-      if (m_Outputs[idx])
+      if ( m_Outputs[idx] )
         {
-        m_Outputs[idx]->PrepareForNewData(); 
+        m_Outputs[idx]->PrepareForNewData();
         }
       }
     }
 }
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
 ::ReleaseInputs()
-{  
+{
   unsigned int idx;
 
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       if ( m_Inputs[idx]->ShouldIReleaseData() )
         {
         m_Inputs[idx]->ReleaseData();
         }
-      }  
+      }
     }
 }
-
 
 /**
  *
  */
-void 
+void
 ProcessObject
-::UpdateOutputData(DataObject *itkNotUsed(output))
+::UpdateOutputData( DataObject *itkNotUsed(output) )
 {
   DataObjectPointerArraySizeType idx;
 
   /**
    * prevent chasing our tail
    */
-  if (m_Updating)
+  if ( m_Updating )
     {
     return;
     }
@@ -925,22 +911,22 @@ ProcessObject
   /**
    * Propagate the update call - make sure everything we
    * might rely on is up-to-date
-   * Must call PropagateRequestedRegion before UpdateOutputData if multiple 
+   * Must call PropagateRequestedRegion before UpdateOutputData if multiple
    * inputs since they may lead back to the same data object.
    */
   m_Updating = true;
   if ( m_Inputs.size() == 1 )
     {
-    if (m_Inputs[0])
+    if ( m_Inputs[0] )
       {
       m_Inputs[0]->UpdateOutputData();
       }
     }
   else
     {
-    for (idx = 0; idx < m_Inputs.size(); ++idx)
+    for ( idx = 0; idx < m_Inputs.size(); ++idx )
       {
-      if (m_Inputs[idx])
+      if ( m_Inputs[idx] )
         {
         m_Inputs[idx]->PropagateRequestedRegion();
         m_Inputs[idx]->UpdateOutputData();
@@ -957,7 +943,7 @@ ProcessObject
    * before the call to ReleaseInputs().
    */
   this->CacheInputReleaseDataFlags();
-  
+
   /**
    * Tell all Observers that the filter is starting
    */
@@ -971,13 +957,13 @@ ProcessObject
   m_Progress = 0.0f;
 
   /**
-   * Count the number of required inputs which have been assigned 
+   * Count the number of required inputs which have been assigned
    */
   DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
-  if (ninputs < m_NumberOfRequiredInputs)
+  if ( ninputs < m_NumberOfRequiredInputs )
     {
-    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs 
-                      << " inputs are required but only " << ninputs 
+    itkExceptionMacro(<< "At least " << m_NumberOfRequiredInputs
+                      << " inputs are required but only " << ninputs
                       << " are specified.");
     }
   else
@@ -986,14 +972,14 @@ ProcessObject
       {
       this->GenerateData();
       }
-    catch( ProcessAborted & excp )
+    catch ( ProcessAborted & excp )
       {
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
       this->RestoreInputReleaseDataFlags();
       throw excp;
       }
-    catch( ExceptionObject& excp )
+    catch ( ExceptionObject & excp )
       {
       this->ResetPipeline();
       this->RestoreInputReleaseDataFlags();
@@ -1019,28 +1005,27 @@ ProcessObject
   /**
    * Now we have to mark the data as up to date.
    */
-  for (idx = 0; idx < m_Outputs.size(); ++idx)
+  for ( idx = 0; idx < m_Outputs.size(); ++idx )
     {
-    if (m_Outputs[idx])
+    if ( m_Outputs[idx] )
       {
       m_Outputs[idx]->DataHasBeenGenerated();
       }
     }
-  
+
   /**
    * Restore the state of any input ReleaseDataFlags
    */
   this->RestoreInputReleaseDataFlags();
-  
+
   /**
    * Release any inputs if marked for release
    */
   this->ReleaseInputs();
-  
+
   // Mark that we are no longer updating the data in this filter
   m_Updating = false;
 }
-
 
 /**
  *
@@ -1050,13 +1035,13 @@ ProcessObject
 ::CacheInputReleaseDataFlags()
 {
   unsigned int idx;
-  
+
   m_CachedInputReleaseDataFlags.resize( m_Inputs.size() );
-  for (idx = 0; idx < m_Inputs.size(); ++idx)
+  for ( idx = 0; idx < m_Inputs.size(); ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
-      m_CachedInputReleaseDataFlags[idx]=m_Inputs[idx]->GetReleaseDataFlag();
+      m_CachedInputReleaseDataFlags[idx] = m_Inputs[idx]->GetReleaseDataFlag();
       m_Inputs[idx]->ReleaseDataFlagOff();
       }
     else
@@ -1064,8 +1049,7 @@ ProcessObject
       m_CachedInputReleaseDataFlags[idx] = false;
       }
     }
-} 
-
+}
 
 /**
  *
@@ -1075,57 +1059,55 @@ ProcessObject
 ::RestoreInputReleaseDataFlags()
 {
   unsigned int idx;
-  
-  for (idx = 0;
-       idx < m_Inputs.size() && idx < m_CachedInputReleaseDataFlags.size();
-       ++idx)
+
+  for ( idx = 0;
+        idx < m_Inputs.size() && idx < m_CachedInputReleaseDataFlags.size();
+        ++idx )
     {
-    if (m_Inputs[idx])
+    if ( m_Inputs[idx] )
       {
       m_Inputs[idx]->SetReleaseDataFlag(m_CachedInputReleaseDataFlags[idx]);
       }
     }
-} 
+}
 
 /**
  * Default implementation - copy information from first input to all outputs
  */
-void 
+void
 ProcessObject
 ::GenerateOutputInformation()
 {
   DataObjectPointer input, output;
 
-  if (m_Inputs.size() && m_Inputs[0])
+  if ( m_Inputs.size() && m_Inputs[0] )
     {
     input = m_Inputs[0];
 
-    for (unsigned int idx = 0; idx < m_Outputs.size(); ++idx)
+    for ( unsigned int idx = 0; idx < m_Outputs.size(); ++idx )
       {
       output = this->GetOutput(idx);
-      if (output)
+      if ( output )
         {
         output->CopyInformation(input);
-        }  
+        }
       }
     }
 }
 
-
 /**
  *
  */
-void 
+void
 ProcessObject
 ::UpdateLargestPossibleRegion()
 {
   this->UpdateOutputInformation();
 
-  if (this->GetOutput(0))
+  if ( this->GetOutput(0) )
     {
     this->GetOutput(0)->SetRequestedRegionToLargestPossibleRegion();
     this->GetOutput(0)->Update();
     }
 }
-
 } // end namespace itk

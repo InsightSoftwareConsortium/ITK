@@ -96,12 +96,6 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->Update();
 
-  // Output the number of iterations used
-  std::cout << "DoubleThreshold took " << threshold->GetNumberOfIterationsUsed() << " iterations." << std::endl;
-  std::cout << "<DartMeasurement name=\"NumberOfIterations\" type=\"numeric/integer\">" << threshold->GetNumberOfIterationsUsed() << "</DartMeasurement>" << std::endl;
-  
-
   return EXIT_SUCCESS;
-
 }
 

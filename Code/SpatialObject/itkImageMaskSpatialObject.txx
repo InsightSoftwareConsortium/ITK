@@ -9,24 +9,22 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkImageMaskSpatialObject_txx
 #define __itkImageMaskSpatialObject_txx
 
-
 #include "itkImageMaskSpatialObject.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
-
 /** Constructor */
-template< unsigned int TDimension>
-ImageMaskSpatialObject< TDimension>
+template< unsigned int TDimension >
+ImageMaskSpatialObject< TDimension >
 ::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
@@ -34,27 +32,25 @@ ImageMaskSpatialObject< TDimension>
 }
 
 /** Destructor */
-template< unsigned int TDimension>
-ImageMaskSpatialObject< TDimension>
-::~ImageMaskSpatialObject()
-{
-}
-
-
-/** Test whether a point is inside or outside the object 
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */ 
 template< unsigned int TDimension >
-bool 
 ImageMaskSpatialObject< TDimension >
-::IsInside( const PointType & point) const
+::~ImageMaskSpatialObject()
+{}
+
+/** Test whether a point is inside or outside the object
+ *  For computational speed purposes, it is faster if the method does not
+ *  check the name of the class and the current depth */
+template< unsigned int TDimension >
+bool
+ImageMaskSpatialObject< TDimension >
+::IsInside(const PointType & point) const
 {
-  if( !this->GetBounds()->IsInside(point) )
+  if ( !this->GetBounds()->IsInside(point) )
     {
     return false;
     }
 
-  if( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
     }
@@ -62,49 +58,47 @@ ImageMaskSpatialObject< TDimension >
   PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
   IndexType index;
-  for(unsigned int i=0; i<TDimension; i++)
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    index[i] = static_cast<int>( p[i] );
+    index[i] = static_cast< int >( p[i] );
     }
 
-  const bool insideBuffer = this->GetImage()->GetBufferedRegion().IsInside( index );
-     
-  if( !insideBuffer )
+  const bool insideBuffer = this->GetImage()->GetBufferedRegion().IsInside(index);
+
+  if ( !insideBuffer )
     {
     return false;
     }
 
-  const bool insideMask = (this->GetImage()->GetPixel(index) != NumericTraits<PixelType>::Zero);
+  const bool insideMask = ( this->GetImage()->GetPixel(index) != NumericTraits< PixelType >::Zero );
 
   return insideMask;
 }
 
-
 /** Return true if the given point is inside the image */
-template< unsigned int TDimension>
+template< unsigned int TDimension >
 bool
-ImageMaskSpatialObject< TDimension>
-::IsInside( const PointType & point, unsigned int depth, char * name ) const
+ImageMaskSpatialObject< TDimension >
+::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if(name == NULL)
+  if ( name == NULL )
     {
-    if(IsInside(point))
+    if ( IsInside(point) )
       {
       return true;
       }
     }
-  else if(strstr(typeid(Self).name(), name))
+  else if ( strstr(typeid( Self ).name(), name) )
     {
-    if(IsInside(point))
+    if ( IsInside(point) )
       {
       return true;
       }
     }
-  return SpatialObject<TDimension>::IsInside(point, depth, name);
+  return SpatialObject< TDimension >::IsInside(point, depth, name);
 }
 
-
-template< unsigned int  TDimension >
+template< unsigned int TDimension >
 typename ImageMaskSpatialObject< TDimension >::RegionType
 ImageMaskSpatialObject< TDimension >
 ::GetAxisAlignedBoundingBoxRegion() const
@@ -114,52 +108,50 @@ ImageMaskSpatialObject< TDimension >
   // slice iterator iterates from the outermost slice towards the image
   // center till it finds a mask pixel. For a 3D image, there will be six
   // slice iterators, iterating from the periphery inwards till the bounds
-  // along each axes are found. The slice iterators save time and avoid 
+  // along each axes are found. The slice iterators save time and avoid
   // having to walk the whole image. Since we are using slice iterators,
   // we will implement this only for 3D images.
 
-  PixelType outsideValue = NumericTraits< PixelType >::Zero;
+  PixelType  outsideValue = NumericTraits< PixelType >::Zero;
   RegionType region;
-  
+
   ImagePointer image = this->GetImage();
 
-  typedef typename SizeType::SizeValueType    SizeValueType;
-  
+  typedef typename SizeType::SizeValueType SizeValueType;
+
   IndexType index;
   SizeType  size;
 
-  if( ImageType::ImageDimension == 3)
+  if ( ImageType::ImageDimension == 3 )
     {
-    
-    for( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
+    for ( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
       {
       // Two slice iterators along each axis...
       // Find the orthogonal planes for the slices
       unsigned int i, j;
       unsigned int direction[2];
-      for (i = 0, j = 0; i < 3; ++i )
+      for ( i = 0, j = 0; i < 3; ++i )
         {
-        if (i != axis )
+        if ( i != axis )
           {
           direction[j] = i;
           j++;
           }
         }
-      
 
       // Create the forward iterator to find lower bound
-      SliceIteratorType  fit(  image,  image->GetRequestedRegion() );
-      fit.SetFirstDirection(  direction[1] );
-      fit.SetSecondDirection( direction[0] );
+      SliceIteratorType fit( image,  image->GetRequestedRegion() );
+      fit.SetFirstDirection(direction[1]);
+      fit.SetSecondDirection(direction[0]);
 
       fit.GoToBegin();
-      while( !fit.IsAtEnd() )
+      while ( !fit.IsAtEnd() )
         {
-        while( !fit.IsAtEndOfSlice() )
+        while ( !fit.IsAtEndOfSlice() )
           {
-          while( !fit.IsAtEndOfLine() )
+          while ( !fit.IsAtEndOfLine() )
             {
-            if( fit.Get() != outsideValue )
+            if ( fit.Get() != outsideValue )
               {
               index[axis] = fit.GetIndex()[axis];
               fit.GoToReverseBegin(); // skip to the end
@@ -172,20 +164,19 @@ ImageMaskSpatialObject< TDimension >
         fit.NextSlice();
         }
 
-
       // Create the reverse iterator to find upper bound
-      SliceIteratorType  rit(  image,  image->GetRequestedRegion() );
-      rit.SetFirstDirection(  direction[1] );
-      rit.SetSecondDirection( direction[0] );
+      SliceIteratorType rit( image,  image->GetRequestedRegion() );
+      rit.SetFirstDirection(direction[1]);
+      rit.SetSecondDirection(direction[0]);
 
       rit.GoToReverseBegin();
-      while( !rit.IsAtReverseEnd() )
+      while ( !rit.IsAtReverseEnd() )
         {
-        while( !rit.IsAtReverseEndOfSlice() )
+        while ( !rit.IsAtReverseEndOfSlice() )
           {
-          while( !rit.IsAtReverseEndOfLine() )
+          while ( !rit.IsAtReverseEndOfLine() )
             {
-            if( rit.Get() != outsideValue )
+            if ( rit.Get() != outsideValue )
               {
               size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
               rit.GoToBegin(); //Skip to reverse end
@@ -199,42 +190,40 @@ ImageMaskSpatialObject< TDimension >
         }
       }
 
-    region.SetIndex( index );
-    region.SetSize( size );
+    region.SetIndex(index);
+    region.SetSize(size);
     }
   else
     {
     //itkExceptionMacro( << "ImageDimension must be 3!" );
-    typedef ImageRegionConstIteratorWithIndex<ImageType> IteratorType;
+    typedef ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
     IteratorType it( image, image->GetRequestedRegion() );
     it.GoToBegin();
 
     for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
       {
-      index[ i ] = image->GetRequestedRegion().GetSize( i );
-      size[ i ]  = image->GetRequestedRegion().GetIndex( i );
+      index[i] = image->GetRequestedRegion().GetSize(i);
+      size[i]  = image->GetRequestedRegion().GetIndex(i);
       }
 
-    while( !it.IsAtEnd() )
+    while ( !it.IsAtEnd() )
       {
       if ( it.Get() != outsideValue )
         {
         IndexType tmpIndex = it.GetIndex();
         for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
           {
-
-          if ( index[ i ] > tmpIndex[ i ] )
+          if ( index[i] > tmpIndex[i] )
             {
-            index[ i ] = tmpIndex[ i ];
+            index[i] = tmpIndex[i];
             }
 
-          const SizeValueType tmpSize = static_cast< SizeValueType >( tmpIndex[ i ] );
+          const SizeValueType tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
 
-          if ( size[ i ]  < tmpSize )
+          if ( size[i]  < tmpSize )
             {
-            size[ i ]  = tmpSize;
+            size[i]  = tmpSize;
             }
-
           }
         }
       ++it;
@@ -242,27 +231,23 @@ ImageMaskSpatialObject< TDimension >
 
     for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
       {
-      size[ i ] = size[ i ] - index[ i ] + 1;
+      size[i] = size[i] - index[i] + 1;
       }
-    region.SetIndex( index );
-    region.SetSize( size );
-  } // end else
-  
-  return region;
-   
-}
+    region.SetIndex(index);
+    region.SetSize(size);
+    } // end else
 
+  return region;
+}
 
 /** Print the object */
 template< unsigned int TDimension >
 void
 ImageMaskSpatialObject< TDimension >
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-
-
 } // end namespace itk
 
 #endif //__ImageMaskSpatialObject_txx

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,89 +21,87 @@
 
 namespace itk
 {
-
 /** \class TwoOutputExampleImageFilter
- * \brief Example of a filter that produce two outputs. 
+ * \brief Example of a filter that produce two outputs.
  *
  * TwoOutputExampleImageFilter sets image values to a user-specified "outside"
  * value (by default, "black") if the image values are below, above, or
  * between simple threshold values. The filter can produce two outputs,
  * one the inverse of the other. (GetOutput() returns an image whose
- * pixels satisfy the threshold values and are passed to the output 
+ * pixels satisfy the threshold values and are passed to the output
  * unchanged (and those that don't are marked with the outside user-value);
  * GetInverseOutput() returns an image in which pixels satisfying the
  * threshold are marked "outside", and the other pixel values are passed
  * through.)
  *
  * The pixels must support the operators >= and <=.
- * 
+ *
  * \ingroup IntensityImageFilters Multithreaded
  */
-template <class TImage>
+template< class TImage >
 class ITK_EXPORT TwoOutputExampleImageFilter:
-    public ImageToImageFilter<TImage, TImage>
+  public ImageToImageFilter< TImage, TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef TwoOutputExampleImageFilter        Self;
-  typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef TwoOutputExampleImageFilter          Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Typedef to describe the type of pixel. */
   typedef typename TImage::PixelType PixelType;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(TwoOutputExampleImageFilter, ImageToImageFilter);
 
-  /** Set the "outside" pixel value. The default value 
+  /** Set the "outside" pixel value. The default value
    * NumericTraits<PixelType>::Zero. */
-  itkSetMacro(OutsideValue,PixelType);
-  
+  itkSetMacro(OutsideValue, PixelType);
+
   /** Get the "outside" pixel value. */
-  itkGetConstMacro(OutsideValue,PixelType);
-                 
+  itkGetConstMacro(OutsideValue, PixelType);
+
   /** The values greater than or equal to the value are set to OutsideValue. */
-  void ThresholdAbove(PixelType &thresh);
-  
+  void ThresholdAbove(PixelType & thresh);
+
   /** The values less than or equal to the value are set to OutsideValue. */
-  void ThresholdBelow(PixelType &thresh);
+  void ThresholdBelow(PixelType & thresh);
 
   /** The values outside the range are set to OutsideValue. */
-  void ThresholdOutside(PixelType &lower, PixelType &upper);
+  void ThresholdOutside(PixelType & lower, PixelType & upper);
 
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  
+
   /** Some typedefs to handle the second output. */
   typedef TImage                               OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
-  
+
   /** Get the image output of this process object.  */
   OutputImagePointer GetInverseOutput()
-    { return static_cast<TImage *>(this->ProcessObject::GetOutput(1)); }
+  { return static_cast< TImage * >( this->ProcessObject::GetOutput(1) ); }
 
   /** Set the image output of this process object.  */
   void SetInverseOutput(OutputImageType *output)
-    { this->SetNthOutput(1, output); }
+  { this->SetNthOutput(1, output); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(ComparableCheck,
-                  (Concept::Comparable<PixelType>));
-  itkConceptMacro(OStreamWritableCheck,
-                  (Concept::OStreamWritable<PixelType>));
+  itkConceptMacro( ComparableCheck,
+                   ( Concept::Comparable< PixelType > ) );
+  itkConceptMacro( OStreamWritableCheck,
+                   ( Concept::OStreamWritable< PixelType > ) );
   /** Begin concept checking */
 #endif
-
 protected:
   TwoOutputExampleImageFilter();
-  ~TwoOutputExampleImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~TwoOutputExampleImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** TwoOutputExampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -115,23 +113,21 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  TwoOutputExampleImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  TwoOutputExampleImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 
   PixelType m_OutsideValue;
   PixelType m_Lower;
   PixelType m_Upper;
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTwoOutputExampleImageFilter.txx"
 #endif
-  
+
 #endif

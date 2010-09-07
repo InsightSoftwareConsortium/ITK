@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,8 @@
 #include "itkNumericTraits.h"
 #include <vector>
 
-namespace itk {
+namespace itk
+{
 /** \class NeighborhoodOperator
  * \brief Virtual class that defines a common interface to all
  *        neighborhood operator subtypes.
@@ -43,7 +44,7 @@ namespace itk {
  *
  * (2) ScalarFill -- the algorithm that places the scalar coefficients into
  *   the memory buffer of the operator (arranges them spatially in the
- *   neighborhood). 
+ *   neighborhood).
  *
  * NeighborhoodOperator supports the concept of a "directional operator."
  * A directional operator is defined in this context to be an operator
@@ -60,15 +61,15 @@ namespace itk {
  * \ingroup Operators
  */
 template< class TPixel, unsigned int VDimension,
-  class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT NeighborhoodOperator
-  : public Neighborhood<TPixel, VDimension, TAllocator>
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT NeighborhoodOperator:
+  public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:
-  /**  Standard class typedefs. */ 
-  typedef NeighborhoodOperator                         Self;
-  typedef Neighborhood<TPixel, VDimension, TAllocator> Superclass;
-    
+  /**  Standard class typedefs. */
+  typedef NeighborhoodOperator                           Self;
+  typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
+
   /** Size object typedef support */
   typedef typename Superclass::SizeType SizeType;
 
@@ -76,33 +77,33 @@ public:
   typedef TPixel PixelType;
 
   /** Slice iterator typedef support */
-  typedef SliceIterator<TPixel, Self> SliceIteratorType;
- 
+  typedef SliceIterator< TPixel, Self > SliceIteratorType;
+
   /** Constructor. */
   NeighborhoodOperator()
-    {  m_Direction = 0;  }
+  {  m_Direction = 0;  }
 
   /** Copy constructor */
-  NeighborhoodOperator(const Self &orig)
-    : Neighborhood<TPixel, VDimension, TAllocator>(orig) 
-    {   m_Direction = orig.m_Direction;   }
-  
- /** Assignment operator. */
-  Self &operator=( const Self &orig )
-    {
-      Superclass::operator=(orig);
-      m_Direction = orig.m_Direction;
-      return *this;
-    }
-  
+  NeighborhoodOperator(const Self & orig):
+    Neighborhood< TPixel, VDimension, TAllocator >(orig)
+  {   m_Direction = orig.m_Direction;   }
+
+  /** Assignment operator. */
+  Self & operator=(const Self & orig)
+  {
+    Superclass::operator=(orig);
+    m_Direction = orig.m_Direction;
+    return *this;
+  }
+
   /** Sets the dimensional direction of a directional operator. */
-  void SetDirection(const unsigned long &direction)
-    {  m_Direction = direction;   }
+  void SetDirection(const unsigned long & direction)
+  {  m_Direction = direction;   }
 
   /** Returns the direction (dimension number) of a directional operator. */
   unsigned long GetDirection() const
-    {  return m_Direction;  }
-  
+  {  return m_Direction;  }
+
   /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
@@ -124,24 +125,24 @@ public:
   /** Reverses the direction of all axes of the operator by reversing the order
     * of the coefficients. */
   virtual void FlipAxes();
-  
+
   /** Prints some debugging information. */
-  virtual void PrintSelf(std::ostream& os, Indent i) const
-    {
+  virtual void PrintSelf(std::ostream & os, Indent i) const
+  {
     os << i << "NeighborhoodOperator { this=" << this
        << " Direction = " << m_Direction << " }" << std::endl;
     Superclass::PrintSelf( os, i.GetNextIndent() );
-    }
+  }
 
-  typedef typename NumericTraits< TPixel >::RealType  PixelRealType;
+  typedef typename NumericTraits< TPixel >::RealType PixelRealType;
 
-  /** Multiplies all of the coefficients of the kernel by a single scalar value. */
-  void ScaleCoefficients( PixelRealType );
-  
+  /** Multiplies all of the coefficients of the kernel by a single scalar value.
+    */
+  void ScaleCoefficients(PixelRealType);
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */
-  typedef std::vector<double>  CoefficientVector;
+  typedef std::vector< double > CoefficientVector;
 
   /** A subclass-specific algorithm that computes the coefficients
    * of the operator. */
@@ -150,7 +151,7 @@ protected:
   /** A subclass-specific algorithm that positions the coefficients
    * spatially in the operator. */
   virtual void Fill(const CoefficientVector &) = 0;
-  
+
   /** A pre-defined Fill function that can be called by a subclass
    * Fill function to center coefficients along the axis specified
    * by the SetDirection method.  Useful for creating directional
@@ -160,33 +161,37 @@ protected:
 
   /** Initializes all the coefficients in the neighborhood to zero values */
   void InitializeToZero()
-    {
-    for (unsigned int i = 0; i< this->Size(); ++i)
+  {
+    for ( unsigned int i = 0; i < this->Size(); ++i )
       {
-      this->operator[](i) = NumericTraits<PixelType>::Zero;
+      this->operator[](i) = NumericTraits< PixelType >::Zero;
       }
-    }
-  
+  }
+
 private:
   /** Direction (dimension number) of the derivative. */
-  unsigned long  m_Direction;
+  unsigned long m_Direction;
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_NeighborhoodOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT NeighborhoodOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef NeighborhoodOperator< ITK_TEMPLATE_2 x > \
-                                                  NeighborhoodOperator##y; } \
+#define ITK_TEMPLATE_NeighborhoodOperator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                        \
+  {                                                                    \
+  _( 2 ( class EXPORT NeighborhoodOperator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                  \
+  {                                                                    \
+  typedef NeighborhoodOperator< ITK_TEMPLATE_2 TypeX >                 \
+  NeighborhoodOperator##TypeY;                                       \
+  }                                                                    \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkNeighborhoodOperator+-.h"
+#include "Templates/itkNeighborhoodOperator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkNeighborhoodOperator.txx"
+#include "itkNeighborhoodOperator.txx"
 #endif
 
 /*

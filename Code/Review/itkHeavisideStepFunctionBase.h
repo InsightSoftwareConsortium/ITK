@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class HeavisideStepFunctionBase
  *
  * \brief Base class of the Heaviside function.
@@ -50,33 +49,30 @@ namespace itk
  *
  */
 template< typename TInput = float, typename TOutput = double >
-class HeavisideStepFunctionBase : public FunctionBase< TInput, TOutput >
+class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >
 {
 public:
-  typedef HeavisideStepFunctionBase         Self;
-  typedef FunctionBase< TInput, TOutput >   Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  typedef HeavisideStepFunctionBase       Self;
+  typedef FunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
-  typedef typename Superclass::InputType    InputType;
-  typedef typename Superclass::OutputType   OutputType;
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const = 0;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative( const InputType& input ) const = 0;
+  virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
 
 protected:
   HeavisideStepFunctionBase() {}
   virtual ~HeavisideStepFunctionBase() {}
-
 private:
-  HeavisideStepFunctionBase(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
-
+  HeavisideStepFunctionBase(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 };
-
 }
 
 #endif

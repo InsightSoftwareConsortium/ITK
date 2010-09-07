@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-  
 /** \class RealAndImaginaryToComplexImageFilter
  * \brief Implements pixel-wise conversion of real and imaginar data into
  * complex voxels.
@@ -38,7 +37,7 @@ namespace itk
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu
  *
- * \note Attribution Notice. This research work was made possible by Grant 
+ * \note Attribution Notice. This research work was made possible by Grant
  * Number R01 RR021885 (PI Simon K. Warfield, Ph.D.) from
  * the National Center for Research Resources (NCRR), a component of the
  * National Institutes of Health (NIH).  Its contents are solely the
@@ -51,55 +50,57 @@ namespace itk
  * \sa MagnitudeAndPhaseToComplexImageFilter
  */
 
-namespace Functor {  
-  
-template< class TInput1, class TInput2, class TOutput>
+namespace Functor
+{
+template< class TInput1, class TInput2, class TOutput >
 class RealAndImaginaryToComplex
 {
 public:
-  RealAndImaginaryToComplex() {};
-  ~RealAndImaginaryToComplex() {};
-  bool operator!=( const RealAndImaginaryToComplex & ) const
-    {
+  RealAndImaginaryToComplex() {}
+  ~RealAndImaginaryToComplex() {}
+  bool operator!=(const RealAndImaginaryToComplex &) const
+  {
     return false;
-    }
-  bool operator==( const RealAndImaginaryToComplex & other ) const
-    {
-    return !(*this != other);
-    }
-  inline std::complex<TOutput> operator()( const TInput1 & A, const TInput2 & B) const
-    {
-    return std::complex<TOutput>( static_cast<TOutput>(A), static_cast<TOutput>(B));
-    }
-}; 
+  }
+
+  bool operator==(const RealAndImaginaryToComplex & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline std::complex< TOutput > operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    return std::complex< TOutput >( static_cast< TOutput >( A ), static_cast< TOutput >( B ) );
+  }
+};
 }
 
-template <class TInputPixel1, class TInputPixel2, class TOutputPixel, unsigned int NDimension = 3>
-class ITK_EXPORT RealAndImaginaryToComplexImageFilter :
-    public BinaryFunctorImageFilter<
-       Image < TInputPixel1, NDimension >,
-       Image < TInputPixel2, NDimension >,
-       Image < std::complex<TOutputPixel>, NDimension >, 
-         Functor::RealAndImaginaryToComplex< 
-            TInputPixel1, 
-            TInputPixel2,
-            TOutputPixel
-                 > >
+template< class TInputPixel1, class TInputPixel2, class TOutputPixel, unsigned int NDimension = 3 >
+class ITK_EXPORT RealAndImaginaryToComplexImageFilter:
+  public BinaryFunctorImageFilter<
+    Image< TInputPixel1, NDimension >,
+    Image< TInputPixel2, NDimension >,
+    Image< std::complex< TOutputPixel >, NDimension >,
+    Functor::RealAndImaginaryToComplex<
+      TInputPixel1,
+      TInputPixel2,
+      TOutputPixel
+      > >
 {
 public:
   /** Standard class typedefs. */
-  typedef RealAndImaginaryToComplexImageFilter      Self;
+  typedef RealAndImaginaryToComplexImageFilter Self;
   typedef BinaryFunctorImageFilter<
-    Image < TInputPixel1, NDimension >,
-    Image < TInputPixel2, NDimension >,
-    Image < std::complex<TOutputPixel>, NDimension >, 
-      Functor::RealAndImaginaryToComplex< 
-            TInputPixel1, 
-            TInputPixel2,
-            TOutputPixel > >                        Superclass;
+    Image< TInputPixel1, NDimension >,
+    Image< TInputPixel2, NDimension >,
+    Image< std::complex< TOutputPixel >, NDimension >,
+    Functor::RealAndImaginaryToComplex<
+      TInputPixel1,
+      TInputPixel2,
+      TOutputPixel > >                        Superclass;
 
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,26 +110,23 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(Input1ConvertibleToDoubleCheck,
-    (Concept::Convertible<TInputPixel1, double>));
-  itkConceptMacro(Input2ConvertibleToDoubleCheck,
-    (Concept::Convertible<TInputPixel2, double>));
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, TOutputPixel>));
+  itkConceptMacro( Input1ConvertibleToDoubleCheck,
+                   ( Concept::Convertible< TInputPixel1, double > ) );
+  itkConceptMacro( Input2ConvertibleToDoubleCheck,
+                   ( Concept::Convertible< TInputPixel2, double > ) );
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, TOutputPixel > ) );
   /** End concept checking */
 #endif
-
 protected:
   RealAndImaginaryToComplexImageFilter() {}
   virtual ~RealAndImaginaryToComplexImageFilter() {}
-
 private:
-  RealAndImaginaryToComplexImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  RealAndImaginaryToComplexImageFilter(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+                                                      // implemented
 };
-
 } // end namespace itk
-
 
 #endif

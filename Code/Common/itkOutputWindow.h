@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,20 +27,20 @@ namespace itk
 /** \class OutputWindow
  * \brief Messages sent from the system are collected by this object.
  *
- * Text messages that the system should display to the user are sent to 
+ * Text messages that the system should display to the user are sent to
  * this object (or subclasses of this object).
  *
  * \ingroup OSSystemObjects
  */
-class ITKCommon_EXPORT OutputWindow : public Object
+class ITKCommon_EXPORT OutputWindow:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef OutputWindow              Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef OutputWindow               Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(OutputWindow, Object);
 
@@ -59,48 +59,46 @@ public:
   static void SetInstance(OutputWindow *instance);
 
   /** Send a string to display. */
-  virtual void DisplayText(const char*);
+  virtual void DisplayText(const char *);
 
   /** Send a string as an error message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayErrorText(const char *t) { this->DisplayText(t); };
+  virtual void DisplayErrorText(const char *t) { this->DisplayText(t); }
 
   /** Send a string as a warningmessage to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayWarningText(const char *t) { this->DisplayText(t); };
+  virtual void DisplayWarningText(const char *t) { this->DisplayText(t); }
 
   /** Send a string as a message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayGenericOutputText(const char *t) {this->DisplayText(t);}
+  virtual void DisplayGenericOutputText(const char *t) { this->DisplayText(t); }
 
   /** Send a string as a debug message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayDebugText(const char *t) { this->DisplayText(t); };
-  
+  virtual void DisplayDebugText(const char *t) { this->DisplayText(t); }
+
   /** If PromptUser is set to true then each time a line of text
    * is displayed, the user is asked if they want to keep getting
    * messages. */
-  itkSetMacro(PromptUser,bool);
-  itkGetConstMacro(PromptUser,bool);
+  itkSetMacro(PromptUser, bool);
+  itkGetConstMacro(PromptUser, bool);
   itkBooleanMacro(PromptUser);
-  
 protected:
   OutputWindow();
   virtual ~OutputWindow();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  OutputWindow(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  OutputWindow(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   bool           m_PromptUser;
   static Pointer m_Instance;
 };
-  
 } // end namespace itk
 
 #endif

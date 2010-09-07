@@ -91,7 +91,6 @@ IF(NOT ITK_EXPLICIT_INSTANTIATION)
      )
 ENDIF(NOT ITK_EXPLICIT_INSTANTIATION)
 
-
 IF (WIN32)
    SET(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
 ENDIF (WIN32)

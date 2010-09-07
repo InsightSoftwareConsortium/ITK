@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,8 @@
 #include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
-namespace itk {
+namespace itk
+{
 /** \class ValuedRegionalMinimaImageFilter
  * \brief Transforms the image so that any pixel that is not a
  * regional minima is set to the maximum value for the pixel
@@ -40,58 +41,55 @@ namespace itk {
  * \ingroup MathematicalMorphologyImageFilters
  */
 
-
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ValuedRegionalMinimaImageFilter :
-    public
-    ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage,
-             std::less<typename TInputImage::PixelType>,
-             std::less<typename TOutputImage::PixelType>
-    >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ValuedRegionalMinimaImageFilter:
+  public
+  ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
+                                    std::less< typename TInputImage::PixelType >,
+                                    std::less< typename TOutputImage::PixelType >
+                                    >
 {
 public:
   typedef ValuedRegionalMinimaImageFilter Self;
 
-  typedef ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage,
-             std::less<typename TInputImage::PixelType>,
-             std::less<typename TOutputImage::PixelType>  > Superclass;
+  typedef ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
+                                            std::less< typename TInputImage::PixelType >,
+                                            std::less< typename TOutputImage::PixelType >  > Superclass;
 
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  typedef TInputImage                                       InputImageType;
-  typedef typename InputImageType::PixelType                InputImagePixelType;
+  typedef TInputImage                        InputImageType;
+  typedef typename InputImageType::PixelType InputImagePixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalMinimaImageFilter, 
+  itkTypeMacro(ValuedRegionalMinimaImageFilter,
                ValuedRegionalExtremaImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputPixelTypeComparable,
-    (Concept::LessThanComparable<InputImagePixelType>));
-  itkConceptMacro(InputHasPixelTraitsCheck,
-    (Concept::HasPixelTraits<InputImagePixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro( InputPixelTypeComparable,
+                   ( Concept::LessThanComparable< InputImagePixelType > ) );
+  itkConceptMacro( InputHasPixelTraitsCheck,
+                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
-  ValuedRegionalMinimaImageFilter() 
-    {
-    SetMarkerValue(NumericTraits<ITK_TYPENAME TOutputImage::PixelType>::max());
-    }
+  ValuedRegionalMinimaImageFilter()
+  {
+    SetMarkerValue( NumericTraits< ITK_TYPENAME TOutputImage::PixelType >::max() );
+  }
+
   virtual ~ValuedRegionalMinimaImageFilter() {}
-
 private:
-  ValuedRegionalMinimaImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end ValuedRegionalMinimaImageFilter
-
+  ValuedRegionalMinimaImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
+};                                               // end
+                                                 // ValuedRegionalMinimaImageFilter
 } //end namespace itk
 #endif

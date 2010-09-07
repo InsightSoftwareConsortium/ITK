@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,21 +21,21 @@
 
 namespace itk
 {
-
 /**
  * \class FloodFilledSpatialFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled spatial function. 
+ * \brief Iterates over a flood-filled spatial function.
  *
  * \ingroup ImageIterators
  *
  */
-template<class TImage, class TFunction>
-class ITK_EXPORT FloodFilledSpatialFunctionConditionalConstIterator: public FloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+template< class TImage, class TFunction >
+class ITK_EXPORT FloodFilledSpatialFunctionConditionalConstIterator:public FloodFilledFunctionConditionalConstIterator<
+    TImage, TFunction >
 {
 public:
   /** Standard class typedefs. */
-  typedef FloodFilledSpatialFunctionConditionalConstIterator              Self;
-  typedef FloodFilledFunctionConditionalConstIterator<TImage, TFunction>  Superclass;
+  typedef FloodFilledSpatialFunctionConditionalConstIterator               Self;
+  typedef FloodFilledFunctionConditionalConstIterator< TImage, TFunction > Superclass;
 
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
@@ -44,37 +44,37 @@ public:
   typedef typename Superclass::FunctionInputType FunctionInputType;
 
   /** Index typedef support. */
-  typedef typename Superclass::IndexType  IndexType;
+  typedef typename Superclass::IndexType IndexType;
 
   /** Size typedef support. */
-  typedef typename Superclass::SizeType    SizeType;
+  typedef typename Superclass::SizeType SizeType;
 
   /** Region typedef support */
-  typedef typename Superclass::RegionType    RegionType;
+  typedef typename Superclass::RegionType RegionType;
 
   /** Image typedef support. */
-  typedef typename Superclass::ImageType   ImageType;
+  typedef typename Superclass::ImageType ImageType;
 
   /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType   InternalPixelType;
+  typedef typename Superclass::InternalPixelType InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename Superclass::PixelType   PixelType;
+  typedef typename Superclass::PixelType PixelType;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr,
-                                     IndexType startIndex);
+                                                     FunctionType *fnPtr,
+                                                     IndexType startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
-                                     FunctionType *fnPtr);
+                                                     FunctionType *fnPtr);
   /** Default Destructor. */
-  virtual ~FloodFilledSpatialFunctionConditionalConstIterator() {};
+  virtual ~FloodFilledSpatialFunctionConditionalConstIterator() {}
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const;
@@ -84,45 +84,47 @@ public:
 
   /** Set the inclusion strategy to center */
   void SetCenterInclusionStrategy() { m_InclusionStrategy = 1; }
-  
+
   /** Set the inclusion strategy to complete */
   void SetCompleteInclusionStrategy() { m_InclusionStrategy = 2; }
 
   /** Set the inclusion strategy to intersect */
   void SetIntersectInclusionStrategy() { m_InclusionStrategy = 3; }
-  
 protected: //made protected so other iterators can access
 
-    /** How the pixel (index) is examined in order to decide whether or not
-   * it's included. The strategies are:
-   * 0) Origin: if the origin of the pixel in physical space is inside the function,
-   * then the pixel is inside the function
-   * 1) Center: if the center of a pixel, in physical space, is inside the function,
-   * then the pixel is inside the function
-   * 2) Complete: if all of the corners of the pixel in physical space are inside the function,
-   * then the pixel is inside the function
-   * 3) Intersect: if any of the corners of the pixel in physical space are inside the function,
-   * then the pixel is inside the function */
+  /** How the pixel (index) is examined in order to decide whether or not
+ * it's included. The strategies are:
+ * 0) Origin: if the origin of the pixel in physical space is inside the function,
+ * then the pixel is inside the function
+ * 1) Center: if the center of a pixel, in physical space, is inside the function,
+ * then the pixel is inside the function
+ * 2) Complete: if all of the corners of the pixel in physical space are inside the function,
+ * then the pixel is inside the function
+ * 3) Intersect: if any of the corners of the pixel in physical space are inside the function,
+ * then the pixel is inside the function */
 
   unsigned char m_InclusionStrategy;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FloodFilledSpatialFunctionConditionalConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FloodFilledSpatialFunctionConditionalConstIterator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FloodFilledSpatialFunctionConditionalConstIterator< ITK_TEMPLATE_2 x > \
-                        FloodFilledSpatialFunctionConditionalConstIterator##y; } \
+#define ITK_TEMPLATE_FloodFilledSpatialFunctionConditionalConstIterator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                                      \
+  {                                                                                                  \
+  _( 2 ( class EXPORT FloodFilledSpatialFunctionConditionalConstIterator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                                \
+  {                                                                                                  \
+  typedef FloodFilledSpatialFunctionConditionalConstIterator< ITK_TEMPLATE_2 TypeX >                 \
+  FloodFilledSpatialFunctionConditionalConstIterator##TypeY;                                       \
+  }                                                                                                  \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkFloodFilledSpatialFunctionConditionalConstIterator+-.h"
+#include "Templates/itkFloodFilledSpatialFunctionConditionalConstIterator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkFloodFilledSpatialFunctionConditionalConstIterator.txx"
+#include "itkFloodFilledSpatialFunctionConditionalConstIterator.txx"
 #endif
 
-#endif 
+#endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,6 @@
 
 namespace itk
 {
-
 /**
  * Instantiate object with no start, end, or progress methods.
  */
@@ -31,7 +30,6 @@ LightProcessObject
   m_Progress = 0.0f;
 }
 
-
 /**
  * Destructor for the LightProcessObject class. We've got to
  * UnRegister() the use of any input classes.
@@ -40,13 +38,12 @@ LightProcessObject
 ::~LightProcessObject()
 {}
 
-
 /**
- * Update the progress of the process object. If a ProgressMethod exists, 
- * executes it. Then set the Progress ivar to amount. The parameter amount 
+ * Update the progress of the process object. If a ProgressMethod exists,
+ * executes it. Then set the Progress ivar to amount. The parameter amount
  * should range between (0,1).
  */
-void 
+void
 LightProcessObject
 ::UpdateProgress(float amount)
 {
@@ -54,29 +51,26 @@ LightProcessObject
   this->InvokeEvent( ProgressEvent() );
 }
 
-
 /**
  *
  */
-void 
+void
 LightProcessObject
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "AbortGenerateData: " << (m_AbortGenerateData ? "On\n" : "Off\n");
+  os << indent << "AbortGenerateData: " << ( m_AbortGenerateData ? "On\n" : "Off\n" );
   os << indent << "Progress: " << m_Progress << "\n";
 }
-
 
 /**
    *
    */
-void 
+void
 LightProcessObject
 ::UpdateOutputData()
 {
-    
   this->InvokeEvent( StartEvent() );
 
   /**
@@ -100,5 +94,4 @@ LightProcessObject
   // Notify end event observers
   this->InvokeEvent( EndEvent() );
 }
-
 } // end namespace itk

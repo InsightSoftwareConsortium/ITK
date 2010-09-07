@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 TransformFileWriter
 ::TransformFileWriter()
 {
@@ -35,68 +34,66 @@ TransformFileWriter
 
 TransformFileWriter
 ::~TransformFileWriter()
-{
-}
+{}
 
 /** Set the writer to append to the specified file */
-void TransformFileWriter::SetAppendOn( )
+void TransformFileWriter::SetAppendOn()
 {
   this->SetAppendMode(true);
 }
 
 /** Set the writer to overwrite the specified file - This is the
  * default mode. */
-void TransformFileWriter::SetAppendOff( )
+void TransformFileWriter::SetAppendOff()
 {
   this->SetAppendMode(false);
 }
 
 /** Set the writer mode (append/overwrite). */
-void TransformFileWriter::SetAppendMode( bool mode)
+void TransformFileWriter::SetAppendMode(bool mode)
 {
   this->m_AppendMode = mode;
 }
 
 /** Get the writer mode. */
-bool TransformFileWriter::GetAppendMode( )
+bool TransformFileWriter::GetAppendMode()
 {
   return ( this->m_AppendMode );
 }
 
 /** Set the input transform and reinitialize the list of transforms */
-void TransformFileWriter::SetInput(const TransformType* transform)
+void TransformFileWriter::SetInput(const TransformType *transform)
 {
   m_TransformList.clear();
-  m_TransformList.push_back(ConstTransformPointer(transform));
+  m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
 /** Add a transform to be written */
-void TransformFileWriter::AddTransform(const TransformType* transform)
+void TransformFileWriter::AddTransform(const TransformType *transform)
 {
-  m_TransformList.push_back(ConstTransformPointer(transform));
+  m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
 void TransformFileWriter
 ::Update()
-{  
-  if(m_FileName == "")
+{
+  if ( m_FileName == "" )
     {
-    itkExceptionMacro ( "No file name given" );
+    itkExceptionMacro ("No file name given");
     }
-  TransformIOBase::Pointer transformIO = 
+  TransformIOBase::Pointer transformIO =
     TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
-                                      TransformIOFactory::WriteMode );
-  if(transformIO.IsNull())
+                                          TransformIOFactory::WriteMode);
+  if ( transformIO.IsNull() )
     {
-    itkExceptionMacro( "Can't Create IO object for file " <<
-                       m_FileName);
+    itkExceptionMacro("Can't Create IO object for file "
+                      << m_FileName);
     }
   transformIO->SetAppendMode(this->m_AppendMode);
   transformIO->SetFileName(m_FileName);
   transformIO->SetTransformList(this->m_TransformList);
   transformIO->Write();
 }
-
 } // namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,13 +29,12 @@
 
 namespace itk
 {
-
 /** \class BinaryMask3DMeshSource
- * 
- * 
+ *
+ *
  * \par
  * This class tries to construct a 3D mesh surface based on a binary mask.
- * It can be used to integrate a region-based segmentation method and a deformable 
+ * It can be used to integrate a region-based segmentation method and a deformable
  * model into one hybrid framework.
  *
  * \par
@@ -52,43 +51,43 @@ namespace itk
  *
  * \par
  * We then go through the 3D volume voxel by voxel, using those two tables we have defined
- * to construct elements within each voxel. We then merge all these mesh elements into 
+ * to construct elements within each voxel. We then merge all these mesh elements into
  * one 3D mesh.
- * 
+ *
  * \par PARAMETERS
  * The ObjectValue parameter is used to identify the object. In most applications,
  * pixels in the object region are assigned to "1", so the default value of ObjectValue is
  * set to "1"
  *
  * \par REFERENCE
- * W. Lorensen and H. Cline, "Marching Cubes: A High Resolution 3D Surface Construction Algorithm", 
- * Computer Graphics 21, pp. 163-169, 1987. 
- * 
+ * W. Lorensen and H. Cline, "Marching Cubes: A High Resolution 3D Surface Construction Algorithm",
+ * Computer Graphics 21, pp. 163-169, 1987.
+ *
  * \par INPUT
- * The input should be a 3D binary image. 
+ * The input should be a 3D binary image.
  *
  */
-template <class TInputImage, class TOutputMesh>
-class ITK_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter< TInputImage, TOutputMesh >
+template< class TInputImage, class TOutputMesh >
+class ITK_EXPORT BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
   typedef BinaryMask3DMeshSource                        Self;
   typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryMask3DMeshSource, ImageToMeshFilter);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                           OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits   OMeshTraits;
-  typedef typename OutputMeshType::PointType    OPointType;
-  typedef typename OMeshTraits::PixelType       OPixelType;  
+  typedef TOutputMesh                         OutputMeshType;
+  typedef typename OutputMeshType::MeshTraits OMeshTraits;
+  typedef typename OutputMeshType::PointType  OPointType;
+  typedef typename OMeshTraits::PixelType     OPixelType;
 
   /** Some convenient typedefs. */
   typedef typename OutputMeshType::Pointer                OutputMeshPointer;
@@ -97,65 +96,82 @@ public:
   typedef typename OutputMeshType::PointsContainer        PointsContainer;
   typedef typename OutputMeshType::CellsContainerPointer  CellsContainerPointer;
   typedef typename OutputMeshType::CellsContainer         CellsContainer;
-  typedef CovariantVector<double, 2>                      doubleVector;
-  typedef CovariantVector<int, 2>                         intVector;
-  
+  typedef CovariantVector< double, 2 >                    doubleVector;
+  typedef CovariantVector< int, 2 >                       intVector;
+
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  typedef CellInterface<OPixelType, CellTraits>  TCellInterface;
-  typedef TriangleCell<TCellInterface>           TriCell;
-  typedef typename TriCell::SelfAutoPointer      TriCellAutoPointer;
+  typedef CellInterface< OPixelType, CellTraits > TCellInterface;
+  typedef TriangleCell< TCellInterface >          TriCell;
+  typedef typename TriCell::SelfAutoPointer       TriCellAutoPointer;
 
   /** Input Image Type Definition. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef typename InputImageType::SpacingType     SpacingType;
-  typedef typename InputImageType::PointType       OriginType;
-     
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::PixelType    InputPixelType;
+  typedef typename InputImageType::SpacingType  SpacingType;
+  typedef typename InputImageType::PointType    OriginType;
+
   /** Type definition for the classified image index type. */
-  typedef typename InputImageType::IndexType       InputImageIndexType;
+  typedef typename InputImageType::IndexType InputImageIndexType;
 
   typedef ImageRegionConstIterator< InputImageType > InputImageIterator;
-  
+
   itkSetMacro(ObjectValue, InputPixelType);
 
   itkGetConstMacro(NumberOfNodes, unsigned long);
   itkGetConstMacro(NumberOfCells, unsigned long);
 
   /** accept the input image */
-  virtual void SetInput( const InputImageType * inputImage );
-
+  virtual void SetInput(const InputImageType *inputImage);
 
 protected:
   BinaryMask3DMeshSource();
   ~BinaryMask3DMeshSource();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
-  virtual void GenerateOutputInformation(){}; // do nothing
-  
+
+  virtual void GenerateOutputInformation(){}  // do nothing
 private:
-  BinaryMask3DMeshSource(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BinaryMask3DMeshSource(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   typedef typename InputImageType::SizeType InputImageSizeType;
 
   void CreateMesh();
-  void XFlip ( unsigned char *tp );  // 7 kinds of transformation
-  void YFlip ( unsigned char *tp );
-  void ZFlip ( unsigned char *tp );
-  void XRotation ( unsigned char *tp );
-  void YRotation ( unsigned char *tp );
-  void ZRotation ( unsigned char *tp );
-  void inverse ( unsigned char *tp );
-  void InitializeLUT(); // initialize the look up table before the mesh construction
-  void AddCells( unsigned char celltype, unsigned char celltran, int index );
-  void AddNodes( int index, unsigned char *nodesid, unsigned long *globalnodesid, unsigned long **currentrowtmp, unsigned long **currentframetmp );
-  void CellTransfer( unsigned char *nodesid, unsigned char celltran );
-  unsigned long SearchThroughLastRow( int index, int start, int end );
-  unsigned long SearchThroughLastFrame( int index, int start, int end );
+
+  void XFlip(unsigned char *tp);     // 7 kinds of transformation
+
+  void YFlip(unsigned char *tp);
+
+  void ZFlip(unsigned char *tp);
+
+  void XRotation(unsigned char *tp);
+
+  void YRotation(unsigned char *tp);
+
+  void ZRotation(unsigned char *tp);
+
+  void inverse(unsigned char *tp);
+
+  void InitializeLUT(); // initialize the look up table before the mesh
+                        // construction
+
+  void AddCells(unsigned char celltype, unsigned char celltran, int index);
+
+  void AddNodes(int index,
+                unsigned char *nodesid,
+                unsigned long *globalnodesid,
+                unsigned long **currentrowtmp,
+                unsigned long **currentframetmp);
+
+  void CellTransfer(unsigned char *nodesid, unsigned char celltran);
+
+  unsigned long SearchThroughLastRow(int index, int start, int end);
+
+  unsigned long SearchThroughLastFrame(int index, int start, int end);
 
   unsigned char m_LUT[256][2]; // the two lookup tables
 
@@ -195,7 +211,6 @@ private:
   unsigned char  m_PointFound;
   InputPixelType m_ObjectValue;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

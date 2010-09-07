@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,16 +24,14 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
 RegularStepGradientDescentBaseOptimizer
 ::RegularStepGradientDescentBaseOptimizer()
 {
-
   itkDebugMacro("Constructor");
-      
+
   m_MaximumStepLength = 1.0;
   m_MinimumStepLength = 1e-3;
   m_GradientMagnitudeTolerance = 1e-4;
@@ -44,8 +42,8 @@ RegularStepGradientDescentBaseOptimizer
   m_CostFunction = 0;
   m_CurrentStepLength   =   0;
   m_StopCondition = Unknown;
-  m_Gradient.Fill( 0.0f );
-  m_PreviousGradient.Fill( 0.0f );
+  m_Gradient.Fill(0.0f);
+  m_PreviousGradient.Fill(0.0f);
   m_RelaxationFactor = 0.5;
   m_StopConditionDescription.str("");
 }
@@ -55,9 +53,8 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::StartOptimization( void )
+::StartOptimization(void)
 {
-
   itkDebugMacro("StartOptimization");
 
   m_CurrentStepLength         = m_MaximumStepLength;
@@ -68,22 +65,21 @@ RegularStepGradientDescentBaseOptimizer
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
   // validity check for the value of GradientMagnitudeTolerance
-  if( m_GradientMagnitudeTolerance < 0.0 )
-      {
-      itkExceptionMacro(<< "Gradient magnitude tolerance must be"
-      "greater or equal 0.0. Current value is " << m_GradientMagnitudeTolerance );
-      }
+  if ( m_GradientMagnitudeTolerance < 0.0 )
+    {
+    itkExceptionMacro(<< "Gradient magnitude tolerance must be"
+                         "greater or equal 0.0. Current value is " << m_GradientMagnitudeTolerance);
+    }
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
-  m_Gradient = DerivativeType( spaceDimension );
-  m_PreviousGradient = DerivativeType( spaceDimension );
-  m_Gradient.Fill( 0.0f );
-  m_PreviousGradient.Fill( 0.0f );
+  m_Gradient = DerivativeType(spaceDimension);
+  m_PreviousGradient = DerivativeType(spaceDimension);
+  m_Gradient.Fill(0.0f);
+  m_PreviousGradient.Fill(0.0f);
 
   this->SetCurrentPosition( GetInitialPosition() );
   this->ResumeOptimization();
-
 }
 
 /**
@@ -91,19 +87,17 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::ResumeOptimization( void )
+::ResumeOptimization(void)
 {
-  
   itkDebugMacro("ResumeOptimization");
 
   m_Stop = false;
 
   this->InvokeEvent( StartEvent() );
 
-  while( !m_Stop ) 
+  while ( !m_Stop )
     {
-
-    if( m_CurrentIteration >= m_NumberOfIterations )
+    if ( m_CurrentIteration >= m_NumberOfIterations )
       {
       m_StopCondition = MaximumNumberOfIterations;
       m_StopConditionDescription << "Maximum number of iterations ("
@@ -117,10 +111,10 @@ RegularStepGradientDescentBaseOptimizer
 
     try
       {
-      m_CostFunction->GetValueAndDerivative( 
-                               this->GetCurrentPosition(), m_Value, m_Gradient );
+      m_CostFunction->GetValueAndDerivative(
+        this->GetCurrentPosition(), m_Value, m_Gradient);
       }
-    catch( ExceptionObject & excp )
+    catch ( ExceptionObject & excp )
       {
       m_StopCondition = CostFunctionError;
       m_StopConditionDescription << "Cost function error after "
@@ -131,7 +125,7 @@ RegularStepGradientDescentBaseOptimizer
       throw excp;
       }
 
-    if( m_Stop )
+    if ( m_Stop )
       {
       break;
       }
@@ -139,9 +133,7 @@ RegularStepGradientDescentBaseOptimizer
     this->AdvanceOneStep();
 
     m_CurrentIteration++;
-
     }
-
 }
 
 /**
@@ -149,11 +141,10 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::StopOptimization( void )
+::StopOptimization(void)
 {
-
   itkDebugMacro("StopOptimization");
-  
+
   m_Stop = true;
   this->InvokeEvent( EndEvent() );
 }
@@ -163,32 +154,30 @@ RegularStepGradientDescentBaseOptimizer
  */
 void
 RegularStepGradientDescentBaseOptimizer
-::AdvanceOneStep( void )
-{ 
-
+::AdvanceOneStep(void)
+{
   itkDebugMacro("AdvanceOneStep");
 
-  const unsigned int  spaceDimension = m_CostFunction->GetNumberOfParameters();
+  const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
-  DerivativeType transformedGradient( spaceDimension );
-  DerivativeType previousTransformedGradient( spaceDimension );
+  DerivativeType transformedGradient(spaceDimension);
+  DerivativeType previousTransformedGradient(spaceDimension);
   ScalesType     scales = this->GetScales();
 
-  if( m_RelaxationFactor < 0.0 )
+  if ( m_RelaxationFactor < 0.0 )
     {
-    itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << m_RelaxationFactor );
+    itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << m_RelaxationFactor);
     return;
     }
 
-  if( m_RelaxationFactor >= 1.0 )
+  if ( m_RelaxationFactor >= 1.0 )
     {
-    itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor );
+    itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor);
     return;
     }
-
 
   // Make sure the scales have been set properly
-  if (scales.size() != spaceDimension)
+  if ( scales.size() != spaceDimension )
     {
     itkExceptionMacro(<< "The size of Scales is "
                       << scales.size()
@@ -197,23 +186,23 @@ RegularStepGradientDescentBaseOptimizer
                       << ".");
     }
 
-  for(unsigned int i = 0;  i < spaceDimension; i++)
+  for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
     transformedGradient[i]  = m_Gradient[i] / scales[i];
-    previousTransformedGradient[i] = 
+    previousTransformedGradient[i] =
       m_PreviousGradient[i] / scales[i];
     }
 
   double magnitudeSquare = 0;
-  for(unsigned int dim=0; dim<spaceDimension; dim++)
+  for ( unsigned int dim = 0; dim < spaceDimension; dim++ )
     {
     const double weighted = transformedGradient[dim];
     magnitudeSquare += weighted * weighted;
     }
-    
-  const double gradientMagnitude = vcl_sqrt( magnitudeSquare );
 
-  if( gradientMagnitude < m_GradientMagnitudeTolerance ) 
+  const double gradientMagnitude = vcl_sqrt(magnitudeSquare);
+
+  if ( gradientMagnitude < m_GradientMagnitudeTolerance )
     {
     m_StopCondition = GradientMagnitudeTolerance;
     m_StopConditionDescription << "Gradient magnitude tolerance met after "
@@ -226,29 +215,29 @@ RegularStepGradientDescentBaseOptimizer
     this->StopOptimization();
     return;
     }
-    
+
   double scalarProduct = 0;
 
-  for(unsigned int i=0; i<spaceDimension; i++)
+  for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
     const double weight1 = transformedGradient[i];
     const double weight2 = previousTransformedGradient[i];
     scalarProduct += weight1 * weight2;
     }
-   
-  // If there is a direction change 
-  if( scalarProduct < 0 ) 
+
+  // If there is a direction change
+  if ( scalarProduct < 0 )
     {
     m_CurrentStepLength *= m_RelaxationFactor;
     }
-  
-  if( m_CurrentStepLength < m_MinimumStepLength )
+
+  if ( m_CurrentStepLength < m_MinimumStepLength )
     {
     m_StopCondition = StepTooSmall;
     m_StopConditionDescription << "Step too small after "
                                << m_CurrentIteration
-                               << " iterations. Current step (" 
-                               << m_CurrentStepLength 
+                               << " iterations. Current step ("
+                               << m_CurrentStepLength
                                << ") is less than minimum step ("
                                << m_MinimumStepLength
                                << ").";
@@ -257,24 +246,23 @@ RegularStepGradientDescentBaseOptimizer
     }
 
   double direction;
-  if( this->m_Maximize ) 
+  if ( this->m_Maximize )
     {
     direction = 1.0;
     }
-  else 
+  else
     {
     direction = -1.0;
     }
 
-  const double factor = 
+  const double factor =
     direction * m_CurrentStepLength / gradientMagnitude;
 
-  // This method StepAlongGradient() will 
+  // This method StepAlongGradient() will
   // be overloaded in non-vector spaces
-  this->StepAlongGradient( factor, transformedGradient );
+  this->StepAlongGradient(factor, transformedGradient);
 
   this->InvokeEvent( IterationEvent() );
-
 }
 
 const std::string
@@ -284,12 +272,11 @@ RegularStepGradientDescentBaseOptimizer
   return m_StopConditionDescription.str();
 }
 
-
 void
 RegularStepGradientDescentBaseOptimizer
-::PrintSelf( std::ostream& os, Indent indent ) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "MaximumStepLength: "
      << m_MaximumStepLength << std::endl;
   os << indent << "MinimumStepLength: "
@@ -306,7 +293,7 @@ RegularStepGradientDescentBaseOptimizer
      << m_Value << std::endl;
   os << indent << "Maximize: "
      << m_Maximize << std::endl;
-  if (m_CostFunction)
+  if ( m_CostFunction )
     {
     os << indent << "CostFunction: "
        << &m_CostFunction << std::endl;

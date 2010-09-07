@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,6 +22,7 @@
 
 #include "itkMacro.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
+#include <vxl/core/vxl_version.h>
 #include <iostream>
 
 namespace itk {
@@ -172,7 +173,7 @@ void LinearSystemWrapperVNL::DestroySolution(unsigned int solutionIndex)
 
 LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned int i, unsigned int SolutionIndex) const
 {
-  
+
   if ( m_Solutions==0 ) return 0.0;
   if ( ((*m_Solutions)[SolutionIndex])->size() <= i) return 0.0;
   else return (*((*m_Solutions)[SolutionIndex]))(i);
@@ -258,12 +259,16 @@ void LinearSystemWrapperVNL::CopyVector2Solution(unsigned int VectorIndex, unsig
 
 void LinearSystemWrapperVNL::MultiplyMatrixMatrix(unsigned int ResultMatrixIndex, unsigned int LeftMatrixIndex, unsigned int RightMatrixIndex)
 {
-  
+
   delete (*m_Matrices)[ResultMatrixIndex];
   (*m_Matrices)[ResultMatrixIndex] = new vnl_sparse_matrix<Float>( this->GetSystemOrder(), this->GetSystemOrder() );
 
+#if VXL_VERSION_MAJOR == 1 && VXL_VERSION_MINOR == 9
   ((*m_Matrices)[LeftMatrixIndex])->mult( *((*m_Matrices)[RightMatrixIndex]), *((*m_Matrices)[ResultMatrixIndex]) );
-
+#else
+  *((*m_Matrices)[ResultMatrixIndex]) =
+    *((*m_Matrices)[LeftMatrixIndex]) * ( *((*m_Matrices)[RightMatrixIndex]));
+#endif
 }
 
 
@@ -281,7 +286,7 @@ void LinearSystemWrapperVNL::ScaleMatrix(Float scale, unsigned int matrixIndex)
 {
   for ( ((*m_Matrices)[matrixIndex])->reset(); ((*m_Matrices)[matrixIndex])->next(); )
     {
-    (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() ) 
+    (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() )
       = scale * (*((*m_Matrices)[matrixIndex]))( ((*m_Matrices)[matrixIndex])->getrow(), ((*m_Matrices)[matrixIndex])->getcolumn() );
     }
 }

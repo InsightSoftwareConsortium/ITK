@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,8 +25,6 @@
 
 namespace itk
 {
-
-
 /** \class SimpleDataObjectDecorator
  * \brief Decorates any "simple" data type (data types without smart pointers) with a DataObject API
  *
@@ -35,7 +33,7 @@ namespace itk
  * that can be passed as down the pipeline. This decorator is intended
  * to be used on native types (float, int, etc.) or any objects not
  * derived from itkObject.  To decorate a subclass of itkObject, see
- * DataObjectDecorator. 
+ * DataObjectDecorator.
  *
  * The decorator provides two methods Set() and Get() to access the
  * decorated object (referred internally as the component).
@@ -55,19 +53,19 @@ namespace itk
  * \ingroup ITKSystemObjects
  *
  */
-template<class T>
-class ITK_EXPORT SimpleDataObjectDecorator : public DataObject
+template< class T >
+class ITK_EXPORT SimpleDataObjectDecorator:public DataObject
 {
 public:
   /** Standard typedefs. */
-  typedef SimpleDataObjectDecorator           Self;
-  typedef DataObject                          Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef SimpleDataObjectDecorator  Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
   typedef T ComponentType;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -75,43 +73,44 @@ public:
   itkTypeMacro(SimpleDataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(const T& val);
-  
-  /** Get the contained object */
-  virtual T& Get() { return m_Component; }
-  virtual const T& Get() const { return m_Component; }
+  virtual void Set(const T & val);
 
-  
+  /** Get the contained object */
+  virtual T &       Get() { return m_Component; }
+  virtual const T & Get() const { return m_Component; }
 protected:
   SimpleDataObjectDecorator();
   ~SimpleDataObjectDecorator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 protected:
-
 private:
-  SimpleDataObjectDecorator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SimpleDataObjectDecorator(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
   ComponentType m_Component;
   bool          m_Initialized;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SimpleDataObjectDecorator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT SimpleDataObjectDecorator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef SimpleDataObjectDecorator< ITK_TEMPLATE_1 x > \
-                                         SimpleDataObjectDecorator##y; } \
+#define ITK_TEMPLATE_SimpleDataObjectDecorator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                             \
+  {                                                                         \
+  _( 1 ( class EXPORT SimpleDataObjectDecorator< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                       \
+  {                                                                         \
+  typedef SimpleDataObjectDecorator< ITK_TEMPLATE_1 TypeX >                 \
+  SimpleDataObjectDecorator##TypeY;                                       \
+  }                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkSimpleDataObjectDecorator+-.h"
+#include "Templates/itkSimpleDataObjectDecorator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkSimpleDataObjectDecorator.txx"
+#include "itkSimpleDataObjectDecorator.txx"
 #endif
 
 #endif

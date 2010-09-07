@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,8 +21,8 @@
 #include "itkObject.h"
 #include <vector>
 
-namespace itk {
-
+namespace itk
+{
 /** \class ObjectStore
  * \brief A specialized memory management object for allocating and destroying
  * contiguous blocks of objects.
@@ -39,7 +39,7 @@ namespace itk {
  *
  * This implementation uses a very simple, list-based scheme to manage
  * pointers that have been borrowed and returned.  Memory overhead incurred is
- * one pointer per object allocated.  Because of this overhead, ObjectStore is 
+ * one pointer per object allocated.  Because of this overhead, ObjectStore is
  * not efficient for use with small objects such as native types.
  *
  * Important notes on thread-safety: This object is thread-safe in the same
@@ -51,20 +51,20 @@ namespace itk {
  * across threads. Calls to \em{new} and \em{delete} have been placed in
  * critical sections in case a compiler's implementation of new/delete is not
  * thread-safe.
- * 
+ *
  * Warnings:  For efficiency reasons, the ObjectStore does not guard against the
  * same pointer being Returned() more than once.  Doing this could result in
  * serious problems.
  */
-template < class TObjectType >
-class ITK_EXPORT ObjectStore : public Object
+template< class TObjectType >
+class ITK_EXPORT ObjectStore:public Object
 {
 public:
-   /** Standard typedefs. */
-  typedef ObjectStore               Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard typedefs. */
+  typedef ObjectStore                Self;
+  typedef Object                     Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,13 +76,13 @@ public:
   typedef TObjectType ObjectType;
 
   /** Type of list for storing pointers to free memory. */
-  typedef std::vector<ObjectType *> FreeListType;
+  typedef std::vector< ObjectType * > FreeListType;
 
   /** Type of memory allocation strategy */
-  typedef enum {LINEAR_GROWTH = 0, EXPONENTIAL_GROWTH = 1} GrowthStrategyType;
-    
+  typedef enum { LINEAR_GROWTH = 0, EXPONENTIAL_GROWTH = 1 } GrowthStrategyType;
+
   /** Borrow a pointer to an object from the memory store. */
-  ObjectType *Borrow();
+  ObjectType * Borrow();
 
   /** Return a pointer to the memory store for reuse. WARNING: The ObjectStore
    *  assumes a pointer is returned exactly once after each time it has been
@@ -101,7 +101,7 @@ public:
   /** Attempts to free memory that is not in use and shrink the size of the
    *  container.  Not guaranteed to do anything. */
   void Squeeze();
-  
+
   /** Frees all memory in the container */
   void Clear();
 
@@ -115,54 +115,48 @@ public:
 
   /** Set growth strategy to exponential */
   void SetGrowthStrategyToExponential()
-    { this->SetGrowthStrategy(EXPONENTIAL_GROWTH); }
+  { this->SetGrowthStrategy(EXPONENTIAL_GROWTH); }
 
   /** Set growth strategy to linear */
   void SetGrowthStrategyToLinear()
-    { this->SetGrowthStrategy(LINEAR_GROWTH); }
-  
+  { this->SetGrowthStrategy(LINEAR_GROWTH); }
 protected:
   ObjectStore();
   ~ObjectStore();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Returns a new size to grow. */
   ::size_t GetGrowthSize();
-  
-  struct MemoryBlock
-    {
-    MemoryBlock(): Size(0), Begin(0) {}
 
-    MemoryBlock(::size_t n) : Size(n)
-      { Begin = new ObjectType[n];  }
+  struct MemoryBlock {
+    MemoryBlock():Size(0), Begin(0) {}
 
-    ~MemoryBlock()  {  } // Purposely does *not* free memory
+    MemoryBlock(::size_t n):Size(n)
+    { Begin = new ObjectType[n];  }
+
+    ~MemoryBlock()  {}   // Purposely does *not* free memory
 
     void Delete()
-      { if (Begin !=0) delete[] Begin; }
-    
+    { if ( Begin != 0 ) { delete[] Begin; } }
+
     ObjectType *Begin;
     ::size_t Size;
-    };
-  
+  };
 private:
-  ObjectStore(const Self&);    //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ObjectStore(const Self &);    //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   GrowthStrategyType m_GrowthStrategy;
-  
+
   ::size_t m_Size;
   ::size_t m_LinearGrowthSize;
-  
+
   /** Pointers to objects available for borrowing. */
-  FreeListType  m_FreeList;
+  FreeListType m_FreeList;
 
   /** A list of MemoryBlocks that have been allocated. */
-  std::vector<MemoryBlock>   m_Store;
-
+  std::vector< MemoryBlock > m_Store;
 };
-
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,6 @@
 #include "itkFFTRealToComplexConjugateImageFilter.h"
 #include "itkFFTWCommon.h"
 
-
 namespace itk
 {
 /** \class FFTWRealToComplexConjugateImageFilter
@@ -29,15 +28,15 @@ namespace itk
  * \ingroup
  */
 
-template <class TPixel, unsigned int VDimension = 3>
-class ITK_EXPORT FFTWRealToComplexConjugateImageFilter :
-    public FFTRealToComplexConjugateImageFilter<TPixel,VDimension>
+template< class TPixel, unsigned int VDimension = 3 >
+class ITK_EXPORT FFTWRealToComplexConjugateImageFilter:
+  public FFTRealToComplexConjugateImageFilter< TPixel, VDimension >
 {
 public:
-  typedef FFTWRealToComplexConjugateImageFilter                   Self;
-  typedef FFTRealToComplexConjugateImageFilter<TPixel,VDimension> Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+  typedef FFTWRealToComplexConjugateImageFilter                      Self;
+  typedef FFTRealToComplexConjugateImageFilter< TPixel, VDimension > Superclass;
+  typedef SmartPointer< Self >                                       Pointer;
+  typedef SmartPointer< const Self >                                 ConstPointer;
 
   /** Standard class typedefs. */
   typedef typename Superclass::TInputImageType  TInputImageType;
@@ -47,10 +46,10 @@ public:
    * the proxy type is a wrapper for the fftw API
    * since the proxy is only defined over double and float,
    * trying to use any other pixel type is inoperative, as
-   * is trying to use double if only the float FFTW version is 
+   * is trying to use double if only the float FFTW version is
    * configured in, or float if only double is configured.
    */
-  typedef typename fftw::Proxy<TPixel> FFTWProxyType;
+  typedef typename fftw::Proxy< TPixel > FFTWProxyType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,33 +63,40 @@ public:
   virtual void GenerateData();  // generates output from input
 
 protected:
-  FFTWRealToComplexConjugateImageFilter() : m_PlanComputed(false),
-                                            m_LastImageSize(0),
-                                            m_InputBuffer(0),
-                                            m_OutputBuffer(0)
-    {
-    }
+  FFTWRealToComplexConjugateImageFilter():m_PlanComputed(false),
+    m_LastImageSize(0),
+    m_InputBuffer(0),
+    m_OutputBuffer(0)
+  {}
+
   ~FFTWRealToComplexConjugateImageFilter()
-    {
-    if(m_PlanComputed)
+  {
+    if ( m_PlanComputed )
       {
       FFTWProxyType::DestroyPlan(this->m_Plan);
-      delete [] this->m_InputBuffer;
-      delete [] this->m_OutputBuffer;
+      delete[] this->m_InputBuffer;
+      delete[] this->m_OutputBuffer;
       }
-    }
+  }
 
   virtual bool FullMatrix();
+
 private:
-  FFTWRealToComplexConjugateImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  bool                             m_PlanComputed;
+  FFTWRealToComplexConjugateImageFilter(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
+
+  // implemented
+
+  bool m_PlanComputed;
+
   typename FFTWProxyType::PlanType m_Plan;
-  unsigned int                     m_LastImageSize;
 
-  TPixel *                             m_InputBuffer;
-  typename FFTWProxyType::ComplexType *m_OutputBuffer;
+  unsigned int m_LastImageSize;
 
+  TPixel *m_InputBuffer;
+
+  typename FFTWProxyType::ComplexType * m_OutputBuffer;
 };
 } // namespace itk
 

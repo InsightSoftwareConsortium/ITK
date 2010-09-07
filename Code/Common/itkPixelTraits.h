@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class PixelTraits
  * \brief Traits for a pixel that define the dimension and component type.
  *
@@ -33,97 +32,109 @@ namespace itk
  * of itk::Array. This (will) include RGBPixel and RGBAPixel. Specialized
  * versions of PixelTraits are defined for the standard scalar types.
  */
-template<class TPixelType>
+template< class TPixelType >
 class PixelTraits
 {
 public:
   /** Dimension of the pixel (range). */
   itkStaticConstMacro(Dimension, unsigned int, TPixelType::Length);
-  
+
   /** Type of a single component of a pixel. */
   typedef typename TPixelType::ValueType ValueType;
 };
 
 /** \class PixelTraits<bool>
  * Specialization of PixelTraits for scalar images. */
-template <> class PixelTraits<bool>
+template< >
+class PixelTraits< bool >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef bool ValueType;
 };
 
-template <> class PixelTraits<char>
+template< >
+class PixelTraits< char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef char ValueType;
 };
 
-template <> class PixelTraits<signed char>
+template< >
+class PixelTraits< signed char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef char ValueType;
 };
 
-template <> class PixelTraits<unsigned char>
+template< >
+class PixelTraits< unsigned char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned char ValueType;
 };
 
-template <> class PixelTraits<short>
+template< >
+class PixelTraits< short >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef short ValueType;
 };
 
-template <> class PixelTraits<unsigned short>
+template< >
+class PixelTraits< unsigned short >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned short ValueType;
 };
 
-template <> class PixelTraits<int>
+template< >
+class PixelTraits< int >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef int ValueType;
 };
 
-template <> class PixelTraits<unsigned int>
+template< >
+class PixelTraits< unsigned int >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned int ValueType;
 };
 
-template <> class PixelTraits<long>
+template< >
+class PixelTraits< long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef long ValueType;
 };
 
-template <> class PixelTraits<unsigned long>
+template< >
+class PixelTraits< unsigned long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef unsigned long ValueType;
 };
 
-template <> class PixelTraits<float>
+template< >
+class PixelTraits< float >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
   typedef float ValueType;
 };
 
-template <> class PixelTraits<double>
+template< >
+class PixelTraits< double >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
@@ -131,7 +142,7 @@ public:
 };
 
 /** \class JoinTraits
- * \brief Trait to determine what datatype is needed if the specified 
+ * \brief Trait to determine what datatype is needed if the specified
  * pixel types are "joined" into a single vector.
  *
  * JoinTraits defines the value type needed to combine the specified
@@ -147,7 +158,7 @@ public:
  * to float). There are several combinations similar to this.  Most
  * of the JoinTraits are specializations of the base template.
  */
-template <class TValueType1, class TValueType2>
+template< class TValueType1, class TValueType2 >
 class JoinTraits
 {
 public:
@@ -156,78 +167,78 @@ public:
 
 /** \class JoinTraits
  * Specializations for bool. */
-template<>
-class JoinTraits<bool, bool>
+template< >
+class JoinTraits< bool, bool >
 {
 public:
   typedef bool ValueType;
 };
 
-template<>
-class JoinTraits<bool, char>
+template< >
+class JoinTraits< bool, char >
 {
 public:
   typedef char ValueType;
 };
 
-template<>
-class JoinTraits<bool, unsigned char>
+template< >
+class JoinTraits< bool, unsigned char >
 {
 public:
   typedef unsigned char ValueType;
 };
 
-template<>
-class JoinTraits<bool, short>
+template< >
+class JoinTraits< bool, short >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<bool, unsigned short>
+template< >
+class JoinTraits< bool, unsigned short >
 {
 public:
   typedef unsigned short ValueType;
 };
 
-template<>
-class JoinTraits<bool, int>
+template< >
+class JoinTraits< bool, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<bool, unsigned int>
+template< >
+class JoinTraits< bool, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<bool, long>
+template< >
+class JoinTraits< bool, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<bool, unsigned long>
+template< >
+class JoinTraits< bool, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<bool, float>
+template< >
+class JoinTraits< bool, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<bool, double>
+template< >
+class JoinTraits< bool, double >
 {
 public:
   typedef double ValueType;
@@ -235,79 +246,79 @@ public:
 
 /**  \class PixelTraits<char>
  * Specializations for char. */
-template<>
-class JoinTraits<char, bool>
+template< >
+class JoinTraits< char, bool >
 {
 public:
   typedef char ValueType;
 };
 
-template<>
-class JoinTraits<char, char>
+template< >
+class JoinTraits< char, char >
 {
 public:
   typedef char ValueType;
 };
 
-template<>
-class JoinTraits<char, unsigned char>
+template< >
+class JoinTraits< char, unsigned char >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<char, short>
+template< >
+class JoinTraits< char, short >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<char, unsigned short>
+template< >
+class JoinTraits< char, unsigned short >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<char, int>
+template< >
+class JoinTraits< char, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<char, unsigned int>
+template< >
+class JoinTraits< char, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<char, long>
+template< >
+class JoinTraits< char, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<char, unsigned long>
+template< >
+class JoinTraits< char, unsigned long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<char, float>
+template< >
+class JoinTraits< char, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<char, double>
+template< >
+class JoinTraits< char, double >
 {
 public:
   typedef double ValueType;
@@ -315,720 +326,719 @@ public:
 
 /**  \class PixelTraits<unsigned char>
  * Specializations for unsigned char. */
-template<>
-class JoinTraits<unsigned char, bool>
+template< >
+class JoinTraits< unsigned char, bool >
 {
 public:
   typedef unsigned char ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, char>
+template< >
+class JoinTraits< unsigned char, char >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, unsigned char>
+template< >
+class JoinTraits< unsigned char, unsigned char >
 {
 public:
   typedef unsigned char ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, short>
+template< >
+class JoinTraits< unsigned char, short >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, unsigned short>
+template< >
+class JoinTraits< unsigned char, unsigned short >
 {
 public:
   typedef unsigned short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, int>
+template< >
+class JoinTraits< unsigned char, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, unsigned int>
+template< >
+class JoinTraits< unsigned char, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, long>
+template< >
+class JoinTraits< unsigned char, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, unsigned long>
+template< >
+class JoinTraits< unsigned char, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, float>
+template< >
+class JoinTraits< unsigned char, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned char, double>
+template< >
+class JoinTraits< unsigned char, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /**  \class PixelTraits<short>
  * Specializations for short. */
-template<>
-class JoinTraits<short, bool>
+template< >
+class JoinTraits< short, bool >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<short, char>
+template< >
+class JoinTraits< short, char >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<short, unsigned char>
+template< >
+class JoinTraits< short, unsigned char >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<short, short>
+template< >
+class JoinTraits< short, short >
 {
 public:
   typedef short ValueType;
 };
 
-template<>
-class JoinTraits<short, unsigned short>
+template< >
+class JoinTraits< short, unsigned short >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<short, int>
+template< >
+class JoinTraits< short, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<short, unsigned int>
+template< >
+class JoinTraits< short, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<short, long>
+template< >
+class JoinTraits< short, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<short, unsigned long>
+template< >
+class JoinTraits< short, unsigned long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<short, float>
+template< >
+class JoinTraits< short, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<short, double>
+template< >
+class JoinTraits< short, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /**  \class PixelTraits<unsigned short>
  * Specializations for unsigned short. */
-template<>
-class JoinTraits<unsigned short, bool>
+template< >
+class JoinTraits< unsigned short, bool >
 {
 public:
   typedef unsigned short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, char>
+template< >
+class JoinTraits< unsigned short, char >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, unsigned char>
+template< >
+class JoinTraits< unsigned short, unsigned char >
 {
 public:
   typedef unsigned short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, short>
+template< >
+class JoinTraits< unsigned short, short >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, unsigned short>
+template< >
+class JoinTraits< unsigned short, unsigned short >
 {
 public:
   typedef unsigned short ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, int>
+template< >
+class JoinTraits< unsigned short, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, unsigned int>
+template< >
+class JoinTraits< unsigned short, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, long>
+template< >
+class JoinTraits< unsigned short, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, unsigned long>
+template< >
+class JoinTraits< unsigned short, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, float>
+template< >
+class JoinTraits< unsigned short, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned short, double>
+template< >
+class JoinTraits< unsigned short, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /**  \class PixelTraits<int>
  * Specializations for int. */
-template<>
-class JoinTraits<int, bool>
+template< >
+class JoinTraits< int, bool >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, char>
+template< >
+class JoinTraits< int, char >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, unsigned char>
+template< >
+class JoinTraits< int, unsigned char >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, short>
+template< >
+class JoinTraits< int, short >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, unsigned short>
+template< >
+class JoinTraits< int, unsigned short >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, int>
+template< >
+class JoinTraits< int, int >
 {
 public:
   typedef int ValueType;
 };
 
-template<>
-class JoinTraits<int, unsigned int>
+template< >
+class JoinTraits< int, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<int, long>
+template< >
+class JoinTraits< int, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<int, unsigned long>
+template< >
+class JoinTraits< int, unsigned long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<int, float>
+template< >
+class JoinTraits< int, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<int, double>
+template< >
+class JoinTraits< int, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /**  \class PixelTraits<unsigned int>
  * Specializations for unsigned int. */
-template<>
-class JoinTraits<unsigned int, bool>
+template< >
+class JoinTraits< unsigned int, bool >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, char>
+template< >
+class JoinTraits< unsigned int, char >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, unsigned char>
+template< >
+class JoinTraits< unsigned int, unsigned char >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, short>
+template< >
+class JoinTraits< unsigned int, short >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, unsigned short>
+template< >
+class JoinTraits< unsigned int, unsigned short >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, int>
+template< >
+class JoinTraits< unsigned int, int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, unsigned int>
+template< >
+class JoinTraits< unsigned int, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, long>
+template< >
+class JoinTraits< unsigned int, long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, unsigned long>
+template< >
+class JoinTraits< unsigned int, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, float>
+template< >
+class JoinTraits< unsigned int, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned int, double>
+template< >
+class JoinTraits< unsigned int, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /** \class PixelTraits<long>
  * Specializations for long. */
-template<>
-class JoinTraits<long, bool>
+template< >
+class JoinTraits< long, bool >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, char>
+template< >
+class JoinTraits< long, char >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, unsigned char>
+template< >
+class JoinTraits< long, unsigned char >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, short>
+template< >
+class JoinTraits< long, short >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, unsigned short>
+template< >
+class JoinTraits< long, unsigned short >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, int>
+template< >
+class JoinTraits< long, int >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, unsigned int>
+template< >
+class JoinTraits< long, unsigned int >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<long, long>
+template< >
+class JoinTraits< long, long >
 {
 public:
   typedef long ValueType;
 };
 
-template<>
-class JoinTraits<long, unsigned long>
+template< >
+class JoinTraits< long, unsigned long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<long, float>
+template< >
+class JoinTraits< long, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<long, double>
+template< >
+class JoinTraits< long, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /** \class PixelTraits<unsigned long>
  * Specializations for unsigned long. */
-template<>
-class JoinTraits<unsigned long, bool>
+template< >
+class JoinTraits< unsigned long, bool >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, char>
+template< >
+class JoinTraits< unsigned long, char >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, unsigned char>
+template< >
+class JoinTraits< unsigned long, unsigned char >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, short>
+template< >
+class JoinTraits< unsigned long, short >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, unsigned short>
+template< >
+class JoinTraits< unsigned long, unsigned short >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, int>
+template< >
+class JoinTraits< unsigned long, int >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, unsigned int>
+template< >
+class JoinTraits< unsigned long, unsigned int >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, long>
+template< >
+class JoinTraits< unsigned long, long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, unsigned long>
+template< >
+class JoinTraits< unsigned long, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, float>
+template< >
+class JoinTraits< unsigned long, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<unsigned long, double>
+template< >
+class JoinTraits< unsigned long, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /**  \class PixelTraits<float>
  * Specializations for float. */
-template<>
-class JoinTraits<float, bool>
+template< >
+class JoinTraits< float, bool >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, char>
+template< >
+class JoinTraits< float, char >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, unsigned char>
+template< >
+class JoinTraits< float, unsigned char >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, short>
+template< >
+class JoinTraits< float, short >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, unsigned short>
+template< >
+class JoinTraits< float, unsigned short >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, int>
+template< >
+class JoinTraits< float, int >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, unsigned int>
+template< >
+class JoinTraits< float, unsigned int >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, long>
+template< >
+class JoinTraits< float, long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, unsigned long>
+template< >
+class JoinTraits< float, unsigned long >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, float>
+template< >
+class JoinTraits< float, float >
 {
 public:
   typedef float ValueType;
 };
 
-template<>
-class JoinTraits<float, double>
+template< >
+class JoinTraits< float, double >
 {
 public:
   typedef double ValueType;
 };
-  
+
 /** \class PixelTraits<double>
  * Specializations for double. */
-template<>
-class JoinTraits<double, bool>
+template< >
+class JoinTraits< double, bool >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, char>
+template< >
+class JoinTraits< double, char >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, unsigned char>
+template< >
+class JoinTraits< double, unsigned char >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, short>
+template< >
+class JoinTraits< double, short >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, unsigned short>
+template< >
+class JoinTraits< double, unsigned short >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, int>
+template< >
+class JoinTraits< double, int >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, unsigned int>
+template< >
+class JoinTraits< double, unsigned int >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, long>
+template< >
+class JoinTraits< double, long >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, unsigned long>
+template< >
+class JoinTraits< double, unsigned long >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, float>
+template< >
+class JoinTraits< double, float >
 {
 public:
   typedef double ValueType;
 };
 
-template<>
-class JoinTraits<double, double>
+template< >
+class JoinTraits< double, double >
 {
 public:
   typedef double ValueType;
 };
-  
 } // end namespace itk
 
 #endif // __itkPixelTraits_h

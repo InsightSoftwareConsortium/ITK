@@ -24,40 +24,37 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-SpatialObjectFactoryBase* SpatialObjectFactoryBase::m_Factory = 0;
+SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = 0;
 
 SpatialObjectFactoryBase::SpatialObjectFactoryBase()
-{
-}
+{}
 
 SpatialObjectFactoryBase::~SpatialObjectFactoryBase()
-{
-}
+{}
 
 void SpatialObjectFactoryBase::RegisterDefaultSpatialObjects()
 {
   if ( !m_Factory )
     {
     // 3D Objects
-    typedef EllipseSpatialObject<3> EllipseType3D;
-    typedef GroupSpatialObject<3>   GroupType3D;
-    typedef DTITubeSpatialObject<3> DTITubeType3D;
-    SpatialObjectFactory<EllipseType3D>::RegisterSpatialObject();
-    SpatialObjectFactory<GroupType3D>::RegisterSpatialObject();
-    SpatialObjectFactory<DTITubeType3D>::RegisterSpatialObject();
+    typedef EllipseSpatialObject< 3 > EllipseType3D;
+    typedef GroupSpatialObject< 3 >   GroupType3D;
+    typedef DTITubeSpatialObject< 3 > DTITubeType3D;
+    SpatialObjectFactory< EllipseType3D >::RegisterSpatialObject();
+    SpatialObjectFactory< GroupType3D >::RegisterSpatialObject();
+    SpatialObjectFactory< DTITubeType3D >::RegisterSpatialObject();
     }
 }
 
-const char*
+const char *
 SpatialObjectFactoryBase::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 SpatialObjectFactoryBase::GetDescription() const
 {
   return "SpatialObject FactoryBase";
 }
-
 } // end namespace itk

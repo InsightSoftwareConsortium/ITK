@@ -27,45 +27,44 @@ namespace itk
  * \brief
  */
 template< class TInput, class TOutput, class TCriterion >
-class QuadEdgeMeshDecimationFilter :
-      public QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >
+class QuadEdgeMeshDecimationFilter:
+  public QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >
 {
 public:
-  typedef QuadEdgeMeshDecimationFilter                          Self;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >   Superclass;
+  typedef QuadEdgeMeshDecimationFilter                        Self;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput > Superclass;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuadEdgeMeshDecimationFilter, QuadEdgeMeshToQuadEdgeMeshFilter );
+  itkTypeMacro(QuadEdgeMeshDecimationFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-  typedef TInput                                                InputMeshType;
-  typedef typename InputMeshType::Pointer                       InputMeshPointer;
+  typedef TInput                          InputMeshType;
+  typedef typename InputMeshType::Pointer InputMeshPointer;
 
-  typedef TOutput                                               OutputMeshType;
-  typedef typename OutputMeshType::Pointer                      OutputMeshPointer;
+  typedef TOutput                          OutputMeshType;
+  typedef typename OutputMeshType::Pointer OutputMeshPointer;
 
-  typedef TCriterion                                            CriterionType;
-  typedef typename CriterionType::Pointer                       CriterionPointer;
-  typedef typename CriterionType::MeasureType                   MeasureType;
-  typedef typename CriterionType::PriorityType                  PriorityType;
-  typedef typename CriterionType::PriorityQueueWrapperType      PriorityQueueItemType;
+  typedef TCriterion                                       CriterionType;
+  typedef typename CriterionType::Pointer                  CriterionPointer;
+  typedef typename CriterionType::MeasureType              MeasureType;
+  typedef typename CriterionType::PriorityType             PriorityType;
+  typedef typename CriterionType::PriorityQueueWrapperType PriorityQueueItemType;
 
-  itkSetObjectMacro( Criterion, CriterionType );
-
+  itkSetObjectMacro(Criterion, CriterionType);
 protected:
   QuadEdgeMeshDecimationFilter()
-    {
+  {
     this->m_Iteration = 0;
-    }
+  }
 
   ~QuadEdgeMeshDecimationFilter() {}
 
-  CriterionPointer      m_Criterion;
-  unsigned long         m_Iteration;
+  CriterionPointer m_Criterion;
+  unsigned long    m_Iteration;
 
   void GenerateData()
-    {
+  {
     this->CopyInputMeshToOutputMesh();
 
     Initialize();
@@ -82,26 +81,31 @@ protected:
         }
 
       ++m_Iteration;
-      } while ( !IsCriterionSatisfied() );
+      }
+    while ( !IsCriterionSatisfied() );
 
-    this->GetOutput()->SqueezePointsIds( );
-    }
+    this->GetOutput()->SqueezePointsIds();
+  }
 
   virtual void Initialize() {}
   virtual void FillPriorityQueue() = 0;
+
   virtual void Extract() = 0;
+
   virtual bool ProcessWithoutAnyTopologicalGuarantee() = 0;
+
   virtual bool ProcessWithTopologicalGuarantee() = 0;
+
   virtual bool IsCriterionSatisfied() = 0;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const
-    {
-    this->Superclass::PrintSelf( os, indent );
-    }
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    this->Superclass::PrintSelf(os, indent);
+  }
 
 private:
-  QuadEdgeMeshDecimationFilter( const Self& );
-  void operator = ( const Self& );
+  QuadEdgeMeshDecimationFilter(const Self &);
+  void operator=(const Self &);
 };
 }
 

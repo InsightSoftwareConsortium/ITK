@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,20 +23,19 @@
 
 namespace itk
 {
-
 /**
  * \class ConicShellInteriorExteriorSpatialFunction
  * \brief Spatial function implementation of a conic shell
  *
- * We are creating search areas from BoundaryPoint1 in which to look for 
- * candidate BoundaryPoint2's with which to form core atoms.  Assume the 
+ * We are creating search areas from BoundaryPoint1 in which to look for
+ * candidate BoundaryPoint2's with which to form core atoms.  Assume the
  * "worst case" that BoundaryPoint2 is somewhere in that search area pointing
- * directly at BoundaryPoint1. 
+ * directly at BoundaryPoint1.
  *
- * The search area (ConicShell?) from each BoundaryPoint1 has the following 
- * parameters: 
+ * The search area (ConicShell?) from each BoundaryPoint1 has the following
+ * parameters:
  *
- * DistanceMax and DistanceMin from the location of the BoundaryPoint 
+ * DistanceMax and DistanceMin from the location of the BoundaryPoint
  *
  * AngleMax from the line along the gradient at the boundary point.
  * This is determined in n dimensions by taking the dot product of two vectors,
@@ -45,27 +44,27 @@ namespace itk
  *
  * If the absolute value of that dot product is greater than (1 - epsilon)
  * then you are in the ConicShell.  This epsilon is the same one determining
- * face-to-faceness in the IEEE TMI paper. 
+ * face-to-faceness in the IEEE TMI paper.
  *
- * Polarity, i.e. which direction along the gradient of BoundaryPoint1 
+ * Polarity, i.e. which direction along the gradient of BoundaryPoint1
  * you want to look.
- * 
+ *
  * \ingroup SpatialFunctions
  *
  * */
 
-template <unsigned int VDimension=3, typename TInput=Point<double,3> >
+template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
 class ITK_EXPORT ConicShellInteriorExteriorSpatialFunction:
-    public InteriorExteriorSpatialFunction<VDimension, TInput>
+  public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ConicShellInteriorExteriorSpatialFunction   Self;
-  typedef InteriorExteriorSpatialFunction<VDimension> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-    
+  typedef ConicShellInteriorExteriorSpatialFunction     Self;
+  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+
   /** Run time information. */
   itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,
                InteriorExteriorSpatialFunction);
@@ -80,43 +79,44 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** The type of vector used to store the gradient info. */
-  typedef CovariantVector<double, VDimension> GradientType;
-  
+  typedef CovariantVector< double, VDimension > GradientType;
+
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType& position) const;
+  OutputType Evaluate(const InputType & position) const;
 
   /** Set/Get the origin of the function. */
-  itkGetConstMacro( Origin, InputType);
-  itkSetMacro( Origin, InputType);
-  
+  itkGetConstMacro(Origin, InputType);
+  itkSetMacro(Origin, InputType);
+
   /** Set/Get the gradient at the origin of the function. */
-  GradientType GetOriginGradient() {return m_OriginGradient;}
+  GradientType GetOriginGradient() { return m_OriginGradient; }
   void SetOriginGradient(GradientType grad);
-  
+
   /** Set/Get the minimum search distance. */
-  itkGetConstMacro( DistanceMin, double);
-  itkSetMacro( DistanceMin, double);
-  
+  itkGetConstMacro(DistanceMin, double);
+  itkSetMacro(DistanceMin, double);
+
   /** Set/Get the maximum search distance. */
-  itkGetConstMacro( DistanceMax, double);
-  itkSetMacro( DistanceMax, double);
-  
+  itkGetConstMacro(DistanceMax, double);
+  itkSetMacro(DistanceMax, double);
+
   /** Set/Get the tolerance of the in/out comparison. */
-  itkGetConstMacro( Epsilon, double);
-  itkSetMacro( Epsilon, double);
-  
+  itkGetConstMacro(Epsilon, double);
+  itkSetMacro(Epsilon, double);
+
   /** Set/Get direction along the gradient to search. */
-  itkGetConstMacro( Polarity, bool);
-  itkSetMacro( Polarity, bool);
-       
+  itkGetConstMacro(Polarity, bool);
+  itkSetMacro(Polarity, bool);
 protected:
   ConicShellInteriorExteriorSpatialFunction();
   virtual ~ConicShellInteriorExteriorSpatialFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ConicShellInteriorExteriorSpatialFunction(const Self&); //not implemented
-  void operator=(const Self&); //purposely not implemented
+  ConicShellInteriorExteriorSpatialFunction(const Self &); //not implemented
+  void operator=(const Self &);                            //purposely not
+
+  // implemented
 
   /** The origin of the conic shell */
   InputType m_Origin;
@@ -128,24 +128,27 @@ private:
   double m_DistanceMax;
   double m_Epsilon;
   bool   m_Polarity;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ConicShellInteriorExteriorSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 x > \
-                                                  ConicShellInteriorExteriorSpatialFunction##y; } \
+#define ITK_TEMPLATE_ConicShellInteriorExteriorSpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                             \
+  {                                                                                         \
+  _( 2 ( class EXPORT ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                                       \
+  {                                                                                         \
+  typedef ConicShellInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
+  ConicShellInteriorExteriorSpatialFunction##TypeY;                                       \
+  }                                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkConicShellInteriorExteriorSpatialFunction+-.h"
+#include "Templates/itkConicShellInteriorExteriorSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkConicShellInteriorExteriorSpatialFunction.txx"
+#include "itkConicShellInteriorExteriorSpatialFunction.txx"
 #endif
 
 #endif

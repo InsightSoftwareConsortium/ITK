@@ -1,9 +1,11 @@
 /*
+ * Copyright (c) 2002-2007, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium
+ * Copyright (c) 2002-2007, Professor Benoit Macq
  * Copyright (c) 2001-2003, David Janssens
  * Copyright (c) 2002-2003, Yannick Verschueren
- * Copyright (c) 2003-2005, Francois Devaux and Antonin Descampe
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
- * Copyright (c) 2002-2005, Communications and remote sensing Laboratory, Universite catholique de Louvain, Belgium
+ * Copyright (c) 2003-2007, Francois-Olivier Devaux and Antonin Descampe
+ * Copyright (c) 2005, Herve Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +30,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "opj_includes.h"
+#include "bio.h"
+#include "opj_malloc.h"
 
 /** @defgroup BIO BIO - Individual bit input-output stream */
 /*@{*/
@@ -41,57 +44,57 @@ Write a bit
 @param bio BIO handle
 @param b Bit to write (0 or 1)
 */
-static void bio_putbit(opj_bio_t *bio, int b);
+static void bio_putbit(opj_bio_t *bio, OPJ_UINT32 b);
 /**
 Read a bit
 @param bio BIO handle
 @return Returns the read bit
 */
-static int bio_getbit(opj_bio_t *bio);
+static OPJ_UINT32 bio_getbit(opj_bio_t *bio);
 /**
 Write a byte
 @param bio BIO handle
 @return Returns 0 if successful, returns 1 otherwise
 */
-static int bio_byteout(opj_bio_t *bio);
+static bool bio_byteout(opj_bio_t *bio);
 /**
 Read a byte
 @param bio BIO handle
 @return Returns 0 if successful, returns 1 otherwise
 */
-static int bio_bytein(opj_bio_t *bio);
+static bool bio_bytein(opj_bio_t *bio);
 
 /*@}*/
 
 /*@}*/
 
-/* 
+/*
 ==========================================================
    local functions
 ==========================================================
 */
 
-static int bio_byteout(opj_bio_t *bio) {
+static bool bio_byteout(opj_bio_t *bio) {
   bio->buf = (bio->buf << 8) & 0xffff;
   bio->ct = bio->buf == 0xff00 ? 7 : 8;
   if (bio->bp >= bio->end) {
-    return 1;
+    return true;
   }
   *bio->bp++ = bio->buf >> 8;
-  return 0;
+  return false;
 }
 
-static int bio_bytein(opj_bio_t *bio) {
+static bool bio_bytein(opj_bio_t *bio) {
   bio->buf = (bio->buf << 8) & 0xffff;
   bio->ct = bio->buf == 0xff00 ? 7 : 8;
   if (bio->bp >= bio->end) {
-    return 1;
+    return true;
   }
   bio->buf |= *bio->bp++;
-  return 0;
+  return false;
 }
 
-static void bio_putbit(opj_bio_t *bio, int b) {
+static void bio_putbit(opj_bio_t *bio, OPJ_UINT32 b) {
   if (bio->ct == 0) {
     bio_byteout(bio);
   }
@@ -99,7 +102,7 @@ static void bio_putbit(opj_bio_t *bio, int b) {
   bio->buf |= b << bio->ct;
 }
 
-static int bio_getbit(opj_bio_t *bio) {
+static OPJ_UINT32 bio_getbit(opj_bio_t *bio) {
   if (bio->ct == 0) {
     bio_bytein(bio);
   }
@@ -107,13 +110,13 @@ static int bio_getbit(opj_bio_t *bio) {
   return (bio->buf >> bio->ct) & 1;
 }
 
-/* 
+/*
 ==========================================================
    Bit Input/Output interface
 ==========================================================
 */
 
-opj_bio_t* bio_create() {
+opj_bio_t* bio_create(void) {
   opj_bio_t *bio = (opj_bio_t*)opj_malloc(sizeof(opj_bio_t));
   return bio;
 }
@@ -124,11 +127,11 @@ void bio_destroy(opj_bio_t *bio) {
   }
 }
 
-int bio_numbytes(opj_bio_t *bio) {
-  return (int)(bio->bp - bio->start);
+OPJ_UINT32 bio_numbytes(opj_bio_t *bio) {
+  return (bio->bp - bio->start);
 }
 
-void bio_init_enc(opj_bio_t *bio, unsigned char *bp, int len) {
+void bio_init_enc(opj_bio_t *bio, OPJ_BYTE *bp, OPJ_UINT32 len) {
   bio->start = bp;
   bio->end = bp + len;
   bio->bp = bp;
@@ -136,7 +139,7 @@ void bio_init_enc(opj_bio_t *bio, unsigned char *bp, int len) {
   bio->ct = 8;
 }
 
-void bio_init_dec(opj_bio_t *bio, unsigned char *bp, int len) {
+void bio_init_dec(opj_bio_t *bio, OPJ_BYTE *bp, OPJ_UINT32 len) {
   bio->start = bp;
   bio->end = bp + len;
   bio->bp = bp;
@@ -144,43 +147,43 @@ void bio_init_dec(opj_bio_t *bio, unsigned char *bp, int len) {
   bio->ct = 0;
 }
 
-void bio_write(opj_bio_t *bio, int v, int n) {
-  int i;
-  for (i = n - 1; i >= 0; i--) {
+void bio_write(opj_bio_t *bio, OPJ_UINT32 v, OPJ_UINT32 n) {
+  OPJ_UINT32 i;
+  for (i = n - 1; i != -1 ; --i) {
     bio_putbit(bio, (v >> i) & 1);
   }
 }
 
-int bio_read(opj_bio_t *bio, int n) {
-  int i, v;
+OPJ_UINT32 bio_read(opj_bio_t *bio, OPJ_UINT32 n) {
+  OPJ_UINT32 i, v;
   v = 0;
-  for (i = n - 1; i >= 0; i--) {
+  for (i = n - 1; i != -1 ; --i) {
     v += bio_getbit(bio) << i;
   }
   return v;
 }
 
-int bio_flush(opj_bio_t *bio) {
+bool bio_flush(opj_bio_t *bio) {
   bio->ct = 0;
   if (bio_byteout(bio)) {
-    return 1;
+    return true;
   }
   if (bio->ct == 7) {
     bio->ct = 0;
     if (bio_byteout(bio)) {
-      return 1;
+      return true;
     }
   }
-  return 0;
+  return false;
 }
 
-int bio_inalign(opj_bio_t *bio) {
+bool bio_inalign(opj_bio_t *bio) {
   bio->ct = 0;
   if ((bio->buf & 0xff) == 0xff) {
     if (bio_bytein(bio)) {
-      return 1;
+      return true;
     }
     bio->ct = 0;
   }
-  return 0;
+  return false;
 }

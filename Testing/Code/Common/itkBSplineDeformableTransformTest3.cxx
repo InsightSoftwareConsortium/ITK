@@ -172,7 +172,6 @@ static int RunTest(int argc, char * argv [] )
   typedef typename TransformType::OriginType OriginType;
   OriginType origin;
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
   spacing[0] = fixedSpacing[0] * fixedSize[0]  / numberOfGridCells;
   spacing[1] = fixedSpacing[1] * fixedSize[1]  / numberOfGridCells;
 
@@ -180,14 +179,7 @@ static int RunTest(int argc, char * argv [] )
 
   origin[0] = fixedOrigin[0] - orderShift * spacing[0] - fixedSpacing[0] / 2.0;
   origin[1] = fixedOrigin[1] - orderShift * spacing[1] - fixedSpacing[1] / 2.0;
-#else
-  spacing[0] = vcl_floor( fixedSpacing[0] * (fixedSize[0] - 1) / numberOfGridCells );
-  spacing[1] = vcl_floor( fixedSpacing[1] * (fixedSize[1] - 1) / numberOfGridCells );
 
-  origin[0] = fixedOrigin[0] - spacing[0];
-  origin[1] = fixedOrigin[1] - spacing[1];
-#endif
-  
   bsplineTransform->SetGridSpacing( spacing );
   bsplineTransform->SetGridOrigin( origin );
   bsplineTransform->SetGridRegion( bsplineRegion );

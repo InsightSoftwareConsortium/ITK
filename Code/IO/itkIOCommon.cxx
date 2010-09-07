@@ -19,16 +19,15 @@
 #include <cstring>
 #include <string.h>
 
-
 namespace itk
 {
-const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName"; 
+const char *const ITK_OnDiskStorageTypeName = "ITK_OnDiskStorageTypeName";
 const char *const ITK_ImageFileBaseName = "ITK_ImageFileBaseName";
 const char *const ITK_VoxelUnits = "ITK_VoxelUnits";
 const char *const ITK_OnDiskBitPerPixel = "ITK_OnDiskBitPerPixel";
 const char *const SPM_ROI_SCALE = "SPM_ROI_SCALE";
 const char *const ITK_FileNotes = "ITK_FileNotes";
-#if defined(ITKIO_DEPRECATED_METADATA_ORIENTATION)
+#if defined( ITKIO_DEPRECATED_METADATA_ORIENTATION )
 const char *const ITK_CoordinateOrientation = "ITK_CoordinateOrientation";
 #endif
 const char *const ITK_Origin = "ITK_Origin";
@@ -57,7 +56,7 @@ const char *const ROI_SCAN_ID = "ROI_SCAN_ID";
 std::string IOCommon
 ::AtomicPixelTypeToString(const AtomicPixelType pixelType)
 {
-  switch(pixelType)
+  switch ( pixelType )
     {
     case ITK_UCHAR:
       return "unsigned char";
@@ -98,159 +97,41 @@ std::string IOCommon
 unsigned int IOCommon
 ::ComputeSizeOfAtomicPixelType(const AtomicPixelType pixelType)
 {
-  switch (pixelType)
+  switch ( pixelType )
     {
     case ITK_CHAR:
-      return static_cast<unsigned int>( sizeof(char) );
+      return static_cast< unsigned int >( sizeof( char ) );
       break;
     case ITK_UCHAR:
-      return static_cast<unsigned int>( sizeof(unsigned char) );
+      return static_cast< unsigned int >( sizeof( unsigned char ) );
       break;
     case ITK_SHORT:
-      return static_cast<unsigned int>( sizeof(short) );
+      return static_cast< unsigned int >( sizeof( short ) );
       break;
     case ITK_USHORT:
-      return static_cast<unsigned int>( sizeof(unsigned short) );
+      return static_cast< unsigned int >( sizeof( unsigned short ) );
       break;
     case ITK_INT:
-      return static_cast<unsigned int>( sizeof(int) );
+      return static_cast< unsigned int >( sizeof( int ) );
       break;
     case ITK_UINT:
-      return static_cast<unsigned int>( sizeof(unsigned int) );
+      return static_cast< unsigned int >( sizeof( unsigned int ) );
       break;
     case ITK_LONG:
-      return static_cast<unsigned int>( sizeof(long) );
+      return static_cast< unsigned int >( sizeof( long ) );
       break;
     case ITK_ULONG:
-      return static_cast<unsigned int>( sizeof(unsigned long) );
+      return static_cast< unsigned int >( sizeof( unsigned long ) );
       break;
     case ITK_FLOAT:
-      return static_cast<unsigned int>( sizeof(float) );
+      return static_cast< unsigned int >( sizeof( float ) );
       break;
     case ITK_DOUBLE:
-      return static_cast<unsigned int>( sizeof(double) );
+      return static_cast< unsigned int >( sizeof( double ) );
       break;
     default:
-      return static_cast<unsigned int>( sizeof(char) );
+      return static_cast< unsigned int >( sizeof( char ) );
       break;
     }
 }
-
-/**
- * This method has been deprecated as of ITK 3.8.
- * Please use the method:
- * itksys::SystemTools::GetFilenameName(fileName) instead.
- */
-#if !defined(ITK_LEGACY_REMOVE)
-char* IOCommon
-::ExtractFileName (const char* fileName)
-{
-  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFileName, 
-                                   3.6, 
-                                   itksys::SystemTools::GetFilenameName);
-
-  const char* dot;
-  const char* slash;
-  char* fName = NULL;
-
-  if (fileName != NULL)
-    {
-    slash = strrchr(fileName, '/');
-    if (slash == NULL)
-      {
-      slash = strrchr(fileName, '\\');
-      }
-    if (slash == NULL)
-      {
-      slash = (const char*) fileName;
-      }
-    else
-      {
-      slash++;
-      }
-    dot = strrchr(fileName, '.');
-    if (dot == NULL)
-      {
-      dot = (const char*) fileName + strlen(fileName);
-      }
-    fName = new char[strlen(slash) - strlen(dot) + 1];
-    strncpy(fName, slash, strlen(slash) - strlen(dot));
-    fName[strlen(slash) - strlen(dot)] = '\0';
-    }
-
-  return fName;
-}
-#endif
-
-/**
- * This method has been deprecated as of ITK 3.8.
- * Please use the method:
- * itksys::SystemTools::GetFilenameExtension(fileName) or
- * itksys::SystemTools::GetFilenameLastExtension(fileName) instead.
- */
-#if !defined(ITK_LEGACY_REMOVE)
-char* IOCommon
-::ExtractFileExtension (const char* fileName)
-{
-  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFileExtension, 
-                                   3.6, 
-                                   itksys::SystemTools::GetFilenameExtension);
-
-  const char* dot;
-  char* fExtension = NULL;
-
-  dot = strrchr(fileName, '.');
-  if (dot != NULL)
-    {
-    dot++;
-    fExtension = new char[strlen(dot)+1];
-    strcpy(fExtension, dot);
-    fExtension[strlen(dot)] = '\0';
-    }
-
-  return fExtension;
-}
-#endif
-
-/**
- * This method has been deprecated as of ITK 3.8.
- * Please use the method:
- * itksys::SystemTools::GetFilenamePath(fileName) instead.
- */
-#if !defined(ITK_LEGACY_REMOVE)
-char* IOCommon
-::ExtractFilePath (const char* fileName)
-{
-  itkGenericLegacyReplaceBodyMacro(itk::IOCommon::ExtractFilePath, 
-                                   3.6, 
-                                   itksys::SystemTools::GetFilenamePath);
-
-  const char* slash;
-  char* fPath = NULL;
-
-  if (fileName != NULL)
-    {
-    slash = strrchr(fileName, '/');
-    if (slash == NULL)
-      {
-      slash = strrchr(fileName, '\\');
-      }
-    if (slash == NULL)
-      {
-      fPath = NULL;
-      }
-    else
-      {
-      slash++;
-      fPath = new char[strlen(fileName) - strlen(slash) + 1];
-      strncpy(fPath, fileName, strlen(fileName) - strlen(slash));
-      fPath[strlen(fileName) - strlen(slash)] = '\0';
-      }
-    }
-
-  return fPath;
-}
-#endif
-
-
 } // namespace itk

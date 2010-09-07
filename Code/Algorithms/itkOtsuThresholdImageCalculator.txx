@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,47 +24,43 @@
 #include "vnl/vnl_math.h"
 
 namespace itk
-{ 
-    
+{
 /**
  * Constructor
  */
-template<class TInputImage>
-OtsuThresholdImageCalculator<TInputImage>
+template< class TInputImage >
+OtsuThresholdImageCalculator< TInputImage >
 ::OtsuThresholdImageCalculator()
 {
   m_Image = NULL;
-  m_Threshold = NumericTraits<PixelType>::Zero;
+  m_Threshold = NumericTraits< PixelType >::Zero;
   m_NumberOfHistogramBins = 128;
   m_RegionSetByUser = false;
 }
 
-
 /*
  * Compute the Otsu's threshold
  */
-template<class TInputImage>
+template< class TInputImage >
 void
-OtsuThresholdImageCalculator<TInputImage>
+OtsuThresholdImageCalculator< TInputImage >
 ::Compute(void)
 {
-
   unsigned int j;
 
   if ( !m_Image ) { return; }
-  if( !m_RegionSetByUser )
+  if ( !m_RegionSetByUser )
     {
     m_Region = m_Image->GetRequestedRegion();
     }
 
-  double totalPixels = (double) m_Region.GetNumberOfPixels();
+  double totalPixels = (double)m_Region.GetNumberOfPixels();
   if ( totalPixels == 0 ) { return; }
 
-
   // compute image max and min
-  typedef MinimumMaximumImageCalculator<TInputImage> RangeCalculator;
+  typedef MinimumMaximumImageCalculator< TInputImage > RangeCalculator;
   typename RangeCalculator::Pointer rangeCalculator = RangeCalculator::New();
-  rangeCalculator->SetImage( m_Image );
+  rangeCalculator->SetImage(m_Image);
   rangeCalculator->Compute();
 
   PixelType imageMin = rangeCalculator->GetMinimum();
@@ -77,31 +73,31 @@ OtsuThresholdImageCalculator<TInputImage>
     }
 
   // create a histogram
-  std::vector<double> relativeFrequency;
-  relativeFrequency.resize( m_NumberOfHistogramBins );
+  std::vector< double > relativeFrequency;
+  relativeFrequency.resize(m_NumberOfHistogramBins);
   for ( j = 0; j < m_NumberOfHistogramBins; j++ )
     {
     relativeFrequency[j] = 0.0;
     }
 
-  double binMultiplier = (double) m_NumberOfHistogramBins /
-    (double) ( imageMax - imageMin );
+  double binMultiplier = (double)m_NumberOfHistogramBins
+                         / (double)( imageMax - imageMin );
 
-  typedef ImageRegionConstIteratorWithIndex<TInputImage> Iterator;
-  Iterator iter( m_Image, m_Region );
+  typedef ImageRegionConstIteratorWithIndex< TInputImage > Iterator;
+  Iterator iter(m_Image, m_Region);
 
   while ( !iter.IsAtEnd() )
     {
     unsigned int binNumber;
-    PixelType value = iter.Get();
+    PixelType    value = iter.Get();
 
-    if ( value == imageMin ) 
+    if ( value == imageMin )
       {
       binNumber = 0;
       }
     else
       {
-      binNumber = (unsigned int) vcl_ceil((value - imageMin) * binMultiplier ) - 1;
+      binNumber = (unsigned int)vcl_ceil( ( value - imageMin ) * binMultiplier ) - 1;
       if ( binNumber == m_NumberOfHistogramBins ) // in case of rounding errors
         {
         binNumber -= 1;
@@ -110,17 +106,15 @@ OtsuThresholdImageCalculator<TInputImage>
 
     relativeFrequency[binNumber] += 1.0;
     ++iter;
-
     }
- 
+
   // normalize the frequencies
   double totalMean = 0.0;
   for ( j = 0; j < m_NumberOfHistogramBins; j++ )
     {
     relativeFrequency[j] /= totalPixels;
-    totalMean += (j+1) * relativeFrequency[j];
+    totalMean += ( j + 1 ) * relativeFrequency[j];
     }
-
 
   // compute Otsu's threshold by maximizing the between-class
   // variance
@@ -128,8 +122,8 @@ OtsuThresholdImageCalculator<TInputImage>
   double meanLeft = 1.0;
   double meanRight = ( totalMean - freqLeft ) / ( 1.0 - freqLeft );
 
-  double maxVarBetween = freqLeft * ( 1.0 - freqLeft ) *
-    vnl_math_sqr( meanLeft - meanRight );
+  double maxVarBetween = freqLeft * ( 1.0 - freqLeft )
+                         * vnl_math_sqr(meanLeft - meanRight);
   int maxBinNumber = 0;
 
   double freqLeftOld = freqLeft;
@@ -138,20 +132,20 @@ OtsuThresholdImageCalculator<TInputImage>
   for ( j = 1; j < m_NumberOfHistogramBins; j++ )
     {
     freqLeft += relativeFrequency[j];
-    meanLeft = ( meanLeftOld * freqLeftOld + 
-                 (j+1) * relativeFrequency[j] ) / freqLeft;
-    if (freqLeft == 1.0)
+    meanLeft = ( meanLeftOld * freqLeftOld
+                 + ( j + 1 ) * relativeFrequency[j] ) / freqLeft;
+    if ( freqLeft == 1.0 )
       {
       meanRight = 0.0;
       }
     else
       {
-      meanRight = ( totalMean - meanLeft * freqLeft ) / 
-        ( 1.0 - freqLeft );
+      meanRight = ( totalMean - meanLeft * freqLeft )
+                  / ( 1.0 - freqLeft );
       }
-    double varBetween = freqLeft * ( 1.0 - freqLeft ) *
-      vnl_math_sqr( meanLeft - meanRight );
-   
+    double varBetween = freqLeft * ( 1.0 - freqLeft )
+                        * vnl_math_sqr(meanLeft - meanRight);
+
     if ( varBetween > maxVarBetween )
       {
       maxVarBetween = varBetween;
@@ -160,36 +154,33 @@ OtsuThresholdImageCalculator<TInputImage>
 
     // cache old values
     freqLeftOld = freqLeft;
-    meanLeftOld = meanLeft; 
+    meanLeftOld = meanLeft;
+    }
 
-    } 
-
-  m_Threshold = static_cast<PixelType>( imageMin + 
-                                        ( maxBinNumber + 1 ) / binMultiplier );
+  m_Threshold = static_cast< PixelType >( imageMin
+                                          + ( maxBinNumber + 1 ) / binMultiplier );
 }
 
-template<class TInputImage>
+template< class TInputImage >
 void
-OtsuThresholdImageCalculator<TInputImage>
-::SetRegion( const RegionType & region )
+OtsuThresholdImageCalculator< TInputImage >
+::SetRegion(const RegionType & region)
 {
   m_Region = region;
   m_RegionSetByUser = true;
 }
 
-  
-template<class TInputImage>
+template< class TInputImage >
 void
-OtsuThresholdImageCalculator<TInputImage>
-::PrintSelf( std::ostream& os, Indent indent ) const
+OtsuThresholdImageCalculator< TInputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
   os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
   os << indent << "Image: " << m_Image.GetPointer() << std::endl;
 }
-
 } // end namespace itk
 
 #endif

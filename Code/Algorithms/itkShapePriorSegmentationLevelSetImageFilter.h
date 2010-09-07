@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,18 +22,18 @@
 #include "itkSingleValuedNonLinearOptimizer.h"
 #include "itkShapePriorMAPCostFunctionBase.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  *
  * \class ShapePriorSegmentationLevelSetImageFilter
- * 
+ *
  * \brief A base class which defines the API for implementing a level set
  * segmentation filter with statistical shape influence.
  *
  * \par OVERVIEW
  * This class extends the functionality of SegmentationLevelSetImageFilter
- * with an additional statistical shape influence term in the level set evolution as 
+ * with an additional statistical shape influence term in the level set evolution as
  * developed in [1].
  *
  * \par TEMPLATE PARAMETERS
@@ -54,7 +54,7 @@ namespace itk {
  * \par PARAMETERS
  *
  * \par
- * From a level set evolution point of view, the shape is represented by a 
+ * From a level set evolution point of view, the shape is represented by a
  * signed distance function from the shape encapsulated in a ShapeSignedDistanceFunction
  * object.
  *
@@ -66,12 +66,12 @@ namespace itk {
  * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
  *
  */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT ShapePriorSegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType>
+class ITK_EXPORT ShapePriorSegmentationLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
+                                          TOutputPixelType >
 {
 public:
 
@@ -81,11 +81,11 @@ public:
 
   /** Standard class typedefs */
   typedef ShapePriorSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
-                                                    Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
-  
+  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
@@ -93,106 +93,109 @@ public:
   typedef typename Superclass::ValueType        ValueType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  
+
   /** Type of the output pixel. */
   typedef TOutputPixelType OutputPixelType;
 
   /** The level set function with shape prior type */
-  typedef ShapePriorSegmentationLevelSetFunction<OutputImageType, FeatureImageType>
-      ShapePriorSegmentationFunctionType;
+  typedef ShapePriorSegmentationLevelSetFunction< OutputImageType,
+                                                  FeatureImageType > ShapePriorSegmentationFunctionType;
 
   /** The shape signed distance function type. */
-  typedef typename ShapePriorSegmentationFunctionType::ShapeFunctionType 
-                                               ShapeFunctionType;
-  typedef typename ShapeFunctionType::Pointer  ShapeFunctionPointer;
+  typedef typename ShapePriorSegmentationFunctionType::ShapeFunctionType ShapeFunctionType;
+  typedef typename ShapeFunctionType::Pointer                            ShapeFunctionPointer;
 
   /** The type of the MAP estimate cost function. */
-  typedef  ShapePriorMAPCostFunctionBase<TFeatureImage,TOutputPixelType>  CostFunctionType;
-  typedef  typename CostFunctionType::Pointer         CostFunctionPointer;
-  typedef  typename CostFunctionType::ParametersType  ParametersType;
+  typedef  ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixelType > CostFunctionType;
+  typedef  typename CostFunctionType::Pointer                               CostFunctionPointer;
+  typedef  typename CostFunctionType::ParametersType                        ParametersType;
 
   /** Type of node used to represent the active region around the zero set. */
-  typedef  typename CostFunctionType::NodeType              NodeType;
-  typedef  typename CostFunctionType::NodeContainerType     NodeContainerType;
-  typedef  typename NodeContainerType::Pointer              NodeContainerPointer;
+  typedef  typename CostFunctionType::NodeType          NodeType;
+  typedef  typename CostFunctionType::NodeContainerType NodeContainerType;
+  typedef  typename NodeContainerType::Pointer          NodeContainerPointer;
 
-  /** The type of optimizer used to compute the MAP estimate of the shape and pose parameters. */
-  typedef   SingleValuedNonLinearOptimizer         OptimizerType;
-  typedef   typename OptimizerType::Pointer        OptimizerPointer;
+  /** The type of optimizer used to compute the MAP estimate of the shape and
+    pose parameters. */
+  typedef   SingleValuedNonLinearOptimizer  OptimizerType;
+  typedef   typename OptimizerType::Pointer OptimizerPointer;
 
   /** Set/Get the shape signed distance function. */
   virtual void SetShapeFunction(ShapeFunctionType *s);
-  itkGetObjectMacro( ShapeFunction, ShapeFunctionType );
+
+  itkGetObjectMacro(ShapeFunction, ShapeFunctionType);
 
   /** Set/Get the shape prior MAP cost function. */
-  itkSetObjectMacro( CostFunction, CostFunctionType );
-  itkGetObjectMacro( CostFunction, CostFunctionType );
+  itkSetObjectMacro(CostFunction, CostFunctionType);
+  itkGetObjectMacro(CostFunction, CostFunctionType);
 
   /** Set/Get the optimizer. */
-  itkSetObjectMacro( Optimizer, OptimizerType );
-  itkGetObjectMacro( Optimizer, OptimizerType );
+  itkSetObjectMacro(Optimizer, OptimizerType);
+  itkGetObjectMacro(Optimizer, OptimizerType);
 
- /** Set/Get the initial parameters. These are the initial parameters applied
-  * to the ShapeFunction. The user should refer to the documentation of
-  * the particular type of ShapeSignedDistanceFunction used to determine
-  * the meaning of the parameters. */
- itkSetMacro( InitialParameters, ParametersType );
- itkGetConstMacro( InitialParameters, ParametersType );
+  /** Set/Get the initial parameters. These are the initial parameters applied
+   * to the ShapeFunction. The user should refer to the documentation of
+   * the particular type of ShapeSignedDistanceFunction used to determine
+   * the meaning of the parameters. */
+  itkSetMacro(InitialParameters, ParametersType);
+  itkGetConstMacro(InitialParameters, ParametersType);
 
   /** Set/Get the scaling of the shape prior term. */
-  void SetShapePriorScaling( ValueType v )
-    {
+  void SetShapePriorScaling(ValueType v)
+  {
     if ( v != m_ShapePriorSegmentationFunction->GetShapePriorWeight() )
       {
-      m_ShapePriorSegmentationFunction->SetShapePriorWeight( v );
+      m_ShapePriorSegmentationFunction->SetShapePriorWeight(v);
       this->Modified();
       }
-    }
+  }
+
   ValueType GetShapePriorScaling() const
-    {
+  {
     return m_ShapePriorSegmentationFunction->GetShapePriorWeight();
-    }
-  
+  }
+
   /** Set the shape prior segmentation function. In general, this should only be called
    * by a subclass of this object. It is made public to allow itk::Command objects access. */
-  virtual void SetShapePriorSegmentationFunction( ShapePriorSegmentationFunctionType * s );
+  virtual void SetShapePriorSegmentationFunction(ShapePriorSegmentationFunctionType *s);
+
   virtual ShapePriorSegmentationFunctionType * GetShapePriorSegmentationFunction()
-    { return m_ShapePriorSegmentationFunction; }
+  { return m_ShapePriorSegmentationFunction; }
 
   /** Get the current parameters. */
-  itkGetConstReferenceMacro( CurrentParameters, ParametersType );
-
+  itkGetConstReferenceMacro(CurrentParameters, ParametersType);
 protected:
   virtual ~ShapePriorSegmentationLevelSetImageFilter() {}
   ShapePriorSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Overrides parent implementation. MAP estimates of the shape and pose parameters
    is computed in this method. */
   virtual void InitializeIteration();
-  
+
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
   void GenerateData();
 
   /** Extract node of active region into a NodeContainer */
-  void ExtractActiveRegion( NodeContainerType * ptr );
-  
+  void ExtractActiveRegion(NodeContainerType *ptr);
+
 private:
-  ShapePriorSegmentationLevelSetImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ShapePriorSegmentationLevelSetImageFilter(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
 
-  ShapeFunctionPointer     m_ShapeFunction;
-  CostFunctionPointer      m_CostFunction;
-  OptimizerPointer         m_Optimizer;
-  ParametersType           m_InitialParameters;
-  ParametersType           m_CurrentParameters;
+  // implemented
 
-  ShapePriorSegmentationFunctionType * m_ShapePriorSegmentationFunction;
+  ShapeFunctionPointer m_ShapeFunction;
+  CostFunctionPointer  m_CostFunction;
+  OptimizerPointer     m_Optimizer;
+  ParametersType       m_InitialParameters;
+  ParametersType       m_CurrentParameters;
 
+  ShapePriorSegmentationFunctionType *m_ShapePriorSegmentationFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

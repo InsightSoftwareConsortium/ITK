@@ -28,23 +28,13 @@ bool CheckFileNameParsing(const std::string fileName,
                           const std::string correctExtension,
                           const std::string correctPath)
 {
-#if !defined(ITK_LEGACY_REMOVE)
-  // the old, deprecated way...
-  std::cout << "(itk, deprecated) Extracting...file name...";
-  char* nameOnly  = itk::IOCommon::ExtractFileName(fileName.c_str());
-  std::cout << "extension...";
-  char* extension = itk::IOCommon::ExtractFileExtension(fileName.c_str());
-  std::cout << "path...";
-  char* path      = itk::IOCommon::ExtractFilePath(fileName.c_str());
-  std::cout << "DONE" << std::endl;
-#else
   // the current kwsys way...
   std::cout << "(kwsys) Extracting...file name...";
   std::string fileNameString =
     itksys::SystemTools::GetFilenameWithoutLastExtension
     (itksys::SystemTools::GetFilenameName(fileName));
   char* nameOnly = new char[fileNameString.size() + 1];
-  strcpy(nameOnly, fileNameString.c_str());
+  std::strncpy(nameOnly, fileNameString.c_str(),fileNameString.size() + 1);
   std::cout << "extension...";
   std::string extensionString =
     itksys::SystemTools::GetFilenameLastExtension(fileName);
@@ -52,9 +42,13 @@ bool CheckFileNameParsing(const std::string fileName,
   // remove it)
   char* extension = new char[extensionString.size()+1];
   if (extensionString.length()>0)
-    strcpy(extension, extensionString.c_str()+1);
+    {
+    std::strncpy(extension, extensionString.c_str()+1,extensionString.size()+1);
+    }
   else
+    {
     extension[0]=0;
+    }
   std::cout << "path...";
   std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
 #ifdef _WIN32
@@ -77,9 +71,8 @@ bool CheckFileNameParsing(const std::string fileName,
 #endif
   }
   char* path = new char[pathString.size() + 1];
-  strcpy(path, pathString.c_str());
+  std::strncpy(path, pathString.c_str(),pathString.size() + 1);
   std::cout << "DONE" << std::endl;
-#endif
 
   std::cout << "Comparing...file name...";
   bool nameMatches;

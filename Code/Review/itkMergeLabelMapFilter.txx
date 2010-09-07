@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,25 +21,24 @@
 #include "itkProgressReporter.h"
 #include <deque>
 
-
-namespace itk {
-
-template <class TImage>
-MergeLabelMapFilter<TImage>
+namespace itk
+{
+template< class TImage >
+MergeLabelMapFilter< TImage >
 ::MergeLabelMapFilter()
 {
   this->m_Method = KEEP;
 }
 
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
+MergeLabelMapFilter< TImage >
 ::GenerateData()
 {
   // Allocate the output
   this->AllocateOutputs();
 
-  switch( this->m_Method )
+  switch ( this->m_Method )
     {
     case KEEP:
       {
@@ -63,97 +62,93 @@ MergeLabelMapFilter<TImage>
       }
     default:
       {
-      itkExceptionMacro(<< "No such method: " << this->m_Method );
+      itkExceptionMacro(<< "No such method: " << this->m_Method);
       }
     }
 }
 
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
+MergeLabelMapFilter< TImage >
 ::MergeWithKeep()
 {
-
-  ImageType * output = this->GetOutput();
+  ImageType *output = this->GetOutput();
 
   typedef std::deque< LabelObjectPointer > VectorType;
   VectorType labelObjects;
 
-  ProgressReporter progress( this, 0, 1 );
+  ProgressReporter progress(this, 0, 1);
 
-  for( unsigned int i=1; i < this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
-          
     const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
     typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
 
-    while( it2 != otherLabelObjects.end() )
+    while ( it2 != otherLabelObjects.end() )
       {
-      const LabelObjectType * lo = it2->second;
-      LabelObjectPointer newLo = LabelObjectType::New();
-      newLo->CopyAllFrom( lo );
-      
-      if( ! output->HasLabel( newLo->GetLabel() ) )
+      const LabelObjectType *lo = it2->second;
+      LabelObjectPointer     newLo = LabelObjectType::New();
+      newLo->CopyAllFrom(lo);
+
+      if ( !output->HasLabel( newLo->GetLabel() ) )
         {
         // we can keep the label
-        output->AddLabelObject( newLo );
+        output->AddLabelObject(newLo);
         }
       else
         {
         // store the label object to read it later with another label
-        labelObjects.push_back( newLo );
+        labelObjects.push_back(newLo);
         }
-      
+
       // go to the next label
       progress.CompletedPixel();
       it2++;
       }
-    
+
     // add the other label objects, with a different label
     typename VectorType::iterator it = labelObjects.begin();
-    while( it != labelObjects.end() )
+    while ( it != labelObjects.end() )
       {
-      output->PushLabelObject( *it );
+      output->PushLabelObject(*it);
       it++;
       }
     }
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
+MergeLabelMapFilter< TImage >
 ::MergeWithStrict()
 {
+  ImageType *output = this->GetOutput();
 
-  ImageType * output = this->GetOutput();
+  ProgressReporter progress(this, 0, 1);
 
-  ProgressReporter progress( this, 0, 1 );
-
-  for( unsigned int i=1; i<this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
     const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
     typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
 
-    while( it2 != otherLabelObjects.end() )
+    while ( it2 != otherLabelObjects.end() )
       {
-      const LabelObjectType * lo = it2->second;
-      LabelObjectPointer newLo = LabelObjectType::New();
-      newLo->CopyAllFrom( lo );
-    
-      if( ! output->HasLabel( newLo->GetLabel() ) )
+      const LabelObjectType *lo = it2->second;
+      LabelObjectPointer     newLo = LabelObjectType::New();
+      newLo->CopyAllFrom(lo);
+
+      if ( !output->HasLabel( newLo->GetLabel() ) )
         {
         // we can keep the label
-        output->AddLabelObject( newLo );
+        output->AddLabelObject(newLo);
         }
       else
         {
-        itkExceptionMacro(<< "Label " 
-          << static_cast< typename itk::NumericTraits< PixelType >::PrintType >( newLo->GetLabel() )
-          << " from input " << i
-          << " is already in use.");
+        itkExceptionMacro(<< "Label "
+                          << static_cast< typename itk::NumericTraits< PixelType >::PrintType >( newLo->GetLabel() )
+                          << " from input " << i
+                          << " is already in use.");
         }
-    
+
       // go to the next label
       progress.CompletedPixel();
       it2++;
@@ -161,46 +156,44 @@ MergeLabelMapFilter<TImage>
     }
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
+MergeLabelMapFilter< TImage >
 ::MergeWithAggregate()
 {
+  ImageType *output = this->GetOutput();
 
-  ImageType * output = this->GetOutput();
+  ProgressReporter progress(this, 0, 1);
 
-  ProgressReporter progress( this, 0, 1 );
-
-  for( unsigned int i=1; i<this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
     const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
 
     typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
 
-    while( it2 != otherLabelObjects.end() )
+    while ( it2 != otherLabelObjects.end() )
       {
-      const LabelObjectType * lo = it2->second;
-      
-      if( ! output->HasLabel( lo->GetLabel() ) )
+      const LabelObjectType *lo = it2->second;
+
+      if ( !output->HasLabel( lo->GetLabel() ) )
         {
         // we can keep the label
         LabelObjectPointer newLo = LabelObjectType::New();
-        newLo->CopyAllFrom( lo );
-        output->AddLabelObject( newLo );
+        newLo->CopyAllFrom(lo);
+        output->AddLabelObject(newLo);
         }
       else
         {
-        if( lo->GetLabel() != output->GetBackgroundValue() )
+        if ( lo->GetLabel() != output->GetBackgroundValue() )
           {
           // add the lines of that object to the one already in the output
-          LabelObjectType * mainLo = output->GetLabelObject( lo->GetLabel() );
+          LabelObjectType *         mainLo = output->GetLabelObject( lo->GetLabel() );
           const LineContainerType & lineContainer = lo->GetLineContainer();
 
           LineContainerIterator lit = lineContainer.begin();
-          while( lit != lineContainer.end() )
+          while ( lit != lineContainer.end() )
             {
-            mainLo->AddLine( *lit );
+            mainLo->AddLine(*lit);
             lit++;
             }
 
@@ -208,7 +201,7 @@ MergeLabelMapFilter<TImage>
           mainLo->Optimize();
           }
         }
-      
+
       // go to the next label
       progress.CompletedPixel();
       it2++;
@@ -216,16 +209,14 @@ MergeLabelMapFilter<TImage>
     }
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
+MergeLabelMapFilter< TImage >
 ::MergeWithPack()
 {
+  ProgressReporter progress(this, 0, 1);
 
-  ProgressReporter progress( this, 0, 1 );
-
-  ImageType * output = this->GetOutput();
+  ImageType *output = this->GetOutput();
 
   // get the label objects of the first input
   LabelObjectContainerType labelObjects = output->GetLabelObjectContainer();
@@ -235,28 +226,28 @@ MergeLabelMapFilter<TImage>
 
   typename LabelObjectContainerType::iterator it = labelObjects.begin();
 
-  while( it != labelObjects.end() )
+  while ( it != labelObjects.end() )
     {
-    output->PushLabelObject( it->second );
-    
+    output->PushLabelObject(it->second);
+
     // go to the next label
     progress.CompletedPixel();
     it++;
     }
 
   // now, the next images
-  for( unsigned int i=1; i<this->GetNumberOfInputs(); i++ )
+  for ( unsigned int i = 1; i < this->GetNumberOfInputs(); i++ )
     {
     const LabelObjectContainerType & otherLabelObjects = this->GetInput(i)->GetLabelObjectContainer();
     typename LabelObjectContainerType::const_iterator it2 = otherLabelObjects.begin();
 
-    while( it2 != otherLabelObjects.end() )
+    while ( it2 != otherLabelObjects.end() )
       {
-      const LabelObjectType * lo = it2->second;
-      LabelObjectPointer newLo = LabelObjectType::New();
-      newLo->CopyAllFrom( lo );
-      output->PushLabelObject( newLo );
-      
+      const LabelObjectType *lo = it2->second;
+      LabelObjectPointer     newLo = LabelObjectType::New();
+      newLo->CopyAllFrom(lo);
+      output->PushLabelObject(newLo);
+
       // go to the next label
       progress.CompletedPixel();
       it2++;
@@ -264,16 +255,14 @@ MergeLabelMapFilter<TImage>
     }
 }
 
-
-template <class TImage>
+template< class TImage >
 void
-MergeLabelMapFilter<TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+MergeLabelMapFilter< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Method: "  << this->m_Method << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

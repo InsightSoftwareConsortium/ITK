@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class QuadrilateralCell
  * QuadrilateralCell represents a quadrilateral for a Mesh.
  *
@@ -39,8 +38,8 @@ namespace itk
  * \ingroup MeshObjects
  */
 
-template < typename TCellInterface >
-class ITK_EXPORT QuadrilateralCell: public TCellInterface, private QuadrilateralCellTopology
+template< typename TCellInterface >
+class ITK_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
 {
 public:
   /** Standard class typedefs. */
@@ -51,66 +50,73 @@ public:
   itkTypeMacro(QuadrilateralCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexCell< TCellInterface >            VertexType;
-  typedef typename VertexType::SelfAutoPointer    VertexAutoPointer;
-  
+  typedef VertexCell< TCellInterface >         VertexType;
+  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+
   /** The type of boundary for this triangle's edges. */
-  typedef LineCell< TCellInterface >              EdgeType;
-  typedef typename EdgeType::SelfAutoPointer      EdgeAutoPointer;
- 
+  typedef LineCell< TCellInterface >         EdgeType;
+  typedef typename EdgeType::SelfAutoPointer EdgeAutoPointer;
+
   /** Quadrilateral-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
   itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
   itkStaticConstMacro(NumberOfEdges, unsigned int, 4);
   itkStaticConstMacro(CellDimension, unsigned int, 2);
-  
+
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const 
-    {return Superclass::QUADRILATERAL_CELL;}
-  virtual void MakeCopy( CellAutoPointer & ) const;
+  virtual CellGeometry GetType(void) const
+  { return Superclass::QUADRILATERAL_CELL; }
+  virtual void MakeCopy(CellAutoPointer &) const;
+
   virtual unsigned int GetDimension(void) const;
+
   virtual unsigned int GetNumberOfPoints(void) const;
+
   virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const;
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,CellAutoPointer &);
+
+  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &);
   virtual void SetPointIds(PointIdConstIterator first);
+
   virtual void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last);
+
   virtual void SetPointId(int localId, PointIdentifier);
   virtual PointIdIterator      PointIdsBegin(void);
+
   virtual PointIdConstIterator PointIdsBegin(void) const;
+
   virtual PointIdIterator      PointIdsEnd(void);
-  virtual PointIdConstIterator PointIdsEnd(void) const; 
-  
+
+  virtual PointIdConstIterator PointIdsEnd(void) const;
+
   /** Quadrilateral-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices(void) const;
+
   virtual CellFeatureCount GetNumberOfEdges(void) const;
-  virtual bool GetVertex(CellFeatureIdentifier,VertexAutoPointer &);
-  virtual bool GetEdge(CellFeatureIdentifier,EdgeAutoPointer &);
-  
+
+  virtual bool GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
+  virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
+
   /** Visitor interface */
   itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
 
   /** Constructor and destructor */
   QuadrilateralCell()
-    {
-    for (unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++)
+  {
+    for ( unsigned int i = 0; i < itkGetStaticConstMacro(NumberOfPoints); i++ )
       {
-      m_PointIds[i] = NumericTraits<unsigned long>::max();
+      m_PointIds[i] = NumericTraits< unsigned long >::max();
       }
-    }
-  ~QuadrilateralCell() {}
+  }
 
+  ~QuadrilateralCell() {}
 protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
-
 private:
-  QuadrilateralCell(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  QuadrilateralCell(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

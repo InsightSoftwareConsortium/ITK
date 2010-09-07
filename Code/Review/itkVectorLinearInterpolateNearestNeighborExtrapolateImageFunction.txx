@@ -24,47 +24,41 @@
 
 namespace itk
 {
-
 /**
  * Define the number of neighbors
  */
-template<class TInputImage, class TCoordRep>
+template< class TInputImage, class TCoordRep >
 const unsigned long
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
-
 /**
  * Constructor
  */
-template<class TInputImage, class TCoordRep>
+template< class TInputImage, class TCoordRep >
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction()
-{
-
-}
-
+{}
 
 /**
  * PrintSelf
  */
-template<class TInputImage, class TCoordRep>
+template< class TInputImage, class TCoordRep >
 void
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  this->Superclass::PrintSelf(os,indent);
+  this->Superclass::PrintSelf(os, indent);
 }
-
 
 /**
  * Evaluate at image index position
  */
-template<class TInputImage, class TCoordRep>
+template< class TInputImage, class TCoordRep >
 typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
-::EvaluateAtContinuousIndex( const ContinuousIndexType& index) const
+::EvaluateAtContinuousIndex(const ContinuousIndexType & index) const
 {
   unsigned int dim;  // index over dimension
 
@@ -74,17 +68,17 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
    */
   IndexType baseIndex;
   IndexType neighIndex;
-  double distance[ImageDimension];
+  double    distance[ImageDimension];
 
-  for( dim = 0; dim < ImageDimension; dim++ )
+  for ( dim = 0; dim < ImageDimension; dim++ )
     {
-    baseIndex[dim] = Math::Floor<IndexValueType>( index[dim] );
+    baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
 
-    if( baseIndex[dim] >=  this->m_StartIndex[dim] )
+    if ( baseIndex[dim] >=  this->m_StartIndex[dim] )
       {
-      if( baseIndex[dim] <  this->m_EndIndex[dim] )
+      if ( baseIndex[dim] <  this->m_EndIndex[dim] )
         {
-        distance[dim] = index[dim] - static_cast<double>( baseIndex[dim] );
+        distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
         }
       else
         {
@@ -105,21 +99,19 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
    * of the neighbor pixel with respect to a pixel centered on point.
    */
   OutputType output;
-  output.Fill( 0.0 );
+  output.Fill(0.0);
 
   RealType totalOverlap = 0.0;
 
-  for( unsigned int counter = 0; counter < m_Neighbors; counter++ )
+  for ( unsigned int counter = 0; counter < m_Neighbors; counter++ )
     {
-
-    double overlap = 1.0;          // fraction overlap
+    double       overlap = 1.0;    // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
-    for( dim = 0; dim < ImageDimension; dim++ )
+    for ( dim = 0; dim < ImageDimension; dim++ )
       {
-
-      if( upper & 1 )
+      if ( upper & 1 )
         {
         neighIndex[dim] = baseIndex[dim] + 1;
         overlap *= distance[dim];
@@ -131,50 +123,47 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
         }
 
       upper >>= 1;
-
       }
 
     // get neighbor value only if overlap is not zero
-    if( overlap )
+    if ( overlap )
       {
-      const PixelType input = this->GetInputImage()->GetPixel( neighIndex );
-      for(unsigned int k = 0; k < Dimension; k++ )
+      const PixelType input = this->GetInputImage()->GetPixel(neighIndex);
+      for ( unsigned int k = 0; k < Dimension; k++ )
         {
-        output[k] += overlap * static_cast<RealType>( input[k] );
+        output[k] += overlap * static_cast< RealType >( input[k] );
         }
       totalOverlap += overlap;
       }
 
-    if( totalOverlap == 1.0 )
+    if ( totalOverlap == 1.0 )
       {
       // finished
       break;
       }
-
     }
 
   return ( output );
 }
 
-
 /**
  * Evaluate at image index position
  */
-template<class TInputImage, class TCoordRep>
+template< class TInputImage, class TCoordRep >
 typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
-::EvaluateAtIndex( const IndexType & index) const
+::EvaluateAtIndex(const IndexType & index) const
 {
   // Find the index that is closest to the requested one
   // but that lies within the image
   IndexType insideIndex;
 
-  for( unsigned int dim = 0; dim < ImageDimension; dim++ )
+  for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
-    if( index[dim] >=  this->m_StartIndex[dim] )
+    if ( index[dim] >=  this->m_StartIndex[dim] )
       {
-      if( index[dim] <  this->m_EndIndex[dim] )
+      if ( index[dim] <  this->m_EndIndex[dim] )
         {
         insideIndex[dim] = index[dim];
         }
@@ -191,9 +180,8 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 
   // Now call the superclass implementation of EvaluateAtIndex
   // since we have ensured that the index lies in the image region
-  return this->Superclass::EvaluateAtIndex( insideIndex );
+  return this->Superclass::EvaluateAtIndex(insideIndex);
 }
-
 } // end namespace itk
 
 #endif

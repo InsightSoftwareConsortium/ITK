@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,57 +21,57 @@
 #include "itkMultipleValuedVnlCostFunctionAdaptor.h"
 #include "itkCommand.h"
 
-
 namespace itk
 {
-  
 /** \class MultipleValuedNonLinearVnlOptimizer
- * \brief This class is a base for the Optimization methods that 
- * optimize a multi-valued function. 
+ * \brief This class is a base for the Optimization methods that
+ * optimize a multi-valued function.
  *
  * It is an Adaptor class for optimizers provided by the vnl library
  *
  * \ingroup Numerics Optimizers
  */
-class ITK_EXPORT MultipleValuedNonLinearVnlOptimizer : 
-    public MultipleValuedNonLinearOptimizer
+class ITK_EXPORT MultipleValuedNonLinearVnlOptimizer:
+  public MultipleValuedNonLinearOptimizer
 {
 public:
   /** Standard class typedefs. */
-  typedef MultipleValuedNonLinearVnlOptimizer     Self;
-  typedef MultipleValuedNonLinearOptimizer        Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro( MultipleValuedNonLinearVnlOptimizer, 
-                MultipleValueNonLinearOptimizer );
+  typedef MultipleValuedNonLinearVnlOptimizer Self;
+  typedef MultipleValuedNonLinearOptimizer    Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
- 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MultipleValuedNonLinearVnlOptimizer,
+               MultipleValueNonLinearOptimizer);
+
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType         ParametersType;
+  typedef Superclass::ParametersType ParametersType;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
    *  to know the number of parameters at construction time. This
    *  number of parameters is obtained at run-time from the itkCostFunction.
-   *  As a consequence each derived optimizer should construct its own 
+   *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction( MultipleValuedCostFunction * costFunction ) = 0;
+  virtual void SetCostFunction(MultipleValuedCostFunction *costFunction) = 0;
 
-  /**  Define if the Cost function should provide a customized 
+  /**  Define if the Cost function should provide a customized
        Gradient computation or the gradient can be computed internally
        using a default approach  */
   void SetUseCostFunctionGradient(bool);
+
   void UseCostFunctionGradientOn()
-    {
-    this->SetUseCostFunctionGradient( true  );
-    }
+  {
+    this->SetUseCostFunctionGradient(true);
+  }
+
   void UseCostFunctionGradientOff()
-    {
-    this->SetUseCostFunctionGradient( false );
-    }
+  {
+    this->SetUseCostFunctionGradient(false);
+  }
+
   bool GetUseCostFunctionGradient() const;
 
   /** Return Cached Values. These method have the advantage of not triggering a
@@ -83,47 +83,45 @@ public:
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
-
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  typedef MultipleValuedVnlCostFunctionAdaptor   CostFunctionAdaptorType;
+  typedef MultipleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
 
-  void SetCostFunctionAdaptor( CostFunctionAdaptorType * adaptor );
-  const CostFunctionAdaptorType * GetCostFunctionAdaptor( void ) const;
-  CostFunctionAdaptorType * GetCostFunctionAdaptor( void );
+  void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
-  /** The purpose of this method is to get around the lack of const 
+  const CostFunctionAdaptorType * GetCostFunctionAdaptor(void) const;
+
+  CostFunctionAdaptorType * GetCostFunctionAdaptor(void);
+
+  /** The purpose of this method is to get around the lack of const
    *  correctness in vnl cost_functions and optimizers */
-  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor( void ) const;
+  CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
 
   /** Command observer that will interact with the ITK-VNL cost-function
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
-  typedef ReceptorMemberCommand< Self >           CommandType;
-
+  typedef ReceptorMemberCommand< Self > CommandType;
 private:
-  MultipleValuedNonLinearVnlOptimizer(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MultipleValuedNonLinearVnlOptimizer(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 
   /** Callback function for the Command Observer */
-  void IterationReport( const EventObject & event );
-  
-  CostFunctionAdaptorType * m_CostFunctionAdaptor;
-  bool                      m_UseGradient;
+  void IterationReport(const EventObject & event);
 
-  CommandType::Pointer      m_Command;
+  CostFunctionAdaptorType *m_CostFunctionAdaptor;
+  bool                     m_UseGradient;
 
-  mutable ParametersType    m_CachedCurrentPosition;
-  mutable MeasureType       m_CachedValue;
-  mutable DerivativeType    m_CachedDerivative;
+  CommandType::Pointer m_Command;
 
+  mutable ParametersType m_CachedCurrentPosition;
+  mutable MeasureType    m_CachedValue;
+  mutable DerivativeType m_CachedDerivative;
 };
-
 } // end namespace itk
 
 #endif

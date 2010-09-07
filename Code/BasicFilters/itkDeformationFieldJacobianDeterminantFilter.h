@@ -48,7 +48,7 @@ namespace itk
  * In that more common case, one should use the DisplacementFieldJacobianDeterminantFilter which
  * computes the Jacobian Determinant properly as: det[ dT/dx ] = det[ I + du/dx ].
  * This class is a specialization of the DisplacementFieldJacobianDeterminantFilter, further
- * details regarding it's implementation should be review in 
+ * details regarding it's implementation should be review in
  * itkDisplacementFieldJacobianDeterminantFilter.h.
  *
  * \ingroup GradientFilters
@@ -70,22 +70,22 @@ namespace itk
  *
  * \author Torsten Rohlfing, Neuroscience Program, SRI International.
  */
-template < typename TInputImage,
-           typename TRealType = float,
-           typename TOutputImage = Image< TRealType,
-                                          ::itk::GetImageDimension<TInputImage>::ImageDimension >
->
-class ITK_EXPORT DeformationFieldJacobianDeterminantFilter :
-    public DisplacementFieldJacobianDeterminantFilter< TInputImage,TRealType,TOutputImage>
+template< typename TInputImage,
+          typename TRealType = float,
+          typename TOutputImage = Image< TRealType,
+                                         ::itk::GetImageDimension< TInputImage >::ImageDimension >
+          >
+class ITK_EXPORT DeformationFieldJacobianDeterminantFilter:
+  public DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef DeformationFieldJacobianDeterminantFilter Self;
   typedef DisplacementFieldJacobianDeterminantFilter<
-    TInputImage,TRealType,TOutputImage>
-                                                    Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+    TInputImage, TRealType, TOutputImage > Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -115,31 +115,34 @@ public:
   /** Define the data type and the vector of data type used in calculations. */
   typedef TRealType RealType;
   typedef Vector<
-    TRealType, ::itk::GetVectorDimension<InputPixelType>::VectorDimension>
-                    RealVectorType;
+    TRealType, ::itk::GetVectorDimension< InputPixelType >::VectorDimension >
+  RealVectorType;
   typedef Image<
-    RealVectorType, ::itk::GetImageDimension<TInputImage>::ImageDimension>
-                    RealVectorImageType;
+    RealVectorType, ::itk::GetImageDimension< TInputImage >::ImageDimension >
+  RealVectorImageType;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  typedef ConstNeighborhoodIterator<RealVectorImageType> ConstNeighborhoodIteratorType;
+  typedef ConstNeighborhoodIterator< RealVectorImageType >   ConstNeighborhoodIteratorType;
   typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType &it) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
+
 protected:
   DeformationFieldJacobianDeterminantFilter();
   virtual ~DeformationFieldJacobianDeterminantFilter() {}
-
 private:
-  DeformationFieldJacobianDeterminantFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  DeformationFieldJacobianDeterminantFilter(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
 
+  // implemented
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

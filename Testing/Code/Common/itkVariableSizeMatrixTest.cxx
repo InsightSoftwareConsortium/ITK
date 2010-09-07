@@ -117,7 +117,7 @@ int itkVariableSizeMatrixTest(int, char*[])
   std::cout << "***** d13" << std::endl << d13 << std::endl;
   std::cout << "***** d13 inverse (d31+)" << std::endl
             << d13.GetInverse() << std::endl;
-#ifndef __BORLANDC__
+
   std::cout << "***** d13 * d13+" << std::endl
             << d13.GetVnlMatrix() * d13.GetInverse() << std::endl;
 
@@ -132,7 +132,7 @@ int itkVariableSizeMatrixTest(int, char*[])
             << (d13.GetVnlMatrix() * d13.GetInverse()).transpose() << std::endl;
   std::cout << "***** (d13+ * d13)T = d13+ * d13" << std::endl
             << (d13.GetInverse() * d13.GetVnlMatrix()).transpose() << std::endl;
-#endif
+
   DoubleVariableSizeMatrixType dm(10,10);
     dm.Fill(10.0);
     dm.SetIdentity();

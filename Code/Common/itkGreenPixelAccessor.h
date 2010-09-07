@@ -17,13 +17,10 @@
 #ifndef __itkGreenPixelAccessor_h
 #define __itkGreenPixelAccessor_h
 
-
 #include "itkRGBPixel.h"
-
 
 namespace itk
 {
-
 /**
  * \class GreenPixelAccessor
  * \brief Give access to the Green component of a RGBPixel type
@@ -38,12 +35,12 @@ namespace itk
  *
  */
 
-template <class T>
+template< class T >
 class ITK_EXPORT GreenPixelAccessor
 {
 public:
   /** Standard class typedefs. */
-  typedef   GreenPixelAccessor        Self;
+  typedef   GreenPixelAccessor Self;
 
   /** External typedef. It defines the external aspect
    * that this class will exhibit */
@@ -51,28 +48,26 @@ public:
 
   /** Internal typedef. It defines the internal real
    * representation of data */
-  typedef     RGBPixel<T>   InternalType;
+  typedef     RGBPixel< T > InternalType;
 
   /** Write access to the Green component */
-  inline void Set( InternalType & output, const ExternalType & input ) const
-    { output.SetGreen( input ); }
+  inline void Set(InternalType & output, const ExternalType & input) const
+  { output.SetGreen(input); }
 
   /** Read access to the Green component */
-  inline const ExternalType & Get( const InternalType & input ) const
-    { return input.GetGreen(); }
+  inline const ExternalType & Get(const InternalType & input) const
+  { return input.GetGreen(); }
 
-  bool operator!=( const Self & other ) const
-    {
+  bool operator!=(const Self & other) const
+  {
     return false;
-    }
+  }
 
-  bool operator==( const Self & other ) const
-    {
-    return !(*this != other);
-    }
+  bool operator==(const Self & other) const
+  {
+    return !( *this != other );
+  }
 };
-
-
 } // end namespace itk
 
 #endif

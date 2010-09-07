@@ -87,9 +87,7 @@ CreateFromStream( std::istream& f, void *info )
   std::string errorMessage;
 
 start:
-#ifndef __sgi
   l=f.tellg();    // remember the stream position
-#endif
   SkipWhiteSpace(f);      // skip comments and whitespaces
   if ( f.eof() ) return 0; // end of stream. all was good
 
@@ -172,10 +170,8 @@ start:
    * Something went wrong.
    * Reset the stream position to where it was before reading the object.
    */
-#ifndef __sgi
   f.seekg(l);
-#endif
-  
+
   /*
    * Throw an IO exception
    */

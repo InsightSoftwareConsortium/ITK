@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,13 +22,13 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class GradientNDAnisotropicDiffusionFunction
  *
  * This class implements an N-dimensional version of the classic Perona-Malik
  * anisotropic diffusion equation for scalar-valued images.  See
- * itkAnisotropicDiffusionFunction for an overview of the anisotropic diffusion 
+ * itkAnisotropicDiffusionFunction for an overview of the anisotropic diffusion
  * framework and equation.
  *
  * \par
@@ -54,25 +54,25 @@ namespace itk {
  * \sa CurvatureNDAnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ImageEnhancement
- */ 
-template <class TImage>
-class ITK_EXPORT GradientNDAnisotropicDiffusionFunction :
-    public ScalarAnisotropicDiffusionFunction<TImage>
+ */
+template< class TImage >
+class ITK_EXPORT GradientNDAnisotropicDiffusionFunction:
+  public ScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientNDAnisotropicDiffusionFunction     Self;
-  typedef ScalarAnisotropicDiffusionFunction<TImage> Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  typedef GradientNDAnisotropicDiffusionFunction       Self;
+  typedef ScalarAnisotropicDiffusionFunction< TImage > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro( GradientNDAnisotropicDiffusionFunction,
-                ScalarAnisotropicDiffusionFunction );
-  
+  itkTypeMacro(GradientNDAnisotropicDiffusionFunction,
+               ScalarAnisotropicDiffusionFunction);
+
   /** Inherit some parameters from the superclass type. */
   typedef typename Superclass::ImageType        ImageType;
   typedef typename Superclass::PixelType        PixelType;
@@ -83,35 +83,35 @@ public:
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;
 
   /** Inherit some parameters from the superclass type. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &neighborhood,
+  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
-                                  const FloatOffsetType& offset = FloatOffsetType(0.0)
-    );
+                                  const FloatOffsetType & offset = FloatOffsetType(0.0)
+                                  );
 
   /** This method is called prior to each iteration of the solver. */
   virtual void InitializeIteration()
-    {
-    m_K = static_cast<PixelType>(this->GetAverageGradientMagnitudeSquared() *
-                                 this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f);
-    }
-  
+  {
+    m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
+                                    * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );
+  }
+
 protected:
   GradientNDAnisotropicDiffusionFunction();
   ~GradientNDAnisotropicDiffusionFunction() {}
 
   /** Inner product function. */
-  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  NeighborhoodInnerProduct< ImageType > m_InnerProduct;
 
   /** Slices for the ND neighborhood. */
-  std::slice  x_slice[ImageDimension];
+  std::slice x_slice[ImageDimension];
   std::slice xa_slice[ImageDimension][ImageDimension];
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
-  DerivativeOperator<PixelType, itkGetStaticConstMacro(ImageDimension)> dx_op;
+  DerivativeOperator< PixelType, itkGetStaticConstMacro(ImageDimension) > dx_op;
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
@@ -120,14 +120,14 @@ protected:
   unsigned long m_Stride[ImageDimension];
 
   static double m_MIN_NORM;
-  
 private:
-  GradientNDAnisotropicDiffusionFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GradientNDAnisotropicDiffusionFunction(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
 
+  // implemented
 };
-  
-}// end namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGradientNDAnisotropicDiffusionFunction.txx"

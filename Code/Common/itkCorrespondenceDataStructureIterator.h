@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,33 +19,33 @@
 
 namespace itk
 {
-
 /** \class CorrespondenceDataStructureIterator
- * \brief An iterator designed to easily traverse an 
+ * \brief An iterator designed to easily traverse an
  *        itkCorrespondenceDataStructure.
- * 
- * \ingroup 
+ *
+ * \ingroup
  */
-template<class TStructureType>
-class CorrespondenceDataStructureIterator {
+template< class TStructureType >
+class CorrespondenceDataStructureIterator
+{
 public:
   /** Standard class typedefs. */
   typedef CorrespondenceDataStructureIterator Self;
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension() 
-    {return TStructureType::dim;}
+  static unsigned int GetIteratorDimension()
+  { return TStructureType::dim; }
 
   /** Is the iterator at the end of the region? */
   bool IsAtEnd();
 
   /** Walk forward one index. (prefix) */
-  void operator++(){GoToNext();}
+  void operator++(){ GoToNext(); }
 
   /** Walk forward one index. (postfix) */
-  void operator++(int){GoToNext();}
+  void operator++(int){ GoToNext(); }
 
-  /** Goes to the next corresponding node clique in the structure, 
+  /** Goes to the next corresponding node clique in the structure,
    *  moving on to the next base node clique if necessary. */
   void GoToNext();
 
@@ -54,7 +54,7 @@ public:
 
   /** Resets the iterator. */
   void Reset();
-  
+
   /** Constructor */
   CorrespondenceDataStructureIterator(TStructureType *StructurePtr);
 
@@ -72,27 +72,26 @@ public:
 
   /** Get m_CorrespondingListPointer.  */
   CorrespondingListType * GetCorrespondingListPointer()
-    {return m_CorrespondingListPointer;}
+  { return m_CorrespondingListPointer; }
 
-  CorrespondingListIterator                       m_CorrespondingListIterator;
-  SecondaryNodeListIterator                       m_SecondaryListIterator;
+  CorrespondingListIterator m_CorrespondingListIterator;
+  SecondaryNodeListIterator m_SecondaryListIterator;
+
   typename TStructureType::NodeListType::iterator m_NodeListIterator;
-
 protected:
 
   /** Is the iterator at the end of its walk? */
-  bool                    m_IsAtEnd;
-  TStructureType *        m_Structure;
-  ItemType *              m_CorrespondingNodePointer;
-  CorrespondingListType * m_CorrespondingListPointer;
-  SecondaryNodeListType * m_SecondaryListPointer;
-  NodeListType *          m_NodeListPointer;
+  bool                   m_IsAtEnd;
+  TStructureType *       m_Structure;
+  ItemType *             m_CorrespondingNodePointer;
+  CorrespondingListType *m_CorrespondingListPointer;
+  SecondaryNodeListType *m_SecondaryListPointer;
+  NodeListType *         m_NodeListPointer;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCorrespondenceDataStructureIterator.txx"
 #endif
 
-#endif 
+#endif

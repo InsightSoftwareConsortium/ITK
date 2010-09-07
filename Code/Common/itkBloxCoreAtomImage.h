@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,7 +31,6 @@
 
 namespace itk
 {
-
 /** \class BloxCoreAtomImage
  * \brief N-dimensional image class which handles BloxCoreAtomItems
  *
@@ -40,13 +39,13 @@ namespace itk
  * and storing them in the correct blox location.
  * \ingroup ImageObjects
  */
-template <unsigned int NDimension>
-class ITK_EXPORT BloxCoreAtomImage :
-  public BloxImage<BloxCoreAtomPixel<NDimension>, NDimension>
+template< unsigned int NDimension >
+class ITK_EXPORT BloxCoreAtomImage:
+  public BloxImage< BloxCoreAtomPixel< NDimension >, NDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxCoreAtomImage  Self;
+  typedef BloxCoreAtomImage Self;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
@@ -54,12 +53,12 @@ public:
    * of the image. */
   itkStaticConstMacro(NDimensions, unsigned int, NDimension);
 
-  typedef BloxImage<BloxCoreAtomPixel<NDimension>, NDimension>  Superclass;
+  typedef BloxImage< BloxCoreAtomPixel< NDimension >, NDimension > Superclass;
 
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
-  typedef WeakPointer<const Self>    ConstWeakPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  typedef WeakPointer< const Self >  ConstWeakPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -67,15 +66,15 @@ public:
   itkTypeMacro(BloxCoreAtomImage, BloxImage);
 
   /** The type of boundary point item we process * */
-  typedef BloxBoundaryPointItem<NDimension> BPItemType;
+  typedef BloxBoundaryPointItem< NDimension > BPItemType;
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxCoreAtomPixel<NDimension > PixelType;
+  typedef BloxCoreAtomPixel< NDimension > PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
-   * representation of data while showing a different external 
+   * representation of data while showing a different external
    * representation. */
   typedef PixelType InternalPixelType;
 
@@ -84,19 +83,20 @@ public:
   typedef DefaultPixelAccessor< PixelType > AccessorType;
 
   /** The type of Point used to convert between physical and blox space */
-  typedef Point<double, NDimension> PositionType;
+  typedef Point< double, NDimension > PositionType;
 
   /** The vector between two points */
   typedef typename PositionType::VectorType VectorType;
 
   /** How we represent gradients. */
-  typedef CovariantVector<double, NDimension> GradientType;
+  typedef CovariantVector< double, NDimension > GradientType;
 
   /** get macro for m_MedialNodeCount. */
   itkGetConstMacro(MedialNodeCount, int);
 
-  typedef std::vector<PixelType*>   NodePointerListType;
-  typedef std::vector<PixelType*> * NodePointerListPointer;
+  typedef std::vector< PixelType * > NodePointerListType;
+
+  typedef std::vector< PixelType * > *NodePointerListPointer;
 
   /** get macro for m_NodePointerList. */
   itkGetConstMacro(NodePointerList, NodePointerListPointer);
@@ -111,7 +111,7 @@ public:
   typedef typename IndexType::IndexValueType  IndexValueType;
   typedef typename Superclass::OffsetType     OffsetType;
   typedef typename Superclass::RegionType     RegionType;
-  
+
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
@@ -124,35 +124,38 @@ public:
 protected:
   BloxCoreAtomImage();
   virtual ~BloxCoreAtomImage();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  BloxCoreAtomImage(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BloxCoreAtomImage(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 
   /** The number of medial nodes found. */
   int m_MedialNodeCount;
 
   /** List of pointers to all the medial nodes. */
   NodePointerListPointer m_NodePointerList;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxCoreAtomImage(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxCoreAtomImage< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxCoreAtomImage< ITK_TEMPLATE_1 x > \
-                                            BloxCoreAtomImage##y; } \
+#define ITK_TEMPLATE_BloxCoreAtomImage(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                     \
+  {                                                                 \
+  _( 1 ( class EXPORT BloxCoreAtomImage< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                               \
+  {                                                                 \
+  typedef BloxCoreAtomImage< ITK_TEMPLATE_1 TypeX >                 \
+  BloxCoreAtomImage##TypeY;                                       \
+  }                                                                 \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxCoreAtomImage+-.h"
+#include "Templates/itkBloxCoreAtomImage+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxCoreAtomImage.txx"
+#include "itkBloxCoreAtomImage.txx"
 #endif
 
 #endif

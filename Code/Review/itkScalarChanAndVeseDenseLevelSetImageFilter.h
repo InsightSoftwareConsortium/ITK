@@ -55,94 +55,98 @@ namespace itk
  *      http://hdl.handle.net/1926/1533
  *
  */
-template < class TInputImage, class TFeatureImage, class TOutputImage,
-     class TFunction=ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
-     class TSharedData=ITK_TYPENAME TFunction::SharedDataType >
+template< class TInputImage, class TFeatureImage, class TOutputImage,
+          class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+          class TSharedData = ITK_TYPENAME TFunction::SharedDataType >
 class ITK_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
   public MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,
-  TFunction >
+                                                     TFunction >
 {
 public:
 
-  typedef ScalarChanAndVeseDenseLevelSetImageFilter         Self;
+  typedef ScalarChanAndVeseDenseLevelSetImageFilter Self;
   typedef MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
-    TFeatureImage, TOutputImage, TFunction >                Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+                                                      TFeatureImage, TOutputImage,
+                                                      TFunction >                Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ScalarChanAndVeseDenseLevelSetImageFilter,
-    MultiphaseDenseFiniteDifferenceImageFilter );
+  itkTypeMacro(ScalarChanAndVeseDenseLevelSetImageFilter,
+               MultiphaseDenseFiniteDifferenceImageFilter);
 
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Inherited typedef from the superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputPointType         InputPointType;
-  typedef typename Superclass::ValueType              ValueType;
-  typedef typename InputImageType::SpacingType        InputSpacingType;
+  typedef typename Superclass::InputImageType    InputImageType;
+  typedef typename Superclass::InputImagePointer InputImagePointer;
+  typedef typename Superclass::InputPointType    InputPointType;
+  typedef typename Superclass::ValueType         ValueType;
+  typedef typename InputImageType::SpacingType   InputSpacingType;
 
-  typedef TFeatureImage                               FeatureImageType;
-  typedef typename FeatureImageType::Pointer          FeatureImagePointer;
-  typedef typename FeatureImageType::PixelType        FeaturePixelType;
-  typedef typename FeatureImageType::IndexType        FeatureIndexType;
-  typedef typename FeatureIndexType::IndexValueType   FeatureIndexValueType;
-  typedef typename FeatureImageType::RegionType       FeatureRegionType;
+  typedef TFeatureImage                             FeatureImageType;
+  typedef typename FeatureImageType::Pointer        FeatureImagePointer;
+  typedef typename FeatureImageType::PixelType      FeaturePixelType;
+  typedef typename FeatureImageType::IndexType      FeatureIndexType;
+  typedef typename FeatureIndexType::IndexValueType FeatureIndexValueType;
+  typedef typename FeatureImageType::RegionType     FeatureRegionType;
 
   /** Output image type typedefs */
-  typedef TOutputImage                                OutputImageType;
-  typedef typename OutputImageType::IndexType         IndexType;
-  typedef typename OutputImageType::PixelType         OutputPixelType;
+  typedef TOutputImage                        OutputImageType;
+  typedef typename OutputImageType::IndexType IndexType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
-  typedef typename Superclass::TimeStepType           TimeStepType;
+  typedef typename Superclass::TimeStepType TimeStepType;
   typedef typename Superclass::FiniteDifferenceFunctionType
-                                                      FiniteDifferenceFunctionType;
+  FiniteDifferenceFunctionType;
 
-  typedef TFunction                                   FunctionType;
-  typedef typename FunctionType::Pointer              FunctionPointer;
+  typedef TFunction                      FunctionType;
+  typedef typename FunctionType::Pointer FunctionPointer;
 
-  typedef TSharedData                                 SharedDataType;
-  typedef typename SharedDataType::Pointer            SharedDataPointer;
+  typedef TSharedData                      SharedDataType;
+  typedef typename SharedDataType::Pointer SharedDataPointer;
 
-  typedef RegionOfInterestImageFilter<
-    FeatureImageType, FeatureImageType >              ROIFilterType;
-  typedef typename ROIFilterType::Pointer             ROIFilterPointer;
+  typedef RegionOfInterestImageFilter< FeatureImageType, FeatureImageType > ROIFilterType;
+  typedef typename ROIFilterType::Pointer                                   ROIFilterPointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
-  virtual void SetFeatureImage( const FeatureImagePointer f )
-    {
-    this->SetInput( f );
-    }
+  virtual void SetFeatureImage(const FeatureImagePointer f)
+  {
+    this->SetInput(f);
+  }
 
 protected:
   ScalarChanAndVeseDenseLevelSetImageFilter()
-    {
+  {
     this->m_SharedData = SharedDataType::New();
-    }
+  }
+
   ~ScalarChanAndVeseDenseLevelSetImageFilter(){}
 
-  SharedDataPointer   m_SharedData;
+  SharedDataPointer m_SharedData;
 
   virtual void Initialize();
+
   virtual void InitializeIteration();
 
 private:
-  ScalarChanAndVeseDenseLevelSetImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  ScalarChanAndVeseDenseLevelSetImageFilter(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
 
+  // implemented
+};
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

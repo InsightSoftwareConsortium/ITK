@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,68 +22,69 @@
 
 namespace itk
 {
-
 /** \class DefaultVectorPixelAccessor
  * \brief Give access to partial aspects of a type
  *
  * DefaultVectorPixelAccessor is specifically meant to provide VectorImage
- * with the same \c DefaultPixelAccessor interface that 
- * DefaultPixelAccessor provides to Image. 
+ * with the same \c DefaultPixelAccessor interface that
+ * DefaultPixelAccessor provides to Image.
  *
  * The template paramters is the type that is contained in by the elements of
  * a vector.
- * 
+ *
  * The class also contains a m_VectorLength paramter, set with the SetVectorLength
  * method to set the length of the vectors. This must be set before the accessor
  * can be used. This is the length of each of the vector containers.
  *
  * \note
- * This work is part of the National Alliance for Medical Image Computing 
+ * This work is part of the National Alliance for Medical Image Computing
  * (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
  * for Medical Research, Grant U54 EB005149.
  *
  * \ingroup ImageAdaptors
  */
-template <class TType > 
-class ITK_EXPORT DefaultVectorPixelAccessor  
+template< class TType >
+class ITK_EXPORT DefaultVectorPixelAccessor
 {
 public:
 
   typedef unsigned int VectorLengthType;
-  
+
   /** External typedef. It defines the external aspect
-   * that this class will exhibit. Here it is an VariableLengthVector. The container does not 
+   * that this class will exhibit. Here it is an VariableLengthVector. The container does not
    * manage the memory. In other words it is an array reference with the contents
    * pointing to the actual data in the image. */
-  typedef VariableLengthVector< TType >  ExternalType;
-  
+  typedef VariableLengthVector< TType > ExternalType;
+
   /** Internal typedef. It defines the internal real representation of data. */
-  typedef TType          InternalType;
+  typedef TType InternalType;
 
   /** Set output using the value in input */
-  inline void Set(InternalType & output, const ExternalType & input, 
-                                          const unsigned long offset ) const
-    { 
-    InternalType *truePixel = (&output) + offset*m_OffsetMultiplier;
-    for( VectorLengthType i=0; i< m_VectorLength; i++ ) 
-      { 
+  inline void Set(InternalType & output, const ExternalType & input,
+                  const unsigned long offset) const
+  {
+    InternalType *truePixel = ( &output ) + offset * m_OffsetMultiplier;
+
+    for ( VectorLengthType i = 0; i < m_VectorLength; i++ )
+      {
       truePixel[i] = input[i];
       }
-    }
+  }
 
   /** Get the value from input */
-  inline ExternalType Get( const InternalType & input, const unsigned long offset ) const
-    {
-    ExternalType output( (&input)+(offset*m_OffsetMultiplier) , m_VectorLength );
+  inline ExternalType Get(const InternalType & input, const unsigned long offset) const
+  {
+    ExternalType output( ( &input ) + ( offset * m_OffsetMultiplier ), m_VectorLength );
+
     return output;
-    }
+  }
 
   /** Set the length of each vector in the VectorImage */
-  void SetVectorLength( VectorLengthType l) 
-    { 
-    m_VectorLength = l; 
-    m_OffsetMultiplier = (l-1); 
-    }
+  void SetVectorLength(VectorLengthType l)
+  {
+    m_VectorLength = l;
+    m_OffsetMultiplier = ( l - 1 );
+  }
 
   /** Get Vector lengths */
   VectorLengthType GetVectorLength() const { return m_VectorLength; }
@@ -91,20 +92,17 @@ public:
   DefaultVectorPixelAccessor() {}
 
   /** Constructor to initialize VectorLength at construction time */
-  DefaultVectorPixelAccessor( VectorLengthType l ) 
-    { 
-    m_VectorLength = l; 
-    m_OffsetMultiplier = l-1;
-    }
-  
-  virtual ~DefaultVectorPixelAccessor() {};
-  
+  DefaultVectorPixelAccessor(VectorLengthType l)
+  {
+    m_VectorLength = l;
+    m_OffsetMultiplier = l - 1;
+  }
+
+  virtual ~DefaultVectorPixelAccessor() {}
 private:
   VectorLengthType m_VectorLength;
   VectorLengthType m_OffsetMultiplier;
 };
-  
 } // end namespace itk
-  
 
 #endif

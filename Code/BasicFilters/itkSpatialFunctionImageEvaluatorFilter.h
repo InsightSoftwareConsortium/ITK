@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class SpatialFunctionImageEvaluatorFilter
  * \brief Evaluates a SpatialFunction onto a source image
  *
@@ -35,25 +34,25 @@ namespace itk
  *
  * Like its parent ImageToImageFilter, this class functions in the filtering
  * pipeline and produces a unique output image.
- * 
+ *
  * \ingroup ImageFilters
  */
-template<class TSpatialFunction, class TInputImage, class TOutputImage>
-class ITK_EXPORT SpatialFunctionImageEvaluatorFilter :
-    public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TSpatialFunction, class TInputImage, class TOutputImage >
+class ITK_EXPORT SpatialFunctionImageEvaluatorFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialFunctionImageEvaluatorFilter           Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef SpatialFunctionImageEvaluatorFilter             Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( SpatialFunctionImageEvaluatorFilter, ImageToImageFilter );
+  itkTypeMacro(SpatialFunctionImageEvaluatorFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
   itkStaticConstMacro(NDimensions, unsigned int,
@@ -81,24 +80,22 @@ public:
   typedef typename FunctionType::InputType PositionType;
 
   /** Set the internal spatial function. */
-  void SetFunction( FunctionType* PixelFunction )
-  {m_PixelFunction = PixelFunction;};
-
+  void SetFunction(FunctionType *PixelFunction)
+  { m_PixelFunction = PixelFunction; }
 protected:
   SpatialFunctionImageEvaluatorFilter();
-  virtual ~SpatialFunctionImageEvaluatorFilter() {};
+  virtual ~SpatialFunctionImageEvaluatorFilter() {}
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData();
 
 private:
-  SpatialFunctionImageEvaluatorFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  SpatialFunctionImageEvaluatorFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 
   /** The function that will be evaluated over the image */
-  FunctionType* m_PixelFunction;
+  FunctionType *m_PixelFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

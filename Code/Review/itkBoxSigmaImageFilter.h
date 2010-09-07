@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 
 #include "itkBoxImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class BoxSigmaImageFilter
  * \brief Implements a fast rectangular sigma filter using the
@@ -29,23 +29,23 @@ namespace itk {
  * \author Gaetan Lehmann
  */
 
-template<class TInputImage, class TOutputImage=TInputImage>
-class ITK_EXPORT BoxSigmaImageFilter : 
-    public BoxImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage = TInputImage >
+class ITK_EXPORT BoxSigmaImageFilter:
+  public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef BoxSigmaImageFilter                        Self;
-  typedef BoxImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
-  
+  typedef BoxSigmaImageFilter                         Self;
+  typedef BoxImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                        Pointer;
+  typedef SmartPointer< const Self >                  ConstPointer;
+
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(BoxSigmaImageFilter, BoxImageFilter);
-  
+
   /** Image related typedefs. */
   typedef TInputImage                                InputImageType;
   typedef TOutputImage                               OutputImageType;
@@ -63,34 +63,29 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimension,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro( SameDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
+                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
 
-  
   /** End concept checking */
 #endif
-
-    
 protected:
   BoxSigmaImageFilter();
-  ~BoxSigmaImageFilter() {};
+  ~BoxSigmaImageFilter() {}
 
   /** Multi-thread version GenerateData. */
-  void  ThreadedGenerateData (const OutputImageRegionType& 
-                              outputRegionForThread,
-                              int threadId);
+  void  ThreadedGenerateData(const OutputImageRegionType &
+                             outputRegionForThread,
+                             int threadId);
 
 private:
-  BoxSigmaImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-}; // end of class
-
+  BoxSigmaImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
+};                                   // end of class
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBoxSigmaImageFilter.txx"
 #endif

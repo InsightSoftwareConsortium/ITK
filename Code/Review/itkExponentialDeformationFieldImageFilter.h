@@ -25,10 +25,8 @@
 #include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
 #include "itkAddImageFilter.h"
 
-
 namespace itk
 {
-
 /** \class ExponentialDeformationFieldImageFilter
  * \brief Computes a diffeomorphic deformation field as the Lie group
  * exponential of a vector field.
@@ -61,16 +59,16 @@ namespace itk
  *
  * \ingroup ImageToImageFilter
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExponentialDeformationFieldImageFilter:
-      public ImageToImageFilter<TInputImage, TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ExponentialDeformationFieldImageFilter         Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>   Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef ExponentialDeformationFieldImageFilter          Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,15 +77,15 @@ public:
   itkTypeMacro(ExponentialDeformationFieldImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
-  typedef TInputImage                                  InputImageType;
-  typedef typename InputImageType::Pointer             InputImagePointer;
-  typedef typename InputImageType::ConstPointer        InputImageConstPointer;
-  typedef typename InputImageType::PixelType           InputPixelType;
-  typedef typename InputPixelType::RealValueType       InputPixelRealValueType;
+  typedef TInputImage                            InputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::PixelType     InputPixelType;
+  typedef typename InputPixelType::RealValueType InputPixelRealValueType;
 
-  typedef TOutputImage                                 OutputImageType;
-  typedef typename OutputImageType::Pointer            OutputImagePointer;
-  typedef typename OutputImageType::PixelType          OutputPixelType;
+  typedef TOutputImage                        OutputImageType;
+  typedef typename OutputImageType::Pointer   OutputImagePointer;
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
   /** Specify the maximum number of iteration. */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
@@ -97,8 +95,8 @@ public:
    * given by MaximumNumberOfIterations. If it is on, we try to get
    * the lowest good number (which may not be larger than
    * MaximumNumberOfIterations ) */
-  itkSetMacro( AutomaticNumberOfIterations, bool );
-  itkGetConstMacro( AutomaticNumberOfIterations, bool );
+  itkSetMacro(AutomaticNumberOfIterations, bool);
+  itkGetConstMacro(AutomaticNumberOfIterations, bool);
   itkBooleanMacro(AutomaticNumberOfIterations);
 
   /** If ComputeInverse is on, the filter will compute the exponential
@@ -106,88 +104,84 @@ public:
    * fields computed with ComputeInverse set to on and off respectively
    * therefore represent spatial transformations that are inverses of
    * each other. */
-  itkSetMacro( ComputeInverse, bool );
-  itkGetConstMacro( ComputeInverse, bool );
+  itkSetMacro(ComputeInverse, bool);
+  itkGetConstMacro(ComputeInverse, bool);
   itkBooleanMacro(ComputeInverse);
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(PixelDimension, unsigned int,
-                      InputPixelType::Dimension );
+                      InputPixelType::Dimension);
   itkStaticConstMacro(OutputPixelDimension, unsigned int,
-                      OutputPixelType::Dimension );
-
+                      OutputPixelType::Dimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-   /** Begin concept checking */
-   itkConceptMacro(OutputHasNumericTraitsCheck,
-                   (Concept::HasNumericTraits<typename OutputPixelType::ValueType>));
-   itkConceptMacro(SameDimensionCheck1,
-                   (Concept::SameDimension<ImageDimension,OutputImageDimension>));
-   itkConceptMacro(SameDimensionCheck2,
-                   (Concept::SameDimension<ImageDimension,PixelDimension>));
-   itkConceptMacro(SameDimensionCheck3,
-                   (Concept::SameDimension<ImageDimension,OutputPixelDimension>));
-   /** End concept checking */
+  /** Begin concept checking */
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename OutputPixelType::ValueType > ) );
+  itkConceptMacro( SameDimensionCheck1,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( SameDimensionCheck2,
+                   ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
+  itkConceptMacro( SameDimensionCheck3,
+                   ( Concept::SameDimension< ImageDimension, OutputPixelDimension > ) );
+  /** End concept checking */
 #endif
-
 protected:
   ExponentialDeformationFieldImageFilter();
-  virtual ~ExponentialDeformationFieldImageFilter() {};
+  virtual ~ExponentialDeformationFieldImageFilter() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * GenerateData()
    */
   void GenerateData();
 
-  typedef typename InputImageType::RegionType          RegionType;
+  typedef typename InputImageType::RegionType RegionType;
 
   typedef DivideByConstantImageFilter<
     InputImageType,
     InputPixelRealValueType, OutputImageType >         DivideByConstantType;
 
   typedef CastImageFilter<
-    InputImageType, OutputImageType>                   CasterType;
+    InputImageType, OutputImageType >                   CasterType;
 
   typedef WarpVectorImageFilter<
     OutputImageType,
-    OutputImageType, OutputImageType>                  VectorWarperType;
+    OutputImageType, OutputImageType >                  VectorWarperType;
 
   typedef VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-    OutputImageType,double>                            FieldInterpolatorType;
+    OutputImageType, double >                            FieldInterpolatorType;
 
   typedef AddImageFilter<
-    OutputImageType, OutputImageType, OutputImageType> AdderType;
+    OutputImageType, OutputImageType, OutputImageType > AdderType;
 
-  typedef typename DivideByConstantType::Pointer       DivideByConstantPointer;
-  typedef typename CasterType::Pointer                 CasterPointer;
-  typedef typename VectorWarperType::Pointer           VectorWarperPointer;
-  typedef typename FieldInterpolatorType::Pointer      FieldInterpolatorPointer;
-  typedef typename FieldInterpolatorType::OutputType   FieldInterpolatorOutputType;
-  typedef typename AdderType::Pointer                  AdderPointer;
-
-
+  typedef typename DivideByConstantType::Pointer     DivideByConstantPointer;
+  typedef typename CasterType::Pointer               CasterPointer;
+  typedef typename VectorWarperType::Pointer         VectorWarperPointer;
+  typedef typename FieldInterpolatorType::Pointer    FieldInterpolatorPointer;
+  typedef typename FieldInterpolatorType::OutputType FieldInterpolatorOutputType;
+  typedef typename AdderType::Pointer                AdderPointer;
 private:
-  ExponentialDeformationFieldImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ExponentialDeformationFieldImageFilter(const Self &); //purposely not
+                                                        // implemented
+  void operator=(const Self &);                         //purposely not
+                                                        // implemented
 
-  bool                       m_AutomaticNumberOfIterations;
-  unsigned int               m_MaximumNumberOfIterations;
+  bool         m_AutomaticNumberOfIterations;
+  unsigned int m_MaximumNumberOfIterations;
 
-  bool                       m_ComputeInverse;
+  bool m_ComputeInverse;
 
-  DivideByConstantPointer    m_Divider;
-  CasterPointer              m_Caster;
-  VectorWarperPointer        m_Warper;
-  AdderPointer               m_Adder;
+  DivideByConstantPointer m_Divider;
+  CasterPointer           m_Caster;
+  VectorWarperPointer     m_Warper;
+  AdderPointer            m_Adder;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

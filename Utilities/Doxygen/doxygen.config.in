@@ -478,11 +478,6 @@ RECURSIVE              = YES
 
 EXCLUDE                = "@ITK_SOURCE_DIR@/Code/Common/itkPixelTraits.h" \
                          "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraits.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsRGB.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVectorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsTensorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsCovariantVectorPixel.h" \
-                         "@ITK_SOURCE_DIR@/Code/Common/itkNumericTraitsVariableLengthVectorPixel.h" \
                          "@ITK_SOURCE_DIR@/Code/Common/itkMathDetail.h" \
                          "@ITK_SOURCE_DIR@/Code/IO/itkPixelData.h" \
                          "@ITK_SOURCE_DIR@/Code/IO/itkAnalyzeDbh.h" 
@@ -1146,8 +1141,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                 "HAS_GLUT" "HAS_QT"                                     \
                "VCL_USE_NATIVE_STL=1" "VCL_USE_NATIVE_COMPLEX=1"        \
                "VCL_HAS_BOOL=1" "VXL_BIG_ENDIAN=1" "VXL_LITTLE_ENDIAN=0"\
-               "VNL_DLL_DATA=" "size_t=vcl_size_t"\
-               "ITK_HAS_INT_64"
+               "VNL_DLL_DATA=" "size_t=vcl_size_t"
 
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then 

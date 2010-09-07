@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,7 @@
 
 // add in the Windows variants
 
-#if defined(__CYGWIN__)
+#if defined( __CYGWIN__ )
 #ifndef WIN32
 #define WIN32 1
 #endif
@@ -34,7 +34,7 @@
 #endif
 
 /** Disable some common warnings in MS VC++ */
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 
 // 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #pragma warning ( disable : 4244 )
@@ -62,7 +62,7 @@
 // non dll-interface class 'type' used as base for dll-interface class 'type2'
 #pragma warning ( disable : 4275 )
 
-// C++ exception specification ignored except to indicate a 
+// C++ exception specification ignored except to indicate a
 // function is not __declspec(nothrow)
 #pragma warning ( disable : 4290 )
 
@@ -75,32 +75,30 @@
 // unreferenced local function has been removed
 #pragma warning ( disable : 4505 )
 
-
 // typename keyword in default template arguments is not accepted by
 // MSVC.  This macro should only be used in such places.
-# if !defined(CABLE_CONFIGURATION) && (_MSC_VER < 1310)
-#  define ITK_TYPENAME
-# else
-#  define ITK_TYPENAME typename
-# endif
+#if !defined( CABLE_CONFIGURATION ) && ( _MSC_VER < 1310 )
+#define ITK_TYPENAME
 #else
-# define ITK_TYPENAME typename
+#define ITK_TYPENAME typename
+#endif
+#else
+#define ITK_TYPENAME typename
 #endif
 
 // When a class definition has ITK_EXPORT, the class will be
 // checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
 #define ITK_EXPORT
 
-#if (defined(_WIN32) || defined(WIN32)) && !defined(ITKSTATIC) 
-# ifdef ITKCommon_EXPORTS
-#  define ITKCommon_EXPORT __declspec(dllexport)
-# else
-#  define ITKCommon_EXPORT __declspec(dllimport)
-# endif  /* ITKCommon_EXPORT */
+#if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
+#ifdef ITKCommon_EXPORTS
+#define ITKCommon_EXPORT __declspec(dllexport)
+#else
+#define ITKCommon_EXPORT __declspec(dllimport)
+#endif  /* ITKCommon_EXPORT */
 #else
 /* unix needs nothing */
-#define ITKCommon_EXPORT 
+#define ITKCommon_EXPORT
 #endif
-
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -35,32 +35,34 @@
 
 namespace itk
 {
-class Point1D  
+class Point1D
 {
 public:
   double m_X;
   int    m_Sign;
-     
-  Point1D(){};
+
+  Point1D(){}
   Point1D(const double p, const int s)
-    {
+  {
     m_X = p;
     m_Sign = s;
-    }
-  Point1D(const Point1D &point)
-    {
+  }
+
+  Point1D(const Point1D & point)
+  {
     m_X = point.m_X;
     m_Sign = point.m_Sign;
-    }
+  }
+
   double getX() const
-    {
+  {
     return m_X;
-    }
+  }
+
   int  getSign() const
-    {
+  {
     return m_Sign;
-    }
-  
+  }
 };
 
 /** \class TriangleMeshToBinaryImageFilter
@@ -69,15 +71,15 @@ public:
 
  * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
  */
-template <class TInputMesh, class TOutputImage>
-class ITK_EXPORT TriangleMeshToBinaryImageFilter : public ImageSource<TOutputImage>
+template< class TInputMesh, class TOutputImage >
+class ITK_EXPORT TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef TriangleMeshToBinaryImageFilter  Self;
-  typedef ImageSource<TOutputImage>        Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef TriangleMeshToBinaryImageFilter Self;
+  typedef ImageSource< TOutputImage >     Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   typedef typename TOutputImage::IndexType        IndexType;
   typedef typename TOutputImage::SizeType         SizeType;
@@ -86,12 +88,12 @@ public:
   typedef typename OutputImageType::ValueType     ValueType;
   typedef typename OutputImageType::SpacingType   SpacingType;
   typedef typename OutputImageType::DirectionType DirectionType;
-  
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TriangleMeshToBinaryImageFilter,ImageSource);
+  itkTypeMacro(TriangleMeshToBinaryImageFilter, ImageSource);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
@@ -109,18 +111,17 @@ public:
   typedef typename InputMeshType::PointsContainer InputPointsContainer;
   typedef typename InputPointsContainer::Pointer  InputPointsContainerPointer;
   typedef typename InputPointsContainer::Iterator InputPointsContainerIterator;
-  
-  typedef itk::PointSet < double , 3 >           PointSetType;
+
+  typedef itk::PointSet< double, 3 >             PointSetType;
   typedef typename PointSetType::PointsContainer PointsContainer;
-  
 
-  typedef itk::Point < double, 3> PointType;
-  typedef itk::Point < double, 2> Point2DType;
-  
-  typedef itk::Array<double> DoubleArrayType;
+  typedef itk::Point< double, 3 > PointType;
+  typedef itk::Point< double, 2 > Point2DType;
 
-  typedef std::vector< Point1D >               Point1DVector;
-  typedef std::vector< std::vector< Point1D> > Point1DArray;
+  typedef itk::Array< double > DoubleArrayType;
+
+  typedef std::vector< Point1D >                Point1DVector;
+  typedef std::vector< std::vector< Point1D > > Point1DArray;
 
   typedef std::vector< Point2DType >                Point2DVector;
   typedef std::vector< std::vector< Point2DType > > Point2DArray;
@@ -134,8 +135,10 @@ public:
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
   itkSetMacro(Spacing, SpacingType);
-  virtual void SetSpacing( const double spacing[3] );
-  virtual void SetSpacing( const float spacing[3] );
+  virtual void SetSpacing(const double spacing[3]);
+
+  virtual void SetSpacing(const float spacing[3]);
+
   itkGetConstReferenceMacro(Spacing, SpacingType);
 
   /** The Direction is a matix of direction cosines
@@ -144,10 +147,10 @@ public:
   itkSetMacro(Direction, DirectionType);
   itkGetConstMacro(Direction, DirectionType);
 
-  /** Set/Get the value for pixels inside the spatial object. 
+  /** Set/Get the value for pixels inside the spatial object.
   * By default, this filter will return an image
   * If this "inside" value is changed to a non-null value,
-  * the output produced by this filter will be a mask with inside/outside values 
+  * the output produced by this filter will be a mask with inside/outside values
   * specified by the user. */
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
@@ -165,71 +168,80 @@ public:
    * as double but may be set from float.
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
-  virtual void SetOrigin( const double origin[3] );
-  virtual void SetOrigin( const float origin[3] );
+  virtual void SetOrigin(const double origin[3]);
+
+  virtual void SetOrigin(const float origin[3]);
+
   itkGetConstReferenceMacro(Origin, PointType);
-  
+
   /** Set/Get Index */
-  itkSetMacro(Index,IndexType);
-  itkGetConstMacro(Index,IndexType);
+  itkSetMacro(Index, IndexType);
+  itkGetConstMacro(Index, IndexType);
 
   /** Set/Get Size */
-  itkSetMacro(Size,SizeType);
-  itkGetConstMacro(Size,SizeType);
+  itkSetMacro(Size, SizeType);
+  itkGetConstMacro(Size, SizeType);
 
   /** Set the mesh input of this process object.  */
   void SetInput(InputMeshType *input);
 
   void SetInfoImage(OutputImageType *InfoImage)
-    {
-    if (InfoImage != m_InfoImage)
+  {
+    if ( InfoImage != m_InfoImage )
       {
       this->Modified();
       m_InfoImage = InfoImage;
       }
-    }
+  }
 
   /** Get the mesh input of this process object.  */
   InputMeshType * GetInput(void);
+
   InputMeshType * GetInput(unsigned int idx);
 
   /* Set the tolerance for doing spatial searches of the polydata. */
   itkSetMacro(Tolerance, double);
   itkGetConstMacro(Tolerance, double);
-    
 protected:
   TriangleMeshToBinaryImageFilter();
   ~TriangleMeshToBinaryImageFilter();
 
-  virtual void GenerateOutputInformation(){}; // do nothing
+  virtual void GenerateOutputInformation(){}  // do nothing
   virtual void GenerateData();
 
   virtual void RasterizeTriangles();
-  static int PolygonToImageRaster( PointVector coords, Point1DArray & zymatrix, int extent[6]);
-  
+
+  static int PolygonToImageRaster(PointVector coords, Point1DArray & zymatrix, int extent[6]);
+
   OutputImageType *m_InfoImage;
-  IndexType        m_Index;
-  SizeType         m_Size;
-  SpacingType      m_Spacing;
-  PointType        m_Origin; //start value
-  double           m_Tolerance;
-  ValueType        m_InsideValue;
-  ValueType        m_OutsideValue;
-  DirectionType    m_Direction;
+
+  IndexType m_Index;
+
+  SizeType m_Size;
+
+  SpacingType m_Spacing;
+
+  PointType m_Origin;        //start value
+
+  double m_Tolerance;
+
+  ValueType m_InsideValue;
+  ValueType m_OutsideValue;
+
+  DirectionType m_Direction;
 
   StencilIndexVector m_StencilIndex;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  TriangleMeshToBinaryImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  TriangleMeshToBinaryImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                  //purposely not implemented
 
   static bool ComparePoints2D(Point2DType a, Point2DType b);
+
   static bool ComparePoints1D(Point1D a, Point1D b);
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,14 +19,14 @@
 
 #include "itkShapeDetectionLevelSetImageFilter.h"
 
-namespace itk {
-
-
-template <class TInputImage, class TFeatureImage, class TOutputType>
-ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+namespace itk
+{
+template< class TInputImage, class TFeatureImage, class TOutputType >
+ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::ShapeDetectionLevelSetImageFilter()
 {
-  /* Instantiate a shape detection function and set it as the segmentation function. */
+  /* Instantiate a shape detection function and set it as the segmentation
+    function. */
   m_ShapeDetectionFunction = ShapeDetectionFunctionType::New();
 
   this->SetSegmentationFunction(m_ShapeDetectionFunction);
@@ -34,27 +34,27 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
   /* Turn off interpolation. */
   this->InterpolateSurfaceLocationOff();
 }
- 
-template <class TInputImage, class TFeatureImage, class TOutputType>
+
+template< class TInputImage, class TFeatureImage, class TOutputType >
 void
-ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
-::PrintSelf(std::ostream &os, Indent indent) const
+ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "ShapeDetectionFunction: " << std::endl;
-    m_ShapeDetectionFunction.GetPointer()->Print(os, indent.GetNextIndent());
+  m_ShapeDetectionFunction.GetPointer()->Print( os, indent.GetNextIndent() );
 }
 
-template <class TInputImage, class TFeatureImage, class TOutputType>
+template< class TInputImage, class TFeatureImage, class TOutputType >
 void
-ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
+ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
   // is zero while CurvatureScaling is non-zero
-  if ( this->GetSegmentationFunction() && 
-       this->GetSegmentationFunction()->GetCurvatureWeight() != 0 &&
-       this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
+  if ( this->GetSegmentationFunction()
+       && this->GetSegmentationFunction()->GetCurvatureWeight() != 0
+       && this->GetSegmentationFunction()->GetPropagationWeight() == 0 )
     {
     this->GetSegmentationFunction()->AllocateSpeedImage();
     this->GetSegmentationFunction()->CalculateSpeedImage();
@@ -62,9 +62,7 @@ ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>
 
   // Continue with Superclass implementation
   Superclass::GenerateData();
-
 }
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

@@ -19,19 +19,15 @@
 
 namespace itk
 {
-
 /**
  * Initialize static const m_Factor
  */
-const double GaussianKernelFunction::m_Factor =
-1.0 / vcl_sqrt( 2.0 * vnl_math::pi );
+const double GaussianKernelFunction:: m_Factor =
+  1.0 / vcl_sqrt(2.0 * vnl_math::pi);
 
 GaussianKernelFunction::GaussianKernelFunction()
-{
-}
+{}
 
 GaussianKernelFunction::~GaussianKernelFunction()
-{
-}
-
+{}
 } // namespace itk

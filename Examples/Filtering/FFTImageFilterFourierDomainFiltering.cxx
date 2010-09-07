@@ -18,11 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
-
 //  Software Guide : BeginLatex
 //
 //  One of the most common image processing operations performed in the Fourier

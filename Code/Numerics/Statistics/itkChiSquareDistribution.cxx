@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,11 +22,13 @@
 #include "vnl/vnl_erf.h"
 
 extern "C" double dgami_(double *a, double *x);
+
 extern "C" double dgamma_(double *x);
 
-namespace itk { 
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 ChiSquareDistribution
 ::ChiSquareDistribution()
 {
@@ -40,22 +42,22 @@ ChiSquareDistribution
 {
   bool modified = false;
 
-  if (m_Parameters.GetSize() > 0)
+  if ( m_Parameters.GetSize() > 0 )
     {
-    if (m_Parameters[0] != static_cast<double>(dof) )
+    if ( m_Parameters[0] != static_cast< double >( dof ) )
       {
       modified = true;
       }
     }
-  
-  if (m_Parameters.GetSize() != 1)
+
+  if ( m_Parameters.GetSize() != 1 )
     {
     m_Parameters = ParametersType(1);
     }
 
-  m_Parameters[0] = static_cast<double>(dof);
+  m_Parameters[0] = static_cast< double >( dof );
 
-  if (modified)
+  if ( modified )
     {
     this->Modified();
     }
@@ -65,64 +67,45 @@ long
 ChiSquareDistribution
 ::GetDegreesOfFreedom() const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return static_cast<long>(m_Parameters[0]);
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  
-  return 1;
+  return static_cast< long >( m_Parameters[0] );
 }
 
 double
 ChiSquareDistribution
 ::PDF(double x, long degreesOfFreedom)
 {
-  double dof = static_cast<double>(degreesOfFreedom);
-  double dofon2 = 0.5*dof;
+  double dof = static_cast< double >( degreesOfFreedom );
+  double dofon2 = 0.5 * dof;
   double pdf = 0.0;
 
-  if (x >= 0.0)
+  if ( x >= 0.0 )
     {
-    pdf = vcl_exp(-0.5*x) * vcl_pow(x, dofon2 - 1.0)
-      / (vcl_pow(2.0, dofon2) * dgamma_(&dofon2));
+    pdf = vcl_exp(-0.5 * x) * vcl_pow(x, dofon2 - 1.0)
+          / ( vcl_pow(2.0, dofon2) * dgamma_(&dofon2) );
     }
-  
+
   return pdf;
 }
 
-
 double
 ChiSquareDistribution
-::PDF(double x, const ParametersType& p)
+::PDF(double x, const ParametersType & p)
 {
-  if (p.GetSize() == 1)
+  if ( p.GetSize() != 1 )
     {
-    return ChiSquareDistribution::PDF(x, static_cast<long>(p[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "ChiSquareDistribution: "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-
-  return 0.0;
+  return ChiSquareDistribution::PDF( x, static_cast< long >( p[0] ) );
 }
 
 double
@@ -132,52 +115,42 @@ ChiSquareDistribution
   // Based on Abramowitz and Stegun 26.4.19 which relates the
   // cumulative of the chi-square to incomplete (and complete) gamma
   // function.
-  if (x < 0)
+  if ( x < 0 )
     {
     return 0.0;
     }
 
-  double dofon2 = 0.5*degreesOfFreedom;
-  double xon2 = 0.5*x;
-  
+  double dofon2 = 0.5 * degreesOfFreedom;
+  double xon2 = 0.5 * x;
+
   return dgami_(&dofon2, &xon2) / dgamma_(&dofon2);
 }
 
-
 double
 ChiSquareDistribution
-::CDF(double x, const ParametersType& p)
+::CDF(double x, const ParametersType & p)
 {
-  if (p.GetSize() == 1)
+  if ( p.GetSize() != 1 )
     {
-    return ChiSquareDistribution::CDF(x, (long) p[0]);
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "ChiSquareDistribution: "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-
-  return 0.0;
+  return ChiSquareDistribution::CDF(x, (long)p[0]);
 }
 
 double
 ChiSquareDistribution
 ::InverseCDF(double p, long degreesOfFreedom)
 {
-  if (p <= 0.0)
+  if ( p <= 0.0 )
     {
-    return itk::NumericTraits<double>::Zero;
+    return itk::NumericTraits< double >::Zero;
     }
-  else if (p >= 1.0)
+  else if ( p >= 1.0 )
     {
-    return itk::NumericTraits<double>::max();
+    return itk::NumericTraits< double >::max();
     }
 
   double x;
@@ -185,32 +158,30 @@ ChiSquareDistribution
   double nx;
 
   // Based on Abramowitz and Stegun 26.4.17
-  dof = static_cast<double>(degreesOfFreedom);
+  dof = static_cast< double >( degreesOfFreedom );
   nx = GaussianDistribution::InverseCDF(p);
 
-  double f = 2.0 / (9.0*dof);
-  x = dof*vcl_pow(1.0 - f + nx*vcl_sqrt(f), 3.0);
-
+  double f = 2.0 / ( 9.0 * dof );
+  x = dof * vcl_pow(1.0 - f + nx * vcl_sqrt(f), 3.0);
 
   // The approximation above is only accurate for large degrees of
   // freedom. We'll improve the approximation by a few Newton iterations.
   //
   //   0 iterations, error = 10^-1  at 1 degree of freedom
-  //   3 iterations, error = 10^-11 at 1 degree of freedom 
+  //   3 iterations, error = 10^-11 at 1 degree of freedom
   //  10 iterations, erorr = 10^-13 at 1 degree of freedom
   //  20 iterations, erorr = 10^-13 at 1 degree of freedom
   //
   //   0 iterations, error = 10^-1  at 11 degrees of freedom
-  //   3 iterations, error = 10^-8  at 11 degrees of freedom 
+  //   3 iterations, error = 10^-8  at 11 degrees of freedom
   //  10 iterations, erorr = 10^-13 at 11 degrees of freedom
   //  20 iterations, erorr = 10^-13 at 11 degrees of freedom
   //
   //   0 iterations, error = 10^-1  at 100 degrees of freedom
-  //   3 iterations, error = 10^-9  at 100 degrees of freedom 
+  //   3 iterations, error = 10^-9  at 100 degrees of freedom
   //  10 iterations, erorr = 10^-10 at 100 degrees of freedom
   //  20 iterations, erorr = 10^-9  at 100 degrees of freedom
-  
-  
+
   // We are trying to find the zero of
   //
   // f(x) = p - chisquarecdf(x) = 0;
@@ -223,82 +194,56 @@ ChiSquareDistribution
   // Note that f'(x) = - chisquarepdf(x)
   //
   double delta;
-  for (unsigned int newt = 0; newt < 10; ++newt)
+  for ( unsigned int newt = 0; newt < 10; ++newt )
     {
-    delta = (p - ChiSquareDistribution::CDF(x, degreesOfFreedom))
-      / ChiSquareDistribution::PDF(x, degreesOfFreedom);
+    delta = ( p - ChiSquareDistribution::CDF(x, degreesOfFreedom) )
+            / ChiSquareDistribution::PDF(x, degreesOfFreedom);
     x += delta;
     }
 
   return x;
 }
 
-
 double
 ChiSquareDistribution
-::InverseCDF(double p, const ParametersType& params)
+::InverseCDF(double p, const ParametersType & params)
 {
-  if (params.GetSize() == 1)
+  if ( params.GetSize() != 1 )
     {
-    return ChiSquareDistribution::InverseCDF(p, static_cast<long>(params[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " 
-            << "ChiSquareDistribution: "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-
-  return 0.0;
+  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
 }
 
 double
 ChiSquareDistribution
 ::EvaluatePDF(double x) const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return ChiSquareDistribution::PDF(x, static_cast<long>(m_Parameters[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::PDF( x, static_cast< long >( m_Parameters[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluatePDF(double x, const ParametersType& p) const
+::EvaluatePDF(double x, const ParametersType & p) const
 {
-  if (p.GetSize() == 1)
+  if ( p.GetSize() != 1 )
     {
-    return ChiSquareDistribution::PDF(x, static_cast<long>(p[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::PDF( x, static_cast< long >( p[0] ) );
 }
 
 double
@@ -308,49 +253,32 @@ ChiSquareDistribution
   return ChiSquareDistribution::PDF(x, degreesOfFreedom);
 }
 
-
 double
 ChiSquareDistribution
 ::EvaluateCDF(double x) const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return ChiSquareDistribution::CDF(x, static_cast<long>(m_Parameters[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::CDF( x, static_cast< long >( m_Parameters[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluateCDF(double x, const ParametersType& p) const
+::EvaluateCDF(double x, const ParametersType & p) const
 {
-  if (p.GetSize() == 1)
+  if ( p.GetSize() != 1 )
     {
-    return ChiSquareDistribution::CDF(x, static_cast<long>(p[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << p.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::CDF( x, static_cast< long >( p[0] ) );
 }
 
 double
@@ -360,50 +288,32 @@ ChiSquareDistribution
   return ChiSquareDistribution::CDF(x, degreesOfFreedom);
 }
 
-
 double
 ChiSquareDistribution
 ::EvaluateInverseCDF(double p) const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return ChiSquareDistribution::InverseCDF(p,
-                                           static_cast<long>(m_Parameters[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( m_Parameters[0] ) );
 }
 
 double
 ChiSquareDistribution
-::EvaluateInverseCDF(double p, const ParametersType& params) const
+::EvaluateInverseCDF(double p, const ParametersType & params) const
 {
-  if (params.GetSize() == 1)
+  if ( params.GetSize() != 1 )
     {
-    return ChiSquareDistribution::InverseCDF(p, static_cast<long>(params[0]));
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << params.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-          << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-  return 0.0;
+  return ChiSquareDistribution::InverseCDF( p, static_cast< long >( params[0] ) );
 }
 
 double
@@ -413,63 +323,44 @@ ChiSquareDistribution
   return ChiSquareDistribution::InverseCDF(p, degreesOfFreedom);
 }
 
-
 double
 ChiSquareDistribution
 ::GetMean() const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return m_Parameters[0];
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-
-  return NumericTraits<double>::quiet_NaN();
+  return m_Parameters[0];
 }
 
 double
 ChiSquareDistribution
 ::GetVariance() const
 {
-  if (m_Parameters.GetSize() == 1)
+  if ( m_Parameters.GetSize() != 1 )
     {
-    return 2.0*m_Parameters[0];
+    itkGenericExceptionMacro(
+      "Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
+      << m_Parameters.size()
+      << " parameters.");
     }
-  else
-    {
-    InvalidArgumentError excp(__FILE__, __LINE__);
-    ::itk::OStringStream message;
-    message << "itk::ERROR: " << this->GetNameOfClass() 
-            << "(" << this << "): "
-            << "Invalid number of parameters to describe distribution.";
-    excp.SetDescription(message.str());
-    excp.SetLocation(ITK_LOCATION);
-    throw excp;
-    }
-
-  return NumericTraits<double>::quiet_NaN();
+  return 2.0 * m_Parameters[0];
 }
 
-void  
+void
 ChiSquareDistribution
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  if (m_Parameters.GetSize() > 0)
+  if ( m_Parameters.GetSize() > 0 )
     {
     os << indent << "Degrees of freedom: "
-       << static_cast<long>(m_Parameters[0]) << std::endl;
+       << static_cast< long >( m_Parameters[0] ) << std::endl;
     }
   else
     {
@@ -477,6 +368,5 @@ ChiSquareDistribution
        << std::endl;
     }
 }
-
 } // end of namespace Statistics
 } // end namespace itk

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,70 +22,71 @@
 
 namespace itk
 {
-
 /** \class ScaleLogarithmicTransform
  * \brief Logarithmic Scale transformation of a vector space (e.g. space coordinates)
  *
- * The only difference between this class and its superclass the ScaleTransform 
+ * The only difference between this class and its superclass the ScaleTransform
  * is that here the parameters of the transformation are the logarithms of the
  * scales. This facilitates to linearize the expressions used for optimization.
  *
  * \ingroup Transforms
  */
-template <
-    class TScalarType=float, // Type for cordinate representation type (float or double)
-    unsigned int NDimensions=3  >  // Number of dimensions
-class ITK_EXPORT ScaleLogarithmicTransform : 
-                            public ScaleTransform< TScalarType, 
-                                                   NDimensions >
+template<
+  class TScalarType = float, // Type for cordinate representation type (float or
+                             // double)
+  unsigned int NDimensions = 3  >
+// Number of dimensions
+class ITK_EXPORT ScaleLogarithmicTransform:
+  public ScaleTransform< TScalarType,
+                         NDimensions >
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleLogarithmicTransform                   Self;
-  typedef ScaleTransform< TScalarType, NDimensions >  Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
-  
+  typedef ScaleLogarithmicTransform                  Self;
+  typedef ScaleTransform< TScalarType, NDimensions > Superclass;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
+
   /** New macro for creation of through a smart pointer. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( ScaleLogarithmicTransform, ScaleTransform );
+  itkTypeMacro(ScaleLogarithmicTransform, ScaleTransform);
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
   itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType  ScalarType;
+  typedef typename Superclass::ScalarType ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType  ParametersType;
-  typedef typename ParametersType::ValueType   ParametersValueType;
+  typedef typename Superclass::ParametersType ParametersType;
+  typedef typename ParametersType::ValueType  ParametersValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType  JacobianType;
+  typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::ScaleType              ScaleType;
-  typedef typename ScaleType::ValueType               ScalesValueType;
+  typedef typename Superclass::ScaleType ScaleType;
+  typedef typename ScaleType::ValueType  ScalesValueType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType          InputVectorType;
-  typedef typename Superclass::OutputVectorType         OutputVectorType;
-  
+  typedef typename Superclass::InputVectorType  InputVectorType;
+  typedef typename Superclass::OutputVectorType OutputVectorType;
+
   /** Standard covariant vector type for this class. */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
-  
+  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
-  
+  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType             InputPointType;
-  typedef typename Superclass::OutputPointType            OutputPointType;
-  
+  typedef typename Superclass::InputPointType  InputPointType;
+  typedef typename Superclass::OutputPointType OutputPointType;
+
   /** Set parameters.
    * This method sets the parameters for the transform
    * value specified by the user. */
@@ -94,12 +95,12 @@ public:
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 4 parameters. The first one represents the
-   * rotation, the second one the scale and the last 
+   * rotation, the second one the scale and the last
    * two represent the offset. */
-  const ParametersType & GetParameters( void ) const;
+  const ParametersType & GetParameters(void) const;
 
   /** Get the Jacobian matrix. */
-  const JacobianType & GetJacobian( const InputPointType & point ) const;
+  const JacobianType & GetJacobian(const InputPointType & point) const;
 
 protected:
   /** Construct an ScaleLogarithmicTransform object. */
@@ -109,29 +110,33 @@ protected:
   ~ScaleLogarithmicTransform();
 
   /** Print contents of an ScaleLogarithmicTransform */
-  void PrintSelf(std::ostream &os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   ScaleLogarithmicTransform(const Self & other); //purposely not implemented
-  const Self & operator=( const Self & ); //purposely not implemented
-
-}; //class ScaleLogarithmicTransform
-
+  const Self & operator=(const Self &);          //purposely not implemented
+};                                               //class
+                                                 // ScaleLogarithmicTransform
 }  // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ScaleLogarithmicTransform(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ScaleLogarithmicTransform< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ScaleLogarithmicTransform< ITK_TEMPLATE_2 x > \
-                                                  ScaleLogarithmicTransform##y; } \
+#define ITK_TEMPLATE_ScaleLogarithmicTransform(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                             \
+  {                                                                         \
+  _( 2 ( class EXPORT ScaleLogarithmicTransform< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                       \
+  {                                                                         \
+  typedef ScaleLogarithmicTransform< ITK_TEMPLATE_2 TypeX >                 \
+  ScaleLogarithmicTransform##TypeY;                                       \
+  }                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkScaleLogarithmicTransform+-.h"
+#include "Templates/itkScaleLogarithmicTransform+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkScaleLogarithmicTransform.txx"
+#include "itkScaleLogarithmicTransform.txx"
 #endif
 
 #endif /* __itkScaleLogarithmicTransform_h */

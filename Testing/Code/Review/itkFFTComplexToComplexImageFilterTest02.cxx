@@ -19,10 +19,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 /** Example illustrating use of FFTComplexToComplexImageFilter
  *
  * \author Simon K. Warfield simon.warfield@childrens.harvard.edu

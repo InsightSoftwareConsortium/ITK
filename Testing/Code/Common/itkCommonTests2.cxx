@@ -125,4 +125,3 @@ REGISTER_TEST(itkVariableSizeMatrixTest);
 REGISTER_TEST(itkImportContainerTest);
 REGISTER_TEST(itkImageFillBufferTest);
 }
-

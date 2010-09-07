@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,12 +24,11 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <class TImage>
-PermuteAxesImageFilter<TImage>
+template< class TImage >
+PermuteAxesImageFilter< TImage >
 ::PermuteAxesImageFilter()
 {
   for ( unsigned int j = 0; j < ImageDimension; j++ )
@@ -37,73 +36,67 @@ PermuteAxesImageFilter<TImage>
     m_Order[j] = j;
     m_InverseOrder[m_Order[j]] = j;
     }
-
 }
-
 
 /**
  * PrintSelf
  */
-template <class TImage>
-void 
-PermuteAxesImageFilter<TImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TImage >
+void
+PermuteAxesImageFilter< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   unsigned int j;
 
   os << indent << "Order: [";
-  for( j = 0; j < ImageDimension - 1; j++ )
+  for ( j = 0; j < ImageDimension - 1; j++ )
     {
     os << m_Order[j] << ", ";
     }
   os << m_Order[j] << "]" << std::endl;
 
   os << indent << "InverseOrder: [";
-  for( j = 0; j < ImageDimension - 1; j++ )
+  for ( j = 0; j < ImageDimension - 1; j++ )
     {
     os << m_InverseOrder[j] << ", ";
     }
   os << m_InverseOrder[j] << "]" << std::endl;
-
-
 }
-
 
 /**
  * Set the permutation order
  */
-template <class TImage>
+template< class TImage >
 void
-PermuteAxesImageFilter<TImage>
-::SetOrder( const PermuteOrderArrayType& order )
+PermuteAxesImageFilter< TImage >
+::SetOrder(const PermuteOrderArrayType & order)
 {
-
-  unsigned int j; 
+  unsigned int j;
 
   // check if it the same as current
-  if ( m_Order == order ) return;
+  if ( m_Order == order ) { return; }
 
   // check that input is a rearrangement of the
   // numbers from 0 to ImageDimension - 1
-  FixedArray<bool,ImageDimension> used;
-  used.Fill( false );
+  FixedArray< bool, ImageDimension > used;
+  used.Fill(false);
 
   for ( j = 0; j < ImageDimension; j++ )
     {
     if ( order[j] > ImageDimension - 1 )
       {
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( ITK_LOCATION );
-      err.SetDescription( "Order indices is out of range" );
+      err.SetLocation(ITK_LOCATION);
+      err.SetDescription("Order indices is out of range");
       throw err;
       }
     else if ( used[order[j]] )
       {
       ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation( ITK_LOCATION );
-      err.SetDescription( "Order indices must not repeat" );
+      err.SetLocation(ITK_LOCATION);
+      err.SetDescription("Order indices must not repeat");
       throw err;
       }
     used[order[j]] = true;
@@ -116,17 +109,15 @@ PermuteAxesImageFilter<TImage>
     {
     m_InverseOrder[m_Order[j]] = j;
     }
-  
 }
-
 
 /**
  * The output image meta information is obtained by permuting
  * the input image meta information.
  */
-template <class TImage>
+template< class TImage >
 void
-PermuteAxesImageFilter<TImage>
+PermuteAxesImageFilter< TImage >
 ::GenerateOutputInformation()
 {
   // call the superclass's implementation of this method
@@ -136,19 +127,18 @@ PermuteAxesImageFilter<TImage>
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
-  if( !inputPtr || !outputPtr )
+  if ( !inputPtr || !outputPtr )
     {
     return;
     }
 
-  const typename TImage::SpacingType& inputSpacing = inputPtr->GetSpacing();
-  const typename TImage::PointType& inputOrigin = inputPtr->GetOrigin();
-  const typename TImage::DirectionType& inputDirection = inputPtr->GetDirection();
-  const typename TImage::SizeType& inputSize =
+  const typename TImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
+  const typename TImage::PointType & inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::DirectionType & inputDirection = inputPtr->GetDirection();
+  const typename TImage::SizeType & inputSize =
     inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TImage::IndexType& inputStartIndex =
+  const typename TImage::IndexType & inputStartIndex =
     inputPtr->GetLargestPossibleRegion().GetIndex();
-    
 
   typename TImage::SpacingType outputSpacing;
   typename TImage::PointType outputOrigin;
@@ -162,7 +152,7 @@ PermuteAxesImageFilter<TImage>
     // origin does not change by a Permute.  But spacing, directions,
     // size and start index do.
     outputOrigin[j]  = inputOrigin[j];
-    
+
     outputSpacing[j] = inputSpacing[m_Order[j]];
     outputSize[j]    = inputSize[m_Order[j]];
     outputStartIndex[j] = inputStartIndex[m_Order[j]];
@@ -172,44 +162,42 @@ PermuteAxesImageFilter<TImage>
       }
     }
 
-  outputPtr->SetSpacing( outputSpacing );
-  outputPtr->SetOrigin( outputOrigin );
-  outputPtr->SetDirection( outputDirection );
+  outputPtr->SetSpacing(outputSpacing);
+  outputPtr->SetOrigin(outputOrigin);
+  outputPtr->SetDirection(outputDirection);
 
   typename TImage::RegionType outputRegion;
-  outputRegion.SetSize( outputSize );
-  outputRegion.SetIndex( outputStartIndex );
-   
-  outputPtr->SetLargestPossibleRegion( outputRegion );
-  
-}
+  outputRegion.SetSize(outputSize);
+  outputRegion.SetIndex(outputStartIndex);
 
+  outputPtr->SetLargestPossibleRegion(outputRegion);
+}
 
 /**
  * The required input requested region is obtained by permuting
  * the index and size of the output requested region
  */
-template <class TImage>
+template< class TImage >
 void
-PermuteAxesImageFilter<TImage>
+PermuteAxesImageFilter< TImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass's implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  InputImagePointer inputPtr = 
+  InputImagePointer inputPtr =
     const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
-  if( !inputPtr || !outputPtr )
+  if ( !inputPtr || !outputPtr )
     {
     return;
     }
 
-  const typename TImage::SizeType& outputSize =
+  const typename TImage::SizeType & outputSize =
     outputPtr->GetRequestedRegion().GetSize();
-  const typename TImage::IndexType& outputIndex =
+  const typename TImage::IndexType & outputIndex =
     outputPtr->GetRequestedRegion().GetIndex();
 
   typename TImage::SizeType inputSize;
@@ -223,60 +211,55 @@ PermuteAxesImageFilter<TImage>
     }
 
   typename TImage::RegionType inputRegion;
-  inputRegion.SetSize( inputSize );
-  inputRegion.SetIndex( inputIndex );
+  inputRegion.SetSize(inputSize);
+  inputRegion.SetIndex(inputIndex);
 
-  inputPtr->SetRequestedRegion( inputRegion );
-
+  inputPtr->SetRequestedRegion(inputRegion);
 }
-
 
 /**
  *
  */
-template <class TImage>
+template< class TImage >
 void
-PermuteAxesImageFilter<TImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+PermuteAxesImageFilter< TImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
   unsigned long i;
-  unsigned int j;
+  unsigned int  j;
 
   // Get the input and output pointers
   typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Setup output region iterator
-  typedef ImageRegionIteratorWithIndex<TImage> OutputIterator;
+  typedef ImageRegionIteratorWithIndex< TImage > OutputIterator;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   typename TImage::IndexType outputIndex;
   typename TImage::IndexType inputIndex;
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-    
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
   // walk the output region, and sample the input image
   for ( i = 0; !outIt.IsAtEnd(); ++outIt, i++ )
     {
     // determine the index of the output pixel
     outputIndex = outIt.GetIndex();
-    
+
     // determine the input pixel location associated with this output pixel
     for ( j = 0; j < ImageDimension; j++ )
       {
-      inputIndex[j] = outputIndex[ m_InverseOrder[j] ];
+      inputIndex[j] = outputIndex[m_InverseOrder[j]];
       }
-    
+
     // copy the input pixel to the output
     outIt.Set( inputPtr->GetPixel(inputIndex) );
     progress.CompletedPixel();
     }
-
 }
-
-
 } // namespace itk
 
 #endif

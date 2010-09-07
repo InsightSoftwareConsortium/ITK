@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class FiniteDifferenceImageFilter
  *
@@ -45,7 +45,7 @@ namespace itk {
  *
  * \par
  * The following equation describes update \f$n+1\f$ at pixel \f$i\f$ on
- * discrete image \f$ u \f$ : 
+ * discrete image \f$ u \f$ :
  *
  * \par
  * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$
@@ -92,7 +92,7 @@ namespace itk {
  * \par FiniteDifferenceImageFilter
  * This class defines the generic solver API at the top level of the FDS
  * framework. FiniteDifferenceImageFilter is an abstract class that implements
- * the generic, high-level algorithm (described above). 
+ * the generic, high-level algorithm (described above).
  *
  * \par Inputs and Outputs
  * This filter is an Image to Image filter.  Depending on the specific
@@ -118,31 +118,31 @@ namespace itk {
  * \ingroup ImageFilter
  * \ingroup LevelSetSegmentation
  * \sa DenseFiniteDifferenceImageFilter */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT FiniteDifferenceImageFilter  
-  : public InPlaceImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT FiniteDifferenceImageFilter:
+  public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef FiniteDifferenceImageFilter                     Self;
-  typedef InPlaceImageFilter<TInputImage, TOutputImage>   Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
-  
+  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
+
   /** Run-time type information (and related methods) */
-  itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter );
-  
+  itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter);
+
   /** Input and output image types. */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  
+
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** The pixel type of the output image will be used in computations. */
-  typedef typename TOutputImage::PixelType    OutputPixelType;
-  typedef typename TInputImage::PixelType     InputPixelType;
-  typedef OutputPixelType                     PixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef OutputPixelType                  PixelType;
 
   /** Extract value type in case the pixel is of vector type */
   typedef typename NumericTraits< OutputPixelType >::ValueType OutputPixelValueType;
@@ -151,14 +151,14 @@ public:
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef FiniteDifferenceFunction<TOutputImage> FiniteDifferenceFunctionType;
+  typedef FiniteDifferenceFunction< TOutputImage >            FiniteDifferenceFunctionType;
   typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
-  typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;
+  typedef typename FiniteDifferenceFunctionType::RadiusType             RadiusType;
   typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
 
   typedef enum { UNINITIALIZED = 0, INITIALIZED = 1 } FilterStateType;
-  
+
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
 
@@ -166,13 +166,12 @@ public:
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
   itkGetConstReferenceObjectMacro(DifferenceFunction,
-                                  FiniteDifferenceFunctionType );
+                                  FiniteDifferenceFunctionType);
 
   /** This method sets the pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
    * \returns A FiniteDifferenceObject pointer. */
-  itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType );
-
+  itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
 
   /** Set/Get the number of iterations that the filter will run. */
   itkSetMacro(NumberOfIterations, unsigned int);
@@ -180,7 +179,7 @@ public:
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOff. */
-  itkSetMacro(UseImageSpacing,bool);
+  itkSetMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
 
@@ -196,18 +195,18 @@ public:
 
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
-    {
+  {
     this->SetState(INITIALIZED);
-    }
+  }
 
   /** Set the state of the filter to UNINITIALIZED */
   void SetStateToUninitialized()
-    {
+  {
     this->SetState(UNINITIALIZED);
-    }
-  
+  }
+
   /** Set/Get the state of the filter. */
-#if !defined(CABLE_CONFIGURATION)
+#if !defined( CABLE_CONFIGURATION )
   itkSetMacro(State, FilterStateType);
   itkGetConstReferenceMacro(State, FilterStateType);
 #endif
@@ -220,15 +219,14 @@ public:
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputPixelIsFloatingPointCheck,
-    (Concept::IsFloatingPoint<OutputPixelValueType>));
+  itkConceptMacro( OutputPixelIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< OutputPixelValueType > ) );
   /** End concept checking */
 #endif
-
 protected:
   FiniteDifferenceImageFilter();
   ~FiniteDifferenceImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;
@@ -237,7 +235,7 @@ protected:
    * from an update buffer and a time step value "dt".
    * \param dt Time step value. */
   virtual void ApplyUpdate(TimeStepType dt) = 0;
-  
+
   /** This method is defined by a subclass to populate an update buffer
    * with changes for the pixels in the output.  It returns a time
    * step value to be used for the update.
@@ -249,7 +247,7 @@ protected:
    * to the output. See DenseFiniteDifferenceImageFilter for an
    * implementation. */
   virtual void CopyInputToOutput() = 0;
-  
+
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
@@ -267,7 +265,7 @@ protected:
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
-  
+
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
   virtual bool Halt();
@@ -281,14 +279,14 @@ protected:
    * Notice that ThreadedHalt is only called by the multithreaded filters, so you
    * still should implement Halt, just in case a non-threaded filter is used.
    */
-  virtual bool ThreadedHalt(void *itkNotUsed(threadInfo)) { return this->Halt(); }
+  virtual bool ThreadedHalt( void *itkNotUsed(threadInfo) ) { return this->Halt(); }
 
   /** This method is optionally defined by a subclass and is called before
    * the loop of iterations of calculate_change & upate. It does the global
-   * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize 
-   * the list of layers. 
+   * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize
+   * the list of layers.
    * */
-  virtual void Initialize() { };
+  virtual void Initialize() {}
 
   /** This method is optionally defined by a subclass and is called immediately
    * prior to each iterative CalculateChange-ApplyUpdate cycle.  It can be
@@ -297,8 +295,8 @@ protected:
    * otherwise prepare for the next iteration.
    * */
   virtual void InitializeIteration()
-    { m_DifferenceFunction->InitializeIteration(); }
-  
+  { m_DifferenceFunction->InitializeIteration(); }
+
   /** Virtual method for resolving a single time step from a set of time steps
    * returned from processing threads.
    * \return Time step (dt) for the iteration update based on a list
@@ -312,8 +310,8 @@ protected:
    * \param size The size of "list" and "valid"
    *
    * The default is to return the minimum value in the list. */
-  virtual TimeStepType ResolveTimeStep(const TimeStepType* timeStepList, 
-                                       const bool* valid,int size);
+  virtual TimeStepType ResolveTimeStep(const TimeStepType *timeStepList,
+                                       const bool *valid, int size);
 
   /** Set the number of elapsed iterations of the filter. */
   itkSetMacro(ElapsedIterations, unsigned int);
@@ -323,22 +321,21 @@ protected:
   virtual void PostProcessOutput() {}
 
   /** The maximum number of iterations this filter will run */
-  unsigned int  m_NumberOfIterations;
+  unsigned int m_NumberOfIterations;
 
-  /** A counter for keeping track of the number of elapsed 
+  /** A counter for keeping track of the number of elapsed
       iterations during filtering. */
   unsigned int m_ElapsedIterations;
 
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
   bool m_ManualReinitialization;
-  
-  double m_RMSChange;  
-  double m_MaximumRMSError;
 
+  double m_RMSChange;
+  double m_MaximumRMSError;
 private:
-  FiniteDifferenceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FiniteDifferenceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 
   /** Initialize the values of the Function coefficients. This function will
    * also take care of checking whether the image spacing should be taken into
@@ -348,29 +345,33 @@ private:
   /** Control whether derivatives use spacing of the input image in
       its calculation. */
   bool m_UseImageSpacing;
-  
+
   /** The function that will be used in calculating updates for each pixel. */
   typename FiniteDifferenceFunctionType::Pointer m_DifferenceFunction;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   FilterStateType m_State;
 };
-  
-}// end namespace itk
+} // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FiniteDifferenceImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FiniteDifferenceImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FiniteDifferenceImageFilter< ITK_TEMPLATE_2 x > \
-                                            FiniteDifferenceImageFilter##y; } \
+#define ITK_TEMPLATE_FiniteDifferenceImageFilter(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                               \
+  {                                                                           \
+  _( 2 ( class EXPORT FiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                         \
+  {                                                                           \
+  typedef FiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX >                 \
+  FiniteDifferenceImageFilter##TypeY;                                       \
+  }                                                                           \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkFiniteDifferenceImageFilter+-.h"
+#include "Templates/itkFiniteDifferenceImageFilter+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkFiniteDifferenceImageFilter.txx"
+#include "itkFiniteDifferenceImageFilter.txx"
 #endif
 
 #endif

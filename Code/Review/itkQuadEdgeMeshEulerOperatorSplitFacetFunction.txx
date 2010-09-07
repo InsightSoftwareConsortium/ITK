@@ -21,11 +21,9 @@
 
 namespace itk
 {
-
-template < class TMesh, class TQEType >
+template< class TMesh, class TQEType >
 typename QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::OutputType
-QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::
-Evaluate( QEType* h, QEType* g )
+QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *h, QEType *g)
 {
   //
   //  g->Dest() ---<----- X                    destPid  --------- X        //
@@ -43,68 +41,67 @@ Evaluate( QEType* h, QEType* g )
   //          X ----->--- h->Dest()                   X --------- orgPid   //
   //
 
-  if( !h || !g )
+  if ( !h || !g )
     {
-    itkDebugMacro( "At least one of the Input is not an edge." );
-    return( (QEType*) 0 );
+    itkDebugMacro("At least one of the Input is not an edge.");
+    return ( (QEType *)0 );
     }
 
-  if( !this->m_Mesh )
+  if ( !this->m_Mesh )
     {
-    itkDebugMacro( "No mesh present." );
-    return( (QEType*) 0 );
+    itkDebugMacro("No mesh present.");
+    return ( (QEType *)0 );
     }
 
-  if( h == g )
+  if ( h == g )
     {
-    itkDebugMacro( "Provided edges should be different." );
-    return( (QEType*) 0 );
-    }
-    
-  if( h->GetLeft( ) != g->GetLeft( ) )
-    {
-    itkDebugMacro( "The edges are not around the same face." );
-    return( (QEType*) 0 );
+    itkDebugMacro("Provided edges should be different.");
+    return ( (QEType *)0 );
     }
 
-  if (  ( h->GetLnext( ) == g )
-     || ( g->GetLnext( ) == h ) )
+  if ( h->GetLeft() != g->GetLeft() )
     {
-    itkDebugMacro( "Provided edges should NOT be consecutive." );
-    return( (QEType*) 0 );
-    }   
-   
-  typedef typename MeshType::VertexRefType   VertexRefType;
+    itkDebugMacro("The edges are not around the same face.");
+    return ( (QEType *)0 );
+    }
 
-  this->m_Mesh->DeleteFace( h->GetLeft( ) );
-  VertexRefType orgPid  = h->GetDestination( );
-  VertexRefType destPid = g->GetDestination( );
+  if ( ( h->GetLnext() == g )
+       || ( g->GetLnext() == h ) )
+    {
+    itkDebugMacro("Provided edges should NOT be consecutive.");
+    return ( (QEType *)0 );
+    }
+
+  typedef typename MeshType::VertexRefType VertexRefType;
+
+  this->m_Mesh->DeleteFace( h->GetLeft() );
+  VertexRefType orgPid  = h->GetDestination();
+  VertexRefType destPid = g->GetDestination();
 
   // Create an new isolated edge and set it's geometry:
-  EdgeCellType* newEdge = new EdgeCellType;
-  QEType* newEdgeGeom = newEdge->GetQEGeom( );
-   
+  EdgeCellType *newEdge = new EdgeCellType;
+  QEType *      newEdgeGeom = newEdge->GetQEGeom();
+
   // see the code of e.g. AddFace
-  newEdgeGeom->SetOrigin(  orgPid );
-  newEdgeGeom->SetDestination( destPid );
+  newEdgeGeom->SetOrigin(orgPid);
+  newEdgeGeom->SetDestination(destPid);
 
   // Insert newEdge at Org
-  QEType* oLnext = h->GetLnext( );
-  oLnext->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom );
+  QEType *oLnext = h->GetLnext();
+  oLnext->InsertAfterNextBorderEdgeWithUnsetLeft(newEdgeGeom);
   // Insert newEdge at Dest
-  QEType* dLnext = g->GetLnext( );
-  dLnext->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom->GetSym( ) );
+  QEType *dLnext = g->GetLnext();
+  dLnext->InsertAfterNextBorderEdgeWithUnsetLeft( newEdgeGeom->GetSym() );
 
   // Add the new edge to the container
-  this->m_Mesh->PushOnContainer( newEdge );
+  this->m_Mesh->PushOnContainer(newEdge);
 
   // Build two new faces
-  this->m_Mesh->AddFace( h );
-  this->m_Mesh->AddFace( g );
-  this->m_Mesh->Modified( );
-  return( newEdgeGeom );
+  this->m_Mesh->AddFace(h);
+  this->m_Mesh->AddFace(g);
+  this->m_Mesh->Modified();
+  return ( newEdgeGeom );
 }
-
 }
 
 #endif

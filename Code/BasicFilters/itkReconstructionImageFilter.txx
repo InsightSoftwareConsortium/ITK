@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,84 +28,83 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkCropImageFilter.h"
 
-
-namespace itk {
-
-template <class TInputImage, class TOutputImage, class TCompare>
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
+namespace itk
+{
+template< class TInputImage, class TOutputImage, class TCompare >
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::ReconstructionImageFilter()
 {
   m_FullyConnected = false;
   m_UseInternalCopy = true;
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  MarkerImagePointer  markerPtr =
+  MarkerImagePointer markerPtr =
     const_cast< MarkerImageType * >( this->GetInput(0) );
 
-  MaskImagePointer  maskPtr =
+  MaskImagePointer maskPtr =
     const_cast< MaskImageType * >( this->GetInput(1) );
 
   if ( !markerPtr || !maskPtr )
     {
     return;
     }
-  markerPtr->SetRequestedRegion(markerPtr->GetLargestPossibleRegion());
-  maskPtr->SetRequestedRegion(maskPtr->GetLargestPossibleRegion());
+  markerPtr->SetRequestedRegion( markerPtr->GetLargestPossibleRegion() );
+  maskPtr->SetRequestedRegion( maskPtr->GetLargestPossibleRegion() );
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()
-    ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
-::SetMarkerImage(const MarkerImageType* markerImage)
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
+::SetMarkerImage(const MarkerImageType *markerImage)
 {
   // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(0, const_cast<MarkerImageType *>( markerImage ));
+  this->SetNthInput( 0, const_cast< MarkerImageType * >( markerImage ) );
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
-const typename ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::MarkerImageType *
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GetMarkerImage()
+template< class TInputImage, class TOutputImage, class TCompare >
+const typename ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::MarkerImageType *
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::GetMarkerImage()
 {
   return this->GetInput(0);
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::SetMaskImage(const MaskImageType* maskImage)
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::SetMaskImage(const MaskImageType *maskImage)
 {
   // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(1, const_cast<MaskImageType *>( maskImage ));
+  this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
-const typename ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::MaskImageType *
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GetMaskImage()
+template< class TInputImage, class TOutputImage, class TCompare >
+const typename ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::MaskImageType *
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::GetMaskImage()
 {
   return this->GetInput(1);
 }
 
 // a version that takes a padded copy of mask and marker
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::GenerateData()
 {
   // Allocate the output
@@ -114,7 +113,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
   // subset of the pixels. We'll just pretend that the third pass
   // takes the same as each of the others. Is it OK to update more
   // often than pixels?
-  ProgressReporter progress(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels()*3);
+  ProgressReporter progress(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() * 3);
 
   TCompare compare;
 
@@ -125,35 +124,35 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
   // mask and marker must have the same size
   if ( this->GetMarkerImage()->GetRequestedRegion().GetSize() != this->GetMaskImage()->GetRequestedRegion().GetSize() )
     {
-    itkExceptionMacro( << "Marker and mask must have the same size." );
+    itkExceptionMacro(<< "Marker and mask must have the same size.");
     }
 
   // create padded versions of the marker image and the mask image
-  typedef typename itk::ConstantPadImageFilter<InputImageType, InputImageType> PadType;
-  
+  typedef typename itk::ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+
   MarkerImageConstPointer markerImageP;
   MaskImageConstPointer   maskImageP;
 
   ISizeType padSize;
 
-  if (m_UseInternalCopy)
+  if ( m_UseInternalCopy )
     {
     typename PadType::Pointer MaskPad = PadType::New();
     typename PadType::Pointer MarkerPad = PadType::New();
-    padSize.Fill( 1 );
-    
+    padSize.Fill(1);
+
     MaskPad->SetConstant(m_MarkerValue);
     MarkerPad->SetConstant(m_MarkerValue);
-    MaskPad->SetPadLowerBound( padSize.m_Size );
-    MaskPad->SetPadUpperBound( padSize.m_Size );
-    MarkerPad->SetPadLowerBound( padSize.m_Size );
-    MarkerPad->SetPadUpperBound( padSize.m_Size );
-  
+    MaskPad->SetPadLowerBound(padSize.m_Size);
+    MaskPad->SetPadUpperBound(padSize.m_Size);
+    MarkerPad->SetPadLowerBound(padSize.m_Size);
+    MarkerPad->SetPadUpperBound(padSize.m_Size);
+
     MaskPad->SetInput(maskImage);
     MarkerPad->SetInput(markerImage);
     MaskPad->Update();
     MarkerPad->Update();
-  
+
     markerImageP = MarkerPad->GetOutput();
     maskImageP = MaskPad->GetOutput();
     }
@@ -168,7 +167,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     while ( !outIt.IsAtEnd() )
       {
       MarkerImagePixelType currentValue = inIt.Get();
-      outIt.Set( static_cast<OutputImagePixelType>( currentValue ) );
+      outIt.Set( static_cast< OutputImagePixelType >( currentValue ) );
       ++inIt;
       ++outIt;
       }
@@ -176,22 +175,21 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     }
 
   // declare our queue type
-  typedef typename std::queue<OutputImageIndexType> FifoType;
+  typedef typename std::queue< OutputImageIndexType > FifoType;
   FifoType IndexFifo;
 
-  NOutputIterator outNIt;
+  NOutputIterator   outNIt;
   InputIteratorType mskIt;
-  CNInputIterator mskNIt;
-  ISizeType kernelRadius;
+  CNInputIterator   mskNIt;
+  ISizeType         kernelRadius;
   kernelRadius.Fill(1);
-  if (m_UseInternalCopy)
+  if ( m_UseInternalCopy )
     {
     FaceCalculatorType faceCalculator;
-    
-    FaceListType faceList;
+
+    FaceListType   faceList;
     FaceListTypeIt fit;
-    
-    
+
     faceList = faceCalculator(maskImageP, maskImageP->GetLargestPossibleRegion(),
                               kernelRadius);
     // we will only be processing the body region
@@ -199,74 +197,73 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     // must be a better way of doing this
     NOutputIterator tt(kernelRadius,
                        markerImageP,
-                       *fit );
+                       *fit);
     outNIt = tt;
-    
-    InputIteratorType ttt( maskImageP,
-                           *fit );
+
+    InputIteratorType ttt(maskImageP,
+                          *fit);
     mskIt = ttt;
     CNInputIterator tttt(kernelRadius,
                          maskImageP,
-                         *fit );
+                         *fit);
     mskNIt = tttt;
     }
   else
     {
-    NOutputIterator tt(kernelRadius,
-                       markerImageP,
-                       output->GetRequestedRegion());
+    NOutputIterator tt( kernelRadius,
+                        markerImageP,
+                        output->GetRequestedRegion() );
     outNIt = tt;
-    
+
     InputIteratorType ttt( maskImageP,
-                           output->GetRequestedRegion());
+                           output->GetRequestedRegion() );
     mskIt = ttt;
-    CNInputIterator tttt(kernelRadius,
-                         maskImageP,
-                         output->GetRequestedRegion());
+    CNInputIterator tttt( kernelRadius,
+                          maskImageP,
+                          output->GetRequestedRegion() );
     mskNIt = tttt;
     }
 
-  setConnectivityPrevious( &outNIt, m_FullyConnected );
-  
-  ConstantBoundaryCondition<OutputImageType> oBC;
+  setConnectivityPrevious(&outNIt, m_FullyConnected);
+
+  ConstantBoundaryCondition< OutputImageType > oBC;
   oBC.SetConstant(m_MarkerValue);
   outNIt.OverrideBoundaryCondition(&oBC);
-  
-  
+
   mskIt.GoToBegin();
   // scan in forward raster order
-  for (outNIt.GoToBegin(),mskIt.GoToBegin();!outNIt.IsAtEnd(); ++outNIt,++mskIt)
+  for ( outNIt.GoToBegin(), mskIt.GoToBegin(); !outNIt.IsAtEnd(); ++outNIt, ++mskIt )
     {
     InputImagePixelType V = outNIt.GetCenterPixel();
-    InputImagePixelType iV = static_cast<OutputImagePixelType>( mskIt.Get() );
+    InputImagePixelType iV = static_cast< OutputImagePixelType >( mskIt.Get() );
 
     // be sure that the pixels in the images follow the preconditions
-    if ( compare( V, iV ) )
+    if ( compare(V, iV) )
       {
       if ( compare(0, 1) )
         {
-        itkExceptionMacro( << "Marker pixels must be <= mask pixels." );
+        itkExceptionMacro(<< "Marker pixels must be <= mask pixels.");
         }
       else
         {
-        itkExceptionMacro( << "Marker pixels must be >= mask pixels." );
+        itkExceptionMacro(<< "Marker pixels must be >= mask pixels.");
         }
       }
 
     // visit the previous neighbours
     typename NOutputIterator::ConstIterator sIt;
-    for( sIt = outNIt.Begin(); !sIt.IsAtEnd(); ++sIt )
+    for ( sIt = outNIt.Begin(); !sIt.IsAtEnd(); ++sIt )
       {
       InputImagePixelType VN = sIt.Get();
-      if (compare(VN, V)) 
+      if ( compare(VN, V) )
         {
         outNIt.SetCenterPixel(VN);
         V = VN;
         }
       }
 
-    // this step clamps to the mask 
-    if (compare(V, iV))
+    // this step clamps to the mask
+    if ( compare(V, iV) )
       {
       outNIt.SetCenterPixel(iV);
       }
@@ -276,41 +273,41 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
 
   // now for the reverse raster order pass
   // reset the neighborhood
-  setConnectivityLater( &outNIt, m_FullyConnected );
+  setConnectivityLater(&outNIt, m_FullyConnected);
   outNIt.OverrideBoundaryCondition(&oBC);
   outNIt.GoToEnd();
   //mskIt.GoToEnd();
-  
-  ConstantBoundaryCondition<InputImageType> iBC;
+
+  ConstantBoundaryCondition< InputImageType > iBC;
   iBC.SetConstant(m_MarkerValue);
-  
-  setConnectivityLater( &mskNIt, m_FullyConnected );
+
+  setConnectivityLater(&mskNIt, m_FullyConnected);
   mskNIt.OverrideBoundaryCondition(&iBC);
-  
+
   typename NOutputIterator::IndexListType oIndexList, mIndexList;
   typename NOutputIterator::IndexListType::const_iterator oLIt, mLIt;
-  
+
   oIndexList = outNIt.GetActiveIndexList();
   mIndexList = mskNIt.GetActiveIndexList();
-  
+
   mskNIt.GoToEnd();
-  while (!outNIt.IsAtBegin())
+  while ( !outNIt.IsAtBegin() )
     {
     --outNIt;
     --mskNIt;
     InputImagePixelType V = outNIt.GetCenterPixel();
     typename NOutputIterator::ConstIterator sIt;
-    for (sIt = outNIt.Begin(); !sIt.IsAtEnd();++sIt)
+    for ( sIt = outNIt.Begin(); !sIt.IsAtEnd(); ++sIt )
       {
       InputImagePixelType VN = sIt.Get();
-      if (compare(VN, V)) 
+      if ( compare(VN, V) )
         {
         outNIt.SetCenterPixel(VN);
         V = VN;
         }
       }
     InputImagePixelType iV = mskNIt.GetCenterPixel();
-    if (compare(V, iV))
+    if ( compare(V, iV) )
       {
       outNIt.SetCenterPixel(iV);
       V = iV;
@@ -318,23 +315,22 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
 
     // now put indexes in the fifo
     //typename CNInputIterator::ConstIterator mIt;
-    for (oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); oLIt != oIndexList.end();++oLIt, ++mLIt)
+    for ( oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); oLIt != oIndexList.end(); ++oLIt, ++mLIt )
       {
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
-      if (compare(V, VN) && compare(iN, VN)) 
+      if ( compare(V, VN) && compare(iN, VN) )
         {
-        IndexFifo.push(outNIt.GetIndex());
+        IndexFifo.push( outNIt.GetIndex() );
         break;
         }
       }
     progress.CompletedPixel();
     }
 
-  
   // Now we want to check the full neighborhood
-  setConnectivity( &outNIt, m_FullyConnected );
-  setConnectivity( &mskNIt, m_FullyConnected );
+  setConnectivity(&outNIt, m_FullyConnected);
+  setConnectivity(&mskNIt, m_FullyConnected);
   mskNIt.OverrideBoundaryCondition(&iBC);
   outNIt.OverrideBoundaryCondition(&oBC);
   oIndexList = outNIt.GetActiveIndexList();
@@ -343,8 +339,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
   // with by the raster and anti-raster passes
   //typename NOutputIterator::Iterator sIt;
   typename CNInputIterator::ConstIterator mIt;
-  
-  while (!IndexFifo.empty())
+
+  while ( !IndexFifo.empty() )
     {
     InputImageIndexType I = IndexFifo.front();
     IndexFifo.pop();
@@ -352,16 +348,16 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     outNIt += I - outNIt.GetIndex();
     mskNIt += I - mskNIt.GetIndex();
     InputImagePixelType V = outNIt.GetCenterPixel();
-    for (oLIt = oIndexList.begin(), mLIt = mIndexList.begin(); 
-         oLIt != oIndexList.end();
-         ++oLIt, ++mLIt)
+    for ( oLIt = oIndexList.begin(), mLIt = mIndexList.begin();
+          oLIt != oIndexList.end();
+          ++oLIt, ++mLIt )
       {
       InputImagePixelType VN = outNIt.GetPixel(*oLIt);
       InputImagePixelType iN = mskNIt.GetPixel(*mLIt);
       // candidate for dilation via flooding
-      if (compare(V, VN) && (iN != VN))
+      if ( compare(V, VN) && ( iN != VN ) )
         {
-        if (compare(iN, V)) 
+        if ( compare(iN, V) )
           {
           // not clamped by the mask, propogate the center value
           outNIt.SetPixel(*oLIt, V);
@@ -371,20 +367,20 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
           // apply the clamping
           outNIt.SetPixel(*oLIt, iN);
           }
-         IndexFifo.push(outNIt.GetIndex(*oLIt));
+        IndexFifo.push( outNIt.GetIndex(*oLIt) );
         }
       }
     progress.CompletedPixel();
     }
 
-  if (m_UseInternalCopy)
+  if ( m_UseInternalCopy )
     {
-    typedef typename itk::CropImageFilter<InputImageType, OutputImageType> CropType;
+    typedef typename itk::CropImageFilter< InputImageType, OutputImageType > CropType;
     typename CropType::Pointer crop = CropType::New();
 
-    crop->SetInput( markerImageP );
-    crop->SetUpperBoundaryCropSize( padSize );
-    crop->SetLowerBoundaryCropSize( padSize );
+    crop->SetInput(markerImageP);
+    crop->SetUpperBoundaryCropSize(padSize);
+    crop->SetLowerBoundaryCropSize(padSize);
     crop->GraftOutput( this->GetOutput() );
     /** execute the minipipeline */
     crop->Update();
@@ -394,10 +390,10 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
     }
 }
 
-template <class TInputImage, class TOutputImage, class TCompare>
+template< class TInputImage, class TOutputImage, class TCompare >
 void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>
-::PrintSelf(std::ostream &os, Indent indent) const
+ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,9 +25,8 @@
 #include "itkStatisticsRelabelLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
 
-
-namespace itk {
-
+namespace itk
+{
 /** \class StatisticsRelabelImageFilter
  * \brief relabel objects according to their shape attributes
  *
@@ -37,39 +36,39 @@ namespace itk {
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/1926/584  or 
+ * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \sa StatisticsLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
-template<class TInputImage, class TFeatureImage>
-class ITK_EXPORT StatisticsRelabelImageFilter : 
-    public ImageToImageFilter<TInputImage, TInputImage>
+template< class TInputImage, class TFeatureImage >
+class ITK_EXPORT StatisticsRelabelImageFilter:
+  public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef StatisticsRelabelImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage, TInputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef StatisticsRelabelImageFilter                   Self;
+  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TInputImage                              OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  
-  typedef TFeatureImage                              FeatureImageType;
-  typedef typename FeatureImageType::Pointer         FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer    FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType       FeatureImagePixelType;
+  typedef TInputImage                            InputImageType;
+  typedef TInputImage                            OutputImageType;
+  typedef typename InputImageType::Pointer       InputImagePointer;
+  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
+  typedef typename InputImageType::RegionType    InputImageRegionType;
+  typedef typename InputImageType::PixelType     InputImagePixelType;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+
+  typedef TFeatureImage                           FeatureImageType;
+  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
+  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
+  typedef typename FeatureImageType::PixelType    FeatureImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -79,29 +78,29 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef StatisticsLabelObject<InputImagePixelType, itkGetStaticConstMacro(ImageDimension)>                LabelObjectType;
-  typedef LabelMap< LabelObjectType >                                               LabelMapType;
-  typedef LabelImageToLabelMapFilter< InputImageType, LabelMapType >                LabelizerType;
-  typedef StatisticsLabelMapFilter< LabelMapType, TFeatureImage >                   LabelObjectValuatorType;
-  typedef typename LabelObjectType::AttributeType                                   AttributeType;
-  typedef StatisticsRelabelLabelMapFilter< LabelMapType >                           RelabelType;
-  typedef LabelMapToLabelImageFilter< LabelMapType, OutputImageType >               BinarizerType;
+  typedef StatisticsLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) > LabelObjectType;
+  typedef LabelMap< LabelObjectType >                                                          LabelMapType;
+  typedef LabelImageToLabelMapFilter< InputImageType, LabelMapType >                           LabelizerType;
+  typedef StatisticsLabelMapFilter< LabelMapType, TFeatureImage >                              LabelObjectValuatorType;
+  typedef typename LabelObjectType::AttributeType                                              AttributeType;
+  typedef StatisticsRelabelLabelMapFilter< LabelMapType >                                      RelabelType;
+  typedef LabelMapToLabelImageFilter< LabelMapType, OutputImageType >                          BinarizerType;
 
   /** Standard New method. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsRelabelImageFilter, 
+  itkTypeMacro(StatisticsRelabelImageFilter,
                ImageToImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputImagePixelType>));
-  itkConceptMacro(IntConvertibleToInputCheck,
-    (Concept::Convertible<int, InputImagePixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputImagePixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputImagePixelType > ) );
+  itkConceptMacro( IntConvertibleToInputCheck,
+                   ( Concept::Convertible< int, InputImagePixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
 
@@ -117,50 +116,49 @@ public:
    * the highest attribute values are labeled first. Set ReverseOrdering to true
    * make the one with the smallest attributes be labeled first.
    */
-  itkGetConstMacro( ReverseOrdering, bool );
-  itkSetMacro( ReverseOrdering, bool );
-  itkBooleanMacro( ReverseOrdering );
+  itkGetConstMacro(ReverseOrdering, bool);
+  itkSetMacro(ReverseOrdering, bool);
+  itkBooleanMacro(ReverseOrdering);
 
   /**
    * Set/Get the attribute to use. Default is "Mean".
    */
-  itkGetConstMacro( Attribute, AttributeType );
-  itkSetMacro( Attribute, AttributeType );
-  void SetAttribute( const std::string & s )
-    {
-    this->SetAttribute( LabelObjectType::GetAttributeFromName( s ) );
-    }
+  itkGetConstMacro(Attribute, AttributeType);
+  itkSetMacro(Attribute, AttributeType);
+  void SetAttribute(const std::string & s)
+  {
+    this->SetAttribute( LabelObjectType::GetAttributeFromName(s) );
+  }
 
-
-   /** Set the feature image */
+  /** Set the feature image */
   void SetFeatureImage(TFeatureImage *input)
-    {
+  {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<TFeatureImage *>(input) );
-    }
+    this->SetNthInput( 1, const_cast< TFeatureImage * >( input ) );
+  }
 
   /** Get the feature image */
   FeatureImageType * GetFeatureImage()
-    {
-    return static_cast<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  {
+    return static_cast< FeatureImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+  }
 
   /** Set the input image */
   void SetInput1(InputImageType *input)
-    {
-    this->SetInput( input );
-    }
+  {
+    this->SetInput(input);
+  }
 
   /** Set the feature image */
   void SetInput2(FeatureImageType *input)
-    {
-    this->SetFeatureImage( input );
-    }
+  {
+    this->SetFeatureImage(input);
+  }
 
 protected:
   StatisticsRelabelImageFilter();
-  ~StatisticsRelabelImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~StatisticsRelabelImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** StatisticsRelabelImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
@@ -168,23 +166,22 @@ protected:
   void GenerateInputRequestedRegion();
 
   /** StatisticsRelabelImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-  
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
 
 private:
-  StatisticsRelabelImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  StatisticsRelabelImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
   OutputImagePixelType m_BackgroundValue;
   bool                 m_ReverseOrdering;
   AttributeType        m_Attribute;
 }; // end of class
-
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkStatisticsRelabelImageFilter.txx"
 #endif

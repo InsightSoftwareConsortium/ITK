@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,6 @@
 
 namespace itk
 {
-
 /** \class SymmetricSecondRankTensor
  * \brief Represent a symmetric tensor of second rank.
  *
@@ -70,95 +69,104 @@ namespace itk
  * \ingroup ImageObjects   TensorObjects   Geometry
  */
 
-template < typename TComponent, unsigned int NDimension=3 >
-class SymmetricSecondRankTensor: public 
-        FixedArray<TComponent,NDimension*(NDimension+1)/2>
+template< typename TComponent, unsigned int NDimension = 3 >
+class SymmetricSecondRankTensor:public
+  FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 >
 {
 public:
   /** Standard class typedefs. */
-  typedef SymmetricSecondRankTensor  Self;
-  typedef FixedArray<TComponent,NDimension*(NDimension+1)/2> Superclass;
-  
+  typedef SymmetricSecondRankTensor                                    Self;
+  typedef FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 > Superclass;
+
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NDimension);
-  itkStaticConstMacro(InternalDimension, unsigned int, NDimension*(NDimension+1)/2);
+  itkStaticConstMacro( InternalDimension, unsigned int, ( NDimension * ( NDimension + 1 ) / 2 ) );
 
   /** Convenience typedefs. */
-  typedef FixedArray<TComponent,
-          itkGetStaticConstMacro(InternalDimension)> BaseArray;
-  
+  typedef FixedArray< TComponent,
+                      itkGetStaticConstMacro(InternalDimension) > BaseArray;
+
   /** Array of eigen-values. */
-  typedef FixedArray<TComponent, NDimension> EigenValuesArrayType;
-  
+  typedef FixedArray< TComponent, NDimension > EigenValuesArrayType;
+
   /** Matrix of eigen-vectors. */
-  typedef Matrix<TComponent, NDimension, NDimension> MatrixType;
-  typedef Matrix<TComponent, NDimension, NDimension> EigenVectorsMatrixType;
-  
+  typedef Matrix< TComponent, NDimension, NDimension > MatrixType;
+  typedef Matrix< TComponent, NDimension, NDimension > EigenVectorsMatrixType;
+
   /**  Define the component type. */
-  typedef TComponent                                  ComponentType;
-  typedef typename Superclass::ValueType              ValueType;
-  typedef typename NumericTraits<ValueType>::RealType AccumulateValueType;
-  typedef typename NumericTraits<ValueType>::RealType RealValueType;
-  
-  typedef SymmetricEigenAnalysis< MatrixType, 
-            EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
+  typedef TComponent                                    ComponentType;
+  typedef typename Superclass::ValueType                ValueType;
+  typedef typename NumericTraits< ValueType >::RealType AccumulateValueType;
+  typedef typename NumericTraits< ValueType >::RealType RealValueType;
+
+  typedef SymmetricEigenAnalysis< MatrixType,
+                                  EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
 
   /** Default constructor has nothing to do. */
-  SymmetricSecondRankTensor() {this->Fill(0);}
-  
-  SymmetricSecondRankTensor (const ComponentType& r) { this->Fill(r); }
-  
-  /** Constructor to enable casting...  */
-  template < typename TCoordRepB >
-  SymmetricSecondRankTensor( const SymmetricSecondRankTensor<TCoordRepB,NDimension> & pa ):
-    BaseArray(pa) { }
+  SymmetricSecondRankTensor() { this->Fill(0); }
 
-  typedef ComponentType ComponentArrayType[ itkGetStaticConstMacro(InternalDimension) ];
+  SymmetricSecondRankTensor (const ComponentType & r) { this->Fill(r); }
+
+  /** Constructor to enable casting...  */
+  template< typename TCoordRepB >
+  SymmetricSecondRankTensor(const SymmetricSecondRankTensor< TCoordRepB, NDimension > & pa):
+    BaseArray(pa) {}
+
+  typedef ComponentType ComponentArrayType[itkGetStaticConstMacro(InternalDimension)];
 
   /** Pass-through constructor for the Array base class. */
-  SymmetricSecondRankTensor(const ComponentArrayType r): BaseArray(r) {}
+  SymmetricSecondRankTensor(const ComponentArrayType r):BaseArray(r) {}
 
   /** Templated Pass-through assignment  for the Array base class. */
-  template < typename TCoordRepB >
-  Self& operator= ( const SymmetricSecondRankTensor<TCoordRepB,NDimension> & pa )
+  template< typename TCoordRepB >
+  Self & operator=(const SymmetricSecondRankTensor< TCoordRepB, NDimension > & pa)
   {
     BaseArray::operator=(pa);
     return *this;
   }
 
   /** Pass-through assignment operator for the Array base class. */
-  Self& operator= (const ComponentType& r);
-  Self& operator= (const ComponentArrayType r);
+  Self & operator=(const ComponentType & r);
 
-  /** Aritmetic operations between pixels. Return a new SymmetricSecondRankTensor. */
-  Self operator+(const Self &vec) const;
-  Self operator-(const Self &vec) const;
-  const Self & operator+=(const Self &vec);
-  const Self & operator-=(const Self &vec);
+  Self & operator=(const ComponentArrayType r);
+
+  /** Aritmetic operations between pixels. Return a new
+    SymmetricSecondRankTensor. */
+  Self operator+(const Self & vec) const;
+
+  Self operator-(const Self & vec) const;
+
+  const Self & operator+=(const Self & vec);
+
+  const Self & operator-=(const Self & vec);
 
   /** Arithmetic operations between tensors and scalars */
-  Self operator*(const RealValueType & scalar ) const;
-  Self operator/(const RealValueType & scalar ) const;
-  const Self & operator*=(const RealValueType & scalar );
-  const Self & operator/=(const RealValueType & scalar );
- 
+  Self operator *(const RealValueType & scalar) const;
+
+  Self operator/(const RealValueType & scalar) const;
+
+  const Self & operator*=(const RealValueType & scalar);
+
+  const Self & operator/=(const RealValueType & scalar);
+
   /** Return the number of components. */
-  static unsigned int GetNumberOfComponents() 
-    { 
+  static unsigned int GetNumberOfComponents()
+  {
     return itkGetStaticConstMacro(InternalDimension);
-    }
+  }
 
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const
-    { return this->operator[](c); }
+  { return this->operator[](c); }
 
   /** Set the Nth component to v. */
-  void SetNthComponent(int c, const ComponentType& v)  
-    {  this->operator[](c) = v; }
+  void SetNthComponent(int c, const ComponentType & v)
+  {  this->operator[](c) = v; }
 
   /** Matrix notation, in const and non-const forms. */
-  ValueType & operator()( unsigned int row, unsigned int col );
-  const ValueType & operator()( unsigned int row, unsigned int col ) const;
+  ValueType & operator()(unsigned int row, unsigned int col);
+
+  const ValueType & operator()(unsigned int row, unsigned int col) const;
 
   /** Set the tensor to an identity tensor. This has 1 in its diagonal elements
    * zero elsewhere */
@@ -168,58 +176,59 @@ public:
   AccumulateValueType GetTrace() const;
 
   /** Return an array containing EigenValues. */
-  void ComputeEigenValues( EigenValuesArrayType & eigenValues ) const;
- 
+  void ComputeEigenValues(EigenValuesArrayType & eigenValues) const;
+
   /** Return an array containing EigenValues, and a matrix containing Eigen
    * vectors. */
-  void ComputeEigenAnalysis( EigenValuesArrayType & eigenValues,
-                             EigenVectorsMatrixType & eigenVectors ) const;
+  void ComputeEigenAnalysis(EigenValuesArrayType & eigenValues,
+                            EigenVectorsMatrixType & eigenVectors) const;
 
   /** Pre-Multiply by a Matrix as ResultingTensor = Matrix * ThisTensor. */
-  Self PreMultiply( const MatrixType & m ) const;
+  Self PreMultiply(const MatrixType & m) const;
 
   /** Post-Multiply by a Matrix as ResultingTensor = ThisTensor * Matrix. */
-  Self PostMultiply( const MatrixType & m ) const;
+  Self PostMultiply(const MatrixType & m) const;
 
 private:
-
-  
 };
-
 
 /** This extra typedef is necessary for preventing an Internal Compiler Error in
  * Microsoft Visual C++ 6.0. This typedef is not needed for any other compiler. */
-typedef std::ostream               OutputStreamType;
-typedef std::istream               InputStreamType;
+typedef std::ostream OutputStreamType;
+typedef std::istream InputStreamType;
 
-template< typename TComponent, unsigned int NDimension  >  
-ITK_EXPORT OutputStreamType& operator<<(OutputStreamType& os, 
-              const SymmetricSecondRankTensor<TComponent,NDimension> & c); 
-template< typename TComponent, unsigned int NDimension  >  
-ITK_EXPORT InputStreamType& operator>>(InputStreamType& is, 
-                    SymmetricSecondRankTensor<TComponent,NDimension> & c); 
+template< typename TComponent, unsigned int NDimension  >
+ITK_EXPORT OutputStreamType & operator<<(OutputStreamType & os,
+                                         const SymmetricSecondRankTensor< TComponent, NDimension > & c);
 
-   
-
+template< typename TComponent, unsigned int NDimension  >
+ITK_EXPORT InputStreamType & operator>>(InputStreamType & is,
+                                        SymmetricSecondRankTensor< TComponent, NDimension > & c);
 } // end namespace itk
 
 #include "itkNumericTraitsTensorPixel.h"
 
-
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 x > \
-                                         SymmetricSecondRankTensor##y; } \
+#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                             \
+  {                                                                         \
+  _( 2 ( class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                       \
+  {                                                                         \
+  typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX >                 \
+  SymmetricSecondRankTensor##TypeY;                                       \
+  }                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkSymmetricSecondRankTensor+-.h"
+//template < typename TComponent, unsigned int NDimension> const unsigned int
+// itk::SymmetricSecondRankTensor<TComponent,NDimension>::InternalDimension;
+
+#include "Templates/itkSymmetricSecondRankTensor+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkSymmetricSecondRankTensor.txx"
+#include "itkSymmetricSecondRankTensor.txx"
 #endif
-
 
 #endif

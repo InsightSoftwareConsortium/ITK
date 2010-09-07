@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,78 +27,72 @@
 
 namespace itk
 {
-
 /**
  *    Constructor
  */
-template <class TInputImage,class TOutputImage>
-BinaryThinningImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::BinaryThinningImageFilter()
 {
-
-  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredOutputs(1);
 
   OutputImagePointer thinImage = OutputImageType::New();
   this->SetNthOutput( 0, thinImage.GetPointer() );
-
 }
 
 /**
  *  Return the thinning Image pointer
  */
-template <class TInputImage,class TOutputImage>
+template< class TInputImage, class TOutputImage >
 typename BinaryThinningImageFilter<
-  TInputImage,TOutputImage>::OutputImageType * 
-BinaryThinningImageFilter<TInputImage,TOutputImage>
+  TInputImage, TOutputImage >::OutputImageType *
+BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::GetThinning(void)
 {
-  return  dynamic_cast< OutputImageType * >(
-    this->ProcessObject::GetOutput(0) );
+  return dynamic_cast< OutputImageType * >(
+           this->ProcessObject::GetOutput(0) );
 }
-
 
 /**
  *  Prepare data for computation
  *  Copy the input image to the output image, changing from the input
  *  type to the output type.
  */
-template <class TInputImage,class TOutputImage>
-void 
-BinaryThinningImageFilter<TInputImage,TOutputImage>
-::PrepareData(void) 
+template< class TInputImage, class TOutputImage >
+void
+BinaryThinningImageFilter< TInputImage, TOutputImage >
+::PrepareData(void)
 {
-  
   itkDebugMacro(<< "PrepareData Start");
   OutputImagePointer thinImage = GetThinning();
 
-  InputImagePointer  inputImage  = 
-    dynamic_cast<const TInputImage  *>( ProcessObject::GetInput(0) );
+  InputImagePointer inputImage  =
+    dynamic_cast< const TInputImage  * >( ProcessObject::GetInput(0) );
 
   thinImage->SetBufferedRegion( thinImage->GetRequestedRegion() );
   thinImage->Allocate();
 
   typename OutputImageType::RegionType region  = thinImage->GetRequestedRegion();
 
-
-  ImageRegionConstIterator< TInputImage >  it( inputImage,  region );
-  ImageRegionIterator< TOutputImage > ot( thinImage,  region );
+  ImageRegionConstIterator< TInputImage > it(inputImage,  region);
+  ImageRegionIterator< TOutputImage >     ot(thinImage,  region);
 
   it.GoToBegin();
   ot.GoToBegin();
 
   itkDebugMacro(<< "PrepareData: Copy input to output");
- 
+
   // Copy the input to the output, changing all foreground pixels to
   // have value 1 in the process.
-  while( !ot.IsAtEnd() )
+  while ( !ot.IsAtEnd() )
     {
     if ( it.Get() )
       {
-      ot.Set( NumericTraits<OutputImagePixelType>::One );
+      ot.Set(NumericTraits< OutputImagePixelType >::One);
       }
     else
       {
-      ot.Set( NumericTraits<OutputImagePixelType>::Zero );
+      ot.Set(NumericTraits< OutputImagePixelType >::Zero);
       }
     ++it;
     ++ot;
@@ -109,32 +103,32 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
 /**
  *  Post processing for computing thinning
  */
-template <class TInputImage,class TOutputImage>
-void 
-BinaryThinningImageFilter<TInputImage,TOutputImage>
-::ComputeThinImage() 
+template< class TInputImage, class TOutputImage >
+void
+BinaryThinningImageFilter< TInputImage, TOutputImage >
+::ComputeThinImage()
 {
-  itkDebugMacro( << "ComputeThinImage Start");
-  OutputImagePointer    thinImage          =  GetThinning();
+  itkDebugMacro(<< "ComputeThinImage Start");
+  OutputImagePointer thinImage          =  GetThinning();
 
   typename OutputImageType::RegionType region  = thinImage->GetRequestedRegion();
 
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
-  NeighborhoodIteratorType ot( radius, thinImage, region );
+  NeighborhoodIteratorType ot(radius, thinImage, region);
 
   // Create a set of offsets from the center.
   // This numbering follows that of Gonzalez and Woods.
   typedef typename NeighborhoodIteratorType::OffsetType OffsetType;
-  OffsetType o2 = {{0,-1}};
-  OffsetType o3 = {{1,-1}};
-  OffsetType o4 = {{1,0}};
-  OffsetType o5 = {{1,1}};
-  OffsetType o6 = {{0,1}};
-  OffsetType o7 = {{-1,1 }};
-  OffsetType o8 = {{-1,0}};
-  OffsetType o9 = {{-1,-1}};
-  
+  OffsetType o2 = { { 0, -1 } };
+  OffsetType o3 = { { 1, -1 } };
+  OffsetType o4 = { { 1, 0 } };
+  OffsetType o5 = { { 1, 1 } };
+  OffsetType o6 = { { 0, 1 } };
+  OffsetType o7 = { { -1, 1 } };
+  OffsetType o8 = { { -1, 0 } };
+  OffsetType o9 = { { -1, -1 } };
+
   PixelType p2;
   PixelType p3;
   PixelType p4;
@@ -143,23 +137,23 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
   PixelType p7;
   PixelType p8;
   PixelType p9;
-    
+
   // These tests correspond to the conditions listed in Gonzalez and Woods
   bool testA;
   bool testB;
   bool testC;
   bool testD;
 
-  std::vector < IndexType > pixelsToDelete;
-  typename std::vector < IndexType >::iterator pixelsToDeleteIt;
+  std::vector< IndexType > pixelsToDelete;
+  typename std::vector< IndexType >::iterator pixelsToDeleteIt;
 
   // Loop through the image several times until there is no change.
   bool noChange = false;
-  while(!noChange)
+  while ( !noChange )
     {
     noChange = true;
     // Loop through the thinning steps.
-    for (int step = 1; step <= 4; step++)
+    for ( int step = 1; step <= 4; step++ )
       {
       pixelsToDelete.clear();
       // Loop through the image.
@@ -179,12 +173,11 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
         p7 = ot.GetPixel(o7);
         p8 = ot.GetPixel(o8);
         p9 = ot.GetPixel(o9);
-        
+
         // Determine whether the pixel should be deleted in the
         // following if statements.
         if ( ot.GetCenterPixel() )
           {
-          
           // TestA
           // Count the number of neighbors that are on.
           // TestA is violated when contour point p1 has only one or
@@ -193,8 +186,8 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           // stroke and obviously should not be deleted.  Deleting p1
           // if it has seven such neighbos would cause erosion into a region.
           PixelType numberOfOnNeighbors = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
-          
-          if ( numberOfOnNeighbors > 1 && numberOfOnNeighbors < 7)
+
+          if ( numberOfOnNeighbors > 1 && numberOfOnNeighbors < 7 )
             {
             testA = true;
             }
@@ -209,11 +202,19 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           // First find the total number of transitions, and then
           // divide by 2.
           const PixelType transitions = (
-            vcl_abs(static_cast<int>(p3 - p2)) + vcl_abs(static_cast<int>(p4 - p3)) + vcl_abs(static_cast<int>(p5 - p4)) + vcl_abs(static_cast<int>(p6 - p5)) +
-            vcl_abs(static_cast<int>(p7 - p6)) + vcl_abs(static_cast<int>(p8 - p7)) + vcl_abs(static_cast<int>(p9 - p8)) + vcl_abs(static_cast<int>(p2 - p9)) 
-          ) /2;
+            vcl_abs( static_cast< int >( p3
+                                         - p2 ) )
+            + vcl_abs( static_cast< int >( p4
+                                           - p3 ) )
+            + vcl_abs( static_cast< int >( p5 - p4 ) ) + vcl_abs( static_cast< int >( p6 - p5 ) )
+            + vcl_abs( static_cast< int >( p7
+                                           - p6 ) )
+            + vcl_abs( static_cast< int >( p8
+                                           - p7 ) )
+            + vcl_abs( static_cast< int >( p9 - p8 ) ) + vcl_abs( static_cast< int >( p2 - p9 ) )
+            ) / 2;
 
-          if (transitions == 1)
+          if ( transitions == 1 )
             {
             testB = true;
             }
@@ -229,19 +230,18 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           // Note that northeast and southwest corner points are
           // satisfied in both the combination of steps 1 and 2 and
           // the combination of steps 3 and 4.
-          if (step == 1)
+          if ( step == 1 )
             {
-            if (p4 == 0 || p6 == 0)
+            if ( p4 == 0 || p6 == 0 )
               {
               testC = true;
               testD = true;
               }
             }
 
-
-          else if (step == 2)
+          else if ( step == 2 )
             {
-            if (p2 == 0 && p8 == 0)
+            if ( p2 == 0 && p8 == 0 )
               {
               testC = true;
               testD = true;
@@ -258,17 +258,17 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           // Note that northeast and southwest corner points are
           // satisfied in both the combination of steps 1 and 2 and
           // the combination of steps 3 and 4.
-          else if (step == 3)
+          else if ( step == 3 )
             {
-            if (p2 == 0 || p8 == 0)
+            if ( p2 == 0 || p8 == 0 )
               {
               testC = true;
               testD = true;
               }
             }
-          else if (step == 4)
+          else if ( step == 4 )
             {
-            if (p4 == 0 && p6 == 0)
+            if ( p4 == 0 && p6 == 0 )
               {
               testC = true;
               testD = true;
@@ -276,7 +276,7 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
             }
 
           // If all tests pass, mark the pixel for removal
-          if (testA && testB && testC && testD)
+          if ( testA && testB && testC && testD )
             {
             pixelsToDelete.push_back( ot.GetIndex() );
             noChange = false;
@@ -284,38 +284,32 @@ BinaryThinningImageFilter<TInputImage,TOutputImage>
           }
         } // end image iteration loop
 
-      //Loop through the vector of pixels to delete and set these pixels to 0 in the image.
-      for (pixelsToDeleteIt=pixelsToDelete.begin();
-           pixelsToDeleteIt != pixelsToDelete.end();
-           pixelsToDeleteIt++)
+      //Loop through the vector of pixels to delete and set these pixels to 0 in
+      // the image.
+      for ( pixelsToDeleteIt = pixelsToDelete.begin();
+            pixelsToDeleteIt != pixelsToDelete.end();
+            pixelsToDeleteIt++ )
         {
-        thinImage->SetPixel(*pixelsToDeleteIt,0);
+        thinImage->SetPixel(*pixelsToDeleteIt, 0);
         }
-
       } // end step loop
-    
-    } // end noChange while loop
-  
-  
-  itkDebugMacro( << "ComputeThinImage End");
+    }   // end noChange while loop
+
+  itkDebugMacro(<< "ComputeThinImage End");
 }
 
 /**
  *  Generate ThinImage
  */
-template <class TInputImage,class TOutputImage>
-void 
-BinaryThinningImageFilter<TInputImage,TOutputImage>
-::GenerateData() 
+template< class TInputImage, class TOutputImage >
+void
+BinaryThinningImageFilter< TInputImage, TOutputImage >
+::GenerateData()
 {
-
   this->PrepareData();
 
   itkDebugMacro(<< "GenerateData: Computing Thinning Image");
   this->ComputeThinImage();
-
- 
-
 } // end GenerateData()
 } // end namespace itk
 

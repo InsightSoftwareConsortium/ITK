@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,11 +24,10 @@
 
 namespace itk
 {
-
 /** \class ScalarVector
  * \brief A templated class holding bot scalar and vector values and
  *         responding to the GetScalar() and GetVector() methods.
- * 
+ *
  * ScalarVector is a templated class that holds a scalar value plus an
  * array of values (a vector).  ScalarVector can be used as the data type
  * held at each pixel in an Image or at each vertex of an Mesh. There
@@ -47,20 +46,20 @@ namespace itk
  * If you wish a simpler pixel types, you can use Scalar, which represents
  * a single data value at a pixel. YOu can also use Vector, which supports
  * (for a given pixel) an array of vector values.
- * 
+ *
  * \sa Image
  * \sa Mesh
  * \sa Scalar
- * \sa Vector 
+ * \sa Vector
  * \ingroup DataRepresentation
  */
-template<class TScalar, class TVector, unsigned int TVectorDimension=3>
+template< class TScalar, class TVector, unsigned int TVectorDimension = 3 >
 class ITK_EXPORT ScalarVector
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarVector  Self;
-  
+  typedef ScalarVector Self;
+
   /** ValueType can be used to declare a variable that is the same type
    * as the data held in the scalar portion of the ScalarVector.   */
   typedef TScalar ValueType;
@@ -75,40 +74,37 @@ public:
 
   /** VectorType can be used to declare a variable that is the same type
    * as the internal vector.   */
-  typedef vnl_vector_fixed<TVector, TVectorDimension> VectorType;
+  typedef vnl_vector_fixed< TVector, TVectorDimension > VectorType;
 
   /** Get the scalar value. \sa SetScalar() */
-  TScalar GetScalar() const 
-    { return m_Scalar; }
+  TScalar GetScalar() const
+  { return m_Scalar; }
 
   /** Set the scalar value. \sa GetScalar() */
-  void SetScalar(const TScalar &val) 
-    { m_Scalar = val; }
+  void SetScalar(const TScalar & val)
+  { m_Scalar = val; }
 
   /** Get the dimension (size) of the vector. */
-  static unsigned int GetVectorDimension() 
-    { return TVectorDimension; }
-  
+  static unsigned int GetVectorDimension()
+  { return TVectorDimension; }
+
   /** Get the vector. This provides a read only reference to the vector.
    * \sa SetVector(). */
-  const VectorType &GetVector() const 
-    { return m_Vector; }
+  const VectorType & GetVector() const
+  { return m_Vector; }
 
   /** Get the vector. This provides a read/write reference to the vector.
    * \sa SetVector */
-  VectorType &GetVector()  
-    { return m_Vector; }
+  VectorType & GetVector()
+  { return m_Vector; }
 
   /** Set the vector. \sa GetVector */
-  void SetVector(const VectorType &vec)
-    { m_Vector = vec; }
-
+  void SetVector(const VectorType & vec)
+  { m_Vector = vec; }
 private:
   TScalar    m_Scalar;
   VectorType m_Vector;
 };
-
-  
 } // end namespace itk
-  
-#endif 
+
+#endif

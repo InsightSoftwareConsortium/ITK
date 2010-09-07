@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,14 +19,13 @@
 
 #include "itkContourSpatialObjectPoint.h"
 
-namespace itk 
+namespace itk
 {
-
 /** Constructor */
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
-::ContourSpatialObjectPoint( void ) 
-{ 
+::ContourSpatialObjectPoint(void)
+{
   this->m_ID = 0;
   m_Normal.Fill(0);
   m_PickedPoint.Fill(0);
@@ -35,22 +34,21 @@ ContourSpatialObjectPoint< TPointDimension >
 /** Destructor */
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
-::~ContourSpatialObjectPoint( void ) 
-{
-}
+::~ContourSpatialObjectPoint(void)
+{}
 
 /** Set the picked point : N-D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
-::SetPickedPoint( const PointType & point ) 
+::SetPickedPoint(const PointType & point)
 {
   m_PickedPoint = point;
 }
 
 /** Set the picked point : 2D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
 ::SetPickedPoint(const double pointx, const double pointy)
 {
@@ -60,7 +58,7 @@ ContourSpatialObjectPoint< TPointDimension >
 
 /** Set the picked point : 3D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
 ::SetPickedPoint(const double pointx, const double pointy, const double pointz)
 {
@@ -73,23 +71,23 @@ ContourSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::PointType &
 ContourSpatialObjectPoint< TPointDimension >
-::GetPickedPoint( void ) const
+::GetPickedPoint(void) const
 {
   return m_PickedPoint;
 }
 
 /** Set the normal : N-D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
-::SetNormal( const VectorType & normal ) 
+::SetNormal(const VectorType & normal)
 {
   m_Normal = normal;
 }
 
 /** Set the normal : 2D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
 ::SetNormal(const double normalx, const double normaly)
 {
@@ -99,7 +97,7 @@ ContourSpatialObjectPoint< TPointDimension >
 
 /** Set the normal : 3D case */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
 ::SetNormal(const double normalx, const double normaly, const double normalz)
 {
@@ -112,19 +110,19 @@ ContourSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::VectorType &
 ContourSpatialObjectPoint< TPointDimension >
-::GetNormal( void ) const
+::GetNormal(void) const
 {
   return m_Normal;
 }
 
 /** Print the object */
 template< unsigned int TPointDimension >
-void 
+void
 ContourSpatialObjectPoint< TPointDimension >
-::PrintSelf( std::ostream& os, Indent indent ) const 
-{ 
-  Superclass::PrintSelf(os,indent);
-  os << indent << "ContourSpatialObjectPoint(" << this << ")" << std::endl; 
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "ContourSpatialObjectPoint(" << this << ")" << std::endl;
   os << indent << "Picked Point: ";
   os << indent <<  m_PickedPoint << std::endl;
   os << indent << "Normal: ";
@@ -133,17 +131,16 @@ ContourSpatialObjectPoint< TPointDimension >
 
 /** Copy a surface point to another */
 template< unsigned int TPointDimension >
-typename ContourSpatialObjectPoint< TPointDimension >::Self & 
+typename ContourSpatialObjectPoint< TPointDimension >::Self &
 ContourSpatialObjectPoint< TPointDimension >
-::operator=(const ContourSpatialObjectPoint & rhs) 
+::operator=(const ContourSpatialObjectPoint & rhs)
 {
   this->m_ID = rhs.GetID();
   this->m_X = rhs.GetPosition();
   this->m_Normal = rhs.GetNormal();
   this->m_PickedPoint = rhs.GetPickedPoint();
-  return * this;
+  return *this;
 }
-
 } // end namespace itk
 
 #endif

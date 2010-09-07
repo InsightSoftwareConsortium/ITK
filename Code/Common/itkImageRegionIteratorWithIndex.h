@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class ImageRegionIteratorWithIndex
  * \brief A multi-dimensional iterator templated over image type that walks
  * pixels within a region and is specialized to keep track of its image index
@@ -41,56 +40,55 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
-template<typename TImage>
-class ITK_EXPORT ImageRegionIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageRegionIteratorWithIndex:public ImageRegionConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ImageRegionIteratorWithIndex                Self;
-  typedef ImageRegionConstIteratorWithIndex<TImage>   Superclass;
-  
-  /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::IndexValueType         IndexValueType;
-  typedef typename Superclass::SizeType               SizeType;
-  typedef typename Superclass::SizeValueType          SizeValueType;
-  typedef typename Superclass::OffsetType             OffsetType;
-  typedef typename Superclass::OffsetValueType        OffsetValueType;
-  typedef typename Superclass::RegionType             RegionType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelContainer         PixelContainer;
-  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType      InternalPixelType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::AccessorType           AccessorType;
+  typedef ImageRegionConstIteratorWithIndex< TImage > Superclass;
 
-  
+  /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
+
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionIteratorWithIndex();
-  
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionIteratorWithIndex(TImage *ptr, const RegionType& region);
+  ImageRegionIteratorWithIndex(TImage *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -98,41 +96,42 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  ImageRegionIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
+  ImageRegionIteratorWithIndex(const ImageIteratorWithIndex< TImage > & it);
 
   /** Set the pixel value */
-  void Set( const PixelType & value) const  
-    { this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)),value); }
+  void Set(const PixelType & value) const
+  { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
-  /** Return a reference to the pixel 
+  /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
-    { return *(const_cast<InternalPixelType *>(this->m_Position)); }
- 
+  PixelType & Value(void)
+  { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
-  ImageRegionIteratorWithIndex( const ImageRegionConstIteratorWithIndex<TImage> &it);
-  Self &operator=(const ImageRegionConstIteratorWithIndex<TImage> & it);
-  
+  ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex< TImage > & it);
+  Self & operator=(const ImageRegionConstIteratorWithIndex< TImage > & it);
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionIteratorWithIndex(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageRegionIteratorWithIndex< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageRegionIteratorWithIndex< ITK_TEMPLATE_1 x > ImageRegionIteratorWithIndex##y; } \
+#define ITK_TEMPLATE_ImageRegionIteratorWithIndex(_, EXPORT, TypeX, TypeY)                            \
+  namespace itk                                                                                       \
+  {                                                                                                   \
+  _( 1 ( class EXPORT ImageRegionIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ) )                        \
+  namespace Templates                                                                                 \
+  {                                                                                                   \
+  typedef ImageRegionIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ImageRegionIteratorWithIndex##TypeY; \
+  }                                                                                                   \
   }
 
-
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageRegionIteratorWithIndex+-.h"
+#include "Templates/itkImageRegionIteratorWithIndex+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageRegionIteratorWithIndex.txx"
+#include "itkImageRegionIteratorWithIndex.txx"
 #endif
 
-#endif 
+#endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class BSplineKernelFunction
  * \brief BSpline kernel used for density estimation and nonparameteric
  *  regression.
@@ -38,53 +37,52 @@ namespace itk
  *
  * \ingroup Functions
  */
-template <unsigned int VSplineOrder = 3>
-class ITK_EXPORT BSplineKernelFunction : public KernelFunction
+template< unsigned int VSplineOrder = 3 >
+class ITK_EXPORT BSplineKernelFunction:public KernelFunction
 {
 public:
   /** Standard class typedefs. */
   typedef BSplineKernelFunction Self;
   typedef KernelFunction        Superclass;
-  typedef SmartPointer<Self>    Pointer;
+  typedef SmartPointer< Self >  Pointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self); 
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineKernelFunction, KernelFunction); 
+  itkTypeMacro(BSplineKernelFunction, KernelFunction);
 
   /** Enum of for spline order. */
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline double Evaluate( const double & u ) const
-    {
-    return this->Evaluate( Dispatch<VSplineOrder>(), u );
-    }
+  inline double Evaluate(const double & u) const
+  {
+    return this->Evaluate(Dispatch< VSplineOrder >(), u);
+  }
 
 protected:
-  BSplineKernelFunction(){};
-  ~BSplineKernelFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const
-    { 
-    Superclass::PrintSelf( os, indent ); 
+  BSplineKernelFunction(){}
+  ~BSplineKernelFunction(){}
+  void PrintSelf(std::ostream & os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
     os << indent  << "Spline Order: " << SplineOrder << std::endl;
-    }  
+  }
 
 private:
-  BSplineKernelFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BSplineKernelFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};
-  template<unsigned int>
-  struct Dispatch : DispatchBase {};
+  template< unsigned int >
+  struct Dispatch: DispatchBase {};
 
   /** Zeroth order spline. */
-  inline double Evaluate (const Dispatch<0>&, const double & u) const
-    {
-
-    double absValue = vnl_math_abs( u );
+  inline double Evaluate(const Dispatch< 0 > &, const double & u) const
+  {
+    double absValue = vnl_math_abs(u);
 
     if ( absValue  < 0.5 )
       {
@@ -98,14 +96,12 @@ private:
       {
       return 0.0;
       }
-
-    }
+  }
 
   /** First order spline */
-  inline double Evaluate ( const Dispatch<1>&, const double& u) const
-    {
-
-    double absValue = vnl_math_abs( u );
+  inline double Evaluate(const Dispatch< 1 > &, const double & u) const
+  {
+    double absValue = vnl_math_abs(u);
 
     if ( absValue  < 1.0 )
       {
@@ -115,36 +111,32 @@ private:
       {
       return 0.0;
       }
-
-    }
+  }
 
   /** Second order spline. */
-  inline double Evaluate ( const Dispatch<2>&, const double& u) const
-    {
-
-    double absValue = vnl_math_abs( u );
+  inline double Evaluate(const Dispatch< 2 > &, const double & u) const
+  {
+    double absValue = vnl_math_abs(u);
 
     if ( absValue  < 0.5 )
       {
-      return 0.75 - vnl_math_sqr( absValue );
+      return 0.75 - vnl_math_sqr(absValue);
       }
     else if ( absValue < 1.5 )
       {
-      return ( 9.0 - 12.0 * absValue + 4.0 * vnl_math_sqr( absValue ) ) / 8.0; 
+      return ( 9.0 - 12.0 * absValue + 4.0 * vnl_math_sqr(absValue) ) / 8.0;
       }
     else
       {
       return 0.0;
       }
-
-    }
+  }
 
   /**  Third order spline. */
-  inline double Evaluate ( const Dispatch<3>&, const double& u) const
-    {
-
-    double absValue = vnl_math_abs( u );
-    double sqrValue = vnl_math_sqr( u );
+  inline double Evaluate(const Dispatch< 3 > &, const double & u) const
+  {
+    double absValue = vnl_math_abs(u);
+    double sqrValue = vnl_math_sqr(u);
 
     if ( absValue  < 1.0 )
       {
@@ -152,28 +144,26 @@ private:
       }
     else if ( absValue < 2.0 )
       {
-      return ( 8.0 - 12 * absValue + 6.0 * sqrValue - 
-                                            sqrValue * absValue ) / 6.0;
+      return ( 8.0 - 12 * absValue + 6.0 * sqrValue
+               - sqrValue * absValue ) / 6.0;
       }
     else
       {
       return 0.0;
       }
-
-    }
+  }
 
   /** Unimplemented spline order */
-  inline double Evaluate ( const DispatchBase&, const double&) const
-    {
-    itkExceptionMacro("Evaluate not implemented for spline\
-                                                      order " << SplineOrder);
-    return 0.0; // This is to avoid compiler warning about missing 
+  inline double Evaluate(const DispatchBase &, const double &) const
+  {
+    itkExceptionMacro(
+      "Evaluate not implemented for spline\
+                                                      order "
+      << SplineOrder);
+    return 0.0; // This is to avoid compiler warning about missing
                 // return statement.  It should never be evaluated.
-    }
-
+  }
 };
-
-
 } // end namespace itk
 
 #endif

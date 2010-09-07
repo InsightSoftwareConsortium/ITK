@@ -35,7 +35,7 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 
 #include "itkTimeProbesCollectorBase.h"
 
@@ -144,8 +144,8 @@ int main( int argc, char *argv[] )
   const    unsigned int    ImageDimension = 3;
   typedef  signed short    PixelType;
 
-  typedef itk::OrientedImage< PixelType, ImageDimension >  FixedImageType;
-  typedef itk::OrientedImage< PixelType, ImageDimension >  MovingImageType;
+  typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
+  typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
 
 
   const unsigned int SpaceDimension = ImageDimension;

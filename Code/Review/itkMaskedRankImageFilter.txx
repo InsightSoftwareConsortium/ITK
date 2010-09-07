@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 #include "itkProgressReporter.h"
 #include "itkNumericTraits.h"
 
-
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
@@ -31,24 +30,23 @@
 #include <iomanip>
 #include <sstream>
 
-namespace itk {
-
-
-template<class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
-MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>
+namespace itk
+{
+template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 ::MaskedRankImageFilter()
 {
   m_Rank = 0.5;
 }
 
-
-template<class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
-typename MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>::HistogramType *
-MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>
+template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+typename MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >::HistogramType *
+MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 ::NewHistogram()
 {
-  HistogramType * hist;
-  if (UseVectorBasedHistogram())
+  HistogramType *hist;
+
+  if ( UseVectorBasedHistogram() )
     {
     hist = new VHistogram();
     }
@@ -60,16 +58,14 @@ MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>
   return hist;
 }
 
-
-template<class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
 void
-MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>
-::PrintSelf(std::ostream &os, Indent indent) const
+MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Rank: " << static_cast<typename NumericTraits< float >::PrintType>( m_Rank ) << std::endl;
+  os << indent << "Rank: " << static_cast< typename NumericTraits< float >::PrintType >( m_Rank ) << std::endl;
 }
-
-}// end namespace itk
+} // end namespace itk
 #endif

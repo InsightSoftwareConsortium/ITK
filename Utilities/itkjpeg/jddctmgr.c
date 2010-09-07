@@ -1,7 +1,8 @@
 /*
  * jddctmgr.c
  *
- * Copyright (C) 1994-1998, Thomas G. Lane.
+ * Copyright (C) 1994-1996, Thomas G. Lane.
+ * Modified 2002-2010 by Guido Vollbeding.
  * This file is part of the Independent JPEG Group's software.
  * For conditions of distribution and use, see the accompanying README file.
  *
@@ -18,8 +19,7 @@
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jlossy.h"    /* Private declarations for lossy subsystem */
-#include "jdct.h"    /* Private declarations for DCT subsystem */
+#include "jdct.h"		/* Private declarations for DCT subsystem */
 
 
 /*
@@ -42,15 +42,17 @@
 /* Private subobject for this module */
 
 typedef struct {
+  struct jpeg_inverse_dct pub;	/* public fields */
+
   /* This array contains the IDCT method code that each multiplier table
    * is currently set up for, or -1 if it's not yet set up.
    * The actual multiplier tables are pointed to by dct_table in the
    * per-component comp_info structures.
    */
   int cur_method[MAX_COMPONENTS];
-} idct_controller;
+} my_idct_controller;
 
-typedef idct_controller * idct_ptr;
+typedef my_idct_controller * my_idct_ptr;
 
 
 /* Allocated multiplier tables: big enough for any supported variant */
@@ -87,8 +89,7 @@ typedef union {
 METHODDEF(void)
 start_pass (j_decompress_ptr cinfo)
 {
-  j_lossy_d_ptr lossyd = (j_lossy_d_ptr) cinfo->codec;
-  idct_ptr idct = (idct_ptr) lossyd->idct_private;
+  my_idct_ptr idct = (my_idct_ptr) cinfo->idct;
   int ci, i;
   jpeg_component_info *compptr;
   int method = 0;
@@ -98,51 +99,164 @@ start_pass (j_decompress_ptr cinfo)
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
     /* Select the proper IDCT routine for this component's scaling */
-    switch (compptr->codec_data_unit) {
+    switch ((compptr->DCT_h_scaled_size << 8) + compptr->DCT_v_scaled_size) {
 #ifdef IDCT_SCALING_SUPPORTED
-    case 1:
+    case ((1 << 8) + 1):
       method_ptr = jpeg_idct_1x1;
-      method = JDCT_ISLOW;  /* jidctred uses islow-style table */
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
       break;
-    case 2:
+    case ((2 << 8) + 2):
       method_ptr = jpeg_idct_2x2;
-      method = JDCT_ISLOW;  /* jidctred uses islow-style table */
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
       break;
-    case 4:
+    case ((3 << 8) + 3):
+      method_ptr = jpeg_idct_3x3;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((4 << 8) + 4):
       method_ptr = jpeg_idct_4x4;
-      method = JDCT_ISLOW;  /* jidctred uses islow-style table */
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((5 << 8) + 5):
+      method_ptr = jpeg_idct_5x5;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((6 << 8) + 6):
+      method_ptr = jpeg_idct_6x6;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((7 << 8) + 7):
+      method_ptr = jpeg_idct_7x7;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((9 << 8) + 9):
+      method_ptr = jpeg_idct_9x9;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((10 << 8) + 10):
+      method_ptr = jpeg_idct_10x10;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((11 << 8) + 11):
+      method_ptr = jpeg_idct_11x11;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((12 << 8) + 12):
+      method_ptr = jpeg_idct_12x12;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((13 << 8) + 13):
+      method_ptr = jpeg_idct_13x13;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((14 << 8) + 14):
+      method_ptr = jpeg_idct_14x14;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((15 << 8) + 15):
+      method_ptr = jpeg_idct_15x15;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((16 << 8) + 16):
+      method_ptr = jpeg_idct_16x16;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((16 << 8) + 8):
+      method_ptr = jpeg_idct_16x8;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((14 << 8) + 7):
+      method_ptr = jpeg_idct_14x7;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((12 << 8) + 6):
+      method_ptr = jpeg_idct_12x6;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((10 << 8) + 5):
+      method_ptr = jpeg_idct_10x5;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((8 << 8) + 4):
+      method_ptr = jpeg_idct_8x4;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((6 << 8) + 3):
+      method_ptr = jpeg_idct_6x3;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((4 << 8) + 2):
+      method_ptr = jpeg_idct_4x2;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((2 << 8) + 1):
+      method_ptr = jpeg_idct_2x1;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((8 << 8) + 16):
+      method_ptr = jpeg_idct_8x16;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((7 << 8) + 14):
+      method_ptr = jpeg_idct_7x14;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((6 << 8) + 12):
+      method_ptr = jpeg_idct_6x12;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((5 << 8) + 10):
+      method_ptr = jpeg_idct_5x10;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((4 << 8) + 8):
+      method_ptr = jpeg_idct_4x8;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((3 << 8) + 6):
+      method_ptr = jpeg_idct_3x6;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((2 << 8) + 4):
+      method_ptr = jpeg_idct_2x4;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
+      break;
+    case ((1 << 8) + 2):
+      method_ptr = jpeg_idct_1x2;
+      method = JDCT_ISLOW;	/* jidctint uses islow-style table */
       break;
 #endif
-    case DCTSIZE:
+    case ((DCTSIZE << 8) + DCTSIZE):
       switch (cinfo->dct_method) {
 #ifdef DCT_ISLOW_SUPPORTED
       case JDCT_ISLOW:
-  method_ptr = jpeg_idct_islow;
-  method = JDCT_ISLOW;
-  break;
+	method_ptr = jpeg_idct_islow;
+	method = JDCT_ISLOW;
+	break;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
       case JDCT_IFAST:
-  method_ptr = jpeg_idct_ifast;
-  method = JDCT_IFAST;
-  break;
+	method_ptr = jpeg_idct_ifast;
+	method = JDCT_IFAST;
+	break;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
       case JDCT_FLOAT:
-  method_ptr = jpeg_idct_float;
-  method = JDCT_FLOAT;
-  break;
+	method_ptr = jpeg_idct_float;
+	method = JDCT_FLOAT;
+	break;
 #endif
       default:
-  ERREXIT(cinfo, JERR_NOT_COMPILED);
-  break;
+	ERREXIT(cinfo, JERR_NOT_COMPILED);
+	break;
       }
       break;
     default:
-      ERREXIT1(cinfo, JERR_BAD_DCTSIZE, compptr->codec_data_unit);
+      ERREXIT2(cinfo, JERR_BAD_DCTSIZE,
+	       compptr->DCT_h_scaled_size, compptr->DCT_v_scaled_size);
       break;
     }
-    lossyd->inverse_DCT[ci] = method_ptr;
+    idct->pub.inverse_DCT[ci] = method_ptr;
     /* Create multiplier table from quant table.
      * However, we can skip this if the component is uninteresting
      * or if we already built the table.  Also, if no quant table
@@ -153,81 +267,82 @@ start_pass (j_decompress_ptr cinfo)
     if (! compptr->component_needed || idct->cur_method[ci] == method)
       continue;
     qtbl = compptr->quant_table;
-    if (qtbl == NULL)    /* happens if no data yet for component */
+    if (qtbl == NULL)		/* happens if no data yet for component */
       continue;
     idct->cur_method[ci] = method;
     switch (method) {
 #ifdef PROVIDE_ISLOW_TABLES
     case JDCT_ISLOW:
       {
-  /* For LL&M IDCT method, multipliers are equal to raw quantization
-   * coefficients, but are stored as ints to ensure access efficiency.
-   */
-  ISLOW_MULT_TYPE * ismtbl = (ISLOW_MULT_TYPE *) compptr->dct_table;
-  for (i = 0; i < DCTSIZE2; i++) {
-    ismtbl[i] = (ISLOW_MULT_TYPE) qtbl->quantval[i];
-  }
+	/* For LL&M IDCT method, multipliers are equal to raw quantization
+	 * coefficients, but are stored as ints to ensure access efficiency.
+	 */
+	ISLOW_MULT_TYPE * ismtbl = (ISLOW_MULT_TYPE *) compptr->dct_table;
+	for (i = 0; i < DCTSIZE2; i++) {
+	  ismtbl[i] = (ISLOW_MULT_TYPE) qtbl->quantval[i];
+	}
       }
       break;
 #endif
 #ifdef DCT_IFAST_SUPPORTED
     case JDCT_IFAST:
       {
-  /* For AA&N IDCT method, multipliers are equal to quantization
-   * coefficients scaled by scalefactor[row]*scalefactor[col], where
-   *   scalefactor[0] = 1
-   *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-   * For integer operation, the multiplier table is to be scaled by
-   * IFAST_SCALE_BITS.
-   */
-  IFAST_MULT_TYPE * ifmtbl = (IFAST_MULT_TYPE *) compptr->dct_table;
+	/* For AA&N IDCT method, multipliers are equal to quantization
+	 * coefficients scaled by scalefactor[row]*scalefactor[col], where
+	 *   scalefactor[0] = 1
+	 *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+	 * For integer operation, the multiplier table is to be scaled by
+	 * IFAST_SCALE_BITS.
+	 */
+	IFAST_MULT_TYPE * ifmtbl = (IFAST_MULT_TYPE *) compptr->dct_table;
 #define CONST_BITS 14
-  static const INT16 aanscales[DCTSIZE2] = {
-    /* precomputed values scaled up by 14 bits */
-    16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
-    22725, 31521, 29692, 26722, 22725, 17855, 12299,  6270,
-    21407, 29692, 27969, 25172, 21407, 16819, 11585,  5906,
-    19266, 26722, 25172, 22654, 19266, 15137, 10426,  5315,
-    16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
-    12873, 17855, 16819, 15137, 12873, 10114,  6967,  3552,
-     8867, 12299, 11585, 10426,  8867,  6967,  4799,  2446,
-     4520,  6270,  5906,  5315,  4520,  3552,  2446,  1247
-  };
-  SHIFT_TEMPS
+	static const INT16 aanscales[DCTSIZE2] = {
+	  /* precomputed values scaled up by 14 bits */
+	  16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
+	  22725, 31521, 29692, 26722, 22725, 17855, 12299,  6270,
+	  21407, 29692, 27969, 25172, 21407, 16819, 11585,  5906,
+	  19266, 26722, 25172, 22654, 19266, 15137, 10426,  5315,
+	  16384, 22725, 21407, 19266, 16384, 12873,  8867,  4520,
+	  12873, 17855, 16819, 15137, 12873, 10114,  6967,  3552,
+	   8867, 12299, 11585, 10426,  8867,  6967,  4799,  2446,
+	   4520,  6270,  5906,  5315,  4520,  3552,  2446,  1247
+	};
+	SHIFT_TEMPS
 
-  for (i = 0; i < DCTSIZE2; i++) {
-    ifmtbl[i] = (IFAST_MULT_TYPE)
-      DESCALE(MULTIPLY16V16((INT32) qtbl->quantval[i],
-          (INT32) aanscales[i]),
-        CONST_BITS-IFAST_SCALE_BITS);
-  }
+	for (i = 0; i < DCTSIZE2; i++) {
+	  ifmtbl[i] = (IFAST_MULT_TYPE)
+	    DESCALE(MULTIPLY16V16((INT32) qtbl->quantval[i],
+				  (INT32) aanscales[i]),
+		    CONST_BITS-IFAST_SCALE_BITS);
+	}
       }
       break;
 #endif
 #ifdef DCT_FLOAT_SUPPORTED
     case JDCT_FLOAT:
       {
-  /* For float AA&N IDCT method, multipliers are equal to quantization
-   * coefficients scaled by scalefactor[row]*scalefactor[col], where
-   *   scalefactor[0] = 1
-   *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-   */
-  FLOAT_MULT_TYPE * fmtbl = (FLOAT_MULT_TYPE *) compptr->dct_table;
-  int row, col;
-  static const double aanscalefactor[DCTSIZE] = {
-    1.0, 1.387039845, 1.306562965, 1.175875602,
-    1.0, 0.785694958, 0.541196100, 0.275899379
-  };
+	/* For float AA&N IDCT method, multipliers are equal to quantization
+	 * coefficients scaled by scalefactor[row]*scalefactor[col], where
+	 *   scalefactor[0] = 1
+	 *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+	 * We apply a further scale factor of 1/8.
+	 */
+	FLOAT_MULT_TYPE * fmtbl = (FLOAT_MULT_TYPE *) compptr->dct_table;
+	int row, col;
+	static const double aanscalefactor[DCTSIZE] = {
+	  1.0, 1.387039845, 1.306562965, 1.175875602,
+	  1.0, 0.785694958, 0.541196100, 0.275899379
+	};
 
-  i = 0;
-  for (row = 0; row < DCTSIZE; row++) {
-    for (col = 0; col < DCTSIZE; col++) {
-      fmtbl[i] = (FLOAT_MULT_TYPE)
-        ((double) qtbl->quantval[i] *
-         aanscalefactor[row] * aanscalefactor[col]);
-      i++;
-    }
-  }
+	i = 0;
+	for (row = 0; row < DCTSIZE; row++) {
+	  for (col = 0; col < DCTSIZE; col++) {
+	    fmtbl[i] = (FLOAT_MULT_TYPE)
+	      ((double) qtbl->quantval[i] *
+	       aanscalefactor[row] * aanscalefactor[col] * 0.125);
+	    i++;
+	  }
+	}
       }
       break;
 #endif
@@ -246,23 +361,22 @@ start_pass (j_decompress_ptr cinfo)
 GLOBAL(void)
 jinit_inverse_dct (j_decompress_ptr cinfo)
 {
-  j_lossy_d_ptr lossyd = (j_lossy_d_ptr) cinfo->codec;
-  idct_ptr idct;
+  my_idct_ptr idct;
   int ci;
   jpeg_component_info *compptr;
 
-  idct = (idct_ptr)
+  idct = (my_idct_ptr)
     (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-        SIZEOF(idct_controller));
-  lossyd->idct_private = (void *) idct;
-  lossyd->idct_start_pass = start_pass;
+				SIZEOF(my_idct_controller));
+  cinfo->idct = (struct jpeg_inverse_dct *) idct;
+  idct->pub.start_pass = start_pass;
 
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
     /* Allocate and pre-zero a multiplier table for each component */
     compptr->dct_table =
       (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-          SIZEOF(multiplier_table));
+				  SIZEOF(multiplier_table));
     MEMZERO(compptr->dct_table, SIZEOF(multiplier_table));
     /* Mark multiplier table not yet set up for any method */
     idct->cur_method[ci] = -1;

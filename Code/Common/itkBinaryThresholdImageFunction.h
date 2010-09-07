@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 
 namespace itk
 {
-
 /** \class BinaryThresholdImageFunction
- * \brief Returns true is the value of an image lies within a range 
+ * \brief Returns true is the value of an image lies within a range
  *        of thresholds
  * This ImageFunction returns true (or false) if the pixel value lies
  * within (outside) a lower and upper threshold value. The threshold
@@ -36,19 +35,19 @@ namespace itk
  * and continuous image index.
  *
  * \ingroup ImageFunctions
- * 
+ *
  */
-template <class TInputImage, class TCoordRep = float>
-class ITK_EXPORT BinaryThresholdImageFunction : 
-  public ImageFunction<TInputImage,bool,TCoordRep> 
+template< class TInputImage, class TCoordRep = float >
+class ITK_EXPORT BinaryThresholdImageFunction:
+  public ImageFunction< TInputImage, bool, TCoordRep >
 {
 public:
   /** Standard class typedefs. */
-  typedef BinaryThresholdImageFunction              Self;
-  typedef ImageFunction<TInputImage,bool,TCoordRep> Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
-  
+  typedef BinaryThresholdImageFunction                  Self;
+  typedef ImageFunction< TInputImage, bool, TCoordRep > Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef SmartPointer< const Self >                    ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdImageFunction, ImageFunction);
 
@@ -57,12 +56,12 @@ public:
 
   /** InputImageType typedef support. */
   typedef typename Superclass::InputImageType InputImageType;
-  
+
   /** Typedef to describe the type of pixel. */
   typedef typename TInputImage::PixelType PixelType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Point typedef support. */
   typedef typename Superclass::PointType PointType;
@@ -82,12 +81,13 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
 
-  virtual bool Evaluate( const PointType& point ) const
-    {
+  virtual bool Evaluate(const PointType & point) const
+  {
     IndexType index;
-    this->ConvertPointToNearestIndex( point, index );
-    return ( this->EvaluateAtIndex( index ) );
-    }
+
+    this->ConvertPointToNearestIndex(point, index);
+    return ( this->EvaluateAtIndex(index) );
+  }
 
   /** BinaryThreshold the image at a continuous index position
    *
@@ -97,14 +97,14 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtContinuousIndex( 
-    const ContinuousIndexType & index ) const
-    {
+  virtual bool EvaluateAtContinuousIndex(
+    const ContinuousIndexType & index) const
+  {
     IndexType nindex;
 
     this->ConvertContinuousIndexToNearestIndex (index, nindex);
     return this->EvaluateAtIndex(nindex);
-    }
+  }
 
   /** BinaryThreshold the image at an index position.
    *
@@ -114,21 +114,22 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtIndex( const IndexType & index ) const
-    {
+  virtual bool EvaluateAtIndex(const IndexType & index) const
+  {
     PixelType value = this->GetInputImage()->GetPixel(index);
-    return ( m_Lower <= value && value <= m_Upper);
-    }
+
+    return ( m_Lower <= value && value <= m_Upper );
+  }
 
   /** Get the lower threshold value. */
-  itkGetConstReferenceMacro(Lower,PixelType);
+  itkGetConstReferenceMacro(Lower, PixelType);
 
   /** Get the upper threshold value. */
-  itkGetConstReferenceMacro(Upper,PixelType);
+  itkGetConstReferenceMacro(Upper, PixelType);
 
   /** Values greater than or equal to the value are inside. */
   void ThresholdAbove(PixelType thresh);
-  
+
   /** Values less than or equal to the value are inside. */
   void ThresholdBelow(PixelType thresh);
 
@@ -137,33 +138,36 @@ public:
 
 protected:
   BinaryThresholdImageFunction();
-  ~BinaryThresholdImageFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~BinaryThresholdImageFunction(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  BinaryThresholdImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  BinaryThresholdImageFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
   PixelType m_Lower;
   PixelType m_Upper;
 };
-
 } // end namespace itk
 
-
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BinaryThresholdImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT BinaryThresholdImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef BinaryThresholdImageFunction< ITK_TEMPLATE_2 x > \
-                               BinaryThresholdImageFunction##y; } \
+#define ITK_TEMPLATE_BinaryThresholdImageFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                \
+  {                                                                            \
+  _( 2 ( class EXPORT BinaryThresholdImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                          \
+  {                                                                            \
+  typedef BinaryThresholdImageFunction< ITK_TEMPLATE_2 TypeX >                 \
+  BinaryThresholdImageFunction##TypeY;                                       \
+  }                                                                            \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBinaryThresholdImageFunction+-.h"
+#include "Templates/itkBinaryThresholdImageFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBinaryThresholdImageFunction.txx"
+#include "itkBinaryThresholdImageFunction.txx"
 #endif
 
 #endif

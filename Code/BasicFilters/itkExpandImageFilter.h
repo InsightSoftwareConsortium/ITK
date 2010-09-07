@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class ExpandImageFilter
  * \brief Expand the size of an image by an integer factor in each
  * dimension.
@@ -40,24 +39,12 @@ namespace itk
  * SetInterpolator(). Note that the input interpolator must derive
  * from base class InterpolateImageFunction.
  *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is OFF.
- * When the LargestPossibleRegion is requested, the output image will contain
- * padding at the upper edge of each dimension. The width of padding in the
- * i'th dimension is (ExpandFactors[i] - 1). Users can specify the padding
- * value used by setting the EdgePaddingValue.
- *
- * \warning: The following is valid only when the flag
- * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON 
- * The output image will not contain any padding, and therefore the
- * EdgePaddingValue will not be used.
- *
  * This filter will produce an output with different pixel spacing
  * that its input image such that:
  *
  * OutputSpacing[j] = InputSpacing[j] / ExpandFactors[j]
  *
- * The filter is templated over the input image type and the output 
+ * The filter is templated over the input image type and the output
  * image type.
  *
  * This filter is implemented as a multithreaded filter and supports
@@ -75,19 +62,19 @@ namespace itk
  *
  * \ingroup GeometricTransform
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ExpandImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ExpandImageFilter                             Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef ExpandImageFilter                               Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExpandImageFilter, ImageToImageFilter);
@@ -107,33 +94,33 @@ public:
   typedef typename OutputImageType::Pointer    OutputImagePointer;
 
   /** Typedef support for the interpolation function. */
-  typedef double                             CoordRepType;
-  typedef InterpolateImageFunction<InputImageType,CoordRepType> 
-                                             InterpolatorType;
-  typedef typename InterpolatorType::Pointer InterpolatorPointer;
-  typedef LinearInterpolateImageFunction<InputImageType,CoordRepType> 
-                                             DefaultInterpolatorType;
+  typedef double                                                   CoordRepType;
+  typedef InterpolateImageFunction< InputImageType, CoordRepType > InterpolatorType;
+  typedef typename InterpolatorType::Pointer                       InterpolatorPointer;
+  typedef LinearInterpolateImageFunction< InputImageType, CoordRepType >
+  DefaultInterpolatorType;
 
   /** Set the interpolator function. */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
+  itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetObjectMacro(Interpolator, InterpolatorType);
 
-  /** Set the expand factors. Values are clamped to 
+  /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
-  virtual void SetExpandFactors( const unsigned int factors[] );
-  virtual void SetExpandFactors( const unsigned int factor );
+  virtual void SetExpandFactors(const unsigned int factors[]);
+
+  virtual void SetExpandFactors(const unsigned int factor);
 
   /** Get the expand factors. */
   virtual const unsigned int * GetExpandFactors() const
   { return m_ExpandFactors; }
 
-  /** Set the edge padding value. The default is zero. */
-  itkSetMacro( EdgePaddingValue, OutputPixelType );
-
-  /** Get the edge padding value */
-  itkGetConstMacro( EdgePaddingValue, OutputPixelType );
+//TEST_RMV20100728   /** Set the edge padding value. The default is zero. */
+//TEST_RMV20100728   itkSetMacro( EdgePaddingValue, OutputPixelType );
+//TEST_RMV20100728
+//TEST_RMV20100728   /** Get the edge padding value */
+//TEST_RMV20100728   itkGetConstMacro( EdgePaddingValue, OutputPixelType );
 
   /** ExpandImageFilter produces an image which is a different resolution and
    * with a different pixel spacing than its input image.  As such,
@@ -144,25 +131,24 @@ public:
   virtual void GenerateOutputInformation();
 
   /** ExpandImageFilter needs a smaller input requested region than the output
-   * requested region.  As such, ShrinkImageFilter needs to provide an 
-   * implementation for GenerateInputRequestedRegion() in order to inform 
-   * the pipeline execution model.  
+   * requested region.  As such, ShrinkImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion() in order to inform
+   * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ExpandImageFilter();
   ~ExpandImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** ExpandImageFilter is implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -174,23 +160,27 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   virtual
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-  
-  /** This method is used to set the state of the filter before 
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
+
+  /** This method is used to set the state of the filter before
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
 private:
-  ExpandImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ExpandImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);    //purposely not implemented
 
-  unsigned int           m_ExpandFactors[ImageDimension];
-  InterpolatorPointer    m_Interpolator;
-  OutputPixelType        m_EdgePaddingValue;
- 
+  unsigned int        m_ExpandFactors[ImageDimension];
+  InterpolatorPointer m_Interpolator;
+//TEST_RMV20100728 * \warning: The following is valid only when the flag
+//TEST_RMV20100728 * ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY is ON
+//TEST_RMV20100728 * The output image will not contain any padding, and
+// therefore the
+//TEST_RMV20100728 * EdgePaddingValue will not be used.
+//TEST_RMV20100728 *
+//TEST_RMV20100728  OutputPixelType        m_EdgePaddingValue;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

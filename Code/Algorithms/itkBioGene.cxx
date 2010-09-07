@@ -9,21 +9,21 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkBioGene.h"
 #include <algorithm>
 
-namespace itk {
-
-namespace bio {
-
+namespace itk
+{
+namespace bio
+{
 /**
- *    Constructor 
- */ 
+ *    Constructor
+ */
 Gene
 ::Gene()
 {
@@ -31,65 +31,62 @@ Gene
 }
 
 /**
- *    Destructor   
- */ 
+ *    Destructor
+ */
 Gene
 ::~Gene()
-{
-}
+{}
 
 /**
  *    Copy from another genome
- */ 
+ */
 void
 Gene
-::Copy( const Gene & gene )
+::Copy(const Gene & gene)
 {
-
   m_Name = gene.m_Name;
 
   m_ControlDomains.clear();
 
   m_ControlDomains.insert( m_ControlDomains.begin(),
                            gene.m_ControlDomains.begin(),
-                           gene.m_ControlDomains.end()    );
-
+                           gene.m_ControlDomains.end() );
 
   m_ProteinDomains.clear();
 
   ProteinDomainsType::const_iterator proteinDomain = gene.m_ProteinDomains.begin();
   ProteinDomainsType::const_iterator last          = gene.m_ProteinDomains.end();
- 
-  while( proteinDomain != last )
+
+  while ( proteinDomain != last )
     {
-    m_ProteinDomains[ (*proteinDomain).first ] = (*proteinDomain).second;
+    m_ProteinDomains[( *proteinDomain ).first] = ( *proteinDomain ).second;
     ++proteinDomain;
-    }  
+    }
 }
 
 /**
  *    Set the name of the gene
- */ 
+ */
 void
 Gene
-::SetName( const NameType & name )
+::SetName(const NameType & name)
 {
   m_Name = name;
 }
 
 /**
  *    Set the name of the gene
- */ 
+ */
 void
 Gene
-::SetName( const char * name )
+::SetName(const char *name)
 {
   m_Name = name;
 }
 
 /**
  *    Get the name of the gene
- */ 
+ */
 const char *
 Gene
 ::GetName() const
@@ -99,28 +96,26 @@ Gene
 
 /**
  *    Add a protein domain
- */ 
+ */
 void
 Gene
-::AddProteinDomain( const DomainType & domain, AffinityType affinity )
+::AddProteinDomain(const DomainType & domain, AffinityType affinity)
 {
-  m_ProteinDomains[ domain ] = affinity;
+  m_ProteinDomains[domain] = affinity;
 }
 
 /**
  *    Add a protein domain
- */ 
+ */
 void
 Gene
-::AddGeneControlDomain( const DomainType & domain, bool type )
+::AddGeneControlDomain(const DomainType & domain, bool type)
 {
   ControlDomainType controlDomain;
+
   controlDomain.m_Domain = domain;
   controlDomain.m_Type   = type;
-  m_ControlDomains.push_back( controlDomain );
+  m_ControlDomains.push_back(controlDomain);
 }
- 
-
 }  // end namespace bio
-
 }  // end namespace itk

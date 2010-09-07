@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,44 +21,40 @@
 
 namespace itk
 {
-
-template <typename TItemType>
-BloxPixel<TItemType>
+template< typename TItemType >
+BloxPixel< TItemType >
 ::BloxPixel()
-{
+{}
 
-}
-
-template <typename TItemType>
-BloxPixel<TItemType>
+template< typename TItemType >
+BloxPixel< TItemType >
 ::~BloxPixel()
 {
   // We need to clean up memory used by linked list entries
-  // Walk through all of the elements at the pixel and delete what we find 
+  // Walk through all of the elements at the pixel and delete what we find
   this->DeleteListEntries();
 }
 
-template <typename TItemType>
+template< typename TItemType >
 void
-BloxPixel<TItemType>
+BloxPixel< TItemType >
 ::DeleteListEntries()
 {
   // Delete all entries in the linked list and clear the list
   // if the list contains existing entries
-  if( !( this->empty() ) )
+  if ( !( this->empty() ) )
     {
     typename BloxPixel::iterator bpiterator;
-  
-    for (bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator)
+
+    for ( bpiterator = this->begin(); bpiterator != this->end(); ++bpiterator )
       {
-      delete (*bpiterator);
+      delete ( *bpiterator );
       }
-      
+
     // Empty the linked list
     this->clear();
     }
 }
-
 } // end namespace itk
 
 #endif

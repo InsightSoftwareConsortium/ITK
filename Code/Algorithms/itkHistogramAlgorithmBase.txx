@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,7 @@
 #include "itkHistogramAlgorithmBase.h"
 
 namespace itk
-{ 
-
+{
 template< class TInputHistogram >
 HistogramAlgorithmBase< TInputHistogram >
 ::HistogramAlgorithmBase()
@@ -32,9 +31,9 @@ HistogramAlgorithmBase< TInputHistogram >
 template< class TInputHistogram >
 void
 HistogramAlgorithmBase< TInputHistogram >
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Input Histogram: ";
   if ( m_InputHistogram.IsNotNull() )
@@ -46,8 +45,6 @@ HistogramAlgorithmBase< TInputHistogram >
     os << "not set." << std::endl;
     }
 }
-
-
 } // end of namespace itk
 
 #endif

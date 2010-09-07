@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
      =========================================================================*/
@@ -19,23 +19,24 @@
 
 #include "itkUnsharpMaskLevelSetImageFilter.h"
 
-namespace itk {
-
-template <class TInputImage, class TOutputImage>
-UnsharpMaskLevelSetImageFilter <TInputImage, TOutputImage>
+namespace itk
+{
+template< class TInputImage, class TOutputImage >
+UnsharpMaskLevelSetImageFilter< TInputImage, TOutputImage >
 ::UnsharpMaskLevelSetImageFilter()
 {
   RadiusType radius;
-  for (unsigned int j=0; j<Self::ImageDimension;j++)
+
+  for ( unsigned int j = 0; j < Self::ImageDimension; j++ )
     {
     radius[j] = 1;
     }
-  
-  m_Function=FunctionType::New();
+
+  m_Function = FunctionType::New();
   this->SetLevelSetFunction(m_Function);
-  this->SetNumberOfLayers(this->GetMinimumNumberOfLayers());
-  
-  this->SetNormalProcessType (0);  // isotropic diffusion
+  this->SetNumberOfLayers( this->GetMinimumNumberOfLayers() );
+
+  this->SetNormalProcessType (0);          // isotropic diffusion
   this->SetNormalProcessUnsharpFlag(true); // unsharp masking on
   this->SetNormalProcessUnsharpWeight (1);
   this->SetMaxNormalIteration(25);
@@ -44,15 +45,14 @@ UnsharpMaskLevelSetImageFilter <TInputImage, TOutputImage>
   m_Function->Initialize(radius);
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-UnsharpMaskLevelSetImageFilter <TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+UnsharpMaskLevelSetImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaxFilterIteration: " << m_MaxFilterIteration << std::endl;
 }
-
 } // end namespace itk
 
 #endif

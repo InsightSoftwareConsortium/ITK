@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 MultipleValuedNonLinearOptimizer
 ::MultipleValuedNonLinearOptimizer()
 {
@@ -33,9 +32,9 @@ MultipleValuedNonLinearOptimizer
  */
 void
 MultipleValuedNonLinearOptimizer
-::SetCostFunction( CostFunctionType * costFunction )
+::SetCostFunction(CostFunctionType *costFunction)
 {
-  if( m_CostFunction.GetPointer() == costFunction )
+  if ( m_CostFunction.GetPointer() == costFunction )
     {
     return;
     }
@@ -44,14 +43,14 @@ MultipleValuedNonLinearOptimizer
 
   m_CostFunction = costFunction;
 
-  if(!m_ScalesInitialized)
+  if ( !m_ScalesInitialized )
     {
-    const unsigned int numberOfParameters = 
+    const unsigned int numberOfParameters =
       m_CostFunction->GetNumberOfParameters();
 
-    ScalesType scales( numberOfParameters );
-    scales.Fill( 1.0f );
-    SetScales( scales );
+    ScalesType scales(numberOfParameters);
+    scales.Fill(1.0f);
+    SetScales(scales);
     m_ScalesInitialized = true;
     }
 
@@ -60,15 +59,14 @@ MultipleValuedNonLinearOptimizer
 
 void
 MultipleValuedNonLinearOptimizer
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  if (m_CostFunction)
+  Superclass::PrintSelf(os, indent);
+  if ( m_CostFunction )
     {
     os << indent << "Cost Function: " << m_CostFunction.GetPointer() << std::endl;
     }
 }
-
 } // namespace itk
 
 #endif

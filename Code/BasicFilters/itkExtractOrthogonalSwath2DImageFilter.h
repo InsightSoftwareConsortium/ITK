@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-  
 /** \class ExtractOrthogonalSwath2DImageFilter
  * \brief Extracts into rectangular form a "swath" image from the input image along the parametric path.
  *
@@ -33,25 +32,25 @@ namespace itk
  * likewise corresponds to pixels to the right of the path when walking along
  * the path.  The center row of the swath image corresponds to pixels laying
  * directly on the path.  The input and output images must be of the same type.
- * 
+ *
  * \ingroup   ImageFilters
  * \ingroup   PathFilters
  */
-template <class TImage>
-class ITK_EXPORT ExtractOrthogonalSwath2DImageFilter : public
-ImageAndPathToImageFilter<TImage,ParametricPath<2>,TImage> 
+template< class TImage >
+class ITK_EXPORT ExtractOrthogonalSwath2DImageFilter:public
+  ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ExtractOrthogonalSwath2DImageFilter  Self;
-  typedef ImageAndPathToImageFilter<TImage,ParametricPath<2>,TImage>
-                                               Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef ExtractOrthogonalSwath2DImageFilter Self;
+  typedef ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
+  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
 
@@ -59,10 +58,10 @@ public:
   typedef           TImage                        ImageType;
   typedef typename  ImageType::Pointer            ImagePointer;
   typedef typename  ImageType::ConstPointer       ImageConstPointer;
-  typedef typename  ImageType::RegionType         ImageRegionType; 
-  typedef typename  ImageType::IndexType          ImageIndexType; 
+  typedef typename  ImageType::RegionType         ImageRegionType;
+  typedef typename  ImageType::IndexType          ImageIndexType;
   typedef typename  ImageType::PixelType          ImagePixelType;
-  typedef           ParametricPath<2>             PathType;
+  typedef           ParametricPath< 2 >           PathType;
   typedef typename  PathType::ConstPointer        PathConstPointer;
   typedef typename  PathType::InputType           PathInputType;
   typedef typename  PathType::OutputType          PathOutputType;
@@ -71,7 +70,6 @@ public:
   typedef typename  PathType::OffsetType          PathOffsetType;
   typedef typename  PathType::VectorType          PathVectorType;
   typedef typename  ImageType::SizeType           SizeType;
-
 
   /** ImageDimension constants */
   itkStaticConstMacro(PathDimension, unsigned int,
@@ -85,80 +83,82 @@ public:
    * of each pixel varies depending on the curvature of the input path.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
-  virtual void SetSpacing(const double* spacing);
-  virtual void SetSpacing(const float* spacing);
-  virtual const double* GetSpacing() const;
+  virtual void SetSpacing(const double *spacing);
+
+  virtual void SetSpacing(const float *spacing);
+
+  virtual const double * GetSpacing() const;
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
-  virtual void SetOrigin(const double* origin);
-  virtual void SetOrigin(const float* origin);
+  virtual void SetOrigin(const double *origin);
+
+  virtual void SetOrigin(const float *origin);
+
   virtual const double * GetOrigin() const;
 
-  /** Set the size of the swath image.  The # of rows (size[1]) MUST be odd */
-  itkSetMacro( Size, SizeType )
+  /** Set the size of the swath image.  The #of rows (size[1]) MUST be odd */
+  itkSetMacro(Size, SizeType)
 
   /** Set the default pixel value of the swath image, to be used if the swath
    * extends past the edge of the input image data. */
-  itkSetMacro( DefaultPixelValue, ImagePixelType )
+  itkSetMacro(DefaultPixelValue, ImagePixelType)
 
   //--------------------------------------------------------------------------
   //
-  
+
   /** Request the largest possible region on all outputs. */
   virtual void EnlargeOutputRequestedRegion(DataObject *output)
-    {
+  {
     output->SetRequestedRegionToLargestPossibleRegion();
-    }
-  
+  }
+
   //
   //--------------------------------------------------------------------------
-  
 protected:
   ExtractOrthogonalSwath2DImageFilter()
-    {
-    m_DefaultPixelValue = NumericTraits<ImagePixelType>::Zero;
+  {
+    m_DefaultPixelValue = NumericTraits< ImagePixelType >::Zero;
     m_Size[0] = 512;
-    m_Size[1] = 16*2+1; // must be odd
+    m_Size[1] = 16 * 2 + 1; // must be odd
     m_Origin[0]  = m_Origin[1]  = 0.0;
     m_Spacing[0] = m_Spacing[1] = 1.0;
-    }
-  virtual ~ExtractOrthogonalSwath2DImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  }
+
+  virtual ~ExtractOrthogonalSwath2DImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   //--------------------------------------------------------------------------
   //
-  
+
   /** GenerateOutputInformation does not rely on input information */
   virtual void GenerateOutputInformation(void);
-  
+
   /** Request the largest possible region on all inputs. */
   virtual void GenerateInputRequestedRegion()
-    {
+  {
     Superclass::GenerateInputRequestedRegion();
-    ( const_cast< ImageType * > (this->GetImageInput()) ) ->
-        SetRequestedRegionToLargestPossibleRegion();
-    ( const_cast< PathType * > (this->GetPathInput()) ) ->
-        SetRequestedRegionToLargestPossibleRegion();
-    }
-  
+    ( const_cast< ImageType * >( this->GetImageInput() ) )->
+    SetRequestedRegionToLargestPossibleRegion();
+    ( const_cast< PathType * >( this->GetPathInput() ) )->
+    SetRequestedRegionToLargestPossibleRegion();
+  }
+
   virtual void GenerateData(void);
-  
+
   //
   //--------------------------------------------------------------------------
-  
 private:
-  ExtractOrthogonalSwath2DImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ExtractOrthogonalSwath2DImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
+
   ImagePixelType m_DefaultPixelValue;
   SizeType       m_Size;
   double         m_Origin[ImageDimension];
   double         m_Spacing[ImageDimension];
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

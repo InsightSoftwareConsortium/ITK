@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,25 +23,25 @@
 
 namespace itk
 {
-
 /**
  * \class BloxBoundaryPointImage
  * \brief Templated n-dimensional image class used to store linked lists.
  * \ingroup ImageObjects
  *
  */
-template <unsigned int TImageDimension>
-class ITK_EXPORT BloxBoundaryPointImage :
-  public BloxImage< BloxBoundaryPointPixel<TImageDimension >, TImageDimension >
+template< unsigned int TImageDimension >
+class ITK_EXPORT BloxBoundaryPointImage:
+  public BloxImage< BloxBoundaryPointPixel< TImageDimension >, TImageDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef BloxBoundaryPointImage       Self;
-  typedef BloxImage<BloxBoundaryPointPixel<TImageDimension>,
-                    TImageDimension >  Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
-  
+  typedef BloxBoundaryPointImage Self;
+  typedef BloxImage< BloxBoundaryPointPixel< TImageDimension >,
+                     TImageDimension >  Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(BloxBoundaryPointImage, BloxImage);
 
@@ -50,15 +50,15 @@ public:
 
   /** Pixel typedef support. Used to declare pixel type in filters
    * or other operations. */
-  typedef BloxBoundaryPointPixel<TImageDimension> PixelType;
+  typedef BloxBoundaryPointPixel< TImageDimension > PixelType;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
-   * representation of data while showing a different external 
+   * representation of data while showing a different external
    * representation. */
   typedef PixelType InternalPixelType;
 
-  typedef typename Superclass::IOPixelType   IOPixelType;
+  typedef typename Superclass::IOPixelType IOPixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
@@ -70,7 +70,7 @@ public:
   typedef typename Superclass::IndexType      IndexType;
   typedef typename Superclass::OffsetType     OffsetType;
   typedef typename Superclass::RegionType     RegionType;
-  
+
   /** A pointer to the pixel container. */
   typedef typename PixelContainer::Pointer PixelContainerPointer;
 
@@ -79,35 +79,38 @@ public:
 
   /** Get the number of boundary points in the image */
   itkGetConstReferenceMacro(NumBoundaryPoints, unsigned long int);
-
 protected:
   BloxBoundaryPointImage();
   virtual ~BloxBoundaryPointImage();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  BloxBoundaryPointImage(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  BloxBoundaryPointImage(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   /** The total number of boundary points stored in the image */
   unsigned long int m_NumBoundaryPoints;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxBoundaryPointImage(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxBoundaryPointImage< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxBoundaryPointImage< ITK_TEMPLATE_1 x > \
-                                            BloxBoundaryPointImage##y; } \
+#define ITK_TEMPLATE_BloxBoundaryPointImage(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                          \
+  {                                                                      \
+  _( 1 ( class EXPORT BloxBoundaryPointImage< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                    \
+  {                                                                      \
+  typedef BloxBoundaryPointImage< ITK_TEMPLATE_1 TypeX >                 \
+  BloxBoundaryPointImage##TypeY;                                       \
+  }                                                                      \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxBoundaryPointImage+-.h"
+#include "Templates/itkBloxBoundaryPointImage+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxBoundaryPointImage.txx"
+#include "itkBloxBoundaryPointImage.txx"
 #endif
 
 #endif

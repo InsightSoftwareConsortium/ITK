@@ -30,8 +30,8 @@ namespace itk
  * each other.
  *
  * The filter can be used to quickly segment anatomical structures (e.g. for
- * level set initialization). 
- * 
+ * level set initialization).
+ *
  * The filter uses two instances of FastMarchingUpwindGradientImageFilter to
  * compute the gradients of arrival times of two wavefronts propagating from
  * two sets of seeds. The input of the filter  is used as the speed of the two
@@ -43,11 +43,11 @@ namespace itk
  * propagate in opposite directions. In the regions where the dot product is
  * positive, the two fronts propagate in the same direction.  This can be used
  * to extract the region of space between two sets of points.
- * 
+ *
  * If StopOnTargets is On, then each front will stop as soon as all seeds of
- * the other front have been reached. This can markedly speed up the execution 
+ * the other front have been reached. This can markedly speed up the execution
  * of the filter, since wave propagation does not take place on the complete
- * image. 
+ * image.
  *
  * Optionally, a connectivity criterion can be applied to the resulting dot
  * product image. In this case, the only negative region in the output image is
@@ -57,83 +57,84 @@ namespace itk
  *                            Bioengineering Deparment, Mario Negri Institute, Italy.
  *
  */
-template <typename TInputImage, typename TOutputImage>
-class ITK_EXPORT CollidingFrontsImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< typename TInputImage, typename TOutputImage >
+class ITK_EXPORT CollidingFrontsImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef CollidingFrontsImageFilter                      Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(CollidingFrontsImageFilter, ImageToImageFilter);
-  
+
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                 OutputPixelType;
-  typedef typename TInputImage::PixelType                  InputPixelType;
-  typedef typename NumericTraits<InputPixelType>::RealType RealType;
+  typedef typename TOutputImage::PixelType                   OutputPixelType;
+  typedef typename TInputImage::PixelType                    InputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** Image typedef support */
   typedef TInputImage                       InputImageType;
   typedef typename InputImageType::Pointer  InputImagePointer;
   typedef TOutputImage                      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
-  
+
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** FastMarchingUpwindGradientImageFilter typedefs. */
-  typedef itk::FastMarchingUpwindGradientImageFilter<TInputImage,TOutputImage> FastMarchingUpwindGradientImageFilterType;
+  typedef itk::FastMarchingUpwindGradientImageFilter< TInputImage,
+                                                      TOutputImage > FastMarchingUpwindGradientImageFilterType;
 
   /** Typedef support of level set method types. */
   typedef typename FastMarchingUpwindGradientImageFilterType::PixelType
-                                                   PixelType;
+  PixelType;
   typedef typename FastMarchingUpwindGradientImageFilterType::NodeType
-                                                   NodeType;
+  NodeType;
   typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainer
-                                                   NodeContainer;
+  NodeContainer;
   typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainerPointer
-                                                   NodeContainerPointer;
+  NodeContainerPointer;
   typedef typename FastMarchingUpwindGradientImageFilterType::GradientImageType
-                                                   GradientImageType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::IndexType  IndexType;
+  GradientImageType;
+  typedef typename FastMarchingUpwindGradientImageFilterType::IndexType IndexType;
 
   /** Set the container of Seed Points representing the first initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  void SetSeedPoints1( NodeContainer * points )
-    {
+  void SetSeedPoints1(NodeContainer *points)
+  {
     m_SeedPoints1 = points;
     this->Modified();
-    }
-  
+  }
+
   /** Get the container of Seed Points representing the first initial front. */
-  NodeContainerPointer GetSeedPoints1( )
-    { return m_SeedPoints1; }
+  NodeContainerPointer GetSeedPoints1()
+  { return m_SeedPoints1; }
 
   /** Set the container of Seed Points representing the second initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  void SetSeedPoints2( NodeContainer * points )
-    {
+  void SetSeedPoints2(NodeContainer *points)
+  {
     m_SeedPoints2 = points;
     this->Modified();
-    }
-  
+  }
+
   /** Get the container of Seed Points representing the second initial front. */
-  NodeContainerPointer GetSeedPoints2( )
-    { return m_SeedPoints2; }
-  
+  NodeContainerPointer GetSeedPoints2()
+  { return m_SeedPoints2; }
+
   itkSetMacro(NegativeEpsilon, double);
   itkGetConstMacro(NegativeEpsilon, double);
 
@@ -147,22 +148,20 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   CollidingFrontsImageFilter();
   virtual ~CollidingFrontsImageFilter() {}
 
   void GenerateData();
 
-  void PrintSelf(std::ostream&, Indent) const;
-  
+  void PrintSelf(std::ostream &, Indent) const;
 private:
-  CollidingFrontsImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CollidingFrontsImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
   NodeContainerPointer m_SeedPoints1;
   NodeContainerPointer m_SeedPoints2;
@@ -172,7 +171,6 @@ private:
 
   double m_NegativeEpsilon;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

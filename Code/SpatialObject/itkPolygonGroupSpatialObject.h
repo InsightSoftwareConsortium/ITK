@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,8 +27,6 @@
 
 namespace itk
 {
-
-
 /**
  * \class PolygonGroupSpatialObject
  * \brief Implements a Region Of Interest Type
@@ -37,7 +35,7 @@ namespace itk
  * in a medical image that has some significance as a component of the
  * scan.  Different components of brain anatomy, for instance are Regions
  * of Interest in the human brain.
- * The primary difference between PolygonGroupSpatialObject and other 
+ * The primary difference between PolygonGroupSpatialObject and other
  * descendants of SpatialObject are these:
  * 1. For now, an PolygonGroup needs to comprise a series of slices parallel to
  * a plane swept by any two of the major axes. In other words, the points
@@ -50,41 +48,40 @@ namespace itk
  * the PolygonGroupSpatialObject.
  */
 
-
-template <unsigned int TDimension = 3>
-class ITK_EXPORT PolygonGroupSpatialObject
-  :public GroupSpatialObject<TDimension>
+template< unsigned int TDimension = 3 >
+class ITK_EXPORT PolygonGroupSpatialObject:
+  public GroupSpatialObject< TDimension >
 {
 public:
-  typedef PolygonGroupSpatialObject< TDimension >      Self;
-  typedef GroupSpatialObject< TDimension >             Superclass;
-  typedef SmartPointer < Self >                        Pointer;
-  typedef SmartPointer < const Self >                  ConstPointer;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef typename Superclass::ChildrenListType        ChildrenListType;
-  typedef typename Superclass::TreeNodeType            TreeNodeType;
-  typedef typename TreeNodeType::ChildrenListType      TreeNodeChildrenListType;
+  typedef PolygonGroupSpatialObject< TDimension > Self;
+  typedef GroupSpatialObject< TDimension >        Superclass;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
+  typedef typename Superclass::PointType          PointType;
+  typedef typename Superclass::BoundingBoxType    BoundingBoxType;
+  typedef typename Superclass::ChildrenListType   ChildrenListType;
+  typedef typename Superclass::TreeNodeType       TreeNodeType;
+  typedef typename TreeNodeType::ChildrenListType TreeNodeChildrenListType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro( PolygonGroupSpatialObject, GroupSpatialObject );
-  
+  itkTypeMacro(PolygonGroupSpatialObject, GroupSpatialObject);
+
   /** Return true if the given PolygonSpatialObject is successfully
    *  added to the PolygonGroup. */
-  bool AddStrand(PolygonSpatialObject<TDimension> *toAdd);
+  bool AddStrand(PolygonSpatialObject< TDimension > *toAdd);
 
   /** Return true if the given PolygonSpatialObject is successfully
    *  removed from the PolygonGroup */
-  bool DeleteStrand(PolygonSpatialObject<TDimension> *toDelete);
+  bool DeleteStrand(PolygonSpatialObject< TDimension > *toDelete);
 
   /** Return true if the given PolygonSpatialObject successfully
    *  replaces the Polygon given in toReplace. This will fail if
    *  toReplace is not a strand in the PolygonGroupObject. */
-  bool ReplaceStrand(PolygonSpatialObject<TDimension> *toReplace,
-                     PolygonSpatialObject<TDimension> *replacement);
+  bool ReplaceStrand(PolygonSpatialObject< TDimension > *toReplace,
+                     PolygonSpatialObject< TDimension > *replacement);
 
   /** Return true if all constituent Polygons are closed. */
   bool IsClosed();
@@ -99,22 +96,21 @@ public:
   /** Same as Volume, above. */
   double MeasureVolume();
 
-  /** Test whether a point is inside or outside the object. */ 
-  virtual bool IsInside( const PointType & point,
-                         unsigned int depth=0,
-                         char * name=NULL) const;
+  /** Test whether a point is inside or outside the object. */
+  virtual bool IsInside(const PointType & point,
+                        unsigned int depth = 0,
+                        char *name = NULL) const;
 
 protected:
-  PolygonGroupSpatialObject(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  PolygonGroupSpatialObject(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
-  PolygonGroupSpatialObject( void ) {}
-  ~PolygonGroupSpatialObject( void ) {}
-
+  PolygonGroupSpatialObject(void) {}
+  ~PolygonGroupSpatialObject(void) {}
 };
 }
-#ifndef ITK_MANUAL_INSTANTIATION 
-#include "itkPolygonGroupSpatialObject.txx" 
-#endif 
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkPolygonGroupSpatialObject.txx"
+#endif
 
 #endif

@@ -146,10 +146,6 @@ void ThreadedMethod()
 // ThreadProcessIDType threadId = GetCurrentThread();
 #endif
 
-#ifdef ITK_USE_SPROC
-// const ThreadProcessIDType threadId = GetCurrentThread()  ??;
-#endif
-
 }
 
 

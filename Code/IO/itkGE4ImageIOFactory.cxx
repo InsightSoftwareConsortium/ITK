@@ -19,38 +19,32 @@
 #include "itkGE4ImageIO.h"
 #include "itkVersion.h"
 
-
 namespace itk
 {
-void GE4ImageIOFactory::PrintSelf(std::ostream&, Indent) const
-{
-
-}
-
+void GE4ImageIOFactory::PrintSelf(std::ostream &, Indent) const
+{}
 
 GE4ImageIOFactory::GE4ImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkGE4ImageIO",
-                         "GE4 Image IO",
-                         1,
-                         CreateObjectFunction<GE4ImageIO>::New());
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkGE4ImageIO",
+                          "GE4 Image IO",
+                          1,
+                          CreateObjectFunction< GE4ImageIO >::New() );
 }
 
 GE4ImageIOFactory::~GE4ImageIOFactory()
-{
-}
+{}
 
-const char*
+const char *
 GE4ImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 GE4ImageIOFactory::GetDescription() const
 {
   return "GE4 ImageIO Factory, allows the loading of GE4 images into insight";
 }
-
 } // end namespace itk

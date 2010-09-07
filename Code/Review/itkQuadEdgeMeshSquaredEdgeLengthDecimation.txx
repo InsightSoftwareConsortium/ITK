@@ -22,36 +22,32 @@
 
 namespace itk
 {
-
 template< class TInput, class TOutput, class TCriterion >
-QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput, TCriterion >::
-QuadEdgeMeshSquaredEdgeLengthDecimation() : Superclass()
-{
-}
+QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput,
+                                         TCriterion >::QuadEdgeMeshSquaredEdgeLengthDecimation():Superclass()
+{}
 
 template< class TInput, class TOutput, class TCriterion >
 QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput, TCriterion >::
 ~QuadEdgeMeshSquaredEdgeLengthDecimation()
-{
-}
+{}
 
 template< class TInput, class TOutput, class TCriterion >
 typename
 QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput, TCriterion
->::OutputPointType
-QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput, TCriterion >::
-Relocate( OutputQEType* iEdge )
+                                         >::OutputPointType
+QuadEdgeMeshSquaredEdgeLengthDecimation< TInput, TOutput, TCriterion >::Relocate(OutputQEType *iEdge)
 {
-  OutputMeshPointer output = this->GetOutput();
+  OutputMeshPointer     output = this->GetOutput();
   OutputPointIdentifier id_org = iEdge->GetOrigin();
   OutputPointIdentifier id_dest = iEdge->GetDestination();
 
   OutputPointType oPt;
-  oPt.SetToMidPoint( output->GetPoint( id_org ),
-                     output->GetPoint( id_dest ) );
+
+  oPt.SetToMidPoint( output->GetPoint(id_org),
+                     output->GetPoint(id_dest) );
 
   return oPt;
 }
-
 }
 #endif

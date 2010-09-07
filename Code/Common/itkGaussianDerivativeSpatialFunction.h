@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,13 +23,12 @@
 
 namespace itk
 {
-
 /** \class GaussianDerivativeSpatialFunction
  * \brief N-dimensional gaussian spatial function class
  *
- * GaussianDerivativeSpatialFunction implements a standard derivative of gaussian 
+ * GaussianDerivativeSpatialFunction implements a standard derivative of gaussian
  * curve in N-d.
- * m_Normalized determines whether or not the Derivative of the Gaussian 
+ * m_Normalized determines whether or not the Derivative of the Gaussian
  * is normalized (whether or not the sum over infinite space is 1.0)
  *
  * m_Scale scales the output of the Gaussian to span a range
@@ -38,18 +37,18 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  */
-template <typename TOutput=double, 
-          unsigned int VImageDimension=3,
-          typename TInput=Point<double, VImageDimension> >
-class ITK_EXPORT GaussianDerivativeSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
+template< typename TOutput = double,
+          unsigned int VImageDimension = 3,
+          typename TInput = Point< double, VImageDimension > >
+class ITK_EXPORT GaussianDerivativeSpatialFunction:public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:
   /** Standard class typedefs. */
   typedef GaussianDerivativeSpatialFunction                   Self;
-  typedef SpatialFunction<TOutput, VImageDimension, TInput>   Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
-  
+  typedef SpatialFunction< TOutput, VImageDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -63,18 +62,18 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Type used to store derivatives parameters. */
-  typedef FixedArray<double, VImageDimension> ArrayType;
+  typedef FixedArray< double, VImageDimension > ArrayType;
 
   /** Type used to return the derivatives in each direction */
-  typedef Vector<double, VImageDimension> VectorType;
+  typedef Vector< double, VImageDimension > VectorType;
 
-  /** Evaluate the function at a given position and return the 
+  /** Evaluate the function at a given position and return the
    *  value in the specific direction. SetDirection() should be used
    *  to set the direction. */
-  OutputType Evaluate(const TInput& position) const;
+  OutputType Evaluate(const TInput & position) const;
 
   /** Evaluate the function at a given position and return a vector */
-  VectorType EvaluateVector(const TInput& position) const;
+  VectorType EvaluateVector(const TInput & position) const;
 
   /** Gets and sets for gaussian parameters */
   itkSetMacro(Scale, double);
@@ -87,15 +86,14 @@ public:
   itkGetConstMacro(Mean, ArrayType);
   itkSetMacro(Direction, unsigned int);
   itkGetConstMacro(Direction, unsigned int);
-
 protected:
   GaussianDerivativeSpatialFunction();
   virtual ~GaussianDerivativeSpatialFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GaussianDerivativeSpatialFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  GaussianDerivativeSpatialFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
   /** Current direction */
   mutable unsigned int m_Direction;
@@ -111,25 +109,27 @@ private:
 
   /** Whether or not to normalize the Gaussian. */
   bool m_Normalized;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianDerivativeSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 x >\
-                                   GaussianDerivativeSpatialFunction##y; } \
+#define ITK_TEMPLATE_GaussianDerivativeSpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                     \
+  {                                                                                 \
+  _( 3 ( class EXPORT GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 TypeX > ) ) \
+  namespace Templates                                                               \
+  {                                                                                 \
+  typedef GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 TypeX >                 \
+  GaussianDerivativeSpatialFunction##TypeY;                                       \
+  }                                                                                 \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkGaussianDerivativeSpatialFunction+-.h"
+#include "Templates/itkGaussianDerivativeSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkGaussianDerivativeSpatialFunction.txx"
+#include "itkGaussianDerivativeSpatialFunction.txx"
 #endif
-
 
 #endif

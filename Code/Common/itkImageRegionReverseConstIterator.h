@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,12 +22,11 @@
 
 namespace itk
 {
-
 /**
  * \class ImageRegionReverseConstIterator
  * \brief A multi-dimensional image iterator designed to walk a specified image
  * region in reverse.
- * 
+ *
  * ImageRegionReverseConstIterator is a templated class to represent a
  * multi-dimensional iterator. ImageRegionReverseConstIterator is templated
  * over the dimension of the image and the data type of the
@@ -77,34 +76,34 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
-template<typename TImage>
-class ITK_EXPORT ImageRegionReverseConstIterator : public ImageReverseConstIterator<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageRegionReverseConstIterator:public ImageReverseConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageRegionReverseConstIterator       Self;
-  typedef ImageReverseConstIterator<TImage>     Superclass;
-  
+  typedef ImageRegionReverseConstIterator     Self;
+  typedef ImageReverseConstIterator< TImage > Superclass;
+
   /** Dimension of the image the iterator walks.  This enum is needed so that
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
@@ -113,21 +112,21 @@ public:
 
   /** Index typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::IndexType        IndexType;
-  typedef typename Superclass::IndexValueType   IndexValueType;
-  
+  typedef typename Superclass::IndexType      IndexType;
+  typedef typename Superclass::IndexValueType IndexValueType;
+
   /** Size typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::SizeType         SizeType;
-  typedef typename Superclass::SizeValueType    SizeValueType;
-  
+  typedef typename Superclass::SizeType      SizeType;
+  typedef typename Superclass::SizeValueType SizeValueType;
+
   /** Offset typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::OffsetType       OffsetType;
-  typedef typename Superclass::OffsetValueType  OffsetValueType;
-  
+  typedef typename Superclass::OffsetType      OffsetType;
+  typedef typename Superclass::OffsetValueType OffsetValueType;
+
   /** Region typedef support. */
-  typedef typename Superclass::RegionType       RegionType;
+  typedef typename Superclass::RegionType RegionType;
 
   /** Image typedef support. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
@@ -136,37 +135,37 @@ public:
   /** PixelContainer typedef support. Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::PixelContainer   PixelContainer;
-  typedef typename PixelContainer::Pointer      PixelContainerPointer;
-  
+  typedef typename Superclass::PixelContainer PixelContainer;
+  typedef typename PixelContainer::Pointer    PixelContainerPointer;
+
   /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType   InternalPixelType;
+  typedef typename Superclass::InternalPixelType InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename Superclass::PixelType   PixelType;
+  typedef typename Superclass::PixelType PixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename Superclass::AccessorType     AccessorType;
+  typedef typename Superclass::AccessorType AccessorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionReverseConstIterator, ImageReverseConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRegionReverseConstIterator() : Superclass()
-    {
+  ImageRegionReverseConstIterator():Superclass()
+  {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
-    }
-  
+  }
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRegionReverseConstIterator(ImageType *ptr, const RegionType &region)
-    : Superclass(ptr, region)
-    {
+  ImageRegionReverseConstIterator(ImageType *ptr, const RegionType & region):
+    Superclass(ptr, region)
+  {
     m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset = this->m_BeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
+    m_SpanEndOffset = this->m_BeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionReverseConstIterator. Many routines return an ImageIterator
@@ -175,55 +174,58 @@ public:
    * that return different types of Iterators, itk returns
    * ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionReverseConstIterator. */
-  ImageRegionReverseConstIterator( const ImageConstIterator<TImage> &it):Superclass(it)
-    {
+  ImageRegionReverseConstIterator(const ImageConstIterator< TImage > & it):Superclass(it)
+  {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
-      - (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
+
+    m_SpanBeginOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+                        - ( ind[0] - this->m_Region.GetIndex()[0] );
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator( const ImageReverseConstIterator<TImage> &it):Superclass(it)
-    {
+  ImageRegionReverseConstIterator(const ImageReverseConstIterator< TImage > & it):Superclass(it)
+  {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
-      - (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
 
-   /** Constructor that takes in an image region iterator.  This can be used
-   * to cast between the various types of reverse image iterators. */
-  ImageRegionReverseConstIterator( const ImageRegionIterator<TImage> &it):Superclass(it)
-    {
+    m_SpanBeginOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+                        - ( ind[0] - this->m_Region.GetIndex()[0] );
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
+
+  /** Constructor that takes in an image region iterator.  This can be used
+  * to cast between the various types of reverse image iterators. */
+  ImageRegionReverseConstIterator(const ImageRegionIterator< TImage > & it):Superclass(it)
+  {
     IndexType ind = this->GetIndex();
-    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
-      - (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
 
- /** Move an iterator to the beginning of the region. "Begin" for a reverse
-  * iterator is the last pixel in the region. */
+    m_SpanBeginOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+                        - ( ind[0] - this->m_Region.GetIndex()[0] );
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
+
+  /** Move an iterator to the beginning of the region. "Begin" for a reverse
+   * iterator is the last pixel in the region. */
   void GoToBegin()
-    {
+  {
     Superclass::GoToBegin();
 
     // reset the span offsets
     m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset   = this->m_BeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
-  
- /** Move an iterator to the end of the region. "End" for a reverse iterator
-  * is defined as one pixel before the first pixel in the region. */
+    m_SpanEndOffset   = this->m_BeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
+
+  /** Move an iterator to the end of the region. "End" for a reverse iterator
+   * is defined as one pixel before the first pixel in the region. */
   void GoToEnd()
-    {
+  {
     Superclass::GoToEnd();
-    
+
     // reset the span offsets
     m_SpanEndOffset = this->m_EndOffset;
-    m_SpanBeginOffset = m_SpanEndOffset + static_cast<long>(this->m_Region.GetSize()[0]);
-    }
+    m_SpanBeginOffset = m_SpanEndOffset + static_cast< long >( this->m_Region.GetSize()[0] );
+  }
 
   /** Return an iterator for the beginning of the region. "Begin" for a reverse
    * iterator is the last pixel in the region.
@@ -236,18 +238,17 @@ public:
   * \deprecated Use GoToEnd() instead */
   Self End(void) const;
 
-
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
    * \sa GetIndex */
-  void SetIndex(const IndexType &ind)
-    {
+  void SetIndex(const IndexType & ind)
+  {
     Superclass::SetIndex(ind);
-    m_SpanBeginOffset = this->m_Offset + static_cast<long>(this->m_Region.GetSize()[0]) 
-      - (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(this->m_Region.GetSize()[0]);
-    }
-  
+    m_SpanBeginOffset = this->m_Offset + static_cast< long >( this->m_Region.GetSize()[0] )
+                        - ( ind[0] - this->m_Region.GetIndex()[0] );
+    m_SpanEndOffset = m_SpanBeginOffset - static_cast< long >( this->m_Region.GetSize()[0] );
+  }
+
   /** iterator's index.  For a reverse iterator, this moves backwards
    * through the region.  This operator will constrain the iterator
    * within the region (i.e. the iterator will automatically wrap from
@@ -258,54 +259,54 @@ public:
    * \sa operator++(int). */
   Self &
   operator++()
-    {
-    if (--this->m_Offset <= m_SpanEndOffset)
+  {
+    if ( --this->m_Offset <= m_SpanEndOffset )
       {
       // We have past the beginning of the span (row), need to wrap around.
 
       // First move forward one pixel, because we are going to use a different
       // algorithm to compute the next pixel
       this->m_Offset++;
-      
-      // Get the index of the first pixel on the span (row)
-      typename ImageConstIterator<TImage>::IndexType
-        ind = this->m_Image->ComputeIndex( static_cast<OffsetValueType>(this->m_Offset) );
 
-      const typename ImageConstIterator<TImage>::IndexType&
-        startIndex = this->m_Region.GetIndex();
-      const typename ImageConstIterator<TImage>::SizeType&
-        size = this->m_Region.GetSize();
+      // Get the index of the first pixel on the span (row)
+      typename ImageConstIterator< TImage >::IndexType
+      ind = this->m_Image->ComputeIndex( static_cast< OffsetValueType >( this->m_Offset ) );
+
+      const typename ImageConstIterator< TImage >::IndexType &
+      startIndex = this->m_Region.GetIndex();
+      const typename ImageConstIterator< TImage >::SizeType &
+      size = this->m_Region.GetSize();
 
       // Deccrement along a row, then wrap at the beginning of the region row.
-      bool done;
+      bool         done;
       unsigned int dim;
 
       // Check to see if we are past the first pixel in the region
       // Note that --ind[0] moves to the previous pixel along the row.
-      done = (--ind[0] == startIndex[0] - 1);
-      for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
+      done = ( --ind[0] == startIndex[0] - 1 );
+      for ( unsigned int i = 1; done && i < ImageIteratorDimension; i++ )
         {
-        done = (ind[i] == startIndex[i]);
+        done = ( ind[i] == startIndex[i] );
         }
-      
+
       // if the iterator is outside the region (but not past region begin) then
       // we need to wrap around the region
       dim = 0;
-      if (!done)
+      if ( !done )
         {
-        while ( (dim < ImageIteratorDimension - 1)
-                && (ind[dim] < startIndex[dim]) )
+        while ( ( dim < ImageIteratorDimension - 1 )
+                && ( ind[dim] < startIndex[dim] ) )
           {
-          ind[dim] = startIndex[dim] + static_cast<long>(size[dim]) - 1;
+          ind[dim] = startIndex[dim] + static_cast< long >( size[dim] ) - 1;
           ind[++dim]--;
           }
         }
-      this->m_Offset = this->m_Image->ComputeOffset( ind );
+      this->m_Offset = this->m_Image->ComputeOffset(ind);
       m_SpanBeginOffset = this->m_Offset;
-      m_SpanEndOffset = m_SpanBeginOffset - static_cast<long>(size[0]);
+      m_SpanEndOffset = m_SpanBeginOffset - static_cast< long >( size[0] );
       }
     return *this;
-    }
+  }
 
   /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * For a reverse iterator, this moves forward through the region.
@@ -316,75 +317,78 @@ public:
    * will be set to be one pixel past the end of the region.
    * \sa operator--(int) */
   Self & operator--()
-    {
-    if (++this->m_Offset >= m_SpanBeginOffset)
+  {
+    if ( ++this->m_Offset >= m_SpanBeginOffset )
       {
       // We have reached the end of the span (row), need to wrap around.
 
       // First back up one pixel, because we are going to use a different
       // algorithm to compute the next pixel
       --this->m_Offset;
-      
-      // Get the index of the last pixel on the span (row)
-      typename ImageConstIterator<TImage>::IndexType
-        ind = this->m_Image->ComputeIndex( static_cast<OffsetValueType>(this->m_Offset) );
 
-      const typename ImageIterator<TImage>::IndexType&
-        startIndex = this->m_Region.GetIndex();
-      const typename ImageIterator<TImage>::SizeType&
-        size = this->m_Region.GetSize();
+      // Get the index of the last pixel on the span (row)
+      typename ImageConstIterator< TImage >::IndexType
+      ind = this->m_Image->ComputeIndex( static_cast< OffsetValueType >( this->m_Offset ) );
+
+      const typename ImageIterator< TImage >::IndexType &
+      startIndex = this->m_Region.GetIndex();
+      const typename ImageIterator< TImage >::SizeType &
+      size = this->m_Region.GetSize();
 
       // Increment along a row, then wrap at the end of the region row.
-      bool done;
+      bool         done;
       unsigned int dim;
 
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
-      done = (++ind[0] == startIndex[0] + static_cast<long>(size[0]));
-      for (unsigned int i=1; done && i < ImageIteratorDimension; i++)
+      done = ( ++ind[0] == startIndex[0] + static_cast< long >( size[0] ) );
+      for ( unsigned int i = 1; done && i < ImageIteratorDimension; i++ )
         {
-        done = (ind[i] == startIndex[i] + static_cast<long>(size[i]) - 1);
+        done = ( ind[i] == startIndex[i] + static_cast< long >( size[i] ) - 1 );
         }
-      
+
       // if the iterator is outside the region (but not past region end) then
       // we need to wrap around the region
       dim = 0;
-      if (!done)
+      if ( !done )
         {
-        while ( (dim < ImageIteratorDimension - 1)
-                && (ind[dim] > startIndex[dim] + static_cast<long>(size[dim]) - 1) )
+        while ( ( dim < ImageIteratorDimension - 1 )
+                && ( ind[dim] > startIndex[dim] + static_cast< long >( size[dim] ) - 1 ) )
           {
           ind[dim] = startIndex[dim];
           ind[++dim]++;
           }
         }
-      this->m_Offset = this->m_Image->ComputeOffset( ind );
+      this->m_Offset = this->m_Image->ComputeOffset(ind);
       m_SpanBeginOffset = this->m_Offset;
-      m_SpanEndOffset = this->m_Offset - static_cast<long>(size[0]);
+      m_SpanEndOffset = this->m_Offset - static_cast< long >( size[0] );
       }
     return *this;
-    }
+  }
 
 protected:
-  unsigned long m_SpanBeginOffset;  // offset to last pixel in the row
-  unsigned long m_SpanEndOffset;  // offset to one pixel before the row
-       
+  unsigned long m_SpanBeginOffset; // offset to last pixel in the row
+  unsigned long m_SpanEndOffset;   // offset to one pixel before the row
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionReverseConstIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageRegionReverseConstIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageRegionReverseConstIterator< ITK_TEMPLATE_1 x > ImageRegionReverseConstIterator##y; } \
+#define ITK_TEMPLATE_ImageRegionReverseConstIterator(_, EXPORT, TypeX, TypeY)                               \
+  namespace itk                                                                                             \
+  {                                                                                                         \
+  _( 1 ( class EXPORT ImageRegionReverseConstIterator< ITK_TEMPLATE_1 TypeX > ) )                           \
+  namespace Templates                                                                                       \
+  {                                                                                                         \
+  typedef ImageRegionReverseConstIterator< ITK_TEMPLATE_1 TypeX > ImageRegionReverseConstIterator##TypeY; \
+  }                                                                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageRegionReverseConstIterator+-.h"
+#include "Templates/itkImageRegionReverseConstIterator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageRegionReverseConstIterator.txx"
+#include "itkImageRegionReverseConstIterator.txx"
 #endif
 
-#endif 
+#endif

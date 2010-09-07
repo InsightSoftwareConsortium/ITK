@@ -90,13 +90,13 @@ namespace itk
    *      A specially formated file with a mapping between object name and image code used to associate
    *      image voxel locations with a label.  This file is run length encoded to save disk storage.
    */
-class ITK_EXPORT AnalyzeImageIO : public ImageIOBase
+class ITK_EXPORT AnalyzeImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef AnalyzeImageIO     Self;
-  typedef ImageIOBase        Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef AnalyzeImageIO       Self;
+  typedef ImageIOBase          Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -112,13 +112,13 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -128,27 +128,27 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile(const char * FileNameToWrite);
+  virtual bool CanWriteFile(const char *FileNameToWrite);
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write(const void* buffer);
+  virtual void Write(const void *buffer);
 
   /** Return the directions with a correction for the 2D case. */
-  virtual std::vector<double> GetDirection(unsigned int i) const;
+  virtual std::vector< double > GetDirection(unsigned int i) const;
 
   /** Return the directions to be assigned by default to recipient
    *  images whose dimension is smaller than the image dimension in file.  */
-  virtual std::vector<double> GetDefaultDirection(unsigned int i) const;
-
+  virtual std::vector< double > GetDefaultDirection(unsigned int i) const;
 
 protected:
   AnalyzeImageIO();
   ~AnalyzeImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
   /**
     * \enum ValidAnalyzeOrientationFlags
@@ -165,47 +165,53 @@ private:
     * - [(I)nferior|(S)uperior] [(L}eft|(R)ight] [(A)nterior|(P)osterior]
     * \note Key's 0-5 correspond to the Analyze v7.5 orientations, and should not be changed.
     */
-  typedef enum 
-  {
-    ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE=0,        /**< Denotes a transverse data orientation Right-->Left, */
-    ITK_ANALYZE_ORIENTATION_RIP_CORONAL   =1,        /**< Denotes a coronal data orientation */
-    ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL  =2,        /**< Denotes a sagittal data orientation */
-    ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED=3,/**<  */
-    ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED=4,   /**<  */
-    ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED=5   /**<  */
-  } ValidAnalyzeOrientationFlags;
+  typedef enum {
+    ITK_ANALYZE_ORIENTATION_RPI_TRANSVERSE = 0,         /**< Denotes a
+                                                          transverse data
+                                                          orientation
+                                                          Right-->Left, */
+    ITK_ANALYZE_ORIENTATION_RIP_CORONAL   = 1,          /**< Denotes a coronal
+                                                          data orientation */
+    ITK_ANALYZE_ORIENTATION_PIR_SAGITTAL  = 2,          /**< Denotes a sagittal
+                                                          data orientation */
+    ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED = 3, /**<  */
+    ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED = 4,    /**<  */
+    ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED = 5    /**<  */
+    } ValidAnalyzeOrientationFlags;
 
+  AnalyzeImageIO(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
-AnalyzeImageIO(const Self&); //purposely not implemented
-void operator=(const Self&); //purposely not implemented
-void SwapBytesIfNecessary(void * buffer, SizeType numberOfPixels);
+  void SwapBytesIfNecessary(void *buffer, SizeType numberOfPixels);
+
 /**
  * \author Hans J. Johnson
  * Performs byte swapping of the Analyze Image header if necessary.
  * \param imageheader An Analyze 7.5 compliant image header.
  * \return void
  */
-void SwapHeaderBytesIfNecessary( struct dsr * const imageheader );
+  void SwapHeaderBytesIfNecessary(struct dsr *const imageheader);
 
 /**
  * \author Hans J. Johnson
  * Defines the header object data type feilds according to Analyze v7.5 specifications
  * \return nothing
  */
-void  DefineHeaderObjectDataType(void);
-#if defined(REORIENT_IMAGES)
-void ReorientIfNecessary(char *p);
-struct ipl_dimensions
-  {
-  unsigned int slicestride;
-  unsigned int rowstride;
-  unsigned int componentstride;x
-  unsigned int pixelsize;
-  //
-  // xsize,ysize,zsize == size in each direction in pixesls
-  unsigned int xsize;
-  unsigned int ysize;
-  unsigned int zsize;
+  void  DefineHeaderObjectDataType(void);
+
+#if defined( REORIENT_IMAGES )
+  void ReorientIfNecessary(char *p);
+
+  struct ipl_dimensions {
+    unsigned int slicestride;
+    unsigned int rowstride;
+    unsigned int componentstride; x
+    unsigned int pixelsize;
+    //
+    // xsize,ysize,zsize == size in each direction in pixesls
+    unsigned int xsize;
+    unsigned int ysize;
+    unsigned int zsize;
   };
 /**
  * \author Kent Williams
@@ -214,8 +220,9 @@ struct ipl_dimensions
  * \param dim - structure to fill in
  * \return nothing
  */
-void GetAllDimensions(ipl_dimensions &dim);
-ipl_dimensions m_OldDim,m_NewDim;
+  void GetAllDimensions(ipl_dimensions & dim);
+
+  ipl_dimensions m_OldDim, m_NewDim;
 #endif
 /**
  * \author Hans J. Johnson
@@ -223,11 +230,11 @@ ipl_dimensions m_OldDim,m_NewDim;
  * \param temphdr - a reference to the header structure
  * \return The endedness of the file
  */
-ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr &temphdr);
+  ImageIOBase::ByteOrder CheckAnalyzeEndian(const struct dsr & temphdr);
 
 /**  All of the information read in from the header file */
-struct dsr             m_Hdr;
-ImageIOBase::ByteOrder m_MachineByteOrder;
+  struct dsr             m_Hdr;
+  ImageIOBase::ByteOrder m_MachineByteOrder;
 };
 extern const char *const ANALYZE_ScanNumber;
 extern const char *const ANALYZE_O_MAX;
@@ -240,7 +247,6 @@ extern const char *const ANALYZE_GLMAX;
 extern const char *const ANALYZE_GLMIN;
 extern const char *const ANALYZE_AUX_FILE_NAME;
 extern const char *const ANALYZE_CALIBRATIONUNITS;
-
 } // end namespace itk
 
 #endif // __itkAnalyzeImageIO_h

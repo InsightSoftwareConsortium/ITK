@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,20 +21,19 @@
 #include "itkImage.h"
 #include "itkImportImageContainer.h"
 
-#define itkSetMacro2(name,type) \
-  virtual void Set##name (type _arg) \
-  { \
+#define itkSetMacro2(name, type)                     \
+  virtual void Set##name (type _arg)               \
+    {                                                \
     itkDebugMacro("setting " #name " to " << _arg); \
-    if (this->m_##name != _arg) \
-      { \
-      this->m_##name = _arg; \
-      this->Modified(); \
-      } \
-  } 
+    if ( this->m_##name != _arg )                  \
+      {                                              \
+      this->m_##name = _arg;                       \
+      this->Modified();                              \
+      }                                              \
+    }
 
 namespace itk
 {
-
 /** \class VTKImageImport
  * \brief Connect the end of an VTK pipeline to an ITK image pipeline.
  *
@@ -50,16 +49,16 @@ namespace itk
  * images must have pixel types with one component.
  *
  * \ingroup IOFilters
- * \sa VTKImageImport 
+ * \sa VTKImageImport
  */
-template <typename TOutputImage>
-class ITK_EXPORT VTKImageImport: public ImageSource<TOutputImage>
+template< typename TOutputImage >
+class ITK_EXPORT VTKImageImport:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageImport            Self;
-  typedef ImageSource<TOutputImage> Superclass;
-  typedef SmartPointer<Self>        Pointer;
+  typedef VTKImageImport              Self;
+  typedef ImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >        Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,62 +80,62 @@ public:
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */
-  typedef void (*UpdateInformationCallbackType)(void*);
-  typedef int (*PipelineModifiedCallbackType)(void*);
-  typedef int* (*WholeExtentCallbackType)(void*);
-  typedef double* (*SpacingCallbackType)(void*);
-  typedef double* (*OriginCallbackType)(void*);
-  typedef const char* (*ScalarTypeCallbackType)(void*); 
-  typedef int (*NumberOfComponentsCallbackType)(void*);
-  typedef void (*PropagateUpdateExtentCallbackType)(void*, int*);
-  typedef void (*UpdateDataCallbackType)(void*);
-  typedef int* (*DataExtentCallbackType)(void*);
-  typedef void* (*BufferPointerCallbackType)(void*);
+  typedef void ( *        UpdateInformationCallbackType )(void *);
+  typedef int ( *         PipelineModifiedCallbackType )(void *);
+  typedef int * ( *       WholeExtentCallbackType )(void *);
+  typedef double * ( *    SpacingCallbackType )(void *);
+  typedef double * ( *    OriginCallbackType )(void *);
+  typedef const char * ( *ScalarTypeCallbackType )(void *);
+  typedef int ( *         NumberOfComponentsCallbackType )(void *);
+  typedef void ( *        PropagateUpdateExtentCallbackType )(void *, int *);
+  typedef void ( *        UpdateDataCallbackType )(void *);
+  typedef int * ( *       DataExtentCallbackType )(void *);
+  typedef void * ( *      BufferPointerCallbackType )(void *);
 
   /** Compatibility for VTK older than 4.4.  */
-  typedef float* (*FloatSpacingCallbackType)(void*);
-  typedef float* (*FloatOriginCallbackType)(void*);
-  
+  typedef float * ( *FloatSpacingCallbackType )(void *);
+  typedef float * ( *FloatOriginCallbackType )(void *);
+
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   itkGetConstMacro(UpdateInformationCallback, UpdateInformationCallbackType);
-  
+
   /** What to do when receiving PipelineModified(). */
   itkSetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   itkGetConstMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
-  
+
   /** What to do when receiving SetWholeExtent(). */
   itkSetMacro(WholeExtentCallback, WholeExtentCallbackType);
   itkGetConstMacro(WholeExtentCallback, WholeExtentCallbackType);
-  
+
   /** What to do when receiving SetSpacing(). */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
   itkGetConstMacro(SpacingCallback, SpacingCallbackType);
   itkSetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
   itkGetConstMacro(FloatSpacingCallback, FloatSpacingCallbackType);
   void SetSpacingCallback(FloatSpacingCallbackType f)
-    { this->SetFloatSpacingCallback(f); }
-  
+  { this->SetFloatSpacingCallback(f); }
+
   /** What to do when receiving SetOrigin(). */
   itkSetMacro(OriginCallback, OriginCallbackType);
   itkGetConstMacro(OriginCallback, OriginCallbackType);
   itkSetMacro(FloatOriginCallback, FloatOriginCallbackType);
   itkGetConstMacro(FloatOriginCallback, FloatOriginCallbackType);
   void SetOriginCallback(FloatOriginCallbackType f)
-    { this->SetFloatOriginCallback(f); }
-  
+  { this->SetFloatOriginCallback(f); }
+
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   itkGetConstMacro(ScalarTypeCallback, ScalarTypeCallbackType);
-  
+
   /** What to do when receiving SetNumberOfComponents(). */
   itkSetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   itkGetConstMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
-  
+
   /** What to do when receiving PropagateUpdateExtent(). */
-  itkSetMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
-  itkGetConstMacro(PropagateUpdateExtentCallback,PropagateUpdateExtentCallbackType);
-  
+  itkSetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
+  itkGetConstMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
+
   /** What to do when receiving UpdateData(). */
   itkSetMacro(UpdateDataCallback, UpdateDataCallbackType);
   itkGetConstMacro(UpdateDataCallback, UpdateDataCallbackType);
@@ -144,30 +143,32 @@ public:
   /** What to do when receiving DataExtent(). */
   itkSetMacro(DataExtentCallback, DataExtentCallbackType);
   itkGetConstMacro(DataExtentCallback, DataExtentCallbackType);
-  
+
   /** What to do when receiving BufferPointer(). */
   itkSetMacro(BufferPointerCallback, BufferPointerCallbackType);
   itkGetConstMacro(BufferPointerCallback, BufferPointerCallbackType);
 
   /** Specify callback data. */
-  itkSetMacro2(CallbackUserData, void*);
-  itkGetConstMacro(CallbackUserData, void*);
-  
+  itkSetMacro2(CallbackUserData, void *);
+  itkGetConstMacro(CallbackUserData, void *);
 protected:
   VTKImageImport();
   ~VTKImageImport() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void PropagateRequestedRegion(DataObject*);  
+  virtual void PropagateRequestedRegion(DataObject *);
+
   virtual void UpdateOutputInformation();
-  virtual void GenerateData();
-  virtual void GenerateOutputInformation();
-  
-private:
-  VTKImageImport(const Self&); //purposely not implemented
-  void operator= (const Self&); //purposely not implemented
 
-  void* m_CallbackUserData;
+  virtual void GenerateData();
+
+  virtual void GenerateOutputInformation();
+
+private:
+  VTKImageImport(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+
+  void *                            m_CallbackUserData;
   UpdateInformationCallbackType     m_UpdateInformationCallback;
   PipelineModifiedCallbackType      m_PipelineModifiedCallback;
   WholeExtentCallbackType           m_WholeExtentCallback;
@@ -176,15 +177,14 @@ private:
   OriginCallbackType                m_OriginCallback;
   FloatOriginCallbackType           m_FloatOriginCallback;
   ScalarTypeCallbackType            m_ScalarTypeCallback;
-  NumberOfComponentsCallbackType    m_NumberOfComponentsCallback;  
-  PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback;  
+  NumberOfComponentsCallbackType    m_NumberOfComponentsCallback;
+  PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback;
   UpdateDataCallbackType            m_UpdateDataCallback;
   DataExtentCallbackType            m_DataExtentCallback;
   BufferPointerCallbackType         m_BufferPointerCallback;
-  
+
   std::string m_ScalarTypeName;
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

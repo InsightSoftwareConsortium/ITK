@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class DenseFiniteDifferenceImageFilter
  *
@@ -33,22 +33,22 @@ namespace itk {
  * iterative finite difference algorithm:
  *
  * \par
- * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$ 
+ * \f$u_{\mathbf{i}}^{n+1}=u^n_{\mathbf{i}}+\Delta u^n_{\mathbf{i}}\Delta t\f$
  *
  * \par
  * The generic code for performing iterations and updates at each time
  * step is inherited from the parent class.  This class defines an update
  * buffer for \f$ \Delta \f$ and the methods CalculateChange() and
  * ApplyUpdate(). These methods are designed to automatically thread their
- * execution.  \f$ \Delta \f$ is defined as an image of identical size and type 
+ * execution.  \f$ \Delta \f$ is defined as an image of identical size and type
  * as the output image.
  *
  * \par
  * As we descend through each layer in the hierarchy, we know more and more
  * about the specific application of our filter.  At this level, we
  * have committed to iteration over each pixel in an image. We take advantage
- * of that knowledge to multithread the iteration and update methods. 
- *  
+ * of that knowledge to multithread the iteration and update methods.
+ *
  * \par Inputs and Outputs
  * This is an image to image filter.  The specific types of the images are not
  * fixed at this level in the hierarchy.
@@ -59,33 +59,34 @@ namespace itk {
  * it does not define the stopping criteria (Halt method).  To use this class,
  * subclass it to a specific instance that supplies a function and Halt()
  * method.
- * 
+ *
  * \ingroup ImageFilters
  * \sa FiniteDifferenceImageFilter */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT DenseFiniteDifferenceImageFilter  
-  : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DenseFiniteDifferenceImageFilter:
+  public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs */
-  typedef DenseFiniteDifferenceImageFilter     Self;
+  typedef DenseFiniteDifferenceImageFilter Self;
   typedef FiniteDifferenceImageFilter<
-    TInputImage, TOutputImage>                 Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
-  
+    TInputImage, TOutputImage >                 Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods) */
-  itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter );
-  
+  itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter);
+
   /** Convenient typedefs */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
   typedef typename Superclass::FiniteDifferenceFunctionType
-   FiniteDifferenceFunctionType;
-  
+  FiniteDifferenceFunctionType;
+
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
@@ -99,20 +100,19 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputTimesDoubleCheck,
-    (Concept::MultiplyOperator<PixelType, double>));
-  itkConceptMacro(OutputAdditiveOperatorsCheck,
-    (Concept::AdditiveOperators<PixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
+  itkConceptMacro( OutputTimesDoubleCheck,
+                   ( Concept::MultiplyOperator< PixelType, double > ) );
+  itkConceptMacro( OutputAdditiveOperatorsCheck,
+                   ( Concept::AdditiveOperators< PixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DenseFiniteDifferenceImageFilter()
-    { m_UpdateBuffer = UpdateBufferType::New(); }
+  { m_UpdateBuffer = UpdateBufferType::New(); }
   ~DenseFiniteDifferenceImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
@@ -126,8 +126,8 @@ protected:
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  virtual UpdateBufferType* GetUpdateBuffer()
-    { return m_UpdateBuffer; }
+  virtual UpdateBufferType * GetUpdateBuffer()
+  { return m_UpdateBuffer; }
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
@@ -137,17 +137,17 @@ protected:
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
   virtual void AllocateUpdateBuffer();
- 
+
   /** The type of region used for multithreading */
   typedef typename UpdateBufferType::RegionType ThreadRegionType;
 
   /**  Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.
    *  \sa ApplyUpdate
-   *  \sa ApplyUpdateThreaderCallback */ 
+   *  \sa ApplyUpdateThreaderCallback */
   virtual
   void ThreadedApplyUpdate(TimeStepType dt,
-                           const ThreadRegionType &regionToProcess,
+                           const ThreadRegionType & regionToProcess,
                            int threadId);
 
   /** Does the actual work of calculating change over a region supplied by
@@ -155,51 +155,53 @@ protected:
    * \sa CalculateChange
    * \sa CalculateChangeThreaderCallback */
   virtual
-  TimeStepType ThreadedCalculateChange(const ThreadRegionType &regionToProcess,
+  TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
                                        int threadId);
 
 private:
-  DenseFiniteDifferenceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DenseFiniteDifferenceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
   /** Structure for passing information into static callback methods.  Used in
    * the subclasses' threading mechanisms. */
-  struct DenseFDThreadStruct
-    {
+  struct DenseFDThreadStruct {
     DenseFiniteDifferenceImageFilter *Filter;
     TimeStepType TimeStep;
     TimeStepType *TimeStepList;
     bool *ValidTimeStepList;
-    };
+  };
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ThreadedApplyUpdate for processing. */
-  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback( void *arg );
+  static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback(void *arg);
 
   /** This callback method uses SplitUpdateContainer to acquire a region
    * which it then passes to ThreadedCalculateChange for processing. */
-  static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback( void *arg );
- 
+  static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback(void *arg);
+
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename UpdateBufferType::Pointer m_UpdateBuffer;
 };
-
-
-}// end namespace itk
+} // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_DenseFiniteDifferenceImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 x > \
-                                            DenseFiniteDifferenceImageFilter##y; } \
+#define ITK_TEMPLATE_DenseFiniteDifferenceImageFilter(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                    \
+  {                                                                                \
+  _( 2 ( class EXPORT DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                              \
+  {                                                                                \
+  typedef DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX >                 \
+  DenseFiniteDifferenceImageFilter##TypeY;                                       \
+  }                                                                                \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkDenseFiniteDifferenceImageFilter+-.h"
+#include "Templates/itkDenseFiniteDifferenceImageFilter+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkDenseFiniteDifferenceImageFilter.txx"
+#include "itkDenseFiniteDifferenceImageFilter.txx"
 #endif
 
 #endif

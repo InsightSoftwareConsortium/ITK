@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,42 +22,40 @@
 
 namespace itk
 {
-
 /** \class FlipImageFilter
  * \brief Flips an image across user specified axes.
  *
  * FlipImageFilter flips an image across user specified axes.
  * The flip axes are set via method SetFlipAxes( array ) where
  * the input is a FixedArray<bool,ImageDimension>. The image
- * is flipped across axes for which array[i] is true. 
- * 
- * In terms of grid coordinates the image is flipped within 
+ * is flipped across axes for which array[i] is true.
+ *
+ * In terms of grid coordinates the image is flipped within
  * the LargestPossibleRegion of the input image. As such,
  * the LargestPossibleRegion of the ouput image is the same
  * as the input.
  *
  * In terms of geometric coordinates, the output origin
  * is such that the image is flipped with respect to the
- * coordinate axes. 
+ * coordinate axes.
  *
  * \ingroup GeometricTransforms
  * \ingroup Multithreaded
  * \ingroup Streamed
  */
-template <class TImage>
-class ITK_EXPORT FlipImageFilter :
-    public ImageToImageFilter<TImage,TImage>
+template< class TImage >
+class ITK_EXPORT FlipImageFilter:
+  public ImageToImageFilter< TImage, TImage >
 {
-
 public:
   /** Standard class typedefs. */
-  typedef FlipImageFilter                    Self;
-  typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef FlipImageFilter                      Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FlipImageFilter, ImageToImageFilter);
@@ -76,12 +74,12 @@ public:
   typedef typename IndexType::IndexValueType IndexValueType;
 
   /** FlipAxesArray type */
-  typedef FixedArray<bool,itkGetStaticConstMacro(ImageDimension)> FlipAxesArrayType;
+  typedef FixedArray< bool, itkGetStaticConstMacro(ImageDimension) > FlipAxesArrayType;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. */
-  itkSetMacro( FlipAxes, FlipAxesArrayType );
-  itkGetConstMacro( FlipAxes, FlipAxesArrayType );
+  itkSetMacro(FlipAxes, FlipAxesArrayType);
+  itkGetConstMacro(FlipAxes, FlipAxesArrayType);
 
 /** Controls how the output origin is computed. If FlipAboutOrigin is
  * "on", the flip will occur about the origin of the axis, otherwise,
@@ -108,8 +106,8 @@ public:
 
 protected:
   FlipImageFilter();
-  ~FlipImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~FlipImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** FlipImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -121,21 +119,20 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );  
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  FlipImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FlipImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
-  FlipAxesArrayType       m_FlipAxes;
-  bool                    m_FlipAboutOrigin;
+  FlipAxesArrayType m_FlipAxes;
+  bool              m_FlipAboutOrigin;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFlipImageFilter.txx"
 #endif
-  
+
 #endif

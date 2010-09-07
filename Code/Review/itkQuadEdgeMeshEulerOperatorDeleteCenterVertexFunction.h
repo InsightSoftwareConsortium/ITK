@@ -28,20 +28,20 @@ namespace itk
  * \brief Delete the vertex, connected edges and faces and create a new face
  *        In place of the previous vertex' one-ring.
  */
-template < class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction :
-   public QuadEdgeMeshFunctionBase< TMesh, TQEType* >
+template< class TMesh, class TQEType >
+class ITK_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction:
+  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction     Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >             Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
-  
-  itkNewMacro( Self );
+  typedef QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction Self;
+  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * >        Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+
+  itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro( QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction, QuadEdgeMeshFunctionBase );
+  itkTypeMacro(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
@@ -53,24 +53,24 @@ public:
   typedef typename MeshType::FaceRefType     FaceRefType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( QEType* e );
-  PointIdentifier GetOldPointID( )
-    {
-    return( this->m_OldPointID );
-    }
-protected:
-  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){};
-  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){};
+  virtual OutputType Evaluate(QEType *e);
 
+  PointIdentifier GetOldPointID()
+  {
+    return ( this->m_OldPointID );
+  }
+
+protected:
+  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
+  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
 private:
-  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(const Self& );
+  QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(const Self &);
   //purposely not implemented
-  void operator=(const Self& );
+  void operator=(const Self &);
+
   //purposely not implemented
   PointIdentifier m_OldPointID;
-
 };
-
 } // namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.txx"

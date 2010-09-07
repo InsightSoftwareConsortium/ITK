@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,20 +21,19 @@
 
 namespace itk
 {
-
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
-template<class TImage>
-ImageConstIterator<TImage>
-ImageConstIterator<TImage>
+template< class TImage >
+ImageConstIterator< TImage >
+ImageConstIterator< TImage >
 ::Begin() const
 {
   // Copy the current iterator
-  Self it( *this );
+  Self it(*this);
 
-  // Set the offset to the m_BeginOffset. 
+  // Set the offset to the m_BeginOffset.
   it.m_Offset = m_BeginOffset;
-  
+
   return it;
 }
 
@@ -46,20 +45,19 @@ ImageConstIterator<TImage>
 //           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
 //           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
 //
-template<class TImage>
-ImageConstIterator<TImage>
-ImageConstIterator<TImage>
+template< class TImage >
+ImageConstIterator< TImage >
+ImageConstIterator< TImage >
 ::End() const
 {
   // Copy the current iterator
-  Self it( *this );
+  Self it(*this);
 
-  // Set the offset to the m_EndOffset. 
+  // Set the offset to the m_EndOffset.
   it.m_Offset = m_EndOffset;
-  
+
   return it;
 }
-
 } // end namespace itk
 
 #endif

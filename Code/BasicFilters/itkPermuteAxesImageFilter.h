@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class PermuteAxesImageFilter
  * \brief Permutes the image axes according to a user specified order.
  *
@@ -32,7 +31,7 @@ namespace itk
  * number of unsigned int. The elements of the array must be a rearrangment
  * of the numbers from 0 to ImageDimension - 1.
  *
- * The i-th axis of the output image corresponds with the order[i]-th 
+ * The i-th axis of the output image corresponds with the order[i]-th
  * axis of the input image.
  *
  * The output meta image information (LargestPossibleRegion, spacing, origin)
@@ -42,45 +41,44 @@ namespace itk
  * \ingroup Multithreaded
  * \ingroup Streamed
  */
-template <class TImage>
-class ITK_EXPORT PermuteAxesImageFilter :
-    public ImageToImageFilter<TImage,TImage>
+template< class TImage >
+class ITK_EXPORT PermuteAxesImageFilter:
+  public ImageToImageFilter< TImage, TImage >
 {
-
 public:
   /** Standard class typedefs. */
-  typedef PermuteAxesImageFilter             Self;
-  typedef ImageToImageFilter<TImage,TImage>  Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef PermuteAxesImageFilter               Self;
+  typedef ImageToImageFilter< TImage, TImage > Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PermuteAxesImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension );
+                      TImage::ImageDimension);
 
   /** Inherited types */
-  typedef typename Superclass::InputImagePointer        InputImagePointer;
-  typedef typename Superclass::OutputImagePointer       OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
+  typedef typename Superclass::InputImagePointer     InputImagePointer;
+  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** PermuteOrderArray type. */
-  typedef FixedArray<unsigned int, itkGetStaticConstMacro(ImageDimension)> PermuteOrderArrayType;
+  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) > PermuteOrderArrayType;
 
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1. */
-  void SetOrder( const PermuteOrderArrayType& order );
+  void SetOrder(const PermuteOrderArrayType & order);
 
   /** Get the permutation order. */
-  itkGetConstReferenceMacro( Order, PermuteOrderArrayType );
+  itkGetConstReferenceMacro(Order, PermuteOrderArrayType);
 
   /** Get the inverse permutation order. */
-  itkGetConstReferenceMacro( InverseOrder, PermuteOrderArrayType );
+  itkGetConstReferenceMacro(InverseOrder, PermuteOrderArrayType);
 
   /** PermuteAxesImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input
@@ -100,8 +98,8 @@ public:
 
 protected:
   PermuteAxesImageFilter();
-  ~PermuteAxesImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~PermuteAxesImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -113,23 +111,20 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );  
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  PermuteAxesImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  PermuteAxesImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
-
-  PermuteOrderArrayType  m_Order;
-  PermuteOrderArrayType  m_InverseOrder;
-
+  PermuteOrderArrayType m_Order;
+  PermuteOrderArrayType m_InverseOrder;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPermuteAxesImageFilter.txx"
 #endif
-  
+
 #endif

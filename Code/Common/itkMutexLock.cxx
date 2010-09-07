@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,23 +21,17 @@
 
 namespace itk
 {
-
-
 // New for the SimpleMutex
-SimpleMutexLock *SimpleMutexLock::New()
+SimpleMutexLock * SimpleMutexLock::New()
 {
   return new SimpleMutexLock;
 }
 
-// Construct a new MutexLock 
+// Construct a new MutexLock
 SimpleMutexLock::SimpleMutexLock()
 {
-#ifdef ITK_USE_SPROC
-  init_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
-  m_MutexLock = CreateMutex( NULL, FALSE, NULL ); 
+  m_MutexLock = CreateMutex(NULL, FALSE, NULL);
 #endif
 
 #ifdef ITK_USE_PTHREADS
@@ -47,7 +41,6 @@ SimpleMutexLock::SimpleMutexLock()
   pthread_mutex_init(&m_MutexLock, NULL);
 #endif
 #endif
-
 }
 
 // Destruct the MutexVariable
@@ -58,45 +51,36 @@ SimpleMutexLock::~SimpleMutexLock()
 #endif
 
 #ifdef ITK_USE_PTHREADS
-  pthread_mutex_destroy( &m_MutexLock);
+  pthread_mutex_destroy(&m_MutexLock);
 #endif
 }
 
 // Lock the MutexLock
 void SimpleMutexLock::Lock()
 {
-#ifdef ITK_USE_SPROC
-  spin_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
-  WaitForSingleObject( m_MutexLock, INFINITE );
+  WaitForSingleObject(m_MutexLock, INFINITE);
 #endif
 
 #ifdef ITK_USE_PTHREADS
-  pthread_mutex_lock( &m_MutexLock);
+  pthread_mutex_lock(&m_MutexLock);
 #endif
 }
 
 // Unlock the MutexLock
 void SimpleMutexLock::Unlock()
 {
-#ifdef ITK_USE_SPROC
-  release_lock( &m_MutexLock );
-#endif
-
 #ifdef ITK_USE_WIN32_THREADS
-  ReleaseMutex( m_MutexLock );
+  ReleaseMutex(m_MutexLock);
 #endif
 
 #ifdef ITK_USE_PTHREADS
-  pthread_mutex_unlock( &m_MutexLock);
+  pthread_mutex_unlock(&m_MutexLock);
 #endif
 }
 
-void MutexLock::PrintSelf(std::ostream& os, Indent indent) const
+void MutexLock::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-
-}//end namespace itk
+} //end namespace itk

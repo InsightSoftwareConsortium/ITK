@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /**
  * \class ScatterMatrixImageFunction
  * \brief Calculate the scatter matrix in the neighborhood of a pixel in a Vector image.
@@ -37,26 +36,27 @@ namespace itk
  * coordinate representation type (e.g. float or double).
  *
  * \sa VectorMeanImageFunction
- * 
+ *
  * \ingroup ImageFunctions
  */
-template <class TInputImage, class TCoordRep = float >
-class ITK_EXPORT ScatterMatrixImageFunction :
-  public ImageFunction< TInputImage, 
-    vnl_matrix< 
-      ITK_TYPENAME NumericTraits<typename TInputImage::PixelType::ValueType>::RealType >,
-    TCoordRep >
+template< class TInputImage, class TCoordRep = float >
+class ITK_EXPORT ScatterMatrixImageFunction:
+  public ImageFunction< TInputImage,
+                        vnl_matrix<
+                          ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
+                        TCoordRep >
 {
 public:
   /** Standard class typedefs. */
   typedef ScatterMatrixImageFunction Self;
-  typedef ImageFunction<TInputImage, 
-    vnl_matrix< 
-      ITK_TYPENAME NumericTraits<typename TInputImage::PixelType::ValueType>::RealType >,
-    TCoordRep >                      Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
-  
+  typedef ImageFunction< TInputImage,
+                         vnl_matrix<
+                           ITK_TYPENAME NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
+                         TCoordRep >                      Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScatterMatrixImageFunction, ImageFunction);
 
@@ -71,7 +71,7 @@ public:
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
-  
+
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
@@ -84,60 +84,65 @@ public:
 
   /** Datatype used for the covariance matrix */
   typedef vnl_matrix<
-    typename NumericTraits<typename InputImageType::PixelType::ValueType>::RealType >
-                                                                            RealType;
+    typename NumericTraits< typename InputImageType::PixelType::ValueType >::RealType >
+  RealType;
 
   /** Evalulate the function at specified index */
-  virtual RealType EvaluateAtIndex( const IndexType& index ) const;
-  
+  virtual RealType EvaluateAtIndex(const IndexType & index) const;
+
   /** Evaluate the function at non-integer positions */
-  virtual RealType Evaluate( const PointType& point ) const
-    { 
+  virtual RealType Evaluate(const PointType & point) const
+  {
     IndexType index;
-    this->ConvertPointToNearestIndex( point, index );
-    return this->EvaluateAtIndex( index ); 
-    }
-  virtual RealType EvaluateAtContinuousIndex( 
-    const ContinuousIndexType& cindex ) const
-    { 
+
+    this->ConvertPointToNearestIndex(point, index);
+    return this->EvaluateAtIndex(index);
+  }
+
+  virtual RealType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const
+  {
     IndexType index;
-    this->ConvertContinuousIndexToNearestIndex( cindex, index );
-    return this->EvaluateAtIndex( index ); 
-    }
-  
+
+    this->ConvertContinuousIndexToNearestIndex(cindex, index);
+    return this->EvaluateAtIndex(index);
+  }
+
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
-  itkSetMacro( NeighborhoodRadius, unsigned int );
-  itkGetConstReferenceMacro( NeighborhoodRadius, unsigned int );
-
+  itkSetMacro(NeighborhoodRadius, unsigned int);
+  itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
 protected:
   ScatterMatrixImageFunction();
-  ~ScatterMatrixImageFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~ScatterMatrixImageFunction(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  ScatterMatrixImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  ScatterMatrixImageFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 
   unsigned int m_NeighborhoodRadius;
-
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ScatterMatrixImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ScatterMatrixImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ScatterMatrixImageFunction< ITK_TEMPLATE_2 x > \
-                                                ScatterMatrixImageFunction##y; } \
+#define ITK_TEMPLATE_ScatterMatrixImageFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                              \
+  {                                                                          \
+  _( 2 ( class EXPORT ScatterMatrixImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                        \
+  {                                                                          \
+  typedef ScatterMatrixImageFunction< ITK_TEMPLATE_2 TypeX >                 \
+  ScatterMatrixImageFunction##TypeY;                                       \
+  }                                                                          \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkScatterMatrixImageFunction+-.h"
+#include "Templates/itkScatterMatrixImageFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkScatterMatrixImageFunction.txx"
+#include "itkScatterMatrixImageFunction.txx"
 #endif
 
 #endif

@@ -24,30 +24,27 @@
 
 namespace itk
 {
-
 MRCImageIOFactory::MRCImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkMRCImageIO",
-                         "MRC Image IO",
-                         1,
-                         CreateObjectFunction<MRCImageIO>::New());
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkMRCImageIO",
+                          "MRC Image IO",
+                          1,
+                          CreateObjectFunction< MRCImageIO >::New() );
 }
 
 MRCImageIOFactory::~MRCImageIOFactory()
-{
-}
+{}
 
-const char*
+const char *
 MRCImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 MRCImageIOFactory::GetDescription(void) const
 {
   return "MRC ImageIO Factory, allows the loading of MRC images into ITK";
 }
-
 } // end namespace itk

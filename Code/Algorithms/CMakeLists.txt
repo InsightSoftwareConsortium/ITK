@@ -18,12 +18,6 @@ IF(USE_FFTWF)
         TARGET_LINK_LIBRARIES(ITKAlgorithms ${FFTWF_LIB} )
 ENDIF(USE_FFTWF)
 
-IF(USE_SCSL)
-        #If SCSL is desired, then scs will be required by any
-        #application using the ITKAlgorithms lib
-        TARGET_LINK_LIBRARIES(ITKAlgorithms ${SCSL_LIB} )
-ENDIF(USE_SCSL)
-
 IF(ITK_LIBRARY_PROPERTIES)
   SET_TARGET_PROPERTIES(ITKAlgorithms PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 ENDIF(ITK_LIBRARY_PROPERTIES)

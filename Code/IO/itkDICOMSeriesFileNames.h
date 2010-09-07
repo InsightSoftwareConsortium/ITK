@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -31,7 +31,6 @@
 
 namespace itk
 {
-
 /** \class DICOMSeriesFileNames
  * \brief Generate an ordered sequence of filenames.
  *
@@ -45,14 +44,14 @@ namespace itk
  *
  */
 
-class ITK_EXPORT DICOMSeriesFileNames : public Object
+class ITK_EXPORT DICOMSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef DICOMSeriesFileNames    Self;
-  typedef Object                  Superclass;
-  typedef SmartPointer<Self>      Pointer;
-  
+  typedef DICOMSeriesFileNames Self;
+  typedef Object               Superclass;
+  typedef SmartPointer< Self > Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -70,9 +69,9 @@ public:
    * name forces the directory to be rescanned.  This is useful if
    * DICOM files have been added to a directory since the last time
    * the directory was scanned. */
-  void SetDirectory(const std::string& dir)
-    {
-    if (m_Directory != dir)
+  void SetDirectory(const std::string & dir)
+  {
+    if ( m_Directory != dir )
       {
       m_Directory = dir;
       this->Modified();
@@ -89,7 +88,7 @@ public:
     // a call to SetDirectory() to force a directory to be rescanned
     // the next time GetFileNames() or GetSeriesUIDs() is called.
     m_DirectorySetTime.Modified();
-    }
+  }
 
   /** Get the directory containing the DICOM files. */
   itkGetStringMacro(Directory);
@@ -101,80 +100,79 @@ public:
   itkBooleanMacro(Ascending);
 
   /** Type of the array used for returning filenames */
-  typedef std::vector<std::string>    FileNamesArrayType;
+  typedef std::vector< std::string > FileNamesArrayType;
 
   /** Returns a vector containing the UIDs for each series in the
    * directory. If parameter "recursive" is true, subdirectories will
    * be scanned. */
   const FileNamesArrayType & GetSeriesUIDs(bool recursive = false);
-  
+
   /** Returns a vector containing the Descriptions for each series in the
    * directory. GetSeriesUIDs() should be called before */
-  const FileNamesArrayType & GetSeriesDescriptions(){return m_SeriesDescriptions;}
-  const FileNamesArrayType & GetSeriesBodyParts(){return m_BodyParts;}
-  const FileNamesArrayType & GetSeriesScanOptions(){return m_ScanOptions;}
+  const FileNamesArrayType & GetSeriesDescriptions(){ return m_SeriesDescriptions; }
+  const FileNamesArrayType & GetSeriesBodyParts(){ return m_BodyParts; }
+  const FileNamesArrayType & GetSeriesScanOptions(){ return m_ScanOptions; }
 
   /** Returns a vector containing the series file names. The file
    * names are sorted based on the current sorting mode. If parameter
    * "recursive" is true, subdirectories will be scanned. */
-  const FileNamesArrayType & GetFileNames (bool recursive = false);
+  const FileNamesArrayType & GetFileNames(bool recursive = false);
 
   /** Returns a vector containing the file names for a specified
    * series UID. The file names are sorted based on the current
    * sorting mode. If parameter "recursive" is true, subdirectories
    * will be scanned. */
-  const FileNamesArrayType & GetFileNames (const std::string& seriesUID,
-                                                bool recursive = false);
-  
+  const FileNamesArrayType & GetFileNames(const std::string & seriesUID,
+                                          bool recursive = false);
+
   /** Set the filename sorting order to sorting images based on the
    * DICOM field of slice number, the DICOM field of slice location,
    * or the position of the image computed using the
    * ImagePositionPatient and ImageOrientationPatient DICOM fields. */
-  typedef enum {SortByImageNumber, SortBySliceLocation, SortByImagePositionPatient} FileNameSortingOrderType;
+  typedef enum { SortByImageNumber, SortBySliceLocation, SortByImagePositionPatient } FileNameSortingOrderType;
   itkSetEnumMacro(FileNameSortingOrder, FileNameSortingOrderType);
   itkGetEnumMacro(FileNameSortingOrder, FileNameSortingOrderType);
   void SetFileNameSortingOrderToSortByImageNumber()
-    { this->SetFileNameSortingOrder(SortByImageNumber); }
+  { this->SetFileNameSortingOrder(SortByImageNumber); }
   void SetFileNameSortingOrderToSortBySliceLocation()
-    { this->SetFileNameSortingOrder(SortBySliceLocation); }
+  { this->SetFileNameSortingOrder(SortBySliceLocation); }
   void SetFileNameSortingOrderToSortByImagePositionPatient()
-    { this->SetFileNameSortingOrder(SortByImagePositionPatient); }
+  { this->SetFileNameSortingOrder(SortByImagePositionPatient); }
 
   /** Get the filename associated with a specific instance UID. This
    * requires the internal database has already been built via a call
    * to GetFileNames() */
-  std::string GetFileName(const std::string& instanceUID);
-  
+  std::string GetFileName(const std::string & instanceUID);
 
 protected:
   DICOMSeriesFileNames();
-  ~DICOMSeriesFileNames() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ~DICOMSeriesFileNames() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
-  DICOMSeriesFileNames(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  int CanReadFile(const char* fname);
-  void RecurseDirectory( std::string directory, FileNamesArrayType &filenames);
+  DICOMSeriesFileNames(const Self &); //purposely not implemented
+  void operator=(const Self &);       //purposely not implemented
+
+  int CanReadFile(const char *fname);
+
+  void RecurseDirectory(std::string directory, FileNamesArrayType & filenames);
 
   itkdicomparser::DICOMParser    m_Parser;
   itkdicomparser::DICOMAppHelper m_AppHelper;
 
-  bool                     m_Ascending;
-  std::string              m_Directory;
-  FileNamesArrayType       m_FileNames;
-  FileNamesArrayType       m_SeriesUIDs;
-  FileNamesArrayType       m_SeriesDescriptions;
-  FileNamesArrayType       m_BodyParts;
-  FileNamesArrayType       m_ScanOptions;
+  bool               m_Ascending;
+  std::string        m_Directory;
+  FileNamesArrayType m_FileNames;
+  FileNamesArrayType m_SeriesUIDs;
+  FileNamesArrayType m_SeriesDescriptions;
+  FileNamesArrayType m_BodyParts;
+  FileNamesArrayType m_ScanOptions;
 
   FileNameSortingOrderType m_FileNameSortingOrder;
 
-  TimeStamp                m_DirectorySetTime;
-  TimeStamp                m_DirectoryScanTime;
+  TimeStamp m_DirectorySetTime;
+  TimeStamp m_DirectoryScanTime;
 };
-
 } //namespace ITK
 
 #endif // __itkDICOMSeriesFileNames_h

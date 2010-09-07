@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,58 +21,57 @@
 
 namespace itk
 {
-
 /** \class ImageModelEstimatorBase
  * \brief Base class for model estimation from images used for classification.
- * 
- * itkImageModelEstimatorBase is the base class for the ImageModelEstimator 
+ *
+ * itkImageModelEstimatorBase is the base class for the ImageModelEstimator
  * objects. It provides the basic function definitions that are inherent to
  *  a ImageModelEstimator objects.
  *
  * This is the SuperClass for the ImageModelEstimator framework. This is an
- * abstract class defining an interface for all such objects 
+ * abstract class defining an interface for all such objects
  * available through the ImageModelEstimator framework in the ITK toolkit.
  *
  * The basic functionality of the ImageModelEstimator framework base class is to
- * generate the models used in classification applications. It requires input 
+ * generate the models used in classification applications. It requires input
  * images and a training image to be provided by the user.
  * This object supports data handling of multiband images. The object
- * accepts the input image in vector format only, where each pixel is a 
+ * accepts the input image in vector format only, where each pixel is a
  * vector and each element of the vector corresponds to an entry from
- * 1 particular band of a multiband dataset. A single band image is treated 
+ * 1 particular band of a multiband dataset. A single band image is treated
  * as a vector image with a single element for every vector. The classified
- * image is treated as a single band scalar image. 
+ * image is treated as a single band scalar image.
  *
- * EstimateModels() is a pure virtual function making this an abstract class. 
- * The template parameter is the type of a membership function the 
+ * EstimateModels() is a pure virtual function making this an abstract class.
+ * The template parameter is the type of a membership function the
  * ImageModelEstimator populates.
  *
  * A membership function represents a specific knowledge about
  * a class. In other words, it should tell us how "likely" is that a
- * measurement vector (pattern) belong to the class. 
+ * measurement vector (pattern) belong to the class.
  *
- * As the method name indicates, you can have more than one membership 
- * function. One for each classes. The order you put the membership 
+ * As the method name indicates, you can have more than one membership
+ * function. One for each classes. The order you put the membership
  * calculator becomes the class label for the class that is represented
- * by the membership calculator. 
+ * by the membership calculator.
  *
 
  *
- * \ingroup ClassificationFilters 
+ * \ingroup ClassificationFilters
  */
-template <class TInputImage,
-          class TMembershipFunction>
-class ITK_EXPORT ImageModelEstimatorBase: public LightProcessObject
+template< class TInputImage,
+          class TMembershipFunction >
+class ITK_EXPORT ImageModelEstimatorBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageModelEstimatorBase   Self;
-  typedef LightProcessObject        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef ImageModelEstimatorBase    Self;
+  typedef LightProcessObject         Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageModelEstimatorBase,LightProcessObject);
+  itkTypeMacro(ImageModelEstimatorBase, LightProcessObject);
 
   /** Set the number of classes. */
   itkSetMacro(NumberOfModels, unsigned int);
@@ -83,7 +82,7 @@ public:
   /** Type definitions for the membership function . */
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
-  typedef std::vector< MembershipFunctionPointer > 
+  typedef std::vector< MembershipFunctionPointer >
   MembershipFunctionPointerVector;
 
   /** Type definitions for the training image. */
@@ -94,35 +93,35 @@ public:
   //typedef typename TTrainingImage::Pointer TrainingImagePointer;
 
   /** Set the input image. */
-  itkSetObjectMacro(InputImage,InputImageType);
+  itkSetObjectMacro(InputImage, InputImageType);
 
   /** Get the input image. */
-  itkGetObjectMacro(InputImage,InputImageType);
+  itkGetObjectMacro(InputImage, InputImageType);
 
   /** Set the classified image. */
-  void SetMembershipFunctions(MembershipFunctionPointerVector 
+  void SetMembershipFunctions(MembershipFunctionPointerVector
                               membershipFunctions)
-    {
+  {
     m_MembershipFunctions = membershipFunctions;
-    }
-  
+  }
+
   /** Method to get mean */
   const MembershipFunctionPointerVector GetMembershipFunctions() const
-    {
+  {
     return m_MembershipFunctions;
-    }
+  }
 
   /** Method to number of membership functions */
-  unsigned int GetNumberOfMembershipFunctions() 
-    {
-    return static_cast<unsigned int>( m_MembershipFunctions.size() );
-    }
+  unsigned int GetNumberOfMembershipFunctions()
+  {
+    return static_cast< unsigned int >( m_MembershipFunctions.size() );
+  }
 
   /** Method to reset the membership fucntion mean */
-  void DeleteAllMembershipFunctions() 
-    {
+  void DeleteAllMembershipFunctions()
+  {
     m_MembershipFunctions.resize(0);
-    }
+  }
 
   /** Stores a MembershipCalculator of a class in its internal vector */
   unsigned int AddMembershipFunction(MembershipFunctionPointer function);
@@ -134,28 +133,26 @@ public:
 protected:
   ImageModelEstimatorBase();
   ~ImageModelEstimatorBase();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData();
 
 private:
 
-  ImageModelEstimatorBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageModelEstimatorBase(const Self &); //purposely not implemented
+  void operator=(const Self &);          //purposely not implemented
 
-  unsigned int                    m_NumberOfModels;
+  unsigned int m_NumberOfModels;
 
   /** Container to hold the membership functions */
   MembershipFunctionPointerVector m_MembershipFunctions;
 
   /**Container for holding the training image */
-  InputImagePointer               m_InputImage;
+  InputImagePointer m_InputImage;
 
   /** The core virtual function to perform modelling of the input data */
   virtual void EstimateModels() = 0;
 }; // class ImageModelEstimator
-
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

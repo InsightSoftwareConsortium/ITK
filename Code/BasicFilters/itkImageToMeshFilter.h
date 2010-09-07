@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,9 +21,8 @@
 
 namespace itk
 {
-
 /** \class ImageToMeshFilter
- * \brief 
+ * \brief
  *
  * ImageToMeshFilter is the base class for all process objects that output
  * Mesh data and require image data as input. Specifically, this class
@@ -31,17 +30,16 @@ namespace itk
  *
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputMesh>
-class ITK_EXPORT ImageToMeshFilter : public MeshSource<TOutputMesh>
+template< class TInputImage, class TOutputMesh >
+class ITK_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToMeshFilter        Self;
-  typedef MeshSource<TOutputMesh>  Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef ImageToMeshFilter          Self;
+  typedef MeshSource< TOutputMesh >  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
-  
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToMeshFilter, MeshSource);
 
@@ -49,15 +47,15 @@ public:
   DataObject::Pointer  MakeOutput(unsigned int idx);
 
   /** Some Image related typedefs. */
-  typedef   TInputImage                             InputImageType;
-  typedef   typename InputImageType::Pointer        InputImagePointer;
-  typedef   typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef   typename InputImageType::RegionType     InputImageRegionType; 
-  typedef   typename InputImageType::PixelType      InputImagePixelType; 
+  typedef   TInputImage                           InputImageType;
+  typedef   typename InputImageType::Pointer      InputImagePointer;
+  typedef   typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef   typename InputImageType::RegionType   InputImageRegionType;
+  typedef   typename InputImageType::PixelType    InputImagePixelType;
 
   /** Some Mesh related typedefs. */
-  typedef   TOutputMesh                             OutputMeshType;
-  typedef   typename OutputMeshType::Pointer        OutputMeshPointer;
+  typedef   TOutputMesh                      OutputMeshType;
+  typedef   typename OutputMeshType::Pointer OutputMeshPointer;
 
   /** Set the input image of this process object.  */
   void SetInput(unsigned int idx, const InputImageType *input);
@@ -70,17 +68,14 @@ public:
 
   /** Prepare the output */
   void GenerateOutputInformation(void);
-     
+
 protected:
   ImageToMeshFilter();
   ~ImageToMeshFilter();
- 
 private:
-  ImageToMeshFilter(const ImageToMeshFilter&); //purposely not implemented
-  void operator=(const ImageToMeshFilter&); //purposely not implemented
-
+  ImageToMeshFilter(const ImageToMeshFilter &); //purposely not implemented
+  void operator=(const ImageToMeshFilter &);    //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

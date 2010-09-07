@@ -28,56 +28,55 @@ namespace itk
  * \brief Create a vertex at the barycenter of the given face.
  *
  */
-template < class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction :
-   public QuadEdgeMeshFunctionBase< TMesh, TQEType* >
+template< class TMesh, class TQEType >
+class ITK_EXPORT QuadEdgeMeshEulerOperatorCreateCenterVertexFunction:
+  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorCreateCenterVertexFunction     Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >             Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  typedef QuadEdgeMeshEulerOperatorCreateCenterVertexFunction Self;
+  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * >        Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro( QuadEdgeMeshEulerOperatorCreateCenterVertexFunction, QuadEdgeMeshFunctionBase );
+  itkTypeMacro(QuadEdgeMeshEulerOperatorCreateCenterVertexFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
 
-  typedef typename Superclass::MeshType                MeshType;
-  typedef typename Superclass::OutputType              OutputType;
+  typedef typename Superclass::MeshType   MeshType;
+  typedef typename Superclass::OutputType OutputType;
 
-  typedef typename MeshType::PointIdentifier           PointIdentifier;
-  typedef typename MeshType::PointType                 PointType;
-  typedef typename MeshType::CoordRepType              CoordRepType;
-  typedef typename MeshType::VectorType                VectorType;
+  typedef typename MeshType::PointIdentifier PointIdentifier;
+  typedef typename MeshType::PointType       PointType;
+  typedef typename MeshType::CoordRepType    CoordRepType;
+  typedef typename MeshType::VectorType      VectorType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( QEType* e );
-  PointIdentifier GetNewPointID( )
-    {
-    return( this->m_NewPointID );
-    };
+  virtual OutputType Evaluate(QEType *e);
+
+  PointIdentifier GetNewPointID()
+  {
+    return ( this->m_NewPointID );
+  }
 
 protected:
-  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction( )
-    {
+  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction()
+  {
     this->m_NewPointID = (PointIdentifier)0;
-    }
+  }
 
-  ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction( ) { };
-
+  ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() {}
 private:
-  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction( const Self& );
+  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction(const Self &);
   //purposely not implemented
-  void operator=( const Self& );
+  void operator=(const Self &);
+
   //purposely not implemented
   PointIdentifier m_NewPointID;
-
 };
-
 } // namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.txx"

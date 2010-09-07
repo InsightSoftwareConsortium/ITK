@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /**
  * \class MedianImageFunction
  * \brief Calculate the median value in the neighborhood of a pixel
@@ -33,24 +32,25 @@ namespace itk
  * If called with a ContinuousIndex or Point, the calculation is performed
  * at the nearest neighbor.
  *
- * This class is templated over the input image type and the 
+ * This class is templated over the input image type and the
  * coordinate representation type (e.g. float or double ).
  *
  * \ingroup ImageFunctions
  */
-template <class TInputImage, class TCoordRep = float >
-class ITK_EXPORT MedianImageFunction :
+template< class TInputImage, class TCoordRep = float >
+class ITK_EXPORT MedianImageFunction:
   public ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType,
-    TCoordRep >
+                        TCoordRep >
 {
 public:
   /** Standard class typedefs. */
-  typedef MedianImageFunction       Self;
-  typedef ImageFunction<TInputImage, ITK_TYPENAME TInputImage::PixelType,
-    TCoordRep >                     Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef MedianImageFunction Self;
+  typedef ImageFunction< TInputImage, ITK_TYPENAME TInputImage::PixelType,
+                         TCoordRep >                     Superclass;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MedianImageFunction, ImageFunction);
 
@@ -66,7 +66,7 @@ public:
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
-  
+
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
@@ -78,49 +78,55 @@ public:
                       InputImageType::ImageDimension);
 
   /** Evalulate the function at specified index */
-  virtual OutputType EvaluateAtIndex( const IndexType& index ) const;
-  
+  virtual OutputType EvaluateAtIndex(const IndexType & index) const;
+
   /** Evaluate the function at non-integer positions */
-  virtual OutputType Evaluate( const PointType& point ) const
-    { 
+  virtual OutputType Evaluate(const PointType & point) const
+  {
     IndexType index;
-    this->ConvertPointToNearestIndex( point, index );
-    return this->EvaluateAtIndex( index ); 
-    }
-  virtual OutputType EvaluateAtContinuousIndex( 
-    const ContinuousIndexType& cindex ) const
-    { 
+
+    this->ConvertPointToNearestIndex(point, index);
+    return this->EvaluateAtIndex(index);
+  }
+
+  virtual OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const
+  {
     IndexType index;
-    this->ConvertContinuousIndexToNearestIndex( cindex, index );
-    return this->EvaluateAtIndex( index ); 
-    }
-  
+
+    this->ConvertContinuousIndexToNearestIndex(cindex, index);
+    return this->EvaluateAtIndex(index);
+  }
+
 protected:
   MedianImageFunction();
-  ~MedianImageFunction(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~MedianImageFunction(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MedianImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
-
+  MedianImageFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_MedianImageFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT MedianImageFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef MedianImageFunction< ITK_TEMPLATE_2 x > \
-                                     MedianImageFunction##y; } \
+#define ITK_TEMPLATE_MedianImageFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                       \
+  {                                                                   \
+  _( 2 ( class EXPORT MedianImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                 \
+  {                                                                   \
+  typedef MedianImageFunction< ITK_TEMPLATE_2 TypeX >                 \
+  MedianImageFunction##TypeY;                                       \
+  }                                                                   \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkMedianImageFunction+-.h"
+#include "Templates/itkMedianImageFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkMedianImageFunction.txx"
+#include "itkMedianImageFunction.txx"
 #endif
 
 #endif

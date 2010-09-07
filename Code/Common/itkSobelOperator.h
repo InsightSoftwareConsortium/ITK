@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,37 +21,37 @@
 #include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class SobelOperator
  *
  * \brief A NeighborhoodOperator for performing a directional Sobel
  * edge-detection operation * at a pixel location.
- * 
+ *
  * SobelOperator is a directional NeighborhoodOperator that should be
  * applied a NeighborhoodIterator using the NeighborhoodInnerProduct
  * method. To create the operator:
- * 
+ *
  * 1) Set the direction by calling  \code SetDirection \endcode
  * 2) call \code CreateOperator() \endcode
  * 3) You may optionally scale the coefficients of this operator using the
  * \code ScaleCoefficients \endcode method.  This is useful if you
  * want to take the spacing of the image into account when computing
- * the edge strength.  Apply the scaling only after calling to 
+ * the edge strength.  Apply the scaling only after calling to
  * \code CreateOperator \endcode.
  *
  * The Sobel Operator in vertical direction for 2 dimensions is
  * \verbatim
- *             -1  -2  -1  
- *             0    0   0 
+ *             -1  -2  -1
+ *             0    0   0
  *             1    2   1
  *
  * \endverbatim
  * The Sobel Operator in horizonal direction is for 2 dimensions is
  * \verbatim
  *             -1   0   1
- *             -2   0   2 
+ *             -2   0   2
  *             -1   0   1
  * \endverbatim
  *
@@ -66,7 +66,7 @@ namespace itk {
  *
  * \verbatim
  * -1 -3 -1   0 0 0  1 3 1
- * -3 -6 -3   0 0 0  3 6 3 
+ * -3 -6 -3   0 0 0  3 6 3
  * -1 -3 -1   0 0 0  1 3 1
  *
  *    x-1       x     x+1
@@ -74,41 +74,41 @@ namespace itk {
  *
  * The \c x kernel is just rotated as required to obtain the kernel in the
  * \c y and \c z directions.
- * 
+ *
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator
  * \sa BackwardDifferenceOperator
- * 
+ *
  * \ingroup Operators
  */
-template<class TPixel, unsigned int VDimension=2,
-  class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT SobelOperator
-  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+template< class TPixel, unsigned int VDimension = 2,
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT SobelOperator:
+  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
   /** Standard typedefs */
-  typedef SobelOperator                                         Self;
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
+  typedef SobelOperator                                          Self;
+  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
-  
+
   SobelOperator() {}
-  SobelOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
-    {}
+  SobelOperator(const Self & other):
+    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
+  {}
 
   /** Creates the operator with length only in the specified direction.  For
-   * the Sobel operator, this 
+   * the Sobel operator, this
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
   virtual void CreateDirectional()
-    {
+  {
     this->CreateToRadius(1);
-    }
-  
+  }
+
   /** Creates the operator with a specified radius ("square", same length
    * on each side). The spatial location of the coefficients within the
    * operator is defined by the subclass implementation of the Fill method.
@@ -117,19 +117,20 @@ public:
   /**
    * Assignment operator
    */
-  Self &operator=(const Self& other)
+  Self & operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
   }
+
   /**
    * Prints some debugging information
    */
-  virtual void PrintSelf(std::ostream &os, Indent i) const  
-    { 
+  virtual void PrintSelf(std::ostream & os, Indent i) const
+  {
     os << i << "SobelOperator { this=" << this  << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
-    }
+    Superclass::PrintSelf( os, i.GetNextIndent() );
+  }
 
 protected:
   /**
@@ -147,25 +148,28 @@ protected:
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const CoefficientVector &c);
-
+  void Fill(const CoefficientVector & c);
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SobelOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT SobelOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef SobelOperator< ITK_TEMPLATE_2 x > \
-                                                  SobelOperator##y; } \
+#define ITK_TEMPLATE_SobelOperator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                 \
+  {                                                             \
+  _( 2 ( class EXPORT SobelOperator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                           \
+  {                                                             \
+  typedef SobelOperator< ITK_TEMPLATE_2 TypeX >                 \
+  SobelOperator##TypeY;                                       \
+  }                                                             \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkSobelOperator+-.h"
+#include "Templates/itkSobelOperator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkSobelOperator.txx"
+#include "itkSobelOperator.txx"
 #endif
 
 #endif

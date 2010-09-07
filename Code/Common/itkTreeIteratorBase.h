@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,11 +19,11 @@
 
 #include <itkTreeNode.h>
 
-namespace itk {
-
+namespace itk
+{
 /** \class TreeIteratorBase
  *  \brief TreeIteratorBase class
- * 
+ *
  * This class provides the base implementation for tree iterators
  *
  * Events will notify interested observers about tree changes. These events all derive from TreeChangeEvent. They are:
@@ -38,15 +38,15 @@ namespace itk {
  *  the thing it points to.
  *
  */
-template <class TTreeType>
+template< class TTreeType >
 class TreeIteratorBase
 {
-public: 
-  
+public:
+
   /** Typedefs */
-  typedef TreeIteratorBase                    Self;
-  typedef typename TTreeType::ValueType       ValueType;
-  typedef typename TTreeType::TreeNodeType    TreeNodeType;
+  typedef TreeIteratorBase                 Self;
+  typedef typename TTreeType::ValueType    ValueType;
+  typedef typename TTreeType::TreeNodeType TreeNodeType;
 
   /** Add an element to the tree */
   virtual bool Add(ValueType element);
@@ -55,17 +55,17 @@ public:
   virtual bool Add(int position, ValueType element);
 
   /** Add a subtree */
-  virtual bool Add(TTreeType& subTree);
+  virtual bool Add(TTreeType & subTree);
 
   /** Get a value */
-  virtual const ValueType& Get() const;
+  virtual const ValueType & Get() const;
 
   /** Get the subtree */
-  virtual TTreeType* GetSubTree() const;
+  virtual TTreeType * GetSubTree() const;
 
   /** Return true if the current node is a leaf */
   virtual bool IsLeaf() const;
-  
+
   /** Return true if the current node is a root */
   virtual bool IsRoot() const;
 
@@ -74,9 +74,9 @@ public:
 
   /** Go to the specified child */
   virtual bool GoToChild(int number = 0);
-  
+
   /** Go to the parent */
-  virtual bool GoToParent( );
+  virtual bool GoToParent();
 
   /** Set the current value of the node */
   void Set(ValueType element);
@@ -100,13 +100,13 @@ public:
   virtual bool Disconnect();
 
   /** Return a list of children */
-  virtual TreeIteratorBase<TTreeType>* Children();
+  virtual TreeIteratorBase< TTreeType > * Children();
 
   /** Return a list of parents */
-  virtual TreeIteratorBase<TTreeType>* Parents();
+  virtual TreeIteratorBase< TTreeType > * Parents();
 
   /** Return a list of child */
-  virtual TreeIteratorBase<TTreeType>* GetChild(int number) const;
+  virtual TreeIteratorBase< TTreeType > * GetChild(int number) const;
 
   /** Count the number of nodes */
   virtual int Count();
@@ -115,49 +115,51 @@ public:
   bool Remove();
 
   /** Get the current node */
-  virtual TreeNodeType* GetNode();
-  virtual const TreeNodeType* GetNode() const;
+  virtual TreeNodeType * GetNode();
+
+  virtual const TreeNodeType * GetNode() const;
 
   /** Get the root */
-  TreeNodeType* GetRoot();
-  const TreeNodeType* GetRoot() const;
-  
+  TreeNodeType * GetRoot();
+
+  const TreeNodeType * GetRoot() const;
+
   /** Get the tree */
-  TTreeType* GetTree() const;
+  TTreeType * GetTree() const;
 
   /** Return the first parent found */
-  const TreeNodeType* GetParent() const;
+  const TreeNodeType * GetParent() const;
 
   /** Move an iterator to the beginning of the tree */
   void GoToBegin()
-    {
+  {
     m_Position = m_Begin;
-    }
+  }
 
   /** Move an iterator to the end of the tree. */
   void GoToEnd()
-    {
+  {
     m_Position = m_End;
-    }
+  }
 
   /** Is the iterator at the beginning of the tree? */
   bool IsAtBegin(void) const
-    {
-    return (m_Position == m_Begin);
-    }
+  {
+    return ( m_Position == m_Begin );
+  }
 
   /** Is the iterator at the end of the tree?. The iterator is at the
    * end if it points to NULL */
   bool IsAtEnd(void) const
-    {
-    return (m_Position == m_End);
-    }
+  {
+    return ( m_Position == m_End );
+  }
 
   /** Clone the iterator */
-  virtual TreeIteratorBase<TTreeType>* Clone() = 0;
+  virtual TreeIteratorBase< TTreeType > * Clone() = 0;
 
   /** Enumerations */
-  enum{
+  enum {
     UNDEFIND   = 0,
     PREORDER   = 1,
     INORDER    = 2,
@@ -166,66 +168,72 @@ public:
     CHILD   = 5,
     ROOT     = 6,
     LEAF     = 7
-  };
+    };
 
   /** operator++ */
   Self &
   operator++()
-    {
+  {
     this->Next();
     return *this;
-    }
+  }
+
   /** operator++ */
   void
   operator++(int)
-    {
+  {
     // assert( !IsAtEnd() );
     this->Next();
-    }
+  }
+
   /** operator = */
-  const Self & operator=(const Self& iterator) 
-    {
-    m_Position = iterator.m_Position; 
+  const Self & operator=(const Self & iterator)
+  {
+    m_Position = iterator.m_Position;
     m_Begin  = iterator.m_Begin;
     m_End = iterator.m_End;
     m_Root = iterator.m_Root;
     m_Tree = iterator.m_Tree;
     return *this;
-    }
+  }
 
   virtual ~TreeIteratorBase() {}
-  
 protected:
 
   /** Constructors */
-  TreeIteratorBase( TTreeType* tree, const TreeNodeType* start);
-  TreeIteratorBase( const TTreeType* tree, const TreeNodeType* start);
+  TreeIteratorBase(TTreeType *tree, const TreeNodeType *start);
+  TreeIteratorBase(const TTreeType *tree, const TreeNodeType *start);
 
-  mutable TreeNodeType* m_Position; // Current position of the iterator
-  mutable TreeNodeType* m_Begin;
-  mutable TreeNodeType* m_End;
-  const TreeNodeType*   m_Root;
-  TTreeType*            m_Tree;
+  mutable TreeNodeType *m_Position; // Current position of the iterator
+  mutable TreeNodeType *m_Begin;
+  mutable TreeNodeType *m_End;
+  const TreeNodeType *  m_Root;
+  TTreeType *           m_Tree;
 
   virtual bool HasNext() const = 0;
-  virtual const ValueType& Next() = 0;
-};
 
+  virtual const ValueType & Next() = 0;
+};
 } //end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_TreeIteratorBase(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT TreeIteratorBase< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef TreeIteratorBase< ITK_TEMPLATE_1 x > \
-                                                  TreeIteratorBase##y; } \
+#define ITK_TEMPLATE_TreeIteratorBase(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                    \
+  {                                                                \
+  _( 1 ( class EXPORT TreeIteratorBase< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                              \
+  {                                                                \
+  typedef TreeIteratorBase< ITK_TEMPLATE_1 TypeX >                 \
+  TreeIteratorBase##TypeY;                                       \
+  }                                                                \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkTreeIteratorBase+-.h"
+#include "Templates/itkTreeIteratorBase+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkTreeIteratorBase.txx"
+#include "itkTreeIteratorBase.txx"
 #endif
 
 #endif

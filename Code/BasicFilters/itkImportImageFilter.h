@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** \class ImportImageFilter
  * \brief Import data from a standard C array into an itk::Image
  *
@@ -31,48 +30,47 @@ namespace itk
  *
  * This class is templated over the pixel type and the image dimension of
  * the output image.
- * 
+ *
  * \ingroup IOFilters
  */
-template <typename TPixel, unsigned int VImageDimension=2>
-class ITK_EXPORT ImportImageFilter: 
-    public ImageSource< Image<TPixel,VImageDimension> >
+template< typename TPixel, unsigned int VImageDimension = 2 >
+class ITK_EXPORT ImportImageFilter:
+  public ImageSource< Image< TPixel, VImageDimension > >
 {
 public:
   /** Typedef for the output image.   */
-  typedef Image<TPixel,VImageDimension>         OutputImageType;
+  typedef Image< TPixel, VImageDimension >      OutputImageType;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename OutputImageType::SpacingType SpacingType;
   typedef typename OutputImageType::PointType   OriginType;
 
-  
   /** Standard class typedefs. */
-  typedef ImportImageFilter             Self;
-  typedef ImageSource<OutputImageType>  Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef ImportImageFilter              Self;
+  typedef ImageSource< OutputImageType > Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImportImageFilter,ImageSource);
+  itkTypeMacro(ImportImageFilter, ImageSource);
 
   /** Index typedef support. An index is used to access pixel values. */
-  typedef Index<VImageDimension>  IndexType;
+  typedef Index< VImageDimension > IndexType;
 
   /** Size typedef support. A size is used to define region bounds. */
-  typedef Size<VImageDimension>  SizeType;
+  typedef Size< VImageDimension > SizeType;
 
-  /** Region typedef support. A region is used to specify a 
+  /** Region typedef support. A region is used to specify a
    * subset of an image. */
-  typedef ImageRegion<VImageDimension>  RegionType;
+  typedef ImageRegion< VImageDimension > RegionType;
 
   /** Type of the output image pixel type. */
   typedef TPixel OutputImagePixelType;
-  
+
   /** Get the pointer from which the image data is imported. */
-  TPixel *GetImportPointer();
+  TPixel * GetImportPointer();
 
   /** Set the pointer from which the image data is imported.  "num" is
    * the number of pixels in the block of memory. If
@@ -88,16 +86,16 @@ public:
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
-  void SetRegion(const RegionType &region)
-    { if (m_Region != region) {m_Region = region; this->Modified();} };
-  
+  void SetRegion(const RegionType & region)
+  { if ( m_Region != region ) { m_Region = region; this->Modified(); } }
+
   /** Get the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
-  const RegionType& GetRegion() const
-    { return m_Region;}
-  
+  const RegionType & GetRegion() const
+  { return m_Region; }
+
   /** Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing() */
   itkSetVectorMacro(Spacing, const double, VImageDimension);
@@ -106,31 +104,31 @@ public:
   /** Get the spacing (size of a pixel) of the image.
    * \sa SetSpacing() */
   itkGetVectorMacro(Spacing, const double, VImageDimension);
-  void SetSpacing( const SpacingType & spacing );
-  
+  void SetSpacing(const SpacingType & spacing);
+
   /** Set the origin of the image.
    * \sa GetOrigin() */
   itkSetVectorMacro(Origin, const double, VImageDimension);
   itkSetVectorMacro(Origin, const float, VImageDimension);
-  void SetOrigin( const OriginType & origin );
+  void SetOrigin(const OriginType & origin);
 
   /** Get the origin of the image.
    * \sa SetOrigin() */
   itkGetVectorMacro(Origin, const double, VImageDimension);
 
-  typedef Matrix<double, VImageDimension, VImageDimension> DirectionType;
+  typedef Matrix< double, VImageDimension, VImageDimension > DirectionType;
 
   /** Set the direction of the image
    * \sa GetDirection() */
-  virtual void SetDirection( const DirectionType direction );
+  virtual void SetDirection(const DirectionType direction);
+
   /**  Get the direction of the image
    * \sa SetDirection */
   itkGetConstReferenceMacro(Direction, DirectionType);
-
 protected:
   ImportImageFilter();
   ~ImportImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** This filter does not actually "produce" any data, rather it "wraps"
    * the user supplied data into an itk::Image.  */
@@ -150,20 +148,19 @@ protected:
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
-private:  
+private:
   ImportImageFilter(const ImportImageFilter &); //purposely not implemented
-  void operator=(const ImportImageFilter&); //purposely not implemented
+  void operator=(const ImportImageFilter &);    //purposely not implemented
 
   RegionType    m_Region;
   double        m_Spacing[VImageDimension];
   double        m_Origin[VImageDimension];
   DirectionType m_Direction;
 
-  TPixel*       m_ImportPointer;
+  TPixel *      m_ImportPointer;
   bool          m_FilterManageMemory;
   unsigned long m_Size;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,40 +24,38 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-VectorImage<TPixel, VImageDimension>
-::VectorImage() 
-      : m_VectorLength( 0 )
+template< class TPixel, unsigned int VImageDimension >
+VectorImage< TPixel, VImageDimension >
+::VectorImage():
+  m_VectorLength(0)
 {
   m_Buffer = PixelContainer::New();
 }
 
-
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
 ::Allocate()
 {
   if ( m_VectorLength == 0 )
     {
-    itkExceptionMacro( << "Cannot allocate VectorImage with VectorLength = 0");
+    itkExceptionMacro(<< "Cannot allocate VectorImage with VectorLength = 0");
     }
-  
+
   unsigned long num;
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
-  
+
   m_Buffer->Reserve(num * m_VectorLength);
 }
 
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
 ::Initialize()
 {
   //
@@ -74,45 +72,45 @@ VectorImage<TPixel, VImageDimension>
   m_Buffer = PixelContainer::New();
 }
 
-
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
-::FillBuffer(const PixelType& value)
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
+::FillBuffer(const PixelType & value)
 {
   const unsigned long numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
   unsigned long ctr = 0;
-  for(unsigned int i=0; i<numberOfPixels; i++) 
+
+  for ( unsigned int i = 0; i < numberOfPixels; i++ )
     {
-    for( VectorLengthType j=0; j<m_VectorLength; j++ )
+    for ( VectorLengthType j = 0; j < m_VectorLength; j++ )
       {
-      (*m_Buffer)[ctr++] = value[j];
+      ( *m_Buffer )[ctr++] = value[j];
       }
     }
 }
 
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
 ::SetPixelContainer(PixelContainer *container)
 {
-  if (m_Buffer != container)
+  if ( m_Buffer != container )
     {
     m_Buffer = container;
     this->Modified();
     }
 }
-    
+
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
 ::Graft(const DataObject *data)
 {
   // call the superclass' implementation
-  Superclass::Graft( data );
+  Superclass::Graft(data);
 
   if ( data )
     {
@@ -121,9 +119,9 @@ VectorImage<TPixel, VImageDimension>
 
     try
       {
-      imgData = dynamic_cast< const Self *>( data );
+      imgData = dynamic_cast< const Self * >( data );
       }
-    catch( ... )
+    catch ( ... )
       {
       return;
       }
@@ -132,50 +130,50 @@ VectorImage<TPixel, VImageDimension>
     if ( imgData )
       {
       // Now copy anything remaining that is needed
-      this->SetPixelContainer( const_cast< PixelContainer *>
-                                    (imgData->GetPixelContainer()) );
+      this->SetPixelContainer( const_cast< PixelContainer * >
+                               ( imgData->GetPixelContainer() ) );
       }
-    else 
+    else
       {
       // pointer could not be cast back down
       itkExceptionMacro( << "itk::VectorImage::Graft() cannot cast "
-                         << typeid(data).name() << " to "
-                         << typeid(const Self *).name() );
+                         << typeid( data ).name() << " to "
+                         << typeid( const Self * ).name() );
       }
     }
 }
 
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-unsigned int  
-VectorImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+unsigned int
+VectorImage< TPixel, VImageDimension >
 ::GetNumberOfComponentsPerPixel() const
 {
   return this->m_VectorLength;
 }
-  
+
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
 void
-VectorImage<TPixel, VImageDimension>
-::SetNumberOfComponentsPerPixel( unsigned int n )
+VectorImage< TPixel, VImageDimension >
+::SetNumberOfComponentsPerPixel(unsigned int n)
 {
-  this->SetVectorLength( static_cast< VectorLengthType >(n) );
+  this->SetVectorLength( static_cast< VectorLengthType >( n ) );
 }
 
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-void 
-VectorImage<TPixel, VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TPixel, unsigned int VImageDimension >
+void
+VectorImage< TPixel, VImageDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "VectorLength: " << m_VectorLength << std::endl;
   os << indent << "PixelContainer: " << std::endl;
-  m_Buffer->Print(os, indent.GetNextIndent());
+  m_Buffer->Print( os, indent.GetNextIndent() );
 
   // m_Origin and m_Spacing are printed in the Superclass
 }

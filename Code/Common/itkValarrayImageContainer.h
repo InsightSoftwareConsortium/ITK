@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class ValarrayImageContainer
  * Defines a front-end to the STL "valarray" container that conforms to the
  * ImageContainerInterface.  This is a full-fleged Object, so
@@ -43,29 +42,27 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup DataRepresentation
  */
-template <
+template<
   typename TElementIdentifier,
   typename TElement
   >
-class ValarrayImageContainer: 
+class ValarrayImageContainer:
   public Object,
-  private std::valarray<TElement>
+  private std::valarray< TElement >
 {
 public:
   /** Standard class typedefs. */
   typedef ValarrayImageContainer     Self;
   typedef Object                     Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
-    
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Save the template parameters. */
-  typedef TElementIdentifier  ElementIdentifier;
-  typedef TElement            Element;
-  
+  typedef TElementIdentifier ElementIdentifier;
+  typedef TElement           Element;
 private:
   /** Quick access to the STL valarray type that was inherited. */
-  typedef std::valarray<Element>  ValarrayType;
-  
+  typedef std::valarray< Element > ValarrayType;
 protected:
   /** Provide pass-through constructors corresponding to all the STL
    * valarray constructors.  These are for internal use only since
@@ -75,83 +72,79 @@ protected:
     ValarrayType() {}
   ValarrayImageContainer(unsigned long n):
     ValarrayType(n) {}
-  ValarrayImageContainer(unsigned long n, const Element& x):
+  ValarrayImageContainer(unsigned long n, const Element & x):
     ValarrayType(n, x) {}
-  ValarrayImageContainer(const Self& r):
+  ValarrayImageContainer(const Self & r):
     ValarrayType(r) {}
-  
 public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Standard part of every itk Object. */
   itkTypeMacro(ValarrayImageContainer, Object);
 
   /** Index operator. This version can be an lvalue. */
   TElement & operator[](const ElementIdentifier id)
-    { return this->ValarrayType::operator[](id); };
+  { return this->ValarrayType::operator[](id); }
 
   /** Index operator. This version can only be an rvalue */
   const TElement & operator[](const ElementIdentifier id) const
-    { return this->ValarrayType::operator[](id); };
+  { return this->ValarrayType::operator[](id); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TElement *GetBufferPointer() 
-    {
-    if (this->Size() > 0)
+  TElement * GetBufferPointer()
+  {
+    if ( this->Size() > 0 )
       {
-      return &(this->ValarrayType::operator[](0));
+      return & ( this->ValarrayType::operator[](0) );
       }
     else
       {
       return NULL;
       }
-    };
-  
+  }
+
   /** Get the number of elements currently stored in the container. */
   unsigned long Size(void) const
-    { return static_cast<unsigned long>(this->ValarrayType::size()); }
+  { return static_cast< unsigned long >( this->ValarrayType::size() ); }
 
   /** Tell the container to allocate enough memory to allow at least
    * as many elements as the size given to be stored.  This is NOT
    * guaranteed to actually allocate any memory, but is useful if the
    * implementation of the container allocates contiguous storage. */
   void Reserve(ElementIdentifier num)
-    { this->ValarrayType::resize(num); }
-  
+  { this->ValarrayType::resize(num); }
+
   /** Tell the container to try to minimize its memory usage for storage of
    * the current number of elements.  This is NOT guaranteed to decrease
    * memory usage. */
   void Squeeze(void)
-    { this->ValarrayType::resize( this->ValarrayType::size() ); }
+  { this->ValarrayType::resize( this->ValarrayType::size() ); }
 
   /** Tell the container to release any of its allocated memory. */
   void Initialize(void)
-    { this->ValarrayType::resize( 0 ); }
+  { this->ValarrayType::resize(0); }
 
-   /** Tell the container to release any of its allocated memory. */
+  /** Tell the container to release any of its allocated memory. */
   void Fill(const TElement & value)
-    { this->ValarrayType::operator=( value ); }
-  
+  { this->ValarrayType::operator=(value); }
 public:
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not
    * call this method but should call Print() instead.  */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const
-    {
+  virtual void PrintSelf(std::ostream & os, Indent indent) const
+  {
     Object::PrintSelf(os, indent);
     // Print out the pointer to bulk data memory. We use const_cast<> to
     // cast away the constness so we can call GetBufferPointer()
     os << indent << "Pointer: "
-       << const_cast<ValarrayImageContainer*>(this)->GetBufferPointer()
+       << const_cast< ValarrayImageContainer * >( this )->GetBufferPointer()
        << std::endl;
-    
-    os << indent << "Size: " << this->Size() << std::endl;
-    }
-  
-};
 
+    os << indent << "Size: " << this->Size() << std::endl;
+  }
+};
 } // end namespace itk
-  
+
 #endif

@@ -56,16 +56,16 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  */
 
-template <class TInputImage, class TOutputImage >
-class ITK_EXPORT DiscreteGaussianDerivativeImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DiscreteGaussianDerivativeImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef DiscreteGaussianDerivativeImageFilter           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,10 +90,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
 
   /** Array for storing desired order of derivatives */
-  typedef FixedArray<unsigned int, itkGetStaticConstMacro(ImageDimension)> OrderArrayType;
+  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) > OrderArrayType;
 
   /** Order of derivatives in each dimension. Sets the derivative order
    * independently for each dimension, but see also
@@ -121,43 +121,47 @@ public:
   itkGetConstMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
 
-  
   /** \brief Set/Get number of pieces to divide the input for the
    * internal composite pipeline. The upstream pipeline will not be
-   * effected.  
+   * effected.
    *
    * The default value is $ImageDimension^2$.
    *
    * This parameter was introduced to reduce the memory used by images
-   * internally, at the cost of performance. 
+   * internally, at the cost of performance.
    */
-  itkSetMacro(InternalNumberOfStreamDivisions,unsigned int);
-  itkGetConstMacro(InternalNumberOfStreamDivisions,unsigned int);
-  
+  itkSetMacro(InternalNumberOfStreamDivisions, unsigned int);
+  itkGetConstMacro(InternalNumberOfStreamDivisions, unsigned int);
 
   /** Convenience Set methods for setting all dimensional parameters
-   *  to the same values. 
+   *  to the same values.
    */
   /*@{*/
-  void SetOrder (const typename OrderArrayType::ValueType v)
-      {
-      OrderArrayType a;
-      a.Fill(v);
-      this->SetOrder(a);
-      }
-    void SetVariance (const typename ArrayType::ValueType v)
-      {
-      ArrayType a;
-      a.Fill(v);
-      this->SetVariance(a);
-      }
-    void SetMaximumError (const typename ArrayType::ValueType v)
-      {
-      ArrayType a;
-      a.Fill(v);
-      this->SetMaximumError(a);
-      }
-    /*@}*/
+  void SetOrder(const typename OrderArrayType::ValueType v)
+  {
+    OrderArrayType a;
+
+    a.Fill(v);
+    this->SetOrder(a);
+  }
+
+  void SetVariance(const typename ArrayType::ValueType v)
+  {
+    ArrayType a;
+
+    a.Fill(v);
+    this->SetVariance(a);
+  }
+
+  void SetMaximumError(const typename ArrayType::ValueType v)
+  {
+    ArrayType a;
+
+    a.Fill(v);
+    this->SetMaximumError(a);
+  }
+
+  /*@}*/
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations. Default is ImageSpacingOn. */
@@ -167,24 +171,24 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputPixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
 
   DiscreteGaussianDerivativeImageFilter()
-    {
+  {
     m_Order.Fill(1);
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
     m_MaximumKernelWidth = 32;
     m_UseImageSpacing = true;
-    m_InternalNumberOfStreamDivisions = ImageDimension*ImageDimension;
-    }
+    m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
+  }
+
   virtual ~DiscreteGaussianDerivativeImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
    * than the output requested region (larger by the size of the
@@ -192,7 +196,8 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -203,13 +208,16 @@ protected:
 
 private:
 
-  DiscreteGaussianDerivativeImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  DiscreteGaussianDerivativeImageFilter(const Self &); //purposely not
+                                                       // implemented
+  void operator=(const Self &);                        //purposely not
+                                                       // implemented
 
   /** The order of the derivatives in each dimensional direction. */
   OrderArrayType m_Order;
 
-  /** The variance of the gaussian blurring kernel in each dimensional direction. */
+  /** The variance of the gaussian blurring kernel in each dimensional
+    direction. */
   ArrayType m_Variance;
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
@@ -223,12 +231,11 @@ private:
 
   /** Flag to indicate whether to use image spacing */
   bool m_UseImageSpacing;
-  
+
   /** Number of pieces to divide the input on the internal composite
   pipeline. The upstream pipeline will not be effected. */
   unsigned int m_InternalNumberOfStreamDivisions;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

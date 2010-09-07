@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,151 +19,145 @@
 
 #include "itkMetaTubeConverter.h"
 
-namespace itk  
+namespace itk
 {
-
-
-/** Constructor */ 
-template <unsigned int NDimensions>
-MetaTubeConverter<NDimensions>
+/** Constructor */
+template< unsigned int NDimensions >
+MetaTubeConverter< NDimensions >
 ::MetaTubeConverter()
-{
-  
-}
-
+{}
 
 /** Convert a metaTube into an Tube SpatialObject  */
-template <unsigned int NDimensions>
-typename MetaTubeConverter<NDimensions>::SpatialObjectPointer
-MetaTubeConverter<NDimensions>
-::MetaTubeToTubeSpatialObject(MetaTube * tube)
-{ 
-  typedef itk::TubeSpatialObject<NDimensions> TubeSpatialObjectType;
+template< unsigned int NDimensions >
+typename MetaTubeConverter< NDimensions >::SpatialObjectPointer
+MetaTubeConverter< NDimensions >
+::MetaTubeToTubeSpatialObject(MetaTube *tube)
+{
+  typedef itk::TubeSpatialObject< NDimensions > TubeSpatialObjectType;
   typename TubeSpatialObjectType::Pointer tub = TubeSpatialObjectType::New();
   double spacing[NDimensions];
 
   unsigned int ndims = tube->NDims();
-  for(unsigned int i=0;i<ndims;i++)
+  for ( unsigned int i = 0; i < ndims; i++ )
     {
-    spacing[i]=tube->ElementSpacing()[i];
+    spacing[i] = tube->ElementSpacing()[i];
     }
 
   tub->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tub->GetProperty()->SetName(tube->Name());
-  tub->SetParentPoint(tube->ParentPoint());
-  tub->SetId(tube->ID());
-  tub->SetParentId(tube->ParentID());
+  tub->GetProperty()->SetName( tube->Name() );
+  tub->SetParentPoint( tube->ParentPoint() );
+  tub->SetId( tube->ID() );
+  tub->SetParentId( tube->ParentID() );
   tub->GetProperty()->SetRed(tube->Color()[0]);
   tub->GetProperty()->SetGreen(tube->Color()[1]);
   tub->GetProperty()->SetBlue(tube->Color()[2]);
   tub->GetProperty()->SetAlpha(tube->Color()[3]);
 
-  typedef itk::TubeSpatialObjectPoint<NDimensions> TubePointType;
-  typedef TubePointType*                           TubePointPointer;
+  typedef itk::TubeSpatialObjectPoint< NDimensions > TubePointType;
+  typedef TubePointType *                            TubePointPointer;
 
   typedef MetaTube::PointListType ListType;
   ListType::iterator it2 = tube->GetPoints().begin();
-    
-  itk::CovariantVector<double,NDimensions> v; 
-  itk::Vector<double,NDimensions> t;
-  
-  for(unsigned int identifier=0;identifier< tube->GetPoints().size();identifier++)
+
+  itk::CovariantVector< double, NDimensions > v;
+  itk::Vector< double, NDimensions >          t;
+
+  for ( unsigned int identifier = 0; identifier < tube->GetPoints().size(); identifier++ )
     {
     TubePointType pnt;
-    
+
     typedef typename TubeSpatialObjectType::PointType PointType;
     PointType point;
 
-    for(unsigned int i=0;i<ndims;i++)
+    for ( unsigned int i = 0; i < ndims; i++ )
       {
-      point[i]=(*it2)->m_X[i];
+      point[i] = ( *it2 )->m_X[i];
       }
 
     pnt.SetPosition(point);
-    pnt.SetRadius((*it2)->m_R);
+    pnt.SetRadius( ( *it2 )->m_R );
 
-    for(unsigned int i=0;i<ndims;i++)
+    for ( unsigned int i = 0; i < ndims; i++ )
       {
-      v[i]=(*it2)->m_V1[i];
+      v[i] = ( *it2 )->m_V1[i];
       }
     pnt.SetNormal1(v);
 
-    for(unsigned int i=0;i<ndims;i++)
+    for ( unsigned int i = 0; i < ndims; i++ )
       {
-      v[i]=(*it2)->m_V2[i];
+      v[i] = ( *it2 )->m_V2[i];
       }
     pnt.SetNormal2(v);
 
-    for(unsigned int i=0;i<ndims;i++)
+    for ( unsigned int i = 0; i < ndims; i++ )
       {
-      t[i]=(*it2)->m_T[i];
+      t[i] = ( *it2 )->m_T[i];
       }
     pnt.SetTangent(t);
-   
-    pnt.SetRed((*it2)->m_Color[0]);
-    pnt.SetGreen((*it2)->m_Color[1]);
-    pnt.SetBlue((*it2)->m_Color[2]);
-    pnt.SetAlpha((*it2)->m_Color[3]);
 
-    pnt.SetID((*it2)->m_ID);
+    pnt.SetRed( ( *it2 )->m_Color[0] );
+    pnt.SetGreen( ( *it2 )->m_Color[1] );
+    pnt.SetBlue( ( *it2 )->m_Color[2] );
+    pnt.SetAlpha( ( *it2 )->m_Color[3] );
+
+    pnt.SetID( ( *it2 )->m_ID );
 
     tub->GetPoints().push_back(pnt);
 
     it2++;
     }
- 
+
   return tub;
 }
 
 /** Convert an Tube SpatialObject into a metaTube */
-template <unsigned int NDimensions>
-MetaTube*
-MetaTubeConverter<NDimensions>
-::TubeSpatialObjectToMetaTube(SpatialObjectType * spatialObject)
-{ 
-  MetaTube* tube = new MetaTube(NDimensions);
+template< unsigned int NDimensions >
+MetaTube *
+MetaTubeConverter< NDimensions >
+::TubeSpatialObjectToMetaTube(SpatialObjectType *spatialObject)
+{
+  MetaTube *tube = new MetaTube(NDimensions);
 
-  // fill in the tube information  
+  // fill in the tube information
   typename SpatialObjectType::PointListType::const_iterator it;
-  for(it = dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().begin(); 
-      it != dynamic_cast<SpatialObjectType*>(spatialObject)->GetPoints().end();
-      it++)
+  for ( it = dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().begin();
+        it != dynamic_cast< SpatialObjectType * >( spatialObject )->GetPoints().end();
+        it++ )
     {
-    TubePnt* pnt = new TubePnt(NDimensions);
+    TubePnt *pnt = new TubePnt(NDimensions);
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = (*it).GetPosition()[d];
-      }
-      
-    pnt->m_ID = (*it).GetID();
-    pnt->m_R=(*it).GetRadius();
-
-    for(unsigned int d=0;d<NDimensions;d++)
-      {
-      pnt->m_V1[d]=(*it).GetNormal1()[d];
+      pnt->m_X[d] = ( *it ).GetPosition()[d];
       }
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    pnt->m_ID = ( *it ).GetID();
+    pnt->m_R = ( *it ).GetRadius();
+
+    for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V2[d]=(*it).GetNormal2()[d];
+      pnt->m_V1[d] = ( *it ).GetNormal1()[d];
       }
 
-    for(unsigned int d=0;d<NDimensions;d++)
+    for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_T[d]=(*it).GetTangent()[d];
+      pnt->m_V2[d] = ( *it ).GetNormal2()[d];
       }
-              
-    pnt->m_Color[0] = (*it).GetRed();
-    pnt->m_Color[1] = (*it).GetGreen();
-    pnt->m_Color[2] = (*it).GetBlue();
-    pnt->m_Color[3] = (*it).GetAlpha();
 
-    tube->GetPoints().push_back(pnt); 
+    for ( unsigned int d = 0; d < NDimensions; d++ )
+      {
+      pnt->m_T[d] = ( *it ).GetTangent()[d];
+      }
+
+    pnt->m_Color[0] = ( *it ).GetRed();
+    pnt->m_Color[1] = ( *it ).GetGreen();
+    pnt->m_Color[2] = ( *it ).GetBlue();
+    pnt->m_Color[3] = ( *it ).GetAlpha();
+
+    tube->GetPoints().push_back(pnt);
     }
 
-
-  if(NDimensions == 2)
+  if ( NDimensions == 2 )
     {
     tube->PointDim("x y r v1x v1y tx ty red green blue alpha id");
     }
@@ -173,57 +167,56 @@ MetaTubeConverter<NDimensions>
     }
 
   float color[4];
-  for(unsigned int i=0;i<4;i++)
+  for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i]=spatialObject->GetProperty()->GetColor()[i];
+    color[i] = spatialObject->GetProperty()->GetColor()[i];
     }
 
   tube->Color(color);
-  tube->ID( spatialObject->GetId());
+  tube->ID( spatialObject->GetId() );
 
-  if(spatialObject->GetParent())
+  if ( spatialObject->GetParent() )
     {
-    tube->ParentID(spatialObject->GetParent()->GetId());
+    tube->ParentID( spatialObject->GetParent()->GetId() );
     }
-  tube->ParentPoint(spatialObject->GetParentPoint());
-  tube->NPoints(tube->GetPoints().size());
+  tube->ParentPoint( spatialObject->GetParentPoint() );
+  tube->NPoints( tube->GetPoints().size() );
 
-  for(unsigned int i=0;i<NDimensions;i++)
+  for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    tube->ElementSpacing(i,spatialObject->GetIndexToObjectTransform()
-                                        ->GetScaleComponent()[i]);
+    tube->ElementSpacing(i, spatialObject->GetIndexToObjectTransform()
+                         ->GetScaleComponent()[i]);
     }
   return tube;
 }
 
-
 /** Read a meta file give the type */
-template <unsigned int NDimensions>
-typename MetaTubeConverter<NDimensions>::SpatialObjectPointer
-MetaTubeConverter<NDimensions>
-::ReadMeta(const char* name)
+template< unsigned int NDimensions >
+typename MetaTubeConverter< NDimensions >::SpatialObjectPointer
+MetaTubeConverter< NDimensions >
+::ReadMeta(const char *name)
 {
   SpatialObjectPointer spatialObject;
-  MetaTube* Tube = new MetaTube();
+  MetaTube *           Tube = new MetaTube();
+
   Tube->Read(name);
   spatialObject = MetaTubeToTubeSpatialObject(Tube);
   delete Tube;
   return spatialObject;
 }
 
-
 /** Write a meta Tube file */
-template <unsigned int NDimensions>
+template< unsigned int NDimensions >
 bool
-MetaTubeConverter<NDimensions>
-::WriteMeta(SpatialObjectType* spatialObject,const char* name)
+MetaTubeConverter< NDimensions >
+::WriteMeta(SpatialObjectType *spatialObject, const char *name)
 {
-  MetaTube* Tube = TubeSpatialObjectToMetaTube(spatialObject);
+  MetaTube *Tube = TubeSpatialObjectToMetaTube(spatialObject);
+
   Tube->Write(name);
   delete Tube;
   return true;
 }
-
-} // end namespace itk 
+} // end namespace itk
 
 #endif

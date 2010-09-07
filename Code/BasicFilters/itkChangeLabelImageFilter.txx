@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,70 +24,68 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-ChangeLabelImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+ChangeLabelImageFilter< TInputImage, TOutputImage >
 ::ChangeLabelImageFilter()
-{
-}
+{}
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ChangeLabelImageFilter<TInputImage, TOutputImage>
-::SetChange( const InputPixelType & original, const OutputPixelType & result )
+ChangeLabelImageFilter< TInputImage, TOutputImage >
+::SetChange(const InputPixelType & original, const OutputPixelType & result)
 {
-  OutputPixelType  current = this->GetFunctor().GetChange(original); 
+  OutputPixelType current = this->GetFunctor().GetChange(original);
+
   if ( current != result )
     {
     this->GetFunctor().SetChange(original, result);
     this->Modified();
-    }  
+    }
 }
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ChangeLabelImageFilter<TInputImage, TOutputImage>
-::SetChangeMap( const ChangeMapType & changeMap )
+ChangeLabelImageFilter< TInputImage, TOutputImage >
+::SetChangeMap(const ChangeMapType & changeMap)
 {
   //If the whole map is being set then we assume that a real change is made
-  this->GetFunctor().SetChangeMap(changeMap); 
+  this->GetFunctor().SetChangeMap(changeMap);
   this->Modified();
 }
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-ChangeLabelImageFilter<TInputImage, TOutputImage>
-::ClearChangeMap( )
+ChangeLabelImageFilter< TInputImage, TOutputImage >
+::ClearChangeMap()
 {
   //If the whole map is being set then we assume that a real change is made
-  this->GetFunctor().ClearChangeMap(); 
+  this->GetFunctor().ClearChangeMap();
   this->Modified();
 }
 
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-ChangeLabelImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TOutputImage >
+void
+ChangeLabelImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   //Maybe should iterate the change map and print it here
 }
-
 } // end namespace itk
 
 #endif

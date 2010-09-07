@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,13 +22,12 @@
 
 namespace itk
 {
-
 /** \class DanielssonDistanceMapImageFilter
  *
  * This class is parametrized over the type of the input image
  * and the type of the output image.
  *
- * This filter computes the distance map of the input image 
+ * This filter computes the distance map of the input image
  * as an approximation with pixel accuracy to the Euclidean distance.
  *
  * The input is assumed to contain numeric codes defining objects.
@@ -47,50 +46,50 @@ namespace itk
  * This filter is N-dimensional and known to be efficient
  * in computational time.  The algorithm is the N-dimensional version
  * of the 4SED algorithm given for two dimensions in:
- * 
+ *
  * Danielsson, Per-Erik.  Euclidean Distance Mapping.  Computer
  * Graphics and Image Processing 14, 227-248 (1980).
  *
- * \ingroup ImageFeatureExtraction 
+ * \ingroup ImageFeatureExtraction
  *
  */
 
-template <class TInputImage,class TOutputImage>
-class ITK_EXPORT DanielssonDistanceMapImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT DanielssonDistanceMapImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef DanielssonDistanceMapImageFilter             Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef DanielssonDistanceMapImageFilter                Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( DanielssonDistanceMapImageFilter, ImageToImageFilter );
+  itkTypeMacro(DanielssonDistanceMapImageFilter, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef   TInputImage       InputImageType;
+  typedef   TInputImage InputImageType;
 
   /** Type for two of the three output images: the VoronoiMap and the
    * DistanceMap.  */
-  typedef   TOutputImage      OutputImageType;
+  typedef   TOutputImage OutputImageType;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType   RegionType;
+  typedef typename InputImageType::RegionType RegionType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType  IndexType;
+  typedef typename RegionType::IndexType IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::OffsetType  OffsetType;
+  typedef typename InputImageType::OffsetType OffsetType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType   SizeType;
-  
+  typedef typename RegionType::SizeType SizeType;
+
   /** The dimension of the input and output images. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
@@ -99,7 +98,7 @@ public:
 
   /** Pointer Type for the vector distance image */
   typedef Image< OffsetType,
-                 itkGetStaticConstMacro(InputImageDimension)> VectorImageType;
+                 itkGetStaticConstMacro(InputImageDimension) > VectorImageType;
 
   /** Pointer Type for input image. */
   typedef typename InputImageType::ConstPointer InputImagePointer;
@@ -111,40 +110,40 @@ public:
   typedef typename VectorImageType::Pointer VectorImagePointer;
 
   /** Set if the distance should be squared. */
-  itkSetMacro( SquaredDistance, bool );
+  itkSetMacro(SquaredDistance, bool);
 
   /** Get the distance squared. */
-  itkGetConstReferenceMacro( SquaredDistance, bool );
+  itkGetConstReferenceMacro(SquaredDistance, bool);
 
   /** Set On/Off if the distance is squared. */
-  itkBooleanMacro( SquaredDistance );
+  itkBooleanMacro(SquaredDistance);
 
   /** Set if the input is binary. If this variable is set, each
    * nonzero pixel in the input image will be given a unique numeric
    * code to be used by the Voronoi partition.  If the image is binary
    * but you are not interested in the Voronoi regions of the
    * different nonzero pixels, then you need not set this.  */
-  itkSetMacro( InputIsBinary, bool );
+  itkSetMacro(InputIsBinary, bool);
 
   /** Get if the input is binary.  See SetInputIsBinary(). */
-  itkGetConstReferenceMacro( InputIsBinary, bool );
+  itkGetConstReferenceMacro(InputIsBinary, bool);
 
   /** Set On/Off if the input is binary.  See SetInputIsBinary(). */
-  itkBooleanMacro( InputIsBinary );
+  itkBooleanMacro(InputIsBinary);
 
   /** Set if image spacing should be used in computing distances. */
-  itkSetMacro( UseImageSpacing, bool );
+  itkSetMacro(UseImageSpacing, bool);
 
   /** Get whether spacing is used. */
-  itkGetConstReferenceMacro( UseImageSpacing, bool );
+  itkGetConstReferenceMacro(UseImageSpacing, bool);
 
   /** Set On/Off whether spacing is used. */
-  itkBooleanMacro( UseImageSpacing );
+  itkBooleanMacro(UseImageSpacing);
 
   /** Get Voronoi Map
-   * This map shows for each pixel what object is closest to it. 
-   * Each object should be labeled by a number (larger than 0), 
-   * so the map has a value for each pixel corresponding to the label 
+   * This map shows for each pixel what object is closest to it.
+   * Each object should be labeled by a number (larger than 0),
+   * so the map has a value for each pixel corresponding to the label
    * of the closest object.  */
   OutputImageType * GetVoronoiMap(void);
 
@@ -163,51 +162,47 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(UnsignedIntConvertibleToOutputCheck,
-    (Concept::Convertible<unsigned int, typename TOutputImage::PixelType>));
-  itkConceptMacro(IntConvertibleToOutputCheck,
-    (Concept::Convertible<int, typename TOutputImage::PixelType>));
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, typename TOutputImage::PixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<typename TInputImage::PixelType,
-                          typename TOutputImage::PixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( UnsignedIntConvertibleToOutputCheck,
+                   ( Concept::Convertible< unsigned int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( IntConvertibleToOutputCheck,
+                   ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< typename TInputImage::PixelType,
+                                           typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   DanielssonDistanceMapImageFilter();
-  virtual ~DanielssonDistanceMapImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~DanielssonDistanceMapImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Compute Danielsson distance map and Voronoi Map. */
-  void GenerateData();  
+  void GenerateData();
 
   /** Prepare data. */
-  void PrepareData();  
+  void PrepareData();
 
   /**  Compute Voronoi Map. */
-  void ComputeVoronoiMap();  
+  void ComputeVoronoiMap();
 
   /** Update distance map locally.  Used by GenerateData(). */
-  void UpdateLocalDistance(VectorImageType*,
-                           const IndexType&,
-                           const OffsetType&);
+  void UpdateLocalDistance(VectorImageType *,
+                           const IndexType &,
+                           const OffsetType &);
 
-private:   
-  DanielssonDistanceMapImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+private:
+  DanielssonDistanceMapImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
 
-  bool                  m_SquaredDistance;
-  bool                  m_InputIsBinary;
-  bool                  m_UseImageSpacing;
-
+  bool m_SquaredDistance;
+  bool m_InputIsBinary;
+  bool m_UseImageSpacing;
 }; // end of DanielssonDistanceMapImageFilter class
-
 } //end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkDanielssonDistanceMapImageFilter.txx"

@@ -119,8 +119,6 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     initializer->SetFixedLandmarks(fixedLandmarks);
     initializer->SetMovingLandmarks(movingLandmarks);
 
-    initializer->SetFixedImage( fixedImage );
-    initializer->SetMovingImage( movingImage );
     initializer->SetTransform( transform );
     initializer->InitializeTransform();
 
@@ -269,8 +267,6 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     initializer->SetMovingLandmarks(movingLandmarks);
 
 
-    initializer->SetFixedImage( fixedImage );
-    initializer->SetMovingImage( movingImage );
     initializer->SetTransform( transform );
     initializer->InitializeTransform();
 

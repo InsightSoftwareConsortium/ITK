@@ -21,10 +21,9 @@
 #include "itkBloxBoundaryProfileImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkSize.h"
-  
+
 namespace itk
 {
-
 /** \class BloxBoundaryPointImageToBloxBoundaryProfileImageFilter
  * \brief Converts a BloxImage of BloxBoundaryPoints to a BloxImage of
  * BloxBoundaryProfiles
@@ -52,18 +51,20 @@ namespace itk
  * \ingroup ImageEnhancement
  */
 template< typename TSourceImage >
-class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter :
-    public ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage< ::itk::GetImageDimension<TSourceImage>::ImageDimension> >
+class ITK_EXPORT BloxBoundaryPointImageToBloxBoundaryProfileImageFilter:
+  public ImageToImageFilter< TSourceImage,
+                             BloxBoundaryProfileImage< ::itk::GetImageDimension< TSourceImage >::ImageDimension > >
 {
 public:
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
 
   /** Standard class typedefs */
-  typedef BloxBoundaryPointImageToBloxBoundaryProfileImageFilter  Self;
-  typedef ImageToImageFilter<TSourceImage,BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)> >                                        Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+  typedef BloxBoundaryPointImageToBloxBoundaryProfileImageFilter Self;
+  typedef ImageToImageFilter< TSourceImage,
+                              BloxBoundaryProfileImage< itkGetStaticConstMacro(NDimensions) > > Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -72,8 +73,8 @@ public:
   itkTypeMacro(BloxBoundaryPointImageToBloxBoundaryProfileImageFilter, ImageToImageFilter);
 
   /** Typedef for boundary point image */
-  typedef BloxBoundaryPointImage<itkGetStaticConstMacro(NDimensions)>
-                                                        BoundaryPointImageType;
+  typedef BloxBoundaryPointImage< itkGetStaticConstMacro(NDimensions) >
+  BoundaryPointImageType;
   typedef typename BoundaryPointImageType::Pointer      BoundaryPointImagePointer;
   typedef typename BoundaryPointImageType::RegionType   BoundaryPointImageRegionType;
   typedef typename BoundaryPointImageType::PixelType    BoundaryPointImagePixelType;
@@ -87,29 +88,29 @@ public:
   typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
 
   /** Typedef for profile image */
-  typedef BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)>
-                                               OutputImageType;
+  typedef BloxBoundaryProfileImage< itkGetStaticConstMacro(NDimensions) >
+  OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
   /** Image index typedef */
-  typedef typename BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)>::IndexType IndexType;
+  typedef typename BloxBoundaryProfileImage< itkGetStaticConstMacro(NDimensions) >::IndexType IndexType;
 
   /** Image pixel value typedef */
-  typedef typename BloxBoundaryProfileImage<itkGetStaticConstMacro(NDimensions)>::PixelType PixelType;
+  typedef typename BloxBoundaryProfileImage< itkGetStaticConstMacro(NDimensions) >::PixelType PixelType;
 
   /** The type of vector used to convert between physical and blox space */
-  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
+  typedef Point< double, itkGetStaticConstMacro(NDimensions) > PositionType;
 
   /** Vector typedef */
   typedef typename PositionType::VectorType VectorType;
 
   /** Set the blurred original image */
-  void SetInput1( const SourceImageType * image1 );
+  void SetInput1(const SourceImageType *image1);
 
   /** Set the boundary point image */
-  void SetInput2( const BoundaryPointImageType * image2 );
+  void SetInput2(const BoundaryPointImageType *image2);
 
   /** Find maximum in accumulator */
   double FindAccumulatorMaximum();
@@ -120,7 +121,8 @@ public:
   /** Find boundary profiles from input images and store them */
   void FindBoundaryProfiles();
 
-  /** Add weighted pixel value to appropriate bin number in splat accumulator and normalizer */
+  /** Add weighted pixel value to appropriate bin number in splat accumulator
+    and normalizer */
   bool AddSplatToAccumulatorAndNormalizer(int binNumber, double weight, double sourcePixelValue);
 
   /** Normalize the splat accumulator by the normalizer */
@@ -135,23 +137,23 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SourceConvertibleToDoubleCheck,
-    (Concept::Convertible<typename TSourceImage::PixelType, double>));
+  itkConceptMacro( SourceConvertibleToDoubleCheck,
+                   ( Concept::Convertible< typename TSourceImage::PixelType, double > ) );
   /** End concept checking */
 #endif
-
 protected:
   BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
   ~BloxBoundaryPointImageToBloxBoundaryProfileImageFilter();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the BloxBoundaryProfileImage */
   void GenerateData();
 
 private:
-  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  //purposely not implemented
+  BloxBoundaryPointImageToBloxBoundaryProfileImageFilter(const Self &);
+  void operator=(const Self &);
 
   /** Length of major axis of ellipsoid */
   double m_UniqueAxis;
@@ -169,21 +171,20 @@ private:
   unsigned long int m_NumBoundaryProfiles;
 
   /** Weight pixel values */
-  double * m_Accumulator;
+  double *m_Accumulator;
 
   /** Count of pixels added to accumulator */
-  double * m_Normalizer;
+  double *m_Normalizer;
 
   /** Normalized accumulator */
-  double * m_NormalizedAccumulator;
+  double *m_NormalizedAccumulator;
 
   /** Final parameters delivered by FitProfile() */
-  double * m_FinalParameters;
+  double *m_FinalParameters;
 
   /** Number of parameters in cost function */
   unsigned int m_SpaceDimension;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

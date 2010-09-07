@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /** \class CoreAtomImageToDistanceMatrixProcess
  * \brief Computes the distance between all medial
  * nodes (voted core atoms) in a core atom image (input) and stores
@@ -35,17 +34,17 @@ namespace itk
  *
  */
 template< typename TSourceImage >
-class CoreAtomImageToDistanceMatrixProcess : public ProcessObject
+class CoreAtomImageToDistanceMatrixProcess:public ProcessObject
 {
 public:
   /** Number of dimensions */
   itkStaticConstMacro(NDimensions, unsigned int, TSourceImage::ImageDimension);
 
   /** Standard class typedefs */
-  typedef CoreAtomImageToDistanceMatrixProcess  Self;
-  typedef ProcessObject                         Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef CoreAtomImageToDistanceMatrixProcess Self;
+  typedef ProcessObject                        Superclass;
+  typedef SmartPointer< Self >                 Pointer;
+  typedef SmartPointer< const Self >           ConstPointer;
 
   /** Smart Pointer type to a DataObject. */
   typedef DataObject::Pointer DataObjectPointer;
@@ -62,36 +61,37 @@ public:
   /** Typedef for core atom image */
   typedef TSourceImage                             CoreAtomImageType;
   typedef typename CoreAtomImageType::Pointer      CoreAtomImagePointer;
-  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType; 
-  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType; 
+  typedef typename CoreAtomImageType::RegionType   CoreAtomImageRegionType;
+  typedef typename CoreAtomImageType::PixelType    CoreAtomImagePixelType;
   typedef typename CoreAtomImageType::ConstPointer CoreAtomImageConstPointer;
 
   /** Typedef for distance matrix */
-  typedef MatrixResizeableDataObject<double>   DistanceMatrixType;
+  typedef MatrixResizeableDataObject< double > DistanceMatrixType;
   typedef typename DistanceMatrixType::Pointer DistanceMatrixPointer;
 
   //MedialNode typedef
-  typedef BloxCoreAtomPixel<itkGetStaticConstMacro(NDimensions)> MedialNodeType;
+  typedef BloxCoreAtomPixel< itkGetStaticConstMacro(NDimensions) > MedialNodeType;
 
   /** The type used to store the position of the BloxPixel. */
-  typedef Point<double, itkGetStaticConstMacro(NDimensions)> PositionType;
+  typedef Point< double, itkGetStaticConstMacro(NDimensions) > PositionType;
 
   /** Get the image output of this process object.  */
   DistanceMatrixType * GetOutput(void);
+
   DistanceMatrixType * GetOutput(unsigned int idx);
 
   /** Set the blurred original image */
-  void SetInput1( const CoreAtomImageType * CoreAtomImageA );
+  void SetInput1(const CoreAtomImageType *CoreAtomImageA);
 
-  virtual void Update() {this->GenerateData();}
+  virtual void Update() { this->GenerateData(); }
 
   virtual DataObjectPointer MakeOutput(unsigned int idx);
 
 protected:
   CoreAtomImageToDistanceMatrixProcess();
-  virtual ~CoreAtomImageToDistanceMatrixProcess(){} 
+  virtual ~CoreAtomImageToDistanceMatrixProcess(){}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Method for forming the DistanceeMatrix */
   void GenerateData();
@@ -100,15 +100,17 @@ protected:
   TSourceImage * GetInput1();
 
 private:
-  CoreAtomImageToDistanceMatrixProcess(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CoreAtomImageToDistanceMatrixProcess(const Self &); //purposely not
+                                                      // implemented
+  void operator=(const Self &);                       //purposely not
+
+  // implemented
 
   CoreAtomImagePointer  m_CoreAtomImage;
   DistanceMatrixPointer m_DistanceMatrix;
 
   int m_NumberOfNodes;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

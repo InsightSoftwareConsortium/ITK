@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,8 +24,6 @@
 
 namespace itk
 {
-
-
 /** \class Path
  * \brief  Represent a path through ND Space
  *
@@ -45,55 +43,53 @@ namespace itk
  *
  * \ingroup PathObjects
  */
-template <class TInput, class TOutput, unsigned int VDimension>
-class ITK_EXPORT Path : public DataObject
+template< class TInput, class TOutput, unsigned int VDimension >
+class ITK_EXPORT Path:public DataObject
 {
 public:
   /** Standard class typedefs. */
-  typedef Path                      Self;
-  typedef DataObject                Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef Path                       Self;
+  typedef DataObject                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Path dimension. The dimension of a path is fixed at construction. */
   itkStaticConstMacro(PathDimension, unsigned int, VDimension);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Path, FunctionBase);
-  
+
   /** Input type */
-  typedef TInput  InputType;
-  
+  typedef TInput InputType;
+
   /** Output type */
   typedef TOutput OutputType;
-  
-  
-  /** All paths must be mapable to index space */
-  typedef Index<  VDimension >  IndexType;
-  typedef Offset< VDimension >  OffsetType;
 
+  /** All paths must be mapable to index space */
+  typedef Index<  VDimension > IndexType;
+  typedef Offset< VDimension > OffsetType;
 
   /** Where does the path begin?  For most types of paths, the path will begin
    * at zero.  This value can be overridden in children, and is necessary for
    * iterators to know how to go to the beginning of a path. */
   virtual inline InputType StartOfInput() const
-    {
-    return NumericTraits<InputType>::Zero;
-    }
+  {
+    return NumericTraits< InputType >::Zero;
+  }
 
   /** Where does the path end (what is the last valid input value)?  This value
    * is sometimes used by IncrementInput() to go to the end of a path. */
   virtual inline InputType EndOfInput() const
-    {
-    return NumericTraits<InputType>::One;
-    }
-  
+  {
+    return NumericTraits< InputType >::One;
+  }
+
   /** Evaluate the path at specified location along the path.
     * Return data is the path's "natural" format. */
-  virtual OutputType Evaluate( const InputType & input ) const = 0;
-  
+  virtual OutputType Evaluate(const InputType & input) const = 0;
+
   /** Like Evaluate(), except always returns an index */
-  virtual IndexType EvaluateToIndex( const InputType & input ) const = 0;
+  virtual IndexType EvaluateToIndex(const InputType & input) const = 0;
 
   /** Increment the input variable passed by reference such that the
    * ND index of the path moves to its next vertex-connected
@@ -104,41 +100,42 @@ public:
    * bounds checking, but are required to return an offset of zero
    * when trying to increment from the final valid input value. */
   virtual OffsetType IncrementInput(InputType & input) const = 0;
-  
-  
+
 protected:
   Path();
   ~Path(){}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  itkGetConstMacro(ZeroOffset,OffsetType);
-  itkGetConstMacro(ZeroIndex,IndexType);
-
+  itkGetConstMacro(ZeroOffset, OffsetType);
+  itkGetConstMacro(ZeroIndex, IndexType);
 private:
-  Path(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  // These "constants" are initialized in the constructor
-  OffsetType  m_ZeroOffset; // = 0 for all dimensions
-  IndexType   m_ZeroIndex;  // = 0 for all dimensions
-  
-};
+  Path(const Self &);           //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
+  // These "constants" are initialized in the constructor
+  OffsetType m_ZeroOffset;  // = 0 for all dimensions
+  IndexType  m_ZeroIndex;   // = 0 for all dimensions
+};
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_Path(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT Path< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef Path< ITK_TEMPLATE_3 x > Path##y; } \
+#define ITK_TEMPLATE_Path(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                        \
+  {                                                    \
+  _( 3 ( class EXPORT Path< ITK_TEMPLATE_3 TypeX > ) ) \
+  namespace Templates                                  \
+  {                                                    \
+  typedef Path< ITK_TEMPLATE_3 TypeX > Path##TypeY;  \
+  }                                                    \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkPath+-.h"
+#include "Templates/itkPath+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkPath.txx"
+#include "itkPath.txx"
 #endif
-  
+
 #endif

@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class SinRegularizedHeavisideStepFunction
  *
  * \brief Sin-based implementation of the Regularized (smoothed) Heaviside functions.
@@ -50,33 +49,33 @@ namespace itk
  *
  */
 template< class TInput = float, class TOutput = double >
-class SinRegularizedHeavisideStepFunction : 
- public RegularizedHeavisideStepFunction< TInput, TOutput >
+class SinRegularizedHeavisideStepFunction:
+  public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
-  typedef SinRegularizedHeavisideStepFunction                   Self;
-  typedef RegularizedHeavisideStepFunction< TInput, TOutput >   Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef SinRegularizedHeavisideStepFunction                 Self;
+  typedef RegularizedHeavisideStepFunction< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
 
-  itkNewMacro( Self );
- 
-  itkTypeMacro( SinRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction );
+  itkNewMacro(Self);
 
-  typedef typename Superclass::InputType                        InputType;
-  typedef typename Superclass::OutputType                       OutputType;
-  typedef typename Superclass::RealType                         RealType;
+  itkTypeMacro(SinRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
+
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const
-    {
-    if( input >= this->GetEpsilon() )
+  virtual OutputType Evaluate(const InputType & input) const
+  {
+    if ( input >= this->GetEpsilon() )
       {
       return 1.0;
       }
     else
       {
-      if( input <= -this->GetEpsilon() )
+      if ( input <= -this->GetEpsilon() )
         {
         return 0.0;
         }
@@ -84,36 +83,33 @@ public:
         {
         const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
         const RealType angle = input * angleFactor;
-        return 0.5 * ( 1.0 + vcl_sin( angle ) );
+        return 0.5 * ( 1.0 + vcl_sin(angle) );
         }
       }
-    }
+  }
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative( const InputType& input ) const
-    {
-    if( vnl_math_abs( input ) >= this->GetEpsilon() )
+  virtual OutputType EvaluateDerivative(const InputType & input) const
+  {
+    if ( vnl_math_abs(input) >= this->GetEpsilon() )
       {
       return 0.0;
       }
     else
       {
-      const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
-      const RealType angle = input * angleFactor;
-      return 0.5 * angleFactor * vcl_cos( angle );
+      const RealType           angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
+      const RealType           angle = input * angleFactor;
+      return 0.5 *angleFactor *vcl_cos(angle);
       }
-    }
+  }
 
 protected:
   SinRegularizedHeavisideStepFunction() {}
   virtual ~SinRegularizedHeavisideStepFunction() {}
-
 private:
-  SinRegularizedHeavisideStepFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
-
+  SinRegularizedHeavisideStepFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
 };
-
 }
 
 #endif

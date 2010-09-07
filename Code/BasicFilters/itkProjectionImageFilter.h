@@ -9,7 +9,7 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
+     This software is distributed WITHOUT ANY WARRANTY; without even
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
@@ -22,17 +22,16 @@
 
 namespace itk
 {
-  
 /** \class ProjectionImageFilter
  * \brief Implements an accumulation of an image along a selected direction.
  *
  * This class accumulates an image along a dimension and reduces the
  * size of this dimension to 1. The dimension being accumulated is set
- * by ProjectionDimension. 
+ * by ProjectionDimension.
  *
  * Each pixel is the cumulative sum of the pixels along the collapsed
- * dimension and reduces the size of the accumulated dimension to 1 (only 
- * on the accumulated). 
+ * dimension and reduces the size of the accumulated dimension to 1 (only
+ * on the accumulated).
  *
  * The dimensions of the InputImage and the OutputImage must be the same.
  *
@@ -40,7 +39,7 @@ namespace itk
  * the type of the output image.
  *
  * This class was contributed to the Insight Journal by Emilian Beronich and
- * Gaetan Lehmann. The original paper can be found at 
+ * Gaetan Lehmann. The original paper can be found at
  *      http://insight-journal.org/midas/handle.php?handle=1926/164
  *
  * \author Emiliano Beronich
@@ -51,16 +50,16 @@ namespace itk
  * \sa AccumulateImageFilter
  * \ingroup   IntensityImageFilters     Singlethreaded
  */
-template <class TInputImage, class TOutputImage, class TAccumulator>
-class ITK_EXPORT ProjectionImageFilter : 
-  public ImageToImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage, class TAccumulator >
+class ITK_EXPORT ProjectionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ProjectionImageFilter                         Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef ProjectionImageFilter                           Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,24 +89,21 @@ public:
       dimension must be one less than that of the input. */
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(ImageDimensionCheck,
-    (Concept::SameDimensionOrMinusOne<
-       itkGetStaticConstMacro(InputImageDimension),
-       itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro( ImageDimensionCheck,
+                   ( Concept::SameDimensionOrMinusOne<
+                       itkGetStaticConstMacro(InputImageDimension),
+                       itkGetStaticConstMacro(OutputImageDimension) > ) );
   /** End concept checking */
 #endif
 
-
   /** Set/Get the direction in which to accumulate the data.  It must be set
    * before the update of the filter. Defaults to the last dimension. */
-  itkSetMacro( ProjectionDimension, unsigned int );
-  itkGetConstReferenceMacro( ProjectionDimension, unsigned int );
-
-
+  itkSetMacro(ProjectionDimension, unsigned int);
+  itkGetConstReferenceMacro(ProjectionDimension, unsigned int);
 protected:
   ProjectionImageFilter();
-  virtual ~ProjectionImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~ProjectionImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Apply changes to the output image information. */
   virtual void GenerateOutputInformation();
@@ -115,19 +111,17 @@ protected:
   /** Apply changes to the input image requested region. */
   virtual void GenerateInputRequestedRegion();
 
-  virtual void ThreadedGenerateData( 
-   const OutputImageRegionType& outputRegionForThread, int threadId );
+  virtual void ThreadedGenerateData(
+    const OutputImageRegionType & outputRegionForThread, int threadId);
 
-  virtual AccumulatorType NewAccumulator( unsigned long ) const;
+  virtual AccumulatorType NewAccumulator(unsigned long) const;
 
 private:
-  ProjectionImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ProjectionImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 
   unsigned int m_ProjectionDimension;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

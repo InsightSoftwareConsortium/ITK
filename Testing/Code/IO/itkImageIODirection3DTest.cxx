@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 
 int itkImageIODirection3DTest( int ac, char * av[] )
 {

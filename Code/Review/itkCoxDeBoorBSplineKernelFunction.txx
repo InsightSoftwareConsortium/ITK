@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * \author Nicholas J. Tustison
  *
@@ -31,76 +30,76 @@ namespace itk
  *
  */
 
-template <unsigned int VSplineOrder>
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
+template< unsigned int VSplineOrder >
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
 ::CoxDeBoorBSplineKernelFunction()
 {
   this->m_SplineOrder = VSplineOrder;
-  this->GenerateBSplineShapeFunctions( this->m_SplineOrder+1 );
+  this->GenerateBSplineShapeFunctions(this->m_SplineOrder + 1);
 }
 
-template <unsigned int VSplineOrder>
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
+template< unsigned int VSplineOrder >
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
 ::~CoxDeBoorBSplineKernelFunction()
-{
-}
+{}
 
-template <unsigned int VSplineOrder>
+template< unsigned int VSplineOrder >
 void
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
-::SetSplineOrder( unsigned int order )
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
+::SetSplineOrder(unsigned int order)
 {
   if ( order != this->m_SplineOrder )
     {
     this->m_SplineOrder = order;
-    this->GenerateBSplineShapeFunctions( this->m_SplineOrder+1 );
+    this->GenerateBSplineShapeFunctions(this->m_SplineOrder + 1);
     this->Modified();
     }
 }
 
-template <unsigned int VSplineOrder>
+template< unsigned int VSplineOrder >
 void
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
-::GenerateBSplineShapeFunctions( unsigned int order )
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
+::GenerateBSplineShapeFunctions(unsigned int order)
 {
-  unsigned int NumberOfPieces = static_cast<unsigned int>( 0.5*( order+1 ) );
-  this->m_BSplineShapeFunctions.set_size( NumberOfPieces, order );
+  unsigned int NumberOfPieces = static_cast< unsigned int >( 0.5 * ( order + 1 ) );
 
-  VectorType knots( order+1 );
-  for( unsigned int i = 0; i < knots.size(); i++)
+  this->m_BSplineShapeFunctions.set_size(NumberOfPieces, order);
+
+  VectorType knots(order + 1);
+  for ( unsigned int i = 0; i < knots.size(); i++ )
     {
-    knots[i] = -0.5*static_cast<RealType>( order ) + static_cast<RealType>( i );
+    knots[i] = -0.5 * static_cast< RealType >( order ) + static_cast< RealType >( i );
     }
 
   for ( unsigned int i = 0; i < NumberOfPieces; i++ )
     {
     PolynomialType poly = this->CoxDeBoor(order, knots,
-             0, static_cast<unsigned int>( 0.5*( order ) ) + i );
+                                          0, static_cast< unsigned int >( 0.5 * ( order ) ) + i);
     this->m_BSplineShapeFunctions.set_row( i, poly.coefficients() );
     }
 }
 
-template <unsigned int VSplineOrder>
-typename CoxDeBoorBSplineKernelFunction<VSplineOrder>::PolynomialType
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
-::CoxDeBoor( unsigned short order, VectorType knots,
-             unsigned int whichBasisFunction, unsigned int whichPiece )
+template< unsigned int VSplineOrder >
+typename CoxDeBoorBSplineKernelFunction< VSplineOrder >::PolynomialType
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
+::CoxDeBoor(unsigned short order, VectorType knots,
+            unsigned int whichBasisFunction, unsigned int whichPiece)
 {
-  VectorType tmp(2);
+  VectorType     tmp(2);
   PolynomialType poly1(0.0), poly2(0.0);
-  RealType den;
-  unsigned short p = order-1;
+  RealType       den;
+  unsigned short p = order - 1;
   unsigned short i = whichBasisFunction;
 
-  if( p == 0 && whichBasisFunction == whichPiece )
+  if ( p == 0 && whichBasisFunction == whichPiece )
     {
     PolynomialType poly(1.0);
     return poly;
     }
 
   // Term 1
-  den = knots(i+p)-knots(i);
-  if ( den == NumericTraits<RealType>::Zero )
+  den = knots(i + p) - knots(i);
+  if ( den == NumericTraits< RealType >::Zero )
     {
     PolynomialType poly(0.0);
     poly1 = poly;
@@ -110,12 +109,12 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
     tmp(0) = 1.0;
     tmp(1) = -knots(i);
     tmp /= den;
-    poly1 = PolynomialType(tmp) * this->CoxDeBoor( order-1, knots, i, whichPiece );
+    poly1 = PolynomialType(tmp) * this->CoxDeBoor(order - 1, knots, i, whichPiece);
     }
 
   // Term 2
-  den = knots(i+p+1)-knots(i+1);
-  if ( den == NumericTraits<RealType>::Zero )
+  den = knots(i + p + 1) - knots(i + 1);
+  if ( den == NumericTraits< RealType >::Zero )
     {
     PolynomialType poly(0.0);
     poly2 = poly;
@@ -123,43 +122,44 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
   else
     {
     tmp(0) = -1.0;
-    tmp(1) = knots(i+p+1);
+    tmp(1) = knots(i + p + 1);
     tmp /= den;
-    poly2 = PolynomialType(tmp) * this->CoxDeBoor( order-1, knots, i+1, whichPiece );
+    poly2 = PolynomialType(tmp) * this->CoxDeBoor(order - 1, knots, i + 1, whichPiece);
     }
   return ( poly1 + poly2 );
 }
 
-template <unsigned int VSplineOrder>
-typename CoxDeBoorBSplineKernelFunction<VSplineOrder>::MatrixType
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
+template< unsigned int VSplineOrder >
+typename CoxDeBoorBSplineKernelFunction< VSplineOrder >::MatrixType
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
 ::GetShapeFunctionsInZeroToOneInterval()
 {
-  int order = this->m_SplineOrder+1;
-  unsigned int NumberOfPieces = static_cast<unsigned int>( order );
-  MatrixType ShapeFunctions( NumberOfPieces, order );
+  int          order = this->m_SplineOrder + 1;
+  unsigned int NumberOfPieces = static_cast< unsigned int >( order );
+  MatrixType   ShapeFunctions(NumberOfPieces, order);
 
-  VectorType knots( 2*order );
-  for( unsigned int i = 0; i < knots.size(); i++ )
+  VectorType knots(2 * order);
+
+  for ( unsigned int i = 0; i < knots.size(); i++ )
     {
-    knots[i] = -static_cast<RealType>( this->m_SplineOrder )
-               + static_cast<RealType>( i );
+    knots[i] = -static_cast< RealType >( this->m_SplineOrder )
+               + static_cast< RealType >( i );
     }
 
-  for( unsigned int i = 0; i < NumberOfPieces; i++ )
+  for ( unsigned int i = 0; i < NumberOfPieces; i++ )
     {
-    PolynomialType poly = this->CoxDeBoor( order, knots, i, order-1 );
+    PolynomialType poly = this->CoxDeBoor(order, knots, i, order - 1);
     ShapeFunctions.set_row( i, poly.coefficients() );
     }
   return ShapeFunctions;
 }
 
-template <unsigned int VSplineOrder>
+template< unsigned int VSplineOrder >
 void
-CoxDeBoorBSplineKernelFunction<VSplineOrder>
-::PrintSelf( std::ostream& os, Indent indent ) const
+CoxDeBoorBSplineKernelFunction< VSplineOrder >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf( os, indent );
+  Superclass::PrintSelf(os, indent);
   os << indent  << "Spline Order: " << this->m_SplineOrder << std::endl;
   os << indent  << "Piecewise Polynomial Pieces: " << std::endl;
 
@@ -170,11 +170,11 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
     {
     os << indent << indent;
 
-    PolynomialType( this->m_BSplineShapeFunctions.get_row( i ) ).print( os );
+    PolynomialType( this->m_BSplineShapeFunctions.get_row(i) ).print(os);
 
-    if( i == 0 )
+    if ( i == 0 )
       {
-      if( this->m_SplineOrder % 2 == 0 )
+      if ( this->m_SplineOrder % 2 == 0 )
         {
         b = 0.5;
         }
@@ -192,8 +192,6 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder>
     os << ",  X \\in [" << a << ", " << b << "]" << std::endl;
     }
 }
-
-
 } // namespace itk
 
 #endif

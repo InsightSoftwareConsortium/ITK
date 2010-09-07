@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,35 +25,33 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-SpecialCoordinatesImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+SpecialCoordinatesImage< TPixel, VImageDimension >
 ::SpecialCoordinatesImage()
 {
   m_Buffer = PixelContainer::New();
 }
 
-
 //----------------------------------------------------------------------------
-template<class TPixel, unsigned int VImageDimension>
-void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+SpecialCoordinatesImage< TPixel, VImageDimension >
 ::Allocate()
 {
   unsigned long num;
 
   this->ComputeOffsetTable();
   num = this->GetOffsetTable()[VImageDimension];
-  
+
   m_Buffer->Reserve(num);
 }
 
-template<class TPixel, unsigned int VImageDimension>
-void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+SpecialCoordinatesImage< TPixel, VImageDimension >
 ::Initialize()
 {
   //
@@ -70,51 +68,47 @@ SpecialCoordinatesImage<TPixel, VImageDimension>
   m_Buffer = PixelContainer::New();
 }
 
-
-template<class TPixel, unsigned int VImageDimension>
-void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
-::FillBuffer (const TPixel& value)
+template< class TPixel, unsigned int VImageDimension >
+void
+SpecialCoordinatesImage< TPixel, VImageDimension >
+::FillBuffer(const TPixel & value)
 {
   const unsigned long numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
-  for(unsigned int i=0; i<numberOfPixels; i++) 
+  for ( unsigned int i = 0; i < numberOfPixels; i++ )
     {
-    (*m_Buffer)[i] = value;
+    ( *m_Buffer )[i] = value;
     }
 }
 
-template<class TPixel, unsigned int VImageDimension>
-void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+SpecialCoordinatesImage< TPixel, VImageDimension >
 ::SetPixelContainer(PixelContainer *container)
 {
-  if (m_Buffer != container)
+  if ( m_Buffer != container )
     {
     m_Buffer = container;
     this->Modified();
     }
 }
-    
 
 /**
  *
  */
-template<class TPixel, unsigned int VImageDimension>
-void 
-SpecialCoordinatesImage<TPixel, VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TPixel, unsigned int VImageDimension >
+void
+SpecialCoordinatesImage< TPixel, VImageDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "PixelContainer: " << std::endl;
-  m_Buffer->Print(os, indent.GetNextIndent());
+  m_Buffer->Print( os, indent.GetNextIndent() );
 
   // m_Origin and m_Spacing are printed in the Superclass
 }
-
-
 } // end namespace itk
 
 #endif

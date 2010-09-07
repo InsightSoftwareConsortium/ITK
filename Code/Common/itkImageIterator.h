@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * \class ImageIterator
  * \brief A multi-dimensional iterator templated over image type.
@@ -38,29 +37,29 @@ namespace itk
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
- * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator 
- * \sa FloodFilledFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalConstIterator 
- * \sa FloodFilledImageFunctionConditionalIterator 
- * \sa FloodFilledSpatialFunctionConditionalConstIterator 
- * \sa FloodFilledSpatialFunctionConditionalIterator 
- * \sa ImageConstIterator \sa ImageConstIteratorWithIndex 
+ * \sa ConstSliceIterator  \sa CorrespondenceDataStructureIterator
+ * \sa FloodFilledFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalConstIterator
+ * \sa FloodFilledImageFunctionConditionalIterator
+ * \sa FloodFilledSpatialFunctionConditionalConstIterator
+ * \sa FloodFilledSpatialFunctionConditionalIterator
+ * \sa ImageConstIterator \sa ImageConstIteratorWithIndex
  * \sa ImageIterator \sa ImageIteratorWithIndex
- * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex 
- * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex 
- * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex 
- * \sa ImageRegionExclusionConstIteratorWithIndex 
- * \sa ImageRegionExclusionIteratorWithIndex 
- * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex 
- * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator 
- * \sa ImageReverseConstIterator  \sa ImageReverseIterator 
- * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex 
- * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator 
- * \sa ShapedNeighborhoodIterator  \sa SliceIterator 
+ * \sa ImageLinearConstIteratorWithIndex  \sa ImageLinearIteratorWithIndex
+ * \sa ImageRandomConstIteratorWithIndex  \sa ImageRandomIteratorWithIndex
+ * \sa ImageRegionConstIterator \sa ImageRegionConstIteratorWithIndex
+ * \sa ImageRegionExclusionConstIteratorWithIndex
+ * \sa ImageRegionExclusionIteratorWithIndex
+ * \sa ImageRegionIterator  \sa ImageRegionIteratorWithIndex
+ * \sa ImageRegionReverseConstIterator  \sa ImageRegionReverseIterator
+ * \sa ImageReverseConstIterator  \sa ImageReverseIterator
+ * \sa ImageSliceConstIteratorWithIndex  \sa ImageSliceIteratorWithIndex
+ * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
+ * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  *
  *  */
-template<typename TImage>
-class ITK_EXPORT ImageIterator : public ImageConstIterator<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageIterator:public ImageConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */
@@ -74,104 +73,106 @@ public:
                       TImage::ImageDimension);
 
   /** Define the superclass */
-  typedef ImageConstIterator<TImage> Superclass;
+  typedef ImageConstIterator< TImage > Superclass;
 
   /** Inherit types from the superclass */
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::IndexValueType         IndexValueType;
-  typedef typename Superclass::SizeType               SizeType;
-  typedef typename Superclass::SizeValueType          SizeValueType;
-  typedef typename Superclass::OffsetType             OffsetType;
-  typedef typename Superclass::OffsetValueType        OffsetValueType;
-  typedef typename Superclass::RegionType             RegionType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelContainer         PixelContainer;
-  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType      InternalPixelType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::AccessorType           AccessorType;
-
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageIterator();
 
   /** Default Destructor */
-  ~ImageIterator() {};
-
+  ~ImageIterator() {}
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageIterator(const Self& it);
+  ImageIterator(const Self & it);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageIterator(TImage *ptr, const RegionType& region);
+  ImageIterator(TImage *ptr, const RegionType & region);
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self &operator=(const Self& it);
-  
+  Self & operator=(const Self & it);
+
   /** Set the pixel value */
-  void Set( const PixelType & value ) const  
-    { 
+  void Set(const PixelType & value) const
+  {
     // const_cast is needed here because m_Buffer is declared as a const
     // pointer in the superclass which is the ConstIterator.
     this->m_PixelAccessorFunctor.Set(
-      *(const_cast<InternalPixelType *>(this->m_Buffer)+this->m_Offset), value); 
-    }
+      *( const_cast< InternalPixelType * >( this->m_Buffer ) + this->m_Offset ), value);
+  }
 
-  /** Return a reference to the pixel 
+  /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  PixelType & Value(void) 
-    { 
+  PixelType & Value(void)
+  {
     // const_cast is needed here because m_Buffer is declared as a const
     // pointer in the superclass which is the ConstIterator.
-    return *(const_cast<InternalPixelType *>(this->m_Buffer)+this->m_Offset);
-    }
+    return *( const_cast< InternalPixelType * >( this->m_Buffer ) + this->m_Offset );
+  }
 
   /** Return an iterator for the beginning of the region. "Begin"
    * is defined as the first pixel in the region.
    * \deprecated Use GoToBegin() instead */
   Self Begin(void) const;
 
-   /** Return an iterator for the end of the region. "End" is defined
-   * as one pixel past the last pixel of the region. 
-   * \deprecated Use GoToEnd() instead */
+  /** Return an iterator for the end of the region. "End" is defined
+  * as one pixel past the last pixel of the region.
+  * \deprecated Use GoToEnd() instead */
   Self End(void) const;
 
   /** Get the image that this iterator walks. */
   ImageType * GetImage() const
-    {
+  {
     // const_cast is needed here because m_Image is declared as a const pointer
     // in the base class which is the ConstIterator.
-    return const_cast<ImageType *>( this->m_Image.GetPointer() );
-    }
-
+    return const_cast< ImageType * >( this->m_Image.GetPointer() );
+  }
 
 protected:
 
-  /** This constructor is declared protected in order to enforce const-correctness */
-  ImageIterator(const ImageConstIterator<TImage> & it);
-  Self &operator=(const ImageConstIterator<TImage> & it);
+  /** This constructor is declared protected in order to enforce
+    const-correctness */
+  ImageIterator(const ImageConstIterator< TImage > & it);
+  Self & operator=(const ImageConstIterator< TImage > & it);
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageIterator(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ImageIterator< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ImageIterator< ITK_TEMPLATE_1 x > \
-                                                  ImageIterator##y; } \
+#define ITK_TEMPLATE_ImageIterator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                 \
+  {                                                             \
+  _( 1 ( class EXPORT ImageIterator< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                           \
+  {                                                             \
+  typedef ImageIterator< ITK_TEMPLATE_1 TypeX >                 \
+  ImageIterator##TypeY;                                       \
+  }                                                             \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageIterator+-.h"
+#include "Templates/itkImageIterator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageIterator.txx"
+#include "itkImageIterator.txx"
 #endif
 
-#endif 
+#endif

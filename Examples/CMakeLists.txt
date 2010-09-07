@@ -1,4 +1,4 @@
-SUBDIRS( 
+SUBDIRS(
   Iterators
   DataRepresentation
   Filtering
@@ -9,13 +9,13 @@ SUBDIRS(
   SpatialObjects
 )
 
+#This code looks like it needs to be updated to the new statistics framework
+#It was never updated as part of the refactoring to review statistics.
+#TMP_RMV20100801 SUBDIRS( Statistics )
+
 IF( ITK_USE_REVIEW )
   SUBDIRS( Review )
 ENDIF( ITK_USE_REVIEW )
-
-IF( NOT ITK_USE_REVIEW_STATISTICS )
-  SUBDIRS( Statistics )
-ENDIF( NOT ITK_USE_REVIEW_STATISTICS )
 
 IF( ITK_USE_PATENTED )
   SUBDIRS( Patented )

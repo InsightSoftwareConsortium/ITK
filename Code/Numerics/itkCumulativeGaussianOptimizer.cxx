@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,12 +23,11 @@
 
 namespace itk
 {
-
 CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
 {
   // Set some initial values for the variables.
-  m_ComputedMean = 0; 
-  m_ComputedStandardDeviation = 0; 
+  m_ComputedMean = 0;
+  m_ComputedStandardDeviation = 0;
   m_ComputedAmplitude = 0;
   m_ComputedTransitionHeight = 0;
   m_UpperAsymptote = 0;
@@ -49,83 +48,92 @@ CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
 
 CumulativeGaussianOptimizer::MeasureType *
 CumulativeGaussianOptimizer
-::ExtendGaussian(MeasureType * originalArray, MeasureType * extendedArray, int startingPointForInsertion)
+::ExtendGaussian(MeasureType *originalArray, MeasureType *extendedArray, int startingPointForInsertion)
 {
-  // Use the parameters from originalArray to construct a Gaussian in extendedArray
+  // Use the parameters from originalArray to construct a Gaussian in
+  // extendedArray
   // shifting the mean to the right by startingPointForInsertion.
-  double  mean = startingPointForInsertion + m_ComputedMean;
-  double  sd = m_ComputedStandardDeviation; 
-  double  amplitude = m_ComputedAmplitude; 
+  double mean = startingPointForInsertion + m_ComputedMean;
+  double sd = m_ComputedStandardDeviation;
+  double amplitude = m_ComputedAmplitude;
 
   m_OffsetForMean = startingPointForInsertion;
 
-  for(int i=0; i<(int)(extendedArray->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( extendedArray->GetNumberOfElements() ); i++ )
     {
-    extendedArray->put(i, amplitude * vcl_exp(- ( vcl_pow((i-mean),2) / (2*vcl_pow(sd,2)) ) ));
+    extendedArray->put( i, amplitude * vcl_exp( -( vcl_pow( ( i - mean ), 2 ) / ( 2 * vcl_pow(sd, 2) ) ) ) );
     }
   // Then insert the originalArray over the middle section of extendedArray.
-  for(int i=0; i<(int)(originalArray->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( originalArray->GetNumberOfElements() ); i++ )
     {
-    extendedArray->put(i+startingPointForInsertion, originalArray->get(i));
+    extendedArray->put( i + startingPointForInsertion, originalArray->get(i) );
     }
   return extendedArray;
 }
 
-double 
+double
 CumulativeGaussianOptimizer
-::FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2)
+::FindAverageSumOfSquaredDifferences(MeasureType *array1, MeasureType *array2)
 {
-  // Given two arrays array1 and array2 of equal length, calculate the average sum of squared
+  // Given two arrays array1 and array2 of equal length, calculate the average
+  // sum of squared
   // differences between them.
-  int size = array1->GetNumberOfElements();
+  int    size = array1->GetNumberOfElements();
   double sum = 0;
-  for (int i=0; i<size; i++)
-    sum = sum + (array1->get(i) - array2->get(i)) * (array1->get(i) - array2->get(i));
-  return (sum/size);
+
+  for ( int i = 0; i < size; i++ )
+    {
+    sum = sum + ( array1->get(i) - array2->get(i) ) * ( array1->get(i) - array2->get(i) );
+    }
+  return ( sum / size );
 }
 
-void 
+void
 CumulativeGaussianOptimizer
-::FindParametersOfGaussian(MeasureType * sampledGaussianArray)
+::FindParametersOfGaussian(MeasureType *sampledGaussianArray)
 {
-  // Measure the parameters of the sampled Gaussian curve and use these parameters to 
-  // construct an extended curve.  Then measure the parameters of the extended curve, which
-  // should be closer to the original Gaussian parameters and recalculate the extended portion
-  // of the curve. Iterate these last two steps until the average sum of squared differences
+  // Measure the parameters of the sampled Gaussian curve and use these
+  // parameters to
+  // construct an extended curve.  Then measure the parameters of the extended
+  // curve, which
+  // should be closer to the original Gaussian parameters and recalculate the
+  // extended portion
+  // of the curve. Iterate these last two steps until the average sum of squared
+  // differences
   // between 2 iterations converge within differenceTolerance.
   MeasureGaussianParameters(sampledGaussianArray);
 
-  if(m_Verbose)
+  if ( m_Verbose )
     {
     PrintComputedParameterHeader();
     PrintComputedParameters();
     }
 
-  int sampledGaussianArraySize = sampledGaussianArray->GetNumberOfElements();
-  int extendedArraySize = 3 * sampledGaussianArraySize;
-  MeasureType * extendedArray = new MeasureType();  
+  int          sampledGaussianArraySize = sampledGaussianArray->GetNumberOfElements();
+  int          extendedArraySize = 3 * sampledGaussianArraySize;
+  MeasureType *extendedArray = new MeasureType();
   extendedArray->SetSize(extendedArraySize);
-  MeasureType * extendedArrayCopy = new MeasureType(); 
+  MeasureType *extendedArrayCopy = new MeasureType();
   extendedArrayCopy->SetSize(extendedArraySize);
 
   double averageSumOfSquaredDifferences = m_DifferenceTolerance;
-  
+
   extendedArray = ExtendGaussian(sampledGaussianArray, extendedArray, sampledGaussianArraySize);
-  
+
   MeasureGaussianParameters(extendedArray);
   bool smallChangeBetweenIterations = false;
-  while (averageSumOfSquaredDifferences >= m_DifferenceTolerance)
+  while ( averageSumOfSquaredDifferences >= m_DifferenceTolerance )
     {
-    for(int j = 0; j < extendedArraySize; j++)
+    for ( int j = 0; j < extendedArraySize; j++ )
       {
-      extendedArrayCopy->put(j, extendedArray->get(j));
+      extendedArrayCopy->put( j, extendedArray->get(j) );
       }
     extendedArray = RecalculateExtendedArrayFromGaussianParameters(sampledGaussianArray,
                                                                    extendedArray,
                                                                    sampledGaussianArraySize);
-    
+
     MeasureGaussianParameters(extendedArray);
-    if(m_Verbose) 
+    if ( m_Verbose )
       {
       PrintComputedParameters();
       }
@@ -133,7 +141,7 @@ CumulativeGaussianOptimizer
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
     // Stop if there is a very very very small change between iterations.
-    if(vcl_fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
+    if ( vcl_fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance )
       {
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": "
@@ -145,7 +153,7 @@ CumulativeGaussianOptimizer
       break;
       }
     }
-  if (!smallChangeBetweenIterations)
+  if ( !smallChangeBetweenIterations )
     {
     m_StopConditionDescription.str("");
     m_StopConditionDescription << this->GetNameOfClass() << ": "
@@ -158,15 +166,16 @@ CumulativeGaussianOptimizer
 
   // Update the mean calculation.
   m_ComputedMean = m_ComputedMean - m_OffsetForMean;
-  
+
   delete extendedArray;
   delete extendedArrayCopy;
 }
 
 void CumulativeGaussianOptimizer
-::MeasureGaussianParameters(MeasureType * array)
+::MeasureGaussianParameters(MeasureType *array)
 {
-  // Assuming the input array is Gaussian, compute the mean, SD, amplitude, and change in intensity.
+  // Assuming the input array is Gaussian, compute the mean, SD, amplitude, and
+  // change in intensity.
   m_ComputedMean               = 0;
   m_ComputedStandardDeviation  = 0;
   m_ComputedAmplitude          = 0;
@@ -175,7 +184,7 @@ void CumulativeGaussianOptimizer
   double sum   = 0;
 
   // Calculate the mean.
-  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( array->GetNumberOfElements() ); i++ )
     {
     m_ComputedMean += i * array->get(i);
     sum += array->get(i);
@@ -186,55 +195,56 @@ void CumulativeGaussianOptimizer
   m_ComputedMean /= sum;
 
   // Calculate the standard deviation
-  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( array->GetNumberOfElements() ); i++ )
     {
-    m_ComputedStandardDeviation += array->get(i) * vcl_pow((i - m_ComputedMean), 2);
+    m_ComputedStandardDeviation += array->get(i) * vcl_pow( ( i - m_ComputedMean ), 2 );
     }
-  m_ComputedStandardDeviation = vcl_sqrt(m_ComputedStandardDeviation/sum );
+  m_ComputedStandardDeviation = vcl_sqrt(m_ComputedStandardDeviation / sum);
 
   // For the ERF, sum is the difference between the lower and upper intensities.
   m_ComputedTransitionHeight = sum;
 
   // Calculate the amplitude.
-  m_ComputedAmplitude =  sum / (m_ComputedStandardDeviation * vcl_sqrt(2*vnl_math::pi));
+  m_ComputedAmplitude =  sum / ( m_ComputedStandardDeviation * vcl_sqrt(2 * vnl_math::pi) );
 }
-  
-void 
+
+void
 CumulativeGaussianOptimizer
 ::PrintComputedParameterHeader()
 {
-  std::cerr << "Mean\t" << "SD\t" << "Amp\t" << "Transition" <<std::endl;
+  std::cerr << "Mean\t" << "SD\t" << "Amp\t" << "Transition" << std::endl;
 }
 
 void CumulativeGaussianOptimizer
 ::PrintComputedParameters()
 {
-  std::cerr << m_ComputedMean - m_OffsetForMean << "\t"  // Printed mean is shifted.
-       << m_ComputedStandardDeviation       << "\t" 
-       << m_ComputedAmplitude              << "\t" 
-       << m_ComputedTransitionHeight       << std::endl;
+  std::cerr << m_ComputedMean - m_OffsetForMean << "\t"  // Printed mean is
+                                                         // shifted.
+            << m_ComputedStandardDeviation       << "\t"
+            << m_ComputedAmplitude              << "\t"
+            << m_ComputedTransitionHeight       << std::endl;
 }
 
-CumulativeGaussianOptimizer::MeasureType * 
+CumulativeGaussianOptimizer::MeasureType *
 CumulativeGaussianOptimizer
-::RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
-                                                 MeasureType * extendedArray,
+::RecalculateExtendedArrayFromGaussianParameters(MeasureType *originalArray,
+                                                 MeasureType *extendedArray,
                                                  int startingPointForInsertion)
 {
   // From the Gaussian parameters stored with the extendedArray,
   // recalculate the extended portion of the extendedArray,
   // leaving the inserted original array unchaged.
-  double  mean      = m_ComputedMean;
-  double  sd        = m_ComputedStandardDeviation; 
-  double  amplitude = m_ComputedAmplitude; 
+  double mean      = m_ComputedMean;
+  double sd        = m_ComputedStandardDeviation;
+  double amplitude = m_ComputedAmplitude;
 
-  for(int i = 0; i < (int)(extendedArray->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( extendedArray->GetNumberOfElements() ); i++ )
     {
     // Leave the original inserted array unchanged.
-    if( i < startingPointForInsertion ||
-        i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()) )
+    if ( i < startingPointForInsertion
+         || i >= startingPointForInsertion + (int)( originalArray->GetNumberOfElements() ) )
       {
-      extendedArray->put(i, amplitude * vcl_exp(-(vcl_pow((i - mean),2) / (2 * vcl_pow(sd,2))))); 
+      extendedArray->put( i, amplitude * vcl_exp( -( vcl_pow( ( i - mean ), 2 ) / ( 2 * vcl_pow(sd, 2) ) ) ) );
       }
     }
   return extendedArray;
@@ -242,12 +252,12 @@ CumulativeGaussianOptimizer
 
 void
 CumulativeGaussianOptimizer
-::SetDataArray(MeasureType * cumGaussianArray)
+::SetDataArray(MeasureType *cumGaussianArray)
 {
   m_CumulativeGaussianArray = cumGaussianArray;
 }
 
-void 
+void
 CumulativeGaussianOptimizer
 ::StartOptimization()
 {
@@ -259,98 +269,101 @@ CumulativeGaussianOptimizer
   int cumGaussianArraySize = m_CumulativeGaussianArray->GetNumberOfElements();
   int sampledGaussianArraySize = cumGaussianArraySize;
   //  int cumGaussianArrayCopySize = cumGaussianArraySize;
-  
-  MeasureType * sampledGaussianArray = new MeasureType();
+
+  MeasureType *sampledGaussianArray = new MeasureType();
   sampledGaussianArray->SetSize(sampledGaussianArraySize);
 
-  MeasureType * cumGaussianArrayCopy = new MeasureType();
+  MeasureType *cumGaussianArrayCopy = new MeasureType();
   cumGaussianArrayCopy->SetSize(cumGaussianArraySize);
 
   // Make a copy of the Cumulative Gaussian sampled data array.
-  for(int j = 0; j < cumGaussianArraySize; j++)
+  for ( int j = 0; j < cumGaussianArraySize; j++ )
     {
-    cumGaussianArrayCopy->put(j, m_CumulativeGaussianArray->get(j));
+    cumGaussianArrayCopy->put( j, m_CumulativeGaussianArray->get(j) );
     }
   // Take the derivative of the data array resulting in a Gaussian array.
-  MeasureType * derivative = new MeasureType();
+  MeasureType *derivative = new MeasureType();
   derivative->SetSize(cumGaussianArraySize - 1);
 
-  for(int i=1; i < (int)(derivative->GetNumberOfElements()+1); i++)
+  for ( int i = 1; i < (int)( derivative->GetNumberOfElements() + 1 ); i++ )
     {
-    derivative->put(i-1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i-1) );
+    derivative->put( i - 1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i - 1) );
     }
   m_CumulativeGaussianArray = derivative;
-  
+
   // Iteratively recalculate and resample the Gaussian array.
   FindParametersOfGaussian(m_CumulativeGaussianArray);
-  
+
   // Generate new Gaussian array with final parameters.
-  for(int i = 0; i < sampledGaussianArraySize; i++)
+  for ( int i = 0; i < sampledGaussianArraySize; i++ )
     {
-    sampledGaussianArray->put(i, m_ComputedAmplitude * vcl_exp(- ( vcl_pow((i-m_ComputedMean),2) / (2*vcl_pow(m_ComputedStandardDeviation,2)) ) ));
+    sampledGaussianArray->put( i, m_ComputedAmplitude
+                               * vcl_exp( -( vcl_pow( ( i - m_ComputedMean ),
+                                                      2 ) / ( 2 * vcl_pow(m_ComputedStandardDeviation, 2) ) ) ) );
     }
-  // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5 
+  // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5
   // shift during derivation, then take the integral of the Gaussian sample
   // to produce a Cumulative Gaussian.
 
-  for(int i = sampledGaussianArraySize-1; i > 0; i--)
+  for ( int i = sampledGaussianArraySize - 1; i > 0; i-- )
     {
-    sampledGaussianArray->put(i-1, sampledGaussianArray->get(i) - sampledGaussianArray->get(i-1));
+    sampledGaussianArray->put( i - 1, sampledGaussianArray->get(i) - sampledGaussianArray->get(i - 1) );
     }
   m_ComputedMean += 0.5;
 
   // Find the best vertical shift that minimizes the least square error.
   double c = VerticalBestShift(cumGaussianArrayCopy, sampledGaussianArray);
-  
+
   // Add constant c to array.
-  for(int i = 0; i < (int)(sampledGaussianArray->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( sampledGaussianArray->GetNumberOfElements() ); i++ )
     {
     sampledGaussianArray->put(i, sampledGaussianArray->get(i) + c);
     }
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
   // sampled Cumulative Gaussian.
-  int floorOfMean = (int)(m_ComputedMean);
+  int    floorOfMean = (int)( m_ComputedMean );
   double yFloorOfMean = sampledGaussianArray->get(floorOfMean);
   double yCeilingOfMean = sampledGaussianArray->get(floorOfMean + 1);
-  double y = (m_ComputedMean-floorOfMean)*(yCeilingOfMean-yFloorOfMean)+yFloorOfMean;
-  m_UpperAsymptote = y + m_ComputedTransitionHeight/2;
-  m_LowerAsymptote = y - m_ComputedTransitionHeight/2;
+  double y = ( m_ComputedMean - floorOfMean ) * ( yCeilingOfMean - yFloorOfMean ) + yFloorOfMean;
+  m_UpperAsymptote = y + m_ComputedTransitionHeight / 2;
+  m_LowerAsymptote = y - m_ComputedTransitionHeight / 2;
 
   m_FinalSampledArray = new MeasureType();
-  m_FinalSampledArray->SetSize(sampledGaussianArray->GetNumberOfElements());
-  for(int i = 0; i < (int)(m_FinalSampledArray->GetNumberOfElements()); i++)
+  m_FinalSampledArray->SetSize( sampledGaussianArray->GetNumberOfElements() );
+  for ( int i = 0; i < (int)( m_FinalSampledArray->GetNumberOfElements() ); i++ )
     {
-    m_FinalSampledArray->put(i, sampledGaussianArray->get(i));
+    m_FinalSampledArray->put( i, sampledGaussianArray->get(i) );
     }
   // Calculate the least square error as a measure of goodness of fit.
-  m_FitError = static_cast<CostFunctionType*>(m_CostFunction.GetPointer())->CalculateFitError(sampledGaussianArray);
-
+  m_FitError = static_cast< CostFunctionType * >( m_CostFunction.GetPointer() )->CalculateFitError(sampledGaussianArray);
 
   delete sampledGaussianArray;
   delete cumGaussianArrayCopy;
   delete derivative;
 }
 
-void CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
+void CumulativeGaussianOptimizer::PrintArray(MeasureType *array)
 {
-  for(int i = 0; i < (int)(array->GetNumberOfElements()); i++)
+  for ( int i = 0; i < (int)( array->GetNumberOfElements() ); i++ )
     {
     std::cerr << i << " " << array->get(i) << std::endl;
     }
 }
 
-double 
+double
 CumulativeGaussianOptimizer
-::VerticalBestShift(MeasureType * originalArray, MeasureType * newArray)
+::VerticalBestShift(MeasureType *originalArray, MeasureType *newArray)
 {
-
-  // Find the constant to minimize the sum of squares of the difference between original Array and newArray+c
+  // Find the constant to minimize the sum of squares of the difference between
+  // original Array and newArray+c
   // Proof of algorithm:
   //     Let A = the original array.
   //     Let B = the new array.
-  //     Let n = the number of elements in each array (note they must be the same).
+  //     Let n = the number of elements in each array (note they must be the
+  // same).
   //     We want to mimimize sum(((Bi+c) - (Ai))^2).
-  //     So we take the derivative with respect to c and equate this derivative to 0.
+  //     So we take the derivative with respect to c and equate this derivative
+  // to 0.
   //     d/dc sum(((Bi+c) - (Ai))^2) dc = 0
   //     => sum (2(Bi+c - Ai)) = 0
   //     => sum (Bi + c - Ai) = 0
@@ -359,16 +372,17 @@ CumulativeGaussianOptimizer
   //     => C = (sum(Ai) - sum(Bi)) / n
 
   double c = 0;
-  int size = originalArray->GetNumberOfElements();
-  for(int i=0; i<size; i++)
+  int    size = originalArray->GetNumberOfElements();
+
+  for ( int i = 0; i < size; i++ )
     {
     c += originalArray->get(i);
     }
-  for(int i=0; i<size; i++)
+  for ( int i = 0; i < size; i++ )
     {
     c -= newArray->get(i);
     }
-  return (c/size);
+  return ( c / size );
 }
 
 const std::string
@@ -380,9 +394,9 @@ CumulativeGaussianOptimizer
 
 void
 CumulativeGaussianOptimizer
-::PrintSelf(std::ostream &os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Difference Tolerance = " << m_DifferenceTolerance << std::endl;
   os << indent << "Computed Mean = " << m_ComputedMean << std::endl;
@@ -397,7 +411,7 @@ CumulativeGaussianOptimizer
   os << indent << "Fit Error = " << m_FitError << std::endl;
 
   os << indent << "StopConditionDescription: " << m_StopConditionDescription << std::endl;
-  if(m_FinalSampledArray)
+  if ( m_FinalSampledArray )
     {
     os << indent << "Final Sampled Array = " << m_FinalSampledArray << std::endl;
     }
@@ -406,8 +420,6 @@ CumulativeGaussianOptimizer
     os << indent << "Final Sampled Array = [not defined] " << std::endl;
     }
 }
-
-
 } // end namespace itk
 
 #endif

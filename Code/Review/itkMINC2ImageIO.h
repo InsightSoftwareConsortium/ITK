@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,7 +20,6 @@
  * \author Leila Baghdadi
  *         Mouse Imaging Centre, Toronto, Canada 2005.
  */
-
 
 #ifndef __itkMINC2ImageIO_h
 #define __itkMINC2ImageIO_h
@@ -39,12 +38,11 @@ extern "C" {
 
 namespace itk
 {
-
 /** \class MINC2ImageIO
  *
  * \author Leila Baghdadi
  * \brief Class that defines how to read MINC2 file format. Note,like
- * ITK, MINC2 is N dimensional and dimensions can be submitted in any 
+ * ITK, MINC2 is N dimensional and dimensions can be submitted in any
  * arbitrary order. Here we make sure the dimensions are ordered as
  * xspace, yspace, zspace, time and vector_dimension and so on or
  * xfrequencey, yfrequency, zfrequency, tfrequency and
@@ -54,14 +52,14 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT MINC2ImageIO : public ImageIOBase
+class ITK_EXPORT MINC2ImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MINC2ImageIO            Self;
-  typedef ImageIOBase             Superclass;
-  typedef SmartPointer<Self>      Pointer;
-  typedef Matrix<float,3,3>       MatrixType;
+  typedef MINC2ImageIO          Self;
+  typedef ImageIOBase           Superclass;
+  typedef SmartPointer< Self >  Pointer;
+  typedef Matrix< float, 3, 3 > MatrixType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -72,19 +70,19 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*);
-  
+  virtual bool CanReadFile(const char *);
+
   /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
-  
+
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer);
+  virtual void Read(void *buffer);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char*);
+  virtual bool CanWriteFile(const char *);
 
   /** Writes the spacing and dimentions of the image.
    * Assumes SetFileName has been called with a valid file name. */
@@ -92,9 +90,9 @@ public:
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void* buffer);
-  
-  char *GetDimensionOrder() { return m_DimensionOrder; }
+  virtual void Write(const void *buffer);
+
+  char * GetDimensionOrder() { return m_DimensionOrder; }
   void SetDimensionOrder(char *dimorder) { m_DimensionOrder = dimorder; }
 
   void XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, unsigned int *number_of_components);
@@ -102,30 +100,33 @@ public:
 protected:
   MINC2ImageIO();
   ~MINC2ImageIO();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void WriteSlice(std::string& fileName, const void* buffer);
+  void WriteSlice(std::string & fileName, const void *buffer);
 
-  // Num. dimensions in base class (c.f. GetNumberOfDimensions); why keep a second copy here?
+  // Num. dimensions in base class (c.f. GetNumberOfDimensions); why keep a
+  // second copy here?
   unsigned int m_NDims;
 
   char **m_DimensionName;
   virtual void SetDimensionName(unsigned int i, char *name);
+
   virtual char * GetDimensionName(unsigned int i){ return m_DimensionName[i]; }
 
   char *m_DimensionOrder;
-  
+
   // shift and scale parameter (god help me with slice scaling!!)
   double m_Shift;
   double m_Scale;
 
   // dimension size and start and step
-  unsigned int * m_DimensionSize;
-  double       * m_DimensionStart;
-  double       * m_DimensionStep;
-  MatrixType     m_DirectionCosines;
+  unsigned int *m_DimensionSize;
+  double       *m_DimensionStart;
+  double       *m_DimensionStep;
 
-  int * m_DimensionIndices;
+  MatrixType m_DirectionCosines;
+
+  int *m_DimensionIndices;
 
   // Description:
   // Check the DimensionOrder and adjust according to what
@@ -134,22 +135,20 @@ protected:
   int CheckDimensionOrder(char *userdimorder);
 
   double m_OriginalStart[3];
-  // complex type images, composed of complex numbers  
+  // complex type images, composed of complex numbers
   int m_Complex;
 private:
-  MINC2ImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MINC2ImageIO(const Self &);   //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   // Description
   // Get slice scaling from local slice scaling
   void SetSliceScalingFromLocalScaling(mihandle_t volume);
-    
+
   // Description
   // Get slice scaling from global slice scaling
   void SetSliceScalingFromGlobalScaling(mihandle_t volume);
-
 };
-
 } // end namespace itk
 
 #endif // __itkMINC2ImageIO_h

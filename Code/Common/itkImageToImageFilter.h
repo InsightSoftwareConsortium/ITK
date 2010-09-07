@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,6 @@
 
 namespace itk
 {
-  
 /** \class ImageToImageFilter
  * \brief Base class for filters that take an image as input and produce an image as output.
  *
@@ -60,31 +59,30 @@ namespace itk
  *
  * \ingroup ImageFilters
  */
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ImageToImageFilter : public ImageSource<TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToImageFilter         Self;
-  typedef ImageSource<TOutputImage>  Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
-  
-  
+  typedef ImageToImageFilter          Self;
+  typedef ImageSource< TOutputImage > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToImageFilter,ImageSource);
+  itkTypeMacro(ImageToImageFilter, ImageSource);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
   typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType; 
-  typedef typename InputImageType::PixelType      InputImagePixelType; 
-  
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -92,9 +90,12 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput( const InputImageType *image);
-  virtual void SetInput( unsigned int, const TInputImage * image);
+  virtual void SetInput(const InputImageType *image);
+
+  virtual void SetInput(unsigned int, const TInputImage *image);
+
   const InputImageType * GetInput(void);
+
   const InputImageType * GetInput(unsigned int idx);
 
   /** Push/Pop the input of this process object. These methods allow a
@@ -116,17 +117,19 @@ public:
    * and popping inputs allow the application to temporarily replace
    * an input to a filter.
    */
-  virtual void PushBackInput( const InputImageType *image);
+  virtual void PushBackInput(const InputImageType *image);
+
   virtual void PopBackInput();
-  virtual void PushFrontInput( const InputImageType *image);
+
+  virtual void PushFrontInput(const InputImageType *image);
+
   virtual void PopFrontInput();
-  
 
 protected:
   ImageToImageFilter();
   ~ImageToImageFilter();
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** What is the input requested region that is required to produce
    * the output requested region? The base assumption for image
@@ -154,16 +157,17 @@ protected:
    *     ImageSource::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
-
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
-  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(OutputImageDimension),
-                    itkGetStaticConstMacro(InputImageDimension)> InputToOutputRegionCopierType;
+  typedef ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(OutputImageDimension),
+                                                       itkGetStaticConstMacro(InputImageDimension) >
+  InputToOutputRegionCopierType;
 
   /** Typedef for the region copier function object that converts an
    * output region to an input region. */
-  typedef ImageToImageFilterDetail::ImageRegionCopier<itkGetStaticConstMacro(InputImageDimension),
-                    itkGetStaticConstMacro(OutputImageDimension)> OutputToInputRegionCopierType;
+  typedef ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(InputImageDimension),
+                                                       itkGetStaticConstMacro(OutputImageDimension) >
+  OutputToInputRegionCopierType;
 
   /** This function calls the actual region copier to do the mapping
    * from output image space to input image space.  It uses a Function
@@ -186,7 +190,7 @@ protected:
    * that the output, or the input is of a lower dimension than the
    * output. The use of an overloaded function is required for proper
    * compilation of the various cases.
-   * 
+   *
    * For the latter two cases, trivial implementations are used.  If
    * the input image is a higher dimension than the output, the output
    * region information is copied into the first portion of the input
@@ -200,8 +204,8 @@ protected:
    * output image, the filter can control "where" in the input image
    * the output subimage is extracted (as opposed to mapping to first
    * few dimensions of the input). */
-  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType &destRegion,
-                              const OutputImageRegionType &srcRegion);
+  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
+                                                 const OutputImageRegionType & srcRegion);
 
   /** This function calls the actual region copier to do the mapping
    * from input image space to output image space.  It uses a Function
@@ -223,7 +227,7 @@ protected:
    * that the output, or the input is of a lower dimension than the
    * output. The use of an overloaded function is required for proper
    * compilation of the various cases.
-   * 
+   *
    * For the latter two cases, trivial implementations are used.  If
    * the input image is a higher dimension than the output, the first
    * portion of the input region is copied to the output region.  If
@@ -233,9 +237,8 @@ protected:
    *
    * If a filter needs a different default behavior, it can override
    * this method. */
-  virtual void CallCopyInputRegionToOutputRegion(OutputImageRegionType &destRegion,
-                              const InputImageRegionType &srcRegion);
-  
+  virtual void CallCopyInputRegionToOutputRegion(OutputImageRegionType & destRegion,
+                                                 const InputImageRegionType & srcRegion);
 
   /**
    * PushBackInput(), PushFronInput() in the public section force the
@@ -243,32 +246,35 @@ protected:
    * these methods end of "hiding" the versions from the superclass
    * (ProcessObject) whose arguments are DataObjects. Here, we re-expose
    * the versions from ProcessObject to avoid warnings about hiding
-   * methods from the superclass. 
+   * methods from the superclass.
    */
   void PushBackInput(const DataObject *input)
-    { Superclass::PushBackInput(input); }
+  { Superclass::PushBackInput(input); }
   void PushFrontInput(const DataObject *input)
-    { Superclass::PushFrontInput(input); }
-  
+  { Superclass::PushFrontInput(input); }
 private:
-  ImageToImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ImageToImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageToImageFilter(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT ImageToImageFilter< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef ImageToImageFilter< ITK_TEMPLATE_2 x > ImageToImageFilter##y; } \
+#define ITK_TEMPLATE_ImageToImageFilter(_, EXPORT, TypeX, TypeY)                  \
+  namespace itk                                                                   \
+  {                                                                               \
+  _( 2 ( class EXPORT ImageToImageFilter< ITK_TEMPLATE_2 TypeX > ) )              \
+  namespace Templates                                                             \
+  {                                                                               \
+  typedef ImageToImageFilter< ITK_TEMPLATE_2 TypeX > ImageToImageFilter##TypeY; \
+  }                                                                               \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkImageToImageFilter+-.h"
+#include "Templates/itkImageToImageFilter+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkImageToImageFilter.txx"
+#include "itkImageToImageFilter.txx"
 #endif
 
 #endif

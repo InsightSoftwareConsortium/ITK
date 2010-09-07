@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{ChangeInformationImageFilter} is commonly used to modify 
@@ -40,7 +36,7 @@
 //  Software Guide : EndLatex 
 
 
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkVersor.h"
@@ -83,7 +79,7 @@ int main( int argc, char * argv[] )
 
   const unsigned int Dimension = 3;
 
-  typedef itk::OrientedImage< PixelType,  Dimension >   ImageType;
+  typedef itk::Image< PixelType,  Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 
 

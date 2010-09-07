@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,76 +22,71 @@
 
 namespace itk
 {
-
-
-template < class TTransform, class TFixedImage, class TMovingImage >
-CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
-::CenteredTransformInitializer() 
+template< class TTransform, class TFixedImage, class TMovingImage >
+CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
+::CenteredTransformInitializer()
 {
   m_FixedCalculator  = FixedImageCalculatorType::New();
   m_MovingCalculator = MovingImageCalculatorType::New();
   m_UseMoments = false;
 }
 
-
-template < class TTransform, class TFixedImage, class TMovingImage >
-void 
-CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
+template< class TTransform, class TFixedImage, class TMovingImage >
+void
+CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InitializeTransform()
 {
   // Sanity check
-  if( !m_FixedImage )
+  if ( !m_FixedImage )
     {
-    itkExceptionMacro( "Fixed Image has not been set" );
+    itkExceptionMacro("Fixed Image has not been set");
     return;
     }
-  if( !m_MovingImage )
+  if ( !m_MovingImage )
     {
-    itkExceptionMacro( "Moving Image has not been set" );
+    itkExceptionMacro("Moving Image has not been set");
     return;
     }
-  if( !m_Transform )
+  if ( !m_Transform )
     {
-    itkExceptionMacro( "Transform has not been set" );
+    itkExceptionMacro("Transform has not been set");
     return;
     }
 
   // If images come from filters, then update those filters.
-  if( m_FixedImage->GetSource() )
-    { 
+  if ( m_FixedImage->GetSource() )
+    {
     m_FixedImage->GetSource()->Update();
     }
-  if( m_MovingImage->GetSource() )
-    { 
+  if ( m_MovingImage->GetSource() )
+    {
     m_MovingImage->GetSource()->Update();
     }
 
+  InputPointType   rotationCenter;
+  OutputVectorType translationVector;
 
-  InputPointType    rotationCenter;
-  OutputVectorType  translationVector;
-
-
-  if( m_UseMoments )
+  if ( m_UseMoments )
     {
-    m_FixedCalculator->SetImage(  m_FixedImage );
+    m_FixedCalculator->SetImage(m_FixedImage);
     m_FixedCalculator->Compute();
 
-    m_MovingCalculator->SetImage( m_MovingImage );
+    m_MovingCalculator->SetImage(m_MovingImage);
     m_MovingCalculator->Compute();
-    
+
     typename FixedImageCalculatorType::VectorType fixedCenter =
       m_FixedCalculator->GetCenterOfGravity();
 
     typename MovingImageCalculatorType::VectorType movingCenter =
       m_MovingCalculator->GetCenterOfGravity();
 
-    for( unsigned int i=0; i<InputSpaceDimension; i++)
+    for ( unsigned int i = 0; i < InputSpaceDimension; i++ )
       {
       rotationCenter[i]    = fixedCenter[i];
       translationVector[i] = movingCenter[i] - fixedCenter[i];
       }
     }
-  else 
+  else
     {
     // Here use the geometrical center of each image.
 
@@ -106,22 +101,22 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
     typedef typename InputPointType::ValueType CoordRepType;
 
-    typedef ContinuousIndex< CoordRepType, 
+    typedef ContinuousIndex< CoordRepType,
                              InputSpaceDimension >  ContinuousIndexType;
 
-    typedef typename ContinuousIndexType::ValueType  ContinuousIndexValueType;
+    typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
 
     ContinuousIndexType centerFixedIndex;
 
-    for( unsigned int k=0; k<InputSpaceDimension; k++ )
+    for ( unsigned int k = 0; k < InputSpaceDimension; k++ )
       {
-      centerFixedIndex[k] = 
-        static_cast< ContinuousIndexValueType >( fixedIndex[k] ) +
-        static_cast< ContinuousIndexValueType >( fixedSize[k] - 1 ) / 2.0;
+      centerFixedIndex[k] =
+        static_cast< ContinuousIndexValueType >( fixedIndex[k] )
+        + static_cast< ContinuousIndexValueType >( fixedSize[k] - 1 ) / 2.0;
       }
 
-    m_FixedImage->TransformContinuousIndexToPhysicalPoint( 
-      centerFixedIndex, centerFixedPoint );
+    m_FixedImage->TransformContinuousIndexToPhysicalPoint(
+      centerFixedIndex, centerFixedPoint);
 
     const typename MovingImageType::RegionType & movingRegion =
       m_MovingImage->GetLargestPossibleRegion();
@@ -134,41 +129,38 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
 
     ContinuousIndexType centerMovingIndex;
 
-    for( unsigned int m=0; m<InputSpaceDimension; m++ )
+    for ( unsigned int m = 0; m < InputSpaceDimension; m++ )
       {
-      centerMovingIndex[m] = 
-        static_cast< ContinuousIndexValueType >( movingIndex[m] ) +
-        static_cast< ContinuousIndexValueType >( movingSize[m] - 1 ) / 2.0;
+      centerMovingIndex[m] =
+        static_cast< ContinuousIndexValueType >( movingIndex[m] )
+        + static_cast< ContinuousIndexValueType >( movingSize[m] - 1 ) / 2.0;
       }
 
-    m_MovingImage->TransformContinuousIndexToPhysicalPoint( 
-      centerMovingIndex, centerMovingPoint );
+    m_MovingImage->TransformContinuousIndexToPhysicalPoint(
+      centerMovingIndex, centerMovingPoint);
 
-    for( unsigned int i=0; i<InputSpaceDimension; i++)
+    for ( unsigned int i = 0; i < InputSpaceDimension; i++ )
       {
       rotationCenter[i]    = centerFixedPoint[i];
       translationVector[i] = centerMovingPoint[i] - centerFixedPoint[i];
       }
-
     }
 
-  m_Transform->SetCenter( rotationCenter );
+  m_Transform->SetCenter(rotationCenter);
 
-  m_Transform->SetTranslation( translationVector );
-
+  m_Transform->SetTranslation(translationVector);
 }
-  
 
-template < class TTransform, class TFixedImage, class TMovingImage >
-void 
-CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TTransform, class TFixedImage, class TMovingImage >
+void
+CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-     
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "Transform   = " << std::endl;
-  if( m_Transform )
-    { 
+  if ( m_Transform )
+    {
     os << indent << m_Transform  << std::endl;
     }
   else
@@ -177,8 +169,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "FixedImage   = " << std::endl;
-  if( m_FixedImage )
-    { 
+  if ( m_FixedImage )
+    {
     os << indent << m_FixedImage  << std::endl;
     }
   else
@@ -187,8 +179,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "MovingImage   = " << std::endl;
-  if( m_MovingImage )
-    { 
+  if ( m_MovingImage )
+    {
     os << indent << m_MovingImage  << std::endl;
     }
   else
@@ -197,8 +189,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "MovingMomentCalculator   = " << std::endl;
-  if( m_UseMoments && m_MovingCalculator )
-    { 
+  if ( m_UseMoments && m_MovingCalculator )
+    {
     os << indent << m_MovingCalculator  << std::endl;
     }
   else
@@ -207,17 +199,15 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage >
     }
 
   os << indent << "FixedMomentCalculator   = " << std::endl;
-  if( m_UseMoments && m_FixedCalculator )
-    { 
+  if ( m_UseMoments && m_FixedCalculator )
+    {
     os << indent << m_FixedCalculator  << std::endl;
     }
   else
     {
     os << indent << "None" << std::endl;
     }
-
 }
- 
 }  // namespace itk
 
 #endif /* __itkCenteredTransformInitializer_txx */

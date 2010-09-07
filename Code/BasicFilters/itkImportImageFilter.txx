@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,17 +22,16 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-ImportImageFilter<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+ImportImageFilter< TPixel, VImageDimension >
 ::ImportImageFilter()
 {
   unsigned int idx;
-  
-  for (idx = 0; idx < VImageDimension; ++idx)
+
+  for ( idx = 0; idx < VImageDimension; ++idx )
     {
     m_Spacing[idx] = 1.0;
     m_Origin[idx] = 0.0;
@@ -47,30 +46,29 @@ ImportImageFilter<TPixel, VImageDimension>
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-ImportImageFilter<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+ImportImageFilter< TPixel, VImageDimension >
 ::~ImportImageFilter()
 {
-  if (m_ImportPointer && m_FilterManageMemory)
+  if ( m_ImportPointer && m_FilterManageMemory )
     {
-    delete [] m_ImportPointer;
+    delete[] m_ImportPointer;
     }
 }
-
 
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  int i;  
+  int i;
 
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  if (m_ImportPointer)
+  if ( m_ImportPointer )
     {
     os << indent << "Imported pointer: (" << m_ImportPointer  << ")" << std::endl;
     }
@@ -80,17 +78,17 @@ ImportImageFilter<TPixel, VImageDimension>
     }
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  os << indent << "Filter manages memory: " << (m_FilterManageMemory ? "true" : "false") << std::endl;
+  os << indent << "Filter manages memory: " << ( m_FilterManageMemory ? "true" : "false" ) << std::endl;
 
   os << indent << "Spacing: [";
-  for (i=0; i < static_cast<int>(VImageDimension) - 1; i++)
+  for ( i = 0; i < static_cast< int >( VImageDimension ) - 1; i++ )
     {
     os << m_Spacing[i] << ", ";
     }
   os << m_Spacing[i] << "]" << std::endl;
 
   os << indent << "Origin: [";
-  for (i=0; i < static_cast<int>(VImageDimension) - 1; i++)
+  for ( i = 0; i < static_cast< int >( VImageDimension ) - 1; i++ )
     {
     os << m_Origin[i] << ", ";
     }
@@ -98,20 +96,19 @@ ImportImageFilter<TPixel, VImageDimension>
   os << indent << "Direction: " << std::endl << this->GetDirection() << std::endl;
 }
 
-
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
 ::SetImportPointer(TPixel *ptr, unsigned long num, bool LetFilterManageMemory)
 {
-  if (ptr != m_ImportPointer)
+  if ( ptr != m_ImportPointer )
     {
-    if (m_ImportPointer && m_FilterManageMemory)
+    if ( m_ImportPointer && m_FilterManageMemory )
       {
-      delete [] m_ImportPointer;
+      delete[] m_ImportPointer;
       }
     m_ImportPointer = ptr;
     this->Modified();
@@ -120,26 +117,24 @@ ImportImageFilter<TPixel, VImageDimension>
   m_Size = num;
 }
 
-
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
 TPixel *
-ImportImageFilter<TPixel, VImageDimension>
+ImportImageFilter< TPixel, VImageDimension >
 ::GetImportPointer()
 {
   return m_ImportPointer;
 }
 
-
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
-::EnlargeOutputRequestedRegion(DataObject *output) 
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
+::EnlargeOutputRequestedRegion(DataObject *output)
 {
   // call the superclass' implementation of this method
   Superclass::EnlargeOutputRequestedRegion(output);
@@ -152,13 +147,12 @@ ImportImageFilter<TPixel, VImageDimension>
   outputPtr->SetRequestedRegion( outputPtr->GetLargestPossibleRegion() );
 }
 
-
-/** 
+/**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -169,25 +163,24 @@ ImportImageFilter<TPixel, VImageDimension>
 
   // we need to compute the output spacing, the output origin, the
   // output image size, and the output image start index
-  outputPtr->SetSpacing( m_Spacing );
-  outputPtr->SetOrigin( m_Origin );
-  outputPtr->SetDirection( m_Direction );
-  outputPtr->SetLargestPossibleRegion( m_Region );
+  outputPtr->SetSpacing(m_Spacing);
+  outputPtr->SetOrigin(m_Origin);
+  outputPtr->SetDirection(m_Direction);
+  outputPtr->SetLargestPossibleRegion(m_Region);
 }
-
 
 /**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
 ::GenerateData()
 {
   // Normally, GenerateData() allocates memory.  However, the application
   // provides the memory for this filter via the SetImportPointer() method.
   // Therefore, this filter does not call outputPtr->Allocate().
-  
+
   // get pointer to the output
   OutputImagePointer outputPtr = this->GetOutput();
 
@@ -200,69 +193,68 @@ ImportImageFilter<TPixel, VImageDimension>
   // pointer.  Note that we tell the container NOT to manage the
   // memory itself.  This filter will properly manage the memory (as
   // opposed to the container) if the user wants it to.
-  outputPtr->GetPixelContainer()->SetImportPointer( m_ImportPointer,
-                                                    m_Size, false );
+  outputPtr->GetPixelContainer()->SetImportPointer(m_ImportPointer,
+                                                   m_Size, false);
 }
 
-
-/** 
+/**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
-::SetSpacing( const SpacingType & spacing )
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
+::SetSpacing(const SpacingType & spacing)
 {
   double dspacing[VImageDimension];
-  for(unsigned int i=0; i<VImageDimension; i++)
+
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
     {
     dspacing[i] = spacing[i];
     }
-  this->SetSpacing( dspacing );
+  this->SetSpacing(dspacing);
 }
 
-
-/** 
+/**
  *
  */
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
-::SetOrigin( const OriginType & origin )
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
+::SetOrigin(const OriginType & origin)
 {
   double dorigin[VImageDimension];
-  for(unsigned int i=0; i<VImageDimension; i++)
+
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
     {
     dorigin[i] = origin[i];
     }
-  this->SetOrigin( dorigin );
+  this->SetOrigin(dorigin);
 }
 
 //----------------------------------------------------------------------------
-template <class TPixel, unsigned int VImageDimension>
-void 
-ImportImageFilter<TPixel, VImageDimension>
-::SetDirection(const DirectionType direction )
+template< class TPixel, unsigned int VImageDimension >
+void
+ImportImageFilter< TPixel, VImageDimension >
+::SetDirection(const DirectionType direction)
 {
   bool modified = false;
-  for (unsigned int r = 0; r < VImageDimension; r++)
+
+  for ( unsigned int r = 0; r < VImageDimension; r++ )
     {
-    for (unsigned int c = 0; c < VImageDimension; c++)
+    for ( unsigned int c = 0; c < VImageDimension; c++ )
       {
-      if (m_Direction[r][c] != direction[r][c])
+      if ( m_Direction[r][c] != direction[r][c] )
         {
         m_Direction[r][c] = direction[r][c];
         modified = true;
         }
       }
     }
-  if (modified)
+  if ( modified )
     {
     this->Modified();
     }
 }
-
-
 } // end namespace itk
 
 #endif

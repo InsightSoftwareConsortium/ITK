@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,30 +21,27 @@
 
 namespace itk
 {
-
 JPEGImageIOFactory::JPEGImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkJPEGImageIO",
-                         "JPEG Image IO",
-                         1,
-                         CreateObjectFunction<JPEGImageIO>::New());
-}
-  
-JPEGImageIOFactory::~JPEGImageIOFactory()
-{
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkJPEGImageIO",
+                          "JPEG Image IO",
+                          1,
+                          CreateObjectFunction< JPEGImageIO >::New() );
 }
 
-const char* 
+JPEGImageIOFactory::~JPEGImageIOFactory()
+{}
+
+const char *
 JPEGImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char* 
+const char *
 JPEGImageIOFactory::GetDescription(void) const
 {
   return "JPEG ImageIO Factory, allows the loading of JPEG images into insight";
 }
-
 } // end namespace itk

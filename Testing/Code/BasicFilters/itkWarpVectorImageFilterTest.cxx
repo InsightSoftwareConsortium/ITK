@@ -47,18 +47,12 @@ public:
       }
     }
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     double Evaluate( const IndexType& index , const SizeType& size,
                      const SizeType& clampSize, const float& padValue)
-#else
-    double Evaluate( const IndexType& index , const SizeType&,
-                     const SizeType&, const float&)
-#endif
     {
     double accum = offset;
     for( int j = 0; j < VDimension; j++ )
       {
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
          if ( static_cast< unsigned int >( index[j] ) < size[j] )
            {
            if ( static_cast< unsigned int >( index[j] ) >= clampSize[j] )
@@ -76,10 +70,6 @@ public:
            accum = padValue;
            break; 
            }     
-#else         
-         accum += coeff[j] * (double) index[j];         
-
-#endif
       }
             
     return accum;
@@ -233,12 +223,6 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   // compute non-padded output region
   ImageType::RegionType validRegion;
   ImageType::SizeType validSize = validRegion.GetSize();
-#ifndef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
-  for( j = 0; j < ImageDimension; j++ )
-    {
-    validSize[j] = size[j] * factors[j] - (factors[j] - 1);
-    }
-#else
   //Needed to deal with incompatibility of various IsInside()s &
   //nearest-neighbour type interpolation on half-band at perimeter of
   //image. Evaluate() now has logic for this outer half-band.   
@@ -275,7 +259,6 @@ int itkWarpVectorImageFilterTest(int, char* [] )
       }
     clampSize[j]= validSize[j] - clampSizeDecrement[j];
     }
-#endif
   validRegion.SetSize( validSize );
 
   // adjust the pattern coefficients to match
@@ -292,12 +275,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     if( validRegion.IsInside( index ) )
       {
 
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     PixelType trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
-#else
-    PixelType trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, validSize, padValue );   
-#endif
-
       for( unsigned int k=0; k<ImageDimension; k++ )
         {
         if( vnl_math_abs( trueValue[k] - value[k] ) > 1e-4 )

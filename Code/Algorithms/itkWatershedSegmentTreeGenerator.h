@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,7 +29,6 @@ namespace itk
 {
 namespace watershed
 {
- 
 /**
  * \class SegmentTreeGenerator
  * This filter is a process object class that implements a step in the N-d
@@ -55,7 +54,7 @@ namespace watershed
  *
  * \par Parameters
  * There are two parameters to this filter described below.
- * 
+ *
  * \par
  * FloodLevel is specified as a percentage (0.0 - 1.0) of the maximum possible
  * saliency value in the initial image from which the segment table was
@@ -65,7 +64,7 @@ namespace watershed
  * past about 40% of the total depth.  Because this is the most computationally
  * intensive piece of the watershed segmentation algorithm, it is a good idea
  * to tune this parameter as low as possible on larger volumes.
- * 
+ *
  * \par
  * Merge is a boolean flag indicating whether or not to pre-merge the segments
  * marked as equivalent in the EquivalencyTable.  This is only useful for
@@ -73,68 +72,68 @@ namespace watershed
  * == do not merge).
  * \sa itk::WatershedImageFilter
  * \ingroup WatershedSegmentation  */
-template <class TScalarType>
-class ITK_EXPORT SegmentTreeGenerator  : public ProcessObject
+template< class TScalarType >
+class ITK_EXPORT SegmentTreeGenerator:public ProcessObject
 {
 public:
   /**  Standard itk smart pointer declarations    */
-  typedef SegmentTreeGenerator     Self;
-  typedef ProcessObject            Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SegmentTreeGenerator       Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTreeGenerator, ProcessObject);
 
   /** Convenient type definitions */
-  typedef TScalarType              ScalarType;
-  typedef SegmentTable<ScalarType> SegmentTableType;
-  typedef SegmentTree<ScalarType>  SegmentTreeType;
-  typedef EquivalencyTable         EquivalencyTableType;
-  typedef OneWayEquivalencyTable   OneWayEquivalencyTableType;
-  typedef DataObject::Pointer      DataObjectPointer;
+  typedef TScalarType                ScalarType;
+  typedef SegmentTable< ScalarType > SegmentTableType;
+  typedef SegmentTree< ScalarType >  SegmentTreeType;
+  typedef EquivalencyTable           EquivalencyTableType;
+  typedef OneWayEquivalencyTable     OneWayEquivalencyTableType;
+  typedef DataObject::Pointer        DataObjectPointer;
 
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
-  typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
-  typedef typename OneWayEquivalencyTableType::Pointer
-                                             OneWayEquivalencyTableTypePointer;
-  typedef typename SegmentTreeType::Pointer  SegmentTreeTypePointer;
-  
+  typedef typename SegmentTableType::Pointer           SegmentTableTypePointer;
+  typedef typename OneWayEquivalencyTableType::Pointer OneWayEquivalencyTableTypePointer;
+  typedef typename SegmentTreeType::Pointer            SegmentTreeTypePointer;
 
   /** Get/Set the input table of segments to process */
-  SegmentTableType* GetInputSegmentTable()
-    {
-    return static_cast<SegmentTableType *>(this->ProcessObject::GetInput(0));
-    }
+  SegmentTableType * GetInputSegmentTable()
+  {
+    return static_cast< SegmentTableType * >( this->ProcessObject::GetInput(0) );
+  }
+
   void SetInputSegmentTable(SegmentTableType *st)
-    {
+  {
     // Reset the highest calculated flood level if we are given a
     // different input image.
-    if (st != this->GetInput(0))
+    if ( st != this->GetInput(0) )
       {
       m_HighestCalculatedFloodLevel = 0.0;
       }
     this->ProcessObject::SetNthInput(0, st);
-    }
+  }
 
   /** Get/Set input table of equivalencies to pre-merge before
    * running the tree generator algorithm.  Only useful for
    * streaming applications */
   void SetInputEquivalencyTable(EquivalencyTableType *eq)
-    {
+  {
     this->ProcessObject::SetNthInput(1, eq);
-    }
-  EquivalencyTableType* GetInputEquivalencyTable()
-    {
+  }
+
+  EquivalencyTableType * GetInputEquivalencyTable()
+  {
     return
-      static_cast<EquivalencyTableType *>(this->ProcessObject::GetInput(1));
-    }
+      static_cast< EquivalencyTableType * >( this->ProcessObject::GetInput(1) );
+  }
 
   /** Get/Set the output data */
   SegmentTreeType * GetOutputSegmentTree()
-    {
-    return static_cast<SegmentTreeType *>
-      (this->ProcessObject::GetOutput(0)); 
-    }
+  {
+    return static_cast< SegmentTreeType * >
+           ( this->ProcessObject::GetOutput(0) );
+  }
 
   /** Standard non-threaded itk pipeline method */
   void GenerateData();
@@ -152,6 +151,7 @@ public:
    1.0 calculates all of the potential merges that can occur as the FloodLevel
    is increased to the  maximum saliency value.    */
   void SetFloodLevel(double);
+
   itkGetConstMacro(FloodLevel, double);
 
   /** Get/Set HighestCalculatedFloodLevel.  HighestCalculatedFloodLevel keeps
@@ -185,14 +185,14 @@ public:
 
   /** Standard itk::ProcessObject subclass method. */
   virtual DataObjectPointer MakeOutput(unsigned int idx);
-  
+
 protected:
   SegmentTreeGenerator();
   virtual ~SegmentTreeGenerator() {}
-  SegmentTreeGenerator(const Self&) {}
-  void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  SegmentTreeGenerator(const Self &) {}
+  void operator=(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Generates an initial list of all potentential merges in
    * the segment table.   */
   void CompileMergeList(SegmentTableTypePointer, SegmentTreeTypePointer);
@@ -205,24 +205,24 @@ protected:
 
   /** Methods required by the itk pipeline */
   void GenerateOutputRequestedRegion(DataObject *output);
+
   void GenerateInputRequestedRegion();
-  
+
 private:
   bool   m_Merge;
   double m_FloodLevel;
   bool   m_ConsumeInput;
 
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
-  
+
   /** This value keeps track of the highest level this filter has been
    *  calculated.  m_FloodLevel can be manipulated anywhere below this
    *  level without re-executing the filter, preventing unneccesary
    *  updates. */
   double m_HighestCalculatedFloodLevel;
 };
-  
-}// end namespace watershed
-}// end namespace itk
+} // end namespace watershed
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkWatershedSegmentTreeGenerator.txx"

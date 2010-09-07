@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,8 +25,6 @@
 
 namespace itk
 {
-
-
 /** \class AutoPointerDataObjectDecorator
  * \brief Decorates any pointer to a simple object with a DataObject API using
  * AutoPointer semantics.
@@ -49,20 +47,20 @@ namespace itk
  * \ingroup ITKSystemObjects
  *
  */
-template<class T>
-class ITK_EXPORT AutoPointerDataObjectDecorator : public DataObject
+template< class T >
+class ITK_EXPORT AutoPointerDataObjectDecorator:public DataObject
 {
 public:
   /** Standard typedefs. */
-  typedef AutoPointerDataObjectDecorator   Self;
-  typedef DataObject                       Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  typedef AutoPointerDataObjectDecorator Self;
+  typedef DataObject                     Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
-  typedef T                ComponentType;
-  typedef std::auto_ptr<T> ComponentPointer;
-  
+  typedef T                  ComponentType;
+  typedef std::auto_ptr< T > ComponentPointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -70,26 +68,23 @@ public:
   itkTypeMacro(AutoPointerDataObjectDecorator, DataObject);
 
   /** Set the contained object */
-  virtual void Set(T* val);
-  
+  virtual void Set(T *val);
+
   /** Get the contained object */
-  virtual T* Get() { return m_Component.get(); }
-  virtual const T* Get() const { return m_Component.get(); }
-  
+  virtual T * Get() { return m_Component.get(); }
+  virtual const T * Get() const { return m_Component.get(); }
 protected:
   AutoPointerDataObjectDecorator();
   ~AutoPointerDataObjectDecorator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 protected:
-
 private:
-  AutoPointerDataObjectDecorator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  AutoPointerDataObjectDecorator(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
   ComponentPointer m_Component;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

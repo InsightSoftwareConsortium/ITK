@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,12 +28,12 @@ namespace itk
  * \brief Create instances of Transforms
  */
 
-template <class T>
-class TransformFactory : public TransformFactoryBase
+template< class T >
+class TransformFactory:public TransformFactoryBase
 {
-public:  
-  static void RegisterTransform ()
-    {
+public:
+  static void RegisterTransform()
+  {
     typename T::Pointer t = T::New();
 
     TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
@@ -42,8 +42,8 @@ public:
                            t->GetTransformTypeAsString().c_str(),
                            t->GetTransformTypeAsString().c_str(),
                            1,
-                           CreateObjectFunction<T>::New() );
-    }
+                           CreateObjectFunction< T >::New() );
+  }
 };
 } // end namespace itk
 

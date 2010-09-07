@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /**
  * \class QuadEdgeMeshExtendedTraits
  * \ingroup QEMeshObjects
@@ -58,7 +57,7 @@ namespace itk
  *     The type associated with every cell.
  *
  */
-template< 
+template<
   typename TPixelType = float,
   unsigned int VPointDimension = 3,
   unsigned int VMaxTopologicalDimension = VPointDimension,
@@ -67,24 +66,24 @@ template<
   typename TCellPixelType = TPixelType,
   typename TPData = bool,
   typename TDData = bool
- >
+  >
 class QuadEdgeMeshExtendedTraits
 {
 public:
   typedef QuadEdgeMeshExtendedTraits Self;
   /** Save the template parameters. */
-  typedef TCoordRep       CoordRepType;
-  typedef TPixelType      PixelType;
-  typedef TPData          PrimalDataType;
-  typedef TDData          DualDataType;
-  typedef TCellPixelType  CellPixelType;
+  typedef TCoordRep      CoordRepType;
+  typedef TPixelType     PixelType;
+  typedef TPData         PrimalDataType;
+  typedef TDData         DualDataType;
+  typedef TCellPixelType CellPixelType;
 
   /** Save all the template parameters. */
-  itkStaticConstMacro( PointDimension, unsigned int, VPointDimension );
-  itkStaticConstMacro( MaxTopologicalDimension, unsigned int,
-                        VPointDimension );
+  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
+  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
+                      VPointDimension);
 
-  typedef TInterpolationWeightType    InterpolationWeightType;
+  typedef TInterpolationWeightType InterpolationWeightType;
 
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
@@ -105,30 +104,28 @@ public:
 
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
-  typedef std::set< CellIdentifier >                    PointCellLinksContainer;
+  typedef std::set< CellIdentifier > PointCellLinksContainer;
 
   /** Quad edge typedefs. */
-  typedef GeometricalQuadEdge< 
-    PointIdentifier, CellIdentifier,
-    PrimalDataType, DualDataType >                      QEPrimal;
-  typedef typename QEPrimal::DualType                   QEDual;
-  typedef typename QEPrimal::OriginRefType              VertexRefType;
-  typedef typename QEPrimal::DualOriginRefType          FaceRefType;
+  typedef GeometricalQuadEdge< PointIdentifier, CellIdentifier, PrimalDataType, DualDataType > QEPrimal;
+  typedef typename QEPrimal::DualType                                                          QEDual;
+  typedef typename QEPrimal::OriginRefType                                                     VertexRefType;
+  typedef typename QEPrimal::DualOriginRefType                                                 FaceRefType;
 
-  /** The type of point used by the mesh. This should never change from 
+  /** The type of point used by the mesh. This should never change from
    * this setting, regardless of the mesh type. Points have an entry
    * in the Onext ring */
-  typedef QuadEdgeMeshPoint< 
+  typedef QuadEdgeMeshPoint<
     CoordRepType, VPointDimension, QEPrimal >                 PointType;
 
-  typedef Point< CoordRepType, VPointDimension >              PointHashType;
+  typedef Point< CoordRepType, VPointDimension > PointHashType;
 
   /** The container type for use in storing points. It must conform to
    * the IndexedContainer interface. */
-  typedef MapContainer< PointIdentifier, PointType >          PointsContainer;
+  typedef MapContainer< PointIdentifier, PointType > PointsContainer;
 
   /** Standard itk cell interface. */
-  typedef QuadEdgeMeshCellTraitsInfo< 
+  typedef QuadEdgeMeshCellTraitsInfo<
     VPointDimension, CoordRepType,
     InterpolationWeightType, PointIdentifier,
     CellIdentifier,          CellFeatureIdentifier,
@@ -136,20 +133,18 @@ public:
     UsingCellsContainer,     QEPrimal >                       CellTraits;
 
   /** The interface to cells to be used by the mesh. */
-  typedef CellInterface< CellPixelType, CellTraits >          CellType;
-  typedef typename CellType::CellAutoPointer                  CellAutoPointer;
+  typedef CellInterface< CellPixelType, CellTraits > CellType;
+  typedef typename CellType::CellAutoPointer         CellAutoPointer;
 
   /** Containers types. */
-  typedef MapContainer< PointIdentifier,
-                             PointCellLinksContainer >        CellLinksContainer;
-  typedef MapContainer< CellIdentifier, CellType* >           CellsContainer;
-  typedef MapContainer< PointIdentifier, PixelType >          PointDataContainer;
-  typedef MapContainer< CellIdentifier, CellPixelType >       CellDataContainer;
+  typedef MapContainer< PointIdentifier, PointCellLinksContainer > CellLinksContainer;
+  typedef MapContainer< CellIdentifier, CellType * >               CellsContainer;
+  typedef MapContainer< PointIdentifier, PixelType >               PointDataContainer;
+  typedef MapContainer< CellIdentifier, CellPixelType >            CellDataContainer;
 
   /** Other useful types. */
   typedef typename PointType::VectorType VectorType;
 };
-
 } // enamespace
 
 #endif

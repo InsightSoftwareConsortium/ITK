@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,16 +23,14 @@
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 
-
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage, class TSourceImage, class TOutputImage>
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
-::PasteImageFilter() 
+template< class TInputImage, class TSourceImage, class TOutputImage >
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
+::PasteImageFilter()
 {
   this->ProcessObject::SetNumberOfRequiredInputs(2);
 
@@ -40,53 +38,55 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   m_DestinationIndex.Fill(0);
 }
 
-template <class TInputImage, class TSourceImage, class TOutputImage>
-void 
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
+template< class TInputImage, class TSourceImage, class TOutputImage >
+void
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::SetSourceImage(const SourceImageType *src)
 {
   // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(1, const_cast<SourceImageType *>( src ));
+  this->SetNthInput( 1, const_cast< SourceImageType * >( src ) );
 }
 
-template <class TInputImage, class TSourceImage, class TOutputImage>
-const typename PasteImageFilter<TInputImage,TSourceImage,TOutputImage>::SourceImageType *
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
+template< class TInputImage, class TSourceImage, class TOutputImage >
+const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::SourceImageType *
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetSourceImage() const
 {
-  const SourceImageType * sourceImage =
+  const SourceImageType *sourceImage =
     dynamic_cast< const SourceImageType * >( this->ProcessObject::GetInput(1) );
+
   return sourceImage;
 }
 
-template <class TInputImage, class TSourceImage, class TOutputImage>
-void 
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
+template< class TInputImage, class TSourceImage, class TOutputImage >
+void
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::SetDestinationImage(const InputImageType *src)
 {
   // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(0, const_cast<InputImageType *>( src ));
+  this->SetNthInput( 0, const_cast< InputImageType * >( src ) );
 }
 
-template <class TInputImage, class TSourceImage, class TOutputImage>
-const typename PasteImageFilter<TInputImage,TSourceImage,TOutputImage>::InputImageType *
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
+template< class TInputImage, class TSourceImage, class TOutputImage >
+const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::InputImageType *
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetDestinationImage() const
 {
-  const InputImageType * destinationImage =
+  const InputImageType *destinationImage =
     dynamic_cast< const InputImageType * >( this->ProcessObject::GetInput(0) );
+
   return destinationImage;
 }
 
 /**
  *
  */
-template <class TInputImage, class TSourceImage, class TOutputImage>
-void 
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TSourceImage, class TOutputImage >
+void
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "DestinationIndex: " << m_DestinationIndex << std::endl;
   os << indent << "SourceRegion: " << m_SourceRegion << std::endl;
@@ -95,9 +95,9 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
 /**
  *
  */
-template <class TInputImage, class TSourceImage, class TOutputImage>
+template< class TInputImage, class TSourceImage, class TOutputImage >
 void
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -105,22 +105,22 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
 
   // get the pointers for the inputs and output
   InputImagePointer  destPtr = const_cast< InputImageType * >( this->GetInput() );
-  SourceImagePointer  sourcePtr = const_cast< SourceImageType * >( this->GetSourceImage() );
+  SourceImagePointer sourcePtr = const_cast< SourceImageType * >( this->GetSourceImage() );
   OutputImagePointer outputPtr = this->GetOutput();
 
-  if( !destPtr || !sourcePtr || !outputPtr )
+  if ( !destPtr || !sourcePtr || !outputPtr )
     {
     return;
     }
 
   // second input must include the SourceRegion
-  sourcePtr->SetRequestedRegion( m_SourceRegion );
+  sourcePtr->SetRequestedRegion(m_SourceRegion);
 
   // first input must match the output requested region
   destPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-/** 
+/**
    * PasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output
@@ -130,34 +130,36 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
    * parameter "outputRegionForThread"
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData() 
+   *     ImageToImageFilter::GenerateData()
    */
-template <class TInputImage, class TSourceImage, class TOutputImage>
-void 
-PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
-::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+template< class TInputImage, class TSourceImage, class TOutputImage >
+void
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
+::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
-  itkDebugMacro(<<"Actually executing");
+  itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
-  typename Superclass::InputImageConstPointer  destPtr = this->GetInput();
-  SourceImageConstPointer  sourcePtr = this->GetSourceImage();
+  typename Superclass::InputImageConstPointer destPtr = this->GetInput();
+  SourceImageConstPointer sourcePtr = this->GetSourceImage();
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-  
-  // What is the region on the destination image would be overwritten by the source?
-  // Do we need to use the source image at all for the region generated by this thread?
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-  bool useSource;
+  // What is the region on the destination image would be overwritten by the
+  // source?
+  // Do we need to use the source image at all for the region generated by this
+  // thread?
+
+  bool                  useSource;
   SourceImageRegionType sourceRegionInDestinationImage;
   SourceImageRegionType sourceRegionInDestinationImageCropped;
-  sourceRegionInDestinationImage.SetIndex( m_DestinationIndex );
+  sourceRegionInDestinationImage.SetIndex(m_DestinationIndex);
   sourceRegionInDestinationImage.SetSize( m_SourceRegion.GetSize() );
 
-  if ( sourceRegionInDestinationImage.Crop( outputRegionForThread ) )
+  if ( sourceRegionInDestinationImage.Crop(outputRegionForThread) )
     {
     // paste region is inside this thread
     useSource = true;
@@ -173,7 +175,7 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   // destination image need to be used? i.e. will the source region completely
   // overlap the destination region for this thread?
   bool useOnlySource;
-  if ( useSource && (sourceRegionInDestinationImageCropped == outputRegionForThread) )
+  if ( useSource && ( sourceRegionInDestinationImageCropped == outputRegionForThread ) )
     {
     // sourceRegionInDestinationImage completely overlaps the output
     // region for this thread, so we'll only copy data from the source
@@ -193,24 +195,23 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   if ( useSource )
     {
     // what is the proposed shift from destination to source?
-    Offset<InputImageDimension> originalOffsetFromDestinationToSource;
+    Offset< InputImageDimension > originalOffsetFromDestinationToSource;
     originalOffsetFromDestinationToSource = m_SourceRegion.GetIndex() - m_DestinationIndex;
 
     // transform the cropped index back into the source image
     InputImageIndexType sourceIndexInSourceImageCropped;
     sourceIndexInSourceImageCropped = sourceRegionInDestinationImageCropped.GetIndex()
-      + originalOffsetFromDestinationToSource;
+                                      + originalOffsetFromDestinationToSource;
 
     // set the values in the region
-    sourceRegionInSourceImageCropped.SetIndex( sourceIndexInSourceImageCropped );
+    sourceRegionInSourceImageCropped.SetIndex(sourceIndexInSourceImageCropped);
     sourceRegionInSourceImageCropped.SetSize( sourceRegionInDestinationImageCropped.GetSize() );
     }
-  
-  
+
   // Define iterators types
-  typedef ImageRegionIterator<OutputImageType>      OutputIterator;
-  typedef ImageRegionConstIterator<InputImageType>  InputIterator;
-  typedef ImageRegionConstIterator<SourceImageType> SourceIterator;
+  typedef ImageRegionIterator< OutputImageType >      OutputIterator;
+  typedef ImageRegionConstIterator< InputImageType >  InputIterator;
+  typedef ImageRegionConstIterator< SourceImageType > SourceIterator;
 
   // There are three cases that we need to consider:
   //
@@ -224,20 +225,20 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
   //    thread, so copy data as needed from both the source and
   //    destination.
   //
-  if ( !useSource && !(this->GetInPlace() && this->CanRunInPlace()))
+  if ( !useSource && !( this->GetInPlace() && this->CanRunInPlace() ) )
     {
     // paste region is outside this thread, so just copy the destination
     // input to the output
     OutputIterator outIt(outputPtr, outputRegionForThread);
-    InputIterator destIt(destPtr, outputRegionForThread);
-    
+    InputIterator  destIt(destPtr, outputRegionForThread);
+
     // walk the output region, and sample the destination image
-    while( !outIt.IsAtEnd() )
+    while ( !outIt.IsAtEnd() )
       {
       // copy the input pixel to the output
-      outIt.Set( static_cast<OutputImagePixelType>(destIt.Get()) );
-      ++outIt; 
-      ++destIt; 
+      outIt.Set( static_cast< OutputImagePixelType >( destIt.Get() ) );
+      ++outIt;
+      ++destIt;
       progress.CompletedPixel();
       }
     }
@@ -248,14 +249,14 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     // to the output
     OutputIterator outIt(outputPtr, outputRegionForThread);
     SourceIterator sourceIt(sourcePtr, sourceRegionInSourceImageCropped);
-    
+
     // walk the output region, and sample the source image
-    while( !outIt.IsAtEnd() )
+    while ( !outIt.IsAtEnd() )
       {
       // copy the input pixel to the output
-      outIt.Set( static_cast<OutputImagePixelType>( sourceIt.Get()) );
-      ++outIt; 
-      ++sourceIt; 
+      outIt.Set( static_cast< OutputImagePixelType >( sourceIt.Get() ) );
+      ++outIt;
+      ++sourceIt;
       progress.CompletedPixel();
       }
     }
@@ -275,17 +276,17 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     // Copy destination to output
     //
     OutputIterator outIt(outputPtr, outputRegionForThread);
-    InputIterator destIt(destPtr, outputRegionForThread);
-    
+    InputIterator  destIt(destPtr, outputRegionForThread);
+
     // walk the output region, and sample the destination image
-    if (!(this->GetInPlace() && this->CanRunInPlace()))
+    if ( !( this->GetInPlace() && this->CanRunInPlace() ) )
       {
-      while( !outIt.IsAtEnd() )
+      while ( !outIt.IsAtEnd() )
         {
         // copy the input pixel to the output
-        outIt.Set( static_cast<OutputImagePixelType>(destIt.Get()) );
-        ++outIt; 
-        ++destIt; 
+        outIt.Set( static_cast< OutputImagePixelType >( destIt.Get() ) );
+        ++outIt;
+        ++destIt;
         progress.CompletedPixel();
         }
       }
@@ -297,20 +298,18 @@ PasteImageFilter<TInputImage,TSourceImage,TOutputImage>
     // reset the output iterator to walk the section of the image covered
     // by the source image
     outIt = OutputIterator(outputPtr, sourceRegionInDestinationImageCropped);
-    
+
     // walk the output region, and sample the source image
-    while( !outIt.IsAtEnd() )
+    while ( !outIt.IsAtEnd() )
       {
       // copy the input pixel to the output
-      outIt.Set( static_cast<OutputImagePixelType>(sourceIt.Get()) );
-      ++outIt; 
-      ++sourceIt; 
+      outIt.Set( static_cast< OutputImagePixelType >( sourceIt.Get() ) );
+      ++outIt;
+      ++sourceIt;
       progress.CompletedPixel();
       }
-      
     }
 }
-
 } // end namespace itk
 
 #endif

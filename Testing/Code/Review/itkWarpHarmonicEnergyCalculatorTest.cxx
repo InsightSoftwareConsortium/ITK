@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkVector.h"
 #include "itkWarpHarmonicEnergyCalculator.h"
 #include "itkImageRegionIteratorWithIndex.h"

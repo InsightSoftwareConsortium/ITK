@@ -31,7 +31,6 @@
 
 namespace itk
 {
-
 /** \class KLMRegionGrowImageFilter
  * \brief Base class for a region growing object that performs energy-based
  * region growing for multiband images.
@@ -164,8 +163,8 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputImage,TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -181,12 +180,12 @@ public:
   itkTypeMacro(KLMRegionGrowImageFilter, RegionGrowImageFilter);
 
   /** Type definition for the input image. */
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::Pointer         InputImagePointer;
-  typedef typename TInputImage::ConstPointer    InputImageConstPointer;
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType       InputImagePixelType;
+  typedef typename TInputImage::PixelType InputImagePixelType;
 
   /** Type definition for the input image pixel vector type. */
   typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
@@ -196,22 +195,22 @@ public:
                       InputImagePixelType::Dimension);
 
   /** Type definition for the input image index type. */
-  typedef typename TInputImage::IndexType       InputImageIndexType;
+  typedef typename TInputImage::IndexType InputImageIndexType;
 
   /** Type definition for the image iterators to be used. */
   typedef ImageRegionIterator< TInputImage >      InputImageIterator;
   typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
 
   /** Type definition for the image region type. */
-  typedef typename TInputImage::RegionType      InputRegionType;
+  typedef typename TInputImage::RegionType InputRegionType;
 
   /** Type definition for the input grid size type used to create
     * initial atomic regions. */
-  typedef typename Superclass::GridSizeType     GridSizeType;
+  typedef typename Superclass::GridSizeType GridSizeType;
 
   /** Type definition for the output image. */
-  typedef TOutputImage                          OutputImageType;
-  typedef typename TOutputImage::Pointer        OutputImagePointer;
+  typedef TOutputImage                   OutputImageType;
+  typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** InputImageDimension enumeration. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -222,7 +221,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Type definition for the output image pixel type. */
-  typedef typename TOutputImage::PixelType      OutputImagePixelType;
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
 
   /** Type definition for the output image pixel vector type. */
   typedef typename TOutputImage::PixelType::VectorType OutputImageVectorType;
@@ -232,10 +231,10 @@ public:
                       OutputImagePixelType::Dimension);
 
   /** Type definition for the output image index type. */
-  typedef typename TOutputImage::IndexType      OutputImageIndexType;
+  typedef typename TOutputImage::IndexType OutputImageIndexType;
 
   /** Type definition for the output image iterators.  */
-  typedef ImageRegionIterator< TOutputImage >   OutputImageIterator;
+  typedef ImageRegionIterator< TOutputImage > OutputImageIterator;
 
   /** type definition for the region label type. */
   typedef typename KLMSegmentationRegion::RegionLabelType RegionLabelType;
@@ -248,13 +247,13 @@ public:
   typedef Image< RegionLabelType, itkGetStaticConstMacro(LabelImageDimension) > LabelImageType;
 
   /** Type definition for the labelled image pointer.  */
-  typedef typename LabelImageType::Pointer      LabelImagePointer;
+  typedef typename LabelImageType::Pointer LabelImagePointer;
 
   /** Type definition for the labelled image pixel type. */
-  typedef typename LabelImageType::PixelType    LabelImagePixelType;
+  typedef typename LabelImageType::PixelType LabelImagePixelType;
 
   /** Type definition for the labelled image index type. */
-  typedef typename LabelImageType::IndexType    LabelImageIndexType;
+  typedef typename LabelImageType::IndexType LabelImageIndexType;
 
   /** Type definition for the labelled image iterators.  */
   typedef ImageRegionIterator< LabelImageType > LabelImageIterator;
@@ -263,10 +262,10 @@ public:
   typedef vnl_vector< double > MeanRegionIntensityType;
 
   /** Type definition for the smart border type. */
-  typedef KLMSegmentationBorder                 BorderType;
+  typedef KLMSegmentationBorder BorderType;
 
   /** Type definition for the smart border pointers object. */
-  typedef KLMDynamicBorderArray< BorderType >   KLMSegmentationBorderArrayPtr;
+  typedef KLMDynamicBorderArray< BorderType > KLMSegmentationBorderArrayPtr;
 
   /** Set/Get the desired threshold parameter for lambda. See
    * itkSegmentationBorder documentation for details regarding this
@@ -289,24 +288,23 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename InputImagePixelType::ValueType>));
-  itkConceptMacro(SameDimension,
-    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-                            itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename InputImagePixelType::ValueType > ) );
+  itkConceptMacro( SameDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
+                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
 #if THIS_CONCEPT_FAILS_ON_GCC
   /** The input pixel type must be the same as that of the output image. */
-  itkConceptMacro(SameVectorDimension,
-    (Concept::SameDimension<itkGetStaticConstMacro(InputImageVectorDimension),
-                            itkGetStaticConstMacro(OutputImageVectorDimension)>));
+  itkConceptMacro( SameVectorDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageVectorDimension),
+                                             itkGetStaticConstMacro(OutputImageVectorDimension) > ) );
 #endif
   /** End concept checking */
 #endif
-
 protected:
   KLMRegionGrowImageFilter();
   ~KLMRegionGrowImageFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * Standard pipeline method.
@@ -322,7 +320,7 @@ protected:
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  virtual void EnlargeOutputRequestedRegion( DataObject * );
+  virtual void EnlargeOutputRequestedRegion(DataObject *);
 
   /** This is the interface function that calls the specific algorithm
    * implementation of region growing. */
@@ -343,14 +341,14 @@ protected:
   void InitializeKLM();
 
   /** Generate the labelled image. */
-  LabelImagePointer GenerateLabelledImage( LabelImageType *labelImagePtr );
+  LabelImagePointer GenerateLabelledImage(LabelImageType *labelImagePtr);
 
   /** Calculate the statistics representing the region. In this
    * case we compute the mean region intensity and the area of the
    * initial N-dimensional rectangular area. This is the function that
    * can be overriden in order to enable a different statistical
    * representation for region initialization. */
-  virtual void InitializeRegionParameters( InputRegionType region );
+  virtual void InitializeRegionParameters(InputRegionType region);
 
   /** Function to resolve the region labels to be consecutively ordered.
    * Each initial atomic region is given a new label and the aggregrate
@@ -358,37 +356,34 @@ protected:
   virtual void ResolveRegions();
 
 private:
-  KLMRegionGrowImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  KLMRegionGrowImageFilter(const Self &); // purposely not implemented
+  void operator=(const Self &);           // purposely not implemented
 
-  typedef typename TInputImage::SizeType           InputImageSizeType;
-  typedef typename KLMSegmentationRegion::Pointer  KLMSegmentationRegionPtr;
-  typedef typename KLMSegmentationBorder::Pointer  KLMSegmentationBorderPtr;
+  typedef typename TInputImage::SizeType          InputImageSizeType;
+  typedef typename KLMSegmentationRegion::Pointer KLMSegmentationRegionPtr;
+  typedef typename KLMSegmentationBorder::Pointer KLMSegmentationBorderPtr;
 
-  double                  m_MaximumLambda;
-  unsigned int            m_NumberOfRegions;
+  double       m_MaximumLambda;
+  unsigned int m_NumberOfRegions;
 
   /** Local variables. */
 
-  double                  m_InternalLambda;
-  unsigned int            m_InitialNumberOfRegions;
-  double                  m_TotalBorderLength;
+  double       m_InternalLambda;
+  unsigned int m_InitialNumberOfRegions;
+  double       m_TotalBorderLength;
 
-  std::vector< KLMSegmentationRegionPtr >       m_RegionsPointer;
-  std::vector< KLMSegmentationBorderPtr >       m_BordersPointer;
-  std::vector< KLMSegmentationBorderArrayPtr >  m_BordersDynamicPointer;
-  KLMSegmentationBorderArrayPtr                *m_BorderCandidate;
+  std::vector< KLMSegmentationRegionPtr >      m_RegionsPointer;
+  std::vector< KLMSegmentationBorderPtr >      m_BordersPointer;
+  std::vector< KLMSegmentationBorderArrayPtr > m_BordersDynamicPointer;
+  KLMSegmentationBorderArrayPtr *              m_BorderCandidate;
 
-  MeanRegionIntensityType          m_InitialRegionMean;
-  double                           m_InitialRegionArea;
-
+  MeanRegionIntensityType m_InitialRegionMean;
+  double                  m_InitialRegionArea;
 }; // class KLMRegionGrowImageFilter
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkKLMRegionGrowImageFilter.txx"
 #endif
-
 
 #endif

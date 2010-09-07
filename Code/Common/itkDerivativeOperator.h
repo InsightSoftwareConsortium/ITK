@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,13 +20,13 @@
 #include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class DerivativeOperator
  * \brief A NeighborhoodOperator for taking an n-th order derivative
  * at a pixel
- * 
+ *
  * DerivativeOperator's coefficients are a tightest-fitting convolution
  * kernel for calculating the n-th order directional derivative at a pixel.
  * DerivativeOperator is a directional NeighborhoodOperator that should be
@@ -37,34 +37,33 @@ namespace itk {
  * \sa Neighborhood
  * \sa ForwardDifferenceOperator
  * \sa BackwardDifferenceOperator
- * 
+ *
  * \ingroup Operators
  */
-template<class TPixel, unsigned int VDimension=2,
-  class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT DerivativeOperator
-  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+template< class TPixel, unsigned int VDimension = 2,
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT DerivativeOperator:
+  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
-
 public:
   /** Standard class typedefs. */
-  typedef DerivativeOperator                  Self;
+  typedef DerivativeOperator Self;
   typedef NeighborhoodOperator<
-    TPixel, VDimension, TAllocator>           Superclass;
-  
-  typedef typename Superclass::PixelType      PixelType;
-  typedef typename Superclass::PixelRealType  PixelRealType;
+    TPixel, VDimension, TAllocator >           Superclass;
+
+  typedef typename Superclass::PixelType     PixelType;
+  typedef typename Superclass::PixelRealType PixelRealType;
 
   /** Constructor. */
-  DerivativeOperator() : m_Order(1) {}
+  DerivativeOperator():m_Order(1) {}
 
   /** Copy constructor. */
-  DerivativeOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other)
+  DerivativeOperator(const Self & other):
+    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
   { m_Order = other.m_Order;  }
 
   /** Assignment operator */
-  Self &operator=(const Self& other)
+  Self & operator=(const Self & other)
   {
     Superclass::operator=(other);
     m_Order = other.m_Order;
@@ -72,22 +71,22 @@ public:
   }
 
   /** Sets the order of the derivative. */
-  void SetOrder(const unsigned int &order)
-    {  
+  void SetOrder(const unsigned int & order)
+  {
     this->m_Order = order;
-    }
+  }
 
   /** Returns the order of the derivative. */
   unsigned int GetOrder() const { return m_Order; }
 
   /** Prints some debugging information */
-  virtual void PrintSelf(std::ostream &os, Indent i) const  
-    { 
+  virtual void PrintSelf(std::ostream & os, Indent i) const
+  {
     os << i << "DerivativeOperator { this=" << this
        << ", m_Order = " << m_Order << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
-    }
-  
+    Superclass::PrintSelf( os, i.GetNextIndent() );
+  }
+
 protected:
   /** Typedef support for coefficient vector type.  Necessary to
    * work around compiler bug on VC++. */
@@ -97,29 +96,32 @@ protected:
   CoefficientVector GenerateCoefficients();
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector &coeff)
+  void Fill(const CoefficientVector & coeff)
   {   Superclass::FillCenteredDirectional(coeff);  }
- 
 private:
   /** Order of the derivative. */
   unsigned int m_Order;
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_DerivativeOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT DerivativeOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef DerivativeOperator< ITK_TEMPLATE_2 x > \
-                                                  DerivativeOperator##y; } \
+#define ITK_TEMPLATE_DerivativeOperator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                      \
+  {                                                                  \
+  _( 2 ( class EXPORT DerivativeOperator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                \
+  {                                                                  \
+  typedef DerivativeOperator< ITK_TEMPLATE_2 TypeX >                 \
+  DerivativeOperator##TypeY;                                       \
+  }                                                                  \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkDerivativeOperator+-.h"
+#include "Templates/itkDerivativeOperator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkDerivativeOperator.txx"
+#include "itkDerivativeOperator.txx"
 #endif
 
 #endif

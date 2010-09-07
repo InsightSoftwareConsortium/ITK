@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
 
-namespace itk {
-  
+namespace itk
+{
 /** \class NeighborhoodInnerProduct
  *
  * This class defines the inner product operation between an
@@ -39,7 +39,7 @@ namespace itk {
  * \ingroup Operators
  */
 
-template<class TImage, class TOperator=ITK_TYPENAME TImage::PixelType, class TComputation=TOperator>
+template< class TImage, class TOperator = ITK_TYPENAME TImage::PixelType, class TComputation = TOperator >
 class ITK_EXPORT NeighborhoodInnerProduct
 {
 public:
@@ -50,55 +50,58 @@ public:
   typedef typename TImage::PixelType ImagePixelType;
   typedef TOperator                  OperatorPixelType;
   typedef TComputation               OutputPixelType;
-  
+
   /** Capture some typedefs from the template parameters. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Operator typedef */
-  typedef Neighborhood<OperatorPixelType,
-                      itkGetStaticConstMacro(ImageDimension)> OperatorType;
+  typedef Neighborhood< OperatorPixelType,
+                        itkGetStaticConstMacro(ImageDimension) > OperatorType;
 
-  typedef Neighborhood<ImagePixelType,
-                       itkGetStaticConstMacro(ImageDimension)> NeighborhoodType;
-  
+  typedef Neighborhood< ImagePixelType,
+                        itkGetStaticConstMacro(ImageDimension) > NeighborhoodType;
+
   /** Reference oeprator. */
-  OutputPixelType operator()(const std::slice &s,
-                       const ConstNeighborhoodIterator<TImage> &it,
-                       const OperatorType &op) const;
-  OutputPixelType operator()(const ConstNeighborhoodIterator<TImage> &it,
-                       const OperatorType &op) const
-    {
+  OutputPixelType operator()(const std::slice & s,
+                             const ConstNeighborhoodIterator< TImage > & it,
+                             const OperatorType & op) const;
+
+  OutputPixelType operator()(const ConstNeighborhoodIterator< TImage > & it,
+                             const OperatorType & op) const
+  {
     return this->operator()(std::slice(0, it.Size(), 1), it, op);
-    }
+  }
 
+  OutputPixelType operator()(const std::slice & s,
+                             const NeighborhoodType & N,
+                             const OperatorType & op) const;
 
-  OutputPixelType operator()(const std::slice &s,
-                       const NeighborhoodType &N,
-                             const OperatorType &op) const;
-  
-  OutputPixelType operator()(const NeighborhoodType &N,
-                       const OperatorType &op) const
-    {
+  OutputPixelType operator()(const NeighborhoodType & N,
+                             const OperatorType & op) const
+  {
     return this->operator()(std::slice(0, N.Size(), 1), N, op);
-    }
-
+  }
 };
-
 } // end namespace itk
-  
+
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_NeighborhoodInnerProduct(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT NeighborhoodInnerProduct< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef NeighborhoodInnerProduct< ITK_TEMPLATE_3 x > \
-                        NeighborhoodInnerProduct##y; } \
+#define ITK_TEMPLATE_NeighborhoodInnerProduct(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                            \
+  {                                                                        \
+  _( 3 ( class EXPORT NeighborhoodInnerProduct< ITK_TEMPLATE_3 TypeX > ) ) \
+  namespace Templates                                                      \
+  {                                                                        \
+  typedef NeighborhoodInnerProduct< ITK_TEMPLATE_3 TypeX >                 \
+  NeighborhoodInnerProduct##TypeY;                                       \
+  }                                                                        \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkNeighborhoodInnerProduct+-.h"
+#include "Templates/itkNeighborhoodInnerProduct+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkNeighborhoodInnerProduct.txx"
+#include "itkNeighborhoodInnerProduct.txx"
 #endif
 
 /*

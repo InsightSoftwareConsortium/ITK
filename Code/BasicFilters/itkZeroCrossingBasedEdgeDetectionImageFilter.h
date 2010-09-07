@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,8 @@
 #include "itkFixedArray.h"
 #include "itkImage.h"
 
-
 namespace itk
 {
-  
 /** \class ZeroCrossingBasedEdgeDetectionImageFilter
  *
  * This filter implements a zero-crossing based edge detecor. The zero-crossing
@@ -61,49 +59,49 @@ namespace itk
  * zero-crossing filter.  The default label values are Zero for the background
  * and One for the foreground, as defined in NumericTraits for the data type of
  * the output image.
- * 
+ *
  * \sa DiscreteGaussianImageFilter
  * \sa LaplacianImageFilter
- * \sa ZeroCrossingImageFilter 
+ * \sa ZeroCrossingImageFilter
  * \ingroup ImageFeatureExtraction */
-template<class TInputImage, class TOutputImage>
-class ITK_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard "Self" & Superclass typedef.   */
-  typedef ZeroCrossingBasedEdgeDetectionImageFilter     Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  
+  typedef ZeroCrossingBasedEdgeDetectionImageFilter       Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+
   /** Image typedef support   */
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  
+
   /** SmartPointer typedef support  */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Define pixel type  */
-  typedef typename TInputImage::PixelType   InputImagePixelType;
-  typedef typename TOutputImage::PixelType  OutputImagePixelType;
-  
+  typedef typename TInputImage::PixelType  InputImagePixelType;
+  typedef typename TOutputImage::PixelType OutputImagePixelType;
+
   /** Method for creation through the object factory.   */
-  itkNewMacro(Self);  
-  
+  itkNewMacro(Self);
+
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
-  
+
   /** Run-time type information (and related methods).   */
   itkTypeMacro(ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
-  
+
   /** ImageDimension enumeration   */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension );
+                      TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension );
-  
+                      TOutputImage::ImageDimension);
+
   /** Typedef of double containers */
-  typedef FixedArray<double, itkGetStaticConstMacro(ImageDimension)> ArrayType;
+  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
 
   /** Standard get/set macros for Gaussian filter parameters.  */
   itkSetMacro(Variance, ArrayType);
@@ -116,13 +114,13 @@ public:
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
   itkSetMacro(ForegroundValue, OutputImagePixelType);
-  
-  /** Set the variance parameter needed by the embedded gaussian filter  */ 
+
+  /** Set the variance parameter needed by the embedded gaussian filter  */
   void SetVariance(const typename ArrayType::ValueType v)
-    {
+  {
     m_Variance.Fill(v);
-    }
-  
+  }
+
   /** Set the MaximumError parameter needed by the embedded gaussian filter
  * This value is used to set the desired maximum error of the gaussian
  * approximation.  Maximum error is the difference between the area under the
@@ -130,45 +128,45 @@ public:
  * error affects the Gaussian operator size. The value must be between 0.0 and
  * 1.0. */
   void SetMaximumError(const typename ArrayType::ValueType v)
-    {
+  {
     m_MaximumError.Fill(v);
-    }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(SameTypeCheck,
-    (Concept::SameType<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<OutputImagePixelType>));
-  itkConceptMacro(PixelTypeIsFloatingPointCheck,
-    (Concept::IsFloatingPoint<InputImagePixelType>));
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< OutputImagePixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( SameTypeCheck,
+                   ( Concept::SameType< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< OutputImagePixelType > ) );
+  itkConceptMacro( PixelTypeIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ZeroCrossingBasedEdgeDetectionImageFilter()
-    {
+  {
     m_Variance.Fill(1.0);
     m_MaximumError.Fill(0.01);
-    m_BackgroundValue = NumericTraits<OutputImagePixelType>::Zero;
-    m_ForegroundValue = NumericTraits<OutputImagePixelType>::One;
-    }
+    m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
+    m_ForegroundValue = NumericTraits< OutputImagePixelType >::One;
+  }
+
   ~ZeroCrossingBasedEdgeDetectionImageFilter(){}
-  ZeroCrossingBasedEdgeDetectionImageFilter(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  ZeroCrossingBasedEdgeDetectionImageFilter(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
-   * calculations to the pipeline of a DiscreteGaussianImageFilter, 
+   * calculations to the pipeline of a DiscreteGaussianImageFilter,
    * a LaplacianImageFilter and a ZeroCrossingImageFilter.  Since these
    * filters are multithreaded, this filter is multithreaded by default.
    */
   void GenerateData();
-  
+
 private:
   /** The variance of the Gaussian Filter used in this filter */
   ArrayType m_Variance;
@@ -176,15 +174,14 @@ private:
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction.  */
   ArrayType m_MaximumError;
- 
+
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
 };
-  
 } //end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.txx"
 #endif
-  
+
 #endif

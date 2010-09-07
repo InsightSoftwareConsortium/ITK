@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,26 +27,25 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TLevelSet>
-LevelSetNeighborhoodExtractor<TLevelSet>
+template< class TLevelSet >
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::LevelSetNeighborhoodExtractor()
 {
   m_LevelSetValue = 0.0;
   m_InsidePoints = 0;
   m_OutsidePoints = 0;
-  m_InputLevelSet = 0;  
+  m_InputLevelSet = 0;
 
-  m_LargeValue = NumericTraits<PixelType>::max();
-  m_NodesUsed.resize( SetDimension );
+  m_LargeValue = NumericTraits< PixelType >::max();
+  m_NodesUsed.resize(SetDimension);
 
   m_NarrowBanding = false;
   m_NarrowBandwidth = 12.0;
   m_InputNarrowBand = 0;
-  for (unsigned int i=0; i < SetDimension; ++i)
+  for ( unsigned int i = 0; i < SetDimension; ++i )
     {
     m_ImageSize[i] = 0;
     }
@@ -55,10 +54,10 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 /*
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
-::PrintSelf(std::ostream& os, Indent indent) const
+LevelSetNeighborhoodExtractor< TLevelSet >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input level set: " << m_InputLevelSet.GetPointer();
@@ -73,38 +72,36 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 /*
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::SetInputNarrowBand(
-  NodeContainer * ptr )
+  NodeContainer *ptr)
 {
-  if( m_InputNarrowBand != ptr )
+  if ( m_InputNarrowBand != ptr )
     {
     m_InputNarrowBand = ptr;
     this->Modified();
     }
 }
 
-
 /**
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::Locate()
 {
   this->GenerateData();
 }
 
-
 /**
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::Initialize()
 {
   // create new emtpy points containers
@@ -114,30 +111,28 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   typename TLevelSet::SizeType size =
     m_InputLevelSet->GetBufferedRegion().GetSize();
 
-  for( unsigned int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
     {
-    m_ImageSize[j] = (signed long) size[j];
+    m_ImageSize[j] = (signed long)size[j];
     }
-
 }
 
 /*
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateData()
 {
-  if( !m_InputLevelSet ) 
-    { 
-    itkExceptionMacro( << "Input level set is NULL" );
+  if ( !m_InputLevelSet )
+    {
+    itkExceptionMacro(<< "Input level set is NULL");
     }
 
   this->Initialize();
 
-
-  if( m_NarrowBanding )
+  if ( m_NarrowBanding )
     {
     this->GenerateDataNarrowBand();
     }
@@ -146,60 +141,55 @@ LevelSetNeighborhoodExtractor<TLevelSet>
     this->GenerateDataFull();
     }
 
-  itkDebugMacro(<< "No. inside points: " << m_InsidePoints->Size());
-  itkDebugMacro(<< "No. outside points: " << m_OutsidePoints->Size());
-
+  itkDebugMacro( << "No. inside points: " << m_InsidePoints->Size() );
+  itkDebugMacro( << "No. outside points: " << m_OutsidePoints->Size() );
 }
-
 
 /*
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateDataFull()
 {
-
-  typedef ImageRegionConstIterator<LevelSetImageType> InputConstIterator;
+  typedef ImageRegionConstIterator< LevelSetImageType > InputConstIterator;
 
   InputConstIterator inIt ( m_InputLevelSet,
                             m_InputLevelSet->GetBufferedRegion() );
 
   IndexType inputIndex;
 
-  unsigned long totalPixels  = 
+  unsigned long totalPixels  =
     m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
   unsigned long updateVisits = totalPixels / 10;
-  if ( updateVisits < 1) { updateVisits = 1; }
+  if ( updateVisits < 1 ) { updateVisits = 1; }
 
-  
   unsigned long i;
   for ( i = 0; !inIt.IsAtEnd(); ++inIt, ++i )
     {
     // update progress
-    if ( !(i % updateVisits) )
+    if ( !( i % updateVisits ) )
       {
-      this->UpdateProgress( (float) i/ (float) totalPixels );
+      this->UpdateProgress( (float)i / (float)totalPixels );
       }
 
     inputIndex = inIt.GetIndex();
-    this->CalculateDistance( inputIndex );
+    this->CalculateDistance(inputIndex);
     }
-
 }
 
 /**
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 void
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateDataNarrowBand()
 {
   if ( !m_InputNarrowBand )
     {
-    itkExceptionMacro( << "InputNarrowBand has not been set" );
+    itkExceptionMacro(<< "InputNarrowBand has not been set");
     }
 
   typename NodeContainer::ConstIterator pointsIter;
@@ -208,22 +198,19 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   pointsIter = m_InputNarrowBand->Begin();
   pointsEnd = m_InputNarrowBand->End();
   NodeType node;
-  double maxValue = m_NarrowBandwidth / 2.0;
-
+  double   maxValue = m_NarrowBandwidth / 2.0;
 
   unsigned long totalPixels  = m_InputNarrowBand->Size();
   unsigned long updateVisits = totalPixels / 10;
-  if ( updateVisits < 1) { updateVisits = 1; }
-
+  if ( updateVisits < 1 ) { updateVisits = 1; }
 
   unsigned int i;
   for ( i = 0; pointsIter != pointsEnd; ++pointsIter, ++i )
     {
-
     // update progress
-    if ( !(i % updateVisits) )
+    if ( !( i % updateVisits ) )
       {
-      this->UpdateProgress( (float) i/ (float) totalPixels );
+      this->UpdateProgress( (float)i / (float)totalPixels );
       }
 
     node = pointsIter.Value();
@@ -232,35 +219,33 @@ LevelSetNeighborhoodExtractor<TLevelSet>
       this->CalculateDistance( node.GetIndex() );
       }
     }
-
 }
 
 /**
  *
  */
-template <class TLevelSet>
+template< class TLevelSet >
 double
-LevelSetNeighborhoodExtractor<TLevelSet>
+LevelSetNeighborhoodExtractor< TLevelSet >
 ::CalculateDistance(
-  IndexType& index)
+  IndexType & index)
 {
-
   m_LastPointIsInside = false;
 
   typename LevelSetImageType::PixelType centerValue;
   PixelType inputPixel;
 
-  inputPixel = m_InputLevelSet->GetPixel( index );
-  centerValue = (double) inputPixel;
+  inputPixel = m_InputLevelSet->GetPixel(index);
+  centerValue = (double)inputPixel;
   centerValue -= m_LevelSetValue;
 
   NodeType centerNode;
-  centerNode.SetIndex( index );
+  centerNode.SetIndex(index);
 
-  if( centerValue == 0.0 )
-    { 
-    centerNode.SetValue( 0.0 );
-    m_InsidePoints->InsertElement( m_InsidePoints->Size(), centerNode );
+  if ( centerValue == 0.0 )
+    {
+    centerNode.SetValue(0.0);
+    m_InsidePoints->InsertElement(m_InsidePoints->Size(), centerNode);
     m_LastPointIsInside = true;
     return 0.0;
     }
@@ -269,41 +254,40 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
   IndexType neighIndex = index;
   typename LevelSetImageType::PixelType neighValue;
-  NodeType  neighNode;
-  double distance;
+  NodeType neighNode;
+  double   distance;
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.
-  for( unsigned int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
     {
-    neighNode.SetValue( m_LargeValue );
+    neighNode.SetValue(m_LargeValue);
 
-    for( int s = -1; s < 2; s = s + 2 )
+    for ( int s = -1; s < 2; s = s + 2 )
       {
       neighIndex[j] = index[j] + s;
-      
-      if( neighIndex[j] > m_ImageSize[j] - 1 || 
-          neighIndex[j] < 0 )
+
+      if ( neighIndex[j] > m_ImageSize[j] - 1
+           || neighIndex[j] < 0 )
         {
         continue;
         }
-          
-      inputPixel = m_InputLevelSet->GetPixel( neighIndex );
+
+      inputPixel = m_InputLevelSet->GetPixel(neighIndex);
       neighValue = inputPixel;
       neighValue -= m_LevelSetValue;
 
-      if( ( neighValue > 0 && inside ) ||
-          ( neighValue < 0 && !inside ) )
+      if ( ( neighValue > 0 && inside )
+           || ( neighValue < 0 && !inside ) )
         {
         distance = centerValue / ( centerValue - neighValue );
 
-        if( neighNode.GetValue() > distance )
+        if ( neighNode.GetValue() > distance )
           {
-          neighNode.SetValue( distance );
-          neighNode.SetIndex( neighIndex );
+          neighNode.SetValue(distance);
+          neighNode.SetIndex(neighIndex);
           }
         }
-
       } // end one dim loop
 
     // put the minimum distance neighbor onto the heap
@@ -311,7 +295,6 @@ LevelSetNeighborhoodExtractor<TLevelSet>
 
     // reset neighIndex
     neighIndex[j] = index[j];
-
     } // end dimension loop
 
   // sort the neighbors according to distance
@@ -320,41 +303,39 @@ LevelSetNeighborhoodExtractor<TLevelSet>
   // The final distance is given by the minimum distance to the plane
   // crossing formed by the zero set crossing points.
   distance = 0.0;
-  for( unsigned int j = 0; j < SetDimension; j++ )
+  for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     neighNode = m_NodesUsed[j];
 
-    if( neighNode.GetValue() >= m_LargeValue )
-      { 
+    if ( neighNode.GetValue() >= m_LargeValue )
+      {
       break;
       }
 
     distance += 1.0 / vnl_math_sqr( (double)neighNode.GetValue() );
     }
 
-  if( distance == 0.0 )
+  if ( distance == 0.0 )
     {
     return m_LargeValue;
     }
 
-  distance = vcl_sqrt( 1.0 / distance );
-  centerNode.SetValue( distance );
+  distance = vcl_sqrt(1.0 / distance);
+  centerNode.SetValue(distance);
 
-  if( inside )
+  if ( inside )
     {
-    m_InsidePoints->InsertElement( m_InsidePoints->Size(), centerNode );
+    m_InsidePoints->InsertElement(m_InsidePoints->Size(), centerNode);
     m_LastPointIsInside = true;
     }
   else
     {
-    m_OutsidePoints->InsertElement( m_OutsidePoints->Size(), centerNode );
+    m_OutsidePoints->InsertElement(m_OutsidePoints->Size(), centerNode);
     m_LastPointIsInside = false;
     }
 
   return distance;
-
 }
-
 } // namespace itk
 
 #endif

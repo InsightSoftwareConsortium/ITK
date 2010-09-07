@@ -22,11 +22,10 @@
 
 namespace itk
 {
-
 /** \class SignedMaurerDistanceMapImageFilter
  *
- *  \brief This filter calculates the squared Euclidean distance transform 
- *  of a binary image in linear time for arbitrary dimensions. 
+ *  \brief This filter calculates the squared Euclidean distance transform
+ *  of a binary image in linear time for arbitrary dimensions.
  *
  *  \par Inputs and Outputs
  *  This is an image-to-image filter.  The dimensionality is arbitrary.  The
@@ -55,13 +54,13 @@ namespace itk
  *  Arbitrary Dimensions", IEEE - Transactions on Pattern Analysis and Machine
  *  Intelligence, 25(2): 265-270, 2003.
  *
- * \ingroup ImageFeatureExtraction 
+ * \ingroup ImageFeatureExtraction
  *
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT SignedMaurerDistanceMapImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT SignedMaurerDistanceMapImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
 
@@ -73,41 +72,40 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-
   /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage    InputImageType;
-  typedef TOutputImage   OutputImageType;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
 
   /** Standard class typedefs. */
-  typedef SignedMaurerDistanceMapImageFilter   Self;
+  typedef SignedMaurerDistanceMapImageFilter Self;
   typedef ImageToImageFilter<
-                       InputImageType, 
-                       OutputImageType>        Superclass;
+    InputImageType,
+    OutputImageType >        Superclass;
 
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(SignedMaurerDistanceMapImageFilter, 
+  itkTypeMacro(SignedMaurerDistanceMapImageFilter,
                ImageToImageFilter);
 
   /** Image typedef support. */
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
+  typedef typename InputImageType::PixelType  InputPixelType;
+  typedef typename OutputImageType::PixelType OutputPixelType;
 
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
+  typedef typename InputImageType::SizeType  InputSizeType;
+  typedef typename OutputImageType::SizeType OutputSizeType;
 
-  typedef typename InputImageType::IndexType   InputIndexType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
+  typedef typename InputImageType::IndexType  InputIndexType;
+  typedef typename OutputImageType::IndexType OutputIndexType;
 
   typedef typename InputImageType::SpacingType  InputSpacingType;
   typedef typename OutputImageType::SpacingType OutputSpacingType;
   typedef typename OutputImageType::RegionType  OutputImageRegionType;
-  
+
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);
 
@@ -121,12 +119,12 @@ public:
    *  map. By convention ON pixels are treated as inside pixels.           */
   itkSetMacro(InsideIsPositive, bool);
 
-  /** Get if the inside represents positive values in the signed distance map. 
+  /** Get if the inside represents positive values in the signed distance map.
    *  See GetInsideIsPositive()  */
   itkGetConstReferenceMacro(InsideIsPositive, bool);
 
   /** Set if the inside represents positive values in the signed distance
-   * map. By convention ON pixels are treated as inside pixels. Default is 
+   * map. By convention ON pixels are treated as inside pixels. Default is
    * true.                             */
   itkBooleanMacro(InsideIsPositive);
 
@@ -139,48 +137,44 @@ public:
   /** Set On/Off whether spacing is used. */
   itkBooleanMacro(UseImageSpacing);
 
-  /** 
+  /**
    * Set the background value which defines the object.  Usually this
    * value is = 0.
    */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
-
 protected:
 
   SignedMaurerDistanceMapImageFilter();
 
   virtual ~SignedMaurerDistanceMapImageFilter();
-  
-  void PrintSelf(std::ostream& os, Indent indent) const;
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData();
 
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
+  int SplitRequestedRegion(int i, int num, OutputImageRegionType & splitRegion);
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, int threadId);
 
-  
 private:
 
-  SignedMaurerDistanceMapImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  void Voronoi( unsigned int, OutputIndexType );
-  bool Remove( OutputPixelType, OutputPixelType, OutputPixelType, 
-               OutputPixelType, OutputPixelType, OutputPixelType );
-  
-  InputPixelType         m_BackgroundValue;  
-  InputSpacingType       m_Spacing;
+  SignedMaurerDistanceMapImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
-  bool                   m_InsideIsPositive;
-  bool                   m_UseImageSpacing;
-  bool                   m_SquaredDistance;
-  
-  unsigned int           m_CurrentDimension;
+  void Voronoi(unsigned int, OutputIndexType);
+  bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,
+              OutputPixelType, OutputPixelType, OutputPixelType);
 
+  InputPixelType   m_BackgroundValue;
+  InputSpacingType m_Spacing;
+
+  bool m_InsideIsPositive;
+  bool m_UseImageSpacing;
+  bool m_SquaredDistance;
+
+  unsigned int m_CurrentDimension;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

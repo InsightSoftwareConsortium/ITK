@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,18 +28,19 @@ namespace itk
  * \brief Create instances of SpatialObjects
  */
 
-class ITK_EXPORT SpatialObjectFactoryBase : public ObjectFactoryBase
+class ITK_EXPORT SpatialObjectFactoryBase:public ObjectFactoryBase
 {
-public:  
+public:
   /** Standard class typedefs. */
-  typedef SpatialObjectFactoryBase    Self;
-  typedef ObjectFactoryBase           Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
-  
+  typedef SpatialObjectFactoryBase   Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectFactoryBase, ObjectFactoryBase);
@@ -51,38 +52,37 @@ public:
   static void RegisterDefaultSpatialObjects();
 
   /** Register this SpatialObject */
-  static SpatialObjectFactoryBase* GetFactory () 
-    {
+  static SpatialObjectFactoryBase * GetFactory()
+  {
     if ( m_Factory == 0 )
       {
       // Make and register the factory
       SpatialObjectFactoryBase::Pointer p = SpatialObjectFactoryBase::New();
       m_Factory = p.GetPointer();
-      ObjectFactoryBase::RegisterFactory ( p );
+      ObjectFactoryBase::RegisterFactory (p);
       p->RegisterDefaultSpatialObjects ();
       }
     return m_Factory;
-    }
+  }
 
-  void RegisterSpatialObject(const char* classOverride,
-      const char* overrideClassName,
-      const char* description,
-      bool enableFlag,
-      CreateObjectFunctionBase* createFunction)
-    {
-    this->RegisterOverride ( classOverride, overrideClassName, 
-                           description, enableFlag, createFunction );
-    }
-  
+  void RegisterSpatialObject(const char *classOverride,
+                             const char *overrideClassName,
+                             const char *description,
+                             bool enableFlag,
+                             CreateObjectFunctionBase *createFunction)
+  {
+    this->RegisterOverride (classOverride, overrideClassName,
+                            description, enableFlag, createFunction);
+  }
+
 protected:
   SpatialObjectFactoryBase();
   virtual ~SpatialObjectFactoryBase();
-
 private:
-  SpatialObjectFactoryBase(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  static SpatialObjectFactoryBase* m_Factory;
-};
+  SpatialObjectFactoryBase(const Self &); //purposely not implemented
+  void operator=(const Self &);           //purposely not implemented
 
+  static SpatialObjectFactoryBase *m_Factory;
+};
 } // end namespace itk
 #endif

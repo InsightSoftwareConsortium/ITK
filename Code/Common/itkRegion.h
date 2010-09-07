@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class Region
  * \brief A region represents some portion or piece of data.
  *
@@ -43,10 +42,10 @@ namespace itk
  * types, and its position in the pipeline), ImageRegion or MeshRegion
  * will be used to describe the region.
  *
- * Region is a light-weight object and not reference counted. This 
+ * Region is a light-weight object and not reference counted. This
  * means that is behaves differently than ITK classes that are
  * reference counted. For example, smart pointer access is not
- * provided, and the (subclasses') constructor, destructor, 
+ * provided, and the (subclasses') constructor, destructor,
  * copy constructor and operator= are all public.
  *
  * \sa ImageRegion
@@ -57,10 +56,10 @@ class ITKCommon_EXPORT Region
 {
 public:
   /** Standard class typedefs. */
-  typedef Region              Self;
+  typedef Region Self;
 
   /** Enums used to describe the extent types. */
-  enum RegionType {ITK_UNSTRUCTURED_REGION,ITK_STRUCTURED_REGION};
+  enum RegionType { ITK_UNSTRUCTURED_REGION, ITK_STRUCTURED_REGION };
 
   /** Standard part of all itk objects. */
   itkTypeMacro(Region, None);
@@ -70,24 +69,23 @@ public:
   virtual RegionType GetRegionType() const = 0;
 
   /** Print the region. */
-  virtual void Print(std::ostream& os, Indent indent=0) const;
+  virtual void Print(std::ostream & os, Indent indent = 0) const;
 
   Region() {}
   virtual ~Region() {}
-
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual void PrintHeader(std::ostream& os, Indent indent) const;
-  virtual void PrintTrailer(std::ostream& os, Indent indent) const;
-  
-private:
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
+  virtual void PrintHeader(std::ostream & os, Indent indent) const;
+
+  virtual void PrintTrailer(std::ostream & os, Indent indent) const;
+
+private:
 };
-  
 } // end namespace itk
 
 #endif

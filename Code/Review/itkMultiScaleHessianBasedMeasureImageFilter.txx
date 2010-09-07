@@ -24,15 +24,14 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::MultiScaleHessianBasedMeasureImageFilter()
 {
   m_NonNegativeHessianBasedMeasure = true;
@@ -55,49 +54,49 @@ MultiScaleHessianBasedMeasureImageFilter
   typename ScalesImageType::Pointer scalesImage = ScalesImageType::New();
   typename HessianImageType::Pointer hessianImage = HessianImageType::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(3);
-  this->ProcessObject::SetNthOutput(1,scalesImage.GetPointer());
-  this->ProcessObject::SetNthOutput(2,hessianImage.GetPointer());
+  this->ProcessObject::SetNthOutput( 1, scalesImage.GetPointer() );
+  this->ProcessObject::SetNthOutput( 2, hessianImage.GetPointer() );
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
-::EnlargeOutputRequestedRegion (DataObject *output)
+< TInputImage, THessianImage, TOutputImage >
+::EnlargeOutputRequestedRegion(DataObject *output)
 {
   // currently this filter can not stream so we must set the outputs
   // requested region to the largest
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
-typename MultiScaleHessianBasedMeasureImageFilter 
-  <TInputImage,THessianImage,TOutputImage>::DataObjectPointer
+          typename TOutputImage >
+typename MultiScaleHessianBasedMeasureImageFilter
+< TInputImage, THessianImage, TOutputImage >::DataObjectPointer
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::MakeOutput(unsigned int idx)
 {
-  if (idx == 1)
+  if ( idx == 1 )
     {
-    return static_cast<DataObject*>(ScalesImageType::New().GetPointer());
+    return static_cast< DataObject * >( ScalesImageType::New().GetPointer() );
     }
-  if (idx == 2)
+  if ( idx == 2 )
     {
-    return static_cast<DataObject*>(HessianImageType::New().GetPointer());
+    return static_cast< DataObject * >( HessianImageType::New().GetPointer() );
     }
   return Superclass::MakeOutput(idx);
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::AllocateUpdateBuffer()
 {
   /* The update buffer looks just like the output and holds the best response
@@ -109,15 +108,15 @@ MultiScaleHessianBasedMeasureImageFilter
   // spacing and the largest region
   m_UpdateBuffer->CopyInformation(output);
 
-  m_UpdateBuffer->SetRequestedRegion(output->GetRequestedRegion());
-  m_UpdateBuffer->SetBufferedRegion(output->GetBufferedRegion());
+  m_UpdateBuffer->SetRequestedRegion( output->GetRequestedRegion() );
+  m_UpdateBuffer->SetBufferedRegion( output->GetBufferedRegion() );
   m_UpdateBuffer->Allocate();
 
   // Update buffer is used for > comparisons so make it really really small,
   // just to be sure. Thanks to Hauke Heibel.
-  if (m_NonNegativeHessianBasedMeasure)
+  if ( m_NonNegativeHessianBasedMeasure )
     {
-    m_UpdateBuffer->FillBuffer( itk::NumericTraits< BufferValueType >::Zero );
+    m_UpdateBuffer->FillBuffer(itk::NumericTraits< BufferValueType >::Zero);
     }
   else
     {
@@ -125,43 +124,45 @@ MultiScaleHessianBasedMeasureImageFilter
     }
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::GenerateData()
 {
   // TODO: Move the allocation to a derived AllocateOutputs method
   // Allocate the output
-  this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());
+  this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
   this->GetOutput()->Allocate();
 
-  if( m_HessianToMeasureFilter.IsNull() )
+  if ( m_HessianToMeasureFilter.IsNull() )
     {
-    itkExceptionMacro( " HessianToMeasure filter is not set. Use SetHessianToMeasureFilter() " );
+    itkExceptionMacro(" HessianToMeasure filter is not set. Use SetHessianToMeasureFilter() ");
     }
 
-  if (m_GenerateScalesOutput)
+  if ( m_GenerateScalesOutput )
     {
-    typename ScalesImageType::Pointer scalesImage = 
-              dynamic_cast<ScalesImageType*>(this->ProcessObject::GetOutput(1));
+    typename ScalesImageType::Pointer scalesImage =
+      dynamic_cast< ScalesImageType * >( this->ProcessObject::GetOutput(1) );
 
-    scalesImage->SetBufferedRegion(scalesImage->GetRequestedRegion());
+    scalesImage->SetBufferedRegion( scalesImage->GetRequestedRegion() );
     scalesImage->Allocate();
     scalesImage->FillBuffer(0);
     }
 
-  if (m_GenerateHessianOutput)
+  if ( m_GenerateHessianOutput )
     {
-    typename HessianImageType::Pointer hessianImage = 
-      dynamic_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
+    typename HessianImageType::Pointer hessianImage =
+      dynamic_cast< HessianImageType * >( this->ProcessObject::GetOutput(2) );
 
-    hessianImage->SetBufferedRegion(hessianImage->GetRequestedRegion());
+    hessianImage->SetBufferedRegion( hessianImage->GetRequestedRegion() );
     hessianImage->Allocate();
-    // SymmetricSecondRankTensor is already filled with zero elements at construction. 
-    // No strict need of filling the buffer, but we do it explicitly here to make sure.
+    // SymmetricSecondRankTensor is already filled with zero elements at
+    // construction.
+    // No strict need of filling the buffer, but we do it explicitly here to
+    // make sure.
     typename HessianImageType::PixelType zeroTensor(0.0);
     hessianImage->FillBuffer(zeroTensor);
     }
@@ -184,24 +185,24 @@ MultiScaleHessianBasedMeasureImageFilter
   // prevent a divide by zero
   if ( m_NumberOfSigmaSteps > 0 )
     {
-    progress->RegisterInternalFilter( this->m_HessianFilter, .5/m_NumberOfSigmaSteps  );
-    progress->RegisterInternalFilter( this->m_HessianToMeasureFilter, .5/m_NumberOfSigmaSteps );
+    progress->RegisterInternalFilter(this->m_HessianFilter, .5 / m_NumberOfSigmaSteps);
+    progress->RegisterInternalFilter(this->m_HessianToMeasureFilter, .5 / m_NumberOfSigmaSteps);
     }
 
   double sigma = m_SigmaMinimum;
 
   int scaleLevel = 1;
 
-  while (sigma <= m_SigmaMaximum)
+  while ( sigma <= m_SigmaMaximum )
     {
     if ( m_NumberOfSigmaSteps == 0 )
       {
       break;
       }
 
-    itkDebugMacro ( << "Computing measure for scale with sigma = " << sigma );
+    itkDebugMacro (<< "Computing measure for scale with sigma = " << sigma);
 
-    m_HessianFilter->SetSigma( sigma );
+    m_HessianFilter->SetSigma(sigma);
 
     m_HessianToMeasureFilter->SetInput ( m_HessianFilter->GetOutput() );
 
@@ -209,14 +210,13 @@ MultiScaleHessianBasedMeasureImageFilter
 
     this->UpdateMaximumResponse(sigma);
 
-    sigma  = this->ComputeSigmaValue( scaleLevel );
+    sigma  = this->ComputeSigmaValue(scaleLevel);
 
     scaleLevel++;
 
     // reset the progress accumulator after each pass to continue
     // addtion of progress for the next pass
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
-
 
     if ( m_NumberOfSigmaSteps == 1 )
       {
@@ -227,14 +227,14 @@ MultiScaleHessianBasedMeasureImageFilter
   // Write out the best response to the output image
   // we can assume that the meta-data should match between these two
   // image, therefore we iterate over the desired output region
-  OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
-  ImageRegionIterator<UpdateBufferType> it( m_UpdateBuffer, outputRegion );
+  OutputRegionType                        outputRegion = this->GetOutput()->GetBufferedRegion();
+  ImageRegionIterator< UpdateBufferType > it(m_UpdateBuffer, outputRegion);
   it.GoToBegin();
 
-  ImageRegionIterator<TOutputImage> oit( this->GetOutput(), outputRegion );
+  ImageRegionIterator< TOutputImage > oit(this->GetOutput(), outputRegion);
   oit.GoToBegin();
 
-  while(!oit.IsAtEnd())
+  while ( !oit.IsAtEnd() )
     {
     oit.Value() = static_cast< OutputPixelType >( it.Get() );
     ++oit;
@@ -245,66 +245,67 @@ MultiScaleHessianBasedMeasureImageFilter
   m_UpdateBuffer->ReleaseData();
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::UpdateMaximumResponse(double sigma)
 {
   // the meta-data should match between these images, therefore we
-  // iterate over the desired output region 
+  // iterate over the desired output region
   OutputRegionType outputRegion = this->GetOutput()->GetBufferedRegion();
-  ImageRegionIterator<UpdateBufferType> oit( m_UpdateBuffer, outputRegion );
 
-  typename ScalesImageType::Pointer scalesImage = static_cast<ScalesImageType*>(this->ProcessObject::GetOutput(1));
-  ImageRegionIterator<ScalesImageType> osit;
+  ImageRegionIterator< UpdateBufferType > oit(m_UpdateBuffer, outputRegion);
 
-  typename HessianImageType::Pointer hessianImage = static_cast<HessianImageType*>(this->ProcessObject::GetOutput(2));
-  ImageRegionIterator<HessianImageType> ohit;
+  typename ScalesImageType::Pointer scalesImage = static_cast< ScalesImageType * >( this->ProcessObject::GetOutput(1) );
+  ImageRegionIterator< ScalesImageType > osit;
+
+  typename HessianImageType::Pointer hessianImage = static_cast< HessianImageType * >( this->ProcessObject::GetOutput(2) );
+  ImageRegionIterator< HessianImageType > ohit;
 
   oit.GoToBegin();
-  if (m_GenerateScalesOutput)
+  if ( m_GenerateScalesOutput )
     {
-    osit = ImageRegionIterator<ScalesImageType> ( scalesImage, outputRegion );
+    osit = ImageRegionIterator< ScalesImageType >(scalesImage, outputRegion);
     osit.GoToBegin();
     }
-  if (m_GenerateHessianOutput)
+  if ( m_GenerateHessianOutput )
     {
-    ohit = ImageRegionIterator<HessianImageType> ( hessianImage, outputRegion );
+    ohit = ImageRegionIterator< HessianImageType >(hessianImage, outputRegion);
     ohit.GoToBegin();
     }
 
   typedef typename HessianToMeasureFilterType::OutputImageType HessianToMeasureOutputImageType;
 
-  ImageRegionIterator<HessianToMeasureOutputImageType> it( m_HessianToMeasureFilter->GetOutput(), outputRegion );
-  ImageRegionIterator<HessianImageType> hit( m_HessianFilter->GetOutput(), outputRegion );
+  ImageRegionIterator< HessianToMeasureOutputImageType > it(m_HessianToMeasureFilter->GetOutput(), outputRegion);
+  ImageRegionIterator< HessianImageType >                hit(m_HessianFilter->GetOutput(), outputRegion);
 
   it.GoToBegin();
   hit.GoToBegin();
 
-  while(!oit.IsAtEnd())
+  while ( !oit.IsAtEnd() )
     {
-    if( oit.Value() < it.Value() )
+    if ( oit.Value() < it.Value() )
       {
       oit.Value() = it.Value();
-      if (m_GenerateScalesOutput)
+      if ( m_GenerateScalesOutput )
         {
         osit.Value() = static_cast< ScalesPixelType >( sigma );
         }
-      if (m_GenerateHessianOutput)
+      if ( m_GenerateHessianOutput )
         {
         ohit.Value() = hit.Value();
         }
       }
     ++oit;
     ++it;
-    if (m_GenerateScalesOutput)
+    if ( m_GenerateScalesOutput )
       {
       ++osit;
       }
-    if (m_GenerateHessianOutput)
+    if ( m_GenerateHessianOutput )
       {
       ++ohit;
       ++hit;
@@ -312,60 +313,61 @@ MultiScaleHessianBasedMeasureImageFilter
     }
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 double
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::ComputeSigmaValue(int scaleLevel)
 {
   double sigmaValue;
 
-  if (m_NumberOfSigmaSteps < 2)
+  if ( m_NumberOfSigmaSteps < 2 )
     {
     return m_SigmaMinimum;
     }
 
-  switch (m_SigmaStepMethod)
+  switch ( m_SigmaStepMethod )
     {
     case Self::EquispacedSigmaSteps:
       {
-      const double stepSize = vnl_math_max(1e-10, ( m_SigmaMaximum - m_SigmaMinimum ) / (m_NumberOfSigmaSteps - 1));
+      const double stepSize = vnl_math_max( 1e-10, ( m_SigmaMaximum - m_SigmaMinimum ) / ( m_NumberOfSigmaSteps - 1 ) );
       sigmaValue = m_SigmaMinimum + stepSize * scaleLevel;
       break;
       }
     case Self::LogarithmicSigmaSteps:
       {
-      const double stepSize = vnl_math_max(1e-10, ( vcl_log(m_SigmaMaximum) - vcl_log(m_SigmaMinimum) ) / (m_NumberOfSigmaSteps - 1));
-      sigmaValue = vcl_exp( vcl_log (m_SigmaMinimum) + stepSize * scaleLevel);
+      const double stepSize =
+        vnl_math_max( 1e-10, ( vcl_log(m_SigmaMaximum) - vcl_log(m_SigmaMinimum) ) / ( m_NumberOfSigmaSteps - 1 ) );
+      sigmaValue = vcl_exp(vcl_log (m_SigmaMinimum) + stepSize * scaleLevel);
       break;
       }
     default:
-      throw ExceptionObject(__FILE__, __LINE__,"Invalid SigmaStepMethod.",ITK_LOCATION);
+      throw ExceptionObject(__FILE__, __LINE__, "Invalid SigmaStepMethod.", ITK_LOCATION);
       break;
     }
 
   return sigmaValue;
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
-void 
+          typename TOutputImage >
+void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::SetSigmaStepMethodToEquispaced()
-{ 
+{
   this->SetSigmaStepMethod(Self::EquispacedSigmaSteps);
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
-void 
+          typename TOutputImage >
+void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::SetSigmaStepMethodToLogarithmic()
 {
   this->SetSigmaStepMethod(Self::LogarithmicSigmaSteps);
@@ -373,39 +375,39 @@ MultiScaleHessianBasedMeasureImageFilter
 
 /** Get the image containing the Hessian at which each pixel gave the
  * best response */
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
-const 
-typename MultiScaleHessianBasedMeasureImageFilter<TInputImage,THessianImage,TOutputImage>::HessianImageType * 
+          typename TOutputImage >
+const
+typename MultiScaleHessianBasedMeasureImageFilter< TInputImage, THessianImage, TOutputImage >::HessianImageType *
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::GetHessianOutput() const
 {
-  return static_cast<const HessianImageType*>(this->ProcessObject::GetOutput(2));
+  return static_cast< const HessianImageType * >( this->ProcessObject::GetOutput(2) );
 }
 
 /** Get the image containing the scales at which each pixel gave the
  * best response */
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
-const 
-typename MultiScaleHessianBasedMeasureImageFilter<TInputImage,THessianImage,TOutputImage>::ScalesImageType * 
+          typename TOutputImage >
+const
+typename MultiScaleHessianBasedMeasureImageFilter< TInputImage, THessianImage, TOutputImage >::ScalesImageType *
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
+< TInputImage, THessianImage, TOutputImage >
 ::GetScalesOutput() const
 {
-  return static_cast<const ScalesImageType*>(this->ProcessObject::GetOutput(1));
+  return static_cast< const ScalesImageType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template <typename TInputImage,
+template< typename TInputImage,
           typename THessianImage,
-          typename TOutputImage>
+          typename TOutputImage >
 void
 MultiScaleHessianBasedMeasureImageFilter
-<TInputImage,THessianImage,TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+< TInputImage, THessianImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -418,8 +420,6 @@ MultiScaleHessianBasedMeasureImageFilter
   os << indent << "GenerateScalesOutput: " << m_GenerateScalesOutput << std::endl;
   os << indent << "GenerateHessianOutput: " << m_GenerateHessianOutput << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

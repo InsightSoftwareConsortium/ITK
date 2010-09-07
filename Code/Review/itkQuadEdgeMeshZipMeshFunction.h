@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * \ingroup QEMeshModifierFunctions
  * \class MeshFunctionBase
@@ -29,22 +28,22 @@ namespace itk
  * @return The OriginRefType of the point that will be removed during the
  *         zipping process.
  */
-template < class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshZipMeshFunction :
-   public QuadEdgeMeshFunctionBase< TMesh, typename TQEType::OriginRefType >
+template< class TMesh, class TQEType >
+class ITK_EXPORT QuadEdgeMeshZipMeshFunction:
+  public QuadEdgeMeshFunctionBase< TMesh, typename TQEType::OriginRefType >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshZipMeshFunction     Self;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  typedef QuadEdgeMeshZipMeshFunction Self;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   typedef QuadEdgeMeshFunctionBase< TMesh,
-                            typename TQEType::OriginRefType >  Superclass;
+                                    typename TQEType::OriginRefType >  Superclass;
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro( QuadEdgeMeshZipMeshFunction, QuadEdgeMeshFunctionBase );
+  itkTypeMacro(QuadEdgeMeshZipMeshFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
@@ -53,18 +52,15 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( QEType* e );
+  virtual OutputType Evaluate(QEType *e);
 
 protected:
-   QuadEdgeMeshZipMeshFunction(){};
-  ~QuadEdgeMeshZipMeshFunction(){};
-
+  QuadEdgeMeshZipMeshFunction(){}
+  ~QuadEdgeMeshZipMeshFunction(){}
 private:
-  QuadEdgeMeshZipMeshFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& );  //purposely not implemented
-
+  QuadEdgeMeshZipMeshFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);              //purposely not implemented
 };
-
 } // namespace itk
 
 #include "itkQuadEdgeMeshZipMeshFunction.txx"

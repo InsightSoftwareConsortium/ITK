@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -32,26 +32,24 @@
 #include <cxxabi.h>
 #endif
 
-#if defined(__APPLE__)
-  // OSAtomic.h optimizations only used in 10.5 and later
+#if defined( __APPLE__ )
+// OSAtomic.h optimizations only used in 10.5 and later
   #if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
     #include <libkern/OSAtomic.h>
   #endif
 
-#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
-  #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
-  # include <ext/atomicity.h>
+#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
+  #if ( __GNUC__ > 4 ) || ( ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ >= 2 ) )
+  #include <ext/atomicity.h>
   #else
-  # include <bits/atomicity.h>
+  #include <bits/atomicity.h>
   #endif
 
 #endif
 
-
 namespace itk
 {
-
-#if defined(__GLIBCXX__) // g++ 3.4+
+#if defined( __GLIBCXX__ ) // g++ 3.4+
 
 using __gnu_cxx::__atomic_add;
 using __gnu_cxx::__exchange_and_add;
@@ -61,9 +59,10 @@ using __gnu_cxx::__exchange_and_add;
 LightObject::Pointer
 LightObject::New()
 {
-  Pointer smartPtr;
-  LightObject *rawPtr = ::itk::ObjectFactory<LightObject>::Create();
-  if(rawPtr == NULL)
+  Pointer      smartPtr;
+  LightObject *rawPtr = ::itk::ObjectFactory< LightObject >::Create();
+
+  if ( rawPtr == NULL )
     {
     rawPtr = new LightObject;
     }
@@ -79,30 +78,29 @@ LightObject::CreateAnother() const
 }
 
 /**
- * Delete a itk object. This method should always be used to delete an object 
+ * Delete a itk object. This method should always be used to delete an object
  * when the new operator was used to create it. Using the C++ delete method
  * will not work with reference counting.
  */
-void 
+void
 LightObject
-::Delete() 
+::Delete()
 {
   this->UnRegister();
 }
-
 
 /**
  * Avoid DLL boundary problems.
  */
 #ifdef _WIN32
-void*
+void *
 LightObject
 ::operator new(size_t n)
 {
   return new char[n];
 }
 
-void*
+void *
 LightObject
 ::operator new[](size_t n)
 {
@@ -111,68 +109,64 @@ LightObject
 
 void
 LightObject
-::operator delete(void* m)
+::operator delete(void *m)
 {
-  delete [] (char*)m;
+  delete[] (char *)m;
 }
 
 void
 LightObject
-::operator delete[](void* m, size_t)
+::operator delete[](void *m, size_t)
 {
-  delete [] (char*)m;
+  delete[] (char *)m;
 }
-#endif 
 
+#endif
 
 /**
  * This function will be common to all itk objects.  It just calls the
  * header/self/trailer virtual print methods, which can be overriden by
  * subclasses (any itk object).
  */
-void 
+void
 LightObject
-::Print(std::ostream& os, Indent indent) const
+::Print(std::ostream & os, Indent indent) const
 {
-  this->PrintHeader(os, indent); 
-  this->PrintSelf(os, indent.GetNextIndent());
+  this->PrintHeader(os, indent);
+  this->PrintSelf( os, indent.GetNextIndent() );
   this->PrintTrailer(os, indent);
 }
 
-
 /**
- * This method is called when itkExceptionMacro executes. It allows 
+ * This method is called when itkExceptionMacro executes. It allows
  * the debugger to break on error.
  */
-void 
+void
 LightObject
 ::BreakOnError()
-{
-  ;  
-}
-
+{}
 
 /**
  * Increase the reference count (mark as used by another object).
  */
-void 
+void
 LightObject
 ::Register() const
 {
   // Windows optimization
-#if (defined(WIN32) || defined(_WIN32))
+#if ( defined( WIN32 ) || defined( _WIN32 ) )
   InterlockedIncrement(&m_ReferenceCount);
 
   // Mac optimization
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if defined (__LP64__) && __LP64__
+#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
+ #if defined ( __LP64__ ) && __LP64__
   OSAtomicIncrement64Barrier(&m_ReferenceCount);
  #else
   OSAtomicIncrement32Barrier(&m_ReferenceCount);
  #endif
 
   // gcc optimization
-#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
   __atomic_add(&m_ReferenceCount, 1);
 
   // General case
@@ -183,27 +177,26 @@ LightObject
 #endif
 }
 
-
 /**
  * Decrease the reference count (release by another object).
  */
-void 
+void
 LightObject
 ::UnRegister() const
 {
   // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
-   
+
   // Windows optimization
-#if (defined(WIN32) || defined(_WIN32))
+#if ( defined( WIN32 ) || defined( _WIN32 ) )
   if ( InterlockedDecrement(&m_ReferenceCount) <= 0 )
     {
     delete this;
     }
 
 // Mac optimization
-#elif defined(__APPLE__) && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1050)
- #if defined (__LP64__) && __LP64__
+#elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
+ #if defined ( __LP64__ ) && __LP64__
   if ( OSAtomicDecrement64Barrier(&m_ReferenceCount) <= 0 )
     {
     delete this;
@@ -216,7 +209,7 @@ LightObject
  #endif
 
 // gcc optimization
-#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)
+#elif defined( __GLIBCPP__ ) || defined( __GLIBCXX__ )
   if ( __exchange_and_add(&m_ReferenceCount, -1) <= 1 )
     {
     delete this;
@@ -227,14 +220,13 @@ LightObject
   m_ReferenceCountLock.Lock();
   InternalReferenceCountType tmpReferenceCount = --m_ReferenceCount;
   m_ReferenceCountLock.Unlock();
-  
-  if ( tmpReferenceCount <= 0)
+
+  if ( tmpReferenceCount <= 0 )
     {
     delete this;
     }
 #endif
 }
-
 
 /**
  * Sets the reference count (use with care)
@@ -244,10 +236,10 @@ LightObject
 ::SetReferenceCount(int ref)
 {
   m_ReferenceCountLock.Lock();
-  m_ReferenceCount = static_cast<InternalReferenceCountType>(ref);
+  m_ReferenceCount = static_cast< InternalReferenceCountType >( ref );
   m_ReferenceCountLock.Unlock();
 
-  if ( ref <= 0)
+  if ( ref <= 0 )
     {
     delete this;
     }
@@ -263,21 +255,21 @@ LightObject
    * exception if one has been thrown already. This is likely to
    * happen when a subclass constructor (say B) is throwing an exception: at
    * that point, the stack unwinds by calling all superclass destructors back
-   * to this method (~LightObject): since the ref count is still 1, an 
+   * to this method (~LightObject): since the ref count is still 1, an
    * exception would be thrown again, causing the system to abort()!
    */
-  if(m_ReferenceCount > 0 && !std::uncaught_exception())
+  if ( m_ReferenceCount > 0 && !std::uncaught_exception() )
     {
     // A general exception safety rule is that destructors should
     // never throw.  Something is wrong with a program that reaches
     // this point anyway.  Also this is the least-derived class so the
     // whole object has been destroyed by this point anyway.  Just
     // issue a warning.
-    // itkExceptionMacro(<< "Trying to delete object with non-zero reference count.");
+    // itkExceptionMacro(<< "Trying to delete object with non-zero reference
+    // count.");
     itkWarningMacro("Trying to delete object with non-zero reference count.");
     }
 }
-
 
 /**
  * Chaining method to print an object's instance variables, as well as
@@ -285,16 +277,16 @@ LightObject
  */
 void
 LightObject
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
 #ifdef GCC_USEDEMANGLE
-  char const * mangledName = typeid(*this).name();
-  int status;
-  char* unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  char const *mangledName = typeid( *this ).name();
+  int         status;
+  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
 
   os << indent << "RTTI typeinfo:   ";
 
-  if(status == 0)
+  if ( status == 0 )
     {
     os << unmangled;
     free(unmangled);
@@ -311,27 +303,23 @@ LightObject
   os << indent << "Reference Count: " << m_ReferenceCount << std::endl;
 }
 
-
 /**
  * Define a default print header for all objects.
  */
 void
 LightObject
-::PrintHeader(std::ostream& os, Indent indent) const
+::PrintHeader(std::ostream & os, Indent indent) const
 {
   os << indent << this->GetNameOfClass() << " (" << this << ")\n";
 }
-
 
 /**
  * Define a default print trailer for all objects.
  */
 void
 LightObject
-::PrintTrailer(std::ostream& itkNotUsed(os), Indent itkNotUsed(indent)) const
-{
-}
-
+::PrintTrailer( std::ostream & itkNotUsed(os), Indent itkNotUsed(indent) ) const
+{}
 
 /**
  * This operator allows all subclasses of LightObject to be printed via <<.
@@ -339,12 +327,10 @@ LightObject
  * PrintSelf method that all objects should define, if they have anything
  * interesting to print out.
  */
-std::ostream&
-operator<<(std::ostream& os, const LightObject& o)
+std::ostream &
+operator<<(std::ostream & os, const LightObject & o)
 {
   o.Print(os);
   return os;
 }
-
-
 } // end namespace itk

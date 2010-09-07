@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class IsolatedConnectedImageFilter
  * \brief Label pixels that are connected to one set of seeds but not
  * another.
@@ -64,18 +64,18 @@ namespace itk {
  * check for this by querying the GetThresholdingFailed() flag.
  *
  *
- * \ingroup RegionGrowingSegmentation 
+ * \ingroup RegionGrowingSegmentation
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT IsolatedConnectedImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef IsolatedConnectedImageFilter                 Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef IsolatedConnectedImageFilter                    Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,29 +87,28 @@ public:
   typedef TInputImage                           InputImageType;
   typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType; 
-  typedef typename InputImageType::PixelType    InputImagePixelType; 
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
   typedef typename InputImageType::IndexType    IndexType;
   typedef typename InputImageType::SizeType     SizeType;
-  
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
+
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
   typedef std::vector< IndexType > SeedsContainerType;
 
-  typedef typename NumericTraits< 
-                InputImagePixelType >::RealType InputRealType;
-  
+  typedef typename NumericTraits<
+    InputImagePixelType >::RealType InputRealType;
 
-  void PrintSelf ( std::ostream& os, Indent indent ) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if possible).
    *  All pixels connected to this seed will be replaced with ReplaceValue.
    *  This method is deprecated, please use AddSeed() */
   void SetSeed1(const IndexType & seed);
-  
+
   /** Clear all the seeds1. */
   void ClearSeeds1();
 
@@ -119,7 +118,7 @@ public:
   /** Set seed point 2. This seed will be isolated from Seed1 (if possible).
    *  This method is deprecated, please use AddSeed() */
   void SetSeed2(const IndexType & seed);
- 
+
   /** Clear all the seeds2. */
   void ClearSeeds2();
 
@@ -139,14 +138,15 @@ public:
   /** Set/Get the limit on the upper threshold value. The default is
       the max() for the InputPixelType.  These methods have been
       deprecated.  Please use Set/Get Upper instead. */
-  void SetUpperValueLimit( InputImagePixelType upperValue)
-    {
-    this->SetUpper( upperValue );
-    }
+  void SetUpperValueLimit(InputImagePixelType upperValue)
+  {
+    this->SetUpper(upperValue);
+  }
+
   InputImagePixelType GetUpperValueLimit()
-    {
+  {
     return this->GetUpper();
-    }
+  }
 
   /** Set/Get the precision required for the intensity threshold
    * value. The default is 1. */
@@ -164,9 +164,9 @@ public:
 
   /** Set/Get whether to find an upper threshold (separating two dark
    * regions) or a lower threshold (separating two bright regions). */
-  itkSetMacro(FindUpperThreshold,bool);
+  itkSetMacro(FindUpperThreshold, bool);
   itkBooleanMacro(FindUpperThreshold);
-  itkGetConstReferenceMacro(FindUpperThreshold,bool);
+  itkGetConstReferenceMacro(FindUpperThreshold, bool);
 
   /** Get the flag that tells whether the algorithm failed to find a
    * threshold. */
@@ -174,24 +174,27 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   IsolatedConnectedImageFilter();
-  ~IsolatedConnectedImageFilter(){};
-  SeedsContainerType   m_Seeds1;
-  SeedsContainerType   m_Seeds2;
-  InputImagePixelType  m_Lower;
-  InputImagePixelType  m_Upper;
+  ~IsolatedConnectedImageFilter(){}
+  SeedsContainerType m_Seeds1;
+  SeedsContainerType m_Seeds2;
+
+  InputImagePixelType m_Lower;
+  InputImagePixelType m_Upper;
+
   OutputImagePixelType m_ReplaceValue;
-  InputImagePixelType  m_IsolatedValue;
-  InputImagePixelType  m_IsolatedValueTolerance;
-  bool                 m_FindUpperThreshold;
-  bool                 m_ThresholdingFailed;
-  
+
+  InputImagePixelType m_IsolatedValue;
+  InputImagePixelType m_IsolatedValueTolerance;
+
+  bool m_FindUpperThreshold;
+  bool m_ThresholdingFailed;
+
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 
@@ -199,13 +202,11 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   void GenerateData();
-  
+
 private:
-  IsolatedConnectedImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  IsolatedConnectedImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

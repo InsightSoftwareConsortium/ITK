@@ -34,34 +34,30 @@ namespace itk
  *  \ingroup OSSystemObjects LoggingObjects
  */
 
-class ITKCommon_EXPORT Logger : public LoggerBase
+class ITKCommon_EXPORT Logger:public LoggerBase
 {
 public:
-  typedef Logger                    Self;
-  typedef LoggerBase                Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef Logger                     Self;
+  typedef LoggerBase                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( Logger, Object );
+  itkTypeMacro(Logger, Object);
 
   /** New macro for creation of through a Smart Pointer */
-  itkNewMacro( Self );
-
+  itkNewMacro(Self);
 protected:
 
   /** Constructor */
-  Logger() {};
+  Logger() {}
 
   /** Destructor */
-  virtual ~Logger() {};
-
+  virtual ~Logger() {}
 private:
-  Logger(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
-};  // class Logger
-
+  Logger(const Self &);         //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+};                              // class Logger
 } // namespace itk
 
 #endif  // __itkLogger_h

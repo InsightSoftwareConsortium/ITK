@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,6 @@
 
 namespace itk
 {
-
 /**
  * \class LabelContourImageFilter
  * \brief Labels the pixels on the border of the objects in a labeled image.
@@ -49,9 +48,9 @@ namespace itk
  * \sa BinaryContourImageFilter
  */
 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT LabelContourImageFilter : 
-    public InPlaceImageFilter< TInputImage, TOutputImage > 
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT LabelContourImageFilter:
+  public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
@@ -80,7 +79,7 @@ public:
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
-  
+
   /**
    * Image typedef support
    */
@@ -99,19 +98,19 @@ public:
   typedef typename TOutputImage::OffsetType OutputOffsetType;
   typedef typename TOutputImage::PixelType  OutputImagePixelType;
 
-  typedef std::list<IndexType>              ListType;
+  typedef std::list< IndexType > ListType;
 
-  /** 
-   * Smart pointer typedef support 
+  /**
+   * Smart pointer typedef support
    */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /**
    * Run-time type information (and related methods)
    */
   itkTypeMacro(LabelContourImageFilter, ImageToImageFilter);
-  
+
   /**
    * Method for creation through the object factory.
    */
@@ -126,11 +125,11 @@ public:
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-  
+
   // Concept checking -- input and output dimensions must be the same
-  itkConceptMacro(SameDimension,
-    (Concept::SameDimension<itkGetStaticConstMacro(InputImageDimension),
-       itkGetStaticConstMacro(OutputImageDimension)>));
+  itkConceptMacro( SameDimension,
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
+                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
 
   /**
    * Set/Get the background value used to identify the objects and mark the
@@ -138,25 +137,27 @@ public:
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
 protected:
-  LabelContourImageFilter() 
-    {
+  LabelContourImageFilter()
+  {
     m_FullyConnected = false;
     m_BackgroundValue = NumericTraits< OutputImagePixelType >::Zero;
     m_NumberOfThreads = 0;
-    this->SetInPlace( false );
-    }
+    this->SetInPlace(false);
+  }
+
   virtual ~LabelContourImageFilter() {}
-  LabelContourImageFilter(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  LabelContourImageFilter(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /**
    * Standard pipeline methods.
    */
-  void BeforeThreadedGenerateData ();
-  void AfterThreadedGenerateData ();
-  void ThreadedGenerateData (const RegionType& outputRegionForThread, int threadId);
+  void BeforeThreadedGenerateData();
+
+  void AfterThreadedGenerateData();
+
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, int threadId);
 
   /** LabelContourImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
@@ -167,56 +168,54 @@ protected:
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output));
-
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
 private:
   OutputImagePixelType m_BackgroundValue;
   bool                 m_FullyConnected;
-  
+
   // some additional types
   typedef typename TOutputImage::RegionType::SizeType OutSizeType;
 
   // types to support the run length encoding of lines
   class runLength
-    {
-    public:
+  {
+public:
     // run length information - may be a more type safe way of doing this
     long int length;
     typename InputImageType::IndexType where; // Index of the start of the run
     InputImagePixelType label;
-    };
+  };
 
-  typedef std::vector<runLength> lineEncoding;
+  typedef std::vector< runLength > lineEncoding;
 
   // the map storing lines
-  typedef std::vector<lineEncoding> LineMapType;
-  
-  typedef std::vector<long> OffsetVec;
+  typedef std::vector< lineEncoding > LineMapType;
+
+  typedef std::vector< long > OffsetVec;
 
   // the types to support union-find operations
-  typedef std::vector<unsigned long int> UnionFindType;
+  typedef std::vector< unsigned long int > UnionFindType;
 
-  bool CheckNeighbors(const OutputIndexType &A, 
-                      const OutputIndexType &B);
+  bool CheckNeighbors(const OutputIndexType & A,
+                      const OutputIndexType & B);
 
-  void CompareLines(lineEncoding &current, const lineEncoding &Neighbour);
+  void CompareLines(lineEncoding & current, const lineEncoding & Neighbour);
 
-
-  void SetupLineOffsets(OffsetVec &LineOffsets);
+  void SetupLineOffsets(OffsetVec & LineOffsets);
 
   void Wait()
-    {
-    if( m_NumberOfThreads > 1 )
+  {
+    if ( m_NumberOfThreads > 1 )
       {
       m_Barrier->Wait();
       }
-    }
+  }
 
   typename Barrier::Pointer m_Barrier;
-  LineMapType               m_LineMap;
-  long                      m_NumberOfThreads;
+
+  LineMapType m_LineMap;
+  long        m_NumberOfThreads;
 };
-  
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -19,21 +19,28 @@
 #endif
 
 #include "itkChiSquareDistribution.h"
+#include "itkTestingMacros.h"
 
-int itkChiSquareDistributionTest(int, char* [] ) 
+int itkChiSquareDistributionTest(int, char* [] )
 {
-  std::cout << "itkChiSquareDistribution Test \n \n"; 
-  
+  std::cout << "itkChiSquareDistribution Test \n \n";
+
   typedef itk::Statistics::ChiSquareDistribution DistributionType;
 
   DistributionType::Pointer distributionFunction = DistributionType::New();
 
+  std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << std::endl;
+  std::cout << "HasMean()        = " << distributionFunction->HasMean() << std::endl;
+  std::cout << "HasVariance()    = " << distributionFunction->HasVariance() << std::endl;
+  std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << std::endl;
+
+  distributionFunction->Print( std::cout );
 
   int i;
   double x;
   double value;
   double diff;
-  
+
   int status = EXIT_SUCCESS;
 
   // Tolerance for the values.
@@ -91,7 +98,7 @@ int itkChiSquareDistributionTest(int, char* [] )
       }
     }
   std::cout << std::endl;
-  
+
   std::cout << "Inverse Chi-Square CDF" << std::endl;
   tol = 1e-12;
   std::cout << "Tolerance used for test: ";
@@ -131,7 +138,7 @@ int itkChiSquareDistributionTest(int, char* [] )
     }
   std::cout << std::endl;
 
-  
+
   // expected values for Chi-Square cdf with 11 degrees of freedom at
   // values of 0:2:20
   double expected11[] = {0,
@@ -145,13 +152,13 @@ int itkChiSquareDistributionTest(int, char* [] )
                          8.588691197329420e-001,
                          9.184193863071046e-001,
                          9.546593255659396e-001};
-    
+
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
   std::cout << "Testing distribution with 11 degrees of freedom" << std::endl;
-  
+
   std::cout << "Chi-Square CDF" << std::endl;
-  tol = 1e-14;   
+  tol = 1e-14;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -190,7 +197,7 @@ int itkChiSquareDistributionTest(int, char* [] )
       }
     }
   std::cout << std::endl;
-  
+
   std::cout << "Inverse Chi-Square CDF" << std::endl;
   tol = 1e-12;
   std::cout << "Tolerance used for test: ";
@@ -238,13 +245,13 @@ int itkChiSquareDistributionTest(int, char* [] )
                           7.677952194991408e-001,
                           9.764876021901918e-001,
                           9.990960679576461e-001};
-    
+
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
   std::cout << "Testing distribution with 100 degrees of freedom" << std::endl;
-  
+
   std::cout << "Chi-Square CDF" << std::endl;
-  tol = 1e-13;   
+  tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -283,7 +290,7 @@ int itkChiSquareDistributionTest(int, char* [] )
       }
     }
   std::cout << std::endl;
-  
+
   std::cout << "Inverse Chi-Square CDF" << std::endl;
   tol = 1e-8;
   std::cout << "Tolerance used for test: ";
@@ -326,9 +333,9 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
   std::cout << "Testing distribution with 100 degrees of freedom" << std::endl;
-  
+
   std::cout << "Chi-Square CDF (parameter vector API)" << std::endl;
-  tol = 1e-13;   
+  tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -337,7 +344,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
   DistributionType::ParametersType params(1);
   params[0] = 100.0;
-  
+
   for (i = 0; i <= 5; ++i)
     {
     x = static_cast<double>(50+20*i);
@@ -371,7 +378,7 @@ int itkChiSquareDistributionTest(int, char* [] )
       }
     }
   std::cout << std::endl;
-  
+
   std::cout << "Inverse Chi-Square CDF (parameter vector API)" << std::endl;
   tol = 1e-9;
   std::cout << "Tolerance used for test: ";
@@ -413,9 +420,9 @@ int itkChiSquareDistributionTest(int, char* [] )
   std::cout << "-----------------------------------------------"
             << std::endl << std::endl;
   std::cout << "Testing distribution with 100 degrees of freedom" << std::endl;
-  
+
   std::cout << "Chi-Square CDF (separate parameter API)" << std::endl;
-  tol = 1e-13;   
+  tol = 1e-13;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
@@ -454,7 +461,7 @@ int itkChiSquareDistributionTest(int, char* [] )
       }
     }
   std::cout << std::endl;
-  
+
   std::cout << "Inverse Chi-Square CDF (separate parameter API)" << std::endl;
   tol = 1e-8;
   std::cout << "Tolerance used for test: ";
@@ -493,6 +500,65 @@ int itkChiSquareDistributionTest(int, char* [] )
       status = EXIT_FAILURE;
       }
     }
-    
+
+
+  DistributionType::ParametersType parameters( distributionFunction->GetNumberOfParameters() );
+  parameters[0] = 1.0;
+
+  long dof = 2;
+
+  std::cout << "Variance() = " <<  distributionFunction->GetVariance() << std::endl;
+  std::cout << "PDF(x,p) = " <<  distributionFunction->PDF( x, parameters ) << std::endl;
+  std::cout << "PDF(x,dof) = " <<  distributionFunction->PDF( x, dof ) << std::endl;
+  std::cout << "EvaluatePDF(x) = " << distributionFunction->EvaluatePDF( x ) << std::endl;
+  std::cout << "EvaluatePDF(x,p) = " << distributionFunction->EvaluatePDF( x, parameters ) << std::endl;
+  std::cout << "EvaluatePDF(x,dof) = " << distributionFunction->EvaluatePDF( x, dof ) << std::endl;
+  std::cout << "CDF(x,p) = " <<  distributionFunction->CDF( x, parameters ) << std::endl;
+  std::cout << "CDF(x,dof) = " <<  distributionFunction->CDF( x, dof ) << std::endl;
+  std::cout << "EvaluateCDF(x,p) = " << distributionFunction->EvaluateCDF( x, parameters ) << std::endl;
+  std::cout << "EvaluateCDF(x,dof) = " << distributionFunction->EvaluateCDF( x, dof ) << std::endl;
+  std::cout << "InverseCDF(x,p) = " <<  distributionFunction->InverseCDF( x, parameters ) << std::endl;
+  std::cout << "InverseCDF(x,dof) = " <<  distributionFunction->InverseCDF( x, dof ) << std::endl;
+  std::cout << "GetMean() = " <<  distributionFunction->GetMean() << std::endl;
+  std::cout << "GetVariance() = " <<  distributionFunction->GetVariance() << std::endl;
+
+
+  const unsigned int wrongNumberOfParameters =  distributionFunction->GetNumberOfParameters() * 42;
+  DistributionType::ParametersType wrongParameters( wrongNumberOfParameters );
+  wrongParameters.Fill(1.0);
+
+  distributionFunction->SetParameters( wrongParameters );
+
+  TRY_EXPECT_EXCEPTION( distributionFunction->GetMean() );
+  TRY_EXPECT_EXCEPTION( distributionFunction->GetVariance() );
+  TRY_EXPECT_EXCEPTION( distributionFunction->GetDegreesOfFreedom() );
+  TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x, wrongParameters ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x ) );
+  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x, wrongParameters ) );
+
+  distributionFunction->SetParameters( wrongParameters );
+  long newdof = 17;
+  distributionFunction->SetDegreesOfFreedom( newdof );
+  TEST_SET_GET_VALUE( newdof, distributionFunction->GetDegreesOfFreedom() );
+
+  // Exercise a negative parameter
+  distributionFunction->CDF( -1.0, dof );
+
+  // Exercise print with a parameter array of zero elements.
+  DistributionType::ParametersType parameters0( 0 );
+  distributionFunction->SetParameters( parameters0 );
+  distributionFunction->Print( std::cout );
+
+  DistributionType::ParametersType parameters1( 1 );
+  parameters1[0] = 1.18;
+  distributionFunction->SetParameters( parameters1 );
+  TEST_SET_GET_VALUE( parameters1[0], distributionFunction->GetMean() );
+
   return status;
 }

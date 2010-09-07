@@ -25,8 +25,8 @@
 
 namespace itk
 {
-template <typename TInputMesh, typename TOutputMesh>
-BalloonForceFilter<TInputMesh, TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::BalloonForceFilter()
 {
   m_Step = 0;
@@ -43,18 +43,18 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_NewNodeLimit = 0;
   typename TOutputMesh::Pointer output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
-  this->ProcessObject::SetNthOutput(0, output.GetPointer());
+  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 }
 
-template <typename TInputMesh, typename TOutputMesh>
-BalloonForceFilter<TInputMesh, TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::~BalloonForceFilter()
 {
-  if (m_NewNodes)
+  if ( m_NewNodes )
     {
-    for (unsigned int i = 0; i < m_NewNodeLimit; i++)
+    for ( unsigned int i = 0; i < m_NewNodeLimit; i++ )
       {
-      if (m_NewNodes[i])
+      if ( m_NewNodes[i] )
         {
         free(m_NewNodes[i]);
         m_NewNodes[i] = 0;
@@ -64,7 +64,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     m_NewNodes = 0;
     }
 
-  if (m_K)
+  if ( m_K )
     {
     free (m_K);
     }
@@ -73,16 +73,16 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /*
  * PrintSelf
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
-::PrintSelf(std::ostream& os, Indent indent) const
+BalloonForceFilter< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Center = " << m_Center << std::endl;
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
-  if (m_Gradient)
+  if ( m_Gradient )
     {
     os << indent << "Gradient = " << m_Gradient << std::endl;
     }
@@ -90,7 +90,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Gradient = (None)" << std::endl;
     }
-  if (m_Forces)
+  if ( m_Forces )
     {
     os << indent << "Forces = " << m_Forces << std::endl;
     }
@@ -103,11 +103,11 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   os << indent << "GradientBegin = " << m_GradientBegin << std::endl;
   os << indent << "Resolution = " << m_Resolution << std::endl;
 
-  if (!m_ImageOutput.IsNull())
+  if ( !m_ImageOutput.IsNull() )
     {
     os << indent << "ImageOutput = " << m_ImageOutput << std::endl;
     }
-  if (m_Potential)
+  if ( m_Potential )
     {
     os << indent << "Potential = " << m_Potential << std::endl;
     }
@@ -115,7 +115,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Potential = (None)" << std::endl;
     }
-  if (m_Displacements)
+  if ( m_Displacements )
     {
     os << indent << "Displacements = " << m_Displacements << std::endl;
     }
@@ -123,7 +123,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Displacements = (None)" << std::endl;
     }
-  if (m_Locations)
+  if ( m_Locations )
     {
     os << indent << "Locations = " << m_Locations << std::endl;
     }
@@ -133,7 +133,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
   os << indent << "DistanceToStop = " << m_DistanceToStop << std::endl;
 
-  if (m_Derives)
+  if ( m_Derives )
     {
     os << indent << "Derives = " << m_Derives << std::endl;
     }
@@ -141,7 +141,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Derives = (None)" << std::endl;
     }
-  if (m_Normals)
+  if ( m_Normals )
     {
     os << indent << "Normals = " << m_Normals << std::endl;
     }
@@ -149,13 +149,13 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     os << indent << "Normals = (None)" << std::endl;
     }
-}// end PrintSelf
+} // end PrintSelf
 
 /* Set default value of parameters and initialize local data container
  *  such as forces, displacements and displacement derivatives. */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::Initialize()
 {
   m_NumberOfNodes = this->GetInput(0)->GetNumberOfPoints();
@@ -167,35 +167,35 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_Normals = InputMeshType::New();
   m_Locations = InputMeshType::New();
 
-  InputMeshConstPointer inputMesh = this->GetInput(0);
+  InputMeshConstPointer             inputMesh = this->GetInput(0);
   InputPointsContainerConstPointer  myPoints = inputMesh->GetPoints();
   InputPointsContainerConstIterator points = myPoints->Begin();
 
-  InputPointsContainerPointer      myForces = m_Forces->GetPoints();
+  InputPointsContainerPointer myForces = m_Forces->GetPoints();
   myForces->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     forces = myForces->Begin();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointsContainerPointer      myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer myDerives = m_Derives->GetPoints();
   myDerives->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     derives = myDerives->Begin();
+  InputPointsContainerIterator derives = myDerives->Begin();
 
-  InputPointsContainerPointer      myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerPointer myDisplacements = m_Displacements->GetPoints();
   myDisplacements->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     displacements = myDisplacements->Begin();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
 
-  InputPointsContainerPointer      myNormals = m_Normals->GetPoints();
+  InputPointsContainerPointer myNormals = m_Normals->GetPoints();
   myNormals->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     normals = myNormals->Begin();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  InputPointsContainerPointer      myLocations = m_Locations->GetPoints();
+  InputPointsContainerPointer myLocations = m_Locations->GetPoints();
   myLocations->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator     locations = myLocations->Begin();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
-  InputCellsContainerConstPointer       myCells = inputMesh->GetCells();
-  InputCellsContainerConstIterator      cells = myCells->Begin();
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin();
 
-  InputCellDataContainerConstPointer    myCellData = inputMesh->GetCellData();
-  InputCellDataContainerConstIterator   celldata = myCellData->Begin();
+  InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
+  InputCellDataContainerConstIterator celldata = myCellData->Begin();
 
   ImageSizeType ImageSize = m_Gradient->GetBufferedRegion().GetSize();
 
@@ -203,8 +203,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_NewNodesExisted = 0;
   m_NewNodeLimit = 200;
   m_ObjectLabel = m_Potential->GetPixel(m_Center);
-  m_NewNodes = (float**) malloc(sizeof(float *)*m_NewNodeLimit);
-  for (unsigned int i = 0; i < m_NewNodeLimit; i++)
+  m_NewNodes = (float **)malloc(sizeof( float * ) * m_NewNodeLimit);
+  for ( unsigned int i = 0; i < m_NewNodeLimit; i++ )
     {
     m_NewNodes[i] = 0;
     }
@@ -215,12 +215,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_ImageWidth  = ImageSize[0];
   m_ImageHeight = ImageSize[1];
 
-  float d[3] = {0,0,0};
-  itk::Point<float, 3> tmp;
+  float                  d[3] = { 0, 0, 0 };
+  itk::Point< float, 3 > tmp;
 
 //  TimeStep = 0.001;
 
-  while( points != myPoints->End() )
+  while ( points != myPoints->End() )
     {
     locations.Value() = points.Value();
     tmp = locations.Value();
@@ -228,19 +228,19 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++locations;
     }
 
-  while( forces != myForces->End() )
+  while ( forces != myForces->End() )
     {
     forces.Value() = d;
     ++forces;
     }
 
-  while( normals != myNormals->End() )
+  while ( normals != myNormals->End() )
     {
     normals.Value() = d;
     ++normals;
     }
 
-  for (unsigned int i=0; i+2 < m_NumberOfNodes; i++  )
+  for ( unsigned int i = 0; i + 2 < m_NumberOfNodes; i++  )
     {
     m_Forces->SetPointData(i, 1.0);
     m_Locations->SetPointData(i, 0.0);
@@ -248,35 +248,35 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     m_Displacements->SetPointData(i, 0.0);
     }
 
-  for (unsigned int j = 0; j < m_NewNodeLimit; j++)
+  for ( unsigned int j = 0; j < m_NewNodeLimit; j++ )
     {
-    m_NewNodes[j] = (float*) malloc(sizeof(float)*5);
+    m_NewNodes[j] = (float *)malloc(sizeof( float ) * 5);
     }
 
-  while( derives != myDerives->End() )
+  while ( derives != myDerives->End() )
     {
     derives.Value() = d;
     ++derives;
     }
 
-  while( displacements != myDisplacements->End() )
+  while ( displacements != myDisplacements->End() )
     {
     displacements.Value() = d;
     ++displacements;
     }
 
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long tripoints[3];
+  unsigned long        tripoints[3];
   const unsigned long *tp;
-  float x;
+  float                x;
 
-  for (unsigned int i=0; i<m_NumberOfCells; i++)
+  for ( unsigned int i = 0; i < m_NumberOfCells; i++ )
     {
     tp = cells.Value()->GetPointIds();
     tripoints[0] = tp[0];
     tripoints[1] = tp[1];
     tripoints[2] = tp[2];
-    insertCell.TakeOwnership( new TriCell );
+    insertCell.TakeOwnership(new TriCell);
     insertCell->SetPointIds(tripoints);
     m_Locations->SetCell(i, insertCell);
     x = celldata.Value();
@@ -293,32 +293,32 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /*
  * set the stiffness matrix
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
-::SetStiffnessMatrix ()
+BalloonForceFilter< TInputMesh, TOutputMesh >
+::SetStiffnessMatrix()
 {
-  InputCellDataContainerPointer     myCellData = m_Locations->GetCellData();
-  InputCellDataContainerIterator    celldata = myCellData->Begin();
+  InputCellDataContainerPointer  myCellData = m_Locations->GetCellData();
+  InputCellDataContainerIterator celldata = myCellData->Begin();
 
-  if (m_K)
+  if ( m_K )
     {
     free (m_K);
     }
-  m_K = (vnl_matrix_fixed<double,4,4>**) malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
+  m_K = ( vnl_matrix_fixed< double, 4, 4 > ** )malloc(sizeof( vnl_matrix_fixed< double, 4, 4 > * ) * m_NumberOfCells);
   float x;
 
   float us = vnl_math::pi / 1;
-  float vs = 2.0*vnl_math::pi / m_Resolution;
-  float a = us*us, b = vs*vs;
-  float area = us*vs/2, k00, k01, k02, k11, k12, k22;
+  float vs = 2.0 * vnl_math::pi / m_Resolution;
+  float a = us * us, b = vs * vs;
+  float area = us * vs / 2, k00, k01, k02, k11, k12, k22;
 
-  k00 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b + m_Stiffness[0]);
-  k01 = area * (-m_Stiffness[1]/a + m_Stiffness[0]);
-  k02 = area * (-m_Stiffness[1]/b + m_Stiffness[0]);
-  k11 = area * (m_Stiffness[1]/a + m_Stiffness[0]);
+  k00 = area * ( m_Stiffness[1] / a + m_Stiffness[1] / b + m_Stiffness[0] );
+  k01 = area * ( -m_Stiffness[1] / a + m_Stiffness[0] );
+  k02 = area * ( -m_Stiffness[1] / b + m_Stiffness[0] );
+  k11 = area * ( m_Stiffness[1] / a + m_Stiffness[0] );
   k12 = area * m_Stiffness[0];
-  k22 = area * (m_Stiffness[1]/b + m_Stiffness[0]);
+  k22 = area * ( m_Stiffness[1] / b + m_Stiffness[0] );
 
   m_NStiffness[0][0] = k00;
   m_NStiffness[0][1] = k01;
@@ -337,12 +337,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_NStiffness[3][2] = 0.0;
   m_NStiffness[3][3] = 1.0;
 
-  k00 = area * (m_Stiffness[1]/a + m_Stiffness[0]);
-  k01 = area * (-m_Stiffness[1]/a + m_Stiffness[0]);
+  k00 = area * ( m_Stiffness[1] / a + m_Stiffness[0] );
+  k01 = area * ( -m_Stiffness[1] / a + m_Stiffness[0] );
   k02 = area * m_Stiffness[0];
-  k11 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b+m_Stiffness[0]);
-  k12 = area * (-m_Stiffness[1]/b + m_Stiffness[0]);
-  k22 = area * (m_Stiffness[1]/b + m_Stiffness[0]);
+  k11 = area * ( m_Stiffness[1] / a + m_Stiffness[1] / b + m_Stiffness[0] );
+  k12 = area * ( -m_Stiffness[1] / b + m_Stiffness[0] );
+  k22 = area * ( m_Stiffness[1] / b + m_Stiffness[0] );
 
   m_SStiffness[0][0] = k00;
   m_SStiffness[0][1] = k01;
@@ -361,12 +361,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_SStiffness[3][2] = 0.0;
   m_SStiffness[3][3] = 1.0;
 
-  k00 = area * (m_Stiffness[1]/b + m_Stiffness[0]);
-  k01 = area * (-m_Stiffness[1]/b + m_Stiffness[0]);
+  k00 = area * ( m_Stiffness[1] / b + m_Stiffness[0] );
+  k01 = area * ( -m_Stiffness[1] / b + m_Stiffness[0] );
   k02 = area * m_Stiffness[0];
-  k11 = area * (m_Stiffness[1]/a + m_Stiffness[1]/b + m_Stiffness[0]);
-  k12 = area * (-m_Stiffness[1]/a + m_Stiffness[0]);
-  k22 = area * (m_Stiffness[1]/a + m_Stiffness[0]);
+  k11 = area * ( m_Stiffness[1] / a + m_Stiffness[1] / b + m_Stiffness[0] );
+  k12 = area * ( -m_Stiffness[1] / a + m_Stiffness[0] );
+  k22 = area * ( m_Stiffness[1] / a + m_Stiffness[0] );
 
   m_CStiffness[0][0] = k00;
   m_CStiffness[0][1] = k01;
@@ -385,12 +385,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   m_CStiffness[3][2] = 0.0;
   m_CStiffness[3][3] = 1.0;
 
-  int j=0;
-  while (celldata != myCellData->End())
+  int j = 0;
+  while ( celldata != myCellData->End() )
     {
     x = celldata.Value();
     ++celldata;
-    switch ((int)(x))
+    switch ( (int)( x ) )
       {
       case 1:
         m_K[j] = &m_SStiffness;
@@ -404,7 +404,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
     ++j;
     }
-
 }
 
 /*
@@ -413,46 +412,47 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  * image force not included by far, it will be added
  * when more experiments are done
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeForce()
 {
   unsigned int i;
-  IndexType coord; coord.Fill(0);
-  IndexType extend; extend.Fill(0);
-  float extends[2], fo, t, xs, ys;
-  FloatVector n1, n, vec1, vec2;
-  float max;
-  IPixelType x, y, z, f;
+  IndexType    coord; coord.Fill(0);
 
-  float dist = 0.0;
+  IndexType   extend; extend.Fill(0);
+  float       extends[2], fo, t, xs, ys;
+  FloatVector n1, n, vec1, vec2;
+  float       max;
+  IPixelType  x, y, z, f;
+
+  float          dist = 0.0;
   unsigned short label;
 
-  InputPointsContainerPointer     Points = m_Locations->GetPoints();
-  InputPointsContainerIterator      points = Points->Begin();
+  InputPointsContainerPointer  Points = m_Locations->GetPoints();
+  InputPointsContainerIterator points = Points->Begin();
 
-  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator      forces = myForces->Begin();
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator   forcedata = myForceData->Begin();
+  InputPointDataContainerPointer  myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator forcedata = myForceData->Begin();
 
-  InputPointDataContainerPointer    myPointData = m_Locations->GetPointData();
-  InputPointDataContainerIterator   pointstatus = myPointData->Begin();
+  InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
+  InputPointDataContainerIterator pointstatus = myPointData->Begin();
 
   i = 0;
 
-  while( i != m_NumberOfNodes - 2 )
+  while ( i != m_NumberOfNodes - 2 )
     {
     xs = ys = 1.0;
     x = points.Value();
 
-    coord[0] = (int) x[0];
-    coord[1] = (int) x[1];
+    coord[0] = (int)x[0];
+    coord[1] = (int)x[1];
 
     label = (unsigned short)m_Potential->GetPixel(coord);
     if ( label != m_ObjectLabel )
@@ -524,8 +524,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     extends[0] = x[0];
     extends[1] = x[1];
 //  extends[2] = x[2];
-    extend[0] = (int) x[0];
-    extend[1] = (int) x[1];
+    extend[0] = (int)x[0];
+    extend[1] = (int)x[1];
 //  extend[2] = (int) x[2];
 
     f = normals.Value();
@@ -535,44 +535,44 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     //---------------------------------------------------------------------
     // all the movement in z direction is now disabled for further test
     //---------------------------------------------------------------------
-    if ( vcl_abs(f[1]) > max ) max = vcl_abs(f[1]);
-    n[0] = f[0]/max;
-    n[1] = f[1]/max;
+    if ( vcl_abs(f[1]) > max ) { max = vcl_abs(f[1]); }
+    n[0] = f[0] / max;
+    n[1] = f[1] / max;
 
     t = 0.0;
 
-    while (t < 5.0)
+    while ( t < 5.0 )
       {
       extends[0] += n[0];
       extends[1] += n[1];
-      extend[0] = (int) extends[0];
-      extend[1] = (int) extends[1];
+      extend[0] = (int)extends[0];
+      extend[1] = (int)extends[1];
 //    extend[2] = 0;
-      if ( (extend[0] < 0) ||
-           (extend[1] < 0) ||
-           (static_cast<unsigned int>(extend[0]) >= m_ImageWidth) ||
-           (static_cast<unsigned int>(extend[1]) >= m_ImageHeight    ) )
+      if ( ( extend[0] < 0 )
+           || ( extend[1] < 0 )
+           || ( static_cast< unsigned int >( extend[0] ) >= m_ImageWidth )
+           || ( static_cast< unsigned int >( extend[1] ) >= m_ImageHeight    ) )
         {
         break;
         }
 
-      label = (unsigned short) m_Potential->GetPixel(extend);
-      if ( label != m_ObjectLabel ) break;
+      label = (unsigned short)m_Potential->GetPixel(extend);
+      if ( label != m_ObjectLabel ) { break; }
 
       t += 1.0;
       }
 
     dist = dist + t;
 
-    if (t < 2) pointstatus.Value() = 1.0;
+    if ( t < 2 ) { pointstatus.Value() = 1.0; }
     else
       {
       pointstatus.Value() = 0.0;
       //   m_ImageOutput->SetPixel(coord, 1);
       }
-    fo = vcl_sqrt(f[0]*f[0]+f[1]*f[1]);
-    f[0] = t*100*f[0]*xs/fo;
-    f[1] = t*100*f[1]*ys/fo;
+    fo = vcl_sqrt(f[0] * f[0] + f[1] * f[1]);
+    f[0] = t * 100 * f[0] * xs / fo;
+    f[1] = t * 100 * f[1] * ys / fo;
     f[2] = 0;
 
     forces.Value() = f;
@@ -592,46 +592,46 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /*
  * compute the derivatives using d'- Kd = f
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeDt()
 {
   const unsigned long *tp;
 
-  InputCellsContainerPointer    myCells = m_Locations->GetCells();
-  InputCellsContainerIterator   cells_it = myCells->Begin();
+  InputCellsContainerPointer  myCells = m_Locations->GetCells();
+  InputCellsContainerIterator cells_it = myCells->Begin();
 
-  float p = 1.0; // arnaud: why p is a float? 
+  float p = 1.0; // arnaud: why p is a float?
   // I guess it should be a typename IPixelType::CoordRepType?
   // why p is set to 1 and never changed?
-  
+
   IPixelType vd[3];
   IPixelType vf[3];
-  
+
   typename IPixelType::VectorType u[3];
 
   unsigned long i = 0; // arnaud: I guess i an InputCellIdentifier?
-  for(; cells_it != myCells->End(); ++cells_it, i++ )
+  for (; cells_it != myCells->End(); ++cells_it, i++ )
     {
     tp = cells_it.Value()->GetPointIds();
-    for( unsigned int j = 0; j < 3; j++ )
+    for ( unsigned int j = 0; j < 3; j++ )
       {
-      u[j].Fill( 0.0 );
+      u[j].Fill(0.0);
       }
-    
-    for( unsigned int j = 0; j < 3; j++ )
+
+    for ( unsigned int j = 0; j < 3; j++ )
       {
-       m_Displacements->GetPoint (tp[j], &vd[j]);
-       m_Forces->GetPoint (tp[j], &vf[j]);
-       
-       for( unsigned int k = 0; k < 3; k++ )
+      m_Displacements->GetPoint (tp[j], &vd[j]);
+      m_Forces->GetPoint (tp[j], &vf[j]);
+
+      for ( unsigned int k = 0; k < 3; k++ )
         {
-        u[k] += vd[j].GetVectorFromOrigin() * m_K[i]->get( k, j ) * p;
+        u[k] += vd[j].GetVectorFromOrigin() * m_K[i]->get(k, j) * p;
         }
       }
-      
-    for( unsigned int j = 0; j < 3; j++ )
+
+    for ( unsigned int j = 0; j < 3; j++ )
       {
       vf[j] -= u[j];
       m_Forces->SetPoint (tp[j], vf[j]);
@@ -648,7 +648,6 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     derives_it.Value() = forces_it.Value();
     }
-
 }
 
 /*
@@ -657,75 +656,76 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  * now the mthod is only suitable for 2D models, it will be a much
  * different case for 3D model
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::Reset()
 {
-  int i, j, cell=0, slice, numnewnodes, res;
-  float status, d[3] = {0,0,0}, w;
-  IPixelType x, y, z;
-  IPixelType* x_PixelType;
-  IPixelType* y_PixelType;
+  int         i, j, cell = 0, slice, numnewnodes, res;
+  float       status, d[3] = { 0, 0, 0 }, w;
+  IPixelType  x, y, z;
+  IPixelType *x_PixelType;
+  IPixelType *y_PixelType;
+
   x_PixelType = &x;
   const unsigned long *tp;
 
   unsigned long tripoints[3];
 
-  if (m_NumNewNodes == 0) return;
-  else cell = 1;
+  if ( m_NumNewNodes == 0 ) { return; }
+  else { cell = 1; }
 
   m_NumberOfNodes = m_NumberOfNodes + m_NumNewNodes;
-  m_NumberOfCells = m_NumberOfCells + m_NumNewNodes*2;
+  m_NumberOfCells = m_NumberOfCells + m_NumNewNodes * 2;
   m_NumNewNodes = 0;
 
-  InputPointsContainerPointer     myForces = m_Forces->GetPoints();
+  InputPointsContainerPointer myForces = m_Forces->GetPoints();
   myForces->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator      forces = myForces->Begin();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointsContainerPointer     myPoints = m_Locations->GetPoints();
+  InputPointsContainerPointer myPoints = m_Locations->GetPoints();
   myPoints->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator      points = myPoints->Begin();
+  InputPointsContainerIterator points = myPoints->Begin();
 
-  InputPointsContainerPointer     myNormals = m_Normals->GetPoints();
+  InputPointsContainerPointer myNormals = m_Normals->GetPoints();
   myNormals->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  InputPointsContainerPointer     myDerives = m_Derives->GetPoints();
+  InputPointsContainerPointer myDerives = m_Derives->GetPoints();
   myDerives->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator      derives = myDerives->Begin();
+  InputPointsContainerIterator derives = myDerives->Begin();
 
-  InputPointsContainerPointer     myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerPointer myDisplacements = m_Displacements->GetPoints();
   myDisplacements->Reserve(m_NumberOfNodes);
-  InputPointsContainerIterator      displacements = myDisplacements->Begin();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
 
-  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator   forcedata = myForceData->Begin();
+  InputPointDataContainerPointer  myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator forcedata = myForceData->Begin();
 
-  InputCellsContainerPointer      myCells = m_Locations->GetCells();
+  InputCellsContainerPointer myCells = m_Locations->GetCells();
   myCells->Reserve(m_NumberOfCells);
-  InputCellsContainerIterator     cells = myCells->Begin();
+  InputCellsContainerIterator cells = myCells->Begin();
 
-  InputCellDataContainerPointer     myCellData = m_Locations->GetCellData();
+  InputCellDataContainerPointer myCellData = m_Locations->GetCellData();
   myCellData->Reserve(m_NumberOfCells);
-  InputCellDataContainerIterator    celldata = myCellData->Begin();
+  InputCellDataContainerIterator celldata = myCellData->Begin();
 
-  InputCellsContainerPointer      myOutCells = m_Output->GetCells();
+  InputCellsContainerPointer myOutCells = m_Output->GetCells();
   myOutCells->Reserve(m_NumberOfCells);
-  InputCellsContainerIterator     outcells = myOutCells->Begin();
+  InputCellsContainerIterator outcells = myOutCells->Begin();
 
-  InputCellDataContainerPointer     myOutCellData = m_Output->GetCellData();
+  InputCellDataContainerPointer myOutCellData = m_Output->GetCellData();
   myOutCellData->Reserve(m_NumberOfCells);
-  InputCellDataContainerIterator    outcelldata = myOutCellData->Begin();
+  InputCellDataContainerIterator outcelldata = myOutCellData->Begin();
 
   typename TriCell::CellAutoPointer insertCell = new TriCell;
   insertCell.TakeOwnership();
 
   i = 0;
   j = 0;
-  while (normals != myNormals->End())
+  while ( normals != myNormals->End() )
     {
-    if (i > (int) m_NewNodes[j][3])
+    if ( i > (int)m_NewNodes[j][3] )
       {
       z[0] = m_NewNodes[j][0];
       z[1] = m_NewNodes[j][1];
@@ -747,26 +747,26 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   normals = myNormals->Begin();
   points = myPoints->Begin();
 
-  while (points != myNormals->End())
+  while ( points != myNormals->End() )
     {
     points.Value() = normals.Value();
     ++points;
     ++normals;
     }
 
-  while( forces != myForces->End() )
+  while ( forces != myForces->End() )
     {
     forces.Value() = d;
     ++forces;
     }
 
-  while( derives != myDerives->End() )
+  while ( derives != myDerives->End() )
     {
     derives.Value() = d;
     ++derives;
     }
 
-  while( displacements != myDisplacements->End() )
+  while ( displacements != myDisplacements->End() )
     {
     displacements.Value() = d;
     ++displacements;
@@ -779,9 +779,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     {
     tp = cells.Value()->GetPointIds();
 
-    if ( tp[0] > (unsigned long) m_NewNodes[j][3] )
-      {
-      }
+    if ( tp[0] > (unsigned long)m_NewNodes[j][3] )
+            {}
     else
       {
       outcells.Value() = cells.Value();
@@ -793,38 +792,38 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
 
     i++;
-    if (tp[0] != tp[1] - 1)
+    if ( tp[0] != tp[1] - 1 )
       {
       res = i;
       i = 0;
       }
     }
 
-  if (cell == 1)
+  if ( cell == 1 )
     {
     int p = 0, jn;
 
     // store cells containing the south pole nodes
-    for (j=0; j<m_Resolution; j++)
+    for ( j = 0; j < m_Resolution; j++ )
       {
-      jn = (j+1)%m_Resolution;
-      tripoints[0] = m_NumberOfNodes-2;
+      jn = ( j + 1 ) % m_Resolution;
+      tripoints[0] = m_NumberOfNodes - 2;
       tripoints[1] = jn;
       tripoints[2] = j;
       insertCell->SetPointIds(tripoints);
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PixelType)1.0);
       p++;
-      insertCell.TakeOwnership( new TriCell );
+      insertCell.TakeOwnership(new TriCell);
       }
 
     // store cells containing the north pole nodes
-    for (j=0; j<m_Resolution; j++)
+    for ( j = 0; j < m_Resolution; j++ )
       {
-      jn = (j+1)%m_Resolution;
-      tripoints[2] = (1-1)*m_Resolution+j;
-      tripoints[1] = m_NumberOfNodes-1;
-      tripoints[0] = tripoints[2]-j+jn;
+      jn = ( j + 1 ) % m_Resolution;
+      tripoints[2] = ( 1 - 1 ) * m_Resolution + j;
+      tripoints[1] = m_NumberOfNodes - 1;
+      tripoints[0] = tripoints[2] - j + jn;
       insertCell->SetPointIds(tripoints);
       m_Locations->SetCell(p, insertCell);
       m_Locations->SetCellData(p, (PixelType)2.0);
@@ -834,17 +833,17 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
     m_NumberOfCells = p;
 
-    m_K = (vnl_matrix_fixed<double,4,4>**)
-      malloc(sizeof(vnl_matrix_fixed<double,4,4>*)*m_NumberOfCells);
+    m_K = ( vnl_matrix_fixed< double, 4, 4 > ** )
+          malloc(sizeof( vnl_matrix_fixed< double, 4, 4 > * ) * m_NumberOfCells);
 
     celldata = m_Locations->GetCellData()->Begin();
 
-    j=0;
-    while (celldata != m_Locations->GetCellData()->End())
+    j = 0;
+    while ( celldata != m_Locations->GetCellData()->End() )
       {
       w = celldata.Value();
       ++celldata;
-      switch ((int)(w))
+      switch ( (int)( w ) )
         {
         case 1:
           m_K[j] = &m_SStiffness;
@@ -864,14 +863,14 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /*
  * update the displacements using d_{new} = d_{old} + timestep*d'
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::Advance()
 {
   typename TInputMesh::PointType s, d, ds;
-  float dist=0.0;
-  int i;
+  float dist = 0.0;
+  int   i;
 
   InputPointsContainerPointer  myDerives = m_Derives->GetPoints();
   InputPointsContainerIterator derives = myDerives->Begin();
@@ -880,18 +879,18 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   InputPointsContainerPointer  myPoints = m_Locations->GetPoints();
   InputPointsContainerIterator points = myPoints->Begin();
 
-  i=0;
-  while( i < static_cast<int>(m_NumberOfNodes)-2 )
+  i = 0;
+  while ( i < static_cast< int >( m_NumberOfNodes ) - 2 )
     {
     ds = derives.Value();
     s = points.Value();
     d = displacements.Value();
-    s[0] += m_TimeStep*ds[0];
-    s[1] += m_TimeStep*ds[1];
+    s[0] += m_TimeStep * ds[0];
+    s[1] += m_TimeStep * ds[1];
     if ( m_GradientBegin )
       {
-      d[0] += m_TimeStep*ds[0];
-      d[1] += m_TimeStep*ds[1];
+      d[0] += m_TimeStep * ds[0];
+      d[1] += m_TimeStep * ds[1];
       }
     else
       {
@@ -899,9 +898,10 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       d[1] = 0;
       }
 
-    /** do not update the displacements if the nodes is moving out of the image region. */
-    if ( (s[0] > 0) && (s[1] > 0) &&
-         (s[0] < m_ImageWidth) && (s[1] < m_ImageHeight) )
+    /** do not update the displacements if the nodes is moving out of the image
+      region. */
+    if ( ( s[0] > 0 ) && ( s[1] > 0 )
+         && ( s[0] < m_ImageWidth ) && ( s[1] < m_ImageHeight ) )
       {
       points.Value() = s;
       displacements.Value() = d;
@@ -909,8 +909,8 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
     if ( m_GradientBegin )
       {
-      dist += vcl_sqrt(ds[0]*ds[0]+ds[1]*ds[1])*m_TimeStep;
-      m_DistanceToBoundary = dist/((float)(m_NumberOfNodes-2));
+      dist += vcl_sqrt(ds[0] * ds[0] + ds[1] * ds[1]) * m_TimeStep;
+      m_DistanceToBoundary = dist / ( (float)( m_NumberOfNodes - 2 ) );
       }
 
     i++;
@@ -920,41 +920,40 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
 
   s[0] = 0;
-
 }
 
 /*
  * copy the content of m_Location into output
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeOutput()
 {
   typename TriCell::CellAutoPointer insertCell;
-  unsigned long tripoints[3];
+  unsigned long        tripoints[3];
   const unsigned long *tp;
-  double x;
+  double               x;
 
   m_Output = this->GetOutput();
 
-  OutputPointsContainerPointer   myPoints = m_Output->GetPoints();
+  OutputPointsContainerPointer myPoints = m_Output->GetPoints();
   myPoints->Reserve(m_NumberOfNodes);
-  OutputPointsContainerIterator  points = myPoints->Begin();
+  OutputPointsContainerIterator points = myPoints->Begin();
 
-  InputPointsContainerPointer    myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator   locations = myLocations->Begin();
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
   InputMeshConstPointer inputMesh = this->GetInput(0);
 
-  InputCellsContainerConstPointer   myCells = inputMesh->GetCells();
-  InputCellsContainerConstIterator  cells = myCells->Begin();
+  InputCellsContainerConstPointer  myCells = inputMesh->GetCells();
+  InputCellsContainerConstIterator cells = myCells->Begin();
 
   InputCellDataContainerConstPointer  myCellData = inputMesh->GetCellData();
   InputCellDataContainerConstIterator celldata = myCellData->Begin();
 
     {
-    for (unsigned int i=0; i<m_NumberOfNodes; i++)
+    for ( unsigned int i = 0; i < m_NumberOfNodes; i++ )
       {
       points.Value() = locations.Value();
       ++locations;
@@ -963,15 +962,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
 
     {
-    for (unsigned int i=0; i<m_NumberOfCells; i++)
+    for ( unsigned int i = 0; i < m_NumberOfCells; i++ )
       {
       tp = cells.Value()->GetPointIds();
       tripoints[0] = tp[0];
       tripoints[1] = tp[1];
       tripoints[2] = tp[2];
-      insertCell.TakeOwnership( new TriCell );
+      insertCell.TakeOwnership(new TriCell);
       insertCell->SetPointIds(tripoints);
-      m_Output->SetCell(i, insertCell );
+      m_Output->SetCell(i, insertCell);
       x = celldata.Value();
       m_Output->SetCellData(i, (PixelType)x);
       ++cells;
@@ -983,18 +982,18 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /**
  * copy the content of m_Location into output
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::GenerateData()
 {
   this->Initialize();
   this->SetStiffnessMatrix();
-  while (m_Step < 300)
+  while ( m_Step < 300 )
     {
     this->ComputeNormals();
-    if ( m_GradientBegin ) this->GradientFit();
-    else this->ComputeForce();
+    if ( m_GradientBegin ) { this->GradientFit(); }
+    else { this->ComputeForce(); }
     this->ComputeDt();
     this->Advance();
     this->ACDSearch();
@@ -1008,32 +1007,33 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
  * When almost all the nodes is at the estimated boundary, use
  * gapsearch to fit the model to more complicated shapes
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::GapSearch()
 {
-  InputPointsContainerPointer   Points = m_Locations->GetPoints();
-  InputPointsContainerIterator    points = Points->Begin();
+  InputPointsContainerPointer  Points = m_Locations->GetPoints();
+  InputPointsContainerIterator points = Points->Begin();
 
   InputPointDataContainerPointer  myPointData = m_Locations->GetPointData();
   InputPointDataContainerIterator pointstatus = myPointData->Begin();
 
-  InputCellsContainerPointer    myCells = m_Locations->GetCells();
-  InputCellsContainerIterator   cells = myCells->Begin();
+  InputCellsContainerPointer  myCells = m_Locations->GetCells();
+  InputCellsContainerIterator cells = myCells->Begin();
 
-  int i, q, res = 1;
-  IPixelType x, y, z;
-  IPixelType* y_PixelType;
-  IPixelType* z_PixelType;
+  int         i, q, res = 1;
+  IPixelType  x, y, z;
+  IPixelType *y_PixelType;
+  IPixelType *z_PixelType;
+
   y_PixelType = &y;
   z_PixelType = &z;
-  float gap, dis[3]={0, 0, 0}, st, *st_PixelType;
+  float gap, dis[3] = { 0, 0, 0 }, st, *st_PixelType;
   st_PixelType = &st;
   const unsigned long *tp;
 
   i = 0;
-  while( i != m_NumberOfNodes - 2 )
+  while ( i != m_NumberOfNodes - 2 )
     {
     x = points.Value();
     ++points;
@@ -1042,7 +1042,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++cells;
     ++cells;
 
-    if (tp[0] == tp[1] - 1) y = points.Value();
+    if ( tp[0] == tp[1] - 1 ) { y = points.Value(); }
     else
       {
       m_Locations->GetPoint (tp[1], y_PixelType);
@@ -1052,25 +1052,25 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     dis[0] = x[0] - y[0];
     dis[1] = x[1] - y[1];
     dis[2] = x[2] - y[2];
-    gap = vcl_sqrt(dis[0]*dis[0]+dis[1]*dis[1]+dis[2]*dis[2]);
+    gap = vcl_sqrt(dis[0] * dis[0] + dis[1] * dis[1] + dis[2] * dis[2]);
 
     m_Locations->GetPointData(q, st_PixelType);
-    if (gap > 3)
+    if ( gap > 3 )
       {
-      if ( pointstatus.Value() == 1.0)
+      if ( pointstatus.Value() == 1.0 )
         {
         ++pointstatus;
-        if ( pointstatus.Value() == 1.0)
+        if ( pointstatus.Value() == 1.0 )
           {
-          z[0] = 0.5*(x[0]+y[0]);
-          z[1] = 0.5*(x[1]+y[1]);
-          z[2] = 0.5*(x[2]+y[2]);
+          z[0] = 0.5 * ( x[0] + y[0] );
+          z[1] = 0.5 * ( x[1] + y[1] );
+          z[2] = 0.5 * ( x[2] + y[2] );
           this->NodeAddition(i, res, z);
           }
         }
-      else ++pointstatus;
+      else { ++pointstatus; }
       }
-    else ++pointstatus;
+    else { ++pointstatus; }
 
     i++;
     }
@@ -1081,80 +1081,79 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /**
  * Add new nodes into the model
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::NodeAddition(int node, int res, IPixelType z)
 {
   m_NumNewNodes++;
 
-  if (m_NumNewNodes > m_NewNodeLimit)
+  if ( m_NumNewNodes > m_NewNodeLimit )
     {
-    m_NewNodes = realloc( m_NewNodes, m_NewNodeLimit*sizeof(float*)*2 );
-    for (int i = m_NewNodeLimit; i < 2*m_NewNodeLimit; i++)
+    m_NewNodes = realloc(m_NewNodes, m_NewNodeLimit * sizeof( float * ) * 2);
+    for ( int i = m_NewNodeLimit; i < 2 * m_NewNodeLimit; i++ )
       {
-      m_NewNodes[i] = (float*) malloc(sizeof(float)*5);
+      m_NewNodes[i] = (float *)malloc(sizeof( float ) * 5);
       }
-    m_NewNodeLimit = m_NewNodeLimit*2;
+    m_NewNodeLimit = m_NewNodeLimit * 2;
     }
 
-  m_NewNodes[m_NumNewNodes-1][0] = z[0];
-  m_NewNodes[m_NumNewNodes-1][1] = z[1];
-  m_NewNodes[m_NumNewNodes-1][2] = z[2];
-  m_NewNodes[m_NumNewNodes-1][3] = (float) node;
-  m_NewNodes[m_NumNewNodes-1][4] = (float) res;
+  m_NewNodes[m_NumNewNodes - 1][0] = z[0];
+  m_NewNodes[m_NumNewNodes - 1][1] = z[1];
+  m_NewNodes[m_NumNewNodes - 1][2] = z[2];
+  m_NewNodes[m_NumNewNodes - 1][3] = (float)node;
+  m_NewNodes[m_NumNewNodes - 1][4] = (float)res;
 }
 
 /**
  * Fit the model to the gradient information
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::GradientFit()
 {
-  typedef typename GradientIndexType::IndexValueType   IndexValueType;
+  typedef typename GradientIndexType::IndexValueType IndexValueType;
 
   GradientIndexType coord, coord2, tmp_co_1, tmp_co_2;
-  IPixelType v1, v2;
-  PixelType mag;
+  IPixelType        v1, v2;
+  PixelType         mag;
 
   typename TInputMesh::PointType vec_nor, vec_loc, vec_for, tmp_vec_1, tmp_vec_2, tmp_vec_3;
 
-  InputPointsContainerPointer       myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator      locations = myLocations->Begin();
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
-  InputPointsContainerPointer       myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator      forces = myForces->Begin();
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
 
-  InputPointDataContainerPointer    myForceData = m_Forces->GetPointData();
-  InputPointDataContainerIterator   forcedata = myForceData->Begin();
+  InputPointDataContainerPointer  myForceData = m_Forces->GetPointData();
+  InputPointDataContainerIterator forcedata = myForceData->Begin();
 
-  InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
   /* New gradient fit method testing. */
-  while( forces != myForces->End() )
+  while ( forces != myForces->End() )
     {
     vec_loc = locations.Value();
     vec_nor = normals.Value();
 
-    coord[0] = static_cast<IndexValueType>(vec_loc[0]);
-    coord[1] = static_cast<IndexValueType>(vec_loc[1]);
+    coord[0] = static_cast< IndexValueType >( vec_loc[0] );
+    coord[1] = static_cast< IndexValueType >( vec_loc[1] );
 
-    coord2[0] = static_cast<IndexValueType>( vcl_ceil( vec_loc[0] ) );
-    coord2[1] = static_cast<IndexValueType>( vcl_ceil( vec_loc[1] ) );
+    coord2[0] = static_cast< IndexValueType >( vcl_ceil(vec_loc[0]) );
+    coord2[1] = static_cast< IndexValueType >( vcl_ceil(vec_loc[1]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
     tmp_co_2[0] = coord[0];
     tmp_co_2[1] = coord2[1];
 
-
-    if ( (coord[0] >= 0) &&
-         (coord[1] >= 0) &&
-         (static_cast<unsigned int>( coord2[0] ) < m_ImageWidth) &&
-         (static_cast<unsigned int>( coord2[1] ) < m_ImageHeight) )
+    if ( ( coord[0] >= 0 )
+         && ( coord[1] >= 0 )
+         && ( static_cast< unsigned int >( coord2[0] ) < m_ImageWidth )
+         && ( static_cast< unsigned int >( coord2[1] ) < m_ImageHeight ) )
       {
       vec_for[0] = m_Gradient->GetPixel(coord)[0];
       vec_for[1] = m_Gradient->GetPixel(coord)[1];
@@ -1164,18 +1163,17 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       tmp_vec_2[0] = m_Gradient->GetPixel(tmp_co_2)[0] - m_Gradient->GetPixel(coord)[0];
       tmp_vec_2[1] = m_Gradient->GetPixel(tmp_co_2)[1] - m_Gradient->GetPixel(coord)[1];
 
-      vec_for[0] = vec_for[0] + (vec_loc[0]-coord[0])*tmp_vec_1[0] + (vec_loc[1]-coord[1])*tmp_vec_2[0];
-      vec_for[1] = vec_for[1] + (vec_loc[1]-coord[1])*tmp_vec_2[1] + (vec_loc[0]-coord[0])*tmp_vec_1[1];
-
+      vec_for[0] = vec_for[0] + ( vec_loc[0] - coord[0] ) * tmp_vec_1[0] + ( vec_loc[1] - coord[1] ) * tmp_vec_2[0];
+      vec_for[1] = vec_for[1] + ( vec_loc[1] - coord[1] ) * tmp_vec_2[1] + ( vec_loc[0] - coord[0] ) * tmp_vec_1[1];
       }
     else
       {
       vec_for[0] = 0;
       vec_for[1] = 0;
       }
-    mag = vec_for[0]*vec_nor[0] + vec_for[1]*vec_nor[1];
-    vec_for[0] = mag*vec_nor[0];
-    vec_for[1] = mag*vec_nor[1];
+    mag = vec_for[0] * vec_nor[0] + vec_for[1] * vec_nor[1];
+    vec_for[0] = mag * vec_nor[0];
+    vec_for[1] = mag * vec_nor[1];
     vec_for[2] = 0.0;
 
     forces.Value() = vec_for;
@@ -1185,35 +1183,35 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++locations;
     ++normals;
     }
-
 }
 
 /**
  * Fit the model to the gradient information
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ComputeNormals()
 {
   const unsigned long *tp;
-  IPixelType v1, v2, v3, v4;
+  IPixelType           v1, v2, v3, v4;
+
   v1.Fill(0.);
   v2.Fill(0.);
   v3.Fill(0.);
   v4.Fill(0.);
-  
+
   float coa, cob, coc;
   float absvec;
 
-  InputCellsContainerPointer      myCells = m_Locations->GetCells();
-  InputCellsContainerIterator     cells = myCells->Begin();
+  InputCellsContainerPointer  myCells = m_Locations->GetCells();
+  InputCellsContainerIterator cells = myCells->Begin();
 
-  InputPointsContainerPointer       myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator      normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  static float d[3]={0, 0, 0};
-  while( normals != myNormals->End() )
+  static float d[3] = { 0, 0, 0 };
+  while ( normals != myNormals->End() )
     {
     normals.Value() = d;
     ++normals;
@@ -1224,30 +1222,30 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     tp = cells.Value()->GetPointIds();
     ++cells;
 
-    m_Locations->GetPoint (tp[0], &v1 );
-    m_Locations->GetPoint (tp[1], &v2 );
-    m_Locations->GetPoint (tp[2], &v3 );
+    m_Locations->GetPoint (tp[0], &v1);
+    m_Locations->GetPoint (tp[1], &v2);
+    m_Locations->GetPoint (tp[2], &v3);
 
-    coa = -(v1[1]*(v2[2]-v3[2]) +
-            v2[1]*(v3[2]-v1[2]) +
-            v3[1]*(v1[2]-v2[2]));
-    cob = -(v1[2] * (v2[0]-v3[0]) +
-            v2[2]*(v3[0]-v1[0]) +
-            v3[2]*(v1[0]-v2[0]));
-    coc = -(v1[0] * (v2[1]-v3[1]) +
-            v2[0]*(v3[1]-v1[1]) +
-            v3[0]*(v1[1]-v2[1]));
+    coa = -( v1[1] * ( v2[2] - v3[2] )
+             + v2[1] * ( v3[2] - v1[2] )
+             + v3[1] * ( v1[2] - v2[2] ) );
+    cob = -( v1[2] * ( v2[0] - v3[0] )
+             + v2[2] * ( v3[0] - v1[0] )
+             + v3[2] * ( v1[0] - v2[0] ) );
+    coc = -( v1[0] * ( v2[1] - v3[1] )
+             + v2[0] * ( v3[1] - v1[1] )
+             + v3[0] * ( v1[1] - v2[1] ) );
 
-    absvec = -vcl_sqrt ((double) ((coa*coa) + (cob*cob) + (coc*coc)));
+    absvec = -vcl_sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
 
     assert (absvec != 0);
 
-    v4[0] = coa/absvec;
-    v4[1] = cob/absvec;
-    v4[2] = coc/absvec;
-    m_Normals->GetPoint (tp[0], &v1 );
-    m_Normals->GetPoint (tp[1], &v2 );
-    m_Normals->GetPoint (tp[2], &v3 );
+    v4[0] = coa / absvec;
+    v4[1] = cob / absvec;
+    v4[2] = coc / absvec;
+    m_Normals->GetPoint (tp[0], &v1);
+    m_Normals->GetPoint (tp[1], &v2);
+    m_Normals->GetPoint (tp[2], &v3);
 
     v1[0] += v4[0];
     v1[1] += v4[1];
@@ -1264,17 +1262,16 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     m_Normals->SetPoint (tp[0], v1);
     m_Normals->SetPoint (tp[1], v2);
     m_Normals->SetPoint (tp[2], v3);
-
     }
 
   normals = myNormals->Begin();
-  while( normals != myNormals->End() )
+  while ( normals != myNormals->End() )
     {
     v1 = normals.Value();
-    absvec = vcl_sqrt( v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2] );
-    v1[0] = v1[0]/absvec;
-    v1[1] = v1[1]/absvec;
-    v1[2] = v1[2]/absvec;
+    absvec = vcl_sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
+    v1[0] = v1[0] / absvec;
+    v1[1] = v1[1] / absvec;
+    v1[2] = v1[2] / absvec;
     normals.Value() = v1;
     ++normals;
     }
@@ -1283,30 +1280,30 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 /**
  * Fit the model to the gradient information
  */
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::NodesRearrange()
 {
-  int i, j, k;
-  float dis, l1, l2;
-  float length;
+  int        i, j, k;
+  float      dis, l1, l2;
+  float      length;
   IPixelType v1, v2, v3, v4;
 
   typename TInputMesh::PointType s, s1, d1, d2;
 
-  InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator  locations = myLocations->Begin();
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
 
-  InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator  displacements = myDisplacements->Begin();
+  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
 
-  InputPointsContainerPointer   myNormals = m_Normals->GetPoints();
-  InputPointsContainerIterator  normals = myNormals->Begin();
+  InputPointsContainerPointer  myNormals = m_Normals->GetPoints();
+  InputPointsContainerIterator normals = myNormals->Begin();
 
-  InputPointsContainerPointer   myForces = m_Forces->GetPoints();
-  InputPointsContainerIterator  forces = myForces->Begin();
-  InputPointsContainerIterator  forcescopy;
+  InputPointsContainerPointer  myForces = m_Forces->GetPoints();
+  InputPointsContainerIterator forces = myForces->Begin();
+  InputPointsContainerIterator forcescopy;
 
   v1 = locations.Value();
   s = locations.Value();
@@ -1316,7 +1313,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   forcescopy = forces;
   forces++;
 
-  while ( (i+1)%m_Resolution != 0 )
+  while ( ( i + 1 ) % m_Resolution != 0 )
     {
     v2 = locations.Value();
     ++locations;
@@ -1330,24 +1327,24 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v1[0] = v2[0];
     v1[1] = v2[1];
     //  v1[2] = v2[2];
-    dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
+    dis = d1[0] * d2[0] + d1[1] * d2[1]; /*+d1[2]*d2[2]*/
     if ( dis > 0 )
       {
-      l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      l2 = vcl_sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
-      dis = dis/vcl_sqrt(l1*l2);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+      l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+      l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
+      dis = dis / vcl_sqrt(l1 * l2);
+      d1[0] = d1[0] / l1;
+      d1[1] = d1[1] / l1;
       //    d1[2] = d1[2]/l1;
-      d2[0] = d2[0]/l2;
-      d2[1] = d2[1]/l2;
+      d2[0] = d2[0] / l2;
+      d2[1] = d2[1] / l2;
       //    d2[2] = d2[2]/l2;
-      d1[0] = (d1[0]+d2[0]);
-      d1[1] = (d1[1]+d2[1]);
+      d1[0] = ( d1[0] + d2[0] );
+      d1[1] = ( d1[1] + d2[1] );
       //    d1[2] = (d1[2]+d2[2]);
-      l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-      d1[0] = d1[0]/l1;
-      d1[1] = d1[1]/l1;
+      l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+      d1[0] = d1[0] / l1;
+      d1[1] = d1[1] / l1;
       //    d1[2] = d1[2]/l1;
       v2[0] = v2[0] + dis * d1[0];
       v2[1] = v2[1] + dis * d1[1];
@@ -1374,24 +1371,24 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   v1[0] = v2[0];
   v1[1] = v2[1];
   //  v1[2] = v2[2];
-  dis = d1[0]*d2[0]+d1[1]*d2[1]/*+d1[2]*d2[2]*/;
+  dis = d1[0] * d2[0] + d1[1] * d2[1]; /*+d1[2]*d2[2]*/
   if ( dis > 0 )
     {
-    l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-    l2 = vcl_sqrt(d2[0]*d2[0]+d2[1]*d2[1]/*+d2[2]*d2[2]*/);
-    dis = dis/vcl_sqrt(l1*l2);
-    d1[0] = d1[0]/l1;
-    d1[1] = d1[1]/l1;
+    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+    l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
+    dis = dis / vcl_sqrt(l1 * l2);
+    d1[0] = d1[0] / l1;
+    d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
-    d2[0] = d2[0]/l2;
-    d2[1] = d2[1]/l2;
+    d2[0] = d2[0] / l2;
+    d2[1] = d2[1] / l2;
     //  d2[2] = d2[2]/l2;
-    d1[0] = (d1[0]+d2[0]);
-    d1[1] = (d1[1]+d2[1]);
+    d1[0] = ( d1[0] + d2[0] );
+    d1[1] = ( d1[1] + d2[1] );
     //  d1[2] = (d1[2]+d2[2]);
-    l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]/*+d1[2]*d1[2]*/);
-    d1[0] = d1[0]/l1;
-    d1[1] = d1[1]/l1;
+    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+    d1[0] = d1[0] / l1;
+    d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
     v2[0] = v2[0] + dis * d1[0];
     v2[1] = v2[1] + dis * d1[1];
@@ -1417,24 +1414,24 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
   //  v1[0] = v2[0];
   //  v1[1] = v2[1];
   //  v1[2] = v2[2];
-  dis = d1[0]*d2[0]+d1[1]*d2[1];
+  dis = d1[0] * d2[0] + d1[1] * d2[1];
   if ( dis > 0 )
     {
-    l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
-    l2 = vcl_sqrt(d2[0]*d2[0]+d2[1]*d2[1]);
-    dis = dis/vcl_sqrt(l1*l2);
-    d1[0] = d1[0]/l1;
-    d1[1] = d1[1]/l1;
+    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
+    l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1]);
+    dis = dis / vcl_sqrt(l1 * l2);
+    d1[0] = d1[0] / l1;
+    d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
-    d2[0] = d2[0]/l2;
+    d2[0] = d2[0] / l2;
     //  d2[1] = d2[1]/l2;
     //  d2[2] = d2[2]/l2;
-    d1[0] = (d1[0]+d2[0]);
-    d1[1] = (d1[1]+d2[1]);
+    d1[0] = ( d1[0] + d2[0] );
+    d1[1] = ( d1[1] + d2[1] );
     //  d1[2] = (d1[2]+d2[2]);
-    l1 = vcl_sqrt(d1[0]*d1[0]+d1[1]*d1[1]);
-    d1[0] = d1[0]/l1;
-    d1[1] = d1[1]/l1;
+    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
+    d1[0] = d1[0] / l1;
+    d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
     v2[0] = v2[0] + dis * d1[0];
     v2[1] = v2[1] + dis * d1[1];
@@ -1456,12 +1453,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     ++forces;
     v2 = forces.Value();
     //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-    dis += vcl_sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+    dis += vcl_sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
     i++;
     }
   //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-  dis += vcl_sqrt((s[0]-v2[0])*(s[0]-v2[0])+(s[1]-v2[1])*(s[1]-v2[1]));
-  length = dis/m_Resolution;
+  dis += vcl_sqrt( ( s[0] - v2[0] ) * ( s[0] - v2[0] ) + ( s[1] - v2[1] ) * ( s[1] - v2[1] ) );
+  length = dis / m_Resolution;
   ++forces;
 
   forces = myForces->Begin();
@@ -1478,15 +1475,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     v1 = forces.Value();
     ++forces;
     v2 = forces.Value();
-    dis = vcl_sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
-    l2 = -1*l1;
+    dis = vcl_sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
+    l2 = -1 * l1;
     l1 += dis;
     //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
     while ( l1 > length )
       {
-      if (k==m_Resolution) break;
-      s[0] = v1[0] + (length+l2)*(v2[0] - v1[0])/dis;
-      s[1] = v1[1] + (length+l2)*(v2[1] - v1[1])/dis;
+      if ( k == m_Resolution ) { break; }
+      s[0] = v1[0] + ( length + l2 ) * ( v2[0] - v1[0] ) / dis;
+      s[1] = v1[1] + ( length + l2 ) * ( v2[1] - v1[1] ) / dis;
       //      s[2] = v1[2];
       normals.Value() = s;
       ++normals;
@@ -1495,12 +1492,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       l1 -= length;
       }
     i++;
-    if (k==m_Resolution) break;
+    if ( k == m_Resolution ) { break; }
     }
 
-  if (k==m_Resolution)
+  if ( k == m_Resolution )
     {
-    while (i < m_Resolution)
+    while ( i < m_Resolution )
       {
       i++;
       ++forces;
@@ -1509,15 +1506,15 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   v1 = forces.Value();
   ++forces;
-  dis = vcl_sqrt((v1[0]-v3[0])*(v1[0]-v3[0])+(v1[1]-v3[1])*(v1[1]-v3[1]));
-  l2 = -1*l1;
+  dis = vcl_sqrt( ( v1[0] - v3[0] ) * ( v1[0] - v3[0] ) + ( v1[1] - v3[1] ) * ( v1[1] - v3[1] ) );
+  l2 = -1 * l1;
   l1 += dis;
   //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
   while ( l1 > length )
     {
-    if (k==m_Resolution) break;
-    s[0] = v1[0] + (length+l2)*(v3[0] - v1[0])/dis;
-    s[1] = v1[1] + (length+l2)*(v3[1] - v1[1])/dis;
+    if ( k == m_Resolution ) { break; }
+    s[0] = v1[0] + ( length + l2 ) * ( v3[0] - v1[0] ) / dis;
+    s[1] = v1[1] + ( length + l2 ) * ( v3[1] - v1[1] ) / dis;
     //    s[2] = v1[2];
     normals.Value() = s;
     ++normals;
@@ -1533,7 +1530,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
     {
     i = 0;
-    while ( i < static_cast<int>(m_NumberOfNodes) - 2 )
+    while ( i < static_cast< int >( m_NumberOfNodes ) - 2 )
       {
       v1 = normals.Value();
       //  v1 = forces.Value();
@@ -1543,7 +1540,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       v3[1] += v1[1] - v2[1];
       //  v3[2] += v1[2] - v2[2];
       locations.Value() = v1;
-      if ( m_GradientBegin ) displacements.Value() = v3;
+      if ( m_GradientBegin ) { displacements.Value() = v3; }
       ++normals;
       //  ++forces;
       ++locations;
@@ -1554,7 +1551,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
 
   locations = myLocations->Begin();
   j = 0;
-  for (; j < 1; j++)
+  for (; j < 1; j++ )
     {
     //dis = 0;
     i = 0;
@@ -1569,75 +1566,75 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
       }
     ++locations;
     }
-
 }
 
-template <typename TInputMesh, typename TOutputMesh>
+template< typename TInputMesh, typename TOutputMesh >
 void
-BalloonForceFilter<TInputMesh, TOutputMesh>
+BalloonForceFilter< TInputMesh, TOutputMesh >
 ::ACDSearch()
 {
   unsigned int i;
-  int j, l, m, n, PixelType1, PixelType2;
-  float s;
-  IPixelType v, v1, v2, v3;
-  m_ACD = (int**) malloc(sizeof(int *)*m_ImageHeight/2);
+  int          j, l, m, n, PixelType1, PixelType2;
+  float        s;
+  IPixelType   v, v1, v2, v3;
 
-  for (i=0; i<m_ImageHeight/2; i++)
+  m_ACD = (int **)malloc(sizeof( int * ) * m_ImageHeight / 2);
+
+  for ( i = 0; i < m_ImageHeight / 2; i++ )
     {
-    m_ACD[i] = (int*) malloc(sizeof(int)*m_ImageWidth/2);
+    m_ACD[i] = (int *)malloc(sizeof( int ) * m_ImageWidth / 2);
     }
 
-  InputPointsContainerPointer   myLocations = m_Locations->GetPoints();
-  InputPointsContainerIterator  locations = myLocations->Begin();
-  InputPointsContainerIterator  locationscopy;
-  InputPointsContainerIterator  locationscopy1;
-  InputPointsContainerPointer   myDisplacements = m_Displacements->GetPoints();
-  InputPointsContainerIterator  displacements = myDisplacements->Begin();
-  InputPointsContainerIterator  dpcopy;
-  InputPointsContainerIterator  dpcopy1;
+  InputPointsContainerPointer  myLocations = m_Locations->GetPoints();
+  InputPointsContainerIterator locations = myLocations->Begin();
+  InputPointsContainerIterator locationscopy;
+  InputPointsContainerIterator locationscopy1;
+  InputPointsContainerPointer  myDisplacements = m_Displacements->GetPoints();
+  InputPointsContainerIterator displacements = myDisplacements->Begin();
+  InputPointsContainerIterator dpcopy;
+  InputPointsContainerIterator dpcopy1;
 
-  for (j = 0; j < 1; j++)
+  for ( j = 0; j < 1; j++ )
     {
     i = 0;
     locationscopy = locations;
     dpcopy = displacements;
 
-    for (unsigned int ll=0; ll < m_ImageHeight/2; ll++)
+    for ( unsigned int ll = 0; ll < m_ImageHeight / 2; ll++ )
       {
-      for (unsigned int mm=0; mm < m_ImageWidth/2; mm++)
+      for ( unsigned int mm = 0; mm < m_ImageWidth / 2; mm++ )
         {
         m_ACD[ll][mm] = -1;
         }
       }
 
-    for (; i < static_cast<unsigned int>( m_Resolution ); i++)
+    for (; i < static_cast< unsigned int >( m_Resolution ); i++ )
       {
       v = locations.Value();
       ++locations;
       ++displacements;
-      l = (int)(v[0]/2);
-      m = (int)(v[1]/2);
+      l = (int)( v[0] / 2 );
+      m = (int)( v[1] / 2 );
 
-      int ii = static_cast<int>( i );
+      int ii = static_cast< int >( i );
 
-      if (m_ACD[m][l] == -1)
+      if ( m_ACD[m][l] == -1 )
         {
         m_ACD[m][l] = ii;
         }
       else
         {
-        if (((ii - m_ACD[m][l]) > m_Resolution/10) &&
-            ((m_Resolution-ii+m_ACD[m][l])>m_Resolution/10))
+        if ( ( ( ii - m_ACD[m][l] ) > m_Resolution / 10 )
+             && ( ( m_Resolution - ii + m_ACD[m][l] ) > m_Resolution / 10 ) )
           {
           locationscopy1 = locationscopy;
           n = 0;
           v1[0] = 0;
           v1[1] = 0;
           //      v1[2] = 0;
-          if ( (ii - m_ACD[m][l]) < 0.5*m_Resolution )
+          if ( ( ii - m_ACD[m][l] ) < 0.5 * m_Resolution )
             {
-            if (m_ACD[m][l] == 0)
+            if ( m_ACD[m][l] == 0 )
               {
               PixelType1 = m_Resolution - 1;
               }
@@ -1645,7 +1642,7 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
               {
               PixelType1 = m_ACD[m][l] - 1;
               }
-            if (ii == m_Resolution - 1)
+            if ( ii == m_Resolution - 1 )
               {
               PixelType2 = 0;
               }
@@ -1653,33 +1650,33 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
               {
               PixelType2 = ii + 1;
               }
-            while (n<m_Resolution)
+            while ( n < m_Resolution )
               {
               v = locationscopy1.Value();
-              if ((n>m_ACD[m][l]) && (n<ii))
+              if ( ( n > m_ACD[m][l] ) && ( n < ii ) )
                 {
                 v1[0] += v[0];
                 v1[1] += v[1];
                 }
               else
                 {
-                if ( n == PixelType1) v2 = locationscopy1.Value();
-                if ( n == PixelType2 ) v3 = locationscopy1.Value();
+                if ( n == PixelType1 ) { v2 = locationscopy1.Value(); }
+                if ( n == PixelType2 ) { v3 = locationscopy1.Value(); }
                 }
               ++locationscopy1;
               n++;
               }
-            v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
-            v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
+            v1[0] = v1[0] / ( ii - m_ACD[m][l] - 1 );
+            v1[1] = v1[1] / ( ii - m_ACD[m][l] - 1 );
             s = 1;
-            if (s > 0)
+            if ( s > 0 )
               {
               locationscopy1 = locationscopy;
               dpcopy1 = dpcopy;
               n = 0;
-              while (n<m_Resolution)
+              while ( n < m_Resolution )
                 {
-                if ((n>m_ACD[m][l]) && (n<ii))
+                if ( ( n > m_ACD[m][l] ) && ( n < ii ) )
                   {
                   v1 = locationscopy1.Value();
                   locationscopy1.Value() = v;
@@ -1701,33 +1698,33 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
             }
           else
             {
-            while (n<m_Resolution)
+            while ( n < m_Resolution )
               {
               PixelType1 = m_ACD[m][l] + 1;
               PixelType2 = ii - 1;
               v = locationscopy1.Value();
-              if ((n<m_ACD[m][l]) && (n>ii))
+              if ( ( n < m_ACD[m][l] ) && ( n > ii ) )
                 {
                 v1[0] += v[0];
                 v1[1] += v[1];
                 }
               else
                 {
-                if ( n == PixelType1 ) v2 = locationscopy1.Value();
-                if ( n == PixelType2 ) v3 = locationscopy1.Value();
+                if ( n == PixelType1 ) { v2 = locationscopy1.Value(); }
+                if ( n == PixelType2 ) { v3 = locationscopy1.Value(); }
                 }
               ++locationscopy1;
               n++;
               }
-            v1[0] = v1[0]/(ii-m_ACD[m][l]-1);
-            v1[1] = v1[1]/(ii-m_ACD[m][l]-1);
+            v1[0] = v1[0] / ( ii - m_ACD[m][l] - 1 );
+            v1[1] = v1[1] / ( ii - m_ACD[m][l] - 1 );
             s = -1;
-            if (s < 0)
+            if ( s < 0 )
               {
               locationscopy1 = locationscopy;
               dpcopy1 = dpcopy;
               n = 0;
-              while (n<m_Resolution)
+              while ( n < m_Resolution )
                 {
                 if ( n == ii )
                   {
@@ -1738,9 +1735,9 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
                 }
               locationscopy1 = locationscopy;
               n = 0;
-              while (n<m_Resolution)
+              while ( n < m_Resolution )
                 {
-                if ((n<m_ACD[m][l]) && (n>ii))
+                if ( ( n < m_ACD[m][l] ) && ( n > ii ) )
                   {
                   v1 = locationscopy1.Value();
                   locationscopy1.Value() = v;
@@ -1765,14 +1762,12 @@ BalloonForceFilter<TInputMesh, TOutputMesh>
     }
 
   m_ModelRestart = 0;
-  for (i=0; i<m_ImageHeight/2; i++)
+  for ( i = 0; i < m_ImageHeight / 2; i++ )
     {
     free(m_ACD[i]);
     }
   free(m_ACD);
-
 }
-
 } // end namespace itk
 
 #endif

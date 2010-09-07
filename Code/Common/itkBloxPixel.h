@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,26 +23,25 @@
 
 namespace itk
 {
-
 /**
  * \class BloxPixel
  * \brief Holds a linked list of BloxItem's
  *
  * itk::BloxPixel is a specialized "value added" version of the basic STL list
- * intended as a base class for all pixels stored in itk::BloxImage derived 
+ * intended as a base class for all pixels stored in itk::BloxImage derived
  * classes.
  * A particular type of itk::BloxImage is fully specialized by setting the type
  * of itk::BloxPixel that it holds, so in some sense this is the most important
  * class in the blox hierarchy.
  *
- * It is assumed that particular itk::BloxPixel derived types will add 
- * functionality to this base class; for example, eigenanalysis of core atom 
+ * It is assumed that particular itk::BloxPixel derived types will add
+ * functionality to this base class; for example, eigenanalysis of core atom
  * populations in itk::BloxCoreAtomPixel
  *
  * \ingroup ImageObjects
  */
-template <typename TItemType>
-class BloxPixel : public std::list<TItemType*>
+template< typename TItemType >
+class BloxPixel:public std::list< TItemType * >
 {
 public:
 
@@ -51,28 +50,31 @@ public:
 
   /** Get the number of items stored in the blox. */
   unsigned long int GetSize()
-    {return static_cast<unsigned long>( this->size() ); }
+  { return static_cast< unsigned long >( this->size() ); }
 
   BloxPixel();
   ~BloxPixel();
 };
-
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxPixel(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxPixel< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxPixel< ITK_TEMPLATE_1 x > \
-                               BloxPixel##y; } \
+#define ITK_TEMPLATE_BloxPixel(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                             \
+  {                                                         \
+  _( 1 ( class EXPORT BloxPixel< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                       \
+  {                                                         \
+  typedef BloxPixel< ITK_TEMPLATE_1 TypeX >                 \
+  BloxPixel##TypeY;                                       \
+  }                                                         \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxPixel+-.h"
+#include "Templates/itkBloxPixel+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxPixel.txx"
+#include "itkBloxPixel.txx"
 #endif
 
 #endif

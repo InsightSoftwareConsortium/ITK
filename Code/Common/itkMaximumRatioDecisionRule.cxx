@@ -9,34 +9,32 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #include "itkMaximumRatioDecisionRule.h"
 
-namespace itk {
-
-MaximumRatioDecisionRule::MaximumRatioDecisionRule()
+namespace itk
 {
-}
+MaximumRatioDecisionRule::MaximumRatioDecisionRule()
+{}
 
-
-void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
+void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType & values)
 {
   m_NumberOfClasses = values.size();
-  m_APrioriRatioMatrix.set_size(values.size(), values.size());
+  m_APrioriRatioMatrix.set_size( values.size(), values.size() );
   APrioriVectorSizeType i, j;
-  double APrioriRatio;
-  for (i = 0; i < m_NumberOfClasses; i++)
+  double                APrioriRatio;
+  for ( i = 0; i < m_NumberOfClasses; i++ )
     {
-    for (j = 0; j < m_NumberOfClasses; j++)
+    for ( j = 0; j < m_NumberOfClasses; j++ )
       {
       if ( values[i] > 0 )
         {
-        APrioriRatio = (double)values[j] / 
-          (double)values[i];
+        APrioriRatio = (double)values[j]
+                       / (double)values[i];
         }
       else
         {
@@ -47,14 +45,13 @@ void MaximumRatioDecisionRule::SetAPriori(APrioriVectorType& values)
     }
 }
 
-
-unsigned int 
-MaximumRatioDecisionRule::Evaluate(const VectorType &discriminantScores) const
+unsigned int
+MaximumRatioDecisionRule::Evaluate(const VectorType & discriminantScores) const
 {
   unsigned int i, j;
-  double temp;
+  double       temp;
 
-  for (i = 0; i < m_NumberOfClasses; i++)
+  for ( i = 0; i < m_NumberOfClasses; i++ )
     {
     j = 0;
     while ( j < m_NumberOfClasses )
@@ -70,7 +67,7 @@ MaximumRatioDecisionRule::Evaluate(const VectorType &discriminantScores) const
           temp = NumericTraits< double >::max();
           }
 
-        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+        if ( temp < m_APrioriRatioMatrix.get(i, j) )
           {
           break;
           }
@@ -88,14 +85,13 @@ MaximumRatioDecisionRule::Evaluate(const VectorType &discriminantScores) const
   return i;
 }
 
-
-unsigned int 
-MaximumRatioDecisionRule::Evaluate(const ArrayType &discriminantScores) const
+unsigned int
+MaximumRatioDecisionRule::Evaluate(const ArrayType & discriminantScores) const
 {
   unsigned int i, j;
-  double temp;
+  double       temp;
 
-  for (i = 0; i < m_NumberOfClasses; i++)
+  for ( i = 0; i < m_NumberOfClasses; i++ )
     {
     j = 0;
     while ( j < m_NumberOfClasses )
@@ -111,7 +107,7 @@ MaximumRatioDecisionRule::Evaluate(const ArrayType &discriminantScores) const
           temp = NumericTraits< double >::max();
           }
 
-        if ( temp < m_APrioriRatioMatrix.get(i,j) )
+        if ( temp < m_APrioriRatioMatrix.get(i, j) )
           {
           break;
           }
@@ -128,5 +124,4 @@ MaximumRatioDecisionRule::Evaluate(const ArrayType &discriminantScores) const
 
   return i;
 }
-
 } // end of namespace

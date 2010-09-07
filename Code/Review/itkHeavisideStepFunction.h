@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class HeavisideStepFunction
  *
  * \brief Implementation of the classical Heaviside step function.
@@ -31,7 +30,7 @@ namespace itk
  *
  *     http://en.wikipedia.org/wiki/Heaviside_step_function
  *
- * 
+ *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
  *  This code was taken from the Insight Journal paper:
@@ -55,44 +54,41 @@ namespace itk
  *
  */
 template< class TInput = float, class TOutput = double >
-class HeavisideStepFunction : 
- public HeavisideStepFunctionBase< TInput, TOutput >
+class HeavisideStepFunction:
+  public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef HeavisideStepFunction                          Self;
-  typedef HeavisideStepFunctionBase< TInput, TOutput >   Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef HeavisideStepFunction                        Self;
+  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
 
-  itkNewMacro( Self );
- 
-  itkTypeMacro( HeavisideStepFunction, HeavisideStepFunctionBase );
+  itkNewMacro(Self);
 
-  typedef typename Superclass::InputType                        InputType;
-  typedef typename Superclass::OutputType                       OutputType;
+  itkTypeMacro(HeavisideStepFunction, HeavisideStepFunctionBase);
+
+  typedef typename Superclass::InputType  InputType;
+  typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const
-    {
+  virtual OutputType Evaluate(const InputType & input) const
+  {
     return ( input >= 0.0 ) ? 1.0 : 0.0;
-    }
+  }
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative( const InputType& input ) const
-    {
+  virtual OutputType EvaluateDerivative(const InputType & input) const
+  {
     return ( input == 0.0 ) ? 1.0 : 0.0;
-    }
+  }
 
 protected:
   HeavisideStepFunction() {}
   virtual ~HeavisideStepFunction() {}
-
 private:
-  HeavisideStepFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& ); //purposely not implemented
-
+  HeavisideStepFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);        //purposely not implemented
 };
-
 }
 
 #endif

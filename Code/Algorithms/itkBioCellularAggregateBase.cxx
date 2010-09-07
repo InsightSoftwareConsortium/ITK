@@ -16,23 +16,21 @@
 =========================================================================*/
 #include "itkBioCellularAggregateBase.h"
 
-namespace itk {
-
-namespace bio {
-
+namespace itk
+{
+namespace bio
+{
 CellularAggregateBase
 ::CellularAggregateBase()
-{
-}
+{}
 
 CellularAggregateBase
 ::~CellularAggregateBase()
-{
-}
+{}
 
 /** The actual implementation is provided in the derived classes where the Cell
  * dimension is known. */
-CellularAggregateBase::SubstrateValueType 
+CellularAggregateBase::SubstrateValueType
 CellularAggregateBase
 ::GetSubstrateValue( unsigned long int itkNotUsed(cellId), unsigned int itkNotUsed(substrateId) ) const
 {
@@ -43,28 +41,23 @@ CellularAggregateBase
  * dimension is known. */
 void
 CellularAggregateBase
-::Add( CellBase *, CellBase *, double )
-{
-}
+::Add(CellBase *, CellBase *, double)
+{}
 
 /** The actual implementation is provided in the derived classes where the Cell
  * dimension is known. */
 void
 CellularAggregateBase
-::Remove( CellBase * )
-{
-}
+::Remove(CellBase *)
+{}
 
 void
 CellularAggregateBase
-::PrintSelf(std::ostream& os, itk::Indent indent) const
+::PrintSelf(std::ostream & os, itk::Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << "Cellular Aggregate Base " << std::endl;
-
 }
-
 } // end namespace bio
-
 } // end namespace itk

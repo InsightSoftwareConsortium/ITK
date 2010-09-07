@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /**
  * \class FiniteCylinderSpatialFunction
  * \brief Function implementation of an finite cylinder
@@ -31,35 +30,35 @@ namespace itk
  *
  */
 
-template <unsigned int VDimension = 3,
-          typename TInput = Point<double, VDimension> >
-class ITK_EXPORT FiniteCylinderSpatialFunction
-: public InteriorExteriorSpatialFunction<VDimension, TInput>
+template< unsigned int VDimension = 3,
+          typename TInput = Point< double, VDimension > >
+class ITK_EXPORT FiniteCylinderSpatialFunction:
+  public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef FiniteCylinderSpatialFunction                           Self;
-  typedef InteriorExteriorSpatialFunction<VDimension, TInput>     Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer; 
-      
+  typedef FiniteCylinderSpatialFunction                         Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FiniteCylinderSpatialFunction,InteriorExteriorSpatialFunction);
+  itkTypeMacro(FiniteCylinderSpatialFunction, InteriorExteriorSpatialFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Input type for the function */
   typedef typename Superclass::InputType InputType;
 
   /** Output type for the function */
   typedef typename Superclass::OutputType OutputType;
-   
+
   /** Set/Get and set the center of the cylinder. */
   itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
-  
+
   /** Get and set the medial axis length of the cylinder. */
   itkGetConstMacro(AxisLength, double);
   itkSetMacro(AxisLength, double);
@@ -67,26 +66,26 @@ public:
   /** Get and set the radius length of the cylinder. */
   itkGetConstMacro(Radius, double);
   itkSetMacro(Radius, double);
-  
+
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
   itkGetConstMacro(Orientation, InputType);
   itkSetMacro(Orientation, InputType);
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType& position) const;
-  
+  OutputType Evaluate(const InputType & position) const;
+
 protected:
 
   FiniteCylinderSpatialFunction();
   virtual ~FiniteCylinderSpatialFunction();
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
-  FiniteCylinderSpatialFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FiniteCylinderSpatialFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
 
   /** The center of the cylinder. */
   InputType m_Center;
@@ -97,28 +96,29 @@ private:
   /** The radius length of the cylinder. */
   double m_Radius;
 
-  /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */  
+  /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */
   InputType m_Orientation;
-
 };
-
 } // end namespace itk
 
-
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_FiniteCylinderSpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 x > \
-                                                  FiniteCylinderSpatialFunction##y; } \
+#define ITK_TEMPLATE_FiniteCylinderSpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                 \
+  {                                                                             \
+  _( 2 ( class EXPORT FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                                           \
+  {                                                                             \
+  typedef FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
+  FiniteCylinderSpatialFunction##TypeY;                                       \
+  }                                                                             \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkFiniteCylinderSpatialFunction+-.h"
+#include "Templates/itkFiniteCylinderSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkFiniteCylinderSpatialFunction.txx"
+#include "itkFiniteCylinderSpatialFunction.txx"
 #endif
-
 
 #endif

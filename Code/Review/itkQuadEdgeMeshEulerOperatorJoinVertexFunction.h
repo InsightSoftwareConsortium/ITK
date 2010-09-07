@@ -23,8 +23,9 @@
 
 namespace itk
 {
-
-//FIXME http://www.cgal.org/Manual/doc_html/cgal_manual/Polyhedron_ref/Class_Polyhedron_3.html
+//FIXME
+//
+// http://www.cgal.org/Manual/doc_html/cgal_manual/Polyhedron_ref/Class_Polyhedron_3.html
 /**
  * \class EulerOperatorJoinVertexFunction
  * \ingroup QEMeshModifierFunctions
@@ -51,60 +52,59 @@ namespace itk
  * \sa The operator \ref itkQE::EulerOperatorJoinVertexFunction can be
  *    seen as the inverse operator.
  */
-template < class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinVertexFunction :
-   public QuadEdgeMeshFunctionBase< TMesh, TQEType* >
+template< class TMesh, class TQEType >
+class ITK_EXPORT QuadEdgeMeshEulerOperatorJoinVertexFunction:
+  public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorJoinVertexFunction     Self;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self      >                 ConstPointer;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType* >     Superclass;
+  typedef QuadEdgeMeshEulerOperatorJoinVertexFunction  Self;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self      >              ConstPointer;
+  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * > Superclass;
 
-  itkNewMacro( Self );
+  itkNewMacro(Self);
   /** Run-time type information (and related methods). */
-  itkTypeMacro( QuadEdgeMeshEulerOperatorJoinVertexFunction, QuadEdgeMeshFunctionBase );
+  itkTypeMacro(QuadEdgeMeshEulerOperatorJoinVertexFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
   typedef TQEType QEType;
 
-  typedef typename Superclass::MeshType           MeshType;
-  typedef typename Superclass::OutputType         OutputType;
+  typedef typename Superclass::MeshType   MeshType;
+  typedef typename Superclass::OutputType OutputType;
 
-  typedef typename MeshType::PointIdentifier      PointIdentifier;
-  typedef typename MeshType::CellIdentifier       CellIdentifier;
-  typedef typename MeshType::FaceRefType          FaceRefType;
+  typedef typename MeshType::PointIdentifier PointIdentifier;
+  typedef typename MeshType::CellIdentifier  CellIdentifier;
+  typedef typename MeshType::FaceRefType     FaceRefType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate( QEType* h );
+  virtual OutputType Evaluate(QEType *h);
 
-  enum EdgeStatusType
-    {
+  enum EdgeStatusType {
     STANDARD_CONFIG = 0,
-    EDGE_NULL, //1
-    MESH_NULL, //2
-    EDGE_ISOLATED, //3
-    TOO_MANY_COMMON_VERTICES, //4
-    TETRAHEDRON_CONFIG, //5
-    QUADEDGE_ISOLATED, //6
-    FACE_ISOLATED, //7
-    SAMOSA_CONFIG, //8
-    EYE_CONFIG, //9
+    EDGE_NULL,                     //1
+    MESH_NULL,                     //2
+    EDGE_ISOLATED,                 //3
+    TOO_MANY_COMMON_VERTICES,      //4
+    TETRAHEDRON_CONFIG,            //5
+    QUADEDGE_ISOLATED,             //6
+    FACE_ISOLATED,                 //7
+    SAMOSA_CONFIG,                 //8
+    EYE_CONFIG,                    //9
     EDGE_JOINING_DIFFERENT_BORDERS //10
     };
 
-  itkGetConstMacro( OldPointID, PointIdentifier );
-  itkGetConstMacro( EdgeStatus, EdgeStatusType );
-
+  itkGetConstMacro(OldPointID, PointIdentifier);
+  itkGetConstMacro(EdgeStatus, EdgeStatusType);
 protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();
   ~QuadEdgeMeshEulerOperatorJoinVertexFunction() {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
-  PointIdentifier       m_OldPointID;
-  EdgeStatusType        m_EdgeStatus;
+  PointIdentifier m_OldPointID;
+
+  EdgeStatusType m_EdgeStatus;
 
   /**
    * \brief
@@ -112,7 +112,7 @@ protected:
    * \return The number of common vertices in the 0-ring of e->GetOrigin() and
    * e->GetDestination()
    */
-  size_t CommonVertexNeighboor( QEType* e );
+  size_t CommonVertexNeighboor(QEType *e);
 
   /**
    * \brief
@@ -120,7 +120,7 @@ protected:
    * \return true if it is a tetrahedron
    * \return false else
    */
-  bool IsTetrahedron( QEType* e );
+  bool IsTetrahedron(QEType *e);
 
   /**
    * \brief
@@ -130,27 +130,31 @@ protected:
    * \return true if the face is isolated
    * \return false else
    */
-  bool IsFaceIsolated( QEType* e, const bool& iWasLeftFace,
-    std::stack< TQEType* >& oToBeDeleted );
+  bool IsFaceIsolated(QEType *e, const bool & iWasLeftFace,
+                      std::stack< TQEType * > & oToBeDeleted);
 
-  bool IsSamosa( QEType* e );
-  bool IsEye( QEType* e );
+  bool IsSamosa(QEType *e);
 
-  bool IsEdgeLinkingTwoDifferentBorders( QEType* e );
+  bool IsEye(QEType *e);
 
-  EdgeStatusType CheckStatus( QEType* e, std::stack< TQEType* >& oToBeDeleted );
+  bool IsEdgeLinkingTwoDifferentBorders(QEType *e);
 
-  QEType* Process( QEType* e );
-  QEType* ProcessIsolatedQuadEdge( QEType* e );
-  QEType* ProcessIsolatedFace( QEType* e, std::stack< QEType* >& EdgesToBeDeleted
-);
+  EdgeStatusType CheckStatus(QEType *e, std::stack< TQEType * > & oToBeDeleted);
+
+  QEType * Process(QEType *e);
+
+  QEType * ProcessIsolatedQuadEdge(QEType *e);
+
+  QEType * ProcessIsolatedFace(QEType *e, std::stack< QEType * > & EdgesToBeDeleted
+                               );
 
 private:
-  QuadEdgeMeshEulerOperatorJoinVertexFunction(const Self& ); //purposely not implemented
-  void operator=(const Self& );        //purposely not implemented
+  QuadEdgeMeshEulerOperatorJoinVertexFunction(const Self &); //purposely not
+                                                             // implemented
+  void operator=(const Self &);                              //purposely not
 
+  // implemented
 };
-
 } // namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.txx"

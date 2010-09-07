@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /**
  * \class BloxCoreAtomItem
  * \brief A core atom object, stored in a BloxPixel
@@ -35,47 +34,47 @@ namespace itk
  * \ingroup ImageObjects
  * */
 
-template <unsigned int VImageDimension>
-class ITK_EXPORT BloxCoreAtomItem: public BloxItem
+template< unsigned int VImageDimension >
+class ITK_EXPORT BloxCoreAtomItem:public BloxItem
 {
 public:
   /** The point type used to store the position of the CoreAtomItem. */
-  typedef Point<double, VImageDimension> PositionType;
+  typedef Point< double, VImageDimension > PositionType;
 
   /** The type of boundary point item we store pointers to. * */
-  typedef BloxBoundaryPointItem<VImageDimension> BPItemType;
+  typedef BloxBoundaryPointItem< VImageDimension > BPItemType;
 
   /** Set the position of the first boundary point in physical space. */
-  void SetBoundaryPointA(BPItemType* pointA)
-    { m_BoundaryPointA = pointA; }
+  void SetBoundaryPointA(BPItemType *pointA)
+  { m_BoundaryPointA = pointA; }
 
   /** Get the position of the first boundary point in physical space. */
-  BPItemType* GetBoundaryPointA()
-    { return m_BoundaryPointA; }
+  BPItemType * GetBoundaryPointA()
+  { return m_BoundaryPointA; }
 
   /** Set the position of the second boundary point in physical space. */
-  void SetBoundaryPointB(BPItemType* pointB)
-    { m_BoundaryPointB = pointB; }
+  void SetBoundaryPointB(BPItemType *pointB)
+  { m_BoundaryPointB = pointB; }
 
   /** Get the position of the first boundary point in physical space. */
-  BPItemType* GetBoundaryPointB()
-    { return m_BoundaryPointB; }
+  BPItemType * GetBoundaryPointB()
+  { return m_BoundaryPointB; }
 
   /** Set the position of the center of the core atom in physical space. */
   void SetCenterPosition(PositionType pos)
-    { m_CenterPosition = pos; }
+  { m_CenterPosition = pos; }
 
   /** Get the position of the center of the core atom in physical space. */
   PositionType GetCenterPosition()
-    {return m_CenterPosition; }
+  { return m_CenterPosition; }
 
   /** Set the diameter of the atom. */
   void SetDiameter(double diameter)
-    { m_Diameter = diameter; }
+  { m_Diameter = diameter; }
 
   /** Get the diameter. */
   double GetDiameter()
-    {return m_Diameter; }
+  { return m_Diameter; }
 
   /** Calculate the position of the center of the core atom in physical
    * space (assumes that the two boundary points are initialized)
@@ -84,10 +83,9 @@ public:
    * are usually initialized via set() functions when the core atom
    * is created elsewhere. */
   void CalcCenterAndDiameter();
-  
+
   BloxCoreAtomItem();
   ~BloxCoreAtomItem();
-
 private:
   /** The position of the center of the core atom. */
   PositionType m_CenterPosition;
@@ -97,28 +95,31 @@ private:
   double m_Diameter;
 
   /** The first boundary point that's part of the core atom. */
-  BPItemType* m_BoundaryPointA;
+  BPItemType *m_BoundaryPointA;
 
   /** The second boundary point that's part of the core atom. */
-  BPItemType* m_BoundaryPointB;
-
+  BPItemType *m_BoundaryPointB;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_BloxCoreAtomItem(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT BloxCoreAtomItem< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef BloxCoreAtomItem< ITK_TEMPLATE_1 x > \
-                               BloxCoreAtomItem##y; } \
+#define ITK_TEMPLATE_BloxCoreAtomItem(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                    \
+  {                                                                \
+  _( 1 ( class EXPORT BloxCoreAtomItem< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                              \
+  {                                                                \
+  typedef BloxCoreAtomItem< ITK_TEMPLATE_1 TypeX >                 \
+  BloxCoreAtomItem##TypeY;                                       \
+  }                                                                \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBloxCoreAtomItem+-.h"
+#include "Templates/itkBloxCoreAtomItem+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkBloxCoreAtomItem.txx"
+#include "itkBloxCoreAtomItem.txx"
 #endif
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@ namespace itk
 {
 namespace watershed
 {
-
 //template <class TScalarType>
 //void  SegmentTree<TScalarType>
 //::PrintDeque()
@@ -37,10 +36,9 @@ namespace watershed
 //    }
 //}
 
-
-template<class TScalarType>
-void 
-SegmentTree<TScalarType>
+template< class TScalarType >
+void
+SegmentTree< TScalarType >
 ::Initialize()
 {
   //
@@ -55,15 +53,14 @@ SegmentTree<TScalarType>
   this->Clear();
 }
 
-template <class TScalarType>
-void 
-SegmentTree<TScalarType>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TScalarType >
+void
+SegmentTree< TScalarType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 }
-  
-}// end namespace watershed
-}// end namespace itk
+} // end namespace watershed
+} // end namespace itk
 
 #endif

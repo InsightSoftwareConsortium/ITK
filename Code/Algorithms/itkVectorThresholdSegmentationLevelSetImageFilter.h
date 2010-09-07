@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class VectorThresholdSegmentationLevelSetImageFilter
  *    \brief Segments structures in images based on intensity values.
  *
@@ -31,9 +31,9 @@ namespace itk {
  *   to the full understanding of how to use this filter.
  *
  *   \par CREDITS
- *   This class was contributed to ITK by Stefan Lindenau 
+ *   This class was contributed to ITK by Stefan Lindenau
  *   http://www.itk.org/pipermail/insight-users/2003-December/005969.html
- *   
+ *
  *    \par OVERVIEW
  *    This class is a level set method segmentation filter.  It constructs a
  *    speed function which is close to zero where the Mahalabonian Distance
@@ -82,83 +82,87 @@ namespace itk {
  *   \sa SegmentationLevelSetImageFilter
  *   \sa ThresholdSegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT VectorThresholdSegmentationLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType >
+class ITK_EXPORT VectorThresholdSegmentationLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
   /** Standard class typedefs */
-  typedef VectorThresholdSegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
-                                                         Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef VectorThresholdSegmentationLevelSetImageFilter                                   Self;
+  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType > Superclass;
+  typedef SmartPointer< Self >                                                             Pointer;
+  typedef SmartPointer< const Self >                                                       ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType        ValueType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  
+
   /** Type of the segmentation function */
-  typedef VectorThresholdSegmentationLevelSetFunction<OutputImageType,FeatureImageType>
-                                                               ThresholdFunctionType;
-  typedef typename ThresholdFunctionType::Pointer              ThresholdFunctionPointer;
-  typedef typename ThresholdFunctionType::MeanVectorType       MeanVectorType;
-  typedef typename ThresholdFunctionType::CovarianceMatrixType CovarianceMatrixType;
-  typedef typename ThresholdFunctionType::ScalarValueType      ScalarValueType;
+  typedef VectorThresholdSegmentationLevelSetFunction< OutputImageType, FeatureImageType > ThresholdFunctionType;
+  typedef typename ThresholdFunctionType::Pointer                                          ThresholdFunctionPointer;
+  typedef typename ThresholdFunctionType::MeanVectorType                                   MeanVectorType;
+  typedef typename ThresholdFunctionType::CovarianceMatrixType                             CovarianceMatrixType;
+  typedef typename ThresholdFunctionType::ScalarValueType                                  ScalarValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-  
-  /** Set/Get mean and covariance that will be used to calculate the speed function */
-  void SetMean(const MeanVectorType &mean) 
-    {  
+
+  /** Set/Get mean and covariance that will be used to calculate the speed
+    function */
+  void SetMean(const MeanVectorType & mean)
+  {
     m_ThresholdFunction->SetMean(mean);
     this->Modified();
-    }
-  const MeanVectorType & GetMean() const 
-    {  
-    return m_ThresholdFunction->GetMean();
-    }
+  }
 
-  void SetCovariance(const CovarianceMatrixType &cov) 
-    { 
+  const MeanVectorType & GetMean() const
+  {
+    return m_ThresholdFunction->GetMean();
+  }
+
+  void SetCovariance(const CovarianceMatrixType & cov)
+  {
     m_ThresholdFunction->SetCovariance(cov);
     this->Modified();
-    }
+  }
+
   const CovarianceMatrixType & GetCovariance() const
-    { 
+  {
     return m_ThresholdFunction->GetCovariance();
-    }
+  }
 
   /** Set/Get the threshold for the Mahanalobis Distance */
-  void SetThreshold(ScalarValueType thr) 
-    {
+  void SetThreshold(ScalarValueType thr)
+  {
     m_ThresholdFunction->SetThreshold(thr);
     this->Modified();
-    }
-  ScalarValueType GetThreshold ()
-    {
+  }
+
+  ScalarValueType GetThreshold()
+  {
     return m_ThresholdFunction->GetThreshold();
-    }
-  
+  }
+
 protected:
   ~VectorThresholdSegmentationLevelSetImageFilter() {}
   VectorThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
-  VectorThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not impl.
-  void operator=(const Self&); //purposely not implemented
+  VectorThresholdSegmentationLevelSetImageFilter(const Self &); // purposely not
+                                                                // impl.
+  void operator=(const Self &);                                 //purposely not
+
+  // implemented
 private:
   ThresholdFunctionPointer m_ThresholdFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -17,7 +17,6 @@
 #ifndef __itkFFTComplexToComplexImageFilter_h
 #define __itkFFTComplexToComplexImageFilter_h
 
-
 #include <itkImageToImageFilter.h>
 #include <itkImage.h>
 #include <complex>
@@ -44,29 +43,29 @@ namespace itk
  * http://insight-journal.org/midas/handle.php?handle=1926/326
  *
  */
-template < class TPixel, unsigned int NDimension = 3 >
-class FFTComplexToComplexImageFilter :
-    public ImageToImageFilter< Image< std::complex< TPixel > , NDimension >,
-                               Image< std::complex< TPixel > , NDimension > >
+template< class TPixel, unsigned int NDimension = 3 >
+class FFTComplexToComplexImageFilter:
+  public ImageToImageFilter< Image< std::complex< TPixel >, NDimension >,
+                             Image< std::complex< TPixel >, NDimension > >
 {
 public:
   /** Input and output image types. */
-  typedef Image< std::complex< TPixel > , NDimension > InputImageType;
-  typedef Image< std::complex< TPixel > , NDimension > OutputImageType;
+  typedef Image< std::complex< TPixel >, NDimension > InputImageType;
+  typedef Image< std::complex< TPixel >, NDimension > OutputImageType;
 
   /** Standard class typedefs. */
   typedef FFTComplexToComplexImageFilter                        Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension );
+                      InputImageType::ImageDimension);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTComplexToComplexImageFilter, ImageToImageFilter);
 
-  /** Customized object creation methods that support configuration-based 
+  /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.
     *
     * Default implementation is FFTW.
@@ -74,42 +73,39 @@ public:
   static Pointer New(void);
 
   /** Transform Direction */
-  typedef enum 
-    {
+  typedef enum {
     DIRECT = 1,
     INVERSE
     }                                             TransformDirectionType;
-    
 
   /** Image type typedef support. */
-  typedef InputImageType                          ImageType;
-  typedef typename ImageType::SizeType            ImageSizeType;
+  typedef InputImageType               ImageType;
+  typedef typename ImageType::SizeType ImageSizeType;
 
   /** Set/Get the direction in which the transform will be applied.
    * By selecting DIRECT, this filter will perform a direct Fourier Transform,
    * By selecting INVERSE, this filter will perform an inverse Fourier Transform,
    */
-  itkSetMacro( TransformDirection, TransformDirectionType );
-  itkGetConstMacro( TransformDirection, TransformDirectionType );
-
+  itkSetMacro(TransformDirection, TransformDirectionType);
+  itkGetConstMacro(TransformDirection, TransformDirectionType);
 protected:
   FFTComplexToComplexImageFilter() {}
   virtual ~FFTComplexToComplexImageFilter(){}
 
   /** methods needed for the image filter pipeline */
-  virtual void GenerateOutputInformation(); // figure out allocation for output image
+  virtual void GenerateOutputInformation(); // figure out allocation for output
+                                            // image
+
   virtual void GenerateInputRequestedRegion();
 
   virtual bool FullMatrix() = 0; // must be implemented in child
 
-
 private:
-  FFTComplexToComplexImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  FFTComplexToComplexImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
-  TransformDirectionType                          m_TransformDirection;
+  TransformDirectionType m_TransformDirection;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

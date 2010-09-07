@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,8 +25,6 @@
 
 namespace itk
 {
-
-
 /** \class ParametricPath
  * \brief  Represent a parametric path through ND Space
  *
@@ -57,40 +55,38 @@ namespace itk
  *
  * \ingroup PathObjects
  */
-template <unsigned int VDimension>
-class ITK_EXPORT ParametricPath : public
-Path< double, ContinuousIndex<double,VDimension>, VDimension >
+template< unsigned int VDimension >
+class ITK_EXPORT ParametricPath:public
+  Path< double, ContinuousIndex< double, VDimension >, VDimension >
 {
 public:
   /** Standard class typedefs. */
-  typedef ParametricPath                                             Self;
-  typedef Path<double,ContinuousIndex<double,VDimension>,VDimension> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
-  
+  typedef ParametricPath                                                    Self;
+  typedef Path< double, ContinuousIndex< double, VDimension >, VDimension > Superclass;
+  typedef SmartPointer< Self >                                              Pointer;
+  typedef SmartPointer< const Self >                                        ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricPath, Path);
-  
+
   /** Input type */
-  typedef typename Superclass::InputType  InputType;
-  
+  typedef typename Superclass::InputType InputType;
+
   /** Output type */
   typedef typename Superclass::OutputType OutputType;
-  
-  
-  /** All paths must be mapable to index space */
-  typedef ContinuousIndex<double,VDimension>  ContinuousIndexType;
-  typedef Index<  VDimension >                IndexType;
-  typedef Offset< VDimension >                OffsetType;
-  typedef Vector<double,VDimension>           VectorType;
 
+  /** All paths must be mapable to index space */
+  typedef ContinuousIndex< double, VDimension > ContinuousIndexType;
+  typedef Index<  VDimension >                  IndexType;
+  typedef Offset< VDimension >                  OffsetType;
+  typedef Vector< double, VDimension >          VectorType;
 
   /** Return the nearest index to the parametric path at the specified location.
    * This is a wrapper to Evaluate(). */
-  virtual IndexType EvaluateToIndex( const InputType & input ) const;
-  
+  virtual IndexType EvaluateToIndex(const InputType & input) const;
+
   /** Increment the input variable passed by reference such that the ND index of
-   * the path  moves to its next vertex-connected (8-connected in 2D) neighbor. 
+   * the path  moves to its next vertex-connected (8-connected in 2D) neighbor.
    * Return the Index-space offset of the path from its prior input to its new
    * input.  If the path is unable to increment, input is not changed and an
    * offset of Zero is returned. Children are not required to implement bounds
@@ -105,7 +101,7 @@ public:
    * the path be either unique or coincident only with the startpoint, since it
    * uses the endpoint as a stopping condition. */
   virtual OffsetType IncrementInput(InputType & input) const;
-  
+
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is a very simple and naive numerical derivative, and it
     * sould be overloaded with a proper closed-form derivative function in
@@ -113,16 +109,14 @@ public:
     * classes for their private research need not reimplement this function if
     * their work does not need the derivative operator. */
   virtual VectorType EvaluateDerivative(const InputType & input) const;
-  
-  itkSetMacro( DefaultInputStepSize, InputType )
-  itkGetConstReferenceMacro( DefaultInputStepSize, InputType )
-  
-  
+
+  itkSetMacro(DefaultInputStepSize, InputType)
+  itkGetConstReferenceMacro(DefaultInputStepSize, InputType)
 protected:
   ParametricPath();
   ~ParametricPath(){}
-  void PrintSelf(std::ostream &os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Default 1D input increment amount to trace along the path.  Also, the
    * value used by the defualt implementation of EvaluateDerivative() for
    * numerically approximating the derivative with the change over a single
@@ -134,13 +128,10 @@ protected:
    * constructor of all instantiable children.  Values set in child constructors
    * overwrite values set in parent constructors. */
   InputType m_DefaultInputStepSize;
-  
 private:
-  ParametricPath(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  ParametricPath(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 };
-
 
 // There are non-templated subclasses of ParametricPath
 // (ex. OrthogonallyCorrected2DParametricPath which is a subclass of
@@ -149,27 +140,31 @@ private:
 // itkParametricPath.cxx will put ParametricPath<2> in the the
 // ITKCommon library. Everyone else using a ParametericPath<2> will
 // load it from the dll.
-#if (defined(_WIN32) || defined(WIN32)) && !defined(ITKSTATIC) 
-#  ifndef ITKCommon_EXPORTS
-     template class __declspec(dllimport) ParametricPath<2>;
+#if ( defined( _WIN32 ) || defined( WIN32 ) ) && !defined( ITKSTATIC )
+#ifndef ITKCommon_EXPORTS
+template class __declspec(dllimport) ParametricPath< 2 >;
 #endif
 #endif
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ParametricPath(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ParametricPath< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ParametricPath< ITK_TEMPLATE_1 x > \
-                                         ParametricPath##y; } \
+#define ITK_TEMPLATE_ParametricPath(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                  \
+  {                                                              \
+  _( 1 ( class EXPORT ParametricPath< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                            \
+  {                                                              \
+  typedef ParametricPath< ITK_TEMPLATE_1 TypeX >                 \
+  ParametricPath##TypeY;                                       \
+  }                                                              \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkParametricPath+-.h"
+#include "Templates/itkParametricPath+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkParametricPath.txx"
+#include "itkParametricPath.txx"
 #endif
 
 #endif

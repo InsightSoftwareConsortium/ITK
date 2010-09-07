@@ -50,7 +50,7 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 
 
 #include "itkCenteredTransformInitializer.h"
@@ -130,8 +130,8 @@ int main( int argc, char *argv[] )
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
-  typedef itk::OrientedImage< PixelType, Dimension >  FixedImageType;
-  typedef itk::OrientedImage< PixelType, Dimension >  MovingImageType;
+  typedef itk::Image< PixelType, Dimension >  FixedImageType;
+  typedef itk::Image< PixelType, Dimension >  MovingImageType;
 
 
   //  Software Guide : BeginLatex
@@ -461,7 +461,7 @@ int main( int argc, char *argv[] )
   
   typedef  unsigned char  OutputPixelType;
 
-  typedef itk::OrientedImage< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   
   typedef itk::CastImageFilter< FixedImageType, OutputImageType > 
     CastFilterType;

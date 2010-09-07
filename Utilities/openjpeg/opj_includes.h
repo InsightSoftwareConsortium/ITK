@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2005, Hervé Drolon, FreeImage Team
+ * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,13 +41,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <assert.h>
 
 /*
  ==========================================================
    OpenJPEG interface
  ==========================================================
  */
-#include "openjpeg.h"
 
 /*
  ==========================================================
@@ -54,9 +55,14 @@
  ==========================================================
 */
 
+/* Ignore GCC attributes if this is not GCC */
+#ifndef __GNUC__
+  #define __attribute__(x) /* __attribute__(x) */
+#endif
+
 /*
-The inline keyword is supported by C99 but not by C90. 
-Most compilers implement their own version of this keyword ... 
+The inline keyword is supported by C99 but not by C90.
+Most compilers implement their own version of this keyword ...
 */
 #ifndef INLINE
   #if defined(_MSC_VER)
@@ -65,33 +71,54 @@ Most compilers implement their own version of this keyword ...
     #define INLINE __inline__
   #elif defined(__MWERKS__)
     #define INLINE inline
-  #else 
+  #else
     /* add other compilers here ... */
-    #define INLINE 
+    #define INLINE
   #endif /* defined(<Compiler>) */
 #endif /* INLINE */
 
-#include "j2k_lib.h"
-#include "event.h"
-#include "cio.h"
+/* Are restricted pointers available? (C99) */
+#if (__STDC_VERSION__ != 199901L)
+  /* Not a C99 compiler */
+  #ifdef __GNUC__
+    #define restrict __restrict__
+  #else
+    #define restrict /* restrict */
+  #endif
+#endif
 
-#include "image.h"
-#include "j2k.h"
-#include "jp2.h"
-#include "jpt.h"
+/* MSVC and Borland C do not have lrintf */
+#if defined(_MSC_VER) || defined(__BORLANDC__)
 
-#include "mqc.h"
-#include "raw.h"
-#include "bio.h"
-#include "tgt.h"
-#include "tcd.h"
-#include "t1.h"
-#include "dwt.h"
-#include "pi.h"
-#include "t2.h"
-#include "mct.h"
-#include "int.h"
-#include "fix.h"
+/* MSVC 64bits doesn't support _asm */
+#if !defined(_WIN64)
+static INLINE long lrintf(float f){
+  int i;
 
+  _asm{
+    fld f
+    fistp i
+  };
+
+  return i;
+}
+#else
+static INLINE long lrintf(float x){
+  long r;
+  if (x>=0.f)
+  {
+     x+=0.5f;
+  }
+  else
+  {
+     x-=0.5f;
+  }
+  r = (long)(x);
+  if ( x != (float)(r) ) return r;
+  return 2*(r/2);
+}
+#endif
+
+#endif
 
 #endif /* OPJ_INCLUDES_H */

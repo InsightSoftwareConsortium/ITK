@@ -9,8 +9,8 @@ Version:   $Revision$
 Copyright (c) Insight Software Consortium. All rights reserved.
 See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-This software is distributed WITHOUT ANY WARRANTY; without even 
-the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,10 +23,9 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-
 /** Constructor */
-template <class THistogram, class TFunction>
-HistogramToImageFilter<THistogram, TFunction>
+template< class THistogram, unsigned int NDimension, class TFunction >
+HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::HistogramToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
@@ -36,180 +35,177 @@ HistogramToImageFilter<THistogram, TFunction>
 }
 
 /** Destructor */
-template <class THistogram, class TFunction>
-HistogramToImageFilter<THistogram, TFunction>
+template< class THistogram, unsigned int NDimension, class TFunction >
+HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::~HistogramToImageFilter()
-{
-}
-  
+{}
 
 /** Set the Input Histogram */
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::SetInput( const HistogramType *input)
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::SetInput(const HistogramType *input)
 {
-  
   // Histograms are not dataobjects, so need to decorate it to push it down
-  // the pipeline 
-  typename InputHistogramObjectType::Pointer histogramObject = 
+  // the pipeline
+  typename InputHistogramObjectType::Pointer histogramObject =
     InputHistogramObjectType::New();
-  histogramObject->Set( const_cast< HistogramType * >(input) );
-  
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0,  histogramObject  );
-}
+  histogramObject->Set( const_cast< HistogramType * >( input ) );
 
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput(0,  histogramObject);
+}
 
 /** Set the Input Histogram if already decorated */
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::SetInput( const InputHistogramObjectType *inputObject)
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::SetInput(const InputHistogramObjectType *inputObject)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(0, 
-                     const_cast< InputHistogramObjectType * >( inputObject ) );
+  this->ProcessObject::SetNthInput( 0,
+                                    const_cast< InputHistogramObjectType * >( inputObject ) );
 }
 
-template <class THistogram, class TFunction>
-const typename HistogramToImageFilter< THistogram, TFunction >::InputHistogramObjectType * 
-HistogramToImageFilter<THistogram, TFunction>
-::GetInput(void) 
+template< class THistogram, unsigned int NDimension, class TFunction >
+const typename HistogramToImageFilter< THistogram, NDimension, TFunction >::InputHistogramObjectType *
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::GetInput(void)
 {
-  if (this->GetNumberOfInputs() < 1)
+  if ( this->GetNumberOfInputs() < 1 )
     {
     return 0;
     }
-  
-  return static_cast<const InputHistogramObjectType * >
-    (this->ProcessObject::GetInput(0) );
+
+  return static_cast< const InputHistogramObjectType * >
+         ( this->ProcessObject::GetInput(0) );
 }
 
-
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::SetSpacing(const double* spacing)
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::SetSpacing(const double *spacing)
 {
   SpacingType s(spacing);
-  this->SetSpacing( s );
+
+  this->SetSpacing(s);
 }
 
-
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::SetOrigin(const double* origin)
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::SetOrigin(const double *origin)
 {
   PointType p(origin);
+
   SetOrigin(p);
 }
 
-
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::SetTotalFrequency( unsigned long n )
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::SetTotalFrequency(unsigned long n)
 {
-  if( n < 1 ) 
+  if ( n < 1 )
     {
     itkExceptionMacro("Total frequency in the histogram must be at least 1.");
     }
-  
-  if( n == this->GetFunctor().GetTotalFrequency() )
+
+  if ( n == this->GetFunctor().GetTotalFrequency() )
     {
     return;
     }
   else
     {
-    this->GetFunctor().SetTotalFrequency( n );
+    this->GetFunctor().SetTotalFrequency(n);
     this->Modified();
     }
 }
 
-
-template <class THistogram, class TFunction>
+template< class THistogram, unsigned int NDimension, class TFunction >
 void
-HistogramToImageFilter<THistogram, TFunction>
+HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::GenerateOutputInformation()
 {
-  // Get the input and output pointers 
+  // Get the input and output pointers
   // Get from decorator
   const HistogramType *inputHistogram = this->GetInput()->Get();
-  OutputImageType     *outputImage    = this->GetOutput();
+  OutputImageType *    outputImage    = this->GetOutput();
 
-  
   // Set the image size to the number of bins along each dimension.
-  for( unsigned int i=0; i< ImageDimension; i++)
-    { 
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
+    {
     m_Size[i]    = inputHistogram->GetSize(i);
-    m_Origin[i]  = inputHistogram->GetBinMin(i,0);
-    m_Spacing[i] = inputHistogram->GetBinMin(i,1) - m_Origin[i];
+    m_Origin[i]  = inputHistogram->GetBinMin(i, 0);
+    m_Spacing[i] = inputHistogram->GetBinMin(i, 1) - m_Origin[i];
     }
 
   // Set output image params and Allocate image
   typename OutputImageType::RegionType region;
-  region.SetSize( m_Size );
-  outputImage->SetRegions( region );
-  outputImage->SetSpacing( m_Spacing );   // set spacing
-  outputImage->SetOrigin(  m_Origin  );   // and origin
+  region.SetSize(m_Size);
+
+  outputImage->SetRegions(region);
+  outputImage->SetSpacing(m_Spacing);     // set spacing
+  outputImage->SetOrigin(m_Origin);       // and origin
 }
 
 //----------------------------------------------------------------------------
 
 /** Update */
-template <class THistogram, class TFunction>
+template< class THistogram, unsigned int NDimension, class TFunction >
 void
-HistogramToImageFilter<THistogram, TFunction>
+HistogramToImageFilter< THistogram, NDimension, TFunction >
 ::GenerateData(void)
 {
   itkDebugMacro(<< "HistogramToImageFilter::Update() called");
 
   this->AllocateOutputs();
 
-  // Get the input and output pointers 
+  // Get the input and output pointers
   // Get from decorator
   const HistogramType *inputHistogram = this->GetInput()->Get();
-  OutputImageType     *outputImage    = this->GetOutput();
- 
+  OutputImageType *    outputImage    = this->GetOutput();
+
   // Set the TotalFrequency in the functor
   this->SetTotalFrequency( static_cast< unsigned long >(
-        inputHistogram->GetTotalFrequency() ));
- 
+                             inputHistogram->GetTotalFrequency() ) );
+
   ProgressReporter progress( this, 0,
-    outputImage->GetRequestedRegion().GetNumberOfPixels() );
+                             outputImage->GetRequestedRegion().GetNumberOfPixels() );
+
+  typedef typename HistogramType::ConstIterator         HistogramIterator;
+  typedef typename HistogramType::AbsoluteFrequencyType AbsoluteFrequencyType;
+
+  HistogramIterator hitr = inputHistogram->Begin();
 
   // Fill image with frequencies from Histogram
   ImageIteratorType iter( outputImage, outputImage->GetRequestedRegion() );
-  while( !iter.IsAtEnd() )
+
+  while ( !iter.IsAtEnd() )
     {
-    typename OutputImageType::IndexType idx = iter.GetIndex();
-    
-    //Get histogram value at this idx and set it
-    iter.Set( m_Functor( static_cast< unsigned long >(
-            inputHistogram->GetFrequency( idx))));
+    const AbsoluteFrequencyType & value = hitr.GetFrequency();
+
+    iter.Set( m_Functor( static_cast< unsigned long >( value ) ) );
+
     ++iter;
+    ++hitr;
+
     progress.CompletedPixel();
     }
+} // end update function
 
-} // end update function  
-
-
-template <class THistogram, class TFunction>
-void 
-HistogramToImageFilter<THistogram, TFunction>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class THistogram, unsigned int NDimension, class TFunction >
+void
+HistogramToImageFilter< THistogram, NDimension, TFunction >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Size : " << m_Size << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Sum of frequencies of measurement vectors of the histogram: " <<
-        m_Functor.GetTotalFrequency() << std::endl;
+  os << indent << "Sum of frequencies of measurement vectors of the histogram: "
+     << m_Functor.GetTotalFrequency() << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

@@ -33,43 +33,43 @@ namespace itk
  *
  */
 template< class TMesh >
-class QuadEdgeMeshScalarDataVTKPolyDataWriter : public VTKPolyDataWriter< TMesh >
+class QuadEdgeMeshScalarDataVTKPolyDataWriter:public VTKPolyDataWriter< TMesh >
 {
 public:
-  typedef QuadEdgeMeshScalarDataVTKPolyDataWriter         Self;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  typedef VTKPolyDataWriter< TMesh >                      Superclass;
+  typedef QuadEdgeMeshScalarDataVTKPolyDataWriter Self;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
+  typedef VTKPolyDataWriter< TMesh >              Superclass;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro( QuadEdgeMeshScalarDataVTKPolyDataWriter, VTKPolyDataWriter );
+  itkTypeMacro(QuadEdgeMeshScalarDataVTKPolyDataWriter, VTKPolyDataWriter);
 
   /** New macro for creation of through a Smart Pointer   */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
-  typedef TMesh                                           MeshType;
-  typedef typename MeshType::Pointer                      MeshPointer;
-  typedef typename MeshType::CellType                     CellType;
+  typedef TMesh                       MeshType;
+  typedef typename MeshType::Pointer  MeshPointer;
+  typedef typename MeshType::CellType CellType;
 
-  typedef typename MeshType::PointsContainerPointer       PointsContainerPointer;
-  typedef typename MeshType::PointsContainerIterator      PointsContainerIterator;
+  typedef typename MeshType::PointsContainerPointer  PointsContainerPointer;
+  typedef typename MeshType::PointsContainerIterator PointsContainerIterator;
 
-  typedef typename MeshType::PointDataContainerPointer          PointDataContainerPointer;
-  typedef typename MeshType::PointDataContainerConstPointer     PointDataContainerConstPointer;
-  typedef typename MeshType::PointDataContainerIterator         PointDataContainerIterator;
+  typedef typename MeshType::PointDataContainerPointer      PointDataContainerPointer;
+  typedef typename MeshType::PointDataContainerConstPointer PointDataContainerConstPointer;
+  typedef typename MeshType::PointDataContainerIterator     PointDataContainerIterator;
 
-  typedef typename MeshType::CellsContainer                 CellsContainer;
-  typedef typename CellsContainer::Pointer                  CellsContainerPointer;
-  typedef typename CellsContainer::ConstPointer             CellsContainerConstPointer;
-  typedef typename CellsContainer::Iterator                 CellsContainerIterator;
-  typedef typename CellsContainer::ConstIterator            CellsContainerConstIterator;
+  typedef typename MeshType::CellsContainer      CellsContainer;
+  typedef typename CellsContainer::Pointer       CellsContainerPointer;
+  typedef typename CellsContainer::ConstPointer  CellsContainerConstPointer;
+  typedef typename CellsContainer::Iterator      CellsContainerIterator;
+  typedef typename CellsContainer::ConstIterator CellsContainerConstIterator;
 
-  typedef typename MeshType::CellDataContainer              CellDataContainer;
-  typedef typename CellDataContainer::Iterator              CellDataContainerIterator;
-  typedef typename CellDataContainer::ConstIterator         CellDataContainerConstIterator;
-  typedef typename CellDataContainer::Pointer               CellDataContainerPointer;
-  typedef typename CellDataContainer::ConstPointer          CellDataContainerConstPointer;
-  
+  typedef typename MeshType::CellDataContainer      CellDataContainer;
+  typedef typename CellDataContainer::Iterator      CellDataContainerIterator;
+  typedef typename CellDataContainer::ConstIterator CellDataContainerConstIterator;
+  typedef typename CellDataContainer::Pointer       CellDataContainerPointer;
+  typedef typename CellDataContainer::ConstPointer  CellDataContainerConstPointer;
+
   /** Set/Get the name of the CellDataName where data are written. */
   itkSetStringMacro(CellDataName);
   itkGetStringMacro(CellDataName);
@@ -77,24 +77,23 @@ public:
   /** Set/Get the name of the PointDataName where data are written. */
   itkSetStringMacro(PointDataName);
   itkGetStringMacro(PointDataName);
-
 protected:
   QuadEdgeMeshScalarDataVTKPolyDataWriter();
   ~QuadEdgeMeshScalarDataVTKPolyDataWriter();
 
-  std::string     m_CellDataName;
-  std::string     m_PointDataName;
+  std::string m_CellDataName;
+  std::string m_PointDataName;
 
   void GenerateData();
+
   void WriteCellData();
+
   void WritePointData();
 
 private:
-  QuadEdgeMeshScalarDataVTKPolyDataWriter( const Self& );
-  void operator = ( const Self& );
-  
+  QuadEdgeMeshScalarDataVTKPolyDataWriter(const Self &);
+  void operator=(const Self &);
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION

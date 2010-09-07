@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,39 +22,37 @@
 #include "itkCovariantVector.h"
 #include "itkFixedArray.h"
 
-namespace itk 
+namespace itk
 {
-
 /** \class LineSpatialObjectPoint
  * \brief Point used for a line definition
  *
  * This class contains all the functions necessary to define a point
  * that can be used to build lines.
  * This Class derives from SpatialObjectPoint.
- * A LineSpatialObjectPoint has NDimension-1 normals. 
- */ 
+ * A LineSpatialObjectPoint has NDimension-1 normals.
+ */
 
-template < unsigned int TPointDimension = 3 >
-class ITK_EXPORT LineSpatialObjectPoint 
-  : public SpatialObjectPoint<TPointDimension>
+template< unsigned int TPointDimension = 3 >
+class ITK_EXPORT LineSpatialObjectPoint:
+  public SpatialObjectPoint< TPointDimension >
 {
-
 public:
 
-  typedef LineSpatialObjectPoint                    Self;
-  typedef SpatialObjectPoint<TPointDimension>       Superclass;
-  typedef Point< double, TPointDimension >          PointType;
-  typedef CovariantVector<double,TPointDimension>   VectorType;
-  typedef FixedArray<VectorType,TPointDimension-1>  NormalArrayType;
+  typedef LineSpatialObjectPoint                        Self;
+  typedef SpatialObjectPoint< TPointDimension >         Superclass;
+  typedef Point< double, TPointDimension >              PointType;
+  typedef CovariantVector< double, TPointDimension >    VectorType;
+  typedef FixedArray< VectorType, TPointDimension - 1 > NormalArrayType;
 
   /** Constructor */
-  LineSpatialObjectPoint( void );
+  LineSpatialObjectPoint(void);
 
   /** Destructor */
-  virtual ~LineSpatialObjectPoint( void );
+  virtual ~LineSpatialObjectPoint(void);
 
   /** Get Normal */
-  const VectorType & GetNormal( unsigned int index ) const;
+  const VectorType & GetNormal(unsigned int index) const;
 
   /** Set Normal */
   void SetNormal(VectorType & normal, unsigned int index);
@@ -67,9 +65,8 @@ protected:
   NormalArrayType m_NormalArray;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 };
-
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

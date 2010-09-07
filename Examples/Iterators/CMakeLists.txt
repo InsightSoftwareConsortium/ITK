@@ -10,7 +10,6 @@ TARGET_LINK_LIBRARIES(NeighborhoodIterators4 ITKIO   )
 ADD_EXECUTABLE(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
 TARGET_LINK_LIBRARIES(NeighborhoodIterators5 ITKIO   )
 
-IF(NOT BORLAND)
 ADD_EXECUTABLE(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
 TARGET_LINK_LIBRARIES(ImageRandomConstIteratorWithIndex ITKIO   )
 
@@ -50,16 +49,12 @@ TARGET_LINK_LIBRARIES(ShapedNeighborhoodIterators2 ITKAlgorithms ITKBasicFilters
 ADD_EXECUTABLE(IteratorsExamples IteratorsExamples.cxx )
 TARGET_LINK_LIBRARIES(IteratorsExamples ITKIO ITKBasicFilters )
 
-ENDIF(NOT BORLAND)
-
 SET(ITERATORS_EXAMPLES ${CXX_TEST_PATH}/IteratorsExamples)
 
 SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Iterators)
 SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 IF(BUILD_TESTING)
-
-IF(NOT BORLAND)
 
 ADD_TEST(ImageLinearIteratorWithIndexTest ${ITERATORS_EXAMPLES}
   --compare ${BASELINE}/ImageLinearIteratorWithIndexTest.png
@@ -94,6 +89,4 @@ ADD_TEST(ImageSliceIteratorWithIndexTest ${ITERATORS_EXAMPLES}
         ${TEMP}/ImageSliceIteratorWithIndexTest.mha
         2
 )
-ENDIF(NOT BORLAND)
-
 ENDIF(BUILD_TESTING)

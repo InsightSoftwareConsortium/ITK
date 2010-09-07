@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /** \class WarpHarmonicEnergyCalculator
  *
  * \brief Compute the harmonic energy of a deformation field
@@ -42,15 +41,15 @@ namespace itk
  *
  * \ingroup Operators
  */
-template <class TInputImage>
-class ITK_EXPORT WarpHarmonicEnergyCalculator : public Object
+template< class TInputImage >
+class ITK_EXPORT WarpHarmonicEnergyCalculator:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef WarpHarmonicEnergyCalculator          Self;
-  typedef Object                                Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef WarpHarmonicEnergyCalculator Self;
+  typedef Object                       Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,13 +58,13 @@ public:
   itkTypeMacro(WarpHarmonicEnergyCalculator, Object);
 
   /** Type definition for the input image. */
-  typedef TInputImage                           ImageType;
+  typedef TInputImage ImageType;
 
   /** Pointer type for the image. */
-  typedef typename TInputImage::Pointer         ImagePointer;
+  typedef typename TInputImage::Pointer ImagePointer;
 
   /** Const Pointer type for the image. */
-  typedef typename TInputImage::ConstPointer    ImageConstPointer;
+  typedef typename TInputImage::ConstPointer ImageConstPointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType PixelType;
@@ -86,76 +85,76 @@ public:
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  typedef ConstNeighborhoodIterator<ImageType> ConstNeighborhoodIteratorType;
+  typedef ConstNeighborhoodIterator< ImageType >             ConstNeighborhoodIteratorType;
   typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
 
   /** Set the derivative weights according to the spacing of the input image
    *  (1/spacing). Use this option if you want to calculate the Jacobian
    *  determinant in the space in which the data was acquired. */
   void SetUseImageSpacingOn()
-    {
+  {
     this->SetUseImageSpacing(true);
-    }
+  }
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
    *  you want to calculate the Jacobian determinant in the image space.
    *  Default is ImageSpacingOn. */
   void SetUseImageSpacingOff()
-    {
+  {
     this->SetUseImageSpacing(false);
-    }
+  }
 
   /** Set/Get whether or not the filter will use the spacing of the input
    *  image in its calculations */
   void SetUseImageSpacing(bool);
+
   itkGetConstMacro(UseImageSpacing, bool);
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
    *  Note that calling UseImageSpacingOn will clobber these values. */
   void SetDerivativeWeights(double data[]);
-  itkGetVectorMacro(DerivativeWeights, const double, ::itk::GetImageDimension<TInputImage>::ImageDimension);
+  itkGetVectorMacro(DerivativeWeights, const double, ::itk::GetImageDimension< TInputImage >::ImageDimension);
 
   /** Set the input image. */
-  itkSetConstObjectMacro(Image,ImageType);
+  itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum and maximum values of intensity of the input image. */
   void Compute(void);
 
   /** Return the smoothness value. */
-  itkGetConstMacro(HarmonicEnergy,double);
+  itkGetConstMacro(HarmonicEnergy, double);
 
   /** Set the region over which the values will be computed */
-  void SetRegion( const RegionType & region );
+  void SetRegion(const RegionType & region);
 
 protected:
   WarpHarmonicEnergyCalculator();
-  virtual ~WarpHarmonicEnergyCalculator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~WarpHarmonicEnergyCalculator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Get/Set the neighborhood radius used for gradient computation */
-  itkGetConstReferenceMacro( NeighborhoodRadius, RadiusType );
-  itkSetMacro( NeighborhoodRadius, RadiusType );
+  itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
+  itkSetMacro(NeighborhoodRadius, RadiusType);
 
-  double EvaluateAtNeighborhood( ConstNeighborhoodIteratorType &it ) const;
+  double EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const;
 
 private:
-  WarpHarmonicEnergyCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  WarpHarmonicEnergyCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
 
-  double               m_HarmonicEnergy;
-  ImageConstPointer    m_Image;
+  double            m_HarmonicEnergy;
+  ImageConstPointer m_Image;
 
-  RegionType           m_Region;
-  bool                 m_RegionSetByUser;
+  RegionType m_Region;
+  bool       m_RegionSetByUser;
 
   bool m_UseImageSpacing;
 
   /** The weights used to scale partial derivatives during processing */
-  double m_DerivativeWeights[::itk::GetImageDimension<TInputImage>::ImageDimension];
+  double m_DerivativeWeights[::itk::GetImageDimension < TInputImage > ::ImageDimension];
 
-  RadiusType    m_NeighborhoodRadius;
+  RadiusType m_NeighborhoodRadius;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

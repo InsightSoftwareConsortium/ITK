@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -39,44 +39,44 @@ namespace itk
  * This class supports narrowbanding. If the input narrowband is provided,
  * the algorithm will only locate the level set within the input narrowband.
  *
- * Implementation of this class is based on 
+ * Implementation of this class is based on
  * Fast and Accurate Redistancing for Level Set Methods
  *`Krissian K. and Westin C.F.',
  * EUROCAST NeuroImaging Workshop Las Palmas Spain,
  * Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
- * 
  *
- * \ingroup LevelSetSegmentation 
  *
- */ 
- 
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT IsoContourDistanceImageFilter :
-    public ImageToImageFilter<TInputImage,TOutputImage>
+ * \ingroup LevelSetSegmentation
+ *
+ */
+
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT IsoContourDistanceImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef IsoContourDistanceImageFilter                Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef IsoContourDistanceImageFilter                   Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(IsoContourDistanceImageFilter, ImageToImageFilter);
-  
+
   /**Typedefs from the superclass */
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
-  
+
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
-  
+
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
   typedef typename OutputImageType::PixelType  PixelType;
@@ -89,89 +89,89 @@ public:
   typedef typename OutputImageType::IndexType IndexType;
 
   /** NarrowBand typedef support. */
-  typedef BandNode<IndexType,PixelType>          BandNodeType;
-  typedef NarrowBand<BandNodeType>               NarrowBandType;
+  typedef BandNode< IndexType, PixelType >       BandNodeType;
+  typedef NarrowBand< BandNodeType >             NarrowBandType;
   typedef typename NarrowBandType::Pointer       NarrowBandPointer;
   typedef typename NarrowBandType::RegionType    RegionType;
   typedef typename NarrowBandType::ConstIterator ConstBandIterator;
   typedef typename NarrowBandType::Iterator      BandIterator;
 
+  /** Set/Get the value of the level set to be located. The default value is
+    *  0. */
+  itkSetMacro(LevelSetValue, InputPixelType);
+  itkGetConstMacro(LevelSetValue, InputPixelType);
 
- /** Set/Get the value of the level set to be located. The default value is
-   *  0. */
-  itkSetMacro( LevelSetValue, InputPixelType );
-  itkGetConstMacro( LevelSetValue, InputPixelType );
-  
-   /** Set/Get the value of the level set to be located. The default value is
-   *  0. */
-  itkSetMacro( FarValue, PixelType );
-  itkGetConstMacro( FarValue, PixelType );
-
+  /** Set/Get the value of the level set to be located. The default value is
+  *  0. */
+  itkSetMacro(FarValue, PixelType);
+  itkGetConstMacro(FarValue, PixelType);
 
   /** Set/Get the narrowbanding flag. By default, narrowbanding is switched
    * off. */
-  itkSetMacro( NarrowBanding, bool );
-  itkGetConstMacro( NarrowBanding, bool );
-  itkBooleanMacro( NarrowBanding );
-
+  itkSetMacro(NarrowBanding, bool);
+  itkGetConstMacro(NarrowBanding, bool);
+  itkBooleanMacro(NarrowBanding);
 
   /** Set/Get the narrowband. */
-  void SetNarrowBand( NarrowBandType * ptr );
+  void SetNarrowBand(NarrowBandType *ptr);
+
   NarrowBandPointer GetNarrowBand() const
-    { return m_NarrowBand; }
+  { return m_NarrowBand; }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputEqualityComparableCheck,
-    (Concept::EqualityComparable<InputPixelType>));
-  itkConceptMacro(OutputEqualityComparableCheck,
-    (Concept::EqualityComparable<PixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<ImageDimension, OutputImageDimension>));
-  itkConceptMacro(DoubleConvertibleToOutputCheck,
-    (Concept::Convertible<double, PixelType>));
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputPixelType, PixelType>));
-  itkConceptMacro(OutputAdditiveOperatorsCheck,
-    (Concept::AdditiveOperators<PixelType>));
-  itkConceptMacro(InputOStreamWritableCheck,
-    (Concept::OStreamWritable<InputPixelType>));
-  itkConceptMacro(OutputOStreamWritableCheck,
-    (Concept::OStreamWritable<PixelType>));
+  itkConceptMacro( InputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< InputPixelType > ) );
+  itkConceptMacro( OutputEqualityComparableCheck,
+                   ( Concept::EqualityComparable< PixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( DoubleConvertibleToOutputCheck,
+                   ( Concept::Convertible< double, PixelType > ) );
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputPixelType, PixelType > ) );
+  itkConceptMacro( OutputAdditiveOperatorsCheck,
+                   ( Concept::AdditiveOperators< PixelType > ) );
+  itkConceptMacro( InputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< InputPixelType > ) );
+  itkConceptMacro( OutputOStreamWritableCheck,
+                   ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   IsoContourDistanceImageFilter();
-  ~IsoContourDistanceImageFilter(){};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-  void ThreadedGenerateDataFull(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
-  void ThreadedGenerateDataBand(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  ~IsoContourDistanceImageFilter(){}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
+
+  void ThreadedGenerateDataFull(const OutputImageRegionType & outputRegionForThread,
+                                int threadId);
+
+  void ThreadedGenerateDataBand(const OutputImageRegionType & outputRegionForThread,
+                                int threadId);
+
   void BeforeThreadedGenerateData();
 
   virtual void GenerateInputRequestedRegion();
-  virtual void EnlargeOutputRequestedRegion( DataObject * );
+
+  virtual void EnlargeOutputRequestedRegion(DataObject *);
 
 private:
-  IsoContourDistanceImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  InputPixelType            m_LevelSetValue;
-  PixelType                 m_FarValue;
-  
+  IsoContourDistanceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
+
+  InputPixelType m_LevelSetValue;
+  PixelType      m_FarValue;
+
   bool                      m_NarrowBanding;
   NarrowBandPointer         m_NarrowBand;
-  std::vector<RegionType>   m_NarrowBandRegion;
-  
+  std::vector< RegionType > m_NarrowBandRegion;
+
   /** A global barrier used for synchronization between all threads. */
   typename Barrier::Pointer m_Barrier;
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

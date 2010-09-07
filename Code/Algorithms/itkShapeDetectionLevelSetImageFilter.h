@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkShapeDetectionLevelSetFunction.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ShapeDetectionLevelSetImageFilter
  * \brief Segments structures in images based on a user supplied edge potential map.
  *
@@ -53,27 +53,27 @@ namespace itk {
  *
  * \f[ g(I) = 1 / ( 1 + | (\nabla * G)(I)| ) \f]
  * \f[ g(I) = \exp^{-|(\nabla * G)(I)|} \f]
- * 
+ *
  * where \f$ I \f$ is image intensity and
- * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator. 
+ * \f$ (\nabla * G) \f$ is the derivative of Gaussian operator.
  *
  * \par
- * See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter 
+ * See SegmentationLevelSetImageFilter and SparseFieldLevelSetImageFilter
  * for more information on Inputs.
  *
  * \par PARAMETERS
  * The PropagationScaling parameter can be used to switch from propagation outwards
- * (POSITIVE scaling parameter) versus propagating inwards (NEGATIVE scaling 
- * parameter). 
+ * (POSITIVE scaling parameter) versus propagating inwards (NEGATIVE scaling
+ * parameter).
  *
  * The smoothness of the resulting contour/surface can be adjusted using a combination
- * of PropagationScaling and CurvatureScaling parameters. The larger the CurvatureScaling 
+ * of PropagationScaling and CurvatureScaling parameters. The larger the CurvatureScaling
  * parameter, the smoother the resulting contour. The CurvatureScaling parameter should
  * be non-negative for proper operation of this algorithm.
  * To follow the implementation in Malladi et al paper,
  * set the PropagtionScaling to \f$\pm 1.0\f$ and CurvatureScaling to \f$ \epsilon \f$.
  *
- * Note that there is no advection term for this filter. Setting the 
+ * Note that there is no advection term for this filter. Setting the
  * advection scaling will have no effect.
  *
  * \par OUTPUTS
@@ -88,7 +88,7 @@ namespace itk {
  * SegmentationLevelSetImageFilter for more information.
  *
  * \par REFERENCES
- * \par  
+ * \par
  *    "Shape Modeling with Front Propagation: A Level Set Approach",
  *    R. Malladi, J. A. Sethian and B. C. Vermuri.
  *    IEEE Trans. on Pattern Analysis and Machine Intelligence,
@@ -96,50 +96,47 @@ namespace itk {
  *
  * \sa SegmentationLevelSetImageFilter
  * \sa ShapeDetectionLevelSetFunction
- * \sa SparseFieldLevelSetImageFilter 
+ * \sa SparseFieldLevelSetImageFilter
  *
  * \ingroup LevelSetSegmentation
  */
-template <class TInputImage,
+template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT ShapeDetectionLevelSetImageFilter
-  : public SegmentationLevelSetImageFilter< TInputImage, 
-                                            TFeatureImage, TOutputPixelType >
+class ITK_EXPORT ShapeDetectionLevelSetImageFilter:
+  public SegmentationLevelSetImageFilter< TInputImage,
+                                          TFeatureImage, TOutputPixelType >
 {
 public:
   /** Standard class typedefs */
-  typedef ShapeDetectionLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
-                                            TOutputPixelType>
-                                            Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  typedef ShapeDetectionLevelSetImageFilter                                               Self;
+  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType > Superclass;
+  typedef SmartPointer< Self >                                                            Pointer;
+  typedef SmartPointer< const Self >                                                      ConstPointer;
 
   /** Inherited typedef from the superclass. */
   typedef typename Superclass::ValueType        ValueType;
   typedef typename Superclass::OutputImageType  OutputImageType;
   typedef typename Superclass::FeatureImageType FeatureImageType;
-  
+
   /** Type of the segmentation function */
-  typedef ShapeDetectionLevelSetFunction<OutputImageType,
-                                         FeatureImageType> ShapeDetectionFunctionType;
+  typedef ShapeDetectionLevelSetFunction< OutputImageType,
+                                          FeatureImageType > ShapeDetectionFunctionType;
   typedef typename ShapeDetectionFunctionType::Pointer ShapeDetectionFunctionPointer;
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeDetectionLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
-     
 protected:
   ~ShapeDetectionLevelSetImageFilter() {}
   ShapeDetectionLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const; 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   ShapeDetectionLevelSetImageFilter(const Self &); // purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  void operator=(const Self &);                    //purposely not implemented
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/
@@ -148,7 +145,6 @@ protected:
 private:
   ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

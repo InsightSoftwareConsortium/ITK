@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,21 +22,20 @@
 
 namespace itk
 {
-
 /** \class RobustAutomaticThresholdCalculator
  * \brief Compute the robust automatic threshold
  *
  * \ingroup Operators
  */
-template < class TInputImage, class TGradientImage >
-class ITK_EXPORT RobustAutomaticThresholdCalculator : public Object
+template< class TInputImage, class TGradientImage >
+class ITK_EXPORT RobustAutomaticThresholdCalculator:public Object
 {
 public:
   /** Standard class typedefs. */
   typedef RobustAutomaticThresholdCalculator Self;
   typedef Object                             Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,25 +60,25 @@ public:
   typedef typename GradientImageType::PixelType    GradientPixelType;
 
   /** Set the input image. */
-  virtual void SetInput( const InputImageType * image )
-    {
+  virtual void SetInput(const InputImageType *image)
+  {
     if ( m_Input != image )
       {
       m_Input = image;
       this->Modified();
       m_Valid = false;
       }
-    }
+  }
 
-  virtual void SetGradient( const GradientImageType * image )
-    {
+  virtual void SetGradient(const GradientImageType *image)
+  {
     if ( m_Gradient != image )
       {
       m_Gradient = image;
       this->Modified();
       m_Valid = false;
       }
-    }
+  }
 
   itkSetMacro(Pow, double);
   itkGetConstMacro(Pow, double);
@@ -89,30 +88,28 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute( void );
-  
+  void Compute(void);
+
   const InputPixelType & GetOutput() const;
 
 protected:
   RobustAutomaticThresholdCalculator();
-  virtual ~RobustAutomaticThresholdCalculator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~RobustAutomaticThresholdCalculator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  RobustAutomaticThresholdCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  RobustAutomaticThresholdCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
-  bool           m_Valid;                      // Have moments been computed yet?
+  bool           m_Valid;                      // Have moments been computed
+                                               // yet?
   double         m_Pow;
   InputPixelType m_Output;
 
   InputImageConstPointer    m_Input;
   GradientImageConstPointer m_Gradient;
-
 };  // class RobustAutomaticThresholdCalculator
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRobustAutomaticThresholdCalculator.txx"

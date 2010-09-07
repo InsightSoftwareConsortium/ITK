@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class ImageRandomNonRepeatingIteratorWithIndex
  * \brief A multi-dimensional image iterator that visits image pixels within a
  * region in a random order, without repeating.
@@ -71,36 +70,35 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  */
-template<typename TImage>
-class ITK_EXPORT ImageRandomNonRepeatingIteratorWithIndex : public ImageRandomNonRepeatingConstIteratorWithIndex<TImage>
+template< typename TImage >
+class ITK_EXPORT ImageRandomNonRepeatingIteratorWithIndex:public ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */
   typedef ImageRandomNonRepeatingIteratorWithIndex                Self;
-  typedef ImageRandomNonRepeatingConstIteratorWithIndex<TImage>   Superclass;
+  typedef ImageRandomNonRepeatingConstIteratorWithIndex< TImage > Superclass;
 
-   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::IndexValueType         IndexValueType;
-  typedef typename Superclass::SizeType               SizeType;
-  typedef typename Superclass::SizeValueType          SizeValueType;
-  typedef typename Superclass::OffsetType             OffsetType;
-  typedef typename Superclass::OffsetValueType        OffsetValueType;
-  typedef typename Superclass::RegionType             RegionType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelContainer         PixelContainer;
-  typedef typename Superclass::PixelContainerPointer  PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType      InternalPixelType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::AccessorType           AccessorType;
-
+  /** Types inherited from the Superclass */
+  typedef typename Superclass::IndexType             IndexType;
+  typedef typename Superclass::IndexValueType        IndexValueType;
+  typedef typename Superclass::SizeType              SizeType;
+  typedef typename Superclass::SizeValueType         SizeValueType;
+  typedef typename Superclass::OffsetType            OffsetType;
+  typedef typename Superclass::OffsetValueType       OffsetValueType;
+  typedef typename Superclass::RegionType            RegionType;
+  typedef typename Superclass::ImageType             ImageType;
+  typedef typename Superclass::PixelContainer        PixelContainer;
+  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
+  typedef typename Superclass::InternalPixelType     InternalPixelType;
+  typedef typename Superclass::PixelType             PixelType;
+  typedef typename Superclass::AccessorType          AccessorType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingIteratorWithIndex();
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  ImageRandomNonRepeatingIteratorWithIndex(ImageType *ptr, const RegionType& region);
+  ImageRandomNonRepeatingIteratorWithIndex(ImageType *ptr, const RegionType & region);
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRandomNonRepeatingIteratorWithIndex. Many routines return an ImageIterator but for a
@@ -108,27 +106,23 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomNonRepeatingIteratorWithIndex. */
-  ImageRandomNonRepeatingIteratorWithIndex( const ImageIteratorWithIndex<TImage> &it);
+  ImageRandomNonRepeatingIteratorWithIndex(const ImageIteratorWithIndex< TImage > & it);
 
   /** Set the pixel value */
-  void Set( const PixelType & value) const
-    { this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)),value); }
+  void Set(const PixelType & value) const
+  { this->m_PixelAccessorFunctor.Set(*( const_cast< InternalPixelType * >( this->m_Position ) ), value); }
 
   /** Return a reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
-    { return *(const_cast<InternalPixelType *>(this->m_Position)); }
-
+  { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
-  ImageRandomNonRepeatingIteratorWithIndex( const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> &it);
-  Self & operator=(const ImageRandomNonRepeatingConstIteratorWithIndex<TImage> & it);
-
-
+  ImageRandomNonRepeatingIteratorWithIndex(const ImageRandomNonRepeatingConstIteratorWithIndex< TImage > & it);
+  Self & operator=(const ImageRandomNonRepeatingConstIteratorWithIndex< TImage > & it);
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

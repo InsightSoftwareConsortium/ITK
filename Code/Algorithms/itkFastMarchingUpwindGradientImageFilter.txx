@@ -24,15 +24,13 @@
 #include "vnl/vnl_math.h"
 #include <algorithm>
 
-
 namespace itk
 {
-
 /**
  *
  */
-template <class TLevelSet, class TSpeedImage>
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::FastMarchingUpwindGradientImageFilter()
 {
   m_TargetPoints = NULL;
@@ -45,16 +43,15 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   m_NumberOfTargets = 0;
 }
 
-
 /**
  *
  */
-template <class TLevelSet, class TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
   os << indent << "Target points: " << m_TargetPoints.GetPointer() << std::endl;
   os << indent << "Reached points: " << m_ReachedTargetPoints.GetPointer() << std::endl;
   os << indent << "Gradient image: " << m_GradientImage.GetPointer() << std::endl;
@@ -68,15 +65,15 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 /**
  *
  */
-template <class TLevelSet, class TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
-::Initialize( LevelSetImageType * output )
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
+::Initialize(LevelSetImageType *output)
 {
   Superclass::Initialize(output);
 
   // allocate memory for the GradientImage if requested
-  if (m_GenerateGradientImage)
+  if ( m_GenerateGradientImage )
     {
     m_GradientImage->CopyInformation( this->GetInput() );
     m_GradientImage->SetBufferedRegion( output->GetBufferedRegion() );
@@ -84,11 +81,11 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     }
 
   // set all gradient vectors to zero
-  if (m_GenerateGradientImage)
+  if ( m_GenerateGradientImage )
     {
     typedef ImageRegionIterator< GradientImageType > GradientIterator;
 
-    GradientIterator gradientIt( m_GradientImage, 
+    GradientIterator gradientIt( m_GradientImage,
                                  m_GradientImage->GetBufferedRegion() );
 
     GradientPixelType zeroGradient;
@@ -96,25 +93,22 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     zeroGradient.Fill(NumericTraits< GradientPixelValueType >::Zero);
     for ( gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++gradientIt )
       {
-      gradientIt.Set( zeroGradient );
+      gradientIt.Set(zeroGradient);
       }
     }
 
-
   // Need to reset the target value.
-  m_TargetValue = 0.0; 
+  m_TargetValue = 0.0;
 
-  if ( m_TargetReachedMode == SomeTargets || m_TargetReachedMode == AllTargets)
+  if ( m_TargetReachedMode == SomeTargets || m_TargetReachedMode == AllTargets )
     {
     m_ReachedTargetPoints = NodeContainer::New();
     }
-
 }
 
-
-template <class TLevelSet, class TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::GenerateData()
 {
   // cache the original stopping value that was set by the user
@@ -123,37 +117,36 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
   double stoppingValue = this->GetStoppingValue();
 
   // run the GenerateData() method of the superclass
-  try 
+  try
     {
     Superclass::GenerateData();
     }
-  catch (ProcessAborted &exc)
+  catch ( ProcessAborted & exc )
     {
     // process was aborted, clean up the state of the filter
     // (most of the cleanup will have already been done by the
     // superclass)
 
     // restore the original stopping value
-    this->SetStoppingValue( stoppingValue );
+    this->SetStoppingValue(stoppingValue);
     throw exc;
     }
 
   // restore the original stopping value
-  this->SetStoppingValue( stoppingValue );
+  this->SetStoppingValue(stoppingValue);
 }
 
-
-template <class TLevelSet, class TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::UpdateNeighbors(
-  const IndexType& index,
-  const SpeedImageType * speedImage,
-  LevelSetImageType * output )
+  const IndexType & index,
+  const SpeedImageType *speedImage,
+  LevelSetImageType *output)
 {
-  Superclass::UpdateNeighbors(index,speedImage,output);
+  Superclass::UpdateNeighbors(index, speedImage, output);
 
-  if (m_GenerateGradientImage)
+  if ( m_GenerateGradientImage )
     {
     this->ComputeGradient(index, output, this->GetLabelImage(), m_GradientImage);
     }
@@ -162,25 +155,25 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
 
   // Only check for reached targets if the mode is not NoTargets and
   // there is at least one TargetPoint.
-  if( m_TargetReachedMode != NoTargets &&  m_TargetPoints )
+  if ( m_TargetReachedMode != NoTargets &&  m_TargetPoints )
     {
     bool targetReached = false;
-    
-    if (m_TargetReachedMode == OneTarget)
+
+    if ( m_TargetReachedMode == OneTarget )
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
       for (; pointsIter != pointsEnd; ++pointsIter )
         {
         node = pointsIter.Value();
-        if (node.GetIndex() == index)
+        if ( node.GetIndex() == index )
           {
           targetReached = true;
           break;
           }
         }
       }
-    else if (m_TargetReachedMode == SomeTargets)
+    else if ( m_TargetReachedMode == SomeTargets )
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
@@ -188,19 +181,19 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
         {
         node = pointsIter.Value();
 
-        if (node.GetIndex() == index)
+        if ( node.GetIndex() == index )
           {
-          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(),node);
+          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(), node);
           break;
           }
         }
 
-      if (static_cast<long>(m_ReachedTargetPoints->Size()) == m_NumberOfTargets)
+      if ( static_cast< long >( m_ReachedTargetPoints->Size() ) == m_NumberOfTargets )
         {
         targetReached = true;
         }
       }
-    else if (m_TargetReachedMode == AllTargets)
+    else if ( m_TargetReachedMode == AllTargets )
       {
       typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
@@ -208,24 +201,24 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
         {
         node = pointsIter.Value();
 
-        if (node.GetIndex() == index)
+        if ( node.GetIndex() == index )
           {
-          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(),node);
+          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(), node);
           break;
           }
         }
 
-      if (m_ReachedTargetPoints->Size() == m_TargetPoints->Size())
+      if ( m_ReachedTargetPoints->Size() == m_TargetPoints->Size() )
         {
         targetReached = true;
         }
       }
 
-    if (targetReached)
+    if ( targetReached )
       {
-      m_TargetValue = static_cast<double>(output->GetPixel(index));
+      m_TargetValue = static_cast< double >( output->GetPixel(index) );
       double newStoppingValue = m_TargetValue + m_TargetOffset;
-      if (newStoppingValue < this->GetStoppingValue())
+      if ( newStoppingValue < this->GetStoppingValue() )
         {
         // This changes the stopping value that may have been set by
         // the user.  Therefore, the value set by the user needs to be
@@ -237,33 +230,34 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     }
   else
     {
-    m_TargetValue = static_cast<double>(output->GetPixel(index));
+    m_TargetValue = static_cast< double >( output->GetPixel(index) );
     }
 }
 
 /**
  *
  */
-template <class TLevelSet, class TSpeedImage>
+template< class TLevelSet, class TSpeedImage >
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
-::ComputeGradient( const IndexType& index,
-  const LevelSetImageType * output,
-  const LabelImageType * itkNotUsed(labelImage),
-  GradientImageType * gradientImage)
+FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
+::ComputeGradient(const IndexType & index,
+                  const LevelSetImageType *output,
+                  const LabelImageType *itkNotUsed(labelImage),
+                  GradientImageType *gradientImage)
 {
   IndexType neighIndex = index;
+
   typedef typename TLevelSet::PixelType LevelSetPixelType;
   LevelSetPixelType centerPixel;
   LevelSetPixelType dx_forward;
   LevelSetPixelType dx_backward;
   GradientPixelType gradientPixel;
-  
+
   const LevelSetIndexType & lastIndex = this->GetLastIndex();
   const LevelSetIndexType & startIndex = this->GetStartIndex();
 
-  const LevelSetPixelType ZERO = 
-            NumericTraits< LevelSetPixelType >::Zero;
+  const LevelSetPixelType ZERO =
+    NumericTraits< LevelSetPixelType >::Zero;
 
   OutputSpacingType spacing = this->GetOutput()->GetSpacing();
 
@@ -278,38 +272,38 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     // Set stride of one in each direction
     xStride[j] = 1;
 
-    // Compute one-sided finite differences with alive neighbors 
+    // Compute one-sided finite differences with alive neighbors
     // (the front can only come from there)
     dx_backward = 0.0;
     neighIndex[j] = index[j] - xStride[j];
 
-    if(! (neighIndex[j] > lastIndex[j] || 
-          neighIndex[j] < startIndex[j]) )
+    if ( !( neighIndex[j] > lastIndex[j]
+            || neighIndex[j] < startIndex[j] ) )
       {
-      if ( this->GetLabelImage()->GetPixel( neighIndex ) == Superclass::AlivePoint )
+      if ( this->GetLabelImage()->GetPixel(neighIndex) == Superclass::AlivePoint )
         {
-        dx_backward = centerPixel - output->GetPixel( neighIndex );
+        dx_backward = centerPixel - output->GetPixel(neighIndex);
         }
       }
 
     dx_forward = 0.0;
     neighIndex[j] = index[j] + xStride[j];
 
-    if(! (neighIndex[j] > lastIndex[j] || 
-          neighIndex[j] < startIndex[j]) )
+    if ( !( neighIndex[j] > lastIndex[j]
+            || neighIndex[j] < startIndex[j] ) )
       {
-      if ( this->GetLabelImage()->GetPixel( neighIndex ) == Superclass::AlivePoint )
+      if ( this->GetLabelImage()->GetPixel(neighIndex) == Superclass::AlivePoint )
         {
-        dx_forward = output->GetPixel( neighIndex ) - centerPixel;
+        dx_forward = output->GetPixel(neighIndex) - centerPixel;
         }
       }
 
     // Compute upwind finite differences
-    if (vnl_math_max(dx_backward,-dx_forward) < ZERO)
+    if ( vnl_math_max(dx_backward, -dx_forward) < ZERO )
       {
       gradientPixel[j] = ZERO;
       }
-    else if (dx_backward > -dx_forward)
+    else if ( dx_backward > -dx_forward )
       {
       gradientPixel[j] = dx_backward;
       }
@@ -321,9 +315,8 @@ FastMarchingUpwindGradientImageFilter<TLevelSet,TSpeedImage>
     gradientPixel[j] /= spacing[j];
     }
 
-  gradientImage->SetPixel( index, gradientPixel );
+  gradientImage->SetPixel(index, gradientPixel);
 }
-
 } // namespace itk
 
 #endif

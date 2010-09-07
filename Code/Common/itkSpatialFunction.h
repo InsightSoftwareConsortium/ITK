@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class SpatialFunction
  * \brief N-dimensional spatial function class
  *
@@ -40,18 +39,18 @@ namespace itk
  *
  * \ingroup SpatialFunctions
  */
-template <typename TOutput, 
-          unsigned int VImageDimension=3,
-          typename TInput=Point<double, VImageDimension> >
-class ITK_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
+template< typename TOutput,
+          unsigned int VImageDimension = 3,
+          typename TInput = Point< double, VImageDimension > >
+class ITK_EXPORT SpatialFunction:public FunctionBase< TInput, TOutput >
 {
 public:
   /** Standard class typedefs. */
-  typedef SpatialFunction                Self;
-  typedef FunctionBase< TInput, TOutput> Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
-  
+  typedef SpatialFunction                 Self;
+  typedef FunctionBase< TInput, TOutput > Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialFunction, FunctionBase);
 
@@ -66,35 +65,37 @@ public:
 
   /** Evaluate the function at a given position. Remember, position is
   * represented by an n-d itk::Point object with data type double. */
-  virtual OutputType Evaluate( const InputType& input ) const = 0;
+  virtual OutputType Evaluate(const InputType & input) const = 0;
 
 protected:
   SpatialFunction();
   virtual ~SpatialFunction();
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  SpatialFunction(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  SpatialFunction(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_SpatialFunction(_, EXPORT, x, y) namespace itk { \
-  _(3(class EXPORT SpatialFunction< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef SpatialFunction< ITK_TEMPLATE_3 x > \
-                                                  SpatialFunction##y; } \
+#define ITK_TEMPLATE_SpatialFunction(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                   \
+  {                                                               \
+  _( 3 ( class EXPORT SpatialFunction< ITK_TEMPLATE_3 TypeX > ) ) \
+  namespace Templates                                             \
+  {                                                               \
+  typedef SpatialFunction< ITK_TEMPLATE_3 TypeX >                 \
+  SpatialFunction##TypeY;                                       \
+  }                                                               \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkSpatialFunction+-.h"
+#include "Templates/itkSpatialFunction+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkSpatialFunction.txx"
+#include "itkSpatialFunction.txx"
 #endif
-
 
 #endif

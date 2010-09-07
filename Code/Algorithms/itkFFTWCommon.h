@@ -9,15 +9,15 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkFFTWCommon_h
 #define __itkFFTWCommon_h
 
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined( USE_FFTWF ) || defined( USE_FFTWD )
 #include "fftw3.h"
 #endif
 
@@ -29,19 +29,19 @@ namespace fftw
  * \class Interface
  * \brief Wrapper for FFTW API
  */
-template <typename TPixel>
-class  Proxy
+template< typename TPixel >
+class Proxy
 {
   // empty -- only double and float specializations work
 protected:
-  Proxy() {}; 
-  ~Proxy() {};
+  Proxy() {}
+  ~Proxy() {}
 };
 
-#if defined(USE_FFTWF)
+#if defined( USE_FFTWF )
 
-template <>
-class Proxy<float>
+template< >
+class Proxy< float >
 {
 public:
   typedef float         PixelType;
@@ -52,81 +52,88 @@ public:
                                   ComplexType *in,
                                   PixelType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_c2r_1d(n,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r_2d(int nx, 
+  {
+    return fftwf_plan_dft_c2r_1d(n, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r_2d(int nx,
                                   int ny,
                                   ComplexType *in,
-                                  PixelType *out, 
+                                  PixelType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_c2r_2d(nx,ny,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r_3d(int nx, 
+  {
+    return fftwf_plan_dft_c2r_2d(nx, ny, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r_3d(int nx,
                                   int ny,
                                   int nz,
-                                  ComplexType *in, 
-                                  PixelType *out, 
+                                  ComplexType *in,
+                                  PixelType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_c2r_3d(nx,ny,nz,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r(int rank, 
+  {
+    return fftwf_plan_dft_c2r_3d(nx, ny, nz, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r(int rank,
                                const int *n,
-                               ComplexType *in, 
-                               PixelType *out, 
+                               ComplexType *in,
+                               PixelType *out,
                                unsigned flags)
-    {
-    return fftwf_plan_dft_c2r(rank,n,in,out,flags);
-    }
+  {
+    return fftwf_plan_dft_c2r(rank, n, in, out, flags);
+  }
 
   static PlanType Plan_dft_r2c_1d(int n,
                                   PixelType *in,
                                   ComplexType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_r2c_1d(n,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c_2d(int nx, 
+  {
+    return fftwf_plan_dft_r2c_1d(n, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c_2d(int nx,
                                   int ny,
                                   PixelType *in,
-                                  ComplexType *out, 
+                                  ComplexType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_r2c_2d(nx,ny,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c_3d(int nx, 
+  {
+    return fftwf_plan_dft_r2c_2d(nx, ny, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c_3d(int nx,
                                   int ny,
                                   int nz,
-                                  PixelType *in, 
-                                  ComplexType *out, 
+                                  PixelType *in,
+                                  ComplexType *out,
                                   unsigned flags)
-    {
-    return fftwf_plan_dft_r2c_3d(nx,ny,nz,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c(int rank, 
+  {
+    return fftwf_plan_dft_r2c_3d(nx, ny, nz, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c(int rank,
                                const int *n,
-                               PixelType *in, 
-                               ComplexType *out, 
+                               PixelType *in,
+                               ComplexType *out,
                                unsigned flags)
-    {
-    return fftwf_plan_dft_r2c(rank,n,in,out,flags);
-    }
+  {
+    return fftwf_plan_dft_r2c(rank, n, in, out, flags);
+  }
 
   static void Execute(PlanType p)
-    {
+  {
     fftwf_execute(p);
-    }
+  }
+
   static void DestroyPlan(PlanType p)
-    {
+  {
     fftwf_destroy_plan(p);
-    }
+  }
 };
 #endif // USE_FFTWF
-#if defined(USE_FFTWD)
-template <> 
-class Proxy<double>
+#if defined( USE_FFTWD )
+template< >
+class Proxy< double >
 {
 public:
   typedef double       PixelType;
@@ -137,75 +144,83 @@ public:
                                   ComplexType *in,
                                   PixelType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_c2r_1d(n,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r_2d(int nx, 
+  {
+    return fftw_plan_dft_c2r_1d(n, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r_2d(int nx,
                                   int ny,
                                   ComplexType *in,
-                                  PixelType *out, 
+                                  PixelType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_c2r_2d(nx,ny,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r_3d(int nx, 
+  {
+    return fftw_plan_dft_c2r_2d(nx, ny, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r_3d(int nx,
                                   int ny,
                                   int nz,
-                                  ComplexType *in, 
-                                  PixelType *out, 
+                                  ComplexType *in,
+                                  PixelType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_c2r_3d(nx,ny,nz,in,out,flags);
-    }
-  static PlanType Plan_dft_c2r(int rank, 
+  {
+    return fftw_plan_dft_c2r_3d(nx, ny, nz, in, out, flags);
+  }
+
+  static PlanType Plan_dft_c2r(int rank,
                                const int *n,
-                               ComplexType *in, 
-                               PixelType *out, 
+                               ComplexType *in,
+                               PixelType *out,
                                unsigned flags)
-    {
-    return fftw_plan_dft_c2r(rank,n,in,out,flags);
-    }
+  {
+    return fftw_plan_dft_c2r(rank, n, in, out, flags);
+  }
 
   static PlanType Plan_dft_r2c_1d(int n,
                                   PixelType *in,
                                   ComplexType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_r2c_1d(n,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c_2d(int nx, 
+  {
+    return fftw_plan_dft_r2c_1d(n, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c_2d(int nx,
                                   int ny,
                                   PixelType *in,
-                                  ComplexType *out, 
+                                  ComplexType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_r2c_2d(nx,ny,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c_3d(int nx, 
+  {
+    return fftw_plan_dft_r2c_2d(nx, ny, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c_3d(int nx,
                                   int ny,
                                   int nz,
-                                  PixelType *in, 
-                                  ComplexType *out, 
+                                  PixelType *in,
+                                  ComplexType *out,
                                   unsigned flags)
-    {
-    return fftw_plan_dft_r2c_3d(nx,ny,nz,in,out,flags);
-    }
-  static PlanType Plan_dft_r2c(int rank, 
+  {
+    return fftw_plan_dft_r2c_3d(nx, ny, nz, in, out, flags);
+  }
+
+  static PlanType Plan_dft_r2c(int rank,
                                const int *n,
-                               PixelType *in, 
-                               ComplexType *out, 
+                               PixelType *in,
+                               ComplexType *out,
                                unsigned flags)
-    {
-    return fftw_plan_dft_r2c(rank,n,in,out,flags);
-    }
+  {
+    return fftw_plan_dft_r2c(rank, n, in, out, flags);
+  }
+
   static void Execute(PlanType p)
-    {
+  {
     fftw_execute(p);
-    }
+  }
+
   static void DestroyPlan(PlanType p)
-    {
+  {
     fftw_destroy_plan(p);
-    }
+  }
 };
 #endif
 }

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -33,14 +33,9 @@
 
 int itkOptImageToImageMetricsTest(int , char* argv[])
 {
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
-
-  std::cout << "Default number of threads : " 
-            << itk::MultiThreader::GetGlobalDefaultNumberOfThreads() 
+  std::cout << "Default number of threads : "
+            << itk::MultiThreader::GetGlobalDefaultNumberOfThreads()
             << std::endl;
 
   typedef itk::Image< unsigned int > FixedImageType;
@@ -58,7 +53,7 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //  First run the experiments with the default number of threads,
-  //  as set from the command line arguments, the system defaults 
+  //  as set from the command line arguments, the system defaults
   //  or the ITK environment variable:
   //  ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -70,20 +65,16 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   std::cout << std::endl;
 
 
-  itk::TranslationLinearTest( fixedImageReader.GetPointer(), 
+  itk::TranslationLinearTest( fixedImageReader.GetPointer(),
                               movingImageReader.GetPointer() );
 
-  itk::RigidLinearTest( fixedImageReader.GetPointer(), 
+  itk::RigidLinearTest( fixedImageReader.GetPointer(),
                         movingImageReader.GetPointer() );
 
-  itk::AffineLinearTest( fixedImageReader.GetPointer(), 
+  itk::AffineLinearTest( fixedImageReader.GetPointer(),
                          movingImageReader.GetPointer() );
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // Then, do experiments with number of threads set to 1!!!!!!!!!!
@@ -99,20 +90,15 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
   itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
 
-  itk::TranslationLinearTest( fixedImageReader.GetPointer(), 
+  itk::TranslationLinearTest( fixedImageReader.GetPointer(),
                               movingImageReader.GetPointer() );
 
-  itk::RigidLinearTest( fixedImageReader.GetPointer(), 
+  itk::RigidLinearTest( fixedImageReader.GetPointer(),
                         movingImageReader.GetPointer() );
 
-  itk::AffineLinearTest( fixedImageReader.GetPointer(), 
+  itk::AffineLinearTest( fixedImageReader.GetPointer(),
                          movingImageReader.GetPointer() );
 
-#ifdef ITK_USE_OPTIMIZED_REGISTRATION_METHODS
   std::cout << "OPTIMIZED ON" << std::endl;
-#else
-  std::cout << "OPTIMIZED OFF" << std::endl;  
-#endif
-
   return EXIT_SUCCESS;
 }

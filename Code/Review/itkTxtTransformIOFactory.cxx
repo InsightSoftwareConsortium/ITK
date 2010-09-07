@@ -19,39 +19,33 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkTxtTransformIO.h"
 #include "itkVersion.h"
 
-
 namespace itk
 {
-void TxtTransformIOFactory::PrintSelf(std::ostream&, Indent) const
-{
-
-}
-
+void TxtTransformIOFactory::PrintSelf(std::ostream &, Indent) const
+{}
 
 TxtTransformIOFactory::TxtTransformIOFactory()
 {
-  this->RegisterOverride("itkTransformIOBase",
-                         "itkTxtTransformIO",
-                         "Txt Transform IO",
-                         1,
-                         CreateObjectFunction<TxtTransformIO>::New());
+  this->RegisterOverride( "itkTransformIOBase",
+                          "itkTxtTransformIO",
+                          "Txt Transform IO",
+                          1,
+                          CreateObjectFunction< TxtTransformIO >::New() );
 }
 
 TxtTransformIOFactory::~TxtTransformIOFactory()
-{
-}
+{}
 
-const char*
+const char *
 TxtTransformIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 TxtTransformIOFactory::GetDescription() const
 {
   return "Txt TransformIO Factory, allows the"
-    " loading of Nifti images into insight";
+         " loading of Nifti images into insight";
 }
-
 } // end namespace itk

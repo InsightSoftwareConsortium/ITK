@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,20 +21,19 @@
 
 namespace itk
 {
-
 /** \class ZeroFluxNeumannBoundaryCondition
  * \brief
  * A function object that determines a neighborhood of values at an
  * image boundary according to a Neumann boundary condition where first,
- * upwind derivatives on the boundary are zero.  This is a useful condition 
- * in solving some classes of differential equations. 
+ * upwind derivatives on the boundary are zero.  This is a useful condition
+ * in solving some classes of differential equations.
  *
  * For example, invoking this function object on a 7x5 iterator that masks
  * a region at an image corner (iterator is centered on the 2):
  * \code
- *               * * * * * * * 
  *               * * * * * * *
- *               * * 1 2 3 4 5  (where * denotes pixels that lie 
+ *               * * * * * * *
+ *               * * 1 2 3 4 5  (where * denotes pixels that lie
  *               * * 3 3 5 5 6          outside of the image boundary)
  *               * * 4 4 6 7 8
  * \endcode
@@ -50,19 +49,19 @@ namespace itk
  * condition object is designed to be given as a template argument to a
  * NeighborhoodIterator or any of the NeighborhoodIterator
  * subclasses.
- * 
+ *
  * \ingroup DataRepresentation
  * \ingroup ImageObjects
  */
-template<class TImage>
-class ITK_EXPORT  ZeroFluxNeumannBoundaryCondition
-  : public ImageBoundaryCondition<TImage>
+template< class TImage >
+class ITK_EXPORT ZeroFluxNeumannBoundaryCondition:
+  public ImageBoundaryCondition< TImage >
 {
 public:
-  /** Standard class typedefs. */ 
-  typedef ZeroFluxNeumannBoundaryCondition    Self;
-  typedef ImageBoundaryCondition<TImage>      Superclass;
-  
+  /** Standard class typedefs. */
+  typedef ZeroFluxNeumannBoundaryCondition Self;
+  typedef ImageBoundaryCondition< TImage > Superclass;
+
   /** Extract information from the image type. */
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::PixelPointerType PixelPointerType;
@@ -70,45 +69,49 @@ public:
   typedef typename Superclass::OffsetType       OffsetType;
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
 
-  typedef typename Superclass::NeighborhoodAccessorFunctorType 
-                                 NeighborhoodAccessorFunctorType;
-  
+  typedef typename Superclass::NeighborhoodAccessorFunctorType
+  NeighborhoodAccessorFunctorType;
+
   /** Extract information from the image type. */
-  itkStaticConstMacro(ImageDimension, unsigned int,Superclass::ImageDimension);
-  
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+
   /** Default constructor. */
   ZeroFluxNeumannBoundaryCondition() {}
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
-  virtual PixelType operator()(const OffsetType& point_index,
-                               const OffsetType& boundary_offset,
+  virtual PixelType operator()(const OffsetType & point_index,
+                               const OffsetType & boundary_offset,
                                const NeighborhoodType *data) const;
-  
+
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
   virtual PixelType operator()(
-      const OffsetType& point_index,
-      const OffsetType& boundary_offset,
-      const NeighborhoodType *data,
-      const NeighborhoodAccessorFunctorType &neighborhoodAccessorFunctor) const;
+    const OffsetType & point_index,
+    const OffsetType & boundary_offset,
+    const NeighborhoodType *data,
+    const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const;
 };
-
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_ZeroFluxNeumannBoundaryCondition(_, EXPORT, x, y) namespace itk { \
-  _(1(class EXPORT ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 x >)) \
-  namespace Templates { typedef ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 x > \
-                                                  ZeroFluxNeumannBoundaryCondition##y; } \
+#define ITK_TEMPLATE_ZeroFluxNeumannBoundaryCondition(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                                    \
+  {                                                                                \
+  _( 1 ( class EXPORT ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 TypeX > ) ) \
+  namespace Templates                                                              \
+  {                                                                                \
+  typedef ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 TypeX >                 \
+  ZeroFluxNeumannBoundaryCondition##TypeY;                                       \
+  }                                                                                \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkZeroFluxNeumannBoundaryCondition+-.h"
+#include "Templates/itkZeroFluxNeumannBoundaryCondition+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkZeroFluxNeumannBoundaryCondition.txx"
+#include "itkZeroFluxNeumannBoundaryCondition.txx"
 #endif
 
 /*

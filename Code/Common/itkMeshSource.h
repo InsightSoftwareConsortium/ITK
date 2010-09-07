@@ -12,22 +12,21 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMeshSource_h
 #define __itkMeshSource_h
 
-#if defined(_MSC_VER)
+#if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkProcessObject.h"
 
 namespace itk
 {
-
 /** \class MeshSource
  *  \brief Base class for all process objects that output mesh data.
  *
@@ -39,31 +38,32 @@ namespace itk
  *
  * \ingroup DataSources
  */
-template <class TOutputMesh>
-class ITK_EXPORT MeshSource : public ProcessObject
+template< class TOutputMesh >
+class ITK_EXPORT MeshSource:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef MeshSource                Self;
-  typedef ProcessObject             Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
+  typedef MeshSource                 Self;
+  typedef ProcessObject              Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MeshSource,ProcessObject);
+  itkTypeMacro(MeshSource, ProcessObject);
 
   /** Some convenient typedefs. */
   typedef DataObject::Pointer              DataObjectPointer;
   typedef TOutputMesh                      OutputMeshType;
   typedef typename OutputMeshType::Pointer OutputMeshPointer;
-  
+
   /** Get the mesh output of this process object.  */
   OutputMeshType * GetOutput(void);
+
   OutputMeshType * GetOutput(unsigned int idx);
-  
+
   /** Set the mesh output of this process object. This call is slated
    * to be removed from ITK. You should GraftOutput() and possible
    * DataObject::DisconnectPipeline() to properly change the output. */
@@ -104,6 +104,7 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do). */
   virtual void GraftOutput(DataObject *output);
+
   virtual void GraftNthOutput(unsigned int idx, DataObject *output);
 
   /** Make a DataObject of the correct type to used as the specified
@@ -124,23 +125,22 @@ public:
 protected:
   MeshSource();
   virtual ~MeshSource() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** Requested region of Mesh is specified as i of N unstructured regions.
-   * Since all DataObjects should be able to set the requested region in 
+   * Since all DataObjects should be able to set the requested region in
    * unstructured form, just copy output->RequestedRegion all inputs. */
   void GenerateInputRequestedRegion();
-  
+
 private:
-  MeshSource(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  MeshSource(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
 
   /** Used by streaming: The requested region of the output being processed
    * by the execute method. Set in the GenerateInputRequestedRegion method. */
   int m_GenerateDataRegion;
   int m_GenerateDataNumberOfRegions;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

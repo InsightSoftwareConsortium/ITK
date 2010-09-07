@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 MetaArrayWriter
 ::MetaArrayWriter()
 {
@@ -33,16 +32,15 @@ MetaArrayWriter
 
 MetaArrayWriter
 ::~MetaArrayWriter()
-{
-}
+{}
 
 void MetaArrayWriter
 ::ConvertTo(MET_ValueEnumType _metaElementType)
 {
-  if(m_Buffer != NULL)
+  if ( m_Buffer != NULL )
     {
-    m_MetaArray.ImportBufferToElementData(m_Buffer,
-                                          m_MetaArray.ElementType());
+    m_MetaArray.ImportBufferToElementData( m_Buffer,
+                                           m_MetaArray.ElementType() );
     }
   m_MetaArray.ConvertElementDataTo(_metaElementType);
 }
@@ -50,11 +48,11 @@ void MetaArrayWriter
 /** Update the writer */
 void MetaArrayWriter
 ::Update()
-{  
+{
   m_MetaArray.SetDoublePrecision(m_Precision);
-  
+
   m_MetaArray.BinaryData(m_Binary);
-  if(m_Buffer != NULL)
+  if ( m_Buffer != NULL )
     {
     m_MetaArray.Write(m_FileName.c_str(), m_DataFileName.c_str(),
                       true, m_Buffer);
@@ -62,7 +60,6 @@ void MetaArrayWriter
 
   m_DataFileName.erase();
 }
-
 } // namespace itk
 
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,55 +21,52 @@
 
 namespace itk
 {
-
 /**
  * Assignment Operator
  */
-template<class T>
-RGBAPixel<T>&
-RGBAPixel<T>
-::operator= (const Self& r)
+template< class T >
+RGBAPixel< T > &
+RGBAPixel< T >
+::operator=(const Self & r)
 {
   BaseArray::operator=(r);
   return *this;
 }
-
 
 /*
  * Assigment from a plain array
  */
-template<class T>
-RGBAPixel<T>&
-RGBAPixel<T>
-::operator= (const ComponentType r[4])
+template< class T >
+RGBAPixel< T > &
+RGBAPixel< T >
+::operator=(const ComponentType r[4])
 {
   BaseArray::operator=(r);
   return *this;
 }
 
-
 /*
  * Compute luminance
  */
-template<class T>
-typename RGBAPixel<T>::ComponentType
-RGBAPixel<T>
+template< class T >
+typename RGBAPixel< T >::ComponentType
+RGBAPixel< T >
 ::GetLuminance() const
 {
   const double luminance =
-    0.30  * this->GetRed()   +
-    0.59  * this->GetGreen() +
-    0.11  * this->GetBlue();
-  return static_cast<ComponentType>( luminance );
-}
+    0.30  * this->GetRed()
+    + 0.59  * this->GetGreen()
+    + 0.11  * this->GetBlue();
 
+  return static_cast< ComponentType >( luminance );
+}
 
 /**
  * Print content to an ostream
  */
-template<class TComponent>
+template< class TComponent >
 std::ostream &
-operator<<(std::ostream& os,const RGBAPixel<TComponent> & c ) 
+operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
 {
   os <<  c[0] << "  ";
   os <<  c[1] << "  ";
@@ -78,26 +75,25 @@ operator<<(std::ostream& os,const RGBAPixel<TComponent> & c )
   return os;
 }
 
-
 /**
  * Read content from an istream
  */
-template<class TComponent>
+template< class TComponent >
 std::istream &
-operator>>(std::istream& is, RGBAPixel<TComponent> & c ) 
+operator>>(std::istream & is, RGBAPixel< TComponent > & c)
 {
   TComponent red;
   TComponent green;
   TComponent blue;
   TComponent alpha;
+
   is >> red >> green >> blue;
-  c.SetRed( red );
-  c.SetGreen( green );
-  c.SetBlue( blue );
-  c.SetAlpha( alpha );
+  c.SetRed(red);
+  c.SetGreen(green);
+  c.SetBlue(blue);
+  c.SetAlpha(alpha);
   return is;
 }
-
 } // end namespace itk
 
 #endif

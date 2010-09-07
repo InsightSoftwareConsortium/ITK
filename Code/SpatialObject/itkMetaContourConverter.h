@@ -9,46 +9,41 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 #ifndef __itkMetaContourConverter_h
 #define __itkMetaContourConverter_h
 
-
 #include "metaContour.h"
 #include "itkContourSpatialObject.h"
 #include "itkSpatialObject.h"
 
-namespace itk 
+namespace itk
 {
-
-template <unsigned int NDimensions = 3>
+template< unsigned int NDimensions = 3 >
 class ITK_EXPORT MetaContourConverter
 {
-
 public:
 
   MetaContourConverter();
-  ~MetaContourConverter() {};
+  ~MetaContourConverter() {}
 
-  typedef itk::ContourSpatialObject<NDimensions>    SpatialObjectType;
+  typedef itk::ContourSpatialObject< NDimensions >  SpatialObjectType;
   typedef typename SpatialObjectType::TransformType TransformType;
   typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
 
+  SpatialObjectPointer ReadMeta(const char *name);
 
-  SpatialObjectPointer ReadMeta(const char* name);
+  bool WriteMeta(SpatialObjectType *spatialObject, const char *name);
 
-  bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
+  SpatialObjectPointer MetaContourToContourSpatialObject(MetaContour *Contour);
 
-  SpatialObjectPointer MetaContourToContourSpatialObject(MetaContour * Contour);
-  MetaContour* ContourSpatialObjectToMetaContour(
-                                             SpatialObjectType * spatialObject);
-
+  MetaContour * ContourSpatialObjectToMetaContour(
+    SpatialObjectType *spatialObject);
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

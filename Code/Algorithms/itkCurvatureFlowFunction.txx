@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,19 +20,19 @@
 
 #include "vnl/vnl_math.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * Constructor
  */
-template<class TImage>
-CurvatureFlowFunction<TImage>
+template< class TImage >
+CurvatureFlowFunction< TImage >
 ::CurvatureFlowFunction()
 {
-
-  RadiusType r;
+  RadiusType   r;
   unsigned int j;
-  for( j = 0; j < ImageDimension; j++ )
+
+  for ( j = 0; j < ImageDimension; j++ )
     {
     r[j] = 1;
     }
@@ -40,26 +40,22 @@ CurvatureFlowFunction<TImage>
   this->SetRadius(r);
 
   m_TimeStep  = 0.05f;
-
 }
-
 
 /**
  * Compute the global time step
  */
-template<class TImage>
-typename CurvatureFlowFunction<TImage>::TimeStepType
-CurvatureFlowFunction<TImage>
+template< class TImage >
+typename CurvatureFlowFunction< TImage >::TimeStepType
+CurvatureFlowFunction< TImage >
 ::ComputeGlobalTimeStep( void *itkNotUsed(gd) ) const
 {
-
   return this->GetTimeStep();
-
 
   // \todo compute timestep based on CFL condition
 #if 0
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
-  TimeStepType dt;
+  TimeStepType      dt;
 
   if ( globalData->m_MaxChange > 0.0 )
     {
@@ -74,22 +70,21 @@ CurvatureFlowFunction<TImage>
 #endif
 }
 
-
 /**
  * Update the solution at pixels which lies on the data boundary.
  */
-template<class TImage>
-typename CurvatureFlowFunction<TImage>::PixelType
-CurvatureFlowFunction<TImage>
-::ComputeUpdate(const NeighborhoodType &it, void * itkNotUsed(gd),
-                const FloatOffsetType& itkNotUsed(offset))
+template< class TImage >
+typename CurvatureFlowFunction< TImage >::PixelType
+CurvatureFlowFunction< TImage >
+::ComputeUpdate( const NeighborhoodType & it, void *itkNotUsed(gd),
+                 const FloatOffsetType & itkNotUsed(offset) )
 {
   PixelRealType firstderiv[ImageDimension];
   PixelRealType secderiv[ImageDimension];
   PixelRealType crossderiv[ImageDimension][ImageDimension];
   unsigned long center;
   unsigned long stride[ImageDimension];
-  unsigned int i,j;
+  unsigned int  i, j;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
@@ -97,42 +92,40 @@ CurvatureFlowFunction<TImage>
   center = it.Size() / 2;
 
   // cache the stride for each dimension
-  for( i = 0; i < ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
-    stride[i] = it.GetStride( (unsigned long) i );
+    stride[i] = it.GetStride( (unsigned long)i );
     }
 
   PixelRealType magnitudeSqr = 0.0;
-  for( i = 0; i < ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
-
     // compute first order derivatives
-    firstderiv[i] = 0.5 * ( it.GetPixel(center + stride[i]) - 
-                            it.GetPixel(center - stride[i]) ) * neighborhoodScales[i];
+    firstderiv[i] = 0.5 * ( it.GetPixel(center + stride[i])
+                            - it.GetPixel(center - stride[i]) ) * neighborhoodScales[i];
 
     // compute second order derivatives
-    secderiv[i] = ( it.GetPixel(center + stride[i]) - 
-                    2 * it.GetPixel(center) + it.GetPixel( center - stride[i] ) ) * vnl_math_sqr( neighborhoodScales[i] );
+    secderiv[i] = ( it.GetPixel(center + stride[i])
+                    - 2 * it.GetPixel(center) + it.GetPixel(center - stride[i]) ) * vnl_math_sqr(neighborhoodScales[i]);
 
     // compute cross derivatives
-    for( j = i + 1; j < ImageDimension; j++ )
+    for ( j = i + 1; j < ImageDimension; j++ )
       {
       crossderiv[i][j] = 0.25 * (
-        it.GetPixel( center - stride[i] - stride[j] ) 
-        - it.GetPixel( center - stride[i] + stride[j] )
-        - it.GetPixel( center + stride[i] - stride[j] ) 
-        + it.GetPixel( center + stride[i] + stride[j] ) ) 
-        * neighborhoodScales[i] * neighborhoodScales[j];
+        it.GetPixel(center - stride[i] - stride[j])
+        - it.GetPixel(center - stride[i] + stride[j])
+        - it.GetPixel(center + stride[i] - stride[j])
+        + it.GetPixel(center + stride[i] + stride[j]) )
+                         * neighborhoodScales[i] * neighborhoodScales[j];
       }
 
     // accumlate the gradient magnitude squared
     magnitudeSqr += vnl_math_sqr( (double)firstderiv[i] );
-
     }
 
   if ( magnitudeSqr < 1e-9 )
     {
-    return NumericTraits<PixelType>::Zero; 
+    return NumericTraits< PixelType >::Zero;
     }
 
   // compute the update value = mean curvature * magnitude
@@ -140,28 +133,28 @@ CurvatureFlowFunction<TImage>
   PixelRealType temp;
 
   // accumulate dx^2 * (dyy + dzz) terms
-  for( i = 0; i < ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
     temp = 0.0;
-    for( j = 0; j < ImageDimension; j++ )
+    for ( j = 0; j < ImageDimension; j++ )
       {
-      if( j == i ) continue;
+      if ( j == i ) { continue; }
       temp += secderiv[j];
       }
-    
+
     update += temp * vnl_math_sqr( (double)firstderiv[i] );
     }
 
   // accumlate -2 * dx * dy * dxy terms
-  for( i = 0; i < ImageDimension; i++ )
+  for ( i = 0; i < ImageDimension; i++ )
     {
-    for( j = i + 1; j < ImageDimension; j++ )
+    for ( j = i + 1; j < ImageDimension; j++ )
       {
-      update -= 2 * firstderiv[i] * firstderiv[j] *
-        crossderiv[i][j];
+      update -= 2 * firstderiv[i] * firstderiv[j]
+                * crossderiv[i][j];
       }
     }
-   
+
   update /= magnitudeSqr;
 
   // \todo compute timestep based on CFL condition
@@ -170,10 +163,8 @@ CurvatureFlowFunction<TImage>
   globalData->m_MaxChange =
     vnl_math_max( globalData->m_MaxChange, vnl_math_abs(update) );
 #endif
-  return static_cast<PixelType>(update);
-
+  return static_cast< PixelType >( update );
 }
-
 } // end namespace itk
 
 #endif

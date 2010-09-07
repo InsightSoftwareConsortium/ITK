@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,10 +21,9 @@
 
 namespace itk
 {
-
 /**
  * \class ShapedFloodFilledImageFunctionConditionalConstIterator
- * \brief Iterates over a flood-filled image function. 
+ * \brief Iterates over a flood-filled image function.
  *
  * Contributed as a paper to the Insight Journal:
  *  http://hdl.handle.net/1926/1320
@@ -32,17 +31,17 @@ namespace itk
  * \ingroup ImageIterators
  *
  */
-template<class TImage, class TFunction>
+template< class TImage, class TFunction >
 class ITK_EXPORT ShapedFloodFilledImageFunctionConditionalConstIterator:
-    public ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>
+  public ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 {
 public:
   /** Standard class typedefs. */
   typedef ShapedFloodFilledImageFunctionConditionalConstIterator
-          Self;
-  typedef ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>
-          Superclass;
-  
+  Self;
+  typedef ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
+  Superclass;
+
   /** Type of function */
   typedef typename Superclass::FunctionType FunctionType;
 
@@ -79,9 +78,9 @@ public:
   ShapedFloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
     FunctionType *fnPtr,
-    IndexType startIndex): Superclass(imagePtr,
-                                      fnPtr,
-                                      startIndex) {};
+    IndexType startIndex):Superclass(imagePtr,
+                                     fnPtr,
+                                     startIndex) {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
@@ -89,28 +88,27 @@ public:
   ShapedFloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
     FunctionType *fnPtr,
-    std::vector<IndexType>& startIndex): Superclass(imagePtr,
-                                                    fnPtr,
-                                                    startIndex) {};
+    std::vector< IndexType > & startIndex):Superclass(imagePtr,
+                                                      fnPtr,
+                                                      startIndex) {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor
    * should be used when the seed pixel is unknown. */
   ShapedFloodFilledImageFunctionConditionalConstIterator(
     const ImageType *imagePtr,
-    FunctionType *fnPtr): Superclass(imagePtr,
-                                     fnPtr) {};
+    FunctionType *fnPtr):Superclass(imagePtr,
+                                    fnPtr) {}
   /** Default Destructor. */
-  virtual ~ShapedFloodFilledImageFunctionConditionalConstIterator() {};
+  virtual ~ShapedFloodFilledImageFunctionConditionalConstIterator() {}
 
   /** Compute whether the index of interest should be included in the flood */
   bool IsPixelIncluded(const IndexType & index) const;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShapedFloodFilledImageFunctionConditionalConstIterator.txx"
 #endif
 
-#endif 
+#endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,11 +22,10 @@
 
 namespace itk
 {
-
 /** \class KappaSigmaThresholdImageCalculator
  * \brief Compute moments of an n-dimensional image.
  *
- * 
+ *
  * \author Gaetan Lehmann
  *
  * This class was taken from the Insight Journal paper:
@@ -35,15 +34,15 @@ namespace itk
  * \ingroup Operators
  *
  */
-template < class TInputImage, class TMaskImage >
-class ITK_EXPORT KappaSigmaThresholdImageCalculator : public Object
+template< class TInputImage, class TMaskImage >
+class ITK_EXPORT KappaSigmaThresholdImageCalculator:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef KappaSigmaThresholdImageCalculator    Self;
-  typedef Object                                Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef KappaSigmaThresholdImageCalculator Self;
+  typedef Object                             Superclass;
+  typedef SmartPointer< Self >               Pointer;
+  typedef SmartPointer< const Self >         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,8 +55,8 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard image type within this class. */
-  typedef TInputImage                           InputImageType;
-  typedef TMaskImage                            MaskImageType;
+  typedef TInputImage InputImageType;
+  typedef TMaskImage  MaskImageType;
 
   /** Standard image type pointer within this class. */
   typedef typename InputImageType::Pointer      InputImagePointer;
@@ -65,14 +64,14 @@ public:
   typedef typename MaskImageType::Pointer       MaskImagePointer;
   typedef typename MaskImageType::ConstPointer  MaskImageConstPointer;
 
-  typedef typename InputImageType::PixelType    InputPixelType;
-  typedef typename MaskImageType::PixelType     MaskPixelType;
+  typedef typename InputImageType::PixelType InputPixelType;
+  typedef typename MaskImageType::PixelType  MaskPixelType;
 
   /** Set the input image. */
-  itkSetConstObjectMacro( Image, InputImageType );
+  itkSetConstObjectMacro(Image, InputImageType);
 
   /** Set the input mask */
-  itkSetConstObjectMacro( Mask, MaskImageType );
+  itkSetConstObjectMacro(Mask, MaskImageType);
 
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetConstMacro(MaskValue, MaskPixelType);
@@ -88,32 +87,29 @@ public:
    * parameter and stores them in the object.  The values of these
    * moments and related parameters can then be retrieved by using
    * other methods of this object. */
-  void Compute( void );
-  
+  void Compute(void);
+
   const InputPixelType & GetOutput() const;
 
 protected:
   KappaSigmaThresholdImageCalculator();
-  virtual ~KappaSigmaThresholdImageCalculator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~KappaSigmaThresholdImageCalculator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  KappaSigmaThresholdImageCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  KappaSigmaThresholdImageCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
-  bool                      m_Valid;  // Have moments been computed yet?
-  MaskPixelType             m_MaskValue;
-  double                    m_SigmaFactor;
-  unsigned int              m_NumberOfIterations;
-  InputPixelType            m_Output;
+  bool           m_Valid;             // Have moments been computed yet?
+  MaskPixelType  m_MaskValue;
+  double         m_SigmaFactor;
+  unsigned int   m_NumberOfIterations;
+  InputPixelType m_Output;
 
-  InputImageConstPointer    m_Image;
-  MaskImageConstPointer     m_Mask;
-
+  InputImageConstPointer m_Image;
+  MaskImageConstPointer  m_Mask;
 };  // class KappaSigmaThresholdImageCalculator
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkKappaSigmaThresholdImageCalculator.txx"

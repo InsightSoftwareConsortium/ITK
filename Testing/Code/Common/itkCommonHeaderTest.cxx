@@ -273,7 +273,6 @@
 #include "itkOffset.h"
 #include "itkOneWayEquivalencyTable.h"
 #include "itkOrientationAdapter.h"
-#include "itkOrientedImage.txx"
 #include "itkOrthogonallyCorrected2DParametricPath.h"
 #include "itkOutputWindow.h"
 #include "itkPCAShapeSignedDistanceFunction.txx"

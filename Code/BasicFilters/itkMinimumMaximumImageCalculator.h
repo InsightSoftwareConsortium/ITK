@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,7 +22,6 @@
 
 namespace itk
 {
-
 /** \class MinimumMaximumImageCalculator
  * This calculator computes the minimum and the maximum intensity values of
  * an image.  It is templated over input image type.  If only Maximum or
@@ -31,15 +30,15 @@ namespace itk
  *
  * \ingroup Operators
  */
-template <class TInputImage>
-class ITK_EXPORT MinimumMaximumImageCalculator : public Object 
+template< class TInputImage >
+class ITK_EXPORT MinimumMaximumImageCalculator:public Object
 {
 public:
   /** Standard class typedefs. */
   typedef MinimumMaximumImageCalculator Self;
   typedef Object                        Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -48,25 +47,25 @@ public:
   itkTypeMacro(MinimumMaximumImageCalculator, Object);
 
   /** Type definition for the input image. */
-  typedef TInputImage  ImageType;
+  typedef TInputImage ImageType;
 
   /** Pointer type for the image. */
-  typedef typename TInputImage::Pointer  ImagePointer;
-  
+  typedef typename TInputImage::Pointer ImagePointer;
+
   /** Const Pointer type for the image. */
   typedef typename TInputImage::ConstPointer ImageConstPointer;
 
   /** Type definition for the input image pixel type. */
   typedef typename TInputImage::PixelType PixelType;
-  
+
   /** Type definition for the input image index type. */
   typedef typename TInputImage::IndexType IndexType;
-  
+
   /** Type definition for the input image region type. */
   typedef typename TInputImage::RegionType RegionType;
-  
+
   /** Set the input image. */
-  itkSetConstObjectMacro(Image,ImageType);
+  itkSetConstObjectMacro(Image, ImageType);
 
   /** Compute the minimum value of intensity of the input image. */
   void ComputeMinimum(void);
@@ -78,42 +77,40 @@ public:
   void Compute(void);
 
   /** Return the minimum intensity value. */
-  itkGetConstMacro(Minimum,PixelType);
-  
+  itkGetConstMacro(Minimum, PixelType);
+
   /** Return the maximum intensity value. */
-  itkGetConstMacro(Maximum,PixelType);
+  itkGetConstMacro(Maximum, PixelType);
 
   /** Return the index of the minimum intensity value. */
-  itkGetConstReferenceMacro(IndexOfMinimum,IndexType);
+  itkGetConstReferenceMacro(IndexOfMinimum, IndexType);
 
   /** Return the index of the maximum intensity value. */
-  itkGetConstReferenceMacro(IndexOfMaximum,IndexType);
+  itkGetConstReferenceMacro(IndexOfMaximum, IndexType);
 
   /** Set the region over which the values will be computed */
-  void SetRegion( const RegionType & region );
+  void SetRegion(const RegionType & region);
 
 protected:
   MinimumMaximumImageCalculator();
-  virtual ~MinimumMaximumImageCalculator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~MinimumMaximumImageCalculator() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MinimumMaximumImageCalculator(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  PixelType            m_Minimum;
-  PixelType            m_Maximum;
-  ImageConstPointer    m_Image;
+  MinimumMaximumImageCalculator(const Self &); //purposely not implemented
+  void operator=(const Self &);                //purposely not implemented
 
-  IndexType            m_IndexOfMinimum;
-  IndexType            m_IndexOfMaximum;
+  PixelType         m_Minimum;
+  PixelType         m_Maximum;
+  ImageConstPointer m_Image;
 
-  RegionType           m_Region;
-  bool                 m_RegionSetByUser;
+  IndexType m_IndexOfMinimum;
+  IndexType m_IndexOfMaximum;
+
+  RegionType m_Region;
+  bool       m_RegionSetByUser;
 };
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMinimumMaximumImageCalculator.txx"

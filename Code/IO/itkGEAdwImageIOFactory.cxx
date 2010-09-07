@@ -19,38 +19,32 @@
 #include "itkGEAdwImageIO.h"
 #include "itkVersion.h"
 
-
 namespace itk
 {
-void GEAdwImageIOFactory::PrintSelf(std::ostream&, Indent) const
-{
-
-}
-
+void GEAdwImageIOFactory::PrintSelf(std::ostream &, Indent) const
+{}
 
 GEAdwImageIOFactory::GEAdwImageIOFactory()
 {
-  this->RegisterOverride("itkImageIOBase",
-                         "itkGEAdwImageIO",
-                         "GEAdw Image IO",
-                         1,
-                         CreateObjectFunction<GEAdwImageIO>::New());
+  this->RegisterOverride( "itkImageIOBase",
+                          "itkGEAdwImageIO",
+                          "GEAdw Image IO",
+                          1,
+                          CreateObjectFunction< GEAdwImageIO >::New() );
 }
 
 GEAdwImageIOFactory::~GEAdwImageIOFactory()
-{
-}
+{}
 
-const char*
+const char *
 GEAdwImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 GEAdwImageIOFactory::GetDescription() const
 {
   return "GEAdw ImageIO Factory, allows the loading of GEAdw images into insight";
 }
-
 } // end namespace itk

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,32 +21,31 @@
 
 namespace itk
 {
-
 /** \class CropImageFilter
  * \brief Decrease the image size by cropping the image by an itk::Size at
  * both the upper and lower bounds of the largest possible region.
  *
- * CropImageFilter changes the image boundary of an image by removing 
+ * CropImageFilter changes the image boundary of an image by removing
  * pixels outside the target region.  The target region is not specified in
  * advance, but calculated in BeforeThreadedGenerateData().
  *
  * This filter uses ExtractImageFilter to perform the cropping.
- * 
+ *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CropImageFilter:
-    public ExtractImageFilter<TInputImage,TOutputImage>
+  public ExtractImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef CropImageFilter                               Self;
-  typedef ExtractImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef CropImageFilter                                 Self;
+  typedef ExtractImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CropImageFilter, ExtractImageFilter);
@@ -74,50 +73,47 @@ public:
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
   itkSetMacro(UpperBoundaryCropSize, SizeType);
-  itkGetConstMacro(UpperBoundaryCropSize, SizeType); 
+  itkGetConstMacro(UpperBoundaryCropSize, SizeType);
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetConstMacro(LowerBoundaryCropSize, SizeType);
 
   void SetBoundaryCropSize(const SizeType & s)
-    {
-    this->SetUpperBoundaryCropSize( s );
-    this->SetLowerBoundaryCropSize( s );
-    }
+  {
+    this->SetUpperBoundaryCropSize(s);
+    this->SetLowerBoundaryCropSize(s);
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
+  itkConceptMacro( InputConvertibleToOutputCheck,
+                   ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   /** End concept checking */
 #endif
-
 protected:
   CropImageFilter()
-    {
+  {
     m_UpperBoundaryCropSize.Fill(0);
     m_LowerBoundaryCropSize.Fill(0);
-    }
-  ~CropImageFilter() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  }
 
+  ~CropImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateOutputInformation();
-  
+
 private:
-  CropImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  CropImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);  //purposely not implemented
 
   SizeType m_UpperBoundaryCropSize;
   SizeType m_LowerBoundaryCropSize;
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkCropImageFilter.txx"
 #endif
-  
+
 #endif

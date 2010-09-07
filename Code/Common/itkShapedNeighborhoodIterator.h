@@ -21,8 +21,8 @@
 #include <list>
 #include "itkConstShapedNeighborhoodIterator.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ShapedNeighborhoodIterator
  *
  * \brief  A neighborhood iterator which can take on an arbitrary shape.
@@ -139,10 +139,10 @@ namespace itk {
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex */
-template<class TImage,  class TBoundaryCondition
-                       = ZeroFluxNeumannBoundaryCondition<TImage> >
-class ITK_EXPORT ShapedNeighborhoodIterator
-  :  public ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
+template< class TImage,  class TBoundaryCondition =
+            ZeroFluxNeumannBoundaryCondition< TImage > >
+class ITK_EXPORT ShapedNeighborhoodIterator:
+  public ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:
   /** Extract image type information. */
@@ -154,9 +154,9 @@ public:
 
   /** Standard class typedefs. */
   typedef ShapedNeighborhoodIterator Self;
-  typedef ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>
-                                     Superclass;
-  
+  typedef ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
+  Superclass;
+
   /** Inherit typedefs from superclass */
   typedef typename Superclass::OffsetType            OffsetType;
   typedef typename OffsetType::OffsetValueType       OffsetValueType;
@@ -167,55 +167,53 @@ public:
   typedef typename Superclass::IndexListType         IndexListType;
   typedef typename Superclass::BoundaryConditionType BoundaryConditionType;
   typedef typename Superclass::ImageBoundaryConditionPointerType
-                                                     ImageBoundaryConditionPointerType;
-  typedef typename Superclass::NeighborhoodType      NeighborhoodType;
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::IndexValueType        IndexValueType;
+  ImageBoundaryConditionPointerType;
+  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  typedef typename Superclass::IndexType        IndexType;
+  typedef typename Superclass::ImageType        ImageType;
+  typedef typename Superclass::RegionType       RegionType;
+  typedef typename Superclass::IndexValueType   IndexValueType;
 
   /** An  iterator for the ShapedNeighborhood classes. */
-  struct Iterator : public ConstIterator
-    {
+  struct Iterator:public ConstIterator {
     Iterator() {}
-    Iterator(Self *s) : ConstIterator(s) {}
+    Iterator(Self *s):ConstIterator(s) {}
 
     ~Iterator() {}
-    const Iterator &operator=(const Iterator &o)
-      {
+    const Iterator & operator=(const Iterator & o)
+    {
       ConstIterator::operator=(o);
       return *this;
-      }
+    }
 
     // Promote to public
-    void Set(const PixelType &v) const
-      { ConstIterator::ProtectedSet(v); }
-
+    void Set(const PixelType & v) const
+    { ConstIterator::ProtectedSet(v); }
   };
 
   /** Default constructor */
   ShapedNeighborhoodIterator()
-    {
+  {
     m_BeginIterator = Iterator(this);
     m_EndIterator = Iterator(this);
     m_EndIterator.GoToEnd();
-    }
+  }
 
   /** Virtual destructor */
   virtual ~ShapedNeighborhoodIterator() {}
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
-  ShapedNeighborhoodIterator(const SizeType &radius,
-                             const ImageType * ptr,
-                             const RegionType &region
-    ) : Superclass(radius, const_cast<ImageType*>(ptr),
-                   region)
-    {
+  ShapedNeighborhoodIterator(const SizeType & radius,
+                             const ImageType *ptr,
+                             const RegionType & region
+                             ):Superclass(radius, const_cast< ImageType * >( ptr ),
+                                          region)
+  {
     m_BeginIterator = Iterator(this);
     m_EndIterator = Iterator(this);
     m_EndIterator.GoToEnd();
-    }
+  }
 
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for NeighborhoodIterator.
@@ -223,62 +221,60 @@ public:
   Superclass::SetCenterPixel;
 
   /** Assignment operator */
-  Self &operator=(const Self& orig)
-    {
+  Self & operator=(const Self & orig)
+  {
     Superclass::operator=(orig);
 
     // Reset begin and end pointer locations
     m_BeginIterator.GoToBegin();
     m_EndIterator.GoToEnd();
     return *this;
-    }
+  }
 
   /** Standard itk print method */
   virtual void PrintSelf(std::ostream &, Indent) const;
 
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
-  Iterator &Begin() {    return m_BeginIterator;  }
-  Iterator &End()   {   return m_EndIterator;     }
+  Iterator & Begin() {    return m_BeginIterator;  }
+  Iterator & End()   {   return m_EndIterator;     }
 
   /** Returns a const iterator for the neighborhood which points to the last
    * pixel in the neighborhood. */
-  const ConstIterator &End() const
-    { return this->m_ConstEndIterator; }
+  const ConstIterator & End() const
+  { return this->m_ConstEndIterator; }
 
   void ClearActiveList()
-    {
+  {
     Superclass::ClearActiveList();
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
-    }
+  }
 
 protected:
 
-   /** Copy constructor */
-  ShapedNeighborhoodIterator( const ShapedNeighborhoodIterator & o);
+  /** Copy constructor */
+  ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o);
   // purposely not implemented
 
-
   void ActivateIndex(const unsigned int n)
-    {
+  {
     Superclass::ActivateIndex(n);
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
-    }
+  }
 
   void DeactivateIndex(const unsigned int n)
-    {
+  {
     Superclass::DeactivateIndex(n);
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
-    }
+  }
+
   Iterator m_EndIterator;
   Iterator m_BeginIterator;
 };
-
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkShapedNeighborhoodIterator.txx"

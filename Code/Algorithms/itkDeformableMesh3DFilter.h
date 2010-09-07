@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -29,13 +29,12 @@
 
 namespace itk
 {
-
 /** \class DeformableMesh3D
- * \brief 
+ * \brief
  *
- * The DeformableMesh3DFilter is used to deform a mesh (deformable model) 
+ * The DeformableMesh3DFilter is used to deform a mesh (deformable model)
  * under a potential force in 2D or 3D.
- * The potential force is derived from the gradient information in the 
+ * The potential force is derived from the gradient information in the
  * medical image and it will make the model deform to fit to the boundary
  * features.
  *
@@ -52,101 +51,83 @@ namespace itk
  *
  * \ingroup MeshFilters
  * \ingroup MeshSegmentation */
-template <class TInputMesh, class TOutputMesh>
-class ITK_EXPORT DeformableMesh3DFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
+template< class TInputMesh, class TOutputMesh >
+class ITK_EXPORT DeformableMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
-  typedef DeformableMesh3DFilter  Self;
+  typedef DeformableMesh3DFilter Self;
 
   /** Standard "Superclass" typedef. */
-  typedef MeshToMeshFilter<TInputMesh, TOutputMesh> Superclass;
+  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
 
   /** Smart pointer typedef support */
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DeformableMesh3DFilter,MeshToMeshFilter);
+  itkTypeMacro(DeformableMesh3DFilter, MeshToMeshFilter);
 
   /** Some typedefs. */
-  typedef TInputMesh                          InputMeshType;
-  typedef typename InputMeshType::PointsContainerPointer
-                                              InputPointsContainerPointer;
-  typedef typename InputMeshType::PointsContainerConstPointer
-                                              InputPointsContainerConstPointer;
-  typedef typename InputMeshType::PointsContainer::Iterator
-                                              InputPointsContainerIterator;
-  typedef typename InputMeshType::PointsContainer::ConstIterator
-                                              InputPointsContainerConstIterator;
-  typedef typename InputMeshType::PointDataContainerPointer
-                                              InputPointDataContainerPointer;
-  typedef typename InputMeshType::PointDataContainer::Iterator
-                                              InputPointDataContainerIterator;
-  typedef typename InputMeshType::CellsContainerPointer
-                                              InputCellsContainerPointer;
-  typedef typename InputMeshType::CellsContainer::Iterator
-                                              InputCellsContainerIterator;
-  typedef typename InputMeshType::CellsContainerConstPointer
-                                              InputCellsContainerConstPointer;
-  typedef typename InputMeshType::CellsContainer::ConstIterator
-                                              InputCellsContainerConstIterator;
-  typedef typename InputMeshType::CellDataContainerPointer
-                                              InputCellDataContainerPointer;
-  typedef typename InputMeshType::CellDataContainer::Iterator
-                                              InputCellDataContainerIterator;
-  typedef typename InputMeshType::CellDataContainerConstPointer
-                                              InputCellDataContainerConstPointer;
-  typedef typename InputMeshType::CellDataContainer::ConstIterator
-                                              InputCellDataContainerConstIterator;
+  typedef TInputMesh                                               InputMeshType;
+  typedef typename InputMeshType::PointsContainerPointer           InputPointsContainerPointer;
+  typedef typename InputMeshType::PointsContainerConstPointer      InputPointsContainerConstPointer;
+  typedef typename InputMeshType::PointsContainer::Iterator        InputPointsContainerIterator;
+  typedef typename InputMeshType::PointsContainer::ConstIterator   InputPointsContainerConstIterator;
+  typedef typename InputMeshType::PointDataContainerPointer        InputPointDataContainerPointer;
+  typedef typename InputMeshType::PointDataContainer::Iterator     InputPointDataContainerIterator;
+  typedef typename InputMeshType::CellsContainerPointer            InputCellsContainerPointer;
+  typedef typename InputMeshType::CellsContainer::Iterator         InputCellsContainerIterator;
+  typedef typename InputMeshType::CellsContainerConstPointer       InputCellsContainerConstPointer;
+  typedef typename InputMeshType::CellsContainer::ConstIterator    InputCellsContainerConstIterator;
+  typedef typename InputMeshType::CellDataContainerPointer         InputCellDataContainerPointer;
+  typedef typename InputMeshType::CellDataContainer::Iterator      InputCellDataContainerIterator;
+  typedef typename InputMeshType::CellDataContainerConstPointer    InputCellDataContainerConstPointer;
+  typedef typename InputMeshType::CellDataContainer::ConstIterator InputCellDataContainerConstIterator;
 
-  typedef TOutputMesh                         OutputMeshType;
-  typedef typename OutputMeshType::PointsContainerPointer
-                                              OutputPointsContainerPointer;
-  typedef typename OutputMeshType::CellsContainer
-                                              OutputCellsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer
-                                              OutputCellsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer::Iterator
-                                              OutputPointsContainerIterator;
+  typedef TOutputMesh                                        OutputMeshType;
+  typedef typename OutputMeshType::PointsContainerPointer    OutputPointsContainerPointer;
+  typedef typename OutputMeshType::CellsContainer            OutputCellsContainer;
+  typedef typename OutputMeshType::CellsContainerPointer     OutputCellsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer::Iterator OutputPointsContainerIterator;
 
   /** Other definitions. */
-  typedef typename InputMeshType::CellType          CellType;
-  typedef typename InputMeshType::CellTraits        CellTraits;
-  typedef typename InputMeshType::PointType         InputPointType;
-  typedef typename InputMeshType::PixelType         PixelType;
+  typedef typename InputMeshType::CellType   CellType;
+  typedef typename InputMeshType::CellTraits CellTraits;
+  typedef typename InputMeshType::PointType  InputPointType;
+  typedef typename InputMeshType::PixelType  PixelType;
 
   /** Image and Image iterator definition. */
-  typedef Image<unsigned char, 3>                      PotentialImageType;
-  typedef ImageRegionIterator<PotentialImageType>      PotentialIterator;
-  typedef CovariantVector<PixelType, 3>                GradientType;
-  typedef Image<GradientType, 3>                       GradientImageType;
-  typedef ImageRegionIterator<GradientImageType>       GradientIterator;
-  typedef typename GradientImageType::SizeType         ImageSizeType;
-  typedef typename GradientImageType::IndexType        ImageIndexType;
+  typedef Image< unsigned char, 3 >                 PotentialImageType;
+  typedef ImageRegionIterator< PotentialImageType > PotentialIterator;
+  typedef CovariantVector< PixelType, 3 >           GradientType;
+  typedef Image< GradientType, 3 >                  GradientImageType;
+  typedef ImageRegionIterator< GradientImageType >  GradientIterator;
+  typedef typename GradientImageType::SizeType      ImageSizeType;
+  typedef typename GradientImageType::IndexType     ImageIndexType;
 
-  typedef itk::CellInterface<PixelType, CellTraits>    TCellInterface;
-  typedef itk::TriangleCell<TCellInterface>            TriCell;
+  typedef itk::CellInterface< PixelType, CellTraits > TCellInterface;
+  typedef itk::TriangleCell< TCellInterface >         TriCell;
 
-  typedef CovariantVector<int, 3>                      int3DVector;
-  typedef CovariantVector<double, 2>                   double2DVector;
-  typedef CovariantVector<double, 3>                   double3DVector;
+  typedef CovariantVector< int, 3 >    int3DVector;
+  typedef CovariantVector< double, 2 > double2DVector;
+  typedef CovariantVector< double, 3 > double3DVector;
 
   /* Mesh pointer definition. */
-  typedef typename InputMeshType::Pointer           InputMeshPointer;
-  typedef typename InputMeshType::ConstPointer      InputMeshConstPointer;
-  typedef typename OutputMeshType::Pointer          OutputMeshPointer;
-  typedef typename GradientImageType::Pointer       GradientImagePointer;
+  typedef typename InputMeshType::Pointer      InputMeshPointer;
+  typedef typename InputMeshType::ConstPointer InputMeshConstPointer;
+  typedef typename OutputMeshType::Pointer     OutputMeshPointer;
+  typedef typename GradientImageType::Pointer  GradientImagePointer;
 
   /* Stiffness Matrix Type definition */
-  typedef vnl_matrix_fixed<double, 4, 4>  StiffnessMatrixType;
-  typedef StiffnessMatrixType *           StiffnessMatrixRawPointer; 
+  typedef vnl_matrix_fixed< double, 4, 4 > StiffnessMatrixType;
+  typedef StiffnessMatrixType *            StiffnessMatrixRawPointer;
 
   /** Routines. */
-  void SetStiffnessMatrix( StiffnessMatrixType *stiff, int i );
+  void SetStiffnessMatrix(StiffnessMatrixType *stiff, int i);
 
   /** Set/Get routines. */
   itkSetMacro(Gradient, GradientImagePointer);
@@ -169,50 +150,58 @@ public:
   itkSetMacro(ObjectLabel, unsigned char);
 
   itkGetConstMacro(Normals, InputMeshPointer);
-
 protected:
   DeformableMesh3DFilter();
   ~DeformableMesh3DFilter();
-  DeformableMesh3DFilter(const Self&) {}
-  void operator=(const Self&) {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  DeformableMesh3DFilter(const Self &) {}
+  void operator=(const Self &) {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData();
 
 private:
   /** Meshes for Forces,Displacement,Normals, etc. */
-  InputMeshPointer  m_Forces; 
-  InputMeshPointer  m_Normals;
-  InputMeshPointer  m_Displacements;
-  InputMeshPointer  m_Derives;
-  InputMeshPointer  m_Locations;
+  InputMeshPointer m_Forces;
+  InputMeshPointer m_Normals;
+  InputMeshPointer m_Displacements;
+  InputMeshPointer m_Derives;
+  InputMeshPointer m_Locations;
 
   void Initialize();
+
   void SetDefaultStiffnessMatrix();
+
   void SetMeshStiffness();
+
   void Advance();     // update data for next iteration
+
   void ComputeDt();   // compute point positions
+
   void ComputeOutput();
+
   void GradientFit(); // fit the model with gradient information
+
   void ComputeNormals();
+
   void PotentialFit();
 
   /** Three different kinds of stiffness matrix. */
-  StiffnessMatrixType         m_StiffnessMatrix[10];
-  StiffnessMatrixRawPointer  *m_K;
-  
-  /** Parameters definitions. */
-  double2DVector    m_Stiffness;
-  double            m_TimeStep;      /** Time step of each iteration */
-  double3DVector    m_Scale;
+  StiffnessMatrixType        m_StiffnessMatrix[10];
+  StiffnessMatrixRawPointer *m_K;
 
-  int       m_Step;          /** Number of iterations */
-  int       m_NumberOfNodes;
-  int       m_NumberOfCells;
-  int       m_ImageWidth;      /** Image size */
-  int       m_ImageHeight;
-  int       m_ImageDepth;
-  int       m_StepThreshold;/** This threshold decides when to stop the model. */
+  /** Parameters definitions. */
+  double2DVector m_Stiffness;
+  double         m_TimeStep;         /** Time step of each iteration */
+  double3DVector m_Scale;
+
+  int m_Step;                /** Number of iterations */
+  int m_NumberOfNodes;
+  int m_NumberOfCells;
+  int m_ImageWidth;            /** Image size */
+  int m_ImageHeight;
+  int m_ImageDepth;
+  int m_StepThreshold;      /** This threshold decides when to stop the model.
+                              */
 
   unsigned short m_ModelXUpLimit;
   unsigned short m_ModelXDownLimit;
@@ -226,10 +215,9 @@ private:
   PixelType      m_PotentialMagnitude;
 
   /** To compute force derived from gradient data. */
-  GradientImagePointer        m_Gradient; 
-  PotentialImageType::Pointer m_Potential;  
+  GradientImagePointer        m_Gradient;
+  PotentialImageType::Pointer m_Potential;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

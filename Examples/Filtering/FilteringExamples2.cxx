@@ -20,10 +20,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include <iostream>
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 #include "itkTestMain.h" 
 
 

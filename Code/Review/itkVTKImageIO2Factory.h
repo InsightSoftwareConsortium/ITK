@@ -28,18 +28,19 @@ namespace itk
 /** \class VTKImageIO2Factory
  * \brief Create instances of VTKImageIO2 objects using an object factory.
  */
-class ITK_EXPORT VTKImageIO2Factory : public ObjectFactoryBase
+class ITK_EXPORT VTKImageIO2Factory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef VTKImageIO2Factory       Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef VTKImageIO2Factory         Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Class Methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -49,22 +50,19 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     VTKImageIO2Factory::Pointer vtkFactory = VTKImageIO2Factory::New();
+
     ObjectFactoryBase::RegisterFactory(vtkFactory);
-    }
- 
+  }
+
 protected:
   VTKImageIO2Factory();
   ~VTKImageIO2Factory();
-
 private:
-  VTKImageIO2Factory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  VTKImageIO2Factory(const Self &); //purposely not implemented
+  void operator=(const Self &);     //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #endif

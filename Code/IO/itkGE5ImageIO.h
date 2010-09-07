@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -48,13 +48,13 @@ namespace itk
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT GE5ImageIO : public IPLCommonImageIO
+class ITK_EXPORT GE5ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */
-  typedef GE5ImageIO         Self;
-  typedef IPLCommonImageIO   Superclass;
-  typedef SmartPointer<Self> Pointer;
+  typedef GE5ImageIO           Self;
+  typedef IPLCommonImageIO     Superclass;
+  typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,7 +70,7 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  virtual bool CanReadFile(const char* FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead);
 
   /* * Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -116,14 +116,16 @@ protected:
   GE5ImageIO();
   ~GE5ImageIO();
 
-  virtual GEImageHeader *ReadHeader(const char *FileNameToRead);
-private:
-  void SwapPixHdr (Ge5xPixelHeader * hdr);
-  int CheckGE5xImages (char const * const imageFileTemplate, std::string &reason);
-  GE5ImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
+  virtual GEImageHeader * ReadHeader(const char *FileNameToRead);
 
+private:
+  void SwapPixHdr(Ge5xPixelHeader *hdr);
+
+  int CheckGE5xImages(char const *const imageFileTemplate, std::string & reason);
+
+  GE5ImageIO(const Self &);     //purposely not implemented
+  void operator=(const Self &); //purposely not implemented
+};
 } // end namespace itk
 
 #endif // __itkAnalyzeImageIO_h

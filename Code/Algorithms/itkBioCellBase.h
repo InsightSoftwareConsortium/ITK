@@ -22,30 +22,30 @@
 #include "itkPoint.h"
 #include "itkBioGenome.h"
 
-namespace itk {
-
-namespace bio {
-
+namespace itk
+{
+namespace bio
+{
 /** \class CellBase
  * \brief non-templated Base class from which the templated Cell classes will be derived.
  * Derived classes are instantiated for a specific space dimension.
  */
-class ITK_EXPORT CellBase 
+class ITK_EXPORT CellBase
 {
 public:
-  typedef   itk::RGBPixel<float>                ColorType;
-  typedef   unsigned long int                   IdentifierType;
-  typedef   itk::bio::Genome                    GenomeType;
-  typedef   GenomeType::GeneIdType              GeneIdType;
-
+  typedef   itk::RGBPixel< float > ColorType;
+  typedef   unsigned long int      IdentifierType;
+  typedef   itk::bio::Genome       GenomeType;
+  typedef   GenomeType::GeneIdType GeneIdType;
 
   virtual ColorType GetColor(void) const;
-  
+
   double GetRadius(void) const;
-  
+
   IdentifierType GetSelfIdentifier(void) const;
+
   IdentifierType GetParentIdentifier(void) const;
- 
+
   enum CellCycleState {
     M = 1UL,
     Gap1,
@@ -53,122 +53,132 @@ public:
     Gap2,
     Gap0,
     Apop
-  };
-
+    };
 protected:
   CellBase();
   virtual ~CellBase();
 
   virtual void Grow(void);
+
   virtual void DNAReplication(void);
+
   virtual void Apoptosis(void);
-  
+
   virtual void EnergyIntake(void);
+
   virtual void NutrientsIntake(void);
+
   virtual void ComputeGeneNetwork(void);
+
   virtual void SecreteProducts(void);
 
   virtual bool CheckPointGrowth(void);
+
   virtual bool CheckPointDNAReplication(void);
+
   virtual bool CheckPointMitosis(void);
+
   virtual bool CheckPointApoptosis(void);
 
   void MarkForRemoval(void);
 
   // Static Members
-  static     ColorType   DefaultColor;
+  static ColorType DefaultColor;
 
-  static     GeneIdType  BlueGene;   // Pigment genes
-  static     GeneIdType  RedGene;
-  static     GeneIdType  GreenGene;
-  static     GeneIdType  Cdk2E;      // cell cycle control  genes
-  static     GeneIdType  Caspase;    // cleavage enzyme: apoptosis effector
-  static     GeneIdType  Pressurin;  // signal from micro-tubules subject to stress
+  static GeneIdType BlueGene;        // Pigment genes
+  static GeneIdType RedGene;
+  static GeneIdType GreenGene;
+  static GeneIdType Cdk2E;           // cell cycle control  genes
+  static GeneIdType Caspase;         // cleavage enzyme: apoptosis effector
+  static GeneIdType Pressurin;       // signal from micro-tubules subject to
+                                     // stress
 
+  static unsigned long MaximumGenerationLimit;
+  static unsigned long GrowthMaximumLatencyTime;
+  static unsigned long DivisionMaximumLatencyTime;
 
-  static unsigned long   MaximumGenerationLimit;
-  static unsigned long   GrowthMaximumLatencyTime;
-  static unsigned long   DivisionMaximumLatencyTime;
+  static double EnergySelfRepairLevel;
+  static double NutrientSelfRepairLevel;
 
-  static     double      EnergySelfRepairLevel;
-  static     double      NutrientSelfRepairLevel;
+  static double DefaultEnergyIntake;
+  static double DefaultNutrientsIntake;
 
-  static     double      DefaultEnergyIntake;
-  static     double      DefaultNutrientsIntake;
+  static unsigned long Counter;
 
-  static     unsigned long  Counter;
+  static ColorType WellNourishedColor;
+  static ColorType HopefullColor;
+  static ColorType StarvingColor;
 
-  static ColorType       WellNourishedColor;
-  static ColorType       HopefullColor;
-  static ColorType       StarvingColor;
+  static double ChemoAttractantLowThreshold;
+  static double ChemoAttractantHighThreshold;
 
-  static double          ChemoAttractantLowThreshold;
-  static double          ChemoAttractantHighThreshold;
+  GenomeType *m_Genome;
+  GenomeType *m_GenomeCopy;
 
-  GenomeType         * m_Genome;
-  GenomeType         * m_GenomeCopy;
-
-  static     double      DefaultRadius;
-  static     double      GrowthRadiusLimit;
-  static     double      GrowthRadiusIncrement;
-
+  static double DefaultRadius;
+  static double GrowthRadiusLimit;
+  static double GrowthRadiusIncrement;
 public:
 
   virtual bool MarkedForRemoval(void) const;
 
+  static void SetDefaultRadius(double);
 
-  static void SetDefaultRadius( double );
-  static void SetGrowthRadiusLimit( double );
-  static void SetGrowthRadiusIncrement( double );
-  static void SetEnergySelfRepairLevel( double );
-  static void SetNutrientSelfRepairLevel( double );
-  static void SetDefaultColor( const ColorType & color );
+  static void SetGrowthRadiusLimit(double);
 
-  static void SetChemoAttractantHighThreshold( double );
-  static void SetChemoAttractantLowThreshold( double );
+  static void SetGrowthRadiusIncrement(double);
 
-  static void SetGrowthMaximumLatencyTime( unsigned long latency );
-  static unsigned long GetGrowthMaximumLatencyTime( void );
+  static void SetEnergySelfRepairLevel(double);
 
-  static double GetGrowthRadiusLimit( void );
-  static void SetMaximumGenerationLimit( unsigned long );
+  static void SetNutrientSelfRepairLevel(double);
 
-  static void SetDivisionMaximumLatencyTime( unsigned long );
+  static void SetDefaultColor(const ColorType & color);
+
+  static void SetChemoAttractantHighThreshold(double);
+
+  static void SetChemoAttractantLowThreshold(double);
+
+  static void SetGrowthMaximumLatencyTime(unsigned long latency);
+
+  static unsigned long GetGrowthMaximumLatencyTime(void);
+
+  static double GetGrowthRadiusLimit(void);
+
+  static void SetMaximumGenerationLimit(unsigned long);
+
+  static void SetDivisionMaximumLatencyTime(unsigned long);
+
   static unsigned long GetDivisionMaximumLatencyTime(void);
 
   static void ResetCounter(void);
+
   static void Initialize(void); // define values in static variables.
 
-
 protected:
-   double               m_Pressure;
+  double m_Pressure;
 
-   ColorType            m_Color;
-   
-   double               m_Radius;
-   double               m_EnergyReserveLevel;
-   double               m_NutrientsReserveLevel;
+  ColorType m_Color;
 
-   unsigned long        m_GrowthLatencyTime;
+  double m_Radius;
+  double m_EnergyReserveLevel;
+  double m_NutrientsReserveLevel;
 
-   IdentifierType       m_ParentIdentifier;
-   IdentifierType       m_SelfIdentifier;
+  unsigned long m_GrowthLatencyTime;
 
-   unsigned long        m_Generation;
+  IdentifierType m_ParentIdentifier;
+  IdentifierType m_SelfIdentifier;
 
-   CellCycleState       m_CycleState;
-   
-   bool                 m_MarkedForRemoval;
-   unsigned long        m_DivisionLatencyTime;
+  unsigned long m_Generation;
 
-   bool                 m_ScheduleApoptosis;
-   double               m_ChemoAttractantLevel;
+  CellCycleState m_CycleState;
 
+  bool          m_MarkedForRemoval;
+  unsigned long m_DivisionLatencyTime;
+
+  bool   m_ScheduleApoptosis;
+  double m_ChemoAttractantLevel;
 };
-
 } // end namespace bio
-
 } // end namespace itk
-
 
 #endif

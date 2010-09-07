@@ -4,13 +4,13 @@
   Module:    itkDICOMImageIO2.cxx
   Language:  C++
   Date:      $Date$
-  Version:   $Revision$  
+  Version:   $Revision$
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -37,7 +37,6 @@
 
 namespace itk
 {
-
 /** Constructor */
 DICOMImageIO2::DICOMImageIO2()
 {
@@ -47,7 +46,7 @@ DICOMImageIO2::DICOMImageIO2()
   // standpoint, a single DICOM image will be a 3D image with just one
   // slice.  The ImageFileReader may reduce this down to a 2D image if
   // the user only asks for a 2D image.
-  this->SetNumberOfDimensions(3);  
+  this->SetNumberOfDimensions(3);
 
   m_PixelType  = SCALAR;
   m_ComponentType  = UCHAR;
@@ -56,7 +55,6 @@ DICOMImageIO2::DICOMImageIO2()
   m_AppHelper = new itkdicomparser::DICOMAppHelper();
 }
 
-
 /** Destructor */
 DICOMImageIO2::~DICOMImageIO2()
 {
@@ -64,10 +62,11 @@ DICOMImageIO2::~DICOMImageIO2()
   delete m_AppHelper;
 }
 
-bool DICOMImageIO2::CanReadFile( const char* filename ) 
-{ 
-  bool open = m_Parser->OpenFile( filename);
-  if (!open)
+bool DICOMImageIO2::CanReadFile(const char *filename)
+{
+  bool open = m_Parser->OpenFile(filename);
+
+  if ( !open )
     {
     return false;
     }
@@ -75,32 +74,33 @@ bool DICOMImageIO2::CanReadFile( const char* filename )
   return magic;
 }
 
-void DICOMImageIO2::ReadDataCallback( doublebyte,
-                                      doublebyte,
-                                      itkdicomparser::DICOMParser::VRTypes,
-                                      unsigned char* val,
-                                      quadbyte len)
+void DICOMImageIO2::ReadDataCallback(doublebyte,
+                                     doublebyte,
+                                     itkdicomparser::DICOMParser::VRTypes,
+                                     unsigned char *val,
+                                     quadbyte len)
 {
-  unsigned int imageBytes = static_cast<unsigned int>( this->GetImageSizeInBytes() );
-  if (len < 0)
+  unsigned int imageBytes = static_cast< unsigned int >( this->GetImageSizeInBytes() );
+
+  if ( len < 0 )
     {
     len = 0;
     }
-  if (len < static_cast<int>( imageBytes ) )
+  if ( len < static_cast< int >( imageBytes ) )
     {
     imageBytes = len;
     }
-  memcpy( m_ImageDataBuffer, val, imageBytes );
+  memcpy(m_ImageDataBuffer, val, imageBytes);
 }
 
-void DICOMImageIO2::Read(void* buffer)
+void DICOMImageIO2::Read(void *buffer)
 {
   m_Parser->ClearAllDICOMTagCallbacks();
   m_AppHelper->RegisterCallbacks(m_Parser);
   m_AppHelper->RegisterPixelDataCallback(m_Parser);
-    
-  bool open = m_Parser->OpenFile(m_FileName.c_str());
-  if (!open)
+
+  bool open = m_Parser->OpenFile( m_FileName.c_str() );
+  if ( !open )
     {
     return;
     }
@@ -108,19 +108,18 @@ void DICOMImageIO2::Read(void* buffer)
   // Should ReadHeader() be Read() since more than just a header is read?
   m_Parser->ReadHeader();
 
-  Array<float> imagePosition(3);
+  Array< float > imagePosition(3);
   imagePosition[0] = m_AppHelper->GetImagePositionPatient()[0];
   imagePosition[1] = m_AppHelper->GetImagePositionPatient()[1];
   imagePosition[2] = m_AppHelper->GetImagePositionPatient()[2];
 
-  EncapsulateMetaData<Array<float> >(this->GetMetaDataDictionary(),
-                                     "ITK_ImageOrigin",
-                                     imagePosition);
-  
-  void* newData;
-  itkdicomparser::DICOMParser::VRTypes newType;
-  unsigned long imageDataLength = 0;
+  EncapsulateMetaData< Array< float > >(this->GetMetaDataDictionary(),
+                                        "ITK_ImageOrigin",
+                                        imagePosition);
 
+  void *                               newData;
+  itkdicomparser::DICOMParser::VRTypes newType;
+  unsigned long                        imageDataLength = 0;
 
   m_AppHelper->GetImageData(newData, newType, imageDataLength);
   memcpy(buffer, newData, imageDataLength);
@@ -129,8 +128,7 @@ void DICOMImageIO2::Read(void* buffer)
   m_AppHelper->Clear();
 }
 
-
-/** 
+/**
  *  Read Information about the dicom file
  */
 void DICOMImageIO2::ReadImageInformation()
@@ -138,56 +136,56 @@ void DICOMImageIO2::ReadImageInformation()
   m_Parser->ClearAllDICOMTagCallbacks();
   m_AppHelper->RegisterCallbacks(m_Parser);
 
-  bool open = m_Parser->OpenFile(m_FileName.c_str());
-  if (!open)
+  bool open = m_Parser->OpenFile( m_FileName.c_str() );
+  if ( !open )
     {
     return;
     }
 
   m_Parser->ReadHeader();
 
-  Array<float> imagePosition(3);
+  Array< float > imagePosition(3);
   imagePosition[0] = m_AppHelper->GetImagePositionPatient()[0];
   imagePosition[1] = m_AppHelper->GetImagePositionPatient()[1];
   imagePosition[2] = m_AppHelper->GetImagePositionPatient()[2];
 
-  Array<float> imageSpacing(3);
+  Array< float > imageSpacing(3);
   imageSpacing[0] = m_AppHelper->GetPixelSpacing()[0];
   imageSpacing[1] = m_AppHelper->GetPixelSpacing()[1];
   imageSpacing[2] = m_AppHelper->GetPixelSpacing()[2];
 
-  EncapsulateMetaData<Array<float> >(this->GetMetaDataDictionary(),
-                                     "ITK_ImageOrigin",
-                                     imagePosition);
+  EncapsulateMetaData< Array< float > >(this->GetMetaDataDictionary(),
+                                        "ITK_ImageOrigin",
+                                        imagePosition);
 
-  int* dims = m_AppHelper->GetDimensions();
+  int *dims = m_AppHelper->GetDimensions();
 
-  for (int i = 0; i < 3; i++)
+  for ( int i = 0; i < 3; i++ )
     {
     this->SetOrigin(i, imagePosition[i]);
     this->SetSpacing(i, imageSpacing[i]);
     }
 
-  for (int i = 0; i < 2; i++)
+  for ( int i = 0; i < 2; i++ )
     {
     this->SetDimensions(i, dims[i]);
     }
   this->SetDimensions(2, 1);   // single slice in a 3D image
-  
-  int numBits = m_AppHelper->GetBitsAllocated();
+
+  int  numBits = m_AppHelper->GetBitsAllocated();
   bool sign = m_AppHelper->RescaledImageDataIsSigned();
 
   bool isFloat = m_AppHelper->RescaledImageDataIsFloat();
-  int num_comp = m_AppHelper->GetNumberOfComponents();
-      
-  if (isFloat)  // Float
+  int  num_comp = m_AppHelper->GetNumberOfComponents();
+
+  if ( isFloat )  // Float
     {
     this->SetPixelType(ImageIOBase::SCALAR);
     this->SetComponentType(ImageIOBase::FLOAT);
     }
-  else if (num_comp == 3) //RGB
+  else if ( num_comp == 3 ) //RGB
     {
-    if (numBits == 8)
+    if ( numBits == 8 )
       {
       this->SetComponentType(ImageIOBase::UCHAR);
       this->SetPixelType(ImageIOBase::RGB);
@@ -200,9 +198,9 @@ void DICOMImageIO2::ReadImageInformation()
     }
   else // Everything else
     {
-    if (numBits == 8)
+    if ( numBits == 8 )
       {
-      if (sign)
+      if ( sign )
         {
         this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::CHAR);
@@ -213,9 +211,9 @@ void DICOMImageIO2::ReadImageInformation()
         this->SetComponentType(ImageIOBase::UCHAR);
         }
       }
-    else if (numBits == 16)
+    else if ( numBits == 16 )
       {
-      if (sign)
+      if ( sign )
         {
         this->SetPixelType(ImageIOBase::SCALAR);
         this->SetComponentType(ImageIOBase::SHORT);
@@ -240,131 +238,127 @@ void DICOMImageIO2::ReadImageInformation()
 }
 
 /** Print Self Method */
-void DICOMImageIO2::PrintSelf(std::ostream& os, Indent indent) const
+void DICOMImageIO2::PrintSelf(std::ostream & os, Indent indent) const
 {
   unsigned int i;
+
   Superclass::PrintSelf(os, indent);
   os << indent << "Spacing: ( ";
-  for (i=0; i < m_NumberOfDimensions; i++)
+  for ( i = 0; i < m_NumberOfDimensions; i++ )
     {
     os << m_Spacing[i] << " ";
     }
   os << " )\n";
   os << indent << "Origin: ( ";
-  for (i=0; i < m_Origin.size(); i++)
+  for ( i = 0; i < m_Origin.size(); i++ )
     {
     os << m_Origin[i] << " ";
     }
-  os << " )" << std::endl; 
+  os << " )" << std::endl;
 }
 
-
-void 
+void
 DICOMImageIO2
-::GetPatientName(char* name)
+::GetPatientName(char *name)
 {
   m_AppHelper->GetPatientName(name);
 }
 
-
-void 
+void
 DICOMImageIO2
-::GetPatientID(char* id)
+::GetPatientID(char *id)
 {
   m_AppHelper->GetPatientID(id);
 }
 
-void 
+void
 DICOMImageIO2
-::GetPatientSex(char* sex)
+::GetPatientSex(char *sex)
 {
   m_AppHelper->GetPatientSex(sex);
 }
 
-void 
+void
 DICOMImageIO2
-::GetPatientAge(char* age)
+::GetPatientAge(char *age)
 {
   m_AppHelper->GetPatientAge(age);
 }
 
-void 
+void
 DICOMImageIO2
-::GetPatientDOB(char* dob)
+::GetPatientDOB(char *dob)
 {
   m_AppHelper->GetPatientDOB(dob);
 }
 
-void 
+void
 DICOMImageIO2
-::GetStudyID(char* id)
+::GetStudyID(char *id)
 {
   m_AppHelper->GetStudyID(id);
 }
 
-
-void 
+void
 DICOMImageIO2
-::GetStudyDescription(char* desc)
+::GetStudyDescription(char *desc)
 {
   m_AppHelper->GetStudyDescription(desc);
 }
 
-void 
+void
 DICOMImageIO2
-::GetBodyPart(char* part)
+::GetBodyPart(char *part)
 {
   m_AppHelper->GetBodyPart(part);
 }
 
-void 
+void
 DICOMImageIO2
-::GetNumberOfSeriesInStudy(char* series)
+::GetNumberOfSeriesInStudy(char *series)
 {
   m_AppHelper->GetNumberOfSeriesInStudy(series);
 }
 
-
-void 
+void
 DICOMImageIO2
-::GetNumberOfStudyRelatedSeries(char* series)
+::GetNumberOfStudyRelatedSeries(char *series)
 {
   m_AppHelper->GetNumberOfStudyRelatedSeries(series);
 }
 
-void 
+void
 DICOMImageIO2
-::GetStudyDate(char* date)
+::GetStudyDate(char *date)
 {
   m_AppHelper->GetStudyDate(date);
 }
 
-void 
+void
 DICOMImageIO2
-::GetModality(char* modality)
+::GetModality(char *modality)
 {
   m_AppHelper->GetModality(modality);
 }
 
-void 
+void
 DICOMImageIO2
-::GetManufacturer(char* manu)
+::GetManufacturer(char *manu)
 {
   m_AppHelper->GetManufacturer(manu);
 }
 
-void 
+void
 DICOMImageIO2
-::GetInstitution(char* ins)
+::GetInstitution(char *ins)
 {
   m_AppHelper->GetInstitution(ins);
 }
 
-void 
+void
 DICOMImageIO2
-::GetModel(char* model)
+::GetModel(char *model)
 {
   m_AppHelper->GetModel(model);
 }
-
 } // end namespace itk

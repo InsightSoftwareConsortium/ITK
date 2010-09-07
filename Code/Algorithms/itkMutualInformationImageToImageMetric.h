@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /** \class MutualInformationImageToImageMetric
  * \brief Computes the mutual information between two images to be registered
  *
@@ -45,7 +44,7 @@ namespace itk
  * SetInterpolator().
  *
  * \warning This metric assumes that the moving image has already been
- * connected to the interpolator outside of this class. 
+ * connected to the interpolator outside of this class.
  *
  * The method GetValue() computes of the mutual information
  * while method GetValueAndDerivative() computes
@@ -86,17 +85,17 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  */
-template <class TFixedImage,class TMovingImage >
-class ITK_EXPORT MutualInformationImageToImageMetric :
-    public ImageToImageMetric< TFixedImage, TMovingImage >
+template< class TFixedImage, class TMovingImage >
+class ITK_EXPORT MutualInformationImageToImageMetric:
+  public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
 
   /** Standard class typedefs. */
   typedef MutualInformationImageToImageMetric             Self;
   typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,72 +104,72 @@ public:
   itkTypeMacro(MutualInformationImageToImageMetric, ImageToImageMetric);
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename Superclass::TransformJacobianType    TransformJacobianType;
-  typedef typename Superclass::InterpolatorType         InterpolatorType;
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::FixedImageType           FixedImageType;
-  typedef typename Superclass::MovingImageType          MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer   FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer  MovingImageCosntPointer;
+  typedef typename Superclass::TransformType           TransformType;
+  typedef typename Superclass::TransformPointer        TransformPointer;
+  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
+  typedef typename Superclass::InterpolatorType        InterpolatorType;
+  typedef typename Superclass::MeasureType             MeasureType;
+  typedef typename Superclass::DerivativeType          DerivativeType;
+  typedef typename Superclass::ParametersType          ParametersType;
+  typedef typename Superclass::FixedImageType          FixedImageType;
+  typedef typename Superclass::MovingImageType         MovingImageType;
+  typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
+  typedef typename Superclass::MovingImageConstPointer MovingImageCosntPointer;
 
   /** Index and Point typedef support. */
-  typedef typename FixedImageType::IndexType            FixedImageIndexType;
-  typedef typename FixedImageIndexType::IndexValueType  FixedImageIndexValueType;
-  typedef typename MovingImageType::IndexType           MovingImageIndexType;
-  typedef typename TransformType::InputPointType        FixedImagePointType;
-  typedef typename TransformType::OutputPointType       MovingImagePointType;
+  typedef typename FixedImageType::IndexType           FixedImageIndexType;
+  typedef typename FixedImageIndexType::IndexValueType FixedImageIndexValueType;
+  typedef typename MovingImageType::IndexType          MovingImageIndexType;
+  typedef typename TransformType::InputPointType       FixedImagePointType;
+  typedef typename TransformType::OutputPointType      MovingImagePointType;
 
   /** Enum of the moving image dimension. */
   itkStaticConstMacro(MovingImageDimension, unsigned int,
                       MovingImageType::ImageDimension);
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative( 
-    const ParametersType& parameters,
-    DerivativeType & Derivative ) const;
+  void GetDerivative(
+    const ParametersType & parameters,
+    DerivativeType & Derivative) const;
 
   /**  Get the value. */
-  MeasureType GetValue( const ParametersType& parameters ) const;
+  MeasureType GetValue(const ParametersType & parameters) const;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative( const ParametersType& parameters, 
-                              MeasureType& Value, DerivativeType& Derivative ) const;
+  void GetValueAndDerivative(const ParametersType & parameters,
+                             MeasureType & Value, DerivativeType & Derivative) const;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.
    * The number of spatial samples is clamped to be a minimum of 1.
    * Default value is 50. */
-  void SetNumberOfSpatialSamples( unsigned int num );
+  void SetNumberOfSpatialSamples(unsigned int num);
 
   /** Get the number of spatial samples. */
-  itkGetConstReferenceMacro( NumberOfSpatialSamples, unsigned int );
+  itkGetConstReferenceMacro(NumberOfSpatialSamples, unsigned int);
 
   /** Set/Get the moving image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
-   * normalized to a mean of 0 and standard deviation of 1.0.  
+   * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
-  itkSetClampMacro( MovingImageStandardDeviation, double, 
-                    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
-  itkGetConstReferenceMacro( MovingImageStandardDeviation, double );
+  itkSetClampMacro( MovingImageStandardDeviation, double,
+                    NumericTraits< double >::NonpositiveMin(), NumericTraits< double >::max() );
+  itkGetConstReferenceMacro(MovingImageStandardDeviation, double);
 
   /** Set/Get the fixed image intensitiy standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
-   * normalized to a mean of 0 and standard deviation of 1.0.  
+   * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
   itkSetClampMacro( FixedImageStandardDeviation, double,
-                    NumericTraits<double>::NonpositiveMin(), NumericTraits<double>::max() );
-  itkGetConstMacro( FixedImageStandardDeviation, double );
+                    NumericTraits< double >::NonpositiveMin(), NumericTraits< double >::max() );
+  itkGetConstMacro(FixedImageStandardDeviation, double);
 
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
-  itkSetObjectMacro( KernelFunction, KernelFunction );
-  itkGetObjectMacro( KernelFunction, KernelFunction );
+  itkSetObjectMacro(KernelFunction, KernelFunction);
+  itkGetObjectMacro(KernelFunction, KernelFunction);
 
   /** Reinitialize the seed of the random number generator that selects the
    * sample of pixels used for estimating the image histograms and the joint
@@ -182,74 +181,73 @@ public:
    * the seed. This will indeed increase the non-deterministic behavior of the
    * metric. */
   void ReinitializeSeed();
+
   void ReinitializeSeed(int);
 
 protected:
   MutualInformationImageToImageMetric();
-  virtual ~MutualInformationImageToImageMetric() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~MutualInformationImageToImageMetric() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  MutualInformationImageToImageMetric(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  MutualInformationImageToImageMetric(const Self &); //purposely not implemented
+  void operator=(const Self &);                      //purposely not implemented
+
   /** \class SpatialSample
    * A spatial sample consists of the fixed domain point, the fixed
    * image value at that point, and the corresponding moving image value. */
   class SpatialSample
-    {
-    public:
-    SpatialSample():FixedImageValue(0.0),MovingImageValue(0.0)
-      { FixedImagePointValue.Fill( 0.0 ); }
-    ~SpatialSample(){};
+  {
+public:
+    SpatialSample():FixedImageValue(0.0), MovingImageValue(0.0)
+    { FixedImagePointValue.Fill(0.0); }
+    ~SpatialSample(){}
 
-    FixedImagePointType              FixedImagePointValue;
-    double                           FixedImageValue;
-    double                           MovingImageValue;
-    };
+    FixedImagePointType FixedImagePointValue;
+    double              FixedImageValue;
+    double              MovingImageValue;
+  };
 
   /** SpatialSampleContainer typedef support. */
-  typedef std::vector<SpatialSample>  SpatialSampleContainer;
+  typedef std::vector< SpatialSample > SpatialSampleContainer;
 
   /** Container to store sample set  A - used to approximate the probability
    * density function (pdf). */
-  mutable SpatialSampleContainer      m_SampleA;
+  mutable SpatialSampleContainer m_SampleA;
 
   /** Container to store sample set  B - used to approximate the mutual
    * information value. */
-  mutable SpatialSampleContainer      m_SampleB;
+  mutable SpatialSampleContainer m_SampleB;
 
-  unsigned int                        m_NumberOfSpatialSamples;
-  double                              m_MovingImageStandardDeviation;
-  double                              m_FixedImageStandardDeviation;
-  typename KernelFunction::Pointer    m_KernelFunction;
-  double                              m_MinProbability;
+  unsigned int m_NumberOfSpatialSamples;
+  double       m_MovingImageStandardDeviation;
+  double       m_FixedImageStandardDeviation;
+  double       m_MinProbability;
+
+  typename KernelFunction::Pointer m_KernelFunction;
 
   /** Uniformly select samples from the fixed image buffer.
    * \warning Note that this method has a different signature than the one in
    * the base OptImageToImageMetric and therefore they are not intended to
    * provide polymorphism. That is, this function is not overriding the one in
    * the base class. */
-  virtual void SampleFixedImageDomain( SpatialSampleContainer& samples ) const;
+  virtual void SampleFixedImageDomain(SpatialSampleContainer & samples) const;
 
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives( const FixedImagePointType& , DerivativeType& ) const;
+  void CalculateDerivatives(const FixedImagePointType &, DerivativeType &) const;
 
-  typedef typename Superclass::CoordinateRepresentationType  
+  typedef typename Superclass::CoordinateRepresentationType
   CoordinateRepresentationType;
-  typedef CentralDifferenceImageFunction< MovingImageType, 
+  typedef CentralDifferenceImageFunction< MovingImageType,
                                           CoordinateRepresentationType > DerivativeFunctionType;
 
-  typename DerivativeFunctionType::Pointer  m_DerivativeCalculator;
+  typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 
-  bool             m_ReseedIterator;
-  int              m_RandomSeed;
-  
-
+  bool m_ReseedIterator;
+  int  m_RandomSeed;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

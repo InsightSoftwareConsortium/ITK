@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,7 +27,6 @@
 
 namespace itk
 {
-
 /** \class VectorResampleImageFilter
  * \brief Resample an image via a coordinate transform
  *
@@ -38,7 +37,7 @@ namespace itk
  * Note that the choice of interpolator function can be important.
  * This function is set via SetInterpolator().  The default is
  * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>, which
- * is reasonable for ordinary medical images.  
+ * is reasonable for ordinary medical images.
  *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
@@ -47,21 +46,21 @@ namespace itk
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
  *
- * This filter is implemented as a multithreaded filter.  It provides a 
+ * This filter is implemented as a multithreaded filter.  It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup GeometricTransforms
  */
-template <class TInputImage, class TOutputImage, class TInterpolatorPrecisionType=double>
+template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType = double >
 class ITK_EXPORT VectorResampleImageFilter:
-    public ImageToImageFilter<TInputImage, TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef VectorResampleImageFilter                     Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef VectorResampleImageFilter                       Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   typedef TInputImage                           InputImageType;
   typedef TOutputImage                          OutputImageType;
@@ -71,7 +70,7 @@ public:
   typedef typename InputImageType::RegionType   InputImageRegionType;
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorResampleImageFilter, ImageToImageFilter);
@@ -82,28 +81,30 @@ public:
 
   /** Transform typedef.
    *
-   * \todo Check that input and output images have the same number of 
-   * dimensions; this is required by the current implementation of 
+   * \todo Check that input and output images have the same number of
+   * dimensions; this is required by the current implementation of
    * AffineTransform. */
-  typedef Transform<TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension)> TransformType;
-  typedef typename TransformType::ConstPointer TransformPointerType;
+  typedef Transform< TInterpolatorPrecisionType, itkGetStaticConstMacro(ImageDimension),
+                     itkGetStaticConstMacro(ImageDimension) > TransformType;
+  typedef typename TransformType::ConstPointer
+  TransformPointerType;
 
   /** Interpolator typedef. */
-  typedef VectorInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer  InterpolatorPointerType;
+  typedef VectorInterpolateImageFunction< InputImageType, TInterpolatorPrecisionType > InterpolatorType;
+  typedef typename InterpolatorType::Pointer                                           InterpolatorPointerType;
 
   /** Image size typedef. */
-  typedef Size<itkGetStaticConstMacro(ImageDimension)> SizeType;
+  typedef Size< itkGetStaticConstMacro(ImageDimension) > SizeType;
 
   /** Image index typedef. */
   typedef typename TOutputImage::IndexType IndexType;
 
   /** Image point typedef. */
-  typedef typename InterpolatorType::PointType    PointType;
+  typedef typename InterpolatorType::PointType PointType;
 
   /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType   PixelType;
-  typedef typename PixelType::ValueType      PixelComponentType;
+  typedef typename TOutputImage::PixelType PixelType;
+  typedef typename PixelType::ValueType    PixelComponentType;
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
@@ -112,61 +113,61 @@ public:
   typedef typename TOutputImage::SpacingType   SpacingType;
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
-  
+
   /** Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
    * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
-  itkSetConstObjectMacro( Transform, TransformType ); 
+  itkSetConstObjectMacro(Transform, TransformType);
 
   /** Get a pointer to the coordinate transform. */
-  itkGetConstObjectMacro( Transform, TransformType );
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set the interpolator function.  The default is
    * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>.  */
-  itkSetObjectMacro( Interpolator, InterpolatorType );
+  itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get a pointer to the interpolator function. */
-  itkGetConstObjectMacro( Interpolator, InterpolatorType );
+  itkGetConstObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the size of the output image. */
-  itkSetMacro( Size, SizeType );
+  itkSetMacro(Size, SizeType);
 
   /** Get the size of the output image. */
-  itkGetConstReferenceMacro( Size, SizeType );
-     
+  itkGetConstReferenceMacro(Size, SizeType);
+
   /** Set the pixel value when a transformed pixel is outside of the
    * image.  The default default pixel value is 0. */
-  itkSetMacro(DefaultPixelValue,PixelType);
+  itkSetMacro(DefaultPixelValue, PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
-  itkGetConstMacro(DefaultPixelValue,PixelType);
+  itkGetConstMacro(DefaultPixelValue, PixelType);
 
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
-  virtual void SetOutputSpacing( const double* values);
+  virtual void SetOutputSpacing(const double *values);
 
   /** Get the output image spacing. */
-  itkGetConstReferenceMacro( OutputSpacing, SpacingType );
+  itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, PointType);
-  virtual void SetOutputOrigin( const double* values);
+  virtual void SetOutputOrigin(const double *values);
 
   /** Get the output image origin. */
-  itkGetConstReferenceMacro( OutputOrigin, PointType );
+  itkGetConstReferenceMacro(OutputOrigin, PointType);
 
   /** Set the output direciton cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
-  /** Set the start index of the output largest possible region. 
+  /** Set the start index of the output largest possible region.
    * The default is an index of all zeros. */
-  itkSetMacro( OutputStartIndex, IndexType );
+  itkSetMacro(OutputStartIndex, IndexType);
 
   /** Get the start index of the output largest possible region. */
-  itkGetConstReferenceMacro( OutputStartIndex, IndexType );
+  itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
   /** VectorResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
@@ -182,30 +183,29 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion();
 
-  /** This method is used to set the state of the filter before 
+  /** This method is used to set the state of the filter before
    * multi-threading. */
   virtual void BeforeThreadedGenerateData();
 
-  /** This method is used to set the state of the filter after 
+  /** This method is used to set the state of the filter after
    * multi-threading. */
   virtual void AfterThreadedGenerateData();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime( void ) const;
+  unsigned long GetMTime(void) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<PixelComponentType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< PixelComponentType > ) );
   /** End concept checking */
 #endif
-
 protected:
   VectorResampleImageFilter();
-  ~VectorResampleImageFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  ~VectorResampleImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -215,31 +215,29 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  VectorResampleImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  VectorResampleImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);            //purposely not implemented
 
   SizeType                m_Size;       // Size of the output image
   TransformPointerType    m_Transform;  // Coordinate transform to use
   InterpolatorPointerType m_Interpolator;
   // Image function for interpolation
-  PixelType               m_DefaultPixelValue; 
-  // default pixel value if the point 
+  PixelType m_DefaultPixelValue;
+  // default pixel value if the point
   // is outside the image
-  SpacingType             m_OutputSpacing; // output image spacing
-  PointType               m_OutputOrigin;  // output image origin
-  DirectionType           m_OutputDirection; // output image direction cosines
-  IndexType               m_OutputStartIndex; // output start index
+  SpacingType   m_OutputSpacing;           // output image spacing
+  PointType     m_OutputOrigin;            // output image origin
+  DirectionType m_OutputDirection;         // output image direction cosines
+  IndexType     m_OutputStartIndex;        // output start index
 };
-
-  
 } // end namespace itk
-  
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorResampleImageFilter.txx"
 #endif
-  
+
 #endif

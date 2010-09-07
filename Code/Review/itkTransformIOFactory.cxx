@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -27,48 +27,45 @@
 
 namespace itk
 {
-
 TransformIOBase::Pointer
-TransformIOFactory::CreateTransformIO(const char* path, FileModeType mode)
+TransformIOFactory::CreateTransformIO(const char *path, FileModeType mode)
 {
-
   RegisterBuiltInFactories();
 
-  std::list<TransformIOBase::Pointer> possibleTransformIO;
-  std::list<LightObject::Pointer> allobjects =
+  std::list< TransformIOBase::Pointer > possibleTransformIO;
+  std::list< LightObject::Pointer >     allobjects =
     ObjectFactoryBase::CreateAllInstance("itkTransformIOBase");
-  for(std::list<LightObject::Pointer>::iterator i = allobjects.begin();
-      i != allobjects.end(); ++i)
+  for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
+        i != allobjects.end(); ++i )
     {
-    TransformIOBase* io = dynamic_cast<TransformIOBase*>(i->GetPointer());
-    if(io)
+    TransformIOBase *io = dynamic_cast< TransformIOBase * >( i->GetPointer() );
+    if ( io )
       {
       possibleTransformIO.push_back(io);
       }
     else
       {
       std::cerr << "Error TransformIO factory did not return an TransformIOBase: "
-                << (*i)->GetNameOfClass()
+                << ( *i )->GetNameOfClass()
                 << std::endl;
       }
     }
-  for(std::list<TransformIOBase::Pointer>::iterator k = possibleTransformIO.begin();
-      k != possibleTransformIO.end(); ++k)
+  for ( std::list< TransformIOBase::Pointer >::iterator k = possibleTransformIO.begin();
+        k != possibleTransformIO.end(); ++k )
     {
-    if( mode == ReadMode )
+    if ( mode == ReadMode )
       {
-      if((*k)->CanReadFile(path))
+      if ( ( *k )->CanReadFile(path) )
         {
         return *k;
         }
       }
-    else if( mode == WriteMode )
+    else if ( mode == WriteMode )
       {
-      if((*k)->CanWriteFile(path))
+      if ( ( *k )->CanWriteFile(path) )
         {
         return *k;
         }
-
       }
     }
   return 0;
@@ -80,18 +77,19 @@ TransformIOFactory::RegisterBuiltInFactories()
   static bool firstTime = true;
 
   static SimpleMutexLock mutex;
+
     {
     // This helper class makes sure the Mutex is unlocked
     // in the event an exception is thrown.
-    MutexLockHolder<SimpleMutexLock> mutexHolder( mutex );
-    if( firstTime )
+    MutexLockHolder< SimpleMutexLock > mutexHolder(mutex);
+    if ( firstTime )
       {
-      //      ObjectFactoryBase::RegisterFactory( GDCMTransformIOFactory::New() );
-      ObjectFactoryBase::RegisterFactory(MatlabTransformIOFactory::New());
-      ObjectFactoryBase::RegisterFactory(TxtTransformIOFactory::New());
+      //      ObjectFactoryBase::RegisterFactory( GDCMTransformIOFactory::New()
+      // );
+      ObjectFactoryBase::RegisterFactory( MatlabTransformIOFactory::New() );
+      ObjectFactoryBase::RegisterFactory( TxtTransformIOFactory::New() );
       firstTime = false;
       }
     }
 }
-
 } // end namespace itk

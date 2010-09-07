@@ -29,18 +29,19 @@ namespace itk
 /** \class NiftiImageIOFactory
    * \brief Create instances of NiftiImageIO objects using an object factory.
    */
-class ITK_EXPORT NiftiImageIOFactory : public ObjectFactoryBase
+class ITK_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef NiftiImageIOFactory      Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef NiftiImageIOFactory        Self;
+  typedef ObjectFactoryBase          Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion(void) const;
-  virtual const char* GetDescription(void) const;
+  virtual const char * GetITKSourceVersion(void) const;
+
+  virtual const char * GetDescription(void) const;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -50,23 +51,21 @@ public:
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
-    {
+  {
     NiftiImageIOFactory::Pointer metaFactory = NiftiImageIOFactory::New();
+
     ObjectFactoryBase::RegisterFactory(metaFactory);
-    }
+  }
 
 protected:
   NiftiImageIOFactory();
   ~NiftiImageIOFactory();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  NiftiImageIOFactory(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  NiftiImageIOFactory(const Self &); //purposely not implemented
+  void operator=(const Self &);      //purposely not implemented
 };
-
-
 } // end namespace itk
 
 #endif

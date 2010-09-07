@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,14 +21,13 @@
 
 namespace itk
 {
-  
 /** \class ScalarToArrayCastImageFilter
  *
  * \brief Creates the output image with vector type pixels filled with
  * the intensity values from one or more input images with scalar
  * pixels.
  *
- * This filter is templated over the input image type and 
+ * This filter is templated over the input image type and
  * output image type. The each dimension of the output image pixel is
  * filled with each input image pixel's scalar pixel value. This
  * filter can be used to cast a scalar image to a vector image if
@@ -37,17 +36,16 @@ namespace itk
  * \ingroup Multithreaded
  */
 
-
-template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ScalarToArrayCastImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage >
+template< class TInputImage, class TOutputImage >
+class ITK_EXPORT ScalarToArrayCastImageFilter:
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ScalarToArrayCastImageFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef ScalarToArrayCastImageFilter                    Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Standard class macros */
   itkNewMacro(Self);
@@ -58,25 +56,23 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<typename OutputImagePixelType::ValueType>));
-  itkConceptMacro(OutputHasPixelTraitsCheck,
-    (Concept::HasPixelTraits<OutputImagePixelType>));
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< typename OutputImagePixelType::ValueType > ) );
+  itkConceptMacro( OutputHasPixelTraitsCheck,
+                   ( Concept::HasPixelTraits< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ScalarToArrayCastImageFilter();
   virtual ~ScalarToArrayCastImageFilter() {}
-  
-  void ThreadedGenerateData(const OutputImageRegionType &outputRegionForThread,
-                            int threadId);
- 
-private:
-  ScalarToArrayCastImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-};
 
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
+
+private:
+  ScalarToArrayCastImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);               //purposely not implemented
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

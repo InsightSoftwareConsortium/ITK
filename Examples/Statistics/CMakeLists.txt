@@ -72,8 +72,6 @@ TARGET_LINK_LIBRARIES(SampleSorting ITKCommon)
 ADD_EXECUTABLE(WeightedSampleStatistics WeightedSampleStatistics.cxx )
 TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
 
-IF(NOT BORLAND)
-
 ADD_EXECUTABLE(ImageHistogram3 ImageHistogram3.cxx )
 TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKStatistics )
 
@@ -104,16 +102,11 @@ TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKStatistics )
 ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
 TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO )
 
-ENDIF(NOT BORLAND)
-
-
 # Add some tests now, based on the examples.
 
 IF( NOT ITK_DISABLE_CXX_TESTING )
 
 IF(BUILD_TESTING)
-
-IF(NOT BORLAND)
 
 SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
 SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
@@ -189,8 +182,6 @@ TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKStatistics)
 
 ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
 TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKStatistics)
-
-ENDIF(NOT BORLAND)
 
 ENDIF(BUILD_TESTING)
 

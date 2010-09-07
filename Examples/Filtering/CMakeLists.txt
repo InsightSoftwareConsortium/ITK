@@ -67,7 +67,6 @@ ADD_EXECUTABLE(ResampleOrientedImageFilter ResampleOrientedImageFilter.cxx )
 TARGET_LINK_LIBRARIES(ResampleOrientedImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter2 ResampleImageFilter2.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter2  ITKBasicFilters ITKIO)
-IF(NOT BORLAND)
 ADD_EXECUTABLE(GradientAnisotropicDiffusionImageFilter GradientAnisotropicDiffusionImageFilter.cxx )
 TARGET_LINK_LIBRARIES(GradientAnisotropicDiffusionImageFilter  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(CurvatureFlowImageFilter CurvatureFlowImageFilter.cxx )
@@ -114,7 +113,6 @@ ADD_EXECUTABLE(VotingBinaryHoleFillingImageFilter VotingBinaryHoleFillingImageFi
 TARGET_LINK_LIBRARIES(VotingBinaryHoleFillingImageFilter  ITKIO)
 ADD_EXECUTABLE(VotingBinaryIterativeHoleFillingImageFilter VotingBinaryIterativeHoleFillingImageFilter.cxx )
 TARGET_LINK_LIBRARIES(VotingBinaryIterativeHoleFillingImageFilter  ITKIO)
-ENDIF(NOT BORLAND)
 ADD_EXECUTABLE(ResampleImageFilter5 ResampleImageFilter5.cxx )
 TARGET_LINK_LIBRARIES(ResampleImageFilter5  ITKBasicFilters ITKIO)
 ADD_EXECUTABLE(ResampleImageFilter6 ResampleImageFilter6.cxx )
@@ -462,7 +460,6 @@ ADD_TEST( ResampleImageFilter2Test5 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter2Test5.png
         3
 )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter3Test1PixelCentered.png
             ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
@@ -471,18 +468,7 @@ ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter3Test1PixelCentered.png
         0
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter3Test1 ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/ResampleImageFilter3Test1.png
-            ${TEMP}/ResampleImageFilter3Test1.png
-  ResampleImageFilter3Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter3Test1.png
-        0
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter4TestPixelCentered.png
             ${TEMP}/ResampleImageFilter4TestPixelCentered.png
@@ -491,17 +477,6 @@ ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter4TestPixelCentered.png
         20
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter4Test ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/ResampleImageFilter4Test.png
-            ${TEMP}/ResampleImageFilter4Test.png
-  ResampleImageFilter4Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter4Test.png
-        20
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter5TestPixelCentered.png
             ${TEMP}/ResampleImageFilter5TestPixelCentered.png
@@ -510,17 +485,6 @@ ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter5TestPixelCentered.png
         10 1.2
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter5Test ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/ResampleImageFilter5Test.png
-            ${TEMP}/ResampleImageFilter5Test.png
-  ResampleImageFilter5Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter5Test.png
-        10 1.2
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter8TestPixelCentered.png
             ${TEMP}/ResampleImageFilter8TestPixelCentered.png
@@ -529,17 +493,6 @@ ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter8TestPixelCentered.png
         45
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter8Test ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/ResampleImageFilter8Test.png
-            ${TEMP}/ResampleImageFilter8Test.png
-  ResampleImageFilter8Test
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        ${TEMP}/ResampleImageFilter8Test.png
-        45
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/ResampleImageFilter9TestPixelCentered.png
             ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
@@ -548,16 +501,6 @@ ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
         ${TEMP}/ResampleImageFilter9TestNearestPixelCentered.png
         ${TEMP}/ResampleImageFilter9TestLinearPixelCentered.png
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter9Test ${FILTERING_EXAMPLES2}
-  --compare ${BASELINE}/ResampleImageFilter9Test.png
-            ${TEMP}/ResampleImageFilter9TestNearest.png
-  ResampleImageFilter9Test
-        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-        ${TEMP}/ResampleImageFilter9TestNearest.png
-        ${TEMP}/ResampleImageFilter9TestLinear.png
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( SigmoidImageFilterTest ${FILTERING_EXAMPLES2}
   --compare ${BASELINE}/SigmoidImageFilter.png
             ${TEMP}/SigmoidImageFilter.png
@@ -800,7 +743,6 @@ ADD_TEST( LaplacianRecursiveGaussianImageFilter2Test ${FILTERING_EXAMPLES7}
         ${TEMP}/LaplacianRecursiveGaussianImageFilter2.mha
         3
 )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter6PixelCentered.png
             ${TEMP}/ResampleImageFilter6PixelCentered.png
@@ -809,17 +751,6 @@ ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
         ${TEMP}/ResampleImageFilter6PixelCentered.png
         3
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter6Test ${FILTERING_EXAMPLES4}
-  --compare ${BASELINE}/ResampleImageFilter6.png
-            ${TEMP}/ResampleImageFilter6.png
-  ResampleImageFilter6Test
-        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
-        ${TEMP}/ResampleImageFilter6.png
-        3
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-IF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleImageFilter7PixelCentered.png
             ${TEMP}/ResampleImageFilter7PixelCentered.png
@@ -829,16 +760,6 @@ ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
         ${TEMP}/ResampleImageFilter7PixelCentered.png
         33
 )
-ELSE( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
-ADD_TEST( ResampleImageFilter7Test ${FILTERING_EXAMPLES4}
-  --compare ${BASELINE}/ResampleImageFilter7.png
-            ${TEMP}/ResampleImageFilter7.png
-  ResampleImageFilter7Test
-        ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanHeadSlice.png
-        ${TEMP}/ResampleImageFilter7.png
-        33
-)
-ENDIF( ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY )
 ADD_TEST( ResampleVolumesToBeIsotropicTest ${FILTERING_EXAMPLES4}
   --compare ${BASELINE}/ResampleVolumesToBeIsotropic.mha
             ${TEMP}/ResampleVolumesToBeIsotropic.mha
@@ -925,15 +846,13 @@ ADD_EXECUTABLE(DiffusionTensor3DReconstructionImageFilter DiffusionTensor3DRecon
 TARGET_LINK_LIBRARIES(DiffusionTensor3DReconstructionImageFilter ITKIO ITKBasicFilters )
 ADD_EXECUTABLE(FFTDirectInverse FFTDirectInverse.cxx )
 TARGET_LINK_LIBRARIES(FFTDirectInverse  ITKIO)
-IF(NOT BORLAND)
-  ADD_EXECUTABLE(ZeroCrossingBasedEdgeDetectionImageFilter ZeroCrossingBasedEdgeDetectionImageFilter.cxx )
-  TARGET_LINK_LIBRARIES(ZeroCrossingBasedEdgeDetectionImageFilter  ITKBasicFilters ITKIO)
-  ADD_EXECUTABLE(WarpImageFilter1 WarpImageFilter1.cxx )
-  TARGET_LINK_LIBRARIES(WarpImageFilter1  ITKBasicFilters ITKIO)
-  ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
-  TARGET_LINK_LIBRARIES(SurfaceExtraction  ITKBasicFilters ITKIO)
-  ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
-  TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1  ITKIO)
-  ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
-  TARGET_LINK_LIBRARIES(ResampleImageFilter7  ITKBasicFilters ITKIO)
-ENDIF(NOT BORLAND)
+ADD_EXECUTABLE(ZeroCrossingBasedEdgeDetectionImageFilter ZeroCrossingBasedEdgeDetectionImageFilter.cxx )
+TARGET_LINK_LIBRARIES(ZeroCrossingBasedEdgeDetectionImageFilter  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(WarpImageFilter1 WarpImageFilter1.cxx )
+TARGET_LINK_LIBRARIES(WarpImageFilter1  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(SurfaceExtraction SurfaceExtraction.cxx )
+TARGET_LINK_LIBRARIES(SurfaceExtraction  ITKBasicFilters ITKIO)
+ADD_EXECUTABLE(DigitallyReconstructedRadiograph1 DigitallyReconstructedRadiograph1.cxx )
+TARGET_LINK_LIBRARIES(DigitallyReconstructedRadiograph1  ITKIO)
+ADD_EXECUTABLE(ResampleImageFilter7 ResampleImageFilter7.cxx )
+TARGET_LINK_LIBRARIES(ResampleImageFilter7  ITKBasicFilters ITKIO)

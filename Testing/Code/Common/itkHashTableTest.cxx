@@ -98,9 +98,6 @@ int itkHashTableTest(int, char* [] )
   hst_const_it = Set.end();  
   HashSetType SetCopy;
   SetCopy = Set;
-  //  SetCopy == Set; -- Removed until I can track down why the IRIX compiler
-  //                     does not find this during link phase. cates 3/20/01
-  
   
   println("Testing itk::hash_map");
   typedef itk::hash_map<const char*, int, itk::hash<const char*>, eqstr>
@@ -141,8 +138,6 @@ int itkHashTableTest(int, char* [] )
   map_const_it = months.end();  
   HashMapType MapCopy;
   MapCopy = months;
-  //  MapCopy == months;  -- Removed until I can track down why IRIX compiler
-  //                         does not find this during link phase. cates 3/20/01
 
   IgnoreUnusedVariable(hsh_it);
   IgnoreUnusedVariable(map_it);

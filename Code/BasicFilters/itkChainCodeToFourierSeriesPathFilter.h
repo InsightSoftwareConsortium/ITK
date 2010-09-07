@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,34 +24,34 @@
 
 namespace itk
 {
-  
 /** \class ChainCodeToFourierSeriesPathFilter
  * \brief Filter that produces a Fourier series version of a chain code path
  *
  * ChainCodeToFourierSeriesPathFilter produces a Fourier series representation
  * of a chain code path. By default, the first 8 harmonics (frequency
- * coefficients, which include the "DC" term) are computed. 
+ * coefficients, which include the "DC" term) are computed.
  * SetNumberOfHarmonics() can be used to override this value.
  * Because the requested number of harmonics may not be able to be computed,
  * it is advisable to check the number of harmonics in the actual output.
- * 
+ *
  * \ingroup PathFilters
  */
-template <class TInputChainCodePath, class TOutputFourierSeriesPath>
-class ITK_EXPORT ChainCodeToFourierSeriesPathFilter : public
+template< class TInputChainCodePath, class TOutputFourierSeriesPath >
+class ITK_EXPORT ChainCodeToFourierSeriesPathFilter:public
   PathToPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
 {
 public:
   /** Standard class typedefs. */
-  typedef ChainCodeToFourierSeriesPathFilter            Self;
+  typedef ChainCodeToFourierSeriesPathFilter Self;
   typedef PathToPathFilter< TInputChainCodePath,
                             TOutputFourierSeriesPath >  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodeToFourierSeriesPathFilter, PathToPathFilter);
 
@@ -73,23 +73,20 @@ public:
    * harmonics (due to the Nyquist criterion), then as many harmonics as are
    * possible (input->NumberOfSteps()/2) will be calculated, but at least 2
    * harmonics will always be calculated.*/
-  itkSetMacro( NumberOfHarmonics, unsigned int )
-  
+  itkSetMacro(NumberOfHarmonics, unsigned int)
 protected:
   ChainCodeToFourierSeriesPathFilter();
-  virtual ~ChainCodeToFourierSeriesPathFilter() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~ChainCodeToFourierSeriesPathFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   void GenerateData(void);
 
 private:
-  ChainCodeToFourierSeriesPathFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ChainCodeToFourierSeriesPathFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                     //purposely not implemented
 
   unsigned int m_NumberOfHarmonics;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

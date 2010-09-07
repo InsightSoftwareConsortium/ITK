@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class VTKPolyDataReader
  * \brief
  * Reads a vtkPolyData file and create an itkMesh.
@@ -34,15 +33,15 @@ namespace itk
  * Caviet2: itkVTKPolyDataReader can only read vtk legacy files.
  * Caveat3: itkVTKPolyDataReader cannot read binary vtk files.
  */
-template <class TOutputMesh>
-class VTKPolyDataReader : public MeshSource<TOutputMesh>
+template< class TOutputMesh >
+class VTKPolyDataReader:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */
-  typedef VTKPolyDataReader         Self;
-  typedef MeshSource<TOutputMesh>   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef VTKPolyDataReader          Self;
+  typedef MeshSource< TOutputMesh >  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,10 +50,10 @@ public:
   itkTypeMacro(VTKPolyDataReader, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                          OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits  MeshTraits;
-  typedef typename OutputMeshType::PointType   PointType;
-  typedef typename MeshTraits::PixelType       PixelType;
+  typedef TOutputMesh                         OutputMeshType;
+  typedef typename OutputMeshType::MeshTraits MeshTraits;
+  typedef typename OutputMeshType::PointType  PointType;
+  typedef typename MeshTraits::PixelType      PixelType;
 
   /** Some convenient typedefs. */
   typedef typename OutputMeshType::Pointer         OutputMeshPointer;
@@ -65,21 +64,17 @@ public:
   typedef typename OutputMeshType::PointIdentifier PointIdentifier;
   typedef typename CellTraits::PointIdIterator     PointIdIterator;
 
-  typedef typename OutputMeshType::PointsContainerPointer
-    PointsContainerPointer;
-  
-  typedef typename OutputMeshType::PointsContainer
-    PointsContainer;
+  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
+  typedef typename OutputMeshType::PointsContainer PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef TriangleCell<CellType>      TriangleCellType;
+  typedef TriangleCell< CellType > TriangleCellType;
 
-  typedef typename TriangleCellType::SelfAutoPointer
-    TriangleCellAutoPointer;
+  typedef typename TriangleCellType::SelfAutoPointer TriangleCellAutoPointer;
 
-  typedef std::pair<unsigned long,unsigned long>     IndexPairType;
-  typedef MapContainer<IndexPairType, unsigned long> PointMapType;
-  typedef typename PointType::VectorType             VectorType;
+  typedef std::pair< unsigned long, unsigned long >    IndexPairType;
+  typedef MapContainer< IndexPairType, unsigned long > PointMapType;
+  typedef typename PointType::VectorType               VectorType;
 
   /** Set the resolution level to be used for generating cells in the
    * Sphere. High values of this parameter will produce sphere with more
@@ -93,27 +88,23 @@ public:
 
   /** Get the file header line */
   itkGetStringMacro(Header);
-
 protected:
   VTKPolyDataReader();
   ~VTKPolyDataReader() {}
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Reads the file */
   void GenerateData();
 
   /** Filename to read */
-
 private:
-  VTKPolyDataReader(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  VTKPolyDataReader(const Self &); // purposely not implemented
+  void operator=(const Self &);    // purposely not implemented
 
   std::string m_FileName;
   std::string m_Header;
   std::string m_Version;
-
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

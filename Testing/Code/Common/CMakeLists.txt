@@ -89,7 +89,6 @@ ADD_TEST(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 ADD_TEST(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
 ADD_TEST(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest2PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
@@ -100,20 +99,7 @@ ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest2DeformationFieldPixelCentered.mhd 1
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest2.png
-            ${TEMP}/itkBSplineDeformableTransformTest2.png
-  itkBSplineDeformableTransformTest2
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements4.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest2.png
-        ${TEMP}/itkBSplineDeformableTransformTest2DeformationField.mhd 1
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest3PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest3PixelCentered.png
@@ -124,20 +110,7 @@ ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest3PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest3DeformationFieldPixelCentered.mhd 2
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest3 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest3.png
-            ${TEMP}/itkBSplineDeformableTransformTest3.png
-  itkBSplineDeformableTransformTest2
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements3.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest3.png
-        ${TEMP}/itkBSplineDeformableTransformTest3DeformationField.mhd 2
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest4PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest4PixelCentered.png
@@ -148,20 +121,7 @@ ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest4PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest4DeformationFieldPixelCentered.mhd 3
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest4 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest4.png
-            ${TEMP}/itkBSplineDeformableTransformTest4.png
-  itkBSplineDeformableTransformTest2
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest4.png
-        ${TEMP}/itkBSplineDeformableTransformTest4DeformationField.mhd 3
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest5 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest5PixelCentered.png
@@ -172,20 +132,7 @@ ADD_TEST(itkBSplineDeformableTransformTest5 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest5PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest5DeformationFieldPixelCentered.mhd 0
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest5 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest5.png
-            ${TEMP}/itkBSplineDeformableTransformTest5.png
-  itkBSplineDeformableTransformTest3
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest5.png
-        ${TEMP}/itkBSplineDeformableTransformTest5DeformationField.mhd 0
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest6 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest6PixelCentered.png
@@ -196,20 +143,7 @@ ADD_TEST(itkBSplineDeformableTransformTest6 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest6PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest6DeformationFieldPixelCentered.mhd 1
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest6 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest5.png
-            ${TEMP}/itkBSplineDeformableTransformTest6.png
-  itkBSplineDeformableTransformTest3
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest6.png
-        ${TEMP}/itkBSplineDeformableTransformTest6DeformationField.mhd 1
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
-IF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 ADD_TEST(itkBSplineDeformableTransformTest7 ${COMMON_TESTS2} 
   --compare ${BASELINE}/itkBSplineDeformableTransformTest5PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest7PixelCentered.png
@@ -220,18 +154,6 @@ ADD_TEST(itkBSplineDeformableTransformTest7 ${COMMON_TESTS2}
         ${TEMP}/itkBSplineDeformableTransformTest7PixelCentered.png
         ${TEMP}/itkBSplineDeformableTransformTest7DeformationFieldPixelCentered.mhd 2
   )
-ELSE(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-ADD_TEST(itkBSplineDeformableTransformTest7 ${COMMON_TESTS2} 
-  --compare ${BASELINE}/itkBSplineDeformableTransformTest5.png
-            ${TEMP}/itkBSplineDeformableTransformTest7.png
-  itkBSplineDeformableTransformTest3
-        ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements1.txt
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${ITK_SOURCE_DIR}/Examples/Data/DiagonalLines.png
-        ${TEMP}/itkBSplineDeformableTransformTest7.png
-        ${TEMP}/itkBSplineDeformableTransformTest7DeformationField.mhd 2
-  )
-ENDIF(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
 
 ADD_TEST(itkCellInterfaceTest ${COMMON_TESTS2} itkCellInterfaceTest)
 ADD_TEST(itkImageTransformTest ${COMMON_TESTS2} itkImageTransformTest)
@@ -285,12 +207,6 @@ IF(ITK_DATA_ROOT)
                  ${ITK_DATA_ROOT}/Input/cake_hard.png 
                  ${ITK_TEST_OUTPUT_DIR}/itkDifferenceImageFilterTest.png 10 1)
 
-  IF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-    # The difference between these two tests is that if the CMake flag for
-    # image orientation is ON, then the second computation of the gradient
-    # should now take direction into account. Since not all builds have this
-    # flag enabled, the builds with the option OFF will get the gradients in 
-    # the frame of the image grid.
     ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
        itkOrientedImage2DTest 
                    ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
@@ -302,27 +218,7 @@ IF(ITK_DATA_ROOT)
                        4.000   -8.000
                        7.4641  -4.9282
                     )
-  ELSE(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-    ADD_TEST(itkOrientedImage2DTest01 ${COMMON_TESTS2} 
-       itkOrientedImage2DTest 
-                   ${EXAMPLES_DATA_ROOT}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
 
-                       0.000    0.000
-                     191.392  110.500
-                    -128.500  222.569
-
-                       4.000   -8.000
-                       4.000   -8.000
-                    )
-  ENDIF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-
-
-  IF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-    # The difference between these two tests is that if the CMake flag for
-    # image orientation is ON, then the second computation of the gradient
-    # should now take direction into account. Since not all builds have this
-    # flag enabled, the builds with the option OFF will get the gradients in 
-    # the frame of the image grid.
     ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
        itkOrientedImage3DTest 
                    ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
@@ -334,21 +230,6 @@ IF(ITK_DATA_ROOT)
                       0.125     -4.125     9.000
                      -1.95425   -3.63485   9.000
                    )
-  ELSE(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-    ADD_TEST(itkOrientedImage3DTest01 ${COMMON_TESTS2} 
-       itkOrientedImage3DTest 
-                   ${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd
-                      0.000      0.000     0.000
-                    166.277    -96.000     0.000
-                    124.000    214.774     0.000
-                      0.000      0.000   168.000
-
-                      0.125     -4.125     9.000
-                      0.125     -4.125     9.000
-                   )
-  ENDIF(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-
-
 ENDIF(ITK_DATA_ROOT)
 
 ADD_TEST(itkOrientedImageProfileTest1 ${COMMON_TESTS2} itkOrientedImageProfileTest1)
@@ -469,7 +350,6 @@ ADD_TEST(SystemInformation ${SYSTEM_INFORMATION})
 IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
   ADD_TEST(itkImageFillBufferTest4.1 ${COMMON_TESTS2} itkImageFillBufferTest 4.1)
 ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 4 )
-
 
 IF(ITK_BINARY_DIR)
   SET(ITK_SYSTEM_INFORMATION_DIR ${ITK_BINARY_DIR})

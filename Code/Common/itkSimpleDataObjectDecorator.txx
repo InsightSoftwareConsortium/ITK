@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,13 +24,12 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template<class T>
-SimpleDataObjectDecorator<T>
-::SimpleDataObjectDecorator() 
+template< class T >
+SimpleDataObjectDecorator< T >
+::SimpleDataObjectDecorator()
 {
   this->m_Component = ComponentType(); // initialize here to avoid Purify UMR
   this->m_Initialized = false;         // Still needed since not all objects
@@ -38,26 +37,23 @@ SimpleDataObjectDecorator<T>
                                        // for example the itkArray.
 }
 
-
 /**
  *
  */
-template<class T>
-SimpleDataObjectDecorator<T>
+template< class T >
+SimpleDataObjectDecorator< T >
 ::~SimpleDataObjectDecorator()
-{
-}
-
+{}
 
 /**
  *
  */
-template<class T>
+template< class T >
 void
-SimpleDataObjectDecorator<T>
-::Set(const T& val)
+SimpleDataObjectDecorator< T >
+::Set(const T & val)
 {
-  if( !this->m_Initialized || ( this->m_Component != val) )
+  if ( !this->m_Initialized || ( this->m_Component != val ) )
     {
     this->m_Component = val;
     this->m_Initialized = true;
@@ -68,17 +64,16 @@ SimpleDataObjectDecorator<T>
 /**
  *
  */
-template<class T>
-void 
-SimpleDataObjectDecorator<T>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class T >
+void
+SimpleDataObjectDecorator< T >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "Component  : " << typeid(this->m_Component).name() << std::endl;
+  os << indent << "Component  : " << typeid( this->m_Component ).name() << std::endl;
   os << indent << "Initialized: " << this->m_Initialized << std::endl;
 }
-
 } // end namespace itk
 
 #endif

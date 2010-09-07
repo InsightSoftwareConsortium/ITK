@@ -122,7 +122,7 @@ void TkImageViewer2D::Draw()
   Tk_PhotoSetSize(m_Interpreter, photo, width, height);
 #endif
 
-  OStringStream command;
+  std::ostringstream command;
   command << m_CanvasName.c_str() << " configure -scrollregion \"1 1 "
           << width << " " << height << "\"";
   std::string cmdstr = command.str();

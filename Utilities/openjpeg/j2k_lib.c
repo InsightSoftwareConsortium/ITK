@@ -27,13 +27,16 @@
 #ifdef WIN32
 #include <windows.h>
 #else
-#include <sys/time.h>
+/*#include <sys/time.h>
 #include <sys/resource.h>
 #include <sys/times.h>
+*/
 #endif /* WIN32 */
-#include "opj_includes.h"
+#include "j2k_lib.h"
 
-double opj_clock() {
+
+OPJ_FLOAT64 opj_clock(void) {
+#if 0
 #ifdef WIN32
   /* WIN32: use QueryPerformance (very accurate) */
     LARGE_INTEGER freq , t ;
@@ -55,22 +58,8 @@ double opj_clock() {
     /* (2b) More precisely! Get the microseconds part ! */
     return ( procTime + (t.ru_utime.tv_usec + t.ru_stime.tv_usec) * 1e-6 ) ;
 #endif
-}
 
-void* opj_malloc( size_t size ) {
-  void *memblock = malloc(size);
-  if(memblock) {
-    memset(memblock, 0, size);
-  }
-  return memblock;
+#endif
+  return 0;
 }
-
-void* opj_realloc( void *memblock, size_t size ) {
-  return realloc(memblock, size);
-}
-
-void opj_free( void *memblock ) {
-  free(memblock);
-}
-
 

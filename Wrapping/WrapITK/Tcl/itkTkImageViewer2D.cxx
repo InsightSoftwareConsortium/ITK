@@ -116,7 +116,7 @@ void TkImageViewer2D::Draw()
     Tk_FindPhoto(m_Interpreter, const_cast<char*>(m_ImageName.c_str()));
   Tk_PhotoSetSize(photo, width, height);
   
-  OStringStream command;
+  std::ostringstream command;
   command << m_CanvasName.c_str() << " configure -scrollregion \"1 1 "
           << width << " " << height << "\"";
   std::string cmdstr = command.str();

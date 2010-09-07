@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class PointSetToSpatialObjectDemonsRegistration
  * \brief Implementation of Demons Registration between a PointSet and a SpatialObject
  *
@@ -40,7 +39,7 @@ namespace itk
  * itk::SpatialObject since its interface responds to the IsInside() method.
  *
  * This class is intended to be derived in order to define the method that will
- * update the transform. Such method will be specific for the particular type of 
+ * update the transform. Such method will be specific for the particular type of
  * transform used.
  *
  * [1] J-P. Thirion "Image matching as a Diffusion Process: and Analogy with
@@ -48,59 +47,55 @@ namespace itk
  *
  * \ingroup RegistrationFilters
  */
-template <typename TFixedPointSet, typename TMovingSpatialObject>
-class ITK_EXPORT PointSetToSpatialObjectDemonsRegistration : public ProcessObject 
+template< typename TFixedPointSet, typename TMovingSpatialObject >
+class ITK_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef PointSetToSpatialObjectDemonsRegistration  Self;
-  typedef ProcessObject                              Superclass;
-  typedef SmartPointer<Self>                         Pointer;
-  typedef SmartPointer<const Self>                   ConstPointer;
+  typedef PointSetToSpatialObjectDemonsRegistration Self;
+  typedef ProcessObject                             Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(PointSetToSpatialObjectDemonsRegistration, ProcessObject);
 
   /**  Type of the Fixed PointSet. */
-  typedef          TFixedPointSet                   FixedPointSetType;
-  typedef typename FixedPointSetType::ConstPointer  FixedPointSetConstPointer;
+  typedef          TFixedPointSet                  FixedPointSetType;
+  typedef typename FixedPointSetType::ConstPointer FixedPointSetConstPointer;
 
   /**  Type of the Moving image. */
-  typedef          TMovingSpatialObject             MovingSpatialObjectType;
-  typedef typename MovingSpatialObjectType::ConstPointer    MovingSpatialObjectConstPointer;
+  typedef          TMovingSpatialObject                  MovingSpatialObjectType;
+  typedef typename MovingSpatialObjectType::ConstPointer MovingSpatialObjectConstPointer;
 
   /** Method that initiates the registration. */
   void StartRegistration(void);
 
   /** Set/Get the Fixed image. */
-  itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
-  itkGetConstObjectMacro( FixedPointSet, FixedPointSetType ); 
+  itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
+  itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
 
   /** Set/Get the Moving image. */
-  itkSetConstObjectMacro( MovingSpatialObject, MovingSpatialObjectType );
-  itkGetConstObjectMacro( MovingSpatialObject, MovingSpatialObjectType );
-
+  itkSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
+  itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
 protected:
   PointSetToSpatialObjectDemonsRegistration();
-  virtual ~PointSetToSpatialObjectDemonsRegistration() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual ~PointSetToSpatialObjectDemonsRegistration() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  PointSetToSpatialObjectDemonsRegistration(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  MovingSpatialObjectConstPointer  m_MovingSpatialObject;
-  FixedPointSetConstPointer        m_FixedPointSet;
+  PointSetToSpatialObjectDemonsRegistration(const Self &); //purposely not
+                                                           // implemented
+  void operator=(const Self &);                            //purposely not
+                                                           // implemented
 
-  
+  MovingSpatialObjectConstPointer m_MovingSpatialObject;
+  FixedPointSetConstPointer       m_FixedPointSet;
 };
-
-
 } // end namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPointSetToSpatialObjectDemonsRegistration.txx"

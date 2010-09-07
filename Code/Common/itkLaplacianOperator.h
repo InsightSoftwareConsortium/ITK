@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
-namespace itk {
-
+namespace itk
+{
 /**
  * \class LaplacianOperator
  *
@@ -31,7 +31,7 @@ namespace itk {
  *
  *  For example, the simplest Laplacian Operator for 2D has the form:
  *  \code
- *              0   1   0  
+ *              0   1   0
  *              1  -4   1
  *              0   1   0
  *  \endcode
@@ -52,64 +52,63 @@ namespace itk {
  * \sa NeighborhoodOperator
  * \sa Neighborhood
  * \ingroup Operators */
-template<class TPixel, unsigned int VDimension=2,
-  class TAllocator = NeighborhoodAllocator<TPixel> >
-class ITK_EXPORT LaplacianOperator
-  : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
+template< class TPixel, unsigned int VDimension = 2,
+          class TAllocator = NeighborhoodAllocator< TPixel > >
+class ITK_EXPORT LaplacianOperator:
+  public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
   /** Standard "Self" typedef support.   */
   typedef LaplacianOperator Self;
 
   /** Standard "Superclass" typedef.   */
-  typedef NeighborhoodOperator<TPixel, VDimension, TAllocator>  Superclass;
+  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
 
   typedef typename Superclass::PixelType PixelType;
   typedef typename Superclass::SizeType  SizeType;
 
- /**  Default constructor  */
+  /**  Default constructor  */
   LaplacianOperator()
-    {
-    for (unsigned i = 0; i < VDimension; ++i)
+  {
+    for ( unsigned i = 0; i < VDimension; ++i )
       {
       m_DerivativeScalings[i] = 1.0;
       }
-    }
+  }
 
   /** Copy constructor   */
-  LaplacianOperator(const Self& other)
-    : NeighborhoodOperator<TPixel, VDimension, TAllocator>(other) 
-    {
-    for (unsigned i = 0; i < VDimension; ++i)
+  LaplacianOperator(const Self & other):
+    NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
+  {
+    for ( unsigned i = 0; i < VDimension; ++i )
       {
       m_DerivativeScalings[i] = other.m_DerivativeScalings[i];
       }
-    }
-  
-  /** This function is called to create the operator  */ 
-  void CreateOperator();  
+  }
 
- 
+  /** This function is called to create the operator  */
+  void CreateOperator();
+
   /** Assignment operator   */
-  Self &operator=(const Self& other)
+  Self & operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
   }
-  
+
   /** Prints some debugging information   */
-  virtual void PrintSelf(std::ostream &os, Indent i) const  
-  { 
+  virtual void PrintSelf(std::ostream & os, Indent i) const
+  {
     os << i << "LaplacianOperator { this=" << this
        << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf( os, i.GetNextIndent() );
   }
 
   /** Sets the weights that are applied to the derivative in each axial
    *  direction when the kernel is computed.  These weights are all 1.0 by
    *  default. This method must be called BEFORE CreateOperator */
-  void SetDerivativeScalings( const double *s );
-           
+  void SetDerivativeScalings(const double *s);
+
 protected:
   /** Typedef support for coefficient vector type.  Necessary to
    * work around compiler bug on VC++.   */
@@ -125,24 +124,27 @@ protected:
 private:
   /** Weights applied to derivatives in each axial direction */
   double m_DerivativeScalings[VDimension];
-  
 };
-
 } // namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_LaplacianOperator(_, EXPORT, x, y) namespace itk { \
-  _(2(class EXPORT LaplacianOperator< ITK_TEMPLATE_2 x >)) \
-  namespace Templates { typedef LaplacianOperator< ITK_TEMPLATE_2 x > \
-                                                  LaplacianOperator##y; } \
+#define ITK_TEMPLATE_LaplacianOperator(_, EXPORT, TypeX, TypeY)     \
+  namespace itk                                                     \
+  {                                                                 \
+  _( 2 ( class EXPORT LaplacianOperator< ITK_TEMPLATE_2 TypeX > ) ) \
+  namespace Templates                                               \
+  {                                                                 \
+  typedef LaplacianOperator< ITK_TEMPLATE_2 TypeX >                 \
+  LaplacianOperator##TypeY;                                       \
+  }                                                                 \
   }
 
 #if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkLaplacianOperator+-.h"
+#include "Templates/itkLaplacianOperator+-.h"
 #endif
 
 #if ITK_TEMPLATE_TXX
-# include "itkLaplacianOperator.txx"
+#include "itkLaplacianOperator.txx"
 #endif
 
 #endif

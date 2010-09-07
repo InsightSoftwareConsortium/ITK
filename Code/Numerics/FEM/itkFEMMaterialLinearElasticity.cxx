@@ -58,9 +58,7 @@ void MaterialLinearElasticity::Read(std::istream& f, void* info)
    */
   while(f)
     {
-#ifndef __sgi
     l=f.tellg();            // remember the stream position
-#endif
     this->SkipWhiteSpace(f);      // skip comments and whitespaces
 
     /**
@@ -137,10 +135,8 @@ void MaterialLinearElasticity::Read(std::istream& f, void* info)
      * If we got here an unknown constant was reached.
      * We reset the stream position and set the stream error.
      */
-#ifndef __sgi
     f.seekg(l);
     f.clear(std::ios::failbit);
-#endif
     }
 
 out:

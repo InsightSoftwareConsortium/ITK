@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,14 +20,15 @@
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
 
-namespace itk {
-namespace Statistics {
-
+namespace itk
+{
+namespace Statistics
+{
 /** \class NormalVariateGenerator
  * \brief Normal random variate generator
  *
- * This generation method was initially developed and implemented by 
- * Martin Styner, University of North Carolina at Chapel Hill, 
+ * This generation method was initially developed and implemented by
+ * Martin Styner, University of North Carolina at Chapel Hill,
  * and his colleagues.
  *
  * You should run Initialize() function before call GetNormalVariate()
@@ -40,10 +41,10 @@ namespace Statistics {
  *
  *      ACM Transactions on Mathematical Software, Vol 22, No 1
  *      March 1996, pp 119-127.
- * 
+ *
  * It is somewhat faster, and uses less memory as the vector of variates is
  * updated in-situ. It has passed all the same statistical tests as decribed
- * in the TOMS article, plus others. Seems OK so far.   
+ * in the TOMS article, plus others. Seems OK so far.
  *
  *        Works well with total pool of 1024 variates, and does not need
  *        two vectors of this size, so does less damage to cache.
@@ -69,74 +70,78 @@ namespace Statistics {
  * OPERATOR ">>" IS SIGN-PRESERVING, SO ( -2 >> 1) = -1,  ( -1>>1) = -1.
 
 
- * 
+ *
  *         A fast generator of pseudo-random variates from the unit Normal
  * distribution. It keeps a pool of about 1000 variates, and generates new
  * ones by picking 4 from the pool, rotating the 4-vector with these as its
  * components, and replacing the old variates with the components of the
  * rotated vector.
- * 
- * 
- *         The program should initialize the generator by calling 
+ *
+ *
+ *         The program should initialize the generator by calling
  * initnorm(seed)
  * with seed a int integer seed value. Different seed values will give
  * different sequences of Normals.
  *         Then, wherever the program needs a new Normal variate, it should
  * use the macro FastGauss, e.g. in statements like:
  *         x = FastGauss;  (Sets x to a random Normal value)
- *   
+ *
  *
  * \ingroup Statistics
  */
-class ITK_EXPORT NormalVariateGenerator : 
-    public RandomVariateGeneratorBase
+class ITK_EXPORT NormalVariateGenerator:
+  public RandomVariateGeneratorBase
 {
 public:
   /** Standard class typedefs. */
   typedef NormalVariateGenerator     Self;
   typedef RandomVariateGeneratorBase Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalVariateGenerator, 
-               RandomVariateGeneratorBase );
- 
+  itkTypeMacro(NormalVariateGenerator,
+               RandomVariateGeneratorBase);
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-    
+
   /** generate random number table */
   void Initialize(int randomSeed);
 
   /** get a variate using FastNorm function */
   double GetVariate();
-    
+
 protected:
   NormalVariateGenerator();
-  virtual ~NormalVariateGenerator(); 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-    
+  virtual ~NormalVariateGenerator();
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
   /** get a variate */
-  double FastNorm (void);
-    
+  double FastNorm(void);
+
 private:
-  double Scale;
-  double Rscale;
-  double Rcons;
-  int ELEN;
-  int LEN;
-  int LMASK;
-  int TLEN;
-    
-  int gaussfaze, *gausssave;
-  double GScale;
-    
-  int* vec1;
-  int nslew;
-  int irs, lseed;
-  double chic1, chic2, actualRSD;
+  double m_Scale;
+  double m_Rscale;
+  double m_Rcons;
+  int    m_ELEN;
+  int    m_LEN;
+  int    m_LMASK;
+  int    m_TLEN;
+
+  int  m_Gaussfaze;
+  int *m_Gausssave;
+
+  double m_GScale;
+
+  int *  m_Vec1;
+  int    m_Nslew;
+  int    m_Irs;
+  int    m_Lseed;
+  double m_Chic1;
+  double m_Chic2;
+  double m_ActualRSD;
 };  // end of class
-  
 } // end of namespace Statistics
 } // end of namespace itk
 #endif

@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -28,7 +28,6 @@
 
 namespace itk
 {
-
 /** \class RegularExpressionSeriesFileNames
  * \brief Generate an ordered sequence of filenames that match a
  * regular expression.
@@ -65,18 +64,18 @@ namespace itk
  * match  any  character  sequence that does not begin with the
  * characters "ab"  followed  by  numbers  in  the  series  one
  * through nine.
- * 
+ *
  * \ingroup IOFilters
  *
  */
-class ITK_EXPORT RegularExpressionSeriesFileNames : public Object
+class ITK_EXPORT RegularExpressionSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */
   typedef RegularExpressionSeriesFileNames Self;
   typedef Object                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  
+  typedef SmartPointer< Self >             Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -100,36 +99,35 @@ public:
   /** NumericSortOn changes the sort of the submatch field to a
    * numeric sort. NumericSortOff is the default, and sorts the
    * submatch alphabetically. */
-  itkSetMacro(NumericSort,bool);
-  itkGetConstMacro(NumericSort,bool);
+  itkSetMacro(NumericSort, bool);
+  itkGetConstMacro(NumericSort, bool);
   itkBooleanMacro(NumericSort);
 
   /** Returns a vector containing the series' file names. The file
     * names are sorted by the sub expression selected by the SubMatch id. */
-  const std::vector<std::string> &GetFileNames ();
+  const std::vector< std::string > & GetFileNames();
 
 protected:
-  RegularExpressionSeriesFileNames() :
+  RegularExpressionSeriesFileNames():
     m_Directory("."),
     m_SubMatch(1),
     m_NumericSort(false),
     m_RegularExpression(".*\\.([0-9]+)")
-    {};
-  ~RegularExpressionSeriesFileNames() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
-  
+  {}
+  ~RegularExpressionSeriesFileNames() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
-  RegularExpressionSeriesFileNames(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  RegularExpressionSeriesFileNames(const Self &); //purposely not implemented
+  void operator=(const Self &);                   //purposely not implemented
+
   std::string  m_Directory;
   unsigned int m_SubMatch;
   bool         m_NumericSort;
   std::string  m_RegularExpression;
 
-  std::vector<std::string>  m_FileNames;
+  std::vector< std::string > m_FileNames;
 };
-
 } //namespace ITK
 
 #endif // __itkRegularExpressionSeriesFileNames_h

@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkOrientedImage.h"
+#include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTimeProbesCollectorBase.h"
 
@@ -28,7 +28,7 @@ int itkOrientedImageProfileTest1( int, char *[] )
   const unsigned int Dimension = 3;
   typedef unsigned char PixelType;
 
-  typedef itk::OrientedImage<PixelType, Dimension>    ImageType;
+  typedef itk::Image<PixelType, Dimension>    ImageType;
 
   typedef ImageType::IndexType                        IndexType;
   typedef ImageType::SizeType                         SizeType;

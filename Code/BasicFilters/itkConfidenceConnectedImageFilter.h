@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -20,8 +20,8 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
-namespace itk {
-
+namespace itk
+{
 /** \class ConfidenceConnectedImageFilter
  * \brief Segment pixels with similar statistics using connectivity
  *
@@ -53,16 +53,16 @@ namespace itk {
  * may be adjusted to contain the seed point's intensity.
  * \ingroup RegionGrowingSegmentation
  */
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 class ITK_EXPORT ConfidenceConnectedImageFilter:
-    public ImageToImageFilter<TInputImage,TOutputImage>
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ConfidenceConnectedImageFilter               Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef ConfidenceConnectedImageFilter                  Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,29 +71,28 @@ public:
   itkTypeMacro(ConfidenceConnectedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType; 
-  typedef typename InputImageType::PixelType    InputImagePixelType; 
-  typedef typename InputImageType::IndexType    IndexType;
-  typedef typename InputImageType::SizeType     SizeType;
-  
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType; 
-  typedef typename OutputImageType::PixelType   OutputImagePixelType; 
-  
-  typedef std::vector< IndexType >              SeedsContainerType;
+  typedef TInputImage                         InputImageType;
+  typedef typename InputImageType::Pointer    InputImagePointer;
+  typedef typename InputImageType::RegionType InputImageRegionType;
+  typedef typename InputImageType::PixelType  InputImagePixelType;
+  typedef typename InputImageType::IndexType  IndexType;
+  typedef typename InputImageType::SizeType   SizeType;
 
-  typedef typename NumericTraits< 
-                InputImagePixelType >::RealType InputRealType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
+  typedef std::vector< IndexType > SeedsContainerType;
 
-  void PrintSelf ( std::ostream& os, Indent indent ) const;
+  typedef typename NumericTraits<
+    InputImagePixelType >::RealType InputRealType;
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Set seed point. This method is deprecated, please use AddSeed() */
   void SetSeed(const IndexType & seed);
-  
+
   /** Clear all the seeds. */
   void ClearSeeds();
 
@@ -115,32 +114,31 @@ public:
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
-  itkSetMacro( InitialNeighborhoodRadius, unsigned int );
-  itkGetConstReferenceMacro( InitialNeighborhoodRadius, unsigned int );
+  itkSetMacro(InitialNeighborhoodRadius, unsigned int);
+  itkGetConstReferenceMacro(InitialNeighborhoodRadius, unsigned int);
 
   /** Method to get access to the mean of the pixels accepted in the output
    * region.  This method should only be invoked after the filter has been
    * executed using the Update() method. */
-  itkGetConstReferenceMacro( Mean, InputRealType );
+  itkGetConstReferenceMacro(Mean, InputRealType);
 
   /** Method to get access to the variance of the pixels accepted in the output
    * region.  This method should only be invoked after the filter has been
    * executed using the Update() method. */
-  itkGetConstReferenceMacro( Variance, InputRealType );
+  itkGetConstReferenceMacro(Variance, InputRealType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<InputImagePixelType>));
-  itkConceptMacro(OutputHasNumericTraitsCheck,
-    (Concept::HasNumericTraits<OutputImagePixelType>));
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   ConfidenceConnectedImageFilter();
-  ~ConfidenceConnectedImageFilter(){};
-  
+  ~ConfidenceConnectedImageFilter(){}
+
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion();
 
@@ -148,21 +146,19 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output);
 
   void GenerateData();
-  
+
 private:
-  ConfidenceConnectedImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  ConfidenceConnectedImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                 //purposely not implemented
 
-  SeedsContainerType      m_Seeds;
-  double                  m_Multiplier;
-  unsigned int            m_NumberOfIterations;
-  OutputImagePixelType    m_ReplaceValue;
-  unsigned int            m_InitialNeighborhoodRadius;
-  InputRealType           m_Mean;
-  InputRealType           m_Variance;
+  SeedsContainerType   m_Seeds;
+  double               m_Multiplier;
+  unsigned int         m_NumberOfIterations;
+  OutputImagePixelType m_ReplaceValue;
+  unsigned int         m_InitialNeighborhoodRadius;
+  InputRealType        m_Mean;
+  InputRealType        m_Variance;
 };
-
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

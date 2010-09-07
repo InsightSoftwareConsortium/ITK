@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,8 +22,8 @@
 
 namespace itk
 {
- 
-namespace Accessor {
+namespace Accessor
+{
 /** \class RGBToLuminancePixelAccessor
  * \brief Give access to Luminance of a color pixel type.
  *
@@ -35,8 +35,8 @@ namespace Accessor {
  *
  * \ingroup ImageAdaptors
  */
-template <class TInternalType, class TExternalType >
-class ITK_EXPORT RGBToLuminancePixelAccessor  
+template< class TInternalType, class TExternalType >
+class ITK_EXPORT RGBToLuminancePixelAccessor
 {
 public:
   /** External typedef. It defines the external aspect
@@ -47,15 +47,14 @@ public:
    * representation of data. */
   typedef TInternalType InternalType;
 
-  static inline void Set(TInternalType & output, const TExternalType & input) 
-    {output = static_cast<TInternalType>( input.GetLuminance() );}
+  static inline void Set(TInternalType & output, const TExternalType & input)
+  { output = static_cast< TInternalType >( input.GetLuminance() ); }
 
-  static inline TExternalType Get( const TInternalType & input ) 
-    {return static_cast<TExternalType>( input.GetLuminance() );}
+  static inline TExternalType Get(const TInternalType & input)
+  { return static_cast< TExternalType >( input.GetLuminance() ); }
 };
-  
 } // end namespace Accessor
- 
+
 /** \class RGBToLuminanceImageAdaptor
  * \brief Presents a color image as being composed of the Luminance of its pixels.
  *
@@ -65,38 +64,34 @@ public:
  *
  * \ingroup ImageAdaptors
  */
-template <class TImage, class TOutputPixelType>
-class ITK_EXPORT RGBToLuminanceImageAdaptor : public
-      ImageAdaptor<TImage,
-                   Accessor::RGBToLuminancePixelAccessor<
-                                      typename TImage::PixelType,
-                                      TOutputPixelType>   >
+template< class TImage, class TOutputPixelType >
+class ITK_EXPORT RGBToLuminanceImageAdaptor:public
+  ImageAdaptor< TImage,
+                Accessor::RGBToLuminancePixelAccessor<
+                  typename TImage::PixelType,
+                  TOutputPixelType >   >
 {
 public:
   /** Standard class typedefs. */
-  typedef RGBToLuminanceImageAdaptor                Self;
-  typedef ImageAdaptor<TImage, Accessor::RGBToLuminancePixelAccessor<
-                               typename TImage::PixelType,
-                               TOutputPixelType> >  Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
-  
+  typedef RGBToLuminanceImageAdaptor Self;
+  typedef ImageAdaptor< TImage, Accessor::RGBToLuminancePixelAccessor<
+                          typename TImage::PixelType,
+                          TOutputPixelType > >  Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);  
+  itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RGBToLuminanceImageAdaptor, ImageAdaptor );
-
+  itkTypeMacro(RGBToLuminanceImageAdaptor, ImageAdaptor);
 protected:
   RGBToLuminanceImageAdaptor() {}
   virtual ~RGBToLuminanceImageAdaptor() {}
-  
 private:
-  RGBToLuminanceImageAdaptor(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  RGBToLuminanceImageAdaptor(const Self &); //purposely not implemented
+  void operator=(const Self &);             //purposely not implemented
 };
-
 } // end namespace itk
 
 #endif

@@ -20,10 +20,10 @@
 #include <math.h>
 #include "vcl_cmath.h"
 
-namespace itk {
-
-template<class TNodeType>
-SparseFieldLayer<TNodeType>
+namespace itk
+{
+template< class TNodeType >
+SparseFieldLayer< TNodeType >
 ::SparseFieldLayer()
 {
   m_HeadNode = new NodeType;
@@ -32,62 +32,61 @@ SparseFieldLayer<TNodeType>
   m_Size = 0;
 }
 
-template<class TNodeType>
-SparseFieldLayer<TNodeType>
+template< class TNodeType >
+SparseFieldLayer< TNodeType >
 ::~SparseFieldLayer()
 {
   delete m_HeadNode;
 }
-  
-template<class TNodeType>
+
+template< class TNodeType >
 void
-SparseFieldLayer<TNodeType>
-::PrintSelf(std::ostream& os, Indent indent) const
+SparseFieldLayer< TNodeType >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
-  
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "m_HeadNode:  " << m_HeadNode << std::endl;
   os << indent << "Empty? : " << this->Empty() << std::endl;
 }
 
-template<class TNodeType>
+template< class TNodeType >
 unsigned int
-SparseFieldLayer<TNodeType>
+SparseFieldLayer< TNodeType >
 ::Size() const
 {
   return m_Size;
 }
 
-template<class TNodeType>
-typename SparseFieldLayer<TNodeType>::RegionListType
-SparseFieldLayer<TNodeType>
-::SplitRegions (int num) const
+template< class TNodeType >
+typename SparseFieldLayer< TNodeType >::RegionListType
+SparseFieldLayer< TNodeType >
+::SplitRegions(int num) const
 {
-  std::vector<RegionType> regionlist;
-  unsigned int size, regionsize;
-  size=Size();
-  regionsize=static_cast<unsigned int>(
-    vcl_ceil(static_cast<float>(size)/static_cast<float>(num)));
-  ConstIterator position=Begin();
-  ConstIterator last=End();
-  
-  for (int i=0;i<num;i++) 
+  std::vector< RegionType > regionlist;
+  unsigned int              size, regionsize;
+  size = Size();
+  regionsize = static_cast< unsigned int >(
+    vcl_ceil( static_cast< float >( size ) / static_cast< float >( num ) ) );
+  ConstIterator position = Begin();
+  ConstIterator last = End();
+
+  for ( int i = 0; i < num; i++ )
     {
-    unsigned int j=0;
-    RegionType region;
-    region.first=position;
-    while ((j<regionsize)&&(position!=last)) 
+    unsigned int j = 0;
+    RegionType   region;
+    region.first = position;
+    while ( ( j < regionsize ) && ( position != last ) )
       {
       j++;
       ++position;
       }
-    region.last=position;
+    region.last = position;
     regionlist.push_back(region);
     }
-  
+
   return regionlist;
 }
-
-}// end namespace itk
+} // end namespace itk
 
 #endif

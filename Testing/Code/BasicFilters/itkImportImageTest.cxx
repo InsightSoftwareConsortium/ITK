@@ -100,7 +100,6 @@ int itkImportImageTest(int, char* [] )
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
-#ifdef ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY
     if ( iterator2.Get() != 
          itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
@@ -116,20 +115,6 @@ int itkImportImageTest(int, char* [] )
                                     (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1]))))) << "\n";
       passed = false;
       }
-#else 
-    if ( iterator2.Get() != 
-         static_cast<long>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] )
-                          +(region.GetSize()[0]
-                            * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])))
-      {
-         std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() <<  " " << iterator2.Get()
-                   << " compare value " << static_cast<long>(
-                      (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] )
-                          + (region.GetSize()[0]
-                             * shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1])) << "\n"; 
-      passed = false;
-      }
-#endif
     }
 
   if (passed)

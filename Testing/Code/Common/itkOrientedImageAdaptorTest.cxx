@@ -36,13 +36,13 @@
 #include <itkImageRegionIteratorWithIndex.h>
 #include <itkRGBPixel.h>
 #include <itkRedPixelAccessor.h>
-#include <itkOrientedImage.h>
+#include <itkImage.h>
 
 
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::OrientedImage< itk::RGBPixel<float>,   2 > myImageType;
+typedef itk::Image< itk::RGBPixel<float>,   2 > myImageType;
  
 
 typedef itk::RedPixelAccessor<float> myRedAccessorType;

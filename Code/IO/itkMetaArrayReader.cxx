@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -21,7 +21,6 @@
 
 namespace itk
 {
-
 /** Constructor */
 MetaArrayReader
 ::MetaArrayReader()
@@ -33,13 +32,12 @@ MetaArrayReader
 /** Destructor */
 MetaArrayReader
 ::~MetaArrayReader()
-{
-}
+{}
 
 /** Update the Reader */
 void MetaArrayReader
-::SetBuffer(void * _buffer)
-{  
+::SetBuffer(void *_buffer)
+{
   m_Buffer = _buffer;
 }
 
@@ -47,16 +45,15 @@ void MetaArrayReader
 MetaArray * MetaArrayReader
 ::GetMetaArrayPointer(void)
 {
-  return & m_MetaArray;
+  return &m_MetaArray;
 }
 
 /** Update the Reader */
 void MetaArrayReader
 ::Update()
-{  
+{
   m_MetaArray.Read(m_FileName.c_str(), true, m_Buffer);
 }
-
 } // namespace itk
 
 #endif

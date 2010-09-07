@@ -12,8 +12,8 @@
   Portions of this code are covered under the VTK copyright.
   See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -25,20 +25,19 @@
 
 namespace itk
 {
-
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-InvertIntensityImageFilter<TInputImage, TOutputImage>
+template< class TInputImage, class TOutputImage >
+InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::InvertIntensityImageFilter()
 {
-  m_Maximum = NumericTraits<InputPixelType>::max();
+  m_Maximum = NumericTraits< InputPixelType >::max();
 }
 
-template <class TInputImage, class TOutputImage>
+template< class TInputImage, class TOutputImage >
 void
-InvertIntensityImageFilter<TInputImage, TOutputImage>
+InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
   this->GetFunctor().SetMaximum(m_Maximum);
@@ -47,19 +46,17 @@ InvertIntensityImageFilter<TInputImage, TOutputImage>
 /**
  *
  */
-template <class TInputImage, class TOutputImage>
-void 
-InvertIntensityImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os, Indent indent) const
+template< class TInputImage, class TOutputImage >
+void
+InvertIntensityImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "Maximum: "
-     << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Maximum)
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Maximum )
      << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

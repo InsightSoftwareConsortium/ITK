@@ -1,5 +1,5 @@
 # This is the root ITK CMakeLists file.
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.2)
 IF(COMMAND CMAKE_POLICY)
   CMAKE_POLICY(SET CMP0003 NEW)
 ENDIF(COMMAND CMAKE_POLICY)
@@ -12,7 +12,6 @@ SOURCE_GROUP("XML Files" REGULAR_EXPRESSION "[.]xml$")
 # On Visual Studio 8 MS deprecated C. This removes all 1.276E1265 security
 # warnings
 IF(WIN32)
-  IF(NOT BORLAND)
     IF(NOT CYGWIN)
       IF(NOT MINGW)
         IF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
@@ -31,7 +30,6 @@ IF(WIN32)
         ENDIF(NOT ITK_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
       ENDIF(NOT MINGW)
     ENDIF(NOT CYGWIN)
-  ENDIF(NOT BORLAND)
 ENDIF(WIN32)
 
 
@@ -46,8 +44,8 @@ ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" MATCHES "^2\\.4$")
 
 #-----------------------------------------------------------------------------
 # ITK version number.  An even minor number corresponds to releases.
-SET(ITK_VERSION_MAJOR "3")
-SET(ITK_VERSION_MINOR "20")
+SET(ITK_VERSION_MAJOR "4")
+SET(ITK_VERSION_MINOR "0")
 SET(ITK_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
@@ -104,6 +102,9 @@ SET(ITK_EXECUTABLE_PATH "${EXECUTABLE_OUTPUT_PATH}")
 SET(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 SET(CMAKE_MODULE_PATH ${ITK_SOURCE_DIR}/CMake)
+
+INCLUDE(itkCheckSourceTree)
+
 # Deal with FFT v3 Options
 MARK_AS_ADVANCED(USE_FFTWD)
 OPTION(USE_FFTWD "Use double precision FFTW if found" OFF)
@@ -118,13 +119,6 @@ IF( USE_FFTWD OR USE_FFTWF )
   MESSAGE("${msg}")
   FIND_PACKAGE( FFTW )
 ENDIF( USE_FFTWD OR USE_FFTWF )
-
-# Deal with SGI SCSL Options
-OPTION(USE_SCSL "Use the SGI SCSL High Performance Computing math library" OFF)
-MARK_AS_ADVANCED(USE_SCSL)
-IF( USE_SCSL )
-    FIND_PACKAGE( SCSL )
-ENDIF( USE_SCSL )
 
 # Deal with MINC2 options
 MARK_AS_ADVANCED(ITK_USE_MINC2)
@@ -145,7 +139,7 @@ SET(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 IF(NOT ITK_NO_LIBRARY_VERSION)
   # This setting of SOVERSION assumes that any API change
   # will increment either the minor or major version number of ITK.
-  SET(ITK_LIBRARY_PROPERTIES 
+  SET(ITK_LIBRARY_PROPERTIES
       VERSION   "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}"
       SOVERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}"
      )
@@ -156,8 +150,6 @@ ENDIF(NOT ITK_NO_LIBRARY_VERSION)
 OPTION(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
 OPTION(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 MARK_AS_ADVANCED(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
-
-SET(GDCM_LEGACY_SILENT ${ITK_LEGACY_SILENT})
 
 #-----------------------------------------------------------------------------
 # ITK build patented algorithms
@@ -175,76 +167,10 @@ INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK turn on concept checking
-IF( NOT BORLAND )
-  OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
-  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
-  OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
-  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
-ELSE( NOT BORLAND )
-  SET(ITK_USE_CONCEPT_CHECKING OFF)
-  MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
-  SET(ITK_USE_STRICT_CONCEPT_CHECKING OFF)
-  MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
-ENDIF( NOT BORLAND )
-
-#-----------------------------------------------------------------------------
-# Make the itk::Image assume the behavior of the itk::OrientedImage
-MARK_AS_ADVANCED(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE)
-OPTION(ITK_IMAGE_BEHAVES_AS_ORIENTED_IMAGE "Makes itk::Image behave like itk::OrientedImage" ON)
-
-# ITK turn on experimental version of accelerated image registration
-OPTION(ITK_USE_OPTIMIZED_REGISTRATION_METHODS "Turn on the experimental version of accelerated registration methods." OFF)
-MARK_AS_ADVANCED(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-IF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-  IF(NOT ITK_USE_REVIEW)
-    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental optimized registration methods.")
-  ENDIF(NOT ITK_USE_REVIEW)
-  # Warn the user about the implications of turning optimized registration methods ON
-  SET(msg "Attention: You have chosen to enable the use of Optimized Registration Methods.")
-  SET(msg "${msg} These methods add multi-threading capabilities to several image metrics")
-  SET(msg "${msg} as well as some Transforms and Interpolators. In order to take full advantage")
-  SET(msg "${msg} of these new features you will have to also add some new calls to these components.")
-  SET(msg "${msg} Please look at the files in the Examples/Review directory for further details.")
-
-# display the message during the setup
-MESSAGE("${msg}")
-
-
-ENDIF(ITK_USE_OPTIMIZED_REGISTRATION_METHODS)
-
-#-----------------------------------------------------------------------------
-# ITK use the new statistics framework
-OPTION( ITK_USE_REVIEW_STATISTICS "Use the experimental statistics framework." OFF)
-MARK_AS_ADVANCED( ITK_USE_REVIEW_STATISTICS )
-IF(ITK_USE_REVIEW_STATISTICS)
-  IF(NOT ITK_USE_REVIEW)
-    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental statistics framework.")
-  ENDIF(NOT ITK_USE_REVIEW)
-
-  # Warn the user about the implications of using the new statistics framework.
-  SET(msg "Attention: You have chosen to use the new statistics framework instead of the existing framework.")
-  SET(msg "${msg} The statistics classes have been re-designed/refactored and in several")
-  SET(msg "${msg} cases do not conform to the API of the older framework. You may need to")
-  SET(msg "${msg} change your code to use the new API.")
-  MESSAGE("${msg}")
-ENDIF(ITK_USE_REVIEW_STATISTICS)
-
-#-----------------------------------------------------------------------------
-# ITK turn on experimental version of accelerated image registration
-OPTION(ITK_USE_CONSOLIDATED_MORPHOLOGY "Turn on the experimental consolidated morphology." OFF)
-MARK_AS_ADVANCED(ITK_USE_CONSOLIDATED_MORPHOLOGY)
-
-IF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
-  IF(NOT ITK_USE_REVIEW)
-    MESSAGE(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental consolidated morphology.")
-  ENDIF(NOT ITK_USE_REVIEW)
-  # Warn the user about the implications of turning consolidated morphology ON
-  SET(msg "Attention: You have chosen to enable the use of consolidated morphology.")
-  # TODO: warn more than that
-  # display the message during the setup
-  MESSAGE("${msg}")
-ENDIF(ITK_USE_CONSOLIDATED_MORPHOLOGY)
-
+OPTION(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
+MARK_AS_ADVANCED(ITK_USE_CONCEPT_CHECKING)
+OPTION(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
+MARK_AS_ADVANCED(ITK_USE_STRICT_CONCEPT_CHECKING)
 
 #-----------------------------------------------------------------------------
 # ITK turn on the use of experimental IO factories for the TransformFileReader and TransformFileWriter
@@ -257,33 +183,9 @@ IF(ITK_USE_TRANSFORM_IO_FACTORIES)
 ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 #-----------------------------------------------------------------------------
-# ITK turn on the correct usage of oriented images in gradient computations and image registration.
-OPTION(ITK_USE_ORIENTED_IMAGE_DIRECTION "Turn on correct use of oriented images direction in gradient computation and image registration." ON)
-MARK_AS_ADVANCED(ITK_USE_ORIENTED_IMAGE_DIRECTION)
-
-
-#-----------------------------------------------------------------------------
-# ITK turn on the correct usage of centered-pixel coordinates.
-OPTION(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY "Turn on correct usage of centered-pixel coordinates." ON)
-MARK_AS_ADVANCED(ITK_USE_CENTERED_PIXEL_COORDINATES_CONSISTENTLY)
-
-#-----------------------------------------------------------------------------
-# ITK turn on the correct usage of centered-pixel coordinates.
-OPTION(ITK_USE_REGION_VALIDATION_IN_ITERATORS "Turn on region validation in Iterator constructors." ON)
-MARK_AS_ADVANCED(ITK_USE_REGION_VALIDATION_IN_ITERATORS)
-
-
-#-----------------------------------------------------------------------------
 # ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
 OPTION(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." ON)
 MARK_AS_ADVANCED(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
-
-OPTION(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION "Turn on the use of a sparse field level set surface interpolation method that has been deprecated since ITK 3.6. Turn this flag ON to exactly replicate the behavior of ITK<=3.4." OFF)
-MARK_AS_ADVANCED(ITK_USE_DEPRECATED_LEVELSET_INTERPOLATION)
-
-OPTION(ITK_USE_DEPRECATED_FAST_MARCHING "Turn on incorrect handling of TrialPoints in itk::FastMarchingImageFilter result of a bug fixed in ITK 3.18. Turn this flag ON to exactly replicate the behavior of ITK<=3.16." OFF)
-MARK_AS_ADVANCED(ITK_USE_DEPRECATED_FAST_MARCHING)
-
 
 #-----------------------------------------------------------------------------
 # Installation vars.
@@ -477,6 +379,7 @@ ENDIF(ITK_USE_SYSTEM_VXL)
 # Provide options to use system versions of third-party libraries.
 ITK_THIRD_PARTY_OPTION(ZLIB zlib)
 ITK_THIRD_PARTY_OPTION(PNG  png)
+ITK_THIRD_PARTY_OPTION(JPEG jpeg)
 ITK_THIRD_PARTY_OPTION(TIFF tiff)
 
 OPTION(ITK_USE_LIBXML2 "Use LIBXML2." OFF)
@@ -489,6 +392,7 @@ OPTION(BUILD_DOXYGEN "Build Doxygen Documentation" OFF)
 IF(BUILD_DOXYGEN)
   FIND_PACKAGE(Doxygen)
 ENDIF(BUILD_DOXYGEN)
+
 
 #-----------------------------------------------------------------------------
 # Dispatch the build into the proper subdirectories.
@@ -511,30 +415,30 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -ftemplate-depth-50 -Wall")
   INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
   itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-deprecated" CXX_HAS_DEPRECATED_FLAG)
-  IF(CXX_HAS_DEPRECATED_FLAG)    
+  IF(CXX_HAS_DEPRECATED_FLAG)
     SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-deprecated")
-  ENDIF(CXX_HAS_DEPRECATED_FLAG)    
+  ENDIF(CXX_HAS_DEPRECATED_FLAG)
   IF(APPLE)
     # -no-cpp-precomp and -Wno-long-double were compiler flags present
     # only in Apple's gcc and not in the FSF gcc. The flags are obsolete
     # and totally removed in gcc 4.2 and later. I believe they are only
     # needed with gcc 3.3 and earlier.
     itkCHECK_CXX_ACCEPTS_FLAGS("-no-cpp-precomp" CXX_HAS_CPP_PRECOMP_FLAG)
-    IF(CXX_HAS_CPP_PRECOMP_FLAG)    
+    IF(CXX_HAS_CPP_PRECOMP_FLAG)
       SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -no-cpp-precomp")
       SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -no-cpp-precomp")
-    ENDIF(CXX_HAS_CPP_PRECOMP_FLAG)    
+    ENDIF(CXX_HAS_CPP_PRECOMP_FLAG)
     itkCHECK_CXX_ACCEPTS_FLAGS("-Wno-long-double" CXX_HAS_LONGDOUBLE_FLAG)
-    IF(CXX_HAS_LONGDOUBLE_FLAG)    
+    IF(CXX_HAS_LONGDOUBLE_FLAG)
       SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -Wno-long-double")
       SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-long-double")
-    ENDIF(CXX_HAS_LONGDOUBLE_FLAG)    
+    ENDIF(CXX_HAS_LONGDOUBLE_FLAG)
 
     OPTION(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
     MARK_AS_ADVANCED(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
 
   ENDIF(APPLE)
-  
+
   # gcc must have -msse2 option to enable sse2 support
   IF(VNL_CONFIG_ENABLE_SSE2 OR VNL_CONFIG_ENABLE_SSE2_ROUNDING)
     SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -msse2")
@@ -561,11 +465,6 @@ ENDIF(UNIX)
 INCLUDE(TestForANSIStreamHeaders)
 
 
-IF(BORLAND)
-    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -w- -whid -waus -wpar")
-    SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} -w- -whid -waus -wpar")
-ENDIF(BORLAND)
-
 # Force the use of ansi cxx flags (i.e. -LANG:std on sgi )
 IF("x${CMAKE_ANSI_CXXFLAGS}" MATCHES "^x.*[^ ]")
   SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} ${CMAKE_ANSI_CXXFLAGS}")
@@ -573,13 +472,6 @@ ENDIF("x${CMAKE_ANSI_CXXFLAGS}" MATCHES "^x.*[^ ]")
 IF("x${CMAKE_ANSI_CFLAGS}" MATCHES "^x.*[^ ]")
   SET(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_C_FLAGS} ${CMAKE_ANSI_CFLAGS}")
 ENDIF("x${CMAKE_ANSI_CFLAGS}" MATCHES "^x.*[^ ]")
-
-IF(CMAKE_SYSTEM MATCHES "IRIX.*")
-  IF(NOT CMAKE_COMPILER_IS_GNUCXX)
-    SET(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -woff 15,84,1110,1209,1424,1468,3102,3210,3439  -no_auto_include -ptused -no_prelink")
-    SET(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS}  -Wl,-woff15")
-  ENDIF(NOT CMAKE_COMPILER_IS_GNUCXX)
-ENDIF(CMAKE_SYSTEM MATCHES "IRIX.*")
 
 IF(MINGW)
   LINK_LIBRARIES(gdi32)
@@ -640,7 +532,7 @@ IF(MINGW)
 ENDIF(MINGW)
 
 #-----------------------------------------------------------------------------
-# Find platform-specific differences in the handling of IEEE floating point 
+# Find platform-specific differences in the handling of IEEE floating point
 # special values.
 INCLUDE(${ITK_SOURCE_DIR}/CMake/CheckBigBitfield.cmake)
 CHECK_BIG_BITFIELD(BIGBITFIELD_VALUE ${ITK_SOURCE_DIR}/CMake)
@@ -662,19 +554,24 @@ INCLUDE(CheckTypeSize)
 
 
 #-----------------------------------------------------------------------------
-#
-# Check types such as long long and __int64
-INCLUDE(${ITK_SOURCE_DIR}/CMake/itkTestTypes.cmake)
+# Place all check includes below ( before itkConfigure.h is generated )
 
-
-#-----------------------------------------------------------------------------
 # check if the platform has the header file "fenv.h" which has been added as part of the C99 standard
 INCLUDE(CheckIncludeFiles)
 CHECK_INCLUDE_FILES(fenv.h HAVE_FENV_H)
 
-#-----------------------------------------------------------------------------
 # check if the platform has some widely used header files
 CHECK_INCLUDE_FILES("unistd.h" HAVE_UNISTD_H)
+
+# check if the platform has the header file "stdint.h" which has been added as part of the C99 standard
+CHECK_INCLUDE_FILES("stdint.h" HAVE_STDINT_H)
+
+# every system should have this header
+CHECK_INCLUDE_FILES("stddef.h" HAVE_STDDEF_H)
+CHECK_INCLUDE_FILES("sys/types.h" HAVE_SYS_TYPES_H)
+
+#-----------------------------------------------------------------------------
+
 
 #
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
@@ -732,12 +629,17 @@ ENDIF(HAVE_UNISTD_H)
 #-----------------------------------------------------------------------------
 # Configure the default ITK_DATA_ROOT for the location of ITK Data.
 FIND_PATH(ITK_DATA_ROOT ITKData.readme ${ITK_SOURCE_DIR}/Testing/Data $ENV{ITK_DATA_ROOT})
+IF(NOT ITK_DATA_ROOT)
+  IF(BUILD_TESTING)
+    MESSAGE(WARNING "ITK_DATA_ROOT was not found.  ctest will not run properly.")
+  ENDIF()
+ENDIF()
 MARK_AS_ADVANCED(ITK_DATA_ROOT)
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_BRAINWEB_DATA_ROOT for the location of ITK Data.
 # When this data is available, additional 3D tests are enabled.
-FIND_PATH(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha 
+FIND_PATH(ITK_BRAINWEB_DATA_ROOT brainweb165a10f17.mha
   DOC "Directory with data taken from http://public.kitware.com/pub/itk/Data/BrainWeb/")
 MARK_AS_ADVANCED(ITK_BRAINWEB_DATA_ROOT)
 
@@ -768,12 +670,12 @@ MARK_AS_ADVANCED(ITK_VISIBLEHUMAN_DATA_ROOT)
 #-----------------------------------------------------------------------------
 # This flag is used in particular, to enable some tests that require large memory to run.
 # This probably can be discovered at configuration time by CMake. (Check with CMake developers).
-SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes") 
+SET(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes")
 MARK_AS_ADVANCED(ITK_COMPUTER_MEMORY_SIZE)
 
 #-----------------------------------------------------------------------------
 # Configure files with settings for use by the build.
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in 
+CONFIGURE_FILE(${ITK_SOURCE_DIR}/itkConfigure.h.in
   ${ITK_BINARY_DIR}/itkConfigure.h)
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
   INSTALL(FILES ${ITK_BINARY_DIR}/itkConfigure.h
@@ -799,7 +701,7 @@ INCLUDE_DIRECTORIES(
 
 #-----------------------------------------------------------------------------
 # ITK_USE_SYSTEM_GDCM is provided so that you can use an installed or external
-# version of gdcm. If its on, you must specify the variables 
+# version of gdcm. If its on, you must specify the variables
 # Important: INCLUDE(${GDCM_USE_FILE}) *has* to be set after the
 # INCLUDE_DIRECTORIES that sets all the include paths for ITK, otherwise
 # if GDCM was build with VTK support, including it will bring the VTK
@@ -812,7 +714,8 @@ IF(ITK_USE_SYSTEM_GDCM)
   IF(GDCM_FOUND)
     INCLUDE(${GDCM_USE_FILE})
     IF( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
-      SET(ITK_GDCM_LIBRARIES gdcm)
+      #SET(ITK_GDCM_LIBRARIES gdcm)
+      message(FATAL_ERROR "Unahndled")
     ELSE( "${GDCM_MAJOR_VERSION}" LESS 2.0 )
       IF(ITK_USE_SYSTEM_TIFF)
         # Long story short. ITKIO is NOT linked to itkjpeg8 explicitely. itkjpeg8 dep is being
@@ -827,7 +730,7 @@ IF(ITK_USE_SYSTEM_GDCM)
         # 1. Have FindTIFF link to jpeg8 (which would be the right thing to do for static system libtiff)
         # 2. Have ITKIO explicitely link to itkjpeg8
         # For the time being let's explicitely pull the dep to itkjpeg8 ourselves.
-        SET(ITK_GDCM_LIBRARIES gdcmMSFF itkjpeg8)
+        SET(ITK_GDCM_LIBRARIES gdcmMSFF itkjpeg)
       ELSE(ITK_USE_SYSTEM_TIFF)
         SET(ITK_GDCM_LIBRARIES gdcmMSFF)
       ENDIF(ITK_USE_SYSTEM_TIFF)
@@ -836,9 +739,9 @@ IF(ITK_USE_SYSTEM_GDCM)
     MESSAGE(FATAL_ERROR "Must set GDCM_DIR for ITK_USE_SYSTEM_GDCM.")
   ENDIF(GDCM_FOUND)
 ELSE(ITK_USE_SYSTEM_GDCM)
-  SET(ITK_GDCM_LIBRARIES itkgdcm)
+  SET(ITK_GDCM_LIBRARIES gdcmMSFF)
   SET(GDCM_INCLUDE_DIR
-    ${ITK_SOURCE_DIR}/Utilities/gdcm/src
+    ${ITK_SOURCE_DIR}/Utilities/gdcm/Source/MediaStorageAndFileFormat
     )
 ENDIF(ITK_USE_SYSTEM_GDCM)
 

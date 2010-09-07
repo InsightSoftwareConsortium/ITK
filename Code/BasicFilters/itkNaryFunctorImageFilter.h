@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -23,7 +23,6 @@
 
 namespace itk
 {
-  
 /** \class NaryFunctorImageFilter
  * \brief Implements pixel-wise generic operation of Nth similar images.
  *
@@ -33,44 +32,44 @@ namespace itk
  * function.
  *
  * All the input images are of the same type.
- * 
+ *
  * \ingroup IntensityImageFilters   Multithreaded
  */
 
-template <class TInputImage, class TOutputImage, class TFunction >
-class ITK_EXPORT NaryFunctorImageFilter :
-    public InPlaceImageFilter<TInputImage,TOutputImage> 
+template< class TInputImage, class TOutputImage, class TFunction >
+class ITK_EXPORT NaryFunctorImageFilter:
+  public InPlaceImageFilter< TInputImage, TOutputImage >
 
 {
 public:
   /** Standard class typedefs. */
-  typedef NaryFunctorImageFilter                        Self;
-  typedef InPlaceImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  typedef NaryFunctorImageFilter                          Self;
+  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(NaryFunctorImageFilter, InPlaceImageFilter);
 
   /** Some typedefs. */
-  typedef TFunction                             FunctorType;
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType; 
-  typedef typename InputImageType::PixelType    InputImagePixelType; 
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
-  typedef typename OutputImageType::PixelType   OutputImagePixelType;
-  typedef std::vector< InputImagePixelType >    NaryArrayType; 
+  typedef TFunction                            FunctorType;
+  typedef TInputImage                          InputImageType;
+  typedef typename InputImageType::Pointer     InputImagePointer;
+  typedef typename InputImageType::RegionType  InputImageRegionType;
+  typedef typename InputImageType::PixelType   InputImagePixelType;
+  typedef TOutputImage                         OutputImageType;
+  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  typedef std::vector< InputImagePixelType >   NaryArrayType;
 
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer). */
-  FunctorType& GetFunctor() { return m_Functor; };
+  FunctorType & GetFunctor() { return m_Functor; }
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
@@ -78,15 +77,15 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  void SetFunctor(FunctorType& functor)
-    {
+  void SetFunctor(FunctorType & functor)
+  {
     if ( m_Functor != functor )
       {
       m_Functor = functor;
       this->Modified();
       }
-    }
-  
+  }
+
   /** ImageDimension constants */
   itkStaticConstMacro(
     InputImageDimension, unsigned int, TInputImage::ImageDimension);
@@ -95,16 +94,15 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(SameDimensionCheck,
-    (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  itkConceptMacro(OutputHasZeroCheck,
-    (Concept::HasZero<OutputImagePixelType>));
+  itkConceptMacro( SameDimensionCheck,
+                   ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
+  itkConceptMacro( OutputHasZeroCheck,
+                   ( Concept::HasZero< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
-
 protected:
   NaryFunctorImageFilter();
-  virtual ~NaryFunctorImageFilter() {};
+  virtual ~NaryFunctorImageFilter() {}
 
   /** NaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -116,16 +114,15 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
-  NaryFunctorImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
+  NaryFunctorImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);         //purposely not implemented
 
   FunctorType m_Functor;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

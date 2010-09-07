@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -24,64 +24,59 @@
 
 namespace itk
 {
-  
 /**
  * Prompting off by default
  */
 XMLFileOutputWindow
 ::XMLFileOutputWindow()
-{
-}
+{}
 
 XMLFileOutputWindow
 ::~XMLFileOutputWindow()
-{
-}
+{}
 
-void 
+void
 XMLFileOutputWindow
-::PrintSelf(std::ostream& os, Indent indent) const
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-
 void
 XMLFileOutputWindow
-::Initialize() 
+::Initialize()
 {
-  if (!m_Stream)
+  if ( !m_Stream )
     {
-    if (m_FileName == "")
+    if ( m_FileName == "" )
       {
       m_FileName = "itkMessageLog.xml";
       }
-    if (m_Append)
+    if ( m_Append )
       {
       m_Stream = new std::ofstream(m_FileName.c_str(), std::ios::app);
       }
     else
       {
-      m_Stream = new std::ofstream(m_FileName.c_str());
+      m_Stream = new std::ofstream( m_FileName.c_str() );
       }
     }
 }
 
 void
 XMLFileOutputWindow
-::DisplayTag(const char* text)
+::DisplayTag(const char *text)
 {
   Superclass::DisplayText(text);
 }
 
-
 void
 XMLFileOutputWindow
-::DisplayXML(const char* tag, const char* text)
+::DisplayXML(const char *tag, const char *text)
 {
   char *xmlText;
-  
-  if(!text)
+
+  if ( !text )
     {
     return;
     }
@@ -90,13 +85,13 @@ XMLFileOutputWindow
   xmlText = new char[strlen(text) * 6 + 1];
 
   const char *s = text;
-  char *x = xmlText;
+  char *      x = xmlText;
   *x = '\0';
 
   // replace all special characters
-  while (*s)
+  while ( *s )
     {
-    switch (*s)
+    switch ( *s )
       {
       case '&':
         {
@@ -104,7 +99,7 @@ XMLFileOutputWindow
         break;
         }
       case '"':
-        { 
+        {
         strcat(x, "&quot;"); x += 6;
         break;
         }
@@ -131,53 +126,52 @@ XMLFileOutputWindow
       }
     s++;
     }
-  
-  if (!m_Stream)
+
+  if ( !m_Stream )
     {
     this->Initialize();
     }
   *m_Stream << "<" << tag << ">" << xmlText << "</" << tag << ">" << std::endl;
-  
-  if (m_Flush)
+
+  if ( m_Flush )
     {
     m_Stream->flush();
     }
-  delete [] xmlText;
+  delete[] xmlText;
 }
 
 void
 XMLFileOutputWindow
-::DisplayText(const char* text)
+::DisplayText(const char *text)
 {
   this->DisplayXML("Text", text);
 }
 
 void
 XMLFileOutputWindow
-::DisplayErrorText(const char* text)
+::DisplayErrorText(const char *text)
 {
   this->DisplayXML("Error", text);
 }
 
 void
 XMLFileOutputWindow
-::DisplayWarningText(const char* text)
+::DisplayWarningText(const char *text)
 {
   this->DisplayXML("Warning", text);
 }
 
 void
 XMLFileOutputWindow
-::DisplayGenericOutputText(const char* text)
+::DisplayGenericOutputText(const char *text)
 {
   this->DisplayXML("GenericOutput", text);
 }
 
 void
 XMLFileOutputWindow
-::DisplayDebugText(const char* text)
+::DisplayDebugText(const char *text)
 {
   this->DisplayXML("Debug", text);
 }
-
 } // end namespace itk
