@@ -593,12 +593,12 @@ protected:
   SizeType GetSliceStride() const;
 
   /** Convenient method to write a buffer as ASCII text. */
-  void WriteBufferAsASCII(std::ostream & os, const void *buffer,
+  virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,
                           IOComponentType ctype,
                           SizeType numberOfBytesToWrite);
 
   /** Convenient method to read a buffer as ASCII text. */
-  void ReadBufferAsASCII(std::istream & os, void *buffer,
+  virtual void ReadBufferAsASCII(std::istream & os, void *buffer,
                          IOComponentType ctype,
                          SizeType numberOfBytesToBeRead);
 

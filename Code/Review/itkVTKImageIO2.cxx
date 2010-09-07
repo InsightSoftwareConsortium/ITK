@@ -80,6 +80,23 @@ bool VTKImageIO2::CanReadFile(const char *filename)
     }
 }
 
+
+bool VTKImageIO2::CanStreamRead(void)
+{
+  bool canStreamRead = true;
+  canStreamRead &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
+  canStreamRead &= this->GetFileType() != ASCII;
+  return canStreamRead;
+}
+
+bool VTKImageIO2::CanStreamWrite(void)
+{
+  bool canStreamWrite = true;
+  canStreamWrite &= this->GetPixelType() != ImageIOBase::SYMMETRICSECONDRANKTENSOR;
+  canStreamWrite &= this->GetFileType() != ASCII;
+  return canStreamWrite;
+}
+
 void VTKImageIO2::SetPixelTypeFromString(const std::string & pixelType)
 {
   if ( pixelType.find("float") < pixelType.length() )
@@ -200,7 +217,7 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream & file)
     itkExceptionMacro(<< "No dimensions defined");
     }
 
-  for ( bool readScalars = false; !readScalars; )
+  for ( bool readAttribute = false; !readAttribute; )
     {
     file.getline(line, 255);
     text = line;
@@ -232,7 +249,7 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream & file)
     else if ( text.find("VECTOR") < text.length()
               || text.find("vector") < text.length() )
       {
-      readScalars = true;
+      readAttribute = true;
 
       this->SetNumberOfComponents(3);
       this->SetPixelType(VECTOR);
@@ -246,7 +263,7 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream & file)
     else if ( text.find("COLOR_SCALARS") < text.length()
               || text.find("color_scalars") < text.length() )
       {
-      readScalars = true;
+      readAttribute = true;
 
       int numComp = 1;
       sscanf(line, "%*s %*s %d", &numComp);
@@ -281,7 +298,7 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream & file)
     else if ( text.find("SCALARS") < text.length()
               || text.find("scalars") < text.length() )
       {
-      readScalars = true;
+      readAttribute = true;
 
       char pixelType[256];
       int  numComp = 1;
@@ -311,6 +328,19 @@ void VTKImageIO2::InternalReadImageInformation(std::ifstream & file)
         }
       } //found scalars
 
+    else if ( text.find("TENSORS") < text.length() ||
+              text.find("tensors") < text.length() )
+      {
+      readAttribute = true;
+
+      char pixelType[256];
+      sscanf(line, "%*s %*s %s", pixelType);
+      text = pixelType;
+      this->SetPixelType(SYMMETRICSECONDRANKTENSOR);
+      this->SetNumberOfComponents(6);
+      this->SetPixelTypeFromString(text);
+      }
+
     if ( !file.good() )
       {
       itkExceptionMacro(<< "Error reading header");
@@ -335,9 +365,9 @@ void VTKImageIO2::ReadHeaderSize(std::ifstream & file)
 
   file.getline(line, 255); // DIMENSIONS
 
-  for ( bool readScalars = false; !readScalars; )
+  for ( bool readAttribute = false; !readAttribute; )
     {
-    file.getline(line, 255); // SPACING|ORIGIN|COLOR_SCALARS|SCALARS|VECTOR
+    file.getline(line, 255); // SPACING|ORIGIN|COLOR_SCALARS|SCALARS|VECTOR|TENSORS
     text = line;
 
     if ( text.find("SCALARS") < text.length()
@@ -345,9 +375,11 @@ void VTKImageIO2::ReadHeaderSize(std::ifstream & file)
          || text.find("VECTOR") < text.length()
          || text.find("vector") < text.length()
          || text.find("COLOR_SCALARS") < text.length()
-         || text.find("color_scalars") < text.length() )
+         || text.find("color_scalars") < text.length()
+         || text.find("TENSORS") < text.length()
+         || text.find("tensors") < text.length() )
       {
-      readScalars = true;
+      readAttribute = true;
 
       // maybe "LOOKUP_TABLE default"
       std::streampos pos = file.tellg();
@@ -373,6 +405,122 @@ void VTKImageIO2::ReadHeaderSize(std::ifstream & file)
   this->m_HeaderSize = static_cast< SizeType >( file.tellg() );
 }
 
+namespace
+{
+template <class TComponent>
+void ReadTensorBuffer( std::istream& is, TComponent *buffer,
+  const ImageIOBase::SizeType num )
+{
+  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
+  PrintType temp;
+  TComponent *ptr = buffer;
+  ImageIOBase::SizeType i=0;
+  // More than the resulting components because of symmetry.
+  const ImageIOBase::SizeType fileComponents = num / 6 * 9;
+  while( i < fileComponents )
+    {
+    // First row: hit hit hit
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    // Second row: skip hit hit
+    is >> temp;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    // Third row: skip skip hit
+    is >> temp;
+    is >> temp;
+    is >> temp;
+    *ptr = static_cast<TComponent>( temp );
+    ++ptr;
+    i += 9;
+    }
+}
+} // end anonymous namespace
+
+void VTKImageIO2::ReadBufferAsASCII( std::istream & is, void * buffer, IOComponentType ctype,
+                                     const ImageIOBase::SizeType numComp)
+{
+  if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
+    {
+    if( this->GetNumberOfComponents() != 6 )
+      {
+      itkExceptionMacro(<< "itk::ERROR: VTKImageIO2: Unsupported number of components in tensor.");
+      }
+
+    switch( ctype )
+      {
+      case FLOAT :
+        {
+        float * buf = reinterpret_cast<float *>(buffer);
+        ReadTensorBuffer( is, buf, numComp );
+        }
+        break;
+
+      case DOUBLE :
+        {
+        double * buf = reinterpret_cast<double *>(buffer);
+        ReadTensorBuffer( is, buf, numComp );
+        }
+        break;
+
+      default :
+        itkExceptionMacro(<< "Per the vtk file format standard, only reading of float and double tensors is supported.");
+      }
+    }
+  else
+    {
+    this->ImageIOBase::ReadBufferAsASCII( is, buffer, ctype, numComp );
+    }
+}
+
+void VTKImageIO2::ReadSymmetricTensorBufferAsBinary( std::istream & is,
+  void * buffer,
+  StreamingImageIOBase::SizeType num )
+{
+  std::streamsize bytesRemaining = num;
+  const SizeType  componentSize = this->GetComponentSize();
+  SizeType        pixelSize = componentSize * 6;
+  char            zero[1024];
+
+  memset( zero, 0, 1024 );
+
+  if( this->GetNumberOfComponents() != 6 )
+    {
+    itkExceptionMacro(<< "Unsupported tensor dimension.");
+    }
+  while( bytesRemaining )
+    {
+    // row 1
+    is.read( static_cast< char * >(buffer), 3 * componentSize );
+    buffer = static_cast< char * >(buffer) + 3 * componentSize;
+    // row 2
+    is.seekg( componentSize, std::ios::cur );
+    is.read( static_cast< char * >(buffer), 2 * componentSize );
+    buffer = static_cast< char * >(buffer) + 2 * componentSize;
+    // row 3
+    is.seekg( 2 * componentSize, std::ios::cur );
+    is.read( static_cast< char * >(buffer), componentSize );
+    buffer = static_cast< char * >(buffer) + componentSize;
+    bytesRemaining -= pixelSize;
+    }
+
+  if( is.fail() )
+    {
+    itkExceptionMacro(<< "Failure during writing of file.");
+    }
+}
+
 void VTKImageIO2::Read(void *buffer)
 {
   std::ifstream file;
@@ -380,6 +528,11 @@ void VTKImageIO2::Read(void *buffer)
   if ( this->RequestedToStream() )
     {
     itkAssertOrThrowMacro(m_FileType != ASCII, "Can not stream with ASCII type files");
+
+    if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
+      {
+      itkExceptionMacro(<< "Cannot stream read binary second rank tensors.");
+      }
 
     // open and stream read
     this->OpenFileForReading( file, this->m_FileName.c_str() );
@@ -408,12 +561,20 @@ void VTKImageIO2::Read(void *buffer)
     if ( m_FileType == ASCII )
       {
       this->ReadBufferAsASCII( file, buffer, this->GetComponentType(),
-                               this->GetImageSizeInComponents() );
+                               this->GetImageSizeInComponents()
+                               );
       }
     else
       {
       // read the image
-      this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
+      if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
+        {
+        this->ReadSymmetricTensorBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
+        }
+      else
+        {
+        this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
+        }
 
       int size = this->GetComponentSize();
       switch ( size )
@@ -527,6 +688,11 @@ void VTKImageIO2::WriteImageInformation( const void *itkNotUsed(buffer) )
     file << "VECTORS vectors "
          << this->GetComponentTypeAsString(m_ComponentType) << "\n";
     }
+  else if( this->GetPixelType() == SYMMETRICSECONDRANKTENSOR )
+    {
+    file << "TENSORS tensors "
+         << this->GetComponentTypeAsString(m_ComponentType) << "\n";
+    }
   else
     {
     // According to VTK documentation number of components should in
@@ -542,11 +708,182 @@ void VTKImageIO2::WriteImageInformation( const void *itkNotUsed(buffer) )
   this->m_HeaderSize = static_cast< SizeType >( file.tellp() );
 }
 
+namespace
+{
+template<class TComponent>
+void WriteTensorBuffer(std::ostream & os, const TComponent * buffer, const ImageIOBase::SizeType num,
+                       const ImageIOBase::SizeType components )
+{
+  const TComponent * ptr = buffer;
+
+  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
+
+  ImageIOBase::SizeType i = 0;
+  if( components == 3 )
+    {
+    PrintType zero( itk::NumericTraits<TComponent>::Zero );
+    PrintType e12;
+    while( i < num )
+      {
+      // row 1
+      os << PrintType(*ptr++) << ' ';
+      e12 = *ptr++;
+      os << e12 << ' ';
+      os << zero << '\n';
+      // row 2
+      os << e12 << ' ';
+      os << PrintType(*ptr++) << ' ';
+      os << zero << '\n';
+      // row 3
+      os << zero << ' ' << zero << ' ' << zero << "\n\n";
+      i += 3;
+      }
+    }
+  else if( components == 6 )
+    {
+    PrintType e12;
+    PrintType e13;
+    PrintType e23;
+    while( i < num )
+      {
+      // row 1
+      os << PrintType(*ptr++) << ' ';
+      e12 = *ptr++;
+      os << e12 << ' ';
+      e13 = *ptr++;
+      os << e13 << '\n';
+      // row 2
+      os << e12 << ' ';
+      os << PrintType(*ptr++) << ' ';
+      e23 = *ptr++;
+      os << e23 << '\n';
+      // row 3
+      os << e13 << ' ';
+      os << e23 << ' ';
+      os << PrintType(*ptr++) << "\n\n";
+      i += 6;
+      }
+    }
+  else
+    {
+    ::itk::ExceptionObject e_(__FILE__, __LINE__,
+                              "itk::ERROR: VTKImageIO2: Unsupported number of components in tensor.",
+                              ITK_LOCATION);
+    throw e_;
+    }
+}
+
+} // end anonymous namespace
+
+void VTKImageIO2::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOComponentType ctype,
+                                      const ImageIOBase::SizeType numComp)
+{
+  if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
+    {
+    switch( ctype )
+      {
+      case FLOAT :
+        {
+        typedef const float * Type;
+        Type buf = reinterpret_cast<Type>(buffer);
+        WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
+        }
+        break;
+
+      case DOUBLE :
+        {
+        typedef const double * Type;
+        Type buf = reinterpret_cast<Type>(buffer);
+        WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
+        }
+        break;
+
+      default :
+        itkExceptionMacro(<< "Per the vtk file format standard, only writing of float and double tensors is supported.");
+      }
+    }
+  else
+    {
+    this->ImageIOBase::WriteBufferAsASCII( os, buffer, ctype, numComp );
+    }
+}
+
+void VTKImageIO2::WriteSymmetricTensorBufferAsBinary(std::ostream & os, const void * buffer,
+                                                     StreamingImageIOBase::SizeType num)
+{
+  std::streamsize bytesRemaining = num;
+  const SizeType  componentSize = this->GetComponentSize();
+  SizeType        pixelSize;
+  char            zero[1024];
+
+  memset( zero, 0, 1024 );
+
+  switch( this->GetNumberOfComponents() )
+    {
+    case 3 :
+      {
+      pixelSize = componentSize * 3;
+      while( bytesRemaining )
+        {
+        // row 1
+        os.write( static_cast< const char * >(buffer), 2 * componentSize );
+        os.write( zero, componentSize );
+        buffer = static_cast< const char * >(buffer) + componentSize;
+        // row 2
+        os.write( static_cast< const char * >(buffer), 2 * componentSize );
+        buffer = static_cast< const char * >(buffer) + 2 * componentSize;
+        os.write( zero, componentSize );
+        // row 3
+        os.write( zero, 3 * componentSize );
+        bytesRemaining -= pixelSize;
+        }
+
+      break;
+      }
+    case 6 :
+      {
+      pixelSize = componentSize * 6;
+      while( bytesRemaining )
+        {
+        // row 1
+        os.write( static_cast< const char * >(buffer), 3 * componentSize );
+        buffer = static_cast< const char * >(buffer) + componentSize;
+        // row 2
+        os.write( static_cast< const char * >(buffer), componentSize );
+        buffer = static_cast< const char * >(buffer) + 2 * componentSize;
+        os.write( static_cast< const char * >(buffer), 2 * componentSize );
+        buffer = static_cast< const char * >(buffer) - componentSize;
+        // row 3
+        os.write( static_cast< const char * >(buffer), componentSize );
+        buffer = static_cast< const char * >(buffer) + 2 * componentSize;
+        os.write( static_cast< const char * >(buffer), 2 * componentSize );
+        buffer = static_cast< const char * >(buffer) + 2 * componentSize;
+        bytesRemaining -= pixelSize;
+        }
+
+      break;
+      }
+    default :
+      itkExceptionMacro(<< "Unsupported tensor dimension.");
+      break;
+    }
+
+  if( os.fail() )
+    {
+    itkExceptionMacro(<< "Failure during writing of file.");
+    }
+}
+
 void VTKImageIO2::Write(const void *buffer)
 {
   if ( this->RequestedToStream() )
     {
     itkAssertOrThrowMacro(m_FileType != ASCII, "Can not stream with ASCII type files");
+
+    if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
+      {
+      itkExceptionMacro(<< "Cannot stream write binary second rank tensors.");
+      }
 
     std::ofstream file;
 
@@ -607,7 +944,8 @@ void VTKImageIO2::Write(const void *buffer)
     if ( m_FileType == ASCII )
       {
       this->WriteBufferAsASCII( file, buffer, this->GetComponentType(),
-                                this->GetImageSizeInComponents() );
+                                this->GetImageSizeInComponents()
+                                );
       }
     else //binary
       {
@@ -642,18 +980,32 @@ void VTKImageIO2::Write(const void *buffer)
           }
 
         // write the image
-        if ( !this->WriteBufferAsBinary( file, tempmemory, this->GetImageSizeInBytes() ) )
+        if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
           {
-          itkExceptionMacro(<< "Could not write file: " << m_FileName);
+          this->WriteSymmetricTensorBufferAsBinary( file, tempmemory, this->GetImageSizeInBytes() );
+          }
+        else
+          {
+          if ( !this->WriteBufferAsBinary( file, tempmemory, this->GetImageSizeInBytes() ) )
+            {
+            itkExceptionMacro(<< "Could not write file: " << m_FileName);
+            }
           }
         delete[] tempmemory;
         }
       else
         {
         // write the image
-        if ( !this->WriteBufferAsBinary( file, buffer, this->GetImageSizeInBytes() ) )
+        if( this->GetPixelType() == ImageIOBase::SYMMETRICSECONDRANKTENSOR )
           {
-          itkExceptionMacro(<< "Could not write file: " << m_FileName);
+          this->WriteSymmetricTensorBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
+          }
+        else
+          {
+          if ( !this->WriteBufferAsBinary( file, buffer, this->GetImageSizeInBytes() ) )
+            {
+            itkExceptionMacro(<< "Could not write file: " << m_FileName);
+            }
           }
         }
       }
