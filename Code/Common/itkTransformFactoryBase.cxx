@@ -36,6 +36,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkRigid3DTransform.h"
 #include "itkScalableAffineTransform.h"
 #include "itkScaleLogarithmicTransform.h"
+#include "itkScaleVersor3DTransform.h"
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkScaleTransform.h"
 #include "itkTranslationTransform.h"
@@ -80,6 +81,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<Rigid3DTransform<double> >::RegisterTransform ();
     TransformFactory<ScalableAffineTransform<double> >::RegisterTransform ();
     TransformFactory<ScaleLogarithmicTransform<double> >::RegisterTransform ();
+    TransformFactory<ScaleVersor3DTransform<double> >::RegisterTransform ();
     TransformFactory<ScaleSkewVersor3DTransform<double> >::RegisterTransform ();
     TransformFactory<ScaleTransform<double,2> >::RegisterTransform ();
     TransformFactory<ScaleTransform<double,2> >::RegisterTransform ();
@@ -109,6 +111,7 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory<Rigid3DTransform<float> >::RegisterTransform ();
     TransformFactory<ScalableAffineTransform<float> >::RegisterTransform ();
     TransformFactory<ScaleLogarithmicTransform<float> >::RegisterTransform ();
+    TransformFactory<ScaleVersor3DTransform<float> >::RegisterTransform ();
     TransformFactory<ScaleSkewVersor3DTransform<float> >::RegisterTransform ();
     TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
     TransformFactory<ScaleTransform<float,2> >::RegisterTransform ();
