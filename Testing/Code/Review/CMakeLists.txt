@@ -280,6 +280,7 @@ SET(ReviewTest5_SRCS
   itkJPEG2000ImageIOTest03.cxx
   itkJPEG2000ImageIOTest04.cxx
   itkJPEG2000ImageIOTest05.cxx
+  itkJPEG2000ImageIOTest06.cxx
   itkJPEG2000ImageIORegionOfInterest.cxx
 )
 
@@ -2449,6 +2450,13 @@ SET_TESTS_PROPERTIES( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
 
 ADD_TEST(itkJPEG2000Test05  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest05 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
   ${ITK_TEST_OUTPUT_DIR} jp2 )
+
+ADD_TEST(itkJPEG2000Test06 ${REVIEW_TESTS5}
+  --compare ${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
+  itkJPEG2000ImageIOTest06
+            ${ITK_DATA_ROOT}/Input/cthead1.j2k
+            ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 
 
 #
