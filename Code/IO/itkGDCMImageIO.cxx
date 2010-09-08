@@ -2032,10 +2032,12 @@ void GDCMImageIO::Write(const void *buffer)
   //image.SetDimension(2, m_Dimensions[2] );
   image.SetSpacing(0, m_Spacing[0]);
   image.SetSpacing(1, m_Spacing[1]);
-  image.SetSpacing(2, m_Spacing[2]);
+  if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
+    image.SetSpacing(2, m_Spacing[2]);
   image.SetOrigin(0, m_Origin[0]);
   image.SetOrigin(1, m_Origin[1]);
-  image.SetOrigin(2, m_Origin[2]);
+  if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
+    image.SetOrigin(2, m_Origin[2]);
   if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
     {
     // resize num of dim to 3:
@@ -2046,10 +2048,12 @@ void GDCMImageIO::Write(const void *buffer)
   // Do the direction now:
   image.SetDirectionCosines(0, m_Direction[0][0]);
   image.SetDirectionCosines(1, m_Direction[0][1]);
-  image.SetDirectionCosines(2, m_Direction[0][2]);
+  if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
+    image.SetDirectionCosines(2, m_Direction[0][2]);
   image.SetDirectionCosines(3, m_Direction[1][0]);
   image.SetDirectionCosines(4, m_Direction[1][1]);
-  image.SetDirectionCosines(5, m_Direction[1][2]);
+  if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
+    image.SetDirectionCosines(5, m_Direction[1][2]);
 
   // reset any previous value:
   m_RescaleSlope = 1.0;
