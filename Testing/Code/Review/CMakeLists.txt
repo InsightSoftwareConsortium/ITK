@@ -279,6 +279,7 @@ SET(ReviewTest5_SRCS
   itkJPEG2000ImageIOTest02.cxx
   itkJPEG2000ImageIOTest03.cxx
   itkJPEG2000ImageIOTest04.cxx
+  itkJPEG2000ImageIOTest05.cxx
   itkJPEG2000ImageIORegionOfInterest.cxx
 )
 
@@ -2445,6 +2446,9 @@ ADD_TEST(itkJPEG2000Test02  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${INPUTDAT
 # tests for writing 3 component data with 8bits per component
 ADD_TEST(itkJPEG2000Test03  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest03 ${TEMP}/Bretagne1_RegionTest01.tif ${TEMP}/Bretagne1_02.j2k )
 SET_TESTS_PROPERTIES( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
+
+ADD_TEST(itkJPEG2000Test05  ${REVIEW_TESTS5} itkJPEG2000ImageIOTest05 ${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd
+  ${ITK_TEST_OUTPUT_DIR} jp2 )
 
 
 #
