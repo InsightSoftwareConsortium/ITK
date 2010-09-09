@@ -24,6 +24,7 @@
 
 namespace gdcm
 {
+#if 0
 #ifdef XML_LARGE_SIZE
 #if defined(XML_USE_MSC_EXTENSIONS) && _MSC_VER < 1400
 #define XML_FMT_INT_MOD "I64"
@@ -32,6 +33,9 @@ namespace gdcm
 #endif
 #else
 #define XML_FMT_INT_MOD "l"
+#endif
+#else
+#define XML_FMT_INT_MOD ""
 #endif
 
 #ifndef BUFSIZ
