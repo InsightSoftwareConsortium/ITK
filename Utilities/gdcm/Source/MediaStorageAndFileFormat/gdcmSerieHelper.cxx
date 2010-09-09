@@ -262,7 +262,7 @@ bool SerieHelper::ImagePositionPatientOrdering( FileList *fileList )
 {
   //iop is calculated based on the file file
   std::vector<double> cosines;
-  double normal[3];
+  double normal[3] = {};
   std::vector<double> ipp;
   double dist;
   double min = 0, max = 0;
