@@ -551,7 +551,7 @@ bool JPEG2000Codec::Decode(std::istream &is, std::ostream &os)
   unsigned long len = Dimensions[0]*Dimensions[1] * (PF.GetBitsAllocated() / 8) * image->numcomps;
   char *raw = new char[len];
   //assert( len == fsrc->len );
-  for (int compno = 0; compno < image->numcomps; compno++)
+  for (unsigned int compno = 0; compno < image->numcomps; compno++)
     {
     opj_image_comp_t *comp = &image->comps[compno];
 
