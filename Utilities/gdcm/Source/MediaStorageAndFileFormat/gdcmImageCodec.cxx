@@ -140,7 +140,7 @@ bool ImageCodec::DoYBR(std::istream &is, std::ostream &os)
   // Code is coming from:
   // http://lestourtereaux.free.fr/papers/data/yuvrgb.pdf
   assert( !(buf_size % 3) );
-  std::streamoff size = buf_size/3;
+  unsigned long size = (unsigned long)buf_size/3;
   unsigned char *copy = new unsigned char[ buf_size ];
   memmove( copy, dummy_buffer, buf_size);
 assert(0); // Do not use this code !
@@ -200,7 +200,7 @@ bool ImageCodec::DoPlanarConfiguration(std::istream &is, std::ostream &os)
   // US-RGB-8-epicard.dcm
   //assert( image.GetNumberOfDimensions() == 3 );
   assert( buf_size % 3 == 0 );
-  std::streamoff size = buf_size/3;
+  unsigned long size = (unsigned long)buf_size/3;
   char *copy = new char[ buf_size ];
   //memmove( copy, dummy_buffer, buf_size);
 
