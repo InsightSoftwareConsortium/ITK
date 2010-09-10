@@ -91,6 +91,7 @@ protected:
   bool AddFile(FileWithName &header);
   void AddRestriction(const Tag& tag);
   bool ImagePositionPatientOrdering(FileList *fileSet);
+  bool FileNameOrdering( FileList *fileList );
 
   typedef struct {
     uint16_t group;
