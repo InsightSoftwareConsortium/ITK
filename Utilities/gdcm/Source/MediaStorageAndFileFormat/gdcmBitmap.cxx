@@ -350,6 +350,13 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
       if(!b) return false;
       assert( b );
       lossyflag = codec.IsLossy();
+      // we need to know the actual pixeltype after ::Read
+      if( codec.GetPixelFormat() != GetPixelFormat() )
+        {
+        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        i->SetPixelFormat( codec.GetPixelFormat() );
+        }
+
       return true;
       }
     return false;
@@ -529,12 +536,40 @@ bool Bitmap::TryKAKADUCodec(char *buffer, bool &lossyflag) const
 
 bool Bitmap::TryJPEGLSCodec(char *buffer, bool &lossyflag) const
 {
-  unsigned long len = GetBufferLength();
-  const TransferSyntax &ts = GetTransferSyntax();
-
   JPEGLSCodec codec;
+  const TransferSyntax &ts = GetTransferSyntax();
+  if(!buffer)
+    {
+    if( codec.CanDecode( ts ) ) // short path
+      {
+      TransferSyntax ts2;
+      const SequenceOfFragments *sf = PixelData.GetSequenceOfFragments();
+      if( !sf ) return false;
+      const Fragment &frag = sf->GetFragment(0);
+      const ByteValue &bv2 = dynamic_cast<const ByteValue&>(frag.GetValue());
+
+      std::stringstream ss;
+      ss.write( bv2.GetPointer(), bv2.GetLength() );
+      bool b = codec.GetHeaderInfo( ss, ts2 );
+      //bool b = codec.GetHeaderInfo( bv2.GetPointer(), bv2.GetLength() , ts2 );
+      if( !b ) return false;
+      lossyflag = codec.IsLossy();
+      // we need to know the actual pixeltype after ::Read
+      if( codec.GetPixelFormat() != GetPixelFormat() )
+        {
+        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        i->SetPixelFormat( codec.GetPixelFormat() );
+        }
+
+      return true;
+      }
+    return false;
+    }
+
+
   if( codec.CanDecode( ts ) )
     {
+    unsigned long len = GetBufferLength();
     codec.SetPixelFormat( GetPixelFormat() );
     codec.SetBufferLength( len );
     codec.SetNumberOfDimensions( GetNumberOfDimensions() );
@@ -607,6 +642,13 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
       bool b = codec.GetHeaderInfo( bv2.GetPointer(), bv2.GetLength() , ts2 );
       if( !b ) return false;
       lossyflag = codec.IsLossy();
+      // we need to know the actual pixeltype after ::Read
+      if( codec.GetPixelFormat() != GetPixelFormat() )
+        {
+        gdcm::Bitmap *i = (gdcm::Bitmap*)this;
+        i->SetPixelFormat( codec.GetPixelFormat() );
+        }
+
       return true;
       }
     return false;
@@ -614,7 +656,7 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
 
   if( codec.CanDecode( ts ) )
     {
-  unsigned long len = GetBufferLength();
+    unsigned long len = GetBufferLength();
     codec.SetPixelFormat( GetPixelFormat() );
     codec.SetNumberOfDimensions( GetNumberOfDimensions() );
     codec.SetPlanarConfiguration( GetPlanarConfiguration() );

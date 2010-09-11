@@ -719,6 +719,7 @@ void GDCMImageIO::Read(void *pointer)
     }
 
   gdcm::Image & image = reader.GetImage();
+  gdcm::PixelFormat pixeltype_debug = image.GetPixelFormat();
   assert(image.GetNumberOfDimensions() == 2 || image.GetNumberOfDimensions() == 3);
   unsigned long len = image.GetBufferLength();
 
@@ -744,19 +745,8 @@ void GDCMImageIO::Read(void *pointer)
   image.GetBuffer( (char *)pointer );
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
-  if ( pixeltype == gdcm::PixelFormat::UINT12 || pixeltype == gdcm::PixelFormat::INT12 )
-    {
-    assert(m_RescaleSlope == 1.0 && m_RescaleIntercept == 0.0);
-    assert(pixeltype.GetSamplesPerPixel() == 1);
-    // FIXME: I could avoid this extra copy:
-    char *copy = new char[len];
-    memcpy(copy, pointer, len);
-    gdcm::Unpacker12Bits u12;
-    u12.Unpack( (char *)pointer, copy, len );
-    // update len just in case:
-    len = 16 * len / 12;
-    delete[] copy;
-    }
+  assert( pixeltype_debug == pixeltype ); (void)pixeltype_debug;
+
   if ( m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0 )
     {
     gdcm::Rescaler r;
