@@ -185,6 +185,7 @@ public:
         break;
       case CENTROID:
         return "Centroid";
+        break;
       case REGION:
         return "Region";
         break;
