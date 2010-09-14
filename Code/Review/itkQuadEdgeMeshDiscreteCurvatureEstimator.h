@@ -18,7 +18,8 @@
 #ifndef __itkQuadEdgeMeshDiscreteCurvatureEstimator_h
 #define __itkQuadEdgeMeshDiscreteCurvatureEstimator_h
 
-#include <itkQuadEdgeMeshToQuadEdgeMeshFilter.h>
+#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
+#include "itkConceptChecking.h"
 #include "itkTriangleHelper.h"
 
 namespace itk
@@ -58,6 +59,14 @@ public:
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(QuadEdgeMeshDiscreteCurvatureEstimator, QuadEdgeMeshToQuadEdgeMeshFilter);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( OutputIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  /** End concept checking */
+#endif
+
 protected:
   QuadEdgeMeshDiscreteCurvatureEstimator() {}
   ~QuadEdgeMeshDiscreteCurvatureEstimator() {}

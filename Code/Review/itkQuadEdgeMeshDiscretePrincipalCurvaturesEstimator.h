@@ -61,6 +61,14 @@ public:
   itkTypeMacro(QuadEdgeMeshDiscretePrincipalCurvaturesEstimator, QuadEdgeMeshDiscreteCurvatureEstimator);
 
   typedef ConformalMatrixCoefficients< OutputMeshType > CoefficientType;
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( OutputIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  /** End concept checking */
+#endif
+
 protected:
   QuadEdgeMeshDiscretePrincipalCurvaturesEstimator():
     m_Gaussian(0.0), m_Mean(0.0){}
@@ -139,7 +147,8 @@ protected:
 
   virtual OutputCurvatureType ComputeDelta()
   {
-    return vnl_math_max(0., m_Mean * m_Mean - m_Gaussian);
+    return vnl_math_max( static_cast<OutputCurvatureType>( 0. ),
+                         m_Mean * m_Mean - m_Gaussian );
   }
 
 private:

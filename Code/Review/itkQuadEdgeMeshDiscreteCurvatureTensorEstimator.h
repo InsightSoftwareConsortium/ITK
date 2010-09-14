@@ -41,6 +41,14 @@ public:
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Begin concept checking */
+  itkConceptMacro( OutputIsFloatingPointCheck,
+                   ( Concept::IsFloatingPoint< OutputCurvatureType > ) );
+  /** End concept checking */
+#endif
+
 protected:
   QuadEdgeMeshDiscreteCurvatureTensorEstimator() {}
   ~QuadEdgeMeshDiscreteCurvatureTensorEstimator() {}
