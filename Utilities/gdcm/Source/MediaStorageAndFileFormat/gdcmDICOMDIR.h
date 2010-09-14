@@ -28,10 +28,11 @@ class GDCM_EXPORT DICOMDIR
 {
 public:
   DICOMDIR() {}
-  DICOMDIR(const FileSet& fs):FS(fs) {}
+  DICOMDIR(const FileSet& fs):_FS(fs) {}
 
 private:
-  FileSet FS;
+  FileSet _FS;
+  //13 sept 2010 mmr-- added the underscore to FS to compile under Sunos gcc
 };
 
 } // end namespace gdcm

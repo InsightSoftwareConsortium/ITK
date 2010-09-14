@@ -23,6 +23,18 @@
 #include <fstream>
 #include <assert.h>
 
+//these defines are here to ensure compilation on sunos gcc
+#if defined (CS)
+# undef CS
+#endif
+#if defined (DS)
+# undef DS
+#endif
+#if defined (SS)
+# undef SS
+#endif
+
+
 namespace gdcm
 {
 
