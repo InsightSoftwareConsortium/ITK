@@ -34,8 +34,8 @@ int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
 
   MeshType::Pointer  mesh = MeshType::New();
   MeshType::PointType pts[ 5 ];
-  MeshType::PixelType ptData;
- 
+  MeshType::PixelType ptData = 0.;
+
   pts[ 0 ][ 0 ] = -1.0; pts[ 0 ][ 1 ] = -1.0; pts[ 0 ][ 2 ] = 0.0;
   pts[ 1 ][ 0 ] =  1.0; pts[ 1 ][ 1 ] = -1.0; pts[ 1 ][ 2 ] = 0.0;
   pts[ 2 ][ 0 ] =  1.0; pts[ 2 ][ 1 ] =  1.0; pts[ 2 ][ 2 ] = 0.0;
