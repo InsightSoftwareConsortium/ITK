@@ -60,6 +60,7 @@ IF(BUILD_TESTING)
 
 FOREACH(CurrentExe "check"
                    "testOpen"
+                   "testClose"
                    "testSpacing"
                    "testSharpen"
                    "testDT"
@@ -71,7 +72,7 @@ FOREACH(CurrentExe "check"
                    "testDilateBinary"
                    "testOpenBinary"
                    "testCloseBinary"
-                   "rleTests")
+                   "dilateBinary")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
