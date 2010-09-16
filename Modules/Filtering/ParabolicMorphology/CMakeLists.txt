@@ -72,7 +72,7 @@ FOREACH(CurrentExe "check"
                    "testDilateBinary"
                    "testOpenBinary"
                    "testCloseBinary"
-                   "dilateBinary")
+                   "dilateBinary3D")
 ADD_EXECUTABLE(${ CurrentExe } ${ CurrentExe }.cxx)
 TARGET_LINK_LIBRARIES(${ CurrentExe } ${ Libraries })
 ENDFOREACH(CurrentExe)
