@@ -52,6 +52,8 @@ namespace itk
  * ICCV. 1998.)
  *
  * \sa GaussianOperator
+ * \sa RecursiveGaussianImageFilter
+ * \sa DiscreteGaussianImageFilter
  * \sa AnisotropicDiffusionImageFilter
  * \sa Image
  * \sa Neighborhood
