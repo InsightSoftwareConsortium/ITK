@@ -1,5 +1,5 @@
 # create a list of cable config files for wrapping
-SET(WRAP_SOURCES
+set(WRAP_SOURCES
   wrap_ITKKernelDeformableTransforms
   wrap_ITKRigidTransforms
   wrap_ITKSimilarityTransforms
@@ -14,9 +14,9 @@ SET(WRAP_SOURCES
   wrap_itkVersorTransform
 )
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
+set(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
                        "${WrapITK_BINARY_DIR}/CommonA/ITKCommonA.mdx"
                        "${WrapITK_BINARY_DIR}/CommonB/ITKCommonB.mdx"
 )

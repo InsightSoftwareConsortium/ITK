@@ -6,128 +6,128 @@
 # Functions for list operations.
 ################################################################################
 
-MACRO(SORT var_name list)
+macro(SORT var_name list)
   # Sort the given list and store it in var_name.
-  SET(sort_tmp1 "")
-  FOREACH(l ${list})
-    SET(sort_inserted 0)
-    SET(sort_tmp2 "")
-    FOREACH(l1 ${sort_tmp1})
-      IF("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
-        SET(sort_tmp2 ${sort_tmp2} "${l}" "${l1}")
-        SET(sort_inserted 1)
-      ELSE("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
-        SET(sort_tmp2 ${sort_tmp2} "${l1}")
-      ENDIF("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
-    ENDFOREACH(l1)
-    IF(${sort_inserted} EQUAL 0)
-      SET(sort_tmp1 ${sort_tmp1} "${l}")
-    ELSE(${sort_inserted} EQUAL 0)
-      SET(sort_tmp1 ${sort_tmp2})
-    ENDIF(${sort_inserted} EQUAL 0)
-  ENDFOREACH(l)
-  SET(${var_name} ${sort_tmp1})
-ENDMACRO(SORT)
+  set(sort_tmp1 "")
+  foreach(l ${list})
+    set(sort_inserted 0)
+    set(sort_tmp2 "")
+    foreach(l1 ${sort_tmp1})
+      if("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
+        set(sort_tmp2 ${sort_tmp2} "${l}" "${l1}")
+        set(sort_inserted 1)
+      else("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
+        set(sort_tmp2 ${sort_tmp2} "${l1}")
+      endif("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
+    endforeach(l1)
+    if(${sort_inserted} EQUAL 0)
+      set(sort_tmp1 ${sort_tmp1} "${l}")
+    else(${sort_inserted} EQUAL 0)
+      set(sort_tmp1 ${sort_tmp2})
+    endif(${sort_inserted} EQUAL 0)
+  endforeach(l)
+  set(${var_name} ${sort_tmp1})
+endmacro(SORT)
 
-MACRO(UNIQUE var_name list)
+macro(UNIQUE var_name list)
   # Make the given list have only one instance of each unique element and
   # store it in var_name.
-  SET(unique_tmp "")
-  FOREACH(l ${list})
-    IF(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
-      SET(unique_tmp ${unique_tmp} ${l})
-    ENDIF(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
-  ENDFOREACH(l)
-  SET(${var_name} ${unique_tmp})
-ENDMACRO(UNIQUE)
+  set(unique_tmp "")
+  foreach(l ${list})
+    if(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
+      set(unique_tmp ${unique_tmp} ${l})
+    endif(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
+  endforeach(l)
+  set(${var_name} ${unique_tmp})
+endmacro(UNIQUE)
 
-MACRO(INTERSECTION var_name list1 list2)
+macro(INTERSECTION var_name list1 list2)
   # Store the intersection between the two given lists in var_name.
-  SET(intersect_tmp "")
-  FOREACH(l ${list1})
-    IF("${list2}" MATCHES "(^|;)${l}(;|$)")
-      SET(intersect_tmp ${intersect_tmp} ${l})
-    ENDIF("${list2}" MATCHES "(^|;)${l}(;|$)")
-  ENDFOREACH(l)
-  SET(${var_name} ${intersect_tmp})
-ENDMACRO(INTERSECTION)
+  set(intersect_tmp "")
+  foreach(l ${list1})
+    if("${list2}" MATCHES "(^|;)${l}(;|$)")
+      set(intersect_tmp ${intersect_tmp} ${l})
+    endif("${list2}" MATCHES "(^|;)${l}(;|$)")
+  endforeach(l)
+  set(${var_name} ${intersect_tmp})
+endmacro(INTERSECTION)
 
-MACRO(FILTER var_name list1 list2)
+macro(FILTER var_name list1 list2)
   # Remove elements in list2 from list1 and store the result in var_name.
-  SET(filter_tmp "")
-  FOREACH(l ${list1})
-    IF(NOT "${list2}" MATCHES "(^|;)${l}(;|$)")
-      SET(filter_tmp ${filter_tmp} ${l})
-    ENDIF(NOT "${list2}" MATCHES "(^|;)${l}(;|$)")
-  ENDFOREACH(l)
-  SET(${var_name} ${filter_tmp})
-ENDMACRO(FILTER)
+  set(filter_tmp "")
+  foreach(l ${list1})
+    if(NOT "${list2}" MATCHES "(^|;)${l}(;|$)")
+      set(filter_tmp ${filter_tmp} ${l})
+    endif(NOT "${list2}" MATCHES "(^|;)${l}(;|$)")
+  endforeach(l)
+  set(${var_name} ${filter_tmp})
+endmacro(FILTER)
 
 
 ################################################################################
 # Simple arithmetic.
 ################################################################################
 
-MACRO(INCREMENT var_name input)
+macro(INCREMENT var_name input)
   # Increment the input variable (must be in [0,8]) and store the result in var_name.
-  SET(${var_name} ${increment${input}})
-  IF(NOT DEFINED ${var_name})
-    MESSAGE(FATAL_ERROR "Could not increment. Input ${input} out of range 0-8?")
-  ENDIF(NOT DEFINED ${var_name})
-ENDMACRO(INCREMENT)
+  set(${var_name} ${increment${input}})
+  if(NOT DEFINED ${var_name})
+    message(FATAL_ERROR "Could not increment. Input ${input} out of range 0-8?")
+  endif(NOT DEFINED ${var_name})
+endmacro(INCREMENT)
 
-MACRO(DECREMENT var_name input)
+macro(DECREMENT var_name input)
   # Decrement the input variable (must be in [1,9]) and store the result in var_name.
-  SET(${var_name} ${decrement${input}})
-  IF(NOT DEFINED ${var_name})
-    MESSAGE(FATAL_ERROR "Could not decrement. Input ${input} out of range 1-9?")
-  ENDIF(NOT DEFINED ${var_name})
-ENDMACRO(DECREMENT)
+  set(${var_name} ${decrement${input}})
+  if(NOT DEFINED ${var_name})
+    message(FATAL_ERROR "Could not decrement. Input ${input} out of range 1-9?")
+  endif(NOT DEFINED ${var_name})
+endmacro(DECREMENT)
 
-SET(increment0 1)
-SET(increment1 2)
-SET(increment2 3)
-SET(increment3 4)
-SET(increment4 5)
-SET(increment5 6)
-SET(increment6 7)
-SET(increment7 8)
-SET(increment8 9)
+set(increment0 1)
+set(increment1 2)
+set(increment2 3)
+set(increment3 4)
+set(increment4 5)
+set(increment5 6)
+set(increment6 7)
+set(increment7 8)
+set(increment8 9)
 
-SET(decrement1 0)
-SET(decrement2 1)
-SET(decrement3 2)
-SET(decrement4 3)
-SET(decrement5 4)
-SET(decrement6 5)
-SET(decrement7 6)
-SET(decrement8 7)
-SET(decrement9 8)
+set(decrement1 0)
+set(decrement2 1)
+set(decrement3 2)
+set(decrement4 3)
+set(decrement5 4)
+set(decrement6 5)
+set(decrement7 6)
+set(decrement8 7)
+set(decrement9 8)
 
 ################################################################################
 # Macros to install files at absolute locations.
 ################################################################################
 
-MACRO(INSTALL_AT_ABSOLUTE_PATH target path)
-  # USAGE: 
+macro(INSTALL_AT_ABSOLUTE_PATH target path)
+  # USAGE:
   # INSTALL_AT_ABSOLUTE_PATH(custom_install_target "/path/to/install" "/path/to/file1" ... "path/to/fileN")
   # where the custom_install_target parameter is the name of a target that has
   # previously been created with CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET.
   # This macro then installs the listed files in the provided install path
-  
-  SET(install_file_name "${PROJECT_BINARY_DIR}/${target}.cmake")
-    
-  FOREACH(file ${ARGN})
-    GET_FILENAME_COMPONENT(filename "${file}" NAME)
-    STRING(REGEX REPLACE "/$" "" stripped_path "${path}")
-    FILE(APPEND "${install_file_name}" 
-     "MESSAGE(STATUS \"Installing ${stripped_path}/${filename}\")\n")
-    FILE(APPEND "${install_file_name}" 
-     "FILE(INSTALL DESTINATION \"${path}\" TYPE FILE FILES \"${file}\")\n")
-  ENDFOREACH(file)
-ENDMACRO(INSTALL_AT_ABSOLUTE_PATH)
 
-MACRO(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET target type comment)
+  set(install_file_name "${PROJECT_BINARY_DIR}/${target}.cmake")
+
+  foreach(file ${ARGN})
+    get_filename_component(filename "${file}" NAME)
+    string(REGEX REPLACE "/$" "" stripped_path "${path}")
+    file(APPEND "${install_file_name}"
+     "message(STATUS \"Installing ${stripped_path}/${filename}\")\n")
+    file(APPEND "${install_file_name}"
+     "file(INSTALL DESTINATION \"${path}\" TYPE FILE FILES \"${file}\")\n")
+  endforeach(file)
+endmacro(INSTALL_AT_ABSOLUTE_PATH)
+
+macro(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET target type comment)
   # Creates a target to hang an absolute-path install procedure on.
   # The 'target' parameter is the name of the target. The 'type' parameter
   # must be either 'DEFAULT' or 'ON_DEMAND', where the former means that the
@@ -136,20 +136,20 @@ MACRO(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET target type comment)
   # 'target' is replaced with the name of the target that is being created).
   # The 'comment' parameter is a string that will be printed at the start of
   # the install process process.
-  
-  SET(install_file_name "${PROJECT_BINARY_DIR}/${target}.cmake")
-  FILE(WRITE "${install_file_name}" "MESSAGE(STATUS \"${comment}\")\n")
 
-  IF("${type}" MATCHES "DEFAULT")
-    ADD_CUSTOM_TARGET(${target} ALL)
-    SET_TARGET_PROPERTIES(${target} PROPERTIES 
+  set(install_file_name "${PROJECT_BINARY_DIR}/${target}.cmake")
+  file(WRITE "${install_file_name}" "message(STATUS \"${comment}\")\n")
+
+  if("${type}" MATCHES "DEFAULT")
+    add_custom_target(${target} ALL)
+    set_target_properties(${target} PROPERTIES
       POST_INSTALL_SCRIPT "${install_file_name}")
-  ELSE("${type}" MATCHES "DEFAULT")
-    ADD_CUSTOM_TARGET(${target})
-    ADD_CUSTOM_COMMAND(TARGET ${target}
+  else("${type}" MATCHES "DEFAULT")
+    add_custom_target(${target})
+    add_custom_command(TARGET ${target}
       PRE_BUILD
       COMMAND ${CMAKE_COMMAND}
       ARGS -P "${install_file_name}"
       COMMENT "Manual installation of files from target ${target}")
-  ENDIF("${type}" MATCHES "DEFAULT")
-ENDMACRO(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET)
+  endif("${type}" MATCHES "DEFAULT")
+endmacro(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET)

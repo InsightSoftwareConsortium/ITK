@@ -2,173 +2,173 @@
 # Examples on the use of segmentation algorithms
 #
 
-PROJECT(ImageSegmentation)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(ImageSegmentation)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(ConfidenceConnected ConfidenceConnected.cxx )
-TARGET_LINK_LIBRARIES(ConfidenceConnected ITKNumerics ITKIO)
+add_executable(ConfidenceConnected ConfidenceConnected.cxx )
+target_link_libraries(ConfidenceConnected ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ConfidenceConnected3D ConfidenceConnected3D.cxx )
-TARGET_LINK_LIBRARIES(ConfidenceConnected3D ITKNumerics ITKIO)
+add_executable(ConfidenceConnected3D ConfidenceConnected3D.cxx )
+target_link_libraries(ConfidenceConnected3D ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
-TARGET_LINK_LIBRARIES(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
+add_executable(NeighborhoodConnectedImageFilter NeighborhoodConnectedImageFilter.cxx )
+target_link_libraries(NeighborhoodConnectedImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
-TARGET_LINK_LIBRARIES(IsolatedConnectedImageFilter ITKNumerics ITKIO)
+add_executable(IsolatedConnectedImageFilter IsolatedConnectedImageFilter.cxx )
+target_link_libraries(IsolatedConnectedImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ConnectedThresholdImageFilter ITKNumerics ITKIO)
+add_executable(ConnectedThresholdImageFilter ConnectedThresholdImageFilter.cxx )
+target_link_libraries(ConnectedThresholdImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(FastMarchingImageFilter FastMarchingImageFilter.cxx )
-TARGET_LINK_LIBRARIES(FastMarchingImageFilter ITKNumerics ITKIO)
+add_executable(FastMarchingImageFilter FastMarchingImageFilter.cxx )
+target_link_libraries(FastMarchingImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(GeodesicActiveContourShapePriorLevelSetImageFilter
+add_executable(GeodesicActiveContourShapePriorLevelSetImageFilter
 GeodesicActiveContourShapePriorLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GeodesicActiveContourShapePriorLevelSetImageFilter 
+target_link_libraries(GeodesicActiveContourShapePriorLevelSetImageFilter
 ITKNumerics ITKIO ITKStatistics)
 
-ADD_EXECUTABLE(DeformableModel2 DeformableModel2.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel2 ITKAlgorithms ITKIO)
+add_executable(DeformableModel2 DeformableModel2.cxx )
+target_link_libraries(DeformableModel2 ITKAlgorithms ITKIO)
 
-ADD_EXECUTABLE(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
-TARGET_LINK_LIBRARIES(GibbsPriorImageFilter1 ITKAlgorithms ITKIO)
+add_executable(GibbsPriorImageFilter1 GibbsPriorImageFilter1.cxx )
+target_link_libraries(GibbsPriorImageFilter1 ITKAlgorithms ITKIO)
 
-ADD_EXECUTABLE(HoughTransform2DCirclesImageFilter HoughTransform2DCirclesImageFilter.cxx )
-TARGET_LINK_LIBRARIES(HoughTransform2DCirclesImageFilter ITKBasicFilters ITKIO)
+add_executable(HoughTransform2DCirclesImageFilter HoughTransform2DCirclesImageFilter.cxx )
+target_link_libraries(HoughTransform2DCirclesImageFilter ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter.cxx )
-TARGET_LINK_LIBRARIES(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
+add_executable(HoughTransform2DLinesImageFilter HoughTransform2DLinesImageFilter.cxx )
+target_link_libraries(HoughTransform2DLinesImageFilter ITKBasicFilters ITKIO)
 
-ADD_EXECUTABLE(VectorConfidenceConnected VectorConfidenceConnected.cxx )
-TARGET_LINK_LIBRARIES(VectorConfidenceConnected ITKNumerics ITKIO)
+add_executable(VectorConfidenceConnected VectorConfidenceConnected.cxx )
+target_link_libraries(VectorConfidenceConnected ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(RelabelComponentImageFilter RelabelComponentImageFilter.cxx )
-TARGET_LINK_LIBRARIES(RelabelComponentImageFilter ITKNumerics ITKIO)
+add_executable(RelabelComponentImageFilter RelabelComponentImageFilter.cxx )
+target_link_libraries(RelabelComponentImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
+add_executable(CannySegmentationLevelSetImageFilter CannySegmentationLevelSetImageFilter.cxx )
+target_link_libraries(CannySegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
-TARGET_LINK_LIBRARIES(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
+add_executable(GeodesicActiveContourImageFilter GeodesicActiveContourImageFilter.cxx )
+target_link_libraries(GeodesicActiveContourImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
-TARGET_LINK_LIBRARIES(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
+add_executable(ShapeDetectionLevelSetFilter ShapeDetectionLevelSetFilter.cxx )
+target_link_libraries(ShapeDetectionLevelSetFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(CurvesLevelSetImageFilter ITKNumerics ITKIO)
+add_executable(CurvesLevelSetImageFilter CurvesLevelSetImageFilter.cxx )
+target_link_libraries(CurvesLevelSetImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(WatershedSegmentation1 WatershedSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation1 ITKAlgorithms ITKIO)
+add_executable(WatershedSegmentation1 WatershedSegmentation1.cxx )
+target_link_libraries(WatershedSegmentation1 ITKAlgorithms ITKIO)
 
-ADD_EXECUTABLE(WatershedSegmentation2 WatershedSegmentation2.cxx )
-TARGET_LINK_LIBRARIES(WatershedSegmentation2 ITKAlgorithms ITKIO)
+add_executable(WatershedSegmentation2 WatershedSegmentation2.cxx )
+target_link_libraries(WatershedSegmentation2 ITKAlgorithms ITKIO)
 
-ADD_EXECUTABLE(CellularSegmentation1 CellularSegmentation1.cxx )
-TARGET_LINK_LIBRARIES(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
+add_executable(CellularSegmentation1 CellularSegmentation1.cxx )
+target_link_libraries(CellularSegmentation1 ITKAlgorithms ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(CellularSegmentation2 CellularSegmentation2.cxx )
-TARGET_LINK_LIBRARIES(CellularSegmentation2 ITKAlgorithms ITKNumerics ITKIO)
+add_executable(CellularSegmentation2 CellularSegmentation2.cxx )
+target_link_libraries(CellularSegmentation2 ITKAlgorithms ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(DeformableModel1 DeformableModel1.cxx )
-TARGET_LINK_LIBRARIES(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
+add_executable(DeformableModel1 DeformableModel1.cxx )
+target_link_libraries(DeformableModel1 ITKAlgorithms ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
+add_executable(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
+target_link_libraries(LaplacianSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
-
-
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+add_executable(ThresholdSegmentationLevelSetImageFilter ThresholdSegmentationLevelSetImageFilter.cxx )
+target_link_libraries(ThresholdSegmentationLevelSetImageFilter ITKNumerics ITKIO)
 
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Segmentation)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-IF(BUILD_TESTING)
 
-SET(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
-SET(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
-SET(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
-SET(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
-SET(SEGMENTATION_EXAMPLES5 ${CXX_TEST_PATH}/SegmentationExamples5)
-SET(SEGMENTATION_EXAMPLES6 ${CXX_TEST_PATH}/SegmentationExamples6)
-SET(SEGMENTATION_EXAMPLES7 ${CXX_TEST_PATH}/SegmentationExamples7)
-SET(SEGMENTATION_EXAMPLES8 ${CXX_TEST_PATH}/SegmentationExamples8)
-SET(SEGMENTATION_EXAMPLES9 ${CXX_TEST_PATH}/SegmentationExamples9)
+if( NOT ITK_DISABLE_CXX_TESTING )
 
-ADD_EXECUTABLE(SegmentationExamples SegmentationExamples.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples
+if(BUILD_TESTING)
+
+set(SEGMENTATION_EXAMPLES ${CXX_TEST_PATH}/SegmentationExamples)
+set(SEGMENTATION_EXAMPLES2 ${CXX_TEST_PATH}/SegmentationExamples2)
+set(SEGMENTATION_EXAMPLES3 ${CXX_TEST_PATH}/SegmentationExamples3)
+set(SEGMENTATION_EXAMPLES4 ${CXX_TEST_PATH}/SegmentationExamples4)
+set(SEGMENTATION_EXAMPLES5 ${CXX_TEST_PATH}/SegmentationExamples5)
+set(SEGMENTATION_EXAMPLES6 ${CXX_TEST_PATH}/SegmentationExamples6)
+set(SEGMENTATION_EXAMPLES7 ${CXX_TEST_PATH}/SegmentationExamples7)
+set(SEGMENTATION_EXAMPLES8 ${CXX_TEST_PATH}/SegmentationExamples8)
+set(SEGMENTATION_EXAMPLES9 ${CXX_TEST_PATH}/SegmentationExamples9)
+
+add_executable(SegmentationExamples SegmentationExamples.cxx )
+target_link_libraries(SegmentationExamples
 ITKAlgorithms
 ITKIO
 ITKBasicFilters
 )
 
-ADD_EXECUTABLE(SegmentationExamples2 SegmentationExamples2.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples2 
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples2 SegmentationExamples2.cxx )
+target_link_libraries(SegmentationExamples2
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 )
 
-ADD_EXECUTABLE(SegmentationExamples3 SegmentationExamples3.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples3
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples3 SegmentationExamples3.cxx )
+target_link_libraries(SegmentationExamples3
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKNumerics
 )
 
-ADD_EXECUTABLE(SegmentationExamples4 SegmentationExamples4.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples4
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples4 SegmentationExamples4.cxx )
+target_link_libraries(SegmentationExamples4
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples5 SegmentationExamples5.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples5
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples5 SegmentationExamples5.cxx )
+target_link_libraries(SegmentationExamples5
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples6 SegmentationExamples6.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples6
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples6 SegmentationExamples6.cxx )
+target_link_libraries(SegmentationExamples6
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples7 SegmentationExamples7.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples7
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples7 SegmentationExamples7.cxx )
+target_link_libraries(SegmentationExamples7
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples8 SegmentationExamples8.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples8
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples8 SegmentationExamples8.cxx )
+target_link_libraries(SegmentationExamples8
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_EXECUTABLE(SegmentationExamples9 SegmentationExamples9.cxx )
-TARGET_LINK_LIBRARIES(SegmentationExamples9
-ITKAlgorithms 
-ITKIO 
-ITKBasicFilters 
+add_executable(SegmentationExamples9 SegmentationExamples9.cxx )
+target_link_libraries(SegmentationExamples9
+ITKAlgorithms
+ITKIO
+ITKBasicFilters
 ITKStatistics
 )
 
-ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
+add_test(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedWhiteTest.png
             ${TEMP}/ConfidenceConnectedWhiteTest.png
   ConfidenceConnectedTest
@@ -177,7 +177,7 @@ ADD_TEST(ConfidenceConnectedWhiteTest ${SEGMENTATION_EXAMPLES}
         60 116
 )
 
-ADD_TEST(ConfidenceConnectedVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(ConfidenceConnectedVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedVentricleTest.png
             ${TEMP}/ConfidenceConnectedVentricleTest.png
   ConfidenceConnectedTest
@@ -186,7 +186,7 @@ ADD_TEST(ConfidenceConnectedVentricleTest ${SEGMENTATION_EXAMPLES}
         81 112
 )
 
-ADD_TEST(ConfidenceConnectedGrayTest ${SEGMENTATION_EXAMPLES}
+add_test(ConfidenceConnectedGrayTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConfidenceConnectedGrayTest.png
             ${TEMP}/ConfidenceConnectedGrayTest.png
   ConfidenceConnectedTest
@@ -195,7 +195,7 @@ ADD_TEST(ConfidenceConnectedGrayTest ${SEGMENTATION_EXAMPLES}
         107 69
 )
 
-ADD_TEST(ConnectedThresholdWhiteTest ${SEGMENTATION_EXAMPLES}
+add_test(ConnectedThresholdWhiteTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConnectedThresholdWhiteTest.png
             ${TEMP}/ConnectedThresholdWhiteTest.png
   ConnectedThresholdImageFilterTest
@@ -204,7 +204,7 @@ ADD_TEST(ConnectedThresholdWhiteTest ${SEGMENTATION_EXAMPLES}
         60 116 150 180
 )
 
-ADD_TEST(ConnectedThresholdVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(ConnectedThresholdVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConnectedThresholdVentricleTest.png
             ${TEMP}/ConnectedThresholdVentricleTest.png
   ConnectedThresholdImageFilterTest
@@ -213,7 +213,7 @@ ADD_TEST(ConnectedThresholdVentricleTest ${SEGMENTATION_EXAMPLES}
         81 112 210 250
 )
 
-ADD_TEST(ConnectedThresholdGrayTest ${SEGMENTATION_EXAMPLES}
+add_test(ConnectedThresholdGrayTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/ConnectedThresholdGrayTest.png
             ${TEMP}/ConnectedThresholdGrayTest.png
   ConnectedThresholdImageFilterTest
@@ -222,16 +222,16 @@ ADD_TEST(ConnectedThresholdGrayTest ${SEGMENTATION_EXAMPLES}
         107 69 180 210
 )
 
-ADD_TEST(FastMarchingLeftVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(FastMarchingLeftVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/FastMarchingLeftVentricleTest.png
             ${TEMP}/FastMarchingLeftVentricleTest.png
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingLeftVentricleTest.png
-        81 114 1.0 -0.5 3.0 100 100        
+        81 114 1.0 -0.5 3.0 100 100
 )
 
-ADD_TEST(FastMarchingRightVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(FastMarchingRightVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/FastMarchingRightVentricleTest.png
             ${TEMP}/FastMarchingRightVentricleTest.png
   FastMarchingImageFilterTest
@@ -240,25 +240,25 @@ ADD_TEST(FastMarchingRightVentricleTest ${SEGMENTATION_EXAMPLES}
         99 114 1.0 -0.5 3.0 100 100
 )
 
-ADD_TEST(FastMarchingWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+add_test(FastMarchingWhiteMatterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/FastMarchingWhiteMatterTest.png
             ${TEMP}/FastMarchingWhiteMatterTest.png
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingWhiteMatterTest.png
-        56 92 1.0 -0.3 2.0 200 100       
+        56 92 1.0 -0.3 2.0 200 100
 )
 
-ADD_TEST(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
+add_test(FastMarchingGrayMatterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/FastMarchingGrayMatterTest.png
             ${TEMP}/FastMarchingGrayMatterTest.png
   FastMarchingImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingGrayMatterTest.png
-        40 90 .5 -0.3 2.0 200 100        
+        40 90 .5 -0.3 2.0 200 100
 )
 
-ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourLeftVentricleTest.png
             ${TEMP}/GeodesicActiveContourLeftVentricleTest.png
   GeodesicActiveContourImageFilterTest
@@ -267,7 +267,7 @@ ADD_TEST(GeodesicActiveContourLeftVentricleTest ${SEGMENTATION_EXAMPLES}
         81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
+add_test(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourRightVentricleTest.png
             ${TEMP}/GeodesicActiveContourRightVentricleTest.png
   GeodesicActiveContourImageFilterTest
@@ -276,7 +276,7 @@ ADD_TEST(GeodesicActiveContourRightVentricleTest ${SEGMENTATION_EXAMPLES}
         99 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-ADD_TEST(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}
+add_test(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourWhiteMatterTest.png
             ${TEMP}/GeodesicActiveContourWhiteMatterTest.png
   GeodesicActiveContourImageFilterTest
@@ -285,7 +285,7 @@ ADD_TEST(GeodesicActiveContourWhiteMatterTest ${SEGMENTATION_EXAMPLES}
         56 92 5.0 1.0 -0.3 2.0 10.0
 )
 
-ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
+add_test(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/GeodesicActiveContourGrayMatterTest.png
             ${TEMP}/GeodesicActiveContourGrayMatterTest.png
   GeodesicActiveContourImageFilterTest
@@ -294,7 +294,7 @@ ADD_TEST(GeodesicActiveContourGrayMatterTest ${SEGMENTATION_EXAMPLES}
         40 90 5.0 .5 -0.3 2.0 10.0
 )
 
-ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
+add_test(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetLeftVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetLeftVentricleTest.png
   ShapeDetectionLevelSetFilterTest
@@ -303,7 +303,7 @@ ADD_TEST(ShapeDetectionLevelSetLeftVentricleTest ${SEGMENTATION_EXAMPLES2}
         81 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
-ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
+add_test(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetRightVentricleTest.png
             ${TEMP}/ShapeDetectionLevelSetRightVentricleTest.png
   ShapeDetectionLevelSetFilterTest
@@ -312,7 +312,7 @@ ADD_TEST(ShapeDetectionLevelSetRightVentricleTest ${SEGMENTATION_EXAMPLES2}
         99 114 5.0 1.0 -0.5 3.0 0.05 1.0
 )
 
-ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
+add_test(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetWhiteMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetWhiteMatterTest.png
   ShapeDetectionLevelSetFilterTest
@@ -321,7 +321,7 @@ ADD_TEST(ShapeDetectionLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
         56 92 5.0 1.0 -0.3 2.0 0.05 1.0
 )
 
-ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
+add_test(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ShapeDetectionLevelSetGrayMatterTest.png
             ${TEMP}/ShapeDetectionLevelSetGrayMatterTest.png
   ShapeDetectionLevelSetFilterTest
@@ -330,7 +330,7 @@ ADD_TEST(ShapeDetectionLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
         40 90 5.0 1.0 -0.3 2.0 0.05 1.0
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES2}
+add_test(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetVentricleTest.png
             ${TEMP}/ThresholdSegmentationLevelSetVentricleTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -339,7 +339,7 @@ ADD_TEST(ThresholdSegmentationLevelSetVentricleTest ${SEGMENTATION_EXAMPLES2}
         81 112 5 210 250
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
+add_test(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetWhiteMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetWhiteMatterTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -348,7 +348,7 @@ ADD_TEST(ThresholdSegmentationLevelSetWhiteMatterTest ${SEGMENTATION_EXAMPLES2}
         60 116 5 150 180
 )
 
-ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
+add_test(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/ThresholdSegmentationLevelSetGrayMatterTest.png
             ${TEMP}/ThresholdSegmentationLevelSetGrayMatterTest.png
   ThresholdSegmentationLevelSetImageFilterTest
@@ -357,25 +357,25 @@ ADD_TEST(ThresholdSegmentationLevelSetGrayMatterTest ${SEGMENTATION_EXAMPLES2}
         107 69 5 180 210
 )
 
-ADD_TEST(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
+add_test(CellularSegmentation1Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation1Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         100 115 200 255 3000
         ${TEMP}/CellularSegmentation1Test.vtk
 )
 
-IF( ITK_BRAINWEB_DATA_ROOT )
+if( ITK_BRAINWEB_DATA_ROOT )
 
-ADD_TEST(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
+add_test(CellularSegmentation2Test ${SEGMENTATION_EXAMPLES9}
   CellularSegmentation2Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         81 113 96 220 255 2000
         ${TEMP}/CellularSegmentation2Test.vtk
 )
 
-ENDIF( ITK_BRAINWEB_DATA_ROOT )
+endif( ITK_BRAINWEB_DATA_ROOT )
 
-ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
+add_test(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected1.png
             ${TEMP}/VectorConfidenceConnected1.png
   VectorConfidenceConnectedTest
@@ -384,7 +384,7 @@ ADD_TEST(VectorConfidenceConnectedTest1 ${SEGMENTATION_EXAMPLES8}
         70 120 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES8}
+add_test(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected2.png
             ${TEMP}/VectorConfidenceConnected2.png
   VectorConfidenceConnectedTest
@@ -393,7 +393,7 @@ ADD_TEST(VectorConfidenceConnectedTest2 ${SEGMENTATION_EXAMPLES8}
         23 93 7 1
 )
 
-ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
+add_test(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
   --compare ${BASELINE}/VectorConfidenceConnected3.png
             ${TEMP}/VectorConfidenceConnected3.png
   VectorConfidenceConnectedTest
@@ -403,7 +403,7 @@ ADD_TEST(VectorConfidenceConnectedTest3 ${SEGMENTATION_EXAMPLES8}
 )
 
 
-ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
+add_test(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
   --compare ${BASELINE}/CannySegmentationLevelSetImageFilterTest.png
             ${TEMP}/CannySegmentationLevelSetImageFilterTest.png
   CannySegmentationLevelSetImageFilterTest
@@ -413,18 +413,18 @@ ADD_TEST(CannySegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES}
         7 0.1 -10.0 127.5 10000
 )
 
-ADD_TEST(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
+add_test(GeodesicActiveContourShapePriorCallosumTest ${SEGMENTATION_EXAMPLES3}
   --compare ${BASELINE}/GeodesicActiveContourShapePriorCallosumTest.png
             ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
   GeodesicActiveContourShapePriorLevelSetImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
         ${TEMP}/GeodesicActiveContourShapePriorCallosumTest.png
         120 85 60 102 88 83 6 1.0 0.5 0.02
-        ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMeanShape.mha 3 
+        ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMeanShape.mha 3
         ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha 10 0
 )
 
-ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
+add_test(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedWhiteTest.png
             ${TEMP}/NeighborhoodConnectedWhiteTest.png
   NeighborhoodConnectedImageFilterTest
@@ -433,7 +433,7 @@ ADD_TEST(NeighborhoodConnectedWhiteTest ${SEGMENTATION_EXAMPLES2}
         60 116 150 180
 )
 
-ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
+add_test(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedVentricleTest.png
             ${TEMP}/NeighborhoodConnectedVentricleTest.png
   NeighborhoodConnectedImageFilterTest
@@ -442,7 +442,7 @@ ADD_TEST(NeighborhoodConnectedVentricleTest ${SEGMENTATION_EXAMPLES2}
         81 112 210 250
 )
 
-ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
+add_test(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/NeighborhoodConnectedGrayTest.png
             ${TEMP}/NeighborhoodConnectedGrayTest.png
   NeighborhoodConnectedImageFilterTest
@@ -451,7 +451,7 @@ ADD_TEST(NeighborhoodConnectedGrayTest ${SEGMENTATION_EXAMPLES2}
         107 69 180 210
 )
 
-ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
+add_test(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
   --compare ${BASELINE}/IsolatedConnectedTest.png
             ${TEMP}/IsolatedConnectedTest.png
   IsolatedConnectedImageFilterTest
@@ -460,7 +460,7 @@ ADD_TEST(IsolatedConnectedTest ${SEGMENTATION_EXAMPLES2}
         61 140 150 63 43
 )
 
-ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
+add_test(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/RelabelComponentImageFilter.png
             ${TEMP}/RelabelComponentImageFilter.png
   RelabelComponentImageFilterTest
@@ -468,7 +468,7 @@ ADD_TEST(RelabelComponentImageFilterTest ${SEGMENTATION_EXAMPLES5}
         ${TEMP}/RelabelComponentImageFilter.png
 )
 
-ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
+add_test(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/WatershedSegmentation1Test1.png
             ${TEMP}/WatershedSegmentation1Test1.png
   WatershedSegmentation1Test
@@ -477,7 +477,7 @@ ADD_TEST(WatershedSegmentation1Test1 ${SEGMENTATION_EXAMPLES5}
         2.0 10 0.0 0.05 1
 )
 
-ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
+add_test(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
   --compare ${BASELINE}/WatershedSegmentation1Test2.png
             ${TEMP}/WatershedSegmentation1Test2.png
   WatershedSegmentation1Test
@@ -486,7 +486,7 @@ ADD_TEST(WatershedSegmentation1Test2 ${SEGMENTATION_EXAMPLES5}
         2.0 10 0.001 0.15 0
 )
 
-ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
+add_test(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
   --compare ${BASELINE}/CurvesLevelSetImageFilterTest.png
             ${TEMP}/CurvesLevelSetImageFilterTest.png
   CurvesLevelSetImageFilterTest
@@ -495,7 +495,7 @@ ADD_TEST(CurvesLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES4}
         81 114 5.0 1.0 -0.5 3.0 2.0
 )
 
-ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
+add_test(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
   --compare ${BASELINE}/HoughTransformTwoLinesTest.png
             ${TEMP}/HoughTransformTwoLinesTest.png
   HoughTransform2DLinesImageFilterTest
@@ -504,7 +504,7 @@ ADD_TEST(HoughTransformTwo2DLinesTest ${SEGMENTATION_EXAMPLES6}
         2 5 10
 )
 
-ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
+add_test(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
   --compare ${BASELINE}/HoughTransformTwoCirclesTest.png
             ${TEMP}/HoughTransformTwoCirclesTest.png
   HoughTransform2DCirclesImageFilterTest
@@ -513,7 +513,7 @@ ADD_TEST(HoughTransformTwo2DCirclesTest ${SEGMENTATION_EXAMPLES6}
         2 6 20 3.14 10 5 1.5
 )
 
-ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
+add_test(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
   --compare ${BASELINE}/LaplacianSegmentationLevelSetImageFilter.png
             ${TEMP}/LaplacianSegmentationLevelSetImageFilter.png
   LaplacianSegmentationLevelSetImageFilterTest
@@ -523,8 +523,8 @@ ADD_TEST(LaplacianSegmentationLevelSetImageFilterTest ${SEGMENTATION_EXAMPLES7}
         10 2.0 1 127.5 15
 )
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )
 
 

@@ -1,5 +1,5 @@
 # create a list of cable config files for wrapping
-SET(WRAP_SOURCES
+set(WRAP_SOURCES
   wrap_ITKCommonBase
   wrap_ITKInterpolators
   wrap_ITKRegions
@@ -35,21 +35,21 @@ SET(WRAP_SOURCES
   wrap_itkVector
 )
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
+set(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
                        "${WrapITK_BINARY_DIR}/CommonA/ITKCommonA.mdx"
 )
-SET(ITK_SWIG_FILE ${ITK_TOP}/Wrapping/CSwig/CommonA/SwigExtras.i)
-SET(ITK_SWIG_FILE_CXX ${WrapITK_BINARY_DIR}/CommonA/SwigExtras_wrap)
-SET(ITK_EXTRA_TCL_SOURCES itkTclCommand.cxx)
-SET(ITK_EXTRA_PYTHON_SOURCES itkPyCommand.cxx)
-SET(ITK_EXTRA_PYTHON_WRAP wrap_ITKPyUtils )
+set(ITK_SWIG_FILE ${ITK_TOP}/Wrapping/CSwig/CommonA/SwigExtras.i)
+set(ITK_SWIG_FILE_CXX ${WrapITK_BINARY_DIR}/CommonA/SwigExtras_wrap)
+set(ITK_EXTRA_TCL_SOURCES itkTclCommand.cxx)
+set(ITK_EXTRA_PYTHON_SOURCES itkPyCommand.cxx)
+set(ITK_EXTRA_PYTHON_WRAP wrap_ITKPyUtils )
 
-IF(PYTHON_NUMARRAY_FOUND)
-  SET(ITK_EXTRA_PYTHON_WRAP ${ITK_EXTRA_PYTHON_WRAP} wrap_itkPyBuffer )
-ENDIF(PYTHON_NUMARRAY_FOUND)
+if(PYTHON_NUMARRAY_FOUND)
+  set(ITK_EXTRA_PYTHON_WRAP ${ITK_EXTRA_PYTHON_WRAP} wrap_itkPyBuffer )
+endif(PYTHON_NUMARRAY_FOUND)
 
-SET(ITK_EXTRA_TCL_WRAP wrap_ITKUtils)
+set(ITK_EXTRA_TCL_WRAP wrap_ITKUtils)
 ITK_WRAP_LIBRARY("${WRAP_SOURCES}" ITKCommonA CommonA "VXLNumerics" itkStringStream.cxx "ITKCommon")
 

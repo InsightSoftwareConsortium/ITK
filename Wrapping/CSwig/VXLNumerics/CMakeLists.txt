@@ -1,6 +1,6 @@
 # create the VXLNumerics libraries
 
-SET(WRAP_SOURCES
+set(WRAP_SOURCES
   wrap_vnl_matrix
   wrap_vnl_vector
   wrap_vnl_c_vector
@@ -15,7 +15,7 @@ SET(WRAP_SOURCES
 )
 
 
-SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx")
+set(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx")
 
 ITK_WRAP_LIBRARY("${WRAP_SOURCES}" VXLNumerics VXLNumerics "" "" "${VXL_NUMERICS_LIBRARIES};itkvnl_inst")
 

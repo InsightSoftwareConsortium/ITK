@@ -5,12 +5,12 @@ WRAP_NON_TEMPLATE_CLASS("itk::TransformFileReader" POINTER)
 WRAP_NON_TEMPLATE_CLASS("itk::TransformFileWriter" POINTER)
 
 WRAP_CLASS("itk::RawImageIO" POINTER)
-  FOREACH(d ${WRAP_ITK_DIMS})
+  foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_F}${d}" "${ITKT_F},${d}")
-  ENDFOREACH(d)
+  endforeach(d)
 END_WRAP_CLASS()
 
-SET(io_classes
+set(io_classes
   AnalyzeImageIO
   BioRadImageIO
   BMPImageIO
@@ -33,10 +33,10 @@ SET(io_classes
   VTKImageIO
 )
 
-FOREACH(c ${io_classes})
+foreach(c ${io_classes})
   WRAP_NON_TEMPLATE_CLASS("itk::${c}" POINTER)
   WRAP_NON_TEMPLATE_CLASS("itk::${c}Factory" POINTER)
-ENDFOREACH(c)
+endforeach(c)
 
 
 # *SeriesFileNames

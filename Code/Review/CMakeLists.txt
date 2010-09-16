@@ -1,7 +1,7 @@
 #
 #  ITKIOReview: library for new ImageIO classes
 #
-SET(ITKIOReview_SRCS
+set(ITKIOReview_SRCS
   itkBruker2DSEQImageIO.cxx
   itkBruker2DSEQImageIOFactory.cxx
   itkPhilipsRECImageIO.cxx
@@ -20,23 +20,23 @@ SET(ITKIOReview_SRCS
   itkJPEG2000ImageIOFactory.cxx
   )
 
-INCLUDE_DIRECTORIES(${ITK_SOURCE_DIR}/Utilities/openjpeg)
+include_directories(${ITK_SOURCE_DIR}/Utilities/openjpeg)
 
-ADD_LIBRARY(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
-TARGET_LINK_LIBRARIES (ITKIOReview  ITKIO itkopenjpeg)
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKIOReview
+add_library(ITKIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKIOReview_SRCS})
+target_link_libraries(ITKIOReview  ITKIO itkopenjpeg)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKIOReview
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-IF(ITK_USE_TRANSFORM_IO_FACTORIES)
+if(ITK_USE_TRANSFORM_IO_FACTORIES)
 # Sources of non-templated classes.
-SET(ITKTransformIOReview_SRCS
+set(ITKTransformIOReview_SRCS
   itkTransformFileReaderWithFactory.cxx
   itkTransformFileWriterWithFactory.cxx
   itkMatlabTransformIO.cxx
@@ -47,19 +47,19 @@ SET(ITKTransformIOReview_SRCS
   itkTxtTransformIOFactory.cxx
   )
 
-ADD_LIBRARY(ITKTransformIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKTransformIOReview_SRCS})
-TARGET_LINK_LIBRARIES (ITKTransformIOReview ITKCommon)
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKTransformIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKTransformIOReview
+add_library(ITKTransformIOReview ${ITK_REVIEW_BUILD_TYPE} ${ITKTransformIOReview_SRCS})
+target_link_libraries(ITKTransformIOReview ITKCommon)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKTransformIOReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKTransformIOReview
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
+endif(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 
 #
@@ -73,93 +73,93 @@ ENDIF(ITK_USE_TRANSFORM_IO_FACTORIES)
 # directory, these lines must be commented out again if the library
 # becomes empty.
 #
-# ADD_LIBRARY(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
-# TARGET_LINK_LIBRARIES (ITKReview ITKCommon itkvnl)
-# IF(ITK_LIBRARY_PROPERTIES)
-#   SET_TARGET_PROPERTIES(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-# ENDIF(ITK_LIBRARY_PROPERTIES)
-# IF(NOT ITK_INSTALL_NO_LIBRARIES)
-#   INSTALL(TARGETS ITKReview
+# add_library(ITKReview ${ITK_REVIEW_BUILD_TYPE} ${ITKReview_SRCS})
+# target_link_libraries(ITKReview ITKCommon itkvnl)
+# if(ITK_LIBRARY_PROPERTIES)
+#   set_target_properties(ITKReview PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+# endif(ITK_LIBRARY_PROPERTIES)
+# if(NOT ITK_INSTALL_NO_LIBRARIES)
+#   install(TARGETS ITKReview
 #     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
 #     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
 #     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-# ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+# endif(NOT ITK_INSTALL_NO_LIBRARIES)
 #
 #
 #   End of optional ITKReview library setup
 #
 
 
-IF(ITK_USE_MINC2 AND MINC2_FOUND)
-SET(ITKMINC2_SRCS
+if(ITK_USE_MINC2 AND MINC2_FOUND)
+set(ITKMINC2_SRCS
   itkMINC2ImageIO.cxx
   itkMINC2ImageIOFactory.cxx
   )
 
-ADD_LIBRARY(ITKIOMINC2 ${ITK_REVIEW_BUILD_TYPE} ${ITKMINC2_SRCS})
-TARGET_LINK_LIBRARIES (ITKIOMINC2 ITKIO ${MINC2_LIB} ${HDF5_LIB} ${NETCDF_LIB})
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKIOMINC2 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKIOMINC2
+add_library(ITKIOMINC2 ${ITK_REVIEW_BUILD_TYPE} ${ITKMINC2_SRCS})
+target_link_libraries(ITKIOMINC2 ITKIO ${MINC2_LIB} ${HDF5_LIB} ${NETCDF_LIB})
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKIOMINC2 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKIOMINC2
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 
 
-ENDIF(ITK_USE_MINC2 AND MINC2_FOUND)
+endif(ITK_USE_MINC2 AND MINC2_FOUND)
 
 
 # Build ITKQuadEdgeMesh library
 
-ADD_LIBRARY(ITKQuadEdgeMesh ${ITK_REVIEW_BUILD_TYPE}
+add_library(ITKQuadEdgeMesh ${ITK_REVIEW_BUILD_TYPE}
   itkQuadEdge.cxx
   )
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKQuadEdgeMesh
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKQuadEdgeMesh
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
 
-TARGET_LINK_LIBRARIES(ITKQuadEdgeMesh ITKCommon)
+target_link_libraries(ITKQuadEdgeMesh ITKCommon)
 
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKQuadEdgeMesh PROPERTIES
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKQuadEdgeMesh PROPERTIES
     ${ITK_LIBRARY_PROPERTIES}
     )
-ENDIF(ITK_LIBRARY_PROPERTIES)
+endif(ITK_LIBRARY_PROPERTIES)
 
 
 # install the development files
-IF(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_REVIEW ${ITK_INSTALL_INCLUDE_DIR_CM24})
-ELSE(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_REVIEW ${ITK_INSTALL_INCLUDE_DIR_CM24}/Review)
-ENDIF(ITK_USE_FLAT_DIRECTORY_INSTALL)
+if(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_REVIEW ${ITK_INSTALL_INCLUDE_DIR_CM24})
+else(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_REVIEW ${ITK_INSTALL_INCLUDE_DIR_CM24}/Review)
+endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
 
-IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  FILE(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-  FILE(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
-  INSTALL(FILES ${__files1} ${__files2}
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  file(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+  file(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+  install(FILES ${__files1} ${__files2}
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_REVIEW}
     COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
 # Warn the user about the license issues and lack of stability of the API
 # of the code in this directory
-SET(msg "Attention: You have chosen to use the files in the Review directory.")
-SET(msg "${msg} The Copyright of these files has not been cleared up, and the coding")
-SET(msg "${msg} style and API of the classes in the Review directory may change")
-SET(msg "${msg} drastically as it get code reviews from the developers.")
-SET(msg "${msg} Please set ITK_USE_REVIEW to OFF if you don't want to use these files.")
+set(msg "Attention: You have chosen to use the files in the Review directory.")
+set(msg "${msg} The Copyright of these files has not been cleared up, and the coding")
+set(msg "${msg} style and API of the classes in the Review directory may change")
+set(msg "${msg} drastically as it get code reviews from the developers.")
+set(msg "${msg} Please set ITK_USE_REVIEW to OFF if you don't want to use these files.")
 
 # display the message during the setup
-MESSAGE("${msg}")
+message("${msg}")
 
 # and also display it during the install
-INSTALL(CODE "MESSAGE(\"${msg}\")")
+install(CODE "message(\"${msg}\")")

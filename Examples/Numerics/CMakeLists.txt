@@ -1,8 +1,8 @@
 #
 # Examples on the use of Numerics classes.
 #
-PROJECT(NumericsExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(NumericsExamples)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(FourierDescriptors1 FourierDescriptors1.cxx )
-TARGET_LINK_LIBRARIES(FourierDescriptors1 ITKIO)
+add_executable(FourierDescriptors1 FourierDescriptors1.cxx )
+target_link_libraries(FourierDescriptors1 ITKIO)

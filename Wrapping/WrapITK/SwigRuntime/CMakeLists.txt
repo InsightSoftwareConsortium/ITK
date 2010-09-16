@@ -1,30 +1,30 @@
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-MACRO(CREATE_SWIG_RUNTIME lang_option lang_postfix lang_link_libs)
-  SET(source_file "${CMAKE_CURRENT_BINARY_DIR}/swigrun${lang_postfix}.cxx")
-  SET(lib_name "SwigRuntime${lang_postfix}")
-  
-  ADD_LIBRARY(${lib_name} SHARED "${source_file}")
-  TARGET_LINK_LIBRARIES(${lib_name} "${lang_link_libs}")
+macro(CREATE_SWIG_RUNTIME lang_option lang_postfix lang_link_libs)
+  set(source_file "${CMAKE_CURRENT_BINARY_DIR}/swigrun${lang_postfix}.cxx")
+  set(lib_name "SwigRuntime${lang_postfix}")
+
+  add_library(${lib_name} SHARED "${source_file}")
+  target_link_libraries(${lib_name} "${lang_link_libs}")
 
   # work around linkage problem on some solaris systems
-  IF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
-    TARGET_LINK_LIBRARIES(${lib_name} stdc++)
-  ENDIF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+  if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+    target_link_libraries(${lib_name} stdc++)
+  endif(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
 
-  INSTALL_TARGETS("${WRAP_ITK_INSTALL_PREFIX}/lib" ${lib_name})
-  SET_TARGET_PROPERTIES(${lib_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
+  install_targets("${WRAP_ITK_INSTALL_PREFIX}/lib" ${lib_name})
+  set_target_properties(${lib_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
 
-  ADD_CUSTOM_COMMAND(
+  add_custom_command(
    SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/swigrun.h
    COMMAND ${GCCXML}
    ARGS -fxml-start=_cable_ -DCABLE_CONFIGURATION ${CMAKE_CURRENT_SOURCE_DIR}/swigrun.h
-      -fxml=${CMAKE_CURRENT_BINARY_DIR}/swigrun.xml 
+      -fxml=${CMAKE_CURRENT_BINARY_DIR}/swigrun.xml
    TARGET ${lib_name}
    OUTPUTS ${CMAKE_CURRENT_BINARY_DIR}/swigrun.xml
    DEPENDS ${GCCXML})
 
-  ADD_CUSTOM_COMMAND(
+  add_custom_command(
     SOURCE ${CMAKE_CURRENT_BINARY_DIR}/swigrun.xml
     COMMAND ${CSWIG}
     ARGS -o "${source_file}"
@@ -33,23 +33,23 @@ MACRO(CREATE_SWIG_RUNTIME lang_option lang_postfix lang_link_libs)
     TARGET ${lib_name}
     OUTPUTS "${source_file}"
     DEPENDS ${CSWIG})
-ENDMACRO(CREATE_SWIG_RUNTIME)
+endmacro(CREATE_SWIG_RUNTIME)
 
-IF(WRAP_ITK_TCL)
+if(WRAP_ITK_TCL)
    CREATE_SWIG_RUNTIME(-tcl Tcl "${TCL_LIBRARY}")
-ENDIF(WRAP_ITK_TCL)
+endif(WRAP_ITK_TCL)
 
-IF(WRAP_ITK_PYTHON)
+if(WRAP_ITK_PYTHON)
    CREATE_SWIG_RUNTIME(-python Python "${PYTHON_LIBRARY}")
-ENDIF(WRAP_ITK_PYTHON)
+endif(WRAP_ITK_PYTHON)
 
-IF(WRAP_ITK_PERL)
+if(WRAP_ITK_PERL)
    CREATE_SWIG_RUNTIME(-perl5 Perl "${PERL_LIBRARY}")
-ENDIF(WRAP_ITK_PERL)
+endif(WRAP_ITK_PERL)
 
 # java seems to not share the code with the other here, because of the JavaCWD class
-# IF(WRAP_ITK_JAVA)
+# if(WRAP_ITK_JAVA)
 #    CREATE_SWIG_RUNTIME(-java Java "${JAVA_LIBRARY}")
-# ENDIF(WRAP_ITK_JAVA)
-# 
+# endif(WRAP_ITK_JAVA)
+#
 

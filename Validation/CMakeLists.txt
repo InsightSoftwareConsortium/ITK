@@ -1,1 +1,1 @@
-SUBDIRS(StatisticalClustering)
+add_subdirectory(StatisticalClustering)

@@ -1,10 +1,10 @@
 WRAP_CLASS("itk::ImportImageFilter" POINTER)
 
-  FOREACH(d ${WRAP_ITK_DIMS})
-    FOREACH(t ${WRAP_ITK_SCALAR})
+  foreach(d ${WRAP_ITK_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
       WRAP_TEMPLATE("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
-    ENDFOREACH(t)
-  ENDFOREACH(d)
+    endforeach(t)
+  endforeach(d)
 
 END_WRAP_CLASS()
 

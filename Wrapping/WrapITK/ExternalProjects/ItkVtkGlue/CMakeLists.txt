@@ -1,29 +1,29 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
-IF(COMMAND CMAKE_POLICY)
-  CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND CMAKE_POLICY)
+cmake_minimum_required(VERSION 2.4)
+if(COMMAND CMAKE_POLICY)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND CMAKE_POLICY)
 
-PROJECT(ItkVtkGlue)
+project(ItkVtkGlue)
 
-OPTION(BUILD_WRAPPERS "Wrap library" OFF)
-OPTION(INSTALL_DEVEL_FILES "Install C++ headers" ON)
+option(BUILD_WRAPPERS "Wrap library" OFF)
+option(INSTALL_DEVEL_FILES "Install C++ headers" ON)
 
-FIND_PACKAGE(ITK REQUIRED)
-FIND_PACKAGE(VTK REQUIRED)
+find_package(ITK REQUIRED)
+find_package(VTK REQUIRED)
 
-INCLUDE_DIRECTORIES(${VTK_INCLUDE_DIRS} ${ITK_INCLUDE_DIRS} ${ItkVtkGlue_SOURCE_DIR}/src)
-LINK_DIRECTORIES(${VTK_LIBRARY_DIRS} ${ITK_LIBRARY_DIRS})
+include_directories(${VTK_INCLUDE_DIRS} ${ITK_INCLUDE_DIRS} ${ItkVtkGlue_SOURCE_DIR}/src)
+link_directories(${VTK_LIBRARY_DIRS} ${ITK_LIBRARY_DIRS})
 
-IF(BUILD_WRAPPERS)
-   SUBDIRS(Wrapping)
-ENDIF(BUILD_WRAPPERS)
+if(BUILD_WRAPPERS)
+   add_subdirectory(Wrapping)
+endif(BUILD_WRAPPERS)
 
 # install devel files
-IF(INSTALL_DEVEL_FILES)
-  FOREACH(f itkImageToVTKImageFilter.h itkImageToVTKImageFilter.txx itkVTKImageToImageFilter.h itkVTKImageToImageFilter.txx)
-    INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/${f})
-  ENDFOREACH(f)
-ENDIF(INSTALL_DEVEL_FILES)
+if(INSTALL_DEVEL_FILES)
+  foreach(f itkImageToVTKImageFilter.h itkImageToVTKImageFilter.txx itkVTKImageToImageFilter.h itkVTKImageToImageFilter.txx)
+    install_files(/include/InsightToolkit/BasicFilters FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/${f})
+  endforeach(f)
+endif(INSTALL_DEVEL_FILES)
 
-ENABLE_TESTING()
+enable_testing()
 

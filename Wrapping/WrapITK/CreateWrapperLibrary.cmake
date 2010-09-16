@@ -3,93 +3,93 @@
 # Convention: Variable names in ALL_CAPS are global, and are shared between macros
 # lower-case variable names indicate that that variable is to be considered local.
 
-MACRO(END_WRAP_LIBRARY)
+macro(END_WRAP_LIBRARY)
   WRAPPER_LIBRARY_CREATE_LIBRARY()
-ENDMACRO(END_WRAP_LIBRARY)
+endmacro(END_WRAP_LIBRARY)
 
-MACRO(WRAPPER_LIBRARY_CREATE_LIBRARY)
-  
+macro(WRAPPER_LIBRARY_CREATE_LIBRARY)
+
   # STEP 1
   # Make lists of all of the files that are to be generated
-  
+
   # Add the generated module wrappers. These files are not included in the general
   # WRAPPER_LIBRARY_CABLESWIG_INPUTS list because they are specific for each language.
-  SET(wrap_perl_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}PerlPerl.cxx")
-  SET(wrap_tcl_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}TclTcl.cxx")
-  SET(wrap_python_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}PythonPython.cxx")
-  SET(wrap_java_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}JavaJava.cxx")
-  
+  set(wrap_perl_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}PerlPerl.cxx")
+  set(wrap_tcl_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}TclTcl.cxx")
+  set(wrap_python_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}PythonPython.cxx")
+  set(wrap_java_sources "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}JavaJava.cxx")
+
   # Loop over cable config files creating three lists:
   # wrap_xxx_sources: list of generated files for each language
-  # [install_]index_file_content: list of idx files which will be generated, to create 
+  # [install_]index_file_content: list of idx files which will be generated, to create
   # the master index file from.
   # library_idx_files: differently-formatted list of idx files
-  SET(index_file_content "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${WRAPPER_LIBRARY_NAME}Java\")\n")
-  SET(install_index_file_content "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${WRAPPER_LIBRARY_NAME}Java\")\n")
-  SET(library_idx_files)
-  FOREACH(source ${WRAPPER_LIBRARY_CABLESWIG_INPUTS})
-    GET_FILENAME_COMPONENT(base_name ${source} NAME_WE)
-    SET(wrap_perl_sources ${wrap_perl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Perl.cxx")
-    SET(wrap_tcl_sources ${wrap_tcl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Tcl.cxx")
-    SET(wrap_python_sources ${wrap_python_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Python.cxx")
-    SET(wrap_java_sources ${wrap_java_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Java.cxx")
+  set(index_file_content "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${WRAPPER_LIBRARY_NAME}Java\")\n")
+  set(install_index_file_content "%JavaLoader=InsightToolkit.itkbase.LoadLibrary(\"${WRAPPER_LIBRARY_NAME}Java\")\n")
+  set(library_idx_files)
+  foreach(source ${WRAPPER_LIBRARY_CABLESWIG_INPUTS})
+    get_filename_component(base_name ${source} NAME_WE)
+    set(wrap_perl_sources ${wrap_perl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Perl.cxx")
+    set(wrap_tcl_sources ${wrap_tcl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Tcl.cxx")
+    set(wrap_python_sources ${wrap_python_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Python.cxx")
+    set(wrap_java_sources ${wrap_java_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Java.cxx")
     # add each source's name to a java dependencies list for later use
-    STRING(REGEX REPLACE wrap_ "" JAVA_DEP ${base_name})
-    SET(${WRAPPER_LIBRARY_NAME}_java_depends_init ${${WRAPPER_LIBRARY_NAME}_java_depends_init} ${JAVA_DEP})
-    SET(library_idx_files ${library_idx_files} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx" )
-    SET(index_file_content "${index_file_content}${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx\n")
-    IF(EXTERNAL_WRAP_ITK_PROJECT)
-      SET(install_index_file_content "${install_index_file_content}${WRAP_ITK_INSTALL_LOCATION}/ClassIndex/${base_name}.idx\n")
-    ELSE(EXTERNAL_WRAP_ITK_PROJECT)
-      SET(install_index_file_content "${install_index_file_content}${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/ClassIndex/${base_name}.idx\n")
-    ENDIF(EXTERNAL_WRAP_ITK_PROJECT)
-  ENDFOREACH(source)
-  
-  # Loop over the extra swig input files and add them to the generated files 
-  # lists. Guess that the generated cxx output will have the same name as 
-  # the .i input file.
-  FOREACH(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
-    GET_FILENAME_COMPONENT(base_name ${source} NAME_WE)
-    SET(wrap_perl_sources ${wrap_perl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Perl.cxx")
-    SET(wrap_tcl_sources ${wrap_tcl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Tcl.cxx")
-    SET(wrap_python_sources ${wrap_python_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Python.cxx")
-    SET(wrap_java_sources ${wrap_java_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Java.cxx")
-  ENDFOREACH(source)
+    string(REGEX REPLACE wrap_ "" JAVA_DEP ${base_name})
+    set(${WRAPPER_LIBRARY_NAME}_java_depends_init ${${WRAPPER_LIBRARY_NAME}_java_depends_init} ${JAVA_DEP})
+    set(library_idx_files ${library_idx_files} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx" )
+    set(index_file_content "${index_file_content}${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx\n")
+    if(EXTERNAL_WRAP_ITK_PROJECT)
+      set(install_index_file_content "${install_index_file_content}${WRAP_ITK_INSTALL_LOCATION}/ClassIndex/${base_name}.idx\n")
+    else(EXTERNAL_WRAP_ITK_PROJECT)
+      set(install_index_file_content "${install_index_file_content}${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/ClassIndex/${base_name}.idx\n")
+    endif(EXTERNAL_WRAP_ITK_PROJECT)
+  endforeach(source)
 
-  SET(${WRAPPER_LIBRARY_NAME}_JAVA_DEPENDS  "${${WRAPPER_LIBRARY_NAME}_java_depends_init}" CACHE INTERNAL "" FORCE)
+  # Loop over the extra swig input files and add them to the generated files
+  # lists. Guess that the generated cxx output will have the same name as
+  # the .i input file.
+  foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
+    get_filename_component(base_name ${source} NAME_WE)
+    set(wrap_perl_sources ${wrap_perl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Perl.cxx")
+    set(wrap_tcl_sources ${wrap_tcl_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Tcl.cxx")
+    set(wrap_python_sources ${wrap_python_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Python.cxx")
+    set(wrap_java_sources ${wrap_java_sources} "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}Java.cxx")
+  endforeach(source)
+
+  set(${WRAPPER_LIBRARY_NAME}_JAVA_DEPENDS  "${${WRAPPER_LIBRARY_NAME}_java_depends_init}" CACHE INTERNAL "" FORCE)
 
   # Mark each of the generated sources as being generated, so CMake knows not to
   # expect them to already exist.
-  SET_SOURCE_FILES_PROPERTIES(
-    ${wrap_perl_sources} 
-    ${wrap_tcl_sources} 
-    ${wrap_python_sources} 
-    ${wrap_java_sources} 
+  set_source_files_properties(
+    ${wrap_perl_sources}
+    ${wrap_tcl_sources}
+    ${wrap_python_sources}
+    ${wrap_java_sources}
     GENERATED )
-    
+
   # STEP 2
   # Configure the master index file and SWIG include file, and provide an install
   # version and install rule for the former.
-  
-  SET(library_master_index_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
-  SET(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
 
-  SET(CONFIG_INDEX_FILE_CONTENT ${index_file_content})
-  CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/Master.mdx.in" "${library_master_index_file}"
+  set(library_master_index_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+  set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
+
+  set(CONFIG_INDEX_FILE_CONTENT ${index_file_content})
+  configure_file("${WRAP_ITK_CONFIG_DIR}/Master.mdx.in" "${library_master_index_file}"
      @ONLY IMMEDIATE )
-    
-  SET(CONFIG_INDEX_FILE_CONTENT ${install_index_file_content})
-  CONFIGURE_FILE( "${WRAP_ITK_CONFIG_DIR}/Master.mdx.in"
-    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/InstallOnly/${WRAPPER_LIBRARY_NAME}.mdx" 
+
+  set(CONFIG_INDEX_FILE_CONTENT ${install_index_file_content})
+  configure_file( "${WRAP_ITK_CONFIG_DIR}/Master.mdx.in"
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/InstallOnly/${WRAPPER_LIBRARY_NAME}.mdx"
     @ONLY IMMEDIATE )
   WRAP_ITK_INSTALL("/ClassIndex" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/InstallOnly/${WRAPPER_LIBRARY_NAME}.mdx")
 
-  SET(CONFIG_GCCXML_INC_CONTENTS)
-  GET_DIRECTORY_PROPERTY(include_dir_list INCLUDE_DIRECTORIES)
-  FOREACH(dir ${include_dir_list})
-    SET(CONFIG_GCCXML_INC_CONTENTS "${CONFIG_GCCXML_INC_CONTENTS}-I${dir}\n")
-  ENDFOREACH(dir)
-  CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}"
+  set(CONFIG_GCCXML_INC_CONTENTS)
+  get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
+  foreach(dir ${include_dir_list})
+    set(CONFIG_GCCXML_INC_CONTENTS "${CONFIG_GCCXML_INC_CONTENTS}-I${dir}\n")
+  endforeach(dir)
+  configure_file("${WRAP_ITK_CONFIG_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}"
     @ONLY IMMEDIATE)
 
   # STEP 3
@@ -104,144 +104,144 @@ MACRO(WRAPPER_LIBRARY_CREATE_LIBRARY)
   # (respectively), where they would be put by the current build process.
   # If the files don't even exist in the output dirs by the time the library
   # is being built, then we've got a problem.
-  
+
   # First set the index and swig lib file lists to their proper initial state.
-  SET(master_index_files )   
-  SET(swig_library_files ${WRAPPER_SWIG_LIBRARY_FILES})
+  set(master_index_files )
+  set(swig_library_files ${WRAPPER_SWIG_LIBRARY_FILES})
 
   # Now churn through the mdx file requirements. Remember we add the current
   # library's mdx file to the list of index files.
-  FOREACH(dep ${WRAPPER_LIBRARY_DEPENDS})
-    SET(no_mdx_found 1)
-    
-    IF(WRAP_ITK_MASTER_INDEX_DIRECTORY) # WRAP_ITK_MASTER_INDEX_DIRECTORY may not be set
-      SET(wrapitk_mdx "${WRAP_ITK_MASTER_INDEX_DIRECTORY}/${dep}.mdx")
-      IF(EXISTS "${wrapitk_mdx}")
-        SET(master_index_files ${master_index_files} "${wrapitk_mdx}")
-        SET(no_mdx_found 0)
-      ENDIF(EXISTS "${wrapitk_mdx}")
-    ENDIF(WRAP_ITK_MASTER_INDEX_DIRECTORY)
-    
-    IF(no_mdx_found)
-      SET(local_mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${dep}.mdx")
-      SET(master_index_files ${master_index_files} "${local_mdx}")
-    ENDIF(no_mdx_found)
-  ENDFOREACH(dep)
-  
-  # Always use the local version of the mdx file for the current library. The 
-  # installed version is (by definition) out of date. 
-  SET(master_index_files ${master_index_files} "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
-  
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+    set(no_mdx_found 1)
+
+    if(WRAP_ITK_MASTER_INDEX_DIRECTORY) # WRAP_ITK_MASTER_INDEX_DIRECTORY may not be set
+      set(wrapitk_mdx "${WRAP_ITK_MASTER_INDEX_DIRECTORY}/${dep}.mdx")
+      if(EXISTS "${wrapitk_mdx}")
+        set(master_index_files ${master_index_files} "${wrapitk_mdx}")
+        set(no_mdx_found 0)
+      endif(EXISTS "${wrapitk_mdx}")
+    endif(WRAP_ITK_MASTER_INDEX_DIRECTORY)
+
+    if(no_mdx_found)
+      set(local_mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${dep}.mdx")
+      set(master_index_files ${master_index_files} "${local_mdx}")
+    endif(no_mdx_found)
+  endforeach(dep)
+
+  # Always use the local version of the mdx file for the current library. The
+  # installed version is (by definition) out of date.
+  set(master_index_files ${master_index_files} "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+
   # Now the required .swg files. Remember we add itk.swg and the current library's
   # swg file to the WRAPPER_SWIG_LIBRARY_FILES list.
-  FOREACH(dep ${WRAPPER_LIBRARY_DEPENDS} "itk" "${WRAPPER_LIBRARY_NAME}")
-    SET(no_swg_found 1)
-        
-    IF(WRAP_ITK_SWIG_LIBRARY_DIRECTORY) # WRAP_ITK_SWIG_LIBRARY_DIR may not be set
-      SET(wrapitk_swg "${WRAP_ITK_SWIG_LIBRARY_DIRECTORY}/${dep}.swg")
-      IF(EXISTS "${wrapitk_swg}")
-        SET(swig_library_files ${swig_library_files} "${wrapitk_swg}")
-        SET(no_swg_found 0)
-      ENDIF(EXISTS "${wrapitk_swg}")
-    ENDIF(WRAP_ITK_SWIG_LIBRARY_DIRECTORY)
-    
-    IF(no_swg_found)
-      SET(local_swg "${WRAPPER_SWIG_LIBRARY_OUTPUT_DIR}/${dep}.swg")
-      SET(swig_library_files ${swig_library_files} "${local_swg}")
-    ENDIF(no_swg_found)
-  ENDFOREACH(dep)
-    
+  foreach(dep ${WRAPPER_LIBRARY_DEPENDS} "itk" "${WRAPPER_LIBRARY_NAME}")
+    set(no_swg_found 1)
+
+    if(WRAP_ITK_SWIG_LIBRARY_DIRECTORY) # WRAP_ITK_SWIG_LIBRARY_DIR may not be set
+      set(wrapitk_swg "${WRAP_ITK_SWIG_LIBRARY_DIRECTORY}/${dep}.swg")
+      if(EXISTS "${wrapitk_swg}")
+        set(swig_library_files ${swig_library_files} "${wrapitk_swg}")
+        set(no_swg_found 0)
+      endif(EXISTS "${wrapitk_swg}")
+    endif(WRAP_ITK_SWIG_LIBRARY_DIRECTORY)
+
+    if(no_swg_found)
+      set(local_swg "${WRAPPER_SWIG_LIBRARY_OUTPUT_DIR}/${dep}.swg")
+      set(swig_library_files ${swig_library_files} "${local_swg}")
+    endif(no_swg_found)
+  endforeach(dep)
+
   # STEP 4
   # Generate the XML, index, and CXX files from the Cable input files, and add
   # the wrapper library.
-  IF(WRAP_ITK_PERL)
-    SET(library_type "SHARED")
-    SET(custom_library_prefix "")
+  if(WRAP_ITK_PERL)
+    set(library_type "SHARED")
+    set(custom_library_prefix "")
     CREATE_WRAPPER_FILES_AND_LIBRARY("Perl" "pl" "${wrap_perl_sources}"
-      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}" 
+      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}"
       "${swig_library_files}" "${library_type}" "${custom_library_prefix}")
-  ENDIF(WRAP_ITK_PERL)
-  
-  IF(WRAP_ITK_TCL AND WRAPPER_LIBRARY_TCL)
-    SET(library_type "SHARED")
-    SET(custom_library_prefix "")
+  endif(WRAP_ITK_PERL)
+
+  if(WRAP_ITK_TCL AND WRAPPER_LIBRARY_TCL)
+    set(library_type "SHARED")
+    set(custom_library_prefix "")
     # no .tcl files are created by SWIG, so pass an empty extension for the
     # "created file type" variable, so we know not to try to install the tcl files
     # that aren't made.
     CREATE_WRAPPER_FILES_AND_LIBRARY("Tcl" "" "${wrap_tcl_sources}"
-      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}" 
+      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}"
       "${swig_library_files}" "${library_type}" "${custom_library_prefix}")
-  ENDIF(WRAP_ITK_TCL AND WRAPPER_LIBRARY_TCL)
+  endif(WRAP_ITK_TCL AND WRAPPER_LIBRARY_TCL)
 
-  IF(WRAP_ITK_PYTHON AND WRAPPER_LIBRARY_PYTHON)
-    SET(library_type "MODULE")
-    SET(custom_library_prefix "_")
+  if(WRAP_ITK_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    set(library_type "MODULE")
+    set(custom_library_prefix "_")
     CREATE_WRAPPER_FILES_AND_LIBRARY("Python" "py" "${wrap_python_sources}"
-      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}" 
+      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}"
       "${swig_library_files}" "${library_type}" "${custom_library_prefix}")
-  ENDIF(WRAP_ITK_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+  endif(WRAP_ITK_PYTHON AND WRAPPER_LIBRARY_PYTHON)
 
-  IF(WRAP_ITK_JAVA AND WRAPPER_LIBRARY_JAVA)
+  if(WRAP_ITK_JAVA AND WRAPPER_LIBRARY_JAVA)
     # .java files are placed in InsightToolkit.jar - there is no need to install
     # so pass an empty extension for the "created file type" variable, so we know
     # not to try to install the .java files
-    SET(library_type "SHARED")
-    SET(custom_library_prefix "")
+    set(library_type "SHARED")
+    set(custom_library_prefix "")
     CREATE_WRAPPER_FILES_AND_LIBRARY("Java" "" "${wrap_java_sources}"
-      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}" 
+      "${master_index_files}" "${library_idx_files}" "${gccxml_inc_file}"
       "${swig_library_files}" "${library_type}" "${custom_library_prefix}")
-  ENDIF(WRAP_ITK_JAVA AND WRAPPER_LIBRARY_JAVA)
-  
+  endif(WRAP_ITK_JAVA AND WRAPPER_LIBRARY_JAVA)
+
   # Create the sub directories for each CMAKE_CONFIGURATION_TYPES
   # The generation of the XML, index and CXX files from the Cable input files
   # will use these sub directories to store some alternative files. But if
   # the directory doesn't exist, the generation fails !
-  IF(CMAKE_CONFIGURATION_TYPES)
-    FOREACH(config ${CMAKE_CONFIGURATION_TYPES})
-      FILE(MAKE_DIRECTORY "${LIBRARY_OUTPUT_PATH}/${config}")
-    ENDFOREACH(config)
-  ENDIF(CMAKE_CONFIGURATION_TYPES)
+  if(CMAKE_CONFIGURATION_TYPES)
+    foreach(config ${CMAKE_CONFIGURATION_TYPES})
+      file(MAKE_DIRECTORY "${LIBRARY_OUTPUT_PATH}/${config}")
+    endforeach(config)
+  endif(CMAKE_CONFIGURATION_TYPES)
 
   # STEP 5
   # Call a macro from CreateLanguageSupport.cmake
   # to create needed support files for wrapped languages.
   LANGUAGE_SUPPORT_CONFIGURE_FILES()
-ENDMACRO(WRAPPER_LIBRARY_CREATE_LIBRARY)
+endmacro(WRAPPER_LIBRARY_CREATE_LIBRARY)
 
 
-MACRO(CREATE_WRAPPER_FILES_AND_LIBRARY language extension library_sources
-      master_index_files library_idx_files gccxml_inc_file 
+macro(CREATE_WRAPPER_FILES_AND_LIBRARY language extension library_sources
+      master_index_files library_idx_files gccxml_inc_file
       swig_library_files library_type custom_library_prefix)
-      
-  SET(library_name "${custom_library_prefix}${WRAPPER_LIBRARY_NAME}${language}")
-  SET(cable_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}${language}.cxx"
+
+  set(library_name "${custom_library_prefix}${WRAPPER_LIBRARY_NAME}${language}")
+  set(cable_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/wrap_${WRAPPER_LIBRARY_NAME}${language}.cxx"
     ${WRAPPER_LIBRARY_CABLESWIG_INPUTS})
   # We add the library first so that there is a target to hang the file-creation dependencies on.
   CREATE_WRAPPER_LIBRARY("${library_name}" "${library_sources}" "${language}" "${library_type}" "${custom_library_prefix}")
-  CREATE_WRAPPER_FILES("${library_name}" "${language}" "${extension}" "${master_index_files}" "${library_idx_files}" 
+  CREATE_WRAPPER_FILES("${library_name}" "${language}" "${extension}" "${master_index_files}" "${library_idx_files}"
     "${cable_files}" "${gccxml_inc_file}" "${swig_library_files}")
-ENDMACRO(CREATE_WRAPPER_FILES_AND_LIBRARY)
+endmacro(CREATE_WRAPPER_FILES_AND_LIBRARY)
 
 
-MACRO(CREATE_WRAPPER_FILES library_name language extension mdx_files library_idx_files 
+macro(CREATE_WRAPPER_FILES library_name language extension mdx_files library_idx_files
     cable_input_files gccxml_inc_file swig_library_files)
 
-  IF("${language}" STREQUAL "Java")
-    GET_FILENAME_COMPONENT(outdir ${WrapITK_BINARY_DIR}/Java/InsightToolkit ABSOLUTE)
-  ELSE("${language}" STREQUAL "Java")
-    GET_FILENAME_COMPONENT(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
-  ENDIF("${language}" STREQUAL "Java")
+  if("${language}" STREQUAL "Java")
+    get_filename_component(outdir ${WrapITK_BINARY_DIR}/Java/InsightToolkit ABSOLUTE)
+  else("${language}" STREQUAL "Java")
+    get_filename_component(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
+  endif("${language}" STREQUAL "Java")
 
-    
-  FOREACH(cable_file ${cable_input_files})
-    GET_FILENAME_COMPONENT(base_name "${cable_file}" NAME_WE)
-    SET(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.xml")
-    SET(idx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx")
-    SET(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}${language}.cxx")
-    
+
+  foreach(cable_file ${cable_input_files})
+    get_filename_component(base_name "${cable_file}" NAME_WE)
+    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.xml")
+    set(idx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}.idx")
+    set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}${language}.cxx")
+
     # Create the XML file
     GCCXML_CREATE_XML_FILE("${library_name}" "${cable_file}" "${xml_file}" "${gccxml_inc_file}")
-    
+
     # Create the idx file and provide an install rule
     CINDEX_CREATE_IDX_FILE("${library_name}" "${xml_file}" "${idx_file}")
     WRAP_ITK_INSTALL("/ClassIndex" "${idx_file}")
@@ -249,30 +249,30 @@ MACRO(CREATE_WRAPPER_FILES library_name language extension mdx_files library_idx
     # Create the wrapper CXX file with cswig and an install rule for the generated language file
     CSWIG_CREATE_CXX_FILE("${library_name}" "${language}" "${idx_file}" "${xml_file}" "${cxx_file}"
       "${master_index_files}" "${library_idx_files}" "${swig_library_files}" "${outdir}")
-    STRING(REGEX REPLACE "wrap_" "" simple_base_name "${base_name}")
-    IF(NOT "${extension}" STREQUAL "")
-      SET(swig_language_file "${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_INSTALL_INTDIR}${simple_base_name}.${extension}")
-      WRAP_ITK_INSTALL("/lib" "${swig_language_file}")    
-    ENDIF(NOT "${extension}" STREQUAL "")
-  ENDFOREACH(cable_file)
-  
+    string(REGEX REPLACE "wrap_" "" simple_base_name "${base_name}")
+    if(NOT "${extension}" STREQUAL "")
+      set(swig_language_file "${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_INSTALL_INTDIR}${simple_base_name}.${extension}")
+      WRAP_ITK_INSTALL("/lib" "${swig_language_file}")
+    endif(NOT "${extension}" STREQUAL "")
+  endforeach(cable_file)
+
   # Create any extra CXX files from raw swig .i input files specified, and provide
   # install rules for the generated language output. Guess that the generated language
   # output will have the same name as the .i input file.
-  FOREACH(swig_input ${WRAPPER_LIBRARY_SWIG_INPUTS})
-    GET_FILENAME_COMPONENT(base_name ${swig_input} NAME_WE)
-    SET(cxx_output "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}${language}.cxx")
+  foreach(swig_input ${WRAPPER_LIBRARY_SWIG_INPUTS})
+    get_filename_component(base_name ${swig_input} NAME_WE)
+    set(cxx_output "${WRAPPER_LIBRARY_OUTPUT_DIR}/${base_name}${language}.cxx")
     CREATE_EXTRA_SWIG_FILE("${library_name}" "${language}" "${swig_input}" "${cxx_output}" "${outdir}")
-    IF(NOT "${extension}" STREQUAL "")
-      SET(swig_language_file "${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_INSTALL_INTDIR}${base_name}.${extension}")
+    if(NOT "${extension}" STREQUAL "")
+      set(swig_language_file "${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_INSTALL_INTDIR}${base_name}.${extension}")
       WRAP_ITK_INSTALL("/lib" "${swig_language_file}")
-    ENDIF(NOT "${extension}" STREQUAL "")
-  ENDFOREACH(swig_input)
-  
-ENDMACRO(CREATE_WRAPPER_FILES)
+    endif(NOT "${extension}" STREQUAL "")
+  endforeach(swig_input)
+
+endmacro(CREATE_WRAPPER_FILES)
 
 
-MACRO(GCCXML_CREATE_XML_FILE library_name input_cxx output_xml gccxml_inc_file)
+macro(GCCXML_CREATE_XML_FILE library_name input_cxx output_xml gccxml_inc_file)
 # First, deal with dependencies. Specifically, this XML file will need to be
 # re-generated when files that it included (and so on recursively) change.
 # The cswig program, run later, will write out a 'depends' file based on this
@@ -280,62 +280,62 @@ MACRO(GCCXML_CREATE_XML_FILE library_name input_cxx output_xml gccxml_inc_file)
 # run a second time, if any of those files has changed then the XML file will
 # be re-generated. There is an additional wrinkle, however: if the dependencies
 # have changed enough that one of the files doesn't exist any more, specifying
-# a dependence on that now-defunct file will cause a make error (because make 
+# a dependence on that now-defunct file will cause a make error (because make
 # won't know how to generate that file). So, if certain dependencies are gone,
 # then the XML file will need to be regenerated too.
 
-  SET(CABLE_SWIG_DEPEND)
-  SET(regenerate_xml)
+  set(CABLE_SWIG_DEPEND)
+  set(regenerate_xml)
 
-  IF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
-    # If the make program is not an IDE then include the depend file in a way 
+  if(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+    # If the make program is not an IDE then include the depend file in a way
     # that will make cmake re-run if it changes
-    IF(EXISTS "${output_xml}.depend")
-    ELSE(EXISTS "${output_xml}.depend")
-      CONFIGURE_FILE(
+    if(EXISTS "${output_xml}.depend")
+    else(EXISTS "${output_xml}.depend")
+      configure_file(
        "${WRAP_ITK_CONFIG_DIR}/empty.depend.in"
        "${output_xml}.depend" COPYONLY IMMEDIATE)
-    ENDIF(EXISTS "${output_xml}.depend")
-    INCLUDE("${output_xml}.depend")
-  ELSE(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+    endif(EXISTS "${output_xml}.depend")
+    include("${output_xml}.depend")
+  else(${CMAKE_MAKE_PROGRAM} MATCHES "make")
     # for IDE generators like MS dev only include the depend files
     # if they exist. This is to prevent excessive reloading of
     # workspaces after each build. This also means
     # that the depends will not be correct until cmake
     # is run once after the build has completed once, and the depend files have
     # been created by cswig.
-    INCLUDE("${output_xml}.depend" OPTIONAL)
-  ENDIF(${CMAKE_MAKE_PROGRAM} MATCHES "make")
+    include("${output_xml}.depend" OPTIONAL)
+  endif(${CMAKE_MAKE_PROGRAM} MATCHES "make")
 
-  IF(CABLE_SWIG_DEPEND)
+  if(CABLE_SWIG_DEPEND)
     # There are dependencies.  Make sure all the files are present.
     # If not, regenerate the XML file.
-    FOREACH(f ${CABLE_SWIG_DEPEND})
-      IF(EXISTS ${f})
-      ELSE(EXISTS ${f})
-        SET(regenerate_xml 1)
-      ENDIF(EXISTS ${f})
-    ENDFOREACH(f)
-  ELSE(CABLE_SWIG_DEPEND)
+    foreach(f ${CABLE_SWIG_DEPEND})
+      if(EXISTS ${f})
+      else(EXISTS ${f})
+        set(regenerate_xml 1)
+      endif(EXISTS ${f})
+    endforeach(f)
+  else(CABLE_SWIG_DEPEND)
     # No dependencies found. This means that either the XML hasn't been generated
     # yet, or the dependency file itself has disappeared. In case of the latter,
     # (simultaneous with a change in the dependent files themselves, we need to
     # re-generate the XML.
-    SET(regenerate_xml 1)
-  ENDIF(CABLE_SWIG_DEPEND)
-   
-  IF(regenerate_xml)
+    set(regenerate_xml 1)
+  endif(CABLE_SWIG_DEPEND)
+
+  if(regenerate_xml)
     # Force the XML file to be (re)made by making it depend on its dependency
     # file, which we then create again so that it is newer than the current XML
     # file (if the latter even exists). This forces the XML-creation rule to run.
-    SET(CABLE_SWIG_DEPEND "${output_xml}.depend")
-    CONFIGURE_FILE("${WRAP_ITK_CONFIG_DIR}/empty.depend.in"
+    set(CABLE_SWIG_DEPEND "${output_xml}.depend")
+    configure_file("${WRAP_ITK_CONFIG_DIR}/empty.depend.in"
       "${output_xml}.depend" COPYONLY IMMEDIATE)
-  ENDIF(regenerate_xml)
+  endif(regenerate_xml)
 
 
   # Finally, the dependencies are taken care of. Add the XML-generation rule!
-  ADD_CUSTOM_COMMAND(
+  add_custom_command(
     SOURCE ${input_cxx}
     COMMAND ${GCCXML}
     ARGS -fxml-start=_cable_
@@ -347,70 +347,70 @@ MACRO(GCCXML_CREATE_XML_FILE library_name input_cxx output_xml gccxml_inc_file)
     TARGET ${library_name}
     OUTPUTS ${output_xml}
     DEPENDS ${GCCXML} ${CABLE_SWIG_DEPEND})
-ENDMACRO(GCCXML_CREATE_XML_FILE)
+endmacro(GCCXML_CREATE_XML_FILE)
 
 
-MACRO(CINDEX_CREATE_IDX_FILE library_name input_xml output_idx)
-   ADD_CUSTOM_COMMAND(
+macro(CINDEX_CREATE_IDX_FILE library_name input_xml output_idx)
+   add_custom_command(
      SOURCE ${input_xml}
      COMMAND ${CABLE_INDEX}
      ARGS ${input_xml} ${output_idx}
      TARGET ${library_name}
      OUTPUTS ${output_idx}
      DEPENDS ${CABLE_INDEX})
-ENDMACRO(CINDEX_CREATE_IDX_FILE)
+endmacro(CINDEX_CREATE_IDX_FILE)
 
 
 # Set the language-specific cswig args to be used by CSWIG_CREATE_CXX_FILE
-SET(CSWIG_ARGS_Tcl
+set(CSWIG_ARGS_Tcl
   "-I${CSWIG_DEFAULT_LIB}/tcl"
   -tcl
   -pkgversion "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
-SET(CSWIG_ARGS_Perl
+set(CSWIG_ARGS_Perl
   "-I${CSWIG_DEFAULT_LIB}/perl5"
   -perl5)
-SET(CSWIG_ARGS_Python
+set(CSWIG_ARGS_Python
   "-I${CSWIG_DEFAULT_LIB}/python"
   -python)
-SET(CSWIG_ARGS_Java
+set(CSWIG_ARGS_Java
   "-I${CSWIG_DEFAULT_LIB}/java"
   -java
   -package InsightToolkit)
-SET(CSWIG_NO_EXCEPTION_REGEX_Python "ContinuousIndex\\.xml$")
+set(CSWIG_NO_EXCEPTION_REGEX_Python "ContinuousIndex\\.xml$")
 
-MACRO(CSWIG_CREATE_CXX_FILE library_name language input_idx input_xml output_cxx 
+macro(CSWIG_CREATE_CXX_FILE library_name language input_idx input_xml output_cxx
   master_index_files library_idx_files swig_library_files outdir)
-   SET(cindex)
-   FOREACH(mdx ${master_index_files})
-     SET(cindex ${cindex} -Cindex "${mdx}")
-   ENDFOREACH(mdx)
+   set(cindex)
+   foreach(mdx ${master_index_files})
+     set(cindex ${cindex} -Cindex "${mdx}")
+   endforeach(mdx)
 
-   SET(swig_libs)
-   FOREACH(file ${swig_library_files})
-       SET(swig_libs "-l${file}" ${swig_libs})
-   ENDFOREACH(file)
-  
+   set(swig_libs)
+   foreach(file ${swig_library_files})
+       set(swig_libs "-l${file}" ${swig_libs})
+   endforeach(file)
+
   # Some files shouldn't have swig-exception handling turned on. Currently they're
   # identified by regular expressions. If we find one, we set a CSWIG flag
   # to define the NO_EXCEPTIONS symbol, which we use in itk.swg for conditional
   # compilation of the exception handling.
   # TODO: Is any of this NO_EXCEPTIONS stuff really necessary?
-  SET(no_exception_regex "${language}\\.xml$")
-  SET(extra_args)
-  SET(lang_no_exception_regex "${CSWIG_NO_EXCEPTION_REGEX_${language}}")
-  IF("${lang_no_exception_regex}")
-      SET(no_exception_regex "(${no_exception_regex})|(${lang_no_exception_regex})")
-  ENDIF("${lang_no_exception_regex}")
-  IF("${input_xml}" MATCHES "${no_exception_regex}")
-     SET(extra_args "-DNO_EXCEPTIONS")
-  ENDIF("${input_xml}" MATCHES "${no_exception_regex}")
+  set(no_exception_regex "${language}\\.xml$")
+  set(extra_args)
+  set(lang_no_exception_regex "${CSWIG_NO_EXCEPTION_REGEX_${language}}")
+  if("${lang_no_exception_regex}")
+      set(no_exception_regex "(${no_exception_regex})|(${lang_no_exception_regex})")
+  endif("${lang_no_exception_regex}")
+  if("${input_xml}" MATCHES "${no_exception_regex}")
+     set(extra_args "-DNO_EXCEPTIONS")
+  endif("${input_xml}" MATCHES "${no_exception_regex}")
 
   # we have to get rid of the trailing /, because on windows, cswig will append
   # \filename, creating 'path/\filename', which it can't deal with. Without
   # the trailing /, things work fine for some reason.
-#   GET_FILENAME_COMPONENT(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
+#   get_filename_component(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
 
-  ADD_CUSTOM_COMMAND(
+  add_custom_command(
    SOURCE ${input_idx}
    COMMAND ${CSWIG}
    ARGS ${swig_libs}
@@ -429,21 +429,21 @@ MACRO(CSWIG_CREATE_CXX_FILE library_name language input_idx input_xml output_cxx
    TARGET ${library_name}
    OUTPUTS ${output_cxx}
    DEPENDS ${library_idx_files} ${master_index_files} ${swig_library_files} ${input_xml} ${CSWIG})
-ENDMACRO(CSWIG_CREATE_CXX_FILE)
+endmacro(CSWIG_CREATE_CXX_FILE)
 
 
-MACRO(CREATE_EXTRA_SWIG_FILE library_name language swig_input cxx_output outdir)
+macro(CREATE_EXTRA_SWIG_FILE library_name language swig_input cxx_output outdir)
   # we have to get rid of the trailing /, because on windows, cswig will append
   # \filename, creating 'path/\filename', which it can't deal with. Without
   # the trailing /, things work fine for some reason.
-#   GET_FILENAME_COMPONENT(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
+#   get_filename_component(outdir ${LIBRARY_OUTPUT_PATH}/${WRAP_ITK_BUILD_INTDIR} ABSOLUTE)
 
-  ADD_CUSTOM_COMMAND(
+  add_custom_command(
     COMMENT "run native swig on ${swig_input}"
     SOURCE ${swig_input}
     COMMAND ${CSWIG}
-    ARGS  -nocable 
-          -noruntime 
+    ARGS  -nocable
+          -noruntime
           ${CSWIG_IGNORE_WARNINGS}
           -outdir ${outdir}
           -o ${cxx_output}
@@ -453,63 +453,63 @@ MACRO(CREATE_EXTRA_SWIG_FILE library_name language swig_input cxx_output outdir)
     TARGET ${library_name}
     OUTPUTS ${cxx_output}
     DEPENDS ${CSWIG})
-ENDMACRO(CREATE_EXTRA_SWIG_FILE)
+endmacro(CREATE_EXTRA_SWIG_FILE)
 
 
 # Set the language-specific link libraries to be used by CREATE_WRAPPER_LIBRARY
 # TODO: Are there really no Java link libs required? The ITK wrappers specify
 # that ${JAVA_LIBRARY} be linked in, but that variable is never defined!
-SET(LINK_LIBRARIES_Tcl ${TCL_LIBRARY})
-SET(LINK_LIBRARIES_Perl ${PERL_LIBRARY})
-SET(LINK_LIBRARIES_Python ${PYTHON_LIBRARY})
-SET(LINK_LIBRARIES_Java )
-  
-MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_library_prefix)
-  IF(COMMAND cmake_policy)
-    CMAKE_POLICY(SET CMP0003 NEW)
-  ENDIF(COMMAND cmake_policy)
+set(LINK_LIBRARIES_Tcl ${TCL_LIBRARY})
+set(LINK_LIBRARIES_Perl ${PERL_LIBRARY})
+set(LINK_LIBRARIES_Python ${PYTHON_LIBRARY})
+set(LINK_LIBRARIES_Java )
 
-  ADD_LIBRARY(${library_name} ${library_type}
+macro(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_library_prefix)
+  if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+  endif(COMMAND cmake_policy)
+
+  add_library(${library_name} ${library_type}
     ${sources} ${WRAPPER_LIBRARY_CXX_SOURCES})
-    
-  IF(EXTERNAL_WRAP_ITK_PROJECT)
+
+  if(EXTERNAL_WRAP_ITK_PROJECT)
     # Don't add dependencies on modules created by WrapITK
-    REMOVE(dep_list "${WRAPPER_LIBRARY_DEPENDS}" "${WRAP_ITK_MODULES}")
-  ELSE(EXTERNAL_WRAP_ITK_PROJECT)
-    SET(dep_list ${WRAPPER_LIBRARY_DEPENDS})
-  ENDIF(EXTERNAL_WRAP_ITK_PROJECT)
-  FOREACH(dep ${dep_list})
-    ADD_DEPENDENCIES(${library_name} ${custom_library_prefix}${dep}${language})
-  ENDFOREACH(dep)
-  
-  IF(custom_library_prefix)
-    SET_TARGET_PROPERTIES(${library_name} PROPERTIES PREFIX "")
-  ENDIF(custom_library_prefix)
-  
-  SET(SWIG_RUNTIME_LANGUAGE SwigRuntime${language} )
-  IF("${language}" STREQUAL "Java" AND APPLE)
-    SET_TARGET_PROPERTIES(${library_name} PROPERTIES SUFFIX .jnilib)
-    SET(SWIG_RUNTIME_LANGUAGE "")
-  ENDIF("${language}" STREQUAL "Java" AND APPLE)
+    remove(dep_list "${WRAPPER_LIBRARY_DEPENDS}" "${WRAP_ITK_MODULES}")
+  else(EXTERNAL_WRAP_ITK_PROJECT)
+    set(dep_list ${WRAPPER_LIBRARY_DEPENDS})
+  endif(EXTERNAL_WRAP_ITK_PROJECT)
+  foreach(dep ${dep_list})
+    add_dependencies(${library_name} ${custom_library_prefix}${dep}${language})
+  endforeach(dep)
 
-  IF("${language}" STREQUAL "Python" AND WIN32)
-    # MESSAGE("Setting file extension to .pyd for python modules ${library_name}")
-    SET_TARGET_PROPERTIES(${library_name} PROPERTIES SUFFIX .pyd)
-  ENDIF("${language}" STREQUAL "Python" AND WIN32)
+  if(custom_library_prefix)
+    set_target_properties(${library_name} PROPERTIES PREFIX "")
+  endif(custom_library_prefix)
 
-  IF(CMAKE_CXX_COMPILER MATCHES "icpc")
+  set(SWIG_RUNTIME_LANGUAGE SwigRuntime${language} )
+  if("${language}" STREQUAL "Java" AND APPLE)
+    set_target_properties(${library_name} PROPERTIES SUFFIX .jnilib)
+    set(SWIG_RUNTIME_LANGUAGE "")
+  endif("${language}" STREQUAL "Java" AND APPLE)
+
+  if("${language}" STREQUAL "Python" AND WIN32)
+    # message("Setting file extension to .pyd for python modules ${library_name}")
+    set_target_properties(${library_name} PROPERTIES SUFFIX .pyd)
+  endif("${language}" STREQUAL "Python" AND WIN32)
+
+  if(CMAKE_CXX_COMPILER MATCHES "icpc")
     # disable warning #191: type qualifier is meaningless on cast type
-    SET_TARGET_PROPERTIES(${library_name} PROPERTIES COMPILE_FLAGS -wd191 )
-  ENDIF(CMAKE_CXX_COMPILER MATCHES "icpc")
+    set_target_properties(${library_name} PROPERTIES COMPILE_FLAGS -wd191 )
+  endif(CMAKE_CXX_COMPILER MATCHES "icpc")
 
-  SET_TARGET_PROPERTIES(${library_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
-  TARGET_LINK_LIBRARIES(${library_name} 
-    ${WRAPPER_LIBRARY_LINK_LIBRARIES} 
+  set_target_properties(${library_name} PROPERTIES LINK_FLAGS "${CSWIG_EXTRA_LINKFLAGS}")
+  target_link_libraries(${library_name}
+    ${WRAPPER_LIBRARY_LINK_LIBRARIES}
     ${SWIG_RUNTIME_LANGUAGE}
     ${LINK_LIBRARIES_${language}} )
-  
-  GET_TARGET_PROPERTY(library_location ${library_name} LOCATION)
-  # Yet another horrible hack. GET_TARGET_PROPERTY() returns a path
+
+  get_target_property(library_location ${library_name} LOCATION)
+  # Yet another horrible hack. get_target_property() returns a path
   # with the value of ${CMAKE_CFG_INTDIR} in it (with Xcode on mac os,
   # $(CONFIGURATION) ), but what we want is \${BUILD_TYPE} for the
   # install, so we have to replace "${CMAKE_CFG_INTDIR}" by
@@ -520,21 +520,21 @@ MACRO(CREATE_WRAPPER_LIBRARY library_name sources language library_type custom_l
   # but this content can contain some special characters for regular expression
   # like parenthesis. The most logical approach would be to backslash
   # all the characters, so we are sure to match the exact string,
-  # but  STRING(REGEX REPLACE "(.)" "\\\\1" ...) replace all the
+  # but  string(REGEX REPLACE "(.)" "\\\\1" ...) replace all the
   # char by \1. The [] are used to woraround that, but will fail if some
   # [ or ] are in ${CMAKE_CFG_INTDIR}
   # On linux (without configuration), "${CMAKE_CFG_INTDIR}" is ".", so
   # we must avoid the REPLACE step on that case, or all the "." are
   # removed from the path
 
-  IF(CMAKE_CONFIGURATION_TYPES)
-    STRING(REGEX REPLACE "(.)" "[\\1]" escaped_regexp "${CMAKE_CFG_INTDIR}")
-    STRING(REGEX REPLACE "${escaped_regexp}" "\${BUILD_TYPE}" clean_library_location "${library_location}")
-  ELSE(CMAKE_CONFIGURATION_TYPES)
-    SET(clean_library_location "${library_location}")
-  ENDIF(CMAKE_CONFIGURATION_TYPES)
+  if(CMAKE_CONFIGURATION_TYPES)
+    string(REGEX REPLACE "(.)" "[\\1]" escaped_regexp "${CMAKE_CFG_INTDIR}")
+    string(REGEX REPLACE "${escaped_regexp}" "\${BUILD_TYPE}" clean_library_location "${library_location}")
+  else(CMAKE_CONFIGURATION_TYPES)
+    set(clean_library_location "${library_location}")
+  endif(CMAKE_CONFIGURATION_TYPES)
 
   WRAP_ITK_INSTALL("/lib" ${clean_library_location})
-  
-ENDMACRO(CREATE_WRAPPER_LIBRARY)
+
+endmacro(CREATE_WRAPPER_LIBRARY)
 

@@ -1,1 +1,1 @@
-INCLUDE("${ITKTesting_SOURCE_DIR}/../CTestConfig.cmake")
+include("${ITKTesting_SOURCE_DIR}/../CTestConfig.cmake")

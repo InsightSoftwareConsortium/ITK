@@ -1,5 +1,5 @@
-FIND_PACKAGE(PerlLibs)
-FIND_PACKAGE(Perl)
-# MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
+find_package(PerlLibs)
+find_package(Perl)
+# mark_as_advanced(PYTHON_EXECUTABLE)
 
-INCLUDE_DIRECTORIES(${PERL_INCLUDE_PATH})
+include_directories(${PERL_INCLUDE_PATH})

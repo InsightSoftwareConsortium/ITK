@@ -1,118 +1,118 @@
-PROJECT(IOExamples)
+project(IOExamples)
 
-ADD_EXECUTABLE(ImageReadWrite ImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadWrite  ITKIO)
+add_executable(ImageReadWrite ImageReadWrite.cxx )
+target_link_libraries(ImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadCastWrite ImageReadCastWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadCastWrite  ITKIO)
+add_executable(ImageReadCastWrite ImageReadCastWrite.cxx )
+target_link_libraries(ImageReadCastWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadExtractFilterInsertWrite ImageReadExtractFilterInsertWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadExtractFilterInsertWrite  ITKIO)
+add_executable(ImageReadExtractFilterInsertWrite ImageReadExtractFilterInsertWrite.cxx )
+target_link_libraries(ImageReadExtractFilterInsertWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadRegionOfInterestWrite ImageReadRegionOfInterestWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadRegionOfInterestWrite  ITKIO)
+add_executable(ImageReadRegionOfInterestWrite ImageReadRegionOfInterestWrite.cxx )
+target_link_libraries(ImageReadRegionOfInterestWrite  ITKIO)
 
-ADD_EXECUTABLE(RGBImageReadWrite RGBImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(RGBImageReadWrite  ITKIO)
+add_executable(RGBImageReadWrite RGBImageReadWrite.cxx )
+target_link_libraries(RGBImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(CovariantVectorImageRead CovariantVectorImageRead.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageRead  ITKIO)
+add_executable(CovariantVectorImageRead CovariantVectorImageRead.cxx )
+target_link_libraries(CovariantVectorImageRead  ITKIO)
 
-ADD_EXECUTABLE(CovariantVectorImageExtractComponent CovariantVectorImageExtractComponent.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageExtractComponent  ITKIO)
+add_executable(CovariantVectorImageExtractComponent CovariantVectorImageExtractComponent.cxx )
+target_link_libraries(CovariantVectorImageExtractComponent  ITKIO)
 
-ADD_EXECUTABLE(VectorImageReadWrite VectorImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(VectorImageReadWrite  ITKIO)
+add_executable(VectorImageReadWrite VectorImageReadWrite.cxx )
+target_link_libraries(VectorImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ComplexImageReadWrite ComplexImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(ComplexImageReadWrite  ITKIO)
+add_executable(ComplexImageReadWrite ComplexImageReadWrite.cxx )
+target_link_libraries(ComplexImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadExportVTK ImageReadExportVTK.cxx )
-TARGET_LINK_LIBRARIES(ImageReadExportVTK  ITKIO)
+add_executable(ImageReadExportVTK ImageReadExportVTK.cxx )
+target_link_libraries(ImageReadExportVTK  ITKIO)
 
-ADD_EXECUTABLE(RGBImageSeriesReadWrite RGBImageSeriesReadWrite.cxx )
-TARGET_LINK_LIBRARIES(RGBImageSeriesReadWrite  ITKIO)
+add_executable(RGBImageSeriesReadWrite RGBImageSeriesReadWrite.cxx )
+target_link_libraries(RGBImageSeriesReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageSeriesReadWrite ImageSeriesReadWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageSeriesReadWrite  ITKIO)
+add_executable(ImageSeriesReadWrite ImageSeriesReadWrite.cxx )
+target_link_libraries(ImageSeriesReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageSeriesReadWrite2 ImageSeriesReadWrite2.cxx )
-TARGET_LINK_LIBRARIES(ImageSeriesReadWrite2  ITKIO)
+add_executable(ImageSeriesReadWrite2 ImageSeriesReadWrite2.cxx )
+target_link_libraries(ImageSeriesReadWrite2  ITKIO)
 
-ADD_EXECUTABLE(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadImageSeriesWrite  ITKIO)
+add_executable(ImageReadImageSeriesWrite ImageReadImageSeriesWrite.cxx )
+target_link_libraries(ImageReadImageSeriesWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
-TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite  ITKIO)
+add_executable(DicomSeriesReadImageWrite DicomSeriesReadImageWrite.cxx )
+target_link_libraries(DicomSeriesReadImageWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
-TARGET_LINK_LIBRARIES(DicomSeriesReadImageWrite2  ITKIO)
+add_executable(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx )
+target_link_libraries(DicomSeriesReadImageWrite2  ITKIO)
 
-ADD_EXECUTABLE(DicomSeriesReadGaussianImageWrite DicomSeriesReadGaussianImageWrite.cxx )
-TARGET_LINK_LIBRARIES(DicomSeriesReadGaussianImageWrite  ITKIO)
+add_executable(DicomSeriesReadGaussianImageWrite DicomSeriesReadGaussianImageWrite.cxx )
+target_link_libraries(DicomSeriesReadGaussianImageWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
-TARGET_LINK_LIBRARIES(DicomSeriesReadPrintTags  ITKIO)
+add_executable(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx )
+target_link_libraries(DicomSeriesReadPrintTags  ITKIO)
 
-ADD_EXECUTABLE(DicomImageReadPrintTags DicomImageReadPrintTags.cxx )
-TARGET_LINK_LIBRARIES(DicomImageReadPrintTags  ITKIO)
+add_executable(DicomImageReadPrintTags DicomImageReadPrintTags.cxx )
+target_link_libraries(DicomImageReadPrintTags  ITKIO)
 
-ADD_EXECUTABLE(DicomImageReadWrite DicomImageReadWrite.cxx )
-TARGET_LINK_LIBRARIES(DicomImageReadWrite  ITKIO)
+add_executable(DicomImageReadWrite DicomImageReadWrite.cxx )
+target_link_libraries(DicomImageReadWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadDicomSeriesWrite ImageReadDicomSeriesWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadDicomSeriesWrite  ITKIO)
+add_executable(ImageReadDicomSeriesWrite ImageReadDicomSeriesWrite.cxx )
+target_link_libraries(ImageReadDicomSeriesWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
-TARGET_LINK_LIBRARIES(DicomImageReadChangeHeaderWrite  ITKIO)
+add_executable(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx )
+target_link_libraries(DicomImageReadChangeHeaderWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
-TARGET_LINK_LIBRARIES(DicomSeriesReadSeriesWrite  ITKIO)
+add_executable(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx )
+target_link_libraries(DicomSeriesReadSeriesWrite  ITKIO)
 
-ADD_EXECUTABLE(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
-TARGET_LINK_LIBRARIES(DicomPrintPatientInformation  ITKIO)
+add_executable(DicomPrintPatientInformation DicomPrintPatientInformation.cxx )
+target_link_libraries(DicomPrintPatientInformation  ITKIO)
 
-ADD_EXECUTABLE(TransformReadWrite TransformReadWrite.cxx )
-TARGET_LINK_LIBRARIES(TransformReadWrite  ITKIO)
+add_executable(TransformReadWrite TransformReadWrite.cxx )
+target_link_libraries(TransformReadWrite  ITKIO)
 
-ADD_EXECUTABLE(VisibleHumanStreamReadWrite  VisibleHumanStreamReadWrite.cxx )
-TARGET_LINK_LIBRARIES(VisibleHumanStreamReadWrite  ITKIO)
+add_executable(VisibleHumanStreamReadWrite  VisibleHumanStreamReadWrite.cxx )
+target_link_libraries(VisibleHumanStreamReadWrite  ITKIO)
 
-ADD_EXECUTABLE(VisibleHumanPasteWrite  VisibleHumanPasteWrite.cxx )
-TARGET_LINK_LIBRARIES(VisibleHumanPasteWrite  ITKIO)
+add_executable(VisibleHumanPasteWrite  VisibleHumanPasteWrite.cxx )
+target_link_libraries(VisibleHumanPasteWrite  ITKIO)
 
 
-SET(IO_EXAMPLES ${CXX_TEST_PATH}/IOExamples)
+set(IO_EXAMPLES ${CXX_TEST_PATH}/IOExamples)
 
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-ADD_EXECUTABLE(IOExamples IOExamples.cxx )
-TARGET_LINK_LIBRARIES(IOExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+add_executable(IOExamples IOExamples.cxx )
+target_link_libraries(IOExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-IF(ITK_VISIBLEHUMAN_DATA_ROOT)
-  ADD_TEST(VisibleHumanStreamReadWriteTest 
+if(ITK_VISIBLEHUMAN_DATA_ROOT)
+  add_test(VisibleHumanStreamReadWriteTest
     ${IO_EXAMPLES}
-    VisibleHumanStreamReadWriteTest 
+    VisibleHumanStreamReadWriteTest
     ${ITK_VISIBLEHUMAN_DATA_ROOT}/Male/Fullcolor/fullbody/
     ${TEMP}/VisibleHumanStreamReadWrite.mha )
-  ADD_TEST(VisibleHumanPasteWriteTest 
+  add_test(VisibleHumanPasteWriteTest
     ${IO_EXAMPLES}
     VisibleHumanPasteWriteTest
     ${TEMP}/VisibleHumanStreamReadWrite.mha
     ${TEMP}/VisibleHumanPasteWrite.mha)
   # this test must be run sequentially, be cause the output of the first is used by the second
-  SET_TESTS_PROPERTIES(
+  set_tests_properties(
     VisibleHumanStreamReadWriteTest
     VisibleHumanPasteWriteTest
     PROPERTIES
     RUN_SERIAL 1
     )
-ENDIF(ITK_VISIBLEHUMAN_DATA_ROOT)
+endif(ITK_VISIBLEHUMAN_DATA_ROOT)
 
-ADD_EXECUTABLE(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
-TARGET_LINK_LIBRARIES(CovariantVectorImageWrite  ITKIO)
+add_executable(CovariantVectorImageWrite CovariantVectorImageWrite.cxx )
+target_link_libraries(CovariantVectorImageWrite  ITKIO)
 
-ADD_EXECUTABLE(ImageReadExtractWrite ImageReadExtractWrite.cxx )
-TARGET_LINK_LIBRARIES(ImageReadExtractWrite  ITKIO)
+add_executable(ImageReadExtractWrite ImageReadExtractWrite.cxx )
+target_link_libraries(ImageReadExtractWrite  ITKIO)
 

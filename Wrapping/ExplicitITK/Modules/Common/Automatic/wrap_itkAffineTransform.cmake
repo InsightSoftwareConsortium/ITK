@@ -1,5 +1,5 @@
 WRAP_CLASS("itk::AffineTransform" POINTER)
-  FOREACH(d ${EXPLICIT_ITK_DIMS})
+  foreach(d ${EXPLICIT_ITK_DIMS})
     WRAP_TEMPLATE("${ITKM_D}${d}" "${ITKT_D},${d}")
-  ENDFOREACH(d)
+  endforeach(d)
 END_WRAP_CLASS()
