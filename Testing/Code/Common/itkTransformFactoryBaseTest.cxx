@@ -53,6 +53,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("Rigid3DTransform_double_3_3");
   defaultTransforms.push_back("ScalableAffineTransform_double_3_3");
   defaultTransforms.push_back("ScaleLogarithmicTransform_double_3_3");
+  defaultTransforms.push_back("ScaleVersor3DTransform_double_3_3");
   defaultTransforms.push_back("ScaleSkewVersor3DTransform_double_3_3");
   defaultTransforms.push_back("ScaleTransform_double_2_2");
   defaultTransforms.push_back("ScaleTransform_double_2_2");  // This is in twice since that's the way it is in TransformFactoryBase
@@ -82,6 +83,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("Rigid3DTransform_float_3_3");
   defaultTransforms.push_back("ScalableAffineTransform_float_3_3");
   defaultTransforms.push_back("ScaleLogarithmicTransform_float_3_3");
+  defaultTransforms.push_back("ScaleVersor3DTransform_float_3_3");
   defaultTransforms.push_back("ScaleSkewVersor3DTransform_float_3_3");
   defaultTransforms.push_back("ScaleTransform_float_2_2");
   defaultTransforms.push_back("ScaleTransform_float_2_2");  // This is in twice since that's the way it is in TransformFactoryBase
