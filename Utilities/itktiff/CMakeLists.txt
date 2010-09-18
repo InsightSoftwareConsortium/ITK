@@ -1,11 +1,11 @@
-PROJECT(ITKTIFF)
-INCLUDE_REGULAR_EXPRESSION("^(itk|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
+project(ITKTIFF)
+include_regular_expression("^(itk|tif|fax|port|uv|tconf|t4|mk|itkjpeg|jpeg|mangle|jconfig|jmorecfg).*$")
 
-INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_SOURCE_DIR})
-INCLUDE_DIRECTORIES(BEFORE ${ITKTIFF_BINARY_DIR})
+include_directories(BEFORE ${ITKTIFF_SOURCE_DIR})
+include_directories(BEFORE ${ITKTIFF_BINARY_DIR})
 
 # library object files common to compression and decompression
-SET(common_SRCS
+set(common_SRCS
   tif_aux.c
   tif_close.c
   tif_codec.c
@@ -39,48 +39,48 @@ SET(common_SRCS
   tif_jpeg.c
   )
 
-ADD_DEFINITIONS(-DJPEG_SUPPORT -DZIP_SUPPORT -D_HPUX_SOURCE)
+add_definitions(-DJPEG_SUPPORT -DZIP_SUPPORT -D_HPUX_SOURCE)
 
-IF(WIN32)
-  IF(BUILD_SHARED_LIBS)
-    SET(TIFFDLL 1)
-  ELSE(BUILD_SHARED_LIBS)
-    SET(TIFFSTATIC 1)
-  ENDIF(BUILD_SHARED_LIBS)
-ENDIF(WIN32)
+if(WIN32)
+  if(BUILD_SHARED_LIBS)
+    set(TIFFDLL 1)
+  else(BUILD_SHARED_LIBS)
+    set(TIFFSTATIC 1)
+  endif(BUILD_SHARED_LIBS)
+endif(WIN32)
 
-IF (BORLAND)
-  SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
-ENDIF (BORLAND)
+if(BORLAND)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w-8004 -w-8057")
+endif(BORLAND)
 
-IF(NOT UNIX)
-  ADD_DEFINITIONS( -DTIF_PLATFORM_CONSOLE )
-  SET(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
-  IF (NOT BORLAND)
-    IF(NOT MINGW)
-      SET(common_SRCS ${common_SRCS} itktiff.def)
-    ENDIF(NOT MINGW)
-  ENDIF(NOT BORLAND)
-ELSE (NOT UNIX)
-  SET(TIFF_RIGHT_VERSION 1)
+if(NOT UNIX)
+  add_definitions( -DTIF_PLATFORM_CONSOLE )
+  set(common_SRCS ${common_SRCS} tif_win32.c tif_fax3sm.c)
+  if(NOT BORLAND)
+    if(NOT MINGW)
+      set(common_SRCS ${common_SRCS} itktiff.def)
+    endif(NOT MINGW)
+  endif(NOT BORLAND)
+else(NOT UNIX)
+  set(TIFF_RIGHT_VERSION 1)
 
-  SET(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
-  SET_SOURCE_FILES_PROPERTIES(tif_fax3sm.c GENERATED)
-  ADD_EXECUTABLE(itkmkg3states mkg3states.c)
-  IF(CYGWIN)
-    SET(EXE_EXTENSION .exe)
-  ENDIF(CYGWIN)
-  ADD_CUSTOM_COMMAND(
+  set(common_SRCS ${common_SRCS} tif_unix.c tif_fax3sm.c)
+  set_source_files_properties(tif_fax3sm.c GENERATED)
+  add_executable(itkmkg3states mkg3states.c)
+  if(CYGWIN)
+    set(EXE_EXTENSION .exe)
+  endif(CYGWIN)
+  add_custom_command(
     OUTPUT ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
     COMMAND ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR}/itkmkg3states${EXE_EXTENSION}
     ARGS -c const ${ITKTIFF_BINARY_DIR}/tif_fax3sm.c
     DEPENDS itkmkg3states
     )
-ENDIF (NOT UNIX)
+endif(NOT UNIX)
 
-INCLUDE (${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
-INCLUDE(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
-INCLUDE(${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+include(${CMAKE_ROOT}/Modules/CheckIncludeFiles.cmake)
+include(${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
+include(${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
 
 # Check if header file exists and add it to the list.
 CHECK_INCLUDE_FILES("assert.h" HAVE_ASSERT_H)
@@ -118,50 +118,50 @@ CHECK_FUNCTION_EXISTS(strtol HAVE_STRTOL)
 CHECK_FUNCTION_EXISTS(areroul HAVE_STRTOUL)
 
 
-IF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
-ELSE("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
-  INCLUDE(CheckTypeSize)
-ENDIF("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+else("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
+  include(CheckTypeSize)
+endif("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.0)
 
 CHECK_TYPE_SIZE("int" SIZEOF_INT)
 CHECK_TYPE_SIZE("long" SIZEOF_LONG)
 
 
-CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/.NoDartCoverage
+configure_file(${ITKTIFF_SOURCE_DIR}/.NoDartCoverage
   ${ITKTIFF_BINARY_DIR}/.NoDartCoverage)
-CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
+configure_file(${ITKTIFF_SOURCE_DIR}/tiffDllConfig.h.in
   ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h)
-CONFIGURE_FILE(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
+configure_file(${ITKTIFF_SOURCE_DIR}/tif_config.h.in
   ${ITKTIFF_BINARY_DIR}/tif_config.h)
 
-ADD_LIBRARY(itktiff ${common_SRCS})
-TARGET_LINK_LIBRARIES(itktiff ${ITK_ZLIB_LIBRARIES} itkjpeg)
+add_library(itktiff ${common_SRCS})
+target_link_libraries(itktiff ${ITK_ZLIB_LIBRARIES} itkjpeg)
 
-IF(UNIX)
-  TARGET_LINK_LIBRARIES(itktiff -lm)
-ENDIF(UNIX)
+if(UNIX)
+  target_link_libraries(itktiff -lm)
+endif(UNIX)
 
 # Apply user-defined properties to the library target.
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(itktiff PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itktiff PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
 
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS itktiff
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS itktiff
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-IF(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_TIFF ${ITK_INSTALL_INCLUDE_DIR_CM24})
-ELSE(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_TIFF ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities/itktiff)
-ENDIF(ITK_USE_FLAT_DIRECTORY_INSTALL)
+if(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_TIFF ${ITK_INSTALL_INCLUDE_DIR_CM24})
+else(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_TIFF ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities/itktiff)
+endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
 
-IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  install(FILES
     ${ITKTIFF_BINARY_DIR}/tiffDllConfig.h
     ${ITKTIFF_SOURCE_DIR}/tiffvers.h
     ${ITKTIFF_SOURCE_DIR}/itk_tiff_mangle.h
@@ -170,8 +170,8 @@ IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
     ${ITKTIFF_SOURCE_DIR}/tconf.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_TIFF}
     COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
 
-IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
-ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
+endif(CMAKE_COMPILER_IS_GNUCXX)

@@ -1,6 +1,6 @@
 # Source files for the FEM project
 
-SET(FEM_SRCS 
+set(FEM_SRCS
 
   itkFEMElementBase.cxx
 
@@ -35,7 +35,7 @@ SET(FEM_SRCS
   itkFEMLoadEdge.cxx
   itkFEMLoadPoint.cxx
   itkFEMLoadLandmark.cxx
- 
+
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGenericBodyLoad.cxx
   itkFEMLoadImplementationGenericLandmarkLoad.cxx
@@ -64,9 +64,9 @@ SET(FEM_SRCS
 
 # Header and template source files for FEM project
 # we can only include them if compiling on windows
-IF(NOT UNIX)
-IF(WIN32)
-SET(FEM_SRCS ${FEM_SRCS}
+if(NOT UNIX)
+if(WIN32)
+set(FEM_SRCS ${FEM_SRCS}
 
   itkFEMElements.h
   itkFEMElementBase.h
@@ -90,10 +90,10 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMElement2DC0QuadraticTriangularStress.h
   itkFEMElement3DC0LinearHexahedron.h
   itkFEMElement3DC0LinearHexahedronMembrane.h
-  itkFEMElement3DC0LinearHexahedronStrain.h  
+  itkFEMElement3DC0LinearHexahedronStrain.h
   itkFEMElement3DC0LinearTetrahedron.h
   itkFEMElement3DC0LinearTetrahedronMembrane.h
-  itkFEMElement3DC0LinearTetrahedronStrain.h  
+  itkFEMElement3DC0LinearTetrahedronStrain.h
 
   itkFEMElementStd.txx
   itkFEMElement1DStress.txx
@@ -139,7 +139,7 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMLinearSystemWrapperDenseVNL.h
   itkFEMLinearSystemWrapperItpack.h
   itkFEMItpackSparseMatrix.h
-  
+
   itkFEM.h
   itkFEMLightObject.h
   itkFEMP.h
@@ -153,84 +153,84 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkVisitorDispatcher.h
 
   itkFEMImageMetricLoad.txx
-  
+
   ../../Algorithms/itkFEMRegistrationFilter.h
   ../../Algorithms/itkFEMRegistrationFilter.txx
 
 )
-ENDIF(WIN32)
-ENDIF(NOT UNIX)
+endif(WIN32)
+endif(NOT UNIX)
 
-IF(CMAKE_BUILD_TOOL MATCHES ".*dev")
-  SET(FEM_SRCS ${FEM_SRCS};ReadMe.txt;ToDo.txt)
-ENDIF(CMAKE_BUILD_TOOL MATCHES ".*dev")
+if(CMAKE_BUILD_TOOL MATCHES ".*dev")
+  set(FEM_SRCS ${FEM_SRCS};ReadMe.txt;ToDo.txt)
+endif(CMAKE_BUILD_TOOL MATCHES ".*dev")
 
 # Avoid anachronism warnings by Sun compilers
-INCLUDE(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
+include(${ITK_SOURCE_DIR}/CMake/itkCheckCXXAcceptsFlags.cmake)
 itkCHECK_CXX_ACCEPTS_FLAGS("-features=no%anachronisms" SUN_COMPILER)
-IF(SUN_COMPILER)
-  ADD_DEFINITIONS("-w")
-ENDIF(SUN_COMPILER)
+if(SUN_COMPILER)
+  add_definitions("-w")
+endif(SUN_COMPILER)
 
 # Define source groups that look nice in DSP files
-SOURCE_GROUP("Elements" REGULAR_EXPRESSION itkFEMElement*)
-SOURCE_GROUP("Nodes" REGULAR_EXPRESSION itkFEMNode*)
-SOURCE_GROUP("Loads" REGULAR_EXPRESSION itkFEMLoad*)
-SOURCE_GROUP("Materials" REGULAR_EXPRESSION itkFEMMaterial*)
-SOURCE_GROUP("Linear Systems" REGULAR_EXPRESSION itkFEMLinearSystem*)
-SOURCE_GROUP("Source Files Template" REGULAR_EXPRESSION ./*.txx)
+source_group("Elements" REGULAR_EXPRESSION itkFEMElement*)
+source_group("Nodes" REGULAR_EXPRESSION itkFEMNode*)
+source_group("Loads" REGULAR_EXPRESSION itkFEMLoad*)
+source_group("Materials" REGULAR_EXPRESSION itkFEMMaterial*)
+source_group("Linear Systems" REGULAR_EXPRESSION itkFEMLinearSystem*)
+source_group("Source Files Template" REGULAR_EXPRESSION ./*.txx)
 
-INCLUDE_DIRECTORIES(${VXL_NETLIB_INCLUDE_DIR}) # Some .cxx files need f2c.h.
+include_directories(${VXL_NETLIB_INCLUDE_DIR}) # Some .cxx files need f2c.h.
 
 # Build the library
 # For cygwin and mingw, there are issues with the ITKFEM shared library
 # Force ITKFEM on these platforms to be static until these issues are resolved
 #
-IF(WIN32)
-  IF(CMAKE_COMPILER_IS_GNUCXX)
-    IF(MINGW)
-      ADD_LIBRARY(ITKFEM STATIC ${FEM_SRCS})
-    ELSEIF(CYGWIN)
-      ADD_LIBRARY(ITKFEM STATIC ${FEM_SRCS})
-    ELSE (MINGW)
-      ADD_LIBRARY(ITKFEM ${FEM_SRCS})
-    ENDIF (MINGW)
-  ELSE(CMAKE_COMPILER_IS_GNUCXX)
-    ADD_LIBRARY(ITKFEM ${FEM_SRCS})
-  ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-ELSE(WIN32)
-  ADD_LIBRARY(ITKFEM ${FEM_SRCS})
-ENDIF(WIN32)
+if(WIN32)
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    if(MINGW)
+      add_library(ITKFEM STATIC ${FEM_SRCS})
+    elseif(CYGWIN)
+      add_library(ITKFEM STATIC ${FEM_SRCS})
+    else(MINGW)
+      add_library(ITKFEM ${FEM_SRCS})
+    endif(MINGW)
+  else(CMAKE_COMPILER_IS_GNUCXX)
+    add_library(ITKFEM ${FEM_SRCS})
+  endif(CMAKE_COMPILER_IS_GNUCXX)
+else(WIN32)
+  add_library(ITKFEM ${FEM_SRCS})
+endif(WIN32)
 
-TARGET_LINK_LIBRARIES(ITKFEM 
+target_link_libraries(ITKFEM
                       ITKBasicFilters
                       ITKIO)
-IF(UNIX)
-  TARGET_LINK_LIBRARIES (ITKFEM -lm )
-ENDIF(UNIX)
+if(UNIX)
+  target_link_libraries(ITKFEM -lm )
+endif(UNIX)
 
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKFEM PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKFEM PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
 
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS ITKFEM
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS ITKFEM
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-IF(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_NUMERICS_FEM ${ITK_INSTALL_INCLUDE_DIR_CM24})
-ELSE(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_NUMERICS_FEM ${ITK_INSTALL_INCLUDE_DIR_CM24}/Numerics/FEM)
-ENDIF(ITK_USE_FLAT_DIRECTORY_INSTALL)
+if(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_NUMERICS_FEM ${ITK_INSTALL_INCLUDE_DIR_CM24})
+else(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_NUMERICS_FEM ${ITK_INSTALL_INCLUDE_DIR_CM24}/Numerics/FEM)
+endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
 
-IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  FILE(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-  FILE(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
-  INSTALL(FILES ${__files1} ${__files2}
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  file(GLOB __files1 "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+  file(GLOB __files2 "${CMAKE_CURRENT_SOURCE_DIR}/*.txx")
+  install(FILES ${__files1} ${__files2}
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_NUMERICS_FEM}
     COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

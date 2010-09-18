@@ -1,55 +1,55 @@
-IF( NOT ITK_DISABLE_CXX_TESTING )
-IF(ITK_BINARY_DIR)
-  IF(TCL_TCLSH)
-    ADD_TEST(PrintSelf-Patented ${TCL_TCLSH}
-             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl  
+if( NOT ITK_DISABLE_CXX_TESTING )
+if(ITK_BINARY_DIR)
+  if(TCL_TCLSH)
+    add_test(PrintSelf-Patented ${TCL_TCLSH}
+             ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl
              ${ITK_SOURCE_DIR}/Code/Patented)
-  ENDIF(TCL_TCLSH)
-ENDIF(ITK_BINARY_DIR)
+  endif(TCL_TCLSH)
+endif(ITK_BINARY_DIR)
 
 
-SET(PATENTED_TESTS ${CXX_TEST_PATH}/itkPatentedTests)
+set(PATENTED_TESTS ${CXX_TEST_PATH}/itkPatentedTests)
 
-SET(PATENTED_PRINT_TEST ${CXX_TEST_PATH}/itkPatentedPrintTest)
+set(PATENTED_PRINT_TEST ${CXX_TEST_PATH}/itkPatentedPrintTest)
 
-SET(PATENTED_HEADER_TESTS ${CXX_TEST_PATH}/itkPatentedHeaderTest)
+set(PATENTED_HEADER_TESTS ${CXX_TEST_PATH}/itkPatentedHeaderTest)
 
-ADD_TEST(itkPatentedPrintTest ${PATENTED_PRINT_TEST})
+add_test(itkPatentedPrintTest ${PATENTED_PRINT_TEST})
 
-ADD_TEST(itkSimpleFuzzyConnectednessScalarImageFilterTest ${PATENTED_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
-ADD_TEST(itkVectorFuzzyConnectednessImageFilterTest ${PATENTED_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
+add_test(itkSimpleFuzzyConnectednessScalarImageFilterTest ${PATENTED_TESTS} itkSimpleFuzzyConnectednessScalarImageFilterTest)
+add_test(itkVectorFuzzyConnectednessImageFilterTest ${PATENTED_TESTS} itkVectorFuzzyConnectednessImageFilterTest)
 
-SET(PatentedTest_SRCS
+set(PatentedTest_SRCS
 itkActiveShapeModelCalculatorTest
 itkSimpleFuzzyConnectednessScalarImageFilterTest.cxx
 itkVectorFuzzyConnectednessImageFilterTest.cxx
 )
 
-ADD_EXECUTABLE(itkPatentedPrintTest itkPatentedPrintTest.cxx)
-TARGET_LINK_LIBRARIES(itkPatentedPrintTest ITKAlgorithms ITKFEM)
-ADD_EXECUTABLE(itkPatentedHeaderTest itkPatentedHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkPatentedHeaderTest ITKAlgorithms ITKFEM)
+add_executable(itkPatentedPrintTest itkPatentedPrintTest.cxx)
+target_link_libraries(itkPatentedPrintTest ITKAlgorithms ITKFEM)
+add_executable(itkPatentedHeaderTest itkPatentedHeaderTest.cxx)
+target_link_libraries(itkPatentedHeaderTest ITKAlgorithms ITKFEM)
 
-ADD_TEST(itkPatentedHeaderTest ${PATENTED_HEADER_TESTS})
+add_test(itkPatentedHeaderTest ${PATENTED_HEADER_TESTS})
 
-IF(ITK_OBJCXX_COMPILER_WORKS)
-  SET(PATENTED_OBJCXX_TEST ${CXX_TEST_PATH}/itkPatentedHeaderObjCxxTest)
-  ADD_TEST(itkPatentedHeaderObjCxxTest ${PATENTED_OBJCXX_TEST})
-  ADD_EXECUTABLE(itkPatentedHeaderObjCxxTest itkPatentedHeaderObjCxxTest.mm)
-  TARGET_LINK_LIBRARIES(itkPatentedHeaderObjCxxTest ITKAlgorithms ITKFEM)
-ENDIF(ITK_OBJCXX_COMPILER_WORKS)
+if(ITK_OBJCXX_COMPILER_WORKS)
+  set(PATENTED_OBJCXX_TEST ${CXX_TEST_PATH}/itkPatentedHeaderObjCxxTest)
+  add_test(itkPatentedHeaderObjCxxTest ${PATENTED_OBJCXX_TEST})
+  add_executable(itkPatentedHeaderObjCxxTest itkPatentedHeaderObjCxxTest.mm)
+  target_link_libraries(itkPatentedHeaderObjCxxTest ITKAlgorithms ITKFEM)
+endif(ITK_OBJCXX_COMPILER_WORKS)
 
-ADD_EXECUTABLE(itkPatentedTests itkPatentedTests.cxx 
+add_executable(itkPatentedTests itkPatentedTests.cxx
                                   ${PatentedTest_SRCS})
-TARGET_LINK_LIBRARIES(itkPatentedTests ITKAlgorithms ITKFEM ITKStatistics)
+target_link_libraries(itkPatentedTests ITKAlgorithms ITKFEM ITKStatistics)
 
-IF(ITK_DATA_ROOT)
-ADD_TEST(itkActiveShapeModelCalculatorTest ${PATENTED_TESTS}
+if(ITK_DATA_ROOT)
+add_test(itkActiveShapeModelCalculatorTest ${PATENTED_TESTS}
   itkActiveShapeModelCalculatorTest
              ${ITK_DATA_ROOT}/Input/model.mha
              ${ITK_DATA_ROOT}/Input/foot.mha
              )
-ENDIF(ITK_DATA_ROOT)
+endif(ITK_DATA_ROOT)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )
 

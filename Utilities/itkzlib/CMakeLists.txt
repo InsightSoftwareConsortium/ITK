@@ -1,62 +1,61 @@
-PROJECT(ITKZLIB)
-INCLUDE_REGULAR_EXPRESSION("^(itk|deflate|inf|trees|zconf|zlib|zutil).*$")
+project(ITKZLIB)
+include_regular_expression("^(itk|deflate|inf|trees|zconf|zlib|zutil).*$")
 
-INCLUDE_DIRECTORIES(BEFORE ${ITKZLIB_SOURCE_DIR})
+include_directories(BEFORE ${ITKZLIB_SOURCE_DIR})
 
 # source files for zlib
-SET(ZLIB_SRCS
+set(ZLIB_SRCS
   adler32.c  compress.c  crc32.c  deflate.c  gzio.c   inffast.c
   inflate.c  inftrees.c  trees.c  uncompr.c  zutil.c
   )
 
 # for windows add the .def and .rc files to the source list
 # if building shared libs
-IF(WIN32)
-  IF(BUILD_SHARED_LIBS)
-    SET(ZLIB_DLL 1)
-    IF(NOT UNIX)
-      IF(NOT BORLAND)
-        IF(NOT MINGW)
-          SET(ZLIB_SRCS ${ZLIB_SRCS} zlib.def zlib.rc  )
-        ENDIF(NOT MINGW)
-      ENDIF(NOT BORLAND)
-    ENDIF(NOT UNIX)
-  ENDIF(BUILD_SHARED_LIBS)
-ENDIF(WIN32)
+if(WIN32)
+  if(BUILD_SHARED_LIBS)
+    set(ZLIB_DLL 1)
+    if(NOT UNIX)
+      if(NOT BORLAND)
+        if(NOT MINGW)
+          set(ZLIB_SRCS ${ZLIB_SRCS} zlib.def zlib.rc  )
+        endif(NOT MINGW)
+      endif(NOT BORLAND)
+    endif(NOT UNIX)
+  endif(BUILD_SHARED_LIBS)
+endif(WIN32)
 
-CONFIGURE_FILE(${ITKZLIB_SOURCE_DIR}/.NoDartCoverage
+configure_file(${ITKZLIB_SOURCE_DIR}/.NoDartCoverage
                ${ITKZLIB_BINARY_DIR}/.NoDartCoverage)
-CONFIGURE_FILE(${ITKZLIB_SOURCE_DIR}/zlibDllConfig.h.in
+configure_file(${ITKZLIB_SOURCE_DIR}/zlibDllConfig.h.in
                ${ITKZLIB_BINARY_DIR}/zlibDllConfig.h)
 
-
-ADD_LIBRARY(itkzlib ${ZLIB_SRCS})
+add_library(itkzlib ${ZLIB_SRCS})
 
 # Apply user-defined properties to the library target.
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(itkzlib PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itkzlib PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
 
-IF(NOT ITK_INSTALL_NO_LIBRARIES)
-  INSTALL(TARGETS itkzlib
+if(NOT ITK_INSTALL_NO_LIBRARIES)
+  install(TARGETS itkzlib
     EXPORT ITKTargets
     RUNTIME DESTINATION ${ITK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
     LIBRARY DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
+endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-IF(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_ZLIB ${ITK_INSTALL_INCLUDE_DIR_CM24})
-ELSE(ITK_USE_FLAT_DIRECTORY_INSTALL)
-  SET( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_ZLIB ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities/itkzlib)
-ENDIF(ITK_USE_FLAT_DIRECTORY_INSTALL)
+if(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_ZLIB ${ITK_INSTALL_INCLUDE_DIR_CM24})
+else(ITK_USE_FLAT_DIRECTORY_INSTALL)
+  set( ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_ZLIB ${ITK_INSTALL_INCLUDE_DIR_CM24}/Utilities/itkzlib)
+endif(ITK_USE_FLAT_DIRECTORY_INSTALL)
 
-IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES
+if(NOT ITK_INSTALL_NO_DEVELOPMENT)
+  install(FILES
     ${ITKZLIB_SOURCE_DIR}/zlib.h
     ${ITKZLIB_SOURCE_DIR}/zconf.h
     ${ITKZLIB_SOURCE_DIR}/itk_zlib_mangle.h
     ${ITKZLIB_BINARY_DIR}/zlibDllConfig.h
     DESTINATION ${ITK_INSTALL_INCLUDE_DIR_CM24_UTILITIES_ZLIB}
     COMPONENT Development)
-ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)
+endif(NOT ITK_INSTALL_NO_DEVELOPMENT)

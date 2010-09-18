@@ -1,207 +1,207 @@
-PROJECT(ImageRegistration)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(ImageRegistration)
+include_regular_expression("^.*$")
 
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-SET(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
-SET(REGISTRATION_EXAMPLESO ${CXX_TEST_PATH}/RegistrationExamplesO)
-SET(REGISTRATION_EXAMPLESO2 ${CXX_TEST_PATH}/RegistrationExamplesO2)
-SET(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
-SET(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
-SET(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
-SET(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
-SET(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
-SET(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
-SET(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
-SET(REGISTRATION_EXAMPLES9 ${CXX_TEST_PATH}/RegistrationExamples9)
-SET(REGISTRATION_EXAMPLES10 ${CXX_TEST_PATH}/RegistrationExamples10)
-SET(REGISTRATION_EXAMPLES11 ${CXX_TEST_PATH}/RegistrationExamples11)
-SET(REGISTRATION_EXAMPLES12 ${CXX_TEST_PATH}/RegistrationExamples12)
-SET(REGISTRATION_EXAMPLES13 ${CXX_TEST_PATH}/RegistrationExamples13)
-SET(REGISTRATION_EXAMPLES14 ${CXX_TEST_PATH}/RegistrationExamples14)
+set(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
+set(REGISTRATION_EXAMPLESO ${CXX_TEST_PATH}/RegistrationExamplesO)
+set(REGISTRATION_EXAMPLESO2 ${CXX_TEST_PATH}/RegistrationExamplesO2)
+set(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
+set(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
+set(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
+set(REGISTRATION_EXAMPLES5 ${CXX_TEST_PATH}/RegistrationExamples5)
+set(REGISTRATION_EXAMPLES6 ${CXX_TEST_PATH}/RegistrationExamples6)
+set(REGISTRATION_EXAMPLES7 ${CXX_TEST_PATH}/RegistrationExamples7)
+set(REGISTRATION_EXAMPLES8 ${CXX_TEST_PATH}/RegistrationExamples8)
+set(REGISTRATION_EXAMPLES9 ${CXX_TEST_PATH}/RegistrationExamples9)
+set(REGISTRATION_EXAMPLES10 ${CXX_TEST_PATH}/RegistrationExamples10)
+set(REGISTRATION_EXAMPLES11 ${CXX_TEST_PATH}/RegistrationExamples11)
+set(REGISTRATION_EXAMPLES12 ${CXX_TEST_PATH}/RegistrationExamples12)
+set(REGISTRATION_EXAMPLES13 ${CXX_TEST_PATH}/RegistrationExamples13)
+set(REGISTRATION_EXAMPLES14 ${CXX_TEST_PATH}/RegistrationExamples14)
 
-ADD_EXECUTABLE(ImageRegistration3 ImageRegistration3.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration3 ITKIO ITKNumerics)
+add_executable(ImageRegistration3 ImageRegistration3.cxx )
+target_link_libraries(ImageRegistration3 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration4o ImageRegistration4o.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration4o ITKIO ITKNumerics)
+add_executable(ImageRegistration4o ImageRegistration4o.cxx )
+target_link_libraries(ImageRegistration4o ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration5 ImageRegistration5.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration5 ITKIO ITKNumerics)
+add_executable(ImageRegistration5 ImageRegistration5.cxx )
+target_link_libraries(ImageRegistration5 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration6 ImageRegistration6.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration6 ITKIO ITKNumerics)
+add_executable(ImageRegistration6 ImageRegistration6.cxx )
+target_link_libraries(ImageRegistration6 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration8 ImageRegistration8.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration8 ITKIO ITKNumerics)
+add_executable(ImageRegistration8 ImageRegistration8.cxx )
+target_link_libraries(ImageRegistration8 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration9 ImageRegistration9.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration9 ITKIO ITKNumerics)
+add_executable(ImageRegistration9 ImageRegistration9.cxx )
+target_link_libraries(ImageRegistration9 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration10 ImageRegistration10.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration10 ITKIO ITKNumerics)
+add_executable(ImageRegistration10 ImageRegistration10.cxx )
+target_link_libraries(ImageRegistration10 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration4 DeformableRegistration4.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration4 ITKNumerics ITKIO)
+add_executable(DeformableRegistration4 DeformableRegistration4.cxx )
+target_link_libraries(DeformableRegistration4 ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(ImageRegistration4 ImageRegistration4.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration4 ITKIO ITKNumerics)
+add_executable(ImageRegistration4 ImageRegistration4.cxx )
+target_link_libraries(ImageRegistration4 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration7 ImageRegistration7.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration7 ITKIO ITKNumerics)
+add_executable(ImageRegistration7 ImageRegistration7.cxx )
+target_link_libraries(ImageRegistration7 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration11 ImageRegistration11.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration11 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration11 ImageRegistration11.cxx )
+target_link_libraries(ImageRegistration11 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration12 ImageRegistration12.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration12 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration12 ImageRegistration12.cxx )
+target_link_libraries(ImageRegistration12 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration13 ImageRegistration13.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration13 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration13 ImageRegistration13.cxx )
+target_link_libraries(ImageRegistration13 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration14 ImageRegistration14.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration14 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration14 ImageRegistration14.cxx )
+target_link_libraries(ImageRegistration14 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration15 ImageRegistration15.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration15 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration15 ImageRegistration15.cxx )
+target_link_libraries(ImageRegistration15 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration16 ImageRegistration16.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration16 ImageRegistration16.cxx )
+target_link_libraries(ImageRegistration16 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration18 ImageRegistration18.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration18 ImageRegistration18.cxx )
+target_link_libraries(ImageRegistration18 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration19 ImageRegistration19.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration19 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration19 ImageRegistration19.cxx )
+target_link_libraries(ImageRegistration19 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ImageRegistration20 ImageRegistration20.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration20 ITKStatistics ITKIO ITKNumerics)
+add_executable(ImageRegistration20 ImageRegistration20.cxx )
+target_link_libraries(ImageRegistration20 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration6 DeformableRegistration6.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration6 ITKIO ITKNumerics)
+add_executable(DeformableRegistration6 DeformableRegistration6.cxx )
+target_link_libraries(DeformableRegistration6 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration7 DeformableRegistration7.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration7 ITKIO ITKNumerics)
+add_executable(DeformableRegistration7 DeformableRegistration7.cxx )
+target_link_libraries(DeformableRegistration7 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration8 DeformableRegistration8.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration8 ITKIO ITKNumerics)
+add_executable(DeformableRegistration8 DeformableRegistration8.cxx )
+target_link_libraries(DeformableRegistration8 ITKIO ITKNumerics)
 
-IF( USE_FFTWD )
-  ADD_EXECUTABLE(DeformableRegistration9 DeformableRegistration9.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration9
+if( USE_FFTWD )
+  add_executable(DeformableRegistration9 DeformableRegistration9.cxx )
+  target_link_libraries(DeformableRegistration9
       ITKIO ITKAlgorithms ITKNumerics)
 
-  ADD_EXECUTABLE(DeformableRegistration10 DeformableRegistration10.cxx )
-  TARGET_LINK_LIBRARIES(DeformableRegistration10
+  add_executable(DeformableRegistration10 DeformableRegistration10.cxx )
+  target_link_libraries(DeformableRegistration10
                         ITKIO ITKAlgorithms ITKNumerics)
-ENDIF( USE_FFTWD )
+endif( USE_FFTWD )
 
-ADD_EXECUTABLE(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
-TARGET_LINK_LIBRARIES(MultiResImageRegistration1 ITKIO ITKNumerics)
+add_executable(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
+target_link_libraries(MultiResImageRegistration1 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
-TARGET_LINK_LIBRARIES(MultiResImageRegistration2 ITKIO ITKNumerics)
+add_executable(MultiResImageRegistration2 MultiResImageRegistration2.cxx )
+target_link_libraries(MultiResImageRegistration2 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(MultiResImageRegistration3 MultiResImageRegistration3.cxx )
-TARGET_LINK_LIBRARIES(MultiResImageRegistration3 ITKIO ITKNumerics)
+add_executable(MultiResImageRegistration3 MultiResImageRegistration3.cxx )
+target_link_libraries(MultiResImageRegistration3 ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples7 RegistrationExamples7.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples7 ITKFEM ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples7 RegistrationExamples7.cxx )
+target_link_libraries(RegistrationExamples7 ITKFEM ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration1 DeformableRegistration1.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration1 ITKFEM ITKIO
+add_executable(DeformableRegistration1 DeformableRegistration1.cxx )
+target_link_libraries(DeformableRegistration1 ITKFEM ITKIO
                                               ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration2 DeformableRegistration2.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration2 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration2 DeformableRegistration2.cxx )
+target_link_libraries(DeformableRegistration2 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration3 DeformableRegistration3.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration3 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration3 DeformableRegistration3.cxx )
+target_link_libraries(DeformableRegistration3 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration5 DeformableRegistration5.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration5 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration5 DeformableRegistration5.cxx )
+target_link_libraries(DeformableRegistration5 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration11 DeformableRegistration11.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration11 ITKFEM ITKIO
+add_executable(DeformableRegistration11 DeformableRegistration11.cxx )
+target_link_libraries(DeformableRegistration11 ITKFEM ITKIO
                                               ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration12 DeformableRegistration12.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration12 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration12 DeformableRegistration12.cxx )
+target_link_libraries(DeformableRegistration12 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration13 DeformableRegistration13.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration13 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration13 DeformableRegistration13.cxx )
+target_link_libraries(DeformableRegistration13 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration14 DeformableRegistration14.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration14 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration14 DeformableRegistration14.cxx )
+target_link_libraries(DeformableRegistration14 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(ChangeInformationImageFilter ChangeInformationImageFilter.cxx )
-TARGET_LINK_LIBRARIES(ChangeInformationImageFilter ITKIO )
+add_executable(ChangeInformationImageFilter ChangeInformationImageFilter.cxx )
+target_link_libraries(ChangeInformationImageFilter ITKIO )
 
-ADD_EXECUTABLE(DeformableRegistration15 DeformableRegistration15.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration15 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration15 DeformableRegistration15.cxx )
+target_link_libraries(DeformableRegistration15 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration16 DeformableRegistration16.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration16 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration16 DeformableRegistration16.cxx )
+target_link_libraries(DeformableRegistration16 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformableRegistration17 DeformableRegistration17.cxx )
-TARGET_LINK_LIBRARIES(DeformableRegistration17 ITKIO ITKStatistics ITKNumerics)
+add_executable(DeformableRegistration17 DeformableRegistration17.cxx )
+target_link_libraries(DeformableRegistration17 ITKIO ITKStatistics ITKNumerics)
 
-ADD_EXECUTABLE(DeformationFieldInitialization DeformationFieldInitialization.cxx )
-TARGET_LINK_LIBRARIES(DeformationFieldInitialization ITKIO)
+add_executable(DeformationFieldInitialization DeformationFieldInitialization.cxx )
+target_link_libraries(DeformationFieldInitialization ITKIO)
 
-ADD_EXECUTABLE(LandmarkWarping2 LandmarkWarping2.cxx )
-TARGET_LINK_LIBRARIES(LandmarkWarping2 ITKIO)
+add_executable(LandmarkWarping2 LandmarkWarping2.cxx )
+target_link_libraries(LandmarkWarping2 ITKIO)
 
-ADD_EXECUTABLE(BSplineWarping1 BSplineWarping1.cxx )
-TARGET_LINK_LIBRARIES(BSplineWarping1 ITKIO)
+add_executable(BSplineWarping1 BSplineWarping1.cxx )
+target_link_libraries(BSplineWarping1 ITKIO)
 
-ADD_EXECUTABLE(BSplineWarping2 BSplineWarping2.cxx )
-TARGET_LINK_LIBRARIES(BSplineWarping2 ITKIO)
+add_executable(BSplineWarping2 BSplineWarping2.cxx )
+target_link_libraries(BSplineWarping2 ITKIO)
 
-ADD_EXECUTABLE(ThinPlateSplineWarp ThinPlateSplineWarp.cxx )
-TARGET_LINK_LIBRARIES(ThinPlateSplineWarp ITKIO)
+add_executable(ThinPlateSplineWarp ThinPlateSplineWarp.cxx )
+target_link_libraries(ThinPlateSplineWarp ITKIO)
 
-ADD_EXECUTABLE(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
-TARGET_LINK_LIBRARIES(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
+add_executable(ModelToImageRegistration1 ModelToImageRegistration1.cxx )
+target_link_libraries(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 
-ADD_EXECUTABLE(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
-TARGET_LINK_LIBRARIES(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
-
-
-ADD_EXECUTABLE(ImageRegistration1 ImageRegistration1.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration1 ITKIO ITKNumerics)
-
-ADD_EXECUTABLE(ImageRegistration2 ImageRegistration2.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration2 ITKIO ITKNumerics)
-
-ADD_EXECUTABLE(ImageRegistration17 ImageRegistration17.cxx )
-TARGET_LINK_LIBRARIES(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
-
-#TODO needs updating to new statistics  ADD_EXECUTABLE(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
-#TODO needs updating to new statistics  TARGET_LINK_LIBRARIES(ImageRegistrationHistogramPlotter ITKIO ITKStatistics ITKNumerics)
-
-ADD_EXECUTABLE(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
-TARGET_LINK_LIBRARIES(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
-
-ADD_EXECUTABLE(DeformationFieldJacobian DeformationFieldJacobian.cxx )
-TARGET_LINK_LIBRARIES(DeformationFieldJacobian ITKIO)
-
-ADD_EXECUTABLE(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
-
-ADD_EXECUTABLE(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
-
-ADD_EXECUTABLE(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
-TARGET_LINK_LIBRARIES(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+add_executable(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
+target_link_libraries(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
 
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+add_executable(ImageRegistration1 ImageRegistration1.cxx )
+target_link_libraries(ImageRegistration1 ITKIO ITKNumerics)
 
-IF(BUILD_TESTING)
+add_executable(ImageRegistration2 ImageRegistration2.cxx )
+target_link_libraries(ImageRegistration2 ITKIO ITKNumerics)
 
-ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
+add_executable(ImageRegistration17 ImageRegistration17.cxx )
+target_link_libraries(ImageRegistration17 ITKStatistics ITKIO ITKNumerics)
+
+#TODO needs updating to new statistics  add_executable(ImageRegistrationHistogramPlotter ImageRegistrationHistogramPlotter.cxx )
+#TODO needs updating to new statistics  target_link_libraries(ImageRegistrationHistogramPlotter ITKIO ITKStatistics ITKNumerics)
+
+add_executable(MeanSquaresImageMetric1  MeanSquaresImageMetric1.cxx )
+target_link_libraries(MeanSquaresImageMetric1 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+
+add_executable(DeformationFieldJacobian DeformationFieldJacobian.cxx )
+target_link_libraries(DeformationFieldJacobian ITKIO)
+
+add_executable(IterativeClosestPoint1   IterativeClosestPoint1.cxx )
+target_link_libraries(IterativeClosestPoint1 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+add_executable(IterativeClosestPoint2   IterativeClosestPoint2.cxx )
+target_link_libraries(IterativeClosestPoint2 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+add_executable(IterativeClosestPoint3   IterativeClosestPoint3.cxx )
+target_link_libraries(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO ITKBasicFilters ITKNumerics)
+
+
+if( NOT ITK_DISABLE_CXX_TESTING )
+
+if(BUILD_TESTING)
+
+add_test(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1TestPixelCentered.png
   ImageRegistration1oTest
@@ -212,7 +212,7 @@ ADD_TEST(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
+add_test(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1od1TestPixelCentered.png
   ImageRegistration1oTest
@@ -223,7 +223,7 @@ ADD_TEST(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration1od1DifferenceBeforeTestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
+add_test(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration2Test.png
             ${TEMP}/ImageRegistration2oTest.png
   ImageRegistration2oTest
@@ -232,14 +232,14 @@ ADD_TEST(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration2oTest.png
 )
 
-ADD_TEST(ImageRegistration2od1Test ${REGISTRATION_EXAMPLESO}
+add_test(ImageRegistration2od1Test ${REGISTRATION_EXAMPLESO}
   ImageRegistration2oTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20DirectionPlus30.mhd
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
         ${TEMP}/ImageRegistration2od1Test.mhd
 )
 
-ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
+add_test(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration3TestPixelCentered.png
             ${TEMP}/ImageRegistration3TestPixelCentered.png
   ImageRegistration3oTest
@@ -248,7 +248,7 @@ ADD_TEST(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration3TestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
+add_test(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
   --compare ${BASELINE}/ImageRegistration4Test.png
             ${TEMP}/ImageRegistration4Test.png
   ImageRegistration4oTest
@@ -259,7 +259,7 @@ ADD_TEST(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
         ${TEMP}/ImageRegistration4AfterTest.png
 )
 
-ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
+add_test(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5oTest1PixelCentered.png
             ${TEMP}/ImageRegistration5oTest1PixelCentered.png
   ImageRegistration5oTest
@@ -268,7 +268,7 @@ ADD_TEST(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
         ${TEMP}/ImageRegistration5oTest1PixelCentered.png
 )
 
-ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
+add_test(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration5Test2PixelCentered.png
             ${TEMP}/ImageRegistration5Test2PixelCentered.png
   ImageRegistration5oTest
@@ -277,7 +277,7 @@ ADD_TEST(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
         ${TEMP}/ImageRegistration5Test2PixelCentered.png
 )
 
-ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
+add_test(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
   --compare ${BASELINE}/ImageRegistration6TestPixelCentered.png
             ${TEMP}/ImageRegistration6oTestPixelCentered.png
   ImageRegistration6oTest
@@ -286,7 +286,7 @@ ADD_TEST(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
         ${TEMP}/ImageRegistration6oTestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
             ${TEMP}/ImageRegistration1TestPixelCentered.png
   ImageRegistration1Test
@@ -297,7 +297,7 @@ ADD_TEST(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration2Test.png
             ${TEMP}/ImageRegistration2Test.png
   ImageRegistration2Test
@@ -308,7 +308,7 @@ ADD_TEST(ImageRegistration2Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration2AfterTest.png
 )
 
-ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration3TestPixelCentered.png
             ${TEMP}/ImageRegistration3TestPixelCentered.png
   ImageRegistration3Test
@@ -317,7 +317,7 @@ ADD_TEST(ImageRegistration3Test ${REGISTRATION_EXAMPLES}
         ${TEMP}/ImageRegistration3TestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration4Test.png
             ${TEMP}/ImageRegistration4Test.png
   ImageRegistration4Test
@@ -329,7 +329,7 @@ ADD_TEST(ImageRegistration4Test ${REGISTRATION_EXAMPLES}
         24 10000 1
 )
 
-ADD_TEST(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration4Test.png
             ${TEMP}/ImageRegistration4Test2.png
   ImageRegistration4Test
@@ -341,7 +341,7 @@ ADD_TEST(ImageRegistration4Test2 ${REGISTRATION_EXAMPLES}
         24 10000 0
 )
 
-ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
+add_test(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
   ImageRegistration4Test
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
@@ -351,7 +351,7 @@ ADD_TEST(ImageRegistration4Test3 ${REGISTRATION_EXAMPLES}
         5 10000 0
 )
 
-ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
+add_test(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test1PixelCentered.png
             ${TEMP}/ImageRegistration5Test1PixelCentered.png
   ImageRegistration5Test
@@ -360,7 +360,7 @@ ADD_TEST(ImageRegistration5Test1 ${REGISTRATION_EXAMPLES9}
         ${TEMP}/ImageRegistration5Test1PixelCentered.png
 )
 
-ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
+add_test(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration5Test2PixelCentered.png
             ${TEMP}/ImageRegistration5Test2PixelCentered.png
   ImageRegistration5Test
@@ -369,7 +369,7 @@ ADD_TEST(ImageRegistration5Test2 ${REGISTRATION_EXAMPLES9}
         ${TEMP}/ImageRegistration5Test2PixelCentered.png
 )
 
-ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
+add_test(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration6TestPixelCentered.png
             ${TEMP}/ImageRegistration6TestPixelCentered.png
   ImageRegistration6Test
@@ -378,7 +378,7 @@ ADD_TEST(ImageRegistration6Test ${REGISTRATION_EXAMPLES9}
         ${TEMP}/ImageRegistration6TestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
+add_test(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
   --compare ${BASELINE}/ImageRegistration7TestPixelCentered.png
             ${TEMP}/ImageRegistration7TestPixelCentered.png
   ImageRegistration7Test
@@ -390,8 +390,8 @@ ADD_TEST(ImageRegistration7Test ${REGISTRATION_EXAMPLES9}
         1.0   1.0  0.0
 )
 
-IF(ITK_BRAINWEB_DATA_ROOT)
-ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
+if(ITK_BRAINWEB_DATA_ROOT)
+add_test(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration8RegisteredSlice.png
             ${TEMP}/ImageRegistration8RegisteredSlice.png
   ImageRegistration8Test
@@ -406,10 +406,10 @@ ADD_TEST(ImageRegistration8Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
 
-IF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   # This test is computationally demanding.
   # Therefore we only run it in a Release build
-  ADD_TEST(ImageRegistration20Test
+  add_test(ImageRegistration20Test
     ${CXX_TEST_PATH}/ImageRegistration20
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
       ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20Rot10Tx15.mha
@@ -419,12 +419,12 @@ IF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
       0.1  # Step length
       300  # maximum number of iterations
     )
-  SET_TESTS_PROPERTIES(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
-ENDIF( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+  set_tests_properties(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
+endif( ${CMAKE_BUILD_TYPE} MATCHES "Release")
 
-ENDIF(ITK_BRAINWEB_DATA_ROOT)
+endif(ITK_BRAINWEB_DATA_ROOT)
 
-ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
+add_test(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/ImageRegistration9TestPixelCentered.png
             ${TEMP}/ImageRegistration9TestPixelCentered.png
   ImageRegistration9Test
@@ -433,7 +433,7 @@ ADD_TEST(ImageRegistration9Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/ImageRegistration9TestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration10TestPixelCentered.png
             ${TEMP}/ImageRegistration10TestPixelCentered.png
   ImageRegistration10Test
@@ -444,7 +444,7 @@ ADD_TEST(ImageRegistration10Test ${REGISTRATION_EXAMPLES8}
         -11 -13
 )
 
-ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
+add_test(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13TestPixelCentered.png
   --compareNumberOfPixelsTolerance 5
@@ -454,7 +454,7 @@ ADD_TEST(ImageRegistration13Test ${REGISTRATION_EXAMPLES7}
         ${TEMP}/ImageRegistration13TestPixelCentered.png
 )
 
-ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
+add_test(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test2PixelCentered.png
   --compareNumberOfPixelsTolerance 10
@@ -465,7 +465,7 @@ ADD_TEST(ImageRegistration13Test2 ${REGISTRATION_EXAMPLES7}
         0 0
 )
 
-ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
+add_test(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test3PixelCentered.png
   --compareNumberOfPixelsTolerance 10
@@ -476,7 +476,7 @@ ADD_TEST(ImageRegistration13Test3 ${REGISTRATION_EXAMPLES7}
         0 1
 )
 
-ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
+add_test(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test4PixelCentered.png
   --compareNumberOfPixelsTolerance 5
@@ -487,7 +487,7 @@ ADD_TEST(ImageRegistration13Test4 ${REGISTRATION_EXAMPLES7}
         1 0
 )
 
-ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
+add_test(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
   --compare ${BASELINE}/ImageRegistration13TestPixelCentered.png
             ${TEMP}/ImageRegistration13Test5PixelCentered.png
   --compareNumberOfPixelsTolerance 5
@@ -498,7 +498,7 @@ ADD_TEST(ImageRegistration13Test5 ${REGISTRATION_EXAMPLES7}
         1 1
 )
 
-ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration14Test.png
             ${TEMP}/ImageRegistration14Test.png
   --compareNumberOfPixelsTolerance 2000
@@ -508,7 +508,7 @@ ADD_TEST(ImageRegistration14Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration14Test.png 32 0.01 0.1  0.15  10.0  14.0
 )
 
-ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration15TestPixelCentered.png
             ${TEMP}/ImageRegistration15TestPixelCentered.png
   ImageRegistration15Test
@@ -517,7 +517,7 @@ ADD_TEST(ImageRegistration15Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration15TestPixelCentered.png 32 0.1 0.05  0.0 0.0
 )
 
-ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration16TestPixelCentered.png
             ${TEMP}/ImageRegistration16TestPixelCentered.png
   ImageRegistration16Test
@@ -526,7 +526,7 @@ ADD_TEST(ImageRegistration16Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration16TestPixelCentered.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration16TestPixelCentered.png
             ${TEMP}/ImageRegistration16Test2PixelCentered.png
   ImageRegistration16Test
@@ -536,7 +536,7 @@ ADD_TEST(ImageRegistration16Test2 ${REGISTRATION_EXAMPLES8}
         0
 )
 
-ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
+add_test(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
   --compare ${BASELINE}/ImageRegistration17TestPixelCentered.png
             ${TEMP}/ImageRegistration17TestPixelCentered.png
   ImageRegistration17Test
@@ -545,14 +545,14 @@ ADD_TEST(ImageRegistration17Test ${REGISTRATION_EXAMPLES8}
         ${TEMP}/ImageRegistration17TestPixelCentered.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration18Test
+add_test(ImageRegistration18Test
   ${CXX_TEST_PATH}/ImageRegistration18
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
         ${TEMP}/ImageRegistration18Test.png 0.0 0.0
 )
 
-ADD_TEST(ImageRegistration19Test
+add_test(ImageRegistration19Test
   ${CXX_TEST_PATH}/ImageRegistration19
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
@@ -561,7 +561,7 @@ ADD_TEST(ImageRegistration19Test
         2.0 2.0 # Initial translation parameters
 )
 
-ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
+add_test(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
             ${TEMP}/MultiResImageRegistration1Test.png
   --compareNumberOfPixelsTolerance 100
@@ -573,7 +573,7 @@ ADD_TEST(MultiResImageRegistration1Test ${REGISTRATION_EXAMPLES2}
         ${TEMP}/MultiResImageRegistration1CheckerBoardAfterTest.png
 )
 
-ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
+add_test(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration1Test.png
             ${TEMP}/MultiResImageRegistration1Test2.png
   --compareNumberOfPixelsTolerance 100
@@ -587,7 +587,7 @@ ADD_TEST(MultiResImageRegistration1Test2 ${REGISTRATION_EXAMPLES2}
 )
 
 
-ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
+add_test(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration2Test.png
             ${TEMP}/MultiResImageRegistration2Test.png
   --compareNumberOfPixelsTolerance 10000
@@ -600,7 +600,7 @@ ADD_TEST(MultiResImageRegistration2Test ${REGISTRATION_EXAMPLES2}
 )
 
 
-ADD_TEST(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
+add_test(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
   --compare ${BASELINE}/MultiResImageRegistration2Test.png
             ${TEMP}/MultiResImageRegistration2Test2.png
   --compareNumberOfPixelsTolerance 10000
@@ -614,7 +614,7 @@ ADD_TEST(MultiResImageRegistration2Test2 ${REGISTRATION_EXAMPLES2}
 )
 
 
-ADD_TEST(DeformableRegistration2Test ${REGISTRATION_EXAMPLES5}
+add_test(DeformableRegistration2Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration2Test.png
             ${TEMP}/DeformableRegistration2Test.png
   DeformableRegistration2Test
@@ -623,7 +623,7 @@ ADD_TEST(DeformableRegistration2Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration2Test.png
 )
 
-ADD_TEST(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
+add_test(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration3Test.png
             ${TEMP}/DeformableRegistration3Test.png
   --compareNumberOfPixelsTolerance 100
@@ -633,7 +633,7 @@ ADD_TEST(DeformableRegistration3Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration3Test.png
 )
 
-ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
+add_test(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
   --compare ${BASELINE}/DeformableRegistration4TestPixelCentered.png
             ${TEMP}/DeformableRegistration4TestPixelCentered.png
   DeformableRegistration4Test
@@ -642,7 +642,7 @@ ADD_TEST(DeformableRegistration4Test ${REGISTRATION_EXAMPLES11}
         ${TEMP}/DeformableRegistration4TestPixelCentered.png
 )
 
-ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
+add_test(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
   --compare ${BASELINE}/DeformableRegistration5Test.png
             ${TEMP}/DeformableRegistration5Test.png
   --compareNumberOfPixelsTolerance 5
@@ -652,7 +652,7 @@ ADD_TEST(DeformableRegistration5Test ${REGISTRATION_EXAMPLES5}
         ${TEMP}/DeformableRegistration5Test.png
 )
 
-ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
   --compare ${BASELINE}/DeformableRegistration6TestPixelCentered.png
             ${TEMP}/DeformableRegistration6TestPixelCentered.png
   DeformableRegistration6Test
@@ -661,7 +661,7 @@ ADD_TEST(DeformableRegistration6Test ${REGISTRATION_EXAMPLES12}
         ${TEMP}/DeformableRegistration6TestPixelCentered.png
 )
 
-ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
+add_test(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/BSplineWarping1Test.png
             ${TEMP}/BSplineWarping1Test.png
   BSplineWarping1Test
@@ -673,7 +673,7 @@ ADD_TEST(BSplineWarping1Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping1TestTransform.txt
 )
 
-ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test1.png
   --compareNumberOfPixelsTolerance 400
@@ -688,7 +688,7 @@ ADD_TEST(DeformableRegistration12Test1 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test2.png
   --compareNumberOfPixelsTolerance 400
@@ -703,7 +703,7 @@ ADD_TEST(DeformableRegistration12Test2 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test3.png
   --compareNumberOfPixelsTolerance 400
@@ -718,7 +718,7 @@ ADD_TEST(DeformableRegistration12Test3 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration12Test.png
             ${TEMP}/DeformableRegistration12Test4.png
   --compareNumberOfPixelsTolerance 400
@@ -733,7 +733,7 @@ ADD_TEST(DeformableRegistration12Test4 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration13Test1 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration13Test1 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration13Test.png
             ${TEMP}/DeformableRegistration13Test1.png
   --compareNumberOfPixelsTolerance 400
@@ -748,7 +748,7 @@ ADD_TEST(DeformableRegistration13Test1 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration13Test1FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration13Test2 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration13Test2 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration13Test.png
             ${TEMP}/DeformableRegistration13Test2.png
   --compareNumberOfPixelsTolerance 400
@@ -763,7 +763,7 @@ ADD_TEST(DeformableRegistration13Test2 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration13Test2FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration13Test3 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration13Test3 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration13Test.png
             ${TEMP}/DeformableRegistration13Test3.png
   --compareNumberOfPixelsTolerance 400
@@ -778,7 +778,7 @@ ADD_TEST(DeformableRegistration13Test3 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration13Test3FinalTransformParameters.txt
 )
 
-ADD_TEST(DeformableRegistration13Test4 ${REGISTRATION_EXAMPLES13}
+add_test(DeformableRegistration13Test4 ${REGISTRATION_EXAMPLES13}
   --compare ${BASELINE}/DeformableRegistration13Test.png
             ${TEMP}/DeformableRegistration13Test4.png
   --compareNumberOfPixelsTolerance 400
@@ -793,9 +793,9 @@ ADD_TEST(DeformableRegistration13Test4 ${REGISTRATION_EXAMPLES13}
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
 )
 
-IF(ITK_BRAINWEB_DATA_ROOT)
+if(ITK_BRAINWEB_DATA_ROOT)
 
-ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
+add_test(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
   BSplineWarping2Test
         ${ITK_SOURCE_DIR}/Examples/Data/BSplineDisplacements2.txt
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
@@ -805,11 +805,11 @@ ADD_TEST(BSplineWarping2Test ${REGISTRATION_EXAMPLES6}
         ${TEMP}/BSplineWarping2TestTransform.txt
 )
 
-SET(NUMBER_OF_BSPLINE_GRID_NODES 5)
+set(NUMBER_OF_BSPLINE_GRID_NODES 5)
 
-IF( DART_TESTING_TIMEOUT GREATER 3000 )
+if( DART_TESTING_TIMEOUT GREATER 3000 )
 
-ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test1.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -827,7 +827,7 @@ ADD_TEST(DeformableRegistration8Test1 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test2.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -845,7 +845,7 @@ ADD_TEST(DeformableRegistration8Test2 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test3.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -863,7 +863,7 @@ ADD_TEST(DeformableRegistration8Test3 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration8Test4.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -881,7 +881,7 @@ ADD_TEST(DeformableRegistration8Test4 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
 )
 
-ADD_TEST(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration14Test1.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -900,7 +900,7 @@ ADD_TEST(DeformableRegistration14Test1 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-ADD_TEST(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration14Test2.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -919,7 +919,7 @@ ADD_TEST(DeformableRegistration14Test2 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-ADD_TEST(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration14Test3.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -938,7 +938,7 @@ ADD_TEST(DeformableRegistration14Test3 ${REGISTRATION_EXAMPLES12}
         10.0 50
 )
 
-ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration14Test4.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -956,9 +956,9 @@ ADD_TEST(DeformableRegistration14Test4 ${REGISTRATION_EXAMPLES12}
         ${ITK_SOURCE_DIR}/Examples/Data/IdentityTransform.tfm
         10.0 50
 )
-ENDIF( DART_TESTING_TIMEOUT GREATER 3000 )
+endif( DART_TESTING_TIMEOUT GREATER 3000 )
 
-ADD_TEST(ChangeInformationTest1
+add_test(ChangeInformationTest1
         ${CXX_TEST_PATH}/ChangeInformationImageFilter
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplinedTranlatedScaledRotated.mhd
@@ -967,8 +967,8 @@ ADD_TEST(ChangeInformationTest1
         10.0
 )
 
-IF( DART_TESTING_TIMEOUT GREATER 10000 )
-ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
+if( DART_TESTING_TIMEOUT GREATER 10000 )
+add_test(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
     --compare ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
               ${TEMP}/DeformableRegistration15Test1.mhd
     --compareNumberOfPixelsTolerance 700000
@@ -985,12 +985,12 @@ ADD_TEST(DeformableRegistration15Test1 ${REGISTRATION_EXAMPLES14}
         5 100
         10.0 50
 )
-ENDIF( DART_TESTING_TIMEOUT GREATER 10000 )
+endif( DART_TESTING_TIMEOUT GREATER 10000 )
 
-IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
+if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
 
-SET(NUMBER_OF_BSPLINE_GRID_NODES 32)
-ADD_TEST(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
+set(NUMBER_OF_BSPLINE_GRID_NODES 32)
+add_test(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1003,7 +1003,7 @@ ADD_TEST(DeformableRegistration8Test5 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1016,7 +1016,7 @@ ADD_TEST(DeformableRegistration8Test6 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1029,7 +1029,7 @@ ADD_TEST(DeformableRegistration8Test7 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1042,8 +1042,8 @@ ADD_TEST(DeformableRegistration8Test8 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-SET(NUMBER_OF_BSPLINE_GRID_NODES 100)
-ADD_TEST(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
+set(NUMBER_OF_BSPLINE_GRID_NODES 100)
+add_test(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1056,7 +1056,7 @@ ADD_TEST(DeformableRegistration8Test9 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1070,7 +1070,7 @@ ADD_TEST(DeformableRegistration8Test10 ${REGISTRATION_EXAMPLES12}
 )
 
 # Due to the large memory requirements this tests must be run one by one
-SET_TESTS_PROPERTIES(
+set_tests_properties(
   DeformableRegistration8Test5
   DeformableRegistration8Test6
   DeformableRegistration8Test7
@@ -1081,9 +1081,9 @@ SET_TESTS_PROPERTIES(
   RUN_SERIAL 1
   )
 
-IF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
+if( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
-ADD_TEST(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1096,7 +1096,7 @@ ADD_TEST(DeformableRegistration8Test11 ${REGISTRATION_EXAMPLES12}
         ${NUMBER_OF_BSPLINE_GRID_NODES}
 )
 
-ADD_TEST(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
+add_test(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
   DeformableRegistration8Test
         ${ITK_BRAINWEB_DATA_ROOT}/brainweb1e1a10f20.mha
         ${TEMP}/BSplineWarping2Test.mhd
@@ -1110,23 +1110,23 @@ ADD_TEST(DeformableRegistration8Test12 ${REGISTRATION_EXAMPLES12}
 )
 
 # Due to the large memory requirements this tests must be run one by one
-  SET_TESTS_PROPERTIES(
+  set_tests_properties(
     DeformableRegistration8Test11
     DeformableRegistration8Test12
     PROPERTIES
     RUN_SERIAL 1
     )
-ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
+endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 16 )
 
-ENDIF( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
+endif( ${ITK_COMPUTER_MEMORY_SIZE} GREATER 6 )
 
-ENDIF(ITK_BRAINWEB_DATA_ROOT)
+endif(ITK_BRAINWEB_DATA_ROOT)
 
 
-IF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+if(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
-IF( DART_TESTING_TIMEOUT GREATER 10000 )
-ADD_TEST(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
+if( DART_TESTING_TIMEOUT GREATER 10000 )
+add_test(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
         DeformableRegistration15Test
         ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
         ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/d/I.hdr
@@ -1139,12 +1139,12 @@ ADD_TEST(DeformableRegistration15Test2 ${REGISTRATION_EXAMPLES14}
         5 100
         10.0 50
 )
-ENDIF( DART_TESTING_TIMEOUT GREATER 10000 )
+endif( DART_TESTING_TIMEOUT GREATER 10000 )
 
-ENDIF(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+endif(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
 
-ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
+add_test(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
   --compare ${BASELINE}/LandmarkWarping2Test.png
             ${TEMP}/LandmarkWarping2Test.png
   LandmarkWarping2Test
@@ -1153,7 +1153,7 @@ ADD_TEST(LandmarkWarping2Test ${REGISTRATION_EXAMPLES6}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/LandmarkWarping2Test.png
 )
-ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
+add_test(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
   --compare ${BASELINE}/ImageRegistration12TestPixelCentered.png
             ${TEMP}/ImageRegistration12TestPixelCentered.png
   --compareNumberOfPixelsTolerance 2
@@ -1164,76 +1164,76 @@ ADD_TEST(ImageRegistration12Test ${REGISTRATION_EXAMPLES4}
         ${TEMP}/ImageRegistration12TestPixelCentered.png
 )
 
-ADD_TEST(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES10}
+add_test(ModelToImageRegistration2Test ${REGISTRATION_EXAMPLES10}
   ModelToImageRegistration2Test
         ${ITK_SOURCE_DIR}/Testing/Data/Input/cake_easy.png  12 12
 )
 
 
-ADD_TEST(IterativeClosestPoint1Test ${REGISTRATION_EXAMPLES14}
+add_test(IterativeClosestPoint1Test ${REGISTRATION_EXAMPLES14}
   IterativeClosestPoint1Test
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
-ADD_TEST(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES14}
+add_test(IterativeClosestPoint2Test ${REGISTRATION_EXAMPLES14}
   IterativeClosestPoint2Test
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints2.txt
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints2.txt
 )
 
-ADD_TEST(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES14}
+add_test(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES14}
   IterativeClosestPoint3Test
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointFixedPoints.txt
         ${ITK_SOURCE_DIR}/Examples/Data/IterativeClosestPointMovingPoints.txt
 )
 
 
-ADD_EXECUTABLE(RegistrationExamples RegistrationExamples.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples RegistrationExamples.cxx )
+target_link_libraries(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamplesO RegistrationExamplesO.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamplesO RegistrationExamplesO.cxx )
+target_link_libraries(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamplesO2 RegistrationExamplesO2.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamplesO2 RegistrationExamplesO2.cxx )
+target_link_libraries(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples2 RegistrationExamples2.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples2 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples2 RegistrationExamples2.cxx )
+target_link_libraries(RegistrationExamples2 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples3 RegistrationExamples3.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples3 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples3 RegistrationExamples3.cxx )
+target_link_libraries(RegistrationExamples3 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples4 RegistrationExamples4.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples4 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples4 RegistrationExamples4.cxx )
+target_link_libraries(RegistrationExamples4 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples5 RegistrationExamples5.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples5 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples5 RegistrationExamples5.cxx )
+target_link_libraries(RegistrationExamples5 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples6 RegistrationExamples6.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples6 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples6 RegistrationExamples6.cxx )
+target_link_libraries(RegistrationExamples6 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples8 RegistrationExamples8.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples8 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples8 RegistrationExamples8.cxx )
+target_link_libraries(RegistrationExamples8 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples9 RegistrationExamples9.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples9 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples9 RegistrationExamples9.cxx )
+target_link_libraries(RegistrationExamples9 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples10 RegistrationExamples10.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples10 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples10 RegistrationExamples10.cxx )
+target_link_libraries(RegistrationExamples10 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples11 RegistrationExamples11.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples11 ITKFEM ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples11 RegistrationExamples11.cxx )
+target_link_libraries(RegistrationExamples11 ITKFEM ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples12 RegistrationExamples12.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples12 ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples12 RegistrationExamples12.cxx )
+target_link_libraries(RegistrationExamples12 ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples13 RegistrationExamples13.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples13 RegistrationExamples13.cxx )
+target_link_libraries(RegistrationExamples13 ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_EXECUTABLE(RegistrationExamples14 RegistrationExamples14.cxx )
-TARGET_LINK_LIBRARIES(RegistrationExamples14 ITKIO ITKBasicFilters ITKNumerics)
+add_executable(RegistrationExamples14 RegistrationExamples14.cxx )
+target_link_libraries(RegistrationExamples14 ITKIO ITKBasicFilters ITKNumerics)
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )

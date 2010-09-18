@@ -1,1 +1,1 @@
-SUBDIRS(Tcl)
+add_subdirectory(Tcl)

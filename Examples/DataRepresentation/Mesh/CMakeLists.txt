@@ -1,103 +1,103 @@
-PROJECT(MeshExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(MeshExamples)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(PointSet1 PointSet1.cxx )
-TARGET_LINK_LIBRARIES(PointSet1 ITKCommon)
+add_executable(PointSet1 PointSet1.cxx )
+target_link_libraries(PointSet1 ITKCommon)
 
-ADD_EXECUTABLE(PointSet2 PointSet2.cxx )
-TARGET_LINK_LIBRARIES(PointSet2 ITKCommon)
+add_executable(PointSet2 PointSet2.cxx )
+target_link_libraries(PointSet2 ITKCommon)
 
-ADD_EXECUTABLE(PointSet3 PointSet3.cxx )
-TARGET_LINK_LIBRARIES(PointSet3 ITKCommon)
+add_executable(PointSet3 PointSet3.cxx )
+target_link_libraries(PointSet3 ITKCommon)
 
-ADD_EXECUTABLE(RGBPointSet RGBPointSet.cxx )
-TARGET_LINK_LIBRARIES(RGBPointSet ITKCommon)
+add_executable(RGBPointSet RGBPointSet.cxx )
+target_link_libraries(RGBPointSet ITKCommon)
 
-ADD_EXECUTABLE(PointSetWithVectors PointSetWithVectors.cxx )
-TARGET_LINK_LIBRARIES(PointSetWithVectors ITKCommon)
+add_executable(PointSetWithVectors PointSetWithVectors.cxx )
+target_link_libraries(PointSetWithVectors ITKCommon)
 
-ADD_EXECUTABLE(PointSetWithCovariantVectors PointSetWithCovariantVectors.cxx )
-TARGET_LINK_LIBRARIES(PointSetWithCovariantVectors ITKCommon)
+add_executable(PointSetWithCovariantVectors PointSetWithCovariantVectors.cxx )
+target_link_libraries(PointSetWithCovariantVectors ITKCommon)
 
-ADD_EXECUTABLE(Mesh1 Mesh1.cxx )
-TARGET_LINK_LIBRARIES(Mesh1 ITKCommon)
+add_executable(Mesh1 Mesh1.cxx )
+target_link_libraries(Mesh1 ITKCommon)
 
-ADD_EXECUTABLE(Mesh2 Mesh2.cxx )
-TARGET_LINK_LIBRARIES(Mesh2 ITKCommon)
+add_executable(Mesh2 Mesh2.cxx )
+target_link_libraries(Mesh2 ITKCommon)
 
-ADD_EXECUTABLE(Mesh3 Mesh3.cxx )
-TARGET_LINK_LIBRARIES(Mesh3 ITKCommon)
+add_executable(Mesh3 Mesh3.cxx )
+target_link_libraries(Mesh3 ITKCommon)
 
-ADD_EXECUTABLE(MeshTraits MeshTraits.cxx )
-TARGET_LINK_LIBRARIES(MeshTraits ITKCommon)
+add_executable(MeshTraits MeshTraits.cxx )
+target_link_libraries(MeshTraits ITKCommon)
 
-ADD_EXECUTABLE(MeshKComplex MeshKComplex.cxx )
-TARGET_LINK_LIBRARIES(MeshKComplex ITKCommon)
+add_executable(MeshKComplex MeshKComplex.cxx )
+target_link_libraries(MeshKComplex ITKCommon)
 
-ADD_EXECUTABLE(MeshPolyLine MeshPolyLine.cxx )
-TARGET_LINK_LIBRARIES(MeshPolyLine ITKCommon)
+add_executable(MeshPolyLine MeshPolyLine.cxx )
+target_link_libraries(MeshPolyLine ITKCommon)
 
-ADD_EXECUTABLE(MeshCellsIteration MeshCellsIteration.cxx )
-TARGET_LINK_LIBRARIES(MeshCellsIteration ITKCommon)
+add_executable(MeshCellsIteration MeshCellsIteration.cxx )
+target_link_libraries(MeshCellsIteration ITKCommon)
 
-ADD_EXECUTABLE(MeshCellVisitor MeshCellVisitor.cxx )
-TARGET_LINK_LIBRARIES(MeshCellVisitor ITKCommon)
+add_executable(MeshCellVisitor MeshCellVisitor.cxx )
+target_link_libraries(MeshCellVisitor ITKCommon)
 
-ADD_EXECUTABLE(MeshCellVisitor2 MeshCellVisitor2.cxx )
-TARGET_LINK_LIBRARIES(MeshCellVisitor2 ITKCommon)
+add_executable(MeshCellVisitor2 MeshCellVisitor2.cxx )
+target_link_libraries(MeshCellVisitor2 ITKCommon)
 
-ADD_EXECUTABLE(AutomaticMesh AutomaticMesh.cxx )
-TARGET_LINK_LIBRARIES(AutomaticMesh ITKAlgorithms)
+add_executable(AutomaticMesh AutomaticMesh.cxx )
+target_link_libraries(AutomaticMesh ITKAlgorithms)
 
-ADD_EXECUTABLE(ImageToPointSet ImageToPointSet.cxx )
-TARGET_LINK_LIBRARIES(ImageToPointSet ITKAlgorithms ITKIO)
+add_executable(ImageToPointSet ImageToPointSet.cxx )
+target_link_libraries(ImageToPointSet ITKAlgorithms ITKIO)
 
-SET(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
+set(MESH_EXAMPLES ${CXX_TEST_PATH}/MeshExamples)
 
-ADD_EXECUTABLE(MeshExamples MeshExamples.cxx )
-TARGET_LINK_LIBRARIES(MeshExamples ITKIO)
+add_executable(MeshExamples MeshExamples.cxx )
+target_link_libraries(MeshExamples ITKIO)
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+if( NOT ITK_DISABLE_CXX_TESTING )
 
-IF(BUILD_TESTING)
+if(BUILD_TESTING)
 
-ADD_TEST(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
+add_test(AutomaticMeshTest ${CXX_TEST_PATH}/MeshExamples AutomaticMeshTest)
 
-ADD_TEST(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
+add_test(ImageToPointSetTest ${CXX_TEST_PATH}/MeshExamples
         ImageToPointSetTest ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png)
 
-ADD_TEST(Mesh1Test ${CXX_TEST_PATH}/MeshExamples Mesh1Test)
+add_test(Mesh1Test ${CXX_TEST_PATH}/MeshExamples Mesh1Test)
 
-ADD_TEST(Mesh2Test ${CXX_TEST_PATH}/MeshExamples Mesh2Test)
+add_test(Mesh2Test ${CXX_TEST_PATH}/MeshExamples Mesh2Test)
 
-ADD_TEST(Mesh3Test ${CXX_TEST_PATH}/MeshExamples Mesh3Test)
+add_test(Mesh3Test ${CXX_TEST_PATH}/MeshExamples Mesh3Test)
 
-ADD_TEST(MeshCellsIterationTest ${CXX_TEST_PATH}/MeshExamples MeshCellsIterationTest)
+add_test(MeshCellsIterationTest ${CXX_TEST_PATH}/MeshExamples MeshCellsIterationTest)
 
-ADD_TEST(MeshCellVisitorTest ${CXX_TEST_PATH}/MeshExamples MeshCellVisitorTest)
+add_test(MeshCellVisitorTest ${CXX_TEST_PATH}/MeshExamples MeshCellVisitorTest)
 
-ADD_TEST(MeshCellVisitor2Test ${CXX_TEST_PATH}/MeshExamples MeshCellVisitor2Test)
+add_test(MeshCellVisitor2Test ${CXX_TEST_PATH}/MeshExamples MeshCellVisitor2Test)
 
-ADD_TEST(MeshKComplexTest ${CXX_TEST_PATH}/MeshExamples MeshKComplexTest)
+add_test(MeshKComplexTest ${CXX_TEST_PATH}/MeshExamples MeshKComplexTest)
 
-ADD_TEST(MeshPolyLineTest ${CXX_TEST_PATH}/MeshExamples MeshPolyLineTest)
+add_test(MeshPolyLineTest ${CXX_TEST_PATH}/MeshExamples MeshPolyLineTest)
 
-ADD_TEST(MeshTraitsTest ${CXX_TEST_PATH}/MeshExamples MeshTraitsTest)
+add_test(MeshTraitsTest ${CXX_TEST_PATH}/MeshExamples MeshTraitsTest)
 
-ADD_TEST(PointSet1Test ${CXX_TEST_PATH}/MeshExamples PointSet1Test)
+add_test(PointSet1Test ${CXX_TEST_PATH}/MeshExamples PointSet1Test)
 
-ADD_TEST(PointSet2Test ${CXX_TEST_PATH}/MeshExamples PointSet2Test)
+add_test(PointSet2Test ${CXX_TEST_PATH}/MeshExamples PointSet2Test)
 
-ADD_TEST(PointSet3Test ${CXX_TEST_PATH}/MeshExamples PointSet3Test)
+add_test(PointSet3Test ${CXX_TEST_PATH}/MeshExamples PointSet3Test)
 
-ADD_TEST(PointSetWithCovariantVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithCovariantVectorsTest)
+add_test(PointSetWithCovariantVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithCovariantVectorsTest)
 
-ADD_TEST(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVectorsTest)
+add_test(PointSetWithVectorsTest ${CXX_TEST_PATH}/MeshExamples PointSetWithVectorsTest)
 
-ADD_TEST(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
+add_test(RGBPointSetTest ${CXX_TEST_PATH}/MeshExamples RGBPointSetTest)
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )
 
 

@@ -1,23 +1,23 @@
 
 # configure the test driver
-FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
+find_program(ITK_TEST_DRIVER itkTestDriver)
 
-SET(TCL_DRIVER "${ITK_TEST_DRIVER}"
+set(TCL_DRIVER "${ITK_TEST_DRIVER}"
   --add-before-env TCLLIBPATH "${WrapITK_BINARY_DIR}/Tcl/\${CTEST_CONFIGURATION_TYPE}"
   "${EXECUTABLE_OUTPUT_PATH}/\${CTEST_CONFIGURATION_TYPE}/itkwish"
 )
 
 
 
-ADD_TEST(TclListAll ${TCL_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/ListAll.tcl)
+add_test(TclListAll ${TCL_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/ListAll.tcl)
 
 # this test is broken I think because of a bug in itk::ParallelSparseFieldLevelSetImageFilter::PrintSelf()
 # TODO: run this test, once the bug is fixed
-# ADD_TEST(TclPrintAll ${TCL_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/PrintAll.tcl)
+# add_test(TclPrintAll ${TCL_DRIVER} ${CMAKE_CURRENT_SOURCE_DIR}/PrintAll.tcl)
 
 INTERSECTION(WRAP_2 2 "${WRAP_ITK_DIMS}")
-IF(WRAP_unsigned_short AND WRAP_2)
-  ADD_TEST(TclBinaryDilateImageFilter
+if(WRAP_unsigned_short AND WRAP_2)
+  add_test(TclBinaryDilateImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
@@ -25,7 +25,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare BinaryDilateImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png
   )
 
-  ADD_TEST(TclBinaryErodeImageFilter
+  add_test(TclBinaryErodeImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryErodeImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/2th_cthead1.png
@@ -33,7 +33,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare BinaryErodeImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png
   )
 
-  ADD_TEST(TclBinaryThresholdImageFilter
+  add_test(TclBinaryThresholdImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryThresholdImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -43,7 +43,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare BinaryThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png
   )
 
-  ADD_TEST(TclCastImageFilter
+  add_test(TclCastImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/CastImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -53,14 +53,14 @@ IF(WRAP_unsigned_short AND WRAP_2)
 
 # need to find a dicom image for this test
 
-#   ADD_TEST(TclDicomSliceRead
+#   add_test(TclDicomSliceRead
 #     ${TCL_DRIVER}
 #     ${CMAKE_CURRENT_SOURCE_DIR}/DicomSliceRead.tcl
 #     ${WrapITK_SOURCE_DIR}/images/cthead1.png
 #     DicomSliceRead.png
 #   )
 
-  ADD_TEST(TclMeanImageFilter
+  add_test(TclMeanImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -68,7 +68,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     3
   )
 
-  ADD_TEST(TclMedianImageFilter
+  add_test(TclMedianImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -77,7 +77,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare MeanImageFilter.png ${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png
   )
 
-  ADD_TEST(TclSigmoidImageFilter
+  add_test(TclSigmoidImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/SigmoidImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -86,7 +86,7 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare SigmoidImageFilter.png ${WrapITK_SOURCE_DIR}/images/SigmoidImageFilter.png
   )
 
-  ADD_TEST(TclThresholdImageFilter
+  add_test(TclThresholdImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/ThresholdImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -95,19 +95,19 @@ IF(WRAP_unsigned_short AND WRAP_2)
     --compare ThresholdImageFilter.png ${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png
   )
 
-ENDIF(WRAP_unsigned_short AND WRAP_2)
+endif(WRAP_unsigned_short AND WRAP_2)
 
 
 
-IF(WRAP_float AND WRAP_2)
-#   ADD_TEST(TclCannyEdgeDetectionImageFilter
+if(WRAP_float AND WRAP_2)
+#   add_test(TclCannyEdgeDetectionImageFilter
 #     ${TCL_DRIVER}
 #     ${CMAKE_CURRENT_SOURCE_DIR}/CannyEdgeDetectionImageFilter.tcl
 #     ${WrapITK_SOURCE_DIR}/images/cthead1.png
 #     TclCannyEdgeDetectionImageFilter.png
 #   )
 
-  ADD_TEST(TclCurvatureAnisotropicDiffusionImageFilter
+  add_test(TclCurvatureAnisotropicDiffusionImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/CurvatureAnisotropicDiffusionImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -115,7 +115,7 @@ IF(WRAP_float AND WRAP_2)
     5 0.125 3
   )
 
-  ADD_TEST(TclCurvatureFlowImageFilter
+  add_test(TclCurvatureFlowImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/CurvatureFlowImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -123,7 +123,7 @@ IF(WRAP_float AND WRAP_2)
     5 0.125 1.0
   )
 
-  ADD_TEST(TclGradientAnisotropicDiffusionImageFilter
+  add_test(TclGradientAnisotropicDiffusionImageFilter
     ${TCL_DRIVER}
     ${CMAKE_CURRENT_SOURCE_DIR}/GradientAnisotropicDiffusionImageFilter.tcl
     ${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png
@@ -132,22 +132,22 @@ IF(WRAP_float AND WRAP_2)
     --compare GradientAnisotropicDiffusionImageFilter.png
               ${WrapITK_SOURCE_DIR}/images/GradientAnisotropicDiffusionImageFilter.png
   )
-ENDIF(WRAP_float AND WRAP_2)
+endif(WRAP_float AND WRAP_2)
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255
-LIST(REMOVE_ITEM types SC)
-FOREACH(TCL_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
-  FOREACH(TCL_TEST_PIXEL_TYPE ${types})
+list(REMOVE_ITEM types SC)
+foreach(TCL_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
+  foreach(TCL_TEST_PIXEL_TYPE ${types})
 
-    SET(TEST_FILE_NAME simplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION})
+    set(TEST_FILE_NAME simplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION})
 
-    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.tcl.in"
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.tcl.in"
                   "${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.tcl"
                   @ONLY IMMEDIATE)
 
-    ADD_TEST(TclSimplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION}
+    add_test(TclSimplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION}
       ${TCL_DRIVER}
       ${TEST_FILE_NAME}.tcl
       ${WrapITK_SOURCE_DIR}/images/cthead1.png
@@ -155,6 +155,6 @@ FOREACH(TCL_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
       --compare ${TEST_FILE_NAME}.nrrd ${WrapITK_SOURCE_DIR}/images/cthead1.png
     )
 
-  ENDFOREACH(TCL_TEST_PIXEL_TYPE)
-ENDFOREACH(TCL_TEST_IMAGE_DIMENSION)
+  endforeach(TCL_TEST_PIXEL_TYPE)
+endforeach(TCL_TEST_IMAGE_DIMENSION)
 

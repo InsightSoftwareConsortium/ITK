@@ -1,5 +1,5 @@
 WRAP_CLASS("itk::MaskImageFilter" POINTER_WITH_SUPERCLASS)
-  FOREACH(t ${WRAP_ITK_ALL_TYPES})
+  foreach(t ${WRAP_ITK_ALL_TYPES})
     WRAP_IMAGE_FILTER_COMBINATIONS("${t}" "${WRAP_ITK_INT}" "${t}")
-  ENDFOREACH(t)
+  endforeach(t)
 END_WRAP_CLASS()

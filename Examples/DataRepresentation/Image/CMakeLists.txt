@@ -1,112 +1,112 @@
-PROJECT(ImageExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(ImageExamples)
+include_regular_expression("^.*$")
 
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-ADD_EXECUTABLE(Image1 Image1.cxx )
-TARGET_LINK_LIBRARIES(Image1 ITKCommon)
+add_executable(Image1 Image1.cxx )
+target_link_libraries(Image1 ITKCommon)
 
-ADD_EXECUTABLE(Image2 Image2.cxx )
-TARGET_LINK_LIBRARIES(Image2 ITKIO)
+add_executable(Image2 Image2.cxx )
+target_link_libraries(Image2 ITKIO)
 
-ADD_EXECUTABLE(Image3 Image3.cxx )
-TARGET_LINK_LIBRARIES(Image3 ITKCommon)
+add_executable(Image3 Image3.cxx )
+target_link_libraries(Image3 ITKCommon)
 
-ADD_EXECUTABLE(Image4 Image4.cxx )
-TARGET_LINK_LIBRARIES(Image4 ITKCommon)
+add_executable(Image4 Image4.cxx )
+target_link_libraries(Image4 ITKCommon)
 
-ADD_EXECUTABLE(VectorImage VectorImage.cxx )
-TARGET_LINK_LIBRARIES(VectorImage ITKCommon)
+add_executable(VectorImage VectorImage.cxx )
+target_link_libraries(VectorImage ITKCommon)
 
-ADD_EXECUTABLE(ImageAdaptor2 ImageAdaptor2.cxx )
-TARGET_LINK_LIBRARIES(ImageAdaptor2 ITKIO)
+add_executable(ImageAdaptor2 ImageAdaptor2.cxx )
+target_link_libraries(ImageAdaptor2 ITKIO)
 
-ADD_EXECUTABLE(ImageAdaptor3 ImageAdaptor3.cxx )
-TARGET_LINK_LIBRARIES(ImageAdaptor3 ITKIO)
+add_executable(ImageAdaptor3 ImageAdaptor3.cxx )
+target_link_libraries(ImageAdaptor3 ITKIO)
 
-ADD_EXECUTABLE(ImageAdaptor4 ImageAdaptor4.cxx )
-TARGET_LINK_LIBRARIES(ImageAdaptor4 ITKIO)
+add_executable(ImageAdaptor4 ImageAdaptor4.cxx )
+target_link_libraries(ImageAdaptor4 ITKIO)
 
-ADD_EXECUTABLE(ImageExamples2 ImageExamples2.cxx )
-TARGET_LINK_LIBRARIES(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+add_executable(ImageExamples2 ImageExamples2.cxx )
+target_link_libraries(ImageExamples2 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
-ADD_EXECUTABLE(ImageExamples3 ImageExamples3.cxx )
-TARGET_LINK_LIBRARIES(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+add_executable(ImageExamples3 ImageExamples3.cxx )
+target_link_libraries(ImageExamples3 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
-ADD_EXECUTABLE(Image5 Image5.cxx )
-TARGET_LINK_LIBRARIES(Image5 ITKIO)
+add_executable(Image5 Image5.cxx )
+target_link_libraries(Image5 ITKIO)
 
-ADD_EXECUTABLE(ImageAdaptor1 ImageAdaptor1.cxx )
-TARGET_LINK_LIBRARIES(ImageAdaptor1 ITKIO)
+add_executable(ImageAdaptor1 ImageAdaptor1.cxx )
+target_link_libraries(ImageAdaptor1 ITKIO)
 
-ADD_EXECUTABLE(RGBImage RGBImage.cxx )
-TARGET_LINK_LIBRARIES(RGBImage ITKIO)
+add_executable(RGBImage RGBImage.cxx )
+target_link_libraries(RGBImage ITKIO)
 
-ADD_EXECUTABLE(ImageExamples ImageExamples.cxx )
-TARGET_LINK_LIBRARIES(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+add_executable(ImageExamples ImageExamples.cxx )
+target_link_libraries(ImageExamples ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
-ADD_EXECUTABLE(ImageExamples4 ImageExamples4.cxx )
-TARGET_LINK_LIBRARIES(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
+add_executable(ImageExamples4 ImageExamples4.cxx )
+target_link_libraries(ImageExamples4 ITKAlgorithms ITKFEM ITKStatistics ITKIO ITKBasicFilters)
 
 
-SET(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
-SET(IMAGE_EXAMPLES2 ${CXX_TEST_PATH}/ImageExamples2)
-SET(IMAGE_EXAMPLES3 ${CXX_TEST_PATH}/ImageExamples3)
-SET(IMAGE_EXAMPLES4 ${CXX_TEST_PATH}/ImageExamples4)
+set(IMAGE_EXAMPLES ${CXX_TEST_PATH}/ImageExamples)
+set(IMAGE_EXAMPLES2 ${CXX_TEST_PATH}/ImageExamples2)
+set(IMAGE_EXAMPLES3 ${CXX_TEST_PATH}/ImageExamples3)
+set(IMAGE_EXAMPLES4 ${CXX_TEST_PATH}/ImageExamples4)
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+if( NOT ITK_DISABLE_CXX_TESTING )
 
-IF(BUILD_TESTING)
-ADD_TEST(ImageAdaptor2Test ${IMAGE_EXAMPLES3}
+if(BUILD_TESTING)
+add_test(ImageAdaptor2Test ${IMAGE_EXAMPLES3}
   ImageAdaptor2Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor2Test.png
 )
 
-ADD_TEST(ImageAdaptor3Test ${IMAGE_EXAMPLES3}
+add_test(ImageAdaptor3Test ${IMAGE_EXAMPLES3}
   ImageAdaptor3Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor3Test.mhd 1
 )
 
-ADD_TEST(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
+add_test(ImageAdaptor4Test ${IMAGE_EXAMPLES3}
   ImageAdaptor4Test
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
     ${TEMP}/ImageAdaptor4Test.png 127
 )
 
-ADD_TEST(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
+add_test(ImageAdaptor1Test ${IMAGE_EXAMPLES2}
   ImageAdaptor1Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
   )
 
-ADD_TEST(Image1Test ${IMAGE_EXAMPLES}
+add_test(Image1Test ${IMAGE_EXAMPLES}
   Image1Test
 )
 
-ADD_TEST(Image2Test ${IMAGE_EXAMPLES}
+add_test(Image2Test ${IMAGE_EXAMPLES}
   Image2Test ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
 )
 
-ADD_TEST(Image3Test ${IMAGE_EXAMPLES}
+add_test(Image3Test ${IMAGE_EXAMPLES}
   Image3Test
 )
 
-ADD_TEST(Image4Test ${IMAGE_EXAMPLES}
+add_test(Image4Test ${IMAGE_EXAMPLES}
   Image4Test
 )
 
-ADD_TEST(Image5Test ${IMAGE_EXAMPLES}
+add_test(Image5Test ${IMAGE_EXAMPLES}
    Image5Test ${TEMP}/Image5Test.mhd
 )
 
-ADD_TEST(RGBImageTest ${IMAGE_EXAMPLES4}
+add_test(RGBImageTest ${IMAGE_EXAMPLES4}
   RGBImageTest ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
 )
 
-ADD_TEST(VectorImageTest ${IMAGE_EXAMPLES4}
+add_test(VectorImageTest ${IMAGE_EXAMPLES4}
   VectorImageTest
 )
 
-ENDIF(BUILD_TESTING)
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif(BUILD_TESTING)
+endif( NOT ITK_DISABLE_CXX_TESTING )
 
