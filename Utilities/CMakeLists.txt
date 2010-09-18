@@ -9,9 +9,6 @@ set(DART_EXPERIMENTAL_USE_PROJECT_NAME 1)
 configure_file(${ITK_SOURCE_DIR}/Utilities/itkThirdParty.h.in
                ${ITK_BINARY_DIR}/Utilities/itkThirdParty.h @ONLY IMMEDIATE)
 
-             #include_directories(BEFORE ${ITK_BINARY_DIR}/Utilities)
-             #include_directories(BEFORE ${ITK_SOURCE_DIR}/Utilities)
-
 #-----------------------------------------------------------------------------
 # Create the kwsys library for ITK.
 set(KWSYS_NAMESPACE itksys)
