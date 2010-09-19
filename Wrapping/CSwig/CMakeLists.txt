@@ -304,13 +304,6 @@ if(ITK_USE_SYSTEM_VXL)
 endif(ITK_USE_SYSTEM_VXL)
 add_definitions(-DSWIG_GLOBAL)
 
-set(ITK_KITS VXLNumerics CommonA CommonB Numerics
-  BasicFiltersA BasicFiltersB IO Algorithms
-  )
-add_subdirectory(SwigRuntime ${ITK_KITS} Tests)
-if(ITK_CSWIG_JAVA)
-  add_subdirectory(Java)
-endif(ITK_CSWIG_JAVA)
 
 
 if(UNIX)
@@ -486,9 +479,6 @@ if(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
 
 endif(PYTHON_EXECUTABLE AND ITK_CSWIG_PYTHON)
 
-if(ITK_CSWIG_TCL)
-  add_subdirectory(Tcl)
-endif(ITK_CSWIG_TCL)
 
 if(ITK_CSWIG_PYTHON)
   # Install the python files created at build time.
@@ -838,3 +828,19 @@ macro(ITK_WRAP_LIBRARY WRAP_SOURCES LIBRARY_NAME DIRECTORY DEPEND_LIBRARY EXTRA_
   endif(ITK_CSWIG_JAVA)
 
 endmacro(ITK_WRAP_LIBRARY)
+
+## Move all add_subdirectory to end of file to simulate symantics of subdirs() command
+set(ITK_KITS VXLNumerics CommonA CommonB Numerics
+  BasicFiltersA BasicFiltersB IO Algorithms
+  )
+add_subdirectory(SwigRuntime)
+foreach(ITK_KIT_DIR ${ITK_KITS}
+   add_subdirectory(${ITK_KIT_DIR})
+endforeach(ITK_KIT_DIR)
+add_subdirectory(Tests)
+if(ITK_CSWIG_JAVA)
+  add_subdirectory(Java)
+endif(ITK_CSWIG_JAVA)
+if(ITK_CSWIG_TCL)
+  add_subdirectory(Tcl)
+endif(ITK_CSWIG_TCL)
