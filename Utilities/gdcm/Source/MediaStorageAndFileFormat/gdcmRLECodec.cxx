@@ -135,7 +135,7 @@ inline int count_identical_bytes(const char *start, unsigned int len)
   return p - start;
 #else
   const char ref = start[0];
-  int count = 1; // start at one
+  unsigned int count = 1; // start at one; make unsigned for comparison
   const unsigned int cmin = std::min(128u,len);
   while( count < cmin && start[count] == ref )
     {
@@ -169,7 +169,7 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
     }
   return p - start;
 #else
-  int count = 1;
+  unsigned int count = 1;
   const unsigned int cmin = std::min(128u,len);
 #if 0
   // TODO: this version that handles the note still does not work...
@@ -197,7 +197,7 @@ a Literal Run, in which case it's best to merge the three runs into a Literal Ru
         {
         continue;
         }
-      --count;
+      --count;//Note that count can go negative, or wrapped if unsigned!
       break;
       }
     }
