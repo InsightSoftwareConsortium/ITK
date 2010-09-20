@@ -834,7 +834,7 @@ set(ITK_KITS VXLNumerics CommonA CommonB Numerics
   BasicFiltersA BasicFiltersB IO Algorithms
   )
 add_subdirectory(SwigRuntime)
-foreach(ITK_KIT_DIR ${ITK_KITS}
+foreach(ITK_KIT_DIR ${ITK_KITS})
    add_subdirectory(${ITK_KIT_DIR})
 endforeach(ITK_KIT_DIR)
 add_subdirectory(Tests)
