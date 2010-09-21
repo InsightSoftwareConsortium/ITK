@@ -26,10 +26,13 @@ remove_ext       crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
 
-*.c              whitespace=tab-in-indent
-*.h              whitespace=tab-in-indent
-*.cxx            whitespace=tab-in-indent
-*.hxx            whitespace=tab-in-indent
-*.txx            whitespace=tab-in-indent
+*.c              whitespace=tab-in-indent  hooks.style=KWStyle,uncrustify
+*.h              whitespace=tab-in-indent  hooks.style=KWStyle,uncrustify
+*.cxx            whitespace=tab-in-indent  hooks.style=KWStyle,uncrustify
+*.hxx            whitespace=tab-in-indent  hooks.style=KWStyle,uncrustify
+*.txx            whitespace=tab-in-indent  hooks.style=KWStyle,uncrustify
 *.txt            whitespace=tab-in-indent
 *.cmake          whitespace=tab-in-indent
+
+# Third-party code need not pass our style checks.
+/Utilities/*    -hooks.style
