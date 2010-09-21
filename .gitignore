@@ -3,5 +3,5 @@
 *.bak
 
 # Binary directory
-BUILD/
-build
+BUILD*
+build*

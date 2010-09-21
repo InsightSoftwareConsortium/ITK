@@ -55,5 +55,20 @@ void RegisterTests()
   REGISTER_TEST(itkScalarImageKmeansImageFilter3DTest );
   REGISTER_TEST(itkLevelSetMotionRegistrationFilterTest );
   REGISTER_TEST(itkVoronoiSegmentationRGBImageFilterTest );
+  REGISTER_TEST(itkBinaryMask3DQuadEdgeMeshSourceTest);
+  REGISTER_TEST(itkAutomaticTopologyQuadEdgeMeshSourceTest);
+  REGISTER_TEST(itkRegularSphereQuadEdgeMeshSourceTest);
+  REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
+  REGISTER_TEST(itkQuadEdgeMeshCleanFilterTest);
+  REGISTER_TEST(itkQuadEdgeMeshLinearParameterizationTest);
+  REGISTER_TEST(itkQuadEdgeMeshSquaredEdgeLengthDecimationTest);
+  REGISTER_TEST(itkQuadEdgeMeshQuadricDecimationTest);
+  REGISTER_TEST(itkQuadEdgeMeshGaussianCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMeanCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMaxCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshMinCurvatureTest);
+  REGISTER_TEST(itkQuadEdgeMeshDelaunayConformingFilterTest);
+  REGISTER_TEST(itkQuadEdgeMeshNormalFilterTest);
+  REGISTER_TEST(itkQuadEdgeMeshSmoothingTest);
 }
 

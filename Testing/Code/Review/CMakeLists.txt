@@ -55,12 +55,6 @@ set(ReviewTest_SRCS
   itkConformalFlatteningMeshFilterTest.cxx
   itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 
-  itkVTKPolyDataIOQuadEdgeMeshTest.cxx
-  itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
-  itkVTKPolyDataReaderTest.cxx
-  itkVTKPolyDataWriterTest.cxx
-  itkVTKPolyDataWriterTest2.cxx
-
   itkMorphologicalWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
 
@@ -149,10 +143,12 @@ set(ReviewTest_SRCS
   itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 )
 
-set(ReviewTest2_SRCS
+SET(ReviewTest2_SRCS
+  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkDirectFourierReconstructionImageToImageFilterTest.cxx
   itkBSplineDeformableTransformInitializerTest1.cxx
   itkBSplineDeformableTransformInitializerTest2.cxx
+  itkContourExtractor2DImageFilterTest.cxx
   itkHeavisideStepFunctionTest1.cxx
   itkLabelImageToLabelMapFilterTest.cxx
   itkLabelMapFilterTest.cxx
@@ -165,52 +161,6 @@ set(ReviewTest2_SRCS
   itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
   itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
   itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
-  itkQuadEdgem_NoPointTest.cxx
-  itkQuadEdgeTest1.cxx
-  itkGeometricalQuadEdgeTest1.cxx
-  itkQuadEdgeMeshAddFaceTest1.cxx
-  itkQuadEdgeMeshAddFaceTest2.cxx
-  itkQuadEdgeMeshBasicLayerTest.cxx
-  itkQuadEdgeMeshDeleteEdgeTest.cxx
-  itkQuadEdgeMeshFrontIteratorTest.cxx
-  itkQuadEdgeMeshIteratorTest.cxx
-  itkQuadEdgeMeshPointTest1.cxx
-  itkQuadEdgeMeshTest1.cxx
-  itkQuadEdgeMeshTest2.cxx
-  itkQuadEdgeMeshTest3.cxx
-  itkQuadEdgeMeshEulerOperatorFlipTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
-  itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
-  itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
-  itkQuadEdgeMeshCellInterfaceTest.cxx
-  itkQuadEdgeMeshPolygonCellTest.cxx
-  itkDynamicQuadEdgeMeshTest.cxx
-  itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
-  itkRegularSphereQuadEdgeMeshSourceTest.cxx
-  itkQuadEdgeMeshCountingCellsTest.cxx
-  itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
-  itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
-  itkContourExtractor2DImageFilterTest.cxx
-  itkTriangleHelperTest.cxx
-  itkCrossHelperTest.cxx
-  itkQuadEdgeMeshLinearParameterizationTest.cxx
-  itkPriorityQueueTest.cxx
-  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
-  itkQuadEdgeMeshQuadricDecimationTest.cxx
-  itkQuadEdgeMeshCleanFilterTest.cxx
-  itkQuadEdgeMeshGaussianCurvatureTest.cxx
-  itkQuadEdgeMeshMaxCurvatureTest.cxx
-  itkQuadEdgeMeshMeanCurvatureTest.cxx
-  itkQuadEdgeMeshMinCurvatureTest.cxx
-  itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
-  itkQuadEdgeMeshNormalFilterTest.cxx
-  itkQuadEdgeMeshSmoothingTest.cxx
-  itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
-  itkAtanRegularizedHeavisideStepFunctionTest1.cxx
   itkRegionBasedLevelSetFunctionTest.cxx
   itkScalarRegionBasedLevelSetFunctionTest.cxx
   itkScalarToRGBColormapImageFilterTest.cxx
@@ -411,71 +361,10 @@ add_test(itkBSplineDeformableTransformInitializerTest2
   ${TEMP}/itkBSplineDeformableTransformInitializerTest2DeformationField.mhd
 )
 
-add_test(itkQuadEdgem_NoPointTest ${REVIEW_TESTS2} itkQuadEdgem_NoPointTest)
-add_test(itkQuadEdgeTest1 ${REVIEW_TESTS2} itkQuadEdgeTest1)
-add_test(itkGeometricalQuadEdgeTest1 ${REVIEW_TESTS2}
-  itkGeometricalQuadEdgeTest1)
-add_test(itkQuadEdgeMeshPointTest1 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshPointTest1)
-add_test(itkPriorityQueueTest ${REVIEW_TESTS2}
-  itkPriorityQueueTest)
-
-foreach( index 0 1 2 3 4 5 )
-  add_test(itkQuadEdgeMeshAddFaceTest1_${index} ${REVIEW_TESTS2}
-    itkQuadEdgeMeshAddFaceTest1 ${index} )
-endforeach( index )
-
-add_test(itkQuadEdgeMeshAddFaceTest2 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshAddFaceTest2)
-add_test(itkQuadEdgeMeshDeleteEdgeTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshDeleteEdgeTest)
-add_test(itkQuadEdgeMeshFrontIteratorTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshFrontIteratorTest)
-add_test(itkQuadEdgeMeshTest1 ${REVIEW_TESTS2} itkQuadEdgeMeshTest1)
-add_test(itkQuadEdgeMeshTest2 ${REVIEW_TESTS2} itkQuadEdgeMeshTest2)
-add_test(itkQuadEdgeMeshTest3 ${REVIEW_TESTS2} itkQuadEdgeMeshTest3)
-add_test(itkQuadEdgeMeshEulerOperatorFlipTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorFlipTest)
-add_test(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorJoinFacetTest)
-foreach( arguments 0 1 2 3 4 )
-  add_test( itkQuadEdgeMeshEulerOperatorJoinVertexTest${arguments}
-    ${REVIEW_TESTS2}
-    itkQuadEdgeMeshEulerOperatorJoinVertexTest ${arguments} )
-endforeach( arguments )
-add_test(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
-add_test(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorSplitVertexTest)
-add_test( itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest)
-add_test( itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
-add_test(itkQuadEdgeMeshCellInterfaceTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshCellInterfaceTest)
-add_test(itkQuadEdgeMeshIteratorTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshIteratorTest)
-add_test(itkQuadEdgeMeshPolygonCellTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshPolygonCellTest)
-add_test(itkDynamicQuadEdgeMeshTest ${REVIEW_TESTS2}
-  itkDynamicQuadEdgeMeshTest)
-add_test(itkAutomaticTopologyQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
-  itkAutomaticTopologyQuadEdgeMeshSourceTest)
-add_test(itkRegularSphereQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
-  itkRegularSphereQuadEdgeMeshSourceTest
-  ${TEMP}/itkRegularSphereQuadEdgeMeshSourceTest.vtk)
 add_test(itkRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkRegionBasedLevelSetFunctionTest)
 add_test(itkScalarRegionBasedLevelSetFunctionTest ${REVIEW_TESTS2}
   itkScalarRegionBasedLevelSetFunctionTest)
-add_test(itkQuadEdgeMeshCountingCellsTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshCountingCellsTest)
-add_test(itkBinaryMask3DQuadEdgeMeshSourceTest ${REVIEW_TESTS2}
-  itkBinaryMask3DQuadEdgeMeshSourceTest)
-add_test( itkQuadEdgeMeshDeletePointAndReorderIDsTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshDeletePointAndReorderIDsTest)
-add_test( itkTriangleHelperTest ${REVIEW_TESTS2}
-  itkTriangleHelperTest)
 add_test( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
   itkTriangleMeshToBinaryImageFilterTest3
   ${INPUTDATA}/genusZeroSurface01.vtk
@@ -483,86 +372,6 @@ add_test( itkTriangleMeshToBinaryImageFilterTest3 ${REVIEW_TESTS3}
     140   160   180   # image size X Y Z
    -0.7  -0.8  -0.9   # image origin X Y Z
    0.01  0.01  0.01   # image spacing X Y Z
-  )
-add_test( itkCrossHelperTest ${REVIEW_TESTS2}
-  itkCrossHelperTest)
-add_test( itkQuadEdgeMeshQuadricDecimationTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshQuadricDecimationTest
-  ${INPUTDATA}/mushroom.vtk
-  100
-  ${TEMP}/temp_QuadricDecimationResult1.vtk
-  )
-add_test( itkQuadEdgeMeshQuadricDecimationTetrahedronTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshQuadricDecimationTest
-  ${INPUTDATA}/tetrahedron.vtk
-  2
-  ${TEMP}/temp_QuadricDecimationTetrahedron.vtk
-  )
-add_test( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
-  ${INPUTDATA}/mushroom.vtk
-  20
-  ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
-  )
-add_test( itkQuadEdgeMeshCleanFilterTest
-  ${REVIEW_TESTS2}
-  itkQuadEdgeMeshCleanFilterTest
-  ${INPUTDATA}/mushroom.vtk
-  0.1
-  ${TEMP}/temp_CleanResult1.vtk
-  )
-add_test( itkQuadEdgeMeshNormalFilterTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshNormalFilterTest
-  ${INPUTDATA}/mushroom.vtk
-  )
-
-add_test( itkQuadEdgeMeshSmoothingTest0 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshSmoothingTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
-  10
-  0.1
-  0
-  ${TEMP}/temp_SmoothResult0.vtk
-  )
-
- add_test( itkQuadEdgeMeshSmoothingTest1 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshSmoothingTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
-  10
-  0.1
-  1
-  ${TEMP}/temp_SmoothResult1.vtk
-  )
-
-add_test( itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1 ${REVIEW_TESTS2}
-  itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1
-  ${TEMP}/sphere.vtk
-  )
-
-set( CURV_TESTS Gaussian Max Mean Min )
-foreach( loop_var ${CURV_TESTS} )
-  add_test( itkQuadEdgeMesh${loop_var}CurvatureTest
-    ${REVIEW_TESTS2}
-    itkQuadEdgeMesh${loop_var}CurvatureTest
-    ${INPUTDATA}/mushroom.vtk
-    )
-endforeach( loop_var )
-
-foreach( border 0 1 )
-  foreach( coeff 0 1 2 3 4 )
-    add_test( itkQuadEdgeMeshLinearParameterizationTest${border}_${coeff}
-    ${REVIEW_TESTS2}
-    itkQuadEdgeMeshLinearParameterizationTest
-    ${INPUTDATA}/mushroom.vtk ${border} ${coeff}
-    ${TEMP}/param_border${border}_coeff${coeff}.vtk
-    )
-  endforeach( coeff )
-endforeach( border )
-
-add_test( itkQuadEdgeMeshDelaunayConformingFilterTest ${REVIEW_TESTS2}
-  itkQuadEdgeMeshDelaunayConformingFilterTest
-  ${INPUTDATA}/mushroom.vtk
-  ${TEMP}/mushrom_delaunay.vtk
   )
 
 foreach(opacity 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0)
@@ -783,148 +592,6 @@ add_test(itkRegionalMaximaImageFilterTest2_2 ${REVIEW_TESTS}
                   ${TEMP}/cthead1RegionalMaximal2_2.png
                   ${TEMP}/cthead1RegionalMaximal-ref2_2.png
                   )
-
-add_test(itkVTKPolyDataIOQuadEdgeMeshTest ${REVIEW_TESTS}
-  itkVTKPolyDataIOQuadEdgeMeshTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
-  ${TEMP}/VTKPolyDataIOTest.vtk)
-
-add_test(itkVTKPolyDataReaderQuadEdgeMeshTest ${REVIEW_TESTS}
-  itkVTKPolyDataReaderQuadEdgeMeshTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
-  )
-
-add_test(itkVTKPolyDataReaderTest ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/genusZeroSurface01.vtk
-  )
-
-add_test(itkVTKPolyDataReaderTest2 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/sphereBinary.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest0 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad0.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest1 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad1.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest2 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad2.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest3 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad3.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest4 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad4.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest5 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad5.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest6 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad6.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest7 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad7.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest8 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad8.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest9 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad9.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest10 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad10.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest11 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad11.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest12 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad12.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest13 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad13.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest14 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad14.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest15 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad15.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest16 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad16.vtk
-  )
-
-add_test(itkVTKPolyDataReaderBadTest17 ${REVIEW_TESTS}
-  itkVTKPolyDataReaderTest
-  ${INPUTDATA}/vtkPolyDataBad17.vtk
-  )
-
-set_tests_properties(itkVTKPolyDataReaderTest2
-  itkVTKPolyDataReaderBadTest0
-  itkVTKPolyDataReaderBadTest1
-  itkVTKPolyDataReaderBadTest2
-  itkVTKPolyDataReaderBadTest3
-  itkVTKPolyDataReaderBadTest4
-  itkVTKPolyDataReaderBadTest5
-  itkVTKPolyDataReaderBadTest6
-  itkVTKPolyDataReaderBadTest7
-  itkVTKPolyDataReaderBadTest8
-  itkVTKPolyDataReaderBadTest9
-  itkVTKPolyDataReaderBadTest10
-  itkVTKPolyDataReaderBadTest11
-  itkVTKPolyDataReaderBadTest12
-  itkVTKPolyDataReaderBadTest13
-  itkVTKPolyDataReaderBadTest14
-  itkVTKPolyDataReaderBadTest15
-  itkVTKPolyDataReaderBadTest16
-  itkVTKPolyDataReaderBadTest17
-  PROPERTIES WILL_FAIL true)
-
-add_test(itkVTKPolyDataWriterTest01 ${REVIEW_TESTS}
-  itkVTKPolyDataWriterTest
-  ${TEMP}/VTKPolyDataWriterTest01.vtk
-  )
-
-add_test(itkVTKPolyDataWriterTest02 ${REVIEW_TESTS}
-  itkVTKPolyDataWriterTest2
-  ${TEMP}/VTKPolyDataWriterTest02.vtk
-  )
-
 
 foreach(M 0 1)
   foreach(F 0 1)
@@ -2475,14 +2142,14 @@ add_executable(itkReviewPrintTest itkReviewPrintTest.cxx)
 target_link_libraries(itkReviewPrintTest
   ITKAlgorithms
   ITKFEM
-  ITKQuadEdgeMesh
+  ITKCommon
   )
 
 add_executable(itkReviewHeaderTest itkReviewHeaderTest.cxx)
 target_link_libraries(itkReviewHeaderTest
   ITKAlgorithms
   ITKFEM
-  ITKQuadEdgeMesh
+  ITKCommon
   )
 
 add_test(itkReviewHeaderTest ${REVIEW_HEADER_TESTS})
@@ -2493,7 +2160,7 @@ set(ReviewTest_LIBS
   ITKAlgorithms
   ITKFEM
   ITKStatistics
-  ITKQuadEdgeMesh
+  ITKCommon
   ITKIOReview
   ITKIO
   )
@@ -2504,7 +2171,7 @@ set(ReviewTest2_LIBS
   ITKAlgorithms
   ITKFEM
   ITKStatistics
-  ITKQuadEdgeMesh
+  ITKCommon
   ITKIOReview
   ITKIO
   )
