@@ -1,3 +1,5 @@
+#ifndef __NrrdConfigure_h
+#define __NrrdConfigure_h
 // Configure compile time dependent code
 // BUG: 0005904 shows that special action must be taken for Mac 64 bit systems.
 // See: http://public.kitware.com/Bug/view.php?id=5904
@@ -39,3 +41,4 @@
   #endif
 #endif
 
+#endif // __NrrdConfigure_h
