@@ -658,7 +658,6 @@ FIND_PATH(ITK_OSIRIX_DATA_ROOT CEREBRIX
   DOC "Directory with data taken from http://www.osirix-viewer.com/Downloads.html")
 MARK_AS_ADVANCED(ITK_OSIRIX_DATA_ROOT)
 
-
 #-----------------------------------------------------------------------------
 # Configure the default ITK_VISIBLEHUMAN_DATA_ROOT for the location of Data from the Visible Human Project
 # When this data is available, additional Examples are enabled.
