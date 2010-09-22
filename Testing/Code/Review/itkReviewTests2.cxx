@@ -44,8 +44,6 @@ void RegisterTests()
   REGISTER_TEST(itkMultiphaseDenseFiniteDifferenceImageFilterTest);
   REGISTER_TEST(itkMultiphaseSparseFiniteDifferenceImageFilterTest);
 
- // REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
-
   REGISTER_TEST(itkContourExtractor2DImageFilterTest);
   REGISTER_TEST(itkAtanRegularizedHeavisideStepFunctionTest1);
   REGISTER_TEST(itkRegionBasedLevelSetFunctionTest);
