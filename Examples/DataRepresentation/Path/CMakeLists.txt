@@ -1,14 +1,14 @@
-PROJECT(PathExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(PathExamples)
+include_regular_expression("^.*$")
 
 
-ADD_EXECUTABLE(PolyLineParametricPath1 PolyLineParametricPath1.cxx )
-TARGET_LINK_LIBRARIES(PolyLineParametricPath1 ITKIO)
+add_executable(PolyLineParametricPath1 PolyLineParametricPath1.cxx )
+target_link_libraries(PolyLineParametricPath1 ITKIO)
 
-IF(BUILD_TESTING)
+if(BUILD_TESTING)
 
-ADD_TEST(PolyLineParametricPath1 ${CXX_TEST_PATH}/PolyLineParametricPath1
+add_test(PolyLineParametricPath1 ${CXX_TEST_PATH}/PolyLineParametricPath1
     ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
 )
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)

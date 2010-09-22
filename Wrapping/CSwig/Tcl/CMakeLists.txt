@@ -1,12 +1,12 @@
-SET(ITK_TCL_EXE_DIR_BUILD "${ITK_EXECUTABLE_PATH}")
-SET(ITK_TCL_EXE_NAME_ROOT "itkwish")
+set(ITK_TCL_EXE_DIR_BUILD "${ITK_EXECUTABLE_PATH}")
+set(ITK_TCL_EXE_NAME_ROOT "itkwish")
 
-CONFIGURE_FILE(${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/itkTclConfigure.h.in
+configure_file(${ITK_SOURCE_DIR}/Wrapping/CSwig/Tcl/itkTclConfigure.h.in
                ${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl/itkTclConfigure.h)
 
-INCLUDE_DIRECTORIES(${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl)
-ADD_EXECUTABLE(itkwish itkTclAppInit.cxx)
-TARGET_LINK_LIBRARIES(itkwish
+include_directories(${ITK_BINARY_DIR}/Wrapping/CSwig/Tcl)
+add_executable(itkwish itkTclAppInit.cxx)
+target_link_libraries(itkwish
   ITKAlgorithmsTcl
   ITKBasicFiltersATcl
   ITKBasicFiltersBTcl
@@ -20,13 +20,13 @@ TARGET_LINK_LIBRARIES(itkwish
   ${TK_LIBRARY}
 )
 
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(itkwish PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
-INSTALL(TARGETS itkwish
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itkwish PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
+install(TARGETS itkwish
   RUNTIME DESTINATION ${ITK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeExecutables)
 
-INSTALL(FILES
+install(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/itkinteraction.tcl
   ${CMAKE_CURRENT_SOURCE_DIR}/itktesting.tcl
   ${CMAKE_CURRENT_SOURCE_DIR}/itkdata.tcl

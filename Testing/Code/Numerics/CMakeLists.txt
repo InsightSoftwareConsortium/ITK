@@ -1,44 +1,44 @@
-SUBDIRS(Statistics)
+add_subdirectory(Statistics)
 
-SUBDIRS(FEM)
-SUBDIRS(NeuralNetworks)
+add_subdirectory(FEM)
+add_subdirectory(NeuralNetworks)
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
-IF(ITK_BINARY_DIR)
-  IF(TCL_TCLSH)
-    ADD_TEST(PrintSelf-Numerics ${TCL_TCLSH}
+if( NOT ITK_DISABLE_CXX_TESTING )
+if(ITK_BINARY_DIR)
+  if(TCL_TCLSH)
+    add_test(PrintSelf-Numerics ${TCL_TCLSH}
              ${ITK_SOURCE_DIR}/Utilities/Dart/PrintSelfCheck.tcl
              ${ITK_SOURCE_DIR}/Code/Numerics)
-  ENDIF(TCL_TCLSH)
-ENDIF(ITK_BINARY_DIR)
+  endif(TCL_TCLSH)
+endif(ITK_BINARY_DIR)
 
 
-SET(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
-SET(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
+set(NUMERICS_TESTS ${CXX_TEST_PATH}/itkNumericsTests)
+set(NUMERICS_HEADER_TEST ${CXX_TEST_PATH}/itkNumericsHeaderTest)
 
-ADD_TEST(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
-ADD_TEST(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunctionTest)
-ADD_TEST(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
-ADD_TEST(itkCumulativeGaussianOptimizerTest ${NUMERICS_TESTS} itkCumulativeGaussianOptimizerTest)
-ADD_TEST(itkExhaustiveOptimizerTest ${NUMERICS_TESTS} itkExhaustiveOptimizerTest)
-ADD_TEST(itkFRPROptimizerTest ${NUMERICS_TESTS} itkFRPROptimizerTest)
-ADD_TEST(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
-ADD_TEST(itkLBFGSBOptimizerTest ${NUMERICS_TESTS} itkLBFGSBOptimizerTest)
-ADD_TEST(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
-ADD_TEST(itkLevenbergMarquardtOptimizerTest ${NUMERICS_TESTS} itkLevenbergMarquardtOptimizerTest)
-ADD_TEST(itkMultivariateLegendrePolynomialTest ${NUMERICS_TESTS} itkMultivariateLegendrePolynomialTest)
-ADD_TEST(itkNumericsHeaderTest ${NUMERICS_HEADER_TEST})
-ADD_TEST(itkNumericsPrintTest ${NUMERICS_TESTS} itkNumericsPrintTest)
-ADD_TEST(itkNumericsTest ${NUMERICS_TESTS} itkNumericsTest)
-ADD_TEST(itkOptimizersHierarchyTest ${NUMERICS_TESTS} itkOptimizersHierarchyTest)
-ADD_TEST(itkPowellOptimizerTest ${NUMERICS_TESTS} itkPowellOptimizerTest)
-ADD_TEST(itkRegularStepGradientDescentOptimizerTest ${NUMERICS_TESTS} itkRegularStepGradientDescentOptimizerTest)
-ADD_TEST(itkSymmetricEigenSystemTest ${NUMERICS_TESTS} itkSymmetricEigenSystemTest)
-ADD_TEST(itkSPSAOptimizerTest ${NUMERICS_TESTS} itkSPSAOptimizerTest)
-ADD_TEST(itkVersorRigid3DTransformOptimizerTest ${NUMERICS_TESTS} itkVersorRigid3DTransformOptimizerTest)
-ADD_TEST(itkVersorTransformOptimizerTest ${NUMERICS_TESTS} itkVersorTransformOptimizerTest)
+add_test(itkAmoebaOptimizerTest ${NUMERICS_TESTS} itkAmoebaOptimizerTest)
+add_test(itkCompositeValleyFunctionTest ${NUMERICS_TESTS} itkCompositeValleyFunctionTest)
+add_test(itkConjugateGradientOptimizerTest ${NUMERICS_TESTS} itkConjugateGradientOptimizerTest)
+add_test(itkCumulativeGaussianOptimizerTest ${NUMERICS_TESTS} itkCumulativeGaussianOptimizerTest)
+add_test(itkExhaustiveOptimizerTest ${NUMERICS_TESTS} itkExhaustiveOptimizerTest)
+add_test(itkFRPROptimizerTest ${NUMERICS_TESTS} itkFRPROptimizerTest)
+add_test(itkGradientDescentOptimizerTest ${NUMERICS_TESTS} itkGradientDescentOptimizerTest)
+add_test(itkLBFGSBOptimizerTest ${NUMERICS_TESTS} itkLBFGSBOptimizerTest)
+add_test(itkLBFGSOptimizerTest ${NUMERICS_TESTS} itkLBFGSOptimizerTest)
+add_test(itkLevenbergMarquardtOptimizerTest ${NUMERICS_TESTS} itkLevenbergMarquardtOptimizerTest)
+add_test(itkMultivariateLegendrePolynomialTest ${NUMERICS_TESTS} itkMultivariateLegendrePolynomialTest)
+add_test(itkNumericsHeaderTest ${NUMERICS_HEADER_TEST})
+add_test(itkNumericsPrintTest ${NUMERICS_TESTS} itkNumericsPrintTest)
+add_test(itkNumericsTest ${NUMERICS_TESTS} itkNumericsTest)
+add_test(itkOptimizersHierarchyTest ${NUMERICS_TESTS} itkOptimizersHierarchyTest)
+add_test(itkPowellOptimizerTest ${NUMERICS_TESTS} itkPowellOptimizerTest)
+add_test(itkRegularStepGradientDescentOptimizerTest ${NUMERICS_TESTS} itkRegularStepGradientDescentOptimizerTest)
+add_test(itkSymmetricEigenSystemTest ${NUMERICS_TESTS} itkSymmetricEigenSystemTest)
+add_test(itkSPSAOptimizerTest ${NUMERICS_TESTS} itkSPSAOptimizerTest)
+add_test(itkVersorRigid3DTransformOptimizerTest ${NUMERICS_TESTS} itkVersorRigid3DTransformOptimizerTest)
+add_test(itkVersorTransformOptimizerTest ${NUMERICS_TESTS} itkVersorTransformOptimizerTest)
 
-SET(Numerics_SRCS
+set(Numerics_SRCS
 itkAmoebaOptimizerTest.cxx
 itkCompositeValleyFunctionTest.cxx
 itkConjugateGradientOptimizerTest.cxx
@@ -61,19 +61,19 @@ itkVersorRigid3DTransformOptimizerTest.cxx
 itkVersorTransformOptimizerTest.cxx
 )
 
-IF(ITK_OBJCXX_COMPILER_WORKS)
-  SET(NUMERICS_OBJCXX_TEST ${CXX_TEST_PATH}/itkNumericsHeaderObjCxxTest)
-  ADD_TEST(itkNumericsHeaderObjCxxTest ${NUMERICS_OBJCXX_TEST})
-  ADD_EXECUTABLE(itkNumericsHeaderObjCxxTest itkNumericsHeaderObjCxxTest.mm)
-  TARGET_LINK_LIBRARIES(itkNumericsHeaderObjCxxTest ITKNumerics ITKStatistics)
-ENDIF(ITK_OBJCXX_COMPILER_WORKS)
+if(ITK_OBJCXX_COMPILER_WORKS)
+  set(NUMERICS_OBJCXX_TEST ${CXX_TEST_PATH}/itkNumericsHeaderObjCxxTest)
+  add_test(itkNumericsHeaderObjCxxTest ${NUMERICS_OBJCXX_TEST})
+  add_executable(itkNumericsHeaderObjCxxTest itkNumericsHeaderObjCxxTest.mm)
+  target_link_libraries(itkNumericsHeaderObjCxxTest ITKNumerics ITKStatistics)
+endif(ITK_OBJCXX_COMPILER_WORKS)
 
-ADD_EXECUTABLE(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkNumericsHeaderTest ITKNumerics ITKStatistics)
+add_executable(itkNumericsHeaderTest itkNumericsHeaderTest.cxx)
+target_link_libraries(itkNumericsHeaderTest ITKNumerics ITKStatistics)
 
-ADD_EXECUTABLE(itkNumericsTests itkNumericsTests.cxx ${Numerics_SRCS})
-TARGET_LINK_LIBRARIES(itkNumericsTests ITKNumerics ITKIO ITKStatistics)
+add_executable(itkNumericsTests itkNumericsTests.cxx ${Numerics_SRCS})
+target_link_libraries(itkNumericsTests ITKNumerics ITKIO ITKStatistics)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )
 
 

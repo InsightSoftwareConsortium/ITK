@@ -1,24 +1,24 @@
-PROJECT(PatentedExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(PatentedExamples)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(FuzzyConnectednessImageFilter FuzzyConnectednessImageFilter.cxx )
-TARGET_LINK_LIBRARIES(FuzzyConnectednessImageFilter ITKNumerics ITKIO)
+add_executable(FuzzyConnectednessImageFilter FuzzyConnectednessImageFilter.cxx )
+target_link_libraries(FuzzyConnectednessImageFilter ITKNumerics ITKIO)
 
-ADD_EXECUTABLE(HybridSegmentationFuzzyVoronoi HybridSegmentationFuzzyVoronoi.cxx )
-TARGET_LINK_LIBRARIES(HybridSegmentationFuzzyVoronoi ITKNumerics ITKIO)
+add_executable(HybridSegmentationFuzzyVoronoi HybridSegmentationFuzzyVoronoi.cxx )
+target_link_libraries(HybridSegmentationFuzzyVoronoi ITKNumerics ITKIO)
 
-SET(PATENTED_EXAMPLES ${CXX_TEST_PATH}/PatentedExamples)
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Patented)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+set(PATENTED_EXAMPLES ${CXX_TEST_PATH}/PatentedExamples)
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Patented)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+if( NOT ITK_DISABLE_CXX_TESTING )
 
-IF(BUILD_TESTING)
+if(BUILD_TESTING)
 
-ADD_EXECUTABLE(PatentedExamples PatentedExamples.cxx )
-TARGET_LINK_LIBRARIES(PatentedExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
+add_executable(PatentedExamples PatentedExamples.cxx )
+target_link_libraries(PatentedExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
-ADD_TEST(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
+add_test(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
   --compare ${BASELINE}/FuzzyConnectednessVWEyeTest.png
             ${TEMP}/FuzzyConnectednessVWEyeTest.png
   FuzzyConnectednessImageFilterTest
@@ -28,7 +28,7 @@ ADD_TEST(FuzzyConnectednessImageFilter ${PATENTED_EXAMPLES}
         64 66 3.0
 )
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )
 

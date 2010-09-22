@@ -1,36 +1,36 @@
 
 # configure the test driver
-FIND_PROGRAM(ITK_TEST_DRIVER itkTestDriver)
+find_program(ITK_TEST_DRIVER itkTestDriver)
 
-IF(WIN32)
-  SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+if(WIN32)
+  set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
     "${JAVA_RUNTIME}"
     -cp "${CMAKE_CURRENT_BINARY_DIR}\;${WrapITK_BINARY_DIR}/Java/\${CTEST_CONFIGURATION_TYPE}/InsightToolkit.jar"
   )
-ELSE(WIN32)
-  SET(JAVA_DRIVER "${ITK_TEST_DRIVER}"
+else(WIN32)
+  set(JAVA_DRIVER "${ITK_TEST_DRIVER}"
     "${JAVA_RUNTIME}"
     -cp "${CMAKE_CURRENT_BINARY_DIR}:${WrapITK_BINARY_DIR}/Java/\${CTEST_CONFIGURATION_TYPE}/InsightToolkit.jar"
   )
-ENDIF(WIN32)
-  
+endif(WIN32)
+
 
 # put all generated files in this list
-SET(targets "")
+set(targets "")
 
-MACRO(BUILD_JAVA_TEST name)
+macro(BUILD_JAVA_TEST name)
   # a convenient macro to build java tests
-  # 
-  ADD_CUSTOM_COMMAND(
+  #
+  add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.class
     DEPENDS ${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar
     COMMAND ${JAVA_COMPILE}
     ARGS -classpath "${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar"
     -d "${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_SOURCE_DIR}/${name}.java
     )
-  SET(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${name}.class)
-  
-ENDMACRO(BUILD_JAVA_TEST)
+  set(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${name}.class)
+
+endmacro(BUILD_JAVA_TEST)
 
 
 
@@ -42,40 +42,40 @@ ENDMACRO(BUILD_JAVA_TEST)
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255
-LIST(REMOVE_ITEM types SC)
-FOREACH(JAVA_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
-  FOREACH(JAVA_TEST_PIXEL_TYPE ${types})
+list(REMOVE_ITEM types SC)
+foreach(JAVA_TEST_IMAGE_DIMENSION ${WRAP_ITK_DIMS})
+  foreach(JAVA_TEST_PIXEL_TYPE ${types})
 
-    SET(TEST_FILE_NAME simplePipeline${JAVA_TEST_PIXEL_TYPE}${JAVA_TEST_IMAGE_DIMENSION})
+    set(TEST_FILE_NAME simplePipeline${JAVA_TEST_PIXEL_TYPE}${JAVA_TEST_IMAGE_DIMENSION})
 
-    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.java.in"
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.java.in"
                   "${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.java"
                   @ONLY IMMEDIATE)
 
-    ADD_CUSTOM_COMMAND(
+    add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.class
       DEPENDS ${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar ${WrapITK_BINARY_DIR}/Java/Tests/${TEST_FILE_NAME}.java
       COMMAND ${JAVA_COMPILE}
       ARGS -classpath "${WrapITK_BINARY_DIR}/Java/${CMAKE_CFG_INTDIR}/InsightToolkit.jar" -d "${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.java
     )
 
-    ADD_TEST(JavaSimplePipeline${JAVA_TEST_PIXEL_TYPE}${JAVA_TEST_IMAGE_DIMENSION}
+    add_test(JavaSimplePipeline${JAVA_TEST_PIXEL_TYPE}${JAVA_TEST_IMAGE_DIMENSION}
       ${JAVA_DRIVER}
       ${TEST_FILE_NAME}
       ${WrapITK_SOURCE_DIR}/images/cthead1.png
       ${TEST_FILE_NAME}.nrrd
       --compare ${TEST_FILE_NAME}.nrrd ${WrapITK_SOURCE_DIR}/images/cthead1.png
     )
-    
-    SET(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.class)
 
-  ENDFOREACH(JAVA_TEST_PIXEL_TYPE)
-ENDFOREACH(JAVA_TEST_IMAGE_DIMENSION)
+    set(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.class)
 
-
+  endforeach(JAVA_TEST_PIXEL_TYPE)
+endforeach(JAVA_TEST_IMAGE_DIMENSION)
 
 
-ADD_CUSTOM_TARGET(JavaTests ALL DEPENDS ${targets})
-ADD_DEPENDENCIES(JavaTests ITKJavaJar)
+
+
+add_custom_target(JavaTests ALL DEPENDS ${targets})
+add_dependencies(JavaTests ITKJavaJar)
 
 

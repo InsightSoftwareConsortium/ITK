@@ -1,5 +1,5 @@
 # create the ITKBasicFiltersTcl libraries
-SET(WRAP_SOURCES
+set(WRAP_SOURCES
   wrap_itkAnisotropicDiffusionImageFilter_2D
   wrap_itkAnisotropicDiffusionImageFilter_3D
   wrap_itkBinaryThresholdImageFilter
@@ -30,7 +30,7 @@ SET(WRAP_SOURCES
   wrap_itkTernaryMagnitudeImageFilter
 )
 
-SET(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
+set(MASTER_INDEX_FILES "${WrapITK_BINARY_DIR}/VXLNumerics/VXLNumerics.mdx"
   "${WrapITK_BINARY_DIR}/Numerics/ITKNumerics.mdx"
   "${WrapITK_BINARY_DIR}/CommonA/ITKCommonA.mdx"
   "${WrapITK_BINARY_DIR}/CommonB/ITKCommonB.mdx"

@@ -1,5 +1,5 @@
 WRAP_CLASS("itk::GroupSpatialObject" POINTER)
-  FOREACH(d ${WRAP_ITK_DIMS})
+  foreach(d ${WRAP_ITK_DIMS})
     WRAP_TEMPLATE(${d} ${d})
-  ENDFOREACH(d)
+  endforeach(d)
 END_WRAP_CLASS()

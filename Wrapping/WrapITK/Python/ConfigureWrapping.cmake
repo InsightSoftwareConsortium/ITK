@@ -1,6 +1,6 @@
-FIND_PACKAGE(PythonLibs)
-FIND_PACKAGE(PythonInterp)
-MARK_AS_ADVANCED(PYTHON_EXECUTABLE)
+find_package(PythonLibs)
+find_package(PythonInterp)
+mark_as_advanced(PYTHON_EXECUTABLE)
 
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+include_directories(${PYTHON_INCLUDE_PATH})
 

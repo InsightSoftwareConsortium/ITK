@@ -1,130 +1,130 @@
-PROJECT(StatisticsExamples)
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+project(StatisticsExamples)
+include_regular_expression("^.*$")
 
-ADD_EXECUTABLE(BayesianPluginClassifier BayesianPluginClassifier.cxx )
-TARGET_LINK_LIBRARIES(BayesianPluginClassifier ITKStatistics)
+add_executable(BayesianPluginClassifier BayesianPluginClassifier.cxx )
+target_link_libraries(BayesianPluginClassifier ITKStatistics)
 
-ADD_EXECUTABLE( BayesianClassifierInitializer BayesianClassifierInitializer.cxx )
-TARGET_LINK_LIBRARIES(BayesianClassifierInitializer ITKStatistics ITKIO)
+add_executable( BayesianClassifierInitializer BayesianClassifierInitializer.cxx )
+target_link_libraries(BayesianClassifierInitializer ITKStatistics ITKIO)
 
-ADD_EXECUTABLE( BayesianClassifier BayesianClassifier.cxx )
-TARGET_LINK_LIBRARIES(BayesianClassifier ITKStatistics ITKIO)
+add_executable( BayesianClassifier BayesianClassifier.cxx )
+target_link_libraries(BayesianClassifier ITKStatistics ITKIO)
 
-ADD_EXECUTABLE(EuclideanDistance EuclideanDistance.cxx )
-TARGET_LINK_LIBRARIES(EuclideanDistance ITKCommon)
+add_executable(EuclideanDistance EuclideanDistance.cxx )
+target_link_libraries(EuclideanDistance ITKCommon)
 
-ADD_EXECUTABLE(ExpectationMaximizationMixtureModelEstimator ExpectationMaximizationMixtureModelEstimator.cxx )
-TARGET_LINK_LIBRARIES(ExpectationMaximizationMixtureModelEstimator
+add_executable(ExpectationMaximizationMixtureModelEstimator ExpectationMaximizationMixtureModelEstimator.cxx )
+target_link_libraries(ExpectationMaximizationMixtureModelEstimator
 ITKStatistics)
 
-ADD_EXECUTABLE(GaussianDensityFunction GaussianDensityFunction.cxx )
-TARGET_LINK_LIBRARIES(GaussianDensityFunction ITKCommon)
+add_executable(GaussianDensityFunction GaussianDensityFunction.cxx )
+target_link_libraries(GaussianDensityFunction ITKCommon)
 
-ADD_EXECUTABLE(Histogram Histogram.cxx )
-TARGET_LINK_LIBRARIES(Histogram ITKStatistics)
+add_executable(Histogram Histogram.cxx )
+target_link_libraries(Histogram ITKStatistics)
 
-ADD_EXECUTABLE(KdTree KdTree.cxx )
-TARGET_LINK_LIBRARIES(KdTree ITKCommon)
+add_executable(KdTree KdTree.cxx )
+target_link_libraries(KdTree ITKCommon)
 
-ADD_EXECUTABLE(KdTreeBasedKMeansClustering KdTreeBasedKMeansClustering.cxx )
-TARGET_LINK_LIBRARIES(KdTreeBasedKMeansClustering ITKStatistics)
+add_executable(KdTreeBasedKMeansClustering KdTreeBasedKMeansClustering.cxx )
+target_link_libraries(KdTreeBasedKMeansClustering ITKStatistics)
 
-ADD_EXECUTABLE(ListSample ListSample.cxx )
-TARGET_LINK_LIBRARIES(ListSample ITKCommon)
+add_executable(ListSample ListSample.cxx )
+target_link_libraries(ListSample ITKCommon)
 
-ADD_EXECUTABLE(ListSampleToHistogramFilter ListSampleToHistogramFilter.cxx )
-TARGET_LINK_LIBRARIES(ListSampleToHistogramFilter ITKStatistics)
+add_executable(ListSampleToHistogramFilter ListSampleToHistogramFilter.cxx )
+target_link_libraries(ListSampleToHistogramFilter ITKStatistics)
 
-ADD_EXECUTABLE(ListSampleToHistogramGenerator ListSampleToHistogramGenerator.cxx )
-TARGET_LINK_LIBRARIES(ListSampleToHistogramGenerator ITKStatistics)
+add_executable(ListSampleToHistogramGenerator ListSampleToHistogramGenerator.cxx )
+target_link_libraries(ListSampleToHistogramGenerator ITKStatistics)
 
-ADD_EXECUTABLE(MaximumDecisionRule MaximumDecisionRule.cxx )
-TARGET_LINK_LIBRARIES(MaximumDecisionRule ITKCommon)
+add_executable(MaximumDecisionRule MaximumDecisionRule.cxx )
+target_link_libraries(MaximumDecisionRule ITKCommon)
 
-ADD_EXECUTABLE(MaximumRatioDecisionRule MaximumRatioDecisionRule.cxx )
-TARGET_LINK_LIBRARIES(MaximumRatioDecisionRule ITKCommon)
+add_executable(MaximumRatioDecisionRule MaximumRatioDecisionRule.cxx )
+target_link_libraries(MaximumRatioDecisionRule ITKCommon)
 
-ADD_EXECUTABLE(MembershipSample MembershipSample.cxx )
-TARGET_LINK_LIBRARIES(MembershipSample ITKCommon)
+add_executable(MembershipSample MembershipSample.cxx )
+target_link_libraries(MembershipSample ITKCommon)
 
-ADD_EXECUTABLE(MinimumDecisionRule MinimumDecisionRule.cxx )
-TARGET_LINK_LIBRARIES(MinimumDecisionRule ITKCommon)
+add_executable(MinimumDecisionRule MinimumDecisionRule.cxx )
+target_link_libraries(MinimumDecisionRule ITKCommon)
 
-ADD_EXECUTABLE(NeighborhoodSampler NeighborhoodSampler.cxx )
-TARGET_LINK_LIBRARIES(NeighborhoodSampler ITKCommon)
+add_executable(NeighborhoodSampler NeighborhoodSampler.cxx )
+target_link_libraries(NeighborhoodSampler ITKCommon)
 
-ADD_EXECUTABLE(NormalVariateGenerator NormalVariateGenerator.cxx )
-TARGET_LINK_LIBRARIES(NormalVariateGenerator ITKStatistics)
+add_executable(NormalVariateGenerator NormalVariateGenerator.cxx )
+target_link_libraries(NormalVariateGenerator ITKStatistics)
 
-ADD_EXECUTABLE(PointSetToListAdaptor PointSetToListAdaptor.cxx )
-TARGET_LINK_LIBRARIES(PointSetToListAdaptor ITKCommon)
+add_executable(PointSetToListAdaptor PointSetToListAdaptor.cxx )
+target_link_libraries(PointSetToListAdaptor ITKCommon)
 
 
-ADD_EXECUTABLE(SampleStatistics SampleStatistics.cxx )
-TARGET_LINK_LIBRARIES(SampleStatistics ITKCommon)
+add_executable(SampleStatistics SampleStatistics.cxx )
+target_link_libraries(SampleStatistics ITKCommon)
 
-ADD_EXECUTABLE(SampleToHistogramProjectionFilter SampleToHistogramProjectionFilter.cxx )
-TARGET_LINK_LIBRARIES(SampleToHistogramProjectionFilter ITKStatistics)
+add_executable(SampleToHistogramProjectionFilter SampleToHistogramProjectionFilter.cxx )
+target_link_libraries(SampleToHistogramProjectionFilter ITKStatistics)
 
-ADD_EXECUTABLE(SampleSorting SampleSorting.cxx )
-TARGET_LINK_LIBRARIES(SampleSorting ITKCommon)
+add_executable(SampleSorting SampleSorting.cxx )
+target_link_libraries(SampleSorting ITKCommon)
 
-ADD_EXECUTABLE(WeightedSampleStatistics WeightedSampleStatistics.cxx )
-TARGET_LINK_LIBRARIES(WeightedSampleStatistics ITKCommon)
+add_executable(WeightedSampleStatistics WeightedSampleStatistics.cxx )
+target_link_libraries(WeightedSampleStatistics ITKCommon)
 
-ADD_EXECUTABLE(ImageHistogram3 ImageHistogram3.cxx )
-TARGET_LINK_LIBRARIES(ImageHistogram3 ITKIO ITKStatistics )
+add_executable(ImageHistogram3 ImageHistogram3.cxx )
+target_link_libraries(ImageHistogram3 ITKIO ITKStatistics )
 
-ADD_EXECUTABLE(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
-TARGET_LINK_LIBRARIES(ScalarImageMarkovRandomField1 ITKIO )
+add_executable(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
+target_link_libraries(ScalarImageMarkovRandomField1 ITKIO )
 
-ADD_EXECUTABLE(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
-TARGET_LINK_LIBRARIES(ScalarImageKmeansClassifier ITKIO )
+add_executable(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
+target_link_libraries(ScalarImageKmeansClassifier ITKIO )
 
-ADD_EXECUTABLE(ImageToListAdaptor ImageToListAdaptor.cxx )
-TARGET_LINK_LIBRARIES(ImageToListAdaptor ITKCommon)
+add_executable(ImageToListAdaptor ImageToListAdaptor.cxx )
+target_link_libraries(ImageToListAdaptor ITKCommon)
 
-ADD_EXECUTABLE(ImageHistogram1 ImageHistogram1.cxx )
-TARGET_LINK_LIBRARIES(ImageHistogram1 ITKIO ITKStatistics )
+add_executable(ImageHistogram1 ImageHistogram1.cxx )
+target_link_libraries(ImageHistogram1 ITKIO ITKStatistics )
 
-ADD_EXECUTABLE(ImageHistogram2 ImageHistogram2.cxx )
-TARGET_LINK_LIBRARIES(ImageHistogram2 ITKIO ITKStatistics )
+add_executable(ImageHistogram2 ImageHistogram2.cxx )
+target_link_libraries(ImageHistogram2 ITKIO ITKStatistics )
 
-ADD_EXECUTABLE(ImageHistogram4 ImageHistogram4.cxx )
-TARGET_LINK_LIBRARIES(ImageHistogram4 ITKIO ITKStatistics )
+add_executable(ImageHistogram4 ImageHistogram4.cxx )
+target_link_libraries(ImageHistogram4 ITKIO ITKStatistics )
 
-ADD_EXECUTABLE(ImageEntropy1 ImageEntropy1.cxx )
-TARGET_LINK_LIBRARIES(ImageEntropy1 ITKIO ITKStatistics)
+add_executable(ImageEntropy1 ImageEntropy1.cxx )
+target_link_libraries(ImageEntropy1 ITKIO ITKStatistics)
 
-ADD_EXECUTABLE(ImageMutualInformation1 ImageMutualInformation1.cxx )
-TARGET_LINK_LIBRARIES(ImageMutualInformation1 ITKIO ITKStatistics )
+add_executable(ImageMutualInformation1 ImageMutualInformation1.cxx )
+target_link_libraries(ImageMutualInformation1 ITKIO ITKStatistics )
 
-ADD_EXECUTABLE(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
-TARGET_LINK_LIBRARIES(ScalarImageKmeansModelEstimator ITKIO )
+add_executable(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx )
+target_link_libraries(ScalarImageKmeansModelEstimator ITKIO )
 
 # Add some tests now, based on the examples.
 
-IF( NOT ITK_DISABLE_CXX_TESTING )
+if( NOT ITK_DISABLE_CXX_TESTING )
 
-IF(BUILD_TESTING)
+if(BUILD_TESTING)
 
-SET(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
-SET(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
-SET(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
-SET(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
-SET(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
-SET(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
+set(STATISTICS_EXAMPLES_WITH_TESTS ${CXX_TEST_PATH}/StatisticsExamplesTests)
+set(STATISTICS_EXAMPLES_WITH_TESTS2 ${CXX_TEST_PATH}/StatisticsExamplesTests2)
+set(STATISTICS_EXAMPLES_WITH_TESTS3 ${CXX_TEST_PATH}/StatisticsExamplesTests3)
+set(STATISTICS_EXAMPLES_WITH_TESTS4 ${CXX_TEST_PATH}/StatisticsExamplesTests4)
+set(BASELINE ${ITK_DATA_ROOT}/Baseline/Statistics)
+set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
-ADD_TEST( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
+add_test( ScalarImageKmeansClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageKmeansClassifierOutput.png
             ${TEMP}/ScalarImageKmeansClassifierOutput.png
-  ScalarImageKmeansClassifierTest 
+  ScalarImageKmeansClassifierTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainT1Slice.png
         ${TEMP}/ScalarImageKmeansClassifierOutput.png
         1 3 14.8 91.6 134.9
 )
 
-ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
+add_test( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
   --compare ${BASELINE}/ScalarImageMarkovRandomField1Output.png
             ${TEMP}/ScalarImageMarkovRandomField1Output.png
   ScalarImageMarkovRandomField1Test
@@ -134,11 +134,11 @@ ADD_TEST( ScalarImageMarkovRandomField1Test ${STATISTICS_EXAMPLES_WITH_TESTS3}
             50 3 3 14.8 91.6 134.9
 )
 
-ADD_TEST( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS} 
+add_test( BayesianPluginClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           BayesianPluginClassifierTest)
-        
-ADD_TEST( BayesianClassifierInitializerTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
-  --compare ${BASELINE}/BayesianClassifierInitializerClass2Output.png 
+
+add_test( BayesianClassifierInitializerTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
+  --compare ${BASELINE}/BayesianClassifierInitializerClass2Output.png
             ${TEMP}/BayesianClassifierInitializerClass2Output.png
   BayesianClassifierInitializerTest
             ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -148,41 +148,41 @@ ADD_TEST( BayesianClassifierInitializerTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
 
 # This test uses inputs from BayesianClassifierInitializer.
 # If that output changes, a new file should be placed in Examples/Data.
-ADD_TEST( BayesianClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
-  --compare ${BASELINE}/BayesianClassifierLabelMap.png 
+add_test( BayesianClassifierTest ${STATISTICS_EXAMPLES_WITH_TESTS4}
+  --compare ${BASELINE}/BayesianClassifierLabelMap.png
             ${TEMP}/BayesianClassifierLabelMap.png
   BayesianClassifierTest
             ${ITK_SOURCE_DIR}/Examples/Data/BayesianClassifierInitializerMemberships.mhd
             ${TEMP}/BayesianClassifierLabelMap.png 2
 )
 
-ADD_TEST( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+add_test( EuclideanDistanceTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           EuclideanDistanceTest)
 
-ADD_TEST( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
+add_test( GaussianDensityFunctionTest ${STATISTICS_EXAMPLES_WITH_TESTS}
           GaussianDensityFunctionTest)
 
-ADD_TEST( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
+add_test( MinimumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MinimumDecisionRuleTest)
 
-ADD_TEST( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
+add_test( MaximumDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumDecisionRuleTest)
 
-ADD_TEST( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
+add_test( MaximumRatioDecisionRuleTest ${STATISTICS_EXAMPLES_WITH_TESTS2}
           MaximumRatioDecisionRuleTest)
 
-ADD_EXECUTABLE( StatisticsExamplesTests StatisticsExamplesTests.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests ITKIO ITKStatistics)
+add_executable( StatisticsExamplesTests StatisticsExamplesTests.cxx)
+target_link_libraries( StatisticsExamplesTests ITKIO ITKStatistics)
 
-ADD_EXECUTABLE( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests2 ITKIO ITKStatistics)
+add_executable( StatisticsExamplesTests2 StatisticsExamplesTests2.cxx)
+target_link_libraries( StatisticsExamplesTests2 ITKIO ITKStatistics)
 
-ADD_EXECUTABLE( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests4 ITKIO ITKStatistics)
+add_executable( StatisticsExamplesTests4 StatisticsExamplesTests4.cxx)
+target_link_libraries( StatisticsExamplesTests4 ITKIO ITKStatistics)
 
-ADD_EXECUTABLE( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
-TARGET_LINK_LIBRARIES( StatisticsExamplesTests3 ITKIO ITKStatistics)
+add_executable( StatisticsExamplesTests3 StatisticsExamplesTests3.cxx)
+target_link_libraries( StatisticsExamplesTests3 ITKIO ITKStatistics)
 
-ENDIF(BUILD_TESTING)
+endif(BUILD_TESTING)
 
-ENDIF( NOT ITK_DISABLE_CXX_TESTING )
+endif( NOT ITK_DISABLE_CXX_TESTING )

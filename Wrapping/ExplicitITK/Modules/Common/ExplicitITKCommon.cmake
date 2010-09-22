@@ -1,6 +1,6 @@
-SET(ExplicitITK_SOURCE_DIR "${ITK_SOURCE_DIR}/Wrapping/ExplicitITK")
+set(ExplicitITK_SOURCE_DIR "${ITK_SOURCE_DIR}/Wrapping/ExplicitITK")
 
-INCLUDE(${ExplicitITK_SOURCE_DIR}/CreateITKExplicitInstantiations.cmake)
+include(${ExplicitITK_SOURCE_DIR}/CreateITKExplicitInstantiations.cmake)
 
 BEGIN_WRAPPER_LIBRARY(ITKCommon "${ExplicitITK_SOURCE_DIR}/Modules/Common")
 

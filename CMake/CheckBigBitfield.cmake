@@ -6,24 +6,24 @@
 # VARIABLE - variable to store the result to
 #
 
-MACRO(CHECK_BIG_BITFIELD VARIABLE LOCAL_TEST_DIR)
- IF("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
-  MESSAGE(STATUS "Checking to see if this platform supports large bit-fields (>32 bits)")
-  TRY_RUN(DUMMY ${VARIABLE}
+macro(CHECK_BIG_BITFIELD VARIABLE LOCAL_TEST_DIR)
+ if("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
+  message(STATUS "Checking to see if this platform supports large bit-fields (>32 bits)")
+  try_run(DUMMY ${VARIABLE}
     ${CMAKE_BINARY_DIR}
     ${LOCAL_TEST_DIR}/CheckBigBitfield.c
     OUTPUT_VARIABLE OUTPUT)
-  IF(${VARIABLE})
-    SET(HAVE_${VARIABLE} TRUE CACHE INTERNAL " ")
-    MESSAGE(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - yes")
-    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
+  if(${VARIABLE})
+    set(HAVE_${VARIABLE} TRUE CACHE INTERNAL " ")
+    message(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - yes")
+    file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Checking to see if this platform supports large bit-fields (>32 bits) passed with "
       "the following output:\n${OUTPUT}\n\n")
-  ELSE(${VARIABLE})
-    MESSAGE(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - no")
-    FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+  else(${VARIABLE})
+    message(STATUS "Checking to see if this platform supports large bit-fields (>32 bits) - no")
+    file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Checking to see if this platform supports large bit-fields (>32 bits) failed with "
       "the following output:\n${OUTPUT}\n\n")
-  ENDIF(${VARIABLE})
-  ENDIF("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
-ENDMACRO(CHECK_BIG_BITFIELD)
+  endif(${VARIABLE})
+  endif("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
+endmacro(CHECK_BIG_BITFIELD)

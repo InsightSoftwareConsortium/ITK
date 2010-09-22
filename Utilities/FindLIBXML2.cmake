@@ -1,1 +1,1 @@
-INCLUDE(${CMAKE_ROOT}/Modules/FindLibXml2.cmake)
+include(${CMAKE_ROOT}/Modules/FindLibXml2.cmake)

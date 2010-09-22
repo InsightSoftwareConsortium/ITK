@@ -1,21 +1,21 @@
-IF(WRAP_ITK_JAVA)
-  SET_SOURCE_FILES_PROPERTIES(${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx GENERATED)
-  ADD_LIBRARY(SwigRuntimeJava SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx JavaCWD.cxx)
-  IF(APPLE)
-    SET_TARGET_PROPERTIES(SwigRuntimeJava PROPERTIES SUFFIX .jnilib)
-  ENDIF(APPLE)
+if(WRAP_ITK_JAVA)
+  set_source_files_properties(${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx GENERATED)
+  add_library(SwigRuntimeJava SHARED ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx JavaCWD.cxx)
+  if(APPLE)
+    set_target_properties(SwigRuntimeJava PROPERTIES SUFFIX .jnilib)
+  endif(APPLE)
 
   # fix missing stdc++ linkage on solaris
-  IF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
-    TARGET_LINK_LIBRARIES(SwigRuntimeJava stdc++)
-  ENDIF(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+  if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+    target_link_libraries(SwigRuntimeJava stdc++)
+  endif(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
 
-  INSTALL_TARGETS("${WRAP_ITK_INSTALL_PREFIX}/lib" SwigRuntimeJava)
-  INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-  ADD_CUSTOM_COMMAND(
+  install_targets("${WRAP_ITK_INSTALL_PREFIX}/lib" SwigRuntimeJava)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+  add_custom_command(
         COMMENT "run native swig on SwigExtras.i"
         SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/JavaCWD.i
-        COMMAND ${CSWIG} 
+        COMMAND ${CSWIG}
         ARGS -nocable -noruntime ${IGNORE_WARNINGS} -o ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx
         -outdir "${WRAP_ITK_JAVA_DIR}/InsightToolkit"
         -package InsightToolkit
@@ -23,6 +23,6 @@ IF(WRAP_ITK_JAVA)
         TARGET ${LIBRARY_NAME}Java
         OUTPUTS ${WrapITK_BINARY_DIR}/SwigRuntime/JavaCWDJava.cxx ${WrapITK_BINARY_DIR}/${WRAP_ITK_JAVA_DIR}/InsightToolkit/JavaCWD.java
         DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/JavaCWD.i ${CSWIG})
-ENDIF(WRAP_ITK_JAVA)
+endif(WRAP_ITK_JAVA)
 
 
