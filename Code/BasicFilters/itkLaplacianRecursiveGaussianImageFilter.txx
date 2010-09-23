@@ -45,6 +45,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(DerivativeFilterType::SecondOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
+  m_DerivativeFilter->ReleaseDataFlagOn();
 
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -55,8 +56,6 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     m_SmoothingFilters[i]->SetInput(
       m_SmoothingFilters[i - 1]->GetOutput() );
     }
-
-  m_CumulativeImage = CumulativeImageType::New();
 
   this->SetSigma(1.0);
 }
@@ -140,17 +139,25 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   const typename TInputImage::ConstPointer inputImage( this->GetInput() );
 
+  // initialize output image
+  //
+  // NOTE: We intentionally don't allocate the output image here,
+  // because the cast image filter will either run inplace, or alloate
+  // the output there. The requested region has already been set in
+  // ImageToImageFilter::GenerateInputImageFilter.
   typename TOutputImage::Pointer outputImage( this->GetOutput() );
+  //outputImage->Allocate(); let the CasterImageFilter allocate the image
 
-  outputImage = this->GetOutput();
 
-  outputImage->SetRegions( inputImage->GetBufferedRegion() );
+  //  Auxiliary image for accumulating the second-order derivatives
+  typedef Image< InternalRealType, itkGetStaticConstMacro(ImageDimension) > CumulativeImageType;
+  typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
 
-  outputImage->Allocate();
-
-  m_CumulativeImage->SetRegions( inputImage->GetBufferedRegion() );
-  m_CumulativeImage->Allocate();
-  m_CumulativeImage->FillBuffer(NumericTraits< InternalRealType >::Zero);
+  CumulativeImagePointer cumulativeImage = CumulativeImageType::New();
+  cumulativeImage->SetRegions( outputImage->GetRequestedRegion() );
+  cumulativeImage->CopyInformation( inputImage );
+  cumulativeImage->Allocate();
+  cumulativeImage->FillBuffer(NumericTraits< InternalRealType >::Zero);
 
   m_DerivativeFilter->SetInput(inputImage);
 
@@ -186,17 +193,21 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     addFilter->GetFunctor().m_Value = 1.0/spacing2;
 
     // Cummulate the results on the output image
-    addFilter->SetInput1( m_CumulativeImage );
+    addFilter->SetInput1( cumulativeImage );
     addFilter->SetInput2( lastFilter->GetOutput() );
     addFilter->InPlaceOn();
     addFilter->Update();
 
-    m_CumulativeImage = addFilter->GetOutput();
-    m_CumulativeImage->DisconnectPipeline();
+    cumulativeImage = addFilter->GetOutput();
+    cumulativeImage->DisconnectPipeline();
 
     // after each pass reset progress to accumulate next iteration
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
+
+  // Becayse the output of this filter is not pipelined the data must
+  // be manually released
+  m_SmoothingFilters[ImageDimension - 2]->GetOutput()->ReleaseData();
 
   // Finally convert the cumulated image to the output
 
@@ -204,7 +215,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // it may perform no operation if the two images types are the same
   typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
   typename CastFilterType::Pointer caster = CastFilterType::New();
-  caster->SetInput( m_CumulativeImage );
+  caster->SetInput( cumulativeImage );
 
   // register with progress accumulator
   progress->RegisterInternalFilter( caster,   1.0 / numberOfFilters );

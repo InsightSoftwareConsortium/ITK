@@ -86,11 +86,6 @@ public:
   typedef TOutputImage                                 OutputImageType;
   typedef typename          OutputImageType::PixelType OutputPixelType;
 
-  /**  Auxiliary image for holding the values of the squared gradient components
-    */
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
-  typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
 
   /**  Command for observing progress of internal pipeline filters */
   typedef          MemberCommand< Self > CommandType;
@@ -152,8 +147,6 @@ private:
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
   DerivativeFilterPointer m_DerivativeFilter;
-
-  CumulativeImagePointer m_CumulativeImage;
 
   /** Normalize the image across scale space */
   bool m_NormalizeAcrossScale;
