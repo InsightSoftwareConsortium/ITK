@@ -95,28 +95,6 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-//
-//
-//
-template< typename TInputImage, typename TOutputImage >
-void
-LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
-{
-  // call the superclass' implementation of this method. this should
-  // copy the output requested region to the input requested region
-  Superclass::GenerateInputRequestedRegion();
-
-  // This filter needs all of the input
-  typename LaplacianRecursiveGaussianImageFilter< TInputImage,
-                                                  TOutputImage >::InputImagePointer image =
-    const_cast< InputImageType * >( this->GetInput() );
-  if ( image )
-    {
-    image->SetRequestedRegion( this->GetInput()->GetLargestPossibleRegion() );
-    }
-}
 
 //
 //

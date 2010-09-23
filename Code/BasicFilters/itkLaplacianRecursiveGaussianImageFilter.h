@@ -18,9 +18,7 @@
 #define __itkLaplacianRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveGaussianImageFilter.h"
-#include "itkNthElementImageAdaptor.h"
 #include "itkImage.h"
-#include "itkPixelTraits.h"
 #include "itkCommand.h"
 
 namespace itk
@@ -34,9 +32,6 @@ namespace itk
  * \ingroup GradientFilters
  * \ingroup Singlethreaded
  */
-// NOTE that the ITK_TYPENAME macro has to be used here in lieu
-// of "typename" because VC++ doesn't like the typename keyword
-// on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = TInputImage >
 class ITK_EXPORT LaplacianRecursiveGaussianImageFilter:
@@ -62,7 +57,6 @@ public:
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-
   typedef float InternalRealType;
   typedef Image< InternalRealType,
                  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
@@ -117,14 +111,6 @@ public:
 
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
-  /** LaplacianRecursiveGaussianImageFilter needs all of the input to produce an
-   * output. Therefore, LaplacianRecursiveGaussianImageFilter needs to provide
-   * an implementation for GenerateInputRequestedRegion in order to inform
-   * the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
-
 protected:
   LaplacianRecursiveGaussianImageFilter();
   virtual ~LaplacianRecursiveGaussianImageFilter() {}
@@ -140,8 +126,7 @@ private:
   LaplacianRecursiveGaussianImageFilter(const Self &); //purposely not
                                                        // implemented
   void operator=(const Self &);                        //purposely not
-
-  // implemented
+                                                       // implemented
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
   DerivativeFilterPointer m_DerivativeFilter;
