@@ -19,6 +19,7 @@
 
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkProgressAccumulator.h"
 
 namespace itk
 {
@@ -31,23 +32,17 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   m_NormalizeAcrossScale = false;
 
-  m_ProgressCommand = CommandType::New();
-  m_ProgressCommand->SetCallbackFunction(this, &Self::ReportProgress);
-  m_Progress  = 0.0f;
-
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
     {
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-    m_SmoothingFilters[i]->AddObserver(ProgressEvent(), m_ProgressCommand);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(DerivativeFilterType::SecondOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
-  m_DerivativeFilter->AddObserver(ProgressEvent(), m_ProgressCommand);
 
   m_DerivativeFilter->SetInput( this->GetInput() );
 
@@ -62,26 +57,6 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_CumulativeImage = CumulativeImageType::New();
 
   this->SetSigma(1.0);
-}
-
-/**
- *  Report progress by weigthing contributions of internal filters
- */
-template< typename TInputImage, typename TOutputImage >
-void
-LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::ReportProgress(const Object *object, const EventObject & event)
-{
-  const ProcessObject *internalFilter =
-    dynamic_cast< const ProcessObject * >( object );
-
-  if ( typeid( event ) == typeid( ProgressEvent() ) )
-    {
-    const float filterProgress    = internalFilter->GetProgress();
-    const float weightedProgress  = filterProgress / ImageDimension;
-    m_Progress += weightedProgress;
-    this->UpdateProgress(m_Progress);
-    }
 }
 
 /**
@@ -169,7 +144,18 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   itkDebugMacro(<< "LaplacianRecursiveGaussianImageFilter generating data ");
 
-  m_Progress = 0.0f;
+  // Create a process accumulator for tracking the progress of minipipeline
+  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  progress->SetMiniPipelineFilter(this);
+
+  const unsigned int numberOfFilters = vnl_math_sqr( ImageDimension );
+
+  // register (most) filters with the progress accumulator
+  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+    {
+    progress->RegisterInternalFilter(m_SmoothingFilters[i],  1.0 / numberOfFilters );
+    }
+  progress->RegisterInternalFilter(m_DerivativeFilter,   1.0 / numberOfFilters );
 
   const typename TInputImage::ConstPointer inputImage( this->GetInput() );
 
@@ -232,6 +218,9 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
       ++it;
       ++ot;
       }
+
+    // after each pass reset progress to accumulate next iteration
+    progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
 
   // Finally convert the cumulated image to the output
