@@ -20,6 +20,8 @@
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
+#include "itkCastImageFilter.h"
+#include "itkAddImageFilter.h"
 
 namespace itk
 {
@@ -126,7 +128,8 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  const unsigned int numberOfFilters = vnl_math_sqr( ImageDimension );
+  // dim^2 recursive gaussians + dim add filters + cast filter
+  const unsigned int numberOfFilters = vnl_math_sqr( ImageDimension ) +  ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
   for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
@@ -151,6 +154,15 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   m_DerivativeFilter->SetInput(inputImage);
 
+  // allocate the add and scale image filter just for the scope of
+  // this function!
+  typedef itk::BinaryFunctorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType, AddMultConstFunctor > AddFilterType;
+  typename AddFilterType::Pointer addFilter = AddFilterType::New();
+
+  // register with progress accumulator
+  progress->RegisterInternalFilter( addFilter,   1.0 / numberOfFilters );
+
+
   for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
     unsigned int i = 0;
@@ -169,55 +181,40 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
     GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 2];
 
-    lastFilter->Update();
+    // scale the new value by the inverse of the spacing squared
+    const RealType spacing2 = vnl_math_sqr( inputImage->GetSpacing()[dim] );
+    addFilter->GetFunctor().m_Value = 1.0/spacing2;
 
     // Cummulate the results on the output image
+    addFilter->SetInput1( m_CumulativeImage );
+    addFilter->SetInput2( lastFilter->GetOutput() );
+    addFilter->InPlaceOn();
+    addFilter->Update();
 
-    typename RealImageType::Pointer derivativeImage = lastFilter->GetOutput();
-
-    ImageRegionIteratorWithIndex< RealImageType > it(
-      derivativeImage,
-      derivativeImage->GetRequestedRegion() );
-
-    ImageRegionIteratorWithIndex< CumulativeImageType > ot(
-      m_CumulativeImage,
-      m_CumulativeImage->GetRequestedRegion() );
-
-    const RealType spacing = inputImage->GetSpacing()[dim];
-    const RealType spacing2 = spacing * spacing;
-
-    it.GoToBegin();
-    ot.GoToBegin();
-    while ( !it.IsAtEnd() )
-      {
-      const RealType value = it.Get() / spacing2;
-      const RealType cumulated = ot.Get() + value;
-      ot.Set(cumulated);
-      ++it;
-      ++ot;
-      }
+    m_CumulativeImage = addFilter->GetOutput();
+    m_CumulativeImage->DisconnectPipeline();
 
     // after each pass reset progress to accumulate next iteration
     progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
 
   // Finally convert the cumulated image to the output
-  ImageRegionIteratorWithIndex< OutputImageType > ot(
-    outputImage,
-    outputImage->GetRequestedRegion() );
 
-  ImageRegionIteratorWithIndex< CumulativeImageType > it(
-    m_CumulativeImage,
-    m_CumulativeImage->GetRequestedRegion() );
+  // The CastImageFilter is used here because it is multithreaded and
+  // it may perform no operation if the two images types are the same
+  typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
+  typename CastFilterType::Pointer caster = CastFilterType::New();
+  caster->SetInput( m_CumulativeImage );
 
-  it.GoToBegin();
-  ot.GoToBegin();
-  while ( !it.IsAtEnd() )
-    {
-    ot.Set( static_cast< OutputPixelType >( it.Get() ) );
-    ++it;
-    ++ot;
-    }
+  // register with progress accumulator
+  progress->RegisterInternalFilter( caster,   1.0 / numberOfFilters );
+
+  // graft the our output to the casted output to share the
+  // output bulk-data, meta-information and regions, then update the
+  // requested image
+  caster->GraftOutput( outputImage );
+  caster->Update();
+  this->GraftOutput( caster->GetOutput() );
 }
 
 template< typename TInputImage, typename TOutputImage >
