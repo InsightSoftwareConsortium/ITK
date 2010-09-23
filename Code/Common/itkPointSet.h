@@ -22,7 +22,7 @@
 
 #include "itkDataObject.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itkPointLocator.h"
+#include "itkBoundingBox.h"
 #include <vector>
 #include <set>
 
@@ -115,8 +115,6 @@ public:
 
   /** Used to support geometric operations on PointSet's such as locating
    * points quickly, and intersecting a point with a ray. */
-  typedef PointLocator< PointIdentifier, itkGetStaticConstMacro(PointDimension),
-                        CoordRepType, PointsContainer >  PointLocatorType;
   typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
                        CoordRepType, PointsContainer >   BoundingBoxType;
 
@@ -125,7 +123,6 @@ public:
   typedef typename PointsContainer::ConstPointer    PointsContainerConstPointer;
   typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
   typedef typename PointDataContainer::ConstPointer PointDataContainerConstPointer;
-  typedef typename PointLocatorType::Pointer        PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer         BoundingBoxPointer;
 
   /** Create types that are iterators for each of the container types. */
@@ -149,10 +146,6 @@ protected:
    * the points.  The data for a point can be accessed through its point
    * identifier. */
   PointDataContainerPointer m_PointDataContainer;
-
-  /** PointLocator is used to accelerate the search for points. This
-   * supports the FindClosestPoint() method.  */
-  PointLocatorPointer m_PointLocator;
 
   /** The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The
    * bounding box is used for searching, picking, display, etc. */

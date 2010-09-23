@@ -79,6 +79,7 @@
 #include "itkNthElementImageAdaptor.h"
 #include "itkObjectStore.h"
 #include "itkOneWayEquivalencyTable.h"
+#include "itkPointSet.h"
 #include "itkProgressAccumulator.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkRGBToVectorImageAdaptor.h"
@@ -434,10 +435,6 @@ int itkCommonPrintTest(int , char* [])
   itk::OneWayEquivalencyTable::Pointer OneWayEquivalencyTableObj =
     itk::OneWayEquivalencyTable::New();
   std:: cout << "-------------OneWayEquivalencyTable " << OneWayEquivalencyTableObj;
-
-  itk::PointLocator<unsigned long, 3,float>::Pointer PointLocatorObj =
-    itk::PointLocator<unsigned long, 3,float>::New();
-  std::cout << "------------PointLocator" << PointLocatorObj;
 
   itk::PointSet<PointType,2>::Pointer PointSetObj =
     itk::PointSet<PointType,2>::New();

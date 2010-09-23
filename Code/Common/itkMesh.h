@@ -160,8 +160,6 @@ public:
   typedef typename MeshTraits::CellDataContainer       CellDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
-  typedef PointLocator< PointIdentifier, itkGetStaticConstMacro(PointDimension),
-                        CoordRepType, PointsContainer >  PointLocatorType;
   typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
                        CoordRepType, PointsContainer >   BoundingBoxType;
 
@@ -173,7 +171,6 @@ public:
   typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer       CellDataContainerPointer;
   typedef typename CellDataContainer::ConstPointer  CellDataContainerConstPointer;
-  typedef typename PointLocatorType::Pointer        PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer         BoundingBoxPointer;
   typedef typename CellLinksContainer::ConstPointer CellLinksContainerConstPointer;
 
