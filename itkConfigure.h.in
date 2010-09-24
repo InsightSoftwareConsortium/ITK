@@ -14,6 +14,8 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
+#ifndef __itkConfigure_h
+#define __itkConfigure_h
 
 /*
  * here is where system computed values get stored these values should only
@@ -127,3 +129,4 @@
 #define ITK_VERSION_PATCH @ITK_VERSION_PATCH@
 #define ITK_VERSION_STRING "@ITK_VERSION_STRING@"
 
+#endif //__itkConfigure_h
