@@ -23,9 +23,7 @@
 #include "itkVisitorDispatcher.h"
 
 #include "itkFEMLoadPoint.h"
-#include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
-#include "itkFEMLoadLandmark.h"
 
 #include "itkFEMLoadImplementationGenericBodyLoad.h"
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"

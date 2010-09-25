@@ -48,7 +48,6 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkDeformationFieldSource.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 
 #include <fstream>

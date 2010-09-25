@@ -17,9 +17,7 @@
 #ifndef __itkGrayscaleConnectedOpeningImageFilter_txx
 #define __itkGrayscaleConnectedOpeningImageFilter_txx
 
-#include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleConnectedOpeningImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

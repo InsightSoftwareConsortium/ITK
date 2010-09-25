@@ -33,7 +33,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkVesselTubeSpatialObject.h"
-#include "itkVesselTubeSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )

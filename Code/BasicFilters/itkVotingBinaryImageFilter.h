@@ -18,7 +18,6 @@
 #define __itkVotingBinaryImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 
 namespace itk
 {

@@ -16,9 +16,6 @@
 =========================================================================*/
 
 #include <fstream>
-#include "itkVector.h"
-#include "itkImage.h"
-#include "itkTransform.h"
 #include "itkAffineTransform.h"
 #include "itkBSplineDeformableTransform.h"
 #include "itkTransformToDeformationFieldSource.h"

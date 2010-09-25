@@ -22,7 +22,6 @@
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkPathIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
 #include "itkVectorContainer.h"
 

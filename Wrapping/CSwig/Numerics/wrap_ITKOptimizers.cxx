@@ -16,19 +16,11 @@
 =========================================================================*/
 #include "itkAmoebaOptimizer.h"
 #include "itkConjugateGradientOptimizer.h"
-#include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkMultipleValuedNonLinearOptimizer.h"
-#include "itkMultipleValuedNonLinearVnlOptimizer.h"
-#include "itkNonLinearOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
-#include "itkRegularStepGradientDescentBaseOptimizer.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkSingleValuedNonLinearOptimizer.h"
-#include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "itkVersorTransformOptimizer.h"
 
 #ifdef CABLE_CONFIGURATION

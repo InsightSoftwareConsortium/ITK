@@ -20,7 +20,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
-#include "itkImage.h"
 
 namespace itk
 {

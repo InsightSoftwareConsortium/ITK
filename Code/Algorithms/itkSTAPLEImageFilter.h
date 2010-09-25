@@ -18,7 +18,6 @@
 #define __itkSTAPLEImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include <vector>
 
 namespace itk

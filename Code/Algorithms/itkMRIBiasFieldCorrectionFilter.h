@@ -20,15 +20,12 @@
 #include <time.h>
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkArray2D.h"
 #include "itkMRASlabIdentifier.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkMultivariateLegendrePolynomial.h"
 #include "Statistics/itkNormalVariateGenerator.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
-#include "itkArray.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

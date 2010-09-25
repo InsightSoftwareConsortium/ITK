@@ -19,7 +19,6 @@
 #endif
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshLineCell.h"
 
 int itkQuadEdgeMeshTest2( int , char* [] )
 {

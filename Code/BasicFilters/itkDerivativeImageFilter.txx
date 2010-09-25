@@ -21,7 +21,6 @@
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

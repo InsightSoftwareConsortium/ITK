@@ -33,8 +33,6 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkImage.h"
 
 #include "itkTimeProbesCollectorBase.h"
 

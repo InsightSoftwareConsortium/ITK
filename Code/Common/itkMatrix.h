@@ -18,7 +18,6 @@
 #define __itkMatrix_h
 
 #include "itkPoint.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/algo/vnl_matrix_inverse.h"

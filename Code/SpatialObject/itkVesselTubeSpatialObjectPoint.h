@@ -19,7 +19,6 @@
 #define __itkVesselTubeSpatialObjectPoint_h
 
 #include "itkTubeSpatialObjectPoint.h"
-#include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
 
 namespace itk

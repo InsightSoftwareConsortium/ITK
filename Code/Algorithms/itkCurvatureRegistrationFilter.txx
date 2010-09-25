@@ -20,7 +20,6 @@
 #include "itkCurvatureRegistrationFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 #include "vnl/vnl_math.h"

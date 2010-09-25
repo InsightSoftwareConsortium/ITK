@@ -16,7 +16,6 @@
 =========================================================================*/
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 
 #ifdef CABLE_CONFIGURATION

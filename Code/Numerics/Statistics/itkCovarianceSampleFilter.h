@@ -20,7 +20,6 @@
 
 #include "itkProcessObject.h"
 
-#include "itkArray.h"
 #include "itkVariableSizeMatrix.h"
 #include "itkSimpleDataObjectDecorator.h"
 

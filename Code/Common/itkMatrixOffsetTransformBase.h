@@ -21,7 +21,6 @@
 
 #include "itkMatrix.h"
 #include "itkTransform.h"
-#include "itkExceptionObject.h"
 #include "itkMacro.h"
 
 namespace itk

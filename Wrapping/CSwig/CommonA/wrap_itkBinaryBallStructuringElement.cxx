@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkBinaryBallStructuringElement.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

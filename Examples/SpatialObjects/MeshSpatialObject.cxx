@@ -20,7 +20,6 @@
 
 
 #include <itkDefaultDynamicMeshTraits.h>
-#include <itkMesh.h>
 #include <itkTetrahedronCell.h>
 
 // Software Guide : BeginLatex

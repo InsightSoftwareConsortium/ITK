@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkMIRegistrationFunction.h"
 #include "itkImageRandomIteratorWithIndex.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_math.h"
 #include "itkNeighborhoodIterator.h"
 

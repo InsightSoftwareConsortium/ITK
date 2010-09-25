@@ -19,7 +19,6 @@
 
 #include "metaMesh.h"
 #include "itkMeshSpatialObject.h"
-#include "itkSpatialObject.h"
 
 namespace itk
 {

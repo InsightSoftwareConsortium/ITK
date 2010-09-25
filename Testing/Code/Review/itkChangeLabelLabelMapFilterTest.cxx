@@ -18,8 +18,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkChangeLabelLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"

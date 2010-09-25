@@ -17,10 +17,6 @@
 #ifndef __itkImageSeriesWriter_h
 #define __itkImageSeriesWriter_h
 
-#include "itkProcessObject.h"
-#include "itkImageIOBase.h"
-#include "itkExceptionObject.h"
-#include "itkSize.h"
 #include "itkImageRegion.h"
 #include "itkImageFileWriter.h"
 #include <vector>

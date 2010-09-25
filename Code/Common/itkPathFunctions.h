@@ -17,10 +17,8 @@
 #ifndef __itkPathFunctions_h
 #define __itkPathFunctions_h
 
-#include "itkPath.h"
 #include "itkChainCodePath.h"
 #include "itkFourierSeriesPath.h"
-#include "itkOffset.h"
 #include <math.h>
 
 namespace itk

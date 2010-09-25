@@ -18,8 +18,6 @@
 #define __itkMultiResolutionPDEDeformableRegistration_h
 
 #include "itkImage.h"
-#include "itkImageToImageFilter.h"
-#include "itkPDEDeformableRegistrationFilter.h"
 #include "itkDemonsRegistrationFilter.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkVectorResampleImageFilter.h"

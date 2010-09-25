@@ -18,7 +18,6 @@
 #define __itkBioCellBase_h
 
 #include "itkRGBPixel.h"
-#include "itkVector.h"
 #include "itkPoint.h"
 #include "itkBioGenome.h"
 

@@ -51,9 +51,7 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 // Software Guide : EndCodeSnippet
 

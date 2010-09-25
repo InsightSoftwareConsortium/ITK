@@ -23,7 +23,6 @@
 
 #include "itkIntTypes.h"
 #include "itkProcessObject.h"
-#include "itkObjectFactory.h"
 #include "itkSpatialOrientation.h"
 
 namespace itk

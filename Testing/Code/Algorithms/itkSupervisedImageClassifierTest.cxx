@@ -22,7 +22,6 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIterator.h"
 #include "itkLightProcessObject.h"
 
 #include "itkImageGaussianModelEstimator.h"

@@ -38,7 +38,6 @@
 //    5
 //  Software Guide : EndCommandLineArgs
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"

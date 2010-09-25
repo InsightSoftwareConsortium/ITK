@@ -30,7 +30,6 @@
 //  Software Guide : EndLatex 
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

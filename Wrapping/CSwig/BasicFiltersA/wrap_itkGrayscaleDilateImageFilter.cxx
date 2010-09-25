@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkGrayscaleDilateImageFilter.h"
-#include "itkBinaryBallStructuringElement.h"
 #include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION

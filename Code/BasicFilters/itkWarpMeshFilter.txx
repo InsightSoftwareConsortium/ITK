@@ -18,7 +18,7 @@
 #define __itkWarpMeshFilter_txx
 
 #include "itkWarpMeshFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {

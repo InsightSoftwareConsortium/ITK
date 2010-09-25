@@ -20,8 +20,6 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkLabelObject.h"
-#include "itkStatisticsLabelObject.h"
-#include "itkStatisticsLabelObjectAccessors.h"
 #include "itkLabelMap.h"
 
 #include "itkStatisticsKeepNObjectsLabelMapFilter.h"

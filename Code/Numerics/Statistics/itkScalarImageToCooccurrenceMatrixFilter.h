@@ -19,11 +19,8 @@
 
 #include "itkImage.h"
 #include "itkHistogram.h"
-#include "itkDenseFrequencyContainer2.h"
 #include "itkVectorContainer.h"
-#include "itkObject.h"
 #include "itkNumericTraits.h"
-#include "itkMacro.h"
 
 namespace itk
 {

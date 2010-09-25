@@ -18,8 +18,6 @@
 #define __itkSingleValuedCostFunction_h
 
 #include "itkCostFunction.h"
-#include "itkArray.h"
-#include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 
 namespace itk

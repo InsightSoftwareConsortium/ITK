@@ -19,7 +19,6 @@
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkLabelObject.h"
-#include "itkLabelObjectAccessors.h"
 #include "itkShapeLabelObjectAccessors.h"
 
 namespace itk

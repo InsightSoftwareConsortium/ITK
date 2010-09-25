@@ -20,8 +20,6 @@
 #include "vnl/vnl_matrix_fixed.h"
 #include "itkMesh.h"
 #include "itkImageToMeshFilter.h"
-#include "itkVector.h"
-#include "itkCellInterface.h"
 #include "itkTriangleCell.h"
 #include "itkCovariantVector.h"
 #include "itkDefaultStaticMeshTraits.h"

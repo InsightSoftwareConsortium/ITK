@@ -19,7 +19,6 @@
 #define __itkAttributeMorphologyBaseImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include <vector>
 
 #define PAMI

@@ -17,9 +17,7 @@
 #ifndef __itkSmapsFileParser_h
 #define __itkSmapsFileParser_h
 
-#include "itkConfigure.h"
-#include "itkWin32Header.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include <string>
 #include <vector>

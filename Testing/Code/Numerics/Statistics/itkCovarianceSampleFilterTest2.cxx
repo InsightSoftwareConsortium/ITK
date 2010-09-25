@@ -20,7 +20,6 @@
 
 #include "itkCovarianceSampleFilter.h"
 #include "itkListSample.h"
-#include "itkFixedArray.h"
 
 int itkCovarianceSampleFilterTest2(int, char* [] )
 {

@@ -19,10 +19,8 @@
 #endif
 
 
-#include <itkImage.h>
 #include <itkSimpleContourExtractorImageFilter.h>
 #include "itkFilterWatcher.h"
-#include <itkExceptionObject.h>
 #include <itkImageFileReader.h>
 #include <itkImageFileWriter.h>
 

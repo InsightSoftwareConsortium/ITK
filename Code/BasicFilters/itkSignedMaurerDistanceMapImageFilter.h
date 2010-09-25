@@ -17,7 +17,6 @@
 #ifndef __itkSignedMaurerDistanceMapImageFilter_h
 #define __itkSignedMaurerDistanceMapImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk

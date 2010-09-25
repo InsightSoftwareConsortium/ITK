@@ -53,7 +53,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include "itkGDCMImageIO.h"
 // Software Guide : EndCodeSnippet

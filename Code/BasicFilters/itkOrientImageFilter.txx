@@ -18,15 +18,12 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkOrientImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkOrientImageFilter.h"
-#include <itkIOCommon.h>
 #include <itkCastImageFilter.h>
 #include <itkConstantPadImageFilter.h>
 #include <itkExtractImageFilter.h>
 #include "itkMetaDataObject.h"
 #include "itkProgressAccumulator.h"
-#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {

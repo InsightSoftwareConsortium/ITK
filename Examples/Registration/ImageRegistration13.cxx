@@ -35,9 +35,7 @@
 #include "itkMattesMutualInformationImageToImageMetric.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 
 #include "itkImageFileReader.h"

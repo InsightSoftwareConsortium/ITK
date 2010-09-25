@@ -34,11 +34,9 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkBioCellularAggregate.h"
-#include "itkBioCell.h"
 // Software Guide : EndCodeSnippet
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 
 #ifdef ITK_USE_REVIEW

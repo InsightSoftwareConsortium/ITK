@@ -41,7 +41,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
 // Software Guide : EndCodeSnippet
 

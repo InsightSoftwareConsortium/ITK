@@ -16,11 +16,8 @@
 =========================================================================*/
 #include "itkVTKPolyDataReader.h"
 #include "itkVTKPolyDataWriter.h"
-#include "itkQuadEdgeMesh.h"
 
 // NEW
-#include "itkQuadEdgeMeshBorderTransform.h"
-#include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 
 #ifdef QuadEdgePARAM_TAUCS
     #include "TAUCSSparseSolverTraits.h"

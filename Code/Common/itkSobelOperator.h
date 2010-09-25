@@ -18,7 +18,6 @@
 #ifndef __itkSobelOperator_h
 #define __itkSobelOperator_h
 
-#include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
 namespace itk

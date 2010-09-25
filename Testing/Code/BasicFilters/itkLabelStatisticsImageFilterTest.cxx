@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkLabelStatisticsImageFilter.h"
 #include "itkImageFileReader.h"
-#include "itkNumericTraits.h"
 
 #include "itkFilterWatcher.h"
 

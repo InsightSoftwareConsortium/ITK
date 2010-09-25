@@ -18,12 +18,8 @@
 #define __itkSpatialObjectReader_h
 
 #include "itkMetaSceneConverter.h"
-#include "itkSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkProcessObject.h"
-#include "itkSceneSpatialObject.h"
-#include "itkMetaEvent.h"
-#include <itkDefaultStaticMeshTraits.h>
 
 namespace itk
 {

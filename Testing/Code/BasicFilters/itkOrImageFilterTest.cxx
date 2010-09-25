@@ -22,7 +22,6 @@
 
 
 #include <itkImage.h>
-#include <itkNumericTraits.h>
 #include <itkOrImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 

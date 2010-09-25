@@ -17,7 +17,6 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkThresholdLabelerImageFilter.h"
 #include "itkChangeLabelImageFilter.h"

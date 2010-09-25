@@ -17,8 +17,6 @@
 #ifndef __itkPriorityQueueContainer_h
 #define __itkPriorityQueueContainer_h
 
-#include "itkObject.h"
-#include "itkObjectFactory.h"
 #include "itkVectorContainer.h"
 
 #include <functional>

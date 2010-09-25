@@ -18,7 +18,6 @@
 #define __itkShapeOpeningLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
-#include "itkLabelObjectAccessors.h"
 #include "itkShapeLabelObjectAccessors.h"
 #include "itkProgressReporter.h"
 

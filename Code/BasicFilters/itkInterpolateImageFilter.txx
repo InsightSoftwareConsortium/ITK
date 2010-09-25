@@ -19,9 +19,7 @@
 
 #include "itkInterpolateImageFilter.h"
 
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 
 namespace itk

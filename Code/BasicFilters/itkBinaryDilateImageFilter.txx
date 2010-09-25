@@ -17,12 +17,9 @@
 #ifndef __itkBinaryDilateImageFilter_txx
 #define __itkBinaryDilateImageFilter_txx
 
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkOffset.h"

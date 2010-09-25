@@ -20,8 +20,6 @@
 #include "itkOtsuMultipleThresholdsImageFilter.h"
 #include "itkThresholdLabelerImageFilter.h"
 #include "itkProgressAccumulator.h"
-#include "itkScalarImageToHistogramGenerator.h"
-#include "itkOtsuMultipleThresholdsCalculator.h"
 
 namespace itk
 {

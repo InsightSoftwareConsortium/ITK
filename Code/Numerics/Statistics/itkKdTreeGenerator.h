@@ -18,13 +18,7 @@
 #define __itkKdTreeGenerator_h
 
 #include <vector>
-#include "itkMacro.h"
-#include "itkPoint.h"
-#include "itkSize.h"
-#include "itkObject.h"
 
-#include "itkSample.h"
-#include "itkSubsample.h"
 #include "itkKdTree.h"
 #include "itkStatisticsAlgorithm.h"
 

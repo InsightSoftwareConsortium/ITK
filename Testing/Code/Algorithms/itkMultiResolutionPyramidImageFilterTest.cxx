@@ -17,9 +17,7 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
-#include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkCommand.h"

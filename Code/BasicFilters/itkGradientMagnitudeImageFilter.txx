@@ -23,8 +23,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkOffset.h"
 #include "itkProgressReporter.h"
 
 namespace itk

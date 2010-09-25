@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkSimplexMesh.h"
 #include "itkDeformableSimplexMesh3DFilter.h"
 
 int itkSimplexMeshWithFloatCoordRepTest(int, char* []) 

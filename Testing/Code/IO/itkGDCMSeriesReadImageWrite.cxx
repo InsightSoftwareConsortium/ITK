@@ -26,7 +26,6 @@
 //
 
 #include "itkImageSeriesReader.h"
-#include "itkImageFileWriter.h"
 #include "itkImageSeriesWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"

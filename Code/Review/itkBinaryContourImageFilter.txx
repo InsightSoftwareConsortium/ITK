@@ -18,11 +18,9 @@
 #define __itkBinaryContourImageFilter_txx
 
 #include "itkBinaryContourImageFilter.h"
-#include "itkNumericTraits.h"
 
 // don't think we need the indexed version as we only compute the
 // index at the start of each run, but there isn't a choice
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"

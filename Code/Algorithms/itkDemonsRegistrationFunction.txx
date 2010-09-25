@@ -18,7 +18,7 @@
 #define __itkDemonsRegistrationFunction_txx
 
 #include "itkDemonsRegistrationFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

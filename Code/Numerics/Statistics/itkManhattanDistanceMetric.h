@@ -17,9 +17,7 @@
 #ifndef __itkManhattanDistanceMetric_h
 #define __itkManhattanDistanceMetric_h
 
-#include "itkNumericTraits.h"
 #include "itkDistanceMetric.h"
-#include "itkMeasurementVectorTraits.h"
 
 namespace itk
 {

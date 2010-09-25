@@ -18,10 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkFastMarchingUpwindGradientImageFilter.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
-#include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
 #include "vnl/vnl_math.h"

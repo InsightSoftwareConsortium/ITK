@@ -18,7 +18,6 @@
 #define __itkCorrespondenceDataStructure_txx
 
 #include "itkCorrespondenceDataStructure.h"
-#include "itkNodeList.h"
 
 namespace itk
 {

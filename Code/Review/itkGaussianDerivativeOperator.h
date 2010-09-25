@@ -18,7 +18,6 @@
 #ifndef __itkGaussianDerivativeOperator_h
 #define __itkGaussianDerivativeOperator_h
 
-#include "itkNeighborhoodOperator.h"
 #include "itkGaussianOperator.h"
 #include "itkDerivativeOperator.h"
 #include <math.h>

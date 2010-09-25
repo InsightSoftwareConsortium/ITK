@@ -17,7 +17,6 @@
 #ifndef __itkRawImageIO_txx
 #define __itkRawImageIO_txx
 #include "itkRawImageIO.h"
-#include "itkByteSwapper.h"
 
 namespace itk
 {

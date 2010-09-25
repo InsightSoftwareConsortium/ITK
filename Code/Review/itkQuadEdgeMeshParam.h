@@ -18,7 +18,6 @@
 #ifndef __itkQuadEdgeMeshParam_h
 #define __itkQuadEdgeMeshParam_h
 
-#include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshBorderTransform.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 

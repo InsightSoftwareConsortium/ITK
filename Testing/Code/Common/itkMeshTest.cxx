@@ -21,7 +21,6 @@
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
-#include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include "itkBoundingBox.h"
 #include "itkFileOutputWindow.h"

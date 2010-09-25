@@ -19,7 +19,6 @@
 
 #include "itkHessianToObjectnessMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkSymmetricEigenAnalysis.h"
 #include "itkProgressReporter.h"
 

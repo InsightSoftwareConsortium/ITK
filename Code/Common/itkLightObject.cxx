@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkLightObject.h"
-#include "itkObjectFactory.h"
 #include "itkFastMutexLock.h"
 
 #include <list>

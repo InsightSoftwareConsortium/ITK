@@ -23,12 +23,9 @@
 #include "itkImageClassifierBase.h"
 
 #include "itkImageToImageFilter.h"
-#include "itkImageRegionIterator.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkNeighborhood.h"
 #include "itkSize.h"
 
 namespace itk

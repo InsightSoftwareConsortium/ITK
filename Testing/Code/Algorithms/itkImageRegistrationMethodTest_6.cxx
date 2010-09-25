@@ -23,7 +23,6 @@
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkCommandIterationUpdate.h"
 
 #include "itkImageRegistrationMethodImageSource.h"
 

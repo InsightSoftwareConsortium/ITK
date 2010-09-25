@@ -21,7 +21,6 @@
 #include "itkVectorContainer.h"
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkMembershipFunctionBase.h"
 
 namespace itk

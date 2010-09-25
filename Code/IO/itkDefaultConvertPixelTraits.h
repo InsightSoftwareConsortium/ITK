@@ -19,9 +19,7 @@
 #define __itkDefaultConvertPixelTraits_h
 
 #include "itkOffset.h"
-#include "itkCovariantVector.h"
 #include "itkVector.h"
-#include "itkPoint.h"
 #include "itkMatrix.h"
 
 namespace itk

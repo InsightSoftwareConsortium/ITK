@@ -18,9 +18,8 @@
 #define __itkImageClassifierBase_h
 
 #include "itkClassifierBase.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

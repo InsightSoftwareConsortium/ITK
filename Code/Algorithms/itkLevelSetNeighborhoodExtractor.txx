@@ -18,7 +18,6 @@
 #define __itkLevelSetNeighborhoodExtractor_txx
 
 #include "itkLevelSetNeighborhoodExtractor.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_math.h"

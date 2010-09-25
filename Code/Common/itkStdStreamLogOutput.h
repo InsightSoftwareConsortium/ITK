@@ -21,9 +21,6 @@
 #include <iostream>
 #include <string>
 
-#include "itkMacro.h"
-#include "itkObject.h"
-#include "itkObjectFactory.h"
 #include "itkSimpleFastMutexLock.h"
 #include "itkLogOutput.h"
 

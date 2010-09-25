@@ -18,13 +18,10 @@
 #define __itkSpecialCoordinatesImage_h
 
 #include "itkImageBase.h"
-#include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultPixelAccessor.h"
 #include "itkDefaultPixelAccessorFunctor.h"
-#include "itkPoint.h"
 #include "itkContinuousIndex.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

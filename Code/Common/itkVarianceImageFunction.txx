@@ -19,7 +19,6 @@
 
 #include "itkVarianceImageFunction.h"
 
-#include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk

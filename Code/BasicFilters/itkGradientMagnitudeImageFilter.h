@@ -18,7 +18,6 @@
 #define __itkGradientMagnitudeImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 
 namespace itk
 {

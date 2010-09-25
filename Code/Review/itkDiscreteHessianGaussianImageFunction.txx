@@ -20,7 +20,6 @@
 
 #include "itkDiscreteHessianGaussianImageFunction.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
-#include "itkNeighborhoodOperatorImageFunction.h"
 
 namespace itk
 {

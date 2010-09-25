@@ -18,7 +18,6 @@
 #define __itkVTKImageImport_h
 
 #include "itkImageSource.h"
-#include "itkImage.h"
 #include "itkImportImageContainer.h"
 
 #define itkSetMacro2(name, type)                     \

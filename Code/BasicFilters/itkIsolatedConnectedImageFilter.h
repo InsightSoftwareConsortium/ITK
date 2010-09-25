@@ -17,7 +17,6 @@
 #ifndef __itkIsolatedConnectedImageFilter_h
 #define __itkIsolatedConnectedImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk

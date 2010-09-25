@@ -29,7 +29,7 @@
 #include "itkBinaryDilateImageFilter.h"
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
-#include <itkExceptionObject.h>
+#include <itkMacro.h>
 
 int itkObjectMorphologyImageFilterTest(int, char* [] ) 
 {

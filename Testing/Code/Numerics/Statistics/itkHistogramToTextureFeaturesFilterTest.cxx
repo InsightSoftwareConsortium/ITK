@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 // Insight classes
-#include "itkHistogram.h"
 #include "vnl/vnl_math.h"
 
 #include "itkHistogramToTextureFeaturesFilter.h"

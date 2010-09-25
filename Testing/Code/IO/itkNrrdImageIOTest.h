@@ -19,7 +19,6 @@
 
 #include <fstream>
 #include "itkImageRegionIterator.h"
-#include "itkImageIOBase.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"

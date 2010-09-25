@@ -33,8 +33,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
-#include "itkKdTreeGenerator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkEuclideanDistance.h"
 // Software Guide : EndCodeSnippet

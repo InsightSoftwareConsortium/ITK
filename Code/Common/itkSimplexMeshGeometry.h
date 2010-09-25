@@ -22,9 +22,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkFixedArray.h"
 #include "itkPoint.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include <set>
 

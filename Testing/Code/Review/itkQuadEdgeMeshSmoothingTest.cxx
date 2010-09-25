@@ -15,14 +15,12 @@
 
 =========================================================================*/
 
-#include <itkQuadEdgeMesh.h>
 #include <itkVTKPolyDataReader.h>
 #include <itkVTKPolyDataWriter.h>
 
 #include <sstream>
 
 #include "itkQuadEdgeMeshSmoothing.h"
-#include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 
 int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
 {

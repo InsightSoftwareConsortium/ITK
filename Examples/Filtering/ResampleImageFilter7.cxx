@@ -34,7 +34,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
-#include "itkBSplineInterpolateImageFunction.h"
 
 
 //  Software Guide : BeginLatex

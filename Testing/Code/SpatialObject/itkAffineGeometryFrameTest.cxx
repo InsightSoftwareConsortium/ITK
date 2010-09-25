@@ -19,7 +19,6 @@
 #endif
 
 #include "itkAffineGeometryFrame.h"
-#include "itkTreeContainer.h"
 #include "itkSpatialObjectTreeContainer.h"
 #include "itkInOrderTreeIterator.h"
 #include "itkLevelOrderTreeIterator.h"

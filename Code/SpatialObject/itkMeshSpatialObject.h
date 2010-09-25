@@ -19,7 +19,6 @@
 #define __itkMeshSpatialObject_h
 
 #include "itkMesh.h"
-#include "itkExceptionObject.h"
 #include "itkSpatialObject.h"
 
 namespace itk

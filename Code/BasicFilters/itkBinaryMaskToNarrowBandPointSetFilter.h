@@ -19,7 +19,6 @@
 
 #include "itkImageToMeshFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 

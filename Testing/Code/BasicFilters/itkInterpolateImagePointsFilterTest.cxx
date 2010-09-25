@@ -23,9 +23,7 @@
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkSize.h"
 #include "itkInterpolateImagePointsFilter.h"
-#include "itkImageRegionIterator.h"
 
 #include "itkGaussianImageSource.h"
 

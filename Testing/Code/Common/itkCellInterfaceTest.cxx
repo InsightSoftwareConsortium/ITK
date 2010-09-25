@@ -21,14 +21,9 @@
 #include <iostream>
 
 #include "itkMesh.h"
-#include "itkVertexCell.h"
-#include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkHexahedronCell.h"
 #include "itkTetrahedronCell.h"
-#include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
-#include "itkQuadrilateralCell.h"
 #include "itkPolygonCell.h"
 
 /**

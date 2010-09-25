@@ -19,10 +19,7 @@
 
 #include "itkImageSeriesReader.h"
 
-#include "itkImageRegion.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkExceptionObject.h"
 #include "itkArray.h"
 #include "vnl/vnl_math.h"
 #include "itkProgressReporter.h"

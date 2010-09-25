@@ -19,7 +19,6 @@
 
 #include "itkTreeNode.h"
 #include "itkSpatialObject.h"
-#include "itkScalableAffineTransform.h"
 
 namespace itk
 {

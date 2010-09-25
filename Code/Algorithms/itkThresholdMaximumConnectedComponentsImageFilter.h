@@ -18,14 +18,12 @@
 #ifndef __itkThresholdMaximumConnectedComponentsImageFilter_h
 #define __itkThresholdMaximumConnectedComponentsImageFilter_h
 
-#include "itkInPlaceImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
 
-#include "itkConceptChecking.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #define __itkBloxBoundaryProfileItem_h
 
 #include "itkBloxBoundaryPointItem.h"
-#include "itkBloxItem.h"
 
 namespace itk
 {

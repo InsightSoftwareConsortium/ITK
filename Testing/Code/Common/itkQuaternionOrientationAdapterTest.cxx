@@ -19,7 +19,6 @@
 #endif
 
 #include <iostream>
-#include <itkSpatialOrientation.h>
 #include <itkSpatialOrientationAdapter.h>
 #include <itkQuaternionOrientationAdapter.h>
 

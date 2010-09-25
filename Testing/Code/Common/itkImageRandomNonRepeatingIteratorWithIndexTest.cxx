@@ -29,7 +29,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRandomNonRepeatingIteratorWithIndex.h"
-#include "itkImageRandomNonRepeatingConstIteratorWithIndex.h"
 
 int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 {

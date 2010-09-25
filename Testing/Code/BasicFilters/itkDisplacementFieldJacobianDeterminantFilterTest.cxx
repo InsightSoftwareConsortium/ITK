@@ -22,7 +22,6 @@
 #include "itkImage.h"
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
-#include "itkVector.h"
 
 static bool TestDisplacementJacobianDeterminantValue(void)
 {

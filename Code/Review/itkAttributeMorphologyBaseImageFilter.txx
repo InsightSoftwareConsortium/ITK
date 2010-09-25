@@ -22,9 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
 #include "itkConnectedComponentAlgorithm.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkCastImageFilter.h"
 

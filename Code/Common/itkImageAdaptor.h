@@ -18,7 +18,6 @@
 #define __itkImageAdaptor_h
 
 #include "itkImage.h"
-#include "itkDefaultPixelAccessorFunctor.h"
 
 namespace itk
 {

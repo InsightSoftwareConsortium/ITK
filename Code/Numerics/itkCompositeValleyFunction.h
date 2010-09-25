@@ -17,7 +17,6 @@
 #ifndef __itkCompositeValleyFunction_h
 #define __itkCompositeValleyFunction_h
 
-#include "itkArray.h"
 #include "itkCacheableScalarFunction.h"
 #include <vector>
 

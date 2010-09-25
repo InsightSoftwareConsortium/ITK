@@ -18,14 +18,9 @@
 #ifndef __itkBoxSigmaImageFilter_txx
 #define __itkBoxSigmaImageFilter_txx
 
-#include "itkImage.h"
 #include "itkBoxSigmaImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkOffset.h"
 #include "itkProgressAccumulator.h"
 #include "itkNumericTraits.h"
-#include "itkNeighborhoodAlgorithm.h"
-#include "itkShapedNeighborhoodIterator.h"
 #include "itkBoxUtilities.h"
 
 // #include "ioutils.h"

@@ -18,7 +18,6 @@
 #define __itkTreeContainerBase_h
 
 #include "itkMacro.h"
-#include <itkObject.h>
 #include <iostream>
 #include <itkTreeNode.h>
 

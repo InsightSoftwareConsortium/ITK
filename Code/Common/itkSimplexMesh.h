@@ -25,11 +25,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSimplexMeshGeometry.h"
 #include "itkVertexCell.h"
 #include "itkTriangleCell.h"
-#include "itkCellInterface.h"
-#include "itkMapContainer.h"
 #include "itkFixedArray.h"
-#include "itkNumericTraits.h"
-#include <itkCovariantVector.h>
 #include <vector>
 #include <algorithm>
 #include <set>

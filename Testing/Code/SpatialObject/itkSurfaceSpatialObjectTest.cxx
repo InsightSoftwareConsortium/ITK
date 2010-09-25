@@ -26,7 +26,6 @@
  */
 
 #include "itkSurfaceSpatialObject.h"
-#include "itkSurfaceSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 
 int itkSurfaceSpatialObjectTest(int, char* [])

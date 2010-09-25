@@ -21,17 +21,13 @@
 
 #include <fstream>
 
-#include "itkFixedArray.h"
-#include "itkPoint.h"
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 #include "vnl/vnl_matrix.h"
 
 #include "itkPointSetToListSampleAdaptor.h"
-#include "itkSubsample.h"
 #include "itkKdTree.h"
-#include "itkEuclideanDistanceMetric.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 

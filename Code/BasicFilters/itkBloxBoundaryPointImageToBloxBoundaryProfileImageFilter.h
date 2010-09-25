@@ -17,7 +17,6 @@
 #ifndef __itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter_h
 #define __itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter_h
 
-#include "itkBloxBoundaryPointImage.h"
 #include "itkBloxBoundaryProfileImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkSize.h"

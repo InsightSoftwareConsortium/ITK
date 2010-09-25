@@ -17,7 +17,6 @@
 #ifndef __itkMetaSceneConverter_h
 #define __itkMetaSceneConverter_h
 
-#include "itkSpatialObject.h"
 #include "metaScene.h"
 #include "itkMetaEvent.h"
 #include "itkSceneSpatialObject.h"

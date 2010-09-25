@@ -19,7 +19,6 @@
 #endif
 
 #include "itkGDCMImageIO.h"
-#include "itkImageFileReader.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkImageSeriesWriter.h"
 #include "itkGDCMSeriesFileNames.h"

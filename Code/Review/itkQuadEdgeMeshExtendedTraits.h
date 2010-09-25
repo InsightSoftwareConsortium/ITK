@@ -19,7 +19,6 @@
 #define __itkQuadEdgeMeshExtendedTraits_h
 
 #include "itkQuadEdgeCellTraitsInfo.h"
-#include <itkMapContainer.h>
 #include <set>
 
 namespace itk

@@ -20,7 +20,6 @@
 
 
 #include <itkDefaultDynamicMeshTraits.h>
-#include <itkMesh.h>
 #include <itkMeshSpatialObject.h>
 #include <itkTetrahedronCell.h>
 

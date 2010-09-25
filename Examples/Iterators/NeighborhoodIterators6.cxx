@@ -23,7 +23,6 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkFastMarchingImageFilter.h"
-#include "itkNumericTraits.h"
 #include "itkRandomImageSource.h"
 #include "itkAddImageFilter.h"
 

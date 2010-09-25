@@ -17,7 +17,6 @@
 #ifndef __itkHexahedronCell_h
 #define __itkHexahedronCell_h
 
-#include "itkCellInterface.h"
 #include "itkQuadrilateralCell.h"
 #include "itkHexahedronCellTopology.h"
 

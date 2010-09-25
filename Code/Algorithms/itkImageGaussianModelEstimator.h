@@ -27,7 +27,7 @@
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include "itkImageModelEstimatorBase.h"
 

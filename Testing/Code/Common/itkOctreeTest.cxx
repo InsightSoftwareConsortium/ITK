@@ -19,8 +19,6 @@
 #endif
 
 #include "itkOctree.h"
-#include "itkImage.h"
-#include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
 #include "stdlib.h"

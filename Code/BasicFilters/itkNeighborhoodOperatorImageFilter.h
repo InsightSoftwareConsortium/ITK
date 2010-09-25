@@ -20,7 +20,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkImage.h"
-#include "itkImageBoundaryCondition.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk

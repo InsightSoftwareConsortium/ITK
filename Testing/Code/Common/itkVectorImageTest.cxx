@@ -20,21 +20,13 @@
 
 #include <iostream>
 #include "itkVariableLengthVector.h"
-#include "itkImage.h"
-#include "itkVectorImage.h"
 #include "itkFixedArray.h"
 #include "itkTimeProbe.h"
 #include "itkVectorImageToImageAdaptor.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 

@@ -18,8 +18,7 @@
 #define __itkTileImageFilter_txx
 #include "itkTileImageFilter.h"
 
-#include "itkExceptionObject.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkMacro.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearConstIteratorWithIndex.h"

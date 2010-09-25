@@ -17,16 +17,12 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkSimplexMeshAdaptTopologyFilter_h
 #define __itkSimplexMeshAdaptTopologyFilter_h
 
-#include "itkMesh.h"
 #include "itkPolygonCell.h"
-#include "itkMapContainer.h"
 #include "itkCellInterfaceVisitor.h"
 
 #include "itkSimplexMesh.h"
-#include "itkSimplexMeshGeometry.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
-#include <itkCovariantVector.h>
 
 #include <vxl_version.h>
 #if VXL_VERSION_DATE_FULL > 20040406

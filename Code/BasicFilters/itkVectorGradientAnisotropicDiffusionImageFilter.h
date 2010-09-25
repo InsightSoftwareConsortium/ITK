@@ -17,7 +17,7 @@
 #ifndef __itkVectorGradientAnisotropicDiffusionImageFilter_h
 #define __itkVectorGradientAnisotropicDiffusionImageFilter_h
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
 

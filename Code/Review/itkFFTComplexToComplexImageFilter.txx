@@ -31,7 +31,6 @@
 #ifndef __itkFFTComplexToComplexImageFilter_txx
 #define __itkFFTComplexToComplexImageFilter_txx
 
-#include "itkFFTComplexToComplexImageFilter.h"
 #include "itkFFTWComplexToComplexImageFilter.h"
 
 namespace itk

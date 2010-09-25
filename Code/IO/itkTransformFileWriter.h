@@ -23,12 +23,11 @@
 #include "itkConfigure.h"
 
 #ifdef ITK_USE_TRANSFORM_IO_FACTORIES
-#include "itkTransformFileWriterWithFactory.h"
+# include "itkTransformFileWriterWithFactory.h"
 #else
-
 #include "itkLightProcessObject.h"
-#include "metaTransform.h"
 #include "itkTransformBase.h"
+#include "metaTransform.h"
 
 namespace itk
 {

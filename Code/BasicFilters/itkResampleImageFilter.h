@@ -19,10 +19,8 @@
 
 #include "itkFixedArray.h"
 #include "itkTransform.h"
-#include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkSize.h"

@@ -24,7 +24,7 @@
 #include <itkBinaryDilateImageFilter.h>
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
-#include <itkExceptionObject.h>
+#include <itkMacro.h>
 #include "itkFilterWatcher.h"
 
 int itkBinaryDilateImageFilterTest(int, char* [] ) 

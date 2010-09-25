@@ -34,7 +34,6 @@
 
 #include <itkImageAdaptor.h>
 #include <itkImageRegionIteratorWithIndex.h>
-#include <itkRGBPixel.h>
 #include <itkRedPixelAccessor.h>
 
 //-------------------------------------

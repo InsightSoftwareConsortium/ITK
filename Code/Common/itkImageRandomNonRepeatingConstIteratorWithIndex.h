@@ -18,7 +18,6 @@
 #define __itkImageRandomNonRepeatingConstIteratorWithIndex_h
 
 #include "itkImageConstIteratorWithIndex.h"
-#include "itkImage.h"
 #include <algorithm>
 #include <iostream>
 #include "itkMersenneTwisterRandomVariateGenerator.h"

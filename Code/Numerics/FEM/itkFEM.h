@@ -27,7 +27,6 @@
 #include "itkFEMLoads.h"
 #include "itkFEMMaterials.h"
 
-#include "itkFEMSolver.h"
 #include "itkFEMSolverHyperbolic.h"
 #include "itkFEMSolverCrankNicolson.h"
 

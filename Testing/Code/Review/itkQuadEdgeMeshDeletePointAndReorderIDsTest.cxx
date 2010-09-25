@@ -19,7 +19,6 @@
 #endif
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshPolygonCell.h"
 
 int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
 {

@@ -19,14 +19,10 @@
 
 #include "itkSingleValuedCostFunction.h"
 #include "itkImageBase.h"
-#include "itkTransform.h"
-#include "itkInterpolateImageFunction.h"
-#include "itkExceptionObject.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
 #include "itkBSplineDeformableTransform.h"
 #include "itkCentralDifferenceImageFunction.h"
-#include "itkCovariantVector.h"
 
 #include "itkMultiThreader.h"
 

@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkAffineTransform.h"
-#include "itkImage.h"
 #include "itkImageMomentsCalculator.h"
 
 

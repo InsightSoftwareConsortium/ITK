@@ -19,7 +19,6 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkConceptChecking.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

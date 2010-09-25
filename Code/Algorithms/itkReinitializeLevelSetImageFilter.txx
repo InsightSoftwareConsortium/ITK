@@ -19,7 +19,6 @@
 
 #include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkIndex.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #define __itkMutualInformationImageToImageMetric_txx
 
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "vnl/vnl_math.h"
 #include "itkGaussianKernelFunction.h"

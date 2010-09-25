@@ -18,8 +18,6 @@
 #define __itkDerivativeImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkConceptChecking.h"
 
 namespace itk
 {

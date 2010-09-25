@@ -19,7 +19,6 @@
 
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 #include "itkImage.h"

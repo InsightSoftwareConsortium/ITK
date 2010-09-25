@@ -18,7 +18,6 @@
 #define __itkMedianImageFunction_txx
 
 #include "itkMedianImageFunction.h"
-#include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
 #include <vector>

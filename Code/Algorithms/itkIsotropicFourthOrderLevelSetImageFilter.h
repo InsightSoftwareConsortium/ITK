@@ -17,7 +17,6 @@
 #ifndef __itkIsotropicFourthOrderLevelSetImageFilter_h
 #define __itkIsotropicFourthOrderLevelSetImageFilter_h
 
-#include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
 namespace itk

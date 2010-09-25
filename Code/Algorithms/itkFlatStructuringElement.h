@@ -19,8 +19,6 @@
 #define __itkFlatStructuringElement_h
 
 #include "itkNeighborhood.h"
-#include "itkSize.h"
-#include "itkOffset.h"
 #include <vector>
 #include "itkVector.h"
 

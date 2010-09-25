@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 
-#include "itkHistogram.h"
 #include "itkOtsuMultipleThresholdsCalculator.h"
 
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])

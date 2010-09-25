@@ -18,7 +18,6 @@
 #define __itkWeightedMeanSampleFilter_txx
 
 #include "itkMeasurementVectorTraits.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

@@ -24,7 +24,6 @@
 // itkDiscreteGaussianDerivativeImageFilter is used. This example operates on 2D images.
 
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"

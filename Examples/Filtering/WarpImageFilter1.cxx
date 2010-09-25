@@ -36,7 +36,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkWarpImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 

@@ -17,7 +17,6 @@
 #ifndef __itkApproximateSignedDistanceMapImageFilter_h
 #define __itkApproximateSignedDistanceMapImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkIsoContourDistanceImageFilter.h"
 

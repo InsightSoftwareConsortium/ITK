@@ -27,7 +27,6 @@
 #define __itkErrorBackPropagationLearningWithMomentum_h
 
 #include <iostream>
-#include "itkLightProcessObject.h"
 #include "itkLearningFunctionBase.h"
 
 namespace itk

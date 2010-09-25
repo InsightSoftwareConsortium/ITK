@@ -19,7 +19,6 @@
 #endif
 
 #include "itkCumulativeGaussianOptimizer.h"
-#include "itkCumulativeGaussianCostFunction.h"
 
 #include <iostream>
 #include <cstdlib>

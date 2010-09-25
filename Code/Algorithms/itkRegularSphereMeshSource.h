@@ -20,7 +20,6 @@
 #include "itkMesh.h"
 #include "itkMeshSource.h"
 #include "itkTriangleCell.h"
-#include "itkMapContainer.h"
 
 namespace itk
 {

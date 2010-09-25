@@ -19,8 +19,6 @@
 #include "itkMinimumMaximumImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
 #include <vector>

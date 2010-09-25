@@ -21,11 +21,8 @@
 #include <stdio.h>
 
 // Native ITK stuff
-#include "itkSize.h"
 #include "itkIndex.h"
 #include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkPoint.h"
 #include "itkFilterWatcher.h"
 
 // Spatial function stuff

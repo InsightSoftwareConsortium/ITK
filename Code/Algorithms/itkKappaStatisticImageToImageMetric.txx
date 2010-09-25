@@ -18,7 +18,6 @@
 #define __itkKappaStatisticImageToImageMetric_txx
 
 #include "itkKappaStatisticImageToImageMetric.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk

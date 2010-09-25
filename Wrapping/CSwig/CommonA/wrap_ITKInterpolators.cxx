@@ -17,7 +17,6 @@
 #include "itkImage.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkBSplineResampleImageFunction.h"
 
 #ifdef CABLE_CONFIGURATION

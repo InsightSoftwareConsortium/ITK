@@ -21,7 +21,6 @@
 #include "itkQuadEdgeMeshPoint.h"
 #include "itkMapContainer.h"
 #include <set>
-#include "itkGeometricalQuadEdge.h"
 
 namespace itk
 {

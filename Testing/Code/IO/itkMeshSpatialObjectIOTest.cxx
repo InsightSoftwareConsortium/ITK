@@ -19,13 +19,10 @@
 #endif
 #include "itkImageHelper.h"
 #include "itkMeshSpatialObject.h"
-#include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
-#include "itkMesh.h"
 #include "itkTetrahedronCell.h"
 #include "itkHexahedronCell.h"
-#include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include <itkDefaultDynamicMeshTraits.h>
 #include <iostream>

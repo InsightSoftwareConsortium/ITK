@@ -20,14 +20,11 @@
 #include <queue>
 #include <vector>
 
-#include "itkMacro.h"
 #include "itkPoint.h"
 #include "itkSize.h"
 #include "itkObject.h"
-#include "itkNumericTraits.h"
 #include "itkArray.h"
 
-#include "itkSample.h"
 #include "itkSubsample.h"
 
 #include "itkEuclideanDistanceMetric.h"

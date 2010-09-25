@@ -23,8 +23,6 @@
 #include "itkTranslationTransform.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"

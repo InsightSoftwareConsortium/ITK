@@ -43,7 +43,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
-#include "itkPoint.h"
 
 int main(int, char* [])
 {

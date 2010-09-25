@@ -23,7 +23,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkImage.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 
 int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )

@@ -17,10 +17,9 @@
 #ifndef __itkKLMSegmentationBorder_h
 #define __itkKLMSegmentationBorder_h
 
-#include "itkObject.h"
 #include "itkSegmentationBorder.h"
 #include "itkKLMSegmentationRegion.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_vector.h"

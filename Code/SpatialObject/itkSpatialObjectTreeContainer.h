@@ -18,7 +18,6 @@
 #define __itkSpatialObjectTreeContainer_h
 
 #include "itkTreeContainer.h"
-#include "itkSpatialObject.h"
 #include "itkSpatialObjectTreeNode.h"
 
 namespace itk

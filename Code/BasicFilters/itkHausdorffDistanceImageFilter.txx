@@ -19,8 +19,6 @@
 #include "itkHausdorffDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 

@@ -17,11 +17,12 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkOutputWindow.h"
 #ifdef _WIN32
-#include "itkWin32OutputWindow.h"
+# include "itkWin32OutputWindow.h"
+#else
+# include "itkOutputWindow.h"
+# include "itkObjectFactory.h"
 #endif
-#include "itkObjectFactory.h"
 
 namespace itk
 {

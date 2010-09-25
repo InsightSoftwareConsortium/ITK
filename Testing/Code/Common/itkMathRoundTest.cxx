@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMath.h"
 #include <math.h>
 #include <string>
 #include <iostream>

@@ -22,8 +22,6 @@
 
 #include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkMesh.h"
-#include "itkVector.h"
-#include "itkImage.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkCovariantVector.h"
 

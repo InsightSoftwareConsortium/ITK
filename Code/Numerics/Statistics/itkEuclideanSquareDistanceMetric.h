@@ -17,9 +17,7 @@
 #ifndef __itkEuclideanSquareDistanceMetric_h
 #define __itkEuclideanSquareDistanceMetric_h
 
-#include "itkNumericTraits.h"
 #include "itkDistanceMetric.h"
-#include "itkMeasurementVectorTraits.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
 #ifndef __itkStatisticsAlgorithm_h
 #define __itkStatisticsAlgorithm_h
 
-#include "itkSample.h"
 #include "itkSubsample.h"
 
 namespace itk

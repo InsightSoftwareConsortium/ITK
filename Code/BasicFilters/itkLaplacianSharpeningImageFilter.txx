@@ -20,7 +20,6 @@
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkLaplacianOperator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkProgressAccumulator.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionIterator.h"

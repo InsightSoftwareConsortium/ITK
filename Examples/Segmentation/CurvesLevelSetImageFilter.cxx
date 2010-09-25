@@ -80,7 +80,6 @@
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImage.h"
 #include "itkCurvesLevelSetImageFilter.h"
 // Software Guide : EndCodeSnippet
 

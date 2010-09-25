@@ -21,10 +21,8 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkMacro.h"
 #include <iostream>
 #include <fstream>
 

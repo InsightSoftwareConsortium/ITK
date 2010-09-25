@@ -91,19 +91,16 @@
 #include <cstdlib>
 
 // ITK IO includes
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 // ITK Registration includes
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkSymmetricForcesDemonsRegistrationFilter.h" 
 #include "itkHistogramMatchingImageFilter.h" 
 #include "itkCastImageFilter.h" 
 #include "itkWarpImageFilter.h" 
-#include "itkLinearInterpolateImageFunction.h"
 
 unsigned int RmsCounter = 0;
 double MaxRmsE[4] = {0.8,  0.75,  0.4, 0.2};

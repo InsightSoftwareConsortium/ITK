@@ -49,7 +49,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkImage.h"
-#include "itkFixedArray.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScalarToArrayCastImageFilter.h"
@@ -67,7 +66,6 @@
 #include "itkMRFImageFilter.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
-#include "itkImageClassifierBase.h"
 // Software Guide : EndCodeSnippet
 
 int main( int argc, char * argv [] )

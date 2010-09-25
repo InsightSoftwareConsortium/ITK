@@ -19,7 +19,6 @@
 
 #include "itkSumOfSquaresImageFunction.h"
 
-#include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk

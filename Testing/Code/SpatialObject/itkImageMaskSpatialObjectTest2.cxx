@@ -36,7 +36,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
-#include "itkPoint.h"
 
 #include "itkImageMaskSpatialObject.h"
 

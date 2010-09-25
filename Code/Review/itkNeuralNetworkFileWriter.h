@@ -22,20 +22,12 @@ PURPOSE.  See the above copyright notices for more information.
 #include <metaUtils.h>
 #include <typeinfo>
 
-#include "itkMultilayerNeuralNetworkBase.h"
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
 
-#include "itkBackPropagationLayer.h"
 #include "itkCompletelyConnectedWeightSet.h"
 
-#include "itkSumInputFunction.h"
-#include "itkProductInputFunction.h"
 
-#include "itkIdentityTransferFunction.h"
-#include "itkLogSigmoidTransferFunction.h"
-#include "itkSigmoidTransferFunction.h"
-#include "itkTanSigmoidTransferFunction.h"
 #include "itkSymmetricSigmoidTransferFunction.h"
 
 namespace itk

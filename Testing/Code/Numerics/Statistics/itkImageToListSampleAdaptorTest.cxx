@@ -19,7 +19,6 @@
 #endif
 #include "itkImageToListSampleAdaptor.h"
 #include "itkRandomImageSource.h"
-#include "itkImageRegionIterator.h"
 #include "itkScalarToArrayCastImageFilter.h"
 #include "itkFixedArray.h"
 

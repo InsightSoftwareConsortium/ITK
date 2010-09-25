@@ -17,7 +17,6 @@
 #ifndef __itkTreeContainer_h
 #define __itkTreeContainer_h
 
-#include "itkMacro.h"
 #include <itkTreeContainerBase.h>
 #include <itkPreOrderTreeIterator.h>
 

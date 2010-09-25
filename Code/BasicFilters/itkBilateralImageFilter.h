@@ -18,10 +18,8 @@
 #define __itkBilateralImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkFixedArray.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 
 namespace itk

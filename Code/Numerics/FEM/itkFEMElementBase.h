@@ -18,8 +18,6 @@
 #ifndef __itkFEMElementBase_h
 #define __itkFEMElementBase_h
 
-#include "itkFEMLightObject.h"
-#include "itkFEMPArray.h"
 #include "itkFEMMaterialBase.h"
 #include "itkFEMSolution.h"
 #include "itkVisitorDispatcher.h"

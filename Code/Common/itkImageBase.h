@@ -23,15 +23,9 @@
 #include "itkDataObject.h"
 
 #include "itkImageRegion.h"
-#include "itkIndex.h"
 #include "itkObjectFactory.h"
 #include "itkOffset.h"
-#include "itkPoint.h"
-#include "itkSize.h"
 #include "itkFixedArray.h"
-#include "itkPoint.h"
-#include "itkMatrix.h"
-#include "itkContinuousIndex.h"
 #include "itkImageHelper.h"
 #include <vnl/vnl_matrix_fixed.txx>
 

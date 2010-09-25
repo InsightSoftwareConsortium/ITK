@@ -19,7 +19,6 @@
 #endif
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageBoundaryCondition.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

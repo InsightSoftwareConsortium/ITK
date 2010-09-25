@@ -21,7 +21,6 @@
 
 #include "itkPeriodicBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkImage.h"
 
 void PBCTest_PrintNeighborhood( itk::ConstNeighborhoodIterator<itk::Image<int, 2> > &p )
 {

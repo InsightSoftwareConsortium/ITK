@@ -23,9 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include <time.h>
 
-#include "itkMesh.h"
 #include "itkSimplexMesh.h"
-#include "itkSimplexMeshGeometry.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTimeProbe.h"
 

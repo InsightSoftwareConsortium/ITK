@@ -20,11 +20,9 @@
 #include "itkDifferenceImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {

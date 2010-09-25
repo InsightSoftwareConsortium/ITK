@@ -24,14 +24,12 @@
 #include "itkPathToChainCodePathFilter.h"
 #include "itkChainCodeToFourierSeriesPathFilter.h"
 
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkExtractOrthogonalSwath2DImageFilter.h"
 #include "itkDerivativeImageFilter.h"
 
-#include "itkOrthogonallyCorrected2DParametricPath.h"
 #include "itkOrthogonalSwath2DPathFilter.h"
 
 #include "itkPathToImageFilter.h"

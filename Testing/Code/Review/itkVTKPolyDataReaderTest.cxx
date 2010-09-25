@@ -20,7 +20,6 @@
 #endif
 
 
-#include "itkMesh.h"
 #include "itkVTKPolyDataReader.h"
 #include "itkDefaultStaticMeshTraits.h"
 

@@ -18,7 +18,7 @@
 #define __itkParametricSpaceToImageSpaceMeshFilter_txx
 
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkProgressReporter.h"
 
 namespace itk

@@ -20,7 +20,6 @@
 
 #include "itkWarpMeshFilter.h"
 #include "itkRegularSphereMeshSource.h"
-#include "itkMesh.h"
 #include "itkImage.h"
 
 int itkWarpMeshFilterTest(int, char* [] ) 

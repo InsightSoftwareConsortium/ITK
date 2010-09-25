@@ -18,8 +18,6 @@
 #ifndef __itkLogger_h
 #define __itkLogger_h
 
-#include "itkMultipleLogOutput.h"
-#include "itkRealTimeClock.h"
 #include "itkLoggerBase.h"
 
 namespace itk

@@ -50,8 +50,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
-#include "itkImageIOBase.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 // Software Guide : EndCodeSnippet
 

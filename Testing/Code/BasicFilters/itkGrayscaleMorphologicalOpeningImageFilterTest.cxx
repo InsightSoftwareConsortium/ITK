@@ -23,7 +23,6 @@
 #include <itkGrayscaleMorphologicalOpeningImageFilter.h>
 #include <itkBinaryBallStructuringElement.h>
 #include "itkFilterWatcher.h"
-#include <itkExceptionObject.h>
 #include <itkImageFileReader.h>
 #include <itkImageFileWriter.h>
 

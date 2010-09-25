@@ -19,8 +19,6 @@
 #endif
 
 #include "itkScalarChanAndVeseLevelSetFunction.h"
-#include "itkScalarChanAndVeseLevelSetFunctionData.h"
-#include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkVector.h"
 #include "itkImage.h"
 #include "itkTestingMacros.h"

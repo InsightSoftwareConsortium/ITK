@@ -22,7 +22,6 @@
 #include "itkImage.h"
 #include "itkPixelTraits.h"
 #include "itkCommand.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

@@ -79,7 +79,6 @@
 // Software Guide : EndCodeSnippet
 
 
-#include "itkImage.h"
 #include "itkCastImageFilter.h"
 
 

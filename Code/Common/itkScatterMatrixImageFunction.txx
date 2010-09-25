@@ -18,7 +18,6 @@
 #define __itkScatterMatrixImageFunction_txx
 
 #include "itkScatterMatrixImageFunction.h"
-#include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk

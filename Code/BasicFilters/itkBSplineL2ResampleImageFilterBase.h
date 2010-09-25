@@ -22,6 +22,7 @@
 #define __itkBSplineL2ResampleImageFilterBase_h
 
 #include <vector>
+#include "itkBSplineResampleImageFilterBase.h"
 
 namespace itk
 {

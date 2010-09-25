@@ -24,7 +24,6 @@
 #include <itkGrayscaleFunctionDilateImageFilter.h>
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
-#include <itkExceptionObject.h>
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
 

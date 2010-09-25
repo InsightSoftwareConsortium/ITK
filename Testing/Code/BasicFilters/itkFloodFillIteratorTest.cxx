@@ -25,7 +25,6 @@
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkPoint.h"
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"

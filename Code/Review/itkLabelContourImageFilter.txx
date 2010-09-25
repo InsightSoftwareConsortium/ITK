@@ -18,13 +18,10 @@
 #define __itkLabelContourImageFilter_txx
 
 #include "itkLabelContourImageFilter.h"
-#include "itkNumericTraits.h"
 
 // don't think we need the indexed version as we only compute the
 // index at the start of each run, but there isn't a choice
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkMaskImageFilter.h"
 #include "itkConnectedComponentAlgorithm.h"

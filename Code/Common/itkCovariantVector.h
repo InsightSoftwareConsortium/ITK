@@ -17,7 +17,6 @@
 #ifndef __itkCovariantVector_h
 #define __itkCovariantVector_h
 
-#include "itkFixedArray.h"
 #include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
 #include "itkVector.h"

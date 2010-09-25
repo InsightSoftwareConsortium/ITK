@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkArray.h"
 #include "itkListSample.h"
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"

@@ -44,7 +44,6 @@
 // Software Guide : EndLatex
 
 #include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunction.h"
 #include "itkScalarChanAndVeseLevelSetFunctionData.h"
 #include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkFastMarchingImageFilter.h"

@@ -17,9 +17,7 @@
 #ifndef __itkBinaryImageToShapeLabelMapFilter_h
 #define __itkBinaryImageToShapeLabelMapFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkShapeLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkBinaryImageToLabelMapFilter.h"
 #include "itkShapeLabelMapFilter.h"
 

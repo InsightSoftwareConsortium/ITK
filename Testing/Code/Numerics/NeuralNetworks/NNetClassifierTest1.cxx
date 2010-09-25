@@ -16,13 +16,14 @@
 =========================================================================*/
 //#define USE_REVIEW_NETIO
 #ifdef USE_REVIEW_NETIO
-#include "itkNeuralNetworkFileReader.h"
-#include "itkNeuralNetworkFileWriter.h"
+# include "itkNeuralNetworkFileReader.h"
+# include "itkNeuralNetworkFileWriter.h"
 #endif
 
-#include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
+#include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
+
 #include "itkVector.h"
 #include "itkArray.h"
 #include "itkListSample.h"

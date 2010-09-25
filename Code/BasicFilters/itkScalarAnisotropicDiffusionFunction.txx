@@ -17,7 +17,6 @@
 #ifndef __itkScalarAnisotropicDiffusionFunction_txx
 #define __itkScalarAnisotropicDiffusionFunction_txx
 
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"

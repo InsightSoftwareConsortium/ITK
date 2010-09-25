@@ -32,17 +32,12 @@
 
 #include "itkLabelGeometryImageFilter.h"
 
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
 #include "itkCastImageFilter.h"
 
 #include "itkAffineTransform.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
 namespace itk

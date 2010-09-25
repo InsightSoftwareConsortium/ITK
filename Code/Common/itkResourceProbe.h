@@ -17,7 +17,6 @@
 #ifndef __itkResourceProbe_h
 #define __itkResourceProbe_h
 
-#include "itkConfigure.h"
 #include "itkWin32Header.h"
 #include <string>
 

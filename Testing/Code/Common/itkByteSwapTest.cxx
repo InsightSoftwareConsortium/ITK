@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include "itkByteSwapper.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 int itkByteSwapTest ( int, char*[] )
 {

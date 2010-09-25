@@ -17,9 +17,7 @@
 #ifndef __itkWatershedEquivalenceRelabeler_h
 #define __itkWatershedEquivalenceRelabeler_h
 
-#include "itkEquivalencyTable.h"
 #include "itkWatershedSegmenter.h"
-#include "itkImage.h"
 
 namespace itk
 {

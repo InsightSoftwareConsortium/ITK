@@ -17,7 +17,6 @@
 #ifndef __itkLaplacianOperator_h
 #define __itkLaplacianOperator_h
 
-#include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
 namespace itk

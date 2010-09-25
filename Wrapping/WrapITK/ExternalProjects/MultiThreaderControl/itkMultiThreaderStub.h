@@ -13,8 +13,6 @@
 #ifndef __itkMultiThreader_h
 #define __itkMultiThreader_h
 
-#include "itkObject.h"
-#include "itkMutexLock.h"
 
 namespace itk
 {

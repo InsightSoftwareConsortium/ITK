@@ -64,7 +64,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkImage.h"
-#include "itkMesh.h"
 // Software Guide : EndCodeSnippet
 
 

@@ -20,7 +20,6 @@
 #include "SliceFiller.h"
 
 #include "itkNumericTraits.h"
-#include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkImageSliceIteratorWithIndex.h"
 
 template< class TImage >

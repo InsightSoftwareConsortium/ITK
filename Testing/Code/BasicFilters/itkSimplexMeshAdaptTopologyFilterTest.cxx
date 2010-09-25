@@ -20,8 +20,6 @@
 #pragma warning ( disable : 4503 )
 #endif
 
-#include "itkMesh.h"
-#include "itkSimplexMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include <itkTriangleMeshToSimplexMeshFilter.h>
 #include "itkSimplexMeshAdaptTopologyFilter.h"

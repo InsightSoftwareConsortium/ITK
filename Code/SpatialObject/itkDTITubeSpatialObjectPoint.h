@@ -18,7 +18,6 @@
 #define __itkDTITubeSpatialObjectPoint_h
 
 #include "itkTubeSpatialObjectPoint.h"
-#include "itkCovariantVector.h"
 #include "itkDiffusionTensor3D.h"
 #include "vnl/vnl_vector_fixed.h"
 

@@ -19,7 +19,6 @@
 #define __itkQuadEdgeMeshParamMatrixCoefficients_h
 
 #include "itkQuadEdgeMesh.h"
-#include "itkCrossHelper.h"
 #include "itkTriangleHelper.h"
 #include <vnl/vnl_math.h>
 

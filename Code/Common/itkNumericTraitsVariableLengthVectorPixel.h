@@ -17,7 +17,6 @@
 #ifndef __itkNumericTraitsVariableLengthVectorPixel_h
 #define __itkNumericTraitsVariableLengthVectorPixel_h
 
-#include "itkNumericTraits.h"
 #include "itkVariableLengthVector.h"
 
 // This work is part of the National Alliance for Medical Image Computing

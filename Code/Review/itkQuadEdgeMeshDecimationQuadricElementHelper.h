@@ -24,7 +24,6 @@
 #include <vnl/algo/vnl_matrix_inverse.h>
 
 #include "itkTriangleHelper.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

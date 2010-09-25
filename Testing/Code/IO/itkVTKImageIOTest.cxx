@@ -23,7 +23,6 @@
 
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
-#include "itkNumericTraits.h"
 #include "itkVTKImageIO.h"
 #include "itkRandomImageSource.h"
 

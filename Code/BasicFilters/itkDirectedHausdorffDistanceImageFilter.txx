@@ -19,8 +19,6 @@
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
 

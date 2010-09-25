@@ -44,7 +44,6 @@
 //
 // Software Guide : EndLatex 
 
-#include "itkImage.h"
 #include "itkImageAdaptor.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

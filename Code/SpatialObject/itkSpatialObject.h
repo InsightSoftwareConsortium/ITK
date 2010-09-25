@@ -24,21 +24,13 @@
 #endif
 
 #include "itkAffineGeometryFrame.h"
-#include "itkDataObject.h"
-#include "itkBoundingBox.h"
-#include "itkPoint.h"
-#include "itkScalableAffineTransform.h"
-#include "itkSmartPointer.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "itkExceptionObject.h"
 #include <list>
 #include "itkSpatialObjectProperty.h"
 #include "itkProcessObject.h"
 #include "itkIndex.h"
-#include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkObjectFactory.h"
 #include "itkSpatialObjectTreeNode.h"
 
 namespace itk

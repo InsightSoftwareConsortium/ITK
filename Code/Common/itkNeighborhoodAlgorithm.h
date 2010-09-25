@@ -20,9 +20,7 @@
 
 #include <list>
 #include "itkImage.h"
-#include "itkNeighborhood.h"
 #include "itkNeighborhoodOperator.h"
-#include "itkExceptionObject.h"
 #include "itkNeighborhoodIterator.h"
 
 namespace itk

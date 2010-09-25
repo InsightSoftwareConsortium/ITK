@@ -19,8 +19,6 @@
 #endif
 
 
-#include "itkMesh.h"
-#include "itkTriangleCell.h"
 #include "itkSphereMeshSource.h"
 #include <iostream>
 #include <string>

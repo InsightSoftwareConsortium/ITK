@@ -17,8 +17,6 @@
 #ifndef __itkVector_txx
 #define __itkVector_txx
 
-#include "itkVector.h"
-#include "itkNumericTraits.h"
 #include <vnl/vnl_math.h>
 #include "vnl/vnl_vector.h"
 #include "itkObject.h"

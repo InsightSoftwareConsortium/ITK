@@ -17,11 +17,8 @@
 #ifndef __itkImageRegionMultidimensionalSplitter_h
 #define __itkImageRegionMultidimensionalSplitter_h
 
-#include "itkObject.h"
 #include "itkRegion.h"
-#include "itkObjectFactory.h"
 #include "itkIndex.h"
-#include "itkSize.h"
 #include "itkImageRegionSplitter.h"
 
 namespace itk

@@ -19,10 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkESMDemonsRegistrationFunction_h
 
 #include "itkPDEDeformableRegistrationFunction.h"
-#include "itkPoint.h"
-#include "itkCovariantVector.h"
-#include "itkInterpolateImageFunction.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkWarpImageFilter.h"
 

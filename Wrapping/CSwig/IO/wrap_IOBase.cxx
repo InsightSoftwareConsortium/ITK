@@ -15,11 +15,9 @@
 
 =========================================================================*/
 #include "itkRawImageIO.h"
-#include "itkImageIOBase.h"
 #include "itkPNGImageIO.h"
 #include "itkMetaImageIO.h"
 #include "itkDicomImageIO.h"
-#include "itkGDCMImageIO.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkDicomImageIOFactory.h"

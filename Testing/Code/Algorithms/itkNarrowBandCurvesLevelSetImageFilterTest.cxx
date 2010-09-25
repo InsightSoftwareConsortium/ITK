@@ -19,7 +19,6 @@
 #endif
 #include "itkNarrowBandCurvesLevelSetImageFilter.h"
 
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkCastImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"

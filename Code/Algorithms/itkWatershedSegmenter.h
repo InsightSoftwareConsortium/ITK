@@ -21,11 +21,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itk_hash_map.h"
 #include "itkWatershedBoundary.h"
 #include "itkWatershedSegmentTable.h"
 #include "itkEquivalencyTable.h"
-#include "itkImage.h"
 
 namespace itk
 {

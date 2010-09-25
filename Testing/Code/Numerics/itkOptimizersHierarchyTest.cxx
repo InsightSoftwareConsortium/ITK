@@ -20,18 +20,10 @@
 
 
 
-#include "itkOptimizer.h"
-#include "itkNonLinearOptimizer.h"
-#include "itkSingleValuedCostFunction.h"
-#include "itkSingleValuedNonLinearOptimizer.h"
-#include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "itkAmoebaOptimizer.h"
 #include "itkConjugateGradientOptimizer.h"
 #include "itkCumulativeGaussianOptimizer.h"
-#include "itkCumulativeGaussianCostFunction.h"
 #include "itkLBFGSOptimizer.h"
-#include "itkMultipleValuedCostFunction.h"
-#include "itkMultipleValuedNonLinearOptimizer.h"
 #include "itkVersorTransformOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"

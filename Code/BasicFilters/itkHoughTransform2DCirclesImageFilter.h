@@ -22,7 +22,6 @@
 #endif
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkEllipseSpatialObject.h"
 
 namespace itk

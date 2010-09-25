@@ -21,10 +21,8 @@
 #define __itkPointSet_h
 
 #include "itkDataObject.h"
-#include "itkPoint.h"
 #include "itkDefaultStaticMeshTraits.h"
 #include "itkPointLocator.h"
-#include "itkBoundingBox.h"
 #include <vector>
 #include <set>
 

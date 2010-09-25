@@ -17,9 +17,7 @@
 #include "itkCenteredRigid2DTransform.h"
 #include "itkEuler2DTransform.h"
 #include "itkQuaternionRigidTransform.h"
-#include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DTransform.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

@@ -19,7 +19,6 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include "itkIndex.h"
 #include "itkImageRegion.h"
 #include "itkPixelTraits.h"
 #include "itkByteSwapper.h"

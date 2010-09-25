@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include "itkRGBPixel.h"
-#include "itkListSample.h"
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
 #include "itkImageToListSampleFilter.h"

@@ -18,10 +18,7 @@
 #define __itkDenseFrequencyContainer2_h
 
 #include <map>
-#include "itkObjectFactory.h"
-#include "itkObject.h"
 #include "itkValarrayImageContainer.h"
-#include "itkNumericTraits.h"
 #include "itkMeasurementVectorTraits.h"
 
 namespace itk

@@ -16,7 +16,6 @@
 =========================================================================*/
 #ifndef __itkConstantBoundaryCondition_h
 #define __itkConstantBoundaryCondition_h
-#include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
 #include "itkImageBoundaryCondition.h"
 

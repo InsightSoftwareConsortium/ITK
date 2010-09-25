@@ -18,7 +18,7 @@
 #define __itkBinaryMinMaxCurvatureFlowImageFilter_txx
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {

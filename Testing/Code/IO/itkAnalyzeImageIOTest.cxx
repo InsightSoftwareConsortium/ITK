@@ -19,23 +19,13 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include <fstream>
-#include "itkImageFileReader.h"
-#include "itkImage.h"
 
 #include <itksys/SystemTools.hxx>
-#include "itkImageRegionIterator.h"
 #include <iostream>
 
-#include "itkImageFileWriter.h"
-#include "itkImageIOFactory.h"
 #include "itkAnalyzeImageIOFactory.h"
-#include "itkNiftiImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
-#include "itkNiftiImageIO.h"
-#include "itkSpatialOrientationAdapter.h"
 #include <stdio.h>
-#include "itkMetaDataObject.h"
-#include "itkIOCommon.h"
 #include "itk_zlib.h"
 #include "itkNiftiImageIOTest.h"
 #include "itkRGBPixel.h"

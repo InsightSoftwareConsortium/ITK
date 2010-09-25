@@ -27,7 +27,6 @@
 #include "itkProgressAccumulator.h"
 #include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 
 namespace itk

@@ -17,7 +17,6 @@
 #ifndef __itkSampleToSubsampleFilter_h
 #define __itkSampleToSubsampleFilter_h
 
-#include "itkSample.h"
 #include "itkSubsample.h"
 #include "itkProcessObject.h"
 

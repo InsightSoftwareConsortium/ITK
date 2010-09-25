@@ -122,7 +122,6 @@
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImage.h"
 #include "itkFastMarchingImageFilter.h"
 #include "itkShapeDetectionLevelSetImageFilter.h"
 // Software Guide : EndCodeSnippet

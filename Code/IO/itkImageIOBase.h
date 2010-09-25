@@ -18,7 +18,6 @@
 #define __itkImageIOBase_h
 
 #include "itkLightProcessObject.h"
-#include "itkObjectFactory.h"
 #include "itkIndent.h"
 #include "itkImageIORegion.h"
 #include "vnl/vnl_vector.h"

@@ -18,13 +18,9 @@
 #define __itkKLMRegionGrowImageFilter_h
 
 #include "itkImage.h"
-#include "itkObject.h"
-#include "itkImageToImageFilter.h"
 #include "itkRegionGrowImageFilter.h"
-#include "itkKLMSegmentationRegion.h"
 #include "itkKLMSegmentationBorder.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkConceptChecking.h"
 #include <algorithm>
 #include <functional>

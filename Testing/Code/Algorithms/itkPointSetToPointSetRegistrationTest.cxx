@@ -21,7 +21,6 @@
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkPointSetToImageFilter.h"

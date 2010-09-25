@@ -19,15 +19,11 @@
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itkDataObject.h"
 #include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomPixel.h"
 #include "itkMatrixResizeableDataObject.h"
 #include "itkBinaryMedialNodeMetric.h"
 
 #include "itkCorrespondenceDataStructure.h"
-#include "itkSecondaryNodeList.h"
-#include "itkCorrespondingList.h"
 #include "itkCorrespondingMedialNodeClique.h"
 #include "itkCorrespondenceDataStructureIterator.h"
 

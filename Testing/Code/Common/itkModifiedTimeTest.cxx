@@ -18,8 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkPoint.h"
-#include "itkVectorContainer.h"
 #include "itkBoundingBox.h"
 
 int itkModifiedTimeTest( int, char* [] )

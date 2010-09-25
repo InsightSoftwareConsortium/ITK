@@ -23,9 +23,7 @@ PURPOSE.  See the above copyright notices for more information.
  */
 
 #include <fstream>
-#include "itkVector.h"
 #include "itkImage.h"
-#include "itkTransform.h"
 #include "itkAffineTransform.h"
 #include "itkTransformToDeformationFieldSource.h"
 #include "itkImageFileWriter.h"

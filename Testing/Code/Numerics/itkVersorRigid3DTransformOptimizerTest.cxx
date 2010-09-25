@@ -19,8 +19,6 @@
 #endif
 
 #include <itkVersorRigid3DTransformOptimizer.h>
-#include <itkVector.h>
-#include <itkVersor.h>
 #include <itkCovariantVector.h>
 #include <itkVersorRigid3DTransform.h>
 

@@ -20,9 +20,7 @@
 #include "itkListSample.h"
 #include "itkPixelTraits.h"
 #include "itkProcessObject.h"
-#include "itkDataObject.h"
 #include "itkDataObjectDecorator.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

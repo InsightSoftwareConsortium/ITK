@@ -17,10 +17,7 @@
 #ifndef __itkVersor_h
 #define __itkVersor_h
 
-#include "itkVector.h"
-#include "itkPoint.h"
 #include "itkMatrix.h"
-#include "itkCovariantVector.h"
 #include "vnl/vnl_quaternion.h"
 #include "vnl/vnl_vector_fixed.h"
 

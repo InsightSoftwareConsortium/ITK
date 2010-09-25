@@ -18,28 +18,19 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkPoint.h"
-#include "itkMesh.h"
 #include "itkEllipseSpatialObject.h"
 
 #include "itkAntiAliasBinaryImageFilter.h"
 #include "itkBalloonForceFilter.h"
 #include "itkBinaryMask3DMeshSource.h"
-#include "itkBinaryMinMaxCurvatureFlowFunction.h"
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
-#include "itkCannySegmentationLevelSetFunction.h"
 #include "itkCannySegmentationLevelSetImageFilter.h"
 #include "itkConnectedRegionsMeshFilter.h"
-#include "itkCurvatureFlowFunction.h"
 #include "itkCurvatureFlowImageFilter.h"
 #include "itkDeformableMesh3DFilter.h"
 #include "itkDemonsRegistrationFilter.h"
-#include "itkDemonsRegistrationFunction.h"
 #include "itkExtensionVelocitiesImageFilter.h"
 #include "itkFEMRegistrationFilter.h"
-#include "itkFastMarchingExtensionImageFilter.h"
 #include "itkFastMarchingImageFilter.h"
 
 int main (int , char* [])

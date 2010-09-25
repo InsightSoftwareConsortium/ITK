@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkRBFBackPropagationLearningFunction_h
 
 #include <iostream>
-#include "itkLightProcessObject.h"
 #include "itkLearningFunctionBase.h"
 #include "itkRBFLayer.h"
 

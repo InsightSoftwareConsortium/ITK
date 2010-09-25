@@ -18,14 +18,12 @@
 #define __itkVectorConfidenceConnectedImageFilter_txx
 
 #include "itkVectorConfidenceConnectedImageFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorMeanImageFunction.h"
 #include "itkCovarianceImageFunction.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
-#include "itkFloodFilledImageFunctionConditionalConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressReporter.h"
 

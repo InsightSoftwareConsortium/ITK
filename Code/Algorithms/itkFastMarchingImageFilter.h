@@ -19,7 +19,6 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkLevelSet.h"
-#include "itkIndex.h"
 #include "vnl/vnl_math.h"
 
 #include <functional>

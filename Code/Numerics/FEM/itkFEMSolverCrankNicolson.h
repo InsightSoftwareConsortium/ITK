@@ -19,10 +19,6 @@
 #define __itkFEMSolverCrankNicolson_h
 
 #include "itkFEMSolver.h"
-#include "itkFEMElementBase.h"
-#include "itkFEMMaterialBase.h"
-#include "itkFEMLoadBase.h"
-#include "itkFEMLinearSystemWrapperVNL.h"
 
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_matrix.h"

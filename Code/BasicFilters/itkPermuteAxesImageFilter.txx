@@ -19,7 +19,7 @@
 
 #include "itkPermuteAxesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkProgressReporter.h"
 
 namespace itk

@@ -22,7 +22,6 @@
 
 #include "itkMapContainer.h"
 #include "itkPoint.h"
-#include "itkVector.h"
 
 #include <iostream>
 #include <string>

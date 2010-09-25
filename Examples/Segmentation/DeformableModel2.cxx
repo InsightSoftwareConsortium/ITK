@@ -30,15 +30,12 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkMesh.h"
 
 #include "itkDeformableMesh3DFilter.h" 
 
 #include "itkGradientRecursiveGaussianImageFilter.h" 
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h" 
 
-#include "itkImage.h"
-#include "itkCovariantVector.h"
 
 #include "itkSphereMeshSource.h"
 

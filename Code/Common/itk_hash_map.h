@@ -83,7 +83,6 @@ using __gnu_cxx::hash_multimap;
 #else
 
 #include "itk_hashtable.h"
-#include "itk_alloc.h"
 
 // The following is required for CodeWarrior
 #include "vcl_compiler.h"

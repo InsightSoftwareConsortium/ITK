@@ -18,15 +18,12 @@
 #ifndef __itkMultiphaseFiniteDifferenceImageFilter_h
 #define __itkMultiphaseFiniteDifferenceImageFilter_h
 
-#include "itkArray.h"
 #include "itkInPlaceImageFilter.h"
 #include "itkFiniteDifferenceFunction.h"
 #include <vnl/vnl_vector.h>
 #include "itkImageRegionIterator.h"
 
-#include "itkVector.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
 
 namespace itk

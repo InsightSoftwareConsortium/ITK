@@ -18,9 +18,7 @@
 #define __itkPhasedArray3DSpecialCoordinatesImage_h
 
 #include "itkSpecialCoordinatesImage.h"
-#include "itkImageRegion.h"
 #include "itkPoint.h"
-#include "itkContinuousIndex.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

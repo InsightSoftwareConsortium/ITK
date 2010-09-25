@@ -17,7 +17,6 @@
 #ifndef __itkVariableLengthVector_h
 #define __itkVariableLengthVector_h
 
-#include "itkMacro.h"
 #include "itkNumericTraits.h"
 
 namespace itk

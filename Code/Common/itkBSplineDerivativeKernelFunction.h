@@ -17,7 +17,6 @@
 #ifndef __itkBSplineDerivativeKernelFunction_h
 #define __itkBSplineDerivativeKernelFunction_h
 
-#include "itkKernelFunction.h"
 #include "itkBSplineKernelFunction.h"
 
 namespace itk

@@ -18,8 +18,7 @@
 #define __itkFiniteDifferenceImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkEventObject.h"
 #include "itkFiniteDifferenceImageFilter.h"
 

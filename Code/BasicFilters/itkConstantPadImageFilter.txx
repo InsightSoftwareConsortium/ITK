@@ -19,7 +19,6 @@
 
 #include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 

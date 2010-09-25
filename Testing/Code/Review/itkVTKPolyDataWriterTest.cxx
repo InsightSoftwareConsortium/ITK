@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkTriangleCell.h"
 #include "itkLineCell.h"
 #include "itkVTKPolyDataWriter.h"
 

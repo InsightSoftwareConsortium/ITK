@@ -21,7 +21,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
-#include "itkExceptionObject.h"
 #include "vnl/algo/vnl_fft_base.h"
 #include "vnl/algo/vnl_fft_1d.h"
 #include "vnl/algo/vnl_fft_2d.h"
