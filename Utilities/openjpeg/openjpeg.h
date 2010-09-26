@@ -984,11 +984,6 @@ OPJ_API bool OPJ_CALLCONV opj_set_MCT(opj_cparameters_t *parameters,OPJ_FLOAT32 
 OPJ_API bool OPJ_CALLCONV opj_restrict_decoding (opj_dparameters_t *parameters,OPJ_INT32 p_start_x,OPJ_INT32 p_start_y,OPJ_INT32 p_end_x,OPJ_INT32 p_end_y);
 
 #ifdef USE_OPJ_DEPRECATED
-#ifdef _MSC_VER
-#pragma message ("warning, opj_setup_encoder is deprecated")
-#else
-#warning "warning, opj_setup_encoder is deprecated"
-#endif
 /**
 Setup the encoder parameters using the current image and using user parameters.
 @param cinfo Compressor handle
