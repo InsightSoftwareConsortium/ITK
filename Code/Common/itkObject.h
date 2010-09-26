@@ -35,7 +35,7 @@ class Command;
  * Object is the second-highest level base class for most itk objects.
  * It extends the base object functionality of LightObject by
  * implementing callbacks (via object/observer), debug flags/methods,
- * and modification time tracking. Most ITK classes should be a subclas
+ * and modification time tracking. Most ITK classes should be a subclass
  * of Object due to the need to keep track of modified time.
  *
  * \ingroup ITKSystemObjects
@@ -115,7 +115,7 @@ public:
   unsigned long AddObserver(const EventObject & event, Command *) const;
 
   /** Get the command associated with the given tag.  NOTE: This returns
-   * a pointer to a Command, but it is safe to asign this to a
+   * a pointer to a Command, but it is safe to assign this to a
    * Command::Pointer.  Since Command inherits from LightObject, at this
    * point in the code, only a pointer or a reference to the Command can
    * be used.   */
