@@ -160,7 +160,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
     const BYTE* pbyteCompressed = (const BYTE*)buffer;
     int cbyteCompressed = totalLen;
 
-    JlsParamaters params = {0};
+    JlsParamaters params;
     JpegLsReadHeader(pbyteCompressed, cbyteCompressed, &params);
 
     std::vector<BYTE> rgbyteCompressed;
@@ -218,7 +218,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
 
     int cbyteCompressed = totalLen;
 
-    JlsParamaters params = {0};
+    JlsParamaters params;
     JpegLsReadHeader(pbyteCompressed, cbyteCompressed, &params);
 
     std::vector<BYTE> rgbyteCompressed;
@@ -285,7 +285,7 @@ bool JPEGLSCodec::Code(DataElement const &in, DataElement &out)
     {
     const char *inputdata = input + dim * image_len; //bv->GetPointer();
 
-    JlsParamaters params = {};
+    JlsParamaters params;
 /*
 The fields in JlsCustomParameters do not control lossy/lossless. They
 provide the possiblity to tune the JPEG-LS internals for better compression

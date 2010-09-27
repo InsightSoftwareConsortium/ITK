@@ -210,6 +210,7 @@ namespace details
         }
     static void Check(bool b, std::istream &stream)
       {
+      (void)stream;
       if( b ) assert( stream.eof() );
       }
   };

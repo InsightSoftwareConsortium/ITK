@@ -147,7 +147,7 @@ inline bool process_file(const char *filename, md5_byte_t *digest)
   return true;
 }
 #else
-inline bool process_file(const char *filename, unsigned char *digest)
+inline bool process_file(const char *, unsigned char *)
 {
   return false;
 }

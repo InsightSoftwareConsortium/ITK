@@ -123,7 +123,7 @@ bool RAWCodec::Decode(std::istream &is, std::ostream &os)
   return r;
 }
 
-bool RAWCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
+bool RAWCodec::GetHeaderInfo(std::istream &, TransferSyntax &ts)
 {
   ts = gdcm::TransferSyntax::ExplicitVRLittleEndian;
   if( NeedByteSwap )

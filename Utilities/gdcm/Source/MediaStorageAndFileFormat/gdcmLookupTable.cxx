@@ -116,6 +116,7 @@ unsigned int LookupTable::GetLUTLength(LookupTableType type) const
 void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
   unsigned int length)
 {
+  (void)length;
   //if( !Initialized() ) return;
   if( !Internal->Length[type] )
     {
@@ -309,7 +310,7 @@ const unsigned char *LookupTable::GetPointer() const
 
 bool LookupTable::GetBufferAsRGBA(unsigned char *rgba) const
 {
-  bool ret;
+  bool ret = false;
   if ( BitSample == 8 )
     {
     std::vector<unsigned char>::const_iterator it = Internal->RGB.begin();
@@ -368,7 +369,7 @@ bool LookupTable::GetBufferAsRGBA(unsigned char *rgba) const
 
 bool LookupTable::WriteBufferAsRGBA(const unsigned char *rgba)
 {
-  bool ret;
+  bool ret = false;
   if ( BitSample == 8 )
     {
     std::vector<unsigned char>::iterator it = Internal->RGB.begin();

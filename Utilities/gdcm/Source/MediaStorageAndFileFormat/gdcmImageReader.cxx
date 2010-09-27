@@ -125,7 +125,7 @@ bool ImageReader::ReadACRNEMAImage()
   if( ds.FindDataElement( timageposition) )
     {
     const DataElement& de = ds.GetDataElement( timageposition);
-    Attribute<0x0020,0x0030> at = {};
+    Attribute<0x0020,0x0030> at = {{}};
     at.SetFromDataElement( de );
     pixeldata.SetOrigin( at.GetValues() );
     if( at.GetNumberOfValues() > pixeldata.GetNumberOfDimensions() ) // FIXME HACK

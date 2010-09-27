@@ -295,6 +295,9 @@ void Curve::SetCurve(const char *array, unsigned int length)
 
 void Curve::Decode(std::istream &is, std::ostream &os)
 {
+  (void)is;
+  (void)os;
+  assert(0);
 }
 
 void Curve::GetAsPoints(float *array) const
