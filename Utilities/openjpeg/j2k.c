@@ -718,6 +718,7 @@ static void j2k_copy_tile_quantization_parameters(
               opj_j2k_t *p_j2k
               );
 
+#ifdef THIS_CODE_IS_NEVER_USED_AND_IT_IS_DECLARED_STATIC
 /**
  * Reads a EOC marker (End Of Codestream)
  *
@@ -731,7 +732,7 @@ static bool j2k_read_eoc (
             struct opj_stream_private *p_stream,
             struct opj_event_mgr * p_manager
           ) ;
-
+#endif
 /**
  * Inits the Info
  *
@@ -744,6 +745,7 @@ static bool j2k_init_info(
             struct opj_stream_private *p_stream,
             struct opj_event_mgr * p_manager
           );
+#ifdef THIS_CODE_IS_NEVER_USED_AND_IT_IS_DECLARED_STATIC
 /**
  * Reads an unknown marker
  *
@@ -758,6 +760,7 @@ static bool j2k_read_unk (
             struct opj_stream_private *p_stream,
             struct opj_event_mgr * p_manager
           );
+#endif
 /**
  * Ends the encoding, i.e. frees memory.
  *
@@ -6519,6 +6522,7 @@ bool j2k_update_rates(
   return true;
 }
 
+#ifdef THIS_CODE_IS_NEVER_USED_AND_IT_IS_DECLARED_STATIC
 /**
  * Reads a EOC marker (End Of Codestream)
  *
@@ -6585,6 +6589,7 @@ bool j2k_read_eoc (
   tcd_destroy(l_tcd);
   return true;
 }
+#endif
 
 /**
  * Writes the image components.
@@ -6766,6 +6771,7 @@ bool j2k_get_end_header(
 
 
 
+#ifdef THIS_CODE_IS_NEVER_USED_AND_IT_IS_DECLARED_STATIC
 /**
  * Reads an unknown marker
  *
@@ -6867,7 +6873,7 @@ bool j2k_read_unk (
   }
   return true;
 }
-
+#endif
 /**
  * Reads the lookup table containing all the marker, status and action, and returns the handler associated
  * with the marker value.
