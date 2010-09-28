@@ -1,6 +1,7 @@
 project(StatisticsExamples)
 include_regular_expression("^.*$")
 
+
 add_executable(BayesianPluginClassifier BayesianPluginClassifier.cxx )
 target_link_libraries(BayesianPluginClassifier ITKStatistics)
 
@@ -10,15 +11,15 @@ target_link_libraries(BayesianClassifierInitializer ITKStatistics ITKIO)
 add_executable( BayesianClassifier BayesianClassifier.cxx )
 target_link_libraries(BayesianClassifier ITKStatistics ITKIO)
 
-add_executable(EuclideanDistance EuclideanDistance.cxx )
-target_link_libraries(EuclideanDistance ITKCommon)
+add_executable(EuclideanDistanceMetric EuclideanDistanceMetric.cxx )
+target_link_libraries(EuclideanDistanceMetric ITKCommon)
 
 add_executable(ExpectationMaximizationMixtureModelEstimator ExpectationMaximizationMixtureModelEstimator.cxx )
 target_link_libraries(ExpectationMaximizationMixtureModelEstimator
 ITKStatistics)
 
-add_executable(GaussianDensityFunction GaussianDensityFunction.cxx )
-target_link_libraries(GaussianDensityFunction ITKCommon)
+add_executable(GaussianMembershipFunction GaussianMembershipFunction.cxx )
+target_link_libraries(GaussianMembershipFunction ITKCommon)
 
 add_executable(Histogram Histogram.cxx )
 target_link_libraries(Histogram ITKStatistics)
@@ -32,39 +33,35 @@ target_link_libraries(KdTreeBasedKMeansClustering ITKStatistics)
 add_executable(ListSample ListSample.cxx )
 target_link_libraries(ListSample ITKCommon)
 
-add_executable(ListSampleToHistogramFilter ListSampleToHistogramFilter.cxx )
-target_link_libraries(ListSampleToHistogramFilter ITKStatistics)
+add_executable(SampleToHistogramFilter SampleToHistogramFilter.cxx )
+target_link_libraries(SampleToHistogramFilter ITKStatistics)
 
-add_executable(ListSampleToHistogramGenerator ListSampleToHistogramGenerator.cxx )
-target_link_libraries(ListSampleToHistogramGenerator ITKStatistics)
+add_executable(MaximumDecisionRule2 MaximumDecisionRule2.cxx )
+target_link_libraries(MaximumDecisionRule2 ITKCommon ITKStatistics)
 
-add_executable(MaximumDecisionRule MaximumDecisionRule.cxx )
-target_link_libraries(MaximumDecisionRule ITKCommon)
-
-add_executable(MaximumRatioDecisionRule MaximumRatioDecisionRule.cxx )
-target_link_libraries(MaximumRatioDecisionRule ITKCommon)
+add_executable(MaximumRatioDecisionRule2 MaximumRatioDecisionRule2.cxx )
+target_link_libraries(MaximumRatioDecisionRule2 ITKCommon ITKStatistics)
 
 add_executable(MembershipSample MembershipSample.cxx )
 target_link_libraries(MembershipSample ITKCommon)
 
-add_executable(MinimumDecisionRule MinimumDecisionRule.cxx )
-target_link_libraries(MinimumDecisionRule ITKCommon)
-
-add_executable(NeighborhoodSampler NeighborhoodSampler.cxx )
-target_link_libraries(NeighborhoodSampler ITKCommon)
+add_executable(MinimumDecisionRule2 MinimumDecisionRule2.cxx )
+target_link_libraries(MinimumDecisionRule2 ITKCommon ITKStatistics)
+#
+# At the moment, itkNeighborhoodSampler is incomplete, so this example
+# can't be updated
+#
+#add_executable(NeighborhoodSampler NeighborhoodSampler.cxx )
+#target_link_libraries(NeighborhoodSampler ITKCommon)
 
 add_executable(NormalVariateGenerator NormalVariateGenerator.cxx )
 target_link_libraries(NormalVariateGenerator ITKStatistics)
 
-add_executable(PointSetToListAdaptor PointSetToListAdaptor.cxx )
-target_link_libraries(PointSetToListAdaptor ITKCommon)
-
+add_executable(PointSetToListSampleAdaptor PointSetToListSampleAdaptor.cxx )
+target_link_libraries(PointSetToListSampleAdaptor ITKCommon)
 
 add_executable(SampleStatistics SampleStatistics.cxx )
 target_link_libraries(SampleStatistics ITKCommon)
-
-add_executable(SampleToHistogramProjectionFilter SampleToHistogramProjectionFilter.cxx )
-target_link_libraries(SampleToHistogramProjectionFilter ITKStatistics)
 
 add_executable(SampleSorting SampleSorting.cxx )
 target_link_libraries(SampleSorting ITKCommon)
@@ -79,10 +76,10 @@ add_executable(ScalarImageMarkovRandomField1 ScalarImageMarkovRandomField1.cxx )
 target_link_libraries(ScalarImageMarkovRandomField1 ITKIO )
 
 add_executable(ScalarImageKmeansClassifier ScalarImageKmeansClassifier.cxx )
-target_link_libraries(ScalarImageKmeansClassifier ITKIO )
+target_link_libraries(ScalarImageKmeansClassifier ITKIO ITKStatistics )
 
-add_executable(ImageToListAdaptor ImageToListAdaptor.cxx )
-target_link_libraries(ImageToListAdaptor ITKCommon)
+add_executable(ImageToListSampleAdaptor ImageToListSampleAdaptor.cxx )
+target_link_libraries(ImageToListSampleAdaptor ITKCommon)
 
 add_executable(ImageHistogram1 ImageHistogram1.cxx )
 target_link_libraries(ImageHistogram1 ITKIO ITKStatistics )

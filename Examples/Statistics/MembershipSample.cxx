@@ -124,8 +124,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Size = " << membershipSample->Size() << std::endl;
-  std::cout << "Total frequency = "
+  std::cout << "Total frequency = " 
             << membershipSample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -158,15 +157,16 @@ int main()
   // Software Guide : BeginLatex
   //
   // To see the numbers of instances in each class subsample, we use
-  // the \code{GetClassSampleSize()} method.
+  // the \code{Size()} method of the \code{ClassSampleType} instance
+  // returned by the \code{GetClassSample(index)} method.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "class label = 0 sample size = "
-            << membershipSample->GetClassSampleSize(0) << std::endl;
-  std::cout << "class label = 1 sample size = "
-            << membershipSample->GetClassSampleSize(1) << std::endl;
+  std::cout << "class label = 0 sample size = " 
+            << membershipSample->GetClassSample(0)->Size() << std::endl;
+  std::cout << "class label = 1 sample size = " 
+            << membershipSample->GetClassSample(1)->Size() << std::endl;
   // Software Guide : EndCodeSnippet
 
 

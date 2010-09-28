@@ -20,22 +20,26 @@
 #endif
 
 // Software Guide : BeginLatex
-// \index{itk::Statistics::Maximum\-Decision\-Rule}
+// \index{itk::Statistics::Maximum\-Ratio\-Decision\-Rule}
 //
-// The \doxygen{MaximumDecisionRule} returns the index of the largest
-// discriminant score among the discriminant scores in the vector of
-// discriminant scores that is the input argument of the \code{Evaluate()}
-// method.
+// The \code{Evaluate()} method of the \doxygen{MaximumRatioDecisionRule2}
+// returns the index, $i$ if
+// \begin{equation}
+//   \frac{f_{i}(\overrightarrow{x})}{f_{j}(\overrightarrow{x})} >
+//   \frac{K_{j}}{K_{i}} \textrm{ for all } j \not= i
+// \end{equation}
+// where the $i$ is the index of a class which has membership function
+// $f_{i}$ and its prior value (usually, the \emph{a priori}
+// probability of the class) is $K_{i}$
 //
-// To begin the example, we include the header files for the class and the
-// MaximumDecisionRule. We also include the header file for the
-// \code{std::vector} class that will be the container for the discriminant
-// scores.
+// We include the header files for the class as well as the header file for
+// the \code{std::vector} class that will be the container for the
+// discriminant scores.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkMaximumDecisionRule.h"
+#include "itkMaximumRatioDecisionRule2.h"
 #include <vector>
 // Software Guide : EndCodeSnippet
 
@@ -49,7 +53,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MaximumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MaximumRatioDecisionRule2 DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
@@ -57,8 +61,9 @@ int main(int, char*[])
   // Software Guide : BeginLatex
   //
   // We create the discriminant score vector and fill it with three
-  // values. The \code{Evaluate( discriminantScores )} will return 2
-  // because the third value is the largest value.
+  // values. We also create a vector (\code{aPrioris}) for the \emph{a
+  // priori} values. The \code{Evaluate( discriminantScores )} will
+  // return 1.
   //
   // Software Guide : EndLatex
 
@@ -68,7 +73,13 @@ int main(int, char*[])
   discriminantScores.push_back( 0.3 );
   discriminantScores.push_back( 0.6 );
 
-  std::cout << "MaximumDecisionRule: The index of the chosen = "
+  DecisionRuleType::APrioriVectorType aPrioris;
+  aPrioris.push_back( 0.1 );
+  aPrioris.push_back( 0.8 );
+  aPrioris.push_back( 0.1 );
+
+  decisionRule->SetAPriori( aPrioris );
+  std::cout << "MaximumRatioDecisionRule: The index of the chosen = "
             << decisionRule->Evaluate( discriminantScores )
             << std::endl;
   // Software Guide : EndCodeSnippet

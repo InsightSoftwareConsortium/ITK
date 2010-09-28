@@ -23,10 +23,10 @@
 //
 // \index{Statistics!Gaussian (normal) probability density function}
 //
-// \index{itk::Statistics::GaussianDensityFunction}
+// \index{itk::Statistics::GaussianMembershipFunction}
 //
 // The Gaussian probability density function
-// \subdoxygen{Statistics}{GaussianDensityFunction} requires two
+// \subdoxygen{Statistics}{GaussianMembershipFunction} requires two
 // distribution parameters---the mean vector and the covariance matrix.
 //
 // We include the header files for the class and the \doxygen{Vector}.
@@ -35,13 +35,13 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
-#include "itkGaussianDensityFunction.h"
+#include "itkGaussianMembershipFunction.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // We define the type of the measurement vector that will be input to
-// the Gaussian density function.
+// the Gaussian membership function.
 //
 // Software Guide : EndLatex
 
@@ -58,14 +58,14 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianDensityFunction< MeasurementVectorType >
+  typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
     DensityFunctionType;
   DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // The length of the measurement vectors in the density function, in this
+  // The length of the measurement vectors in the membership function, in this
   // case a vector of length 2, is specified using the
   // \code{SetMeasurementVectorSize()} method.
   // Software Guide : EndLatex
@@ -98,8 +98,8 @@ int main(int, char*[])
   cov.SetIdentity();
   cov *= 4;
 
-  densityFunction->SetMean( &mean );
-  densityFunction->SetCovariance( &cov );
+  densityFunction->SetMean( mean );
+  densityFunction->SetCovariance( cov );
 
   MeasurementVectorType mv;
   mv.Fill( 0 );

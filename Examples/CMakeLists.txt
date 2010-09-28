@@ -6,6 +6,7 @@ add_subdirectory(Numerics)
 add_subdirectory(Registration)
 add_subdirectory(Segmentation)
 add_subdirectory(SpatialObjects)
+add_subdirectory(Statistics)
 
 #This code looks like it needs to be updated to the new statistics framework
 #It was never updated as part of the refactoring to review statistics.
