@@ -38,18 +38,21 @@ namespace gdcm
 sample error callback expecting a FILE* client object
 */
 void error_callback(const char *msg, void *) {
+  (void)msg;
   gdcmErrorMacro( "Error in gdcmopenjpeg" << msg );
 }
 /**
 sample warning callback expecting a FILE* client object
 */
 void warning_callback(const char *msg, void *) {
+  (void)msg;
   gdcmWarningMacro( "Warning in gdcmopenjpeg" << msg );
 }
 /**
 sample debug callback expecting no client object
 */
 void info_callback(const char *msg, void *) {
+  (void)msg;
   gdcmDebugMacro( "Info in gdcmopenjpeg" << msg );
 }
 
@@ -99,7 +102,7 @@ OPJ_UINT32 opj_read_from_memory(void * p_buffer, OPJ_UINT32 p_nb_bytes, myfile* 
   p_file->cur += l_nb_read;
   assert( p_file->cur <= p_file->mem + p_file->len );
   //std::cout << "l_nb_read: " << l_nb_read << std::endl;
-  return l_nb_read ? l_nb_read : -1;
+  return l_nb_read ? l_nb_read : ((OPJ_UINT32)-1);
 }
 
 OPJ_UINT32 opj_write_from_memory (void * p_buffer, OPJ_UINT32 p_nb_bytes, myfile* p_file)
@@ -136,7 +139,7 @@ OPJ_SIZE_T opj_skip_from_memory (OPJ_SIZE_T p_nb_bytes, myfile * p_file)
     }
 
   p_file->cur = p_file->mem + p_file->len;
-  return -1;
+  return (OPJ_SIZE_T)-1;
 }
 
 bool opj_seek_from_memory (OPJ_SIZE_T p_nb_bytes, myfile * p_file)
@@ -681,6 +684,7 @@ opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
   int bitsallocated, int bitsstored, int sign, int quality, int pc)
 {
   (void)quality;
+  (void)fragment_size;
   int w, h;
   int numcomps;
   OPJ_COLOR_SPACE color_space;

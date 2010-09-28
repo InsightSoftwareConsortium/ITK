@@ -70,6 +70,7 @@ static void XMLCALL characterDataHandler(void* userData, const char* data,
 
 void TableReader::HandleMacroEntryDescription(const char **atts)
 {
+  (void)atts;
   assert( ParsingMacroEntryDescription == false );
   ParsingMacroEntryDescription = true;
   assert( *atts == NULL );
@@ -88,6 +89,7 @@ void TableReader::HandleModuleInclude(const char **atts)
 
 void TableReader::HandleModuleEntryDescription(const char **atts)
 {
+  (void)atts;
   assert( ParsingModuleEntryDescription == false );
   ParsingModuleEntryDescription = true;
   assert( *atts == NULL );

@@ -33,6 +33,7 @@ StringFilter::~StringFilter()
 
 void StringFilter::SetDicts(const Dicts &dicts)
 {
+  (void)dicts;
   assert(0); // FIXME
 }
 
@@ -214,7 +215,10 @@ std::pair<std::string, std::string> StringFilter::ToStringPair(const Tag& t, Dat
 
 std::string StringFilter::FromString(const Tag&t, const char * value, VL const & vl)
 {
-  abort();
+  (void)t;
+  (void)value;
+  (void)vl;
+  assert(0 && "TODO");
   return "";
 }
 
