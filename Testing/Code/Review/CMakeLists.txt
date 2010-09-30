@@ -202,7 +202,10 @@ set(ReviewTest3_SRCS
 
   itkGaborImageSourceTest.cxx
 
-  itkDiscreteGaussianDerivativeImageFilterTest
+  itkDiscreteGaussianDerivativeImageFilterTest.cxx
+
+  itkAttributeLabelObjectAccessorsTest1.cxx
+
 )
 
 set(ReviewTest4_SRCS
@@ -217,6 +220,7 @@ set(ReviewTest4_SRCS
   itkLabelStatisticsOpeningImageFilterTest1.cxx
   itkStatisticsRelabelImageFilterTest1.cxx
   itkStatisticsUniqueLabelMapFilterTest1.cxx
+  itkAttributeLabelObjectAccessorsTest1.cxx
 )
 
 set(ReviewTest5_SRCS
@@ -1989,6 +1993,13 @@ add_test(itkGaborImageSourceTest1
   --compare ${BASELINE}/GaborImageSourceTest1.mha
   ${TEMP}/GaborImageSourceTest1.mha
   itkGaborImageSourceTest ${TEMP}/GaborImageSourceTest1.mha 1)
+
+add_test(itkAttributeLabelObjectAccessorsTest1
+  ${REVIEW_TESTS3}
+  itkAttributeLabelObjectAccessorsTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${INPUTDATA}/cthead1.png
+  )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}

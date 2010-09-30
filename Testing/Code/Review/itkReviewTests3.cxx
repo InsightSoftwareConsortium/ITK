@@ -40,8 +40,8 @@ void RegisterTests()
   REGISTER_TEST(itkLabelMapToBinaryImageFilterTest);
   REGISTER_TEST(itkLabelShapeKeepNObjectsImageFilterTest1);
   REGISTER_TEST(itkLabelShapeOpeningImageFilterTest1);
-  REGISTER_TEST(itkMergeLabelMapFilterTest1);  
-  REGISTER_TEST(itkPadLabelMapFilterTest1);  
+  REGISTER_TEST(itkMergeLabelMapFilterTest1);
+  REGISTER_TEST(itkPadLabelMapFilterTest1);
   REGISTER_TEST(itkRegionFromReferenceLabelMapFilterTest1);
   REGISTER_TEST(itkRelabelLabelMapFilterTest1);
   REGISTER_TEST(itkShapeKeepNObjectsLabelMapFilterTest1);
@@ -53,4 +53,6 @@ void RegisterTests()
   REGISTER_TEST(itkShiftScaleLabelMapFilterTest1);
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkDiscreteGaussianDerivativeImageFilterTest);
+  REGISTER_TEST(itkAttributeLabelObjectAccessorsTest1);
+
 }
