@@ -205,6 +205,7 @@ set(ReviewTest3_SRCS
   itkDiscreteGaussianDerivativeImageFilterTest.cxx
 
   itkAttributeLabelObjectAccessorsTest1.cxx
+  itkAttributeOpeningLabelMapFilterTest1.cxx
 
 )
 
@@ -1999,6 +2000,28 @@ add_test(itkAttributeLabelObjectAccessorsTest1
   itkAttributeLabelObjectAccessorsTest1
   ${INPUTDATA}/cthead1Label.png
   ${INPUTDATA}/cthead1.png
+  )
+
+add_test(itkAttributeOpeningLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeOpeningLabelMapFilterTest0.png
+  itkAttributeOpeningLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeOpeningLabelMapFilterTest0.png
+  2
+  0
+  )
+
+add_test(itkAttributeOpeningLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeOpeningLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeOpeningLabelMapFilterTest1.png
+  itkAttributeOpeningLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeOpeningLabelMapFilterTest1.png
+  2
+  1
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1

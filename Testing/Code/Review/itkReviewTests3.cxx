@@ -54,5 +54,6 @@ void RegisterTests()
   REGISTER_TEST(itkTriangleMeshToBinaryImageFilterTest3);
   REGISTER_TEST(itkDiscreteGaussianDerivativeImageFilterTest);
   REGISTER_TEST(itkAttributeLabelObjectAccessorsTest1);
+  REGISTER_TEST(itkAttributeOpeningLabelMapFilterTest1);
 
 }
