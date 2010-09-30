@@ -207,6 +207,7 @@ set(ReviewTest3_SRCS
   itkAttributeLabelObjectAccessorsTest1.cxx
   itkAttributeOpeningLabelMapFilterTest1.cxx
   itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
+  itkAttributeRelabelLabelMapFilterTest1.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2043,6 +2044,26 @@ add_test(itkAttributeKeepNObjectsLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/itkAttributeKeepNObjectsLabelMapFilterTest1.png
   2
+  1
+  )
+
+add_test(itkAttributeRelabelLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeRelabelLabelMapFilterTest0.png
+  itkAttributeRelabelLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeRelabelLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkAttributeRelabelLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeRelabelLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
+  itkAttributeRelabelLabelMapFilterTest1
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
   1
   )
 
