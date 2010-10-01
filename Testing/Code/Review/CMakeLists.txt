@@ -211,6 +211,7 @@ set(ReviewTest3_SRCS
   itkLabelSelectionLabelMapFilterTest.cxx
   itkLabelMapMaskImageFilterTest.cxx
   itkObjectByObjectLabelMapFilterTest.cxx
+  itkAttributeUniqueLabelMapFilterTest1.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2137,6 +2138,26 @@ add_test(itkObjectByObjectLabelMapFilterTest1
   itkObjectByObjectLabelMapFilterTest
   ${INPUTDATA}/SpotsLabeled.png
   ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
+  1
+  )
+
+add_test(itkAttributeUniqueLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest0.png
+            ${TEMP}/itkAttributeUniqueLabelMapFilterTest0.png
+  itkAttributeUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributeUniqueLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkAttributeUniqueLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributeUniqueLabelMapFilterTest1.png
+            ${TEMP}/itkAttributeUniqueLabelMapFilterTest1.png
+  itkAttributeUniqueLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributeUniqueLabelMapFilterTest1.png
   1
   )
 
