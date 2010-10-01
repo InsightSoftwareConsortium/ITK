@@ -208,6 +208,7 @@ set(ReviewTest3_SRCS
   itkAttributeOpeningLabelMapFilterTest1.cxx
   itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
   itkAttributeRelabelLabelMapFilterTest1.cxx
+  itkLabelSelectionLabelMapFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2065,6 +2066,28 @@ add_test(itkAttributeRelabelLabelMapFilterTest1
   ${INPUTDATA}/cthead1Label.png
   ${TEMP}/itkAttributeRelabelLabelMapFilterTest1.png
   1
+  )
+
+add_test(itkLabelSelectionLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest0.png
+            ${TEMP}/itkLabelSelectionLabelMapFilterTest0.png
+  itkLabelSelectionLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkLabelSelectionLabelMapFilterTest0.png
+  0
+  94
+  )
+
+add_test(itkLabelSelectionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelSelectionLabelMapFilterTest1.png
+            ${TEMP}/itkLabelSelectionLabelMapFilterTest1.png
+  itkLabelSelectionLabelMapFilterTest
+  ${INPUTDATA}/cthead1Label.png
+  ${TEMP}/itkLabelSelectionLabelMapFilterTest1.png
+  1
+  94
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
