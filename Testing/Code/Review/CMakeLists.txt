@@ -210,6 +210,7 @@ set(ReviewTest3_SRCS
   itkAttributeRelabelLabelMapFilterTest1.cxx
   itkLabelSelectionLabelMapFilterTest.cxx
   itkLabelMapMaskImageFilterTest.cxx
+  itkObjectByObjectLabelMapFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2118,6 +2119,26 @@ FOREACH(label 0 100)
     ENDFOREACH(neg)
   ENDFOREACH(bg)
 ENDFOREACH(label)
+
+add_test(itkObjectByObjectLabelMapFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest0.png
+            ${TEMP}/itkObjectByObjectLabelMapFilterTest0.png
+  itkObjectByObjectLabelMapFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkObjectByObjectLabelMapFilterTest0.png
+  0
+  )
+
+add_test(itkObjectByObjectLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkObjectByObjectLabelMapFilterTest1.png
+            ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
+  itkObjectByObjectLabelMapFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkObjectByObjectLabelMapFilterTest1.png
+  1
+  )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
