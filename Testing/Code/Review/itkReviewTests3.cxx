@@ -58,4 +58,5 @@ void RegisterTests()
   REGISTER_TEST(itkAttributeKeepNObjectsLabelMapFilterTest1);
   REGISTER_TEST(itkAttributeRelabelLabelMapFilterTest1);
   REGISTER_TEST(itkLabelSelectionLabelMapFilterTest);
+  REGISTER_TEST(itkLabelMapMaskImageFilterTest);
 }

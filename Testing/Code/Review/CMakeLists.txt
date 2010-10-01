@@ -209,6 +209,7 @@ set(ReviewTest3_SRCS
   itkAttributeKeepNObjectsLabelMapFilterTest1.cxx
   itkAttributeRelabelLabelMapFilterTest1.cxx
   itkLabelSelectionLabelMapFilterTest.cxx
+  itkLabelMapMaskImageFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2089,6 +2090,34 @@ add_test(itkLabelSelectionLabelMapFilterTest1
   1
   94
   )
+
+FOREACH(label 0 100)
+  FOREACH(bg 0 1)
+    FOREACH(neg 0 1)
+      ADD_TEST(itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}
+        ${REVIEW_TESTS3}
+        --compare ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+                  ${BASELINE}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+        itkLabelMapMaskImageFilterTest
+        ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
+        ${TEMP}/itkLabelMapMaskImageFilterTest-${label}-${bg}-${neg}.png
+        ${label} ${bg} ${neg} 0 0
+      )
+
+      FOREACH(border 0 10)
+        ADD_TEST(itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}
+          ${REVIEW_TESTS3}
+          --compare ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+                    ${BASELINE}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+          itkLabelMapMaskImageFilterTest
+          ${INPUTDATA}/2th_cthead1.png ${INPUTDATA}/cthead1.png
+          ${TEMP}/itkLabelMapMaskImageFilterTestCrop-${label}-${bg}-${neg}-${border}.png
+          ${label} ${bg} ${neg} 1 ${border}
+        )
+      ENDFOREACH(border)
+    ENDFOREACH(neg)
+  ENDFOREACH(bg)
+ENDFOREACH(label)
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
   ${REVIEW_TESTS4}
