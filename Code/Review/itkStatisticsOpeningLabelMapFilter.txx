@@ -19,6 +19,7 @@
 
 #include "itkStatisticsOpeningLabelMapFilter.h"
 #include "itkProgressReporter.h"
+#include "itkLabelMapUtilities.h"
 
 namespace itk
 {
@@ -39,83 +40,7 @@ StatisticsOpeningLabelMapFilter< TImage >
 {
   switch ( this->m_Attribute )
     {
-    case LabelObjectType::MINIMUM:
-      {
-      typedef typename Functor::MinimumLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::MAXIMUM:
-      {
-      typedef typename Functor::MaximumLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::MEAN:
-      {
-      typedef typename Functor::MeanLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::SUM:
-      {
-      typedef typename Functor::SumLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::SIGMA:
-      {
-      typedef typename Functor::SigmaLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::VARIANCE:
-      {
-      typedef typename Functor::VarianceLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::MEDIAN:
-      {
-      typedef typename Functor::MedianLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::KURTOSIS:
-      {
-      typedef typename Functor::KurtosisLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::SKEWNESS:
-      {
-      typedef typename Functor::SkewnessLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::ELONGATION:
-      {
-      typedef typename Functor::ElongationLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
-    case LabelObjectType::FLATNESS:
-      {
-      typedef typename Functor::FlatnessLabelObjectAccessor< LabelObjectType > AccessorType;
-      AccessorType accessor;
-      this->TemplatedGenerateData(accessor);
-      break;
-      }
+    itkStatisticsLabelMapFilterDispatchMacro()
     default:
       Superclass::GenerateData();
       break;
