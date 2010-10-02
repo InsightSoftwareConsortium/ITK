@@ -1,3 +1,6 @@
+#ifndef __expatConfig_h
+#define __expatConfig_h
+
 #if defined(_WIN32) || defined(WIN32)
 
 #define WIN32_LEAN_AND_MEAN
@@ -52,3 +55,4 @@
 #define VERSION "1.95.2"
 
 #define itkExpatUnused(x) (void)x
+#endif // __expatConfig_h

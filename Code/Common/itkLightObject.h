@@ -53,7 +53,7 @@ namespace itk
 class ITKCommon_EXPORT LightObject
 {
 public:
-  /** Standard clas typedefs. */
+  /** Standard class typedefs. */
   typedef LightObject                Self;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

@@ -1033,7 +1033,7 @@ bool PixmapReader::ReadImage(MediaStorage const &ms)
       // (0028,1103) US 0\0\16
       const Tag tdescriptor(0x0028, (0x1101 + i));
       //const Tag tdescriptor(0x0028, 0x3002);
-      Element<VR::US,VM::VM3> el_us3 = {};
+      Element<VR::US,VM::VM3> el_us3 = {{ 0, 0, 0}};
       // Now pass the byte array to a DICOMizer:
       el_us3.SetFromDataElement( ds[tdescriptor] ); //.GetValue() );
       lut->InitializeLUT( LookupTable::LookupTableType(i),

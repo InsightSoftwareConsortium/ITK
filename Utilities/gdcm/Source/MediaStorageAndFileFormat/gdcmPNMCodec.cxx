@@ -30,12 +30,12 @@ PNMCodec::~PNMCodec()
 {
 }
 
-bool PNMCodec::CanDecode(TransferSyntax const &ts) const
+bool PNMCodec::CanDecode(TransferSyntax const &) const
 {
   return false;
 }
 
-bool PNMCodec::CanCode(TransferSyntax const &ts) const
+bool PNMCodec::CanCode(TransferSyntax const &) const
 {
   return false;
 }

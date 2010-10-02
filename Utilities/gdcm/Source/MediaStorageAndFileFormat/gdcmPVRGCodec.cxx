@@ -39,6 +39,7 @@ PVRGCodec::~PVRGCodec()
 bool PVRGCodec::CanDecode(TransferSyntax const &ts) const
 {
 #ifndef GDCM_USE_PVRG
+  (void)ts;
   return false;
 #else
   return ts == TransferSyntax::JPEGBaselineProcess1
@@ -51,7 +52,7 @@ bool PVRGCodec::CanDecode(TransferSyntax const &ts) const
 #endif
 }
 
-bool PVRGCodec::CanCode(TransferSyntax const &ts) const
+bool PVRGCodec::CanCode(TransferSyntax const &) const
 {
   return false;
 }
@@ -68,6 +69,8 @@ bool PVRGCodec::CanCode(TransferSyntax const &ts) const
 bool PVRGCodec::Decode(DataElement const &in, DataElement &out)
 {
 #ifndef GDCM_USE_PVRG
+  (void)in;
+  (void)out;
   return false;
 #else
   // First thing create a jpegls file from the fragment:
@@ -171,6 +174,8 @@ bool PVRGCodec::Decode(DataElement const &in, DataElement &out)
 bool PVRGCodec::Code(DataElement const &in, DataElement &out)
 {
 #ifndef GDCM_USE_PVRG
+  (void)in;
+  (void)out;
   return false;
 #else
   /* Do I really want to produce JPEG by PRVRG ? Shouldn't IJG handle all cases nicely ? */

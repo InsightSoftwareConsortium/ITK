@@ -38,6 +38,7 @@ KAKADUCodec::~KAKADUCodec()
 bool KAKADUCodec::CanDecode(TransferSyntax const &ts) const
 {
 #ifndef GDCM_USE_KAKADU
+  (void)ts;
   return false;
 #else
   return ts == TransferSyntax::JPEG2000Lossless
@@ -45,7 +46,7 @@ bool KAKADUCodec::CanDecode(TransferSyntax const &ts) const
 #endif
 }
 
-bool KAKADUCodec::CanCode(TransferSyntax const &ts) const
+bool KAKADUCodec::CanCode(TransferSyntax const &) const
 {
   return false;
 }
@@ -57,6 +58,8 @@ bool KAKADUCodec::CanCode(TransferSyntax const &ts) const
 bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
 {
 #ifndef GDCM_USE_KAKADU
+  (void)in;
+  (void)out;
   return false;
 #else
   // First thing creates a j2k file from the fragment:
@@ -224,6 +227,8 @@ bool KAKADUCodec::Decode(DataElement const &in, DataElement &out)
 bool KAKADUCodec::Code(DataElement const &in, DataElement &out)
 {
 #ifndef GDCM_USE_KAKADU
+  (void)in;
+  (void)out;
   return false;
 #else
   // That would be neat, please contribute :)

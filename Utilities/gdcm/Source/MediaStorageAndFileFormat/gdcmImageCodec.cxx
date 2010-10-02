@@ -47,8 +47,9 @@ ImageCodec::~ImageCodec()
 {
 }
 
-bool ImageCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
+bool ImageCodec::GetHeaderInfo(std::istream &, TransferSyntax &)
 {
+  // This function should really be virtual pure.
   assert( 0 );
   return false;
 }
@@ -448,7 +449,7 @@ bool ImageCodec::DoOverlayCleanup(std::istream &is, std::ostream &os)
   return true;
 }
 
-bool ImageCodec::Decode(DataElement const &is, DataElement &os)
+bool ImageCodec::Decode(DataElement const &, DataElement &)
 {
   return true;
 }
