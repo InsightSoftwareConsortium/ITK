@@ -61,4 +61,5 @@ void RegisterTests()
   REGISTER_TEST(itkLabelMapMaskImageFilterTest);
   REGISTER_TEST(itkObjectByObjectLabelMapFilterTest);
   REGISTER_TEST(itkAttributeUniqueLabelMapFilterTest1);
+  REGISTER_TEST(itkLabelUniqueLabelMapFilterTest1);
 }
