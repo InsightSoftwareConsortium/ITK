@@ -219,6 +219,7 @@ set(ReviewTest3_SRCS
   itkLabelMapContourOverlayImageFilterTest1.cxx
 
   itkBinaryFillholeImageFilterTest1.cxx
+  itkBinaryGrindPeakImageFilterTest1.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2269,6 +2270,17 @@ add_test(itkBinaryFillholeImageFilterTest1
   itkBinaryFillholeImageFilterTest1
   ${INPUTDATA}/Spots.png
   ${TEMP}/itkBinaryFillholeImageFilterTest1.png
+  1      # connectivity
+  255    # fg
+  )
+
+add_test(itkBinaryGrindPeakImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryGrindPeakImageFilterTest1.png
+            ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
+  itkBinaryGrindPeakImageFilterTest1
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
   1      # connectivity
   255    # fg
   )
