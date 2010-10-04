@@ -217,6 +217,7 @@ set(ReviewTest3_SRCS
   itkLabelMapToRGBImageFilterTest1.cxx
   itkLabelMapOverlayImageFilterTest1.cxx
   itkLabelMapContourOverlayImageFilterTest1.cxx
+  itkShapePositionLabelMapFilterTest1.cxx
 
   itkBinaryFillholeImageFilterTest1.cxx
   itkBinaryGrindPeakImageFilterTest1.cxx
@@ -2283,6 +2284,16 @@ add_test(itkBinaryGrindPeakImageFilterTest1
   ${TEMP}/itkBinaryGrindPeakImageFilterTest1.png
   1      # connectivity
   255    # fg
+  )
+
+add_test(itkShapePositionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkShapePositionLabelMapFilterTest1.png
+            ${TEMP}/itkShapePositionLabelMapFilterTest1.png
+  itkShapePositionLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkShapePositionLabelMapFilterTest1.png
+  Centroid
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
