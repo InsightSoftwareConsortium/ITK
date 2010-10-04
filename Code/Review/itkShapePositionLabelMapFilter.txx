@@ -39,10 +39,12 @@ ShapePositionLabelMapFilter<TImage>
   switch( m_Attribute )
     {
     case LabelObjectType::CENTROID:
+      {
       typedef typename Functor::CentroidLabelObjectAccessor< LabelObjectType > AccessorType;
       AccessorType accessor;
       this->TemplatedThreadedProcessLabelObject(accessor, true, labelObject);
       break;
+      }
     default:
       itkExceptionMacro(<< "Unknown attribute type");
       break;

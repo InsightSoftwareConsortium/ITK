@@ -69,4 +69,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryFillholeImageFilterTest1);
   REGISTER_TEST(itkBinaryGrindPeakImageFilterTest1);
   REGISTER_TEST(itkShapePositionLabelMapFilterTest1);
+  REGISTER_TEST(itkStatisticsPositionLabelMapFilterTest1);
   }
