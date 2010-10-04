@@ -216,7 +216,9 @@ set(ReviewTest3_SRCS
   itkLabelMapToAttributeImageFilterTest1.cxx
   itkLabelMapToRGBImageFilterTest1.cxx
   itkLabelMapOverlayImageFilterTest1.cxx
-  itkLabelMapContourOverlayImageFilterTest1
+  itkLabelMapContourOverlayImageFilterTest1.cxx
+
+  itkBinaryFillholeImageFilterTest1.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2258,6 +2260,17 @@ add_test(itkLabelMapContourOverlayImageFilterTest2
   3    # thickness (irrelevant with that type)
   12   # dilation radius
   1    # priority
+  )
+
+add_test(itkBinaryFillholeImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryFillholeImageFilterTest1.png
+            ${TEMP}/itkBinaryFillholeImageFilterTest1.png
+  itkBinaryFillholeImageFilterTest1
+  ${INPUTDATA}/Spots.png
+  ${TEMP}/itkBinaryFillholeImageFilterTest1.png
+  1      # connectivity
+  255    # fg
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1

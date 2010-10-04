@@ -66,4 +66,5 @@ void RegisterTests()
   REGISTER_TEST(itkLabelMapToRGBImageFilterTest1);
   REGISTER_TEST(itkLabelMapOverlayImageFilterTest1);
   REGISTER_TEST(itkLabelMapContourOverlayImageFilterTest1);
+  REGISTER_TEST(itkBinaryFillholeImageFilterTest1);
   }
