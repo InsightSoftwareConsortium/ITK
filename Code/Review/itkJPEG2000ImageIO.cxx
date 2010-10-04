@@ -766,6 +766,30 @@ JPEG2000ImageIO
   w = this->m_Dimensions[0];
   h = this->m_Dimensions[1];
 
+
+  // Compute the proper number of resolutions to use.
+  // This is mostly done for images smaller than 64 pixels
+  // along any dimension.
+  unsigned int numberOfResolutions = 0;
+
+  int tw = w >> 1;
+  int th = h >> 1;
+
+  while( tw && th )
+    {
+    numberOfResolutions++;
+    tw >>= 1;
+    th >>= 1;
+    }
+
+  // Clamp the number of resolutions to 6.
+  if( numberOfResolutions > 6 )
+    {
+    numberOfResolutions = 6;
+    }
+
+  parameters.numresolution = numberOfResolutions;
+
   OPJ_COLOR_SPACE      color_space = CLRSPC_GRAY;
   opj_image_cmptparm_t cmptparm[3];
 
