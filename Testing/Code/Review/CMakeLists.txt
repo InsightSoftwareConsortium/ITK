@@ -216,6 +216,7 @@ set(ReviewTest3_SRCS
   itkLabelMapToAttributeImageFilterTest1.cxx
   itkLabelMapToRGBImageFilterTest1.cxx
   itkLabelMapOverlayImageFilterTest1.cxx
+  itkLabelMapContourOverlayImageFilterTest1
 )
 
 set(ReviewTest4_SRCS
@@ -2212,6 +2213,51 @@ add_test(itkLabelMapOverlayImageFilterTest1
   ${INPUTDATA}/cthead1.png
   ${TEMP}/itkLabelMapOverlayImageFilterTest1.png
   0.3
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest0
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest0.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest0.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest0.png
+  0.6  # opacity
+  0    # type (plain)
+  0    # thickness (irrelevant with that type)
+  10   # dilation radius
+  1    # priority
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest1.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest1.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest1.png
+  0.7  # opacity
+  1    # type (contour)
+  2    # thickness
+  15   # dilation radius
+  0    # priority
+  )
+
+add_test(itkLabelMapContourOverlayImageFilterTest2
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkLabelMapContourOverlayImageFilterTest2.png
+            ${TEMP}/itkLabelMapContourOverlayImageFilterTest2.png
+  itkLabelMapContourOverlayImageFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/SpotsInverted.png
+  ${TEMP}/itkLabelMapContourOverlayImageFilterTest2.png
+  0.8  # opacity
+  2    # type (slice contour)
+  3    # thickness (irrelevant with that type)
+  12   # dilation radius
+  1    # priority
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
