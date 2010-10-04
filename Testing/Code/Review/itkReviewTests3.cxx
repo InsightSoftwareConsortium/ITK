@@ -70,4 +70,5 @@ void RegisterTests()
   REGISTER_TEST(itkBinaryGrindPeakImageFilterTest1);
   REGISTER_TEST(itkShapePositionLabelMapFilterTest1);
   REGISTER_TEST(itkStatisticsPositionLabelMapFilterTest1);
+  REGISTER_TEST(itkAttributePositionLabelMapFilterTest1);
   }

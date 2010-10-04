@@ -219,6 +219,7 @@ set(ReviewTest3_SRCS
   itkLabelMapContourOverlayImageFilterTest1.cxx
   itkShapePositionLabelMapFilterTest1.cxx
   itkStatisticsPositionLabelMapFilterTest1.cxx
+  itkAttributePositionLabelMapFilterTest1.cxx
 
   itkBinaryFillholeImageFilterTest1.cxx
   itkBinaryGrindPeakImageFilterTest1.cxx
@@ -2306,6 +2307,15 @@ add_test(itkStatisticsPositionLabelMapFilterTest1
   ${INPUTDATA}/SpotsLabeled.png
   ${TEMP}/itkStatisticsPositionLabelMapFilterTest1.png
   CenterOfGravity
+  )
+
+add_test(itkAttributePositionLabelMapFilterTest1
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkAttributePositionLabelMapFilterTest1.png
+            ${TEMP}/itkAttributePositionLabelMapFilterTest1.png
+  itkAttributePositionLabelMapFilterTest1
+  ${INPUTDATA}/SpotsLabeled.png
+  ${TEMP}/itkAttributePositionLabelMapFilterTest1.png
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1
