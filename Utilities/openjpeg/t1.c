@@ -1264,7 +1264,7 @@ void t1_decode_cblks(
             for (j = 0; j < cblk_h; ++j) {
               for (i = 0; i < cblk_w; ++i) {
                 OPJ_INT32 tmp = datap[(j * cblk_w) + i];
-                ((OPJ_INT32*)tiledp)[(j * tile_w) + i] = tmp >> 1;
+                ((OPJ_INT32*)tiledp)[(j * tile_w) + i] = tmp / 2;
               }
             }
           } else {    /* if (tccp->qmfbid == 0) */
