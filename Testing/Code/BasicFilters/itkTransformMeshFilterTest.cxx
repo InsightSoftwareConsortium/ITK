@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -22,14 +22,14 @@
 #include <itkMesh.h>
 #include <itkAffineTransform.h>
 
-int itkTransformMeshFilterTest(int, char* [] ) 
+int itkTransformMeshFilterTest(int, char* [] )
 {
 
   // Declare the mesh pixel type.
-  // Those are the values associated 
+  // Those are the values associated
   // with each mesh point. (not used on this filter test)
   typedef int PixelType;
-  
+
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
@@ -40,7 +40,7 @@ int itkTransformMeshFilterTest(int, char* [] )
   typedef MeshType::PointsContainer     PointsContainerType;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer     
+  typedef MeshType::PointsContainerPointer
                                         PointsContainerPointer;
   // Declare the type for Points
   typedef MeshType::PointType           PointType;
@@ -75,27 +75,33 @@ int itkTransformMeshFilterTest(int, char* [] )
         }
       }
     }
-  
+
   std::cout << "Input Mesh has " << inputMesh->GetNumberOfPoints();
   std::cout << "   points " << std::endl;
 
-  
+
   // Declare the transform type
   typedef itk::AffineTransform<float,3> TransformType;
-  
+  typedef itk::Transform<float,3,3>     BaseTransformType;
+
 
   // Declare the type for the filter
   typedef itk::TransformMeshFilter<
                                 MeshType,
                                 MeshType,
                                 TransformType  >       FilterType;
-            
+  typedef itk::TransformMeshFilter<
+                                MeshType,
+                                MeshType,
+                                BaseTransformType  >   FilterWithBaseTransformType;
 
-  // Create a Filter                                
+
+  // Create a Filter
   FilterType::Pointer filter = FilterType::New();
-  
-  // Create an  Transform 
-  // (it doesn't use smart pointers)
+  FilterWithBaseTransformType::Pointer filterwithbasetrfs
+    = FilterWithBaseTransformType::New();
+
+  // Create a Transform
   TransformType::Pointer   affineTransform = TransformType::New();
   affineTransform->Scale( 3.5 );
   TransformType::OffsetType::ValueType tInit[3] = {100,200,300};
@@ -103,25 +109,40 @@ int itkTransformMeshFilterTest(int, char* [] )
   affineTransform->Translate( translation );
 
   // Connect the inputs
-  filter->SetInput( inputMesh ); 
-  filter->SetTransform( affineTransform ); 
+  filter->SetInput( inputMesh );
+  filter->SetTransform( affineTransform );
+
+  filterwithbasetrfs->SetInput( inputMesh );
+  filterwithbasetrfs->SetTransform( affineTransform );
 
   // Execute the filter
   filter->Update();
   std::cout << "Filter: " << filter;
 
-  // Get the Smart Pointer to the Filter Output 
-  MeshType::Pointer outputMesh = filter->GetOutput();
+  filterwithbasetrfs->Update();
+  std::cout << "Filter with base transform: " << filterwithbasetrfs;
 
-  std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints();
-  std::cout << "   points " << std::endl;
+  // Get the Smart Pointer to the Filter Output
+  MeshType::Pointer outputMesh = filter->GetOutput();
+  MeshType::Pointer outputMeshFromWithBase = filterwithbasetrfs->GetOutput();
+
+  std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints()
+            << "   points " << std::endl;
+
+  std::cout << "Output Mesh from WithBaseTransfrom has "
+            << outputMeshFromWithBase->GetNumberOfPoints()
+            << "   points " << std::endl;
 
   // Get the the point container
-  MeshType::PointsContainerPointer  
-                  transformedPoints = outputMesh->GetPoints();
+  MeshType::PointsContainerPointer
+    transformedPoints = outputMesh->GetPoints();
+
+  MeshType::PointsContainerPointer
+    transformedPointsFromWithBase = outputMeshFromWithBase->GetPoints();
 
 
   PointsContainerType::ConstIterator it = transformedPoints->Begin();
+  PointsContainerType::ConstIterator itfwb = transformedPointsFromWithBase->Begin();
   while( it != transformedPoints->End() )
     {
     PointType p = it.Value();
@@ -129,8 +150,14 @@ int itkTransformMeshFilterTest(int, char* [] )
     std::cout.width( 5 ); std::cout << p[1] << ", ";
     std::cout.width( 5 ); std::cout << p[2] << std::endl;
     ++it;
+
+    PointType pfwb = itfwb.Value();
+    std::cout.width( 5 ); std::cout << pfwb[0] << ", ";
+    std::cout.width( 5 ); std::cout << pfwb[1] << ", ";
+    std::cout.width( 5 ); std::cout << pfwb[2] << std::endl;
+    ++itfwb;
     }
-  
+
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
