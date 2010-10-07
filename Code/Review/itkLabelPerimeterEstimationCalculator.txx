@@ -26,6 +26,7 @@
 #include "itkSize.h"
 #include "itkConnectedComponentAlgorithm.h"
 #include <set>
+#include "itkGeometryUtilities.h"
 
 namespace itk
 {
@@ -185,7 +186,10 @@ LabelPerimeterEstimationCalculator< TInputImage >
           }
         }
       }
-    contributions[i] /= ImageDimension;
+    // Crofton's constant
+    contributions[i] *= GeometryUtilities::HyperSphereVolume( ImageDimension, 1.0 ) / GeometryUtilities::HyperSphereVolume( ImageDimension - 1, 1.0 );
+    // multiplicity
+    contributions[i] /= vcl_pow( 2.0, ImageDimension - 1 );
     }
 
   // and use those contributions to found the perimeter
