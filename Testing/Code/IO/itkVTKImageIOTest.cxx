@@ -27,6 +27,10 @@
 #include "itkVTKImageIO.h"
 #include "itkRandomImageSource.h"
 
+#include <cstring>
+#include <fstream>
+#include <iostream>
+
 template<class TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
 {
@@ -74,6 +78,17 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
   writer->SetFileName(file1);
   writer->SetImageIO(vtkIO);
   writer->Write();
+
+  // Check that the correct content was written to the header.
+  std::ifstream istrm(file1);
+  char firstline[25];
+  istrm.getline( firstline, 24 );
+  istrm.close();
+  if( strncmp( firstline, "# vtk DataFile Version ", 24 ) != 0 )
+    {
+    std::cout << "Header string was not written properly." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   if ( !vtkIO->CanReadFile(file1) )
     {
