@@ -25,6 +25,7 @@
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_math.h"
+#include "itkGeometryUtilities.h"
 
 namespace itk
 {
@@ -339,8 +340,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   double physicalSize = size * sizePerPixel;
-  double equivalentRadius = HyperSphereRadiusFromVolume(physicalSize);
-  double equivalentPerimeter = HyperSpherePerimeter(equivalentRadius);
+  double equivalentRadius = GeometryUtilities::HyperSphereRadiusFromVolume(ImageDimension, physicalSize);
+  double equivalentPerimeter = GeometryUtilities::HyperSpherePerimeter(ImageDimension, equivalentRadius);
 
   // Compute equivalent ellipsoid radius
   VectorType ellipsoidSize;
@@ -509,71 +510,5 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
 }
 
-template< class TImage, class TLabelImage >
-long
-ShapeLabelMapFilter< TImage, TLabelImage >
-::Factorial(const long n)
-{
-  if ( n < 1 )
-    {
-    return 1;
-    }
-  return n * Factorial(n - 1);
-}
-
-template< class TImage, class TLabelImage >
-long
-ShapeLabelMapFilter< TImage, TLabelImage >
-::DoubleFactorial(const long n)
-{
-  if ( n < 2 )
-    {
-    return 1;
-    }
-  return n * DoubleFactorial(n - 2);
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::GammaN2p1(const long n)
-{
-  const bool even = n % 2 == 0;
-
-  if ( even )
-    {
-    return Factorial(n / 2);
-    }
-  else
-    {
-    return vcl_sqrt(vnl_math::pi) * DoubleFactorial(n) / vcl_pow(2, ( n + 1 ) / 2.0);
-    }
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSphereVolume(const double radius)
-{
-  const double dblImageDimension = static_cast< double >( ImageDimension );
-
-  return vcl_pow(vnl_math::pi, dblImageDimension * 0.5) * vcl_pow(radius, dblImageDimension) / GammaN2p1(ImageDimension);
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSpherePerimeter(const double radius)
-{
-  return ImageDimension * HyperSphereVolume(radius) / radius;
-}
-
-template< class TImage, class TLabelImage >
-double
-ShapeLabelMapFilter< TImage, TLabelImage >
-::HyperSphereRadiusFromVolume(const double volume)
-{
-  return vcl_pow(volume * GammaN2p1(ImageDimension) / vcl_pow(vnl_math::pi, ImageDimension * 0.5), 1.0 / ImageDimension);
-}
 } // end namespace itk
 #endif

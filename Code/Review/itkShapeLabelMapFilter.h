@@ -144,18 +144,6 @@ private:
 
   void ComputeFeretDiameter(LabelObjectType *labelObject);
 
-  /** utilities */
-  static long Factorial(const long n);
-
-  static long DoubleFactorial(const long n);
-
-  static double GammaN2p1(const long n);
-
-  static double HyperSphereVolume(const double radius);
-
-  static double HyperSpherePerimeter(const double radius);
-
-  static double HyperSphereRadiusFromVolume(const double volume);
 }; // end of class
 } // end namespace itk
 

@@ -2509,6 +2509,7 @@ add_executable(itkReviewTests3 itkReviewTests3.cxx ${ReviewTest3_SRCS})
 
 set(ReviewTest3_LIBS
   ITKIOReview
+  ITKReview
   ITKIO
   ITKStatistics
   )
@@ -2519,6 +2520,7 @@ add_executable(itkReviewTests4 itkReviewTests4.cxx ${ReviewTest4_SRCS})
 set(ReviewTest4_LIBS
   ITKIO
   ITKStatistics
+  ITKReview
   )
 target_link_libraries(itkReviewTests4 ${ReviewTest4_LIBS})
 
