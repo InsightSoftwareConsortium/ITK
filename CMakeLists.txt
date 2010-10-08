@@ -152,11 +152,6 @@ option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
 
 #-----------------------------------------------------------------------------
-# ITK build patented algorithms
-option(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obtain a license from the patent holder in order to use these methods." OFF)
-mark_as_advanced(ITK_USE_PATENTED)
-
-#-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, nor the Copyright Policy of ITK." OFF)
 mark_as_advanced(ITK_USE_REVIEW)
