@@ -15,7 +15,3 @@ if( ITK_USE_REVIEW )
   add_subdirectory( Review )
 endif( ITK_USE_REVIEW )
 
-if( ITK_USE_PATENTED )
-  add_subdirectory( Patented )
-endif( ITK_USE_PATENTED )
-
