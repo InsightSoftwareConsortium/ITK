@@ -18,7 +18,6 @@
 #define __itkMembershipSample_h
 
 #include "itk_hash_map.h"
-#include "itkSample.h"
 #include "itkSubsample.h"
 
 namespace itk

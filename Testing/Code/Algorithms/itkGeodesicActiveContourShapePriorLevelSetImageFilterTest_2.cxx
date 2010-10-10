@@ -18,10 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
 #include "itkPCAShapeSignedDistanceFunction.h"
-#include "itkShapePriorMAPCostFunction.h"
 #include "itkAmoebaOptimizer.h"
 
 #include "itkSphereSignedDistanceFunction.h"

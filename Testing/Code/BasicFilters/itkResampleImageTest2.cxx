@@ -25,10 +25,8 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 
 int itkResampleImageTest2(int argc, char * argv [] )

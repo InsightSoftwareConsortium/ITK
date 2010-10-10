@@ -16,8 +16,6 @@
 =========================================================================*/
 #ifndef __itkFFTComplexConjugateToRealImageFilter_txx
 #define __itkFFTComplexConjugateToRealImageFilter_txx
-#include "itkFFTComplexConjugateToRealImageFilter.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
 #include "itkVnlFFTComplexConjugateToRealImageFilter.h"

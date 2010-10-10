@@ -19,9 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkLabelStatisticsImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
 namespace itk

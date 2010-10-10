@@ -15,8 +15,6 @@
 
   =========================================================================*/
 #include "itkGE4ImageIO.h"
-#include "itkIOCommon.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkGEImageHeader.h"

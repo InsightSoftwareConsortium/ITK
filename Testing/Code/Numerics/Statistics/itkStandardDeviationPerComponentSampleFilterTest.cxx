@@ -21,7 +21,6 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkStandardDeviationPerComponentSampleFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkFixedArray.h"
 #include "itkVector.h"
 #include "itkCovarianceSampleFilter.h"
 

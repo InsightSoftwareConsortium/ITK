@@ -19,7 +19,6 @@
 
 #include "itkNeighborhoodIterator.h"
 #include "itkVector.h"
-#include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkImageBoundaryCondition.h"
 

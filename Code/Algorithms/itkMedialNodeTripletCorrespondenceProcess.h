@@ -18,9 +18,7 @@
 #define __itkMedialNodeTripletCorrespondenceProcess_h
 
 #include "itkImage.h"
-#include "itkProcessObject.h"
 #include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomPixel.h"
 #include "itkMatrixResizeableDataObject.h"
 
 #include "itkPNGImageIO.h"

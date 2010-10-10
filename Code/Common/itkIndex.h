@@ -17,15 +17,12 @@
 #ifndef __itkIndex_h
 #define __itkIndex_h
 
-#include "itkMacro.h"
 #include "itkOffset.h"
-#include "itkSize.h"
 #include "itkFixedArray.h"
 #include "itkMath.h"
 
 #include <memory>
 
-#include "itkExceptionObject.h"
 
 namespace itk
 {

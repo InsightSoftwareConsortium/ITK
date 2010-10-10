@@ -18,7 +18,6 @@
 #define __itkDifferenceOfGaussiansGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkCovariantVector.h"
 
 namespace itk

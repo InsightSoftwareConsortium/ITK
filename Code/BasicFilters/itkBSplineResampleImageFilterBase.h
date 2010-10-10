@@ -24,7 +24,6 @@
 #include <vector>
 
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"   // Used for the output iterator needs to
                                       // match filter program
 #include "itkProgressReporter.h"

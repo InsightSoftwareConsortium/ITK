@@ -33,7 +33,6 @@
 //
 // Software Guide : EndLatex 
 
-#include "itkImage.h"
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileReader.h"

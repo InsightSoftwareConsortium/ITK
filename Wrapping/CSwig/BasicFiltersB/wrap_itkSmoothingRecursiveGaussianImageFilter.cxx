@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
-#include "itkImage.h"
 
 #ifdef CABLE_CONFIGURATION
 #include "itkCSwigMacros.h"

@@ -23,9 +23,7 @@
 
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
-#include "itkImageToImageFilterDetail.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

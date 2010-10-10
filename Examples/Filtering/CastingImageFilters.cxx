@@ -94,7 +94,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkShiftScaleImageFilter.h"
 #include "itkNormalizeImageFilter.h"
 // Software Guide : EndCodeSnippet
 

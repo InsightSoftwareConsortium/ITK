@@ -19,13 +19,9 @@
 
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkIndex.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

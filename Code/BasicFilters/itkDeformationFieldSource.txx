@@ -21,7 +21,6 @@
 #include "itkDeformationFieldSource.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
-#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

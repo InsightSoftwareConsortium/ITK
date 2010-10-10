@@ -22,7 +22,6 @@
 #include "itkVersion.h"
 #include "itkGDCMImageIO.h"
 #include "itkIOCommon.h"
-#include "itkPoint.h"
 #include "itkArray.h"
 #include "itkMatrix.h"
 #include <vnl/vnl_vector.h>

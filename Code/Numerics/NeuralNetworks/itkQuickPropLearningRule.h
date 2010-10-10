@@ -26,7 +26,6 @@ object as input and compute the input for the layers input weightset
 #define __itkQuickPropLearningRule_h
 
 #include <iostream>
-#include "itkLightProcessObject.h"
 #include "itkLearningFunctionBase.h"
 
 namespace itk

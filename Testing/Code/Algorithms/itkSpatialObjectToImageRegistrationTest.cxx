@@ -23,7 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkGroupSpatialObject.h"
 #include <itkSpatialObjectToImageFilter.h>
 #include <itkImageToSpatialObjectRegistrationMethod.h>
-#include <itkImageToSpatialObjectMetric.h>
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkEuler2DTransform.h"

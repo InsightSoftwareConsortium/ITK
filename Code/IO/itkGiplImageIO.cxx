@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "itkGiplImageIO.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include <iostream>
 #include <list>

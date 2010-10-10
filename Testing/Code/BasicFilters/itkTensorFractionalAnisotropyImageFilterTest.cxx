@@ -21,7 +21,6 @@
 
 
 
-#include <itkImage.h>
 #include <itkHessianRecursiveGaussianImageFilter.h>
 #include <itkTensorFractionalAnisotropyImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>

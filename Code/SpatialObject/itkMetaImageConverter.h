@@ -18,11 +18,9 @@
 #define __itkMetaImageConverter_h
 
 //
-// metaImage.h must be included before itkImageSpatialObject.h
 // to avoid an Internal Compiler Error in Visual Studio 6.0
 //
 #include "metaImage.h"
-#include "itkImageSpatialObject.h"
 #include "itkImageMaskSpatialObject.h"
 
 namespace itk

@@ -20,7 +20,6 @@
 
 #include <string>
 
-#include "itkIndent.h"
 #include "itkRGBAPixel.h"
 #include "itkLightObject.h"
 

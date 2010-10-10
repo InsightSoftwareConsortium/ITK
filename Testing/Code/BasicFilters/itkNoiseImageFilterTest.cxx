@@ -26,7 +26,6 @@
 #include "itkTextOutput.h"
 #include "itkImageRegionIterator.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkNumericTraits.h"
 #include "itkFilterWatcher.h"
 
 int itkNoiseImageFilterTest(int ac, char* av[] )

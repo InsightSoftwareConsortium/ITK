@@ -20,11 +20,8 @@
 #ifndef __itkBoundingBox_h
 #define __itkBoundingBox_h
 
-#include "itkObject.h"
 #include "itkPoint.h"
-#include "itkNumericTraits.h"
 #include "itkVectorContainer.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

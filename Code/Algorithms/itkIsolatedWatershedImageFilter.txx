@@ -18,7 +18,6 @@
 #define __itkIsolatedWatershedImageFilter_txx
 
 #include "itkIsolatedWatershedImageFilter.h"
-#include "itkWatershedImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkIterationReporter.h"
 

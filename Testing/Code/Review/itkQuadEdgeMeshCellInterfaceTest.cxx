@@ -22,17 +22,10 @@
 #include <iostream>
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshLineCell.h"
-#include "itkQuadEdgeMeshPolygonCell.h"
 
-#include "itkVertexCell.h"
-#include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkHexahedronCell.h"
 #include "itkTetrahedronCell.h"
-#include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
-#include "itkQuadrilateralCell.h"
 #include "itkPolygonCell.h"
 
 #include "itkCellInterfaceVisitor.h"

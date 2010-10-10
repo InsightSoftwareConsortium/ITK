@@ -23,9 +23,6 @@
 
 #include "itkMultiplyByConstantImageFilter.h"
 #include "itkExponentialDeformationFieldImageFilter.h"
-#include "itkWarpVectorImageFilter.h"
-#include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
-#include "itkAddImageFilter.h"
 
 namespace itk
 {

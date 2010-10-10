@@ -56,13 +56,9 @@
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkTensorFractionalAnisotropyImageFilter.h"
 #include "itkTensorRelativeAnisotropyImageFilter.h"
-#include "itkVectorImage.h"
 #include "itkNrrdImageIO.h"
-#include "itkMetaDataDictionary.h"
 #include "itkImageSeriesReader.h"
-#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include <iostream>
 

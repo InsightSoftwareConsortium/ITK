@@ -18,7 +18,6 @@
 #define __itkDoubleThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkConceptChecking.h"
 
 namespace itk
 {

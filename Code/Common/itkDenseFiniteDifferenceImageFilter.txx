@@ -19,7 +19,6 @@
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
 #include <list>
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"

@@ -17,13 +17,9 @@
 #ifndef __itkSample_h
 #define __itkSample_h
 
-#include "itkMacro.h"
 #include "itkPoint.h"
-#include "itkSize.h"
 #include "itkDataObject.h"
-#include "itkFixedArray.h"
 #include "itkMeasurementVectorTraits.h"
-#include "itkNumericTraits.h"
 #include <vector> // for the size_type declaration
 
 namespace itk

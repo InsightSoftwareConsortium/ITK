@@ -18,7 +18,7 @@
 #define __itkMeanSquareRegistrationFunction_txx
 
 #include "itkMeanSquareRegistrationFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

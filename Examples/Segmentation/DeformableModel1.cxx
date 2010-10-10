@@ -132,8 +132,6 @@
 //  Software Guide : EndLatex 
 
 //  Software Guide : BeginCodeSnippet
-#include "itkImage.h"
-#include "itkMesh.h"
 //  Software Guide : EndCodeSnippet 
 
 
@@ -145,7 +143,6 @@
 //  Software Guide : EndLatex 
 
 //  Software Guide : BeginCodeSnippet
-#include "itkCovariantVector.h"
 //  Software Guide : EndCodeSnippet 
 
 //  Software Guide : BeginLatex

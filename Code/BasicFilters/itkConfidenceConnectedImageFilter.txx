@@ -18,14 +18,12 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkConfidenceConnectedImageFilter_txx
 
 #include "itkConfidenceConnectedImageFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkImageRegionIterator.h"
 #include "itkMeanImageFunction.h"
 #include "itkSumOfSquaresImageFunction.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
-#include "itkFloodFilledImageFunctionConditionalConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
 namespace itk

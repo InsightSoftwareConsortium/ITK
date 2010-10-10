@@ -19,7 +19,6 @@
 
 #include "itkImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
 {

@@ -37,7 +37,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkRGBPixel.h"
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"

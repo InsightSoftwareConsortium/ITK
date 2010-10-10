@@ -18,7 +18,6 @@
 #ifndef __itkFEMLinearSystemWrapperItpack_h
 #define __itkFEMLinearSystemWrapperItpack_h
 
-#include "itkFEMSolution.h"
 #include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMItpackSparseMatrix.h"
 #include <vector>

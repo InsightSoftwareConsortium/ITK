@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include "itkArray.h"
-#include "itkVariableLengthVector.h"
 #include "itkListSample.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkMaximumDecisionRule2.h"

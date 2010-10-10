@@ -19,8 +19,6 @@
 #endif
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshPolygonCell.h"
-#include "itkQuadEdgeMeshLineCell.h"
 
 int itkQuadEdgeMeshTest1( int , char* [] )
 {

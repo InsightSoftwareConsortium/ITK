@@ -18,9 +18,7 @@
 #define __itkVersor_txx
 
 #include "itkVersor.h"
-#include "itkVector.h"
 #include "itkNumericTraits.h"
-#include "itkExceptionObject.h"
 #include "itkMath.h"
 
 namespace itk

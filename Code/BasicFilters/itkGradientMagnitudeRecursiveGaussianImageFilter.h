@@ -21,7 +21,6 @@
 #include "itkImage.h"
 #include "itkPixelTraits.h"
 #include "itkRecursiveGaussianImageFilter.h"
-#include "itkInPlaceImageFilter.h"
 #include "itkSqrtImageFilter.h"
 #include "itkBinaryFunctorImageFilter.h"
 

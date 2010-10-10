@@ -24,11 +24,8 @@
 #include <iostream>
 #include <time.h>
 
-#include "itkImage.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
-#include "itkSimplexMeshGeometry.h"
-#include "itkSimplexMesh.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.h"
 

@@ -21,7 +21,6 @@
 #include "itkObjectFactory.h"
 #include "itkImageIOFactory.h"
 #include "itkConvertPixelBuffer.h"
-#include "itkImageRegion.h"
 #include "itkPixelTraits.h"
 #include "itkVectorImage.h"
 

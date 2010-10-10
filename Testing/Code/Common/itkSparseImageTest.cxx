@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
 #include "itkSparseImage.h"
 #include <iostream>
 

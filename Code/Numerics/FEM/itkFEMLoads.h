@@ -23,21 +23,16 @@
  *
  * To make sure you have everything, just include this header file.
  */
-#include "itkFEMLoadBase.h"
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
-#include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadPoint.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadEdge.h"
-#include "itkFEMImageMetricLoad.h"
 #include "itkFEMImageMetricLoadImplementation.h"
 
-#include "itkFEMLoadTest.h"
 #include "itkFEMLoadImplementationTest.h"
 
-#include "itkFEMLoadLandmark.h"
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"
 
 #endif

@@ -21,7 +21,6 @@
 #include <iostream>
 #include "itkTransform.h"
 #include "itkImage.h"
-#include "itkImageRegion.h"
 #include "itkBSplineInterpolationWeightFunction.h"
 
 namespace itk

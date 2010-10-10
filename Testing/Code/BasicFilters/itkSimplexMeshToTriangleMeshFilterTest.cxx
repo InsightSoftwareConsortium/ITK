@@ -19,8 +19,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMesh.h"
-#include "itkSimplexMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshToTriangleMeshFilter.h"

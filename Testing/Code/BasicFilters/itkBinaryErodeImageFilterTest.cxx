@@ -25,7 +25,7 @@
 #include <itkBinaryBallStructuringElement.h>
 #include <itkImageRegionIterator.h>
 #include "itkFilterWatcher.h"
-#include <itkExceptionObject.h>
+#include <itkMacro.h>
 
 int itkBinaryErodeImageFilterTest(int, char* [] ) 
 {

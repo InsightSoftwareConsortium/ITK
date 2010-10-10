@@ -17,7 +17,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include "itkImage.h"
 #include "itkObject.h"

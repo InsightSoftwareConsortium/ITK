@@ -17,8 +17,6 @@
 #ifndef __itkIsolatedWatershedImageFilter_h
 #define __itkIsolatedWatershedImageFilter_h
 
-#include "itkImage.h"
-#include "itkImageToImageFilter.h"
 #include "itkWatershedImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 

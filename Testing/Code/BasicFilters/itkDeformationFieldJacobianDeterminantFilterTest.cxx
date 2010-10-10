@@ -19,7 +19,6 @@
 #endif
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkDeformationFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"

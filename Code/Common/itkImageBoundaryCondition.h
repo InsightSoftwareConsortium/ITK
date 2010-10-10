@@ -18,7 +18,6 @@
 #define __itkImageBoundaryCondition_h
 
 #include "itkIndex.h"
-#include "itkOffset.h"
 #include "itkNeighborhood.h"
 
 namespace itk

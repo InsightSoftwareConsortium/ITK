@@ -19,7 +19,6 @@
 #define __itkKernelImageFilter_h
 
 #include "itkBoxImageFilter.h"
-#include "itkCastImageFilter.h"
 #include "itkFlatStructuringElement.h"
 
 namespace itk

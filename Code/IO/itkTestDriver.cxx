@@ -30,7 +30,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "itkNumericTraits.h"
 #include "itkMultiThreader.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -40,7 +39,6 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkDifferenceImageFilter.h"
-#include "itkImageRegion.h"
 #include "itksys/SystemTools.hxx"
 // include SharedForward to avoid duplicating the code which find the library
 // path variable

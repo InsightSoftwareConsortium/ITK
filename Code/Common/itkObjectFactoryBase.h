@@ -20,7 +20,6 @@
 #ifndef __itkObjectFactoryBase_h
 #define __itkObjectFactoryBase_h
 
-#include "itkObject.h"
 #include "itkCreateObjectFunction.h"
 #include <list>
 #include <vector>

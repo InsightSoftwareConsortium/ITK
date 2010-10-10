@@ -19,10 +19,8 @@
 #define __itkValuedRegionalExtremaImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkConceptChecking.h"
 #include <stack>
 
 namespace itk

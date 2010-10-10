@@ -18,8 +18,6 @@
 #define __itkCoreAtomImageToDistanceMatrixProcess_h
 
 #include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomPixel.h"
-#include "itkDataObject.h"
 #include "itkImage.h"
 #include "itkMatrixResizeableDataObject.h"
 #include "itkProcessObject.h"

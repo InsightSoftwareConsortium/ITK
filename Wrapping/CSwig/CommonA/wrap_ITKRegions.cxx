@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkRegion.h"
 #include "itkImageRegion.h"
 #include "itkMeshRegion.h"
 

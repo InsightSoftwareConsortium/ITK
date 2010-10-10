@@ -24,7 +24,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkVector.h"
 #include "itkPoint.h"
 #include "itkVectorContainer.h"
 #include <vnl/vnl_vector_ref.h>

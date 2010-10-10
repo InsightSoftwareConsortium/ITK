@@ -17,12 +17,10 @@
 #ifndef __itkOffset_h
 #define __itkOffset_h
 
-#include "itkMacro.h"
 #include "itkSize.h"
 
 #include <memory>
 
-#include "itkExceptionObject.h"
 
 #if defined( _MSC_VER )
 

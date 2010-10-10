@@ -37,7 +37,6 @@
 #include "itkBioCellularAggregateBase.h"
 #include "itkBioGene.h"
 #include "itkBioGeneNetwork.h"
-#include "itkBioGenome.h"
 #include "itkCannySegmentationLevelSetFunction.txx"
 #include "itkCannySegmentationLevelSetImageFilter.txx"
 #include "itkClassifierBase.txx"

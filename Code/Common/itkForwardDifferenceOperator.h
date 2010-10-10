@@ -18,7 +18,6 @@
 #define __itkForwardDifferenceOperator_h
 
 #include "itkNeighborhoodOperator.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

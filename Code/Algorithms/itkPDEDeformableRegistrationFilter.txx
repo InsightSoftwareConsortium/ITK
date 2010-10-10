@@ -19,7 +19,6 @@
 
 #include "itkPDEDeformableRegistrationFilter.h"
 
-#include "itkExceptionObject.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkDataObject.h"

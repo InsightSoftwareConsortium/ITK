@@ -18,7 +18,7 @@
 #define __itkXMLFile_txx
 
 #include "itkXMLFile.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include <itksys/SystemTools.hxx>
 #include <fstream>
 

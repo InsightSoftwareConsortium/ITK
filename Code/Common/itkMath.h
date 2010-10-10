@@ -21,7 +21,6 @@
 #ifndef __itkMath_h
 #define __itkMath_h
 
-#include "itkConfigure.h"
 #include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"

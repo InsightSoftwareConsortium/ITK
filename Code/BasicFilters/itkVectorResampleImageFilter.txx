@@ -18,7 +18,6 @@
 #define __itkVectorResampleImageFilter_txx
 
 #include "itkVectorResampleImageFilter.h"
-#include "itkObjectFactory.h"
 #include "itkIdentityTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"

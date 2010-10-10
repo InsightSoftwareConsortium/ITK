@@ -19,8 +19,6 @@
 
 #include "itkImage.h"
 #include "itkIndex.h"
-#include "itkSize.h"
-#include "itkOffset.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -24,7 +24,6 @@
 #include <iostream>
 #include <time.h>
 
-#include "itkSimplexMesh.h"
 #include "itkSimplexMeshGeometry.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"

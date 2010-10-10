@@ -19,10 +19,7 @@
 #endif
 
 #include "itkCommand.h"
-#include "itkDataObject.h"
 #include "itkDirectory.h"
-#include "itkLightObject.h"
-#include "itkObject.h"
 #include "itkLightProcessObject.h"
 #include "itkProcessObject.h"
 #include "itkOutputWindow.h"

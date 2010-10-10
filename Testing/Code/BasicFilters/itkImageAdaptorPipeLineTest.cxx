@@ -26,7 +26,6 @@
 //-------------------------------------------
 
 
-#include <itkImage.h>
 #include <itkIndex.h>
 #include <itkImageAdaptor.h>
 #include <itkImageRegionIteratorWithIndex.h>

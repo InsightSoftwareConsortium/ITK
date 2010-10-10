@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkVoronoiDiagram2D.h"
 #include "itkVoronoiDiagram2DGenerator.h"
 #include <stdio.h>
 

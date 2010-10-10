@@ -17,13 +17,10 @@
 #ifndef __itkJointDomainImageToListSampleAdaptor_h
 #define __itkJointDomainImageToListSampleAdaptor_h
 
-#include "itkMacro.h"
-#include "itkFixedArray.h"
 #include "itkPoint.h"
 #include "itkPixelTraits.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkListSample.h"
 
 namespace itk

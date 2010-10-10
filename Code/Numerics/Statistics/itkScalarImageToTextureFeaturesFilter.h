@@ -17,15 +17,10 @@
 #ifndef __itkScalarImageToTextureFeaturesFilter_h
 #define __itkScalarImageToTextureFeaturesFilter_h
 
-#include "itkImage.h"
-#include "itkProcessObject.h"
-#include "itkVectorContainer.h"
-#include "itkMacro.h"
 #include "itkDataObjectDecorator.h"
 
 #include "itkHistogramToTextureFeaturesFilter.h"
 #include "itkScalarImageToCooccurrenceMatrixFilter.h"
-#include "itkDenseFrequencyContainer2.h"
 
 namespace itk
 {

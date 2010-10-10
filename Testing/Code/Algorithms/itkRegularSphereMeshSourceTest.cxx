@@ -20,7 +20,6 @@
 #endif
 
 
-#include "itkMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultStaticMeshTraits.h"
 

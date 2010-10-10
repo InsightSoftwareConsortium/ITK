@@ -22,7 +22,6 @@
 
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 
 
 

@@ -59,7 +59,6 @@
 #include "itkCenteredTransformInitializer.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"

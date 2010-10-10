@@ -18,7 +18,6 @@
 #define __itkMultipleValuedNonLinearOptimizer_h
 
 #include "itkNonLinearOptimizer.h"
-#include "itkArray2D.h"
 #include "itkMultipleValuedCostFunction.h"
 
 namespace itk

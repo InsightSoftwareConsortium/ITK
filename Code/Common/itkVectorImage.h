@@ -17,15 +17,11 @@
 #ifndef __itkVectorImage_h
 #define __itkVectorImage_h
 
-#include "itkImageBase.h"
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultVectorPixelAccessor.h"
 #include "itkDefaultVectorPixelAccessorFunctor.h"
 #include "itkVectorImageNeighborhoodAccessorFunctor.h"
-#include "itkPoint.h"
-#include "itkContinuousIndex.h"
-#include "itkVariableLengthVector.h"
 #include "itkWeakPointer.h"
 
 namespace itk

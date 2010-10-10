@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itk_hashtable.h"
 #include "itk_hash_set.h"
 #include "itk_hash_map.h"
 #include <iostream>

@@ -18,7 +18,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkIOCommon.h"
 #include "itkJPEG2000ImageIO.h"
 #include "itksys/SystemTools.hxx"

@@ -23,7 +23,6 @@
 #include <iostream>
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
-#include "itkThreadLogger.h"
 #include "itkLoggerManager.h"
 
 

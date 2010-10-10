@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include "itkTransform.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkMatrix.h"
 
 namespace itk

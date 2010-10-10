@@ -17,11 +17,7 @@
 #ifndef __itkDeformationFieldJacobianDeterminantFilter_h
 #define __itkDeformationFieldJacobianDeterminantFilter_h
 
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
-#include "itkImageToImageFilter.h"
 #include "itkImage.h"
-#include "itkVector.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_det.h"
 

@@ -18,11 +18,9 @@
 #define __itkVectorResampleImageFilter_h
 
 #include "itkTransform.h"
-#include "itkImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
-#include "itkFixedArray.h"
 #include "itkSize.h"
 
 namespace itk

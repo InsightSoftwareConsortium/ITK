@@ -20,7 +20,7 @@
 #include "itkImageBase.h"
 #include "itkTransform.h"
 #include "itkMultipleValuedCostFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 
 namespace itk

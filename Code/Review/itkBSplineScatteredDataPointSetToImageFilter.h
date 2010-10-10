@@ -20,9 +20,7 @@
 #include "itkPointSetToImageFilter.h"
 #include "itkBSplineKernelFunction.h"
 #include "itkCoxDeBoorBSplineKernelFunction.h"
-#include "itkFixedArray.h"
 #include "itkVariableSizeMatrix.h"
-#include "itkVector.h"
 #include "itkVectorContainer.h"
 
 #include "vnl/vnl_matrix.h"

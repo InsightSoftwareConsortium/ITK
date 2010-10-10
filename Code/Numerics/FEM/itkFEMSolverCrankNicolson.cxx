@@ -23,7 +23,6 @@
 #include "itkFEMSolverCrankNicolson.h"
 
 #include "itkFEMLoadNode.h"
-#include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
 #include "itkFEMLoadLandmark.h"

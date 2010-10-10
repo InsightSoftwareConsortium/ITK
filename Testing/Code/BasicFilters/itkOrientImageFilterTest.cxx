@@ -22,9 +22,7 @@
 #include "itkAnalyzeImageIO.h"
 #include "itkMetaDataObject.h"
 #include "itkImage.h"
-#include "itkSpatialOrientation.h"
 #include "itkOrientImageFilter.h"
-#include "itkIOCommon.h"
 #include "itkImageRegionIterator.h"
 #include <vnl/vnl_sample.h>
 

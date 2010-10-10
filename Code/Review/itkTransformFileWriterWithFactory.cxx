@@ -18,7 +18,6 @@
 #define __itkTransformFileWriter_cxx
 
 #include "itkTransformFileWriterWithFactory.h"
-#include "itkTransformIOBase.h"
 #include "itkTransformFactoryBase.h"
 #include "itkTransformIOFactory.h"
 

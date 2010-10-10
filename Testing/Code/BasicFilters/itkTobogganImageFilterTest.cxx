@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkTobogganImageFilter.h"
-#include "itkRecursiveGaussianImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"

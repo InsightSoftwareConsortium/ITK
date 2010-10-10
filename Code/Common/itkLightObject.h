@@ -21,7 +21,6 @@
 #include "itkTimeStamp.h"
 #include "itkIndent.h"
 #include "itkSimpleFastMutexLock.h"
-#include "itkMacro.h"
 
 #include <iostream>
 #include <typeinfo>

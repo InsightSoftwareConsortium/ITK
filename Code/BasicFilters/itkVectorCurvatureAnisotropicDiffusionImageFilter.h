@@ -17,7 +17,7 @@
 #ifndef __itkVectorCurvatureAnisotropicDiffusionImageFilter_h
 #define __itkVectorCurvatureAnisotropicDiffusionImageFilter_h
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkAnisotropicDiffusionImageFilter.h"
 #include "itkVectorCurvatureNDAnisotropicDiffusionFunction.h"
 

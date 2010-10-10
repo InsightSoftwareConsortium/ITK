@@ -17,7 +17,6 @@
 #ifndef __itkStreamingImageFilter_h
 #define __itkStreamingImageFilter_h
 
-#include "itkImageSource.h"
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionSplitter.h"
 

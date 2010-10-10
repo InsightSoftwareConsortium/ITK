@@ -18,8 +18,6 @@
 #define __itkKernelTransform_h
 
 #include "itkTransform.h"
-#include "itkPoint.h"
-#include "itkVector.h"
 #include "itkMatrix.h"
 #include "itkPointSet.h"
 #include <deque>

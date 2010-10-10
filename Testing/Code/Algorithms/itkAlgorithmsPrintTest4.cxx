@@ -18,13 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
-#include "itkVector.h"
-#include "itkPoint.h"
 #include "itkMesh.h"
 #include "itkEllipseSpatialObject.h"
 
-#include "itkGeodesicActiveContourLevelSetFunction.h"
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
 #include "itkGradientVectorFlowImageFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
@@ -33,12 +29,9 @@
 #include "itkImageKmeansModelEstimator.h"
 #include "itkImagePCAShapeModelEstimator.h"
 #include "itkImageRegistrationMethod.h"
-#include "itkImageToSpatialObjectMetric.h"
 #include "itkImageToSpatialObjectRegistrationMethod.h"
 #include "itkKLMRegionGrowImageFilter.h"
-#include "itkLaplacianSegmentationLevelSetFunction.h"
 #include "itkLaplacianSegmentationLevelSetImageFilter.h"
-#include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkLevelSetVelocityNeighborhoodExtractor.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"

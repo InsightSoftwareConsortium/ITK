@@ -18,7 +18,6 @@
 #define __itkNormalizedCorrelationImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkPoint.h"
 
 namespace itk

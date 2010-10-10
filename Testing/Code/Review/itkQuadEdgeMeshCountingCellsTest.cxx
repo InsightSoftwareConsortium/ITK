@@ -16,8 +16,6 @@
 =========================================================================*/
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshLineCell.h"
-#include "itkQuadEdgeMeshPolygonCell.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
 int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])

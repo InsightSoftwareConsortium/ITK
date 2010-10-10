@@ -31,7 +31,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkSurfaceSpatialObject.h"
-#include "itkSurfaceSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )

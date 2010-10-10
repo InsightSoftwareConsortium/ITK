@@ -18,7 +18,6 @@
 #define __itkSpatialObjectToImageStatisticsCalculator_h
 
 #include "itkObject.h"
-#include "itkObjectFactory.h"
 #include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 #include "itkMatrix.h"
 #include "itkNumericTraits.h"

@@ -19,7 +19,6 @@
 
 #include "itkObject.h"
 #include "itkPoint.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkArray.h"

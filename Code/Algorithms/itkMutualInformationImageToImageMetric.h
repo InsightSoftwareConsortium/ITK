@@ -18,12 +18,10 @@
 #define __itkMutualInformationImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkPoint.h"
 
 #include "itkIndex.h"
 #include "itkKernelFunction.h"
-#include "itkCentralDifferenceImageFunction.h"
 
 namespace itk
 {

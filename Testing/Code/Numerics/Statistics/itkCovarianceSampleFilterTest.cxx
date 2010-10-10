@@ -21,7 +21,6 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkCovarianceSampleFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkFixedArray.h"
 #include "itkVector.h"
 #include "itkMeanSampleFilter.h"
 #include "itkNumericTraitsFixedArrayPixel.h"

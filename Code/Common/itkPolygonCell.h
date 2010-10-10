@@ -20,7 +20,6 @@
 #ifndef __itkPolygonCell_h
 #define __itkPolygonCell_h
 
-#include "itkCellInterface.h"
 #include "itkLineCell.h"
 #include "itkPoint.h"
 #include <vector>

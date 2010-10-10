@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkSimilarity2DTransform.h"
 #include "itkCenteredSimilarity2DTransform.h"
 
 #ifdef CABLE_CONFIGURATION

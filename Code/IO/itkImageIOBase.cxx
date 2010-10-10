@@ -21,12 +21,9 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "itkOffset.h"
-#include "itkVector.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
-#include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
-#include "itkFixedArray.h"
 #include "itkImageRegionSplitter.h"
 
 namespace itk

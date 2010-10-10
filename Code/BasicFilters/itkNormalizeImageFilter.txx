@@ -19,10 +19,7 @@
 
 #include "itkNormalizeImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkStatisticsImageFilter.h"
-#include "itkShiftScaleImageFilter.h"
 #include "itkProgressAccumulator.h"
-#include "itkCommand.h"
 
 namespace itk
 {

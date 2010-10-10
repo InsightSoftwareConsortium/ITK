@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMesh.h"
 #include "itkEllipseSpatialObject.h"
 #include "itkPointSetToSpatialObjectDemonsRegistration.h"
 

@@ -23,12 +23,9 @@
 #include "itkTranslationTransform.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "vnl/vnl_math.h"
 
 #include "itkDemonsRegistrationFunction.h"

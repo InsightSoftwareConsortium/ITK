@@ -19,9 +19,7 @@
 
 #include "itkPDEDeformableRegistrationFunction.h"
 #include "itkPoint.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 

@@ -21,10 +21,7 @@
 #include <string>
 
 #include "itkQuadEdgeMesh.h"
-#include "itkQuadEdgeMeshLineCell.h"
-#include "itkQuadEdgeMeshPolygonCell.h"
 
-#include "itkQuadEdgeMeshFunctionBase.h"
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 

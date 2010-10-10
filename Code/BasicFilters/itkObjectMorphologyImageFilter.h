@@ -19,10 +19,8 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkNeighborhood.h"
 #include "itkConstSliceIterator.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkImageBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

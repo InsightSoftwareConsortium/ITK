@@ -19,9 +19,7 @@
 #define __itkImageSpatialObject_h
 
 #include "itkImage.h"
-#include "itkExceptionObject.h"
 #include "itkSpatialObject.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
 namespace itk

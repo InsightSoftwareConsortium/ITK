@@ -17,11 +17,7 @@
 #ifndef __itkReconstructionImageFilter_txx
 #define __itkReconstructionImageFilter_txx
 
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkReconstructionImageFilter.h"
-#include "itkProgressReporter.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkConnectedComponentAlgorithm.h"
 

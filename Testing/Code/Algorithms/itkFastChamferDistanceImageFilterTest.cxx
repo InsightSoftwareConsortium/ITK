@@ -20,7 +20,6 @@
 
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 //#include "itkImageFileReader.h"
 //#include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"

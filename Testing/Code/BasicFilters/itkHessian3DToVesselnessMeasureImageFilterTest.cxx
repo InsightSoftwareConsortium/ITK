@@ -21,7 +21,6 @@
 
 
 
-#include "itkImage.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

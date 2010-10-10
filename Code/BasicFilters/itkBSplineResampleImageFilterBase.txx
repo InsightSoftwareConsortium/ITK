@@ -22,7 +22,6 @@
 #define __itkBSplineResampleImageFilterBase_txx
 
 #include "itkBSplineResampleImageFilterBase.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {

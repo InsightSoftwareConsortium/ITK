@@ -24,7 +24,6 @@
 #include "itkDifferenceImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkNarrowBand.h"
 
 #include "itkCommand.h"
 #include "vnl/vnl_math.h"

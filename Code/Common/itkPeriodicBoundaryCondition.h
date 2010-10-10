@@ -16,7 +16,6 @@
 =========================================================================*/
 #ifndef __itkPeriodicBoundaryCondition_h
 #define __itkPeriodicBoundaryCondition_h
-#include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 
 namespace itk

@@ -17,10 +17,6 @@
 #ifndef __itkLevelSet_h
 #define __itkLevelSet_h
 
-#include "itkIndex.h"
-#include "itkImage.h"
-#include "itkVectorContainer.h"
-#include "itkVector.h"
 #include "itkLevelSetNode.h"
 
 namespace itk

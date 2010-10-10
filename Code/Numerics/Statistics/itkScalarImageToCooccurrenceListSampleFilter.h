@@ -20,19 +20,13 @@
 
 #include <typeinfo>
 
-#include "itkImage.h"
-#include "itkPixelTraits.h"
 #include "itkImageToListSampleFilter.h"
 #include "itkSmartPointer.h"
 #include "itkImageRegionIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkListSample.h"
 #include "itkFixedArray.h"
-#include "itkMacro.h"
-#include "itkProcessObject.h"
 
 #include <vector>
 #include <algorithm>

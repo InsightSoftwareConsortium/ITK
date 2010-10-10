@@ -18,7 +18,6 @@
 #define __itkImageToVectorImageFilter_txx
 
 #include "itkImageToVectorImageFilter.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 

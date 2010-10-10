@@ -21,9 +21,7 @@
 
 #include "itkArray.h"
 #include "itkDICOMImageIO2.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
 #include <iostream>

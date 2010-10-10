@@ -17,7 +17,6 @@
 #ifndef __itkBioCellularAggregate_h
 #define __itkBioCellularAggregate_h
 
-#include "itkBioCellularAggregateBase.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkMesh.h"
 #include "itkImage.h"

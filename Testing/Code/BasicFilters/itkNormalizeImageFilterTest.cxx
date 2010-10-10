@@ -25,7 +25,6 @@
 
 #include "itkNormalizeImageFilter.h"
 #include "itkRandomImageSource.h"
-#include "itkStatisticsImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkFilterWatcher.h"
 

@@ -17,7 +17,6 @@
 #ifndef __itkSmartPointerForwardReference_h
 #define __itkSmartPointerForwardReference_h
 
-#include "itkMacro.h"
 #include "itkWeakPointer.h"
 
 #include <iostream>

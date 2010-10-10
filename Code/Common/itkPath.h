@@ -19,7 +19,6 @@
 
 #include "itkDataObject.h"
 #include "itkIndex.h"
-#include "itkOffset.h"
 #include "itkNumericTraits.h"
 
 namespace itk

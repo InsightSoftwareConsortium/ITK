@@ -20,8 +20,6 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <itkArray.h>
-#include <itkVariableLengthVector.h>
 #include <itkMetaArrayWriter.h>
 #include <itkMetaArrayReader.h>
 #include <itksys/SystemTools.hxx>

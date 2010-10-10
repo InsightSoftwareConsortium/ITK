@@ -18,7 +18,6 @@
 #define __itkGaussianDerivativeImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
-#include "itkImageFunction.h"
 #include "itkGaussianDerivativeSpatialFunction.h"
 #include "itkGaussianSpatialFunction.h"
 

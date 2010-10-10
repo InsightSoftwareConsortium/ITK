@@ -19,7 +19,6 @@
 #define __itkConnectedComponentAlgorithm_h
 
 #include "itkImage.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
 
 namespace itk

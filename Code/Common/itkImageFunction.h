@@ -18,9 +18,7 @@
 #define __itkImageFunction_h
 
 #include "itkFunctionBase.h"
-#include "itkPoint.h"
 #include "itkIndex.h"
-#include "itkContinuousIndex.h"
 #include "itkImageBase.h"
 
 namespace itk

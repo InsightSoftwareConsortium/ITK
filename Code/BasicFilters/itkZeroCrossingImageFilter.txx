@@ -21,7 +21,6 @@
 #include "itkZeroCrossingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkFixedArray.h"
 #include "itkProgressReporter.h"
 

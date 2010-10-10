@@ -19,8 +19,6 @@
 
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include <stack>
 #include <list>
 

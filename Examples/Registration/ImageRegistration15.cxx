@@ -31,11 +31,9 @@
 
 #include "itkTranslationTransform.h"
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkNormalVariateGenerator.h"
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

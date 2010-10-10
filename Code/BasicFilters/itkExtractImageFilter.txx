@@ -19,9 +19,7 @@
 
 #include "itkExtractImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
-#include "itkExtractImageFilterRegionCopier.h"
 #include "itkProgressReporter.h"
 
 namespace itk

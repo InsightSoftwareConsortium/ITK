@@ -19,7 +19,6 @@
 #define __itkMedianProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
-#include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
 #include <vector>

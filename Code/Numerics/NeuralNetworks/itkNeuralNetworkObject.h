@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkDataObject.h"
 #include "itkLayerBase.h"
-#include "itkWeightSetBase.h"
 #include "itkLearningFunctionBase.h"
 
 namespace itk

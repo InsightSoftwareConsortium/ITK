@@ -21,8 +21,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkNeuralNetworkFileReader.h"
 #include "itkNeuralNetworkFileWriter.h"
-#include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
-#include "itkTwoHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkRBFNetwork.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkListSample.h"

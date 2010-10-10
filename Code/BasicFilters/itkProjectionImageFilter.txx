@@ -19,7 +19,6 @@
 
 #include "itkProjectionImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkImageLinearConstIteratorWithIndex.h"

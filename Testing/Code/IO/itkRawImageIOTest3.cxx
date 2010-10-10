@@ -23,7 +23,6 @@
 #include "itkImageFileReader.h"
 #include "itkRawImageIO.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 int itkRawImageIOTest3(int argc, char*argv[])
 {

@@ -18,7 +18,7 @@
 #define __itkTransformMeshFilter_txx
 
 #include "itkTransformMeshFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {

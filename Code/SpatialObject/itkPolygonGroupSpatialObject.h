@@ -22,7 +22,6 @@
 #endif
 
 #include "itkGroupSpatialObject.h"
-#include "itkPolygonGroupOrientation.h"
 #include "itkPolygonSpatialObject.h"
 
 namespace itk

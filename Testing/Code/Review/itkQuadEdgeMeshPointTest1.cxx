@@ -19,7 +19,6 @@
 #endif
 
 #include "itkQuadEdgeMeshPoint.h"
-#include "itkGeometricalQuadEdge.h"
 #include "itkMesh.h"
 
 int itkQuadEdgeMeshPointTest1( int , char* [] )

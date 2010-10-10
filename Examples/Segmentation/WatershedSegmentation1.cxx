@@ -63,7 +63,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkVectorCastImageFilter.h"
-#include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
 
 int main( int argc, char *argv[] )

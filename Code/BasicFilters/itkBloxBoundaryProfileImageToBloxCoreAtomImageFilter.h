@@ -19,14 +19,8 @@
 #define __itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkPoint.h"
-#include "itkVector.h"
-#include "itkCovariantVector.h"
 #include "itkBloxBoundaryProfileItem.h"
-#include "itkBloxBoundaryProfilePixel.h"
 #include "itkBloxBoundaryProfileImage.h"
-#include "itkBloxCoreAtomItem.h"
-#include "itkBloxCoreAtomPixel.h"
 #include "itkBloxCoreAtomImage.h"
 
 namespace itk

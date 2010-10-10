@@ -19,7 +19,6 @@
 #include "itkSTAPLEImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

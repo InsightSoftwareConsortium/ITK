@@ -22,9 +22,7 @@
 #include "itkImageFileReader.h" 
 #include "itkImageFileWriter.h" 
 
-#include "itkImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkBSplineDeformableTransform.h"
 

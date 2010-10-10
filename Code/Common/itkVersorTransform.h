@@ -21,7 +21,6 @@
 #include <iostream>
 #include "itkRigid3DTransform.h"
 #include "vnl/vnl_quaternion.h"
-#include "itkVersor.h"
 
 namespace itk
 {

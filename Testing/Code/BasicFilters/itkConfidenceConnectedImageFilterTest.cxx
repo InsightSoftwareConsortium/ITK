@@ -27,7 +27,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkImage.h"
 
 int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
 {

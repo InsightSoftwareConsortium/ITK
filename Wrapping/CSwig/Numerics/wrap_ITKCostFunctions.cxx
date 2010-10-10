@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkCostFunction.h"
 #include "itkSingleValuedCostFunction.h"
 
 #ifdef CABLE_CONFIGURATION

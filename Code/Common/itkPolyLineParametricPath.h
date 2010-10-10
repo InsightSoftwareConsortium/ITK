@@ -19,10 +19,7 @@
 
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"
-#include "itkContinuousIndex.h"
 #include "itkIndex.h"
-#include "itkOffset.h"
-#include "itkVector.h"
 
 namespace itk
 {

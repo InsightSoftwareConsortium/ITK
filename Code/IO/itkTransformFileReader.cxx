@@ -18,7 +18,6 @@
 #define __itkTransformFileReader_cxx
 
 #include "itkTransformFileReader.h"
-#include "itkTransformBase.h"
 #include "itkTransformFactoryBase.h"
 
 #include <itksys/ios/sstream>

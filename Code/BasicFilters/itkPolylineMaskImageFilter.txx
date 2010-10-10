@@ -19,7 +19,6 @@
 
 #include "itkPolylineMaskImageFilter.h"
 #include "itkRigid3DPerspectiveTransform.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"

@@ -19,27 +19,16 @@
 #endif
 
 #include "itkAmoebaOptimizer.h"
-#include "itkCacheableScalarFunction.h"
 #include "itkCompositeValleyFunction.h"
 #include "itkConjugateGradientOptimizer.h"
 #include "itkCostFunction.h"
-#include "itkCumulativeGaussianCostFunction.h"
 #include "itkCumulativeGaussianOptimizer.h"
-#include "itkGradientDescentOptimizer.h"
 #include "itkLBFGSOptimizer.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkMultipleValuedNonLinearOptimizer.h"
-#include "itkMultipleValuedNonLinearVnlOptimizer.h"
-#include "itkMultipleValuedVnlCostFunctionAdaptor.h"
 #include "itkMultivariateLegendrePolynomial.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
-#include "itkRegularStepGradientDescentBaseOptimizer.h"
-#include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkSingleValuedNonLinearOptimizer.h"
-#include "itkSingleValuedNonLinearVnlOptimizer.h"
-#include "itkSingleValuedVnlCostFunctionAdaptor.h"
 #include "itkVersorTransformOptimizer.h"
 
 int itkNumericsPrintTest(int , char* [])

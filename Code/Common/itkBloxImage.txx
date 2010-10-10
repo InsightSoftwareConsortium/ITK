@@ -17,7 +17,6 @@
 #ifndef __itkBloxImage_txx
 #define __itkBloxImage_txx
 
-#include "itkBloxPixel.h"
 #include "itkBloxImage.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 #endif
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
 #include "itkNullImageToImageFilterDriver.txx"

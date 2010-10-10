@@ -18,7 +18,6 @@
 #define __itkBinaryProjectionImageFilter_h
 
 #include "itkProjectionImageFilter.h"
-#include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
 namespace itk

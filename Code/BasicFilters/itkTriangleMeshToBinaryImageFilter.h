@@ -19,15 +19,9 @@
 
 #include "itkImageSource.h"
 
-#include <itkMesh.h>
-#include <itkLineCell.h>
 #include <itkPolygonCell.h>
-#include <itkVertexCell.h>
 #include <itkMapContainer.h>
 #include <itkVectorContainer.h>
-#include <itkVector.h>
-#include <itkPoint.h>
-#include <itkArray.h>
 #include "itkAutomaticTopologyMeshSource.h"
 #include "itkPointSet.h"
 

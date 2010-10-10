@@ -18,14 +18,10 @@
 #define __itkLayerBase_h
 
 #include <iostream>
-#include "itkLightProcessObject.h"
-#include "itkArray.h"
-#include "itkVector.h"
 #include "itkTransferFunctionBase.h"
 #include "itkInputFunctionBase.h"
 
 #include "itkWeightSetBase.h"
-#include "itkMacro.h"
 
 namespace itk
 {

@@ -21,7 +21,6 @@
 #define __itkPointLocator_h
 
 #include "itkObject.h"
-#include "itkPoint.h"
 #include "itkNumericTraits.h"
 #include "itkBoundingBox.h"
 

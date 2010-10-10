@@ -24,7 +24,6 @@
 #include "itkBSplineDeformableTransform.h"
 #include "itkBSplineInterpolateImageFunction.h"
 
-#include "itkImage.h"
 #include "itkRigid3DTransform.h"
 
 #include "itkTextOutput.h"

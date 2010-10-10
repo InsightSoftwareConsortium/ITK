@@ -17,8 +17,6 @@
 #ifndef __itkReinitializeLevelSetImageFilter_h
 #define __itkReinitializeLevelSetImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkLevelSet.h"
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkFastMarchingImageFilter.h"
 

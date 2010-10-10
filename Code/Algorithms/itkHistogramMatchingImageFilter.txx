@@ -19,7 +19,6 @@
 
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include <vector>
 

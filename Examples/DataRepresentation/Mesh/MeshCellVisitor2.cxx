@@ -37,9 +37,7 @@
 
 
 #include "itkMesh.h"
-#include "itkVertexCell.h"
 #include "itkLineCell.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 
 

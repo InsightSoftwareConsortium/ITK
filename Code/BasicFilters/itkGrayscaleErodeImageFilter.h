@@ -24,7 +24,6 @@
 #include "itkVanHerkGilWermanErodeImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkFlatStructuringElement.h"
 #include "itkNeighborhood.h"
 
 namespace itk

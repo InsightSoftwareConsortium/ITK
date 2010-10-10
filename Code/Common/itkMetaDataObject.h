@@ -22,7 +22,6 @@
 
 #include "itkMetaDataDictionary.h"
 #include "itkMacro.h"
-#include "itkObjectFactory.h"
 #include "itkCommand.h"
 #include "itkFastMutexLock.h"
 

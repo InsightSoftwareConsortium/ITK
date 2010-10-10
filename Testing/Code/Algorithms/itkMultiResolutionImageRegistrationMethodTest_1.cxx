@@ -18,11 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkAffineTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkGradientDescentOptimizer.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
 #include "itkTextOutput.h"

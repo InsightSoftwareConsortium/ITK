@@ -18,7 +18,6 @@
 #define __itkGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkCovariantVector.h"
 
 namespace itk

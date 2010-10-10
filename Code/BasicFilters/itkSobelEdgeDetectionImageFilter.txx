@@ -20,7 +20,6 @@
 
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkSobelOperator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkNaryAddImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkSqrtImageFilter.h"

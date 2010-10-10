@@ -25,7 +25,6 @@
 
 #include "itkMedianImageFilter.h"
 
-#include "itkCommand.h"
 
 
 void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)

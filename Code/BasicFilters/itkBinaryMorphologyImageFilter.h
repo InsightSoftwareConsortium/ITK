@@ -20,11 +20,7 @@
 #include <vector>
 #include <queue>
 #include "itkKernelImageFilter.h"
-#include "itkImage.h"
-#include "itkNumericTraits.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 #include "itkImageRegionIterator.h"
 #include "itkConceptChecking.h"

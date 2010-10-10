@@ -17,9 +17,6 @@
 #ifndef __itkStatisticsRelabelImageFilter_h
 #define __itkStatisticsRelabelImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkStatisticsLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"
 #include "itkStatisticsRelabelLabelMapFilter.h"

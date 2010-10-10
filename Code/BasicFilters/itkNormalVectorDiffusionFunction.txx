@@ -18,7 +18,6 @@
 #define __itkNormalVectorDiffusionFunction_txx
 
 #include "itkNormalVectorDiffusionFunction.h"
-#include "itkNumericTraits.h"
 #include "itkVector.h"
 
 namespace itk

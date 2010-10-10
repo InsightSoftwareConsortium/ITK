@@ -17,7 +17,6 @@
 #ifndef __itkSignedDanielssonDistanceMapImageFilter_h
 #define __itkSignedDanielssonDistanceMapImageFilter_h
 
-#include <itkImageToImageFilter.h>
 #include <itkDanielssonDistanceMapImageFilter.h>
 #include "itkSubtractImageFilter.h"
 

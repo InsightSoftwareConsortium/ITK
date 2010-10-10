@@ -19,7 +19,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkVector.h"
 #include "itkWarpHarmonicEnergyCalculator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

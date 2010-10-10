@@ -21,10 +21,8 @@
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkMultipleValuedCostFunction.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkCumulativeGaussianOptimizer.h"
-#include "itkCumulativeGaussianCostFunction.h"
 
 namespace itk
 {

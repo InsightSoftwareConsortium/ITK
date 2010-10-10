@@ -18,7 +18,6 @@
 #ifndef __itkValuedRegionalExtremaImageFilter_txx
 #define __itkValuedRegionalExtremaImageFilter_txx
 
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkValuedRegionalExtremaImageFilter.h"

@@ -20,7 +20,6 @@
 #include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkGaussianOperator.h"
 #include "itkGaussianSpatialFunction.h"
-#include "itkImageFunction.h"
 #include "itkCastImageFilter.h"
 
 namespace itk

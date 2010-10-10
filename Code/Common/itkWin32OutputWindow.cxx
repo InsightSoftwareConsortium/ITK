@@ -18,7 +18,6 @@
 
 =========================================================================*/
 #include "itkWin32OutputWindow.h"
-#include "itkObjectFactory.h"
 
 namespace itk
 {

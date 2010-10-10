@@ -18,11 +18,9 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkPath.h"
 #include "itkSymmetricEigenAnalysis.h"
-#include "itkImageMomentsCalculator.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 #include "itkBoundingBox.h"
-#include "itkUnaryFunctorImageFilter.h"
 #include "itkCastImageFilter.h"
 
 typedef itk::Matrix<float,3,3> MatrixF33;

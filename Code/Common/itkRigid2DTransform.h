@@ -19,7 +19,6 @@
 
 #include <iostream>
 #include "itkMatrixOffsetTransformBase.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

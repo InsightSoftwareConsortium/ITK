@@ -19,8 +19,6 @@
 #define __itkDiscreteGradientMagnitudeGaussianImageFunction_h
 
 #include "itkNeighborhoodOperatorImageFunction.h"
-#include "itkImageFunction.h"
-#include "itkGaussianOperator.h"
 #include "itkGaussianDerivativeOperator.h"
 
 namespace itk

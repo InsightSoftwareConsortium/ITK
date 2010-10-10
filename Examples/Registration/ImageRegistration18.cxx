@@ -36,15 +36,11 @@
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkGradientDifferenceImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkResampleImageFilter.h"
-#include "itkCastImageFilter.h"
 #include "itkCommand.h"
 
 class CommandIterationUpdate : public itk::Command 

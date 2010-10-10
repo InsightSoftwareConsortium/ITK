@@ -19,7 +19,6 @@
 #define __itkMiniPipelineSeparableImageFilter_h
 
 #include "itkBoxImageFilter.h"
-#include "itkCastImageFilter.h"
 
 namespace itk
 {

@@ -20,7 +20,6 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkLogger.h"
 #include "itkThreadLogger.h"
 
 #include <string>

@@ -43,7 +43,6 @@
 #include "itkLevelOrderTreeIterator.h"
 #include "itkInOrderTreeIterator.h"
 #include "itkPostOrderTreeIterator.h"
-#include "itkPreOrderTreeIterator.h"
 #include "itkRootTreeIterator.h"
 #include "itkTreeIteratorClone.h"
 // Software Guide : EndCodeSnippet

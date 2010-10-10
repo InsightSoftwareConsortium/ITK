@@ -17,7 +17,6 @@
 #ifndef __itkNeighborhoodConnectedImageFilter_h
 #define __itkNeighborhoodConnectedImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk

@@ -27,7 +27,6 @@
 #include "itkProgressReporter.h"
 #include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "vnl/vnl_math.h"
 

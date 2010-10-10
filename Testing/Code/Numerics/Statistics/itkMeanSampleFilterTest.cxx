@@ -20,7 +20,6 @@
 
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
-#include "itkFixedArray.h"
 
 int itkMeanSampleFilterTest(int, char* [] )
 {

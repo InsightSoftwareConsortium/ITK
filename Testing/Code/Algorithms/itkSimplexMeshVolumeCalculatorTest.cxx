@@ -22,9 +22,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include <math.h>
 #include <iostream>
 
-#include "itkMesh.h"
-#include "itkSimplexMesh.h"
-#include "itkSimplexMeshGeometry.h"
 #include "itkSimplexMeshVolumeCalculator.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"

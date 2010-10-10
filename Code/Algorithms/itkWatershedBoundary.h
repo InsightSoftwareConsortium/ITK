@@ -24,8 +24,6 @@
 #include <list>
 #include <vector>
 #include "itkImage.h"
-#include "itkObjectFactory.h"
-#include "itkDataObject.h"
 #include "itkProcessObject.h"
 #include "itk_hash_map.h"
 

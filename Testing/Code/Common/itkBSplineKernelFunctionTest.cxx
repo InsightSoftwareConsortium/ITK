@@ -19,7 +19,6 @@
 #endif
 
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkBSplineKernelFunction.h"
 
 /*
  * This test exercises the BSpline kernel function

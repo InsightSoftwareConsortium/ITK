@@ -21,20 +21,12 @@
 // Insight classes
 #include "itkMRFImageFilter.h"
 
-#include "itkImageClassifierBase.h"
 #include "itkImageGaussianModelEstimator.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
 
-#include "itkSize.h"
-#include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIterator.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkNeighborhoodIterator.h"
-#include "itkNeighborhoodAlgorithm.h"
-#include "itkNeighborhood.h"
 
 //Data definitons 
 #define   IMGWIDTH            6

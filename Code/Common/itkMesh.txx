@@ -21,7 +21,6 @@
 #define __itkMesh_txx
 
 #include "itkMesh.h"
-#include "itkObjectFactory.h"
 #include "itkProcessObject.h"
 #include <algorithm>
 #include <iterator>

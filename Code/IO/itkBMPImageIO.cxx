@@ -15,9 +15,8 @@
 
 =========================================================================*/
 #include "itkBMPImageIO.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkByteSwapper.h"
-#include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include <itksys/SystemTools.hxx>
 #include <iostream>

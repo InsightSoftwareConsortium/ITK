@@ -25,7 +25,6 @@
 #include "itkPhasedArray3DSpecialCoordinatesImage.h"
 #include "itkResampleImageFilter.h"
 #include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 

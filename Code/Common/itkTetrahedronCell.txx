@@ -17,7 +17,6 @@
 #ifndef __itkTetrahedronCell_txx
 #define __itkTetrahedronCell_txx
 #include "itkTetrahedronCell.h"
-#include "itkTriangleCell.h"
 #include "vnl/algo/vnl_determinant.h"
 
 namespace itk

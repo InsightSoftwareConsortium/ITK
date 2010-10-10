@@ -20,7 +20,6 @@
 #include "itkLabelVotingImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 #include "vnl/vnl_math.h"
 

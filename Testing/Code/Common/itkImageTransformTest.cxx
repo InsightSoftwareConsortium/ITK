@@ -20,7 +20,6 @@
 
 #include "itkImage.h"
 #include "itkImage.h"
-#include "itkImageRegion.h"
 #include "itkIndex.h"
 #include "itkSize.h"
 

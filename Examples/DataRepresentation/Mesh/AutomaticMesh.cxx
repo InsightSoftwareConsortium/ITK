@@ -52,11 +52,7 @@
 //  Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkMesh.h"
-#include "itkVertexCell.h"
-#include "itkLineCell.h"
 #include "itkTriangleCell.h"
-#include "itkTetrahedronCell.h"
 #include "itkAutomaticTopologyMeshSource.h"
 // Software Guide : EndCodeSnippet
 

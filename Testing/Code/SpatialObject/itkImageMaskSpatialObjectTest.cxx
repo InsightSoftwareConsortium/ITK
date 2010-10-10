@@ -31,7 +31,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
 #include "itkAffineTransform.h"
-#include "itkPoint.h"
 
 #include "itkImageMaskSpatialObject.h"
 

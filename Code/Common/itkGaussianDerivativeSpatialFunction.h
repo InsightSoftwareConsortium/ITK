@@ -19,7 +19,6 @@
 
 #include "itkSpatialFunction.h"
 #include "itkFixedArray.h"
-#include "itkPoint.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #define __itkNeighborhoodIteratorTestCommon_txx
 
 #include "itkImage.h"
-#include "itkOffset.h"
 #include "itkIndex.h"
 #include "itkImageRegionIterator.h"
 #include <iostream>

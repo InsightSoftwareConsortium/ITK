@@ -30,7 +30,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkLineSpatialObject.h"
-#include "itkLineSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )

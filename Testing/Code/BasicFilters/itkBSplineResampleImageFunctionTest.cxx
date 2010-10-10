@@ -22,7 +22,6 @@
 #endif
 
 #include "itkBSplineResampleImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkFilterWatcher.h"
 #include "itkImage.h"

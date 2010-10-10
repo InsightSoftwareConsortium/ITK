@@ -23,9 +23,7 @@
  */
 
 #include "itkImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkPoint.h"
-#include "itkMultiThreader.h"
 #include <vector>
 
 namespace itk

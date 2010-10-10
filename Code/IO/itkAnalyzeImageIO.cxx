@@ -19,13 +19,11 @@
                        // Analyze/Nifti readers do not overlap
 #include "itkAnalyzeImageIO.h"
 #include "itkIOCommon.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkRGBPixel.h"
 #include <itksys/SystemTools.hxx>
-#include "itkMacro.h"
 #include "itk_zlib.h"
 #include <stdio.h>
 #include <stdlib.h>

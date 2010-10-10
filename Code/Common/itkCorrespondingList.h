@@ -1,7 +1,6 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkCorrespondingList.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -18,7 +17,6 @@
 #define __itkCorrespondingList_h
 
 #include <list>
-#include "itkCorrespondingList.h"
 
 namespace itk
 {

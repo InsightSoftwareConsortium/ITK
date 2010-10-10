@@ -19,7 +19,6 @@
 #endif
 #include "itkImageToVectorImageFilter.h"
 #include "itkImage.h"
-#include "itkVectorImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"

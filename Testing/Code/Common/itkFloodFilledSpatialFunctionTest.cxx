@@ -30,7 +30,6 @@ to itkFloodFilledSpatialFunctionConditionalIterator.
 #include "itkIndex.h"
 #include "itkImage.h"
 #include "itkImageRegionIterator.h"
-#include "itkPoint.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 

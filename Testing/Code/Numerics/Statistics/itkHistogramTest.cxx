@@ -19,7 +19,6 @@
 #endif
 #include "itkHistogram.h"
 
-#include "itkDenseFrequencyContainer2.h"
 
 int itkHistogramTest(int, char* [] )
 {

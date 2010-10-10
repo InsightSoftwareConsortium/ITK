@@ -19,7 +19,6 @@
 
 #include <iostream>
 #include "itkNeighborhoodAllocator.h"
-#include "itkSize.h"
 #include "itkIndent.h"
 #include "itkSliceIterator.h"
 #include "vnl/vnl_vector.h"

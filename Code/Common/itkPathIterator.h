@@ -17,9 +17,6 @@
 #ifndef __itkPathIterator_h
 #define __itkPathIterator_h
 
-#include "itkIndex.h"
-#include "itkImage.h"
-#include "itkPath.h"
 #include "itkPathConstIterator.h"
 
 namespace itk

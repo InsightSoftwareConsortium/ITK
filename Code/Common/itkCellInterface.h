@@ -18,7 +18,6 @@
 #define __itkCellInterface_h
 
 #include "itkObject.h"
-#include "itkObjectFactory.h"
 #include <map>
 #include "itkCellInterfaceVisitor.h"
 #include "itkAutoPointer.h"

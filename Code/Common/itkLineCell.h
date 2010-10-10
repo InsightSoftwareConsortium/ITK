@@ -17,7 +17,6 @@
 #ifndef __itkLineCell_h
 #define __itkLineCell_h
 
-#include "itkCellInterface.h"
 #include "itkVertexCell.h"
 
 namespace itk

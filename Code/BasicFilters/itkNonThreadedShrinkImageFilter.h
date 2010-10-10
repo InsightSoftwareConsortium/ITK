@@ -17,7 +17,6 @@
 #ifndef __itkNonThreadedShrinkImageFilter_h
 #define __itkNonThreadedShrinkImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkShrinkImageFilter.h"
 
 namespace itk

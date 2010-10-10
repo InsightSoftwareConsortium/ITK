@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkTransformFileReaderWithFactory.h"
-#include "itkTransformIOBase.h"
 #include "itkTransformFactoryBase.h"
 #include "itkTransformIOFactory.h"
 

@@ -60,7 +60,6 @@
 
 
 #include "itkImage.h"
-#include "itkPoint.h"
 
 int main(int, char *[])
 {

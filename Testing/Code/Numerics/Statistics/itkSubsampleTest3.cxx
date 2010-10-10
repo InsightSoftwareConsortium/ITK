@@ -21,7 +21,6 @@
 #include "itkMeanSampleFilter.h"
 #include "itkListSample.h"
 #include "itkSubsample.h"
-#include "itkFixedArray.h"
 
 int itkSubsampleTest3(int, char* [] )
 {

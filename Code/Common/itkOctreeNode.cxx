@@ -16,7 +16,6 @@
 =========================================================================*/
 /* Local Include Files */
 #include "itkOctree.h"
-#include "itkOctreeNode.h"
 
 namespace itk
 {

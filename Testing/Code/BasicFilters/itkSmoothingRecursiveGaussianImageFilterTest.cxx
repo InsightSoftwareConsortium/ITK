@@ -21,7 +21,6 @@
 
 
 
-#include <itkImage.h>
 #include <itkSmoothingRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include "itkFilterWatcher.h"

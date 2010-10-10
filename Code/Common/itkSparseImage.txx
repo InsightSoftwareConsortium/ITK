@@ -18,8 +18,6 @@
 #define __itkSparseImage_txx
 
 #include "itkSparseImage.h"
-#include "itkSparseFieldLayer.h"
-#include "itkObjectStore.h"
 #include "itkDataObject.h"
 
 namespace itk

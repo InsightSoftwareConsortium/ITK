@@ -23,9 +23,7 @@
 
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"

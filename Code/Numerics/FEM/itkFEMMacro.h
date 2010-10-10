@@ -69,8 +69,6 @@
 
 /* Required includes for itk's SmartPointer compatibility */
 #ifdef FEM_USE_SMART_POINTERS
-#include "itkMacro.h"
-#include "itkSmartPointer.h"
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
 #endif

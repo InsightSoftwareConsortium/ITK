@@ -17,7 +17,6 @@
 #ifndef __itkQuadEdgeMeshEulerOperatorSplitEdgeFunction_h
 #define __itkQuadEdgeMeshEulerOperatorSplitEdgeFunction_h
 
-#include "itkQuadEdgeMeshFunctionBase.h"
 #include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.h"
 
 namespace itk

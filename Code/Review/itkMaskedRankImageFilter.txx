@@ -24,7 +24,6 @@
 #include "itkNumericTraits.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 #include <iomanip>

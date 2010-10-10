@@ -20,7 +20,6 @@
 
 #include "itkKernelImageFilter.h"
 #include "itkProgressAccumulator.h"
-#include "itkFlatStructuringElement.h"
 
 namespace itk
 {

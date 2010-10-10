@@ -18,7 +18,6 @@
 #define __itkZeroCrossingBasedEdgeDetectionImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkFixedArray.h"
 #include "itkImage.h"
 
 namespace itk

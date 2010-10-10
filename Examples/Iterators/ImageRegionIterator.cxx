@@ -46,7 +46,6 @@
 
 #include "itkImage.h"
 // Software Guide : BeginCodeSnippet
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"

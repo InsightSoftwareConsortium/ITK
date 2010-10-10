@@ -20,7 +20,6 @@
 #include "itkNormalizedCorrelationImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 

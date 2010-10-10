@@ -31,7 +31,6 @@
 #define __itkMacro_h
 
 #include "itkWin32Header.h"
-#include "itkConfigure.h"
 
 #include <string>
 #include <cstdlib>
@@ -594,7 +593,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 // Setup legacy code policy.
 //
 // CMake options ITK_LEGACY_REMOVE and ITK_LEGACY_SILENT are converted
-// to definitions (or non-defs) in itkConfigure.h and tested below.
 // They may be used to completely remove legacy code or silence the
 // warnings.  The default is to warn about their use.
 //

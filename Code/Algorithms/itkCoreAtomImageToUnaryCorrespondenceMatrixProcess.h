@@ -18,11 +18,8 @@
 #define __itkCoreAtomImageToUnaryCorrespondenceMatrixProcess_h
 
 #include "itkImage.h"
-#include "itkProcessObject.h"
-#include "itkDataObject.h"
 #include "vnl/vnl_matrix.h"
 #include "itkBloxCoreAtomImage.h"
-#include "itkBloxCoreAtomPixel.h"
 #include "itkMatrixResizeableDataObject.h"
 #include "itkUnaryMedialNodeMetric.h"
 #include "itkImageFileWriter.h"

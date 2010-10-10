@@ -21,8 +21,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkCellInterface.h"
-#include "itkLineCell.h"
 #include "itkMesh.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkPolygonCell.h"

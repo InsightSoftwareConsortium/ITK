@@ -17,11 +17,9 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkOrientImageFilter_h
 #define __itkOrientImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkIOCommon.h"
 #include "itkPermuteAxesImageFilter.h"
 #include "itkFlipImageFilter.h"
-#include "itkSpatialOrientation.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <map>
 #include <string>
@@ -39,7 +37,6 @@ namespace itk
  * it is often necessary to re-orient image volume data.
  *
  * OrientImageFilter depends on a set of constants that describe all possible
- * permutations of Axes. These reside in itkSpatialOrientation.h. These are
  * labeled according to the following scheme:
  * Directions are labeled in terms of following pairs:
  *   - Left and Right (Subject's left and right)
@@ -83,7 +80,6 @@ namespace itk
  * #include "itkAnalyzeImageIO.h"
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
- * #include "itkSpatialOrientation.h"
  * #include "itkOrientImageFilter.h"
  * #include "itkIOCommon.h"
  * typedef itk::Image<unsigned char,3> ImageType;

@@ -20,9 +20,7 @@
 #include <iostream>
 
 #include "itkBinaryThinningImageFilter.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkNeighborhoodIterator.h"
 #include <vector>
 
 namespace itk

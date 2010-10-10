@@ -30,7 +30,6 @@
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
 // Software Guide : EndCodeSnippet
 

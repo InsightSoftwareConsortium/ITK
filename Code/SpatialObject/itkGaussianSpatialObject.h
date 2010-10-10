@@ -18,9 +18,6 @@
 #ifndef __itkGaussianSpatialObject_h
 #define __itkGaussianSpatialObject_h
 
-#include "itkAffineTransform.h"
-#include "itkFixedArray.h"
-#include "itkSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #define __itkClosingByReconstructionImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkClosingByReconstructionImageFilter.h"
 #include "itkGrayscaleDilateImageFilter.h"
 #include "itkReconstructionByErosionImageFilter.h"

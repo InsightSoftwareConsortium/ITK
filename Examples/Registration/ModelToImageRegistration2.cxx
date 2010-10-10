@@ -68,11 +68,9 @@
 
 #include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 
-#include "itkImage.h"
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkRigid2DTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"

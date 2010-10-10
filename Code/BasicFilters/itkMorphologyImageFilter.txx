@@ -19,7 +19,6 @@
 
 #include <limits.h>
 
-#include "itkConstantBoundaryCondition.h"
 #include "itkNumericTraits.h"
 #include "itkMorphologyImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"

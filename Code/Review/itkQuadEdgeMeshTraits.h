@@ -20,9 +20,6 @@
 
 #include <set>
 #include <itkCellInterface.h>
-#include <itkMapContainer.h>
-#include "itkQuadEdgeMeshPoint.h"
-#include "itkGeometricalQuadEdge.h"
 #include "itkQuadEdgeCellTraitsInfo.h"
 
 namespace itk

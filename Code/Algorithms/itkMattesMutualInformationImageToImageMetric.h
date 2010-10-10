@@ -18,17 +18,11 @@
 #define __itkMattesMutualInformationImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkPoint.h"
 #include "itkIndex.h"
-#include "itkBSplineKernelFunction.h"
 #include "itkBSplineDerivativeKernelFunction.h"
-#include "itkCentralDifferenceImageFunction.h"
-#include "itkBSplineInterpolateImageFunction.h"
-#include "itkBSplineDeformableTransform.h"
 #include "itkArray2D.h"
 
-#include "itkMultiThreader.h"
 
 namespace itk
 {

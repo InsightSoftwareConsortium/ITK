@@ -23,10 +23,8 @@
 
 #include "itkAffineTransform.h"
 #include "itkImage.h"
-#include "itkImageRegionIterator.h"
 #include "itkResampleImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 int itkResampleImageTest(int, char* [] )
 {

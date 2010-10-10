@@ -38,7 +38,6 @@
 //
 // Software Guide : EndLatex 
 
-#include "itkImage.h"
 #include "itkImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageFileReader.h"
@@ -47,7 +46,6 @@
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkCovariantVector.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 // Software Guide : EndCodeSnippet
 

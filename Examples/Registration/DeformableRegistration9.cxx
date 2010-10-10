@@ -34,9 +34,7 @@
 
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkExceptionObject.h"
 
 const unsigned int Dimension = 2;
 

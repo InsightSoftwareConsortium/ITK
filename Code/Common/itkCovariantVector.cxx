@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "itkNumericTraits.h"
 

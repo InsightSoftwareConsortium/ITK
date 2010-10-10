@@ -17,7 +17,6 @@
 #ifndef __itkVectorGradientMagnitudeImageFilter_h
 #define __itkVectorGradientMagnitudeImageFilter_h
 
-#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"

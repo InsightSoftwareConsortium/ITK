@@ -26,7 +26,6 @@
 #ifndef zigzag
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 #endif

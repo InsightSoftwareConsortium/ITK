@@ -19,7 +19,6 @@
 
 #include <time.h>
 
-#include "itkMacro.h"
 #include "itkArray.h"
 #include "itkVector.h"
 

@@ -33,7 +33,6 @@
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-#include "itkImageToImageFilter.h"
 //  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex

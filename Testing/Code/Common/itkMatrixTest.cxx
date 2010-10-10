@@ -21,9 +21,6 @@
 #include <iostream>
 
 #include "itkMatrix.h"
-#include "itkVector.h"
-#include "itkPoint.h"
-#include "itkCovariantVector.h"
 
 #include "vnl/vnl_vector_fixed.h"
 #include <vnl/vnl_matrix_fixed.txx>

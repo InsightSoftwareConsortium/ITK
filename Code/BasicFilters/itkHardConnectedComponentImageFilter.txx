@@ -18,7 +18,6 @@
 #define __itkHardConnectedComponentImageFilter_txx
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 

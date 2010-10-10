@@ -19,7 +19,6 @@
 
 #include "itkPointSetToPointSetMetric.h"
 #include "itkCovariantVector.h"
-#include "itkPoint.h"
 #include "itkPointSet.h"
 #include "itkImage.h"
 

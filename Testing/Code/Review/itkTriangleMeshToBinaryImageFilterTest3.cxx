@@ -20,7 +20,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkMesh.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkVTKPolyDataReader.h"

@@ -18,7 +18,6 @@
 #define __itkHConvexImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkHConvexImageFilter.h"
 #include "itkHMaximaImageFilter.h"
 #include "itkSubtractImageFilter.h"

@@ -1,4 +1,3 @@
-#include "itkNeighborhood.h"
 #include "itkBinaryBallStructuringElement.h"
 
 namespace neighborhood

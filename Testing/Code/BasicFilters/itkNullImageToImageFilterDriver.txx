@@ -27,8 +27,6 @@
 #include "itkPixelTraits.h"
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
-#include "itkSize.h"
-#include "itkImageRegion.h"
 #include "itkIndex.h"
 extern "C" {
 #include "time.h"

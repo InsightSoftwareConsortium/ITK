@@ -19,7 +19,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include <vector>
 #include "gdcmSerieHelper.h"
 

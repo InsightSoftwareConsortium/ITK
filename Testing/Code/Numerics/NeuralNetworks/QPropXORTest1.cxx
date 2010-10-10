@@ -17,7 +17,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkOneHiddenLayerBackPropagationNeuralNetwork.h"
 #include "itkLayerBase.h"
-#include "itkSigmoidTransferFunction.h"
 #include "itkSymmetricSigmoidTransferFunction.h"
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"

@@ -49,7 +49,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkResampleImageFilter.h"
 #include "itkIdentityTransform.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRecursiveGaussianImageFilter.h"
 // Software Guide : EndCodeSnippet
 

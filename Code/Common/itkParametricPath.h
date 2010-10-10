@@ -19,7 +19,6 @@
 
 #include "itkPath.h"
 #include "itkContinuousIndex.h"
-#include "itkIndex.h"
 #include "itkOffset.h"
 #include "itkVector.h"
 

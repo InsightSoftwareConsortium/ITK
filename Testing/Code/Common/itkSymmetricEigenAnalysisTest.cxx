@@ -20,10 +20,7 @@
 
 #include <iostream>
 
-#include "itkSymmetricEigenAnalysis.h"
 #include "vnl/vnl_matrix.h"
-#include "itkFixedArray.h"
-#include "itkMatrix.h"
 #include "itkSymmetricSecondRankTensor.h"
 
 

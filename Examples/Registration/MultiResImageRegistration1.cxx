@@ -46,9 +46,7 @@
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkImage.h"
 // Software Guide : EndCodeSnippet
 

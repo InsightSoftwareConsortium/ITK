@@ -22,8 +22,7 @@
 
 #include "itkObject.h"
 #include "itkSmartPointerForwardReference.h"
-#include "itkWeakPointer.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {

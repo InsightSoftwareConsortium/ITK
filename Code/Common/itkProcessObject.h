@@ -20,7 +20,6 @@
 #ifndef __itkProcessObject_h
 #define __itkProcessObject_h
 
-#include "itkObject.h"
 #include "itkDataObject.h"
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"

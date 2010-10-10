@@ -34,13 +34,11 @@
 #include "itkImageFileWriter.h" 
 #include "itkImage.h"
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkThinPlateSplineKernelTransform.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkPoint.h"
 #include "itkPointSet.h"
 #include <fstream>
 

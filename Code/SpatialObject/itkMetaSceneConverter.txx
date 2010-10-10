@@ -33,20 +33,6 @@
 #include "itkMetaArrowConverter.h"
 #include "itkMetaContourConverter.h"
 
-#include "itkSceneSpatialObject.h"
-#include "itkEllipseSpatialObject.h"
-#include "itkTubeSpatialObject.h"
-#include "itkGroupSpatialObject.h"
-#include "itkImageSpatialObject.h"
-#include "itkBlobSpatialObject.h"
-#include "itkLandmarkSpatialObject.h"
-#include "itkLineSpatialObject.h"
-#include "itkSurfaceSpatialObject.h"
-#include "itkLandmarkSpatialObject.h"
-#include "itkMeshSpatialObject.h"
-#include "itkArrowSpatialObject.h"
-#include "itkContourSpatialObject.h"
-#include "itkImageMaskSpatialObject.h"
 
 #include <algorithm>
 

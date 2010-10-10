@@ -19,8 +19,6 @@
 #define __itkBinaryImageToLabelMapFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkConceptChecking.h"
 #include <vector>
 #include <map>
 #include "itkProgressReporter.h"

@@ -18,7 +18,6 @@
 #define __itkConnectedComponentImageFilter_txx
 
 #include "itkConnectedComponentImageFilter.h"
-#include "itkNumericTraits.h"
 
 // don't think we need the indexed version as we only compute the
 // index at the start of each run, but there isn't a choice

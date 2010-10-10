@@ -18,7 +18,6 @@
 #ifndef __itkQuadEdgeMeshSmoothing_h
 #define __itkQuadEdgeMeshSmoothing_h
 
-#include <itkQuadEdgeMeshToQuadEdgeMeshFilter.h>
 #include "itkQuadEdgeMeshDelaunayConformingFilter.h"
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 

@@ -23,7 +23,6 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
-#include "itkCommandIterationUpdate.h"
 
 #include "itkImageRegistrationMethodImageSource.h"
 

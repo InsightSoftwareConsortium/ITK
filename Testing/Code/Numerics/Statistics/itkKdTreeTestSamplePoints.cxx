@@ -21,7 +21,6 @@
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
 #include "itkEuclideanDistanceMetric.h"
 #include <fstream>

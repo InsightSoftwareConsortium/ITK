@@ -18,9 +18,7 @@
 #define __itkChainCodePath2D_h
 
 #include "itkChainCodePath.h"
-#include "itkObjectFactory.h"
 #include "itkIndex.h"
-#include "itkOffset.h"
 
 #include <vector>
 #include <string>

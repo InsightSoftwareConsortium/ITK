@@ -63,7 +63,6 @@
 #include "itkSpatialObject.txx"
 #include "itkSpatialObjectDuplicator.txx"
 #include "itkSpatialObjectFactory.h"
-#include "itkSpatialObjectFactoryBase.h"
 #include "itkSpatialObjectPoint.txx"
 #include "itkSpatialObjectProperty.txx"
 #include "itkSpatialObjectTreeContainer.txx"

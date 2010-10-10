@@ -19,7 +19,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkPolylineMask2DImageFilter.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkImageFileReader.h"

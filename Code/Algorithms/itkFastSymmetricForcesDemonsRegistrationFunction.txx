@@ -18,7 +18,7 @@
 #define __itkFastSymmetricForcesDemonsRegistrationFunction_txx
 
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

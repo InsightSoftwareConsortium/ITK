@@ -18,7 +18,6 @@
 #define __itkInteriorExteriorMeshFilter_txx
 
 #include "itkInteriorExteriorMeshFilter.h"
-#include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 

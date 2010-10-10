@@ -23,11 +23,8 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkOffset.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkNumericTraits.h"
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
 

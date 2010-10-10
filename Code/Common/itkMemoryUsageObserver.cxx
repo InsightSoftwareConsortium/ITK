@@ -15,7 +15,6 @@
 
 =========================================================================*/
 
-#include "itkConfigure.h"
 #include "itkMemoryUsageObserver.h"
 
 #if defined( WIN32 ) || defined( _WIN32 )

@@ -19,7 +19,6 @@
 #define __itkContourExtractor2DImageFilter_h
 
 #include "itkImageToPathFilter.h"
-#include "itkNumericTraits.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkConceptChecking.h"
 #include "itk_hash_map.h"

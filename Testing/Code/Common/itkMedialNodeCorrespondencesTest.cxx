@@ -21,15 +21,9 @@
 #include <stdio.h>
 
 // Native ITK stuff
-#include "itkSize.h"
 #include "itkIndex.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkPoint.h"
 
 // Blox stuff
-#include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomImage.h"
 #include "itkGradientImageToBloxBoundaryPointImageFilter.h"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 
@@ -42,7 +36,6 @@
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 
 // Medial node correspondence related stuff
-#include "itkMatrixResizeableDataObject.h"
 #include "itkCoreAtomImageToDistanceMatrixProcess.h"
 #include "itkCoreAtomImageToUnaryCorrespondenceMatrixProcess.h"
 #include "itkMedialNodePairCorrespondenceProcess.h"

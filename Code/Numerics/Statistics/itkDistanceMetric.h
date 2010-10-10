@@ -17,7 +17,6 @@
 #ifndef __itkDistanceMetric_h
 #define __itkDistanceMetric_h
 
-#include "itkArray.h"
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
 

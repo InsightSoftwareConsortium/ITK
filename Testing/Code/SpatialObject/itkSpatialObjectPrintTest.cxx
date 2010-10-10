@@ -18,26 +18,18 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkBlobSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
-#include "itkGroupSpatialObject.h"
 #include "itkImageSpatialObject.h"
 #include "itkLandmarkSpatialObject.h"
 #include "itkLineSpatialObject.h"
-#include "itkLineSpatialObjectPoint.h"
 #include "itkMeshSpatialObject.h"
 #include "itkPlaneSpatialObject.h"
-#include "itkPolygonGroupOrientation.h"
 #include "itkPolygonGroupSpatialObject.h"
-#include "itkPolygonSpatialObject.h"
 #include "itkSceneSpatialObject.h"
-#include "itkSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkSpatialObjectProperty.h"
 #include "itkSurfaceSpatialObject.h"
-#include "itkSurfaceSpatialObjectPoint.h"
 #include "itkTubeSpatialObject.h"
-#include "itkTubeSpatialObjectPoint.h"
 
 int itkSpatialObjectPrintTest(int , char* [])
 {

@@ -35,7 +35,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageDuplicator.h"
-#include "itkImage.h"
 #include <string>
 
 

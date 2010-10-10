@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkMetaDataObjectBase.h"
-#include "itkObjectFactory.h"
 #include "itkCommand.h"
 #include "itkFastMutexLock.h"
 

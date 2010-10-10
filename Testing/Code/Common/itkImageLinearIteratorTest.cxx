@@ -22,7 +22,6 @@
 
 #include "itkImage.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageLinearConstIteratorWithIndex.h"
 
 
 

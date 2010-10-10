@@ -21,7 +21,6 @@
 #include "itkImage.h"
 #include "itkArray.h"
 #include "itkTranslationTransform.h"
-#include "itkExceptionObject.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkImageFileReader.h"
 

@@ -17,9 +17,7 @@
 #ifndef __itkImageReverseConstIterator_h
 #define __itkImageReverseConstIterator_h
 
-#include "itkIndex.h"
 #include "itkSize.h"
-#include "itkImage.h"
 #include "itkImageConstIterator.h"
 #include <memory>
 

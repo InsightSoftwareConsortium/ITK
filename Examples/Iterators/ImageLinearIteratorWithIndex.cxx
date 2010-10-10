@@ -102,7 +102,6 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 // Software Guide : BeginCodeSnippet
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageLinearIteratorWithIndex.h"
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"

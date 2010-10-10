@@ -18,7 +18,6 @@
 #ifndef __itkAnnulusOperator_h
 #define __itkAnnulusOperator_h
 
-#include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 #include "itkVector.h"
 

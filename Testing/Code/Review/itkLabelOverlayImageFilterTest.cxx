@@ -21,7 +21,6 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkLabelOverlayImageFilter.h"
 

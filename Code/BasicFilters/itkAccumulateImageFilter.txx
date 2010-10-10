@@ -19,7 +19,6 @@
 
 #include "itkAccumulateImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

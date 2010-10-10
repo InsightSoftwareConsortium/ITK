@@ -17,15 +17,10 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkTriangleMeshToSimplexMeshFilter_h
 #define __itkTriangleMeshToSimplexMeshFilter_h
 
-#include <itkMesh.h>
-#include <itkLineCell.h>
-#include <itkVertexCell.h>
 #include <itkMapContainer.h>
 #include "itkSimplexMesh.h"
-#include "itkSimplexMeshGeometry.h"
 #include "itkMeshToMeshFilter.h"
 #include "itkVectorContainer.h"
-#include "itkNumericTraits.h"
 
 #include <itkPolygonCell.h>
 namespace itk

@@ -24,7 +24,6 @@
 #include <iostream>
 #include <set>
 
-#include "itkMesh.h"
 #include "itkAutomaticTopologyMeshSource.h"
 
 int

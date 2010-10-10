@@ -19,8 +19,6 @@
 
 #include "itkWrapPadImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkObjectFactory.h"
 #include "itkFastMutexLock.h"
 #include "itkProgressReporter.h"
 #include <vector>

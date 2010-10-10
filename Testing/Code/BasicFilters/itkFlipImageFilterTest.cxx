@@ -20,7 +20,6 @@
 #include "itkFlipImageFilter.h"
 #include "itkImage.h"
 #include "itkTextOutput.h"
-#include "itkCommand.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkFilterWatcher.h"
 

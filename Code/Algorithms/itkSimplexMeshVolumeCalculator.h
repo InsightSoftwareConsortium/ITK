@@ -17,12 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef __itkSimplexMeshVolumeCalculator_h
 #define __itkSimplexMeshVolumeCalculator_h
 
-#include <itkMesh.h>
-#include <itkLineCell.h>
 #include <itkPolygonCell.h>
-#include <itkVertexCell.h>
-#include <itkMapContainer.h>
-#include "itkCovariantVector.h"
 #include "itkVector.h"
 #include "itkSimplexMesh.h"
 #include "itkVectorContainer.h"

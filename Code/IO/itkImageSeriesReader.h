@@ -17,11 +17,7 @@
 #ifndef __itkImageSeriesReader_h
 #define __itkImageSeriesReader_h
 
-#include "itkImageSource.h"
-#include "itkImageIOBase.h"
-#include "itkExceptionObject.h"
 #include "itkSize.h"
-#include "itkImageRegion.h"
 #include <vector>
 #include <string>
 #include "itkMetaDataDictionary.h"

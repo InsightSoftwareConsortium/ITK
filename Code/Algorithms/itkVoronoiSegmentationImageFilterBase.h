@@ -18,7 +18,6 @@
 #define __itkVoronoiSegmentationImageFilterBase_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVoronoiDiagram2D.h"
 #include "itkVoronoiDiagram2DGenerator.h"
 #include "itkImage.h"
 
