@@ -868,7 +868,7 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
       }
 
     if(parameters.cp_comment == NULL) {
-      const char comment[] = "Created by GDCM/OpenJPEG version 1.0";
+      const char comment[] = "Created by GDCM/OpenJPEG version 2.0";
       parameters.cp_comment = (char*)malloc(strlen(comment) + 1);
       strcpy(parameters.cp_comment, comment);
       /* no need to delete parameters.cp_comment on exit */
