@@ -62,9 +62,9 @@ KdTreeGenerator< TSample >
   m_Subsample->SetSample(sample);
   m_Subsample->InitializeWithAllInstances();
   m_MeasurementVectorSize = sample->GetMeasurementVectorSize();
-  MeasurementVectorTraits::SetLength(m_TempLowerBound, m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(m_TempUpperBound, m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(m_TempMean, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(m_TempLowerBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(m_TempUpperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(m_TempMean, m_MeasurementVectorSize);
 }
 
 template< class TSample >
@@ -93,9 +93,9 @@ KdTreeGenerator< TSample >
     }
 
   MeasurementVectorType lowerBound;
-  MeasurementVectorTraits::SetLength(lowerBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, m_MeasurementVectorSize);
   MeasurementVectorType upperBound;
-  MeasurementVectorTraits::SetLength(upperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(upperBound, m_MeasurementVectorSize);
 
   for ( unsigned int d = 0; d < m_MeasurementVectorSize; d++ )
     {

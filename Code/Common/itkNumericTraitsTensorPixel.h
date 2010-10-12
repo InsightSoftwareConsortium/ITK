@@ -102,6 +102,27 @@ public:
     return Self( NumericTraits< T >::OneValue() );
   }
 
+  /** Fixed length vectors cannot be resized, so an exception will
+   *  be thrown if the input size is not valid.  Here, the size refers
+   *  to the dimensionality of the unerlying FixedArray, not the
+   *  tensor dimensionality. */
+  static void SetLength(SymmetricSecondRankTensor< T, D > & m, const unsigned int s)
+  {
+    if ( s != D *( D + 1 ) / 2 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a SymmetricSecondRankTensor "
+                               "of dimension " << D << " ( = size of "
+                               << D *( D + 1 ) / 2 << ") to " << s);
+      }
+    m.Fill(NumericTraits< T >::Zero);
+  }
+
+  /** Return the size of the underlying FixedArray. */
+  static unsigned int GetLength(const SymmetricSecondRankTensor< T, D > &)
+  {
+    return D *( D + 1 ) / 2;
+  }
+
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
    */

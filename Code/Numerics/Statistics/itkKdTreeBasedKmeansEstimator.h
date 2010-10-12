@@ -186,13 +186,14 @@ public:
      * At each iteration, this should be called before filtering. */
     void SetCentroids(InternalParametersType & centroids)
     {
-      this->m_MeasurementVectorSize = MeasurementVectorTraits::GetLength(centroids[0]);
+      this->m_MeasurementVectorSize = NumericTraits<ParameterType>::GetLength(centroids[0]);
       m_Candidates.resize( centroids.size() );
       for ( unsigned int i = 0; i < centroids.size(); i++ )
         {
         Candidate candidate;
         candidate.Centroid = centroids[i];
-        MeasurementVectorTraits::SetLength(candidate.WeightedCentroid, m_MeasurementVectorSize);
+        NumericTraits<CentroidType>::SetLength(candidate.WeightedCentroid,
+          m_MeasurementVectorSize);
         candidate.WeightedCentroid.Fill(0.0);
         candidate.Size = 0;
         m_Candidates[i] = candidate;

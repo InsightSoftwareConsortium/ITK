@@ -34,7 +34,7 @@ DistanceMetric< TVector >
   if ( !MeasurementVectorTraits::IsResizable(vector) )
     {
     MeasurementVectorSizeType defaultLength =
-      MeasurementVectorTraits::GetLength(vector);
+      NumericTraits<MeasurementVectorType>::GetLength(vector);
 
     this->m_MeasurementVectorSize = defaultLength;
     this->m_Origin.SetSize(this->m_MeasurementVectorSize);

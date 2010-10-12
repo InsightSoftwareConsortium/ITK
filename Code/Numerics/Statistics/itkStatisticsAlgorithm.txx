@@ -321,8 +321,8 @@ FindSampleBoundAndMean(const TSubsample *sample,
 
   MeasurementVectorSizeType dimension;
   MeasurementVectorType     temp;
-  MeasurementVectorTraits::SetLength(temp, Dimension);
-  MeasurementVectorTraits::SetLength(mean, Dimension);
+  NumericTraits<MeasurementVectorType>::SetLength(temp, Dimension);
+  NumericTraits<MeasurementVectorType>::SetLength(mean, Dimension);
 
   min = max = temp = sample->GetMeasurementVectorByIndex(beginIndex);
   double frequencySum = sample->GetFrequencyByIndex(beginIndex);

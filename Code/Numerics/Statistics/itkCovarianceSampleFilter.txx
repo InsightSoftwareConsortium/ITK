@@ -90,7 +90,7 @@ CovarianceSampleFilter< TSample >
     typedef typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType ValueType;
     MeasurementVectorType mean;
     (void)mean; // for complainty pants : valgrind
-    MeasurementVectorTraits::SetLength( mean,  this->GetMeasurementVectorSize() );
+    NumericTraits<MeasurementVectorType>::SetLength(mean, this->GetMeasurementVectorSize());
     mean.Fill(NumericTraits< ValueType >::Zero);
     typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
     decoratedMean->Set(mean);
@@ -113,7 +113,7 @@ CovarianceSampleFilter< TSample >
 
   // Test if the Vector type knows its length
   MeasurementVectorType     vector;
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(vector);
+  MeasurementVectorSizeType measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(vector);
 
   if ( measurementVectorSize )
     {
@@ -149,7 +149,7 @@ CovarianceSampleFilter< TSample >
 
   MeasurementVectorType mean;
 
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(mean, measurementVectorSize);
 
   mean.Fill(0.0);
 
@@ -162,8 +162,8 @@ CovarianceSampleFilter< TSample >
   MeasurementVectorType diff;
   MeasurementVectorType measurements;
 
-  MeasurementVectorTraits::SetLength(diff, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(measurements, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(diff, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
 
   //Compute the mean first
   while ( iter != end )

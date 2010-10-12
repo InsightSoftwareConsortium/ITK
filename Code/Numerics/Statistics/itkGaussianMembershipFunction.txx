@@ -123,9 +123,9 @@ GaussianMembershipFunction< TMeasurementVector >
     this->GetMeasurementVectorSize();
   MeanType tempVector;
 
-  MeasurementVectorTraits::SetLength(tempVector, measurementVectorSize);
+  NumericTraits<MeanType>::SetLength(tempVector, measurementVectorSize);
   MeanType tempVector2;
-  MeasurementVectorTraits::SetLength(tempVector2, measurementVectorSize);
+  NumericTraits<MeanType>::SetLength(tempVector2, measurementVectorSize);
 
   if ( !m_IsCovarianceZero )
     {

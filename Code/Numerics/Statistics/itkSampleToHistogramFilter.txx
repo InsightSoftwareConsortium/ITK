@@ -187,14 +187,18 @@ SampleToHistogramFilter< TSample, THistogram >
   typename SampleType::MeasurementVectorType lower;
   typename SampleType::MeasurementVectorType upper;
 
-  MeasurementVectorTraits::SetLength(lower, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(upper, measurementVectorSize);
+  NumericTraits<typename SampleType::MeasurementVectorType>::SetLength(lower,
+    measurementVectorSize);
+  NumericTraits<typename SampleType::MeasurementVectorType>::SetLength(upper,
+    measurementVectorSize);
 
   HistogramMeasurementVectorType h_upper;
   HistogramMeasurementVectorType h_lower;
 
-  MeasurementVectorTraits::SetLength(h_lower, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(h_upper, measurementVectorSize);
+  NumericTraits<HistogramMeasurementVectorType>::SetLength(h_lower,
+    measurementVectorSize);
+  NumericTraits<HistogramMeasurementVectorType>::SetLength(h_upper,
+    measurementVectorSize);
 
   const HistogramMeasurementType maximumPossibleValue =
     itk::NumericTraits< HistogramMeasurementType >::max();

@@ -112,7 +112,7 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   MeasurementVectorType2               measure;
-  itk::Statistics::MeasurementVectorTraits::SetLength(
+  itk::NumericTraits<MeasurementVectorType2>::SetLength(
                       measure, MeasurementVectorSize2);
 
   SampleType::Pointer sample = SampleType::New();

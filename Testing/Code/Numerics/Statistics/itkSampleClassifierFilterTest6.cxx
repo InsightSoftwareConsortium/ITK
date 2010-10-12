@@ -27,6 +27,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
+#include "itkNumericTraitsStdVector.h"
 
 
 //run sample classifer using std::vector type measurment vector
@@ -57,15 +58,19 @@ int itkSampleClassifierFilterTest6( int, char * [] )
   //Populate the list with samples from two normal distributions
 
   EstimatorType::DistanceToCentroidMembershipFunctionType::CentroidType  mean1;
-  itk::Statistics::MeasurementVectorTraits::SetLength( mean1, numberOfComponents );
+  itk::NumericTraits<
+    EstimatorType::DistanceToCentroidMembershipFunctionType::CentroidType>::SetLength(
+    mean1, numberOfComponents );
   mean1[0] = 10.5;
 
   EstimatorType::DistanceToCentroidMembershipFunctionType::CentroidType  mean2;
-  itk::Statistics::MeasurementVectorTraits::SetLength( mean2, numberOfComponents );
+  itk::NumericTraits<
+    EstimatorType::DistanceToCentroidMembershipFunctionType::CentroidType>::SetLength(
+    mean2, numberOfComponents );
   mean2[0] = 200.5;
 
   MeasurementVectorType mv;
-  itk::Statistics::MeasurementVectorTraits::SetLength( mv, numberOfComponents );
+  itk::NumericTraits<MeasurementVectorType>::SetLength( mv, numberOfComponents );
   double mean = mean1[0];
   double standardDeviation = 0.1;
   unsigned int numberOfSampleEachClass = 10;

@@ -80,7 +80,8 @@ StandardDeviationPerComponentSampleFilter< TSample >
     {
     typedef typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType ValueType;
     MeasurementVectorType standardDeviation;
-    MeasurementVectorTraits::SetLength( standardDeviation,  this->GetMeasurementVectorSize() );
+    NumericTraits<MeasurementVectorType>::SetLength( standardDeviation,
+      this->GetMeasurementVectorSize() );
     standardDeviation.Fill(NumericTraits< ValueType >::Zero);
     typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
       MeasurementVectorRealDecoratedType::New();
@@ -92,7 +93,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
     {
     typedef typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType ValueType;
     MeasurementVectorType mean;
-    MeasurementVectorTraits::SetLength( mean,  this->GetMeasurementVectorSize() );
+    NumericTraits<MeasurementVectorType>::SetLength(mean, this->GetMeasurementVectorSize());
     mean.Fill(NumericTraits< ValueType >::Zero);
     typename MeasurementVectorRealDecoratedType::Pointer decoratedStandardDeviation =
       MeasurementVectorRealDecoratedType::New();
@@ -117,7 +118,8 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
   // Test if the Vector type knows its length
   MeasurementVectorType     vector;
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(vector);
+  MeasurementVectorSizeType measurementVectorSize =
+    NumericTraits<MeasurementVectorType>::GetLength(vector);
 
   if ( measurementVectorSize )
     {
@@ -151,10 +153,10 @@ StandardDeviationPerComponentSampleFilter< TSample >
   MeasurementVectorRealType mean;
   MeasurementVectorRealType standardDeviation;
 
-  MeasurementVectorTraits::SetLength(sum, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(sumOfSquares, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(standardDeviation, measurementVectorSize);
+  NumericTraits<MeasurementVectorRealType>::SetLength(sum, measurementVectorSize);
+  NumericTraits<MeasurementVectorRealType>::SetLength(mean, measurementVectorSize);
+  NumericTraits<MeasurementVectorRealType>::SetLength(sumOfSquares, measurementVectorSize);
+  NumericTraits<MeasurementVectorRealType>::SetLength(standardDeviation, measurementVectorSize);
 
   sum.Fill(0.0);
   mean.Fill(0.0);
@@ -173,8 +175,8 @@ StandardDeviationPerComponentSampleFilter< TSample >
   MeasurementVectorType diff;
   MeasurementVectorType measurements;
 
-  MeasurementVectorTraits::SetLength(diff, measurementVectorSize);
-  MeasurementVectorTraits::SetLength(measurements, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(diff, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
 
   //Compute the mean first
   while ( iter != end )

@@ -81,7 +81,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 
   //Test if the distance computed is correct
   MembershipFunctionType::CentroidType origin;
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( origin, 3);
+  ::itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( origin, 3);
   origin[0] = 1.5;
   origin[1] = 2.3;
   origin[2] = 1.0;
@@ -98,7 +98,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
     }
 
   MeasurementVectorType measurement;
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measurement, 3);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement, 3);
   measurement[0] = 2.5;
   measurement[1] = 3.3;
   measurement[2] = 4.0;

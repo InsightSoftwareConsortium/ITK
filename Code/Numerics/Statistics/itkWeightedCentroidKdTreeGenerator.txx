@@ -65,7 +65,8 @@ WeightedCentroidKdTreeGenerator< TSample >
   // calculates the weighted centroid which is the vector sum
   // of all the associated instances.
   typename KdTreeNodeType::CentroidType weightedCentroid;
-  MeasurementVectorTraits::SetLength( weightedCentroid, this->GetMeasurementVectorSize() );
+  NumericTraits<typename KdTreeNodeType::CentroidType>::SetLength( weightedCentroid,
+    this->GetMeasurementVectorSize() );
   MeasurementVectorType tempVector;
   weightedCentroid.Fill(NumericTraits< MeasurementType >::Zero);
 

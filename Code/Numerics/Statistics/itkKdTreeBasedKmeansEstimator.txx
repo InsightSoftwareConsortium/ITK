@@ -162,7 +162,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
   typename TKdTree::InstanceIdentifier tempId;
   int           closest;
   ParameterType individualPoint;
-  MeasurementVectorTraits::SetLength(individualPoint, this->m_MeasurementVectorSize);
+  NumericTraits<ParameterType>::SetLength(individualPoint,
+    this->m_MeasurementVectorSize);
 
   if ( node->IsTerminal() )
     {
@@ -346,8 +347,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
   MeasurementVectorType lowerBound;
   MeasurementVectorType upperBound;
 
-  MeasurementVectorTraits::SetLength(lowerBound, this->m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(upperBound, this->m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, this->m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(upperBound, this->m_MeasurementVectorSize);
 
   Algorithm::FindSampleBound< SampleType >(m_KdTree->GetSample(),
                                            m_KdTree->GetSample()->Begin(),
@@ -364,8 +365,8 @@ KdTreeBasedKmeansEstimator< TKdTree >
     {
     ParameterType m;
     ParameterType m1;
-    MeasurementVectorTraits::SetLength(m, m_MeasurementVectorSize);
-    MeasurementVectorTraits::SetLength(m1, m_MeasurementVectorSize);
+    NumericTraits<ParameterType>::SetLength(m, m_MeasurementVectorSize);
+    NumericTraits<ParameterType>::SetLength(m1, m_MeasurementVectorSize);
     previousPosition.push_back(m);
     currentPosition.push_back(m1);
     }
@@ -431,7 +432,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   m_KdTree = tree;
   m_MeasurementVectorSize = tree->GetMeasurementVectorSize();
   m_DistanceMetric->SetMeasurementVectorSize(m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(m_TempVertex, m_MeasurementVectorSize);
+  NumericTraits<ParameterType>::SetLength(m_TempVertex, m_MeasurementVectorSize);
   this->Modified();
 }
 

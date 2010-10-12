@@ -112,6 +112,25 @@ public:
     return Self(NumericTraits< T >::One);
   }
 
+  /** RGBA pixels must have 4 components, so the size cannot be
+   *  set to anything besides 4.  If called with size of 4, this
+   *  function will fill the pixel with zeros. */
+  static void SetLength(RGBAPixel< T > & m, const unsigned int s)
+  {
+    if ( s != 4 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a RGBAPixel to anything other "
+                               "than 4.");
+      }
+    m.Fill(NumericTraits< T >::Zero);
+  }
+
+  /** Return the dimensionality of the pixel. Always returns 4. */
+  static unsigned int GetLength(const RGBAPixel< T > &)
+  {
+    return 4;
+  }
+
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
    */

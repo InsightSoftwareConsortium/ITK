@@ -183,8 +183,8 @@ inline double
 MahalanobisDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
 {
-  if ( MeasurementVectorTraits::GetLength(x1) != this->GetMeasurementVectorSize()
-       || MeasurementVectorTraits::GetLength(x2) != this->GetMeasurementVectorSize() )
+  if ( NumericTraits<MeasurementVectorType>::GetLength(x1) != this->GetMeasurementVectorSize()
+       || NumericTraits<MeasurementVectorType>::GetLength(x2) != this->GetMeasurementVectorSize() )
     {
     itkExceptionMacro(<< "Size of the measurement vectors is not the same as the length of"
                       << " the measurement vector set in the distance metric.");

@@ -114,6 +114,26 @@ public:
     return Self( NumericTraits< T >::OneValue() );
   }
 
+  /** Fixed length vectors cannot be resized, so an exception will
+   *  be thrown if the input size is not valid.  In this case, the
+   *  only valid size is 6. If the size is valid the tensor will be
+   *  filled with zeros. */
+  static void SetLength(DiffusionTensor3D< T > & m, const unsigned int s)
+  {
+    if ( s != 6 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a DiffusionTensor3D "
+                               "to anything other than 6.");
+      }
+    m.Fill(NumericTraits< T >::Zero);
+  }
+
+  /** Return the size of the tensor. Always returns 6. */
+  static unsigned int GetLength(const DiffusionTensor3D< T > &)
+  {
+    return 6;
+  }
+
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
    */
