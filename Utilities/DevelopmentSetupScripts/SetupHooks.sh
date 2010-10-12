@@ -9,7 +9,10 @@
 #=============================================================================
 
 
-# Run this script to set up the git hooks to commit changes to ITK.
+# Run this script to set up the git hooks for committing changes to ITK.
+# For more information, see:
+#   http://www.itk.org/Wiki/ITK/Git#Hooks
+#   http://www.itk.org/Wiki/Git/Hooks
 
 
 die() {
@@ -30,7 +33,9 @@ fi
 
 # Grab the hooks.
 # Use the local hooks if possible.
-if GIT_DIR=.. git for-each-ref refs/remotes/origin/hooks | grep -q 'origin/hooks'; then
+echo "Pulling the hooks..."
+if GIT_DIR=.. git for-each-ref refs/remotes/origin/hooks 2>/dev/null | \
+  grep -q '\<refs/remotes/origin/hooks$'; then
   git pull .. remotes/origin/hooks
 else
   git pull http://public.kitware.com/ITK.git hooks || die "Downloading the hooks failed."
@@ -38,9 +43,13 @@ fi
 cd ../..
 
 # Set up uncrustify hook.
+echo "Setting up the uncrustify hook..."
 git config hooks.uncrustify.conf "Utilities/Maintenance/uncrustify_itk.cfg"
 
 # Set up KWStyle hook.
+echo "Setting up the KWStyle hook..."
 git config hooks.KWStyle.conf "Utilities/KWStyle/ITK.kws.xml.in"
 git config hooks.KWStyle.overwriteRulesConf "Utilities/KWStyle/ITKOverwrite.txt"
 git config hooks.KWStyle true
+
+echo "Done."
