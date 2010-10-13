@@ -178,11 +178,6 @@ if(ITK_USE_TRANSFORM_IO_FACTORIES)
 endif(ITK_USE_TRANSFORM_IO_FACTORIES)
 
 #-----------------------------------------------------------------------------
-# ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
-option(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." ON)
-mark_as_advanced(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
-
-#-----------------------------------------------------------------------------
 # Installation vars.
 # ITK_INSTALL_BIN_DIR          - binary dir (executables)
 # ITK_INSTALL_LIB_DIR          - library dir (libs)

@@ -930,7 +930,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define ITK_NO_RETURN
 #endif
 
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops
 // unrolling
@@ -975,7 +974,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
     DestinationArray[i] = itk::Math::Round< DestinationElementType >(SourceArray[i]); \
     }
 
-#endif
 // end of Template Meta Programming helper macros
 
 #ifndef NDEBUG

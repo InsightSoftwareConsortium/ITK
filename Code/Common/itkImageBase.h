@@ -30,10 +30,7 @@
 #include <vnl/vnl_matrix_fixed.txx>
 
 #include "itkImageRegion.h"
-
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 #include "itkImageTransformHelper.h"
-#endif
 
 namespace itk
 {
@@ -274,8 +271,6 @@ public:
    * conceivably be outside the buffer. If bounds checking is needed,
    * one can call ImageRegion::IsInside(ind) on the BufferedRegion
    * prior to calling ComputeOffset. */
-
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline OffsetValueType ComputeOffset(const IndexType & ind) const
   {
     OffsetValueType offset = 0;
@@ -285,27 +280,25 @@ public:
                                                                    m_OffsetTable,
                                                                    offset);
     return offset;
+    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
+     * Leaving here for documentation purposes
+     * OffsetValueType ComputeOffset(const IndexType & ind) const
+     * {
+     *   // need to add bounds checking for the region/buffer?
+     *   OffsetValueType   offset = 0;
+     *   const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+     *   // data is arranged as [][][][slice][row][col]
+     *   // with Index[0] = col, Index[1] = row, Index[2] = slice
+     *   for ( int i = VImageDimension - 1; i > 0; i-- )
+     *     {
+     *     offset += ( ind[i] - bufferedRegionIndex[i] ) * m_OffsetTable[i];
+     *     }
+     *   offset += ( ind[0] - bufferedRegionIndex[0] );
+     *   return offset;
+     * }
+     */
   }
 
-#else
-  OffsetValueType ComputeOffset(const IndexType & ind) const
-  {
-    // need to add bounds checking for the region/buffer?
-    OffsetValueType   offset = 0;
-    const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
-
-    // data is arranged as [][][][slice][row][col]
-    // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for ( int i = VImageDimension - 1; i > 0; i-- )
-      {
-      offset += ( ind[i] - bufferedRegionIndex[i] ) * m_OffsetTable[i];
-      }
-    offset += ( ind[0] - bufferedRegionIndex[0] );
-
-    return offset;
-  }
-
-#endif
   /** Compute the index of the pixel at a specified offset from the
    * beginning of the buffered region. Bounds checking is not
    * performed. Thus, the computed index could be outside the
@@ -313,7 +306,6 @@ public:
    * should be between 0 and the number of pixels in the
    * BufferedRegion (the latter can be found using
    * ImageRegion::GetNumberOfPixels()). */
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   inline IndexType ComputeIndex(OffsetValueType offset) const
   {
     IndexType         index;
@@ -324,26 +316,24 @@ public:
                                                                   m_OffsetTable,
                                                                   index);
     return index;
+    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
+     * Leaving here for documentation purposes
+     * IndexType ComputeIndex(OffsetValueType offset) const
+     * {
+     *   IndexType         index;
+     *   const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
+     *   for ( int i = VImageDimension - 1; i > 0; i-- )
+     *     {
+     *     index[i] = static_cast< IndexValueType >( offset / m_OffsetTable[i] );
+     *     offset -= ( index[i] * m_OffsetTable[i] );
+     *     index[i] += bufferedRegionIndex[i];
+     *     }
+     *   index[0] = bufferedRegionIndex[0] + static_cast< IndexValueType >( offset );
+     *   return index;
+     * }
+    */
+
   }
-
-#else
-  IndexType ComputeIndex(OffsetValueType offset) const
-  {
-    IndexType         index;
-    const IndexType & bufferedRegionIndex = this->GetBufferedRegion().GetIndex();
-
-    for ( int i = VImageDimension - 1; i > 0; i-- )
-      {
-      index[i] = static_cast< IndexValueType >( offset / m_OffsetTable[i] );
-      offset -= ( index[i] * m_OffsetTable[i] );
-      index[i] += bufferedRegionIndex[i];
-      }
-    index[0] = bufferedRegionIndex[0] + static_cast< IndexValueType >( offset );
-
-    return index;
-  }
-
-#endif
 
   /** Set the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -361,7 +351,6 @@ public:
    * Floating point index results are rounded to integers
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   template< class TCoordRep >
   bool TransformPhysicalPointToIndex(
     const Point< TCoordRep, VImageDimension > & point,
@@ -373,31 +362,28 @@ public:
     // Now, check to see if the index is within allowed bounds
     const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
     return isInside;
+    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
+     * Leaving here for documentation purposes
+     * template< class TCoordRep >
+     * bool TransformPhysicalPointToIndex(
+     *   const Point< TCoordRep, VImageDimension > & point,
+     *   IndexType & index) const
+     * {
+     *   for ( unsigned int i = 0; i < VImageDimension; i++ )
+     *     {
+     *     TCoordRep sum = NumericTraits< TCoordRep >::Zero;
+     *     for ( unsigned int j = 0; j < VImageDimension; j++ )
+     *       {
+     *       sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
+     *       }
+     *     index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
+     *     }
+     *   // Now, check to see if the index is within allowed bounds
+     *   const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
+     *   return isInside;
+     * }
+     */
   }
-
-#else
-  template< class TCoordRep >
-  bool TransformPhysicalPointToIndex(
-    const Point< TCoordRep, VImageDimension > & point,
-    IndexType & index) const
-  {
-    for ( unsigned int i = 0; i < VImageDimension; i++ )
-      {
-      TCoordRep sum = NumericTraits< TCoordRep >::Zero;
-      for ( unsigned int j = 0; j < VImageDimension; j++ )
-        {
-        sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
-        }
-      index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
-      }
-
-    // Now, check to see if the index is within allowed bounds
-    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
-
-    return isInside;
-  }
-
-#endif
 
   /** \brief Get the continuous index from a physical point
    *
@@ -451,7 +437,6 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
   template< class TCoordRep >
   void TransformIndexToPhysicalPoint(
     const IndexType & index,
@@ -459,25 +444,24 @@ public:
   {
     ImageTransformHelper< VImageDimension, VImageDimension - 1, VImageDimension - 1 >::TransformIndexToPhysicalPoint(
       this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
+    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
+     * Leaving here for documentation purposes
+     * template< class TCoordRep >
+     * void TransformIndexToPhysicalPoint(
+     *   const IndexType & index,
+     *   Point< TCoordRep, VImageDimension > & point) const
+     * {
+     *   for ( unsigned int i = 0; i < VImageDimension; i++ )
+     *     {
+     *     point[i] = this->m_Origin[i];
+     *     for ( unsigned int j = 0; j < VImageDimension; j++ )
+     *       {
+     *       point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
+     *       }
+     *     }
+     * }
+     */
   }
-
-#else
-  template< class TCoordRep >
-  void TransformIndexToPhysicalPoint(
-    const IndexType & index,
-    Point< TCoordRep, VImageDimension > & point) const
-  {
-    for ( unsigned int i = 0; i < VImageDimension; i++ )
-      {
-      point[i] = this->m_Origin[i];
-      for ( unsigned int j = 0; j < VImageDimension; j++ )
-        {
-        point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
-        }
-      }
-  }
-
-#endif
 
   /** Get a physical point (in the space which
    * the origin and spacing infomation comes from)
