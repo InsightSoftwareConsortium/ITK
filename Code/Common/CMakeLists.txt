@@ -54,6 +54,7 @@ set(ITKCommon_SRCS
   itkOutputWindow.cxx
   itkProcessObject.cxx
   itkProgressReporter.cxx
+  itkQuadEdge.cxx
   itkQuadraticTriangleCellTopology.cxx
   itkQuadrilateralCellTopology.cxx
   itkRealTimeClock.cxx

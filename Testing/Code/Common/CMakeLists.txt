@@ -89,6 +89,64 @@ add_test(itkImageAdaptorTest ${COMMON_TESTS} itkImageAdaptorTest)
 add_test(itkOrientedImageAdaptorTest ${COMMON_TESTS} itkOrientedImageAdaptorTest)
 add_test(itkImageAdaptorInterpolateImageFunctionTest ${COMMON_TESTS} itkImageAdaptorInterpolateImageFunctionTest)
 
+add_test(itkDynamicQuadEdgeMeshTest ${COMMON_TESTS2}
+  itkDynamicQuadEdgeMeshTest)
+add_test(itkQuadEdgeMeshNoPointConstTest ${COMMON_TESTS2} itkQuadEdgeMeshNoPointConstTest)
+add_test(itkQuadEdgeTest1 ${COMMON_TESTS2} itkQuadEdgeTest1)
+add_test(itkGeometricalQuadEdgeTest1 ${COMMON_TESTS2}
+  itkGeometricalQuadEdgeTest1)
+add_test(itkQuadEdgeMeshPointTest1 ${COMMON_TESTS2}
+  itkQuadEdgeMeshPointTest1)
+add_test(itkPriorityQueueTest ${COMMON_TESTS2}
+  itkPriorityQueueTest)
+
+FOREACH( index 0 1 2 3 4 5 )
+  add_test(itkQuadEdgeMeshAddFaceTest1_${index} ${COMMON_TESTS2}
+    itkQuadEdgeMeshAddFaceTest1 ${index} )
+ENDFOREACH( index )
+add_test(itkQuadEdgeMeshAddFaceTest2 ${COMMON_TESTS2}
+  itkQuadEdgeMeshAddFaceTest2)
+add_test(itkQuadEdgeMeshDeleteEdgeTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshDeleteEdgeTest)
+add_test(itkQuadEdgeMeshFrontIteratorTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshFrontIteratorTest)
+add_test(itkQuadEdgeMeshTest1 ${COMMON_TESTS2} itkQuadEdgeMeshTest1)
+add_test(itkQuadEdgeMeshTest2 ${COMMON_TESTS2} itkQuadEdgeMeshTest2)
+add_test(itkQuadEdgeMeshTest3 ${COMMON_TESTS2} itkQuadEdgeMeshTest3)
+add_test(itkQuadEdgeMeshEulerOperatorFlipTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorFlipTest)
+add_test(itkQuadEdgeMeshEulerOperatorJoinFacetTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorJoinFacetTest)
+FOREACH( arguments 0 1 2 3 4 )
+  add_test( itkQuadEdgeMeshEulerOperatorJoinVertexTest${arguments}
+    ${COMMON_TESTS2}
+    itkQuadEdgeMeshEulerOperatorJoinVertexTest ${arguments} )
+ENDFOREACH( arguments )
+add_test(itkQuadEdgeMeshEulerOperatorSplitEdgeTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
+add_test(itkQuadEdgeMeshEulerOperatorSplitVertexTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorSplitVertexTest)
+add_test( itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest)
+add_test( itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest)
+add_test(itkQuadEdgeMeshCellInterfaceTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshCellInterfaceTest)
+add_test(itkQuadEdgeMeshIteratorTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshIteratorTest)
+add_test(itkQuadEdgeMeshPolygonCellTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshPolygonCellTest)
+add_test(itkQuadEdgeMeshCountingCellsTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshCountingCellsTest)
+add_test(itkQuadEdgeMeshDeletePointAndReorderIDsTest ${COMMON_TESTS2}
+  itkQuadEdgeMeshDeletePointAndReorderIDsTest)
+add_test(itkTriangleHelperTest ${COMMON_TESTS2}
+  itkTriangleHelperTest)
+add_test(itkCrossHelperTest ${COMMON_TESTS2}
+  itkCrossHelperTest)
+
+
+
 add_test(itkBSplineDeformableTransformTest2 ${COMMON_TESTS2}
   --compare ${BASELINE}/itkBSplineDeformableTransformTest2PixelCentered.png
             ${TEMP}/itkBSplineDeformableTransformTest2PixelCentered.png
@@ -472,7 +530,36 @@ itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 
 
 #-----------------------------------------------------------------------------
-set(BasicTests2_SRCS
+SET(BasicTests2_SRCS
+itkQuadEdgeMeshNoPointConstTest.cxx
+itkQuadEdgeTest1.cxx
+itkGeometricalQuadEdgeTest1.cxx
+itkQuadEdgeMeshAddFaceTest1.cxx
+itkQuadEdgeMeshAddFaceTest2.cxx
+itkQuadEdgeMeshBasicLayerTest.cxx
+itkQuadEdgeMeshDeleteEdgeTest.cxx
+itkQuadEdgeMeshFrontIteratorTest.cxx
+itkQuadEdgeMeshIteratorTest.cxx
+itkQuadEdgeMeshPointTest1.cxx
+itkQuadEdgeMeshTest1.cxx
+itkQuadEdgeMeshTest2.cxx
+itkQuadEdgeMeshTest3.cxx
+itkQuadEdgeMeshEulerOperatorFlipTest.cxx
+itkQuadEdgeMeshEulerOperatorSplitVertexTest.cxx
+itkQuadEdgeMeshEulerOperatorJoinVertexTest.cxx
+itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest.cxx
+itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest.cxx
+itkQuadEdgeMeshEulerOperatorJoinFacetTest.cxx
+itkQuadEdgeMeshEulerOperatorSplitEdgeTest.cxx
+itkQuadEdgeMeshEulerOperatorSplitFaceTest.cxx
+itkQuadEdgeMeshCellInterfaceTest.cxx
+itkQuadEdgeMeshPolygonCellTest.cxx
+itkDynamicQuadEdgeMeshTest.cxx
+itkQuadEdgeMeshCountingCellsTest.cxx
+itkQuadEdgeMeshDeletePointAndReorderIDsTest.cxx
+itkTriangleHelperTest.cxx
+itkCrossHelperTest.cxx
+itkPriorityQueueTest.cxx
 itkBSplineDeformableTransformTest2.cxx
 itkBSplineDeformableTransformTest3.cxx
 itkCellInterfaceTest.cxx

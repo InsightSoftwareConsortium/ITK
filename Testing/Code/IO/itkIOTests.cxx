@@ -86,8 +86,14 @@ void RegisterTests()
   REGISTER_TEST(itkNumericSeriesFileNamesTest);
   REGISTER_TEST(itkPolygonGroupSpatialObjectXMLFileTest);
   REGISTER_TEST(itkPNGImageIOTest);
+  REGISTER_TEST(itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1);
   REGISTER_TEST(itkVTKImageIOTest);
   REGISTER_TEST(itkVTKImageIOTest2);
+  REGISTER_TEST(itkVTKPolyDataIOQuadEdgeMeshTest);
+  REGISTER_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest);
+  REGISTER_TEST(itkVTKPolyDataReaderTest);
+  REGISTER_TEST(itkVTKPolyDataWriterTest01);
+  REGISTER_TEST(itkVTKPolyDataWriterTest02);
   REGISTER_TEST(itkRawImageIOTest);
   REGISTER_TEST(itkRawImageIOTest2);
   REGISTER_TEST(itkRawImageIOTest3);

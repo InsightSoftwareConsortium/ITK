@@ -41,12 +41,6 @@ void RegisterTests()
   REGISTER_TEST(itkConformalFlatteningMeshFilterTest);
   REGISTER_TEST(itkConformalFlatteningQuadEdgeMeshFilterTest);
 
-  REGISTER_TEST(itkVTKPolyDataIOQuadEdgeMeshTest);
-  REGISTER_TEST(itkVTKPolyDataReaderQuadEdgeMeshTest);
-  REGISTER_TEST(itkVTKPolyDataReaderTest);
-  REGISTER_TEST(itkVTKPolyDataWriterTest);
-  REGISTER_TEST(itkVTKPolyDataWriterTest2);
-
   REGISTER_TEST(itkMorphologicalWatershedImageFilterTest);
   REGISTER_TEST(itkMorphologicalWatershedFromMarkersImageFilterTest);
 
