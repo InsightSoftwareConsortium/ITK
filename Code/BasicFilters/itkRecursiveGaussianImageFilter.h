@@ -50,6 +50,7 @@ namespace itk
  * itk::DiscreteGaussianImageFilter::SetVariance().
  *
  * \ingroup ImageEnhancement Singlethreaded
+ * \see DiscreteGaussianImageFilter
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_EXPORT RecursiveGaussianImageFilter:
