@@ -293,8 +293,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
                    PointIdentifier *)
 {
   m_BoundingBox->SetPoints( this->GetPoints() );
-  m_PointLocator->InitPointInsertion(m_PointsContainer, m_BoundingBox);
-
   return bool();
 }
 
@@ -311,7 +309,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 
   m_PointsContainer = 0;
   m_PointDataContainer = 0;
-  m_PointLocator = 0;
 }
 
 /******************************************************************************
@@ -328,7 +325,6 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   m_PointsContainer(0),
   m_PointDataContainer(0)
 {
-  m_PointLocator = PointLocatorType::New();
   m_BoundingBox  = BoundingBoxType::New();
 
   // If we used unstructured regions instead of structured regions, then

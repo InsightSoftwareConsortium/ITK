@@ -142,8 +142,6 @@ public:
   // Point section:
   typedef typename Superclass::PointsContainer        PointsContainer;
   typedef typename Superclass::PointsContainerPointer PointsContainerPointer;
-  typedef typename Superclass::PointLocatorPointer    PointLocatorPointer;
-  typedef typename Superclass::PointLocatorType       PointLocatorType;
   typedef CoordRepType                                CoordRepArrayType[
     itkGetStaticConstMacro(PointDimension)];
 
