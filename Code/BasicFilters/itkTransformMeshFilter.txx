@@ -29,7 +29,7 @@ template< class TInputMesh, class TOutputMesh, class TTransform >
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::TransformMeshFilter()
 {
-  m_Transform = TransformType::New();
+  m_Transform = 0; // has to be provided by the user.
 }
 
 /**
@@ -72,6 +72,11 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
   if ( !outputMesh )
     {
     itkExceptionMacro(<< "Missing Output Mesh");
+    }
+
+  if ( !m_Transform )
+    {
+    itkExceptionMacro(<< "Missing Input Transform");
     }
 
   outputMesh->SetBufferedRegion( outputMesh->GetRequestedRegion() );
