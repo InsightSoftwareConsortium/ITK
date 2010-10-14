@@ -54,6 +54,10 @@ echo "Setting up the topic stage..."
 ./SetupTopicStage.sh || exit 1
 echo
 
+echo "Setting up useful Git aliases..."
+./SetupGitAliases.sh || exit 1
+echo
+
 echo "Suggesting git tips..."
 ./GitTips.sh || exit 1
 echo
