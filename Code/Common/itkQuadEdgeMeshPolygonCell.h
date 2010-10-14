@@ -32,7 +32,7 @@ namespace itk
  *
  */
 template< class TCellInterface >
-class QuadEdgeMeshPolygonCell:public TCellInterface
+class ITK_EXPORT QuadEdgeMeshPolygonCell:public TCellInterface
 {
 public:
   /** Standard class typedefs. */

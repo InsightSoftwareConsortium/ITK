@@ -82,7 +82,7 @@ namespace itk
  * distance tree computation or other Djikstra like algorithms.
  */
 template< typename TMesh, typename TQE >
-class QuadEdgeMeshFrontBaseIterator
+class ITK_EXPORT QuadEdgeMeshFrontBaseIterator
 {
 public:
   // Hierarchy typedefs & values.
@@ -212,7 +212,7 @@ protected:
  * \brief Non const quad edge front iterator.
  */
 template< typename TMesh, typename TQE >
-class QuadEdgeMeshFrontIterator:
+class ITK_EXPORT QuadEdgeMeshFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
 {
 public:
@@ -237,7 +237,7 @@ public:
  * \brief Const quad edge mesh front iterator.
  */
 template< class TMesh, class TQE = typename TMesh::QEType >
-class QuadEdgeMeshConstFrontIterator:
+class ITK_EXPORT QuadEdgeMeshConstFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {
 public:

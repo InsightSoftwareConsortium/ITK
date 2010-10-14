@@ -35,7 +35,7 @@ namespace itk
  *
  */
 template< class TCellInterface >
-class QuadEdgeMeshLineCell:
+class ITK_EXPORT QuadEdgeMeshLineCell:
   public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
