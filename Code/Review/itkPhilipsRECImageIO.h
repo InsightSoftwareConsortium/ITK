@@ -16,7 +16,8 @@
 =========================================================================*/
 
 /**
- * \file   The code for this file reader was written based on
+ * \file   itkPhilipsRECImageIO.h
+ *         The code for this file reader was written based on
  *         examination of Philips REC/PAR image files acquired at the
  *         Center for NMR Research at the Penn State Milton S. Hershey
  *         Medical Center.
