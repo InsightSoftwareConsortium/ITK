@@ -31,7 +31,7 @@ namespace itk
  *
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDelaunayConformingFilter:
+class ITK_EXPORT QuadEdgeMeshDelaunayConformingFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

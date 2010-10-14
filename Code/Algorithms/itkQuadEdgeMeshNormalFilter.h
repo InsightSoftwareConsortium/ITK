@@ -63,7 +63,7 @@ namespace itk
  *
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshNormalFilter:
+class ITK_EXPORT QuadEdgeMeshNormalFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

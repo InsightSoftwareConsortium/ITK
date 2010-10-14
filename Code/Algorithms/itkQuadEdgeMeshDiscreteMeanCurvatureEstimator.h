@@ -32,7 +32,7 @@ namespace itk
  * location: Berlin (Germany)
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteMeanCurvatureEstimator:
+class ITK_EXPORT QuadEdgeMeshDiscreteMeanCurvatureEstimator:
   public QuadEdgeMeshDiscreteCurvatureEstimator< TInputMesh, TOutputMesh >
 {
 public:

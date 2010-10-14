@@ -27,7 +27,7 @@ namespace itk
  *
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteCurvatureTensorEstimator:
+class ITK_EXPORT QuadEdgeMeshDiscreteCurvatureTensorEstimator:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

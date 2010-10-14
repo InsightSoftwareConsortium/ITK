@@ -31,7 +31,7 @@ namespace itk
  *        boundary.
  */
 template< class TInputMesh, class TOutputMesh, class TSolverTraits >
-class QuadEdgeMeshParam:
+class ITK_EXPORT QuadEdgeMeshParam:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

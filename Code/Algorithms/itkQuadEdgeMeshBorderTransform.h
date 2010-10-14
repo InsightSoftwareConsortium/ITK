@@ -32,7 +32,7 @@ namespace itk
  * To Write.
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshBorderTransform:
+class ITK_EXPORT QuadEdgeMeshBorderTransform:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

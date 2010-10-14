@@ -29,7 +29,7 @@ namespace itk
  * \note  Belongs to the parameterisation package.
  */
 template< typename TInputMesh >
-class MatrixCoefficients
+class ITK_EXPORT MatrixCoefficients
 {
 public:
   typedef TInputMesh                           InputMeshType;
@@ -50,7 +50,7 @@ public:
  * \note  See paper:
  */
 template< typename TInputMesh >
-class OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ITK_EXPORT OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -80,7 +80,7 @@ public:
  * \note  See paper: ...
  */
 template< typename TInputMesh >
-class InverseEuclideanDistanceMatrixCoefficients:
+class ITK_EXPORT InverseEuclideanDistanceMatrixCoefficients:
   public MatrixCoefficients< TInputMesh >
 {
 public:
@@ -121,7 +121,7 @@ public:
  * \note  See paper ...
  */
 template< typename TInputMesh >
-class ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ITK_EXPORT ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -173,7 +173,7 @@ public:
  * \note  See paper:
  */
 template< typename TInputMesh >
-class AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ITK_EXPORT AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -228,7 +228,7 @@ public:
  * \note  See paper:
  */
 template< typename TInputMesh >
-class IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ITK_EXPORT IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -263,7 +263,7 @@ public:
  * \note  See paper:
  */
 template< typename TInputMesh >
-class HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ITK_EXPORT HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;

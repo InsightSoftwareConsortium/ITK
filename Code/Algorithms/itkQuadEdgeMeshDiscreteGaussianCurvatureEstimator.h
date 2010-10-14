@@ -35,7 +35,7 @@ namespace itk
  * \author: Arnaud Gelas, Alexandre Gouaillard
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteGaussianCurvatureEstimator:
+class ITK_EXPORT QuadEdgeMeshDiscreteGaussianCurvatureEstimator:
   public QuadEdgeMeshDiscreteCurvatureEstimator< TInputMesh, TOutputMesh >
 {
 public:

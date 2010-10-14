@@ -28,7 +28,7 @@ namespace itk
  * \brief
  */
 template< class TInput, class TOutput, class TCriterion >
-class QuadEdgeMeshQuadricDecimation:
+class ITK_EXPORT QuadEdgeMeshQuadricDecimation:
   public QuadEdgeMeshEdgeMergeDecimationFilter< TInput, TOutput, TCriterion >
 {
 public:

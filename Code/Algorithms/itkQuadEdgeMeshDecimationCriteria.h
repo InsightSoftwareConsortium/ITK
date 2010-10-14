@@ -32,7 +32,7 @@ template< class TMesh,
           class TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
-class QuadEdgeMeshDecimationCriterion:public Object
+class ITK_EXPORT QuadEdgeMeshDecimationCriterion:public Object
 {
 public:
   typedef QuadEdgeMeshDecimationCriterion Self;

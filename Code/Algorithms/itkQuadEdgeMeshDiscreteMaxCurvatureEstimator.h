@@ -29,7 +29,7 @@ namespace itk
  *
  */
 template< class TInputMesh, class TOutputMesh >
-class QuadEdgeMeshDiscreteMaxCurvatureEstimator:
+class ITK_EXPORT QuadEdgeMeshDiscreteMaxCurvatureEstimator:
   public QuadEdgeMeshDiscretePrincipalCurvaturesEstimator< TInputMesh, TOutputMesh >
 {
 public:
