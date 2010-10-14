@@ -4,6 +4,16 @@ if(COMMAND CMAKE_POLICY)
   cmake_policy(SET CMP0003 NEW)
 endif(COMMAND CMAKE_POLICY)
 
+#-----------------------------------------------------------------------------
+# Sanity check -- prevent in-source builds
+#
+option(ALLOW_IN_SOURCE_BUILDS
+"Allow the user to build ITK inside the source tree"
+OFF)
+
+if(NOT ALLOW_IN_SOURCE_BUILDS)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/PreventInSourceBuilds.cmake)
+endif(NOT ALLOW_IN_SOURCE_BUILDS)
 
 project(ITK)
 include_regular_expression("^([Nn]rrd|itk|vtk|vnl|vcl|vxl|v3p|f2c|netlib|ce|itpack|DICOM|meta|png|dbh|tif|jpeg|zlib|gdcm).*$")
