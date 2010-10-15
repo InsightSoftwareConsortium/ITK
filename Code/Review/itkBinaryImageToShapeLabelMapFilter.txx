@@ -30,7 +30,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   m_InputForegroundValue = NumericTraits< OutputImagePixelType >::max();
   m_FullyConnected = false;
   m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = false;
+  m_ComputePerimeter = true;
 }
 
 template< class TInputImage, class TOutputImage >

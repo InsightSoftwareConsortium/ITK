@@ -28,7 +28,7 @@ LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 {
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = false;
+  m_ComputePerimeter = true;
 }
 
 template< class TInputImage, class TOutputImage >
