@@ -238,6 +238,15 @@ void QuadEdgeMeshNormalFilter< TInputMesh, TOutputMesh >
   this->ComputeAllFaceNormals();
   this->ComputeAllVertexNormals();
 }
+
+template< class TInputMesh, class TOutputMesh >
+void QuadEdgeMeshNormalFilter< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  std::cout << indent << "Weight: " << m_Weight << std::endl;
+}
 }
 
 #endif

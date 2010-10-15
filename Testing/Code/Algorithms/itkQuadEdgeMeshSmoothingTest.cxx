@@ -89,5 +89,7 @@ int itkQuadEdgeMeshSmoothingTest( int argc, char* argv[] )
   writer->SetFileName( argv[5] );
   writer->Update( );
 
+  // ** PRINT **
+  std::cout << filter;
   return EXIT_SUCCESS;
 }

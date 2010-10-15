@@ -84,6 +84,7 @@ public:
 protected:
   QuadEdgeMeshSmoothing();
   ~QuadEdgeMeshSmoothing();
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   CoefficientsComputation *m_CoefficientsMethod;
 

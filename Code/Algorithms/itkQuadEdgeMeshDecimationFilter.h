@@ -101,6 +101,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const
   {
     this->Superclass::PrintSelf(os, indent);
+    os << indent << "Criterion: " << m_Criterion << std::endl;
   }
 
 private:

@@ -108,5 +108,7 @@ int itkQuadEdgeMeshNormalFilterTest( int argc, char* argv[] )
   //       std::cout <<n_it->Index( ) <<"  " <<n_it->Value( ) <<endl;
   //       }
 
+  // ** PRINT **
+  std::cout << normals;
   return EXIT_SUCCESS;
 }

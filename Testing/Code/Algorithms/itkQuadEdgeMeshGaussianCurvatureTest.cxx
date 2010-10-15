@@ -78,5 +78,7 @@ int itkQuadEdgeMeshGaussianCurvatureTest( int argc, char* argv[] )
   writer->SetFileName( "gaussian_curvature.vtk" );
   writer->Update();
 
+  // ** PRINT **
+  std::cout << gaussian_curvature;
   return EXIT_SUCCESS;
 }
