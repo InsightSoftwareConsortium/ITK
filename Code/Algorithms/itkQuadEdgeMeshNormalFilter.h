@@ -39,7 +39,7 @@ namespace itk
  *
  * GOURAUD \f$ \omega_i = 1\f$ [1]
  * THURMER \f$ \omega_i = \text{Angle of the considered triangle at the given vertex \f$ [2]
- * AREA \f$ \omega_i = \text{Area}(t_i)$ [3]
+ * AREA \f$ \omega_i = \text{Area}(t_i)\f$ [3]
  *
  * These weights are defined in the literature:
  * [1] Henri Gouraud.
@@ -59,8 +59,6 @@ namespace itk
  * TInputMesh::MeshTraits == TOutputMesh::MeshTraits
  * (and of course it requires that the output have some itk::Vector for point
  * data and cell data.
- *
- *
  */
 template< class TInputMesh, class TOutputMesh >
 class ITK_EXPORT QuadEdgeMeshNormalFilter:

@@ -16,7 +16,8 @@
 =========================================================================*/
 
 /**
- * \file   The code for this file reader was written based on
+ * \file   itkBruker2DSEQImageIO.h
+ *         The code for this file reader was written based on
  *         Bruker image file sets generated at the Center for NMR Research
  *         at the Penn State Milton S. Hershey Medical Center.
  *
