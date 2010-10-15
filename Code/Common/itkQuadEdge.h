@@ -218,7 +218,7 @@ namespace itk
  *
  * \ingroup MeshObjects
  */
-class ITK_EXPORT QuadEdge
+class ITKCommon_EXPORT QuadEdge
 {
 public:
   /** Hierarchy typedefs & values. */

@@ -17,6 +17,8 @@
 #ifndef __itkQuadEdgeMeshBaseIterator_h
 #define __itkQuadEdgeMeshBaseIterator_h
 
+#include "itkMacro.h"
+
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorMethodsMacro(Op)                         \
   virtual Iterator Begin##Op()                                    \
