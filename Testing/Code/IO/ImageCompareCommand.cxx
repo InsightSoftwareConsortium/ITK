@@ -9,8 +9,8 @@
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
       "Neighbor pixels to look for similar values");
   command.AddOptionField("toleranceRadius","value",MetaCommand::INT,true);
 
-  // Option for setting the number of pixel that can be tolerated to 
+  // Option for setting the number of pixel that can be tolerated to
   // have different intensities.
   command.SetOption("toleranceNumberOfPixels","ToleranceNumberOfPixels",false,
       "Number of Pixels that are acceptable to have intensity differences");
@@ -92,31 +92,31 @@ int main(int argc, char **argv)
   // If a value of intensity tolerance was given in the command line
   if( command.GetOptionWasSet("toleranceIntensity") )
     {
-    toleranceIntensity = 
-      command.GetValueAsInt("toleranceIntensity","value");
+    toleranceIntensity =
+      command.GetValueAsFloat("toleranceIntensity","value");
     }
- 
+
   // If a value of neighborhood radius tolerance was given in the command line
   if( command.GetOptionWasSet("toleranceRadius") )
     {
-    toleranceRadius = 
+    toleranceRadius =
       command.GetValueAsInt("toleranceRadius","value");
     }
- 
+
   // If a value of number of pixels tolerance was given in the command line
   if( command.GetOptionWasSet("toleranceNumberOfPixels") )
     {
-    toleranceNumberOfPixels = 
+    toleranceNumberOfPixels =
       command.GetValueAsInt("toleranceNumberOfPixels","value");
     }
-     
+
   // Get the filename of the image to be tested
   if( command.GetOptionWasSet("testImage") )
     {
-    testImageFilename = 
+    testImageFilename =
       command.GetValueAsString("testImage","filename");
     }
- 
+
   std::list< std::string > baselineImageFilenames;
   baselineImageFilenames.clear();
 
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
     std::cerr << "You must provide a -BaselineImage or -BaselineImages option" << std::endl;
     return EXIT_FAILURE;
     }
-     
+
   // Get the filename of the base line image
   if( command.GetOptionWasSet("baselineImage") )
     {
@@ -141,17 +141,17 @@ int main(int argc, char **argv)
     singleBaselineImage = false;
     baselineImageFilenames = command.GetValueAsList("baselineImages");
     }
-  
-  std::string bestBaselineFilename; 
+
+  std::string bestBaselineFilename;
 
   try
     {
-    if( singleBaselineImage ) 
+    if( singleBaselineImage )
       {
-      bestBaselineStatus = 
+      bestBaselineStatus =
         RegressionTestImage(
             testImageFilename.c_str(), baselineImageFilename.c_str(),
-            0, false, toleranceIntensity, toleranceRadius, 
+            0, false, toleranceIntensity, toleranceRadius,
             toleranceNumberOfPixels);
       bestBaselineFilename = baselineImageFilename;
       }
@@ -164,8 +164,8 @@ int main(int argc, char **argv)
         {
         const int currentStatus =
           RegressionTestImage(
-              testImageFilename.c_str(), baselineImageItr->c_str(), 
-              0, false, toleranceIntensity, toleranceRadius, 
+              testImageFilename.c_str(), baselineImageItr->c_str(),
+              0, false, toleranceIntensity, toleranceRadius,
               toleranceNumberOfPixels);
         if(currentStatus < bestBaselineStatus)
           {
@@ -190,11 +190,11 @@ int main(int argc, char **argv)
     else
       {
       RegressionTestImage(
-        testImageFilename.c_str(), 
+        testImageFilename.c_str(),
         bestBaselineFilename.c_str(), 1, true,
         toleranceIntensity,toleranceRadius,toleranceNumberOfPixels);
       }
-    
+
     }
   catch(itk::ExceptionObject& e)
     {
@@ -219,7 +219,7 @@ int main(int argc, char **argv)
 
 // Regression Testing Code
 int RegressionTestImage (const char *testImageFilename, const char *baselineImageFilename,
-                         int reportErrors, bool createDifferenceImage, 
+                         int reportErrors, bool createDifferenceImage,
                          double intensityTolerance,
                          int radiusTolerance, int numberOfPixelsTolerance)
 {
@@ -260,7 +260,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     baselineSize = baselineReader->GetOutput()->GetLargestPossibleRegion().GetSize();
   ImageType::SizeType testSize;
     testSize = testReader->GetOutput()->GetLargestPossibleRegion().GetSize();
-  
+
   if (baselineSize != testSize)
     {
     std::cerr << "The size of the Baseline image and Test image do not match!" << std::endl;
@@ -276,17 +276,17 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
   DiffType::Pointer diff = DiffType::New();
     diff->SetValidInput(baselineReader->GetOutput());
     diff->SetTestInput(testReader->GetOutput());
-    
+
     diff->SetDifferenceThreshold( intensityTolerance );
     diff->SetToleranceRadius( radiusTolerance );
 
     diff->UpdateLargestPossibleRegion();
 
   bool differenceFailed = false;
-  
+
   double averageIntensityDifference = diff->GetTotalDifference();
 
-  unsigned long numberOfPixelsWithDifferences = 
+  unsigned long numberOfPixelsWithDifferences =
                         diff->GetNumberOfPixelsWithDifferences();
 
   if( averageIntensityDifference > 0.0 )
@@ -302,9 +302,9 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
     }
   else
     {
-    differenceFailed = false; 
+    differenceFailed = false;
     }
-  
+
   if (reportErrors)
     {
     typedef itk::RescaleIntensityImageFilter<ImageType,OutputType>    RescaleType;
@@ -324,7 +324,7 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
     RegionType region;
     region.SetIndex(index);
-    
+
     size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
     for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
       {
