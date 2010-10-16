@@ -166,7 +166,7 @@ void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >
      << (m_DelaunayConforming ? "On" : "Off") << std::endl;
   os << indent << "NumberOfIterations: "
      << m_NumberOfIterations << std::endl;
-  os << "RelaxationFactor: "
+  os << indent << "RelaxationFactor: "
      << m_RelaxationFactor << std::endl;
 }
 }
