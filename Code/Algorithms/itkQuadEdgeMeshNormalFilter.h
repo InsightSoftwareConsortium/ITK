@@ -123,6 +123,7 @@ public:
 protected:
   QuadEdgeMeshNormalFilter();
   ~QuadEdgeMeshNormalFilter();
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   WeightType m_Weight;
 

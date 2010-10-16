@@ -425,6 +425,17 @@ QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
 
   delete list;
 }
+
+template< class TInputMesh, class TOutputMesh >
+void
+QuadEdgeMeshBorderTransform< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "TransformType: " << m_TransformType << std::endl;
+  os << indent << "Radius: " << m_Radius << std::endl;
+}
 }
 
 #endif

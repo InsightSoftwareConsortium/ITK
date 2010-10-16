@@ -73,5 +73,8 @@ int itkQuadEdgeMeshDelaunayConformingFilterTest( int argc, char* argv[] )
   std::cout <<"Number of Edge flipped performed: "
     <<filter->GetNumberOfEdgeFlips( ) <<std::endl;
 
+  // ** PRINT **
+  std::cout << filter;
+
   return EXIT_SUCCESS;
 }

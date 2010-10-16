@@ -155,6 +155,20 @@ void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >::GenerateData()
       }
     }
 }
+
+template< class TInputMesh, class TOutputMesh >
+void QuadEdgeMeshSmoothing< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "DelaunayConforming: "
+     << (m_DelaunayConforming ? "On" : "Off") << std::endl;
+  os << indent << "NumberOfIterations: "
+     << m_NumberOfIterations << std::endl;
+  os << indent << "RelaxationFactor: "
+     << m_RelaxationFactor << std::endl;
+}
 }
 
 #endif

@@ -191,6 +191,15 @@ void QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >::GenerateDa
   this->InitializePriorityQueue();
   this->Process();
 }
+template< typename TInputMesh, typename TOutputMesh >
+void QuadEdgeMeshDelaunayConformingFilter< TInputMesh, TOutputMesh >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "NumberOfEdgeFlips: " << m_NumberOfEdgeFlips << std::endl;
+}
+
 } // end namespace itk
 
 #endif

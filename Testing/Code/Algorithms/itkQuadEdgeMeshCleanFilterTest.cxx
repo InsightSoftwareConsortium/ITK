@@ -76,6 +76,8 @@ int itkQuadEdgeMeshCleanFilterTest( int argc, char* argv[] )
   writer->SetFileName( argv[3] );
   writer->Update( );
 
+  // ** PRINT **
+  std::cout << filter;
   return EXIT_SUCCESS;
 
 }

@@ -82,6 +82,9 @@ int itkQuadEdgeMeshQuadricDecimationTest( int argc, char* argv[] )
   writer->SetFileName( argv[3] );
   writer->Update( );
 
+  // ** PRINT **
+  std::cout << "DecimateFilter:\n" << decimate;
+  std::cout << "Criterion:\n" << criterion;
   return EXIT_SUCCESS;
 
 }

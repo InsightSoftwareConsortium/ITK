@@ -157,6 +157,10 @@ int itkQuadEdgeMeshLinearParameterizationTest( int argc, char* argv[] )
   writer->SetFileName( argv[4] );
   writer->Update( );
 
+  // ** PRINT **
+  std::cout << "BorderTransform: \n" << border_transform;
+  std::cout << "Parametrization: \n" << param;
+
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;
 }

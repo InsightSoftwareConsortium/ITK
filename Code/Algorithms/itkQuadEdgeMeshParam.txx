@@ -214,6 +214,16 @@ QuadEdgeMeshParam< TInputMesh, TOutputMesh, TSolverTraits >
     output->SetPoint(id, OutputPt);
     }
 }
+
+template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
+void
+QuadEdgeMeshParam< TInputMesh, TOutputMesh, TSolverTraits >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "BorderTransform: " << m_BorderTransform << std::endl;
+}
 } // end namespace itk
 
 #endif

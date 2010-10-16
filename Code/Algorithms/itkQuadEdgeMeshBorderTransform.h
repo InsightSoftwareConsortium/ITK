@@ -115,6 +115,7 @@ public:
 protected:
   QuadEdgeMeshBorderTransform();
   ~QuadEdgeMeshBorderTransform() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
   BorderTransformType m_TransformType;
 
