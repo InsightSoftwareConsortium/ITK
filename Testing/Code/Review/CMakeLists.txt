@@ -225,6 +225,7 @@ set(ReviewTest3_SRCS
   itkBinaryFillholeImageFilterTest1.cxx
   itkBinaryGrindPeakImageFilterTest1.cxx
   itkBinaryReconstructionByDilationImageFilterTest.cxx
+  itkBinaryReconstructionByErosionImageFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2341,6 +2342,18 @@ add_test(itkBinaryReconstructionByDilationImageFilterTest
   ${TEMP}/itkBinaryReconstructionByDilationImageFilterTest.png
   255
   100
+  )
+
+add_test(itkBinaryReconstructionByErosionImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryReconstructionByErosionImageFilterTest.png
+            ${TEMP}/itkBinaryReconstructionByErosionImageFilterTest.png
+  itkBinaryReconstructionByErosionImageFilterTest
+  ${INPUTDATA}/SpotsLabeled.png
+  ${INPUTDATA}/Spots-markers.png
+  ${TEMP}/itkBinaryReconstructionByErosionImageFilterTest.png
+  0
+  255
   )
 
 add_test(itkBinaryImageToStatisticsLabelMapFilterTest1

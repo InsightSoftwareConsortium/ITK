@@ -73,4 +73,5 @@ void RegisterTests()
   REGISTER_TEST(itkAttributePositionLabelMapFilterTest1);
   REGISTER_TEST(itkBinaryReconstructionLabelMapFilterTest);
   REGISTER_TEST(itkBinaryReconstructionByDilationImageFilterTest);
+  REGISTER_TEST(itkBinaryReconstructionByErosionImageFilterTest);
   }
