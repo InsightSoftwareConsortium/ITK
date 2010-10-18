@@ -30,9 +30,10 @@
 int
 XORTest1(int argc, char* argv[])
 {
-  if (argc < 1)
+  if (argc < 2)
     {
-    std::cout << "ERROR: data file name argument missing." << std::endl ;
+    std::cout << "Usage: " << argv[0]
+              << " InputTrainingFile(.txt)" << std::endl ;
     return EXIT_FAILURE;
     }
   
@@ -63,6 +64,12 @@ XORTest1(int argc, char* argv[])
   
   std::ifstream infile1;
   infile1.open(dataFileName, std::ios::in);
+  if (infile1.fail())
+    {
+    std::cout << argv[0] << " Cannot open file for reading: "
+              << dataFileName << std::endl;
+    return EXIT_FAILURE;
+    }
 
   infile1 >> mv[0] >> mv[1]>> tv[0];
 
@@ -110,6 +117,13 @@ XORTest1(int argc, char* argv[])
   int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
+  if (outfile.fail())
+    {
+    std::cout << argv[0] << " Cannot open file for writing: "
+              << "out1.txt" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   while (iter1 != sample->End())
     {
     mv = iter1.GetMeasurementVector();

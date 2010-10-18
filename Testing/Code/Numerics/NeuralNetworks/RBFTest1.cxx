@@ -40,11 +40,13 @@ PURPOSE.  See the above copyright notices for more information.
   int
 RBFTest1(int argc, char* argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
     {
-    std::cout << "ERROR: data file name argument missing." << std::endl ;
+    std::cout << "Usage: " << argv[0]
+              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl ;
     return EXIT_FAILURE;
     }
+
   int num_input_nodes = 3;
   int num_hidden_nodes = 2;  // 2 2 radial basis functions
   int num_output_nodes = 2;
@@ -77,6 +79,12 @@ RBFTest1(int argc, char* argv[])
 
   std::ifstream infile1;
   infile1.open(trainFileName, std::ios::in);
+  if (infile1.fail())
+    {
+    std::cout << argv[0] << " Cannot open training file for reading: "
+              << trainFileName << std::endl;
+    return EXIT_FAILURE;
+    }
 
   for (int a = 0; a < num_train; a++)
     {
@@ -94,6 +102,13 @@ RBFTest1(int argc, char* argv[])
   infile1.close();
   std::ifstream infile2;
   infile2.open(testFileName, std::ios::in);
+  if (infile2.fail())
+    {
+    std::cout << argv[0] << " Cannot open test file for reading: "
+              << testFileName << std::endl;
+    return EXIT_FAILURE;
+    }
+
   for (int a = 0; a < num_test; a++)
     {
     for (int i = 0; i < num_input_nodes; i++)
