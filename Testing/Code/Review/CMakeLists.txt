@@ -227,6 +227,7 @@ set(ReviewTest3_SRCS
   itkBinaryReconstructionByDilationImageFilterTest.cxx
   itkBinaryReconstructionByErosionImageFilterTest.cxx
   itkBinaryClosingByReconstructionImageFilterTest.cxx
+  itkBinaryOpeningByReconstructionImageFilterTest.cxx
 )
 
 set(ReviewTest4_SRCS
@@ -2364,6 +2365,18 @@ add_test(itkBinaryClosingByReconstructionImageFilterTest
   itkBinaryClosingByReconstructionImageFilterTest
   ${INPUTDATA}/cthead1-bin.png
   ${TEMP}/itkBinaryClosingByReconstructionImageFilterTest.png
+  0   # connectivity
+  255 # bg
+  10  # kernel size
+  )
+
+add_test(itkBinaryOpeningByReconstructionImageFilterTest
+  ${REVIEW_TESTS3}
+  --compare ${BASELINE}/itkBinaryOpeningByReconstructionImageFilterTest.png
+            ${TEMP}/itkBinaryOpeningByReconstructionImageFilterTest.png
+  itkBinaryOpeningByReconstructionImageFilterTest
+  ${INPUTDATA}/cthead1-bin.png
+  ${TEMP}/itkBinaryOpeningByReconstructionImageFilterTest.png
   0   # connectivity
   255 # bg
   10  # kernel size
