@@ -17,9 +17,7 @@
 #ifndef __itkImplicitManifoldNormalVectorFilter_txx
 #define __itkImplicitManifoldNormalVectorFilter_txx
 
-#include "itkNormalVectorFunctionBase.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"
-#include "itkVector.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 
 #include "itkJoinSeriesImageFilter.h"
 #include "itkProgressReporter.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

@@ -22,7 +22,6 @@
 
 #include "itkMedianImageFunction.h"
 #include "itkImage.h"
-#include "itkNumericTraits.h"
 
 int itkMedianImageFunctionTest(int, char* [] )
 {

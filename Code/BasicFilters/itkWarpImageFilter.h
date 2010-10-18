@@ -18,10 +18,7 @@
 #define __itkWarpImageFilter_h
 #include "itkImageBase.h"
 #include "itkImageToImageFilter.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkPoint.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

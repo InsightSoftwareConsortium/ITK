@@ -22,10 +22,6 @@
 
 #include "itkMeshToMeshFilter.h"
 #include "itkSimplexMesh.h"
-#include "itkSimplexMeshGeometry.h"
-#include "itkImage.h"
-#include "itkCovariantVector.h"
-#include "itkVector.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
 #include "itkVectorGradientMagnitudeImageFilter.h"

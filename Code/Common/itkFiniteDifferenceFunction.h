@@ -19,9 +19,7 @@
 
 #include "itkLightObject.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkVector.h"
-#include "itkFixedArray.h"
 
 namespace itk
 {

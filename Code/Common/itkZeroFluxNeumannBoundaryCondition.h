@@ -16,7 +16,6 @@
 =========================================================================*/
 #ifndef __itkZeroFluxNeumannBoundaryCondition_h
 #define __itkZeroFluxNeumannBoundaryCondition_h
-#include "itkNeighborhood.h"
 #include "itkImageBoundaryCondition.h"
 
 namespace itk

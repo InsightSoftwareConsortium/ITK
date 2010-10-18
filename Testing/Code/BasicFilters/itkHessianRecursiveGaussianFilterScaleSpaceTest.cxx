@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include <itkImage.h>
 #include <itkHessianRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 

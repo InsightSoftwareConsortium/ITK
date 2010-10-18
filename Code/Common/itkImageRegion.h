@@ -22,7 +22,6 @@
 
 #include "itkRegion.h"
 
-#include "itkIndex.h"
 #include "itkSize.h"
 #include "itkContinuousIndex.h"
 #include "vnl/vnl_math.h"

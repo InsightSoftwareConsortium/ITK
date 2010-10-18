@@ -21,7 +21,6 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkImage.h"
 #include "itkVector.h"
 
 namespace itk

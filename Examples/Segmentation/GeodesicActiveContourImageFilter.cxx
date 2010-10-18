@@ -101,7 +101,6 @@
 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImage.h"
 #include "itkGeodesicActiveContourLevelSetImageFilter.h"
 // Software Guide : EndCodeSnippet
 

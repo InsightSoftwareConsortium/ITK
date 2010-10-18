@@ -25,8 +25,6 @@
 
 #include "itkBinaryMedialNodeMetric.h"
 #include "itkGradientImageToBloxBoundaryPointImageFilter.h"
-#include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomImage.h"
 #include "itkBloxBoundaryPointToCoreAtomImageFilter.h"
 
 // 

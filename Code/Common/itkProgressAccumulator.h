@@ -18,7 +18,6 @@
 #define __itkProgressAccumulator_h
 
 #include "itkCommand.h"
-#include "itkObject.h"
 #include "itkProcessObject.h"
 #include <vector>
 

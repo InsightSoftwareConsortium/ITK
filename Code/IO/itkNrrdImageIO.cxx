@@ -20,7 +20,6 @@
 
 #include <string>
 #include "itkNrrdImageIO.h"
-#include "itkMacro.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 

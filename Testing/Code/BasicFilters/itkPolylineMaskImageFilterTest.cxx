@@ -19,7 +19,6 @@
 #endif
 
 #include <itkImage.h>
-#include <itkImageRegionIteratorWithIndex.h>
 #include <itkPolylineMaskImageFilter.h>
 #include <itkPolyLineParametricPath.h>
 #include <itkEllipseSpatialObject.h>

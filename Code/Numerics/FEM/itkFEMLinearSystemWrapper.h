@@ -18,7 +18,6 @@
 #ifndef __itkFEMLinearSystemWrapper_h
 #define __itkFEMLinearSystemWrapper_h 
 
-#include "itkMacro.h"
 #include "itkFEMSolution.h"
 #include "itkFEMException.h"
 

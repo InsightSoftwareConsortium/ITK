@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include <math.h>
 
 namespace itk

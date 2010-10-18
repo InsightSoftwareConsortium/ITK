@@ -27,7 +27,6 @@
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkMutualInformationImageToImageMetric.h"
-#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkOptImageToImageMetricsTest.h"
 

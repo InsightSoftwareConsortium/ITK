@@ -19,7 +19,6 @@
 #define __itkAnchorErodeDilateLine_h
 
 #include "itkAnchorHistogram.h"
-#include "itkIndent.h"
 namespace itk
 {
 /**

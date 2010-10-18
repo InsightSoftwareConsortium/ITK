@@ -18,11 +18,9 @@
 #define __itkGrayscaleFillholeImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleFillholeImageFilter.h"
 #include "itkReconstructionByErosionImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
-#include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 

@@ -17,7 +17,6 @@
 #ifndef __itkKLMSegmentationRegion_h
 #define __itkKLMSegmentationRegion_h
 
-#include "itkObject.h"
 #include "itkKLMSegmentationBorder.h"
 #include "itkSegmentationRegion.h"
 

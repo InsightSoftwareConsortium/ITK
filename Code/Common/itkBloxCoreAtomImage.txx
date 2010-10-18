@@ -20,7 +20,6 @@
 #include "itkBloxCoreAtomImage.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkConicShellInteriorExteriorSpatialFunction.h"
 #include "itkEllipsoidInteriorExteriorSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"

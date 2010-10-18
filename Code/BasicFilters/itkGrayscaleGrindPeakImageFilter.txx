@@ -21,11 +21,9 @@
 #define __itkGrayscaleGrindPeakImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkGrayscaleGrindPeakImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
-#include "itkImageRegionExclusionConstIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 

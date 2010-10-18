@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRandomIteratorWithIndex.h"
-#include "itkImageRandomConstIteratorWithIndex.h"
 
 
 

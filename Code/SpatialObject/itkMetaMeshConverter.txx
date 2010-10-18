@@ -18,12 +18,9 @@
 #define __itkMetaMeshConverter_txx
 
 #include "itkMetaMeshConverter.h"
-#include "itkVertexCell.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 #include "itkPolygonCell.h"
 #include "itkHexahedronCell.h"
-#include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include <list>
 

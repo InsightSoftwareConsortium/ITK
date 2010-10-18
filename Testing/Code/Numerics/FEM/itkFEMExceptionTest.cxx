@@ -20,8 +20,7 @@
 #pragma warning(disable: 4786)
 #endif
 
-#include "itkFEMException.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkFEM.h"
 #include <iostream>
 #include <exception>

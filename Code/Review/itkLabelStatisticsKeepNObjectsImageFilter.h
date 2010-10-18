@@ -17,9 +17,6 @@
 #ifndef __itkLabelStatisticsKeepNObjectsImageFilter_h
 #define __itkLabelStatisticsKeepNObjectsImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkStatisticsLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"
 #include "itkStatisticsKeepNObjectsLabelMapFilter.h"

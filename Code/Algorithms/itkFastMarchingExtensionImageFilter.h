@@ -18,8 +18,6 @@
 #define __itkFastMarchingExtensionImageFilter_h
 
 #include "itkFastMarchingImageFilter.h"
-#include "itkImage.h"
-#include "itkLevelSet.h"
 
 namespace itk
 {

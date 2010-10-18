@@ -17,7 +17,6 @@
 #ifndef __itkNormalizeImageFilter_h
 #define __itkNormalizeImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 

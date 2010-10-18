@@ -30,9 +30,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"

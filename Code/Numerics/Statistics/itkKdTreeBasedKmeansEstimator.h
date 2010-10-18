@@ -21,7 +21,6 @@
 #include "itk_hash_map.h"
 
 #include "itkObject.h"
-#include "itkMeasurementVectorTraits.h"
 #include "itkEuclideanDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSimpleDataObjectDecorator.h"

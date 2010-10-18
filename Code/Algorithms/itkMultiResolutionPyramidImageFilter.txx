@@ -21,7 +21,7 @@
 #include "itkGaussianOperator.h"
 #include "itkCastImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkResampleImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"

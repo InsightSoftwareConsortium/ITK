@@ -18,8 +18,6 @@
 #define __itkInterpolateImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 
 namespace itk

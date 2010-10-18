@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkExceptionObject.h
+  Module:    itkMacro.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,11 +14,9 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-// itkExceptionObject.h is normally included through itkMacro.h, but
-// some code includes it directly.
 #ifndef __itkMacro_h
-#include "itkMacro.h"
-#else
+#error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
+#else // __itkMacro.h
 
 #ifndef __itkExceptionObject_h
 #define __itkExceptionObject_h
@@ -27,7 +25,6 @@
 #include <stdexcept>
 
 #include "itkSmartPointer.h"
-#include "itkWin32Header.h"
 
 namespace itk
 {
@@ -308,6 +305,6 @@ public:
 };
 } // end namespace itk
 
-#endif
+#endif //__itkExceptionObject_h
 
-#endif
+#endif //__itkMacro_h

@@ -17,10 +17,9 @@
 #ifndef __itkRigid3DPerspectiveTransform_h
 #define __itkRigid3DPerspectiveTransform_h
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_quaternion.h"
 #include <iostream>
-#include "itkMatrix.h"
 #include "itkTransform.h"
 #include "itkVersor.h"
 

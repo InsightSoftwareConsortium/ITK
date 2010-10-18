@@ -34,7 +34,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIOCommon.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkDiffusionTensor3D.h"
-#include "itkSymmetricSecondRankTensor.h"
 #include "itkAffineTransform.h"
 #include "itkVector.h"
 #include "itkRGBAPixel.h"

@@ -21,8 +21,6 @@
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
 

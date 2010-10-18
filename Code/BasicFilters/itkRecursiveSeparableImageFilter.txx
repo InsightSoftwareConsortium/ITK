@@ -20,7 +20,6 @@
 #include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include <new>
 

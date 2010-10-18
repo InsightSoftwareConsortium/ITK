@@ -23,7 +23,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
-#include "itkImageRegionExclusionConstIteratorWithIndex.h"
 
 
 

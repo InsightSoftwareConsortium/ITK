@@ -19,7 +19,6 @@
 
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"
-#include "itkImageBase.h"
 
 namespace itk
 {

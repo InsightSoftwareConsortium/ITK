@@ -23,6 +23,8 @@
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
 
+#include <cstring>
+
 static unsigned int m_CallNumber;
 
 const unsigned int TEST_VECTOR_PIXEL_DIM = 3;
@@ -189,6 +191,17 @@ public:
     
       std::string m_OutputFileName = VTKImageIO2Tester::SetupFileName( filePrefix, "vtk", outputPath );
       reader->SetFileName( m_OutputFileName );
+
+      // Check that the correct content was written to the header.
+      std::ifstream istrm( m_OutputFileName.c_str() );
+      char firstline[25];
+      istrm.getline( firstline, 24 );
+      istrm.close();
+      if( strncmp( firstline, "# vtk DataFile Version ", 24 ) != 0 )
+        {
+        std::cout << "Header string was not written properly." << std::endl;
+        return false;
+        }
     
       // read the image
       typename ImageType::Pointer image = reader->GetOutput();

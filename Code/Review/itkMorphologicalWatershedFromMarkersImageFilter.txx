@@ -24,7 +24,6 @@
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkShapedNeighborhoodIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkSize.h"

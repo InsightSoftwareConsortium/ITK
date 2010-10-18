@@ -20,7 +20,6 @@
 #include "itkScalarToRGBColormapImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
 
 #include "itkRedColormapFunctor.h"

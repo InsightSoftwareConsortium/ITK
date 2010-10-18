@@ -14,7 +14,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkTransformBase.h"
 #include "itkTransform.h"
 
 #ifdef CABLE_CONFIGURATION

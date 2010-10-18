@@ -22,8 +22,6 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "itkNumericTraits.h"
-#include "itkConceptChecking.h"
 #include <iostream>
 #include <cstdlib>
 

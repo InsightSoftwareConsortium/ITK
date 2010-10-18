@@ -19,7 +19,6 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
-#include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itk_hash_map.h"
 #include "itkHistogram.h"

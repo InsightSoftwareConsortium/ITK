@@ -22,10 +22,8 @@
 // Test the filter with 1-D images.
 
 
-#include "itkImage.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkCovariantVector.h"
 
 
 int itkGradientRecursiveGaussianFilterTest2(int, char* [] ) 

@@ -20,7 +20,6 @@
 #include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkIdentityTransform.h"
 

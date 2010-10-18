@@ -17,12 +17,9 @@
 #ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_txx
 #define __itkSparseFieldFourthOrderLevelSetImageFilter_txx
 
-#include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkSparseImage.h"
 #include "itkNumericTraits.h"
 
 namespace itk

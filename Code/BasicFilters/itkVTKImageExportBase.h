@@ -63,7 +63,8 @@ public:
   typedef float * ( *FloatSpacingCallbackType )(void *);
   typedef float * ( *FloatOriginCallbackType )(void *);
 
-  /** \class Provide compatibility between VTK 4.4 and earlier versions.  */
+  /** \class CallbackTypeProxy
+   * \brief Provide compatibility between VTK 4.4 and earlier versions.  */
   class CallbackTypeProxy
   {
 public:

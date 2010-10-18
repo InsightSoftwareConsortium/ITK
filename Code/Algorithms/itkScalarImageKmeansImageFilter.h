@@ -17,20 +17,15 @@
 #ifndef __itkScalarImageKmeansImageFilter_h
 #define __itkScalarImageKmeansImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkNumericTraits.h"
 
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 
-#include "itkEuclideanDistanceMetric.h"
 #include "itkSampleClassifierFilter.h"
 #include "itkImageToListSampleAdaptor.h"
 #include "itkMinimumDecisionRule2.h"
 
-#include "itkImageRegion.h"
 #include "itkRegionOfInterestImageFilter.h"
 
 #include <vector>

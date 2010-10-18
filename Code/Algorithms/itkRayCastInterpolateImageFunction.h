@@ -19,7 +19,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkInterpolateImageFunction.h"
 #include "itkTransform.h"
-#include "itkVector.h"
 
 namespace itk
 {

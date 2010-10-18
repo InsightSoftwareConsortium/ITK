@@ -20,7 +20,6 @@
 #include <queue>
 #include <vector>
 
-#include "itkIndex.h"
 #include "itkSize.h"
 #include "itkConditionalConstIterator.h"
 #include "itkImage.h"

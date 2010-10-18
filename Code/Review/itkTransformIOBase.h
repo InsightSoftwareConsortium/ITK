@@ -17,7 +17,6 @@
 #ifndef __itkTransformIOBase_h
 #define __itkTransformIOBase_h
 #include "itkLightProcessObject.h"
-#include "itkObjectFactory.h"
 #include "itkTransformBase.h"
 #include <list>
 #include <iostream>

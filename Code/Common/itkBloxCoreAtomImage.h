@@ -19,15 +19,10 @@
 
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_vector.h"
-#include "itkPoint.h"
 #include "itkVector.h"
-#include "itkCovariantVector.h"
 #include "itkBloxBoundaryPointItem.h"
-#include "itkBloxBoundaryPointPixel.h"
 #include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomItem.h"
 #include "itkBloxCoreAtomPixel.h"
-#include "itkBloxImage.h"
 
 namespace itk
 {

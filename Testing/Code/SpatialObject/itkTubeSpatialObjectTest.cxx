@@ -25,12 +25,10 @@
 #endif
 
 #include "itkPoint.h"
-#include "itkVector.h"
 #include "itkAffineTransform.h"
-#include "itkTubeSpatialObjectPoint.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include <vnl/vnl_math.h>
 

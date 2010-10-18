@@ -19,8 +19,6 @@
 
 #include "itkLightProcessObject.h"
 #include "itkArray.h"
-#include "itkFixedArray.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 #include "itkVariableLengthVector.h"
 #include "metaArray.h"

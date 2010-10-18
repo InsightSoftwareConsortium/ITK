@@ -27,7 +27,6 @@
 #include "itkGE5ImageIOFactory.h"
 #include "itkSiemensVisionImageIOFactory.h"
 #include "itkImageIOFactory.h"
-#include "itkExceptionObject.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImage.h"

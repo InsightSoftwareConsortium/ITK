@@ -17,7 +17,6 @@
 #ifndef __itkQuadrilateralCell_h
 #define __itkQuadrilateralCell_h
 
-#include "itkCellInterface.h"
 #include "itkLineCell.h"
 #include "itkQuadrilateralCellTopology.h"
 

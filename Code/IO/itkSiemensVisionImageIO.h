@@ -15,7 +15,9 @@
 
 =========================================================================*/
 /**
- * \file   Much of the code for this file reader/writer was taken from
+ * \file   itkSiemensVisionImageIO.h
+ *
+ *         Much of the code for this file reader/writer was taken from
  *         the University of Iowa Imaging Group library with the
  *         permission of the authors, Milan Sonka, Joseph Reinhardt,
  *         Ryan Long, Hans Johnson, Gary Christensen, and others.

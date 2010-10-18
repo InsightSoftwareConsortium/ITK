@@ -22,7 +22,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkSparseFieldLayer.h"
 #include "itkObjectStore.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkMultiThreader.h"
 #include "itkBarrier.h"
 #include "itkSemaphore.h"

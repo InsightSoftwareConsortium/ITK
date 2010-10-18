@@ -31,7 +31,6 @@
 #define __itkMacro_h
 
 #include "itkWin32Header.h"
-#include "itkConfigure.h"
 
 #include <string>
 #include <cstdlib>
@@ -594,7 +593,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 // Setup legacy code policy.
 //
 // CMake options ITK_LEGACY_REMOVE and ITK_LEGACY_SILENT are converted
-// to definitions (or non-defs) in itkConfigure.h and tested below.
 // They may be used to completely remove legacy code or silence the
 // warnings.  The default is to warn about their use.
 //
@@ -932,7 +930,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 #define ITK_NO_RETURN
 #endif
 
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops
 // unrolling
@@ -977,7 +974,6 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
     DestinationArray[i] = itk::Math::Round< DestinationElementType >(SourceArray[i]); \
     }
 
-#endif
 // end of Template Meta Programming helper macros
 
 #ifndef NDEBUG

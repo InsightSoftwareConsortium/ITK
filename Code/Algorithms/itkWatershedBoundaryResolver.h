@@ -20,8 +20,6 @@
 #if defined( _MSC_VER )
 #pragma warning ( disable : 4786 )
 #endif
-#include "itkWatershedBoundary.h"
-#include "itkEquivalencyTable.h"
 #include "itkWatershedSegmenter.h"
 
 namespace itk

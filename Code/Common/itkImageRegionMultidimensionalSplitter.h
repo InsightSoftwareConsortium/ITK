@@ -17,11 +17,8 @@
 #ifndef __itkImageRegionMultidimensionalSplitter_h
 #define __itkImageRegionMultidimensionalSplitter_h
 
-#include "itkObject.h"
 #include "itkRegion.h"
-#include "itkObjectFactory.h"
 #include "itkIndex.h"
-#include "itkSize.h"
 #include "itkImageRegionSplitter.h"
 
 namespace itk
@@ -107,6 +104,11 @@ protected:
 private:
   ImageRegionMultidimensionalSplitter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented
+
+  static unsigned int ComputeSplits(unsigned int numberOfPieces,
+                                    const RegionType &region,
+                                    unsigned int splits[]);
+
 };
 } // end namespace itk
 

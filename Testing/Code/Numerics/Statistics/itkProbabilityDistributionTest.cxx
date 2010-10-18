@@ -19,7 +19,6 @@
 #endif
 
 #include "itkProbabilityDistribution.h"
-#include "itkObjectFactory.h"
 
 namespace itk {
 namespace Statistics {

@@ -19,16 +19,9 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 // Native ITK stuff
-#include "itkSize.h"
 #include "itkIndex.h"
-#include "itkImage.h"
-#include "itkImageRegionIterator.h"
-#include "itkPoint.h"
 
 // Blox stuff
-#include "itkBloxBoundaryProfileImage.h"
-#include "itkBloxBoundaryPointPixel.h"
-#include "itkBloxBoundaryPointImage.h"
 #include "itkGradientImageToBloxBoundaryPointImageFilter.h"
 #include "itkBloxBoundaryPointImageToBloxBoundaryProfileImageFilter.h"
 #include "itkBloxBoundaryProfileImageToBloxCoreAtomImageFilter.h"
@@ -41,7 +34,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkBinomialBlurImageFilter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include <time.h>
 
 int itkBloxBoundaryProfileImageToBloxCoreAtomImageFilterTest(int, char*[])

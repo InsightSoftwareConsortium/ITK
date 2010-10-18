@@ -27,7 +27,6 @@
 // Software Guide : EndLatex
 
 #include "itkWatershedImageFilter.h"
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScalarToRGBPixelFunctor.h"

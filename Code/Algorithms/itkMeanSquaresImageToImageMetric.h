@@ -18,11 +18,9 @@
 #define __itkMeanSquaresImageToImageMetric_h
 
 #include "itkImageToImageMetric.h"
-#include "itkCovariantVector.h"
 #include "itkPoint.h"
 #include "itkIndex.h"
 
-#include "itkMultiThreader.h"
 
 namespace itk
 {

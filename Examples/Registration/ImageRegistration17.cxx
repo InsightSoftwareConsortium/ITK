@@ -31,10 +31,8 @@
 
 #include "itkTranslationTransform.h"
 #include "itkMutualInformationHistogramImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkAmoebaOptimizer.h"
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

@@ -18,9 +18,7 @@
 #define __itkMultipleValuedCostFunction_h
 
 #include "itkCostFunction.h"
-#include "itkArray.h"
 #include "itkArray2D.h"
-#include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 
 namespace itk

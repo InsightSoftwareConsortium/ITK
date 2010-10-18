@@ -18,19 +18,15 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkImage.h"
 #include "itkVector.h"
-#include "itkPoint.h"
 #include "itkMesh.h"
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkMinMaxCurvatureFlowFunction.h"
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkMultiResolutionPDEDeformableRegistration.h"
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"

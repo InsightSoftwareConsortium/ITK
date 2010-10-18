@@ -17,7 +17,6 @@
 #ifndef __itkGradientVectorFlowImageFilter_h
 #define __itkGradientVectorFlowImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_math.h"
 #include "itkImage.h"

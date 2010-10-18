@@ -33,7 +33,6 @@
 #include "itkHoughTransform2DLinesImageFilter.h"
 // Software Guide : EndCodeSnippet
 
-#include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImageRegionIterator.h"

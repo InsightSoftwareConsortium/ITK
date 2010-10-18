@@ -19,7 +19,6 @@
 
 #include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 
 namespace itk

@@ -21,14 +21,8 @@
 #include <string.h>
 #include <iostream>
 #include "itkImage.h"
-#include "itkIndex.h"
-#include "itkOffset.h"
-#include "itkSize.h"
-#include "itkImageRegion.h"
-#include "itkMacro.h"
 #include "itkNeighborhood.h"
-#include "itkImageBoundaryCondition.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk

@@ -20,7 +20,6 @@
 #include "itkImageSource.h"
 #include "itkConceptChecking.h"
 #include "itkHistogram.h"
-#include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleDataObjectDecorator.h"
 

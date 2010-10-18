@@ -29,7 +29,6 @@
 #include "itkEuler3DTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "itkPointSet.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
 #include <iostream>
 #include <fstream>

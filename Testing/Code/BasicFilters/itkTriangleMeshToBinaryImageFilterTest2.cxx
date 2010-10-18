@@ -20,8 +20,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkMesh.h"
-#include "itkSimplexMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshToTriangleMeshFilter.h"

@@ -19,9 +19,7 @@
 
 #include "vnl/vnl_vector_fixed.h"
 #include "itkProgressReporter.h"
-#include "itkSize.h"
 #include "itkImageRegion.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionReverseIterator.h"
 #include "itkBinomialBlurImageFilter.h"

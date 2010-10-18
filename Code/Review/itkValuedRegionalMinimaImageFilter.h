@@ -19,7 +19,6 @@
 #define __itkValuedRegionalMinimaImageFilter_h
 
 #include "itkValuedRegionalExtremaImageFilter.h"
-#include "itkNumericTraits.h"
 #include "itkConceptChecking.h"
 
 namespace itk

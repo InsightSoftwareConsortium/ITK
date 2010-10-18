@@ -21,7 +21,6 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkLightProcessObject.h"
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
-#include "itkMacro.h"
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <math.h>

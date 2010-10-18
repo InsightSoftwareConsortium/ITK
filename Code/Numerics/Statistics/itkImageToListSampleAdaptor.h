@@ -24,8 +24,6 @@
 #include "itkListSample.h"
 #include "itkSmartPointer.h"
 #include "itkImageRegionIterator.h"
-#include "itkFixedArray.h"
-#include "itkMacro.h"
 #include "itkMeasurementVectorTraits.h"
 
 namespace itk

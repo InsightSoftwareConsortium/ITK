@@ -21,12 +21,9 @@
 #include "itkDefaultStaticMeshTraits.h"
 #include "itk_hash_map.h"
 #include "itkHexahedronCell.h"
-#include "itkLineCell.h"
 #include "itkMesh.h"
 #include "itkMeshSource.h"
-#include "itkQuadrilateralCell.h"
 #include "itkStructHashFunction.h"
-#include "itkTriangleCell.h"
 #include "itkTetrahedronCell.h"
 #include "itkVertexCell.h"
 

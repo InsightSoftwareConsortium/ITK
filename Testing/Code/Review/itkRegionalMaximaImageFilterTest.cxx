@@ -22,10 +22,8 @@
 #include "itkInvertIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCommand.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkAndImageFilter.h"
-#include "itkCommand.h"
 #include "itkSimpleFilterWatcher.h"
 
 

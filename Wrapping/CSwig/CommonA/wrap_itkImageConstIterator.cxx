@@ -14,9 +14,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkImage.h"
 #include "itkImageConstIterator.h"
-#include "itkVector.h"
 #include "itkCovariantVector.h"
 
 #ifdef CABLE_CONFIGURATION

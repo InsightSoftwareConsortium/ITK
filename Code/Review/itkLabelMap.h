@@ -18,8 +18,6 @@
 #define __itkLabelMap_h
 
 #include "itkImageBase.h"
-#include "itkImageRegion.h"
-#include "itkFixedArray.h"
 #include "itkWeakPointer.h"
 #include <map>
 

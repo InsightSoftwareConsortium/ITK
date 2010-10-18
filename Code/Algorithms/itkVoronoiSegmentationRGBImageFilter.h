@@ -17,9 +17,7 @@
 #ifndef __itkVoronoiSegmentationRGBImageFilter_h
 #define __itkVoronoiSegmentationRGBImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkVoronoiSegmentationImageFilterBase.h"
-#include "itkImage.h"
 
 namespace itk
 {

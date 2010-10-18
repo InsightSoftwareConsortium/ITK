@@ -17,7 +17,6 @@
 #ifndef __itkImage_h
 #define __itkImage_h
 
-#include "itkImageBase.h"
 #include "itkImageRegion.h"
 #include "itkImportImageContainer.h"
 #include "itkDefaultPixelAccessor.h"

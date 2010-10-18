@@ -17,7 +17,6 @@
 
 #include "itkMRCImageIO.h"
 #include "itkByteSwapper.h"
-#include "itkIntTypes.h"
 
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"

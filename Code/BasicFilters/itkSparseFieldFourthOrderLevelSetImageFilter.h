@@ -17,7 +17,6 @@
 #ifndef __itkSparseFieldFourthOrderLevelSetImageFilter_h
 #define __itkSparseFieldFourthOrderLevelSetImageFilter_h
 
-#include "itkSparseImage.h"
 #include "itkNormalVectorDiffusionFunction.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkLevelSetFunctionWithRefitTerm.h"

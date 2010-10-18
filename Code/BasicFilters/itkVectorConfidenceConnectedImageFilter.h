@@ -17,7 +17,6 @@
 #ifndef __itkVectorConfidenceConnectedImageFilter_h
 #define __itkVectorConfidenceConnectedImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 

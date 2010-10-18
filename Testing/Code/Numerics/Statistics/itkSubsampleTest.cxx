@@ -22,8 +22,6 @@
 #include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkScalarToArrayCastImageFilter.h"
-#include "itkFixedArray.h"
-#include "itkListSample.h"
 
 int itkSubsampleTest(int, char* [] )
 {

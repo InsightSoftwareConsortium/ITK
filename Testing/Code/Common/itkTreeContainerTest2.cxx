@@ -21,9 +21,7 @@
 #include <fstream>
 #include <itkCommand.h> 
 #include "itkMacro.h"
-#include <itkObject.h>
 #include <iostream>
-#include <itkObjectFactory.h>
 #include <itkSmartPointer.h>
 
 
@@ -37,7 +35,6 @@
 #include "itkLevelOrderTreeIterator.h"
 #include "itkInOrderTreeIterator.h"
 #include "itkPostOrderTreeIterator.h"
-#include "itkPreOrderTreeIterator.h"
 #include "itkRootTreeIterator.h"
 
 class TestData {

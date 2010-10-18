@@ -17,13 +17,9 @@
 #ifndef __itkCannyEdgeDetectionImageFilter_h
 #define __itkCannyEdgeDetectionImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkFixedArray.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkMultiThreader.h"
 #include "itkDerivativeOperator.h"
 #include "itkSparseFieldLayer.h"

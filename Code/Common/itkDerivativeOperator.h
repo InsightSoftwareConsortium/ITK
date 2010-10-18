@@ -17,7 +17,6 @@
 #ifndef __itkDerivativeOperator_h
 #define __itkDerivativeOperator_h
 
-#include "itkExceptionObject.h"
 #include "itkNeighborhoodOperator.h"
 
 namespace itk

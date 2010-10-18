@@ -18,7 +18,6 @@
 #define __itkMultilayerNeuralNetworkBase_h
 
 #include "itkNeuralNetworkObject.h"
-#include "itkLayerBase.h"
 
 namespace itk
 {

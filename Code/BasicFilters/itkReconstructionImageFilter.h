@@ -18,9 +18,7 @@
 #define __itkReconstructionImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkConstShapedNeighborhoodIterator.h"
 #include "itkShapedNeighborhoodIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 #include <queue>

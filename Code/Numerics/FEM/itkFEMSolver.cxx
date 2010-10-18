@@ -23,7 +23,6 @@
 #include "itkFEMSolver.h"
 
 #include "itkFEMLoadNode.h"
-#include "itkFEMLoadElementBase.h"
 #include "itkFEMElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"

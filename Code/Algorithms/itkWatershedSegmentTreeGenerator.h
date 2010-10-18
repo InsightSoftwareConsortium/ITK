@@ -20,7 +20,6 @@
 #include "itkWatershedSegmentTable.h"
 #include "itkWatershedSegmentTree.h"
 #include "itkEquivalencyTable.h"
-#include "itkOneWayEquivalencyTable.h"
 
 #include <algorithm>
 #include <utility>

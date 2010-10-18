@@ -105,7 +105,6 @@
 //
 // Software Guide : EndLatex 
 
-#include "itkImage.h"
 
 // Software Guide : BeginCodeSnippet
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
@@ -125,7 +124,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkPCAShapeSignedDistanceFunction.h"
 #include "itkEuler2DTransform.h"
-#include "itkShapePriorMAPCostFunction.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkNormalVariateGenerator.h"
 #include "vnl/vnl_sample.h"

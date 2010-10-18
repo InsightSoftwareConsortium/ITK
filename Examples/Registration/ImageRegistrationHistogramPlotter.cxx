@@ -106,9 +106,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 #include "itkNormalizeImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkImageFileReader.h"
@@ -132,7 +130,6 @@
 // Software Guide : EndCodeSnippet
 
 #include "itkCommand.h"
-#include "itkUnaryFunctorImageFilter.h"
 
 #include <stdio.h>
 

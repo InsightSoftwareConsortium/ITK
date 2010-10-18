@@ -19,7 +19,7 @@
 #endif
 
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include <iostream>
 
 class mammal

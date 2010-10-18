@@ -19,7 +19,6 @@
 #define __itkMultiphaseFiniteDifferenceImageFilter_txx
 
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkExceptionObject.h"
 #include "itkEventObject.h"

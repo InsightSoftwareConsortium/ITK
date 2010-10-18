@@ -15,7 +15,6 @@
 
 =========================================================================*/
 #include "itkVector.h"
-#include "itkNumericTraits.h"
 
 namespace itk
 {

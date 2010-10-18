@@ -39,8 +39,6 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkImage.h"
 
 //  Software Guide : BeginLatex
 //  

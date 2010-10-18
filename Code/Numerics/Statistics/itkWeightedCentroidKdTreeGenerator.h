@@ -19,11 +19,8 @@
 
 #include <vector>
 
-#include "itkSample.h"
 #include "itkSubsample.h"
-#include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
-#include "itkStatisticsAlgorithm.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #define __itkNeighborhoodOperator_h
 
 #include "itkNeighborhood.h"
-#include "itkExceptionObject.h"
 #include "itkNumericTraits.h"
 #include <vector>
 

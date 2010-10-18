@@ -17,13 +17,8 @@
 #ifndef __itkMeasurementVectorTraits_h
 #define __itkMeasurementVectorTraits_h
 
-#include "itkMacro.h"
-#include "itkArray.h"
 #include "itkVariableLengthVector.h"
-#include "itkVector.h"
-#include "itkFixedArray.h"
 #include "vnl/vnl_vector_fixed.h"
-#include "itkPoint.h"
 #include "itkRGBPixel.h"
 #include "itkMatrix.h"
 #include "itkVariableSizeMatrix.h"

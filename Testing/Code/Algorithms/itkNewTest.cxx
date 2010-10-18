@@ -26,7 +26,6 @@
 #include "itkBackwardDifferenceOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkAddImageFilter.h"
-#include "itkBinaryFunctorImageFilter.h"
 
 // #include "itkDerivativeImageFilter.h"
 // #include "itkDiscreteGaussianImageFilter.h"

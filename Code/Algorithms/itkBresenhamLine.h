@@ -19,7 +19,6 @@
 #define __itkBresenhamLine_h
 
 #include "itkVector.h"
-#include "itkOffset.h"
 #include "itkIndex.h"
 #include <vector>
 

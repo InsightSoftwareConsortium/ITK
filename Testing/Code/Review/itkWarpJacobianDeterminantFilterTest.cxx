@@ -19,7 +19,6 @@
 #endif
 
 #include "itkImage.h"
-#include "itkVector.h"
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

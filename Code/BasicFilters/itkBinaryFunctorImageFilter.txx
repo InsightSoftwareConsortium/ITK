@@ -19,7 +19,6 @@
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk

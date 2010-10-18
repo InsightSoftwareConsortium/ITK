@@ -21,7 +21,6 @@
 
 #include "itkMixtureModelComponentBase.h"
 #include "itkListSample.h"
-#include "itkObjectFactory.h"
 #include "itkTestingMacros.h"
 
 namespace itk {

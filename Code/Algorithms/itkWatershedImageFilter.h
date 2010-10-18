@@ -22,8 +22,6 @@
 #endif
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
-#include "itkWatershedSegmenter.h"
 #include "itkWatershedSegmentTreeGenerator.h"
 #include "itkWatershedRelabeler.h"
 #include "itkWatershedMiniPipelineProgressCommand.h"

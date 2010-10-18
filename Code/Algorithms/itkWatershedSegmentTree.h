@@ -17,8 +17,6 @@
 #ifndef __itkWatershedSegmentTree_h
 #define __itkWatershedSegmentTree_h
 
-#include "itkObjectFactory.h"
-#include "itkDataObject.h"
 #include "itkProcessObject.h"
 #include <deque>
 #include <functional>

@@ -21,10 +21,7 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkObjectFactory.h"
 #include "itkDataObject.h"
-#include "itkProcessObject.h"
-#include "itk_hash_map.h"
 #include <list>
 #include "itkOneWayEquivalencyTable.h"
 

@@ -23,15 +23,12 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkIterativeSupervisedTrainingFunction.h"
 #include "itkBatchSupervisedTrainingFunction.h"
 #include "itkRBFNetwork.h"
-#include "itkRBFLayer.h"
 #include "itkVector.h"
-#include "itkArray.h"
 #include "itkListSample.h"
 #include <vector>
 #include <fstream>
 
 #include "itkSampleClassifierFilter.h"
-#include "itkEuclideanDistanceMetric.h"
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"

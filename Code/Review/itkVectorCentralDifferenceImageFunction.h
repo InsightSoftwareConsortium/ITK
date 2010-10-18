@@ -20,7 +20,6 @@
 
 #include "itkImageFunction.h"
 #include "itkMatrix.h"
-#include "itkImageBase.h"
 
 namespace itk
 {

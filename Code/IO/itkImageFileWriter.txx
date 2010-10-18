@@ -24,7 +24,6 @@
 #include "itkCommand.h"
 #include "vnl/vnl_vector.h"
 #include "itkVectorImage.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

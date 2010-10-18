@@ -17,7 +17,6 @@
 #include "itkImage.h"
 #include "itkFunctionBase.h"
 #include "itkArray.h"
-#include "itkPoint.h"
 #include "itkContinuousIndex.h"
 
 #ifdef CABLE_CONFIGURATION

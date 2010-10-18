@@ -19,7 +19,6 @@
 #endif
 
 #include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
-#include "itkScalarChanAndVeseLevelSetFunction.h"
 #include "itkScalarChanAndVeseLevelSetFunctionData.h"
 #include "itkConstrainedRegionBasedLevelSetFunctionSharedData.h"
 #include "itkImage.h"

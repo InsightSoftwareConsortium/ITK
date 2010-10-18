@@ -21,10 +21,8 @@
 
 
 
-#include <itkImage.h>
 #include <itkGradientRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIterator.h>
-#include <itkCovariantVector.h>
 #include <itkGradientToMagnitudeImageFilter.h>
 
 

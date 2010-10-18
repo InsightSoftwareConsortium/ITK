@@ -18,7 +18,6 @@
 #define __itkConnectedComponentFunctorImageFilter_h
 
 #include "itkConnectedComponentImageFilter.h"
-#include "itkImage.h"
 
 namespace itk
 {

@@ -21,8 +21,6 @@
 #include <string>
 #include <stdlib.h>
 #include "itkMetaImageIO.h"
-#include "itkExceptionObject.h"
-#include "itkSpatialOrientation.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"

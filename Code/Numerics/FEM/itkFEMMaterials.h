@@ -24,6 +24,5 @@
  * To make sure you have included all Material classes,
  * just include this header file.
  */
-#include "itkFEMMaterialBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #endif

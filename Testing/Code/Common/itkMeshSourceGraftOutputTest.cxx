@@ -20,11 +20,8 @@
 
 #include <itkTransformMeshFilter.h>
 #include <itkMesh.h>
-#include <itkMeshSource.h>
 #include <itkAffineTransform.h>
-#include "itkMeshToMeshFilter.h"
-#include "itkTransform.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {

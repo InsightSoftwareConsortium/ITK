@@ -24,8 +24,6 @@
 #include "itkImage.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkGaussianImageSource.h"
-#include "itkMultivariateLegendrePolynomial.h"
-#include "itkCompositeValleyFunction.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkArray.h"
 #include "itkImageFileWriter.h"

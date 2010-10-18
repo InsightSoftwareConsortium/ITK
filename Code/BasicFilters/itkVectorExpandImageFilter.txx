@@ -19,7 +19,6 @@
 
 #include "itkVectorExpandImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkExceptionObject.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"

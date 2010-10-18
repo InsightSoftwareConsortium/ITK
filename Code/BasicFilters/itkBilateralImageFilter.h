@@ -18,10 +18,8 @@
 #define __itkBilateralImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkFixedArray.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
 
 namespace itk
@@ -54,6 +52,8 @@ namespace itk
  * ICCV. 1998.)
  *
  * \sa GaussianOperator
+ * \sa RecursiveGaussianImageFilter
+ * \sa DiscreteGaussianImageFilter
  * \sa AnisotropicDiffusionImageFilter
  * \sa Image
  * \sa Neighborhood

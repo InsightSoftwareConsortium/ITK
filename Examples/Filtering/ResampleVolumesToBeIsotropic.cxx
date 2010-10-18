@@ -143,7 +143,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkIdentityTransform.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 

@@ -18,12 +18,9 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkImageHelper.h"
-#include "itkSpatialObject.h"
-#include "itkTubeSpatialObject.h"
 #include "itkDTITubeSpatialObject.h"
 #include "itkVesselTubeSpatialObject.h"
 #include "itkContourSpatialObject.h"
-#include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectWriter.h"
 #include "itkSpatialObjectReader.h"
 #include "itkImageMaskSpatialObject.h"

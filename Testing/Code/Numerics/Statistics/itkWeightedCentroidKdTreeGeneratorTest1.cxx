@@ -23,7 +23,6 @@
 #include "itkListSample.h"
 #include "itkKdTree.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
-#include "itkEuclideanDistanceMetric.h"
 #include <fstream>
 
 int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )

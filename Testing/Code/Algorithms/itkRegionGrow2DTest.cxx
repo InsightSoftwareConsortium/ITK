@@ -18,10 +18,8 @@
 #pragma warning ( disable : 4786 )
 #endif
 // Insight classes
-#include "itkImage.h"
 #include "itkVector.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "itkImageRegionIterator.h"
 #include "itkTextOutput.h"
 #include "itkRGBPixel.h"
 

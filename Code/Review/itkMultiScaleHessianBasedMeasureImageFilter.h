@@ -18,7 +18,6 @@
 #define __itkMultiScaleHessianBasedMeasureImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 
 namespace itk

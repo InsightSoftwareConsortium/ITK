@@ -17,7 +17,6 @@
 #ifndef __itkTetrahedronCell_h
 #define __itkTetrahedronCell_h
 
-#include "itkCellInterface.h"
 #include "itkTriangleCell.h"
 #include "itkTetrahedronCellTopology.h"
 

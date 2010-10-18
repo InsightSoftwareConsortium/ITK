@@ -18,10 +18,7 @@
 #define __itkSpatialObjectWriter_h
 
 #include "itkMetaSceneConverter.h"
-#include "itkProcessObject.h"
 #include "itkSpatialObject.h"
-#include "itkSceneSpatialObject.h"
-#include <itkDefaultStaticMeshTraits.h>
 
 namespace itk
 {

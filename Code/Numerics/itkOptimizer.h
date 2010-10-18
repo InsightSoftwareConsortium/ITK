@@ -19,7 +19,6 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkExceptionObject.h"
 #include "itkArray.h"
 
 namespace itk

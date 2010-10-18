@@ -17,7 +17,6 @@
 #ifndef __itkMemoryProbe_h
 #define __itkMemoryProbe_h
 
-#include "itkConfigure.h"
 #include "itkResourceProbe.h"
 #include "itkMemoryUsageObserver.h"
 

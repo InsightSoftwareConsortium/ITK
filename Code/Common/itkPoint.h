@@ -17,7 +17,6 @@
 #ifndef __itkPoint_h
 #define __itkPoint_h
 
-#include "itkFixedArray.h"
 
 #include "itkNumericTraits.h"
 #include "itkVector.h"

@@ -18,7 +18,6 @@
 #define __itkDiscreteGaussianImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkFixedArray.h"
 #include "itkImage.h"
 
 namespace itk
@@ -47,6 +46,7 @@ namespace itk
  * \sa Image
  * \sa Neighborhood
  * \sa NeighborhoodOperator
+ * \sa RecursiveGaussianImageFilter
  *
  * \ingroup ImageEnhancement
  * \ingroup ImageFeatureExtraction

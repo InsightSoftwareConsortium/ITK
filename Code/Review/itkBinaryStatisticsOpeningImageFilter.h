@@ -17,9 +17,6 @@
 #ifndef __itkBinaryStatisticsOpeningImageFilter_h
 #define __itkBinaryStatisticsOpeningImageFilter_h
 
-#include "itkImageToImageFilter.h"
-#include "itkStatisticsLabelObject.h"
-#include "itkLabelMap.h"
 #include "itkBinaryImageToLabelMapFilter.h"
 #include "itkStatisticsLabelMapFilter.h"
 #include "itkStatisticsOpeningLabelMapFilter.h"

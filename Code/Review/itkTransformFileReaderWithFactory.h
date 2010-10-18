@@ -17,7 +17,6 @@
 #ifndef __itkTransformFileReaderWithFactory_h
 #define __itkTransformFileReaderWithFactory_h
 
-#include "itkLightProcessObject.h"
 #include "metaTransform.h"
 #include "itkTransformIOBase.h"
 

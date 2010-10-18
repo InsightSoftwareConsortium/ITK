@@ -21,8 +21,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkCellInterface.h"
-#include "itkLineCell.h"
 #include "itkMesh.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkPolygonCell.h"
@@ -108,8 +106,6 @@ public:
                                           CellDataContainer;
   typedef typename MeshTraits::CellAutoPointer
                                           genericCellPointer;
-  typedef PointLocator< PointIdentifier, itkGetStaticConstMacro(PointDimension), CoordRepType,
-                        PointsContainer > PointLocatorType;
   typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension), CoordRepType,
                        PointsContainer >  BoundingBoxType;
   typedef typename PointsContainer::Pointer
@@ -122,8 +118,6 @@ public:
                                           PointDataContainerPointer;
   typedef typename CellDataContainer::Pointer
                                           CellDataContainerPointer;
-  typedef typename PointLocatorType::Pointer
-                                          PointLocatorPointer;
   typedef typename BoundingBoxType::Pointer
                                           BoundingBoxPointer;
   typedef typename PointsContainer::ConstIterator

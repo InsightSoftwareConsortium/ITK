@@ -20,7 +20,6 @@
 #ifndef __itkByteSwapper_txx
 #define __itkByteSwapper_txx
 #include "itkByteSwapper.h"
-#include "itkObjectFactory.h"
 #include <memory>
 #include <cstring>
 

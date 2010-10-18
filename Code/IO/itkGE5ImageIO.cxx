@@ -15,7 +15,7 @@
 
 =========================================================================*/
 #include "itkGE5ImageIO.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include "itkDirectory.h"
 #include <itksys/SystemTools.hxx>
@@ -33,7 +33,6 @@
 #include <vnl/vnl_cross.h>
 
 #include "itkGEImageHeader.h"
-#include "itkIOCommon.h"
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"
 

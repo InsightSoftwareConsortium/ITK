@@ -19,7 +19,6 @@
 
 #include "itkReflectImageFilter.h"
 #include "itkImageLinearIteratorWithIndex.h"
-#include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 
 namespace itk

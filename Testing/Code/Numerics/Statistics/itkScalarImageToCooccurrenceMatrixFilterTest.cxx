@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 // Insight classes
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 

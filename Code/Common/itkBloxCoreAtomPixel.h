@@ -23,7 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkObject.h"
 #include "itkBloxCoreAtomItem.h"
-#include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
 #include "itkBloxPixel.h"

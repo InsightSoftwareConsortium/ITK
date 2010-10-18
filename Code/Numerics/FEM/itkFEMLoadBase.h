@@ -18,8 +18,6 @@
 #define __itkFEMLoadBase_h
 
 #include "itkFEMElementBase.h"
-#include "itkFEMSolution.h"
-#include "itkFEMPArray.h"
 
 namespace itk {
 namespace fem {

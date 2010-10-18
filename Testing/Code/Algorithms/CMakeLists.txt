@@ -66,6 +66,8 @@ add_test(itkCollidingFrontsImageFilterTest ${ALGORITHMS_TESTS4} itkCollidingFron
 add_test(itkCurvesLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkCurvesLevelSetImageFilterZeroSigmaTest)
 add_test(itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest ${ALGORITHMS_TESTS4} itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest)
 add_test(itkLabelVotingImageFilterTest ${ALGORITHMS_TESTS4} itkLabelVotingImageFilterTest)
+add_test(itkBinaryMask3DQuadEdgeMeshSourceTest ${ALGORITHMS_TESTS4} itkBinaryMask3DQuadEdgeMeshSourceTest)
+add_test(itkAutomaticTopologyQuadEdgeMeshSourceTest ${ALGORITHMS_TESTS4} itkAutomaticTopologyQuadEdgeMeshSourceTest)
 
 add_test(itkLevelSetMotionRegistrationFilterTest ${ALGORITHMS_TESTS4}
   itkLevelSetMotionRegistrationFilterTest
@@ -176,6 +178,10 @@ add_test(itkPointSetToImageRegistrationTest_1 ${ALGORITHMS_TESTS3}  itkPointSetT
 add_test(itkRegionGrow2DTest ${ALGORITHMS_TESTS3} itkRegionGrow2DTest)
 add_test(itkReinitializeLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkReinitializeLevelSetImageFilterTest)
 add_test(itkRegularSphereMeshSourceTest ${ALGORITHMS_TESTS2} itkRegularSphereMeshSourceTest)
+add_test(itkRegularSphereQuadEdgeMeshSourceTest
+  ${ALGORITHMS_TESTS4}
+  itkRegularSphereQuadEdgeMeshSourceTest ${ITK_TEST_OUTPUT_DIR}/itkRegularSphereMeshQuadEdgeMeshSourceTest.vtk
+  )
 add_test(itkRayCastInterpolateImageFunctionTest ${ALGORITHMS_TESTS2} itkRayCastInterpolateImageFunctionTest)
 add_test(itkSimplexMeshVolumeCalculatorTest ${ALGORITHMS_TESTS2} itkSimplexMeshVolumeCalculatorTest)
 add_test(itkShapeDetectionLevelSetImageFilterTest ${ALGORITHMS_TESTS3} itkShapeDetectionLevelSetImageFilterTest)
@@ -242,6 +248,80 @@ add_test(itkCurvatureFlowTest ${ALGORITHMS_TESTS}
 
 # Metric fails when centered pixel coordinates not in use
 add_test(itkBinaryMedialNodeMetricTest ${ALGORITHMS_TESTS4} itkBinaryMedialNodeMetricTest)
+
+add_test( itkQuadEdgeMeshQuadricDecimationTest ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshQuadricDecimationTest
+  ${INPUTDATA}/mushroom.vtk
+  100
+  ${TEMP}/temp_QuadricDecimationResult1.vtk
+  )
+add_test( itkQuadEdgeMeshQuadricDecimationTetrahedronTest ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshQuadricDecimationTest
+  ${INPUTDATA}/tetrahedron.vtk
+  2
+  ${TEMP}/temp_QuadricDecimationTetrahedron.vtk
+  )
+add_test( itkQuadEdgeMeshSquaredEdgeLengthDecimationTest ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshSquaredEdgeLengthDecimationTest
+  ${INPUTDATA}/mushroom.vtk
+  20
+  ${TEMP}/temp_SquaredEdgeLengthDecimationResult1.vtk
+  )
+add_test( itkQuadEdgeMeshCleanFilterTest
+  ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshCleanFilterTest
+  ${INPUTDATA}/mushroom.vtk
+  0.1
+  ${TEMP}/temp_CleanResult1.vtk
+  )
+add_test( itkQuadEdgeMeshNormalFilterTest ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshNormalFilterTest
+  ${INPUTDATA}/mushroom.vtk
+  )
+
+add_test( itkQuadEdgeMeshSmoothingTest0 ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshSmoothingTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  10
+  0.1
+  0
+  ${TEMP}/temp_SmoothResult0.vtk
+  )
+
+add_test( itkQuadEdgeMeshSmoothingTest1 ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshSmoothingTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  10
+  0.1
+  1
+  ${TEMP}/temp_SmoothResult1.vtk
+  )
+
+set( CURV_TESTS Gaussian Max Mean Min )
+foreach( loop_var ${CURV_TESTS} )
+  add_test( itkQuadEdgeMesh${loop_var}CurvatureTest
+    ${ALGORITHMS_TESTS4}
+    itkQuadEdgeMesh${loop_var}CurvatureTest
+    ${INPUTDATA}/mushroom.vtk
+    )
+endforeach( loop_var )
+
+foreach( border 0 1 )
+  foreach( coeff 0 1 2 3 4 )
+    add_test( itkQuadEdgeMeshLinearParameterizationTest${border}_${coeff}
+    ${ALGORITHMS_TESTS4}
+    itkQuadEdgeMeshLinearParameterizationTest
+    ${INPUTDATA}/mushroom.vtk ${border} ${coeff}
+    ${TEMP}/param_border${border}_coeff${coeff}.vtk
+    )
+  endforeach( coeff )
+endforeach( border )
+
+add_test( itkQuadEdgeMeshDelaunayConformingFilterTest ${ALGORITHMS_TESTS4}
+  itkQuadEdgeMeshDelaunayConformingFilterTest
+  ${INPUTDATA}/mushroom.vtk
+  ${TEMP}/mushrom_delaunay.vtk
+  )
 
 set(AlgorithmsTest_SRCS
 itkAnisotropicFourthOrderLevelSetImageFilterTest.cxx
@@ -389,6 +469,20 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest.cxx
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 itkBinaryMedialNodeMetricTest.cxx
 itkVoronoiSegmentationRGBImageFilterTest.cxx
+itkBinaryMask3DQuadEdgeMeshSourceTest.cxx
+itkAutomaticTopologyQuadEdgeMeshSourceTest.cxx
+itkRegularSphereQuadEdgeMeshSourceTest.cxx
+itkQuadEdgeMeshLinearParameterizationTest.cxx
+itkQuadEdgeMeshSquaredEdgeLengthDecimationTest.cxx
+itkQuadEdgeMeshQuadricDecimationTest.cxx
+itkQuadEdgeMeshCleanFilterTest.cxx
+itkQuadEdgeMeshGaussianCurvatureTest.cxx
+itkQuadEdgeMeshMaxCurvatureTest.cxx
+itkQuadEdgeMeshMeanCurvatureTest.cxx
+itkQuadEdgeMeshMinCurvatureTest.cxx
+itkQuadEdgeMeshDelaunayConformingFilterTest.cxx
+itkQuadEdgeMeshNormalFilterTest.cxx
+itkQuadEdgeMeshSmoothingTest.cxx
 )
 
 add_executable(itkAlgorithmsPrintTest itkAlgorithmsPrintTest.cxx)

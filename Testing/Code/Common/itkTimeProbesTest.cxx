@@ -21,10 +21,7 @@
 #include "itkTimeProbesCollectorBase.h"
 #include "itkImage.h"
 #include "itkImage.h"
-#include "itkPoint.h"
-#include "itkImageRegion.h"
 #include "itkIndex.h"
-#include "itkSize.h"
 
 #include <iostream>
 #include <fstream>

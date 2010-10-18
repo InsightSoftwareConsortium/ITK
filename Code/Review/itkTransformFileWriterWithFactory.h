@@ -17,9 +17,7 @@
 #ifndef __itkTransformFileWriterWithFactory_h
 #define __itkTransformFileWriterWithFactory_h
 
-#include "itkLightProcessObject.h"
 #include "metaTransform.h"
-#include "itkTransformBase.h"
 #include "itkTransformIOBase.h"
 #include <iostream>
 #include <fstream>

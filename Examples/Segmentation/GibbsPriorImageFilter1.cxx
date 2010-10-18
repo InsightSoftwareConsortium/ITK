@@ -46,7 +46,6 @@
 #include "itkSize.h"
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 

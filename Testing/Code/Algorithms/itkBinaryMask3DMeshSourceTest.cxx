@@ -21,7 +21,6 @@
 #include <iostream>
 
 #include "itkImage.h"
-#include "itkMesh.h"
 #include "itkBinaryMask3DMeshSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

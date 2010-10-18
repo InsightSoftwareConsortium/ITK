@@ -17,7 +17,6 @@
 #ifndef __ValidationSampleGenerator_h
 #define __ValidationSampleGenerator_h
 
-#include "itkMacro.h"
 #include "itkNumericTraits.h"
 #include "itk_hash_map.h"
 
@@ -31,7 +30,6 @@
 
 #include "itkStatisticsAlgorithm.h"
 #include "itkHistogram.h"
-#include "itkSubsample.h"
 #include "itkListSampleToHistogramFilter.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 

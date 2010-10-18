@@ -19,8 +19,7 @@
 
 #include <iostream>
 #include "itkEuler3DTransform.h"
-#include "itkExceptionObject.h"
-#include "itkMatrix.h"
+#include "itkMacro.h"
 #include "itkVersor.h"
 
 namespace itk

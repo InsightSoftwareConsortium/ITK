@@ -19,7 +19,6 @@
 #endif
 
 #include <itkImage.h>
-#include <itkImageRegionIteratorWithIndex.h>
 #include <itkImageSliceConstIteratorWithIndex.h>
 #include <itkDanielssonDistanceMapImageFilter.h>
 

@@ -19,12 +19,7 @@
 #define __itkMultiphaseSparseFiniteDifferenceImageFilter_h
 
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
-#include "itkSparseFieldLayer.h"
-#include "itkObjectStore.h"
-#include "itkNeighborhoodIterator.h"
 #include "itkZeroCrossingImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"

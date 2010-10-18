@@ -18,11 +18,9 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkPath.h"
 #include "itkSymmetricEigenAnalysis.h"
-#include "itkImageMomentsCalculator.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 #include "itkBoundingBox.h"
-#include "itkUnaryFunctorImageFilter.h"
 #include "itkCastImageFilter.h"
 
 typedef itk::Matrix<float,3,3> MatrixF33;
@@ -72,7 +70,6 @@ template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesC
 template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageVF22>;
 template struct ITKCommon_EXPORT itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageVF32>;
 template class ITKCommon_EXPORT itk::Path<double,ContinuousIndexD2,2>;
-template class ITKCommon_EXPORT itk::PointLocator<unsigned long, 3, float, VectorContainerULPF3>;
 template class ITKCommon_EXPORT itk::PointSet<PointD2,2,DefaultStaticMeshTraits22DDD>;
 template class ITKCommon_EXPORT itk::PointSet<PointD3,3,DefaultStaticMeshTraits33DDD>;
 template class ITKCommon_EXPORT itk::PointSet<PointD4,4,DefaultStaticMeshTraits44DDD>;

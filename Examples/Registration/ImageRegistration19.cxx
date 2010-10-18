@@ -27,7 +27,6 @@
 #include "itkAmoebaOptimizer.h"
 #include "itkCenteredTransformInitializer.h"
 
-#include "itkImage.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

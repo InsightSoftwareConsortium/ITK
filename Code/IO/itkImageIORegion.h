@@ -18,11 +18,8 @@
 #define __itkImageIORegion_h
 
 #include <algorithm>
-#include "itkRegion.h"
 #include "itkObjectFactory.h"
 #include "itkImageRegion.h"
-#include "itkIndex.h"
-#include "itkSize.h"
 
 namespace itk
 {

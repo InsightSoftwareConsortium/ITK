@@ -37,12 +37,10 @@
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
 #include "itkImage.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkDeformationFieldSource.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkWarpImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
 // Software Guide : EndCodeSnippet
 
 #include <fstream>

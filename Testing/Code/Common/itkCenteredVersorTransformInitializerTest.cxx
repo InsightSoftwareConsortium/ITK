@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkVersorRigid3DTransform.h"
 #include "itkCenteredVersorTransformInitializer.h"
 #include "itkImage.h"
 

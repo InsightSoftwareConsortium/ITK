@@ -17,7 +17,6 @@
 #ifndef __itkLabelVotingImageFilter_h
 #define __itkLabelVotingImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk

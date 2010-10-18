@@ -24,7 +24,6 @@
 #include "itkProgressAccumulator.h"
 #include "itkCropImageFilter.h"
 #include "itkConstantPadImageFilter.h"
-#include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 

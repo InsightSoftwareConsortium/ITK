@@ -19,8 +19,6 @@
 #endif
 
 #include <iostream>
-#include "itkLabelMap.h"
-#include "itkLabelObject.h"
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkImage.h"
 

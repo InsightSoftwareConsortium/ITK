@@ -24,10 +24,8 @@
 #include "itkNormalizedCorrelationPointSetToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkGaussianImageSource.h"
-#include "itkImage.h"
 #include "itkPointSet.h"
 #include "itkPointSetToImageRegistrationMethod.h"
-#include "itkCommandIterationUpdate.h"
 #include "itkImageRegistrationMethodImageSource.h"
 
 #include <iostream>

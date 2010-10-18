@@ -35,7 +35,6 @@
 // Software Guide : EndLatex 
 
 // Software Guide : BeginCodeSnippet
-#include "itkImage.h"
 #include "itkImageAdaptor.h"
 // Software Guide : EndCodeSnippet
 

@@ -20,7 +20,6 @@
 
 #include "itkKappaSigmaThresholdImageCalculator.h"
 #include "itkImageFileReader.h"
-#include "itkImage.h"
 
 
 int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )

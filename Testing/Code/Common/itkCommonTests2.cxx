@@ -124,4 +124,41 @@ REGISTER_TEST(itkVariableSizeMatrixTest);
 // REGISTER_TEST(itkQuaternionOrientationAdapterTest);
 REGISTER_TEST(itkImportContainerTest);
 REGISTER_TEST(itkImageFillBufferTest);
+
+// QuadEdge - Pure Topology Layer
+REGISTER_TEST(itkQuadEdgeTest1);
+// Geometrical Quad Edge - topology and geometry
+REGISTER_TEST(itkQuadEdgeMeshNoPointConstTest);
+REGISTER_TEST(itkGeometricalQuadEdgeTest1);
+// QuadEdgeMesh - the complete structure
+REGISTER_TEST(itkQuadEdgeMeshPointTest1);
+REGISTER_TEST(itkQuadEdgeMeshAddFaceTest1);
+REGISTER_TEST(itkQuadEdgeMeshAddFaceTest2);
+REGISTER_TEST(itkQuadEdgeMeshBasicLayerTest);
+REGISTER_TEST(itkQuadEdgeMeshDeleteEdgeTest);
+REGISTER_TEST(itkQuadEdgeMeshFrontIteratorTest);
+REGISTER_TEST(itkQuadEdgeMeshIteratorTest);
+REGISTER_TEST(itkQuadEdgeMeshPointTest1);
+REGISTER_TEST(itkQuadEdgeMeshTest1);
+REGISTER_TEST(itkQuadEdgeMeshTest2);
+REGISTER_TEST(itkQuadEdgeMeshTest3);
+REGISTER_TEST(itkQuadEdgeMeshPolygonCellTest);
+REGISTER_TEST(itkQuadEdgeMeshCellInterfaceTest);
+REGISTER_TEST(itkQuadEdgeMeshCountingCellsTest);
+REGISTER_TEST(itkQuadEdgeMeshDeletePointAndReorderIDsTest);
+REGISTER_TEST(itkDynamicQuadEdgeMeshTest);
+// QuadEdgeMesh - Euler Operators
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorFlipTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorJoinFacetTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorJoinVertexTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitEdgeTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitFaceTest);
+REGISTER_TEST(itkQuadEdgeMeshEulerOperatorSplitVertexTest);
+// QuadEdgeMEsh helpers
+REGISTER_TEST(itkTriangleHelperTest);
+REGISTER_TEST(itkCrossHelperTest);
+REGISTER_TEST(itkPriorityQueueTest);
+REGISTER_TEST(itkPriorityQueueTest);
 }

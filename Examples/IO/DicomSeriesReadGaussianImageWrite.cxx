@@ -23,7 +23,6 @@
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 
 int main( int argc, char* argv[] )
 {

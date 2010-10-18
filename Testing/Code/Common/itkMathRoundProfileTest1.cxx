@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMacro.h"
 #include "itkMath.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMath.h"

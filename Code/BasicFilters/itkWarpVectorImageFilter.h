@@ -18,7 +18,6 @@
 #define __itkWarpVectorImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVectorInterpolateImageFunction.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkPoint.h"
 #include "itkFixedArray.h"

@@ -21,7 +21,6 @@
 #include <list>
 
 #include "itkPointBasedSpatialObject.h"
-#include "itkSpatialObjectPoint.h"
 #include "itkContourSpatialObjectPoint.h"
 
 namespace itk

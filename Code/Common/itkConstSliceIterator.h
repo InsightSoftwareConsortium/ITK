@@ -18,7 +18,6 @@
 #define __itkConstSliceIterator_h
 
 #include "itkMacro.h"
-#include "itkExceptionObject.h"
 #include <valarray>
 namespace itk
 {

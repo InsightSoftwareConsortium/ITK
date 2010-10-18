@@ -19,7 +19,6 @@
 
 #include "itkFixedArray.h"
 
-#include "itkNumericTraits.h"   // RealValueType type
 #include <vnl/vnl_vector_ref.h> // Get_vnl_vector method return
 
 namespace itk

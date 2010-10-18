@@ -56,7 +56,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 
 int main(int argc, char *argv[])

@@ -15,7 +15,6 @@
 
 =========================================================================*/
 
-#include "itkConfigure.h"
 #include "itkMemoryUsageObserver.h"
 
 #if defined( WIN32 ) || defined( _WIN32 )
@@ -42,10 +41,15 @@
 
 #if !defined( WIN32 ) && !defined( _WIN32 )
   #include <sys/resource.h>     // getrusage()
-  #if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ )
+  #if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
+  && !defined( __OpenBSD__ )
     #include <malloc.h>           // mallinfo()
   #endif // !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
 #endif // !defined(WIN32) && !defined(_WIN32)
+
+#if defined( __OpenBSD__ )
+#include <stdlib.h>
+#endif
 
 namespace itk
 {
@@ -384,7 +388,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
 
 #endif //defined(__SUNPRO_CC) || defined (__sun__)
 
-#if !defined( WIN32 ) && !defined( _WIN32 )
+#if !defined( WIN32 ) && !defined( _WIN32 ) || defined( __OpenBSD__ )
 
 /**         ----         SysResource Memory Usage Observer       ----       */
 
@@ -407,7 +411,8 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   return 0;
 }
 
-#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ )
+#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
+  && !defined( __OpenBSD__ )
 
 /**         ----         Mallinfo Memory Usage Observer       ----       */
 
@@ -426,7 +431,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
 }
 
 #endif //  !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__) &&
-       // !defined(__FreeBSD__)
+       // !defined(__FreeBSD__) && !defined(__OpenBSD__)
 
 #endif // Unix and Mac Platforms !defined(WIN32) && !defined(_WIN32)
 } //end namespace itk

@@ -21,7 +21,6 @@
 #include "itkGradientImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

@@ -22,7 +22,6 @@
 #include <iostream>
 #include "itkNumericTraits.h"
 #include "itkReflectiveImageRegionIterator.h"
-#include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 

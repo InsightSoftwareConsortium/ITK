@@ -15,9 +15,8 @@
 
   =========================================================================*/
 #include "itkSiemensVisionImageIO.h"
-#include "itkIOCommon.h"
 #include <itksys/SystemTools.hxx>
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkByteSwapper.h"
 #include "itkGEImageHeader.h"
 #include <iostream>

@@ -27,7 +27,6 @@
 #include "itkGE5ImageIO.h"
 #include "itkGEAdwImageIO.h"
 #include "itkGiplImageIO.h"
-#include "itkIPLCommonImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkJPEGImageIO.h"
@@ -36,7 +35,6 @@
 #include "itkPNGImageIO.h"
 #include "itkRawImageIO.h"
 #include "itkStimulateImageIO.h"
-#include "itkTIFFImageIO.h"
 #include "itkVTKImageIO.h"
 
 int itkIOPrintTest(int , char* [])

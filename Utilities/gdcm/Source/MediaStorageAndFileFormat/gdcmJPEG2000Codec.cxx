@@ -868,12 +868,35 @@ bool JPEG2000Codec::Code(DataElement const &in, DataElement &out)
       }
 
     if(parameters.cp_comment == NULL) {
-      const char comment[] = "Created by GDCM/OpenJPEG version 1.0";
+      const char comment[] = "Created by GDCM/OpenJPEG version 2.0";
       parameters.cp_comment = (char*)malloc(strlen(comment) + 1);
       strcpy(parameters.cp_comment, comment);
       /* no need to delete parameters.cp_comment on exit */
       //delete_comment = false;
     }
+
+  // Compute the proper number of resolutions to use.
+  // This is mostly done for images smaller than 64 pixels
+  // along any dimension.
+  unsigned int numberOfResolutions = 0;
+
+  unsigned int tw = image_width >> 1;
+  unsigned int th = image_height >> 1;
+
+  while( tw && th )
+    {
+    numberOfResolutions++;
+    tw >>= 1;
+    th >>= 1;
+    }
+
+  // Clamp the number of resolutions to 6.
+  if( numberOfResolutions > 6 )
+    {
+    numberOfResolutions = 6;
+    }
+
+  parameters.numresolution = numberOfResolutions;
 
 
     /* decode the source image */

@@ -20,12 +20,9 @@
 #include <queue>
 #include <vector>
 
-#include "itkIndex.h"
 #include "itkSize.h"
 #include "itkConditionalConstIterator.h"
-#include "itkShapedNeighborhoodIterator.h"
 #include "itkConnectedComponentAlgorithm.h"
-#include "itkImage.h"
 
 namespace itk
 {

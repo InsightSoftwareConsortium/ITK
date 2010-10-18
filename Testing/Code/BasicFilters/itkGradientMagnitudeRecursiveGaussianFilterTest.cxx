@@ -17,7 +17,6 @@
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-#include <itkImage.h>
 #include <itkGradientMagnitudeRecursiveGaussianImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
 #include "itkSimpleFilterWatcher.h"

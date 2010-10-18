@@ -18,7 +18,6 @@
 #define __itkFFTRealToComplexConjugateImageFilter_h
 
 #include <itkImageToImageFilter.h>
-#include <itkImage.h>
 #include <complex>
 
 namespace itk

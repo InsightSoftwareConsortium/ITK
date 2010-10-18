@@ -17,7 +17,6 @@
 #ifndef __itkUnsharpMaskLevelSetImageFilter_h
 #define __itkUnsharpMaskLevelSetImageFilter_h
 
-#include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 
 namespace itk

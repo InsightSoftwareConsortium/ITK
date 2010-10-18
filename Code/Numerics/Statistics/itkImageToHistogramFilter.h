@@ -19,7 +19,6 @@
 
 #include "itkImageToListSampleAdaptor.h"
 #include "itkSampleToHistogramFilter.h"
-#include "itkDenseFrequencyContainer2.h"
 #include "itkHistogram.h"
 #include "itkObject.h"
 

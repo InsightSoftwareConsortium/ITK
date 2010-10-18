@@ -17,7 +17,6 @@
 #ifndef __itkTreeIteratorBase_txx
 #define __itkTreeIteratorBase_txx
 
-#include <itkTreeIteratorBase.h>
 #include "itkTreeChangeEvent.h"
 
 namespace itk

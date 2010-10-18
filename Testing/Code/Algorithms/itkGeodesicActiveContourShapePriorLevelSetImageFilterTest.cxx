@@ -20,7 +20,6 @@
 
 #include "itkGeodesicActiveContourShapePriorLevelSetImageFilter.h"
 #include "itkSphereSignedDistanceFunction.h"
-#include "itkShapePriorMAPCostFunction.h"
 #include "itkAmoebaOptimizer.h"
 
 #include "itkCastImageFilter.h"

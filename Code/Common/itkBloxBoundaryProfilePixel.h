@@ -18,7 +18,6 @@
 #define __itkBloxBoundaryProfilePixel_h
 
 #include "itkBloxBoundaryProfileItem.h"
-#include "itkBloxBoundaryPointItem.h"
 #include "itkPoint.h"
 #include "itkBloxPixel.h"
 

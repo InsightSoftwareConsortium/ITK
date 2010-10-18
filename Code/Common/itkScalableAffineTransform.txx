@@ -19,7 +19,6 @@
 
 #include "itkNumericTraits.h"
 #include "itkScalableAffineTransform.h"
-#include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
 namespace itk

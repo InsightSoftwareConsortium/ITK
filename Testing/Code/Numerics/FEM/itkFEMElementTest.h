@@ -25,7 +25,7 @@
 
 #include "itkFEMLinearSystemWrappers.h"
 
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include <iostream>
 #include <fstream>

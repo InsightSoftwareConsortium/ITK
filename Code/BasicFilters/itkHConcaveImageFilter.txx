@@ -18,7 +18,6 @@
 #define __itkHConcaveImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkHConcaveImageFilter.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkSubtractImageFilter.h"

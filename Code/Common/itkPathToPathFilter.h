@@ -18,7 +18,6 @@
 #define __itkPathToPathFilter_h
 
 #include "itkPathSource.h"
-#include "itkPath.h"
 
 namespace itk
 {

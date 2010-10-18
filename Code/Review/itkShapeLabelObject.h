@@ -20,7 +20,6 @@
 #include "itkLabelObject.h"
 #include "itkLabelMap.h"
 #include "itkAffineTransform.h"
-#include "itkMatrix.h"
 
 namespace itk
 {
@@ -169,64 +168,69 @@ public:
 
   static std::string GetNameFromAttribute(const AttributeType & a)
   {
+    std::string name;
     switch ( a )
       {
       case SIZE:
-        return "Size";
+        name = "Size";
         break;
       case PHYSICAL_SIZE:
-        return "PhysicalSize";
+        name = "PhysicalSize";
         break;
       case REGION_ELONGATION:
-        return "RegionElongation";
+        name = "RegionElongation";
         break;
       case SIZE_REGION_RATIO:
-        return "SizeRegionRatio";
+        name = "SizeRegionRatio";
         break;
       case CENTROID:
-        return "Centroid";
+        name = "Centroid";
+        break;
       case REGION:
-        return "Region";
+        name = "Region";
         break;
       case SIZE_ON_BORDER:
-        return "SizeOnBorder";
+        name = "SizeOnBorder";
         break;
       case PHYSICAL_SIZE_ON_BORDER:
-        return "PhysicalSizeOnBorder";
+        name = "PhysicalSizeOnBorder";
         break;
       case FERET_DIAMETER:
-        return "FeretDiameter";
+        name = "FeretDiameter";
         break;
       case BINARY_PRINCIPAL_MOMENTS:
-        return "BinaryPrincipalMoments";
+        name = "BinaryPrincipalMoments";
         break;
       case BINARY_PRINCIPAL_AXES:
-        return "BinaryPrincipalAxes";
+        name = "BinaryPrincipalAxes";
         break;
       case BINARY_ELONGATION:
-        return "BinaryElongation";
+        name = "BinaryElongation";
         break;
       case PERIMETER:
-        return "Perimeter";
+        name = "Perimeter";
         break;
       case ROUNDNESS:
-        return "Roundness";
+        name = "Roundness";
         break;
       case EQUIVALENT_RADIUS:
-        return "EquivalentRadius";
+        name = "EquivalentRadius";
         break;
       case EQUIVALENT_PERIMETER:
-        return "EquivalentPerimeter";
+        name = "EquivalentPerimeter";
         break;
       case EQUIVALENT_ELLIPSOID_RADIUS:
-        return "EquivalentEllipsoidSize";
+        name = "EquivalentEllipsoidSize";
         break;
       case BINARY_FLATNESS:
-        return "BinaryFlatness";
+        name = "BinaryFlatness";
+        break;
+      default:
+        // can't recognize the name
+        name = Superclass::GetNameFromAttribute(a);
         break;
       }
-    // can't recognize the name
-    return Superclass::GetNameFromAttribute(a);
+    return name;
   }
 
   typedef ImageRegion< VImageDimension > RegionType;

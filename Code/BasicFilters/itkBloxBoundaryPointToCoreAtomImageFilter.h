@@ -18,14 +18,6 @@
 #define __itkBloxBoundaryPointToCoreAtomImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkPoint.h"
-#include "itkVector.h"
-#include "itkCovariantVector.h"
-#include "itkBloxBoundaryPointItem.h"
-#include "itkBloxBoundaryPointPixel.h"
-#include "itkBloxBoundaryPointImage.h"
-#include "itkBloxCoreAtomItem.h"
-#include "itkBloxCoreAtomPixel.h"
 #include "itkBloxCoreAtomImage.h"
 
 namespace itk

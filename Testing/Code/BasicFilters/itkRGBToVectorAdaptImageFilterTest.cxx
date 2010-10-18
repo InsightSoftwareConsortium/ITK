@@ -32,7 +32,6 @@
 
 #include <itkAdaptImageFilter.h>
 #include <itkImageRegionIteratorWithIndex.h>
-#include <itkRGBPixel.h>
 #include <itkRGBToVectorPixelAccessor.h>
 
 #include <vnl/vnl_sample.h>

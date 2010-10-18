@@ -21,7 +21,6 @@
 #include "itkImageFileWriter.h"
 #include "itkImage.h"
 #include "itkRescaleIntensityImageFilter.h"
-#include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 #include "itkGDCMImageIO.h"
 

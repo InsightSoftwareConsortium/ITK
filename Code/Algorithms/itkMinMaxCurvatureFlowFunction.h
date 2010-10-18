@@ -18,7 +18,6 @@
 #define __itkMinMaxCurvatureFlowFunction_h
 
 #include "itkCurvatureFlowFunction.h"
-#include "itkMacro.h"
 #include "itkNeighborhoodOperator.h"
 
 namespace itk

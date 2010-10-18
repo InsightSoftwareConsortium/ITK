@@ -20,7 +20,6 @@
 
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 
 namespace itk
 {

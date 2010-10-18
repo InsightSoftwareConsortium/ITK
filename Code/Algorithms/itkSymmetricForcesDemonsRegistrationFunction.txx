@@ -18,7 +18,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define __itkSymmetricForcesDemonsRegistrationFunction_txx
 
 #include "itkSymmetricForcesDemonsRegistrationFunction.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "vnl/vnl_math.h"
 
 namespace itk

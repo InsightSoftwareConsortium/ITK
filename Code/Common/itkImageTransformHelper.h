@@ -18,7 +18,6 @@
 #define __itkImageTransformHelper_h
 
 #include "itkConceptChecking.h"
-#include "itkPoint.h"
 #include "itkMatrix.h"
 #include "vnl/vnl_math.h"
 

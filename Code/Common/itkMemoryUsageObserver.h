@@ -115,7 +115,8 @@ public:
   virtual ~SysResourceMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage();
 };
-#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ )
+#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
+  && !defined( __OpenBSD__ )
 /** \class MallinfoMemoryUsageObserver
  * \brief The MallinfoMemoryUsageObserver
  */
@@ -145,7 +146,7 @@ class ITKCommon_EXPORT MemoryUsageObserver:
   public SunSolarisMemoryUsageObserver
 #elif defined( __APPLE__ ) && MAC_OS_X_VERSION >= MAC_OS_X_VERSION_10_2
   public MacOSXMemoryUsageObserver
-#elif defined( __APPLE__ ) || defined( __FreeBSD__ )
+#elif defined( __APPLE__ ) || defined( __FreeBSD__ ) || defined( __OpenBSD__ )
   public SysResourceMemoryUsageObserver
 #else
   public MallinfoMemoryUsageObserver

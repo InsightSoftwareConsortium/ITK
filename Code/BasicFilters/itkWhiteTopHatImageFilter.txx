@@ -18,7 +18,6 @@
 #define __itkWhiteTopHatImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkWhiteTopHatImageFilter.h"
 #include "itkGrayscaleMorphologicalOpeningImageFilter.h"
 #include "itkSubtractImageFilter.h"

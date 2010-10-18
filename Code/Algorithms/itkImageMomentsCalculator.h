@@ -18,7 +18,6 @@
 #define __itkImageMomentsCalculator_h
 
 #include "itkAffineTransform.h"
-#include "itkMacro.h"
 #include "itkImage.h"
 #include "itkSpatialObject.h"
 

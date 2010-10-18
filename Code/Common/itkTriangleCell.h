@@ -17,7 +17,6 @@
 #ifndef __itkTriangleCell_h
 #define __itkTriangleCell_h
 
-#include "itkCellInterface.h"
 #include "itkLineCell.h"
 #include "itkTriangleCellTopology.h"
 

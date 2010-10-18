@@ -23,7 +23,6 @@
  * This is a test file for the itkTreeContainer class.
  */
 #include "itkGroupSpatialObject.h"
-#include "itkTreeContainer.h"
 #include "itkSpatialObjectTreeContainer.h"
 #include "itkInOrderTreeIterator.h"
 #include "itkLevelOrderTreeIterator.h"

@@ -17,7 +17,6 @@
 #ifndef __itkVariableLengthVector_txx
 #define __itkVariableLengthVector_txx
 
-#include "itkVariableLengthVector.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 #include "vnl/vnl_math.h"
 #include <cstring>

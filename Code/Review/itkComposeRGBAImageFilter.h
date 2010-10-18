@@ -18,7 +18,6 @@
 #define __itkComposeRGBAImageFilter_h
 
 #include "itkNaryFunctorImageFilter.h"
-#include "itkRGBAPixel.h"
 #include "itkNumericTraitsRGBAPixel.h"
 
 namespace itk

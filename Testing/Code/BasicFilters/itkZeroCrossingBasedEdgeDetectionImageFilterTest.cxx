@@ -19,7 +19,6 @@
 #endif
 
 #include <iostream>
-#include "itkImage.h"
 #include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.txx"
 #include "itkVector.h"

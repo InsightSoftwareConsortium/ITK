@@ -19,7 +19,6 @@
 
 #include "vnl/vnl_vector_fixed.h"
 #include "itkBloxBoundaryPointItem.h"
-#include "itkBloxItem.h"
 
 namespace itk
 {

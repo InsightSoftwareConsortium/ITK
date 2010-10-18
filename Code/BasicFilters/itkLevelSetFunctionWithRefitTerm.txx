@@ -18,8 +18,6 @@
 #define __itkLevelSetFunctionWithRefitTerm_txx
 
 #include "itkLevelSetFunctionWithRefitTerm.h"
-#include "itkSparseImage.h"
-#include "itkNumericTraits.h"
 #include "itkVector.h"
 
 namespace itk

@@ -17,7 +17,6 @@
 #ifndef __itkConnectedThresholdImageFilter_h
 #define __itkConnectedThresholdImageFilter_h
 
-#include "itkImage.h"
 #include "itkImageToImageFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
 

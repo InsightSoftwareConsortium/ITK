@@ -21,11 +21,8 @@
 #endif
 
 #include <itksys/SystemTools.hxx>
-#include "itkIOCommon.h"
 #include "itkIPLCommonImageIO.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
-#include "itkGEImageHeader.h"
 #include "itkSpatialOrientationAdapter.h"
 //#include "idbm_hdr_def.h"
 #include "itkDirectory.h"

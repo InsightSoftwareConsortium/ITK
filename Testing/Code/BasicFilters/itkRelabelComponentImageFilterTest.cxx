@@ -26,8 +26,6 @@
 #include "itkFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkLabelStatisticsImageFilter.h"
-#include "itkNumericTraits.h"
-#include "itkHistogram.h"
 
 #include "itkMultiThreader.h"
 

@@ -18,11 +18,9 @@
 #ifndef __itkFEMSolver_h
 #define __itkFEMSolver_h
 
-#include "itkFEMElementBase.h"
 #include "itkFEMMaterialBase.h"
 #include "itkFEMLoadBase.h"
 
-#include "itkFEMLinearSystemWrapper.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 
 #include "itkImage.h"

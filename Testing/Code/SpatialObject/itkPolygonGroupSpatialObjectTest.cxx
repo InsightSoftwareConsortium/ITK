@@ -20,7 +20,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkPolygonGroupSpatialObject.h"
 
-#include "itkPolygonSpatialObject.h"
 #include <iostream>
 
 static float testPoints[11][2] = 

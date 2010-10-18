@@ -19,9 +19,7 @@
 
 #include "itkProcessObject.h"
 #include "itkImageIOBase.h"
-#include "itkExceptionObject.h"
-#include "itkSize.h"
-#include "itkImageIORegion.h"
+#include "itkMacro.h"
 
 namespace itk
 {

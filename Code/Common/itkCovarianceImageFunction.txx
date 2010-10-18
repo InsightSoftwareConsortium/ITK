@@ -19,7 +19,6 @@
 
 #include "itkCovarianceImageFunction.h"
 #include "itkMatrix.h"
-#include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk

@@ -26,14 +26,11 @@
 #include "itkFEMImageMetricLoad.h"
 #include "itkFEMFiniteDifferenceFunctionLoad.h"
 
-#include "itkImage.h"
 #include "itkVector.h"
-#include "itkImageRegionIteratorWithIndex.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkWarpImageFilter.h"
 #include "itkImageToImageMetric.h"
-#include "itkTranslationTransform.h"
 #include "itkVectorExpandImageFilter.h"
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"

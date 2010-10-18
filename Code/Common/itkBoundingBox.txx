@@ -20,8 +20,6 @@
 #ifndef __itkBoundingBox_txx
 #define __itkBoundingBox_txx
 #include "itkBoundingBox.h"
-#include "itkNumericTraits.h"
-#include "itkPoint.h"
 
 namespace itk
 {

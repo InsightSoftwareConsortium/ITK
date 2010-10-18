@@ -22,9 +22,7 @@
 #define __itkBSplineUpsampleImageFilter_h
 
 // include .h for each ResamplerType
-#include "itkBSplineResampleImageFilterBase.h"
 #include "itkBSplineL2ResampleImageFilterBase.h"
-#include "itkBSplineCenteredResampleImageFilterBase.h"
 #include "itkBSplineCenteredL2ResampleImageFilterBase.h"
 
 namespace itk

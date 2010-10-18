@@ -25,7 +25,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkBackPropagationLayer.h"
 
-#include "itkCompletelyConnectedWeightSet.h"
 
 #include "itkSumInputFunction.h"
 #include "itkProductInputFunction.h"

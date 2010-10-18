@@ -17,7 +17,6 @@
 #ifndef __itkQuadraticTriangleCell_h
 #define __itkQuadraticTriangleCell_h
 
-#include "itkCellInterface.h"
 #include "itkQuadraticEdgeCell.h"
 #include "itkQuadraticTriangleCellTopology.h"
 

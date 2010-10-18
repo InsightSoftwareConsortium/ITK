@@ -18,7 +18,6 @@
 #ifndef __itkExponentialDeformationFieldImageFilter_h
 #define __itkExponentialDeformationFieldImageFilter_h
 
-#include "itkImageToImageFilter.h"
 #include "itkDivideByConstantImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkWarpVectorImageFilter.h"

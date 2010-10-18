@@ -21,7 +21,6 @@
 #include <iostream>
 #include "itkConditionVariable.h"
 #include "itkMultiThreader.h"
-#include "itkMutexLock.h"
 
 class ConditionVariableTestUserData
 {

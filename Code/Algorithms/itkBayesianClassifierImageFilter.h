@@ -21,7 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkMaximumDecisionRule.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {

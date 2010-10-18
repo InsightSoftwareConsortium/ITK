@@ -21,7 +21,6 @@
 
 #include "itkVector.h"
 #include "itkListSample.h"
-#include "itkKdTree.h"
 #include "itkKdTreeGenerator.h"
 
 #include "itkImageRegionIterator.h"

@@ -16,8 +16,6 @@
 =========================================================================*/
 
 #include "itkGDCMImageIO.h"
-#include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 #include "itkMetaDataObject.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"

@@ -19,7 +19,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkStochasticFractalDimensionImageFilter.h"
-#include "itkTimeProbe.h"
 #include "itkSimpleFilterWatcher.h"
 
 namespace StochasticFractalDimensionImageFilterTest

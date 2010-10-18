@@ -14,33 +14,24 @@ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkTransformFactoryBase.h"
 #include "itkTransformFactory.h"
 #include "itkVersion.h"
 
-#include "itkAffineTransform.h"
 #include "itkBSplineDeformableTransform.h"
 #include "itkCenteredAffineTransform.h"
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredEuler3DTransform.h"
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredSimilarity2DTransform.h"
-#include "itkSimilarity2DTransform.h"
 #include "itkEuler2DTransform.h"
-#include "itkEuler3DTransform.h"
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkQuaternionRigidTransform.h"
-#include "itkRigid2DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
-#include "itkRigid3DTransform.h"
-#include "itkScalableAffineTransform.h"
 #include "itkScaleLogarithmicTransform.h"
 #include "itkScaleVersor3DTransform.h"
 #include "itkScaleSkewVersor3DTransform.h"
-#include "itkScaleTransform.h"
 #include "itkTranslationTransform.h"
-#include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
 
 namespace itk

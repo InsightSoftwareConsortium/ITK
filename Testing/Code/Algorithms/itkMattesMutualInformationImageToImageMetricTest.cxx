@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkImage.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkAffineTransform.h"

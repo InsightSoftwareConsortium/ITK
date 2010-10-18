@@ -18,7 +18,6 @@
 #define __itkHMinimaImageFilter_txx
 
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkReconstructionByErosionImageFilter.h"
 #include "itkShiftScaleImageFilter.h"

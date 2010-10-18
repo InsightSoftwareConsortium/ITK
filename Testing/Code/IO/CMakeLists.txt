@@ -1,3 +1,4 @@
+set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 
 #
 # Build ImageCompare: a helper application for comparing tests outputs
@@ -103,6 +104,7 @@ itkNrrdCovariantVectorImageReadWriteTest.cxx
 itkNumericSeriesFileNamesTest.cxx
 itkPNGImageIOTest.cxx
 itkPolygonGroupSpatialObjectXMLFileTest.cxx
+itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1.cxx
 itkRawImageIOTest.cxx
 itkRawImageIOTest2.cxx
 itkRawImageIOTest3.cxx
@@ -119,6 +121,11 @@ itkTIFFImageIOTest.cxx
 itkTransformIOTest.cxx
 itkVTKImageIOTest.cxx
 itkVTKImageIOTest2.cxx
+itkVTKPolyDataIOQuadEdgeMeshTest.cxx
+itkVTKPolyDataReaderTest.cxx
+itkVTKPolyDataReaderQuadEdgeMeshTest.cxx
+itkVTKPolyDataWriterTest01.cxx
+itkVTKPolyDataWriterTest02.cxx
 itkVectorImageReadWriteTest.cxx
 testMetaBlob.cxx
 testMetaGroup.cxx
@@ -155,6 +162,154 @@ add_test(testMetaLine ${IO_TESTS} testMetaLine ${TEMP})
 add_test(testMetaLandmark ${IO_TESTS} testMetaLandmark ${TEMP})
 add_test(testMetaMesh ${IO_TESTS} testMetaMesh ${TEMP})
 add_test(testMetaScene ${IO_TESTS} testMetaScene ${TEMP})
+
+
+add_test( itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1 ${IO_TESTS}
+  itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1
+  ${TEMP}/sphere.vtk
+  )
+
+add_test(itkVTKPolyDataIOQuadEdgeMeshTest ${IO_TESTS}
+  itkVTKPolyDataIOQuadEdgeMeshTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  ${TEMP}/VTKPolyDataIOTest.vtk)
+
+add_test(itkVTKPolyDataReaderQuadEdgeMeshTest ${IO_TESTS}
+  itkVTKPolyDataReaderQuadEdgeMeshTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  )
+
+add_test(itkVTKPolyDataReaderTest ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/genusZeroSurface01.vtk
+  )
+
+add_test(itkVTKPolyDataReaderTest2 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/sphereBinary.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest0 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad0.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest1 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad1.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest2 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad2.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest3 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad3.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest4 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad4.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest5 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad5.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest6 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad6.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest7 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad7.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest8 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad8.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest9 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad9.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest10 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad10.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest11 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad11.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest12 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad12.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest13 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad13.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest14 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad14.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest15 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad15.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest16 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad16.vtk
+  )
+
+add_test(itkVTKPolyDataReaderBadTest17 ${IO_TESTS}
+  itkVTKPolyDataReaderTest
+  ${INPUTDATA}/vtkPolyDataBad17.vtk
+  )
+
+SET_TESTS_PROPERTIES(itkVTKPolyDataReaderTest2
+  itkVTKPolyDataReaderBadTest0
+  itkVTKPolyDataReaderBadTest1
+  itkVTKPolyDataReaderBadTest2
+  itkVTKPolyDataReaderBadTest3
+  itkVTKPolyDataReaderBadTest4
+  itkVTKPolyDataReaderBadTest5
+  itkVTKPolyDataReaderBadTest6
+  itkVTKPolyDataReaderBadTest7
+  itkVTKPolyDataReaderBadTest8
+  itkVTKPolyDataReaderBadTest9
+  itkVTKPolyDataReaderBadTest10
+  itkVTKPolyDataReaderBadTest11
+  itkVTKPolyDataReaderBadTest12
+  itkVTKPolyDataReaderBadTest13
+  itkVTKPolyDataReaderBadTest14
+  itkVTKPolyDataReaderBadTest15
+  itkVTKPolyDataReaderBadTest16
+  itkVTKPolyDataReaderBadTest17
+  PROPERTIES WILL_FAIL true)
+
+add_test(itkVTKPolyDataWriterTest01 ${IO_TESTS}
+  itkVTKPolyDataWriterTest01
+  ${TEMP}/VTKPolyDataWriterTest01.vtk
+  )
+
+add_test(itkVTKPolyDataWriterTest02 ${IO_TESTS}
+  itkVTKPolyDataWriterTest02
+  ${TEMP}/VTKPolyDataWriterTest02.vtk
+  )
+
 
 add_test( MetaCommandRequiredOptionsWithMultipleStrings ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r1c_rs StringValue1 StringValue2 StringValue3 -r2_ri 7)
 add_test( MetaCommandRequiredOptionsWithMultipleStringsAtEnd ${IO_TESTS} testMetaCommand -ExpectedFailStatus 0 -sum 7 -r2_ri 7 -r1c_rs StringValue1 StringValue2 StringValue3)

@@ -20,9 +20,6 @@
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
 
-#include "itkImageToImageFilter.h"
-#include "itkImageClassifierBase.h"
-#include "itkImageRegionIterator.h"
 #include "itkMRFImageFilter.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #define __itkCacheableScalarFunction_h
 
 #include "itkArray.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

@@ -17,15 +17,12 @@
 #ifndef __itkIndex_h
 #define __itkIndex_h
 
-#include "itkMacro.h"
 #include "itkOffset.h"
-#include "itkSize.h"
 #include "itkFixedArray.h"
 #include "itkMath.h"
 
 #include <memory>
 
-#include "itkExceptionObject.h"
 
 namespace itk
 {
@@ -275,19 +272,19 @@ public:
   template< class TCoordRep >
   inline void CopyWithRound(const FixedArray< TCoordRep, VIndexDimension > & point)
   {
-#ifdef ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING
     itkForLoopRoundingAndAssignmentMacro(IndexType,
                                          ContinuousIndexType,
                                          IndexValueType,
                                          m_Index,
                                          point,
                                          VIndexDimension);
-#else
-    for ( unsigned int i = 0; i < VIndexDimension; ++i )
-      {
-      m_Index[i] = Math::Round< IndexValueType >(point[i]);
-      }
-#endif
+    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
+     * Leaving here for documentation purposes
+     * for ( unsigned int i = 0; i < VIndexDimension; ++i )
+     *   {
+     *   m_Index[i] = Math::Round< IndexValueType >(point[i]);
+     *   }
+     */
   }
 
   /** Copy values from a FixedArray by casting each one of the components */

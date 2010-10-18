@@ -17,8 +17,6 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkObject.h"
-#include "itkObjectFactory.h"
 #include "itkCommand.h"
 
 namespace itk

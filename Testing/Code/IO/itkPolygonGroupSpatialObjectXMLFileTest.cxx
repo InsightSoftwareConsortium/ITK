@@ -18,7 +18,6 @@ PURPOSE.  See the above copyright notices for more information.
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkPolygonGroupSpatialObject.h"
 #include "itkPolygonSpatialObject.h"
 #include <iostream>
 #include "itkPolygonGroupSpatialObjectXMLFile.h"

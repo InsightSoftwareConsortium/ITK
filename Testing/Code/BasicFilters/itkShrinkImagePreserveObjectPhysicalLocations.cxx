@@ -14,7 +14,6 @@
  ***************************************************************/ 
 
 
-#include <itkImage.h>
 #include <itkImageFileWriter.h>
 #include <itkImageMomentsCalculator.h>
 #include <itkMultiResolutionPyramidImageFilter.h>

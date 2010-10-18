@@ -31,7 +31,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkTubeSpatialObject.h"
-#include "itkTubeSpatialObjectPoint.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )

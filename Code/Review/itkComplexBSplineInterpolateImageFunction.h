@@ -18,7 +18,6 @@
 #ifndef __itkComplexBSplineInterpolateImageFunction_h
 #define __itkComplexBSplineInterpolateImageFunction_h
 
-#include "itkInterpolateImageFunction.h"
 #include "itkBSplineInterpolateImageFunction.h"
 #include "itkComplexToRealImageFilter.h"
 #include "itkComplexToImaginaryImageFilter.h"

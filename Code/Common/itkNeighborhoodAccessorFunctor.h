@@ -18,7 +18,6 @@
 #define __itkNeighborhoodAccessorFunctor_h
 
 #include "itkImageBoundaryCondition.h"
-#include "itkNeighborhood.h"
 #include "itkImageBase.h"
 
 namespace itk

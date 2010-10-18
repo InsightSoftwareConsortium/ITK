@@ -21,9 +21,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <fstream>
 
 #include "itkPoint.h"
-#include "itkPointSet.h"
 #include "itkArray.h"
-#include "itkVector.h"
 #include "itkPointSetToListSampleAdaptor.h"
 #include "itkSubsample.h"
 #include "itkSampleClassifierFilter.h"

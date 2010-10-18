@@ -18,10 +18,8 @@
 #ifndef __itkIterativeInverseDeformationFieldImageFilter_h
 #define __itkIterativeInverseDeformationFieldImageFilter_h
 
-#include "itkImageToImageFilter.h"
 
 #include "itkWarpVectorImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkTimeProbe.h"
 

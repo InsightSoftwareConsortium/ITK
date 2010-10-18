@@ -35,9 +35,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
-#include "itkLinearInterpolateImageFunction.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkImage.h"
 #include "itkCenteredTransformInitializer.h"
 
 //  Software Guide : BeginLatex

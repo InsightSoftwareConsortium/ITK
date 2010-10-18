@@ -26,7 +26,6 @@
 #include <itkImageRegionIterator.h>
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
-#include <itkExceptionObject.h>
 
 int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] ) 
 {

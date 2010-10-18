@@ -152,11 +152,6 @@ option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 mark_as_advanced(ITK_LEGACY_REMOVE ITK_LEGACY_SILENT)
 
 #-----------------------------------------------------------------------------
-# ITK build patented algorithms
-option(ITK_USE_PATENTED "Build algorithms that are covered with Patents. It is YOUR responsibility to obtain a license from the patent holder in order to use these methods." OFF)
-mark_as_advanced(ITK_USE_PATENTED)
-
-#-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
 option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, nor the Copyright Policy of ITK." OFF)
 mark_as_advanced(ITK_USE_REVIEW)
@@ -181,11 +176,6 @@ if(ITK_USE_TRANSFORM_IO_FACTORIES)
     message(FATAL_ERROR "ITK_USE_REVIEW is currently OFF but it should be ON if you want to use the experimental transform IO factories.")
   endif(NOT ITK_USE_REVIEW)
 endif(ITK_USE_TRANSFORM_IO_FACTORIES)
-
-#-----------------------------------------------------------------------------
-# ITK turn on the use of Template Meta Programming techniques for unrolling loops of array-like operations
-option(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING "Turn on the use of Template Meta-Programming techniques for unrolling for-loops at compile time." ON)
-mark_as_advanced(ITK_USE_TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING)
 
 #-----------------------------------------------------------------------------
 # Installation vars.
@@ -643,7 +633,6 @@ mark_as_advanced(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 find_path(ITK_OSIRIX_DATA_ROOT CEREBRIX
   DOC "Directory with data taken from http://www.osirix-viewer.com/Downloads.html")
 mark_as_advanced(ITK_OSIRIX_DATA_ROOT)
-
 
 #-----------------------------------------------------------------------------
 # Configure the default ITK_VISIBLEHUMAN_DATA_ROOT for the location of Data from the Visible Human Project

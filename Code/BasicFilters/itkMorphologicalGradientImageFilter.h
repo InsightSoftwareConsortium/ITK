@@ -27,7 +27,6 @@
 #include "itkVanHerkGilWermanErodeImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
-#include "itkFlatStructuringElement.h"
 #include "itkNeighborhood.h"
 
 namespace itk

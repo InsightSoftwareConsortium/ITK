@@ -23,7 +23,7 @@
 #include "itkFEMGenerateMesh.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
 #include "itkFEMMaterialLinearElasticity.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkFEMElement3DC0LinearHexahedronStrain.h"
 
 

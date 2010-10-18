@@ -18,7 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkQuaternionRigidTransform.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"

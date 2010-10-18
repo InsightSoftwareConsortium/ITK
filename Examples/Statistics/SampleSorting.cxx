@@ -53,7 +53,6 @@
 
 // Software Guide : BeginCodeSnippet
 #include "itkListSample.h"
-#include "itkSubsample.h"
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

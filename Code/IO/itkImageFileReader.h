@@ -19,8 +19,7 @@
 
 #include "itkImageIOBase.h"
 #include "itkImageSource.h"
-#include "itkExceptionObject.h"
-#include "itkSize.h"
+#include "itkMacro.h"
 #include "itkImageRegion.h"
 #include "itkDefaultConvertPixelTraits.h"
 

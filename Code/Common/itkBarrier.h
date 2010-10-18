@@ -17,9 +17,7 @@
 #ifndef __itkBarrier_h
 #define __itkBarrier_h
 
-#include "itkLightObject.h"
 #include "itkConditionVariable.h"
-#include "itkMutexLock.h"
 
 #ifdef ITK_USE_FETCHOP_BARRIERS
 extern "C" {

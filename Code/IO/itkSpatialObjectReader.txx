@@ -17,7 +17,6 @@
 #ifndef __itkSpatialObjectReader_txx
 #define __itkSpatialObjectReader_txx
 
-#include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
 
 namespace itk

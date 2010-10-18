@@ -18,14 +18,9 @@
 #define __itkTransform_h
 
 #include "itkTransformBase.h"
-#include "itkPoint.h"
 #include "itkVector.h"
-#include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
-#include "itkArray.h"
-#include "itkArray2D.h"
 
-#include "itkObjectFactory.h"
 
 namespace itk
 {

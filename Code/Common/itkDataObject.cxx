@@ -17,9 +17,7 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#include "itkDataObject.h"
 #include "itkProcessObject.h"
-#include "itkObjectFactory.h"
 #include "itkSmartPointerForwardReference.txx"
 
 // Manual instantiation is necessary to prevent link errors

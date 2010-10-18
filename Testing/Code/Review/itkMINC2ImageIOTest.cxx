@@ -31,8 +31,6 @@
 #include "itkIOCommon.h"
 
 #include "itkResampleImageFilter.h"
-#include "itkLinearInterpolateImageFunction.h"
-#include "itkExceptionObject.h"
 #include "itkVector.h"
 #include "itkAffineTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"

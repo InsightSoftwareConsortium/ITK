@@ -17,11 +17,7 @@
 #ifndef __itkVoronoiDiagram2DGenerator_h
 #define __itkVoronoiDiagram2DGenerator_h
 
-#include "itkCellInterface.h"
-#include "itkLineCell.h"
 #include "itkMeshSource.h"
-#include "itkDefaultDynamicMeshTraits.h"
-#include "itkPolygonCell.h"
 #include "itkVoronoiDiagram2D.h"
 
 #include <vector>

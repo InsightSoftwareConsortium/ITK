@@ -17,8 +17,6 @@
 #ifndef __itkLineIterator_h
 #define __itkLineIterator_h
 
-#include "itkIndex.h"
-#include "itkImage.h"
 #include "itkLineConstIterator.h"
 
 namespace itk
