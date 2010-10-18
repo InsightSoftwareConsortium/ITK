@@ -27,7 +27,6 @@ namespace itk {
 template<class TInputImage, class TKernel>
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::BinaryOpeningByReconstructionImageFilter()
-  : m_Kernel()
 {
   m_ForegroundValue = NumericTraits<PixelType>::max();
   m_BackgroundValue = NumericTraits<PixelType>::Zero;
@@ -97,7 +96,6 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Kernel: " << m_Kernel << std::endl;
   os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue) << std::endl;
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_BackgroundValue) << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;

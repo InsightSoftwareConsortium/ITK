@@ -17,7 +17,7 @@
 #ifndef __itkBinaryClosingByReconstructionImageFilter_h
 #define __itkBinaryClosingByReconstructionImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkKernelImageFilter.h"
 
 namespace itk {
 
@@ -45,12 +45,13 @@ namespace itk {
 
 template<class TInputImage, class TKernel>
 class ITK_EXPORT BinaryClosingByReconstructionImageFilter :
-    public ImageToImageFilter<TInputImage, TInputImage>
+    public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryClosingByReconstructionImageFilter     Self;
-  typedef ImageToImageFilter<TInputImage, TInputImage> Superclass;
+  typedef KernelImageFilter<TInputImage, TInputImage, TKernel>
+                                                       Superclass;
   typedef SmartPointer<Self>                           Pointer;
   typedef SmartPointer<const Self>                     ConstPointer;
 
@@ -59,7 +60,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(BinaryClosingByReconstructionImageFilter,
-               ImageToImageFilter);
+               KernelImageFilter);
 
   typedef TInputImage                              InputImageType;
   typedef TInputImage                              OutputImageType;
@@ -72,12 +73,6 @@ public:
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
-
-  /** Set kernel (structuring element). */
-  itkSetMacro(Kernel, KernelType);
-
-  /** Get the kernel (structuring element). */
-  itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of InputPixelType. */
@@ -116,9 +111,6 @@ protected:
 private:
   BinaryClosingByReconstructionImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
-  /** kernel or structuring element to use. */
-  KernelType m_Kernel;
 
   InputPixelType m_ForegroundValue;
 
