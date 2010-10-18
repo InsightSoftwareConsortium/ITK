@@ -22,9 +22,19 @@
 
 namespace itk {
 /** \class BinaryReconstructionLabelMapFilter
- * \brief TODO
+ * \brief Mark the objects at least partially at the same position as the objects in a binary image
+ *
+ * The attribute is accessed through the accessor given with TAttributeAccessor.
+ * The LabelObjects from the input LabelMap are marked with "true" if at least one of their pixel is
+ * at the same position than an object in the binary marker image.
+ * In the marker image, the pixels with a value equal to ForegroundValue are considered to be in the
+ * objects.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
+ *
+ * This implementation was taken from the Insight Journal paper:
+ * http://hdl.handle.net/1926/584  or
+ * http://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  */
