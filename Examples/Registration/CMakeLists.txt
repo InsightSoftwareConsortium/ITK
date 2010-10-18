@@ -5,8 +5,6 @@ set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
 set(REGISTRATION_EXAMPLES ${CXX_TEST_PATH}/RegistrationExamples)
-set(REGISTRATION_EXAMPLESO ${CXX_TEST_PATH}/RegistrationExamplesO)
-set(REGISTRATION_EXAMPLESO2 ${CXX_TEST_PATH}/RegistrationExamplesO2)
 set(REGISTRATION_EXAMPLES2 ${CXX_TEST_PATH}/RegistrationExamples2)
 set(REGISTRATION_EXAMPLES3 ${CXX_TEST_PATH}/RegistrationExamples3)
 set(REGISTRATION_EXAMPLES4 ${CXX_TEST_PATH}/RegistrationExamples4)
@@ -23,9 +21,6 @@ set(REGISTRATION_EXAMPLES14 ${CXX_TEST_PATH}/RegistrationExamples14)
 
 add_executable(ImageRegistration3 ImageRegistration3.cxx )
 target_link_libraries(ImageRegistration3 ITKIO ITKNumerics)
-
-add_executable(ImageRegistration4o ImageRegistration4o.cxx )
-target_link_libraries(ImageRegistration4o ITKIO ITKNumerics)
 
 add_executable(ImageRegistration5 ImageRegistration5.cxx )
 target_link_libraries(ImageRegistration5 ITKIO ITKNumerics)
@@ -168,7 +163,6 @@ target_link_libraries(ModelToImageRegistration1 ITKStatistics ITKIO ITKNumerics)
 add_executable(ModelToImageRegistration2 ModelToImageRegistration2.cxx )
 target_link_libraries(ModelToImageRegistration2 ITKStatistics ITKIO ITKNumerics)
 
-
 add_executable(ImageRegistration1 ImageRegistration1.cxx )
 target_link_libraries(ImageRegistration1 ITKIO ITKNumerics)
 
@@ -200,91 +194,6 @@ target_link_libraries(IterativeClosestPoint3 ITKAlgorithms ITKStatistics ITKIO I
 if( NOT ITK_DISABLE_CXX_TESTING )
 
 if(BUILD_TESTING)
-
-add_test(ImageRegistration1oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
-            ${TEMP}/ImageRegistration1TestPixelCentered.png
-  ImageRegistration1oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration1TestPixelCentered.png
-        ${TEMP}/ImageRegistration1DifferenceAfterTestPixelCentered.png
-        ${TEMP}/ImageRegistration1DifferenceBeforeTestPixelCentered.png
-)
-
-add_test(ImageRegistration1od1Test ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
-            ${TEMP}/ImageRegistration1od1TestPixelCentered.png
-  ImageRegistration1oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
-        ${TEMP}/ImageRegistration1od1TestPixelCentered.png
-        ${TEMP}/ImageRegistration1od1DifferenceAfterTestPixelCentered.png
-        ${TEMP}/ImageRegistration1od1DifferenceBeforeTestPixelCentered.png
-)
-
-add_test(ImageRegistration2oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration2Test.png
-            ${TEMP}/ImageRegistration2oTest.png
-  ImageRegistration2oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration2oTest.png
-)
-
-add_test(ImageRegistration2od1Test ${REGISTRATION_EXAMPLESO}
-  ImageRegistration2oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20DirectionPlus30.mhd
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
-        ${TEMP}/ImageRegistration2od1Test.mhd
-)
-
-add_test(ImageRegistration3oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration3TestPixelCentered.png
-            ${TEMP}/ImageRegistration3TestPixelCentered.png
-  ImageRegistration3oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration3TestPixelCentered.png
-)
-
-add_test(ImageRegistration4oTest ${REGISTRATION_EXAMPLESO}
-  --compare ${BASELINE}/ImageRegistration4Test.png
-            ${TEMP}/ImageRegistration4Test.png
-  ImageRegistration4oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
-        ${TEMP}/ImageRegistration4Test.png 0
-        ${TEMP}/ImageRegistration4BeforeTest.png
-        ${TEMP}/ImageRegistration4AfterTest.png
-)
-
-add_test(ImageRegistration5oTest1 ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration5oTest1PixelCentered.png
-            ${TEMP}/ImageRegistration5oTest1PixelCentered.png
-  ImageRegistration5oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceRotated10.png
-        ${TEMP}/ImageRegistration5oTest1PixelCentered.png
-)
-
-add_test(ImageRegistration5oTest2 ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration5Test2PixelCentered.png
-            ${TEMP}/ImageRegistration5Test2PixelCentered.png
-  ImageRegistration5oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration5Test2PixelCentered.png
-)
-
-add_test(ImageRegistration6oTest ${REGISTRATION_EXAMPLESO2}
-  --compare ${BASELINE}/ImageRegistration6TestPixelCentered.png
-            ${TEMP}/ImageRegistration6oTestPixelCentered.png
-  ImageRegistration6oTest
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceR10X13Y17.png
-        ${TEMP}/ImageRegistration6oTestPixelCentered.png
-)
 
 add_test(ImageRegistration1Test ${REGISTRATION_EXAMPLES}
   --compare ${BASELINE}/ImageRegistration1TestPixelCentered.png
@@ -1191,12 +1100,6 @@ add_test(IterativeClosestPoint3Test ${REGISTRATION_EXAMPLES14}
 
 add_executable(RegistrationExamples RegistrationExamples.cxx )
 target_link_libraries(RegistrationExamples ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
-
-add_executable(RegistrationExamplesO RegistrationExamplesO.cxx )
-target_link_libraries(RegistrationExamplesO ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
-
-add_executable(RegistrationExamplesO2 RegistrationExamplesO2.cxx )
-target_link_libraries(RegistrationExamplesO2 ITKAlgorithms ITKIO ITKBasicFilters ITKNumerics)
 
 add_executable(RegistrationExamples2 RegistrationExamples2.cxx )
 target_link_libraries(RegistrationExamples2 ITKAlgorithms ITKFEM ITKBasicFilters ITKNumerics)
