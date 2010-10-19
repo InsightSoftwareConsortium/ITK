@@ -255,6 +255,20 @@ public:
     return labelObject->GetFlatness();
   }
 };
+
+template< class TLabelObject >
+class ITK_EXPORT PerimeterOnBorderRatioLabelObjectAccessor
+{
+public:
+  typedef TLabelObject LabelObjectType;
+  typedef double       AttributeValueType;
+
+  inline AttributeValueType operator()(const LabelObjectType *labelObject) const
+  {
+    return labelObject->GetPerimeterOnBorderRatio();
+  }
+};
+
 }
 } // end namespace itk
 

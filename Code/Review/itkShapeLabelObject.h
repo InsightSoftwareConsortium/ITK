@@ -87,6 +87,7 @@ public:
   itkStaticConstMacro(EQUIVALENT_SPHERICAL_PERIMETER, AttributeType, 115);
   itkStaticConstMacro(EQUIVALENT_ELLIPSOID_DIAMETER, AttributeType, 116);
   itkStaticConstMacro(FLATNESS, AttributeType, 117);
+  itkStaticConstMacro(PERIMETER_ON_BORDER_RATIO, AttributeType, 118);
 
   static AttributeType GetAttributeFromName(const std::string & s)
   {
@@ -162,6 +163,10 @@ public:
       {
       return FLATNESS;
       }
+    else if ( s == "PerimeterOnBorderRatio" )
+      {
+      return PERIMETER_ON_BORDER_RATIO;
+      }
     // can't recognize the name
     return Superclass::GetAttributeFromName(s);
   }
@@ -224,6 +229,9 @@ public:
         break;
       case FLATNESS:
         name = "Flatness";
+        break;
+      case PERIMETER_ON_BORDER_RATIO:
+        name = "PerimeterOnBorderRatio";
         break;
       default:
         // can't recognize the name
@@ -421,6 +429,16 @@ public:
     m_Flatness = v;
   }
 
+  const double & GetPerimeterOnBorderRatio() const
+  {
+    return m_PerimeterOnBorderRatio;
+  }
+
+  void SetPerimeterOnBorderRatio(const double & v)
+  {
+    m_PerimeterOnBorderRatio = v;
+  }
+
   // some helper methods - not really required, but really useful!
 
   /** Affine transform for mapping to and from principal axis */
@@ -506,6 +524,7 @@ public:
     m_EquivalentSphericalPerimeter = src->m_EquivalentSphericalPerimeter;
     m_EquivalentEllipsoidDiameter = src->m_EquivalentEllipsoidDiameter;
     m_Flatness = src->m_Flatness;
+    m_PerimeterOnBorderRatio = src->m_PerimeterOnBorderRatio;
   }
 
 protected:
@@ -528,6 +547,7 @@ protected:
     m_EquivalentSphericalPerimeter = 0;
     m_EquivalentEllipsoidDiameter.Fill(0);
     m_Flatness = 0;
+    m_PerimeterOnBorderRatio = 0;
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const
@@ -539,6 +559,7 @@ protected:
     os << indent << "Perimeter: " << m_Perimeter << std::endl;
     os << indent << "NumberOfPixelsOnBorder: " << m_NumberOfPixelsOnBorder << std::endl;
     os << indent << "PerimeterOnBorder: " << m_PerimeterOnBorder << std::endl;
+    os << indent << "PerimeterOnBorderRatio: " << m_PerimeterOnBorderRatio << std::endl;
     os << indent << "Elongation: " << m_Elongation << std::endl;
     os << indent << "Flatness: " << m_Flatness << std::endl;
     os << indent << "Roundness: " << m_Roundness << std::endl;
@@ -577,6 +598,7 @@ private:
   double        m_EquivalentSphericalPerimeter;
   VectorType    m_EquivalentEllipsoidDiameter;
   double        m_Flatness;
+  double        m_PerimeterOnBorderRatio;
 };
 } // end namespace itk
 

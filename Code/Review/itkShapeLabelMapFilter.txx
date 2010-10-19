@@ -646,6 +646,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   double perimeter = PerimeterFromInterceptCount( intercepts, this->GetOutput()->GetSpacing() );
   labelObject->SetPerimeter( perimeter );
   labelObject->SetRoundness( labelObject->GetEquivalentSphericalPerimeter() / perimeter );
+  labelObject->SetPerimeterOnBorderRatio( labelObject->GetPerimeterOnBorder() / perimeter );
 }
 
 template< class TImage, class TLabelImage >

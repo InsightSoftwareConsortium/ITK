@@ -115,6 +115,13 @@
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
+      } \
+    case LabelObjectType::PERIMETER_ON_BORDER_RATIO: \
+      { \
+      typedef typename Functor::PerimeterOnBorderRatioLabelObjectAccessor< LabelObjectType > AccessorType; \
+      AccessorType accessor; \
+      this->TemplatedGenerateData(accessor); \
+      break; \
       }
 
 

@@ -69,6 +69,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   attributes.push_back("EquivalentSphericalPerimeter");
   attributes.push_back("EquivalentEllipsoidDiameter");
   attributes.push_back("Flatness");
+  attributes.push_back("PerimeterOnBorderRatio");
   for (size_t a = 0; a < attributes.size(); a++)
     {
     if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) != attributes[a])
@@ -134,6 +135,8 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
               << labelObject->GetEquivalentEllipsoidDiameter() << std::endl;
     std::cout << "    Flatness: "
               << labelObject->GetFlatness() << std::endl;
+    std::cout << "    PerimeterOnBorderRatio: "
+              << labelObject->GetPerimeterOnBorderRatio() << std::endl;
     }
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
     {
@@ -233,6 +236,11 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (labelCopy->GetFlatness() != labelObject->GetFlatness())
       {
       std::cout << "CopyAttributeFrom failed for attribute " << "Flatness" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    if (labelCopy->GetPerimeterOnBorderRatio() != labelObject->GetPerimeterOnBorderRatio())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "PerimeterOnBorderRatio" << std::endl;
       status = EXIT_FAILURE;
       }
     }
@@ -353,6 +361,12 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (l->GetFlatness() != accessorFlatness(l))
       {
       std::cout << "l->GetFlatness() != accessorFlatness(l)" << std::endl;
+      status = EXIT_FAILURE;
+      }
+    itk::Functor::PerimeterOnBorderRatioLabelObjectAccessor< ShapeLabelObjectType > accessorPerimeterOnBorderRatio;
+    if (l->GetPerimeterOnBorderRatio() != accessorPerimeterOnBorderRatio(l))
+      {
+      std::cout << "l->GetPerimeterOnBorderRatio() != accessorPerimeterOnBorderRatio(l)" << std::endl;
       status = EXIT_FAILURE;
       }
     }
