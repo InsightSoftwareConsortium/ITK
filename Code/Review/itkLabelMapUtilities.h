@@ -25,9 +25,9 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::SIZE: \
+    case LabelObjectType::NUMBER_OF_PIXELS: \
       { \
-      typedef typename Functor::SizeLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::NumberOfPixelsLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
@@ -53,16 +53,16 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::SIZE_ON_BORDER: \
+    case LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER: \
       { \
-      typedef typename Functor::SizeOnBorderLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::NumberOfPixelsOnBorderLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::PHYSICAL_SIZE_ON_BORDER: \
+    case LabelObjectType::PERIMETER_ON_BORDER: \
       { \
-      typedef typename Functor::PhysicalSizeOnBorderLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::PerimeterOnBorderLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
@@ -74,9 +74,9 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::BINARY_ELONGATION: \
+    case LabelObjectType::ELONGATION: \
       { \
-      typedef typename Functor::BinaryElongationLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::ElongationLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
@@ -95,23 +95,23 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::EQUIVALENT_RADIUS: \
+    case LabelObjectType::EQUIVALENT_SPHERICAL_RADIUS: \
       { \
-      typedef typename Functor::EquivalentRadiusLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::EquivalentSphericalRadiusLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::EQUIVALENT_PERIMETER: \
+    case LabelObjectType::EQUIVALENT_SPHERICAL_PERIMETER: \
       { \
-      typedef typename Functor::EquivalentPerimeterLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::EquivalentSphericalPerimeterLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::BINARY_FLATNESS: \
+    case LabelObjectType::FLATNESS: \
       { \
-      typedef typename Functor::BinaryFlatnessLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::FlatnessLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
@@ -147,9 +147,9 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::SIGMA: \
+    case LabelObjectType::STANDARD_DEVIATION: \
       { \
-      typedef typename Functor::SigmaLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::StandardDeviationLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
@@ -182,16 +182,16 @@
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::ELONGATION: \
+    case LabelObjectType::WEIGHTED_ELONGATION: \
       { \
-      typedef typename Functor::ElongationLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::WeightedElongationLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \
       } \
-    case LabelObjectType::FLATNESS: \
+    case LabelObjectType::WEIGHTED_FLATNESS: \
       { \
-      typedef typename Functor::FlatnessLabelObjectAccessor< LabelObjectType > AccessorType; \
+      typedef typename Functor::WeightedFlatnessLabelObjectAccessor< LabelObjectType > AccessorType; \
       AccessorType accessor; \
       this->TemplatedGenerateData(accessor); \
       break; \

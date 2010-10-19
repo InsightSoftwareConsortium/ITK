@@ -31,7 +31,7 @@ BinaryShapeOpeningImageFilter< TInputImage >
   m_FullyConnected = false;
   m_ReverseOrdering = false;
   m_Lambda = 0.0;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
 template< class TInputImage >

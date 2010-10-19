@@ -80,20 +80,20 @@ public:
   itkStaticConstMacro(MAXIMUM, AttributeType, 201);
   itkStaticConstMacro(MEAN, AttributeType, 202);
   itkStaticConstMacro(SUM, AttributeType, 203);
-  itkStaticConstMacro(SIGMA, AttributeType, 204);
+  itkStaticConstMacro(STANDARD_DEVIATION, AttributeType, 204);
   itkStaticConstMacro(VARIANCE, AttributeType, 205);
   itkStaticConstMacro(MEDIAN, AttributeType, 206);
   itkStaticConstMacro(MAXIMUM_INDEX, AttributeType, 207);
   itkStaticConstMacro(MINIMUM_INDEX, AttributeType, 208);
   itkStaticConstMacro(CENTER_OF_GRAVITY, AttributeType, 209);
 //  itkStaticConstMacro(CENTRAL_MOMENTS, AttributeType, 210);
-  itkStaticConstMacro(PRINCIPAL_MOMENTS, AttributeType, 211);
-  itkStaticConstMacro(PRINCIPAL_AXES, AttributeType, 212);
+  itkStaticConstMacro(WEIGHTED_PRINCIPAL_MOMENTS, AttributeType, 211);
+  itkStaticConstMacro(WEIGHTED_PRINCIPAL_AXES, AttributeType, 212);
   itkStaticConstMacro(KURTOSIS, AttributeType, 213);
   itkStaticConstMacro(SKEWNESS, AttributeType, 214);
-  itkStaticConstMacro(ELONGATION, AttributeType, 215);
+  itkStaticConstMacro(WEIGHTED_ELONGATION, AttributeType, 215);
   itkStaticConstMacro(HISTOGRAM, AttributeType, 216);
-  itkStaticConstMacro(FLATNESS, AttributeType, 217);
+  itkStaticConstMacro(WEIGHTED_FLATNESS, AttributeType, 217);
 
   static AttributeType GetAttributeFromName(const std::string & s)
   {
@@ -113,9 +113,9 @@ public:
       {
       return SUM;
       }
-    else if ( s == "Sigma" )
+    else if ( s == "StandardDeviation" )
       {
-      return SIGMA;
+      return STANDARD_DEVIATION;
       }
     else if ( s == "Variance" )
       {
@@ -143,13 +143,13 @@ public:
       return CENTRAL_MOMENTS;
       }
     */
-    else if ( s == "PrincipalMoments" )
+    else if ( s == "WeightedPrincipalMoments" )
       {
-      return PRINCIPAL_MOMENTS;
+      return WEIGHTED_PRINCIPAL_MOMENTS;
       }
-    else if ( s == "PrincipalAxes" )
+    else if ( s == "WeightedPrincipalAxes" )
       {
-      return PRINCIPAL_AXES;
+      return WEIGHTED_PRINCIPAL_AXES;
       }
     else if ( s == "Kurtosis" )
       {
@@ -159,17 +159,17 @@ public:
       {
       return SKEWNESS;
       }
-    else if ( s == "Elongation" )
+    else if ( s == "WeightedElongation" )
       {
-      return ELONGATION;
+      return WEIGHTED_ELONGATION;
       }
     else if ( s == "Histogram" )
       {
       return HISTOGRAM;
       }
-    else if ( s == "Flatness" )
+    else if ( s == "WeightedFlatness" )
       {
-      return FLATNESS;
+      return WEIGHTED_FLATNESS;
       }
     // can't recognize the name
     return Superclass::GetAttributeFromName(s);
@@ -191,8 +191,8 @@ public:
       case SUM:
         return "Sum";
         break;
-      case SIGMA:
-        return "Sigma";
+      case STANDARD_DEVIATION:
+        return "StandardDeviation";
         break;
       case VARIANCE:
         return "Variance";
@@ -212,11 +212,11 @@ public:
       /*      case CENTRAL_MOMENTS:
               return "CentralMoments";
               break;*/
-      case PRINCIPAL_MOMENTS:
-        return "PrincipalMoments";
+      case WEIGHTED_PRINCIPAL_MOMENTS:
+        return "WeightedPrincipalMoments";
         break;
-      case PRINCIPAL_AXES:
-        return "PrincipalAxes";
+      case WEIGHTED_PRINCIPAL_AXES:
+        return "WeightedPrincipalAxes";
         break;
       case KURTOSIS:
         return "Kurtosis";
@@ -224,14 +224,14 @@ public:
       case SKEWNESS:
         return "Skewness";
         break;
-      case ELONGATION:
-        return "Elongation";
+      case WEIGHTED_ELONGATION:
+        return "WeightedElongation";
         break;
       case HISTOGRAM:
         return "Histogram";
         break;
-      case FLATNESS:
-        return "Flatness";
+      case WEIGHTED_FLATNESS:
+        return "WeightedFlatness";
         break;
       }
     // can't recognize the name
@@ -256,20 +256,20 @@ public:
     m_Maximum = src->m_Maximum;
     m_Mean = src->m_Mean;
     m_Sum = src->m_Sum;
-    m_Sigma = src->m_Sigma;
+    m_StandardDeviation = src->m_StandardDeviation;
     m_Variance = src->m_Variance;
     m_Median = src->m_Median;
     m_MaximumIndex = src->m_MaximumIndex;
     m_MinimumIndex = src->m_MinimumIndex;
     m_CenterOfGravity = src->m_CenterOfGravity;
     // m_CentralMoments = src->m_CentralMoments;
-    m_PrincipalMoments = src->m_PrincipalMoments;
-    m_PrincipalAxes = src->m_PrincipalAxes;
+    m_WeightedPrincipalMoments = src->m_WeightedPrincipalMoments;
+    m_WeightedPrincipalAxes = src->m_WeightedPrincipalAxes;
     m_Kurtosis = src->m_Kurtosis;
     m_Skewness = src->m_Skewness;
-    m_Elongation = src->m_Elongation;
+    m_WeightedElongation = src->m_WeightedElongation;
     m_Histogram = src->m_Histogram;
-    m_Flatness = src->m_Flatness;
+    m_WeightedFlatness = src->m_WeightedFlatness;
   }
 
   const double & GetMinimum() const
@@ -312,14 +312,14 @@ public:
     m_Sum = v;
   }
 
-  const double & GetSigma() const
+  const double & GetStandardDeviation() const
   {
-    return m_Sigma;
+    return m_StandardDeviation;
   }
 
-  void SetSigma(const double & v)
+  void SetStandardDeviation(const double & v)
   {
-    m_Sigma = v;
+    m_StandardDeviation = v;
   }
 
   const double & GetVariance() const
@@ -383,24 +383,24 @@ public:
     m_CentralMoments = v;
     }*/
 
-  const VectorType & GetPrincipalMoments() const
+  const VectorType & GetWeightedPrincipalMoments() const
   {
-    return m_PrincipalMoments;
+    return m_WeightedPrincipalMoments;
   }
 
-  void SetPrincipalMoments(const VectorType & v)
+  void SetWeightedPrincipalMoments(const VectorType & v)
   {
-    m_PrincipalMoments = v;
+    m_WeightedPrincipalMoments = v;
   }
 
-  const MatrixType & GetPrincipalAxes() const
+  const MatrixType & GetWeightedPrincipalAxes() const
   {
-    return m_PrincipalAxes;
+    return m_WeightedPrincipalAxes;
   }
 
-  void SetPrincipalAxes(const MatrixType & v)
+  void SetWeightedPrincipalAxes(const MatrixType & v)
   {
-    m_PrincipalAxes = v;
+    m_WeightedPrincipalAxes = v;
   }
 
   const double & GetSkewness() const
@@ -423,14 +423,14 @@ public:
     m_Kurtosis = v;
   }
 
-  const double & GetElongation() const
+  const double & GetWeightedElongation() const
   {
-    return m_Elongation;
+    return m_WeightedElongation;
   }
 
-  void SetElongation(const double & v)
+  void SetWeightedElongation(const double & v)
   {
-    m_Elongation = v;
+    m_WeightedElongation = v;
   }
 
   const HistogramType * GetHistogram() const
@@ -443,14 +443,14 @@ public:
     m_Histogram = v;
   }
 
-  const double & GetFlatness() const
+  const double & GetWeightedFlatness() const
   {
-    return m_Flatness;
+    return m_WeightedFlatness;
   }
 
-  void SetFlatness(const double & v)
+  void SetWeightedFlatness(const double & v)
   {
-    m_Flatness = v;
+    m_WeightedFlatness = v;
   }
 
   // some helper methods - not really required, but really useful!
@@ -461,7 +461,7 @@ public:
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */
-  AffineTransformPointer GetPrincipalAxesToPhysicalAxesTransform() const
+  AffineTransformPointer GetWeightedPrincipalAxesToPhysicalAxesTransform() const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
@@ -470,7 +470,7 @@ public:
       offset[i]  = m_CenterOfGravity[i];
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
+        matrix[j][i] = m_WeightedPrincipalAxes[i][j];    // Note the transposition
         }
       }
 
@@ -486,7 +486,7 @@ public:
    * This method returns an affine transform which transforms from
    * the physical coordinate system to the principal axes coordinate
    * system. */
-  AffineTransformPointer GetPhysicalAxesToPrincipalAxesTransform(void) const
+  AffineTransformPointer GetPhysicalAxesToWeightedPrincipalAxesTransform(void) const
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
@@ -495,7 +495,7 @@ public:
       offset[i]    = m_CenterOfGravity[i];
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        matrix[j][i] = m_PrincipalAxes[i][j];    // Note the transposition
+        matrix[j][i] = m_WeightedPrincipalAxes[i][j];    // Note the transposition
         }
       }
 
@@ -516,20 +516,20 @@ protected:
     m_Maximum = 0;
     m_Mean = 0;
     m_Sum = 0;
-    m_Sigma = 0;
+    m_StandardDeviation = 0;
     m_Variance = 0;
     m_Median = 0;
     m_MaximumIndex.Fill(0);
     m_MinimumIndex.Fill(0);
     m_CenterOfGravity.Fill(0);
     // m_CentralMoments.Fill(0);
-    m_PrincipalMoments.Fill(0);
-    m_PrincipalAxes.Fill(0);
+    m_WeightedPrincipalMoments.Fill(0);
+    m_WeightedPrincipalAxes.Fill(0);
     m_Kurtosis = 0;
     m_Skewness = 0;
-    m_Elongation = 0;
+    m_WeightedElongation = 0;
     m_Histogram = NULL;
-    m_Flatness = 0;
+    m_WeightedFlatness = 0;
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const
@@ -540,18 +540,19 @@ protected:
     os << indent << "Maximum: " << m_Maximum << std::endl;
     os << indent << "Mean: " << m_Mean << std::endl;
     os << indent << "Sum: " << m_Sum << std::endl;
-    os << indent << "Sigma: " << m_Sigma << std::endl;
+    os << indent << "StandardDeviation: " << m_StandardDeviation << std::endl;
     os << indent << "Variance: " << m_Variance << std::endl;
     os << indent << "Median: " << m_Median << std::endl;
+    os << indent << "Skewness: " << m_Skewness << std::endl;
+    os << indent << "Kurtosis: " << m_Kurtosis << std::endl;
+    os << indent << "WeightedElongation: " << m_WeightedElongation << std::endl;
+    os << indent << "WeightedFlatness: " << m_WeightedFlatness << std::endl;
     os << indent << "MaximumIndex: " << m_MaximumIndex << std::endl;
     os << indent << "MinimumIndex: " << m_MinimumIndex << std::endl;
     os << indent << "CenterOfGravity: " << m_CenterOfGravity << std::endl;
     // os << indent << "CentralMoments: " << std::endl << m_CentralMoments;
-    os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
-    os << indent << "PrincipalAxes: " << std::endl << m_PrincipalAxes;
-    os << indent << "Skewness: " << m_Skewness << std::endl;
-    os << indent << "Kurtosis: " << m_Kurtosis << std::endl;
-    os << indent << "Elongation: " << m_Elongation << std::endl;
+    os << indent << "WeightedPrincipalMoments: " << m_WeightedPrincipalMoments << std::endl;
+    os << indent << "WeightedPrincipalAxes: " << std::endl << m_WeightedPrincipalAxes;
     os << indent << "Histogram: ";
     if ( m_Histogram.IsNull() )
       {
@@ -561,7 +562,6 @@ protected:
       {
       m_Histogram->Print(os, indent);
       }
-    os << indent << "Flatness: " << m_Flatness << std::endl;
   }
 
 private:
@@ -572,22 +572,22 @@ private:
   double    m_Maximum;
   double    m_Mean;
   double    m_Sum;
-  double    m_Sigma;
+  double    m_StandardDeviation;
   double    m_Variance;
   double    m_Median;
   IndexType m_MaximumIndex;
   IndexType m_MinimumIndex;
   PointType m_CenterOfGravity;
   // MatrixType m_CentralMoments;
-  VectorType m_PrincipalMoments;
-  MatrixType m_PrincipalAxes;
+  VectorType m_WeightedPrincipalMoments;
+  MatrixType m_WeightedPrincipalAxes;
   double     m_Skewness;
   double     m_Kurtosis;
-  double     m_Elongation;
+  double     m_WeightedElongation;
 
   typename HistogramType::ConstPointer m_Histogram;
 
-  double m_Flatness;
+  double m_WeightedFlatness;
 };
 } // end namespace itk
 

@@ -27,7 +27,7 @@ ShapeUniqueLabelMapFilter< TImage >
 ::ShapeUniqueLabelMapFilter()
 {
   m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
 template< class TImage >

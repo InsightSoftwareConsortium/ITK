@@ -270,17 +270,17 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   labelObject->SetMean(mean);
   labelObject->SetMedian(median);
   labelObject->SetVariance(variance);
-  labelObject->SetSigma(sigma);
+  labelObject->SetStandardDeviation(sigma);
   labelObject->SetMinimumIndex(minIdx);
   labelObject->SetMaximumIndex(maxIdx);
   labelObject->SetCenterOfGravity(centerOfGravity);
-  labelObject->SetPrincipalAxes(principalAxes);
-  labelObject->SetFlatness(flatness);
-  labelObject->SetPrincipalMoments(principalMoments);
+  labelObject->SetWeightedPrincipalAxes(principalAxes);
+  labelObject->SetWeightedFlatness(flatness);
+  labelObject->SetWeightedPrincipalMoments(principalMoments);
   // labelObject->SetCentralMoments( centralMoments );
   labelObject->SetSkewness(skewness);
   labelObject->SetKurtosis(kurtosis);
-  labelObject->SetElongation(elongation);
+  labelObject->SetWeightedElongation(elongation);
   if ( m_ComputeHistogram )
     {
     labelObject->SetHistogram(histogram);

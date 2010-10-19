@@ -96,15 +96,15 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // Init the vars
-  unsigned long                             size = 0;
+  unsigned long                             nbOfPixels = 0;
   ContinuousIndex< double, ImageDimension > centroid;
   centroid.Fill(0);
   IndexType mins;
   mins.Fill( NumericTraits< long >::max() );
   IndexType maxs;
   maxs.Fill( NumericTraits< long >::NonpositiveMin() );
-  unsigned long sizeOnBorder = 0;
-  double        physicalSizeOnBorder = 0;
+  unsigned long nbOfPixelsOnBorder = 0;
+  double        perimeterOnBorder = 0;
   MatrixType    centralMoments;
   centralMoments.Fill(0);
 
@@ -117,8 +117,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     const IndexType & idx = lit->GetIndex();
     unsigned long     length = lit->GetLength();
 
-    // Update the size
-    size += length;
+    // Update the nbOfPixels
+    nbOfPixels += length;
 
     // Update the centroid - and report the progress
     // First, update the axes that are not 0
@@ -161,7 +161,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       {
       // The line touch a border on a dimension other than 0, so
       // all the line touch a border
-      sizeOnBorder += length;
+      nbOfPixelsOnBorder += length;
       }
     else
       {
@@ -170,7 +170,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if ( idx[0] == borderMin[0] )
         {
         // One more pixel on the border
-        sizeOnBorder++;
+        nbOfPixelsOnBorder++;
         isOnBorder0 = true;
         }
       if ( !isOnBorder0 || length > 1 )
@@ -179,7 +179,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
         if ( idx[0] + (long)length - 1 == borderMax[0] )
           {
           // One more pixel on the border
-          sizeOnBorder++;
+          nbOfPixelsOnBorder++;
           }
         }
       }
@@ -189,12 +189,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     if ( idx[0] == borderMin[0] )
       {
       // Fhe beginning of the line
-      physicalSizeOnBorder += sizePerPixelPerDimension[0];
+      perimeterOnBorder += sizePerPixelPerDimension[0];
       }
     if ( idx[0] + (long)length - 1 == borderMax[0] )
       {
       // And the end of the line
-      physicalSizeOnBorder += sizePerPixelPerDimension[0];
+      perimeterOnBorder += sizePerPixelPerDimension[0];
       }
     // Then the other dimensions
     for ( unsigned int i = 1; i < ImageDimension; i++ )
@@ -202,12 +202,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if ( idx[i] == borderMin[i] )
         {
         // one border
-        physicalSizeOnBorder += sizePerPixelPerDimension[i] * length;
+        perimeterOnBorder += sizePerPixelPerDimension[i] * length;
         }
       if ( idx[i] == borderMax[i] )
         {
         // and the other
-        physicalSizeOnBorder += sizePerPixelPerDimension[i] * length;
+        perimeterOnBorder += sizePerPixelPerDimension[i] * length;
         }
       }
 
@@ -268,22 +268,22 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // final computation
-  typename LabelObjectType::RegionType::SizeType regionSize;
+  typename LabelObjectType::RegionType::SizeType boundingBoxSize;
   double minSize = NumericTraits< double >::max();
   double maxSize = NumericTraits< double >::NonpositiveMin();
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    centroid[i] /= size;
-    regionSize[i] = maxs[i] - mins[i] + 1;
-    double s = regionSize[i] * output->GetSpacing()[i];
+    centroid[i] /= nbOfPixels;
+    boundingBoxSize[i] = maxs[i] - mins[i] + 1;
+    double s = boundingBoxSize[i] * output->GetSpacing()[i];
     minSize = vnl_math_min(s, minSize);
     maxSize = vnl_math_max(s, maxSize);
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      centralMoments[i][j] /= size;
+      centralMoments[i][j] /= nbOfPixels;
       }
     }
-  typename LabelObjectType::RegionType region(mins, regionSize);
+  typename LabelObjectType::RegionType boundingBox(mins, boundingBoxSize);
   typename LabelObjectType::CentroidType physicalCentroid;
   output->TransformContinuousIndexToPhysicalPoint(centroid, physicalCentroid);
 
@@ -335,12 +335,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     flatness = vcl_sqrt(principalMoments[1] / principalMoments[0]);
     }
 
-  double physicalSize = size * sizePerPixel;
+  double physicalSize = nbOfPixels * sizePerPixel;
   double equivalentRadius = GeometryUtilities::HyperSphereRadiusFromVolume(ImageDimension, physicalSize);
   double equivalentPerimeter = GeometryUtilities::HyperSpherePerimeter(ImageDimension, equivalentRadius);
 
   // Compute equivalent ellipsoid radius
-  VectorType ellipsoidSize;
+  VectorType ellipsoidDiameter;
   double     edet = 1.0;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -351,36 +351,36 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     {
     if ( edet != 0.0 )
       {
-      ellipsoidSize[i] = 2.0 *equivalentRadius *vcl_sqrt(principalMoments[i] / edet);
+      ellipsoidDiameter[i] = 2.0 *equivalentRadius *vcl_sqrt(principalMoments[i] / edet);
       }
     else
       {
-      ellipsoidSize[i] = 0.0;
+      ellipsoidDiameter[i] = 0.0;
       }
     }
 
   // Set the values in the object
-  labelObject->SetSize(size);
+  labelObject->SetNumberOfPixels(nbOfPixels);
   labelObject->SetPhysicalSize(physicalSize);
-  labelObject->SetRegion(region);
+  labelObject->SetBoundingBox(boundingBox);
   labelObject->SetCentroid(physicalCentroid);
   if ( minSize != 0 )
     {
     labelObject->SetRegionElongation(maxSize / minSize);
     }
-  if ( region.GetNumberOfPixels() != 0 )
+  if ( boundingBox.GetNumberOfPixels() != 0 )
     {
-    labelObject->SetSizeRegionRatio( size / (double)region.GetNumberOfPixels() );
+    labelObject->SetSizeRegionRatio( nbOfPixels / (double)boundingBox.GetNumberOfPixels() );
     }
-  labelObject->SetSizeOnBorder(sizeOnBorder);
-  labelObject->SetPhysicalSizeOnBorder(physicalSizeOnBorder);
-  labelObject->SetBinaryPrincipalMoments(principalMoments);
-  labelObject->SetBinaryPrincipalAxes(principalAxes);
-  labelObject->SetBinaryElongation(elongation);
-  labelObject->SetEquivalentRadius(equivalentRadius);
-  labelObject->SetEquivalentPerimeter(equivalentPerimeter);
-  labelObject->SetEquivalentEllipsoidSize(ellipsoidSize);
-  labelObject->SetBinaryFlatness(flatness);
+  labelObject->SetNumberOfPixelsOnBorder(nbOfPixelsOnBorder);
+  labelObject->SetPerimeterOnBorder(perimeterOnBorder);
+  labelObject->SetPrincipalMoments(principalMoments);
+  labelObject->SetPrincipalAxes(principalAxes);
+  labelObject->SetElongation(elongation);
+  labelObject->SetEquivalentSphericalRadius(equivalentRadius);
+  labelObject->SetEquivalentSphericalPerimeter(equivalentPerimeter);
+  labelObject->SetEquivalentEllipsoidDiameter(ellipsoidDiameter);
+  labelObject->SetFlatness(flatness);
 
   if ( m_ComputeFeretDiameter )
     {
@@ -491,7 +491,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typename LineImageType::Pointer lineImage = LineImageType::New();
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType lSize;
-  RegionType boundingBox = labelObject->GetRegion();
+  RegionType boundingBox = labelObject->GetBoundingBox();
   for( int i=0; i<ImageDimension-1; i++ )
     {
     lIdx[i] = boundingBox.GetIndex()[i+1];
@@ -571,7 +571,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       if( ns.empty() )
         {
         // no line in the neighbors - all the lines in ls are on the contour
-        for( typename VectorLineType::const_iterator li = ls.begin(); li!=ls.end(); ++li)
+        for( typename VectorLineType::const_iterator li = ls.begin(); li != ls.end(); ++li )
           {
           // std::cout << "ns.empty()" << std::endl;
           const typename LabelObjectType::LineType & l = *li;
@@ -645,7 +645,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   // compute the perimeter based on the intercept counts
   double perimeter = PerimeterFromInterceptCount( intercepts, this->GetOutput()->GetSpacing() );
   labelObject->SetPerimeter( perimeter );
-  labelObject->SetRoundness( labelObject->GetEquivalentPerimeter() / perimeter );
+  labelObject->SetRoundness( labelObject->GetEquivalentSphericalPerimeter() / perimeter );
 }
 
 template< class TImage, class TLabelImage >

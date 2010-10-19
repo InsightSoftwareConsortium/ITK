@@ -29,7 +29,7 @@ LabelShapeKeepNObjectsImageFilter< TInputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_NumberOfObjects = 1;
   m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
 template< class TInputImage >

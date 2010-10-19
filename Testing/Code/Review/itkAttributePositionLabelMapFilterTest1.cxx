@@ -7,16 +7,19 @@
 #include "itkLabelMapToLabelImageFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
 
+/** \class TestLabelObjectAccessor
+  * \brief a test accessor - to make kwstyle happy
+  */
 template< class TLabelObject >
 class ITK_EXPORT TestLabelObjectAccessor
 {
 public:
-  typedef TLabelObject                           LabelObjectType;
+  typedef TLabelObject                                    LabelObjectType;
   typedef typename LabelObjectType::RegionType::IndexType AttributeValueType;
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetRegion().GetIndex();
+    return labelObject->GetBoundingBox().GetIndex();
   }
 };
 
@@ -33,7 +36,7 @@ int itkAttributePositionLabelMapFilterTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 3;
-  typedef unsigned char PType;
+  typedef unsigned char            PType;
   typedef itk::Image< PType, dim > IType;
 
   // We read the input image.

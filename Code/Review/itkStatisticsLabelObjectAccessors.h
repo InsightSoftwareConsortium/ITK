@@ -75,7 +75,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT SigmaLabelObjectAccessor
+class ITK_EXPORT StandardDeviationLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -83,7 +83,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetSigma();
+    return labelObject->GetStandardDeviation();
   }
 };
 
@@ -168,7 +168,7 @@ public:
 */
 
 template< class TLabelObject >
-class ITK_EXPORT PrincipalMomentsLabelObjectAccessor
+class ITK_EXPORT WeightedPrincipalMomentsLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -176,12 +176,12 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetPrincipalMoments();
+    return labelObject->GetWeightedPrincipalMoments();
   }
 };
 
 template< class TLabelObject >
-class ITK_EXPORT PrincipalAxesLabelObjectAccessor
+class ITK_EXPORT WeightedPrincipalAxesLabelObjectAccessor
 {
 public:
   typedef TLabelObject                         LabelObjectType;
@@ -189,7 +189,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetPrincipalAxes();
+    return labelObject->GetWeightedPrincipalAxes();
   }
 };
 
@@ -220,7 +220,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT ElongationLabelObjectAccessor
+class ITK_EXPORT WeightedElongationLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -228,7 +228,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetElongation();
+    return labelObject->GetWeightedElongation();
   }
 };
 
@@ -247,7 +247,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT FlatnessLabelObjectAccessor
+class ITK_EXPORT WeightedFlatnessLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;
@@ -255,7 +255,7 @@ public:
 
   inline AttributeValueType operator()(const LabelObjectType *labelObject) const
   {
-    return labelObject->GetFlatness();
+    return labelObject->GetWeightedFlatness();
   }
 };
 }

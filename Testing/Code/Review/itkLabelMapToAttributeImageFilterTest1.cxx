@@ -58,7 +58,7 @@ int itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
   i2l->SetInput( reader->GetOutput() );
 
   typedef itk::LabelMapToAttributeImageFilter< LabelMapType, ImageType,
-     itk::Functor::SizeLabelObjectAccessor<LabelMapType::LabelObjectType> > L2ImageType;
+     itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelMapType::LabelObjectType> > L2ImageType;
   L2ImageType::Pointer l2i = L2ImageType::New();
   l2i->SetInput( i2l->GetOutput() );
   itk::SimpleFilterWatcher watcher(l2i, "filter");

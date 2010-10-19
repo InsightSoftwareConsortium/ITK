@@ -28,7 +28,7 @@ ShapeOpeningLabelMapFilter< TImage >
 {
   m_Lambda = NumericTraits< double >::Zero;
   m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::SIZE;
+  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);

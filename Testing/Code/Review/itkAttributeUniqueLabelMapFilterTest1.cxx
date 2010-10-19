@@ -29,7 +29,7 @@ int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::Image< unsigned char, dim > ImageType;
 
   typedef itk::ShapeLabelObject< unsigned char, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType > LabelMapType;
+  typedef itk::LabelMap< LabelObjectType >            LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -52,7 +52,7 @@ int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
   oi->SetFilter( dilate );
   oi->SetPadSize( rad );
 
-  typedef itk::AttributeUniqueLabelMapFilter< LabelMapType, itk::Functor::SizeLabelObjectAccessor< LabelObjectType > > UniqueType;
+  typedef itk::AttributeUniqueLabelMapFilter< LabelMapType, itk::Functor::NumberOfPixelsLabelObjectAccessor< LabelObjectType > > UniqueType;
   UniqueType::Pointer unique = UniqueType::New();
   unique->SetInput( oi->GetOutput() );
   unique->SetReverseOrdering( atoi(argv[3]) );

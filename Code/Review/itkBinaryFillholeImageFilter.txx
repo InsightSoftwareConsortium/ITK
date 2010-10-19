@@ -102,11 +102,11 @@ BinaryFillholeImageFilter<TInputImage>
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(labelizer, .5f);
 
-  typedef typename LabelizerType::OutputImageType LabelMapType;
+  typedef typename LabelizerType::OutputImageType                  LabelMapType;
   typedef typename itk::ShapeOpeningLabelMapFilter< LabelMapType > OpeningType;
   typename OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( labelizer->GetOutput() );
-  opening->SetAttribute( "SizeOnBorder" );
+  opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
   opening->SetLambda( 1 );
   opening->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(opening, .1f);
