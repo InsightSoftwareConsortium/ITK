@@ -28,9 +28,10 @@
 int
 NNetClassifierTest3(int argc, char* argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
     {
-    std::cout << "ERROR: data file name argument missing." << std::endl ;
+    std::cout << "Usage: " << argv[0]
+              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl ;
     return EXIT_FAILURE;
     }
 
@@ -65,6 +66,12 @@ NNetClassifierTest3(int argc, char* argv[])
 
   std::ifstream infile1;
   infile1.open(trainFileName, std::ios::in);
+  if (infile1.fail())
+    {
+    std::cout << argv[0] << " Cannot open training file for reading: "
+              << trainFileName << std::endl;
+    return EXIT_FAILURE;
+    }
  
   for (int a = 0; a < num_train; a++)
     {
@@ -82,6 +89,12 @@ NNetClassifierTest3(int argc, char* argv[])
 
   std::ifstream infile2;
   infile2.open(testFileName, std::ios::in);
+  if (infile2.fail())
+    {
+    std::cout << argv[0] << " Cannot open test file for reading: "
+              << testFileName << std::endl;
+    return EXIT_FAILURE;
+    }
   for (int a = 0; a < num_test; a++)
     {
     for (int i = 0; i < num_input_nodes; i++)

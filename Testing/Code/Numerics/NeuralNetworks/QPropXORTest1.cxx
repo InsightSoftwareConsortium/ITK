@@ -62,6 +62,12 @@ QPropXORTest1(int argc, char* argv[])
 
   std::ifstream infile1;
   infile1.open(dataFileName, std::ios::in);
+  if (infile1.fail())
+    {
+    std::cout << argv[0] << " Cannot open file for reading: "
+              << dataFileName << std::endl;
+    return EXIT_FAILURE;
+    }
 
   infile1 >> mv[0] >> mv[1] >> tv[0];
 
@@ -122,6 +128,12 @@ QPropXORTest1(int argc, char* argv[])
 
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
+  if (outfile.fail())
+    {
+    std::cout << argv[0] << " Cannot open file for wriing: "
+              << "out1.txt" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   while (train_flag==1)
     {
