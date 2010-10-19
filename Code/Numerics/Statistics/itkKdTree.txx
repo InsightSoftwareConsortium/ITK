@@ -60,7 +60,7 @@ KdTreeWeightedCentroidNonterminalNode< TSample >
   m_Left = left;
   m_Right = right;
   m_WeightedCentroid = centroid;
-  m_MeasurementVectorSize = MeasurementVectorTraits::GetLength(centroid);
+  m_MeasurementVectorSize = NumericTraits<CentroidType>::GetLength(centroid);
 
   m_Centroid = m_WeightedCentroid / double(size);
 
@@ -202,8 +202,8 @@ KdTree< TSample >
 
   MeasurementVectorType lowerBound;
   MeasurementVectorType upperBound;
-  MeasurementVectorTraits::SetLength(lowerBound, m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(upperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(upperBound, m_MeasurementVectorSize);
 
   for ( unsigned int d = 0; d < this->m_MeasurementVectorSize; d++ )
     {
@@ -347,8 +347,8 @@ KdTree< TSample >
   MeasurementVectorType lowerBound;
   MeasurementVectorType upperBound;
 
-  MeasurementVectorTraits::SetLength(lowerBound, m_MeasurementVectorSize);
-  MeasurementVectorTraits::SetLength(upperBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(lowerBound, m_MeasurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(upperBound, m_MeasurementVectorSize);
 
   for ( unsigned int d = 0; d < this->m_MeasurementVectorSize; d++ )
     {

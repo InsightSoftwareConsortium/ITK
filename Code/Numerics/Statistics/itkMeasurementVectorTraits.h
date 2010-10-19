@@ -22,6 +22,8 @@
 #include "itkRGBPixel.h"
 #include "itkMatrix.h"
 #include "itkVariableSizeMatrix.h"
+#include "itkNumericTraits.h"
+#include "itkNumericTraitsStdVector.h"
 #include "itkSize.h"
 #include <vector>
 
@@ -54,108 +56,6 @@ public:
 
   typedef unsigned int MeasurementVectorLength;
 
-  template< class TValueType, unsigned int VLength >
-  static void SetLength(FixedArray< TValueType, VLength > & m, const unsigned int s)
-  {
-    if ( s != VLength )
-      {
-      itkGenericExceptionMacro(<< "Cannot set the size of a FixedArray of length "
-                               << VLength << " to " << s);
-      }
-    m.Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType, unsigned int VLength >
-  static void SetLength(FixedArray< TValueType, VLength > *m, const unsigned int s)
-  {
-    if ( s != VLength )
-      {
-      itkGenericExceptionMacro(<< "Cannot set the size of a FixedArray of length "
-                               << VLength << " to " << s);
-      }
-    m->Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType >
-  static void SetLength(Array< TValueType > & m, const unsigned int s)
-  {
-    m.SetSize(s);
-    m.Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType >
-  static void SetLength(Array< TValueType > *m, const unsigned int s)
-  {
-    m->SetSize(s);
-    m->Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType >
-  static void SetLength(VariableLengthVector< TValueType > & m, const unsigned int s)
-  {
-    m.SetSize(s);
-    m.Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType >
-  static void SetLength(VariableLengthVector< TValueType > *m, const unsigned int s)
-  {
-    m->SetSize(s);
-    m->Fill(NumericTraits< TValueType >::Zero);
-  }
-
-  template< class TValueType >
-  static void SetLength(std::vector< TValueType > & m, const unsigned int s)
-  {
-    m.resize(s);
-  }
-
-  template< class TValueType >
-  static void SetLength(std::vector< TValueType > *m, const unsigned int s)
-  {
-    m->resize(s);
-  }
-
-  template< class TValueType, unsigned int VLength >
-  static MeasurementVectorLength
-  GetLength(const FixedArray< TValueType, VLength > &)
-  { return VLength; }
-
-  template< class TValueType, unsigned int VLength >
-  static MeasurementVectorLength
-  GetLength(const FixedArray< TValueType, VLength > *)
-  { return VLength; }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const Array< TValueType > & m)
-  { return m.GetSize(); }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const Array< TValueType > *m)
-  { return m->GetSize(); }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const VariableLengthVector< TValueType > & m)
-  { return m.GetSize(); }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const VariableLengthVector< TValueType > *m)
-  { return m->GetSize(); }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const std::vector< TValueType > & m)
-  { return m.size(); }
-
-  template< class TValueType >
-  static MeasurementVectorLength
-  GetLength(const std::vector< TValueType > *m)
-  { return m->size(); }
-
   template< class TVectorType >
   static bool IsResizable(const TVectorType &)
   {
@@ -165,7 +65,7 @@ public:
     // length zero, we assume that it is resizable,
     // otherwise that is a pretty useless measurement vector.
     TVectorType             m;
-    MeasurementVectorLength len = GetLength(m);
+    MeasurementVectorLength len = NumericTraits<TVectorType>::GetLength(m);
 
     return ( len == 0 );
   }

@@ -204,7 +204,6 @@ BayesianClassifierInitializationImageFilter< TInputImage,
     typename GaussianMembershipFunctionType::CovarianceType * covarianceEstimators =
       const_cast< ITK_TYPENAME GaussianMembershipFunctionType::CovarianceType * >
       ( covarianceEstimatorsContainer->GetElement(i) );
-    meanEstimators->SetSize(1);
     covarianceEstimators->SetSize(1, 1);
 
     meanEstimators->Fill(estimatedMeans[i]);

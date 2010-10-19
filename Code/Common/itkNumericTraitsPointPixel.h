@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNumericTraitsVectorPixel.h
+  Module:    itkNumericTraitsPointPixel.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,16 +14,16 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNumericTraitsVectorPixel_h
-#define __itkNumericTraitsVectorPixel_h
+#ifndef __itkNumericTraitsPointPixel_h
+#define __itkNumericTraitsPointPixel_h
 
 #include "itkNumericTraits.h"
-#include "itkVector.h"
+#include "itkPoint.h"
 
 namespace itk
 {
 template< typename T, unsigned int D >
-class NumericTraits< Vector< T, D > >
+class NumericTraits< Point< T , D > >
 {
 private:
 
@@ -36,23 +36,23 @@ public:
 
   /** Return the type of the native component type. */
   typedef T              ValueType;
-  typedef Vector< T, D > Self;
+  typedef Point< T, D > Self;
 
   /** Unsigned component type */
-  typedef Vector< ElementAbsType, D > AbsType;
+  typedef Point< ElementAbsType, D > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef Vector< ElementAccumulateType, D > AccumulateType;
+  typedef Point< ElementAccumulateType, D > AccumulateType;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef Vector< ElementFloatType, D > FloatType;
+  typedef Point< ElementFloatType, D > FloatType;
 
   /** Return the type that can be printed. */
-  typedef Vector< ElementPrintType, D > PrintType;
+  typedef Point< ElementPrintType, D > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef Vector< ElementRealType, D > RealType;
+  typedef Point< ElementRealType, D > RealType;
 
   /** Type for real-valued scalar operations. */
   typedef ElementRealType ScalarRealType;
@@ -100,18 +100,18 @@ public:
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  If the size is valid
    *  the vector will be filled with zeros. */
-  static void SetLength(Vector< T, D > & m, const unsigned int s)
+  static void SetLength(Point< T, D > & m, const unsigned int s)
   {
     if ( s != D )
       {
-      itkGenericExceptionMacro(<< "Cannot set the size of a Vector of length "
+      itkGenericExceptionMacro(<< "Cannot set the size of a Point of length "
                                << D << " to " << s);
       }
     m.Fill(NumericTraits< T >::Zero);
   }
 
-  /** Return the size of the vector. */
-  static unsigned int GetLength(const Vector< T, D > &)
+  /** Return the dimensionality of the point. */
+  static unsigned int GetLength(const Point< T, D > &)
   {
     return D;
   }
@@ -124,4 +124,4 @@ public:
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsVectorPixel_h
+#endif // __itkNumericTraitsPointPixel_h

@@ -140,21 +140,24 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   MembershipFunctionPointer membershipFunction1 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize( numberOfComponents );
   MembershipFunctionType::CentroidType    centroid1;
-  itk::Statistics::MeasurementVectorTraits::SetLength( centroid1, numberOfComponents );
+  itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid1,
+    numberOfComponents );
   membershipFunction1->SetCentroid( centroid1 );
   membershipFunctionsVector.push_back( membershipFunction1.GetPointer() );
 
   MembershipFunctionPointer membershipFunction2 = MembershipFunctionType::New();
   membershipFunction1->SetMeasurementVectorSize( numberOfComponents );
   MembershipFunctionType::CentroidType    centroid2;
-  itk::Statistics::MeasurementVectorTraits::SetLength( centroid2, numberOfComponents );
+  itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid2,
+    numberOfComponents );
   membershipFunction2->SetCentroid( centroid2 );
   membershipFunctionsVector.push_back( membershipFunction2.GetPointer() );
 
   MembershipFunctionPointer membershipFunction3 = MembershipFunctionType::New();
   membershipFunction3->SetMeasurementVectorSize( numberOfComponents );
   MembershipFunctionType::CentroidType    centroid3;
-  itk::Statistics::MeasurementVectorTraits::SetLength( centroid3, numberOfComponents );
+  itk::NumericTraits<MembershipFunctionType::CentroidType>::SetLength( centroid3,
+    numberOfComponents );
   membershipFunction3->SetCentroid( centroid3 );
   membershipFunctionsVector.push_back( membershipFunction3.GetPointer() );
 

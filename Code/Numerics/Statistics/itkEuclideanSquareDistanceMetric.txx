@@ -53,9 +53,10 @@ inline double
 EuclideanSquareDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
 {
-  MeasurementVectorSizeType measurementVectorSize = MeasurementVectorTraits::GetLength(x1);
+  MeasurementVectorSizeType measurementVectorSize =
+    NumericTraits<MeasurementVectorType>::GetLength(x1);
 
-  if ( measurementVectorSize != MeasurementVectorTraits::GetLength(x2) )
+  if ( measurementVectorSize != NumericTraits<MeasurementVectorType>::GetLength(x2) )
     {
     itkExceptionMacro(<< "EuclideanSquareDistanceMetric:: The two measurement vectors have unequal size");
     }

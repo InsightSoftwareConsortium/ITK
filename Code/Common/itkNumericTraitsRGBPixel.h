@@ -112,6 +112,25 @@ public:
     return Self(NumericTraits< T >::One);
   }
 
+  /** RGB pixels must have 3 components, so the size cannot be
+   *  set to anything besides 3.  If called with size of 3, this
+   *  function will fill the pixel with zeros. */
+  static void SetLength(RGBPixel< T > & m, const unsigned int s)
+  {
+    if ( s != 3 )
+      {
+      itkGenericExceptionMacro(<< "Cannot set the size of a RGBPixel to anything other "
+                               "than 3.");
+      }
+    m.Fill(NumericTraits< T >::Zero);
+  }
+
+  /** Return the dimensionality of the pixel. Always returns 3. */
+  static unsigned int GetLength(const RGBPixel< T > &)
+  {
+    return 3;
+  }
+
   /** \note: the functions are prefered over the member variables as
    * they are defined for all partial specialization
    */

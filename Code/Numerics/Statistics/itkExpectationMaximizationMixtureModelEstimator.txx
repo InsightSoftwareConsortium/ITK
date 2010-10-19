@@ -362,7 +362,8 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     m_Sample->GetMeasurementVectorSize();
 
   typename GaussianMembershipFunctionType::MeanType mean;
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<typename GaussianMembershipFunctionType::MeanType>::SetLength(mean,
+    measurementVectorSize);
 
   typename GaussianMembershipFunctionType::CovarianceType covariance;
   covariance.SetSize(measurementVectorSize, measurementVectorSize);

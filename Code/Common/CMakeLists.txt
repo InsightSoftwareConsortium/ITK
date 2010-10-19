@@ -38,6 +38,7 @@ set(ITKCommon_SRCS
   itkMutexLock.cxx
   itkMultipleLogOutput.cxx
   itkNumericTraits.cxx
+  itkNumericTraitsArrayPixel.cxx
   itkNumericTraitsCovariantVectorPixel.cxx
   itkNumericTraitsRGBPixel.cxx
   itkNumericTraitsRGBAPixel.cxx
@@ -47,6 +48,7 @@ set(ITKCommon_SRCS
   itkNumericTraitsDiffusionTensor3DPixel.cxx
   itkNumericTraitsFixedArrayPixel.cxx
   itkNumericTraitsFixedArrayPixel2.cxx
+  itkNumericTraitsPointPixel.cxx
   itkObject.cxx
   itkObjectFactoryBase.cxx
   itkOneWayEquivalencyTable.cxx

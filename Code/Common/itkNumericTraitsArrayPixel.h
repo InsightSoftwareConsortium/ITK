@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNumericTraitsVectorPixel.h
+  Module:    itkNumericTraitsArrayPixel.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,16 +14,16 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNumericTraitsVectorPixel_h
-#define __itkNumericTraitsVectorPixel_h
+#ifndef __itkNumericTraitsArrayPixel_h
+#define __itkNumericTraitsArrayPixel_h
 
 #include "itkNumericTraits.h"
-#include "itkVector.h"
+#include "itkArray.h"
 
 namespace itk
 {
-template< typename T, unsigned int D >
-class NumericTraits< Vector< T, D > >
+template< typename T >
+class NumericTraits< Array< T > >
 {
 private:
 
@@ -36,23 +36,23 @@ public:
 
   /** Return the type of the native component type. */
   typedef T              ValueType;
-  typedef Vector< T, D > Self;
+  typedef Array< T > Self;
 
   /** Unsigned component type */
-  typedef Vector< ElementAbsType, D > AbsType;
+  typedef Array< ElementAbsType > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef Vector< ElementAccumulateType, D > AccumulateType;
+  typedef Array< ElementAccumulateType > AccumulateType;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef Vector< ElementFloatType, D > FloatType;
+  typedef Array< ElementFloatType > FloatType;
 
   /** Return the type that can be printed. */
-  typedef Vector< ElementPrintType, D > PrintType;
+  typedef Array< ElementPrintType > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef Vector< ElementRealType, D > RealType;
+  typedef Array< ElementRealType > RealType;
 
   /** Type for real-valued scalar operations. */
   typedef ElementRealType ScalarRealType;
@@ -97,23 +97,17 @@ public:
     return Self( NumericTraits< T >::OneValue() );
   }
 
-  /** Fixed length vectors cannot be resized, so an exception will
-   *  be thrown if the input size is not valid.  If the size is valid
-   *  the vector will be filled with zeros. */
-  static void SetLength(Vector< T, D > & m, const unsigned int s)
+  /** Set the length of the input array and fill it with zeros. */
+  static void SetLength(Array< T > & m, const unsigned int s)
   {
-    if ( s != D )
-      {
-      itkGenericExceptionMacro(<< "Cannot set the size of a Vector of length "
-                               << D << " to " << s);
-      }
+    m.SetSize(s);
     m.Fill(NumericTraits< T >::Zero);
   }
 
-  /** Return the size of the vector. */
-  static unsigned int GetLength(const Vector< T, D > &)
+  /** Get the length of the input array. */
+  static unsigned int GetLength(const Array< T > & m)
   {
-    return D;
+    return m.GetSize();
   }
 
   /** \note: the functions are prefered over the member variables as
@@ -122,6 +116,16 @@ public:
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 };
+
+// a macro to define and initialize static member variables with no dimension
+#define itkStaticNumericTraitsGenericArrayNoDimensionMacro(GENERIC_ARRAY,T) \
+  template< > \
+  const GENERIC_ARRAY< T > NumericTraits< GENERIC_ARRAY< T > >::Zero = GENERIC_ARRAY< T >( \
+  NumericTraits< T >::Zero); \
+  template< > \
+  const GENERIC_ARRAY< T > NumericTraits< GENERIC_ARRAY< T > >::One = GENERIC_ARRAY< T >( \
+  NumericTraits< T >::One); \
+
 } // end namespace itk
 
-#endif // __itkNumericTraitsVectorPixel_h
+#endif // __itkNumericTraitsArrayPixel_h

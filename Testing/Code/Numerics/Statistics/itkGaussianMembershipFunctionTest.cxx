@@ -62,7 +62,8 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
 
   //Test if the membership function value computed is correct
   MembershipFunctionType::MeanType mean;
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( mean, MeasurementVectorSize);
+  ::itk::NumericTraits<MembershipFunctionType::MeanType>::SetLength( mean,
+    MeasurementVectorSize);
   mean[0] = 1.5;
   function->SetMean( mean );
 
@@ -86,7 +87,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
     }
 
   MeasurementVectorType measurement;
-  ::itk::Statistics::MeasurementVectorTraits::SetLength( measurement, MeasurementVectorSize);
+  ::itk::NumericTraits<MeasurementVectorType>::SetLength( measurement, MeasurementVectorSize);
   measurement[0] = 1.5;
 
   double trueValue = 0.3989;

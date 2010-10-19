@@ -100,16 +100,16 @@ WeightedCovarianceSampleFilter< TSample >
   output.Fill(0.0);
 
   MeasurementVectorType mean;
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(mean, measurementVectorSize);
   mean.Fill(0.0);
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();
 
   MeasurementVectorType diff;
-  MeasurementVectorTraits::SetLength(diff, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(diff, measurementVectorSize);
   MeasurementVectorType measurements;
-  MeasurementVectorTraits::SetLength(measurements, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
 
   double weight;
   double totalWeight = 0.0;
@@ -204,16 +204,16 @@ WeightedCovarianceSampleFilter< TSample >
   output.Fill(0.0);
 
   MeasurementVectorType mean;
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(mean, measurementVectorSize);
   mean.Fill(0.0);
 
   typename TSample::ConstIterator iter = input->Begin();
   typename TSample::ConstIterator end = input->End();
 
   MeasurementVectorType diff;
-  MeasurementVectorTraits::SetLength(diff, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(diff, measurementVectorSize);
   MeasurementVectorType measurements;
-  MeasurementVectorTraits::SetLength(measurements, measurementVectorSize);
+  NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
 
   double weight;
   double totalWeight = 0.0;

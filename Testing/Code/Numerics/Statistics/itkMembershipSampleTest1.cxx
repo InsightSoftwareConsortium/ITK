@@ -65,7 +65,7 @@ int itkMembershipSampleTest1(int, char* [] )
   MeasurementVectorType mv;
 
   std::cout << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
-  std::cout << "Vector length = " << itk::Statistics::MeasurementVectorTraits::GetLength( mv ) << std::endl;
+  std::cout << "Vector length = " << itk::NumericTraits<MeasurementVectorType>::GetLength( mv ) << std::endl;
 
   for ( unsigned int i = 0; i < sampleSize; i++ )
     {

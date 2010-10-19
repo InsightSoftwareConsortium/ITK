@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNumericTraitsVariableLengthVectorPixel.h
+  Module:    itkNumericTraitsStdVectorPixel.h
   Language:  C++
   Date:      $Date$
   Version:   $Revision$
@@ -14,10 +14,11 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNumericTraitsVariableLengthVectorPixel_h
-#define __itkNumericTraitsVariableLengthVectorPixel_h
+#ifndef __itkNumericTraitsStdVectorPixel_h
+#define __itkNumericTraitsStdVectorPixel_h
 
-#include "itkVariableLengthVector.h"
+#include "itkNumericTraits.h"
+#include <vector>
 
 // This work is part of the National Alliance for Medical Image Computing
 // (NAMIC), funded by the National Institutes of Health through the NIH Roadmap
@@ -25,20 +26,20 @@
 
 namespace itk
 {
-/** \class NumericTraits<VariableLengthVector< T > >
- * \brief Define numeric traits for VariableLengthVector.
+/** \class NumericTraits<std::vector< T > >
+ * \brief Define numeric traits for std::vector.
  *
  * We provide here a generic implementation based on creating types of
- * VariableLengthVector whose components are the types of the NumericTraits from
- * the original VariableLengthVector components. This implementation require
+ * std::vector whose components are the types of the NumericTraits from
+ * the original std::vector components. This implementation require
  * support for partial specializations, since it is based on the
  * concept that:
- *   NumericTraits<VariableLengthVector< T > >  is defined piecewise by
- *   VariableLengthVector< NumericTraits< T > >
+ *   NumericTraits<std::vector< T > >  is defined piecewise by
+ *   std::vector< NumericTraits< T > >
  *
  * \note The Zero(), One(), min() and max() methods here take
  * references to a pixel as input.  This is due to the fact that the
- * length of the VariableLengthVector is not known until
+ * length of the std::vector is not known until
  * run-time. Since the most common use of Zero and One is for
  * comparison purposes or initialization of sums etc, this might just
  * as easily be re-written with a pixel passed in as a reference and
@@ -48,7 +49,7 @@ namespace itk
  * \ingroup DataRepresentation
  */
 template< typename T >
-class NumericTraits< VariableLengthVector< T > >
+class NumericTraits< std::vector< T > >
 {
 public:
 
@@ -61,23 +62,23 @@ public:
   /** Return the type of the native component type. */
   typedef T ValueType;
 
-  typedef VariableLengthVector< T > Self;
+  typedef std::vector< T > Self;
 
   /** Unsigned component type */
-  typedef VariableLengthVector< ElementAbsType > AbsType;
+  typedef std::vector< ElementAbsType > AbsType;
 
   /** Accumulation of addition and multiplication. */
-  typedef VariableLengthVector< ElementAccumulateType > AccumulateType;
+  typedef std::vector< ElementAccumulateType > AccumulateType;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef VariableLengthVector< ElementFloatType > FloatType;
+  typedef std::vector< ElementFloatType > FloatType;
 
   /** Return the type that can be printed. */
-  typedef VariableLengthVector< ElementPrintType > PrintType;
+  typedef std::vector< ElementPrintType > PrintType;
 
   /** Type for real-valued scalar operations. */
-  typedef VariableLengthVector< ElementRealType > RealType;
+  typedef std::vector< ElementRealType > RealType;
 
   /** Type for real-valued scalar operations. */
   typedef ElementRealType ScalarRealType;
@@ -119,20 +120,19 @@ public:
     return b;
   }
 
-  /** Resize the input vector to the specified size. */
-  static void SetLength(VariableLengthVector< T > & m, const unsigned int s)
+  /** Resize the input vector to the specified size */
+  static void SetLength(std::vector< T > & m, const unsigned int s)
   {
-    m.SetSize(s);
-    m.Fill(NumericTraits< T >::Zero);
+    m.resize(s);
   }
 
   /** Return the size of the vector. */
-  static unsigned int GetLength(const VariableLengthVector< T > & m)
+  static unsigned int GetLength(const std::vector< T > & m)
   {
-    return m.GetSize();
+    return m.size();
   }
 
 };
 } // end namespace itk
 
-#endif // __itkNumericTraitsVariableLengthVector_h
+#endif // __itkNumericTraitsStdVector_h

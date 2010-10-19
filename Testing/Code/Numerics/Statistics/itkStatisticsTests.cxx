@@ -64,7 +64,6 @@ void RegisterTests()
   REGISTER_TEST(itkCovarianceSampleFilterTest);
   REGISTER_TEST(itkCovarianceSampleFilterTest2);
   REGISTER_TEST(itkCovarianceSampleFilterTest3);
-  REGISTER_TEST(itkMeasurementVectorTraitsTest);
   REGISTER_TEST(itkRandomVariateGeneratorBaseTest);
   REGISTER_TEST(itkScalarImageToCooccurrenceMatrixFilterTest);
   REGISTER_TEST(itkScalarImageToCooccurrenceMatrixFilterTest2);

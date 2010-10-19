@@ -67,7 +67,7 @@ GaussianMixtureModelComponent< TSample >
     sample->GetMeasurementVectorSize();
   m_GaussianMembershipFunction->SetMeasurementVectorSize(measurementVectorLength);
 
-  MeasurementVectorTraits::SetLength(m_Mean, measurementVectorLength);
+  NumericTraits<MeasurementVectorType>::SetLength(m_Mean, measurementVectorLength);
   m_Covariance.SetSize(measurementVectorLength, measurementVectorLength);
 
   m_Mean.Fill(NumericTraits< double >::Zero);
@@ -76,7 +76,8 @@ GaussianMixtureModelComponent< TSample >
 
   typename NativeMembershipFunctionType::MeanType mean;
 
-  MeasurementVectorTraits::SetLength(mean, measurementVectorLength);
+  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+    measurementVectorLength);
 
   for ( unsigned int i = 0; i < measurementVectorLength; ++i )
     {
@@ -114,7 +115,8 @@ GaussianMixtureModelComponent< TSample >
 
   typename NativeMembershipFunctionType::MeanType mean;
 
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+    measurementVectorSize);
 
   for ( i = 0; i < measurementVectorSize; ++i )
     {
@@ -283,7 +285,8 @@ GaussianMixtureModelComponent< TSample >
     }
 
   typename NativeMembershipFunctionType::MeanType mean;
-  MeasurementVectorTraits::SetLength(mean, measurementVectorSize);
+  NumericTraits<typename NativeMembershipFunctionType::MeanType>::SetLength(mean,
+    measurementVectorSize);
 
   for ( i = 0; i < measurementVectorSize; ++i )
     {

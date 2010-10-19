@@ -17,7 +17,6 @@
 #ifndef __itkGaussianMembershipFunction_h
 #define __itkGaussianMembershipFunction_h
 
-#include "itkArray.h"
 #include "itkMatrix.h"
 #include "itkMembershipFunctionBase.h"
 
@@ -60,7 +59,10 @@ public:
   typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
 
   /** Type of the mean vector */
-  typedef Array< double > MeanType;
+  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType
+    MeasurementVectorRealType;
+  typedef MeasurementVectorRealType MeanType;
+
 
   /** Type of the covariance matrix */
   typedef VariableSizeMatrix< double > CovarianceType;
