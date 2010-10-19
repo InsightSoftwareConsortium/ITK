@@ -60,3 +60,19 @@ echo -e "\nFetching from gerrit..."
 git fetch gerrit || die "Could not fetch gerrit remote."
 
 echo "Done."
+
+echo -e "\nConfiguring GerritId hook..."
+if git config hooks.GerritId >/dev/null; then
+  echo "GerritId hook already configured."
+else
+    cat << EOF
+This hook automatically add a "Change-Id" footer to commit messages
+to make interaction with Gerrit easier.
+To disable this feature, run
+
+  git config hooks.GerritId false
+
+EOF
+  git config hooks.GerritId true
+  echo "Done."
+fi
