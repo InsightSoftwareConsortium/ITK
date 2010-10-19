@@ -36,9 +36,9 @@ if test "$access" = "y"; then
   echo "Configuring push urls..."
   git config remote.origin.pushurl git@itk.org:ITK.git
 
-  cd Testing/Data
+  pushd ../../Testing/Data >/dev/null
   git config remote.origin.pushurl git@itk.org:ITKData.git
-  cd ../..
+  popd >/dev/null
   echo -e "Done.\n"
 
   # We will have the private key corresponding the public key at itk.org at
