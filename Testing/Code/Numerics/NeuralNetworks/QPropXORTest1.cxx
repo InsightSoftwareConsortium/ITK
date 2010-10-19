@@ -32,9 +32,10 @@ PURPOSE.  See the above copyright notices for more information.
   int
 QPropXORTest1(int argc, char* argv[])
 {
-  if (argc < 1)
+  if (argc < 2)
     {
-    std::cout << "ERROR: data file name argument missing." << std::endl ;
+    std::cout << "Usage: " << argv[0]
+              << " InputFile(.txt)" << std::endl ;
     return EXIT_FAILURE;
     }
 
