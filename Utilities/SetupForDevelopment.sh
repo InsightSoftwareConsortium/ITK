@@ -32,14 +32,6 @@ echo "Downloading submodules..."
 git submodule update --init || die "Failure downloading submodules."
 echo -e "Done.\n"
 
-echo "Configuring push urls..."
-git config remote.origin.pushurl git@itk.org:ITK.git
-
-cd Testing/Data
-git config remote.origin.pushurl git@itk.org:ITKData.git
-cd ../..
-echo -e "Done.\n"
-
 cd Utilities/DevelopmentSetupScripts
 
 echo "Setting up git hooks..."
