@@ -21,11 +21,16 @@
 #include <itkRGBPixel.h>
 #include <itkObjectFactory.h>
 
+#include <string>
+#include <vector>
 namespace itk
 {
 /** \class ColorTable
- *  itkColorTable Class define a Color table for image visualisation
+ *  \brief Define a Color table for image visualisation
  *
+ * Generates color lookup tables of various types. The lookup table
+ * value range differs for integral and continuous data types. Consult
+ * the documentation for each lookup table generator.
  * \ingroup DataRepresentation
  */
 
@@ -46,57 +51,67 @@ public:
   itkTypeMacro(ColorTable, Object);
 
   /** Generate a lookup table of 8 discrete colors. The colors are Red,
-    * Purple, Aqua, Yellow, Green, Blue, Grey0.70, White.
+    * Purple, Aqua, Yellow, Green, Blue, Grey0.70, White. For integral
+    * pixel types, the color range is bewteen NonpositiveMin() and max(). For
+    * continuous types, the range is 0.0 to 1.0.
     */
   void    UseDiscreteColors(void);
 
-  /** Generate a lookuptable of n grayscale values. A ramp is
-    * generated from NonpositiveMin() to max() of the pixel type.
+  /** Generate a lookuptable of n grayscale values. For integral pixel
+    * types, a ramp is generated from NonpositiveMin() to max() of the
+    * pixel type. For continuous pixel types, the range is 0.0 to 1.0.
     */
   void    UseGrayColors(unsigned int n = 256);
 
+  /** Generate a lookup table of n values good for showing
+    * "temperatures".  For integral pixel types, the color range is
+    * bewteen NonpositiveMin() and max(). For continuous types, the
+    * range is 0.0 to 1.0.
+    */
   void    UseHeatColors(unsigned int n = 256);
 
+  /** Generate a lookup table of n random values. For integral pixel
+    * types, the color range is between NonpositiveMin() and
+    * max(). For continous types, the range is 0.0 to 1.0.
+    */
   void    UseRandomColors(unsigned int n = 256);
 
-  /** Badly named methods that require renaming and documentation. */
-  void    useDiscrete(void){ UseDiscreteColors(); }
-  void    useGray(unsigned int n = 256){ UseGrayColors(n); }
-  void    useHeat(unsigned int n = 256){ UseHeatColors(n); }
-
+  /** Get the number of colors in the lookup table. */
   itkGetConstMacro(NumberOfColors, unsigned int);
-  unsigned int     size(void);
 
-  RGBPixel< TPixel > *          GetColor(unsigned int colorId);
+  /** Get the color stored at a given index. */
+  RGBPixel< TPixel > GetColor(unsigned int colorId);
 
-  RGBPixel< TPixel > *          color(unsigned int c);
-
+  /** Set the color at a given index. Optionally provide a name for
+    * the color. If a name is not provided, the name "UserDefined" is
+    * used.
+    */
   bool    SetColor(unsigned int c, TPixel r, TPixel g, TPixel b,
+                   const char *name = "UserDefined");
+  bool    SetColor(unsigned int c, RGBPixel<TPixel> pixel,
                    const char *name = "UserDefined");
 
   /** Given the position in the table and the color
-   * returns the value. \todo Needs renaming. */
+    * returns the value.
+    */
   TPixel  GetColorComponent(unsigned int colorId, char rgb);
 
-  TPixel  color(unsigned int c, char rgb);
+  /** Get the name of the color at a given index. */
+  std::string  GetColorName(unsigned int colorId);
 
-  char *  GetColorName(unsigned int colorId);
-
-  char *  colorName(unsigned int c);
-
+  /** Find the color closest to a given pixel. Uses a L2 distance
+    * metric.
+     */
   unsigned int GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
 
 protected:
   ColorTable();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual ~ColorTable();
-
   unsigned int m_NumberOfColors;
 
-  char **m_ColorName;
-
-  RGBPixel< TPixel > *m_Color;
+  std::vector<std::string>         m_ColorName;
+  std::vector<RGBPixel< TPixel > > m_Color;
 private:
   ColorTable(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

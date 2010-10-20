@@ -20,8 +20,9 @@
 #include "itkColorTable.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_sample.h"
-#include <stdio.h>
-#include <cstring>
+
+#include <sstream>
+#include <iomanip>
 
 namespace itk
 {
@@ -30,15 +31,6 @@ ColorTable< TPixel >
 ::ColorTable()
 {
   m_NumberOfColors = 0;
-  m_Color = NULL;
-  m_ColorName = NULL;
-}
-
-template< class TPixel >
-ColorTable< TPixel >
-::~ColorTable()
-{
-  this->DeleteColors();
 }
 
 template< class TPixel >
@@ -46,22 +38,8 @@ void
 ColorTable< TPixel >
 ::DeleteColors()
 {
-  if ( m_Color != NULL )
-    {
-    delete[] m_Color;
-    }
-  m_Color = NULL;
-
-  if ( m_ColorName != NULL )
-    {
-    unsigned int i;
-    for ( i = 0; i < m_NumberOfColors; i++ )
-      {
-      delete[] m_ColorName[i];
-      }
-    delete[] m_ColorName;
-    }
-  m_ColorName = NULL;
+  m_Color.resize(0);
+  m_ColorName.resize(0);
 }
 
 template< class TPixel >
@@ -71,12 +49,12 @@ ColorTable< TPixel >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_NumberOfColors = " << m_NumberOfColors << std::endl;
-  os << indent << "m_Color = " << m_Color << std::endl;
+  os << indent << "NumberOfColors = " << m_NumberOfColors << std::endl;
   for ( unsigned int i = 0; i < m_NumberOfColors; i++ )
     {
-    os << indent << "m_ColorName[" << i << "] = "
-       << m_ColorName[i] << std::endl;
+    os << indent
+       << "ColorName[" << i << "] = " << m_ColorName[i] << ", "
+       << "Color[" << i << "] = " << m_Color[i] << std::endl;
     }
 }
 
@@ -88,36 +66,64 @@ ColorTable< TPixel >
   this->DeleteColors();
 
   m_NumberOfColors = 8;
-  m_Color = new RGBPixel< TPixel >[m_NumberOfColors];
-  m_ColorName = new char *[m_NumberOfColors];
-  for ( unsigned int i = 0; i < m_NumberOfColors; i++ )
+  m_Color.resize(m_NumberOfColors);
+  m_ColorName.resize(m_NumberOfColors);
+
+  typename NumericTraits< TPixel >::RealType scale;
+  typename NumericTraits< TPixel >::RealType shift;
+  if (NumericTraits<TPixel>::is_integer)
     {
-    m_ColorName[i] = new char[80];
+    scale =
+      static_cast< typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::max()) -
+      static_cast<  typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::NonpositiveMin());
+    shift =
+      static_cast<  typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::NonpositiveMin());
+    }
+  else
+    {
+    scale = NumericTraits< TPixel >::One;
+    shift = NumericTraits< TPixel >::Zero;
     }
 
-  m_Color[0].Set( (TPixel)0.9, (TPixel)0.0, (TPixel)0.0 );
-  sprintf(m_ColorName[0], "Red");
+  m_Color[0].Set((TPixel)(0.9 * scale + shift),
+                 (TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.0 * scale + shift) );
+  m_ColorName[0] = "Red";
 
-  m_Color[1].Set( (TPixel)0.8, (TPixel)0.0, (TPixel)0.8 );
-  sprintf(m_ColorName[1], "Purple");
+  m_Color[1].Set((TPixel)(0.8 * scale + shift),
+                 (TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.8 * scale + shift));
+  m_ColorName[1] = "Purple";
 
-  m_Color[2].Set( (TPixel)0.0, (TPixel)0.8, (TPixel)0.8 );
-  sprintf(m_ColorName[2], "Aqua");
+  m_Color[2].Set((TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.8 * scale + shift),
+                 (TPixel)(0.8 * scale + shift));
+  m_ColorName[2] = "Aqua";
 
-  m_Color[3].Set( (TPixel)0.8, (TPixel)0.8, (TPixel)0.0 );
-  sprintf(m_ColorName[3], "Yellow");
+  m_Color[3].Set((TPixel)(0.8 * scale + shift),
+                 (TPixel)(0.8 * scale + shift),
+                 (TPixel)(0.0 * scale + shift));
+  m_ColorName[3] = "Yellow";
 
-  m_Color[4].Set( (TPixel)0.0, (TPixel)0.9, (TPixel)0.0 );
-  sprintf(m_ColorName[4], "Green");
+  m_Color[4].Set((TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.9 * scale + shift),
+                 (TPixel)(0.0 * scale + shift));
+  m_ColorName[4] = "Green";
 
-  m_Color[5].Set( (TPixel)0.0, (TPixel)0.0, (TPixel)0.9 );
-  sprintf(m_ColorName[5], "Blue");
+  m_Color[5].Set((TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.0 * scale + shift),
+                 (TPixel)(0.9 * scale + shift));
+  m_ColorName[5] = "Blue";
 
-  m_Color[6].Set( (TPixel)0.7, (TPixel)0.7, (TPixel)0.7 );
-  sprintf(m_ColorName[6], "Grey0.70");
+  m_Color[6].Set((TPixel)(0.7 * scale + shift),
+                 (TPixel)(0.7 * scale + shift),
+                 (TPixel)(0.7 * scale + shift));
+  m_ColorName[6] = "Grey0.70";
 
-  m_Color[7].Set( (TPixel)1.0, (TPixel)1.0, (TPixel)1.8 );
-  sprintf(m_ColorName[7], "White");
+  m_Color[7].Set((TPixel)(1.0 * scale + shift),
+                 (TPixel)(1.0 * scale + shift),
+                 (TPixel)(1.0 * scale + shift));
+  m_ColorName[7] = "White";
 }
 
 template< class TPixel >
@@ -130,23 +136,42 @@ ColorTable< TPixel >
   this->DeleteColors();
 
   m_NumberOfColors = n;
-  m_Color = new RGBPixel< TPixel >[m_NumberOfColors];
-  m_ColorName = new char *[m_NumberOfColors];
+  m_Color.resize(m_NumberOfColors);
+  m_ColorName.resize(m_NumberOfColors);
+
+  typename NumericTraits< TPixel >::RealType range;
+  typename NumericTraits< TPixel >::RealType minimum;
+  if (NumericTraits<TPixel>::is_integer)
+    {
+    range =
+      static_cast< typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::max()) -
+      static_cast<  typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::NonpositiveMin());
+    minimum = NumericTraits< TPixel >::NonpositiveMin();
+    }
+  else
+    {
+    range = NumericTraits< TPixel >::One;
+    minimum = NumericTraits< TPixel >::Zero;
+    }
+  typename NumericTraits< TPixel >::RealType delta;
+  if (m_NumberOfColors > 1)
+    {
+    delta = range / ( m_NumberOfColors - 1 );
+    }
+  else
+    {
+    delta = 0.0;
+    }
+  TPixel gray;
+
   for ( i = 0; i < m_NumberOfColors; i++ )
     {
-    m_ColorName[i] = new char[80];
-    }
-
-  typename NumericTraits< TPixel >::RealType range =
-    NumericTraits< TPixel >::max() - NumericTraits< TPixel >::NonpositiveMin();
-  typename NumericTraits< TPixel >::RealType delta = range / ( n - 1 );
-  TPixel gray;
-  for ( i = 0; i < n; i++ )
-    {
-    gray = NumericTraits< TPixel >::NonpositiveMin()
-           + static_cast< TPixel >( i * delta );
+    gray =  static_cast<TPixel>(minimum + i * delta);
     m_Color[i].Set(gray, gray, gray);
-    sprintf( m_ColorName[i], "Gray%.02f", static_cast< float >( gray ) );
+    std::ostringstream name;
+    name << "Gray" << std::fixed << std::setprecision(2)
+         << static_cast<float>(gray);
+    m_ColorName[i] = name.str();
     }
 }
 
@@ -160,27 +185,48 @@ ColorTable< TPixel >
   this->DeleteColors();
 
   m_NumberOfColors = n;
-  m_Color = new RGBPixel< TPixel >[m_NumberOfColors];
-  m_ColorName = new char *[m_NumberOfColors];
-  for ( i = 0; i < m_NumberOfColors; i++ )
-    {
-    m_ColorName[i] = new char[80];
-    }
+  m_Color.resize(m_NumberOfColors);
+  m_ColorName.resize(m_NumberOfColors);
 
+  typename NumericTraits< TPixel >::RealType scale;
+  typename NumericTraits< TPixel >::RealType shift;
+  if (NumericTraits<TPixel>::is_integer)
+    {
+    scale =
+      static_cast< typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::max()) -
+      static_cast<  typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::NonpositiveMin());
+    shift =
+      static_cast<  typename NumericTraits< TPixel >::RealType>(NumericTraits< TPixel >::NonpositiveMin());
+    }
+  else
+    {
+    scale = NumericTraits< TPixel >::One;
+    shift = NumericTraits< TPixel >::Zero;
+    }
   for ( i = 0; i < n / 2.0; i++ )
     {
-    m_Color[i].SetRed( ( i + 1 ) / (TPixel)( n / 2.0 + 1 ) );
-    m_Color[i].SetGreen(0);
-    m_Color[i].SetBlue (0);
-    sprintf(m_ColorName[i], "Heat%.02f", i / (float)n);
+    m_Color[i].Set(
+      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 ) ) * scale + shift),
+      static_cast<TPixel>(0 * scale + shift),
+      static_cast<TPixel>(0 * scale + shift));
+
+    std::ostringstream name;
+    name << "Heat" << std::fixed << std::setprecision(2)
+         << i / static_cast<float>(n);
+    m_ColorName[i] = name.str();
     }
 
   for ( i = 0; i < n / 2; i++ )
     {
-    m_Color[(int)( i + n / 2.0 )].SetRed( static_cast< TPixel >( 1 ) );
-    m_Color[(int)( i + n / 2.0 )].SetGreen( ( i + 1 ) / (TPixel)( n / 2.0 + 1 ) );
-    m_Color[(int)( i + n / 2.0 )].SetBlue( ( i + 1 ) / (TPixel)( n / 2.0 + 1 ) );
-    sprintf(m_ColorName[(int)( i + n / 2.0 )], "Heat%.02f", ( i + n / 2.0 ) / (float)n);
+    m_Color[(int)( i + n / 2.0 )].Set(
+      static_cast<TPixel>( 1.0 * scale + shift),
+      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift),
+      static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift));
+
+    std::ostringstream name;
+    name << "Heat" << std::fixed << std::setprecision(2)
+         << ( i + n / 2.0 ) / (float)n;
+    m_ColorName[static_cast<int>(( i + n / 2.0 ))] = name.str();
     }
 }
 
@@ -194,40 +240,43 @@ ColorTable< TPixel >
   this->DeleteColors();
 
   m_NumberOfColors = n;
-  m_Color = new RGBPixel< TPixel >[m_NumberOfColors];
-  m_ColorName = new char *[m_NumberOfColors];
-  for ( i = 0; i < m_NumberOfColors; i++ )
-    {
-    m_ColorName[i] = new char[80];
-    }
-
+  m_Color.resize(m_NumberOfColors);
+  m_ColorName.resize(m_NumberOfColors);
   TPixel r, g, b;
+  TPixel minimum, maximum;
+  if (NumericTraits<TPixel>::is_integer)
+    {
+    minimum = NumericTraits< TPixel >::NonpositiveMin();
+    maximum = NumericTraits< TPixel >::max();
+    }
+  else
+    {
+    minimum = NumericTraits< TPixel >::Zero;
+    maximum  = NumericTraits< TPixel >::One;
+    }
   for ( i = 0; i < n; i++ )
     {
-    r = static_cast< TPixel >( vnl_sample_uniform( NumericTraits< TPixel >
-                                                   ::NonpositiveMin(), NumericTraits< TPixel >::max() ) );
-    m_Color[i].SetRed(r);
-    g = static_cast< TPixel >( vnl_sample_uniform( NumericTraits< TPixel >
-                                                   ::NonpositiveMin(), NumericTraits< TPixel >::max() ) );
-    m_Color[i].SetGreen(g);
-    b = static_cast< TPixel >( vnl_sample_uniform( NumericTraits< TPixel >
-                                                   ::NonpositiveMin(), NumericTraits< TPixel >::max() ) );
-    m_Color[i].SetBlue(b);
-    sprintf( m_ColorName[i], "Random(%.02f,%.02f,%.02f)",
-             static_cast< float >( r ),
-             static_cast< float >( g ),
-             static_cast< float >( b ) );
+      r = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));
+    m_Color[i][0] = r;
+    g = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));;
+    m_Color[i][1] = g;
+    b = static_cast< TPixel >( vnl_sample_uniform( minimum, maximum));
+    m_Color[i][2] = b;
+    std::ostringstream name;
+    name << "Random(" << std::fixed << std::setprecision(2)
+         << static_cast< float >( r ) << ","
+         << static_cast< float >( g ) << ","
+         << static_cast< float >( b ) << ")";
+    m_ColorName[i] = name.str();
     }
 }
 
 template< class TPixel >
-unsigned int
+bool
 ColorTable< TPixel >
-::size(void)
+::SetColor(unsigned int c, RGBPixel<TPixel> pixel, const char *name)
 {
-  itkWarningMacro(<< "Call to itkColorTable.size() is being depreciated. " \
-                  << "Use itkColorTable.GetNumberOfColors() instead.");
-  return m_NumberOfColors;
+  return this->SetColor(c, pixel[0], pixel[1], pixel[2]);
 }
 
 template< class TPixel >
@@ -237,39 +286,30 @@ ColorTable< TPixel >
 {
   if ( c < m_NumberOfColors )
     {
-    m_Color[c].SetRed(r);
-    m_Color[c].SetGreen(g);
-    m_Color[c].SetBlue (b);
-    strcpy(m_ColorName[c], name);
+    m_Color[c][0] = r;
+    m_Color[c][1] = g;
+    m_Color[c][2] = b;
+    m_ColorName[c] = name;
     return true;
     }
   return false;
 }
 
 template< class TPixel >
-RGBPixel< TPixel > *
+RGBPixel< TPixel >
 ColorTable< TPixel >
 ::GetColor(unsigned int c)
 {
   if ( c < m_NumberOfColors )
     {
-    return &m_Color[c];
+    return m_Color[c];
     }
   else
     {
-    return NULL;
+    RGBPixel<TPixel> pixel;
+    pixel.Set(0, 0, 0);
+    return pixel;
     }
-}
-
-template< class TPixel >
-RGBPixel< TPixel > *
-ColorTable< TPixel >
-::color(unsigned int c)
-{
-  itkWarningMacro(<< "Call to itkColorTable.color(unsigned int colorID) " \
-                  << "is being depreciated. "                             \
-                  << "Use itkColorTable.GetColor(unsigned int colorID) instead.");
-  return this->GetColor(c);
 }
 
 template< class TPixel >
@@ -283,15 +323,15 @@ ColorTable< TPixel >
       {
       case 'r':
         {
-        return m_Color[c].GetRed();
+        return m_Color[c][0];
         }
       case 'g':
         {
-        return m_Color[c].GetGreen();
+        return m_Color[c][1];
         }
       case 'b':
         {
-        return m_Color[c].GetBlue();
+        return m_Color[c][2];
         }
       default:
         {
@@ -306,19 +346,7 @@ ColorTable< TPixel >
 }
 
 template< class TPixel >
-TPixel
-ColorTable< TPixel >
-::color(unsigned int c, char rgb)
-{
-  itkWarningMacro(<< "Call to itkColorTable.color(unsigned int colorID, "
-                  << "char rgb) is being depreciated. "
-                  << "Use itkColorTable.GetColorComponent("
-                  << "unsigned int colorID, char rgb) instead.");
-  return this->GetColorComponent(c, rgb);
-}
-
-template< class TPixel >
-char *
+std::string
 ColorTable< TPixel >
 ::GetColorName(unsigned int c)
 {
@@ -330,18 +358,6 @@ ColorTable< TPixel >
     {
     return NULL;
     }
-}
-
-template< class TPixel >
-char *
-ColorTable< TPixel >
-::colorName(unsigned int c)
-{
-  itkWarningMacro(<< "Call to itkColorTable.colorName(unsigned int colorID)" \
-                  << "is being depreciated."                                 \
-                  << "Use itkColorTable.GetColorName(unsigned int colorID)"
-                  << "instead.");
-  return this->GetColorName(c);
 }
 
 template< class TPixel >
