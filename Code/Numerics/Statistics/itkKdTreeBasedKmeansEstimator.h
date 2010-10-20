@@ -24,6 +24,7 @@
 #include "itkEuclideanDistanceMetric.h"
 #include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkNumericTraitsArrayPixel.h"
 
 namespace itk
 {
