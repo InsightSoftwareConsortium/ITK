@@ -139,17 +139,6 @@ protected:
    * equivalent) must be called in GenerateData(). */
   virtual void AllocateOutputs();
 
-  /** InPlaceLabelMapFilter may transfer ownership of the input bulk data
-   * to the output object.  Once the output object owns the bulk data
-   * (done in AllocateOutputs()), the input object must release its
-   * hold on the bulk data.  ProcessObject::ReleaseInputs() only
-   * releases the input bulk data when the user has set the
-   * ReleaseDataFlag.  InPlaceLabelMapFilter::ReleaseInputs() also
-   * releases the input that it has overwritten.
-   *
-   * \sa ProcessObject::ReleaseInputs() */
-  virtual void ReleaseInputs();
-
   /**
    * Return the output label collection image, instead of the input as in the default
    * implementation
