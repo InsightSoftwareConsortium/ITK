@@ -41,7 +41,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 ::ObjectByObjectLabelMapFilter()
 {
   m_ConstrainPaddingToImage = true;
-  m_PadSize.Fill(0);
+  m_PadSize.Fill(1);
   m_BinaryInternalOutput = false;
   m_KeepLabels = true;
   m_InternalForegroundValue = itk::NumericTraits< InternalOutputPixelType >::max();
@@ -179,9 +179,10 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
   ProgressReporter progress( this, 0, this->GetLabelMap()->GetNumberOfLabelObjects() );
 
   // initialize the iterator
-  typename InputImageType::LabelObjectContainerType::const_iterator inIt = this->GetLabelMap()->GetLabelObjectContainer().begin();
+  const typename InputImageType::LabelObjectContainerType & container = this->GetInput()->GetLabelObjectContainer();
+  typename InputImageType::LabelObjectContainerType::const_iterator inIt = container.begin();
 
-  while( inIt != this->GetLabelMap()->GetLabelObjectContainer().end() )
+  while( inIt != container.end() )
     {
     // inform the user that we are begining a new object
     m_Label = inIt->first;

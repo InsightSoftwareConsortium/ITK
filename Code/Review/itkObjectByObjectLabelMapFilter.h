@@ -53,7 +53,7 @@ namespace itk {
  * to be able to enlarge the object. The padding can be constrained to the input label map
  * region by setting ConstrainPaddingToImage to true - this parameter can make a difference
  * for the algorithm with a different behavior on the border of the image.
- * By default, the image is not padded and thus limited to the object's bounding box.
+ * By default, the image is padded by 1 pixel and constrained to the image region.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -75,7 +75,7 @@ class ITK_EXPORT ObjectByObjectLabelMapFilter :
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectByObjectLabelMapFilter                 Self;
+  typedef ObjectByObjectLabelMapFilter              Self;
   typedef LabelMapFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                        Pointer;
   typedef SmartPointer<const Self>                  ConstPointer;
@@ -160,7 +160,9 @@ public:
   itkGetMacro(KeepLabels, bool);
   itkBooleanMacro(KeepLabels);
 
-  /** If PadSize is not zero, the image produce for each object will be padded */
+  /** If PadSize is not zero, the image produce for each object will be padded.
+    * The default value is 1 on all the dimensions.
+    */
   itkSetMacro(PadSize, SizeType);
   itkGetMacro(PadSize, SizeType);
 
