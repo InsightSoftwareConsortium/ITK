@@ -2,6 +2,9 @@
 *~
 *.bak
 
+# KWStyle hook output
+*.kws
+
 # Binary directory
 BUILD*
 build*
