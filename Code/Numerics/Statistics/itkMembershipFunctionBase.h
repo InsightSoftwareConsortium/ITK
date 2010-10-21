@@ -19,6 +19,7 @@
 
 #include "itkFunctionBase.h"
 #include "itkMeasurementVectorTraits.h"
+#include "itkNumericTraitsCovariantVectorPixel.h"
 
 namespace itk
 {
